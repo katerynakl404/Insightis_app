@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.turbo/
+.DS_Store
+*.log
+.env
+
+# Local IDE / Claude Code session files
+.claude/
+
+# Build-prompt task files (not part of the handoff artifact)
+claude-code/task-*.md

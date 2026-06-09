@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="cg-face" cx="0.4" cy="0.3" r="0.95">
+      <stop offset="0"    stop-color="#6EE7B7"/>
+      <stop offset="0.45" stop-color="#22B584"/>
+      <stop offset="0.85" stop-color="#065F46"/>
+      <stop offset="1"    stop-color="#02402F"/>
+    </radialGradient>
+    <linearGradient id="cg-side" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0"   stop-color="#065F46"/>
+      <stop offset="0.5" stop-color="#022C22"/>
+      <stop offset="1"   stop-color="#011A14"/>
+    </linearGradient>
+    <radialGradient id="cg-rim-light" cx="0.5" cy="0" r="0.5">
+      <stop offset="0"   stop-color="#6EE7B7" stop-opacity="0.75"/>
+      <stop offset="1"   stop-color="#6EE7B7" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="cg-body" x1="0.15" y1="0.1" x2="0.85" y2="0.9">
+      <stop offset="0"    stop-color="#6EE7B7"/>
+      <stop offset="0.5"  stop-color="#22B584"/>
+      <stop offset="1"    stop-color="#02402F"/>
+    </linearGradient>
+
+    <filter id="cg-drop" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3.5"/>
+      <feOffset dy="5"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.5"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="cg-cast-deep" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.8"/>
+      <feOffset dx="2.5" dy="3.2"/>
+    </filter>
+    <filter id="cg-cast-sharp" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="0.4"/>
+      <feOffset dx="0.9" dy="1.2"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="100" cy="186" rx="78" ry="5.5" fill="#000000" opacity="0.4"/>
+  <g filter="url(#cg-drop)">
+    <path d="M 18 96 A 82 78 0 0 0 182 96 L 182 103 A 82 78 0 0 1 18 103 Z" fill="url(#cg-side)"/>
+    <g stroke="#011A14" stroke-opacity="0.85" stroke-width="1.4" stroke-linecap="round">
+      <line x1="22" y1="108" x2="22" y2="117"/><line x1="30" y1="116" x2="30" y2="125"/>
+      <line x1="40" y1="123" x2="40" y2="132"/><line x1="50" y1="129" x2="50" y2="138"/>
+      <line x1="60" y1="133" x2="60" y2="142"/><line x1="70" y1="136" x2="70" y2="145"/>
+      <line x1="80" y1="138" x2="80" y2="147"/><line x1="90" y1="139" x2="90" y2="148"/>
+      <line x1="100" y1="139" x2="100" y2="148"/><line x1="110" y1="139" x2="110" y2="148"/>
+      <line x1="120" y1="138" x2="120" y2="147"/><line x1="130" y1="136" x2="130" y2="145"/>
+      <line x1="140" y1="133" x2="140" y2="142"/><line x1="150" y1="129" x2="150" y2="138"/>
+      <line x1="160" y1="123" x2="160" y2="132"/><line x1="170" y1="116" x2="170" y2="125"/>
+      <line x1="178" y1="108" x2="178" y2="117"/>
+    </g>
+    <ellipse cx="100" cy="96" rx="82" ry="78" fill="url(#cg-face)"/>
+    <ellipse cx="100" cy="96" rx="82" ry="78" fill="url(#cg-rim-light)" transform="rotate(180 100 96)"/>
+  </g>
+  <ellipse cx="100" cy="96" rx="76" ry="72" fill="none" stroke="#011A14" stroke-width="1.1" stroke-opacity="0.55"/>
+
+  <g transform="translate(33 30) scale(5.25 5.05)">
+    <path fill="#011A14" fill-opacity="0.9" filter="url(#cg-cast-deep)" d="M25.4928 10.4151L21.6736 12.7512L25.4928 15.0767L12.7464 22.8371L0 15.0767L3.81921 12.7512L0 10.4151L5.73562 6.92339L7.64785 8.08747L3.82392 10.4151L12.7464 15.8473L21.6689 10.4151L17.845 8.08747L19.7572 6.92339L25.4928 10.4151ZM12.7464 18.1755L5.72881 13.9031L3.8234 15.0767L12.7464 20.5095L21.6694 15.0767L19.7635 13.9031L12.7464 18.1755ZM17.845 10.4209L12.7464 13.525L7.64785 10.4209L9.56426 9.25421L12.7464 11.1915L15.9286 9.25421L17.845 10.4209ZM17.845 5.75931L12.7464 8.86335L7.64785 5.75931L12.7464 2.65527L17.845 5.75931ZM11.4718 5.75878L12.7464 6.53519L14.0211 5.75878L12.7464 4.9829L11.4718 5.75878Z"/>
+    <path fill="#053B30" fill-opacity="0.95" filter="url(#cg-cast-sharp)" d="M25.4928 10.4151L21.6736 12.7512L25.4928 15.0767L12.7464 22.8371L0 15.0767L3.81921 12.7512L0 10.4151L5.73562 6.92339L7.64785 8.08747L3.82392 10.4151L12.7464 15.8473L21.6689 10.4151L17.845 8.08747L19.7572 6.92339L25.4928 10.4151ZM12.7464 18.1755L5.72881 13.9031L3.8234 15.0767L12.7464 20.5095L21.6694 15.0767L19.7635 13.9031L12.7464 18.1755ZM17.845 10.4209L12.7464 13.525L7.64785 10.4209L9.56426 9.25421L12.7464 11.1915L15.9286 9.25421L17.845 10.4209ZM17.845 5.75931L12.7464 8.86335L7.64785 5.75931L12.7464 2.65527L17.845 5.75931ZM11.4718 5.75878L12.7464 6.53519L14.0211 5.75878L12.7464 4.9829L11.4718 5.75878Z"/>
+    <path fill="url(#cg-body)" d="M25.4928 10.4151L21.6736 12.7512L25.4928 15.0767L12.7464 22.8371L0 15.0767L3.81921 12.7512L0 10.4151L5.73562 6.92339L7.64785 8.08747L3.82392 10.4151L12.7464 15.8473L21.6689 10.4151L17.845 8.08747L19.7572 6.92339L25.4928 10.4151ZM12.7464 18.1755L5.72881 13.9031L3.8234 15.0767L12.7464 20.5095L21.6694 15.0767L19.7635 13.9031L12.7464 18.1755ZM17.845 10.4209L12.7464 13.525L7.64785 10.4209L9.56426 9.25421L12.7464 11.1915L15.9286 9.25421L17.845 10.4209ZM17.845 5.75931L12.7464 8.86335L7.64785 5.75931L12.7464 2.65527L17.845 5.75931ZM11.4718 5.75878L12.7464 6.53519L14.0211 5.75878L12.7464 4.9829L11.4718 5.75878Z"/>
+  </g>
+</svg>

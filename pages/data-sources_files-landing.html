@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en" class="">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insightis · Data Sources (Files)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kit-theme.css" />
+<style>
+  /* ===== Page-only layout (NO component restyling) =====
+     Mirrors data-sources_connections-landing.html chrome + sidebar so both Sources screens share
+     the same surrounding system. All component styling lives in kit-theme.css. */
+  .topbar{padding:.375rem 1rem}
+  .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--bg);transition:grid-template-columns .2s ease}
+  .cl-shell:has(.sbx.is-collapsed){grid-template-columns:3.563rem 1fr}
+  .cl-side{background:var(--card);border-right:1px solid var(--border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
+  .cl-side .sb-full,.cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
+
+  /* Current/Expected swap */
+  /* Current/Expected swap removed — only Expected remains. */
+
+  /* Main column — max-width and alignment identical to Chats Library / Connections pages. */
+  .cl-main{position:relative;display:flex;flex-direction:column;width:100%;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px)}
+  .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
+  .cl-page-title{scroll-margin:5rem;font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0 0 .25rem}
+  @media (min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
+
+  /* Page head — title left, no separate CTA (action lives in the tab row per spec) */
+  .ds-page-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+  .ds-page-head .cl-page-title{margin:0}
+
+  /* ===== Tab row — tabset + action button sharing one border-bottom =====
+     The tabset's own border-bottom is suppressed; the wrapper row owns it so the
+     action button aligns flush with the underline of the active tab. */
+  .dsf-tabrow{display:flex;align-items:flex-end;gap:.75rem;border-bottom:1px solid var(--border)}
+  .dsf-tabrow .tabset{flex:1;border-bottom:none}
+  .dsf-tabrow .tab{display:inline-flex;align-items:center;gap:.375rem}
+
+  /* Search input */
+  .ds-search.field{max-width:none;height:2.5rem;background:var(--card)}
+  .ds-search .field-icon{width:16px;height:16px;color:var(--ink-secondary);flex:none}
+
+  /* ===== Drop zone =====
+     Expected: card2 bg + soft dashed border token. Drag-over lifts to state-hover + solid border.
+     Current (prod): transparent bg + teal/brand-primary dashed border (the "heavy colored outline"
+     that the Expected replaces). */
+  .dsf-drop{border:2px dashed var(--border);border-radius:.75rem;background:var(--card2);
+    padding:2rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:.75rem;
+    text-align:center;transition:background .15s,border-color .15s;cursor:pointer}
+  .dsf-drop.is-dragover{background:var(--state-hover);border-style:solid}
+  .dsf-drop-ic{width:2.25rem;height:2.25rem;color:var(--ink-inactive);flex:none}
+  .dsf-drop-title{font-size:.9375rem;font-weight:500;color:var(--ink);margin:0}
+  .dsf-drop-sub{font-size:.8125rem;color:var(--ink-secondary);margin:0;max-width:36ch;line-height:1.45}
+  .dsf-fmt-row{display:flex;align-items:center;gap:.375rem;flex-wrap:wrap;justify-content:center}
+  /* ===== File type icon — colored square + extension label =====
+     Follows the same connector-mark pattern (.ds-mark) from the Connections tab: square avatar
+     with explicit --mark-bg per type. Colors reference kit tokens only; no raw hex. */
+  .dsf-file-ic{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;
+    justify-content:center;font-size:.5625rem;font-weight:700;flex:none;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--content-on-solid);background:var(--mark-bg,var(--brand-tertiary))}
+  /* Format-specific mark backgrounds — token-based */
+  .dsf-file-ic.type-csv{--mark-bg:var(--brand-tertiary)}
+  .dsf-file-ic.type-xls{--mark-bg:var(--fb-green)}
+  .dsf-file-ic.type-xlsx{--mark-bg:var(--fb-green)}
+
+  /* ===== File list — reuses .chat-row from kit-theme.css for all row states =====
+     Rows: checkbox (left) + file-icon + file name + meta (right) + kebab.
+     No new row styles needed — chat-row covers hover, selected, checked, focus, and kebab-open. */
+  .dsf-list{display:flex;flex-direction:column;gap:.375rem;position:relative}
+  .dsf-list .chat-list{margin:0} /* reset the margin-top override from chats-landing; not needed here */
+  /* File meta text (size or date) sits in the same slot as .chat-row-time */
+  /* No additional rule needed — .chat-row-time already applies. */
+
+  /* ===== Meta / bulk action row =====
+     Identical structure to the Chats Library meta-row (see chats-landing.html and kit-theme.css).
+     We define only the two new button variants here (download + delete). The delete button
+     is a local copy of chats-landing's .meta-row-delete (not in kit-theme.css). */
+  .dsf-meta-iconbtn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;
+    border-radius:.25rem;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;
+    padding:0;font-family:inherit;flex:none;
+    transition:color var(--motion-fast,80ms) var(--motion-ease,ease),
+               background-color var(--motion-fast,80ms) var(--motion-ease,ease)}
+  .dsf-meta-iconbtn:hover{color:var(--ink-body);background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
+  .dsf-meta-iconbtn:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--focus-ring-brand)}
+  .dsf-meta-iconbtn svg{width:14px;height:14px}
+  /* Download button — neutral destructive-style button without red (mirrors .meta-row-delete shape) */
+  .dsf-meta-dl,.dsf-meta-del{margin-left:0;display:inline-flex;align-items:center;gap:.375rem;
+    font-size:.8125rem;font-weight:500;background:transparent;border:none;cursor:pointer;
+    padding:.25rem .5rem;border-radius:.25rem;font-family:inherit;
+    transition:background-color var(--motion-fast,80ms) var(--motion-ease,ease)}
+  .dsf-meta-dl{color:var(--ink-body)}
+  .dsf-meta-del{color:var(--fb-red-text)}
+  .dsf-meta-dl svg,.dsf-meta-del svg{width:14px;height:14px;flex:none}
+  .dsf-meta-dl:hover{background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
+  .dsf-meta-del:hover{background:color-mix(in srgb,var(--fb-red) 8%,transparent)}
+  .dsf-meta-dl:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--focus-ring-brand)}
+  .dsf-meta-del:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px color-mix(in srgb,var(--fb-red) 60%,transparent)}
+  .dsf-meta-dl.is-disabled,.dsf-meta-del.is-disabled{color:var(--ink-inactive);cursor:not-allowed;pointer-events:none}
+  /* Right-anchor the download+delete pair to the row's far right */
+  .dsf-bulk-right{margin-left:auto;display:inline-flex;align-items:center;gap:.25rem}
+
+  /* ===== Sticker — copied verbatim from connections landing ===== */
+  .cl-sticker{position:fixed;right:1rem;bottom:1rem;width:280px;z-index:60;padding:.625rem .75rem;
+    display:flex;flex-direction:column;gap:.375rem;background:var(--card);color:var(--ink-body);
+    border:1px solid var(--border);border-radius:.625rem;
+    box-shadow:0 10px 15px -3px rgba(0,0,0,.12),0 4px 6px -4px rgba(0,0,0,.08);
+    cursor:grab;user-select:none;font-family:inherit;font-size:.75rem;line-height:1.4}
+  .cl-sticker.is-dragging{cursor:grabbing;opacity:.92}
+  .cl-sticker-h{display:flex;align-items:center;gap:.375rem;font-weight:600;color:var(--ink)}
+  .cl-sticker-dot{width:8px;height:8px;border-radius:9999px;background:var(--brand-primary);flex:none}
+  .cl-sticker-t{flex:1;font-size:.8125rem}
+  .cl-sticker-grip{color:var(--ink-inactive);font-size:.875rem;letter-spacing:-.2em}
+  .cl-sticker-tog{display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;
+    border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;border-radius:.25rem;
+    padding:0;flex:none;transition:transform .15s,color .12s}
+  .cl-sticker-tog:hover{color:var(--ink-body);background:color-mix(in srgb,var(--brand-primary) 8%,transparent)}
+  .cl-sticker-tog:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .cl-sticker-tog svg{width:14px;height:14px;transition:transform .15s}
+  .cl-sticker.is-collapsed .cl-sticker-tog svg{transform:rotate(-90deg)}
+  .cl-sticker.is-collapsed .cl-sticker-l{display:none}
+  .cl-sticker.is-collapsed{width:auto;padding:.5rem .625rem}
+  .cl-sticker-l{margin:0;padding:0 0 0 1rem;color:var(--ink-body)}
+  .cl-sticker-l li{margin:.125rem 0}
+
+  @media (max-width:720px){
+    .cl-shell{grid-template-columns:1fr}
+    .cl-side{display:none}
+    .cl-sticker{width:210px}
+  }
+</style>
+</head>
+<body>
+
+<!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="lg" viewBox="0 0 418 100">
+    <g fill="currentColor">
+      <path d="M400.473 31.3711C403.905 31.3711 406.789 31.9429 409.125 33.0869C411.461 34.1834 413.272 35.7095 414.56 37.6641C415.894 39.571 416.729 41.7642 417.062 44.2432L407.838 44.6719C407.6 43.3847 407.171 42.264 406.551 41.3105C405.931 40.3572 405.097 39.6427 404.048 39.166C402.999 38.6416 401.759 38.3789 400.329 38.3789C398.184 38.3789 396.563 38.808 395.467 39.666C394.37 40.5241 393.822 41.6685 393.822 43.0986C393.822 44.0998 394.06 44.9341 394.537 45.6016C395.062 46.269 395.896 46.817 397.04 47.2461C398.184 47.6275 399.709 47.9856 401.616 48.3193C405.621 48.9391 408.767 49.7489 411.056 50.75C413.392 51.7035 415.037 52.9432 415.99 54.4688C416.991 55.9466 417.492 57.7345 417.492 59.832C417.492 62.2633 416.8 64.3375 415.418 66.0537C414.083 67.7698 412.176 69.0806 409.697 69.9863C407.266 70.8444 404.406 71.2734 401.116 71.2734C397.35 71.2734 394.18 70.7253 391.605 69.6289C389.079 68.5324 387.124 67.0064 385.741 65.0518C384.359 63.0972 383.573 60.8802 383.382 58.4014L392.749 57.9727C393.083 59.9749 393.917 61.5246 395.252 62.6211C396.587 63.7176 398.565 64.2656 401.188 64.2656C403.333 64.2656 405.002 63.9321 406.193 63.2646C407.433 62.5496 408.053 61.4525 408.053 59.9746C408.053 59.1169 407.838 58.402 407.409 57.8301C406.98 57.258 406.169 56.7572 404.978 56.3281C403.786 55.8991 402.022 55.4701 399.686 55.041C395.776 54.3736 392.702 53.5628 390.461 52.6094C388.22 51.6082 386.623 50.3685 385.67 48.8906C384.764 47.4128 384.312 45.5776 384.312 43.3848C384.312 39.8093 385.67 36.9254 388.388 34.7324C391.153 32.4918 395.181 31.3711 400.473 31.3711Z"/>
+      <path d="M376.246 70.415H367.093V32.2295H376.246V70.415ZM376.46 27.1523H366.949V19H376.46V27.1523Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M350.297 32.2295H360.38V39.3086H350.297V58.6162C350.297 60.3801 350.679 61.6199 351.441 62.335C352.204 63.0022 353.396 63.3359 355.017 63.3359H360.38V70.415H352.228C348.414 70.415 345.601 69.5334 343.789 67.7695C342.025 66.0056 341.144 63.2406 341.144 59.4746V39.3086H335.137V32.2295H341.144V23.29H350.297V32.2295Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M305.783 37.3545C306.109 36.7073 306.49 36.1185 306.928 35.5898C308.072 34.1598 309.478 33.1108 311.146 32.4434C312.815 31.7283 314.651 31.3711 316.653 31.3711C319.466 31.3711 321.826 31.991 323.732 33.2305C325.687 34.4223 327.141 36.1147 328.095 38.3076C329.096 40.5006 329.597 43.0273 329.597 45.8877V70.415H320.443V48.1045C320.443 45.0058 319.919 42.6935 318.87 41.168C317.821 39.5948 316.176 38.8086 313.936 38.8086C311.457 38.8086 309.478 39.6184 308 41.2393C306.522 42.8601 305.783 45.2206 305.783 48.3193V70.415H296.63V19.6436H305.783V37.3545Z"/>
+      <path d="M266.857 31.3711C269.622 31.3711 272.007 31.991 274.009 33.2305C276.011 34.4698 277.464 36.1145 278.37 38.1641V32.2295H287.31V67.0547C287.31 70.2963 286.546 73.0377 285.021 75.2783C283.543 77.5188 281.445 79.1878 278.728 80.2842C276.058 81.4281 272.912 82 269.289 82C265.952 82 263.092 81.5473 260.708 80.6416C258.324 79.7358 256.393 78.4479 254.915 76.7793C253.485 75.1586 252.484 73.2758 251.912 71.1309L261.352 70.4873C261.828 71.9172 262.638 73.0373 263.782 73.8477C264.974 74.6581 266.81 75.0635 269.289 75.0635C272.102 75.0634 274.27 74.4198 275.796 73.1328C277.321 71.8933 278.084 69.9382 278.084 67.2686V62.4062C277.178 64.2653 275.725 65.767 273.723 66.9111C271.72 68.0076 269.479 68.5557 267 68.5557C263.854 68.5556 261.041 67.793 258.562 66.2676C256.131 64.6944 254.224 62.5256 252.842 59.7607C251.459 56.948 250.768 53.706 250.768 50.0352C250.768 46.3643 251.435 43.1459 252.77 40.3809C254.152 37.5682 256.06 35.3759 258.491 33.8027C260.922 32.1819 263.711 31.3711 266.857 31.3711ZM269.146 38.5225C266.333 38.5225 264.14 39.5714 262.566 41.6689C261.041 43.7188 260.278 46.484 260.278 49.9639C260.278 53.4439 261.065 56.2325 262.639 58.3301C264.26 60.3799 266.428 61.4052 269.146 61.4053C271.863 61.4053 274.032 60.4036 275.653 58.4014C277.274 56.3515 278.109 53.539 278.156 49.9639C278.204 47.5803 277.846 45.5542 277.083 43.8857C276.368 42.1695 275.319 40.8579 273.937 39.9521C272.602 38.9988 271.005 38.5225 269.146 38.5225Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M243.632 70.415H234.479V32.2295H243.632V70.415ZM243.847 27.1523H234.335V19H243.847V27.1523Z"/>
+      <path d="M210.315 31.3711C213.748 31.3711 216.632 31.9429 218.968 33.0869C221.304 34.1834 223.116 35.7095 224.403 37.6641C225.738 39.5709 226.573 41.7643 226.906 44.2432L217.681 44.6719C217.442 43.3847 217.013 42.264 216.394 41.3105C215.774 40.3573 214.939 39.6427 213.891 39.166C212.842 38.6417 211.603 38.3789 210.173 38.3789C208.028 38.3789 206.406 38.8079 205.31 39.666C204.213 40.5241 203.665 41.6685 203.665 43.0986C203.665 44.0997 203.903 44.9342 204.38 45.6016C204.904 46.2689 205.739 46.8171 206.883 47.2461C208.027 47.6275 209.553 47.9856 211.46 48.3193C215.464 48.9391 218.611 49.7489 220.899 50.75C223.235 51.7034 224.88 52.9433 225.833 54.4688C226.834 55.9466 227.335 57.7344 227.335 59.832C227.335 62.2633 226.643 64.3375 225.261 66.0537C223.926 67.7697 222.019 69.0806 219.54 69.9863C217.109 70.8444 214.248 71.2734 210.959 71.2734C207.193 71.2734 204.023 70.7254 201.448 69.6289C198.922 68.5324 196.967 67.0063 195.585 65.0518C194.202 63.0972 193.415 60.8803 193.225 58.4014L202.593 57.9727C202.926 59.9749 203.761 61.5246 205.096 62.6211C206.43 63.7173 208.409 64.2656 211.03 64.2656C213.175 64.2656 214.844 63.932 216.036 63.2646C217.276 62.5496 217.896 61.4525 217.896 59.9746C217.895 59.1168 217.681 58.402 217.252 57.8301C216.823 57.258 216.012 56.7572 214.82 56.3281C213.629 55.8991 211.865 55.47 209.529 55.041C205.62 54.3736 202.544 53.5628 200.304 52.6094C198.063 51.6083 196.466 50.3684 195.513 48.8906C194.607 47.4128 194.154 45.5775 194.154 43.3848C194.154 39.8093 195.513 36.9254 198.23 34.7324C200.995 32.4918 205.024 31.3711 210.315 31.3711Z"/>
+      <path d="M173.353 31.3711C176.165 31.3711 178.526 31.991 180.433 33.2305C182.387 34.47 183.865 36.1861 184.866 38.3789C185.867 40.5242 186.367 43.0273 186.367 45.8877V70.415H177.214V48.8193C177.214 46.6741 176.999 44.8626 176.57 43.3848C176.141 41.907 175.427 40.7862 174.426 40.0234C173.472 39.213 172.184 38.8076 170.563 38.8076C168.132 38.8077 166.178 39.6667 164.7 41.3828C163.27 43.099 162.555 45.5777 162.555 48.8193V70.415H153.401V32.2295H161.696L161.914 38.7656C162.298 37.755 162.774 36.8633 163.342 36.0908C164.533 34.4701 165.987 33.2784 167.703 32.5156C169.419 31.7529 171.303 31.3711 173.353 31.3711Z"/>
+      <path d="M142.113 70.415H132.817V19.6436H142.113V70.415Z"/>
+    </g>
+    <path style="fill:var(--logo-mark)" d="M100 40.3752L85.0185 49.5197L100 58.6227L50 89L0 58.6227L14.9815 49.5197L0 40.3752L22.499 26.7072L30 31.2639L15 40.3752L50 61.6391L85 40.3752L70 31.2639L77.501 26.7072L100 40.3752ZM50 70.7525L22.4723 54.0287L14.9979 58.6227L50 79.8887L85.0021 58.6227L77.5257 54.0287L50 70.7525ZM70 40.398L50 52.5485L30 40.398L37.5175 35.831L50 43.4144L62.4825 35.831L70 40.398ZM70 22.1505L50 34.301L30 22.1505L50 10L70 22.1505ZM45 22.1484L50 25.1876L55 22.1484L50 19.1113L45 22.1484Z"/>
+  </symbol>
+  <symbol id="lg-mark" viewBox="0 0 26 26">
+    <path fill="currentColor" d="M25.4928 10.4153L21.6736 12.7515L25.4928 15.077L12.7464 22.8373L0 15.077L3.81921 12.7515L0 10.4153L5.73562 6.92364L7.64785 8.08772L3.82392 10.4153L12.7464 15.8475L21.6689 10.4153L17.845 8.08772L19.7572 6.92364L25.4928 10.4153ZM12.7464 18.1757L5.72881 13.9033L3.8234 15.077L12.7464 20.5097L21.6694 15.077L19.7635 13.9033L12.7464 18.1757ZM17.845 10.4212L12.7464 13.5252L7.64785 10.4212L9.56426 9.25445L12.7464 11.1918L15.9286 9.25445L17.845 10.4212ZM17.845 5.75956L12.7464 8.86359L7.64785 5.75956L12.7464 2.65552L17.845 5.75956ZM11.4718 5.75903L12.7464 6.53543L14.0211 5.75903L12.7464 4.98315L11.4718 5.75903Z"/>
+  </symbol>
+  <symbol id="lg-text" viewBox="0 0 73 17">
+    <g fill="currentColor">
+      <path d="M0 13.2361V1.31819H2.31135V13.2361H0Z"/>
+      <path d="M5.00515 13.2361V3.79206H6.90118L6.84701 6.68124H7.17204C7.34058 5.97099 7.56328 5.38713 7.84016 4.92968C8.12908 4.47222 8.49625 4.12913 8.94167 3.9004C9.38708 3.67168 9.90473 3.55731 10.4946 3.55731C11.566 3.55731 12.3786 3.93652 12.9324 4.69493C13.4982 5.45334 13.7811 6.62707 13.7811 8.21613V13.2361H11.4878V8.45087C11.4878 7.42762 11.3313 6.68124 11.0183 6.21175C10.7173 5.73022 10.2659 5.48946 9.66396 5.48946C9.15835 5.48946 8.731 5.65197 8.38189 5.97701C8.03278 6.29 7.76192 6.71134 7.5693 7.24102C7.38873 7.75867 7.29242 8.33049 7.28038 8.95648V13.2361H5.00515Z"/>
+      <path d="M25.9369 13.2361V3.79206H28.2122V13.2361H25.9369ZM27.0746 2.31135C26.6171 2.31135 26.262 2.21504 26.0092 2.02243C25.7684 1.81778 25.648 1.52886 25.648 1.15567C25.648 0.782488 25.7684 0.499589 26.0092 0.306976C26.262 0.102325 26.6171 0 27.0746 0C27.5561 0 27.9172 0.0963064 28.158 0.288919C28.3988 0.481531 28.5192 0.77045 28.5192 1.15567C28.5192 1.52886 28.3927 1.81778 28.1399 2.02243C27.8992 2.21504 27.5441 2.31135 27.0746 2.31135Z"/>
+      <path d="M41.5079 13.2361V0.415321H43.8012V3.35868C43.8012 3.61148 43.7892 3.87031 43.7651 4.13515C43.7531 4.39999 43.729 4.67085 43.6929 4.94773C43.6568 5.22461 43.6146 5.50149 43.5665 5.77837C43.5304 6.05525 43.4882 6.33214 43.4401 6.60902H43.8193C43.9878 5.95895 44.2045 5.41121 44.4694 4.96579C44.7342 4.50834 45.0713 4.15923 45.4806 3.91846C45.9019 3.67769 46.4135 3.55731 47.0154 3.55731C48.1109 3.55731 48.9295 3.94254 49.4713 4.71299C50.013 5.4714 50.2838 6.62707 50.2838 8.18001V13.2361H47.9906V8.50504C47.9906 7.46975 47.8341 6.70532 47.5211 6.21175C47.2201 5.71818 46.7626 5.4714 46.1487 5.4714C45.6431 5.4714 45.2217 5.6279 44.8847 5.94089C44.5476 6.24185 44.2888 6.64513 44.1082 7.15074C43.9276 7.65635 43.8193 8.22816 43.7832 8.86619V13.2361H41.5079Z"/>
+      <path d="M55.9749 13.4528C54.9757 13.4528 54.2414 13.1879 53.7719 12.6583C53.3024 12.1165 53.0676 11.2799 53.0676 10.1483V5.61586H51.6772L51.7133 3.81012H52.6343C52.9834 3.81012 53.2422 3.75594 53.4107 3.6476C53.5793 3.53925 53.6816 3.34664 53.7177 3.06976L53.9344 1.6974H55.2526V3.79206H57.7445V5.68809H55.2526V10.058C55.2526 10.5034 55.3549 10.8284 55.5596 11.0331C55.7763 11.2377 56.0953 11.3401 56.5166 11.3401C56.7453 11.3401 56.968 11.316 57.1847 11.2678C57.4135 11.2076 57.6241 11.1113 57.8167 10.9789V13.1458C57.4436 13.2662 57.1005 13.3444 56.7875 13.3805C56.4865 13.4287 56.2157 13.4528 55.9749 13.4528Z"/>
+      <path d="M59.6888 13.2361V3.79206H61.964V13.2361H59.6888ZM60.8264 2.31135C60.369 2.31135 60.0138 2.21504 59.761 2.02243C59.5203 1.81778 59.3999 1.52886 59.3999 1.15567C59.3999 0.782488 59.5203 0.499589 59.761 0.306976C60.0138 0.102325 60.369 0 60.8264 0C61.3079 0 61.6691 0.0963064 61.9099 0.288919C62.1506 0.481531 62.271 0.77045 62.271 1.15567C62.271 1.52886 62.1446 1.81778 61.8918 2.02243C61.651 2.21504 61.2959 2.31135 60.8264 2.31135Z"/>
+    </g>
+  </symbol>
+</svg>
+
+<!-- ===== Topbar ===== -->
+<div class="topbar">
+  <span class="ttl">Data Sources (Files)</span>
+  <div style="display:flex;gap:.375rem">
+    <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
+  </div>
+</div>
+
+<div class="cl-shell">
+
+  <!-- ============= Sidebar — same as data-sources_connections-landing.html (Sources nav active) ============= -->
+  <aside class="cl-side">
+    <div class="sbx">
+        <div class="sbx-head">
+          <div class="sbx-brand">
+            <div class="sbx-brand-id">
+              <svg class="sbx-brand-logo" aria-label="Insightis"><use href="#lg"/></svg>
+              <svg class="sbx-brand-mark" aria-hidden="true"><use href="#lg-mark"/></svg>
+            </div>
+            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Toggle Sidebar" type="button" onclick="dsfToggleSbxCollapse()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+            </button>
+          </div>
+          <button class="btn btn-primary btn-sm sbx-cta" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            <span>New Chat</span>
+          </button>
+        </div>
+        <div class="sbx-nav">
+          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+            <span class="lbl">New Chat</span>
+          </button>
+          <button class="sbx-nav-item active" type="button" aria-current="page" data-tip="Sources" data-tip-side="right">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+            <span class="lbl">Sources</span>
+          </button>
+          <button class="sbx-nav-item" type="button" data-tip="Metrics" data-tip-side="right">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+            <span class="lbl">Metrics</span>
+          </button>
+        </div>
+        <div class="sbx-chats">
+          <div class="sbx-sect">
+            <div class="sbx-sect-head">
+              <button class="sbx-sect-label-wrap" type="button" aria-expanded="true">
+                <span class="sbx-sect-label">Pinned</span>
+                <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="link sbx-sect-link" type="button">See all</button>
+            </div>
+            <div class="sbx-chat" role="button" tabindex="0">
+              <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
+            </div>
+            <div class="sbx-chat" role="button" tabindex="0">
+              <span class="sbx-chat-lbl">Onboarding cohort summary</span>
+            </div>
+          </div>
+          <div class="sbx-sect">
+            <div class="sbx-sect-head">
+              <button class="sbx-sect-label-wrap" type="button" aria-expanded="true">
+                <span class="sbx-sect-label">Recent</span>
+                <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="link sbx-sect-link" type="button">See all</button>
+            </div>
+            <div class="sbx-chat" role="button" tabindex="0">
+              <span class="sbx-chat-lbl">Top movers — weekly</span>
+            </div>
+          </div>
+        </div>
+        <div class="sbx-foot">
+          <button class="sbx-tok" type="button">
+            <div class="sbx-tok-row">
+              <span class="sbx-tok-label">Tokens</span>
+              <span class="sbx-tok-val">673 / 1000</span>
+            </div>
+            <div class="sbx-tok-bar"><span style="width:67.3%"></span></div>
+          </button>
+          <button class="sbx-user" type="button">
+            <span class="sbx-user-ava">K</span>
+            <span class="sbx-user-info">
+              <span class="sbx-user-name">Kateryna K.</span>
+              <span class="sbx-user-meta">Admin · Professional</span>
+            </span>
+            <svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+          </button>
+        </div>
+      </div>
+  </aside>
+
+  <!-- ============= MAIN ============= -->
+  <main class="cl-main">
+    <div class="cl-page" id="dsf-app">
+
+      <!-- Page title — same slot as Connections page -->
+      <div class="ds-page-head">
+        <h1 class="cl-page-title scroll-m-20 font-medium text-2xl md:text-3xl text-content-primary text-left">Data Sources</h1>
+      </div>
+
+      <div class="ds-page-body">
+
+        <!-- Tab row — Connections(4) · Files(3) tabs + Browse Files button right-aligned -->
+        <div class="dsf-tabrow">
+          <div class="tabset" role="tablist">
+            <button class="tab" role="tab" aria-selected="false" type="button" onclick="window.location='data-sources_connections-landing.html'">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              Connections
+              <span class="badge badge-secondary" style="height:1.25rem;padding:0 .4rem;font-size:.6875rem" aria-label="4 connections">4</span>
+            </button>
+            <button class="tab is-active" role="tab" aria-selected="true" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Files
+              <span class="badge badge-secondary" id="dsf-tab-count" style="height:1.25rem;padding:0 .4rem;font-size:.6875rem" aria-label="3 files">3</span>
+            </button>
+          </div>
+          <!-- Action button right-aligned in tab row — outlined + upload icon prefix -->
+          <button class="btn btn-outline btn-sm" type="button" style="margin-bottom:.25rem;flex:none" onclick="dsfBrowseFiles()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Browse Files
+          </button>
+        </div>
+
+        <!-- Drop zone — always visible above the file list per spec -->
+        <div class="dsf-drop" id="dsf-drop" role="region" aria-label="Upload area — drag files here or browse"
+             onclick="dsfBrowseFiles()"
+             ondragover="event.preventDefault();this.classList.add('is-dragover')"
+             ondragleave="this.classList.remove('is-dragover')"
+             ondrop="event.preventDefault();this.classList.remove('is-dragover');dsfHandleDrop(event)">
+          <!-- Upload icon -->
+          <svg class="dsf-drop-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <!-- Instruction text -->
+          <p class="dsf-drop-title">Drag &amp; drop files here</p>
+          <p class="dsf-drop-sub">or click to browse — files you upload are available to query in chats</p>
+          <!-- Format badges row -->
+          <div class="dsf-fmt-row" aria-label="Supported formats">
+            <span class="badge badge-secondary">.csv</span>
+            <span class="badge badge-secondary">.xls</span>
+            <span class="badge badge-secondary">.xlsx</span>
+          </div>
+          <!-- Browse Files button (click propagates to the drop zone onclick above) -->
+          <button class="btn btn-outline btn-sm" type="button" onclick="event.stopPropagation();dsfBrowseFiles()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Browse Files
+          </button>
+        </div>
+
+        <!-- File count / bulk action bar — hidden when file count is 0 -->
+        <div class="meta-row" id="dsf-meta" role="toolbar" aria-label="File actions"></div>
+
+        <!-- File list — reuses .chat-row classes from kit-theme.css -->
+        <div class="dsf-list chat-list" id="dsf-list" role="list" aria-label="Uploaded files"></div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ===== Movable Expected-differences sticker ===== -->
+<aside class="cl-sticker is-collapsed" role="note" aria-label="Expected differences">
+  <header class="cl-sticker-h">
+    <span class="cl-sticker-dot" aria-hidden="true"></span>
+    <span class="cl-sticker-t">Expected — what changes</span>
+    <button class="cl-sticker-tog" type="button" aria-label="Expand notes" aria-expanded="false"
+            onmousedown="event.stopPropagation()" onclick="dsfToggleSticker(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <span class="cl-sticker-grip" aria-hidden="true">⋮⋮</span>
+  </header>
+  <ul class="cl-sticker-l">
+    <li>Drop zone: <code>--card2</code> bg + <code>--border</code> dashed (replaces teal)</li>
+    <li>Drop zone always above list; drag-over shifts to <code>--state-hover</code></li>
+    <li>Format badges row: <code>.badge.badge-secondary</code> for .csv .xls .xlsx</li>
+    <li>Browse Files uses <a class="link" href="../changes/DataSourcesFiles.md"><code>.btn-outline</code></a> + upload icon</li>
+    <li>Tab bar: count badges + Browse Files btn right-aligned in tab row</li>
+    <li>File count / bulk bar reuses <a class="link" href="../changes/MetaRow.md"><code>.meta-row</code></a> pattern</li>
+    <li>File rows reuse <a class="link" href="../changes/ChatRow.md"><code>.chat-row</code></a> — checkbox + icon + name + size + kebab</li>
+    <li>Context menu: Download + Delete (destructive token)</li>
+  </ul>
+</aside>
+
+<script>
+  /* ===== File data — single source of truth driving the file list, count, and meta row ===== */
+  var FILES = [
+    { id:'f1', name:'quarterly-report.csv',  type:'csv',  size:'2.4 MB',  date:'3d ago',      selected:false },
+    { id:'f2', name:'customer-data.xlsx',     type:'xlsx', size:'890 KB',  date:'last week',   selected:false },
+    { id:'f3', name:'sales-metrics.xls',      type:'xls',  size:'1.1 MB',  date:'2 weeks ago', selected:false },
+  ];
+
+  var editMode = false; /* true = selection mode, checkboxes visible for all rows */
+
+  /* ===== SVG icons as variables — same pattern as chats-landing.html ===== */
+  var KEBAB   = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>';
+  var CHECK   = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>';
+  var CLOSE   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+  var TRASH   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
+  var DOWNLOAD= '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg>';
+
+  function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  /* ===== Render file list ===== */
+  function dsfRender(){
+    var list = document.getElementById('dsf-list');
+    var meta = document.getElementById('dsf-meta');
+    var tabCount = document.getElementById('dsf-tab-count');
+
+    /* Update tab badge count */
+    if (tabCount) tabCount.textContent = FILES.length;
+
+    /* Hide meta row when no files */
+    if (FILES.length === 0){
+      meta.style.display = 'none';
+      list.innerHTML = '';
+      list.classList.remove('is-selecting');
+      return;
+    }
+    meta.style.display = '';
+
+    /* Build file rows using .chat-row markup */
+    list.innerHTML = FILES.map(function(f){
+      return ''
+        + '<div class="chat-row' + (f.selected ? ' is-selected' : '') + '" role="listitem" data-id="' + f.id + '" tabindex="0">'
+        +   '<span class="cbx' + (f.selected ? ' on' : '') + '" role="checkbox" aria-checked="' + f.selected + '" tabindex="0" data-action="check" data-id="' + f.id + '">' + (f.selected ? CHECK : '') + '</span>'
+        +   '<span class="dsf-file-ic type-' + f.type + '" aria-hidden="true">' + f.type.toUpperCase() + '</span>'
+        +   '<span class="chat-row-name">' + escHtml(f.name) + '</span>'
+        +   '<span class="chat-row-time">' + escHtml(f.size) + ' · ' + escHtml(f.date) + '</span>'
+        +   '<button class="chat-row-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more" data-id="' + f.id + '">' + KEBAB + '</button>'
+        +   '<div class="menu chat-row-menu" role="menu">'
+        +     '<div class="mi" role="menuitem" data-action="download" data-id="' + f.id + '">'
+        +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg>'
+        +       'Download'
+        +     '</div>'
+        +     '<div class="mi danger" role="menuitem" data-action="delete" data-id="' + f.id + '">'
+        +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+        +       'Delete'
+        +     '</div>'
+        +   '</div>'
+        + '</div>';
+    }).join('');
+    list.classList.toggle('is-selecting', editMode);
+
+    dsfRenderMeta();
+  }
+
+  /* ===== Render meta / bulk action bar ===== */
+  function dsfRenderMeta(){
+    var meta = document.getElementById('dsf-meta');
+    var selectedCount = FILES.filter(function(f){ return f.selected; }).length;
+    var totalCount = FILES.length;
+
+    if (!editMode){
+      /* Default state: "N file(s)" · Select all */
+      var noun = totalCount === 1 ? 'file' : 'files';
+      meta.innerHTML = ''
+        + '<span class="meta-row-count">' + totalCount + ' ' + noun + '</span>'
+        + '<span class="meta-row-actions">'
+        +   '<button class="link" type="button" data-action="enter-edit">Select all</button>'
+        + '</span>';
+      return;
+    }
+
+    /* Selection state: ✕ · N selected · Select all | Download · Delete */
+    var allSelected = selectedCount === totalCount;
+    meta.innerHTML = ''
+      + '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Clear selection">' + CLOSE + '</button>'
+      + '<span class="meta-row-count">' + selectedCount + ' selected</span>'
+      + '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all">' + (allSelected ? 'Deselect all' : 'Select all') + '</button>'
+      + '<span class="dsf-bulk-right">'
+      +   '<button class="dsf-meta-dl' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
+      +   '<button class="dsf-meta-del' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
+      + '</span>';
+  }
+
+  /* ===== Click delegation — handles all interactive elements in the expected section ===== */
+  document.addEventListener('click', function(e){
+    var action = (e.target.closest('[data-action]') || {}).getAttribute ? e.target.closest('[data-action]').getAttribute('data-action') : null;
+    var id = e.target.closest('[data-id]') ? e.target.closest('[data-id]').getAttribute('data-id') : null;
+
+    /* Kebab — toggle one menu open, close all others */
+    if (action === 'more'){
+      e.stopPropagation();
+      var btn = e.target.closest('[data-action="more"]');
+      var willOpen = btn.getAttribute('aria-expanded') !== 'true';
+      document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      if (willOpen) btn.setAttribute('aria-expanded','true');
+      return;
+    }
+    /* Click outside any open menu — close all */
+    if (!e.target.closest('.chat-row-menu') && !e.target.closest('[data-action="more"]')){
+      document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+    }
+
+    if (action === 'check' && id){
+      var f = FILES.find(function(x){ return x.id === id; });
+      if (f){ f.selected = !f.selected; editMode = true; }
+      dsfRender(); return;
+    }
+    if (action === 'enter-edit'){
+      editMode = true;
+      FILES.forEach(function(f){ f.selected = true; });
+      dsfRender(); return;
+    }
+    if (action === 'cancel-edit'){
+      editMode = false;
+      FILES.forEach(function(f){ f.selected = false; });
+      dsfRender(); return;
+    }
+    if (action === 'select-all'){
+      var all = FILES.every(function(f){ return f.selected; });
+      FILES.forEach(function(f){ f.selected = !all; });
+      dsfRender(); return;
+    }
+    if (action === 'delete' && id){
+      document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      FILES = FILES.filter(function(f){ return f.id !== id; });
+      if (FILES.filter(function(f){ return f.selected; }).length === 0) editMode = false;
+      dsfRender(); return;
+    }
+    if (action === 'delete-selected'){
+      FILES = FILES.filter(function(f){ return !f.selected; });
+      editMode = false;
+      dsfRender(); return;
+    }
+    if (action === 'download'){ return; } /* demo no-op */
+    if (action === 'download-selected'){ return; } /* demo no-op */
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape'){
+      document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+    }
+  });
+
+  /* ===== Drop zone + browse ===== */
+  function dsfBrowseFiles(){
+    /* Demo: simulate adding a new file */
+    var names = ['q2-report.csv','new-customers.xlsx','budget-2026.xls','pipeline.csv'];
+    var types = ['csv','xlsx','xls','csv'];
+    var sizes = ['3.1 MB','1.2 MB','456 KB','780 KB'];
+    var idx = FILES.length % names.length;
+    var newId = 'f' + (FILES.length + 10);
+    FILES.push({ id:newId, name:names[idx], type:types[idx], size:sizes[idx], date:'just now', selected:false });
+    dsfRender();
+  }
+
+  function dsfHandleDrop(e){
+    /* Demo: add each dropped filename as a new row */
+    var dropped = e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files : [];
+    for (var i = 0; i < dropped.length; i++){
+      var fname = dropped[i].name;
+      var ext = (fname.split('.').pop() || '').toLowerCase();
+      var type = ['csv','xls','xlsx'].indexOf(ext) !== -1 ? ext : 'other';
+      var size = dropped[i].size ? (dropped[i].size / 1024 / 1024).toFixed(1) + ' MB' : '—';
+      FILES.push({ id:'fd' + i, name:fname, type:type, size:size, date:'just now', selected:false });
+    }
+    dsfRender();
+  }
+
+  /* ===== Sidebar collapse ===== */
+  function dsfToggleSbxCollapse(){
+    var sbx = document.querySelector('.cl-side .sbx');
+    if (sbx) sbx.classList.toggle('is-collapsed');
+  }
+
+  /* ===== Sticker collapse/expand ===== */
+  function dsfToggleSticker(btn){
+    var s = document.querySelector('.cl-sticker');
+    if (!s) return;
+    var collapsed = s.classList.toggle('is-collapsed');
+    btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    btn.setAttribute('aria-label', collapsed ? 'Expand notes' : 'Collapse notes');
+  }
+
+  /* ===== Movable sticker ===== */
+  (function(){
+    var s = document.querySelector('.cl-sticker'); if (!s) return;
+    var ox=0, oy=0, dragging=false;
+    s.addEventListener('mousedown', function(e){
+      if (e.target.closest('a,button,input')) return;
+      dragging=true; s.classList.add('is-dragging');
+      var r=s.getBoundingClientRect(); ox=e.clientX-r.left; oy=e.clientY-r.top;
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', function(e){
+      if (!dragging) return;
+      var x=Math.max(0,Math.min(window.innerWidth-s.offsetWidth,e.clientX-ox));
+      var y=Math.max(0,Math.min(window.innerHeight-s.offsetHeight,e.clientY-oy));
+      s.style.left=x+'px'; s.style.top=y+'px'; s.style.right='auto'; s.style.bottom='auto';
+    });
+    document.addEventListener('mouseup', function(){
+      if (!dragging) return; dragging=false; s.classList.remove('is-dragging');
+    });
+  })();
+
+  /* Initial render */
+  dsfRender();
+</script>
+</body>
+</html>
