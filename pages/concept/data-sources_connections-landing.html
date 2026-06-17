@@ -83,6 +83,9 @@
   .ds-card2-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
   .ds-card2-cats{display:flex;flex-wrap:wrap;gap:.25rem;flex:1;min-width:0}
 
+  /* Lazy-load sentinel — zero-height trigger element appended after last card when more remain */
+  .ds-load-sentinel{grid-column:1/-1;height:1px;margin:0;padding:0}
+
   /* ===== Connected — card list ===== */
   .ds-conn-list{display:flex;flex-direction:column}
   .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:.625rem .75rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:0 1px 2px 0 rgba(15,23,42,.03);margin-bottom:.375rem;position:relative;transition:background .15s,border-color .15s,box-shadow .15s}
@@ -478,35 +481,92 @@
 
 <script>
   /* ===== Connector data ===== */
-  var CATEGORIES = ['All','Databases','CRM','Marketing','Finance','Analytics','Support'];
+  var CATEGORIES = ['All','Databases','CRM','Marketing','Finance','Analytics','Support','HR','DevOps','Project Management','Storage','Communication','E-commerce'];
   var CONNECTORS = [
     /* Databases */
-    { name:'PostgreSQL',       cat:'Databases', cats:['Databases'],               popular:true,  mark:'#336791', initial:'P', slug:'postgresql' },
-    { name:'MySQL',            cat:'Databases', cats:['Databases'],               popular:true,  mark:'#00758F', initial:'M', slug:'mysql' },
-    { name:'Snowflake',        cat:'Databases', cats:['Databases','Analytics'],   popular:true,  mark:'#29B5E8', initial:'S', slug:'snowflake' },
-    { name:'BigQuery',         cat:'Databases', cats:['Databases','Analytics'],   popular:false, mark:'#4285F4', initial:'B', slug:'googlebigquery' },
-    { name:'Redshift',         cat:'Databases', cats:['Databases'],               popular:false, mark:'#8C4FFF', initial:'R', slug:'amazonredshift' },
-    { name:'MongoDB',          cat:'Databases', cats:['Databases'],               popular:false, mark:'#13AA52', initial:'M', slug:'mongodb' },
+    { name:'PostgreSQL',          cat:'Databases',           cats:['Databases'],                          popular:true,  mark:'#336791', initial:'P', slug:'postgresql' },
+    { name:'MySQL',               cat:'Databases',           cats:['Databases'],                          popular:true,  mark:'#00758F', initial:'M', slug:'mysql' },
+    { name:'Snowflake',           cat:'Databases',           cats:['Databases','Analytics'],              popular:true,  mark:'#29B5E8', initial:'S', slug:'snowflake' },
+    { name:'BigQuery',            cat:'Databases',           cats:['Databases','Analytics'],              popular:false, mark:'#4285F4', initial:'B', slug:'googlebigquery' },
+    { name:'Redshift',            cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#8C4FFF', initial:'R', slug:'amazonredshift' },
+    { name:'MongoDB',             cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#13AA52', initial:'M', slug:'mongodb' },
+    { name:'Redis',               cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#DC382D', initial:'R', slug:'redis' },
+    { name:'Elasticsearch',       cat:'Databases',           cats:['Databases','Analytics'],              popular:false, mark:'#005571', initial:'E', slug:'elasticsearch' },
+    { name:'Cassandra',           cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#1287B1', initial:'C', slug:'apachecassandra' },
+    { name:'Oracle',              cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#F80000', initial:'O', slug:'oracle' },
+    { name:'SQL Server',          cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#CC2927', initial:'S', slug:'microsoftsqlserver' },
+    { name:'DynamoDB',            cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#4053D6', initial:'D', slug:'amazondynamodb' },
     /* CRM */
-    { name:'Salesforce',       cat:'CRM',       cats:['CRM','Analytics'],         popular:true,  mark:'#00A1E0', initial:'S', slug:'salesforce' },
-    { name:'HubSpot',          cat:'CRM',       cats:['CRM','Marketing'],         popular:true,  mark:'#FF7A59', initial:'H', slug:'hubspot' },
-    { name:'Pipedrive',        cat:'CRM',       cats:['CRM'],                     popular:false, mark:'#1A1A1A', initial:'P', slug:'pipedrive' },
+    { name:'Salesforce',          cat:'CRM',                 cats:['CRM','Analytics'],                    popular:true,  mark:'#00A1E0', initial:'S', slug:'salesforce' },
+    { name:'HubSpot',             cat:'CRM',                 cats:['CRM','Marketing'],                    popular:true,  mark:'#FF7A59', initial:'H', slug:'hubspot' },
+    { name:'Pipedrive',           cat:'CRM',                 cats:['CRM'],                                popular:false, mark:'#1A1A1A', initial:'P', slug:'pipedrive' },
+    { name:'Zoho CRM',            cat:'CRM',                 cats:['CRM'],                                popular:false, mark:'#E42527', initial:'Z', slug:'zoho' },
+    { name:'Freshsales',          cat:'CRM',                 cats:['CRM','Support'],                      popular:false, mark:'#1BD3AE', initial:'F', slug:'freshworks' },
     /* Marketing */
-    { name:'Mailchimp',        cat:'Marketing', cats:['Marketing'],               popular:true,  mark:'#FFE01B', initial:'M', slug:'mailchimp' },
-    { name:'Klaviyo',          cat:'Marketing', cats:['Marketing'],               popular:false, mark:'#1B1B1B', initial:'K', slug:'klaviyo' },
-    { name:'Google Ads',       cat:'Marketing', cats:['Marketing','Analytics'],   popular:false, mark:'#4285F4', initial:'G', slug:'googleads' },
+    { name:'Mailchimp',           cat:'Marketing',           cats:['Marketing'],                          popular:true,  mark:'#FFE01B', initial:'M', slug:'mailchimp' },
+    { name:'Klaviyo',             cat:'Marketing',           cats:['Marketing'],                          popular:false, mark:'#1B1B1B', initial:'K', slug:'klaviyo' },
+    { name:'Google Ads',          cat:'Marketing',           cats:['Marketing','Analytics'],              popular:false, mark:'#4285F4', initial:'G', slug:'googleads' },
+    { name:'Marketo',             cat:'Marketing',           cats:['Marketing'],                          popular:false, mark:'#5C4C9F', initial:'M', slug:'marketo' },
+    { name:'ActiveCampaign',      cat:'Marketing',           cats:['Marketing','CRM'],                    popular:false, mark:'#356AE6', initial:'A', slug:'activecampaign' },
+    { name:'Constant Contact',    cat:'Marketing',           cats:['Marketing'],                          popular:false, mark:'#1454A0', initial:'C', slug:'constantcontact' },
     /* Finance */
-    { name:'Stripe',           cat:'Finance',   cats:['Finance','Analytics'],     popular:true,  mark:'#635BFF', initial:'S', slug:'stripe' },
-    { name:'QuickBooks',       cat:'Finance',   cats:['Finance'],                 popular:false, mark:'#2CA01C', initial:'Q', slug:'quickbooks' },
-    { name:'Xero',             cat:'Finance',   cats:['Finance'],                 popular:false, mark:'#13B5EA', initial:'X', slug:'xero' },
+    { name:'Stripe',              cat:'Finance',             cats:['Finance','Analytics'],                popular:true,  mark:'#635BFF', initial:'S', slug:'stripe' },
+    { name:'QuickBooks',          cat:'Finance',             cats:['Finance'],                            popular:false, mark:'#2CA01C', initial:'Q', slug:'quickbooks' },
+    { name:'Xero',                cat:'Finance',             cats:['Finance'],                            popular:false, mark:'#13B5EA', initial:'X', slug:'xero' },
+    { name:'FreshBooks',          cat:'Finance',             cats:['Finance'],                            popular:false, mark:'#1DA462', initial:'F', slug:'freshbooks' },
     /* Analytics */
-    { name:'Google Analytics', cat:'Analytics', cats:['Analytics','Marketing'],   popular:true,  mark:'#E37400', initial:'G', slug:'googleanalytics' },
-    { name:'Mixpanel',         cat:'Analytics', cats:['Analytics','Marketing'],   popular:false, mark:'#7856FF', initial:'M', slug:'mixpanel' },
-    { name:'Amplitude',        cat:'Analytics', cats:['Analytics'],               popular:false, mark:'#1E61F0', initial:'A', slug:'amplitude' },
+    { name:'Google Analytics',    cat:'Analytics',           cats:['Analytics','Marketing'],              popular:true,  mark:'#E37400', initial:'G', slug:'googleanalytics' },
+    { name:'Mixpanel',            cat:'Analytics',           cats:['Analytics','Marketing'],              popular:false, mark:'#7856FF', initial:'M', slug:'mixpanel' },
+    { name:'Amplitude',           cat:'Analytics',           cats:['Analytics'],                          popular:false, mark:'#1E61F0', initial:'A', slug:'amplitude' },
+    { name:'Looker',              cat:'Analytics',           cats:['Analytics'],                          popular:false, mark:'#4285F4', initial:'L', slug:'looker' },
+    { name:'Power BI',            cat:'Analytics',           cats:['Analytics'],                          popular:false, mark:'#F2C811', initial:'P', slug:'powerbi' },
+    { name:'Segment',             cat:'Analytics',           cats:['Analytics','Marketing'],              popular:false, mark:'#52BD95', initial:'S', slug:'segment' },
+    { name:'Tableau',             cat:'Analytics',           cats:['Analytics'],                          popular:false, mark:'#E97627', initial:'T', slug:'tableau' },
     /* Support */
-    { name:'Zendesk',          cat:'Support',   cats:['Support'],                 popular:true,  mark:'#03363D', initial:'Z', slug:'zendesk' },
-    { name:'Intercom',         cat:'Support',   cats:['Support','CRM'],           popular:false, mark:'#1F8DED', initial:'I', slug:'intercom' },
-    { name:'Freshdesk',        cat:'Support',   cats:['Support'],                 popular:false, mark:'#25C16F', initial:'F', slug:'freshdesk' },
+    { name:'Zendesk',             cat:'Support',             cats:['Support'],                            popular:true,  mark:'#03363D', initial:'Z', slug:'zendesk' },
+    { name:'Intercom',            cat:'Support',             cats:['Support','CRM'],                      popular:false, mark:'#1F8DED', initial:'I', slug:'intercom' },
+    { name:'Freshdesk',           cat:'Support',             cats:['Support'],                            popular:false, mark:'#25C16F', initial:'F', slug:'freshdesk' },
+    { name:'Help Scout',          cat:'Support',             cats:['Support'],                            popular:false, mark:'#1292EE', initial:'H', slug:'helpscout' },
+    /* HR */
+    { name:'Workday',             cat:'HR',                  cats:['HR'],                                 popular:true,  mark:'#F5820B', initial:'W', slug:'workday' },
+    { name:'BambooHR',            cat:'HR',                  cats:['HR'],                                 popular:false, mark:'#73C41D', initial:'B', slug:'bamboohr' },
+    { name:'ADP',                 cat:'HR',                  cats:['HR','Finance'],                       popular:false, mark:'#D9232F', initial:'A', slug:'adp' },
+    { name:'Greenhouse',          cat:'HR',                  cats:['HR'],                                 popular:false, mark:'#24A47F', initial:'G', slug:'greenhouse' },
+    { name:'Lever',               cat:'HR',                  cats:['HR'],                                 popular:false, mark:'#00B49C', initial:'L', slug:'lever' },
+    /* DevOps */
+    { name:'GitHub',              cat:'DevOps',              cats:['DevOps'],                             popular:true,  mark:'#181717', initial:'G', slug:'github' },
+    { name:'GitLab',              cat:'DevOps',              cats:['DevOps'],                             popular:true,  mark:'#FC6D26', initial:'G', slug:'gitlab' },
+    { name:'Jenkins',             cat:'DevOps',              cats:['DevOps'],                             popular:false, mark:'#D24939', initial:'J', slug:'jenkins' },
+    { name:'CircleCI',            cat:'DevOps',              cats:['DevOps'],                             popular:false, mark:'#343434', initial:'C', slug:'circleci' },
+    { name:'Datadog',             cat:'DevOps',              cats:['DevOps','Analytics'],                 popular:false, mark:'#632CA6', initial:'D', slug:'datadog' },
+    { name:'PagerDuty',           cat:'DevOps',              cats:['DevOps'],                             popular:false, mark:'#06AC38', initial:'P', slug:'pagerduty' },
+    { name:'New Relic',           cat:'DevOps',              cats:['DevOps','Analytics'],                 popular:false, mark:'#008C99', initial:'N', slug:'newrelic' },
+    { name:'Sentry',              cat:'DevOps',              cats:['DevOps'],                             popular:false, mark:'#362D59', initial:'S', slug:'sentry' },
+    /* Project Management */
+    { name:'Jira',                cat:'Project Management',  cats:['Project Management'],                 popular:true,  mark:'#0052CC', initial:'J', slug:'jira' },
+    { name:'Asana',               cat:'Project Management',  cats:['Project Management'],                 popular:true,  mark:'#F06A6A', initial:'A', slug:'asana' },
+    { name:'Trello',              cat:'Project Management',  cats:['Project Management'],                 popular:false, mark:'#0052CC', initial:'T', slug:'trello' },
+    { name:'Monday.com',          cat:'Project Management',  cats:['Project Management'],                 popular:false, mark:'#F62B54', initial:'M', slug:'mondaydotcom' },
+    { name:'Notion',              cat:'Project Management',  cats:['Project Management'],                 popular:false, mark:'#000000', initial:'N', slug:'notion' },
+    { name:'Basecamp',            cat:'Project Management',  cats:['Project Management'],                 popular:false, mark:'#1D2D35', initial:'B', slug:'basecamp' },
+    { name:'Linear',              cat:'Project Management',  cats:['Project Management','DevOps'],        popular:false, mark:'#5E6AD2', initial:'L', slug:'linear' },
+    /* Storage */
+    { name:'AWS S3',              cat:'Storage',             cats:['Storage'],                            popular:true,  mark:'#569A31', initial:'S', slug:'amazons3' },
+    { name:'Google Cloud Storage',cat:'Storage',             cats:['Storage'],                            popular:false, mark:'#4285F4', initial:'G', slug:'googlecloud' },
+    { name:'Azure Blob Storage',  cat:'Storage',             cats:['Storage'],                            popular:false, mark:'#0078D4', initial:'A', slug:'microsoftazure' },
+    { name:'Dropbox',             cat:'Storage',             cats:['Storage'],                            popular:false, mark:'#0061FF', initial:'D', slug:'dropbox' },
+    { name:'Box',                 cat:'Storage',             cats:['Storage'],                            popular:false, mark:'#0061D5', initial:'B', slug:'box' },
+    /* Communication */
+    { name:'Slack',               cat:'Communication',       cats:['Communication'],                      popular:true,  mark:'#4A154B', initial:'S', slug:'slack' },
+    { name:'Microsoft Teams',     cat:'Communication',       cats:['Communication'],                      popular:true,  mark:'#6264A7', initial:'T', slug:'microsoftteams' },
+    { name:'Discord',             cat:'Communication',       cats:['Communication'],                      popular:false, mark:'#5865F2', initial:'D', slug:'discord' },
+    { name:'Zoom',                cat:'Communication',       cats:['Communication'],                      popular:false, mark:'#2D8CFF', initial:'Z', slug:'zoom' },
+    { name:'Twilio',              cat:'Communication',       cats:['Communication'],                      popular:false, mark:'#F22F46', initial:'T', slug:'twilio' },
+    /* E-commerce */
+    { name:'Shopify',             cat:'E-commerce',          cats:['E-commerce','Analytics'],             popular:true,  mark:'#96BF48', initial:'S', slug:'shopify' },
+    { name:'WooCommerce',         cat:'E-commerce',          cats:['E-commerce'],                         popular:false, mark:'#7F54B3', initial:'W', slug:'woocommerce' },
+    { name:'Magento',             cat:'E-commerce',          cats:['E-commerce'],                         popular:false, mark:'#EE672F', initial:'M', slug:'magento' },
+    { name:'BigCommerce',         cat:'E-commerce',          cats:['E-commerce'],                         popular:false, mark:'#121118', initial:'B', slug:'bigcommerce' },
   ];
   /* Connected (State 2): subset by name + per-source status (active / error). */
   var CONNECTED = [
@@ -530,8 +590,10 @@
       + ' onerror="dsMarkFallback(this,\'' + initial + '\',\'' + esc + '\')">';
   }
 
-  /* Unified filter state вЂ" single chip row/grid, no per-state split. */
-  var STATE = {cat:'All', q:''};
+  /* Unified filter state — single chip row/grid, no per-state split. */
+  var STATE = {cat:'All', q:'', page:1};
+  var PAGE_SIZE = 18;
+  var _dsObserver = null;
 
   function dsCount(cat){
     if (cat === 'All') return CONNECTORS.length;
@@ -605,25 +667,28 @@
 
   function dsFilterSearch(q){
     STATE.q = q.trim().toLowerCase();
+    STATE.page = 1;
     dsRenderGrid();
   }
   function dsClearSearch(){
     var inp = document.getElementById('ds-search-input');
     if(inp){ inp.value = ''; }
     STATE.q = '';
+    STATE.page = 1;
     dsRenderGrid();
   }
 
   function dsToggleCardStyle(){
     DS_CARD_STYLE = DS_CARD_STYLE === 1 ? 2 : 1;
+    STATE.page = 1;
     dsRenderGrid();
   }
 
-  function dsRenderGrid(){
+  function dsGetFiltered(){
     var connectedNames = CONNECTED.map(function(c){return c.name;});
     /* Connected items live exclusively in the compact list above — always filter them out of the
        catalog so there is never any duplication regardless of empty/connected state. */
-    var filtered = CONNECTORS.filter(function(c){
+    return CONNECTORS.filter(function(c){
       if(STATE.cat !== 'All'){
         /* Style 2 filters against multi-category array; style 1 uses single cat */
         var cats = DS_CARD_STYLE === 2 ? (c.cats || [c.cat]) : [c.cat];
@@ -633,10 +698,45 @@
       if(STATE.q && c.name.toLowerCase().indexOf(STATE.q) === -1) return false;
       return true;
     });
+  }
+
+  function dsRenderGrid(){
+    if(_dsObserver){ _dsObserver.disconnect(); _dsObserver = null; }
+    var filtered = dsGetFiltered();
     var host = document.getElementById('ds-grid');
     var emptyMsg = '<div style="grid-column:1/-1;padding:1.5rem;text-align:center;color:var(--ink-secondary);font-size:.8125rem">No connectors match your filters.</div>';
     var cardFn = DS_CARD_STYLE === 2 ? dsCard2Html : dsCardHtml;
-    host.innerHTML = filtered.map(cardFn).join('') || emptyMsg;
+    var prevCount = (STATE.page - 1) * PAGE_SIZE;
+    var slice = filtered.slice(0, STATE.page * PAGE_SIZE);
+    if(STATE.page === 1){
+      /* Full reset — replace entire grid content */
+      host.innerHTML = slice.length ? slice.map(cardFn).join('') : emptyMsg;
+    } else {
+      /* Append mode — remove old sentinel, append only new cards */
+      var oldSentinel = host.querySelector('.ds-load-sentinel');
+      if(oldSentinel){ host.removeChild(oldSentinel); }
+      var newCards = filtered.slice(prevCount, STATE.page * PAGE_SIZE);
+      if(newCards.length){
+        var frag = document.createDocumentFragment();
+        var tmp = document.createElement('div');
+        tmp.innerHTML = newCards.map(cardFn).join('');
+        while(tmp.firstChild){ frag.appendChild(tmp.firstChild); }
+        host.appendChild(frag);
+      }
+    }
+    if(slice.length < filtered.length){
+      var sentinel = document.createElement('div');
+      sentinel.className = 'ds-load-sentinel';
+      sentinel.setAttribute('aria-hidden','true');
+      host.appendChild(sentinel);
+      _dsObserver = new IntersectionObserver(function(entries){
+        if(entries[0].isIntersecting){
+          STATE.page++;
+          dsRenderGrid();
+        }
+      }, {rootMargin:'200px'});
+      _dsObserver.observe(sentinel);
+    }
   }
 
   function dsConnRowHtml(c, src){
@@ -744,7 +844,7 @@
   /* Click delegation — category chips + connected-row kebab menus. */
   document.addEventListener('click', function(e){
     var cat = e.target.closest('.chip[data-cat]');
-    if(cat){ STATE.cat = cat.getAttribute('data-cat'); dsRenderCats(); dsRenderGrid(); return; }
+    if(cat){ STATE.cat = cat.getAttribute('data-cat'); STATE.page = 1; dsRenderCats(); dsRenderGrid(); return; }
     var more = e.target.closest('[data-action="more"]');
     if(more){
       e.stopPropagation();
