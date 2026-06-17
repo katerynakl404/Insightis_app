@@ -1,4 +1,4 @@
-# File — prod → expected
+﻿# File — prod → expected
 
 Source: `@insightis/ui` `File/index.tsx` + `FileRightSlot`, `FileDismiss`, `FileRetry`, `FileSkeleton`. Baseline: [`../current/File.md`](../current/File.md).
 

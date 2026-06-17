@@ -1,14 +1,14 @@
-# Modal — prod → expected
+﻿# Modal — prod → expected
 
 Modal's shell tokens stay close to prod; the changes are mostly inherited from the components it embeds (Button + text colours).
 
-| Part | Current (prod) | Expected |
-|---|---|---|
-| Border | `Stroke/Border` `#F0F5FA` | `#E2E8F0` (Slate-200) |
-| Title | `content-primary` `#111827` | `Text/Primary` `#0F172A` (Slate-900) |
-| Body text | `content-secondary` | `Text/Secondary` (Slate-500 / Grey-400) |
-| **Cancel action** | `Button outline` (teal border / transparent bg) | **`Button secondary`** — filled card-style, lower emphasis than Outlined; hover always lighter than default |
-| **Destructive action** | `Button destructive` (themed: light `#C10007`, dark `#7D1B1B` ⚠ failed AA) | **`Button destructive`** — now uses theme-independent `Feedback/Red` (`#B91C1C`, Red-700) with hover `Feedback/Error_Hover` (Red-800) and press `Feedback/Error_Press` (Red-850). AA in both themes. |
+| Part | Current (prod) | v1.0 | Expected | Specification |
+|---|---|---|---|---|
+| Border | `Stroke/Border` `#F0F5FA` | — | `#E2E8F0` (Slate-200) | Bumped one step for visibility — matches `--border` light token update |
+| Title | `content-primary` `#111827` | — | `Text/Primary` `#0F172A` (Slate-900) | Token rename; visually near-identical |
+| Body text | `content-secondary` | — | `Text/Secondary` (Slate-500 / Grey-400) | Token rename |
+| **Cancel action** | `Button outline` (teal border / transparent bg) | — | **`Button secondary`** — filled card-style, lower emphasis than Outlined; hover always lighter than default | Emphasis shift: secondary fills with `Surface/Card` so "Cancel" reads below the primary destructive action |
+| **Destructive action** | `Button destructive` (themed: light `#C10007`, dark `#7D1B1B` ⚠ failed AA) | — | **`Button destructive`** — now uses theme-independent `Feedback/Red` (`#B91C1C`, Red-700) with hover `Feedback/Error_Hover` (Red-800) and press `Feedback/Error_Press` (Red-850). AA in both themes. | Dark theme was 2.76:1 against Card surface — failed WCAG AA. Fix at semantic layer (`--fb-red` pinned to Red-700, theme-independent). |
 
 ## Component reuse note
 

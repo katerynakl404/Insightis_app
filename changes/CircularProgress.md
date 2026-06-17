@@ -1,4 +1,4 @@
-# CircularProgress — prod → expected
+﻿# CircularProgress — prod → expected
 
 Source: `@insightis/ui` `CircularProgress/index.tsx`. Baseline: [`../current/CircularProgress.md`](../current/CircularProgress.md).
 

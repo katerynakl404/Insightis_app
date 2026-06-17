@@ -56,54 +56,58 @@
 
 <div class="layout">
   <aside class="side">
-    <div class="toc-legend">has component / structural change (beyond hex)</div>
     <div class="grp">Foundations</div>
     <a href="#colors">Colors &amp; tokens</a>
     <a href="#typography">Typography</a>
     <a href="#radius">Radius &amp; spacing</a>
     <div class="grp">Actions</div>
-    <a href="#button" class="has-chg">Button</a>
-    <a href="#iconbutton" class="has-chg">IconButton</a>
+    <a href="#button">Button</a>
+    <a href="#iconbutton">IconButton</a>
+    <a href="#link">Link</a>
     <div class="grp">Forms</div>
-    <a href="#input" class="has-chg">Input</a>
+    <a href="#input">Input</a>
     <a href="#textarea">TextArea</a>
-    <a href="#checkbox" class="has-chg">Checkbox</a>
-    <a href="#switch" class="has-chg">Switch</a>
+    <a href="#checkbox">Checkbox</a>
+    <a href="#switch">Switch</a>
     <a href="#segctrl">SegmentedControl</a>
     <div class="grp">Data display</div>
-    <a href="#badge" class="has-chg">Badge</a>
+    <a href="#badge">Badge</a>
     <a href="#avatar">Avatar</a>
-    <a href="#table" class="has-chg">Table</a>
+    <a href="#table">Table</a>
     <a href="#tabs">Tabs</a>
     <a href="#chip">Chip</a>
     <div class="grp">Feedback</div>
     <a href="#progress">ProgressBar</a>
     <a href="#spinner">Spinner</a>
-    <a href="#tooltip" class="has-chg">Tooltip</a>
+    <a href="#tooltip">Tooltip</a>
     <div class="grp">Overlays</div>
-    <a href="#dropdown" class="has-chg">Dropdown</a>
-    <a href="#modal" class="has-chg">Modal</a>
-    <a href="#pagination" class="has-chg">Pagination</a>
+    <a href="#dropdown">Dropdown</a>
+    <a href="#modal">Modal</a>
+    <a href="#pagination">Pagination</a>
     <div class="grp">Navigation</div>
-    <a href="#sidebar" class="has-chg">Sidebar</a>
+    <a href="#sidebar">Sidebar</a>
     <a href="#truncated">TruncatedTitleTooltip</a>
     <a href="#metarow">MetaRow</a>
-    <a href="#chatrow" class="has-chg">ChatRow</a>
+    <a href="#chatrow">ChatRow</a>
+    <a href="#provcard">Provider Card</a>
     <div class="grp">Layout · headless</div>
     <a href="#accordion">Accordion</a>
     <a href="#statusview">StatusView</a>
     <a href="#resizable">Resizable</a>
     <a href="#stepper">Stepper</a>
     <div class="grp">Surfaces</div>
-    <a href="#card" class="has-chg">Card</a>
+    <a href="#banner">Banner</a>
+    <a href="#prov-card">Provider Card</a>
+    <a href="#card">Card</a>
     <a href="#separator">Separator</a>
-    <a href="#sheet" class="has-chg">Sheet</a>
-    <a href="#popover" class="has-chg">Popover</a>
+    <a href="#sheet">Sheet</a>
+    <a href="#popover">Popover</a>
     <a href="#scrollshadow">ScrollShadow</a>
     <div class="grp">Forms (advanced)</div>
-    <a href="#inputgroup" class="has-chg">InputGroup</a>
+    <a href="#inputgroup">InputGroup</a>
     <a href="#passwordinput">PasswordInput</a>
     <a href="#autocomplete">Autocomplete</a>
+    <a href="#selector">Selector</a>
     <a href="#datepicker">Datepicker</a>
     <a href="#file">File</a>
     <div class="grp">Feedback (advanced)</div>
@@ -122,9 +126,10 @@
       <h2>Colors &amp; tokens</h2>
       <div class="sub">Primitives (raw hex) → semantic tokens (mode-aware).</div>
       <div><a class="chg" href="changes/colors.md">Changes ↗</a></div>
-      <div class="variant-label">Brand — custom teal</div>
+      <div class="variant-label">Brand — custom teal + soft variants</div>
       <div class="palette">
         <div><div class="swatch" style="background:#E8F2F5"></div><div class="tok">50 · E8F2F5</div></div>
+        <div><div class="swatch" style="background:#F0F6F8"></div><div class="tok">50-soft* · F0F6F8</div></div>
         <div><div class="swatch" style="background:#C7DDE5"></div><div class="tok">100 · C7DDE5</div></div>
         <div><div class="swatch" style="background:#93C0C8"></div><div class="tok">200 · 93C0C8</div></div>
         <div><div class="swatch" style="background:#5DA0A8"></div><div class="tok">300 · 5DA0A8</div></div>
@@ -134,6 +139,7 @@
         <div><div class="swatch" style="background:#066867"></div><div class="tok">700 · 066867</div></div>
         <div><div class="swatch" style="background:#142B31"></div><div class="tok">800 · 142B31</div></div>
         <div><div class="swatch" style="background:#0A1A1F"></div><div class="tok">900 · 0A1A1F</div></div>
+        <div><div class="swatch" style="background:#111A1C"></div><div class="tok">900-soft* · 111A1C</div></div>
       </div>
       <div class="variant-label">Tertiary — custom cyan-teal</div>
       <div class="palette">
@@ -200,7 +206,9 @@
         <div class="card-panel"><div class="swatch" style="background:var(--card)"></div><div class="tok" style="color:var(--ink)">Surface/Card</div></div>
         <div class="card-panel"><div class="swatch" style="background:var(--card2)"></div><div class="tok" style="color:var(--ink)">Surface/Card 2</div></div>
         <div class="card-panel"><div class="swatch" style="background:var(--chips)"></div><div class="tok" style="color:var(--ink)">Surface/Chips</div></div>
+        <div class="card-panel"><div class="swatch" style="background:var(--surface-accent)"></div><div class="tok" style="color:var(--ink)">Surface/Accent <span style="font-size:.6875rem;color:var(--fb-attention);font-weight:700">NEW</span></div></div>
       </div>
+
       <div class="variant-label">Semantic tokens — Brand</div>
       <div class="semgrid">
         <div class="card-panel"><div class="swatch" style="background:var(--brand-primary)"></div><div class="tok" style="color:var(--ink)">Brand/Primary</div></div>
@@ -475,12 +483,48 @@
           </tbody></table>
         </div>
       </div>
+
+      <div class="variant-label">Destructive Outlined <span style="font-size:.6875rem;color:var(--fb-attention);font-weight:700">NEW</span></div>
+      <div class="block">
+        <div class="block-h">Preview — interactive</div>
+        <div class="block-b">
+          <div class="ce">
+            <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod" style="justify-content:flex-start;padding:1.2rem .85rem"><span class="colhint">— did not exist</span></div></div>
+            <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><button class="btn btn-md btn-outline-destructive">Delete</button></div><div style="padding:.5rem .7rem"><div class="cspec"><b>negative outlined</b>: border <code>--btn-outline-destructive-border</code> (light Red-700 / dark Red-800 — dimmed on dark to avoid red-700 reading as too saturated against the near-black Card surface), bg transparent, text <code>Text/Body</code> — mirrors Outlined (coloured border + neutral label; the border carries the danger identity, the label stays readable). <b>hover</b> border <code>--btn-outline-destructive-border-hover</code> + bg <code>--btn-outline-destructive-bg-hover</code> · <b>pressed</b> border same, bg <code>--btn-outline-destructive-bg-press</code>. Both overlay tokens are <b>theme-aware</b>: light @6%/@8%, <b>dark @14%/@22%</b> — red gets absorbed by dark surfaces, so the dark theme uses stronger percentages for parity of perceived prominence. Border-hover also flips direction (light Red-800 darker / dark Red-500 lighter), <b>focus</b> ring <code>--focus-ring</code> (neutral, not red — avoids red-on-red). Low-emphasis destructive action (inline "Remove" / "Discard" / cancel buttons)</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-h">States — specification: was → became</div>
+        <div class="block-b" style="padding:0">
+          <table class="stbl"><thead><tr><th>State</th><th>Current (prod) · was</th><th>Expected · became</th></tr></thead><tbody>
+            <tr><td class="stname">Default</td>
+              <td class="stcell"><span class="colhint">— did not exist</span></td>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive">Delete</button></span><div class="cspec"><b>became:</b> border <code>--btn-outline-destructive-border</code> (light Red-700 / dark Red-800 — dimmed on dark to avoid over-saturation against the near-black surface), bg transparent, text <code>Text/Body</code></div></td></tr>
+            <tr><td class="stname">Hover</td>
+              <td class="stcell"><span class="colhint">— did not exist</span></td>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-hover">Delete</button></span><div class="cspec"><b>became:</b> border <code>--btn-outline-destructive-border-hover</code> (light Red-800 / dark Red-500 — flips direction so border stays visible on dark), bg <code>--btn-outline-destructive-bg-hover</code> (light Red @6% / dark @14% — bumped because red is absorbed by dark surfaces), text <code>Text/Body</code></div></td></tr>
+            <tr><td class="stname">Pressed</td>
+              <td class="stcell"><span class="colhint">— did not exist</span></td>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-pressed">Delete</button></span><div class="cspec"><b>became:</b> border <code>--btn-outline-destructive-border-hover</code> (same theme-aware values as hover), bg <code>--btn-outline-destructive-bg-press</code> (light Red @8% / dark @22%), text <code>Text/Body</code></div></td></tr>
+            <tr><td class="stname">Focus</td>
+              <td class="stcell"><span class="colhint">— did not exist</span></td>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-focus">Delete</button></span><div class="cspec"><b>became:</b> ring <code>--focus-ring</code> (neutral contrast — Slate-900 light / Slate-100 dark) 2px + 2px <code>Surface/Card</code> gap. Neutral rather than red to avoid red-on-red.</div></td></tr>
+            <tr><td class="stname">Disabled</td>
+              <td class="stcell"><span class="colhint">— did not exist</span></td>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-disabled">Delete</button></span><div class="cspec"><b>became:</b> border + text <code>Text/Inactive</code>, bg transparent — no longer red-tinted</div></td></tr>
+            <tr><td class="stname">Loading</td>
+              <td class="stcell"><span class="colhint">— did not exist</span></td>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-loading" aria-busy="true"><span class="spinner"></span>Loading</button></span><div class="cspec"><b>became:</b> spinner (<code>currentColor</code> = Text/Body, matching the label) + label, <code>aria-busy</code>, <b><code>--opacity-disabled</code></b> on the variant — the red border remains as the destructive signal</div></td></tr>
+          </tbody></table>
+        </div>
+      </div>
     </section>
 
     <!-- ===== ICONBUTTON ===== -->
     <section class="comp" id="iconbutton">
       <h2>IconButton</h2>
-      <div class="sub">36×36, radius <code>md 6px</code>, icon 18px. Three variants reuse the Button tokens 1:1 — no IconButton-specific colour tokens.</div>
+      <div class="sub">36×36, radius <code>md 6px</code>, icon 18px. Variants reuse Button tokens 1:1 — no IconButton-specific colour tokens.</div>
       <div><a class="chg" href="changes/IconButton.md">Changes ↗</a></div>
 
       <div class="variant-label">Primary</div>
@@ -555,9 +599,48 @@
         </tbody></table>
       </div></div>
 
+      <div class="variant-label">Destructive Outlined <span style="font-size:.6875rem;color:var(--fb-attention);font-weight:700">NEW</span></div>
+      <div class="block"><div class="block-h">Preview — interactive</div><div class="block-b">
+        <div class="ce">
+          <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod" style="justify-content:flex-start;padding:1.2rem .85rem"><span class="colhint">— did not exist</span></div></div>
+          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><button class="iconbtn iconbtn-outline-destructive" aria-label="Delete"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></div><div style="padding:.5rem .7rem"><div class="cspec">negative outlined: border <code>--btn-outline-destructive-border</code> (light Red-700 / dark Red-800), bg transparent, icon <code>Text/Body</code> — mirrors Outlined (coloured border + neutral label); same tokens as Button Destructive Outlined</div></div></div>
+        </div>
+      </div></div>
+      <div class="block"><div class="block-h">States — specification: was → became</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>State</th><th>Current (prod) · was</th><th>Expected · became</th></tr></thead><tbody>
+          <tr><td class="stname">Default</td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><button class="iconbtn iconbtn-outline-destructive" aria-label="Delete"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></span><div class="cspec"><b>became:</b> border <code>--btn-outline-destructive-border</code> (light Red-700 / dark Red-800), bg transparent, icon <code>Text/Body</code></div></td></tr>
+          <tr><td class="stname">Hover</td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><button class="iconbtn iconbtn-outline-destructive s-hover" aria-label="Delete"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></span><div class="cspec"><b>became:</b> border <code>--btn-outline-destructive-border-hover</code> (light Red-800 / dark Red-500 — flips direction so border stays visible on dark), bg <code>--btn-outline-destructive-bg-hover</code> (light Red @6% / dark @14% — bumped because red is absorbed by dark surfaces), text <code>Text/Body</code></div></td></tr>
+          <tr><td class="stname">Pressed</td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><button class="iconbtn iconbtn-outline-destructive s-pressed" aria-label="Delete"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></span><div class="cspec"><b>became:</b> border <code>--btn-outline-destructive-border-hover</code> (same theme-aware values as hover), bg <code>--btn-outline-destructive-bg-press</code> (light Red @8% / dark @22%), text <code>Text/Body</code></div></td></tr>
+          <tr><td class="stname">Focus</td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><button class="iconbtn iconbtn-outline-destructive s-focus" aria-label="Delete"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></span><div class="cspec"><b>became:</b> ring <code>--focus-ring</code> (neutral)</div></td></tr>
+          <tr><td class="stname">Disabled</td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><button class="iconbtn iconbtn-outline-destructive s-disabled" aria-label="Delete"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></span><div class="cspec"><b>became:</b> border + icon <code>Text/Inactive</code>, bg transparent</div></td></tr>
+          <tr><td class="stname">Loading</td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><button class="iconbtn iconbtn-outline-destructive s-loading" aria-busy="true"><span class="spinner"></span></button></span><div class="cspec"><b>became:</b> spinner, <code>aria-busy</code>, <code>--opacity-disabled</code></div></td></tr>
+        </tbody></table>
+      </div></div>
+
       <div class="block"><div class="block-h">Best-practice states — <span class="pend">to fill</span></div><div class="block-b" style="padding:0">
         <table class="stbl"><thead><tr><th>State</th><th>Current (prod)</th><th>Expected</th><th>Specification</th></tr></thead><tbody>
           <tr><td class="stname">Active / toggled</td><td class="stcell"><div class="fill"></div></td><td class="stcell"><div class="fill"></div></td><td><div class="fill" style="min-width:130px"></div></td></tr>
+        </tbody></table>
+      </div></div>
+    </section>
+
+    <!-- ===== LINK ===== -->
+    <section class="comp" id="link">
+      <h2>Link</h2>
+      <div class="sub">Inline text-link — colour via <code>--ink-highlight</code> (theme-adaptive: Brand-700 light / Brand-400 dark, AA in both). Hover underline sits 25% of font-size below the baseline so the rule has clear separation from descenders. Focus-visible: brand-tinted 2 px ring + 2 px <code>Surface/Card</code> gap.</div>
+      <div><a class="chg" href="changes/Link.md">Changes ↗</a></div>
+      <div class="block"><div class="block-h">Preview — hover &amp; focus</div><div class="block-b">
+        <div class="ce">
+          <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod"><a class="link" href="#link">Change password</a></div><div style="padding:.5rem .7rem"><div class="cspec">prod: native <code>&lt;a&gt;</code> with <code>color:accent</code> + browser-default underline (always on); no dedicated <code>.link</code> class</div></div></div>
+          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><a class="link" href="#link">Change password</a></div><div style="padding:.5rem .7rem"><div class="cspec"><b>became:</b> <code>.link</code> class — colour <code>--ink-highlight</code> (theme-adaptive), no underline at rest, underline appears on hover at <code>text-underline-offset:25%</code> for separation from descenders; brand focus-visible ring</div></div></div>
+        </div>
+      </div></div>
+      <div class="block"><div class="block-h">States — was → became</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>State</th><th>Current (prod) · was</th><th>Expected · became</th></tr></thead><tbody>
+          <tr><td class="stname">Default</td><td class="stcell"><span class="ministage prod"><a class="link" href="#link">Change password</a></span><div class="cspec">colour <code>accent</code>, browser-default underline always on</div></td><td class="stcell"><span class="ministage"><a class="link" href="#link">Change password</a></span><div class="cspec"><b>became:</b> colour <code>--ink-highlight</code>, no underline at rest — feels lighter in body copy until cursor reveals interactivity</div></td></tr>
+          <tr><td class="stname">Hover</td><td class="stcell"><span class="ministage prod"><a class="link" href="#link" style="text-decoration:underline">Change password</a></span><div class="cspec">no change from default (underline already on)</div></td><td class="stcell"><span class="ministage"><a class="link" href="#link" style="text-decoration:underline;text-underline-offset:25%;text-decoration-thickness:1px">Change password</a></span><div class="cspec"><b>became:</b> underline appears, sitting <code>25%</code> of font-size below the baseline, <code>1 px</code> thickness — crisper separation from descenders than browser default</div></td></tr>
+          <tr><td class="stname">Focus (keyboard)</td><td class="stcell"><span class="colhint">⚠ browser-default focus ring</span></td><td class="stcell"><span class="ministage"><a class="link" href="#link" style="outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand);border-radius:.125rem">Change password</a></span><div class="cspec"><b>became:</b> <code>box-shadow:0 0 0 2px Surface/Card, 0 0 0 4px --focus-ring-brand</code> — same recipe as Button / IconButton / nav rows</div></td></tr>
+          <tr><td class="stname">Disabled</td><td class="stcell"><span class="colhint">⚠ undefined</span></td><td class="stcell"><span class="ministage"><a class="link is-disabled">Change password</a></span><div class="cspec"><b>became:</b> colour <code>Text/Inactive</code>, no underline, <code>cursor:not-allowed</code>, <code>pointer-events:none</code> — matches Button disabled language</div></td></tr>
         </tbody></table>
       </div></div>
     </section>
@@ -581,6 +664,32 @@
           <tr><td class="stname">Error</td><td class="stcell"><span class="ministage prod"><div style="display:flex;flex-direction:column;align-items:stretch;width:160px"><div class="field s-error"><input value="Invalid"></div><div class="err-help">Source connection failed</div></div></span><div class="cspec"><b class="was">was:</b> border <code>red/20</code> + bg <code>red/5</code> + ring <code>red/20</code> + icon <code>red/60</code></div></td><td class="stcell"><span class="ministage"><div style="display:flex;flex-direction:column;align-items:stretch;width:160px"><div class="field s-error"><input value="Invalid"></div><div class="err-help">Source connection failed</div></div></span><div class="cspec"><b>became:</b> border <code>Feedback/Red</code>, no bg tint, no outer ring; helper text <code>text-xs/medium</code> in <code>Feedback/Red</code> below</div></td></tr>
           <tr><td class="stname">Disabled</td><td class="stcell"><span class="ministage prod"><div class="field is-disabled"><input disabled placeholder="Disabled"></div></span><div class="cspec"><b class="was">was:</b> <code>pointer-events-none</code> + opacity</div></td><td class="stcell"><span class="ministage"><div class="field is-disabled"><input disabled placeholder="Disabled"></div></span><div class="cspec"><b>became:</b> bg <code>State/Disabled</code>, placeholder <code>Text/Inactive</code>, <code>cursor:not-allowed</code></div></td></tr>
         </tbody></table>
+      </div></div>
+
+      <div class="block"><div class="block-h">Selector — <code>.sel-wrap</code> / <code>.sel-trig</code> / <code>.sel-menu</code></div><div class="block-b">
+        <div class="ce">
+          <div class="ce-cell"><div class="ce-tag expt">Default</div><div class="stage" style="align-items:flex-start;padding-top:8px;padding-bottom:160px">
+            <div class="sel-wrap" style="width:14rem">
+              <button class="sel-trig" type="button" aria-haspopup="listbox" aria-expanded="false" onclick="kitSelToggle(this)">
+                <span class="sel-ph">Select a source…</span>
+                <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="sel-menu menu" role="listbox">
+                <div class="mi" role="option" onclick="kitSelSelect(this)">Jira Software Cloud</div>
+                <div class="mi" role="option" onclick="kitSelSelect(this)">Azure DevOps</div>
+                <div class="mi" role="option" onclick="kitSelSelect(this)">BigQuery</div>
+              </div>
+            </div>
+          </div><div style="padding:.5rem .7rem"><div class="cspec">Custom select trigger — <code>.sel-trig</code> (same shell as <code>Input</code>); dropdown = <code>.sel-menu.menu</code> with <code>.mi</code> options, 2 px below trigger. <code>aria-expanded</code> drives open/close via CSS adjacent-sibling selector.</div></div></div>
+          <div class="ce-cell"><div class="ce-tag expt">Disabled</div><div class="stage">
+            <div class="sel-wrap" style="width:14rem">
+              <button class="sel-trig s-disabled" type="button" disabled>
+                <span class="sel-ph">Select a source…</span>
+                <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+            </div>
+          </div><div style="padding:.5rem .7rem"><div class="cspec">Add <code>disabled</code> + <code>.s-disabled</code> to <code>.sel-trig</code> — inherits <code>opacity:var(--opacity-disabled)</code> and <code>cursor:not-allowed</code>.</div></div></div>
+        </div>
       </div></div>
     </section>
 
@@ -648,6 +757,7 @@
           <tr><td class="stname">Focus (off &amp; on) <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage" style="gap:1rem"><button class="swt s-focus"></button><button class="swt on s-focus"></button></span><div class="cspec"><b>became:</b> neutral <code>State/Focus_Ring</code> 2 px + 2 px <code>Surface/Card</code> gap — same ring in both positions; brand colour never visualises form-control focus</div></td></tr>
           <tr><td class="stname">Disabled (off &amp; on)</td><td class="stcell"><span class="ministage prod" style="gap:1rem"><button class="swt s-disabled"></button><button class="swt on s-disabled"></button></span><div class="cspec"><b class="was">was:</b> opacity 50% (both positions)</div></td><td class="stcell"><span class="ministage" style="gap:1rem"><button class="swt s-disabled"></button><button class="swt on s-disabled"></button></span><div class="cspec"><b>became:</b> <code>opacity:--opacity-disabled</code> (.65) + <code>cursor:not-allowed</code> — both positions fade from their own base; no colour override</div></td></tr>
           <tr><td class="stname">Hit target <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">36 × 20 px visual = 36 × 20 px hit area — fails WCAG 2.5.8 (24 × 24) on the short axis</span></td><td class="stcell"><span class="colhint">36 × 20 px visual, <b>44 × 44 px hit area</b> via <code>.swt::before {inset:-12px -4px}</code></span><div class="cspec"><b>became:</b> invisible pseudo-element expands the click/tap surface without altering layout. Visual size unchanged. Passes WCAG 2.5.5 AAA (44 × 44) and 2.5.8 AA (24 × 24) on both axes.</div></td></tr>
+          <tr><td class="stname">Small variant <code>.is-sm</code> <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage" style="gap:1rem"><button class="swt is-sm js-toggle"></button><button class="swt is-sm on js-toggle"></button></span><div class="cspec"><b>became:</b> <code>.swt.is-sm</code> — 28 × 16 px track, 12 × 12 px thumb. Same colour tokens and states as default switch. Use in compact contexts (card status rows, inline controls) where the 36 × 20 px default is too large.</div></td></tr>
         </tbody></table>
       </div></div>
     </section>
@@ -663,8 +773,8 @@
           <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage" style="flex-direction:column;gap:1rem;align-items:stretch;background:var(--card)">
             <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.6875rem;color:var(--ink-secondary);width:24px">sm</span><div class="segctrl is-sm js-segctrl" role="tablist" aria-label="Theme (sm)" style="max-width:200px">
               <button class="segctrl-btn is-active" role="tab" type="button" aria-label="Light" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
-              <button class="segctrl-btn" role="tab" type="button" aria-label="Dark" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
-              <button class="segctrl-btn" role="tab" type="button" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
+              <button class="segctrl-btn" role="tab" type="button" aria-label="Dark" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg></button>
+              <button class="segctrl-btn" role="tab" type="button" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/></svg></button>
             </div></div>
             <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.6875rem;color:var(--ink-secondary);width:24px">md</span><div class="segctrl is-md js-segctrl" role="tablist" aria-label="Theme (md)" style="max-width:480px">
               <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Light</button>
@@ -677,7 +787,7 @@
       <div class="block"><div class="block-h">States — <code>md</code> sample</div><div class="block-b" style="padding:0">
         <table class="stbl"><thead><tr><th>State</th><th>Current (prod)</th><th>Expected</th><th>Specification</th></tr></thead><tbody>
           <tr><td class="stname">Default (unselected)</td><td class="stcell"><span class="colhint">— no equivalent</span></td><td class="stcell"><span class="ministage" style="background:var(--card)"><div class="segctrl is-md" style="width:220px" aria-hidden="true"><button class="segctrl-btn" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Light</button><button class="segctrl-btn" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>Dark</button></div></span></td><td>text <code>Text/Secondary</code>; icon <code>currentColor</code>; transparent bg</td></tr>
-          <tr><td class="stname">Hover (unselected)</td><td class="stcell"><span class="colhint">— no equivalent</span></td><td class="stcell"><span class="ministage" style="background:var(--card)"><div class="segctrl is-md" style="width:220px" aria-hidden="true"><button class="segctrl-btn" type="button" tabindex="-1" style="background:color-mix(in srgb, white 50%, transparent);color:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Light</button><button class="segctrl-btn" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>Dark</button></div></span></td><td>text colour lifts to <code>Text/Primary</code> — no surface change (preserves the unselected/selected hierarchy)</td></tr>
+          <tr><td class="stname">Hover (unselected)</td><td class="stcell"><span class="colhint">— no equivalent</span></td><td class="stcell"><span class="ministage" style="background:var(--card)"><div class="segctrl is-md" style="width:220px" aria-hidden="true"><button class="segctrl-btn" type="button" tabindex="-1" style="background:var(--segctrl-btn-hover-bg);color:var(--ink);box-shadow:var(--segctrl-hover-shadow)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Light</button><button class="segctrl-btn" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>Dark</button></div></span></td><td>text → <code>Text/Primary</code>; bg halfway between slot and pill via <code>--segctrl-btn-hover-bg</code> (light: 50/50 of <code>--card</code> ↔ <code>--card2</code> ≈ Slate-50; dark: 50/50 of <code>--chips</code> ↔ <code>--card2</code> ≈ Grey-750). Softer than the pill so the active state stays the most prominent. Rim via <code>--segctrl-hover-shadow</code>.</td></tr>
           <tr><td class="stname">Active / selected</td><td class="stcell"><span class="colhint">— no equivalent</span></td><td class="stcell"><span class="ministage" style="background:var(--card)"><div class="segctrl is-md" style="width:220px" aria-hidden="true"><button class="segctrl-btn is-active" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Light</button><button class="segctrl-btn" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>Dark</button></div></span></td><td>bg <code>Surface/Card</code> + lift <code>0 1px 2px rgba(0,0,0,.06)</code> with a 1px <code>rgba(0,0,0,.04)</code> hairline ring for a defined edge; text + icon <code>Text/Primary</code> @600 (icon stays neutral — the bg-shift carries selection, kit&#39;s "one strong cue per state" pattern); ARIA <code>aria-selected="true"</code></td></tr>
           <tr><td class="stname">Focus-visible</td><td class="stcell"><span class="colhint">— no equivalent</span></td><td class="stcell"><span class="ministage" style="background:var(--card)"><div class="segctrl is-md" style="width:220px" aria-hidden="true"><button class="segctrl-btn" type="button" tabindex="-1" style="box-shadow:var(--shadow-focus-brand)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Light</button><button class="segctrl-btn" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>Dark</button></div></span></td><td><code>--shadow-focus-brand</code> on the focused item (2 px card-gap + 2 px brand ring) — same as Button/IconButton/Switch</td></tr>
           <tr><td class="stname">Disabled (item)</td><td class="stcell"><span class="colhint">— no equivalent</span></td><td class="stcell"><span class="ministage" style="background:var(--card)"><div class="segctrl is-md" style="width:220px" aria-hidden="true"><button class="segctrl-btn s-disabled" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Light</button><button class="segctrl-btn" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>Dark</button></div></span></td><td><code>opacity:var(--opacity-disabled)</code> + <code>pointer-events:none</code> — same recipe as Switch / Checkbox / Button</td></tr>
@@ -688,7 +798,7 @@
     <!-- ===== BADGE ===== -->
     <section class="comp" id="badge">
       <h2>Badge</h2>
-      <div class="sub">Height md 28px, text-xs <code>font-medium</code>, radius <code>md</code>/<code>full</code>, gap 8px.</div>
+      <div class="sub">Height md 28px / sm 20px, text-xs/11px <code>font-medium</code>, radius <code>md</code>/<code>full</code>, gap 8px. Size modifier: <code>.badge-sm</code>.</div>
       <div><a class="chg" href="changes/Badge.md">Changes ↗</a></div>
       <div class="block"><div class="block-h">Preview</div><div class="block-b">
         <div class="ce">
@@ -705,6 +815,8 @@
           <tr><td class="stname">With leading icon <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><span class="badge badge-primary"><svg class="b-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2 15 8.5 22 9.5l-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>Star</span></span><div class="cspec"><b>became:</b> inline SVG slot via existing <code>gap:.5rem</code>; helper <code>.badge .b-ic{width:14px;height:14px;flex:none}</code>; icon uses <code>currentColor</code> so it picks up the chip's text token</div></td></tr>
           <tr><td class="stname">Removable (close) <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><span class="badge badge-secondary">Tag<button class="b-x" aria-label="Remove">×</button></span></span><div class="cspec"><b>became:</b> trailing <code>×</code> button via <code>.badge .b-x</code> — opacity .7 → 1 on hover, brand focus ring on <code>:focus-visible</code>; promotes the Autocomplete <code>.b-x</code> pattern into a first-class Badge slot</div></td></tr>
           <tr><td class="stname">Status dot <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage" style="gap:.5rem"><span class="badge badge-green rf"><span class="b-dot"></span>Online</span><span class="badge badge-attention rf"><span class="b-dot"></span>Idle</span><span class="badge badge-red rf"><span class="b-dot"></span>Offline</span></span><div class="cspec"><b>became:</b> 6×6 leading dot via <code>.badge .b-dot</code>; <code>background:currentColor</code> inherits the variant's text token. Status conveyed by dot <b>+</b> text label, not colour alone (WCAG 1.4.1).</div></td></tr>
+          <tr><td class="stname">Not-connected status <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><span style="display:inline-flex;align-items:center;gap:.3125rem;font-size:.75rem;color:var(--ink-secondary)"><span class="b-dot"></span>Not connected</span></span><div class="cspec"><b>became:</b> lightweight status label — <code>.b-dot</code> (kit) + inline text, no background or border. Used in Metrics C3 empty-state provider cards to indicate the data source has not been connected yet.</div></td></tr>
+          <tr><td class="stname">Size: sm <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage" style="gap:.375rem"><span class="badge badge-sm badge-primary">Custom</span><span class="badge badge-sm badge-secondary">Built-in</span><span class="badge badge-sm badge-green rf"><span class="b-dot"></span>Active</span></span><div class="cspec"><b>became:</b> <code>.badge-sm</code> modifier — height 20px, padding 0 6px, font-size 11px (.6875rem), radius 4px. Used in table badge columns where a full-height badge reads too heavy against text rows.</div></td></tr>
         </tbody></table>
       </div></div>
     </section>
@@ -717,7 +829,7 @@
       <div class="block"><div class="block-h">Preview</div><div class="block-b">
         <div class="ce">
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod"><span class="ava ava-init">KA</span><span class="ava ava-count">+5</span></div><div style="padding:.5rem .7rem"><div class="cspec">fallback bg <code>background</code>, counter bg <code>chip</code></div></div></div>
-          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage prod"><span class="ava ava-init">KA</span><span class="ava ava-count">+5</span></div><div style="padding:.5rem .7rem"><div class="cspec">no component change; counter chip hex → <a href="changes/colors.md" style="color:var(--brand-primary)">colors</a></div></div></div>
+          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><span class="ava ava-init">KA</span><span class="ava ava-count">+5</span></div><div style="padding:.5rem .7rem"><div class="cspec">initials: bg <code>--brand-primary</code>, text <code>--content-on-solid</code> (white — theme-independent); counter chip hex → <a href="changes/colors.md" style="color:var(--brand-primary)">colors</a></div></div></div>
         </div>
       </div></div>
     </section>
@@ -732,17 +844,17 @@
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod" style="padding:0;display:block">
             <table class="tbl"><thead><tr><th>Project</th><th>Owner</th><th>Status</th></tr></thead><tbody>
               <tr><td>Atlas</td><td>K. Aroyan</td><td><span class="badge badge-primary">In progress</span></td></tr>
-              <tr style="background:var(--state-hover)"><td>Orion</td><td>L. Sciarra</td><td><span class="badge badge-secondary">Paused</span></td></tr>
+              <tr class="s-hover"><td>Orion</td><td>L. Sciarra</td><td><span class="badge badge-secondary">Paused</span></td></tr>
               <tr><td>Pegasus</td><td>M. Diaz</td><td><span class="badge badge-green rf">Active</span></td></tr>
               <tr><td>Vega</td><td>R. Okafor</td><td><span class="badge badge-red rf">Blocked</span></td></tr>
             </tbody></table></div><div style="padding:.5rem .7rem"><div class="cspec">hover only; no sort, no selected row, no pressed feedback</div></div></div>
           <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage" style="padding:0;display:block">
-            <table class="tbl js-sort"><thead><tr><th class="s-sort is-asc" tabindex="0"><span class="s-sort-inner">Project <svg class="sort-ic" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M6 2 2 7h8z"/></svg></span></th><th class="s-sort" tabindex="0"><span class="s-sort-inner">Owner <svg class="sort-ic" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M6 2 3 5h6z M6 10 3 7h6z"/></svg></span></th><th>Status</th></tr></thead><tbody>
+            <table class="tbl"><thead><tr><th>Project</th><th>Owner</th><th>Status</th></tr></thead><tbody>
               <tr><td>Atlas</td><td>K. Aroyan</td><td><span class="badge badge-primary">In progress</span></td></tr>
-              <tr style="background:var(--state-hover)"><td>Orion</td><td>L. Sciarra</td><td><span class="badge badge-secondary">Paused</span></td></tr>
+              <tr class="s-hover"><td>Orion</td><td>L. Sciarra</td><td><span class="badge badge-secondary">Paused</span></td></tr>
               <tr class="is-selected"><td>Pegasus</td><td>M. Diaz</td><td><span class="badge badge-green rf">Active</span></td></tr>
               <tr><td>Vega</td><td>R. Okafor</td><td><span class="badge badge-red rf">Blocked</span></td></tr>
-            </tbody></table></div><div style="padding:.5rem .7rem"><div class="cspec"><b>became:</b> sortable headers — click to cycle asc / desc / unsorted (one column active at a time), selected row (Pegasus) via <code>--state-pressed</code>, transient row-pressed feedback on <code>:active</code>. Hover/border hex → <a href="changes/colors.md" style="color:var(--brand-primary)">colors</a>.</div></div></div>
+            </tbody></table></div><div style="padding:.5rem .7rem"><div class="cspec"><b>became:</b> selected row (Pegasus) via <code>--state-pressed</code>, transient row-pressed feedback on <code>:active</code>. Hover/border hex → <a href="changes/colors.md" style="color:var(--brand-primary)">colors</a>.</div></div></div>
         </div>
       </div></div>
       <div class="block"><div class="block-h">States — was → became</div><div class="block-b" style="padding:0">
@@ -750,8 +862,56 @@
           <tr><td class="stname">Row hover</td><td class="stcell"><span class="colhint">bg <code>State/Hover</code></span></td><td class="stcell"><span class="colhint">— no change (hex → <a href="changes/colors.md" style="color:var(--brand-primary)">colors</a>)</span></td></tr>
           <tr><td class="stname">Row selected <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage" style="padding:0;display:block;min-width:160px"><table class="tbl"><tbody><tr class="is-selected"><td>Selected</td></tr></tbody></table></span><div class="cspec"><b>became:</b> <code>tr.is-selected td{background:--state-pressed}</code> — brand-50 light / grey-700 dark. Hover-while-selected layers a 10% brand tint on top to keep both states distinguishable.</div></td></tr>
           <tr><td class="stname">Row pressed <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><div class="cspec"><b>became:</b> <code>tr:active td{background:--state-pressed}</code> — transient bg-shift only, matches the kit's universal "press = bg-shift" convention ([colors](changes/colors.md) "Usage pattern"). No transform, no shadow.</div></td></tr>
-          <tr><td class="stname">Header sort icon <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage" style="padding:0;display:block;min-width:200px"><table class="tbl"><thead><tr><th class="s-sort">Unsorted <svg class="sort-ic" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2 3 5h6z M6 10 3 7h6z"/></svg></th><th class="s-sort is-asc">Asc <svg class="sort-ic" viewBox="0 0 12 12" fill="currentColor"><path d="M6 2 2 7h8z"/></svg></th><th class="s-sort is-desc">Desc <svg class="sort-ic" viewBox="0 0 12 12" fill="currentColor"><path d="M6 10 2 5h8z"/></svg></th></tr></thead></table></span><div class="cspec"><b>became:</b> <code>th.s-sort</code> with persistent ↕ glyph (unsorted); asc shows ↑ (filled triangle up), desc shows ↓. Glyph + header text shift from <code>--ink-secondary</code> → <code>--ink</code> when active. <code>:focus-visible</code> shows a 2 px brand inset ring. Direction conveyed by glyph shape, not colour (WCAG 1.4.1).</div></td></tr>
         </tbody></table>
+      </div></div>
+      <div class="block"><div class="block-h">Metrics table — molecule anatomy (Expected-only)</div><div class="block-b" style="padding:0;overflow-x:auto">
+        <div class="mx-tbl" style="border-radius:0;border-left:none;border-right:none;border-top:none">
+          <table class="tbl" style="table-layout:fixed;width:100%">
+            <colgroup><col style="width:2.75rem"><col style="width:22%"><col style="width:8rem"><col><col style="width:7.5rem"><col style="width:4.5rem"></colgroup>
+            <thead><tr>
+              <th></th><th>Metric name</th><th>Alias</th><th>Description</th><th>Badge</th><th class="mx-tbl-actions">Actions</th>
+            </tr></thead>
+            <tbody>
+              <!-- Provider group row -->
+              <tr class="mx-prov-group">
+                <td colspan="6"><div class="mx-prov-group-cell">
+                  <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy"></span>
+                  <span class="mx-prov-group-name">Jira Software Cloud</span>
+                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button">+ Add Metric</button>
+                </div></td>
+              </tr>
+              <!-- Custom metric — hover simulated -->
+              <tr class="mx-metric-child s-hover">
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="MRR growth active"></button></div></td>
+                <td class="mx-tbl-name">MRR growth</td>
+                <td class="mx-tbl-alias">@mrr_growth</td>
+                <td class="mx-tbl-desc">Month-over-month MRR growth derived from Jira billing data.</td>
+                <td class="mx-tbl-badge"><span class="badge badge-sm badge-primary">Custom</span></td>
+                <td class="mx-tbl-actions"><button class="iconbtn iconbtn-tertiary" style="opacity:1" type="button" aria-label="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button></td>
+              </tr>
+              <!-- Built-in metric — selected -->
+              <tr class="mx-metric-child is-selected">
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues created active"></button></div></td>
+                <td class="mx-tbl-name">Issues created</td>
+                <td class="mx-tbl-alias">@issues_created</td>
+                <td class="mx-tbl-desc">Number of issues created in the selected period.</td>
+                <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
+                <td class="mx-tbl-actions"><button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button></td>
+              </tr>
+              <!-- Built-in metric — inactive toggle -->
+              <tr class="mx-metric-child">
+                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Issues resolved inactive"></button></div></td>
+                <td class="mx-tbl-name">Issues resolved</td>
+                <td class="mx-tbl-alias">@issues_resolved</td>
+                <td class="mx-tbl-desc">Number of issues resolved (closed) in the selected period.</td>
+                <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
+                <td class="mx-tbl-actions"><button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:.5rem .7rem"><div class="cspec"><b>Expected-only — new molecule.</b> Shell: <code>.mx-tbl</code> (card bg, 1px border, 8px radius, overflow hidden). Provider group row: <code>tr.mx-prov-group</code> — muted <code>--bg</code> fill, non-interactive; chevron collapse button, inline provider icon (bare, no card border), group name, hover-revealed "+ Add Metric" btn. Metric child row: <code>tr.mx-metric-child</code> — 6 cells: toggle (<code>.swt</code> in <code>.mx-swt-wrap</code>), name (<code>.mx-tbl-name</code>), alias (<code>.mx-tbl-alias</code>), description (<code>.mx-tbl-desc</code> — truncated overflow), badge (<code>.mx-tbl-badge</code> with <code>.badge-sm</code>), actions (<code>.mx-tbl-actions</code> — icon buttons visible on row hover only, kebab persistent). Custom rows: <code>badge-primary</code> "Custom". Built-in rows: <code>badge-secondary</code> "Built-in".</div></div>
       </div></div>
     </section>
 
@@ -768,7 +928,7 @@
       </div></div>
       <div class="block"><div class="block-h">States — was → became</div><div class="block-b" style="padding:0">
         <table class="stbl"><thead><tr><th>State</th><th>Current (prod) · was</th><th>Expected · became</th></tr></thead><tbody>
-          <tr><td class="stname">Active</td><td class="stcell"><span class="ministage prod"><button class="tab is-active">Tab</button></span><div class="cspec">border-bottom + text <code>accent</code></div></td><td class="stcell"><span class="ministage"><button class="tab is-active">Tab</button></span><div class="cspec">— no change (hex → <a href="changes/colors.md" style="color:var(--brand-primary)">colors</a>)</div></td></tr>
+          <tr><td class="stname">Active</td><td class="stcell"><span class="ministage prod"><button class="tab is-active">Tab</button></span><div class="cspec">full-width 2 px underline + text <code>accent</code></div></td><td class="stcell"><span class="ministage"><button class="tab is-active">Tab</button></span><div class="cspec"><b>became:</b> text-width 2 px underline via <code>::after</code> (spans <code>left:.75rem;right:.75rem</code>, matching horizontal padding). Tabset gap <code>.5rem</code>.</div></td></tr>
           <tr><td class="stname">Default (inactive)</td><td class="stcell"><span class="ministage prod"><button class="tab">Tab</button></span><div class="cspec">text <code>content-secondary</code></div></td><td class="stcell"><span class="ministage"><button class="tab">Tab</button></span><div class="cspec">text <code>--ink-secondary</code> — no change (hex → <a href="changes/colors.md" style="color:var(--brand-primary)">colors</a>)</div></td></tr>
           <tr><td class="stname">Hover</td><td class="stcell"><span class="colhint">bg <code>State/Hover</code> + text <code>content-body</code></span></td><td class="stcell"><span class="ministage"><button class="tab" style="color:var(--ink-body)">Tab</button></span><div class="cspec">text → <code>--ink-body</code> — no shape change (hex → <a href="changes/colors.md" style="color:var(--brand-primary)">colors</a>)</div></td></tr>
           <tr><td class="stname">Focus <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="colhint">— did not exist</span></td><td class="stcell"><span class="ministage"><button class="tab s-focus">Tab</button></span><div class="cspec"><b>became:</b> brand-tinted ring <code>box-shadow:0 0 0 2px Surface/Card, 0 0 0 4px --focus-ring-brand</code> — same recipe used by <code>.sbx-nav-item</code> and <code>.link</code> (tabs are nav, not form)</div></td></tr>
@@ -781,20 +941,55 @@
     <!-- ===== CHIP ===== -->
     <section class="comp" id="chip">
       <h2>Chip</h2>
-      <div class="sub">Single-select filter pill. Height 28px (1.75rem), radius <code>full</code>, border <code>--border</code>. Active fill: <code>Brand/Primary</code>. Optional trailing <code>.chip-n</code> count.</div>
-      <div><a class="chg none">No change —</a></div>
+      <div class="sub">Single-select filter pill. Height 28px (1.75rem), radius <code>full</code>. Idle: <code>--card</code> bg, no border. Active: <code>--state-pressed</code> fill + <code>--ink-highlight</code> border + text, no hover (cursor: default). Optional trailing <code>.chip-n</code> count.</div>
+      <div><a class="chg" href="changes/Chip.md">Changes ↗</a></div>
       <div class="block"><div class="block-h">Preview — click to select</div><div class="block-b">
         <div class="ce">
-          <div class="ce-cell" style="grid-column:1/-1"><div class="ce-tag expt">Expected</div>
+          <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div>
+            <div class="stage prod">
+              <div class="chip-row" role="tablist" aria-label="Category filter">
+                <button class="chip is-active" type="button" role="tab" aria-selected="true" aria-pressed="true" onclick="kitChipSelect(this)">All <span class="chip-n">21</span></button>
+                <button class="chip" type="button" role="tab" aria-selected="false" aria-pressed="false" onclick="kitChipSelect(this)">Databases <span class="chip-n">6</span></button>
+                <button class="chip" type="button" role="tab" aria-selected="false" aria-pressed="false" onclick="kitChipSelect(this)">CRM <span class="chip-n">3</span></button>
+                <button class="chip" type="button" role="tab" aria-selected="false" aria-pressed="false" onclick="kitChipSelect(this)">Marketing <span class="chip-n">3</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="ce-cell"><div class="ce-tag expt">Expected</div>
             <div class="stage">
               <div class="chip-row" role="tablist" aria-label="Category filter">
                 <button class="chip is-active" type="button" role="tab" aria-selected="true" aria-pressed="true" onclick="kitChipSelect(this)">All <span class="chip-n">21</span></button>
                 <button class="chip" type="button" role="tab" aria-selected="false" aria-pressed="false" onclick="kitChipSelect(this)">Databases <span class="chip-n">6</span></button>
                 <button class="chip" type="button" role="tab" aria-selected="false" aria-pressed="false" onclick="kitChipSelect(this)">CRM <span class="chip-n">3</span></button>
                 <button class="chip" type="button" role="tab" aria-selected="false" aria-pressed="false" onclick="kitChipSelect(this)">Marketing <span class="chip-n">3</span></button>
-                <button class="chip" type="button" role="tab" aria-selected="false" aria-pressed="false" onclick="kitChipSelect(this)">Finance <span class="chip-n">3</span></button>
-                <button class="chip" type="button" role="tab" aria-selected="false" aria-pressed="false" onclick="kitChipSelect(this)">Analytics <span class="chip-n">3</span></button>
-                <button class="chip" type="button" role="tab" aria-selected="false" aria-pressed="false" onclick="kitChipSelect(this)">Support <span class="chip-n">2</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+      <div class="block"><div class="block-h">States — was → became</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>State</th><th>Current (prod)</th><th>Expected</th><th>Specification</th></tr></thead><tbody>
+          <tr><td class="stname">Default</td><td class="stcell"><span class="ministage prod"><button class="chip" type="button">Label</button></span></td><td class="stcell"><span class="ministage"><button class="chip" type="button">Label</button></span></td><td class="stcell"><div class="cspec">bg <code>--card</code>, border <code>--border</code>, text <code>--ink-body</code></div></td></tr>
+          <tr><td class="stname">Hover</td><td class="stcell"><span class="ministage prod"><button class="chip s-hover" type="button">Label</button></span></td><td class="stcell"><span class="ministage"><button class="chip s-hover" type="button">Label</button></span></td><td class="stcell"><div class="cspec">bg <code>State/Hover</code>, no border</div></td></tr>
+          <tr><td class="stname">Active (selected)</td><td class="stcell"><span class="ministage prod"><button class="chip is-active" type="button">Label</button></span><div class="cspec"><b class="was">was:</b> teal alpha tint — bg <code>Brand/Primary @20%</code>, border + text <code>--p-primary</code></div></td><td class="stcell"><span class="ministage"><button class="chip is-active" type="button">Label</button></span><div class="cspec"><b>became:</b> bg <code>--state-pressed</code>, border + text <code>--ink-highlight</code>; cursor default — no hover</div></td><td class="stcell"><div class="cspec">Outlined + pressed-surface fill; active chip is non-interactive (cursor: default, hover locked to same state)</div></td></tr>
+          <tr><td class="stname">Active · Hover</td><td class="stcell"><span class="ministage prod"><button class="chip is-active s-hover" type="button">Label</button></span></td><td class="stcell"><span class="ministage"><button class="chip is-active s-hover" type="button">Label</button></span></td><td class="stcell"><div class="cspec">no change — same as Active (locked)</div></td></tr>
+          <tr><td class="stname">Focus</td><td class="stcell"><span class="ministage prod"><button class="chip s-focus" type="button">Label</button></span></td><td class="stcell"><span class="ministage"><button class="chip s-focus" type="button">Label</button></span></td><td class="stcell"><div class="cspec">ring: <code>0 0 0 2px --card, 0 0 0 4px --focus-ring-brand</code></div></td></tr>
+          <tr><td class="stname">Disabled</td><td class="stcell"><span class="ministage prod"><button class="chip s-disabled" type="button" disabled>Label</button></span></td><td class="stcell"><span class="ministage"><button class="chip s-disabled" type="button" disabled>Label</button></span></td><td class="stcell"><div class="cspec">opacity <code>--opacity-disabled</code>, pointer-events none</div></td></tr>
+          <tr><td class="stname">With count (.chip-n)</td><td class="stcell"><span class="ministage prod"><button class="chip is-active" type="button">All <span class="chip-n">21</span></button> <button class="chip" type="button">CRM <span class="chip-n">3</span></button></span></td><td class="stcell"><span class="ministage"><button class="chip is-active" type="button">All <span class="chip-n">21</span></button> <button class="chip" type="button">CRM <span class="chip-n">3</span></button></span></td><td class="stcell"><div class="cspec"><code>.chip-n</code> — 11px tabular-nums, <code>--ink-inactive</code> at rest; 70% <code>--ink-highlight</code> when active</div></td></tr>
+        </tbody></table>
+      </div></div>
+
+      <div class="variant-label">Meta chip — drill-in / expand variant <span style="font-size:.6875rem;color:var(--fb-attention);font-weight:700">NEW</span></div>
+      <div class="sub">Small rectangular chip with trailing chevron arrow. Distinct from <code>.chip</code> (filter pill, fully-rounded, larger) in shape (rounded square <code>.375rem</code>), size (12px font), and intent (opens a detail/expanded view rather than toggling filter state). Use case: metric list chips on metrics-landing page, breadcrumb-like info chips, inline "view detail" triggers. <b>Dark theme override</b>: chip bg lifts ABOVE <code>--card</code> parent (via <code>--card2</code>) instead of sinking below to <code>--bg</code>, preventing the "hole feel" against the dark card surface.</div>
+      <div class="block"><div class="block-h">Preview — click to open detail (demo)</div><div class="block-b">
+        <div class="ce">
+          <div class="ce-cell" style="grid-column:1/-1"><div class="ce-tag expt">Expected</div>
+            <div class="stage">
+              <div class="chip-row">
+                <button class="chip-meta" type="button">Issues created<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button">Sprint velocity<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button">Bug count<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button">Story points<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
               </div>
             </div>
           </div>
@@ -802,13 +997,12 @@
       </div></div>
       <div class="block"><div class="block-h">States</div><div class="block-b" style="padding:0">
         <table class="stbl"><thead><tr><th>State</th><th>Expected</th><th>Specification</th></tr></thead><tbody>
-          <tr><td class="stname">Default</td><td class="stcell"><span class="ministage"><button class="chip" type="button">Label</button></span></td><td class="stcell"><div class="cspec">bg transparent, border <code>--border</code>, text <code>--ink-body</code>, height 28px, radius full</div></td></tr>
-          <tr><td class="stname">Hover</td><td class="stcell"><span class="ministage"><button class="chip s-hover" type="button">Label</button></span></td><td class="stcell"><div class="cspec">bg <code>State/Hover</code>, border <code>--border-hover</code>, text <code>--ink</code></div></td></tr>
-          <tr><td class="stname">Active (selected)</td><td class="stcell"><span class="ministage"><button class="chip is-active" type="button">Label</button></span></td><td class="stcell"><div class="cspec">bg + border <code>--btn-primary-bg</code>, text <code>--btn-primary-text</code></div></td></tr>
-          <tr><td class="stname">Active · Hover</td><td class="stcell"><span class="ministage"><button class="chip is-active s-hover" type="button">Label</button></span></td><td class="stcell"><div class="cspec">bg + border <code>--btn-primary-bg-hover</code></div></td></tr>
-          <tr><td class="stname">Focus</td><td class="stcell"><span class="ministage"><button class="chip s-focus" type="button">Label</button></span></td><td class="stcell"><div class="cspec">ring: <code>0 0 0 2px --card, 0 0 0 4px --focus-ring-brand</code> (brand focus, same as Button)</div></td></tr>
-          <tr><td class="stname">Disabled</td><td class="stcell"><span class="ministage"><button class="chip s-disabled" type="button" disabled>Label</button></span></td><td class="stcell"><div class="cspec">opacity <code>--opacity-disabled</code>, pointer-events none</div></td></tr>
-          <tr><td class="stname">With count (.chip-n)</td><td class="stcell"><span class="ministage"><button class="chip is-active" type="button">All <span class="chip-n">21</span></button> <button class="chip" type="button">CRM <span class="chip-n">3</span></button></span></td><td class="stcell"><div class="cspec"><code>.chip-n</code> — 11px tabular-nums, <code>--ink-inactive</code> at rest; desaturated <code>--btn-primary-text</code> when active. Vertically centred with label via <code>display:inline-flex;align-items:center;line-height:1</code></div></td></tr>
+          <tr><td class="stname">Default</td><td class="stcell"><span class="ministage"><button class="chip-meta" type="button">Label<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></span></td><td class="stcell"><div class="cspec">bg <code>--bg</code> (light) / <code>--card2</code> (dark, override) · border <code>--border</code> · text <code>--ink-secondary</code> · 12px / 500 · radius <code>.375rem</code> · chevron <code>--brand-primary</code> 10px</div></td></tr>
+          <tr><td class="stname">Hover</td><td class="stcell"><span class="ministage"><button class="chip-meta s-hover" type="button">Label<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></span></td><td class="stcell"><div class="cspec">bg <code>--state-hover</code> (light) / <code>--chips</code> (dark, override — one step further lift) · border <code>Brand/Primary @ 35%</code> · text <code>--ink</code> · small drop shadow</div></td></tr>
+          <tr><td class="stname">Focus</td><td class="stcell"><span class="ministage"><button class="chip-meta s-focus" type="button">Label<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></span></td><td class="stcell"><div class="cspec">ring via <code>--shadow-focus-brand</code> — same focus halo as Button / IconButton / Chip</div></td></tr>
+          <tr><td class="stname">Disabled</td><td class="stcell"><span class="ministage"><button class="chip-meta s-disabled" type="button" disabled>Label<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></span></td><td class="stcell"><div class="cspec">opacity <code>--opacity-disabled</code>, pointer-events none — same disabled recipe as Button / Chip</div></td></tr>
+          <tr><td class="stname">Metric name chip <span class="pend" style="font-weight:700">new</span><br><small style="font-weight:400;color:var(--ink-secondary)">no arrow — used in Metrics · Concept 3</small></td><td class="stcell"><span class="ministage" style="gap:.25rem"><button class="chip-meta" type="button" style="cursor:pointer">Issues created</button><button class="chip-meta" type="button" style="cursor:pointer">Sprint velocity</button></span></td><td class="stcell"><div class="cspec"><b>became:</b> same <code>.chip-meta</code> base — omit the arrow SVG for tag-style read-only name chips. Hover: <code>--state-hover</code> · Pressed: <code>--state-pressed</code> · border remains on hover for visibility on table-row hover bg.</div></td></tr>
+          <tr><td class="stname">Origin label (non-interactive)</td><td class="stcell"><span class="ministage" style="gap:.375rem"><span class="chip-meta" style="cursor:default;pointer-events:none">Built-in</span><span class="chip-meta" style="cursor:default;pointer-events:none">Custom</span></span></td><td class="stcell"><div class="cspec">Same <code>.chip-meta</code> — add <code>cursor:default;pointer-events:none</code> for status-only labels (e.g. table "Built-in" / "Custom" column, detail panel Source field). No hover, no focus ring.</div></td></tr>
         </tbody></table>
       </div></div>
     </section>
@@ -1091,10 +1285,11 @@
                 </button>
               </div>
               <div class="sbx-nav">
-                <!-- New Chat appears as a nav-row (outlined plus-in-circle icon). .sbx-cta in .sbx-head is hidden in Expected scope by kit-theme.css. -->
+                <!-- New Chat appears as a nav-row at the TOP (outlined plus-in-circle icon). .sbx-cta in .sbx-head is hidden in Expected scope by kit-theme.css. -->
                 <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span class="lbl">New Chat</span></button>
                 <button class="sbx-nav-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg><span class="lbl">Sources</span></button>
                 <button class="sbx-nav-item active" aria-current="page"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></svg><span class="lbl">Metrics</span></button>
+                <button class="sbx-nav-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span class="lbl">Files</span></button>
               </div>
               <div class="sbx-chats">
                 <!-- Collapsed-mode icon: replaces the Pinned/Recent sections when the sidebar is in icon mode. Clicking it expands the sidebar. -->
@@ -1169,25 +1364,25 @@
                   <div class="sbx-pop-sect">
                     <span class="sbx-pop-label">Account</span>
                     <div class="sbx-pop-list">
-                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>My Account</button>
-                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="6" height="6" x="16" y="16" rx="1"/><rect width="6" height="6" x="2" y="16" rx="1"/><rect width="6" height="6" x="9" y="2" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>Manage Plan</button>
-                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>Billing</button>
-                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M3 5a2 2 0 0 0 2 2h15a1 1 0 0 1 1 1v4h-4a2 2 0 0 0 0 4h4v2a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/></svg>Balance</button>
+                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>My Account</button>
+                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>Manage Plan</button>
+                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>Billing</button>
+                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>Balance</button>
                     </div>
                   </div>
                   <div class="sbx-pop-sect">
                     <span class="sbx-pop-label">Support</span>
                     <div class="sbx-pop-list">
-                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M9 10h6"/><path d="M9 14h4"/></svg>Leave Feedback</button>
-                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 18v-2"/><path d="M9.1 11.5c.3-.7 1-1.2 1.9-1.2s1.6.5 1.9 1.2c.3 1.1-.8 1.5-1.4 1.8a2 2 0 0 0-.5 1.7"/></svg>Resources<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="m7 17 10-10"/></svg></button>
+                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M7.5 9.5c0 .687.265 1.383.697 1.844l3.009 3.264a1.14 1.14 0 0 0 .407.314 1 1 0 0 0 .783-.004 1.14 1.14 0 0 0 .398-.31l3.008-3.264A2.77 2.77 0 0 0 16.5 9.5 2.5 2.5 0 0 0 12 8a2.5 2.5 0 0 0-4.5 1.5"/></svg>Leave Feedback</button>
+                      <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M12 17h.01"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/></svg>Resources<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="m7 17 10-10"/></svg></button>
                     </div>
                   </div>
                   <div class="segctrl is-sm sbx-pop-theme" role="tablist" aria-label="Theme">
-                    <button class="segctrl-btn sbx-pop-theme-btn is-active" type="button" role="tab" aria-label="Light" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
-                    <button class="segctrl-btn sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
-                    <button class="segctrl-btn sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
+                    <button class="segctrl-btn sbx-pop-theme-btn is-active" type="button" role="tab" aria-label="Light" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
+                    <button class="segctrl-btn sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg></button>
+                    <button class="segctrl-btn sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/></svg></button>
                   </div>
-                  <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign Out</button>
+                  <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>Sign Out</button>
                 </div>
                 <!-- Tokens popover — anchored above the tokens row -->
                 <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription tokens">
@@ -1213,7 +1408,7 @@
             </div>
           </div></div>
         </div>
-        <div class="spec"><b>Composition.</b> <code>SidebarHeader</code> — brand row: full <code>#lg</code> wordmark logo (18 × 75, reuses the kit's shared symbol — auto-updates with brand) on the left, <code>SidebarTrigger</code> (<code>PanelLeft</code> icon, 28×28 <code>iconbtn iconbtn-tertiary</code>, <code>aria-label "Toggle Sidebar"</code>) on the right; collapsed mode swaps the logo for the brand mark (<code>#lg-mark</code>, 20×20). Below the brand row: full-width <code>Button primary</code> CTA (h32, radius <code>md</code>). <code>SidebarContent</code> — two nav rows (<b>Sources</b>, <b>Metrics</b> <i>active</i>; h32, icon 16px). Active uses <b>color-only</b> (icon &amp; text <code>Brand/Primary</code>) with <b>no background</b>; hover sets bg <code>State/Hover</code> only — text &amp; icon stay <code>Text/Secondary</code>. <b>No divider</b> between nav and chats. Chat sections (<b>Pinned</b>, <b>Recent</b>) with all-caps <code>Text/Inactive</code> label + hover-revealed <code>See all</code> link (<code>Brand/Primary</code>). Chat rows h30 with a <b>persistent</b> right-edge gradient fade whose end-color tracks the row bg. At rest each row may show a status indicator on the right (loading spinner / new-data dot, both <code>Brand/Primary</code>); on hover the indicator fades out and a single <b>kebab</b> <code>IconButton</code> (24×24, vertical dots) takes its place — clicking opens the existing <code>Dropdown</code> <code>.menu</code> with three context-aware items: <code>Unpin</code> when the row is in <b>Pinned</b> or <code>Pin</code> when in <b>Recent</b>, then <code>Rename</code>, then <code>Delete</code> (red <code>.mi.danger</code>). <b>SidebarFooter</b> — compact: tokens label + value (both <code>Text/Secondary</code> 11px) over a 3px <code>Brand/Primary</code> progress bar; user row = 24px <code>Avatar</code> + name (<code>Text/Primary</code> 12px <code>font-semibold</code>) over <code>Admin · Professional</code> (<code>Text/Secondary</code> 10px) + faint up-down chevron (<code>Text/Inactive</code>).</div>
+        <div class="spec"><b>Composition.</b> <code>SidebarHeader</code> — brand row: full <code>#lg</code> wordmark logo (18 × 75, reuses the kit's shared symbol — auto-updates with brand) on the left, <code>SidebarTrigger</code> (<code>PanelLeft</code> icon, 28×28 <code>iconbtn iconbtn-tertiary</code>, <code>aria-label "Toggle Sidebar"</code>) on the right; collapsed mode swaps the logo for the brand mark (<code>#lg-mark</code>, 20×20). Below the brand row: full-width <code>Button primary</code> CTA (h32, radius <code>md</code>). <code>SidebarContent</code> — two nav rows (<b>Sources</b>, <b>Metrics</b> <i>active</i>; h32, icon 16px). Active uses <b>color-only</b> (icon &amp; text <code>Brand/Primary</code>) with <b>no background</b>; hover sets bg <code>State/Hover</code> only — text &amp; icon stay <code>Text/Secondary</code>. <b>No divider</b> between nav and chats. Chat sections (<b>Pinned</b>, <b>Recent</b>) with all-caps <code>Text/Inactive</code> label + hover-revealed <code>See all</code> link (<code>Brand/Primary</code>). Chat rows h30 with a <b>persistent</b> right-edge gradient fade whose end-color tracks the row bg. At rest each row may show a status indicator on the right (loading spinner / new-data dot, both <code>Brand/Primary</code>); on hover the indicator fades out and a single <b>kebab</b> <code>IconButton</code> (24×24, vertical dots) takes its place — clicking opens the existing <code>Dropdown</code> <code>.menu</code> with three context-aware items: <code>Unpin</code> when the row is in <b>Pinned</b> or <code>Pin</code> when in <b>Recent</b>, then <code>Rename</code>, then <code>Delete</code> (red <code>.mi.danger</code>). <b>SidebarFooter</b> — compact: tokens label + value (both <code>Text/Secondary</code> 11px) over a 3px <code>Brand/Primary</code> progress bar; user row = 24px <code>Avatar</code> + name (<code>Text/Primary</code> 12px <code>font-semibold</code>) over <code>Admin · Professional</code> (<code>Text/Secondary</code> 10px) + faint up-down chevron (<code>Text/Inactive</code>). <br/><br/><b>Responsive.</b> Two-stage. <b>≥ 1024 px</b> — full layout as above, in-flow column at <code>SIDEBAR_WIDTH</code> <code>14.75rem</code> (or page-specific). The in-sidebar collapse trigger toggles <i>in place</i> to <code>SIDEBAR_WIDTH_ICON</code> <code>3.563rem</code>. <b>&lt; 1024 px</b> — sidebar is <b>fully hidden</b> (no icon rail) and the page topbar carries a <b>hamburger</b> (<code>.cl-burger</code>). Tap → sidebar mounts as a <b>fixed-position overlay</b> at <code>18rem</code> over the main column with a semi-opaque backdrop dimming the page (same overlay/backdrop pattern Metrics uses for its right panel). Tap backdrop or the in-sidebar trigger to close. The icon rail is intentionally not rendered on mobile — every pixel belongs to main-column content. Internal layout (header / content / footer) is unchanged. See <a href="changes/Sidebar.md">changes/Sidebar.md</a> for the full contract.</div>
       </div></div>
       <div class="block"><div class="block-h">Preview — expanded ↔ collapsed (icon mode)</div><div class="block-b">
         <div class="ce">
@@ -1237,6 +1432,7 @@
                 <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span class="lbl">New Chat</span></button>
                 <button class="sbx-nav-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg><span class="lbl">Sources</span></button>
                 <button class="sbx-nav-item active" aria-current="page"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></svg><span class="lbl">Metrics</span></button>
+                <button class="sbx-nav-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span class="lbl">Files</span></button>
               </div>
               <div class="sbx-chats" style="overflow:hidden"><div class="sbx-sect"><div class="sbx-sect-head"><button class="sbx-sect-label-wrap" type="button" aria-expanded="true"><span class="sbx-sect-label">Pinned</span><svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div><button class="sbx-chat" type="button"><span class="sbx-chat-lbl">Q3 KPI deep-dive with marketing</span></button></div></div>
               <div class="sbx-foot">
@@ -1253,6 +1449,7 @@
                 <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span class="lbl">New Chat</span></button>
                 <button class="sbx-nav-item" aria-label="Sources"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg><span class="lbl">Sources</span></button>
                 <button class="sbx-nav-item active" aria-current="page" aria-label="Metrics"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></svg><span class="lbl">Metrics</span></button>
+                <button class="sbx-nav-item" aria-label="Files"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span class="lbl">Files</span></button>
               </div>
               <div class="sbx-chats"><button class="sbx-chats-icon" type="button" aria-label="Chats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
               <div class="sbx-foot">
@@ -1367,6 +1564,143 @@
 
     </section>
 
+    <!-- ===== BANNER ===== -->
+    <section class="comp" id="banner">
+      <h2>Banner</h2>
+      <div class="sub">Full-width informational strip with icon, title, description and an optional CTA button. Used to surface onboarding or connection-required notices. Wrap in <code>.banner-wrap</code> for dismiss animation (<code>.is-dismissed</code> collapses it). CSS classes: <code>.banner</code>, <code>.banner-ic</code>, <code>.banner-body</code>, <code>.banner-t</code>, <code>.banner-d</code>, <code>.banner-cta</code>, <code>.banner-wrap</code>.</div>
+
+      <div class="variant-label">Default</div>
+      <div class="block"><div class="block-h">Preview — interactive (click Dismiss)</div><div class="block-b">
+        <div class="banner-wrap" id="sb-banner-wrap" style="margin-bottom:.5rem">
+          <div class="banner" role="note" aria-label="Example banner">
+            <div class="banner-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-4"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8H6a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2Z"/></svg>
+            </div>
+            <div class="banner-body">
+              <p class="banner-t">Connect a data source to start using metrics</p>
+              <p class="banner-d">Metrics become available once you connect at least one data source. <b>Go to Sources</b> to set up your first connection — it only takes a minute.</p>
+            </div>
+            <div class="banner-cta" style="display:flex;gap:.5rem">
+              <button class="btn btn-primary btn-sm" type="button">Go to Sources</button>
+              <button class="btn btn-outline btn-sm" type="button" onclick="document.getElementById('sb-banner-wrap').classList.add('is-dismissed')">Dismiss</button>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-xs" type="button" onclick="document.getElementById('sb-banner-wrap').classList.remove('is-dismissed')">Reset</button>
+      </div></div>
+
+      <div class="block"><div class="block-h">Anatomy</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>Part</th><th>Class</th><th>Purpose</th></tr></thead><tbody>
+          <tr><td class="stname">Wrapper</td><td><code>.banner-wrap</code></td><td>Collapse animation container; add <code>.is-dismissed</code> to animate out</td></tr>
+          <tr><td class="stname">Root</td><td><code>.banner</code></td><td>Flex row: icon + body + CTA; bg <code>--card</code>, border <code>--border</code>, radius 12px</td></tr>
+          <tr><td class="stname">Root (gradient)</td><td><code>.banner.banner-grad</code></td><td>Modifier: bg <code>--grad-teal-dark</code>, border transparent; child text/icon tokens shift to white variants via <code>--banner-grad-text/sub/ic-bg</code></td></tr>
+          <tr><td class="stname">Icon</td><td><code>.banner-ic</code></td><td>60×60 rounded container, bg <code>--brand-primary</code>, coloured glow shadow</td></tr>
+          <tr><td class="stname">Body</td><td><code>.banner-body</code></td><td>Flex column with <code>.banner-t</code> (title) and <code>.banner-d</code> (description)</td></tr>
+          <tr><td class="stname">CTA</td><td><code>.banner-cta</code></td><td>Right-aligned actions; typically a <code>.btn-primary</code></td></tr>
+        </tbody></table>
+      </div></div>
+
+      <div class="variant-label">Gradient <span class="pend" style="font-weight:700">new</span></div>
+      <div class="block"><div class="block-h">Preview</div><div class="block-b">
+        <div class="banner banner-grad" role="note" aria-label="Gradient banner example">
+          <div class="banner-ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </div>
+          <div class="banner-body">
+            <p class="banner-t">Explore your metrics library</p>
+            <p class="banner-d">Browse built-in metrics below — click any to preview its definition. Connect a source to activate them.</p>
+          </div>
+          <div class="banner-cta">
+            <button class="btn btn-secondary btn-sm" type="button">Connect a Source</button>
+          </div>
+        </div>
+      </div></div>
+      <div class="block"><div class="block-h">Specification</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>Token / property</th><th>Value</th></tr></thead><tbody>
+          <tr><td class="stname">Background</td><td><code>--grad-teal-dark</code> = <code>linear-gradient(135deg, var(--brand-400) 0%, var(--slate-900) 100%)</code>. Override inline to change direction or stops.</td></tr>
+          <tr><td class="stname">Icon shape</td><td>Circle (<code>border-radius:9999px</code>), translucent white bg <code>--banner-grad-ic-bg</code> (white @ 18%), border <code>rgba(255,255,255,.4)</code>, glow ring <code>0 0 0 8px rgba(255,255,255,.07)</code></td></tr>
+          <tr><td class="stname">Title / desc</td><td>Title <code>--banner-grad-text</code> (white). Desc <code>--banner-grad-sub</code> (white @ 82%)</td></tr>
+          <tr><td class="stname">CTA — btn-secondary</td><td>No override — default btn-secondary across both themes. High contrast against the gradient fill.</td></tr>
+          <tr><td class="stname">CTA — btn-primary</td><td>bg <code>--banner-grad-text</code> (white), text <code>--brand-primary</code>. Hover: bg <code>--banner-grad-sub</code></td></tr>
+        </tbody></table>
+      </div></div>
+    </section>
+
+    <!-- ===== PROVIDER CARD ===== -->
+    <section class="comp" id="prov-card">
+      <h2>Provider Card</h2>
+      <div class="sub">Data-source / integration card used in empty-state provider grids. Composed of: icon wrapper (<code>.prov-ic-w</code>), name + status (<code>.prov-card-name</code>, <code>.prov-card-status</code>), divider, metrics chip section (<code>.prov-card-metrics-label</code> + chip-meta chips), and a full-width CTA footer (<code>.prov-card-footer</code>). Browse variant (<code>.is-browse</code>): ghost dashed card with centred icon, label, sub-text and bottom-aligned button.</div>
+
+      <div class="variant-label">Default (connected / not-connected)</div>
+      <div class="block"><div class="block-h">Preview</div><div class="block-b">
+        <div class="ce" style="align-items:flex-start">
+          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage" style="background:var(--bg);padding:1rem">
+            <div class="prov-card" style="max-width:260px">
+              <div class="prov-card-head">
+                <div class="prov-ic-w">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+                </div>
+                <div class="prov-card-info">
+                  <span class="prov-card-name">Jira Software</span>
+                  <span class="prov-card-status"><span class="prov-card-dot" style="background:var(--ink-inactive)"></span><span class="prov-card-status-text">Not connected</span></span>
+                </div>
+              </div>
+              <hr class="prov-card-divider">
+              <div>
+                <div class="prov-card-metrics-label">Available metrics</div>
+                <div style="display:flex;flex-wrap:wrap;gap:.25rem">
+                  <button class="chip-meta" type="button">Issues created<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></button>
+                  <button class="chip-meta" type="button">Issues resolved<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></button>
+                  <button class="chip-meta" type="button">Bug count<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </div>
+              <div class="prov-card-footer"><button class="btn btn-primary btn-sm" type="button">Connect</button></div>
+            </div>
+          </div></div>
+          <div class="ce-cell"><div class="ce-tag expt">Browse variant</div><div class="stage" style="background:var(--bg);padding:1rem">
+            <div class="prov-card is-browse" style="max-width:260px;min-height:220px">
+              <div class="prov-card-browse-ic">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+              </div>
+              <div>
+                <p class="prov-card-browse-label">Explore more providers</p>
+                <p class="prov-card-browse-sub">200+ integrations available to connect</p>
+              </div>
+            </div>
+          </div></div>
+        </div>
+      </div></div>
+
+      <div class="block"><div class="block-h">States — was → became</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>State</th><th>Spec</th></tr></thead><tbody>
+          <tr><td class="stname">Rest</td><td>bg <code>--card</code>, border <code>--border</code>, radius 12px, shadow <code>--shadow-rest</code></td></tr>
+          <tr><td class="stname">Hover</td><td>shadow <code>--shadow-lift-hover</code>, border <code>--border-hover</code>, <code>translateY(-2px)</code>; transition 180ms</td></tr>
+          <tr><td class="stname">Focus</td><td>outline none, shadow <code>--shadow-focus-brand</code></td></tr>
+          <tr><td class="stname">Browse / rest</td><td>bg <code>--bg</code>, border 1.5px dashed <code>color-mix(--ink-secondary 35%, transparent)</code>, no shadow</td></tr>
+          <tr><td class="stname">Browse / hover</td><td>bg <code>--state-hover</code>, border 1.5px dashed <code>color-mix(--ink-secondary 55%, transparent)</code>, no transform, no shadow</td></tr>
+          <tr><td class="stname">chip-meta (in card)</td><td>bg <code>--state-hover</code>, border transparent; hover: brand-tinted bg + border</td></tr>
+        </tbody></table>
+      </div></div>
+
+      <div class="block"><div class="block-h">Parts</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>Part</th><th>Class</th><th>Purpose</th></tr></thead><tbody>
+          <tr><td class="stname">Grid</td><td><code>.prov-card-grid</code></td><td>3-column fixed grid; responsive overrides in page</td></tr>
+          <tr><td class="stname">Card</td><td><code>.prov-card</code></td><td>Card surface, flex-col, gap 12px</td></tr>
+          <tr><td class="stname">Head</td><td><code>.prov-card-head</code></td><td>Flex row: icon + info</td></tr>
+          <tr><td class="stname">Icon wrapper</td><td><code>.prov-ic-w</code></td><td>44×44px, brand-tinted bg, border, radius 10px; <code>.is-azure</code> for branded fill</td></tr>
+          <tr><td class="stname">Info</td><td><code>.prov-card-info</code></td><td>Flex-col: name + status row</td></tr>
+          <tr><td class="stname">Name</td><td><code>.prov-card-name</code></td><td>600 weight, 14px, truncated</td></tr>
+          <tr><td class="stname">Status</td><td><code>.prov-card-status</code> + <code>.prov-card-dot</code> + <code>.prov-card-status-text</code></td><td>7px dot + 12px secondary text</td></tr>
+          <tr><td class="stname">Divider</td><td><code>.prov-card-divider</code></td><td>1px border-top rule</td></tr>
+          <tr><td class="stname">Metrics label</td><td><code>.prov-card-metrics-label</code></td><td>Small-caps uppercase label, ink-inactive</td></tr>
+          <tr><td class="stname">Footer</td><td><code>.prov-card-footer</code></td><td>Flex row, full-width CTA; pushed to bottom by <code>divider + div{flex:1}</code></td></tr>
+          <tr><td class="stname">Browse icon</td><td><code>.prov-card-browse-ic</code></td><td>40px dashed circle, centred, ink-secondary</td></tr>
+          <tr><td class="stname">Browse label</td><td><code>.prov-card-browse-label</code></td><td>600 weight, 14px, ink-secondary</td></tr>
+          <tr><td class="stname">Browse sub</td><td><code>.prov-card-browse-sub</code></td><td>12px, ink-inactive</td></tr>
+        </tbody></table>
+      </div></div>
+    </section>
+
     <!-- ===== CARD ===== -->
     <section class="comp" id="card">
       <h2>Card</h2>
@@ -1450,25 +1784,25 @@
             <div class="sbx-pop-sect">
               <span class="sbx-pop-label">Account</span>
               <div class="sbx-pop-list">
-                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>My Account</button>
-                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="6" height="6" x="16" y="16" rx="1"/><rect width="6" height="6" x="2" y="16" rx="1"/><rect width="6" height="6" x="9" y="2" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>Manage Plan</button>
-                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>Billing</button>
-                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M3 5a2 2 0 0 0 2 2h15a1 1 0 0 1 1 1v4h-4a2 2 0 0 0 0 4h4v2a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/></svg>Balance</button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>My Account</button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>Manage Plan</button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>Billing</button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>Balance</button>
               </div>
             </div>
             <div class="sbx-pop-sect">
               <span class="sbx-pop-label">Support</span>
               <div class="sbx-pop-list">
-                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M9 10h6"/><path d="M9 14h4"/></svg>Leave Feedback</button>
-                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 18v-2"/><path d="M9.1 11.5c.3-.7 1-1.2 1.9-1.2s1.6.5 1.9 1.2c.3 1.1-.8 1.5-1.4 1.8a2 2 0 0 0-.5 1.7"/></svg>Resources<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="m7 17 10-10"/></svg></button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M7.5 9.5c0 .687.265 1.383.697 1.844l3.009 3.264a1.14 1.14 0 0 0 .407.314 1 1 0 0 0 .783-.004 1.14 1.14 0 0 0 .398-.31l3.008-3.264A2.77 2.77 0 0 0 16.5 9.5 2.5 2.5 0 0 0 12 8a2.5 2.5 0 0 0-4.5 1.5"/></svg>Leave Feedback</button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M12 17h.01"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/></svg>Resources<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="m7 17 10-10"/></svg></button>
               </div>
             </div>
             <div class="segctrl is-sm sbx-pop-theme" role="tablist" aria-label="Theme">
-              <button class="segctrl-btn sbx-pop-theme-btn is-active" type="button" role="tab" aria-label="Light" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
-              <button class="segctrl-btn sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
-              <button class="segctrl-btn sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
+              <button class="segctrl-btn sbx-pop-theme-btn is-active" type="button" role="tab" aria-label="Light" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
+              <button class="segctrl-btn sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg></button>
+              <button class="segctrl-btn sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/></svg></button>
             </div>
-            <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign Out</button>
+            <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>Sign Out</button>
           </div></div></div>
         </div>
         <div class="spec"><b>Spec.</b> Surface <code>Surface/Background</code>, border <code>Stroke/Border</code> (1 px via <code>--border-width</code>), radius 4 px, padding 8 px, shadow <code>drop-shadow-lg</code>. Two labelled sections (<code>Account</code>, <code>Support</code>) of <code>SelectMenuItem</code> rows (h24, gap 6 px, 12 px Lucide icon + 12 px label). Theme switcher (sun / moon / monitor-speaker) is a segmented tabset (<code>Surface/Chips</code> bg, <code>--border-width</code> border, 20 px tabs). Sign Out is a plain row (no red — kept neutral per Figma).</div>
@@ -1497,7 +1831,7 @@
             </div>
           </div></div></div>
         </div>
-        <div class="spec"><b>Spec.</b> Same shell as the Account variant (<code>--border-width</code> stroke, <code>drop-shadow-lg</code>). Plan header: 20 px <code>shield-check</code> badge in <code>Brand/Tertiary</code> + 14 px <code>font-medium</code> plan name. Two metered rows — Subscription Tokens uses a 24 px coin + 16 px <code>font-medium</code> value with a <code>Brand/Tertiary</code> progress; Purchased Credits uses a 16 px coin + 12 px value with a <code>Feedback/Green</code> progress. Progress bar 4 px, track <code>Surface/Card</code>, radius full. Two CTAs: <b>Buy Credits</b> (<code>Button primary</code>, h36, <code>rounded-full</code>) and <b>Upgrade Plan</b> (<code>Button secondary</code>, same size).</div>
+        <div class="spec"><b>Spec.</b> Same shell as the Account variant (<code>--border-width</code> stroke, <code>drop-shadow-lg</code>). Plan header: 20 px <code>shield-check</code> badge in <code>Brand/Tertiary</code> + 14 px <code>font-medium</code> plan name. Two metered rows — Subscription Tokens uses a 24 px coin + 16 px <code>font-medium</code> value with a <code>Brand/Tertiary</code> progress; Purchased Credits uses a 16 px coin + 12 px value with a <code>Feedback/Green</code> progress. Progress bar 4 px, track <code>Surface/Card</code>, radius full. Two CTAs: <b>Buy Credits</b> (<code>Button primary</code>, h36, <code>rounded-full</code>) and <b>Upgrade Plan</b> (<code>Button secondary</code> — <code>--card</code> bg, neutral <code>--border</code>, <code>--ink-body</code> text; same size).</div>
       </div></div>
     </section>
 
@@ -1530,6 +1864,47 @@
           <tr><td class="stname">Close button</td><td class="stcell"><span class="colhint">bare ✕ glyph, <code>opacity .7 → 1</code> on hover, focus = global <code>ring-2 ring-ring ring-offset-2</code></span></td><td class="stcell"><span class="colhint">reuses <code>IconButton tertiary</code> — hover/pressed/focus all inherited from the tertiary variant; no bespoke states</span></td></tr>
           <tr><td class="stname">Surface harmonization</td><td class="stcell"><span class="colhint"><code>bg-background</code></span></td><td class="stcell"><span class="colhint"><span class="pend">⚠</span> peers (Modal / Dropdown) use <code>card</code> — settle one</span></td></tr>
         </tbody></table>
+      </div></div>
+    </section>
+
+    <!-- ===== OVERLAY ===== -->
+    <section class="comp" id="overlay">
+      <h2>Overlay</h2>
+      <div class="sub">Reusable full-viewport backdrop. <code>.ov</code> is <code>position:fixed; inset:0; background:rgba(15,23,42,.35); z-index:40; display:none</code>. Toggle open state with <code>.is-open</code>. Pairs with any slide-over panel or modal — place the panel as a DOM child of <code>.ov</code> so the backdrop and dismiss-on-click are co-located.</div>
+
+      <div class="block"><div class="block-h">Preview</div><div class="block-b">
+        <div class="stage" style="gap:16px">
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+            <div style="position:relative;width:220px;height:80px;border-radius:.375rem;overflow:hidden;border:1px solid var(--border)">
+              <div style="position:absolute;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--ink-secondary)">Page content</div>
+              <div style="position:absolute;inset:0;background:rgba(15,23,42,.35)"></div>
+            </div>
+            <code style="font-size:.625rem">.ov.is-open — backdrop visible</code>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+            <div style="position:relative;width:220px;height:80px;border-radius:.375rem;overflow:hidden;border:1px solid var(--border)">
+              <div style="position:absolute;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--ink-secondary)">Page content</div>
+            </div>
+            <code style="font-size:.625rem">.ov — hidden (default)</code>
+          </div>
+        </div>
+      </div></div>
+
+      <div class="block"><div class="block-h">Anatomy</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>Class</th><th>Role</th></tr></thead><tbody>
+          <tr><td class="stname"><code>.ov</code></td><td class="stcell"><span class="colhint">Full-viewport fixed backdrop — hidden by default (<code>display:none</code>). <code>z-index:40</code> — sits below panels (<code>z-index:41+</code>) and modals (<code>z-index:50+</code>).</span></td></tr>
+          <tr><td class="stname"><code>.ov.is-open</code></td><td class="stcell"><span class="colhint">Makes backdrop visible (<code>display:block</code>). Toggle via JS: <code>el.classList.add('is-open')</code>.</span></td></tr>
+        </tbody></table>
+      </div></div>
+
+      <div class="block"><div class="block-h">Usage pattern</div><div class="block-b">
+        <pre style="font-size:.6875rem;line-height:1.6;color:var(--ink);margin:0;white-space:pre-wrap">&lt;div id="my-ov" class="ov" onclick="if(event.target===this)closePanel()"&gt;
+  &lt;div id="my-panel" role="dialog"&gt;…&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- JS --&gt;
+document.getElementById('my-ov').classList.add('is-open');   // open
+document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
       </div></div>
     </section>
 
@@ -1669,6 +2044,56 @@
         </div>
       </div></div>
 
+    </section>
+
+    <!-- ===== SELECTOR ===== -->
+    <section class="comp" id="selector">
+      <h2>Selector</h2>
+      <div class="sub">Custom single-select. Trigger: <code>field</code>-like shell (border + card bg, 36 px, radius 6 px). Open state gains <code>--input-focus</code> border — same active signal as <a href="#input" style="color:var(--brand-primary)">Input</a>. Optional label above. Chevron rotates 180° when open. Closes on outside click.</div>
+
+      <div class="block"><div class="block-h">Preview — click to open</div><div class="block-b">
+        <div class="ce">
+          <div class="ce-cell"><div class="ce-tag expt">Default</div><div class="stage" style="align-items:flex-start">
+            <div class="sel-wrap">
+              <span class="sel-lbl">Connector</span>
+              <button class="sel-trig" type="button" aria-haspopup="listbox" aria-expanded="false" onclick="kitSelToggle(this)">
+                <span class="sel-val">Snowflake</span>
+                <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="sel-menu menu" role="listbox">
+                <div class="mi" role="option" onclick="kitSelSelect(this)">All sources</div>
+                <div class="mi" role="option" onclick="kitSelSelect(this)">Snowflake</div>
+                <div class="mi" role="option" onclick="kitSelSelect(this)">Salesforce</div>
+                <div class="mi" role="option" onclick="kitSelSelect(this)">BigQuery</div>
+              </div>
+            </div>
+          </div><div style="padding:.5rem .7rem"><div class="cspec">label above via <code>.sel-lbl</code>; trigger = <code>.sel-trig</code>; menu = <code>.sel-menu.menu</code> with <code>.mi</code> options. Click an option to select it; click outside or press Esc to close.</div></div></div>
+          <div class="ce-cell"><div class="ce-tag expt">Open state</div><div class="stage" style="align-items:flex-start;padding-top:8px;padding-bottom:160px">
+            <div class="sel-wrap">
+              <span class="sel-lbl">Connector</span>
+              <button class="sel-trig s-open" type="button" aria-haspopup="listbox" aria-expanded="true">
+                <span class="sel-val">Snowflake</span>
+                <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="sel-menu menu" role="listbox" style="display:block">
+                <div class="mi s-hover" role="option">All sources</div>
+                <div class="mi" role="option">Snowflake</div>
+                <div class="mi" role="option">Salesforce</div>
+                <div class="mi" role="option">BigQuery</div>
+              </div>
+            </div>
+          </div><div style="padding:.5rem .7rem"><div class="cspec">trigger border → <code>--input-focus</code>; chevron 180°; menu appears below trigger (or above in space-constrained contexts such as the composer footer)</div></div></div>
+        </div>
+      </div></div>
+
+      <div class="block"><div class="block-h">States — was → became</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>State</th><th>Current (prod) · was</th><th>Expected · became</th></tr></thead><tbody>
+          <tr><td class="stname">Default</td><td class="stcell"><span class="colhint">— native <code>&lt;select&gt;</code></span></td><td class="stcell"><span class="ministage"><div class="sel-wrap" style="width:160px"><button class="sel-trig" type="button"><span class="sel-val">Snowflake</span><svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button></div></span><div class="cspec"><b>became:</b> border <code>--border</code>, bg <code>--card</code>, height 36 px — same shell as <code>Input</code></div></td></tr>
+          <tr><td class="stname">Hover</td><td class="stcell"><span class="colhint">— browser default</span></td><td class="stcell"><span class="ministage"><div class="sel-wrap" style="width:160px"><button class="sel-trig s-hover" type="button"><span class="sel-val">Snowflake</span><svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button></div></span><div class="cspec"><b>became:</b> border → <code>--border-hover</code></div></td></tr>
+          <tr><td class="stname">Open (active)</td><td class="stcell"><span class="colhint">— browser native dropdown</span></td><td class="stcell"><span class="ministage"><div class="sel-wrap" style="width:160px"><button class="sel-trig s-open" type="button" aria-expanded="true"><span class="sel-val">Snowflake</span><svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button></div></span><div class="cspec"><b>became:</b> border → <code>--input-focus</code> — matches <code>Input / InputGroup</code> active signal; chevron 180°</div></td></tr>
+          <tr><td class="stname">Focus ring</td><td class="stcell"><span class="colhint">— browser outline</span></td><td class="stcell"><div class="cspec"><b>became:</b> <code>:focus-visible</code> → <code>--shadow-focus-brand</code> (same as all kit interactives)</div></td></tr>
+        </tbody></table>
+      </div></div>
     </section>
 
     <!-- ===== DATEPICKER ===== -->
@@ -1878,6 +2303,57 @@
       </div></div>
     </section>
 
+    <section class="comp" id="provcard">
+      <h2>Provider Card / Elevation-lift hover</h2>
+      <div class="sub">Card used on the <a href="pages/metrics-landing.html" style="color:var(--brand-primary)">Metrics</a> and <a href="pages/data-sources_connections-landing.html" style="color:var(--brand-primary)">Data Sources → Connections</a> pages to represent a data provider. At rest: <code>--shadow-rest</code> ghost depth. On hover: <strong>elevation-lift</strong> — deeper shadow (<code>--shadow-lift-hover</code>), branded border tint (<code>color-mix(brand-primary 22%, border)</code>), and <code>translateY(-1px)</code>. The lift communicates "clickable card" — distinct from the flat <a href="#chatrow" style="color:var(--brand-primary)">ChatRow</a> hover which uses a background swap only. The browse/ghost card variant (<code>.is-browse</code>) suppresses the lift to signal a secondary call-to-action.</div>
+
+      <div class="block"><div class="block-h">Preview — hover the cards</div><div class="block-b">
+        <div class="ce">
+          <div class="ce-cell" style="flex:1">
+            <div class="ce-tag expt">Elevation-lift (provider / ds-card)</div>
+            <div class="stage" style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:flex-start;padding:1.25rem">
+              <div style="width:220px;background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s;cursor:pointer" onmouseenter="this.style.cssText+=';box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)'" onmouseleave="this.style.boxShadow='var(--shadow-rest)';this.style.borderColor='var(--border)';this.style.transform=''">
+                <div style="display:flex;align-items:center;gap:.625rem">
+                  <div style="width:2.5rem;height:2.5rem;border-radius:.5rem;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;flex:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#0052CC"/><path d="M12 4L4 20h4l1.5-3h5l1.5 3h4L12 4zm0 5.5L14 14h-4l2-4.5z" fill="white"/></svg></div>
+                  <div><div style="font-weight:600;font-size:.875rem;color:var(--ink)">Jira Software</div><div style="font-size:.75rem;color:var(--brand-primary)">Connected</div></div>
+                </div>
+                <div style="display:flex;gap:.375rem;flex-wrap:wrap">
+                  <span style="background:color-mix(in srgb,var(--brand-primary) 10%,var(--card));border:1px solid color-mix(in srgb,var(--brand-primary) 25%,transparent);color:var(--brand-primary);font-size:.6875rem;font-weight:500;padding:0 .5rem;height:1.375rem;display:inline-flex;align-items:center;border-radius:9999px">Issues</span>
+                  <span style="background:color-mix(in srgb,var(--brand-primary) 10%,var(--card));border:1px solid color-mix(in srgb,var(--brand-primary) 25%,transparent);color:var(--brand-primary);font-size:.6875rem;font-weight:500;padding:0 .5rem;height:1.375rem;display:inline-flex;align-items:center;border-radius:9999px">Sprints</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding-top:.375rem;border-top:1px solid var(--border)"><span style="font-size:.75rem;color:var(--ink-secondary)">12 metrics</span><button class="btn btn-sm btn-primary">Manage</button></div>
+              </div>
+              <div style="width:220px;background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s;cursor:pointer" onmouseenter="this.style.cssText+=';box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)'" onmouseleave="this.style.boxShadow='var(--shadow-rest)';this.style.borderColor='var(--border)';this.style.transform=''">
+                <div style="display:flex;align-items:center;gap:.625rem">
+                  <div style="width:2.5rem;height:2.5rem;border-radius:.5rem;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;flex:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#161B22"/><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z" fill="white"/></svg></div>
+                  <div><div style="font-weight:600;font-size:.875rem;color:var(--ink)">GitHub</div><div style="font-size:.75rem;color:var(--ink-secondary)">Not connected</div></div>
+                </div>
+                <div style="display:flex;gap:.375rem;flex-wrap:wrap">
+                  <span style="background:var(--bg);border:1px solid var(--border);color:var(--ink-secondary);font-size:.6875rem;font-weight:500;padding:0 .5rem;height:1.375rem;display:inline-flex;align-items:center;border-radius:9999px">PRs</span>
+                  <span style="background:var(--bg);border:1px solid var(--border);color:var(--ink-secondary);font-size:.6875rem;font-weight:500;padding:0 .5rem;height:1.375rem;display:inline-flex;align-items:center;border-radius:9999px">Commits</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding-top:.375rem;border-top:1px solid var(--border)"><span style="font-size:.75rem;color:var(--ink-secondary)">8 metrics</span><button class="btn btn-sm btn-outline">Connect</button></div>
+              </div>
+              <div style="width:220px;min-height:9rem;background:var(--bg);border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 35%,transparent);border-radius:.75rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:.375rem;padding:1rem;cursor:pointer;transition:background .15s,border-color .15s" onmouseenter="this.style.background='var(--state-hover)'" onmouseleave="this.style.background='var(--bg)'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-secondary)" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+                <span style="font-size:.8125rem;font-weight:600;color:var(--ink)">More providers</span>
+                <span style="font-size:.75rem;color:var(--ink-secondary)">Browse all data sources</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+
+      <div class="block"><div class="block-h">States — hover recipe</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>State</th><th>Token / value</th><th>Notes</th></tr></thead><tbody>
+          <tr><td class="stname">Rest</td><td class="stcell"><code>box-shadow: var(--shadow-rest)</code><br><code>border-color: var(--border)</code><br><code>transform: none</code></td><td class="stcell">Ghost depth only — card reads as a contained surface, not a floating one</td></tr>
+          <tr><td class="stname">Hover (lift)</td><td class="stcell"><code>box-shadow: var(--shadow-lift-hover)</code><br><code>border-color: color-mix(brand-primary 22%, border)</code><br><code>transform: translateY(-1px)</code><br><code>transition: .18s all three props</code></td><td class="stcell">Elevation lift communicates "clickable". Border tint echoes brand. Distinct from ChatRow flat hover (background swap only).</td></tr>
+          <tr><td class="stname">Browse / ghost card</td><td class="stcell"><code>background: var(--bg)</code>, dashed border<br>no shadow, no transform on hover</td><td class="stcell"><code>.is-browse</code> variant suppresses lift — secondary CTA should feel lighter than real cards</td></tr>
+        </tbody></table>
+      </div></div>
+    </section>
+
+
   </main>
 </div>
 
@@ -1895,6 +2371,28 @@
   });
 
   /* Chip — single-select within a .chip-row; mirrors the role="tablist" pattern. */
+  function kitSelToggle(btn){
+    var willOpen = btn.getAttribute('aria-expanded') !== 'true';
+    document.querySelectorAll('.sel-trig[aria-expanded="true"]').forEach(function(b){
+      if(b !== btn) b.setAttribute('aria-expanded','false');
+    });
+    btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+  }
+  function kitSelSelect(opt){
+    var wrap = opt.closest('.sel-wrap');
+    var val = wrap && wrap.querySelector('.sel-val');
+    if(val) val.textContent = opt.textContent.trim();
+    var trig = wrap && wrap.querySelector('.sel-trig');
+    if(trig) trig.setAttribute('aria-expanded','false');
+  }
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.sel-wrap')){
+      document.querySelectorAll('.sel-trig[aria-expanded="true"]').forEach(function(b){
+        b.setAttribute('aria-expanded','false');
+      });
+    }
+  });
+
   function kitChipSelect(el){
     var row = el.closest('.chip-row');
     if (!row) return;
@@ -1908,31 +2406,6 @@
     el.setAttribute('aria-selected','true');
   }
 
-  /* Sortable table headers — cycle unsorted → is-asc → is-desc → unsorted on click (or Enter/Space). One column active at a time per table; rotate the inner <path> to match the state. */
-  var SORT_GLYPHS = {
-    none: 'M6 2 3 5h6z M6 10 3 7h6z',
-    asc:  'M6 2 2 7h8z',
-    desc: 'M6 10 2 5h8z'
-  };
-  function setSortState(th, next){
-    th.classList.remove('is-asc','is-desc');
-    if (next === 'asc')  th.classList.add('is-asc');
-    if (next === 'desc') th.classList.add('is-desc');
-    var path = th.querySelector('.sort-ic path');
-    if (path) path.setAttribute('d', SORT_GLYPHS[next] || SORT_GLYPHS.none);
-  }
-  document.querySelectorAll('table.js-sort').forEach(function(tbl){
-    tbl.querySelectorAll('th.s-sort').forEach(function(th){
-      function cycle(){
-        var state = th.classList.contains('is-asc') ? 'asc' : th.classList.contains('is-desc') ? 'desc' : 'none';
-        var next  = state === 'none' ? 'asc' : state === 'asc' ? 'desc' : 'none';
-        tbl.querySelectorAll('th.s-sort').forEach(function(other){ if (other !== th) setSortState(other, 'none'); });
-        setSortState(th, next);
-      }
-      th.addEventListener('click', cycle);
-      th.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); cycle(); }});
-    });
-  });
 
   /* Search input — wire the clearable X button (reveal is CSS-only via :has(:not(:placeholder-shown))). Click clears + refocuses + dispatches input event. */
   document.querySelectorAll('.igrp-clear').forEach(function(btn){
@@ -2005,7 +2478,7 @@
     });
   });
 
-  /* Theme switcher inside the account popover — sun = light, moon = dark, monitor-speaker = system */
+  /* Theme switcher inside the account popover — sun = light, moon = dark, monitor-smartphone = system (Lucide names match prod). Slot bg follows the legacy .sbx-pop-theme recipe (--chips), not the new .segctrl's --card2. */
   document.querySelectorAll('.sbx-pop-theme').forEach(function(set){
     set.querySelectorAll('.sbx-pop-theme-btn').forEach(function(btn, i){
       btn.addEventListener('click', function(e){

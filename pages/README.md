@@ -19,8 +19,17 @@ real screens look in the current production design vs the expected (new) design.
 ## Files
 
 - `kit-theme.css` — shared tokens + component CSS (single source of truth).
-- One HTML file per screen, e.g. `dashboard.html`, `chat-sidebar.html`, `settings.html`,
-  `empty-state.html`, `form.html`. Each composes real components into a full layout.
+- One HTML file per screen. Each composes real components into a full layout.
+
+| File | Screen | Key components |
+|---|---|---|
+| `chat-landing.html` | Chat landing (empty state / hero) | Sidebar (Expected only), Composer, Suggestion chips |
+| `chat_page-landing.html` | Chat page (active conversation) | Sidebar (Expected only), Thread, Composer |
+| `chats-landing.html` | Chats library | Sidebar (Expected only), ChatRow list, MetaRow, Search |
+| `data-sources_connections-landing.html` | Data Sources — Connections (sidebar `Sources` active) | Sidebar (Expected only), Banner, ConnectorGrid |
+| `data-sources_files-landing.html` | Files (sidebar `Files` active) — split off from Data Sources into a top-level route | Sidebar (Expected only), FileList, drop zone |
+| `metrics-landing.html` | Metrics dashboard | Sidebar (Current + Expected toggle), KPI cards, SegmentedControl, Chart, Tabs, Table |
+| `user_profile-modal.html` | Metrics / Account modal (Expected only) | Sidebar with account popover open; clicking a nav item opens the full AccountModal dialog; left nav reuses `.sbx-pop-*` |
 
 ## How a page is composed
 
@@ -40,6 +49,17 @@ quick index.
 The sticker must be draggable with the mouse (inline `mousedown / mousemove / mouseup`
 script — no libraries) and themed via the same kit tokens so it follows Light / Dark
 / `.prod` automatically.
+
+## Responsive behaviour
+
+Pages are responsive in two stages:
+
+- **≥ 1024 px**: full layout — sidebar visible as a fixed-width column, main column takes the rest. The in-sidebar collapse trigger toggles icon-mode in place.
+- **< 1024 px**: sidebar is **fully hidden** (no icon rail) and the topbar carries a **hamburger** (`.cl-burger`). Tap → sidebar slides in from the left as a **fixed-position overlay** (`min(18rem, 86vw)`) over the main column with a **full-viewport** semi-opaque backdrop (`inset:0`, `rgba(15,23,42,.45)` light / `rgba(2,6,23,.6)` dark, with a `backdrop-filter:blur(2px)`) dimming the whole page including the topbar. Tap the backdrop or the trigger inside the open sidebar to close. Same overlay/backdrop pattern Metrics uses for its right panel.
+- **< 640 px**: main column tightens — title font-size, composer padding, and hero gap all shrink for narrow phones. Composer footer rows are allowed to wrap (`flex-wrap:wrap`) so the Send button can drop to its own row if the dropdown labels don't fit.
+- **< 480 px**: composer dropdown labels (`.cl-dd-lbl` — "Connectors", "Gemini Pro") and the Send button label (`.cl-send-lbl`) collapse to **icon-only**. Glyphs + `aria-label` carry the meaning. Suggestion pills also tighten (h32, smaller padding + 12px font). Same icon-only-on-mobile pattern OpenAI's chat composer uses.
+
+The implementation uses one root class (`html.side-open`) + the topbar's `<button class="cl-burger">` + a `<div class="cl-side-backdrop">` element. Toggle via an inline `onclick` plus a small auto-apply IIFE that drops `.side-open` whenever the viewport crosses back to desktop. See `chat-landing.html` for the working example; full contract documented in `../changes/Sidebar.md` → *Responsive behaviour*.
 
 ## Topbar / page chrome
 

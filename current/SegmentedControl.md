@@ -2,9 +2,9 @@
 
 **There is no first-class SegmentedControl in `@insightis/ui` today.**
 
-The only live segmented control in production is the **theme switcher inside the Sidebar Account popover** (Light · Dark · System). It is implemented inline as part of the Account popover composition, not as a reusable component, under the Sidebar-scoped class names `.sbx-pop-theme` / `.sbx-pop-theme-btn`.
+There are **two live prod instances** of the segmented-control pattern, both on the theme switcher (Light · Dark · System). Neither is exposed as a reusable component — both are inline compositions.
 
-## The existing instance (theme switcher)
+## Instance 1 — Sidebar Account popover (`.sbx-pop-theme`)
 
 | Slot | Value |
 |---|---|
@@ -15,6 +15,20 @@ The only live segmented control in production is the **theme switcher inside the
 | Item focus-visible | `--shadow-focus-brand` |
 | Item disabled | not defined in prod |
 | Size variants | none (icon-only, 20 px only) |
+| ARIA | `role="tablist"` on container, `role="tab"` on items |
+
+## Instance 2 — Settings modal theme switcher (Tailwind, `role="tablist"`)
+
+Inspected via DevTools on `https://insightis-app.devart.info` (Settings > Appearance, 2026-06-17).
+
+| Slot | Value |
+|---|---|
+| Container | Tailwind `inline-flex items-center justify-center gap-1 border border-stroke bg-chip h-9 p-1 rounded-md w-full`; computed bg `#F3F5F7` (`bg-chip`/`--chips`), border `0.8px solid rgb(226,232,240)` (Slate-200), height 36 px, padding 4 px, radius 6 px, gap 4 px, full-width |
+| Item (inactive) | bg `transparent`, text `rgb(54,68,89)` (≈ Text/Primary — **same as active**, no visual differentiation), height 28 px, padding `6 px / 12 px`, radius 4 px, font 14 px / 500 |
+| Item (active) | bg `rgb(255,255,255)` (`Surface/Card`), text same `rgb(54,68,89)`, `box-shadow: rgba(0,0,0,.05) 0px 1px 2px 0px` (outset drop only — **no inset rim**) |
+| Icons | 24 × 24 Lucide (all states) |
+| Item hover | not captured (Tailwind hover class, no bg change visible in static DevTools) |
+| Item disabled | not defined |
 | ARIA | `role="tablist"` on container, `role="tab"` on items |
 
 ## Why this matters

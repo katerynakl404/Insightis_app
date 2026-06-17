@@ -18,7 +18,6 @@ text-xs (`.75rem`), padding 4/8 px, radius `md` (6 px), placements (top/right/bo
 Brand colour never appears on a tooltip; it's a neutral text surface in both themes.
 
 ## Accessibility & consistency self-check
-
 ```
 Consistency: PASS — bg + text now both come from semantic tokens; no raw hex in the .tt rule. Same .tt class reused by Tooltip and TruncatedTitleTooltip — no inline-style drift.
 Accessibility:

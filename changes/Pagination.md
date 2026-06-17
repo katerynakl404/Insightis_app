@@ -1,4 +1,4 @@
-# Pagination — prod → expected
+﻿# Pagination — prod → expected
 
 Pagination is composed entirely of Button + IconButton variants — its visual changes are inherited from those components, not defined separately.
 

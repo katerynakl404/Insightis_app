@@ -2,17 +2,18 @@
 
 Baseline: [`../current/Badge.md`](../current/Badge.md).
 
-| Variant / state | Current (prod) | Expected | Specification |
-|---|---|---|---|
-| Primary | bg `primary/20` (alpha-mix teal over surface), text `primary` `#06596B` | **bg solid `Brand-50` `#E8F2F5` (light) / `Brand-900` `#0A1A1F` (dark); text `Brand/Secondary` (`Brand-700` `#066867` light / `Brand-400` `#2FA29B` dark)** | Replace alpha-mix with a clean primitive surface so the chip reads as an intentional pale-teal accent, not a muddy wash. Text switches from `Brand/Primary` → `Brand/Secondary` so contrast hits comfortable AA in both themes (`Brand/Primary` on Brand-50 was only 4.21:1; `Brand/Secondary` reaches 5.84:1 light / 5.77:1 dark). |
-| Secondary | bg `chip` `#FAFAFA`, text `content-secondary` `#62748E` (~4.7:1) | **bg `--badge-secondary-bg` = `Surface/Card 2` `#F1F5F9` (light) / `#21212C` (dark); text `--badge-secondary-text` = `Text/Body`** | Old mapping (`--chips`) collapsed against the kit stages (`.stage` bg = `--bg` = Slate-50 in light = `--chips` Slate-50) — chip vanished. New tokens lift the chip one neutral step above the page bg via `--card2`; outline + lightness step now carry the affordance. Contrast: light Slate-700 on Slate-100 = 10.36:1 AAA; dark Grey-100 on Grey-800 = 12.86:1 AAA. The `.prod` scope still maps `--badge-secondary-bg`/`-text` to `--chips` / `--ink-secondary` so the Current column keeps showing what prod actually ships. |
-| Body | bg `chip`, text `content-body` | — no change (hex shift only → [colors](colors.md)) | Reference variant — Secondary is now intentionally aligned to it. |
-| Success | bg `green/15`, text `green` | — no change (hex shift only) | — |
-| Error | bg `red/15`, text `red` | — no change (hex shift dark theme only → [colors](colors.md)) | — |
-| Attention | bg `attention/15`, text `attention` | — no change | — |
-| **With leading icon** *(new)* | — did not exist | **new** — inline SVG slot via existing `gap:.5rem`; helper class `.badge .b-ic{width:14px;height:14px;flex:none}` | Icon inherits `currentColor` so it picks up the chip's text token across every variant. |
-| **Removable (close)** *(new)* | — did not exist | **new** — trailing `×` button: `.badge .b-x{width:14px;height:14px;margin-left:2px;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent}` + hover `opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)` + brand focus ring | Promotes the existing `.acpl .acpl-ctrl .badge .b-x` pattern into a first-class Badge slot. |
-| **Status dot** *(new)* | — did not exist | **new** — leading 6×6 dot: `.badge .b-dot{width:6px;height:6px;border-radius:9999px;background:currentColor;flex:none}`, paired with semantic colour variants (`badge-green` online / `badge-attention` idle / `badge-red` offline) | Dot uses `currentColor` so it inherits the variant's text token. Status conveyed by dot **+** text label, never colour alone (WCAG 1.4.1). |
+| Variant / state | Current (prod) | v1.0 | Expected | Specification |
+|---|---|---|---|---|
+| Primary | bg `primary/20` (alpha-mix teal over surface), text `primary` `#06596B` | — | **bg solid `Brand-50` `#E8F2F5` (light) / `Brand-900` `#0A1A1F` (dark); text `Brand/Secondary` (`Brand-700` `#066867` light / `Brand-400` `#2FA29B` dark)** | Replace alpha-mix with a clean primitive surface so the chip reads as an intentional pale-teal accent, not a muddy wash. Text switches from `Brand/Primary` → `Brand/Secondary` so contrast hits comfortable AA in both themes (`Brand/Primary` on Brand-50 was only 4.21:1; `Brand/Secondary` reaches 5.84:1 light / 5.77:1 dark). |
+| Secondary | bg `chip` `#FAFAFA`, text `content-secondary` `#62748E` (~4.7:1) | — | **bg `--badge-secondary-bg` = `Surface/Card 2` `#F1F5F9` (light) / `#21212C` (dark); text `--badge-secondary-text` = `Text/Body`** | Old mapping (`--chips`) collapsed against the kit stages (`.stage` bg = `--bg` = Slate-50 in light = `--chips` Slate-50) — chip vanished. New tokens lift the chip one neutral step above the page bg via `--card2`; outline + lightness step now carry the affordance. Contrast: light Slate-700 on Slate-100 = 10.36:1 AAA; dark Grey-100 on Grey-800 = 12.86:1 AAA. The `.prod` scope still maps `--badge-secondary-bg`/`-text` to `--chips` / `--ink-secondary` so the Current column keeps showing what prod actually ships. |
+| Body | bg `chip`, text `content-body` | — | — no change (hex shift only → [colors](colors.md)) | Reference variant — Secondary is now intentionally aligned to it. |
+| Success | bg `green/15`, text `green` | — | — no change (hex shift only) | — |
+| Error | bg `red/15`, text `red` | — | — no change (hex shift dark theme only → [colors](colors.md)) | — |
+| Attention | bg `attention/15`, text `attention` | — | — no change | — |
+| **With leading icon** *(new)* | — did not exist | — | **new** — inline SVG slot via existing `gap:.5rem`; helper class `.badge .b-ic{width:14px;height:14px;flex:none}` | Icon inherits `currentColor` so it picks up the chip's text token across every variant. |
+| **Removable (close)** *(new)* | — did not exist | — | **new** — trailing `×` button: `.badge .b-x{width:14px;height:14px;margin-left:2px;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent}` + hover `opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)` + brand focus ring | Promotes the existing `.acpl .acpl-ctrl .badge .b-x` pattern into a first-class Badge slot. |
+| **Status dot** *(new)* | — did not exist | — | **new** — leading 6×6 dot: `.badge .b-dot{width:6px;height:6px;border-radius:9999px;background:currentColor;flex:none}`, paired with semantic colour variants (`badge-green` online / `badge-attention` idle / `badge-red` offline) | Dot uses `currentColor` so it inherits the variant's text token. Status conveyed by dot **+** text label, never colour alone (WCAG 1.4.1). |
+| **Size: small (sm)** | — (did not exist) | — | height `1.25rem` (20 px), padding `0 .375rem`, font `0.6875rem` (11 px), radius `0.25rem` | New compact size for dense UI contexts (table cells, inline labels) |
 
 ## No change (—)
 
@@ -23,7 +24,6 @@ Heights md 28 px and the xs–xl size scale, radius `md`/`full`, gap 8 px betwee
 `--brand-50` (Primary bg, light) · `--brand-900` (Primary bg, dark — via `.dark .badge-primary` override) · `--brand-secondary` (Primary text — theme-adaptive: Brand-700 light / Brand-400 dark, comfortable AA in both) · `--brand-primary` (icon `currentColor` in primary-branded chips) · `--chips` (Secondary / Body bg) · `--ink-body` (Secondary / Body text) · `--fb-red` / `--fb-red-text` · `--fb-green` · `--fb-attention` · `--focus-ring-brand` (removable `:focus-visible`) · `--card` (focus-ring gap). All resolve via existing semantic + primitive aliases — no new tokens introduced, no inline color-mix.
 
 ## Accessibility & consistency self-check
-
 ```
 Consistency: PASS — all colours via tokens; Primary now uses a solid primitive surface instead of alpha-mix over an arbitrary parent. Removable `.b-x` reuses the brand focus-ring recipe shared with Button / IconButton / Tabs.
 Accessibility:

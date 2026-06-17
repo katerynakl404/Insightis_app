@@ -1,4 +1,4 @@
-# Sheet — prod → expected
+﻿# Sheet — prod → expected
 
 Source: `@insightis/ui` `Sheet/index.tsx`. Baseline: [`../current/Sheet.md`](../current/Sheet.md).
 

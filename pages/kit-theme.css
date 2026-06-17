@@ -1,9 +1,9 @@
   /* ===== PRIMITIVES — the ONLY place raw hex appears ===== */
   /* Every semantic + component token below references one of these. */
   :root{
-    /* Brand (custom teal) */
-    --brand-50:#E8F2F5;--brand-100:#C7DDE5;--brand-200:#93C0C8;--brand-300:#5DA0A8;--brand-400:#2FA29B;
-    --brand-500:#148F8D;--brand-600:#07807E;--brand-700:#066867;--brand-800:#142B31;--brand-900:#0A1A1F;
+    /* Brand (custom teal) + custom desaturated variants for "quietly branded" surfaces */
+    --brand-50:#E8F2F5;--brand-50-soft:#F0F6F8;--brand-100:#C7DDE5;--brand-200:#93C0C8;--brand-300:#5DA0A8;--brand-400:#2FA29B;
+    --brand-500:#148F8D;--brand-600:#07807E;--brand-700:#066867;--brand-800:#142B31;--brand-900:#0A1A1F;--brand-900-soft:#111A1C;
     /* Tertiary (custom cyan-teal) */
     --tertiary-50:#EBF8F8;--tertiary-100:#C6EEED;--tertiary-200:#95E1DF;--tertiary-300:#5ED0CF;--tertiary-400:#2EBEC4;
     --tertiary-500:#14A8AF;--tertiary-600:#0D8E97;--tertiary-700:#0D717A;--tertiary-800:#0E5862;--tertiary-900:#0E464C;--tertiary-950:#052A32;
@@ -33,10 +33,16 @@
     --content-max-wide:960px;
     --content-max-width:var(--content-max-wide);
     --bg:var(--slate-50);--card:var(--white);--card2:var(--slate-100);--chips:var(--slate-50);
+    /* Subtle brand-tinted surface — for accent tiles (e.g. AccountModal credits) that need to
+       feel "branded but quiet". Uses desaturated brand primitives (Brand-50-soft / Brand-900-soft)
+       — same lightness as canonical Brand-50/-900 but reduced teal saturation, so the tile reads
+       as "neutral with a hint of brand" rather than "obviously teal". */
+    --surface-accent:var(--brand-50-soft);
     --brand-primary:var(--brand-600);--brand-secondary:var(--brand-700);--brand-tertiary:var(--tertiary-600);--brand-hover:var(--brand-500);--brand-press:var(--brand-700);
     --ink:var(--slate-900);--ink-body:var(--slate-700);--ink-secondary:var(--slate-550);--ink-inactive:var(--slate-450);
     --border:var(--slate-200);--border-hover:var(--slate-300);
     --state-hover:var(--slate-100);--state-pressed:var(--brand-50);--state-disabled:var(--slate-200);
+    --progress-track:var(--card2);
     --fb-red:var(--red-700);--fb-red-hover:var(--red-800);--fb-red-press:var(--red-850);
     /* Feedback/Red_Text — theme-adaptive destructive text/icon colour. Red-700 on white card = 8.39:1 AA.
        --fb-red (red-700) would fail AA 2.76:1 against dark Surface/Card, so a brighter red is used in .dark below.
@@ -53,14 +59,57 @@
     --logo-mark:var(--brand-600);                /* was #07807D — typo of Brand-600 */
     /* Button (component-scoped, theme-independent — keep AA vs #FFF in both themes) */
     --btn-primary-bg:var(--brand-600);--btn-primary-bg-hover:var(--brand-700);--btn-primary-bg-press:var(--tertiary-800);--btn-primary-text:var(--white);
+    /* Banner gradient variant — override --grad-teal-dark per-instance to swap the fill. */
+    --grad-teal-dark:linear-gradient(135deg,var(--brand-400) 0%,var(--slate-900) 100%);
+    --banner-grad-text:var(--white);
+    --banner-grad-sub:color-mix(in srgb,var(--white) 82%,transparent);
+    --banner-grad-ic-bg:color-mix(in srgb,var(--white) 18%,transparent);
     /* Always-white content on solid surfaces — destructive Button text, Checkbox mark + indeterminate bar, Switch thumb. Theme-independent. */
     --content-on-solid:var(--white);
     /* Secondary Button / IconButton default bg — exact Card surface so the button shares the card-fill identity. */
     --btn-secondary-bg:var(--card);
     /* Secondary Button / IconButton hover bg — brand-tinted overlay so hover stays distinguishable from any surrounding neutral surface (page bg, Card, modal panel). 8% Brand/Primary mixed over Surface/Card. Re-resolves per-theme via --card and --brand-primary. */
     --btn-secondary-bg-hover:color-mix(in srgb, var(--brand-primary) 8%, var(--card));
-    /* Secondary Button / IconButton hover border — one step more contrasted than default --border (Slate-200 → Slate-300); subtler than the form-field --border-hover (Slate-400). */
-    --btn-secondary-border-hover:var(--slate-300);
+    /* Secondary Button / IconButton borders — bumped one step darker than --border for visibility
+       on Card surface (Slate-200 read as too soft on white). Stepwise hover affordance preserved.
+       REVERT path: replace --btn-secondary-border with var(--border) and --btn-secondary-border-hover
+       with var(--slate-300). */
+    --btn-secondary-border:var(--slate-300);        /* default — was --border (Slate-200) */
+    --btn-secondary-border-hover:var(--slate-400);  /* hover — bumped from Slate-300 */
+    /* Outlined Button / IconButton hover + press bg — soft Brand/Primary overlays over transparent.
+       Theme-static (same recipe in both themes — Brand-Primary is bright enough at 500 in dark that
+       6% still registers). Single source of truth for the .btn-outline + .iconbtn-outline family. */
+    --btn-outline-bg-hover:color-mix(in srgb, var(--brand-primary) 6%, transparent);
+    --btn-outline-bg-press:color-mix(in srgb, var(--brand-primary) 8%, transparent);
+    /* Destructive Outlined Button / IconButton hover + press bg — soft Feedback/Red overlays over transparent. Theme-aware: red's lower luminance gets absorbed by dark surfaces, so dark theme overrides these with stronger percentages for parity of perceived prominence (see .dark block). Single source of truth for the overlay strength. */
+    --btn-outline-destructive-bg-hover:color-mix(in srgb, var(--fb-red) 6%, transparent);
+    --btn-outline-destructive-bg-press:color-mix(in srgb, var(--fb-red) 8%, transparent);
+    /* Destructive Outlined default border — theme-aware. Light uses full Feedback/Red (Red-700) on
+       white for the recognisable danger affordance. Dark dims to Red-800 (see .dark block) because
+       Red-700 on a near-black surface reads as too saturated/shouty. */
+    --btn-outline-destructive-border:var(--fb-red);
+    /* Destructive Outlined hover/press border — theme-aware. Light goes darker (Red-800) for more contrast on white; dark goes lighter (Red-500) because going darker on a dark surface collapses the border into the bg. Same convention as --brand-hover (lighter step on dark). */
+    --btn-outline-destructive-border-hover:var(--fb-red-hover);
+    /* SegmentedControl — "raised tile" pattern per Apple HIG. Slot is a lifted surface;
+       active pill rises one step above the slot in both themes.
+       - Light: parent --card (white) → slot --card2 (Slate-100) → pill --card (white)
+       - Dark:  parent --card (Grey-900) → slot --card2 (Grey-800, lifted from parent) → pill --chips (Grey-700, lifted from slot)
+       Hover bg sits HALFWAY between the slot and the pill — a softer lift than the active state so
+       the pill stays the most prominent surface (rim + drop shadow + bg). Earlier we used the pill
+       bg itself for hover (shadcn canon), but in this palette the slot→pill contrast already reads
+       clearly enough that an equal-strength hover felt as loud as a click on dark; halving the lift
+       gives a subtle preview that still tracks the eye. */
+    --segctrl-btn-hover-bg:color-mix(in srgb, var(--card) 50%, var(--card2));
+    /* Active-pill lift — INSET 1px rim + outset drop shadow. The visible rim is preserved as the
+       defining edge of the active state. Rim uses the kit's canonical --border (Slate-200) so the
+       edge is harmonious with every other 1 px border in the system instead of a pure-black-alpha
+       (which previously read as too neutral / cool-grey against the cool-slate palette). Hover
+       uses the same colour at 50% mix below — same rim shape, softer tone. */
+    --segctrl-active-shadow:inset 0 0 0 1px var(--border), 0 1px 2px rgba(0,0,0,.06);
+    /* Hover rim — --border at 50% mix with transparent, so it reads as a half-strength version of
+       active. Same hue, half the opacity — gives a clean default → hover → active progression
+       without introducing a new token. */
+    --segctrl-hover-shadow:inset 0 0 0 1px color-mix(in srgb, var(--border) 50%, transparent);
     /* Card / list-row hover + press border — soft brand-tinted alphas. Separate token from
        --border-hover (which stays neutral for form controls). Used by .card-c, .sbx-chat,
        .cl-composer in chat-landing, any future card-style component. Re-resolves per-theme
@@ -109,10 +158,28 @@
     --motion-slow:240ms;
     --motion-ease:cubic-bezier(.4,0,.2,1);
     --motion-ease-out:cubic-bezier(0,0,.2,1);
+
+    /* ===== Shadow tokens — reusable elevation recipes =====
+       Canonical depth scale. Pick by intent, not by raw values:
+         --shadow-rest         — barely-there "ghost" depth at rest (cards, list rows)
+         --shadow-rest-hover   — slight lift on hover (chat-row, flat-hover pattern)
+         --shadow-lift-hover   — elevation lift on hover (provider cards, ds-cards): deeper shadow + translateY(-1px)
+         --shadow-overlay-soft — floating overlay (popover, sheet, toast)
+         --shadow-menu         — dropdown menu (lighter than overlay-soft, more focused)
+       Tokenises the recipes that previously repeated across .menu, .sbx-pop, .toast, .chat-row,
+       .ds-card. Existing call sites are being migrated one component at a time. */
+    --shadow-rest:0 1px 2px 0 rgba(15,23,42,.03);
+    --shadow-rest-hover:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04);
+    --shadow-lift-hover:0 6px 16px -3px rgba(15,23,42,.09),0 2px 4px -1px rgba(15,23,42,.05);
+    --shadow-overlay-soft:0 10px 15px -3px rgba(0,0,0,.12),0 4px 6px -4px rgba(0,0,0,.08);
+    --shadow-menu:0 6px 16px -4px rgba(0,0,0,.12),0 2px 4px -2px rgba(0,0,0,.06);
   }
   /* ===== SEMANTIC TOKENS — dark theme overrides ===== */
   .dark{
     --bg:var(--grey-950);--card:var(--grey-900);--card2:var(--grey-800);--chips:var(--grey-700);
+    /* Dark accent surface — Brand-900-soft (desaturated Brand-900), subtly tinted dark teal
+       that doesn't compete with content. */
+    --surface-accent:var(--brand-900-soft);
     --brand-primary:var(--brand-500);--brand-secondary:var(--brand-400);--brand-tertiary:var(--tertiary-500);--brand-hover:var(--brand-400);--brand-press:var(--brand-600);
     --ink:var(--grey-50);--ink-body:var(--grey-100);--ink-secondary:var(--grey-300);--ink-inactive:var(--slate-400);
     --border:var(--grey-700);--border-hover:var(--slate-700);
@@ -134,8 +201,31 @@
     --logo-mark:var(--brand-500);
     /* Button component-scoped tokens — identical to :root for theme-independent AA contrast */
     --btn-primary-bg:var(--brand-600);--btn-primary-bg-hover:var(--brand-700);--btn-primary-bg-press:var(--tertiary-800);--btn-primary-text:var(--white);
-    /* Secondary Button / IconButton hover border — one step more contrasted than dark --border (Grey-700 → Grey-600); subtler than the form-field --border-hover (Slate-600). */
-    --btn-secondary-border-hover:var(--grey-600);
+    /* Secondary Button / IconButton borders (dark) — bumped one step lighter (= more contrast against
+       Grey-900 card) than --border. REVERT: --btn-secondary-border → var(--border) (Grey-700),
+       --btn-secondary-border-hover → var(--grey-600). */
+    --btn-secondary-border:var(--grey-600);        /* default — was --border (Grey-700) */
+    --btn-secondary-border-hover:var(--grey-500);  /* hover — bumped from Grey-600 */
+    /* Destructive Outlined overlays — bumped on dark because @6% red over a near-black surface barely registers. 14%/22% gives parity of perceived prominence vs the light theme's 6%/8% on white. */
+    --btn-outline-destructive-bg-hover:color-mix(in srgb, var(--fb-red) 14%, transparent);
+    --btn-outline-destructive-bg-press:color-mix(in srgb, var(--fb-red) 22%, transparent);
+    /* Default border dims from Red-700 (light) to Red-800 on dark — Red-700 against the near-black
+       Card surface reads as too saturated; Red-800 keeps the danger identity at a calmer intensity. */
+    --btn-outline-destructive-border:var(--red-800);
+    /* Hover/press border lightens (Red-500) rather than darkening — going darker on a dark surface collapses the border. Mirrors --brand-hover's "lighter step on dark" convention. */
+    --btn-outline-destructive-border-hover:var(--red-500);
+    /* SegmentedControl hover bg sits HALFWAY between the slot (--card2 Grey-800) and the active
+       pill (--chips Grey-700), so the pill remains the most prominent step. Mirrors the light
+       recipe — a softer lift than the active state, perceptible but not equal-strength. (Earlier
+       went all the way to --chips per shadcn canon; in this palette the lift was loud enough that
+       hover read as a click — halving the step calmed it.) */
+    --segctrl-btn-hover-bg:color-mix(in srgb, var(--chips) 50%, var(--card2));
+    /* Active-pill shadow on dark — INSET 1px white-alpha rim (black would be invisible against
+       the dark pill) + drop shadow. Hover uses --segctrl-hover-shadow below: same shape, lower
+       opacity so the rim reads as a softer outline. */
+    --segctrl-active-shadow:inset 0 0 0 1px color-mix(in srgb, var(--white) 6%, transparent), 0 1px 2px rgba(0,0,0,.3);
+    /* Hover rim on dark — 3% white (half of active's 6%). Same recipe shape, half-tinted. */
+    --segctrl-hover-shadow:inset 0 0 0 1px color-mix(in srgb, var(--white) 3%, transparent);
     /* Always-white content on solid surfaces — same value as light theme; theme-independent. */
     --content-on-solid:var(--white);
     /* Badge Primary — deep teal surface (Brand-900) + Brand-400 text → 5.77:1 AA in dark. --brand-secondary already adapts to Brand-400 in dark, so only the bg needs an override. */
@@ -156,6 +246,9 @@
   /* ===== PROD (actual code: globals.css + component classes) ===== */
   .prod{
     --bg:hsl(210 40% 98%);--card:#fff;--card2:hsl(210 20% 96%);--chips:hsl(210 20% 96%);
+    /* Prod has no accent surface — mirror --card2 value so anything that uses --surface-accent
+       in .prod scope falls back to the closest prod equivalent. */
+    --surface-accent:var(--card2);
     --ink:hsl(222 47% 11%);--ink-body:hsl(216 24% 28%);--ink-secondary:hsl(216 17% 47%);--ink-inactive:hsl(213 9% 64%);
     --border:hsl(214 32% 91%);--border-hover:hsl(179 94% 26%);
     --state-hover:hsl(198 67% 96%);--state-pressed:hsl(198 67% 92%);--state-disabled:hsl(213 9% 64%/.4);
@@ -172,6 +265,7 @@
   }
   .dark .prod{
     --bg:hsl(240 14% 4%);--card:hsl(252 10% 10%);--card2:hsl(240 5% 15%);--chips:hsl(240 5% 15%);
+    --surface-accent:var(--card2);
     --ink:#fff;--ink-body:hsl(0 0% 87%);--ink-secondary:hsl(240 1% 59%);--ink-inactive:hsl(220 4% 32%);
     --border:hsl(255 9% 18%);--state-hover:hsl(193 42% 14%);--state-disabled:hsl(220 4% 32%/.5);
     --fb-red:hsl(358 100% 66%);--fb-red-text:hsl(358 100% 66%);--fb-green:hsl(88 100% 32%);
@@ -200,6 +294,7 @@
   .prod .field:hover,.prod .field.s-hover{border-color:var(--border)}
   .prod .field.s-focus,.prod .field:focus-within{border-color:var(--ink);box-shadow:none}
   .prod .field.s-error{border-color:color-mix(in srgb,var(--fb-red) 30%,transparent);box-shadow:none;background:color-mix(in srgb,var(--fb-red) 5%,transparent)}
+  .prod .chip.is-active,.prod .chip[aria-pressed="true"]{background:color-mix(in srgb,var(--p-primary) 20%,transparent);color:var(--p-primary);border-color:var(--p-primary)}
   .prod .field.is-disabled{background:color-mix(in srgb,var(--state-disabled) 100%,transparent);border-color:var(--border);cursor:default}
   .prod .field.is-disabled input{color:var(--ink-inactive)}
   .prod .ta:hover,.prod .ta.s-hover{border-color:var(--border)}
@@ -211,6 +306,7 @@
   /* Sheet close: prod-style bare ✕ button (opacity 0.7 → 1, no bg) */
   .prod .sht .sht-x{display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--ink);opacity:.7;cursor:pointer;border-radius:2px;width:20px;height:20px;top:8px;right:8px}
   .prod .sht .sht-x:hover{opacity:1}
+  .prod .tab{border-bottom:2px solid transparent} .prod .tab::after{display:none}
   .prod .tab.is-active{color:var(--p-accent);border-bottom-color:var(--p-accent)}
   /* Dropdown menu — prod renders at rounded-md (6 px) per current/Dropdown.md; the new system uses rounded-lg (8 px). Override radius in .prod scope so Current visually mirrors what prod ships and the radius diff is tracked. */
   .prod .menu{background:var(--bg);border-radius:6px} .prod .mi:hover{background:color-mix(in srgb,var(--p-primary) 10%,transparent)}
@@ -228,9 +324,9 @@
   a{color:inherit;text-decoration:none}
   code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink-body)}
 
-  /* ===== Link — reusable text-link style (brand-primary, hover underline, brand focus ring) ===== */
+  /* ===== Link — reusable text-link style. Colour from --ink-highlight (Brand-700 light / Brand-400 dark) so AA holds in both themes. Hover underline sits 25% of font-size below the baseline (`text-underline-offset:25%`) so the rule has clear separation from descenders — crisper than the browser-default tight underline. Thickness pinned at 1 px so it doesn't get heavier at larger font sizes. ===== */
   .link{color:var(--ink-highlight);text-decoration:none;cursor:pointer;font-weight:500;background:none;border:none;padding:0;font-family:inherit;font-size:inherit;line-height:inherit}
-  .link:hover{text-decoration:underline}
+  .link:hover{text-decoration:underline;text-underline-offset:25%;text-decoration-thickness:1px}
   .link:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand);border-radius:.125rem}
   .link.is-disabled,.link[disabled]{color:var(--ink-inactive);cursor:not-allowed;text-decoration:none;pointer-events:none}
 
@@ -245,10 +341,7 @@
   .side a{display:flex;align-items:center;gap:8px;border-radius:6px;padding:5px 10px;font-size:13px;color:var(--ink-body)}
   .side a:hover{background:var(--state-hover);color:var(--brand-primary)}
   .side .grp{margin:16px 10px 6px;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive)}
-  /* Change-marker — small brand-tinted dot next to TOC entries whose component has real diffs (structural / component-level changes, not just hex shifts that auto-propagate from colors.md). */
-  .side a.has-chg::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand-primary);flex:none;margin-left:auto}
-  .side .toc-legend{margin:4px 10px 12px;font-size:11px;color:var(--ink-secondary);display:flex;align-items:center;gap:6px}
-  .side .toc-legend::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand-primary);flex:none}
+
   .content{min-width:0;padding:1.75rem 2rem 6rem;max-width:1080px}
   @media (max-width:880px){.layout{grid-template-columns:1fr}.side{display:none}}
 
@@ -307,12 +400,14 @@
   .btn-xl{height:2.75rem;padding:0 .875rem;font-size:.875rem}
   .btn-primary{background:var(--btn-primary-bg);color:var(--btn-primary-text)}
   /* Secondary — filled card-style (was: teal border, transparent) */
-  .btn-secondary{border-color:var(--border);background:var(--btn-secondary-bg);color:var(--ink-body)}
+  .btn-secondary{border-color:var(--btn-secondary-border);background:var(--btn-secondary-bg);color:var(--ink-body)}
   /* Outlined — teal-bordered (takes the previous Secondary style) */
   .btn-outline{border-color:var(--brand-secondary);background:transparent;color:var(--ink-body)}
   /* Tertiary — borderless ghost; brand-tinted bg is the only state affordance */
   .btn-tertiary{border-color:transparent;background:transparent;color:var(--ink-body)}
   .btn-destructive{background:var(--fb-red);color:var(--content-on-solid);border-color:transparent}
+  /* Destructive Outlined — outlined variant in the Feedback/Red family for low-emphasis destructive actions (e.g. inline "Remove" links). Red border + red text + transparent bg; hover/press lay a red-tint overlay. */
+  .btn-outline-destructive{border-color:var(--btn-outline-destructive-border);background:transparent;color:var(--ink-body)}
   /* forced static states */
   .s-hover.btn-primary{background:var(--btn-primary-bg-hover)}
   .s-pressed.btn-primary{background:var(--btn-primary-bg-press)}
@@ -320,11 +415,11 @@
   .s-focus.btn-primary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   /* Secondary + Tertiary hover/pressed unified with .sbx-nav-item — neutral State/Hover + State/Pressed (no brand tint). Visual cohesion across nav rows and low-emphasis buttons. */
   .s-hover.btn-secondary{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
-  .s-pressed.btn-secondary{background:var(--state-pressed);color:var(--ink-body);border-color:var(--border)}
-  .s-disabled.btn-secondary{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--border)}
+  .s-pressed.btn-secondary{background:var(--state-pressed);color:var(--ink-body);border-color:var(--btn-secondary-border)}
+  .s-disabled.btn-secondary{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border)}
   .s-focus.btn-secondary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
-  .s-hover.btn-outline{border-color:var(--brand-hover);background:color-mix(in srgb,var(--brand-primary) 6%,transparent);color:var(--ink-body)}
-  .s-pressed.btn-outline{border-color:var(--brand-hover);background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
+  .s-hover.btn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
+  .s-pressed.btn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
   .s-disabled.btn-outline{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
   .s-focus.btn-outline{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .s-hover.btn-tertiary{background:var(--state-hover);color:var(--ink-body)}
@@ -335,6 +430,11 @@
   .s-pressed.btn-destructive{background:var(--fb-red-press)}
   .s-disabled.btn-destructive{background:var(--state-disabled);color:var(--ink-inactive)}
   .s-focus.btn-destructive{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  /* Destructive Outlined states — mirror the Outlined pattern (transparent bg, brand-coloured overlay) but with Feedback/Red instead of Brand/Primary; focus ring stays neutral to avoid red-on-red. */
+  .s-hover.btn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
+  .s-pressed.btn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
+  .s-disabled.btn-outline-destructive{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
+  .s-focus.btn-outline-destructive{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
   .s-focus{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
   /* real interactive states (live preview) */
   .btn-primary:hover{background:var(--btn-primary-bg-hover)}
@@ -344,8 +444,8 @@
   .btn-secondary:hover{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .btn-secondary:active{background:var(--state-pressed);color:var(--ink-body)}
   .btn-secondary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
-  .btn-outline:hover{border-color:var(--brand-hover);background:color-mix(in srgb,var(--brand-primary) 6%,transparent);color:var(--ink-body)}
-  .btn-outline:active{border-color:var(--brand-hover);background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
+  .btn-outline:hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
+  .btn-outline:active{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
   .btn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
   .btn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
   .btn-tertiary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
@@ -354,10 +454,16 @@
   .btn-destructive:active{background:var(--fb-red-press)}
   .btn-destructive:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
   .btn-destructive:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
+  .btn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
+  .btn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
+  .btn-outline-destructive:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .btn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
   .btn:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
   /* loading state (works on any Button/IconButton variant via currentColor; opacity-based — no disabled-colour swap) */
   .btn .spinner,.iconbtn .spinner{width:.85em;height:.85em;border-radius:9999px;border:2px solid currentColor;border-right-color:transparent;display:inline-block;animation:btn-spin .7s linear infinite;vertical-align:-.1em}
   .s-loading.btn,.s-loading.iconbtn{pointer-events:none;opacity:var(--opacity-disabled)}
+  /* Global disabled-cursor rule — applies to all s-disabled / :disabled / is-disabled elements; components that use pointer-events:none still inherit this harmlessly */
+  .s-disabled,.is-disabled,[disabled]{cursor:not-allowed}
   @keyframes btn-spin{to{transform:rotate(360deg)}}
 
   /* Chevron icons — optical centering helper. Lucide chevron paths (`m15 18-6-6 6-6` / `m9 18 6-6-6-6`) have geometrically symmetric bounding boxes around viewBox center x=12, but the VISUAL mass of a `<` / `>` sits at the open end — centering by the bounding box leaves the perceived center ~1 px off. A 1 px translate toward the point restores apparent balance (iOS / SF Symbols / Material Icons convention). Apply to chevron SVGs inside small icon-only buttons (Pagination prev/next, Datepicker nav, etc.). */
@@ -367,26 +473,32 @@
   /* IconButton — shape/size base; colour comes from variant classes that reuse Button tokens */
   .iconbtn{display:inline-flex;align-items:center;justify-content:center;border-radius:.375rem;height:2.25rem;width:2.25rem;border:1px solid transparent;cursor:pointer;transition:all .12s;font-family:inherit}
   .iconbtn-primary{background:var(--btn-primary-bg);color:var(--btn-primary-text)}
-  .iconbtn-secondary{background:var(--btn-secondary-bg);border-color:var(--border);color:var(--ink-body)}
+  .iconbtn-secondary{background:var(--btn-secondary-bg);border-color:var(--btn-secondary-border);color:var(--ink-body)}
   .iconbtn-outline{background:transparent;border-color:var(--brand-secondary);color:var(--ink-body)}
   .iconbtn-tertiary{background:transparent;border-color:transparent;color:var(--ink-body)}
+  /* Destructive Outlined — mirrors .btn-outline-destructive */
+  .iconbtn-outline-destructive{background:transparent;border-color:var(--btn-outline-destructive-border);color:var(--ink-body)}
   /* forced static states — mirror Button counterparts */
   .s-hover.iconbtn-primary{background:var(--btn-primary-bg-hover)}
   .s-pressed.iconbtn-primary{background:var(--btn-primary-bg-press)}
   .s-disabled.iconbtn-primary{background:var(--state-disabled);color:var(--ink-inactive)}
   .s-focus.iconbtn-primary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .s-hover.iconbtn-secondary{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
-  .s-pressed.iconbtn-secondary{background:var(--state-pressed);color:var(--ink-body);border-color:var(--border)}
-  .s-disabled.iconbtn-secondary{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--border)}
+  .s-pressed.iconbtn-secondary{background:var(--state-pressed);color:var(--ink-body);border-color:var(--btn-secondary-border)}
+  .s-disabled.iconbtn-secondary{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border)}
   .s-focus.iconbtn-secondary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
-  .s-hover.iconbtn-outline{border-color:var(--brand-hover);background:color-mix(in srgb,var(--brand-primary) 6%,transparent);color:var(--ink-body)}
-  .s-pressed.iconbtn-outline{border-color:var(--brand-hover);background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
+  .s-hover.iconbtn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
+  .s-pressed.iconbtn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
   .s-disabled.iconbtn-outline{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
   .s-focus.iconbtn-outline{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .s-hover.iconbtn-tertiary{background:var(--state-hover);color:var(--ink-body)}
   .s-pressed.iconbtn-tertiary{background:var(--state-pressed);color:var(--ink-body)}
   .s-disabled.iconbtn-tertiary{color:var(--ink-inactive);background:transparent}
   .s-focus.iconbtn-tertiary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .s-hover.iconbtn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
+  .s-pressed.iconbtn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
+  .s-disabled.iconbtn-outline-destructive{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
+  .s-focus.iconbtn-outline-destructive{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
   /* real interactive states */
   .iconbtn-primary:hover{background:var(--btn-primary-bg-hover)}
   .iconbtn-primary:active{background:var(--btn-primary-bg-press)}
@@ -395,14 +507,19 @@
   .iconbtn-secondary:hover{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .iconbtn-secondary:active{background:var(--state-pressed);color:var(--ink-body);border-color:var(--border)}
   .iconbtn-secondary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
-  .iconbtn-outline:hover{border-color:var(--brand-hover);background:color-mix(in srgb,var(--brand-primary) 6%,transparent);color:var(--ink-body)}
-  .iconbtn-outline:active{border-color:var(--brand-hover);background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
+  .iconbtn-outline:hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
+  .iconbtn-outline:active{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
   .iconbtn-outline:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .iconbtn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
   .iconbtn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
   .iconbtn-tertiary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .iconbtn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
+  .iconbtn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
+  .iconbtn-outline-destructive:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .iconbtn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
 
   .badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid transparent;font-weight:500;border-radius:.375rem;height:1.75rem;padding:0 .625rem;font-size:.75rem;line-height:1}
+  .badge-sm{height:1.25rem;padding:0 .375rem;font-size:.6875rem;border-radius:.25rem}
   .rf{border-radius:9999px}
   /* Primary — component-scoped tokens so light/dark/prod scopes each set their own values cleanly (avoids .dark vs .prod cascade collision). Text uses Brand-700 light / Brand-400 dark so AA holds in both themes (~5.8:1) — --brand-primary on Brand-50 would be only 4.21:1. */
   .badge-primary{background:var(--badge-primary-bg);color:var(--badge-primary-text)}
@@ -415,7 +532,7 @@
   /* Badge slots — leading icon, status dot, removable close. All inherit currentColor so they auto-pick up each variant's text token. */
   .badge .b-ic{width:14px;height:14px;flex:none}
   .badge .b-dot{width:6px;height:6px;border-radius:9999px;background:currentColor;flex:none}
-  .badge .b-x{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-left:2px;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent;font-family:inherit;padding:0;flex:none}
+  .badge .b-x{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-left:2px;font-size:.875rem;line-height:1;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent;font-family:inherit;padding:0;flex:none}
   .badge .b-x:hover{opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)}
   .badge .b-x:focus-visible{outline:none;opacity:1;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
 
@@ -471,6 +588,10 @@
   .swt:focus-visible,.swt.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
   .swt.on:focus-visible,.swt.on.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
   .swt.s-disabled,.swt:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
+  /* Small switch variant — 28 × 16 px track, 12 × 12 px thumb */
+  .swt.is-sm{width:1.75rem;height:1rem}
+  .swt.is-sm::after{width:.75rem;height:.75rem;top:2px;left:2px}
+  .swt.is-sm.on::after{left:calc(100% - .875rem)}
 
   /* Checkbox (.cbx) — Brand/Primary fill when checked; theme-aware Stroke/Border_Hover when unchecked. */
   .cbx{width:1.125rem;height:1.125rem;border-radius:.25rem;border:1.5px solid var(--border-hover);background:var(--card);display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:pointer;color:var(--content-on-solid);transition:background-color .12s, border-color .12s, box-shadow .12s;vertical-align:middle}
@@ -491,16 +612,19 @@
   .cbx.is-indeterminate svg{display:none}
 
   .ava{display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:9999px;font-size:.75rem;font-weight:600}
-  .ava-init{background:var(--brand-primary);color:#fff}
+  .ava-init{background:var(--brand-primary);color:var(--content-on-solid)}
   .ava-count{background:var(--chips);color:var(--ink-secondary)}
   .ava-img{background:var(--brand-tertiary)}
 
-  .tab{padding:.5rem .75rem;font-size:.875rem;color:var(--ink-secondary);border:none;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;background:none;font-family:inherit;border-radius:4px 4px 0 0}
+  /* Active indicator = button-width underline via ::after; gap between tabs provides visual text-width appearance without edge indent */
+  .tab{padding:.5rem .75rem;font-size:.875rem;color:var(--ink-secondary);border:none;margin-bottom:-1px;cursor:pointer;background:none;font-family:inherit;border-radius:4px 4px 0 0;position:relative}
+  .tab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:transparent;border-radius:1px;transition:background .15s}
   .tab:hover{color:var(--ink-body)}
-  .tab.is-active{color:var(--brand-primary);border-bottom-color:var(--brand-primary);font-weight:500}
+  .tab.is-active{color:var(--ink-highlight);font-weight:500}
+  .tab.is-active::after,.tab.s-active::after{background:var(--ink-highlight)}
   .tab:focus-visible,.tab.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .tab.s-disabled,.tab:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
-  .tabset{display:flex;gap:.25rem;border-bottom:1px solid var(--border)}
+  .tabset{display:flex;gap:.5rem;border-bottom:1px solid var(--border)}
 
   /* Tooltip (.tt) — bg inverts via --ink, text via --card (the same theme-aware token used everywhere else as a surface, used here as text on the inverted ink chip). Promoted from inline style so the fix lives in one place. */
   .tt{display:inline-flex;align-items:center;background:var(--ink);color:var(--card);font-size:.75rem;border-radius:6px;padding:4px 8px}
@@ -543,7 +667,7 @@
   /* Dropdown surface + menu item — renewed values throughout (px units to match the rest of the kit's layout system: .iconbtn 32×32, .sb-item 32/8/8, etc.). Prod's cramped 2/6/6/4 dimensions live in the .prod .mi override above; this is the renewed Expected pass. */
   /* Context-menu sizing — fluid: `width:max-content` hugs the longest item, clamped between min 140 / max 320. Labels longer than 320 px wrap; menus never collapse below 140 px. Every .menu instance (.sbx-chat-menu, .chat-row-menu, .ds-conn-menu, etc.) inherits this via the base rule — variants no longer override `width`. */
   .menu{min-width:140px;max-width:320px;width:max-content;border-radius:8px;border:1px solid var(--border);background:var(--card);padding:4px;box-shadow:0 6px 16px -4px rgba(0,0,0,.12),0 2px 4px -2px rgba(0,0,0,.06)}
-  .mi{display:flex;align-items:center;gap:8px;border-radius:4px;padding:6px 12px;font-size:14px;color:var(--ink-body);cursor:pointer}
+  .mi{display:flex;align-items:center;gap:8px;border-radius:4px;padding:6px 12px;font-size:14px;color:var(--ink-body);cursor:pointer;border:none;background:transparent;font-family:inherit;text-align:left;width:100%}
   /* Hover bg is calculated against --card (the .menu's surface) so the highlight is always
      visible regardless of what sits underneath the menu — important because the trigger row
      (chat-row / sbx-chat) stays in its own --state-hover state while the menu is open, and if
@@ -552,6 +676,36 @@
      item hover=brand-tinted. Danger gets a red-mix on hover for the same separation reason. */
   /* Hover/pressed unified with .sbx-nav-item, .sbx-pop-item, .sbx-chat, .btn-tertiary — neutral State/Hover + State/Pressed. The previous recipe (10% brand-primary mixed with --card) resolved to a pale teal that looked nearly identical to --state-pressed Brand-50, which made the menu hover read as "pressed" against the rest of the system. */
   .mi:hover{background:var(--state-hover)}
+
+  /* ── Banner — onboarding / contextual prompt ──────────────────────────────
+     Card surface, standard border + radius. Brand icon in a tinted pill on the
+     left; body copy + optional CTA on the right. Collapses via .is-dismissed.
+     All three slots are optional — omit .banner-ic or .banner-cta freely. */
+  .banner{display:flex;align-items:center;gap:1.25rem;padding:1.625rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem}
+  .banner-ic{width:3.75rem;height:3.75rem;display:flex;align-items:center;justify-content:center;border-radius:.875rem;background:var(--brand-primary);color:var(--btn-primary-text);flex:none;box-shadow:0 6px 16px -4px color-mix(in srgb,var(--brand-primary) 50%,transparent)}
+  .banner-ic svg{width:28px;height:28px}
+  .banner-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.375rem}
+  .banner-t{font-size:1rem;font-weight:600;color:var(--ink);line-height:1.3;margin:0}
+  .banner-d{font-size:.875rem;color:var(--ink-body);line-height:1.5;margin:0}
+  .banner-d b{color:var(--ink);font-weight:600}
+  .banner-cta{flex:none}
+  /* Collapse animation — add .is-dismissed on the wrapper element */
+  .banner-wrap{overflow:hidden;max-height:11rem;opacity:1;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,margin .35s ease}
+  .banner-wrap.is-dismissed{max-height:0;opacity:0;pointer-events:none;margin-bottom:0}
+  /* Gradient banner variant — add .banner-grad to .banner to switch from the neutral card surface
+     to a brand gradient fill. Override --grad-teal-dark inline to change the gradient per-instance
+     (angle, stops, colours). Text and icon automatically adapt to the dark background. */
+  .banner-grad{background:var(--grad-teal-dark);border:none}
+  /* Icon on gradient: circle shape + translucent border + subtle glow ring */
+  .banner-grad .banner-ic{background:var(--banner-grad-ic-bg);border:1.5px solid rgba(255,255,255,.4);border-radius:9999px;box-shadow:0 0 0 8px rgba(255,255,255,.07),0 0 24px rgba(255,255,255,.09);color:var(--banner-grad-text)}
+  .banner-grad .banner-t{color:var(--banner-grad-text)}
+  .banner-grad .banner-d{color:var(--banner-grad-sub)}
+  .banner-grad .banner-d b{color:var(--banner-grad-text)}
+  /* CTA on gradient — btn-secondary renders naturally (solid white card bg, dark text — high contrast).
+     btn-primary flips to white bg + brand text so it doesn't clash with the white body copy.
+     Dark theme: card bg is too dark against the gradient; use translucent white instead. */
+  .banner-grad .btn-primary{background:var(--banner-grad-text);color:var(--brand-primary)}
+  .banner-grad .btn-primary:hover{background:var(--banner-grad-sub)}
   .mi:active{background:var(--state-pressed)}
   .mi.danger{color:var(--fb-red-text)}
   /* Danger keeps a red-tinted hover so the warning intent is still visible at the surface level (red text alone can read as a quirky link colour on hover). Press feedback also red-tinted, slightly deeper, mirroring the destructive-button hover/press recipe. */
@@ -677,9 +831,10 @@
   .sbx-nav-item:hover,.sbx-nav-item.s-hover{background:var(--state-hover)}
   /* Pressed: deeper surface (state-pressed = Brand-100 light teal) — distinct from hover */
   .sbx-nav-item:active,.sbx-nav-item.s-pressed{background:var(--state-pressed)}
-  /* Active (currently open page) — same bg as pressed (--state-pressed), PLUS content (text + icon)
-     bumped one step on the ink scale: --ink-secondary (default/hover/pressed) → --ink-body (active).
-     Reads as "this page is open" via both surface + content contrast. */
+  /* Active (currently open page) — bg --state-pressed + content (text + icon) one step up on the
+     ink scale: --ink-secondary (default/hover/pressed) → --ink-body (active). "Page is open" reads
+     via the persistent surface tint + the one-step content contrast bump. No brand colour on the
+     content; theme-aware via the cascaded --ink-body. */
   .sbx-nav-item.active,.sbx-nav-item.s-active{background:var(--state-pressed);color:var(--ink-body)}
   .sbx-nav-item:focus-visible,.sbx-nav-item.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .sbx-nav-item.s-disabled,.sbx-nav-item:disabled{opacity:var(--opacity-disabled);pointer-events:none;color:var(--ink-inactive)}
@@ -715,8 +870,11 @@
      Chat-row click navigates to the chat; the kebab inside opens the context menu. */
   .sbx-chat{--chat-fade:var(--card);position:relative;display:flex;align-items:center;height:28px;padding:0 8px;border-radius:6px;font-size:13px;font-weight:500;color:var(--ink-secondary);cursor:pointer;background:transparent;border:none;text-align:left;width:100%;font-family:inherit;overflow:hidden;transition:background .12s,color .12s}
   .sbx-chat-lbl{flex:1;min-width:0;white-space:nowrap;overflow:hidden;display:block}
-  /* Gradient persists at all states; end-color tracks the row's current bg via --chat-fade */
-  .sbx-chat::after{content:"";position:absolute;top:0;right:0;bottom:0;width:36px;pointer-events:none;background:linear-gradient(90deg,transparent 0,var(--chat-fade) 70%)}
+  /* Gradient persists at all states; end-color tracks the row's current bg via --chat-fade.
+     Right-corner radius matches the row's 6 px — when the row's overflow flips to visible
+     (kebab focused or menu open, see the :has() rules below), the gradient's right corners
+     stay rounded instead of leaking past the row's edge as square. */
+  .sbx-chat::after{content:"";position:absolute;top:0;right:0;bottom:0;width:36px;pointer-events:none;background:linear-gradient(90deg,transparent 0,var(--chat-fade) 70%);border-top-right-radius:6px;border-bottom-right-radius:6px}
   /* Hover: bg only — text color unchanged; gradient fades into hover bg */
   .sbx-chat:hover,.sbx-chat.s-hover,
   /* Keep the sidebar chat in its hover state while its own kebab menu is open — same reasoning
@@ -730,12 +888,12 @@
   .sbx-chat:active:not(:has(.sbx-chat-more:active)){background:var(--state-pressed);--chat-fade:var(--state-pressed)}
   .sbx-chat.s-pressed{background:var(--state-pressed);--chat-fade:var(--state-pressed)}
   /* Inset focus ring — stays within the row's bounding box so it never overlaps adjacent rows in stacked previews */
-  /* Canonical outset focus halo (matches every other interactive element). The :has() rule below flips chats column + sidebar to overflow:visible so the halo isn't clipped — the row itself can't go visible because its own gradient ::after would no longer be clipped to the row's bounds. */
+  /* Canonical outset focus halo (matches every other interactive element). The :has() rule below flips chats column + sidebar to overflow:visible so the halo isn't clipped. The row itself stays overflow:hidden in this rule — for row-level focus the halo escapes via the column flip. The kebab-focus and menu-open rules further down DO flip the row to visible (the dropdown menu has to escape downward); the gradient ::after carries its own right-corner radius so the row's rounded shape is preserved in that case. */
   .sbx-chat:focus-visible,.sbx-chat.s-focus{outline:none;box-shadow:var(--shadow-focus-brand)}
   .sbx-chats:has(> * .sbx-chat:focus-visible),.sbx-chats:has(> * .sbx-chat.s-focus),.sbx:has(.sbx-chat:focus-visible),.sbx:has(.sbx-chat.s-focus){overflow:visible}
-  /* Active (currently open chat) — same bg as pressed PLUS content bumped one step on the ink scale:
-     --ink-secondary (default/hover/pressed) → --ink-body (active). Both surface + content contrast
-     mark "this chat is open". */
+  /* Active (currently open chat) — bg --state-pressed + content one step up on the ink scale:
+     --ink-secondary (default/hover/pressed) → --ink-body (active). Mirrors the nav-item active rule;
+     no brand colour on content. */
   .sbx-chat.s-active{background:var(--state-pressed);--chat-fade:var(--state-pressed);color:var(--ink-body)}
   /* Kebab — single more-actions button revealed on row hover/focus */
   /* Use with class="iconbtn iconbtn-tertiary sbx-chat-more" — inherits color/hover/pressed/focus
@@ -818,6 +976,8 @@
   .sbx.is-collapsed .sbx-nav{padding:2px 0;align-items:center;gap:1px}
   .sbx.is-collapsed .sbx-nav-item{width:28px;height:28px;justify-content:center;padding:0}
   .sbx.is-collapsed .sbx-nav-item .ic{width:14px;height:14px}
+  /* Tooltip only needed when label is hidden (collapsed); suppress in expanded state */
+  .sbx:not(.is-collapsed) .sbx-nav-item[data-tip]::after{display:none}
   /* Single "Chats" icon replaces the Pinned/Recent lists in collapsed mode — click expands the sidebar */
   .sbx.is-collapsed .sbx-chats{display:flex;padding:2px 0;align-items:center;justify-content:flex-start;overflow:hidden;flex:0 0 auto}
   .sbx-chats-icon{display:none}
@@ -852,34 +1012,65 @@
   .sbx-pop-item{display:flex;align-items:center;gap:.625rem;padding:.375rem .5rem;border:none;background:transparent;border-radius:.375rem;font-size:.875rem;line-height:1.25;color:var(--ink-body);cursor:pointer;font-family:inherit;width:100%;text-align:left;transition:background .12s}
   .sbx-pop-item .ic{width:16px;height:16px;flex:none;color:var(--ink-secondary)}
   .sbx-pop-item .ext{width:14px;height:14px;flex:none;margin-left:auto;color:var(--ink-secondary)}
+  /* Hover / pressed: only bg shifts — text + icons stay at their default ink. Matches the rest
+     of the sidebar (nav-items, chat rows) where hover never recolours content; the brand-tinted
+     content is reserved for the active state only. */
   .sbx-pop-item:hover{background:var(--state-hover)}
   .sbx-pop-item:active{background:var(--state-pressed)}
+  /* Active = "this section/route is currently open" — used by routed pop-item lists (e.g. the
+     left-rail navigation inside the Account modal). Recipe mirrors .sbx-nav-item.active in spirit:
+     persistent bg --state-pressed signals "open"; content stays at the default --ink-body (pop-item
+     already defaults to body ink, so the surface tint alone differentiates). NO brand colour.
+     Defined centrally so any consumer that adds `.active` to a `.sbx-pop-item` (the Account modal's
+     left-rail nav, future popover-as-nav surfaces) inherits the same recipe — change here, propagate
+     everywhere. */
+  .sbx-pop-item.active{background:var(--state-pressed)}
   .sbx-pop-item:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
 
-  /* SegmentedControl — pill-style single-select with sizes (sm icon-only 20px / md icon + label 32px). Promoted this iteration from .sbx-pop-theme; the legacy class below remains as a thin alias so the live Sidebar Account popover markup does not need to migrate. New surfaces should use .segctrl. */
+  /* SegmentedControl — pill-style single-select. "Raised tile" pattern per Apple HIG:
+     the slot is itself a lifted surface, and the active segment lifts further above it.
+     - Light: parent --card (white) → slot --card2 (Slate-100) → active pill --card (white)
+     - Dark:  parent --card (Grey-900) → slot --card2 (Grey-800, lifted from parent) → active pill --chips (Grey-700, lifted from slot)
+     Hover sits halfway between slot and active. Drop shadow + 1px hairline rim carry the lift
+     cue (theme-aware via --segctrl-active-shadow). */
   .segctrl{background:var(--card2);border:var(--border-width) solid var(--border);padding:2px;border-radius:.375rem;display:inline-flex;gap:.25rem;width:100%}
   .segctrl-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.375rem;border:none;background:transparent;border-radius:.25rem;color:var(--ink-secondary);cursor:pointer;font-family:inherit;transition:background .12s,color .12s,box-shadow .12s;white-space:nowrap}
-  /* Hover applies only to unselected items — selected items stay at --card. The overlay always LIFTS (lighter than the --card2 slot), never darkens, so hover previews the trajectory toward the selected white pill. Uses literal white so the direction is theme-independent. Light: 50% white over slate-100 = subtle lift toward selected. Dark: 50% would be too bright on grey-800, so .dark overrides to 10%. */
-  .segctrl-btn:not(.is-active):not([aria-selected="true"]):hover{background:color-mix(in srgb, white 50%, transparent);color:var(--ink)}
-  .dark .segctrl-btn:not(.is-active):not([aria-selected="true"]):hover{background:color-mix(in srgb, white 10%, transparent)}
-  /* Selected pill — white bg + small drop shadow + 1px hairline ring for a defined edge against the slot. The kit elsewhere uses bg-shift OR colour-shift to signal active; here we use bg-shift, so the brand colour is intentionally NOT introduced on the icon (would be 4 competing cues). Cf. Modal / Toast / Button — each picks one strong cue per state. */
-  .segctrl-btn.is-active,.segctrl-btn[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04)}
+  /* Hover applies only to unselected items — lifts toward active. Same 1 px inset rim shape as
+     active (`--segctrl-active-shadow`), with a lower-opacity tint (`--segctrl-hover-shadow`) so the
+     hover rim reads as a softer outline. Both states therefore share identical footprint and the
+     difference is purely chromatic: subtle hover rim → defined active rim. */
+  .segctrl-btn:not(.is-active):not([aria-selected="true"]):hover{background:var(--segctrl-btn-hover-bg);color:var(--ink);box-shadow:var(--segctrl-hover-shadow)}
+  /* Selected pill — bg-shift to one step above slot + drop shadow + 1px hairline rim. Brand colour
+     intentionally NOT introduced on the icon — kit's "one strong cue per state" convention. */
+  .segctrl-btn.is-active,.segctrl-btn[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:var(--segctrl-active-shadow)}
+  .dark .segctrl-btn.is-active,.dark .segctrl-btn[aria-selected="true"]{background:var(--chips)}
   .segctrl-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
   .segctrl-btn.s-disabled,.segctrl-btn:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
   .segctrl.is-sm .segctrl-btn{height:1.25rem;font-size:.6875rem;padding:0 .25rem}
   .segctrl.is-sm .segctrl-btn svg{width:12px;height:12px}
   .segctrl.is-md .segctrl-btn{height:2rem;font-size:.8125rem;font-weight:500;padding:0 .75rem}
   .segctrl.is-md .segctrl-btn svg{width:14px;height:14px}
-  .segctrl.is-md .segctrl-btn.is-active,.segctrl.is-md .segctrl-btn[aria-selected="true"]{font-weight:600}
 
-  /* Theme switcher tabset (sun / moon / monitor-speaker) — Sidebar Account popover legacy class name; visually equivalent to .segctrl.is-sm but kept on --chips bg to preserve the live popover look. */
+  /* Theme switcher tabset — Sidebar Account popover legacy class; mirrors .segctrl recipe.
+     Light slot keeps --chips per the prod baseline (one notch lighter than .segctrl's --card2).
+     Dark slot moves to --card2 (Grey-800) so the active --chips pill (Grey-700) reads one step
+     brighter — without this override, --chips cascades to both slot and active, collapsing them. */
   .sbx-pop-theme{background:var(--chips);border:var(--border-width) solid var(--border);padding:2px;border-radius:.375rem;display:flex;gap:.25rem;width:100%}
-  .sbx-pop-theme-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;height:1.25rem;border:none;background:transparent;border-radius:.25rem;color:var(--ink-secondary);cursor:pointer;font-family:inherit;transition:background .12s,color .12s}
+  .dark .sbx-pop-theme{background:var(--card2)}
+  .sbx-pop-theme-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;height:1.25rem;border:none;background:transparent;border-radius:.25rem;color:var(--ink-secondary);cursor:pointer;font-family:inherit;transition:background .12s,color .12s,box-shadow .12s}
   .sbx-pop-theme-btn svg{width:12px;height:12px}
-  /* Hover = visible bg only — content (icon + tooltip label) stays at --ink-secondary so the colour cue is reserved for the active pill. Overlay direction self-adapts: in light --ink is dark → darker hover on the chips slot; in dark --ink is light → lighter hover on the slot. Excluded from active pills via :not(.is-active) so the active state's --card bg isn't overridden on cursor-over. */
-  .sbx-pop-theme-btn:not(.is-active):hover{background:color-mix(in srgb, var(--ink) 8%, transparent)}
-  .sbx-pop-theme-btn.is-active{background:var(--card);color:var(--ink)}
+  /* Hover + active recipes mirror .segctrl-btn (shared tokens). 1 px inset rim in slot colour
+     compensates for the active pill's visible rim — keeps both states at identical footprint. */
+  .sbx-pop-theme-btn:not(.is-active):hover{background:var(--segctrl-btn-hover-bg);color:var(--ink);box-shadow:var(--segctrl-hover-shadow)}
+  .sbx-pop-theme-btn.is-active{background:var(--card);color:var(--ink);box-shadow:var(--segctrl-active-shadow)}
+  .dark .sbx-pop-theme-btn.is-active{background:var(--chips)}
   .sbx-pop-theme-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+
+  /* SegmentedControl label + group — composition helpers for "labelled control" layouts
+     (Theme settings, density chooser, etc.). The label sits above the control with an 8px gap
+     (kit's 4px-step). Not part of the canonical SegmentedControl spec — purely page-level layout. */
+  .segctrl-group{display:flex;flex-direction:column;gap:.5rem}
+  .segctrl-label{font-size:.875rem;font-weight:600;color:var(--ink)}
 
   /* Tokens popover — plan header + metered rows + actions.
      Coin / plan-badge artwork sourced from the agreed external SVG icons in the project root
@@ -945,17 +1136,11 @@
   table.tbl{width:100%;border-collapse:collapse;font-size:.875rem}
   table.tbl th{text-align:left;font-size:.75rem;font-weight:500;color:var(--ink-secondary);padding:.6rem 1rem;border-bottom:1px solid var(--border)}
   table.tbl td{padding:.6rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-body)}
-  /* Sortable header — persistent ↕ glyph; active sort direction conveyed by glyph shape + colour weight (not colour alone, WCAG 1.4.1) */
-  table.tbl th.s-sort{cursor:pointer;user-select:none}
-  table.tbl th.s-sort .s-sort-inner{display:inline-flex;align-items:center;gap:4px}
-  table.tbl th.s-sort .sort-ic{display:inline-block;width:12px;height:12px;color:var(--ink-secondary);transition:color .12s;flex:none}
-  table.tbl th.s-sort:hover{color:var(--ink)}
-  table.tbl th.s-sort.is-asc,table.tbl th.s-sort.is-desc{color:var(--ink)}
-  table.tbl th.s-sort.is-asc .sort-ic,table.tbl th.s-sort.is-desc .sort-ic{color:var(--ink)}
-  table.tbl th.s-sort:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--focus-ring-brand);border-radius:2px}
   /* Selected row — uses --state-pressed (theme-aware: brand-50 light / grey-700 dark). Hover-while-selected layers a 10% brand tint on top so the two states stay distinguishable. */
   table.tbl tr.is-selected td{background:var(--state-pressed)}
   table.tbl tr.is-selected:hover td{background:color-mix(in srgb,var(--brand-primary) 10%,var(--state-pressed))}
+  /* Row hover — bg-shift to State/Hover; .s-hover mirrors :hover for storybook simulation */
+  table.tbl tbody tr:hover td,table.tbl tbody tr.s-hover td{background:var(--state-hover)}
   /* Transient press feedback — bg-shift only, matches the kit's "Usage pattern" in changes/colors.md */
   table.tbl tr:active td{background:var(--state-pressed)}
   table.tbl tbody tr{transition:background .1s}
@@ -1048,6 +1233,21 @@
   .igrp.s-disabled{opacity:.5;pointer-events:none}
   .igrp.is-xs{height:28px} .igrp.is-sm{height:32px} .igrp.is-lg{height:40px} .igrp.is-xl{height:44px}
 
+  /* Selector — custom single-select trigger. Field-like shell at rest; --input-focus border when open (same active signal as Input / InputGroup). */
+  .sel-wrap{display:flex;flex-direction:column;gap:4px;width:240px;position:relative}
+  .sel-lbl{font-size:.75rem;font-weight:500;color:var(--ink-secondary)}
+  .sel-trig{display:flex;align-items:center;height:2.25rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:0 .75rem;gap:.375rem;font-size:.875rem;color:var(--ink);cursor:pointer;font-family:inherit;transition:border-color .12s;width:100%;text-align:left}
+  .sel-trig:hover,.sel-trig.s-hover{border-color:var(--border-hover)}
+  .sel-trig:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .sel-trig[aria-expanded="true"],.sel-trig.s-open{border-color:var(--input-focus)}
+  .sel-val{flex:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sel-ph{flex:1;color:var(--ink-inactive)}
+  .sel-chev{width:14px;height:14px;color:var(--ink-secondary);flex:none;transition:transform .15s}
+  .sel-trig[aria-expanded="true"] .sel-chev,.sel-trig.s-open .sel-chev{transform:rotate(180deg)}
+  .sel-menu{position:absolute;top:calc(100% + 2px);left:0;right:0;width:100%;z-index:50;display:none}
+  .sel-trig[aria-expanded="true"]+.sel-menu{display:block}
+  .sel-trig.is-sm{height:2rem} .sel-trig.is-lg{height:2.5rem} .sel-trig.is-xl{height:2.75rem}
+
   /* Popover */
   .pop{width:200px;border:1px solid var(--border);background:var(--bg);color:var(--ink);border-radius:6px;padding:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);font-size:.875rem}
   .pop .pop-t{font-weight:600;margin-bottom:4px;color:var(--ink)}
@@ -1067,6 +1267,10 @@
   .sep.var-border{background:var(--border)}
   .sep.var-primary{background:var(--brand-primary)}
   .sep.var-secondary{background:var(--brand-secondary)}
+
+  /* Overlay — reusable full-viewport backdrop */
+  .ov{position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:40;display:none}
+  .ov.is-open{display:block}
 
   /* Sheet */
   .sht{position:relative;width:240px;height:240px;background:var(--bg);border:1px solid var(--border);border-radius:6px;overflow:hidden}
@@ -1161,15 +1365,67 @@
      Optional trailing .chip-n count uses --ink-inactive at rest and a desaturated --btn-primary-text
      when active (kept legible against the brand fill). Container .chip-row owns the wrap + gap. */
   .chip-row{display:flex;flex-wrap:wrap;gap:.375rem}
-  .chip{display:inline-flex;align-items:center;gap:.375rem;height:1.75rem;padding:0 .75rem;border-radius:9999px;font-size:.8125rem;font-weight:500;font-family:inherit;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--ink-body);transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
-  .chip:hover,.chip.s-hover{background:var(--state-hover);border-color:var(--border-hover);color:var(--ink)}
+  .chip{display:inline-flex;align-items:center;gap:.375rem;height:1.75rem;padding:0 .75rem;border-radius:9999px;font-size:.8125rem;font-weight:500;font-family:inherit;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--ink-body);transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
+  .chip:hover,.chip.s-hover{background:var(--state-hover);color:var(--ink)}
   .chip:active,.chip.s-pressed{background:var(--state-pressed);color:var(--ink)}
-  .chip.is-active,.chip[aria-pressed="true"]{background:var(--btn-primary-bg);color:var(--btn-primary-text);border-color:var(--btn-primary-bg)}
-  .chip.is-active:hover,.chip[aria-pressed="true"]:hover,.chip.is-active.s-hover{background:var(--btn-primary-bg-hover);border-color:var(--btn-primary-bg-hover)}
+  .chip.is-active,.chip[aria-pressed="true"]{background:var(--state-pressed);color:var(--ink-highlight);border-color:var(--ink-highlight);cursor:default}
+  .chip.is-active:hover,.chip[aria-pressed="true"]:hover,.chip.is-active.s-hover{background:var(--state-pressed);border-color:var(--ink-highlight)}
   .chip:focus-visible,.chip.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .chip.s-disabled,.chip:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
-  .chip-n{font-size:.6875rem;font-weight:500;color:var(--ink-inactive);font-variant-numeric:tabular-nums;line-height:1;display:inline-flex;align-items:center}
-  .chip.is-active .chip-n,.chip[aria-pressed="true"] .chip-n{color:color-mix(in srgb,var(--btn-primary-text) 78%,transparent)}
+  .chip-n{font-size:.6875rem;font-weight:500;color:var(--ink-inactive);font-variant-numeric:tabular-nums;line-height:inherit;display:inline-flex;align-items:center}
+  .chip.is-active .chip-n,.chip[aria-pressed="true"] .chip-n{color:color-mix(in srgb,var(--ink-highlight) 70%,transparent)}
+
+  /* ===== Chip/Meta — small rectangular chip with trailing chevron for "drill-in" / "expand to detail"
+     affordance. Distinct from .chip (filter pill, fully-rounded, larger) in shape (rounded square
+     vs pill), size (smaller — 12px text), and intent (open detail vs toggle filter). Use case:
+     metric list chips, breadcrumb-like info chips, "view more" inline triggers.
+     Dark override lifts chip ABOVE --card (via --card2) instead of sinking below to --bg —
+     prevents the "hole" feel against the parent card surface. */
+  .chip-meta{display:inline-flex;align-items:center;gap:.25rem;padding:.125rem .4375rem;border-radius:.375rem;font-size:.75rem;font-weight:500;font-family:inherit;color:var(--ink-secondary);background:var(--bg);border:1px solid var(--border);cursor:pointer;transition:color .12s,background .12s,border-color .12s,box-shadow .12s;line-height:1.4;white-space:nowrap}
+  .dark .chip-meta{background:var(--card2)}
+  .chip-meta:hover,.chip-meta.s-hover{color:var(--ink);background:var(--state-hover);border-color:color-mix(in srgb,var(--brand-primary) 35%,transparent)}
+  .dark .chip-meta:hover,.dark .chip-meta.s-hover{background:var(--chips)}
+  .chip-meta:focus-visible,.chip-meta.s-focus{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .chip-meta.s-disabled,.chip-meta:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
+  .chip-meta-arrow{width:10px;height:10px;flex:none;color:var(--brand-primary)}
+
+  /* ===== Provider Card — data-source / integration card used in empty-state grids =====
+     Grid: 3-column fixed then auto-fill min 14 rem.
+     Card: card surface, border, 12px radius, lift-on-hover.
+     Head: icon wrapper (44px, tinted bg) + name + status.
+     Metrics section: small-caps label + chip-meta row.
+     Footer: full-width CTA.
+     Browse variant (.is-browse): ghost dashed outline, centred, bottom-aligned CTA. */
+  .prov-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem}
+  .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
+  .prov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--border-hover);transform:translateY(-2px)}
+  .prov-card:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .prov-card-head{display:flex;align-items:center;gap:.875rem}
+  .prov-ic-w{width:2.75rem;height:2.75rem;border-radius:.625rem;border:1px solid var(--border);background:color-mix(in srgb,var(--brand-primary) 5%,var(--bg));display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.08)}
+  .prov-ic-w img{width:1.625rem;height:1.625rem;object-fit:contain;display:block}
+  .prov-ic-w.is-azure{background:#0078D4;border-color:#0078D4;color:#fff;font-size:.5rem;font-weight:700}
+  .prov-card-info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+  .prov-card-name{font-weight:600;font-size:.875rem;color:var(--ink);line-height:1.25;margin:0 0 .125rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .prov-card-status{display:inline-flex;align-items:center;gap:.3125rem}
+  .prov-card-dot{width:.4375rem;height:.4375rem;border-radius:9999px;background:var(--ink-inactive);flex:none;display:inline-block}
+  .prov-card-status-text{font-size:.75rem;color:var(--ink-secondary)}
+  .prov-card-divider{border:none;border-top:1px solid var(--border);margin:0}
+  .prov-card-metrics-label{font-size:.6875rem;font-weight:600;color:var(--ink-inactive);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.5rem}
+  .prov-card-divider + div{flex:1}
+  .prov-card-footer{display:flex;align-items:center;justify-content:flex-end;gap:.5rem}
+  .prov-card-footer .btn{width:100%}
+  .prov-card.is-browse{align-items:center;justify-content:center;text-align:center;background:var(--bg);border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 35%,transparent);cursor:pointer}
+  .prov-card.is-browse:hover{background:var(--state-hover);transform:none;box-shadow:none;border-color:color-mix(in srgb,var(--ink-secondary) 55%,transparent)}
+
+  .prov-card-browse-ic{width:2.5rem;height:2.5rem;border-radius:9999px;border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 45%,transparent);display:flex;align-items:center;justify-content:center;color:var(--ink-secondary);flex:none;margin:0 auto .75rem}
+  .prov-card-browse-label{font-size:.875rem;font-weight:600;color:var(--ink-secondary);margin:0 0 .25rem}
+  .prov-card-browse-sub{font-size:.75rem;color:var(--ink-inactive);margin:0}
+  /* chip-meta inside prov-card: soft fill (no border), muted arrow */
+  .prov-card .chip-meta{background:var(--state-hover);border-color:transparent}
+  .dark .prov-card .chip-meta{background:var(--chips);border-color:transparent}
+  .prov-card .chip-meta:hover,.prov-card .chip-meta.s-hover{background:color-mix(in srgb,var(--brand-primary) 10%,transparent);border-color:color-mix(in srgb,var(--brand-primary) 22%,transparent);color:var(--ink)}
+  .dark .prov-card .chip-meta:hover,.dark .prov-card .chip-meta.s-hover{background:color-mix(in srgb,var(--brand-primary) 14%,transparent);border-color:color-mix(in srgb,var(--brand-primary) 28%,transparent)}
+  .prov-card .chip-meta-arrow{color:var(--ink-inactive);margin-left:.125rem;display:block}
 
   /* ===== MetaRow — count + actions, fully transparent (no background, no border, no card wrapper).
      Used above any list view (Chats library, search results, table headers without a Card).
@@ -1263,3 +1519,122 @@
   .chat-row-more[aria-expanded="true"] ~ .chat-row-menu{display:block}
   /* Allow the absolutely-positioned menu to escape its row when open. */
   .chat-list:has(.chat-row-more[aria-expanded="true"]){overflow:visible}
+
+  /* ===================================================================
+     METRICS-PAGE COMPONENTS
+     All selectors below are reusable across pages. CSS was originally
+     inline in pages/metrics-landing.html; extracted here so any future
+     page can @link kit-theme.css and use these classes without copy-paste.
+     =================================================================== */
+
+  /* ── Provider icon (small inline logo badge used in table rows + group headers) ── */
+  .mx-prov-ic{width:1.25rem;height:1.25rem;border-radius:.25rem;display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);border:1px solid var(--border)}
+  .mx-prov-ic img{width:65%;height:65%;object-fit:contain;display:block}
+  .dark .mx-prov-ic img[src*="github"]{filter:invert(1)}
+  .mx-prov-cell{display:flex;align-items:center;gap:.5rem}
+
+  /* ── Metrics table shell ── */
+  .mx-tbl{background:var(--card);border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
+  .mx-tbl table.tbl{border-collapse:collapse;table-layout:fixed;width:100%}
+  .mx-tbl table.tbl thead tr:first-child th:first-child{border-top-left-radius:.5rem}
+  .mx-tbl table.tbl thead tr:first-child th:last-child{border-top-right-radius:.5rem}
+  .mx-tbl table.tbl tbody tr:last-child td{border-bottom:none}
+  .mx-tbl table.tbl tbody tr{cursor:pointer;transition:background .1s}
+  .mx-tbl table.tbl tbody tr:hover td{background:var(--state-hover)}
+  .mx-tbl table.tbl tbody tr:active td{background:var(--state-pressed)}
+  .mx-tbl table.tbl tbody tr.is-selected td{background:var(--state-pressed)}
+
+  /* ── Provider group rows (accordion heads — non-interactive background rows) ── */
+  .mx-prov-group{cursor:default !important;background:var(--bg)}
+  .mx-prov-group:hover td,.mx-prov-group:active td{background:inherit !important}
+  .mx-prov-group td{padding:.25rem 1rem;border-bottom:1px solid var(--border)}
+  .mx-prov-group-cell{display:flex;align-items:center;gap:.5rem}
+  .mx-prov-group-name{font-size:.8125rem;font-weight:600;color:var(--ink);flex:1;min-width:0}
+  /* Group-header icon — bare, no card bg or border */
+  .mx-prov-group .mx-prov-ic{background:transparent;border:none;width:1.125rem;height:1.125rem}
+  .mx-prov-group .mx-prov-ic img{width:100%;height:100%}
+
+  /* ── Collapsible group chevron ── */
+  .mx-prov-collapse-btn{background:none;border:none;padding:0;cursor:pointer;color:var(--ink-secondary);flex:none;line-height:0;display:flex;align-items:center}
+  .mx-prov-collapse-btn svg{transition:transform .2s;display:block}
+  tr.mx-prov-group.is-collapsed .mx-prov-collapse-btn svg{transform:rotate(-90deg)}
+
+  /* ── Metric child rows ── */
+  .mx-metric-child td{padding:.4375rem 1rem}
+  .mx-child-indent{padding-left:2.75rem !important}
+
+  /* ── Table cell types ── */
+  .mx-tbl-name{font-weight:500;color:var(--ink);vertical-align:middle;white-space:nowrap}
+  .mx-tbl-name .mx-swt-wrap{display:inline-flex;vertical-align:middle;margin-right:.5rem}
+  .mx-tbl-name .badge{display:inline;vertical-align:middle}
+  .mx-tbl-name .mx-tbl-sub{display:inline;vertical-align:middle}
+  .mx-tbl-alias{font-size:.75rem;color:var(--ink-secondary)}
+  .mx-tbl-desc{font-size:.75rem;color:var(--ink-secondary);max-width:18rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+  .mx-tbl-badge{vertical-align:middle;white-space:nowrap}
+  .mx-badge-inl{margin-left:.375rem;vertical-align:middle}
+  .mx-prov-badge{opacity:.55}
+  .mx-tbl-sub{display:block;font-size:.75rem;color:var(--ink-secondary);font-weight:400;margin-top:.0625rem}
+
+  /* ── Actions column + kebab ── */
+  .mx-tbl-actions{width:4.5rem;padding-right:.5rem;position:relative;text-align:right;vertical-align:middle;white-space:nowrap}
+  .mx-tbl-actions .iconbtn{width:1.625rem;height:1.625rem;opacity:0;transition:opacity .12s;display:inline-flex;align-items:center;justify-content:center}
+  .mx-tbl-actions .iconbtn svg{width:13px;height:13px}
+  tr:hover .mx-tbl-actions .iconbtn{opacity:1}
+  .mx-tbl-actions .mx-kebab-btn{opacity:1}
+  .mx-tbl-actions .mx-kebab-btn[aria-expanded="true"]{background:var(--state-pressed);color:var(--ink)}
+  .mx-tbl-actions .menu{position:absolute;top:calc(100% + 2px);right:0;left:auto;display:none;z-index:30}
+  .mx-tbl-actions [aria-expanded="true"] ~ .menu{display:block}
+
+  /* ── "+ Add metric" hover button on group/connector rows ── */
+  .mx-add-metric-hover-btn{opacity:0;transition:opacity .15s;flex:none}
+  tr:hover .mx-add-metric-hover-btn{opacity:1}
+
+  /* ── Delete button (custom metric rows) ── */
+  .mx-del-btn{color:var(--fb-red-text);opacity:.6;transition:opacity .15s}
+  .mx-del-btn:hover{opacity:1}
+
+  /* ── Toggle wrapper (swt inside a metrics table name cell) ── */
+  .mx-swt-wrap{display:inline-flex;align-items:center}
+
+  /* ── No built-in metrics row ── */
+  .mx-no-builtin-row{cursor:default !important}
+  .mx-no-builtin-row:hover td,.mx-no-builtin-row:active td{background:inherit !important}
+  .mx-no-builtin-row td{padding:.5rem 1rem 1rem;border-bottom:1px solid var(--border)}
+  .mx-no-builtin-msg{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--ink-secondary)}
+  .mx-no-builtin-msg svg{color:var(--ink-secondary);opacity:.6;flex:none}
+  .mx-no-builtin-link{background:none;border:none;padding:0;cursor:pointer;font-size:inherit;font-family:inherit;color:var(--brand-primary);font-weight:500;text-decoration:none}
+  .mx-no-builtin-link:hover{text-decoration:underline}
+
+  /* ── Connector sub-header row ── */
+  .mx-conn-sub-row{cursor:default !important}
+  .mx-conn-sub-row:hover td,.mx-conn-sub-row:active td{background:inherit !important}
+  .mx-conn-sub-row td{padding:.3125rem 1rem;border-bottom:1px solid var(--border)}
+  .mx-conn-sub-label{font-size:.75rem;font-weight:600;color:var(--ink-secondary);display:flex;align-items:center;gap:.375rem;width:100%}
+  .mx-conn-sub-label svg{flex:none;opacity:.55;width:11px;height:11px}
+  .mx-conn-sub-label-text{flex:1;min-width:0}
+
+
+  /* ── Metrics toolbar (search row + filter chips row) ── */
+  .mx-c3-toolbar{display:flex;flex-direction:column;gap:.5rem}
+  .mx-c3-toolbar .igrp{width:100%;background:var(--card);height:2.5rem}
+  .mx-c3-filter-chips{display:flex;align-items:center;gap:.375rem}
+  .mx-active-toggle{margin-left:auto;display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8125rem;font-weight:500;color:var(--ink-secondary);white-space:nowrap;user-select:none}
+  .mx-c3-toolbar .igrp-add{padding:0 6px}
+  .mx-c3-toolbar .igrp-add svg{width:15px;height:15px}
+  .mx-c3-toolbar .igrp-input{padding-left:3px}
+
+  .mx-dl{display:flex;flex-direction:column;gap:1.25rem;font-size:.875rem;margin:0}
+  .mx-dl > div{display:flex;flex-direction:column;gap:.25rem}
+  .mx-dl dt{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin:0}
+  .mx-dl dt::after{content:':'}
+  .mx-dl dd{color:var(--ink);margin:0;line-height:1.45}
+  .mx-dl .chip{border-radius:.375rem;cursor:default;pointer-events:none;background:var(--state-hover);color:var(--ink);border-color:var(--border)}
+
+  /* ── Form label (shared in dialogs + panels) ── */
+  .mx-form-label{display:block;margin-bottom:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink)}
+
+
+/* ── Responsive demo block (shared across all pages) ── */
+.cp-resp-block{margin-top:2rem;padding:1.5rem;border-top:1px solid var(--border)}
+.cp-resp-label{font-size:.75rem;font-weight:600;color:var(--ink-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem}
+.cp-resp-frame{max-width:100%;overflow:hidden;border:1px solid var(--border);border-radius:.75rem}

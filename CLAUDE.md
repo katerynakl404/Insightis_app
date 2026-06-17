@@ -8,8 +8,24 @@ Quick rules:
 - `current/` = the live prod state (source of truth). `changes/` = diffs **from `current/`**, never from a previous iteration.
 - When prod updates: update `current/` first, then re-derive `changes/`.
 - The kit is **two files**: `insightis-preview-kit.html` (markup + JS) and **`pages/kit-theme.css`** (all CSS). The HTML has *no* `<style>` block — every selector lives in the external stylesheet. **Before editing any CSS, grep the selector in `pages/kit-theme.css` first; do NOT add CSS to the HTML.**
+- **Colour-token discipline (hard rule, blocks merge):** every colour flows through three layers — Primitives → Semantic → Component-scoped. Component rules read `var(--token)`, never inline `color-mix(...)` / hex / `rgb()`. Tokenise any expression that repeats — overlay strength (6%, 8%, …) lives in exactly one place. Reuse before inventing. New variants must follow their sibling-family's recipe (e.g. all Outlined variants = coloured border + neutral `Text/Body` label). Full rule + self-review checklist in [`claude-code/instructions.md`](claude-code/instructions.md) → "Colour-token discipline".
 - Current column = `.prod` scope; Expected column = default tokens.
 - No change → `—`. Links stay relative so a clone never breaks.
+- Per-screen **change pages** live in **`page-changes/`** (one md per `pages/*.html`, **only Current vs Expected differences**). Naming + how-to: single source in [`page-changes/INDEX.md`](page-changes/INDEX.md).
+
+**Page files show Expected state only** — never add a "Current / Expected" toggle button or `.sb-cur` / `.prod` scoping to `pages/*.html` files. The current prod state already exists on the live product; page files are Expected-only design references.
+
+**Spacing follows the 4px design-system step** — never override the global `.cl-page` gap in a page `<style>` block. Use `margin-top` on individual section wrappers at valid 4px-step rem values (`.5rem`, `.75rem`, `1rem`, `1.25rem`, `1.5rem`, `2rem`, …).
+
+**Visibility-toggle classes must never sit directly on a kit component** — kit components (`.banner`, `.card`, `.chip-row`, `.swt`, etc.) define their own `display` property (often `flex`). Putting a visibility class such as `mx-c1-only`, `mx-c3-only`, `mx-browse`, `mx-mymetrics` directly on the component overrides that `display` and breaks its layout. **Always wrap in a neutral `<div>`:**
+```html
+<!-- ✓ correct -->
+<div class="mx-c1-only"><div class="banner" …>…</div></div>
+
+<!-- ✗ breaks layout — mx-c1-only{display:block} overrides banner{display:flex} -->
+<div class="banner mx-c1-only" …>…</div>
+```
+This applies to every visibility-toggle class. The wrapper `<div>` has no semantics of its own and does not affect spacing.
 
 ## Design decisions (locked)
 
@@ -23,3 +39,69 @@ Rest state also carries a ghost shadow: `box-shadow: 0 1px 2px 0 rgba(15,23,42,.
 `--border-hover` is reserved for **form inputs only** (`.field`, `.ta`, `.igrp`).
 
 **No raw components in page layout** — never drop a bare `.chip`, `.card`, `.badge`, etc. directly into page layout without wrapping it in a page-specific class. Kit components are always composed, never used raw.
+
+## Change discipline (hard rules — read before editing any kit component)
+
+These rules exist because previous iterations let me silently rewrite already-agreed styles. Result: kit-theme.css, storybook demos, changes/*.md, and 6 pages drifted out of sync. Catching it after the fact is painful. The rules below catch it before.
+
+### 1. Don't re-decide what's already documented
+
+If a component has an entry in `changes/<Component>.md` AND a matching block in the `#<component>` storybook section, those values are the **agreed contract**. Reading the doc and noticing a small inconsistency does not give me license to "harmonize" the values silently. Two valid moves:
+
+- **Implement** what the contract says, even if it disagrees with what's currently in `kit-theme.css`. The contract wins; align the CSS to it.
+- **Surface the conflict** and ask: *"changes/X.md says Y but kit-theme.css does Z — which one is right?"* Then wait for an answer before editing.
+
+Never invent a third value as "the obvious midpoint". Subtle visual values (hover %, shadow depth, transition duration) carry **intent** that I cannot reverse-engineer from inspection.
+
+### 2. Propagate every kit-level change to all consumers in the same pass
+
+If I touch a rule in `pages/kit-theme.css` (token, selector, recipe), the change is incomplete until I also:
+
+1. Search every page that uses it: `Grep "<class-name>"` over `pages/*.html` + `insightis-preview-kit.html`. If the markup changes too (e.g. added attributes, new wrapper), update every page that copies the component.
+2. Update the storybook block in `insightis-preview-kit.html` (`#<component>` section) — both the Preview and the States table. Inline demo styles in storybook cells **must match** the live CSS rule.
+3. Update `changes/<Component>.md` — the relevant row in the "was → became" table needs the new spec; the token map and accessibility self-check at the bottom may need new entries.
+4. Update `current/<Component>.md` only if prod itself shipped a change (rare).
+
+When any of (1)–(3) is skipped, the artifact lies — the doc says one thing, the CSS does another, two pages render differently. Don't ship a half-propagated change.
+
+### 3. Confirm before modifying agreed-and-already-implemented visuals
+
+Pattern that bit us: user agrees on design X, I implement X, user approves, weeks later I read the code and "improve" X to Y based on my own taste. **Don't.** Anything labelled in the comment as "agreed", "locked", or "spec — see #<component>" — or anything documented in `changes/*.md` with a "became" value — is a frozen contract. To change it I must:
+
+1. Quote the current contract back: *"the current rule is `background: color-mix(...white 50%, transparent)`, documented at kit-theme.css:907 and storybook line 735"*.
+2. State the specific concern with an observation: *"on dark theme the 50% white reads as a hot highlight against grey-800"*.
+3. Propose a replacement value and explain how it preserves the original intent.
+4. Wait for a yes/no.
+
+Removing a rule, dropping an `.dark` override, or replacing a documented mix is the same as proposing a new contract — it requires the same approval cycle.
+
+### 4. Tokenise any value that appears in more than one place
+
+If the same hover %, transition duration, scale value, or shadow recipe needs to live on multiple selectors, lift it to a `--token`. Otherwise the next person (or the next me) will edit one and miss the other, and the visual will drift. Existing examples: `--motion-fast/base/slow`, `--content-max-narrow/wide`, `--state-hover`, `--brand-primary`. New ones are cheap to add — name them by intent ("--hover-lift-overlay") not by value ("--white-50").
+
+### 4a. Cascading delete — when removing something, remove everything that hangs off it
+
+Whenever a feature, class, function, or block is removed, the deletion is incomplete until every dependent thing is also gone:
+
+- **CSS class removed** → also delete: every markup that uses the class (in `pages/*.html`, `insightis-preview-kit.html`); any JS that references it (`getElementById`, `querySelector`, `classList.toggle`, etc.); any comments that mention the class; any related modifier classes (`.foo-active`, `.foo--variant`); any `changes/<X>.md` row that documents it.
+- **JS function removed** → also delete: every call site (inline `onclick`, event listeners, other functions calling it); any DOM elements or attributes that only exist to be its target (`data-action`, `aria-controls` referencing things only this fn touched).
+- **Feature / component removed** → also delete: CSS rules, markup occurrences, storybook section in `insightis-preview-kit.html`, `current/<X>.md`, `changes/<X>.md`, the sidebar link in the kit's left nav, page-level inline styles that override it.
+- **Markup element removed** → also delete: associated CSS rules that targeted it via class/id; JS handlers attached to it; aria-relationships pointing to it (`aria-controls`, `aria-labelledby`, `aria-describedby`).
+
+The failure mode is "orphan code": a JS handler that runs but its DOM target is gone, a CSS rule that no longer matches anything, a stale comment that references a deleted feature. These accumulate silently and the artifact rots.
+
+Before completing a delete, run a `Grep` sweep for the removed identifier across the whole repo. If anything still references it, that thing is also part of the delete.
+
+### 5. When asked to verify, verify against the documented spec — not against memory
+
+If the user says "this doesn't match what we agreed", the first move is `Grep` the storybook + `changes/<Component>.md` to find the documented values. Quote what's there, then compare with current rendering. If memory and doc disagree, the doc wins. If both disagree with the user, **ask** which one is authoritative — don't trust either silently.
+
+## How this round failed (so I don't repeat it)
+
+Recent example: SegmentedControl hover.
+- The storybook spec text said "no surface change" (one reading).
+- The storybook demo inline style said `background: color-mix(white 50%, transparent)` (another reading).
+- The CSS rule had been the white-50%/dark-10% recipe for months — the **shipped** agreement.
+- I read only the spec text, "fixed" the CSS by removing the bg overlay, and broke the agreed-on design.
+
+The right move was: notice the spec text vs. demo style mismatch, surface it, ask which one is authoritative. Not silently align with one and break the other.

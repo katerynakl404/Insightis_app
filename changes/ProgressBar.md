@@ -1,4 +1,4 @@
-# ProgressBar — prod → expected
+﻿# ProgressBar — prod → expected
 
 | Part | Current (prod) | Expected |
 |---|---|---|

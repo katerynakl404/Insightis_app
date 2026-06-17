@@ -1,4 +1,4 @@
-# MetaRow — prod → expected
+﻿# MetaRow — prod → expected
 
 Baseline: [`../current/MetaRow.md`](../current/MetaRow.md).
 

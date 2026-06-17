@@ -1,10 +1,12 @@
-# DataSourcesFiles — Changes (Current → Expected)
+﻿# DataSourcesFiles — Changes (Current → Expected)
+
+> **Update (Unreleased):** Files is now a **top-level sidebar destination** (see [`Sidebar.md`](Sidebar.md) — nav row order `Sources → Files → Metrics`), not a tab inside Data Sources. The three `Tab bar — …` rows below are kept for historical context but are no longer the Expected state — there is no tab bar; the `Browse Files` action moved into the page header next to the `Files` h1. The `.dsf-tabrow` / `.tabset` markup was removed from [`pages/data-sources_files-landing.html`](../pages/data-sources_files-landing.html) and [`pages/data-sources_connections-landing.html`](../pages/data-sources_connections-landing.html).
 
 | State / Element | Current (prod) | Expected | Specification |
 |---|---|---|---|
-| **Tab bar — count badges** | None | `.badge.badge-secondary` inline in each tab label: Connections (4) · Files (N) | Tab counts give instant inventory at a glance; count reflects live `FILES.length` |
-| **Tab bar — action button** | None | `.btn.btn-outline.btn-sm` with upload icon prefix, right-aligned in tab row via flex; label "Browse Files" | Consistent upload entry point visible without scrolling; stays in the tab row per spec |
-| **Tab bar — border** | `.tabset` owns `border-bottom` | `.dsf-tabrow` wrapper owns `border-bottom`; `.tabset` has `border-bottom:none` so both tabs and button share one underline hairline | Avoids double border when action button is inline |
+| **Tab bar — count badges** *(superseded — tab bar removed)* | None | ~~`.badge.badge-secondary` inline in each tab label: Connections (4) · Files (N)~~ → tab bar deleted; counts are no longer needed since Files has its own route. | Was: tab counts give instant inventory at a glance. Now: the page h1 alone identifies the route. |
+| **Tab bar — action button** *(superseded)* | None | ~~`.btn.btn-outline.btn-sm` … right-aligned in tab row~~ → action moved to the page header (right-aligned next to the `Files` h1). | Same button (`btn btn-outline btn-sm` + upload icon); new container is `.ds-page-head` instead of `.dsf-tabrow`. |
+| **Tab bar — border** *(superseded — tab bar removed)* | `.tabset` owns `border-bottom` | ~~`.dsf-tabrow` wrapper owns `border-bottom`~~ → no tab bar exists; section divider is no longer needed. | `.dsf-tabrow` CSS is now dead in both data-sources HTML files. |
 | **Drop zone — border** | `2px dashed var(--brand-primary)` (teal, heavy) | `2px dashed var(--border)` (soft neutral) | Replaces "heavy colored outline" — softer treatment, brand color reserved for primary actions |
 | **Drop zone — background** | Transparent | `var(--card2)` | Gives the drop zone a distinct secondary-surface fill without adding color |
 | **Drop zone — drag-over state** | — (none) | `background:var(--state-hover)` + `border-style:solid` | Clear affordance on active drag; no custom colors — uses hover token |

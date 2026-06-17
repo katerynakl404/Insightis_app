@@ -1,4 +1,4 @@
-# Stepper — change
+﻿# Stepper — change
 
 **No change (—).** New headless component, live on prod since 04.06 (see `../current/Stepper.md`).
 No visual tokens of its own. Expected stays empty until a change is requested.

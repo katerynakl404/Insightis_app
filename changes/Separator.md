@@ -1,4 +1,4 @@
-# Separator — prod → expected
+﻿# Separator — prod → expected
 
 Source: `@insightis/ui` `Separator/index.tsx`. Baseline: [`../current/Separator.md`](../current/Separator.md).
 
