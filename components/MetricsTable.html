@@ -1,0 +1,168 @@
+<!--
+  MetricsTable — collapsible provider-group accordion table for the Metrics filled state.
+  CSS: pages/kit-theme.css → .mx-tbl, .mx-prov-group, .mx-metric-child, .mx-tbl-actions, etc.
+  Storybook: insightis-preview-kit.html #metricstable
+  Page: pages/metrics-landing.html (filled state)
+
+  Structure:
+    .mx-tbl                    — outer card shell (border-radius, overflow:hidden)
+      table.tbl                — table-layout:fixed, no scroll
+        colgroup               — explicit column widths
+        thead                  — sticky header
+        tbody
+          tr.mx-prov-group     — accordion head row (chevron + logo + name + "+ Add metric")
+          tr.mx-metric-child   — individual metric row (toggle + name + desc + badge + alias + kebab)
+          tr.mx-no-builtin-row — shown when provider has zero built-in metrics
+          tr.mx-conn-sub-row   — connector sub-divider (e.g. "via Skyvia Jira")
+
+  JS: mxToggleGroup(btn) — collapses/expands rows between two .mx-prov-group heads
+      mxToggleKebab(btn) — opens/closes the kebab menu
+      mxKebabClose()     — closes any open kebab
+-->
+<div class="mx-tbl">
+  <table class="tbl">
+    <colgroup>
+      <col style="width:2.75rem"><!-- toggle -->
+      <col style="width:22%">    <!-- name -->
+      <col>                      <!-- description (auto) -->
+      <col style="width:6.5rem"><!-- badge -->
+      <col style="width:11rem"> <!-- alias -->
+      <col style="width:5rem">  <!-- actions -->
+    </colgroup>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Metric</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Alias</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- Provider group row -->
+      <tr class="mx-prov-group" data-prov="jira">
+        <td colspan="5">
+          <div class="mx-prov-group-cell">
+            <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse"
+                    onclick="event.stopPropagation();mxToggleGroup(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <span class="mx-prov-ic">
+              <img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy">
+            </span>
+            <span class="mx-prov-group-name">Jira Software Cloud</span>
+          </div>
+        </td>
+        <td class="mx-tbl-actions">
+          <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" type="button"
+                  onclick="event.stopPropagation();mxOpenAddDlg()">+ Add metric</button>
+        </td>
+      </tr>
+
+      <!-- Built-in metric row -->
+      <tr class="mx-metric-child" data-prov="jira" data-custom="false"
+          data-name="Issues Closed" data-alias="@issues_closed">
+        <td>
+          <div class="mx-tbl-name mx-child-indent">
+            <div class="mx-swt-wrap">
+              <button class="swt" type="button" role="switch" aria-checked="true"
+                      onclick="event.stopPropagation()"></button>
+            </div>
+          </div>
+        </td>
+        <td class="mx-tbl-name">Issues Closed
+          <span class="mx-tbl-sub">Count of resolved issues per sprint</span>
+        </td>
+        <td class="mx-tbl-desc">Number of issues moved to Done status</td>
+        <td class="mx-tbl-badge"><span class="badge badge-secondary badge-sm">Built-in</span></td>
+        <td class="mx-tbl-alias">@issues_closed</td>
+        <td class="mx-tbl-actions" style="position:relative">
+          <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button"
+                  aria-label="More options" aria-expanded="false"
+                  onclick="event.stopPropagation();mxToggleKebab(this)">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px">
+              <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
+            </svg>
+          </button>
+          <div class="menu" role="menu">
+            <button class="mi" role="menuitem" type="button"
+                    onclick="event.stopPropagation();mxKebabClose();mxDuplicateFromRow(this.closest('tr'))">
+              Duplicate
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Custom metric row -->
+      <tr class="mx-metric-child" data-prov="jira" data-custom="true"
+          data-name="MRR Growth" data-alias="@mrr_growth">
+        <td>
+          <div class="mx-tbl-name mx-child-indent">
+            <div class="mx-swt-wrap is-on">
+              <button class="swt on" type="button" role="switch" aria-checked="true"
+                      onclick="event.stopPropagation()"></button>
+            </div>
+          </div>
+        </td>
+        <td class="mx-tbl-name">MRR Growth</td>
+        <td class="mx-tbl-desc">Month-over-month revenue change</td>
+        <td class="mx-tbl-badge"><span class="badge badge-primary badge-sm">Custom</span></td>
+        <td class="mx-tbl-alias">@mrr_growth</td>
+        <td class="mx-tbl-actions" style="position:relative">
+          <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button"
+                  aria-label="More options" aria-expanded="false"
+                  onclick="event.stopPropagation();mxToggleKebab(this)">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px">
+              <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
+            </svg>
+          </button>
+          <div class="menu" role="menu">
+            <button class="mi" role="menuitem" onclick="mxKebabClose();mxOpenDetail(this.closest('tr'))">Edit</button>
+            <button class="mi" role="menuitem" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))">Duplicate</button>
+            <button class="mi danger" role="menuitem" onclick="mxDeleteCustom('custom-1')">Delete</button>
+          </div>
+        </td>
+      </tr>
+
+      <!-- No built-in metrics row (shown when provider has 0 built-ins) -->
+      <tr class="mx-no-builtin-row" data-prov="azure">
+        <td colspan="5">
+          <div class="mx-no-builtin-msg">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span>No built-in metrics for Azure DevOps.
+              <button class="mx-no-builtin-link" type="button"
+                      onclick="event.stopPropagation();mxOpenAddDlg()">
+                Create a custom metric →
+              </button>
+            </span>
+          </div>
+        </td>
+        <td class="mx-tbl-actions"></td>
+      </tr>
+
+      <!-- Connector sub-row (groups metrics from a named connector) -->
+      <tr class="mx-conn-sub-row">
+        <td colspan="6">
+          <div class="mx-conn-sub-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <span class="mx-conn-sub-label-text">via Skyvia Jira</span>
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>

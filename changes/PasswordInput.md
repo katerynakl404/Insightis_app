@@ -1,4 +1,4 @@
-﻿# PasswordInput — prod → expected
+# PasswordInput — prod → expected
 
 Source: `@insightis/ui` `PasswordInput/index.tsx`. Baseline: [`../current/PasswordInput.md`](../current/PasswordInput.md).
 

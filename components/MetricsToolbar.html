@@ -1,0 +1,34 @@
+<!--
+  MetricsToolbar — 2-row filter bar for the Metrics filled state.
+  Row 1: full-width search input (.igrp)
+  Row 2: Built-in / Custom type chips (left) + Active-only toggle (.swt, right)
+  CSS: pages/kit-theme.css → .mx-c3-toolbar, .mx-c3-filter-chips, .mx-active-toggle
+  Storybook: insightis-preview-kit.html #metricstoolbar
+  Page: pages/metrics-landing.html (filled state)
+
+  JS: mxC3FilterChip(btn) — handles both chip (.is-active) and swt toggle (.on)
+      mxC3Filter() — reads all three states + search query, shows/hides rows
+-->
+<div class="mx-c3-toolbar" id="mx-c3-toolbar">
+  <!-- Row 1: search -->
+  <div class="igrp">
+    <span class="igrp-add">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/>
+      </svg>
+    </span>
+    <input class="igrp-input" type="search" placeholder="Search metrics…" oninput="mxC3Filter()" id="mx-search">
+  </div>
+  <!-- Row 2: type chips + active-only toggle -->
+  <div class="mx-c3-filter-chips" id="mx-c3-chips">
+    <button class="chip chip-sm" type="button" data-filter="builtin"  onclick="mxC3FilterChip(this)">Built-in</button>
+    <button class="chip chip-sm" type="button" data-filter="custom"   onclick="mxC3FilterChip(this)">Custom</button>
+    <label class="mx-active-toggle">
+      <div class="mx-swt-wrap">
+        <button class="swt" type="button" role="switch" aria-checked="false"
+                data-filter="active-only" onclick="event.preventDefault();mxC3FilterChip(this)"></button>
+      </div>
+      <span>Active only</span>
+    </label>
+  </div>
+</div>

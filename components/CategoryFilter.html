@@ -1,0 +1,22 @@
+<!--
+  CategoryFilter — "Top 5 for" label + standard .chip-row for filtering provider cards by category.
+  CSS: page style block → .mx-cat-header, .mx-cat-label (layout only). Chips use kit .chip / .chip-row.
+  Page: pages/concept/metrics-landing.html (empty state, above card grid)
+
+  Behaviour:
+    - One chip is active at a time (.is-active)
+    - Clicking a chip calls mxCatFilter(this) — filters provider cards by data-category attribute
+    - Active chip: standard kit chip active state (solid Brand/Primary fill)
+-->
+<div class="mx-cat-header">
+  <span class="mx-cat-label">Top 5 for</span>
+  <div class="chip-row" id="mx-cat-chips">
+    <button class="chip is-active" type="button" data-cat="Engineering" onclick="mxCatFilter(this)">Engineering</button>
+    <button class="chip" type="button" data-cat="Marketing"   onclick="mxCatFilter(this)">Marketing</button>
+    <button class="chip" type="button" data-cat="SEO"         onclick="mxCatFilter(this)">SEO</button>
+    <button class="chip" type="button" data-cat="Finance"     onclick="mxCatFilter(this)">Finance</button>
+    <button class="chip" type="button" data-cat="HR"          onclick="mxCatFilter(this)">HR</button>
+    <button class="chip" type="button" data-cat="Sales"       onclick="mxCatFilter(this)">Sales</button>
+    <button class="chip" type="button" data-cat="Product"     onclick="mxCatFilter(this)">Product</button>
+  </div>
+</div>

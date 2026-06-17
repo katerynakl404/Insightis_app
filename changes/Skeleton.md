@@ -1,4 +1,4 @@
-﻿# Skeleton — prod → expected
+# Skeleton — prod → expected
 
 Source: `@insightis/ui` `Skeleton/index.tsx`. Baseline: [`../current/Skeleton.md`](../current/Skeleton.md).
 

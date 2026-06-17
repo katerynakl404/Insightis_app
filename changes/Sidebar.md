@@ -1,4 +1,4 @@
-﻿# Sidebar — prod → expected
+# Sidebar — prod → expected
 
 Source: `@insightis/ui` `Sidebar/` — overall component plus the sub-parts SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubButton, SidebarRail, SidebarTrigger, SidebarInset, SidebarProvider. Baseline: [`../current/Sidebar.md`](../current/Sidebar.md).
 

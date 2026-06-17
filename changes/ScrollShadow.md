@@ -1,4 +1,4 @@
-﻿# ScrollShadow — prod → expected
+# ScrollShadow — prod → expected
 
 Source: `@insightis/ui` `ScrollShadow/index.tsx` + `hooks/use-scroll-shadow`. Baseline: [`../current/ScrollShadow.md`](../current/ScrollShadow.md).
 

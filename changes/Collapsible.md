@@ -1,4 +1,4 @@
-﻿# Collapsible — prod → expected
+# Collapsible — prod → expected
 
 Source: `@insightis/ui` `Collapsible/index.tsx`. Baseline: [`../current/Collapsible.md`](../current/Collapsible.md).
 

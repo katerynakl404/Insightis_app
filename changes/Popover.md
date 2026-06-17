@@ -1,4 +1,4 @@
-﻿# Popover — prod → expected
+# Popover — prod → expected
 
 Source: `@insightis/ui` `Popover/index.tsx` + `PopoverContent.tsx`. Baseline: [`../current/Popover.md`](../current/Popover.md).
 

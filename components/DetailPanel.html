@@ -1,0 +1,61 @@
+<!--
+  DetailPanel — slide-in right-side panel for metric details / editing.
+  CSS: pages/kit-theme.css → .mx-panel, .mx-panel-head, .mx-panel-body, .mx-panel-sect,
+       .mx-panel-sect-title, .mx-panel-foot, .mx-dl, .mx-form-label
+  Storybook: insightis-preview-kit.html #detailpanel
+  Page: pages/metrics-landing.html — triggered by clicking a metric row
+
+  Note: on the Metrics page this is rendered with id="mx-panel" (ID-targeted CSS in page <style>).
+        For reuse on another page, apply class="mx-panel" and wrap in <div class="ov is-open">
+        to trigger the slide-in.
+
+  JS: mxOpenDetail(tr) — reads row data, populates panel, opens overlay
+      mxClosePanel()   — removes .is-open from .ov, slides panel out
+-->
+<div class="ov is-open">
+  <div class="mx-panel" id="mx-panel">
+
+    <!-- Header -->
+    <div class="mx-panel-head" id="mx-panel-head">
+      <span class="mx-panel-title" id="mx-panel-title">Issues Closed</span>
+      <button class="iconbtn iconbtn-secondary" type="button" aria-label="Close" onclick="mxClosePanel()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="mx-panel-body" id="mx-panel-body">
+
+      <!-- Definition section -->
+      <div class="mx-panel-sect">
+        <p class="mx-panel-sect-title">Definition</p>
+        <dl class="mx-dl">
+          <div><dt>Source</dt><dd>Jira Software Cloud</dd></div>
+          <div><dt>Type</dt><dd>Count</dd></div>
+          <div><dt>Alias</dt><dd><span class="chip chip-sm">@issues_closed</span></dd></div>
+          <div><dt>Description</dt><dd>Number of issues moved to Done status within the selected period.</dd></div>
+        </dl>
+      </div>
+
+      <!-- Configuration section (custom metrics only) -->
+      <div class="mx-panel-sect">
+        <p class="mx-panel-sect-title">Configuration</p>
+        <label class="mx-form-label" for="panel-name">Display name</label>
+        <input class="field" id="panel-name" type="text" value="Issues Closed">
+        <label class="mx-form-label" for="panel-alias" style="margin-top:.75rem">Alias</label>
+        <input class="field" id="panel-alias" type="text" value="issues_closed">
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="mx-panel-foot">
+      <button class="btn btn-secondary" type="button" onclick="mxClosePanel()">Cancel</button>
+      <button class="btn btn-primary" type="button">Save changes</button>
+    </div>
+
+  </div>
+</div>

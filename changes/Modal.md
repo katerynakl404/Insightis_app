@@ -1,4 +1,4 @@
-﻿# Modal — prod → expected
+# Modal — prod → expected
 
 Modal's shell tokens stay close to prod; the changes are mostly inherited from the components it embeds (Button + text colours).
 

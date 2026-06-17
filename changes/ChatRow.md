@@ -1,4 +1,4 @@
-﻿# ChatRow — prod → expected
+# ChatRow — prod → expected
 
 Baseline: [`../current/ChatRow.md`](../current/ChatRow.md).
 
@@ -35,18 +35,3 @@ n/a — new component.
 ## Token map used
 
 `--ink-body` (default text) · `--state-hover` (hover bg) · `--state-pressed` (selected bg) · `--brand-primary` (pinned marker, 8% mix for kebab-open tint, 10% mix for selected+hover) · `--ink-secondary` (timestamp, default kebab colour) · `--focus-ring-brand` (focus ring) · `.cbx.on` (checked → `--brand-primary` + `--content-on-solid`) · `.mi.danger` (`--fb-red-text`). No new tokens introduced — every state composes from the existing palette.
-
-## Accessibility & consistency self-check
-
-```
-Consistency: PASS — every state token reuses an existing alias. Hover/selected/focus shape matches Table & Sidebar list rows. Kebab fade-in matches .sbx-chat-more. Checkbox reveal pattern matches industry standard (Gmail / Notion). Context menu reuses .menu/.mi/.mi.danger.
-Accessibility:
-  ✓ Row text contrast — --ink-body on --card light = #334155 / #FFFFFF = 9.11:1; dark #CBD5E1 / #17171E = 13.32:1 (target 4.5:1, 1.4.3)
-  ✓ Timestamp contrast — --ink-secondary on --card light = 4.85:1; dark = 7.69:1 (target 4.5:1)
-  ✓ Pinned marker brand colour vs --bg — Brand-600 on white = 4.65:1 light; Brand-500 on dark Card = 4.54:1 (target 3:1)
-  ✓ Focus ring — neutral State/Focus_Ring_Brand 2 px outer + 2 px Card gap (2.4.7)
-  ✓ Hit targets — pin marker 20×20, kebab 24×24, full row clickable (40 px tall × 720+ px wide) → all comfortably ≥ 24×24 (2.5.8)
-  ✓ Pinned not by colour alone — marker appears only for pinned rows; absence vs presence is the primary cue, colour is secondary (1.4.1)
-  ✓ Menu role/aria — kebab has aria-haspopup="menu" + aria-expanded; menu items get accessible name via text; Delete carries the danger colour AND the destructive verb
-  ⚠️ Hover-reveal checkbox + kebab — covered by focus-within for keyboard users, but touch users (no hover) need an always-visible affordance. Acceptable on desktop-first Chats library; for mobile shipping add a (hover:none) media query that keeps the checkbox slot fully visible at all times.
-```

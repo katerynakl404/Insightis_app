@@ -1,0 +1,102 @@
+<!--
+  Selector — branded custom select trigger + dropdown menu.
+  CSS:       pages/kit-theme.css → .sel-wrap / .sel-trig / .sel-val / .sel-ph / .sel-chev / .sel-menu
+  Storybook: insightis-preview-kit.html #selector
+  Pages:     pages/metrics-landing.html (Add Metric dialog, connector selector)
+  Changes:   changes/Selector.md
+
+  Variants / modifiers:
+    .sel-trig.is-sm   — height 32 px
+    (default)         — height 36 px
+    .sel-trig.is-lg   — height 40 px
+    .sel-trig.is-xl   — height 44 px
+
+  States (CSS / JS):
+    Default           — border var(--border)
+    Hover             — border var(--border-hover)   [CSS :hover]
+    Open              — aria-expanded="true" on trigger; border var(--input-focus); chevron rotates 180°
+    Focus             — box-shadow var(--shadow-focus-brand)  [:focus-visible]
+    Disabled          — disabled attr + .s-disabled class
+
+  JS API:
+    kitSelToggle(btn)       — toggles aria-expanded on the trigger (storybook)
+    kitSelSelect(optEl)     — copies option text into .sel-val, closes menu (storybook)
+    mxSelToggle(btn)        — metrics-landing.html variant
+    mxSelSelect(val, label) — metrics-landing.html variant (writes to hidden <input>)
+
+  Markup:
+    .sel-wrap wraps label + trigger + menu.
+    .sel-trig + .sel-menu must be adjacent siblings (CSS sibling selector drives open state).
+    Hidden <input type="hidden"> can be placed after .sel-wrap to preserve JS .value access
+    when replacing a native <select id="foo"> that other scripts read.
+-->
+
+<!-- Default / placeholder state -->
+<div class="sel-wrap">
+  <span class="sel-lbl">Connector</span>
+  <button class="sel-trig" type="button"
+          aria-haspopup="listbox" aria-expanded="false"
+          onclick="kitSelToggle(this)">
+    <span class="sel-ph">Select a connector…</span>
+    <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </button>
+  <div class="sel-menu menu" role="listbox">
+    <div class="mi" role="option" onclick="kitSelSelect(this)">Snowflake</div>
+    <div class="mi" role="option" onclick="kitSelSelect(this)">Salesforce</div>
+    <div class="mi" role="option" onclick="kitSelSelect(this)">BigQuery</div>
+  </div>
+</div>
+
+
+<!-- With selected value -->
+<div class="sel-wrap">
+  <span class="sel-lbl">Connector</span>
+  <button class="sel-trig" type="button"
+          aria-haspopup="listbox" aria-expanded="false"
+          onclick="kitSelToggle(this)">
+    <span class="sel-val">Snowflake</span>
+    <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </button>
+  <div class="sel-menu menu" role="listbox">
+    <div class="mi" role="option" onclick="kitSelSelect(this)">Snowflake</div>
+    <div class="mi" role="option" onclick="kitSelSelect(this)">Salesforce</div>
+    <div class="mi" role="option" onclick="kitSelSelect(this)">BigQuery</div>
+  </div>
+</div>
+
+
+<!-- Large (is-lg, 40 px) — used in metrics dialog -->
+<div class="sel-wrap" style="width:100%;max-width:none">
+  <button class="sel-trig is-lg" type="button"
+          aria-haspopup="listbox" aria-expanded="false"
+          onclick="kitSelToggle(this)">
+    <span class="sel-ph">Select a connector…</span>
+    <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </button>
+  <div class="sel-menu menu" role="listbox">
+    <div class="mi" role="option" onclick="kitSelSelect(this)">Skyvia Jira (Jira Software Cloud)</div>
+  </div>
+</div>
+<!-- Hidden input preserves .value for scripts that read the replaced native <select> -->
+<input type="hidden" id="mx-connector-inp" value="">
+
+
+<!-- Disabled -->
+<div class="sel-wrap">
+  <button class="sel-trig s-disabled" type="button" disabled>
+    <span class="sel-ph">Select a connector…</span>
+    <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </button>
+</div>

@@ -13,3 +13,6 @@ claude-code/task-*.md
 
 # Local release notes (kept local, never pushed)
 release-notes/
+
+# Accessibility self-check files (local audit notes, not part of the handoff artifact)
+a11y/

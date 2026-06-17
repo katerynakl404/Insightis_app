@@ -1,4 +1,4 @@
-﻿# Dropdown menu — prod → expected
+# Dropdown menu — prod → expected
 
 All dimensions below apply to **every** menu in the system — base text menu (Edit / Duplicate / Delete), context menu with icons (Help / Feedback / Guide), chat-row kebab menu — driven by a single `.mi` rule. Prod values come from live DevTools inspection.
 

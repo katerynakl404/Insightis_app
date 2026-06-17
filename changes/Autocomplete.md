@@ -1,4 +1,4 @@
-﻿# Autocomplete — prod → expected
+# Autocomplete — prod → expected
 
 Source: `@insightis/ui` `Autocomplete/index.tsx` + `hooks/use-autocomplete`. Baseline: [`../current/Autocomplete.md`](../current/Autocomplete.md).
 

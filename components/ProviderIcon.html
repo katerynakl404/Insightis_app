@@ -1,0 +1,33 @@
+<!--
+  ProviderIcon — small 20×20 rounded logo badge used in table rows and group headers.
+  CSS: pages/kit-theme.css → .mx-prov-ic, .mx-prov-cell
+  Storybook: insightis-preview-kit.html #providericon
+  Page: pages/metrics-landing.html
+
+  Sizes / contexts:
+    Default (table row)   — 1.25rem × 1.25rem, card bg + border, img at 65% size
+    Group header variant  — background:transparent; border:none; 1.125rem × 1.125rem; img 100%
+    Banner spotlight      — 2rem × 2rem, with 2px card-color border (visual stacking)
+
+  Note: GitHub and other icons designed for dark backgrounds need .dark-invert on the <img>
+        to invert in dark mode (apply class="dark-invert" to the img element).
+-->
+
+<!-- Default: inside a table row cell -->
+<div class="mx-prov-cell">
+  <span class="mx-prov-ic">
+    <img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy">
+  </span>
+  Jira Software Cloud
+</div>
+
+<!-- Group header variant (bare, inside .mx-prov-group row) -->
+<div class="mx-prov-group-cell">
+  <span class="mx-prov-ic"><!-- bare — .mx-prov-group overrides bg/border -->
+    <img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy">
+  </span>
+  <span class="mx-prov-group-name">Jira Software Cloud</span>
+</div>
+
+<!-- Fallback (when logo image fails to load) — set via JS onerror -->
+<span class="mx-prov-ic" style="background:#0078D4;border:none;color:#fff;font-size:.5rem;font-weight:700">Az</span>

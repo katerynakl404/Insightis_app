@@ -1,4 +1,4 @@
-﻿# DataSourcesFiles — Changes (Current → Expected)
+# DataSourcesFiles — Changes (Current → Expected)
 
 > **Update (Unreleased):** Files is now a **top-level sidebar destination** (see [`Sidebar.md`](Sidebar.md) — nav row order `Sources → Files → Metrics`), not a tab inside Data Sources. The three `Tab bar — …` rows below are kept for historical context but are no longer the Expected state — there is no tab bar; the `Browse Files` action moved into the page header next to the `Files` h1. The `.dsf-tabrow` / `.tabset` markup was removed from [`pages/data-sources_files-landing.html`](../pages/data-sources_files-landing.html) and [`pages/data-sources_connections-landing.html`](../pages/data-sources_connections-landing.html).
 
@@ -24,15 +24,3 @@
 | **Context menu** | Not present | `.menu.chat-row-menu` anchored to kebab button: Download (with download icon) · Delete (with trash icon, `.danger` class → `--fb-red-text`) | Reuses `.menu`/`.mi`/`.danger` from kit-theme.css |
 | **File type icon** | Colored square + extension text | `.dsf-file-ic` colored square: `.type-csv` → `--brand-tertiary`; `.type-xls`/`.type-xlsx` → `--fb-green`; all via `--mark-bg` custom property | Token-based; follows the connector-mark pattern from the Connections tab |
 | **Typography** | Ad-hoc sizes | All text via existing type-scale classes and tokens (`--ink`, `--ink-secondary`, `.8125rem`, `.875rem`, `.75rem`) — no hardcoded sizes | Token-enforced type scale |
-
-## Accessibility checks
-
-Consistency: PASS — all colors reference tokens; sizes and spacing use 4px-step scale; both Light and Dark themes covered; state coverage includes default / hover / selected / checked / disabled on interactive elements.
-
-Accessibility: PASS
-- Drop zone has `role="region"` + `aria-label`; Browse Files buttons have explicit labels.
-- Checkboxes expose `role="checkbox"` + `aria-checked`.
-- Kebab buttons have `aria-haspopup="menu"` + `aria-expanded`; Escape dismisses.
-- Delete uses `.danger` class (red text + icon) — status not conveyed by color alone.
-- All interactive elements have visible `:focus-visible` rings via kit tokens.
-- Hit targets ≥ 24×24px (`.chat-row-more` 24×24; `.dsf-meta-iconbtn` 24×24; drop zone full-width).

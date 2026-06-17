@@ -1,4 +1,4 @@
-﻿# SegmentedControl — prod → expected
+# SegmentedControl — prod → expected
 
 Baseline: [`../current/SegmentedControl.md`](../current/SegmentedControl.md).
 
@@ -60,18 +60,3 @@ All states share the **same 1 px inset-rim recipe** so default → hover → act
 - Container: `role="tablist"`, `aria-label="<purpose>"`.
 - Item: `role="tab"`, `aria-selected="true|false"`, `aria-label` when the item is icon-only (sm size).
 - Keyboard: arrow keys move selection within the group; `Home`/`End` jump to first/last; `Tab` exits to the next focusable element (standard ARIA tablist pattern).
-
-## Accessibility & consistency self-check
-
-```
-Consistency: PASS — rim colour comes from --border (system-native edge), not from raw black-alpha; hover + active use the same rim shape with half-strength hover (color-mix 50% --border light, 3% white-alpha dark) so footprint is identical between states. No font-weight bump on active (was 600, removed) — selected text doesn't visibly "jump" when toggling. Token discipline holds: three component-scoped tokens (--segctrl-btn-hover-bg / --segctrl-hover-shadow / --segctrl-active-shadow), no new primitives.
-Accessibility:
-  ✓ Unselected text vs container bg — Text/Secondary Slate-550 #5A6A80 on --card2 Slate-100 #F1F5F9 = 5.01:1 light; Grey-300 #D1D5DB on Grey-800 #21212C = 11.8:1 dark (target 4.5:1)
-  ✓ Selected text vs Card — Text/Primary Slate-900 #0F172A on #FFFFFF = 17.85:1 light; Grey-50 #F9FAFB on Grey-700 #2A2834 = 13.6:1 dark
-  ✓ Selected pill edge — light: 1 px `--border` (slate-200 #E2E8F0) rim on white pill against slate-100 slot = perceivable system-native edge; dark: 1 px 6%-white-alpha rim on grey-700 pill against grey-800 slot = perceivable.
-  ✓ Focus ring vs Card — --shadow-focus-brand: 2 px Card gap + 2 px Brand-600 ring, 5.07:1 vs Card light / 4.54:1 dark (target 3:1, 1.4.11)
-  ✓ Hit target — sm 20 × 60 px min (≥ 24 short axis? — 20 px FAIL strict; sm is icon-only in dense popovers where the entire row composition meets target). md 32 × 80 px min — PASS 24 × 24 (2.5.8) on both axes. AAA 44 × 44 needs label padding; document.
-  ⚠ sm size hit target 20 px on short axis — same exemption pattern as Switch (consumers wrap in label with padding to reach 44 × 44 on touch). Documented.
-  ✓ Status not by colour alone — selected state pairs bg-shift + rim + drop shadow (in light) / bg-shift + rim (in dark). Multiple non-colour cues. (1.4.1)
-  ✓ Keyboard navigable — role=tablist + role=tab + aria-selected; arrow keys move selection (consumer-implemented per WAI-ARIA tablist pattern)
-```

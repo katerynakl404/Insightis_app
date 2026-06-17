@@ -1,4 +1,4 @@
-﻿# Datepicker — prod → expected
+# Datepicker — prod → expected
 
 Source: `@insightis/ui` `Datepicker/` (Calendar, CalendarDayButton, SingleDatePicker, DateRangePicker). Baseline: [`../current/Datepicker.md`](../current/Datepicker.md).
 

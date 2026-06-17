@@ -1,4 +1,4 @@
-﻿# Toast — prod → expected
+# Toast — prod → expected
 
 Source: `@insightis/ui` `Toast/` (Toaster, ToastMessage, `toast()`). Baseline: [`../current/Toast.md`](../current/Toast.md).
 

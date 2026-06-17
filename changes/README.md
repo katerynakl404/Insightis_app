@@ -1,4 +1,4 @@
-﻿# Changes — prod → expected
+# Changes — prod → expected
 
 One file per component / property. Each file documents what differs between the
 **current production** appearance (from the `@insightis/ui` code: `globals.css` + component classes)

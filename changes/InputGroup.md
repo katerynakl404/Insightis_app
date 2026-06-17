@@ -1,4 +1,4 @@
-﻿# InputGroup — prod → expected
+# InputGroup — prod → expected
 
 Source: `@insightis/ui` `InputGroup/index.tsx` + `InputGroupAddon`, `InputGroupInput`. Baseline: [`../current/InputGroup.md`](../current/InputGroup.md).
 

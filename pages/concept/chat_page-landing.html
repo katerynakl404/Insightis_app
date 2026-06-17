@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en" class="">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insightis · Chat page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../kit-theme.css" />
+<style>
+  /* ===== Page-only layout (no component restyling) ===== */
+  .topbar{padding:.375rem 1rem;height:40px;box-sizing:border-box;flex:none}
+  html,body{height:100%;overflow:hidden}
+  body{display:flex;flex-direction:column}
+  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--bg)}
+
+  /* Sidebar column */
+  .cl-side{width:16rem;flex:none;background:var(--card);border-right:1px solid var(--border);height:100%;overflow:hidden;display:flex;flex-direction:column;transition:width .2s ease}
+  .cl-shell:has(.sbx.is-collapsed) .cl-side{width:3.563rem}
+  .cl-side .sb-full,.cl-side .sbx{width:100%;height:auto;border:none;border-radius:0;flex:1 1 0;min-height:0}
+
+  /* Current/Expected swap removed — only Expected remains. */
+
+  /* Main column */
+  .cl-main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+
+  /* ── Header bar ── */
+  .cp-header{flex:none;display:flex;align-items:center;padding:0 1.5rem;height:3rem;gap:.5rem}
+  .cp-header-title{font-size:.9375rem;font-weight:600;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Title + chevron dropdown */
+  .cp-title-wrap{display:flex;align-items:center;gap:.25rem;flex:1;min-width:0;position:relative}
+  .cp-title-btn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.375rem;border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;flex:none;font-family:inherit;transition:color .12s,background .12s}
+  .cp-title-btn:hover{color:var(--ink-body);background:var(--state-hover)}
+  .cp-title-btn svg{width:14px;height:14px}
+  .cp-title-menu{position:absolute;top:calc(100% + .25rem);left:0;min-width:10rem;display:none;z-index:20;box-shadow:0 8px 16px -4px rgba(15,23,42,.12),0 2px 4px 0 rgba(15,23,42,.06)}
+  .cp-title-wrap:has([aria-expanded="true"]) .cp-title-menu{display:block}
+  .mi-danger{color:var(--fb-red-text)}
+
+  /* ── Thread ── */
+  .cp-thread-wrap{flex:1;overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(to bottom,transparent 0,black 2.5rem,black calc(100% - 3.5rem),transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,black 2.5rem,black calc(100% - 3.5rem),transparent 100%)}
+  .cp-thread{height:100%;overflow-y:auto;padding:1.5rem 0;display:flex;flex-direction:column;align-items:center}
+  .cp-inner{max-width:960px;width:100%;padding:0 1.5rem;box-sizing:border-box;display:flex;flex-direction:column;gap:1.25rem}
+
+  /* Message rows */
+  .cp-msg-row{display:flex;flex-direction:column;gap:.375rem}
+  .cp-msg-row.user{align-items:flex-end}
+  .cp-msg-row.ai{align-items:flex-start}
+  /* Bubbles */
+  .cp-bubble{max-width:72%;padding:.625rem .875rem;font-size:.875rem;line-height:1.55;color:var(--ink);border-radius:1rem}
+  .cp-bubble.user{background:color-mix(in srgb,var(--brand-primary) 11%,var(--bg));border-radius:1rem 1rem .25rem 1rem}
+  .cp-bubble.ai{background:color-mix(in srgb,var(--brand-primary) 7%,var(--bg));border-radius:.25rem 1rem 1rem 1rem}
+  /* Timestamp */
+  .cp-ts{font-size:.6875rem;color:var(--ink-secondary);font-variant-numeric:tabular-nums}
+
+  /* Scroll-to-bottom btn — absolute within thread-wrap */
+  .cp-scroll-btn{position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);width:2rem;height:2rem;border-radius:9999px;background:var(--card);border:1px solid var(--border);color:var(--ink-secondary);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:color .12s,background .12s;font-family:inherit;z-index:5}
+  .cp-scroll-btn:hover{color:var(--ink-body);background:var(--state-hover)}
+  .cp-scroll-btn svg{width:14px;height:14px}
+
+  /* ── Expected — rich AI content blocks ── */
+  .cp-ai-wrap{display:flex;flex-direction:column;gap:.5rem;max-width:88%}
+  .cp-ai-label{font-size:.75rem;color:var(--ink-secondary);font-weight:500;padding-left:.125rem}
+  .cp-ai-prose{font-size:.875rem;line-height:1.55;color:var(--ink-body);margin:0}
+  /* Metric grid */
+  .cp-metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;min-width:360px}
+  .cp-metric-card{display:flex;flex-direction:column;gap:.25rem;padding:.75rem;border-radius:.5rem;border:1px solid var(--border);background:var(--bg)}
+  .cp-metric-label{font-size:.75rem;color:var(--ink-secondary)}
+  .cp-metric-val{font-size:1.125rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+  .cp-metric-val.neg{color:var(--fb-red-text)}
+  /* Chart */
+  .cp-chart-wrap{padding:.875rem 1rem;display:flex;flex-direction:column;gap:.5rem}
+  .cp-chart-title{font-size:.8125rem;font-weight:600;color:var(--ink-body)}
+  .cp-chart-svg{width:100%;aspect-ratio:560/100;overflow:visible;display:block}
+  /* Data source note */
+  .cp-src{font-size:.75rem;color:var(--ink-secondary);line-height:1.4;margin:0}
+  /* Action buttons */
+  .cp-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+  /* User bubble — outlined card style */
+  .cp-bubble.user{background:var(--card);border:1px solid var(--border)}
+  /* User message footer: timestamp + action icons on the same row */
+  .cp-msg-foot{display:flex;align-items:center;gap:.25rem;justify-content:flex-end}
+  .cp-msg-actions{display:flex;gap:.125rem;align-items:center;opacity:0;pointer-events:none;transition:opacity .15s}
+  .cp-msg-row.user:hover .cp-msg-actions{opacity:1;pointer-events:auto}
+  .cp-msg-action{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.25rem;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;font-family:inherit;transition:color .12s,background .12s}
+  .cp-msg-action:hover{color:var(--ink-body);background:var(--state-hover)}
+  .cp-msg-action svg{width:14px;height:14px}
+
+  /* ── Composer area ── */
+  .cp-composer-area{flex:none;padding:.625rem 1.5rem 1.25rem}
+  .cp-composer-inner{max-width:960px;margin:0 auto}
+  /* Composer styles (mirrors chat-landing.html's .cl-composer rules) */
+  .cl-composer{width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem .5rem .5rem .25rem;border-radius:1rem;transition:border-color .15s,box-shadow .15s}
+  .cl-composer:hover{border-color:var(--border-hover)}
+  .cl-composer:focus-within{border-color:var(--input-focus);box-shadow:none}
+  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:14px;min-height:32px;resize:none;color:var(--ink);outline:none;font-family:inherit;line-height:1.5}
+  .cl-prompt::placeholder{color:var(--ink-inactive)}
+  .cl-prompt:hover,.cl-prompt:focus,.cl-prompt:focus-visible{border:none;box-shadow:none}
+  .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+  .cl-foot-left{display:flex;align-items:center;gap:.25rem}
+  .cl-attach{height:2rem;width:2rem;border-radius:.375rem;color:var(--ink-body)}
+  .cl-attach svg{width:16px;height:16px}
+  .cl-dd{display:inline-flex;align-items:center;justify-content:center;height:2rem;padding:0 .5rem;gap:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink-body);background:transparent;border:none;border-radius:.375rem;cursor:pointer;font-family:inherit;transition:background .12s,color .12s}
+  .cl-dd:hover{background:var(--state-hover)}
+  .cl-dd:active{background:var(--state-pressed)}
+  .cl-dd:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .cl-dd .cl-ic-lead{width:16px;height:16px;color:var(--ink-body)}
+  .cl-dd .cl-ic-chev{width:14px;height:14px;color:var(--ink-secondary)}
+  .cl-send{height:2rem;padding:0 .75rem;gap:.375rem;font-size:.8125rem;border-radius:.375rem}
+  .cl-send svg{width:14px;height:14px}
+  /* Send button — always shows active styling even with disabled attr (visual continuity) */
+  .cl-send[disabled]{background:var(--brand-primary);color:#fff;border-color:transparent;opacity:1;pointer-events:none}
+
+  /* Submenus collapsed by default; revealed when their trigger row carries .is-open. */
+  .sb-menu .sb-item:not(.is-open) + .sb-submenu{display:none}
+
+  /* Sticker removed — no in-page handoff note. */
+
+  @media(max-width:720px){.cl-side{display:none}}
+</style>
+</head>
+<body>
+
+<!-- Brand symbols — verbatim from chat-landing.html -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="lg" viewBox="0 0 418 100">
+    <g fill="currentColor">
+      <path d="M400.473 31.3711C403.905 31.3711 406.789 31.9429 409.125 33.0869C411.461 34.1834 413.272 35.7095 414.56 37.6641C415.894 39.571 416.729 41.7642 417.062 44.2432L407.838 44.6719C407.6 43.3847 407.171 42.264 406.551 41.3105C405.931 40.3572 405.097 39.6427 404.048 39.166C402.999 38.6416 401.759 38.3789 400.329 38.3789C398.184 38.3789 396.563 38.808 395.467 39.666C394.37 40.5241 393.822 41.6685 393.822 43.0986C393.822 44.0998 394.06 44.9341 394.537 45.6016C395.062 46.269 395.896 46.817 397.04 47.2461C398.184 47.6275 399.709 47.9856 401.616 48.3193C405.621 48.9391 408.767 49.7489 411.056 50.75C413.392 51.7035 415.037 52.9432 415.99 54.4688C416.991 55.9466 417.492 57.7345 417.492 59.832C417.492 62.2633 416.8 64.3375 415.418 66.0537C414.083 67.7698 412.176 69.0806 409.697 69.9863C407.266 70.8444 404.406 71.2734 401.116 71.2734C397.35 71.2734 394.18 70.7253 391.605 69.6289C389.079 68.5324 387.124 67.0064 385.741 65.0518C384.359 63.0972 383.573 60.8802 383.382 58.4014L392.749 57.9727C393.083 59.9749 393.917 61.5246 395.252 62.6211C396.587 63.7176 398.565 64.2656 401.188 64.2656C403.333 64.2656 405.002 63.9321 406.193 63.2646C407.433 62.5496 408.053 61.4525 408.053 59.9746C408.053 59.1169 407.838 58.402 407.409 57.8301C406.98 57.258 406.169 56.7572 404.978 56.3281C403.786 55.8991 402.022 55.4701 399.686 55.041C395.776 54.3736 392.702 53.5628 390.461 52.6094C388.22 51.6082 386.623 50.3685 385.67 48.8906C384.764 47.4128 384.312 45.5776 384.312 43.3848C384.312 39.8093 385.67 36.9254 388.388 34.7324C391.153 32.4918 395.181 31.3711 400.473 31.3711Z"/>
+      <path d="M376.246 70.415H367.093V32.2295H376.246V70.415ZM376.46 27.1523H366.949V19H376.46V27.1523Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M350.297 32.2295H360.38V39.3086H350.297V58.6162C350.297 60.3801 350.679 61.6199 351.441 62.335C352.204 63.0022 353.396 63.3359 355.017 63.3359H360.38V70.415H352.228C348.414 70.415 345.601 69.5334 343.789 67.7695C342.025 66.0056 341.144 63.2406 341.144 59.4746V39.3086H335.137V32.2295H341.144V23.29H350.297V32.2295Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M305.783 37.3545C306.109 36.7073 306.49 36.1185 306.928 35.5898C308.072 34.1598 309.478 33.1108 311.146 32.4434C312.815 31.7283 314.651 31.3711 316.653 31.3711C319.466 31.3711 321.826 31.991 323.732 33.2305C325.687 34.4223 327.141 36.1147 328.095 38.3076C329.096 40.5006 329.597 43.0273 329.597 45.8877V70.415H320.443V48.1045C320.443 45.0058 319.919 42.6935 318.87 41.168C317.821 39.5948 316.176 38.8086 313.936 38.8086C311.457 38.8086 309.478 39.6184 308 41.2393C306.522 42.8601 305.783 45.2206 305.783 48.3193V70.415H296.63V19.6436H305.783V37.3545Z"/>
+      <path d="M266.857 31.3711C269.622 31.3711 272.007 31.991 274.009 33.2305C276.011 34.4698 277.464 36.1145 278.37 38.1641V32.2295H287.31V67.0547C287.31 70.2963 286.546 73.0377 285.021 75.2783C283.543 77.5188 281.445 79.1878 278.728 80.2842C276.058 81.4281 272.912 82 269.289 82C265.952 82 263.092 81.5473 260.708 80.6416C258.324 79.7358 256.393 78.4479 254.915 76.7793C253.485 75.1586 252.484 73.2758 251.912 71.1309L261.352 70.4873C261.828 71.9172 262.638 73.0373 263.782 73.8477C264.974 74.6581 266.81 75.0635 269.289 75.0635C272.102 75.0634 274.27 74.4198 275.796 73.1328C277.321 71.8933 278.084 69.9382 278.084 67.2686V62.4062C277.178 64.2653 275.725 65.767 273.723 66.9111C271.72 68.0076 269.479 68.5557 267 68.5557C263.854 68.5556 261.041 67.793 258.562 66.2676C256.131 64.6944 254.224 62.5256 252.842 59.7607C251.459 56.948 250.768 53.706 250.768 50.0352C250.768 46.3643 251.435 43.1459 252.77 40.3809C254.152 37.5682 256.06 35.3759 258.491 33.8027C260.922 32.1819 263.711 31.3711 266.857 31.3711ZM269.146 38.5225C266.333 38.5225 264.14 39.5714 262.566 41.6689C261.041 43.7188 260.278 46.484 260.278 49.9639C260.278 53.4439 261.065 56.2325 262.639 58.3301C264.26 60.3799 266.428 61.4052 269.146 61.4053C271.863 61.4053 274.032 60.4036 275.653 58.4014C277.274 56.3515 278.109 53.539 278.156 49.9639C278.204 47.5803 277.846 45.5542 277.083 43.8857C276.368 42.1695 275.319 40.8579 273.937 39.9521C272.602 38.9988 271.005 38.5225 269.146 38.5225Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M243.632 70.415H234.479V32.2295H243.632V70.415ZM243.847 27.1523H234.335V19H243.847V27.1523Z"/>
+      <path d="M210.315 31.3711C213.748 31.3711 216.632 31.9429 218.968 33.0869C221.304 34.1834 223.116 35.7095 224.403 37.6641C225.738 39.5709 226.573 41.7643 226.906 44.2432L217.681 44.6719C217.442 43.3847 217.013 42.264 216.394 41.3105C215.774 40.3573 214.939 39.6427 213.891 39.166C212.842 38.6417 211.603 38.3789 210.173 38.3789C208.028 38.3789 206.406 38.8079 205.31 39.666C204.213 40.5241 203.665 41.6685 203.665 43.0986C203.665 44.0997 203.903 44.9342 204.38 45.6016C204.904 46.2689 205.739 46.8171 206.883 47.2461C208.027 47.6275 209.553 47.9856 211.46 48.3193C215.464 48.9391 218.611 49.7489 220.899 50.75C223.235 51.7034 224.88 52.9433 225.833 54.4688C226.834 55.9466 227.335 57.7344 227.335 59.832C227.335 62.2633 226.643 64.3375 225.261 66.0537C223.926 67.7697 222.019 69.0806 219.54 69.9863C217.109 70.8444 214.248 71.2734 210.959 71.2734C207.193 71.2734 204.023 70.7254 201.448 69.6289C198.922 68.5324 196.967 67.0063 195.585 65.0518C194.202 63.0972 193.415 60.8803 193.225 58.4014L202.593 57.9727C202.926 59.9749 203.761 61.5246 205.096 62.6211C206.43 63.7173 208.409 64.2656 211.03 64.2656C213.175 64.2656 214.844 63.932 216.036 63.2646C217.276 62.5496 217.896 61.4525 217.896 59.9746C217.895 59.1168 217.681 58.402 217.252 57.8301C216.823 57.258 216.012 56.7572 214.82 56.3281C213.629 55.8991 211.865 55.47 209.529 55.041C205.62 54.3736 202.544 53.5628 200.304 52.6094C198.063 51.6083 196.466 50.3684 195.513 48.8906C194.607 47.4128 194.154 45.5775 194.154 43.3848C194.154 39.8093 195.513 36.9254 198.23 34.7324C200.995 32.4918 205.024 31.3711 210.315 31.3711Z"/>
+      <path d="M173.353 31.3711C176.165 31.3711 178.526 31.991 180.433 33.2305C182.387 34.47 183.865 36.1861 184.866 38.3789C185.867 40.5242 186.367 43.0273 186.367 45.8877V70.415H177.214V48.8193C177.214 46.6741 176.999 44.8626 176.57 43.3848C176.141 41.907 175.427 40.7862 174.426 40.0234C173.472 39.213 172.184 38.8076 170.563 38.8076C168.132 38.8077 166.178 39.6667 164.7 41.3828C163.27 43.099 162.555 45.5777 162.555 48.8193V70.415H153.401V32.2295H161.696L161.914 38.7656C162.298 37.755 162.774 36.8633 163.342 36.0908C164.533 34.4701 165.987 33.2784 167.703 32.5156C169.419 31.7529 171.303 31.3711 173.353 31.3711Z"/>
+      <path d="M142.113 70.415H132.817V19.6436H142.113V70.415Z"/>
+    </g>
+    <path style="fill:var(--logo-mark)" d="M100 40.3752L85.0185 49.5197L100 58.6227L50 89L0 58.6227L14.9815 49.5197L0 40.3752L22.499 26.7072L30 31.2639L15 40.3752L50 61.6391L85 40.3752L70 31.2639L77.501 26.7072L100 40.3752ZM50 70.7525L22.4723 54.0287L14.9979 58.6227L50 79.8887L85.0021 58.6227L77.5257 54.0287L50 70.7525ZM70 40.398L50 52.5485L30 40.398L37.5175 35.831L50 43.4144L62.4825 35.831L70 40.398ZM70 22.1505L50 34.301L30 22.1505L50 10L70 22.1505ZM45 22.1484L50 25.1876L55 22.1484L50 19.1113L45 22.1484Z"/>
+  </symbol>
+  <symbol id="lg-mark" viewBox="0 0 26 26">
+    <path fill="currentColor" d="M25.4928 10.4153L21.6736 12.7515L25.4928 15.077L12.7464 22.8373L0 15.077L3.81921 12.7515L0 10.4153L5.73562 6.92364L7.64785 8.08772L3.82392 10.4153L12.7464 15.8475L21.6689 10.4153L17.845 8.08772L19.7572 6.92364L25.4928 10.4153ZM12.7464 18.1757L5.72881 13.9033L3.8234 15.077L12.7464 20.5097L21.6694 15.077L19.7635 13.9033L12.7464 18.1757ZM17.845 10.4212L12.7464 13.5252L7.64785 10.4212L9.56426 9.25445L12.7464 11.1918L15.9286 9.25445L17.845 10.4212ZM17.845 5.75956L12.7464 8.86359L7.64785 5.75956L12.7464 2.65552L17.845 5.75956ZM11.4718 5.75903L12.7464 6.53543L14.0211 5.75903L12.7464 4.98315L11.4718 5.75903Z"/>
+  </symbol>
+  <symbol id="lg-text" viewBox="0 0 73 17">
+    <g fill="currentColor">
+      <path d="M0 13.2361V1.31819H2.31135V13.2361H0Z"/>
+      <path d="M5.00515 13.2361V3.79206H6.90118L6.84701 6.68124H7.17204C7.34058 5.97099 7.56328 5.38713 7.84016 4.92968C8.12908 4.47222 8.49625 4.12913 8.94167 3.9004C9.38708 3.67168 9.90473 3.55731 10.4946 3.55731C11.566 3.55731 12.3786 3.93652 12.9324 4.69493C13.4982 5.45334 13.7811 6.62707 13.7811 8.21613V13.2361H11.4878V8.45087C11.4878 7.42762 11.3313 6.68124 11.0183 6.21175C10.7173 5.73022 10.2659 5.48946 9.66396 5.48946C9.15835 5.48946 8.731 5.65197 8.38189 5.97701C8.03278 6.29 7.76192 6.71134 7.5693 7.24102C7.38873 7.75867 7.29242 8.33049 7.28038 8.95648V13.2361H5.00515Z"/>
+      <path d="M19.8509 13.4708C19.2129 13.4708 18.635 13.4046 18.1174 13.2722C17.6118 13.1518 17.1784 12.9773 16.8172 12.7485C16.4561 12.5078 16.1672 12.2249 15.9505 11.8998C15.7338 11.5628 15.6014 11.1896 15.5532 10.7803L17.3409 10.1122C17.365 10.4251 17.4854 10.708 17.7021 10.9609C17.9187 11.2016 18.2197 11.3942 18.6049 11.5387C18.9901 11.6832 19.4536 11.7554 19.9953 11.7554C20.5973 11.7554 21.0607 11.6651 21.3858 11.4845C21.7228 11.2919 21.8914 11.021 21.8914 10.6719C21.8914 10.4191 21.8011 10.2205 21.6205 10.076C21.4399 9.91954 21.1751 9.79314 20.826 9.69683C20.4889 9.58849 20.0796 9.48616 19.5981 9.38986C19.1527 9.29355 18.7012 9.18521 18.2438 9.06482C17.7984 8.9324 17.383 8.76387 16.9978 8.55922C16.6246 8.34253 16.3177 8.06565 16.0769 7.72858C15.8482 7.37947 15.7338 6.94007 15.7338 6.41038C15.7338 5.83255 15.8843 5.33296 16.1852 4.91162C16.4982 4.49028 16.9436 4.15923 17.5215 3.91846C18.1114 3.67769 18.8216 3.55731 19.6523 3.55731C20.4347 3.55731 21.1089 3.66566 21.6747 3.88235C22.2525 4.09903 22.722 4.41203 23.0832 4.82133C23.4443 5.21859 23.673 5.69411 23.7693 6.24787L21.8914 6.84376C21.8553 6.50669 21.7409 6.22379 21.5483 5.99506C21.3557 5.7543 21.0968 5.57372 20.7718 5.45334C20.4468 5.33296 20.0676 5.27277 19.6342 5.27277C19.0804 5.27277 18.6471 5.36907 18.3341 5.56169C18.0211 5.7543 17.8646 6.01312 17.8646 6.33815C17.8646 6.603 17.9609 6.81367 18.1535 6.97016C18.3581 7.12666 18.635 7.25306 18.9841 7.34937C19.3453 7.44568 19.7546 7.54198 20.212 7.63829C20.6936 7.73459 21.157 7.84896 21.6025 7.98138C22.0599 8.10176 22.4692 8.26428 22.8304 8.46893C23.1915 8.67358 23.4804 8.94444 23.6971 9.28151C23.9138 9.60655 24.0222 10.0279 24.0222 10.5455C24.0222 11.1715 23.8536 11.7072 23.5165 12.1526C23.1795 12.586 22.6979 12.9171 22.0719 13.1458C21.458 13.3625 20.7176 13.4708 19.8509 13.4708Z"/>
+      <path d="M25.9369 13.2361V3.79206H28.2122V13.2361H25.9369ZM27.0746 2.31135C26.6171 2.31135 26.262 2.21504 26.0092 2.02243C25.7684 1.81778 25.648 1.52886 25.648 1.15567C25.648 0.782488 25.7684 0.499589 26.0092 0.306976C26.262 0.102325 26.6171 0 27.0746 0C27.5561 0 27.9172 0.0963064 28.158 0.288919C28.3988 0.481531 28.5192 0.77045 28.5192 1.15567C28.5192 1.52886 28.3927 1.81778 28.1399 2.02243C27.8992 2.21504 27.5441 2.31135 27.0746 2.31135Z"/>
+      <path d="M34.4344 16.4864C33.4111 16.4864 32.5684 16.4082 31.9063 16.2517C31.2563 16.0952 30.7747 15.8604 30.4617 15.5474C30.1487 15.2344 29.9922 14.8492 29.9922 14.3918C29.9922 13.838 30.2089 13.3866 30.6423 13.0375C31.0877 12.6763 31.7438 12.4536 32.6106 12.3693V12.0082C31.9605 12.0202 31.4669 11.954 31.1299 11.8096C30.7928 11.6531 30.6243 11.4063 30.6243 11.0692C30.6243 10.7442 30.7868 10.4552 31.1118 10.2024C31.4489 9.94964 32.0026 9.73897 32.7731 9.57043V9.20928C32.0387 9.17317 31.4669 8.94444 31.0576 8.5231C30.6483 8.08972 30.4437 7.52994 30.4437 6.84376C30.4437 6.22981 30.6122 5.68809 30.9493 5.21859C31.2864 4.7491 31.7799 4.38193 32.43 4.11709C33.0921 3.84021 33.8926 3.70177 34.8316 3.70177H39.5085V5.50751L36.5471 5.07413V5.4714C37.2935 5.59178 37.8412 5.80245 38.1903 6.10341C38.5515 6.40436 38.732 6.81367 38.732 7.33131C38.732 7.82488 38.5755 8.26428 38.2625 8.6495C37.9495 9.02269 37.4921 9.31763 36.8902 9.53432C36.3003 9.73897 35.584 9.84129 34.7413 9.84129C34.5848 9.84129 34.4163 9.83527 34.2357 9.82324C34.0552 9.8112 33.7723 9.7811 33.387 9.73295C33.1342 9.91352 32.9296 10.076 32.7731 10.2205C32.6166 10.3529 32.5383 10.4793 32.5383 10.5997C32.5383 10.696 32.5985 10.7803 32.7189 10.8525C32.8393 10.9127 32.9958 10.9548 33.1884 10.9789C33.381 11.003 33.5676 11.015 33.7482 11.015H36.2582C36.4989 11.015 36.8059 11.0331 37.1791 11.0692C37.5643 11.1053 37.9435 11.2016 38.3167 11.3581C38.7019 11.5146 39.021 11.7614 39.2738 12.0985C39.5386 12.4355 39.671 12.9111 39.671 13.525C39.671 14.2112 39.4724 14.771 39.0751 15.2043C38.6899 15.6498 38.106 15.9748 37.3236 16.1794C36.5531 16.3841 35.59 16.4864 34.4344 16.4864ZM34.633 14.6446C35.3794 14.6446 35.9753 14.6024 36.4207 14.5182C36.8661 14.4339 37.1851 14.2955 37.3777 14.1028C37.5703 13.9223 37.6666 13.6875 37.6666 13.3986C37.6666 13.1338 37.6065 12.9291 37.4861 12.7847C37.3657 12.6282 37.2092 12.5198 37.0166 12.4596C36.836 12.3994 36.6494 12.3633 36.4568 12.3513C36.2642 12.3392 36.1017 12.3332 35.9692 12.3332H33.7482C33.1703 12.4175 32.761 12.58 32.5203 12.8208C32.2916 13.0615 32.1772 13.3264 32.1772 13.6153C32.1772 13.9042 32.2735 14.1209 32.4661 14.2654C32.6587 14.4219 32.9356 14.5242 33.2967 14.5723C33.6699 14.6205 34.1154 14.6446 34.633 14.6446ZM34.6872 8.59533C35.3132 8.59533 35.7887 8.45087 36.1137 8.16195C36.4387 7.861 36.6013 7.46975 36.6013 6.98822C36.6013 6.47057 36.4327 6.04923 36.0956 5.7242C35.7706 5.38713 35.2951 5.21859 34.6691 5.21859C34.0431 5.21859 33.5556 5.38111 33.2065 5.70614C32.8694 6.03118 32.7009 6.4465 32.7009 6.95211C32.7009 7.27714 32.7731 7.56606 32.9175 7.81886C33.074 8.05963 33.2967 8.25224 33.5857 8.3967C33.8866 8.52912 34.2538 8.59533 34.6872 8.59533Z"/>
+      <path d="M41.5079 13.2361V0.415321H43.8012V3.35868C43.8012 3.61148 43.7892 3.87031 43.7651 4.13515C43.7531 4.39999 43.729 4.67085 43.6929 4.94773C43.6568 5.22461 43.6146 5.50149 43.5665 5.77837C43.5304 6.05525 43.4882 6.33214 43.4401 6.60902H43.8193C43.9878 5.95895 44.2045 5.41121 44.4694 4.96579C44.7342 4.50834 45.0713 4.15923 45.4806 3.91846C45.9019 3.67769 46.4135 3.55731 47.0154 3.55731C48.1109 3.55731 48.9295 3.94254 49.4713 4.71299C50.013 5.4714 50.2838 6.62707 50.2838 8.18001V13.2361H47.9906V8.50504C47.9906 7.46975 47.8341 6.70532 47.5211 6.21175C47.2201 5.71818 46.7626 5.4714 46.1487 5.4714C45.6431 5.4714 45.2217 5.6279 44.8847 5.94089C44.5476 6.24185 44.2888 6.64513 44.1082 7.15074C43.9276 7.65635 43.8193 8.22816 43.7832 8.86619V13.2361H41.5079Z"/>
+      <path d="M55.9749 13.4528C54.9757 13.4528 54.2414 13.1879 53.7719 12.6583C53.3024 12.1165 53.0676 11.2799 53.0676 10.1483V5.61586H51.6772L51.7133 3.81012H52.6343C52.9834 3.81012 53.2422 3.75594 53.4107 3.6476C53.5793 3.53925 53.6816 3.34664 53.7177 3.06976L53.9344 1.6974H55.2526V3.79206H57.7445V5.68809H55.2526V10.058C55.2526 10.5034 55.3549 10.8284 55.5596 11.0331C55.7763 11.2377 56.0953 11.3401 56.5166 11.3401C56.7453 11.3401 56.968 11.316 57.1847 11.2678C57.4135 11.2076 57.6241 11.1113 57.8167 10.9789V13.1458C57.4436 13.2662 57.1005 13.3444 56.7875 13.3805C56.4865 13.4287 56.2157 13.4528 55.9749 13.4528Z"/>
+      <path d="M59.6888 13.2361V3.79206H61.964V13.2361H59.6888ZM60.8264 2.31135C60.369 2.31135 60.0138 2.21504 59.761 2.02243C59.5203 1.81778 59.3999 1.52886 59.3999 1.15567C59.3999 0.782488 59.5203 0.499589 59.761 0.306976C60.0138 0.102325 60.369 0 60.8264 0C61.3079 0 61.6691 0.0963064 61.9099 0.288919C62.1506 0.481531 62.271 0.77045 62.271 1.15567C62.271 1.52886 62.1446 1.81778 61.8918 2.02243C61.651 2.21504 61.2959 2.31135 60.8264 2.31135Z"/>
+      <path d="M68.1862 13.4708C67.5482 13.4708 66.9704 13.4046 66.4527 13.2722C65.9471 13.1518 65.5137 12.9773 65.1526 12.7485C64.7914 12.5078 64.5025 12.2249 64.2858 11.8998C64.0691 11.5628 63.9367 11.1896 63.8886 10.7803L65.6762 10.1122C65.7003 10.4251 65.8207 10.708 66.0374 10.9609C66.2541 11.2016 66.555 11.3942 66.9403 11.5387C67.3255 11.6832 67.789 11.7554 68.3307 11.7554C68.9326 11.7554 69.3961 11.6651 69.7211 11.4845C70.0582 11.2919 70.2267 11.021 70.2267 10.6719C70.2267 10.4191 70.1364 10.2205 69.9558 10.076C69.7753 9.91954 69.5104 9.79314 69.1613 9.69683C68.8242 9.58849 68.4149 9.48616 67.9334 9.38986C67.488 9.29355 67.0366 9.18521 66.5791 9.06482C66.1337 8.9324 65.7184 8.76387 65.3331 8.55922C64.96 8.34253 64.653 8.06565 64.4122 7.72858C64.1835 7.37947 64.0691 6.94007 64.0691 6.41038C64.0691 5.83255 64.2196 5.33296 64.5206 4.91162C64.8336 4.49028 65.279 4.15923 65.8568 3.91846C66.4467 3.67769 67.1569 3.55731 67.9876 3.55731C68.7701 3.55731 69.4442 3.66566 70.01 3.88235C70.5879 4.09903 71.0574 4.41203 71.4185 4.82133C71.7796 5.21859 72.0084 5.69411 72.1047 6.24787L70.2267 6.84376C70.1906 6.50669 70.0762 6.22379 69.8836 5.99506C69.691 5.7543 69.4322 5.57372 69.1071 5.45334C68.7821 5.33296 68.4029 5.27277 67.9695 5.27277C67.4158 5.27277 66.9824 5.36907 66.6694 5.56169C66.3564 5.7543 66.1999 6.01312 66.1999 6.33815C66.1999 6.603 66.2962 6.81367 66.4888 6.97016C66.6935 7.12666 66.9704 7.25306 67.3195 7.34937C67.6806 7.44568 68.0899 7.54198 68.5474 7.63829C69.0289 7.73459 69.4924 7.84896 69.9378 7.98138C70.3952 8.10176 70.8045 8.26428 71.1657 8.46893C71.5268 8.67358 71.8158 8.94444 72.0325 9.28151C72.2491 9.60655 72.3575 10.0279 72.3575 10.5455C72.3575 11.1715 72.1889 11.7072 71.8519 12.1526C71.5148 12.586 71.0333 12.9171 70.4073 13.1458C69.7933 13.3625 69.053 13.4708 68.1862 13.4708Z"/>
+    </g>
+  </symbol>
+</svg>
+
+<!-- ===== Topbar ===== -->
+<div class="topbar">
+  <span class="ttl">Chat page</span>
+  <div style="display:flex;gap:.375rem">
+    <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
+  </div>
+</div>
+
+<div class="cl-shell">
+
+  <!-- ===== SIDEBAR — verbatim from chat-landing.html; active chat updated for this screen ===== -->
+  <aside class="cl-side">
+
+    <div class="sbx">
+        <div class="sbx-head">
+          <div class="sbx-brand">
+            <div class="sbx-brand-id">
+              <svg class="sbx-brand-logo" aria-label="Insightis"><use href="#lg"/></svg>
+              <svg class="sbx-brand-mark" aria-hidden="true"><use href="#lg-mark"/></svg>
+            </div>
+            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Toggle Sidebar" type="button" onclick="clToggleSbxCollapse()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+            </button>
+          </div>
+          <button class="btn btn-primary btn-sm sbx-cta" type="button" onclick="location.href='chat-landing.html'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            <span>New Chat</span>
+          </button>
+        </div>
+        <div class="sbx-nav">
+          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+            <span class="lbl">New Chat</span>
+          </button>
+          <button class="sbx-nav-item" type="button">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+            <span class="lbl">Sources</span>
+          </button>
+          <button class="sbx-nav-item" type="button">
+            <!-- Pie-chart icon — Metrics glyph -->
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+            <span class="lbl">Metrics</span>
+          </button>
+          <button class="sbx-nav-item" type="button">
+            <!-- Folder icon — Files glyph (Lucide folder) -->
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span class="lbl">Files</span>
+          </button>
+        </div>
+        <div class="sbx-chats">
+          <div class="sbx-sect">
+            <div class="sbx-sect-head">
+              <button class="sbx-sect-label-wrap" type="button" aria-expanded="true" onclick="var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+                <span class="sbx-sect-label">Pinned</span>
+                <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="link sbx-sect-link" type="button">See all</button>
+            </div>
+            <div class="sbx-chat" role="button" tabindex="0">
+              <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+                <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
+              </button>
+              <div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div>
+            </div>
+            <div class="sbx-chat" role="button" tabindex="0">
+              <span class="sbx-chat-lbl">Onboarding cohort summary</span>
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+                <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
+              </button>
+              <div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div>
+            </div>
+          </div>
+          <div class="sbx-sect">
+            <div class="sbx-sect-head">
+              <button class="sbx-sect-label-wrap" type="button" aria-expanded="true" onclick="var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+                <span class="sbx-sect-label">Recent</span>
+                <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="link sbx-sect-link" type="button">See all</button>
+            </div>
+            <!-- Active item — the chat we're currently viewing -->
+            <div class="sbx-chat s-active" role="button" tabindex="0" aria-current="true">
+              <span class="sbx-chat-lbl">Q3 Sales Report</span>
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+                <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
+              </button>
+              <div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div>
+            </div>
+            <div class="sbx-chat" role="button" tabindex="0">
+              <span class="sbx-chat-lbl">Top movers — weekly</span>
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+                <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
+              </button>
+              <div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="sbx-foot">
+          <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
+            <div class="sbx-tok-row"><span class="sbx-tok-label">Tokens</span><span class="sbx-tok-val">673 / 1000</span></div>
+            <div class="sbx-tok-bar"><span style="width:67.3%"></span></div>
+          </button>
+          <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
+            <span class="sbx-user-ava">K</span>
+            <span class="sbx-user-info">
+              <span class="sbx-user-name">Kateryna K.</span>
+              <span class="sbx-user-meta">Admin · Professional</span>
+            </span>
+            <svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+          </button>
+
+          <!-- Account popover — opens above the user row -->
+          <div class="sbx-pop sbx-pop-account" id="sbx-pop-account" role="menu" aria-label="Account">
+            <div class="sbx-pop-sect">
+              <span class="sbx-pop-label">Account</span>
+              <div class="sbx-pop-list">
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>My account</button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="6" height="6" x="16" y="16" rx="1"/><rect width="6" height="6" x="2" y="16" rx="1"/><rect width="6" height="6" x="9" y="2" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>Manage plan</button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>Billing</button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M3 5a2 2 0 0 0 2 2h15a1 1 0 0 1 1 1v4h-4a2 2 0 0 0 0 4h4v2a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/></svg>Balance</button>
+              </div>
+            </div>
+            <div class="sbx-pop-sect">
+              <span class="sbx-pop-label">Support</span>
+              <div class="sbx-pop-list">
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M9 10h6"/><path d="M9 14h4"/></svg>Leave feedback</button>
+                <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>Resources<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="m7 17 10-10"/></svg></button>
+              </div>
+            </div>
+            <div class="sbx-pop-theme" role="tablist" aria-label="Theme">
+              <button class="sbx-pop-theme-btn is-active" type="button" role="tab" aria-label="Light" aria-selected="true" onclick="document.documentElement.classList.remove('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
+              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false" onclick="document.documentElement.classList.add('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
+            </div>
+            <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign out</button>
+          </div>
+
+          <!-- Subscription Tokens popover — opens above the tokens row -->
+          <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription tokens">
+            <div class="sbx-pop-tok-head">
+              <span class="plan-badge" aria-hidden="true"></span>
+              <span class="plan-name">Basic</span>
+            </div>
+            <div class="sbx-pop-tok-meter">
+              <div class="row"><span class="label">Subscription tokens</span></div>
+              <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
+              <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
+            </div>
+            <div class="sbx-pop-tok-meter">
+              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">50 of 100</span></div>
+              <div class="bar"><span style="width:50%;background:var(--fb-green)"></span></div>
+            </div>
+            <div class="sbx-pop-tok-actions">
+              <button class="btn btn-primary sbx-pop-cta" type="button">Buy credits</button>
+              <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade plan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="cl-main">
+
+    <!-- Header bar -->
+    <header class="cp-header">
+      <div class="cp-title-wrap">
+        <h1 class="cp-header-title">Q3 Sales Report</h1>
+        <button class="cp-title-btn" type="button" aria-label="Chat options" aria-haspopup="menu" aria-expanded="false"
+          onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="menu cp-title-menu" role="menu">
+          <div class="mi" role="menuitem">Unpin</div>
+          <div class="mi" role="menuitem">Rename</div>
+          <div class="mi mi-danger" role="menuitem">Delete</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Thread -->
+    <div class="cp-thread-wrap">
+      <div class="cp-thread" id="cp-thread">
+        <div class="cp-inner">
+
+          <!-- ===== Thread ===== -->
+          <div class="cp-thread-inner">
+
+            <!-- User: Q1 -->
+            <div class="cp-msg-row user">
+              <div class="cp-bubble user">Why did our MRR drop last week?</div>
+              <div class="cp-msg-foot">
+                <div class="cp-msg-actions">
+                  <button class="cp-msg-action" type="button" aria-label="Edit">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+                  </button>
+                  <button class="cp-msg-action" type="button" aria-label="Copy">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  </button>
+                </div>
+                <span class="cp-ts">11:24 AM</span>
+              </div>
+            </div>
+
+            <!-- AI: Analyzed data -->
+            <div class="cp-msg-row ai">
+              <div class="cp-ai-wrap">
+                <span class="cp-ai-label">Analyzed data</span>
+                <div class="card-panel" style="padding:.875rem 1rem">
+                  <p class="cp-ai-prose" style="margin-bottom:.75rem">I analyzed your Stripe data. MRR dropped by <strong style="color:var(--fb-red-text)">8%</strong> primarily due to a higher churn rate in the 'Startup' plan cohort on Tuesday, November 15th.</p>
+                  <div class="cp-metric-grid">
+                    <div class="cp-metric-card">
+                      <span class="cp-metric-label">MRR Change</span>
+                      <span class="cp-metric-val neg">-$12,400</span>
+                    </div>
+                    <div class="cp-metric-card">
+                      <span class="cp-metric-label">Churn Rate</span>
+                      <span class="cp-metric-val neg">+3.2%</span>
+                    </div>
+                    <div class="cp-metric-card">
+                      <span class="cp-metric-label">Name KPI</span>
+                      <span class="cp-metric-val">123456789</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="cp-ts">11:24 AM</span>
+              </div>
+            </div>
+
+            <!-- User: Q2 -->
+            <div class="cp-msg-row user">
+              <div class="cp-bubble user">Visualize this trend for me.</div>
+              <span class="cp-ts">11:25 AM</span>
+            </div>
+
+            <!-- AI: Generated visualization -->
+            <div class="cp-msg-row ai">
+              <div class="cp-ai-wrap" style="max-width:100%">
+                <span class="cp-ai-label">Generated visualization</span>
+                <p class="cp-ai-prose">MRR declined sharply around Nov 15 and has not fully recovered to its pre-drop baseline. This suggests a structural churn issue, not a one-off fluctuation.</p>
+                <p class="cp-ai-prose">The decline is driven by increased churn in the Startup plan, which alone accounts for the majority of the revenue loss during this period.</p>
+                <div class="card-panel cp-chart-wrap">
+                  <span class="cp-chart-title">MRR Trend — Last 30 Days</span>
+                  <svg class="cp-chart-svg" viewBox="0 0 560 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Area fill -->
+                    <path d="M0,18 C40,16 70,16 100,17 C120,17 135,17 148,18 C158,18 162,28 166,50 C172,62 210,68 260,70 C310,70 380,69 440,68 L560,67 L560,100 L0,100 Z" fill="var(--brand-primary)" fill-opacity="0.22"/>
+                    <!-- Line -->
+                    <path d="M0,18 C40,16 70,16 100,17 C120,17 135,17 148,18 C158,18 162,28 166,50 C172,62 210,68 260,70 C310,70 380,69 440,68 L560,67" stroke="var(--brand-primary)" stroke-width="2" fill="none" stroke-linejoin="round"/>
+                    <!-- Inflection point glow + dot -->
+                    <circle cx="166" cy="50" r="14" fill="var(--brand-primary)" fill-opacity="0.12"/>
+                    <circle cx="166" cy="50" r="4" fill="var(--brand-primary)" stroke="var(--card)" stroke-width="2"/>
+                    <!-- Tooltip -->
+                    <rect x="172" y="30" width="112" height="28" rx="4" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
+                    <text x="179" y="43" font-size="8" fill="var(--ink-body)" font-family="DM Sans, sans-serif" font-weight="600">Churn spike detected</text>
+                    <text x="179" y="53" font-size="7.5" fill="var(--ink-secondary)" font-family="DM Sans, sans-serif">Startup plan +3.2% churn</text>
+                  </svg>
+                </div>
+                <p class="cp-src">Data source: Stripe. Period: Nov 1–30</p>
+                <p class="cp-src">Revenue loss was concentrated in a single plan cohort rather than spread across the customer base.</p>
+                <div class="cp-actions">
+                  <button class="btn btn-sm btn-primary" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2a2.5 2.5 0 0 0-2.5 2.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+                    Create Insight
+                  </button>
+                  <button class="btn btn-sm btn-secondary" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+                    Save as Report
+                  </button>
+                </div>
+                <span class="cp-ts">11:24 AM</span>
+              </div>
+            </div>
+
+            <!-- User: Q3 -->
+            <div class="cp-msg-row user">
+              <div class="cp-bubble user">Can you export this as a CSV?</div>
+              <span class="cp-ts">11:25 AM</span>
+            </div>
+
+          </div><!-- /cp-thread-inner -->
+
+        </div><!-- /cp-inner -->
+      </div><!-- /cp-thread -->
+
+      <!-- Scroll-to-bottom indicator -->
+      <button class="cp-scroll-btn" type="button" aria-label="Scroll to bottom" onclick="var t=document.getElementById('cp-thread');t.scrollTop=t.scrollHeight">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+
+    </div><!-- /cp-thread-wrap -->
+
+    <!-- Composer -->
+    <div class="cp-composer-area">
+      <div class="cp-composer-inner">
+        <div class="cl-composer card-panel">
+          <textarea class="ta cl-prompt" rows="2" placeholder="Ask anything about your data…" oninput="cpOnInput(this)"></textarea>
+          <div class="cl-composer-foot">
+            <div class="cl-foot-left">
+              <button class="iconbtn iconbtn-tertiary cl-attach" type="button" aria-label="Attach file">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              </button>
+              <button class="cl-dd" type="button">
+                <svg class="cl-ic-lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="7" height="7" rx="1.2"/><rect x="15" y="15" width="7" height="7" rx="1.2"/><path d="M5.5 9v4a2 2 0 0 0 2 2h7"/></svg>
+                Connectors
+                <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="cl-dd" type="button">
+                <svg class="cl-ic-lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2a2.5 2.5 0 0 0-2.5 2.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+                Gemini Pro
+                <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+            </div>
+            <button class="btn btn-primary cl-send" type="button" disabled aria-label="Send message">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+<script>
+  /* Enable Send when textarea has content; disable when empty */
+  function cpOnInput(t){
+    var send = t.closest('.cp-composer-area').querySelector('.cl-send');
+    send.toggleAttribute('disabled', !t.value.trim());
+  }
+  /* Expected sidebar collapse */
+  function clToggleSbxCollapse(){
+    var sbx = document.querySelector('.cl-side .sbx');
+    if(sbx) sbx.classList.toggle('is-collapsed');
+  }
+  /* Close open menus on outside click */
+  document.addEventListener('click', function(e){
+    document.querySelectorAll('[aria-haspopup][aria-expanded="true"]').forEach(function(btn){
+      if(btn.contains(e.target) || btn.parentElement.contains(e.target)) return;
+      btn.setAttribute('aria-expanded','false');
+    });
+  });
+  // Sticker drag IIFE removed — sticker no longer rendered.
+
+  /* Sidebar footer popovers — same recipe as chats-landing / chat-landing. clTogglePop opens one
+     at a time; outside-click closer dismisses the open popover when the user clicks elsewhere. */
+  function clTogglePop(id){
+    var pop = document.getElementById(id);
+    if(!pop) return;
+    var willOpen = !pop.classList.contains('is-open');
+    document.querySelectorAll('.sbx-pop.is-open').forEach(function(p){
+      p.classList.remove('is-open');
+      var t = document.querySelector('[aria-controls="'+p.id+'"]');
+      if(t) t.setAttribute('aria-expanded','false');
+    });
+    if(willOpen){
+      pop.classList.add('is-open');
+      var trigger = document.querySelector('[aria-controls="'+id+'"]');
+      if(trigger) trigger.setAttribute('aria-expanded','true');
+    }
+  }
+  document.addEventListener('click', function(e){
+    if (e.target.closest('.sbx-pop') || e.target.closest('[data-popover-target]')) return;
+    document.querySelectorAll('.sbx-pop.is-open').forEach(function(p){
+      p.classList.remove('is-open');
+      var t = document.querySelector('[aria-controls="'+p.id+'"]');
+      if (t) t.setAttribute('aria-expanded','false');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-﻿# Card — prod → expected
+# Card — prod → expected
 
 Source: `@insightis/ui` `Card/index.tsx` + sub-parts. Baseline: [`../current/Card.md`](../current/Card.md).
 
