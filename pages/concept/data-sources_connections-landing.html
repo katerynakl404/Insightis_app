@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" class="">
 <head>
 <meta charset="utf-8" />
@@ -15,7 +15,7 @@
   .cl-shell:has(.sbx.is-collapsed){grid-template-columns:3.563rem 1fr}
   .cl-side{background:var(--card);border-right:1px solid var(--border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
   .cl-side .sb-full,.cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
-  .cl-main{position:relative;display:flex;flex-direction:column;width:100%;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px)}
+  .cl-main{position:relative;display:flex;flex-direction:column;width:100%;min-width:0;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px);overflow-x:hidden}
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   .cl-page-title{margin:0 0 .25rem}
 
@@ -54,46 +54,49 @@
   .ds-conn-section:has(.ds-conn-more[aria-expanded="true"]){overflow:visible}
 
   /* ===== Connector grid ===== */
-  .ds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:.75rem}
+  .ds-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:.75rem}
   /* Concept 1 — horizontal row card */
   .ds-card{display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
   .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)}
   .ds-mark{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);border:1px solid var(--border)}
   .ds-card .ds-mark{background:var(--card);border:1px solid var(--border)}
-  .ds-card2-mark{background:var(--card);border:1px solid var(--border)}
+  .ds-card2-mark{background:var(--card);border:1px solid var(--border);width:1.5rem;height:1.5rem;border-radius:.25rem}
+  .ds-conn-cell-name .ds-mark{width:1.5rem;height:1.5rem;border-radius:.25rem}
   .ds-mark img{width:78%;height:78%;object-fit:contain;display:block}
   .ds-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .ds-card-head{display:flex;align-items:center;gap:.375rem;min-width:0}
   .ds-card-name{font-size:.875rem;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .ds-card-cat{font-size:.75rem;color:var(--ink-secondary);font-weight:400}
+  .ds-card-cat{font-size:.75rem;color:var(--ink-secondary);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ds-mark-wrap{flex:none;display:inline-flex}
   .ds-popular{width:12px;height:12px;color:var(--fb-attention);flex:none;filter:drop-shadow(0 0 2px color-mix(in srgb,var(--fb-attention) 60%,transparent))}
-  #ds-cats{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;margin-top:.75rem}
+  #ds-cats{flex-wrap:wrap;padding-bottom:2px;margin-top:.75rem}
   #ds-cats::-webkit-scrollbar{display:none}
   .ds-grid-sep{grid-column:1/-1;font-size:.6875rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive);padding:.5rem 0 .25rem;margin-top:.125rem}
   .ds-grid-sep:first-child{margin-top:0;padding-top:0}
   .ds-card-act{flex:none;display:flex;justify-content:flex-end;align-items:center}
-  /* Concept 2 — vertical card, multi-category */
-  .ds-card2{display:flex;flex-direction:column;gap:.75rem;padding:.875rem;border:1px solid var(--border);border-radius:.625rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
+  /* Concept 2 — vertical card: iconbtn top-right + category chips footer */
+  .ds-card2{display:flex;flex-direction:column;gap:0;padding:.875rem;border:1px solid var(--border);border-radius:.625rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
   .ds-card2:hover{box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)}
-  .ds-card2-head{display:flex;align-items:center;gap:.625rem}
+  .ds-card2-head{display:flex;align-items:center;gap:.625rem;min-width:0}
   .ds-card2-mark{width:2.5rem;height:2.5rem;border-radius:.5rem;display:inline-flex;align-items:center;justify-content:center;flex:none}
   .ds-card2-mark img{width:60%;height:60%;object-fit:contain;display:block}
   .ds-card2-name{font-size:.875rem;font-weight:600;color:var(--ink);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .ds-card2-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-  .ds-card2-cats{display:flex;flex-wrap:wrap;gap:.25rem;flex:1;min-width:0}
+  .ds-card2-foot{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.625rem}
 
   /* Lazy-load sentinel — zero-height trigger element appended after last card when more remain */
   .ds-load-sentinel{grid-column:1/-1;height:1px;margin:0;padding:0}
 
   /* ===== Connected — card list ===== */
-  .ds-conn-list{display:flex;flex-direction:column}
-  .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:.625rem .75rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:0 1px 2px 0 rgba(15,23,42,.03);margin-bottom:.375rem;position:relative;transition:background .15s,border-color .15s,box-shadow .15s}
+  .ds-conn-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.375rem}
+  .ds-conn-list.is-single{grid-template-columns:1fr}
+  .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:.625rem .75rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);margin-bottom:.375rem;position:relative;transition:box-shadow .18s,border-color .18s,transform .18s}
   .ds-conn-row:last-child{margin-bottom:0}
-  .ds-conn-row:hover{background:var(--state-hover);border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent);box-shadow:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04)}
-  .ds-conn-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.0625rem}
+  .ds-card .iconbtn{background:var(--bg)}
+  .ds-conn-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.1875rem}
   .ds-conn-label{font-size:.875rem;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .ds-conn-provider{font-size:.75rem;color:var(--ink-secondary);font-weight:400}
+  .ds-conn-meta{font-size:.75rem;color:var(--ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ds-conn-meta-sep{margin:0 .25rem;color:var(--ink-inactive)}
+  .ds-conn-desc{color:var(--ink-inactive)}
   .ds-conn-status{display:inline-flex;align-items:center;gap:.375rem;margin-left:auto;font-size:.75rem;color:var(--ink-secondary);font-weight:500}
   .ds-conn-dot{width:.5rem;height:.5rem;border-radius:9999px;flex:none}
   .ds-conn-dot.is-active{background:var(--fb-green)}
@@ -104,13 +107,17 @@
   .ds-conn-cell-label{font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ds-conn-cell-act{position:relative;overflow:visible}
   /* Shared: kebab button + dropdown */
+  .ds-conn-more-wrap{position:relative;flex:none}
   .ds-conn-more{height:1.75rem;width:1.75rem;border-radius:.375rem;flex:none}
-  .ds-conn-more:hover{background:var(--state-pressed)}
+  .ds-conn-more:hover{background:var(--state-hover)}
+  .ds-conn-more[aria-expanded="true"]{background:var(--state-pressed);color:var(--ink-body)}
   .ds-conn-more svg{width:16px;height:16px}
   .ds-conn-menu{position:absolute;top:calc(100% + 2px);right:.5rem;display:none;z-index:30}
+  .ds-conn-row:has(.ds-conn-more[aria-expanded="true"]){z-index:20}
   .ds-conn-more[aria-expanded="true"] ~ .ds-conn-menu{display:block}
   .ds-conn-section:has(.ds-conn-more[aria-expanded="true"]){overflow:visible}
   .ds-conn-body:has(.ds-conn-more[aria-expanded="true"]){overflow:visible}
+  .cl-main:has(.ds-conn-more[aria-expanded="true"]){overflow-x:visible}
 
   /* ===== Connect / Remove animations ===== */
   @keyframes ds-card-out{
@@ -148,11 +155,21 @@
     .ds-page-head{flex-wrap:wrap}
     .ds-card-act{width:auto}
   }
+  /* integration frame — static visual reference */
+  /* Integration frame — external provider styling, intentionally NOT using design tokens */
+  .ds-intg-frame{border-radius:.375rem;overflow:hidden;background:#fff;border:1px solid #e2e8f0}
+  .ds-intg-row{padding:.75rem 1rem;display:flex;flex-direction:column;gap:.375rem}
+  .ds-intg-lbl{font-size:.875rem;font-weight:700;color:#1e293b}
+  .ds-intg-field{height:2.5rem;border:1px solid #2563eb;border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;font-size:.875rem;color:#64748b;background:#fff;width:100%}
+  .ds-intg-check{display:flex;align-items:center;gap:.625rem;padding:.5rem 1rem}
+  .ds-intg-check-ico{width:1.125rem;height:1.125rem;border-radius:.25rem;background:#2563eb;display:flex;align-items:center;justify-content:center;flex:none}
+  .ds-intg-check-lbl{font-size:.875rem;color:#1e293b}
+  .ds-intg-select{height:2.5rem;border:1px solid #2563eb;border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;justify-content:space-between;font-size:.875rem;color:#1e293b;background:#fff;width:100%}
 </style>
 </head>
 <body>
 
-<!-- Brand symbols вЂ" copied verbatim so <use href="#lg"/> works -->
+<!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="lg" viewBox="0 0 418 100">
     <g fill="currentColor">
@@ -188,17 +205,25 @@
 
 <!-- ===== Topbar with toggles ===== -->
 <div class="topbar">
-  <span class="ttl">Data Sources</span>
-  <div style="display:flex;gap:.375rem">
-    <button onclick="dsToggleEmptyConnected()" class="btn btn-outline btn-xs">Empty / Connected</button>
-    <button onclick="dsToggleCardStyle()" class="btn btn-outline btn-xs" id="ds-card-style-btn">Card Style 1 / 2</button>
-    <button onclick="dsToggleView()" class="btn btn-outline btn-xs" id="ds-view-btn">Card / Table</button>
-    <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
+  <span class="ttl" style="white-space:nowrap">Data Sources</span>
+  <div style="display:flex;align-items:center;gap:.625rem;flex-shrink:0">
+    <div class="segctrl is-sm" style="width:auto">
+      <button class="segctrl-btn is-active" id="ds-seg-empty" type="button" onclick="dsSegState(this,'empty')">Empty</button>
+      <button class="segctrl-btn" id="ds-seg-connected" type="button" onclick="dsSegState(this,'connected')">Connected</button>
+    </div>
+    <div class="segctrl is-sm" style="width:auto">
+      <button class="segctrl-btn is-active" id="ds-seg-c1" type="button" onclick="dsSegConcept(this,1)">Concept 1</button>
+      <button class="segctrl-btn" id="ds-seg-c2" type="button" onclick="dsSegConcept(this,2)">Concept 2</button>
+    </div>
+    <div class="segctrl is-sm" style="width:auto">
+      <button class="segctrl-btn is-active" id="ds-seg-light" type="button" onclick="dsSegTheme(this,'light')">Light</button>
+      <button class="segctrl-btn" id="ds-seg-dark" type="button" onclick="dsSegTheme(this,'dark')">Dark</button>
+    </div>
   </div>
 </div>
 
 <div class="cl-shell">
-  <!-- ============= Sidebar вЂ" kept in sync with chats-landing.html (single source of truth);
+  <!-- ============= Sidebar — kept in sync with chats-landing.html (single source of truth);
        only the active row differs (Sources here, not Chats). ============= -->
   <aside class="cl-side">
     <div class="sbx">
@@ -218,20 +243,20 @@
           </button>
         </div>
         <div class="sbx-nav">
-          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" data-tip="New Chat" data-tip-side="right">
+          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" data-tip="New Chat" data-tip-side="right" onclick="location.href='chat-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
             <span class="lbl">New Chat</span>
           </button>
-          <button class="sbx-nav-item active" type="button" aria-current="page" data-tip="Sources" data-tip-side="right">
+          <button class="sbx-nav-item active" type="button" aria-current="page" data-tip="Sources" data-tip-side="right" onclick="location.href='data-sources_connections-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
             <span class="lbl">Sources</span>
           </button>
-          <button class="sbx-nav-item" type="button" data-tip="Metrics" data-tip-side="right">
+          <button class="sbx-nav-item" type="button" data-tip="Metrics" data-tip-side="right" onclick="location.href='metrics-landing.html'">
             <!-- Pie-chart icon — Metrics glyph -->
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
             <span class="lbl">Metrics</span>
           </button>
-          <button class="sbx-nav-item" type="button" data-tip="Files" data-tip-side="right">
+          <button class="sbx-nav-item" type="button" data-tip="Files" data-tip-side="right" onclick="location.href='data-sources_files-landing.html'">
             <!-- Folder icon — Files glyph (Lucide folder) -->
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
             <span class="lbl">Files</span>
@@ -246,7 +271,7 @@
               </button>
               <button class="link sbx-sect-link" type="button">See all</button>
             </div>
-            <!-- Pinned chats вЂ" context menu surfaces Unpin / Rename / Delete only; Move up/down was removed. -->
+            <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only. -->
             <div class="sbx-chat" role="button" tabindex="0">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
@@ -451,129 +476,207 @@
 </div>
 
 <!-- ===== Edit connection dialog ===== -->
-<div id="ds-edit-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:rgba(15,23,42,.4)" aria-hidden="true" onclick="if(event.target===this)dsCloseEdit()">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.5rem;width:28rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;gap:1.25rem;box-shadow:0 20px 25px -5px rgba(0,0,0,.15)" role="dialog" aria-modal="true" aria-labelledby="ds-edit-title">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:.75rem">
-      <h2 id="ds-edit-title" style="font-size:1rem;font-weight:600;color:var(--ink);margin:0">Edit Connection</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsCloseEdit()" style="flex:none;width:1.75rem;height:1.75rem">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+<!-- ===== New Connection dialog ===== -->
+<div id="ds-conn-dlg" style="display:none;position:fixed;inset:0;z-index:60;align-items:center;justify-content:center;background:rgba(15,23,42,.45)" aria-hidden="true" onclick="if(event.target===this)dsCloseConnDlg()">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:30rem;max-width:calc(100vw - 2rem);height:580px;display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-conn-dlg-title">
+    <!-- Shared header -->
+    <div class="dlg-hdr">
+      <h2 id="ds-conn-dlg-title" class="dlg-title">New connection</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsCloseConnDlg()" style="width:2rem;height:2rem;flex:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div style="display:flex;flex-direction:column;gap:1rem">
-      <div style="display:flex;flex-direction:column;gap:.375rem">
-        <label class="mx-form-label" for="ds-edit-name">Display Name</label>
-        <div class="field"><input id="ds-edit-name" type="text" placeholder="Connection name" autocomplete="off"></div>
+    <!-- Shared progress (no divider) -->
+    <div class="dlg-progress">
+      <span id="ds-conn-prog-txt" class="dlg-progress-txt">Step 1 of 2</span>
+      <div class="dlg-progress-track"><div id="ds-conn-prog-fill" class="dlg-progress-fill" style="width:50%"></div></div>
+    </div>
+    <!-- Body — fixed height, steps overlay each other -->
+    <div class="dlg-body">
+      <!-- Step 1: integration reference (no Insightis footer — Save is part of the external form) -->
+      <div id="ds-conn-s1" class="dlg-step">
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <span id="ds-conn-logo" style="width:2.25rem;height:2.25rem;border-radius:.5rem;border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);font-size:.75rem;font-weight:600;color:var(--ink-secondary)"></span>
+          <span id="ds-conn-subtitle" style="font-size:.875rem;font-weight:500;color:var(--ink)"></span>
+        </div>
+        <!-- Static visual reference of the integration form -->
+        <div class="ds-intg-frame">
+          <div class="ds-intg-row">
+            <div class="ds-intg-lbl">Account</div>
+            <div class="ds-intg-field" style="color:transparent">placeholder</div>
+          </div>
+          <div class="ds-intg-row">
+            <div class="ds-intg-lbl">API Key</div>
+            <div class="ds-intg-field">••••••••••</div>
+          </div>
+          <div class="ds-intg-check">
+            <span class="ds-intg-check-ico"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:9px;height:9px"><polyline points="2 6 5 9 10 3"/></svg></span>
+            <span class="ds-intg-check-lbl">Use Custom Objects</span>
+          </div>
+          <div class="ds-intg-check">
+            <span class="ds-intg-check-ico"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:9px;height:9px"><polyline points="2 6 5 9 10 3"/></svg></span>
+            <span class="ds-intg-check-lbl">Use Custom Fields</span>
+          </div>
+          <div class="ds-intg-row">
+            <div class="ds-intg-lbl">Metadata Cache</div>
+            <div class="ds-intg-select">
+              <span>Infinite</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;color:var(--ink-secondary)"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+          <!-- Save is part of the external integration UI -->
+          <div class="ds-intg-row" style="align-items:flex-end;flex-direction:row;justify-content:flex-end;padding:.75rem .875rem">
+            <button id="ds-conn-s1-btn" type="button" style="background:var(--brand-primary);color:#fff;border:none;border-radius:.375rem;padding:.4375rem 1rem;font-size:.875rem;font-weight:500;cursor:pointer;line-height:1.25" onclick="dsConnStep1()">Save</button>
+          </div>
+        </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:.375rem">
-        <label class="mx-form-label" for="ds-edit-desc">Description</label>
-        <textarea id="ds-edit-desc" class="ta" rows="3" placeholder="Optional description"></textarea>
+      <!-- Step 2: name the connection -->
+      <div id="ds-conn-s2" class="dlg-step is-hidden">
+        <div style="display:flex;flex-direction:column">
+          <label class="mx-form-label" for="ds-conn-dispname">Display name</label>
+          <div class="field" style="max-width:none"><input id="ds-conn-dispname" type="text" placeholder="Connection name" autocomplete="off"></div>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <label class="mx-form-label" for="ds-conn-desc">Description <span style="font-weight:400;color:var(--ink-secondary)">(optional)</span></label>
+          <textarea id="ds-conn-desc" class="ta" rows="4" placeholder="What is this connection used for?" style="max-width:none;resize:vertical"></textarea>
+        </div>
+      </div>
+    </div>
+    <!-- Footer — step 2 only -->
+    <div id="ds-conn-ftr-s2" class="dlg-ftr" style="display:none">
+      <button class="btn btn-primary btn-sm" type="button" onclick="dsConnCreate()">Save connection</button>
+    </div>
+  </div>
+</div>
+
+<div id="ds-edit-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:rgba(15,23,42,.4)" aria-hidden="true" onclick="if(event.target===this)dsCloseEdit()">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:30rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-edit-title">
+    <div class="dlg-hdr">
+      <h2 id="ds-edit-title" class="dlg-title">Edit connection</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsCloseEdit()" style="width:2rem;height:2rem;flex:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="padding:1.25rem;display:flex;flex-direction:column;gap:1rem">
+      <div style="display:flex;flex-direction:column">
+        <label class="mx-form-label" for="ds-edit-name">Display name</label>
+        <div class="field" style="max-width:none"><input id="ds-edit-name" type="text" placeholder="Connection name" autocomplete="off"></div>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <label class="mx-form-label" for="ds-edit-desc">Description <span style="font-weight:400;color:var(--ink-secondary)">(optional)</span></label>
+        <textarea id="ds-edit-desc" class="ta" rows="3" placeholder="Optional description" style="max-width:none;resize:vertical"></textarea>
       </div>
     </div>
     <input type="hidden" id="ds-edit-key">
-    <div style="display:flex;justify-content:flex-end;gap:.5rem">
+    <div class="dlg-ftr">
       <button class="btn btn-secondary btn-sm" type="button" onclick="dsCloseEdit()">Cancel</button>
       <button class="btn btn-primary btn-sm" type="button" onclick="dsSaveEdit()">Save</button>
     </div>
   </div>
 </div>
 
-<!-- Sticker removed. -->
 
 <script>
   /* ===== Connector data ===== */
-  var CATEGORIES = ['All','Databases','CRM','Marketing','Finance','Analytics','Support','HR','DevOps','Project Management','Storage','Communication','E-commerce'];
+  var CATEGORIES = ['All','Business Intelligence','Commerce','Communication','IT Operations','Marketing','Productivity','Sales \& CRM','Storage \& Files','Support','Other'];
   var CONNECTORS = [
-    /* Databases */
-    { name:'PostgreSQL',          cat:'Databases',           cats:['Databases'],                          popular:true,  mark:'#336791', initial:'P', slug:'postgresql' },
-    { name:'MySQL',               cat:'Databases',           cats:['Databases'],                          popular:true,  mark:'#00758F', initial:'M', slug:'mysql' },
-    { name:'Snowflake',           cat:'Databases',           cats:['Databases','Analytics'],              popular:true,  mark:'#29B5E8', initial:'S', slug:'snowflake' },
-    { name:'BigQuery',            cat:'Databases',           cats:['Databases','Analytics'],              popular:false, mark:'#4285F4', initial:'B', slug:'googlebigquery' },
-    { name:'Redshift',            cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#8C4FFF', initial:'R', slug:'amazonredshift' },
-    { name:'MongoDB',             cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#13AA52', initial:'M', slug:'mongodb' },
-    { name:'Redis',               cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#DC382D', initial:'R', slug:'redis' },
-    { name:'Elasticsearch',       cat:'Databases',           cats:['Databases','Analytics'],              popular:false, mark:'#005571', initial:'E', slug:'elasticsearch' },
-    { name:'Cassandra',           cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#1287B1', initial:'C', slug:'apachecassandra' },
-    { name:'Oracle',              cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#F80000', initial:'O', slug:'oracle' },
-    { name:'SQL Server',          cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#CC2927', initial:'S', slug:'microsoftsqlserver' },
-    { name:'DynamoDB',            cat:'Databases',           cats:['Databases'],                          popular:false, mark:'#4053D6', initial:'D', slug:'amazondynamodb' },
-    /* CRM */
-    { name:'Salesforce',          cat:'CRM',                 cats:['CRM','Analytics'],                    popular:true,  mark:'#00A1E0', initial:'S', slug:'salesforce' },
-    { name:'HubSpot',             cat:'CRM',                 cats:['CRM','Marketing'],                    popular:true,  mark:'#FF7A59', initial:'H', slug:'hubspot' },
-    { name:'Pipedrive',           cat:'CRM',                 cats:['CRM'],                                popular:false, mark:'#1A1A1A', initial:'P', slug:'pipedrive' },
-    { name:'Zoho CRM',            cat:'CRM',                 cats:['CRM'],                                popular:false, mark:'#E42527', initial:'Z', slug:'zoho' },
-    { name:'Freshsales',          cat:'CRM',                 cats:['CRM','Support'],                      popular:false, mark:'#1BD3AE', initial:'F', slug:'freshworks' },
+    /* IT Operations */
+    { name:'PostgreSQL',          cat:'IT Operations',           cats:['IT Operations'],                          popular:true,  mark:'#336791', initial:'P', slug:'postgresql' },
+    { name:'MySQL',               cat:'IT Operations',           cats:['IT Operations'],                          popular:true,  mark:'#00758F', initial:'M', slug:'mysql' },
+    { name:'Snowflake',           cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],              popular:true,  mark:'#29B5E8', initial:'S', slug:'snowflake' },
+    { name:'BigQuery',            cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],              popular:false, mark:'#4285F4', initial:'B', slug:'googlebigquery' },
+    { name:'Redshift',            cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#8C4FFF', initial:'R', slug:'amazonredshift' },
+    { name:'MongoDB',             cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#13AA52', initial:'M', slug:'mongodb' },
+    { name:'Redis',               cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#DC382D', initial:'R', slug:'redis' },
+    { name:'Elasticsearch',       cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],              popular:false, mark:'#005571', initial:'E', slug:'elasticsearch' },
+    { name:'Cassandra',           cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#1287B1', initial:'C', slug:'apachecassandra' },
+    { name:'Oracle',              cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#F80000', initial:'O', slug:'oracle' },
+    { name:'SQL Server',          cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#CC2927', initial:'S', slug:'microsoftsqlserver' },
+    { name:'DynamoDB',            cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#4053D6', initial:'D', slug:'amazondynamodb' },
+    /* Sales & CRM */
+    { name:'Salesforce',          cat:'Sales \& CRM',                 cats:['Sales \& CRM','Business Intelligence'],                    popular:true,  mark:'#00A1E0', initial:'S', slug:'salesforce' },
+    { name:'HubSpot',             cat:'Sales \& CRM',                 cats:['Sales \& CRM','Marketing'],                    popular:true,  mark:'#FF7A59', initial:'H', slug:'hubspot' },
+    { name:'Pipedrive',           cat:'Sales \& CRM',                 cats:['Sales \& CRM'],                                popular:false, mark:'#1A1A1A', initial:'P', slug:'pipedrive' },
+    { name:'Zoho CRM',            cat:'Sales \& CRM',                 cats:['Sales \& CRM'],                                popular:false, mark:'#E42527', initial:'Z', slug:'zoho' },
+    { name:'Freshsales',          cat:'Sales \& CRM',                 cats:['Sales \& CRM','Support'],                      popular:false, mark:'#1BD3AE', initial:'F', slug:'freshworks' },
     /* Marketing */
     { name:'Mailchimp',           cat:'Marketing',           cats:['Marketing'],                          popular:true,  mark:'#FFE01B', initial:'M', slug:'mailchimp' },
     { name:'Klaviyo',             cat:'Marketing',           cats:['Marketing'],                          popular:false, mark:'#1B1B1B', initial:'K', slug:'klaviyo' },
-    { name:'Google Ads',          cat:'Marketing',           cats:['Marketing','Analytics'],              popular:false, mark:'#4285F4', initial:'G', slug:'googleads' },
+    { name:'Google Ads',          cat:'Marketing',           cats:['Marketing','Business Intelligence'],              popular:false, mark:'#4285F4', initial:'G', slug:'googleads' },
     { name:'Marketo',             cat:'Marketing',           cats:['Marketing'],                          popular:false, mark:'#5C4C9F', initial:'M', slug:'marketo' },
-    { name:'ActiveCampaign',      cat:'Marketing',           cats:['Marketing','CRM'],                    popular:false, mark:'#356AE6', initial:'A', slug:'activecampaign' },
+    { name:'ActiveCampaign',      cat:'Marketing',           cats:['Marketing','Sales \& CRM'],                    popular:false, mark:'#356AE6', initial:'A', slug:'activecampaign' },
     { name:'Constant Contact',    cat:'Marketing',           cats:['Marketing'],                          popular:false, mark:'#1454A0', initial:'C', slug:'constantcontact' },
-    /* Finance */
-    { name:'Stripe',              cat:'Finance',             cats:['Finance','Analytics'],                popular:true,  mark:'#635BFF', initial:'S', slug:'stripe' },
-    { name:'QuickBooks',          cat:'Finance',             cats:['Finance'],                            popular:false, mark:'#2CA01C', initial:'Q', slug:'quickbooks' },
-    { name:'Xero',                cat:'Finance',             cats:['Finance'],                            popular:false, mark:'#13B5EA', initial:'X', slug:'xero' },
-    { name:'FreshBooks',          cat:'Finance',             cats:['Finance'],                            popular:false, mark:'#1DA462', initial:'F', slug:'freshbooks' },
-    /* Analytics */
-    { name:'Google Analytics',    cat:'Analytics',           cats:['Analytics','Marketing'],              popular:true,  mark:'#E37400', initial:'G', slug:'googleanalytics' },
-    { name:'Mixpanel',            cat:'Analytics',           cats:['Analytics','Marketing'],              popular:false, mark:'#7856FF', initial:'M', slug:'mixpanel' },
-    { name:'Amplitude',           cat:'Analytics',           cats:['Analytics'],                          popular:false, mark:'#1E61F0', initial:'A', slug:'amplitude' },
-    { name:'Looker',              cat:'Analytics',           cats:['Analytics'],                          popular:false, mark:'#4285F4', initial:'L', slug:'looker' },
-    { name:'Power BI',            cat:'Analytics',           cats:['Analytics'],                          popular:false, mark:'#F2C811', initial:'P', slug:'powerbi' },
-    { name:'Segment',             cat:'Analytics',           cats:['Analytics','Marketing'],              popular:false, mark:'#52BD95', initial:'S', slug:'segment' },
-    { name:'Tableau',             cat:'Analytics',           cats:['Analytics'],                          popular:false, mark:'#E97627', initial:'T', slug:'tableau' },
+    /* Commerce */
+    { name:'Stripe',              cat:'Commerce',             cats:['Commerce','Business Intelligence'],                popular:true,  mark:'#635BFF', initial:'S', slug:'stripe' },
+    { name:'QuickBooks',          cat:'Commerce',             cats:['Commerce'],                            popular:false, mark:'#2CA01C', initial:'Q', slug:'quickbooks' },
+    { name:'Xero',                cat:'Commerce',             cats:['Commerce'],                            popular:false, mark:'#13B5EA', initial:'X', slug:'xero' },
+    { name:'FreshBooks',          cat:'Commerce',             cats:['Commerce'],                            popular:false, mark:'#1DA462', initial:'F', slug:'freshbooks' },
+    /* Business Intelligence */
+    { name:'Google Analytics',    cat:'Business Intelligence',           cats:['Business Intelligence','Marketing'],              popular:true,  mark:'#E37400', initial:'G', slug:'googleanalytics' },
+    { name:'Mixpanel',            cat:'Business Intelligence',           cats:['Business Intelligence','Marketing'],              popular:false, mark:'#7856FF', initial:'M', slug:'mixpanel' },
+    { name:'Amplitude',           cat:'Business Intelligence',           cats:['Business Intelligence'],                          popular:false, mark:'#1E61F0', initial:'A', slug:'amplitude' },
+    { name:'Looker',              cat:'Business Intelligence',           cats:['Business Intelligence'],                          popular:false, mark:'#4285F4', initial:'L', slug:'looker' },
+    { name:'Power BI',            cat:'Business Intelligence',           cats:['Business Intelligence'],                          popular:false, mark:'#F2C811', initial:'P', slug:'powerbi' },
+    { name:'Segment',             cat:'Business Intelligence',           cats:['Business Intelligence','Marketing'],              popular:false, mark:'#52BD95', initial:'S', slug:'segment' },
+    { name:'Tableau',             cat:'Business Intelligence',           cats:['Business Intelligence'],                          popular:false, mark:'#E97627', initial:'T', slug:'tableau' },
     /* Support */
     { name:'Zendesk',             cat:'Support',             cats:['Support'],                            popular:true,  mark:'#03363D', initial:'Z', slug:'zendesk' },
-    { name:'Intercom',            cat:'Support',             cats:['Support','CRM'],                      popular:false, mark:'#1F8DED', initial:'I', slug:'intercom' },
+    { name:'Intercom',            cat:'Support',             cats:['Support','Sales \& CRM'],                      popular:false, mark:'#1F8DED', initial:'I', slug:'intercom' },
     { name:'Freshdesk',           cat:'Support',             cats:['Support'],                            popular:false, mark:'#25C16F', initial:'F', slug:'freshdesk' },
     { name:'Help Scout',          cat:'Support',             cats:['Support'],                            popular:false, mark:'#1292EE', initial:'H', slug:'helpscout' },
-    /* HR */
-    { name:'Workday',             cat:'HR',                  cats:['HR'],                                 popular:true,  mark:'#F5820B', initial:'W', slug:'workday' },
-    { name:'BambooHR',            cat:'HR',                  cats:['HR'],                                 popular:false, mark:'#73C41D', initial:'B', slug:'bamboohr' },
-    { name:'ADP',                 cat:'HR',                  cats:['HR','Finance'],                       popular:false, mark:'#D9232F', initial:'A', slug:'adp' },
-    { name:'Greenhouse',          cat:'HR',                  cats:['HR'],                                 popular:false, mark:'#24A47F', initial:'G', slug:'greenhouse' },
-    { name:'Lever',               cat:'HR',                  cats:['HR'],                                 popular:false, mark:'#00B49C', initial:'L', slug:'lever' },
-    /* DevOps */
-    { name:'GitHub',              cat:'DevOps',              cats:['DevOps'],                             popular:true,  mark:'#181717', initial:'G', slug:'github' },
-    { name:'GitLab',              cat:'DevOps',              cats:['DevOps'],                             popular:true,  mark:'#FC6D26', initial:'G', slug:'gitlab' },
-    { name:'Jenkins',             cat:'DevOps',              cats:['DevOps'],                             popular:false, mark:'#D24939', initial:'J', slug:'jenkins' },
-    { name:'CircleCI',            cat:'DevOps',              cats:['DevOps'],                             popular:false, mark:'#343434', initial:'C', slug:'circleci' },
-    { name:'Datadog',             cat:'DevOps',              cats:['DevOps','Analytics'],                 popular:false, mark:'#632CA6', initial:'D', slug:'datadog' },
-    { name:'PagerDuty',           cat:'DevOps',              cats:['DevOps'],                             popular:false, mark:'#06AC38', initial:'P', slug:'pagerduty' },
-    { name:'New Relic',           cat:'DevOps',              cats:['DevOps','Analytics'],                 popular:false, mark:'#008C99', initial:'N', slug:'newrelic' },
-    { name:'Sentry',              cat:'DevOps',              cats:['DevOps'],                             popular:false, mark:'#362D59', initial:'S', slug:'sentry' },
-    /* Project Management */
-    { name:'Jira',                cat:'Project Management',  cats:['Project Management'],                 popular:true,  mark:'#0052CC', initial:'J', slug:'jira' },
-    { name:'Asana',               cat:'Project Management',  cats:['Project Management'],                 popular:true,  mark:'#F06A6A', initial:'A', slug:'asana' },
-    { name:'Trello',              cat:'Project Management',  cats:['Project Management'],                 popular:false, mark:'#0052CC', initial:'T', slug:'trello' },
-    { name:'Monday.com',          cat:'Project Management',  cats:['Project Management'],                 popular:false, mark:'#F62B54', initial:'M', slug:'mondaydotcom' },
-    { name:'Notion',              cat:'Project Management',  cats:['Project Management'],                 popular:false, mark:'#000000', initial:'N', slug:'notion' },
-    { name:'Basecamp',            cat:'Project Management',  cats:['Project Management'],                 popular:false, mark:'#1D2D35', initial:'B', slug:'basecamp' },
-    { name:'Linear',              cat:'Project Management',  cats:['Project Management','DevOps'],        popular:false, mark:'#5E6AD2', initial:'L', slug:'linear' },
-    /* Storage */
-    { name:'AWS S3',              cat:'Storage',             cats:['Storage'],                            popular:true,  mark:'#569A31', initial:'S', slug:'amazons3' },
-    { name:'Google Cloud Storage',cat:'Storage',             cats:['Storage'],                            popular:false, mark:'#4285F4', initial:'G', slug:'googlecloud' },
-    { name:'Azure Blob Storage',  cat:'Storage',             cats:['Storage'],                            popular:false, mark:'#0078D4', initial:'A', slug:'microsoftazure' },
-    { name:'Dropbox',             cat:'Storage',             cats:['Storage'],                            popular:false, mark:'#0061FF', initial:'D', slug:'dropbox' },
-    { name:'Box',                 cat:'Storage',             cats:['Storage'],                            popular:false, mark:'#0061D5', initial:'B', slug:'box' },
+    /* Productivity */
+    { name:'Workday',             cat:'Productivity',                  cats:['Productivity'],                                 popular:true,  mark:'#F5820B', initial:'W', slug:'workday' },
+    { name:'BambooHR',            cat:'Productivity',                  cats:['Productivity'],                                 popular:false, mark:'#73C41D', initial:'B', slug:'bamboohr' },
+    { name:'ADP',                 cat:'Productivity',                  cats:['Productivity','Commerce'],                       popular:false, mark:'#D9232F', initial:'A', slug:'adp' },
+    { name:'Greenhouse',          cat:'Productivity',                  cats:['Productivity'],                                 popular:false, mark:'#24A47F', initial:'G', slug:'greenhouse' },
+    { name:'Lever',               cat:'Productivity',                  cats:['Productivity'],                                 popular:false, mark:'#00B49C', initial:'L', slug:'lever' },
+    /* IT Operations (DevOps) */
+    { name:'GitHub',              cat:'IT Operations',              cats:['IT Operations'],                             popular:true,  mark:'#181717', initial:'G', slug:'github' },
+    { name:'GitLab',              cat:'IT Operations',              cats:['IT Operations'],                             popular:true,  mark:'#FC6D26', initial:'G', slug:'gitlab' },
+    { name:'Jenkins',             cat:'IT Operations',              cats:['IT Operations'],                             popular:false, mark:'#D24939', initial:'J', slug:'jenkins' },
+    { name:'CircleCI',            cat:'IT Operations',              cats:['IT Operations'],                             popular:false, mark:'#343434', initial:'C', slug:'circleci' },
+    { name:'Datadog',             cat:'IT Operations',              cats:['IT Operations','Business Intelligence'],                 popular:false, mark:'#632CA6', initial:'D', slug:'datadog' },
+    { name:'PagerDuty',           cat:'IT Operations',              cats:['IT Operations'],                             popular:false, mark:'#06AC38', initial:'P', slug:'pagerduty' },
+    { name:'New Relic',           cat:'IT Operations',              cats:['IT Operations','Business Intelligence'],                 popular:false, mark:'#008C99', initial:'N', slug:'newrelic' },
+    { name:'Sentry',              cat:'IT Operations',              cats:['IT Operations'],                             popular:false, mark:'#362D59', initial:'S', slug:'sentry' },
+    /* Productivity (PM) */
+    { name:'Jira',                cat:'Productivity',  cats:['Productivity'],                 popular:true,  mark:'#0052CC', initial:'J', slug:'jira' },
+    { name:'Asana',               cat:'Productivity',  cats:['Productivity'],                 popular:true,  mark:'#F06A6A', initial:'A', slug:'asana' },
+    { name:'Trello',              cat:'Productivity',  cats:['Productivity'],                 popular:false, mark:'#0052CC', initial:'T', slug:'trello' },
+    { name:'Monday.com',          cat:'Productivity',  cats:['Productivity'],                 popular:false, mark:'#F62B54', initial:'M', slug:'mondaydotcom' },
+    { name:'Notion',              cat:'Productivity',  cats:['Productivity'],                 popular:false, mark:'#000000', initial:'N', slug:'notion' },
+    { name:'Basecamp',            cat:'Productivity',  cats:['Productivity'],                 popular:false, mark:'#1D2D35', initial:'B', slug:'basecamp' },
+    { name:'Linear',              cat:'Productivity',  cats:['Productivity','IT Operations'],        popular:false, mark:'#5E6AD2', initial:'L', slug:'linear' },
+    /* Storage & Files */
+    { name:'AWS S3',              cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:true,  mark:'#569A31', initial:'S', slug:'amazons3' },
+    { name:'Google Cloud Storage',cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:false, mark:'#4285F4', initial:'G', slug:'googlecloud' },
+    { name:'Azure Blob Storage',  cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:false, mark:'#0078D4', initial:'A', slug:'microsoftazure' },
+    { name:'Dropbox',             cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:false, mark:'#0061FF', initial:'D', slug:'dropbox' },
+    { name:'Box',                 cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:false, mark:'#0061D5', initial:'B', slug:'box' },
     /* Communication */
     { name:'Slack',               cat:'Communication',       cats:['Communication'],                      popular:true,  mark:'#4A154B', initial:'S', slug:'slack' },
     { name:'Microsoft Teams',     cat:'Communication',       cats:['Communication'],                      popular:true,  mark:'#6264A7', initial:'T', slug:'microsoftteams' },
     { name:'Discord',             cat:'Communication',       cats:['Communication'],                      popular:false, mark:'#5865F2', initial:'D', slug:'discord' },
     { name:'Zoom',                cat:'Communication',       cats:['Communication'],                      popular:false, mark:'#2D8CFF', initial:'Z', slug:'zoom' },
     { name:'Twilio',              cat:'Communication',       cats:['Communication'],                      popular:false, mark:'#F22F46', initial:'T', slug:'twilio' },
-    /* E-commerce */
-    { name:'Shopify',             cat:'E-commerce',          cats:['E-commerce','Analytics'],             popular:true,  mark:'#96BF48', initial:'S', slug:'shopify' },
-    { name:'WooCommerce',         cat:'E-commerce',          cats:['E-commerce'],                         popular:false, mark:'#7F54B3', initial:'W', slug:'woocommerce' },
-    { name:'Magento',             cat:'E-commerce',          cats:['E-commerce'],                         popular:false, mark:'#EE672F', initial:'M', slug:'magento' },
-    { name:'BigCommerce',         cat:'E-commerce',          cats:['E-commerce'],                         popular:false, mark:'#121118', initial:'B', slug:'bigcommerce' },
+    /* Commerce (E-commerce) */
+    { name:'Shopify',             cat:'Commerce',          cats:['Commerce','Business Intelligence'],             popular:true,  mark:'#96BF48', initial:'S', slug:'shopify' },
+    { name:'WooCommerce',         cat:'Commerce',          cats:['Commerce'],                         popular:false, mark:'#7F54B3', initial:'W', slug:'woocommerce' },
+    { name:'Magento',             cat:'Commerce',          cats:['Commerce'],                         popular:false, mark:'#EE672F', initial:'M', slug:'magento' },
+    { name:'BigCommerce',         cat:'Commerce',          cats:['Commerce'],                         popular:false, mark:'#121118', initial:'B', slug:'bigcommerce' },
+    /* Other */
+    { name:'Zapier',              cat:'Other',               cats:['Other'],                              popular:true,  mark:'#FF4A00', initial:'Z', slug:'zapier' },
+    { name:'Make',                cat:'Other',               cats:['Other'],                              popular:false, mark:'#6D00CC', initial:'M', slug:'make' },
+    { name:'Airtable',            cat:'Other',               cats:['Other'],                              popular:false, mark:'#18BFFF', initial:'A', slug:'airtable' },
+    { name:'Notion',              cat:'Other',               cats:['Other'],                              popular:false, mark:'#000000', initial:'N', slug:'notion' },
+    { name:'Webhooks',            cat:'Other',               cats:['Other'],                              popular:false, mark:'#1e1e2e', initial:'W', slug:'webhooks' },
   ];
   /* Connected (State 2): subset by name + per-source status (active / error). */
   var CONNECTED = [
-    { name:'PostgreSQL', label:'Production DB',   status:'active' },
-    { name:'Salesforce', label:'Main CRM',        status:'active' },
-    { name:'Stripe',     label:'Stripe Payments', status:'error'  },
-    { name:'HubSpot',    label:'Marketing Hub',   status:'active' },
+    { name:'PostgreSQL', label:'Production DB',   status:'active', desc:'Main analytics warehouse, syncs every 6 h' },
+    { name:'Salesforce', label:'Main CRM',        status:'active', desc:'Deals, contacts & pipeline metrics' },
+    { name:'Stripe',     label:'Stripe Payments', status:'error',  desc:'Revenue and subscription data' },
+    { name:'HubSpot',    label:'Marketing Hub',   status:'active', desc:'Campaign performance & lead scoring' },
   ];
   var DS_VIEW = 'card'; /* 'card' | 'table' */
   var DS_CARD_STYLE = 1; /* 1 = horizontal row | 2 = vertical multi-category */
@@ -597,7 +700,7 @@
 
   function dsCount(cat){
     if (cat === 'All') return CONNECTORS.length;
-    return CONNECTORS.filter(function(c){return c.cat === cat;}).length;
+    return CONNECTORS.filter(function(c){return (c.cats || [c.cat]).indexOf(cat) !== -1;}).length;
   }
 
   function dsRenderCats(){
@@ -607,14 +710,14 @@
       var n = dsCount(cat);
       return '<button class="chip' + (cat === active ? ' is-active' : '') + '"'
         + ' type="button" role="tab" aria-selected="' + (cat === active) + '" aria-pressed="' + (cat === active) + '"'
-        + ' data-cat="' + cat + '">'
+        + ' data-cat="' + cat.replace(/&/g,'&amp;') + '">'
         + cat
         + '<span class="chip-n">' + n + '</span>'
         + '</button>';
     }).join('');
   }
 
-  /* Sparkle path вЂ" 4-pointed star (Lucide-style); fills with currentColor so --fb-attention
+  /* Sparkle path — 4-pointed star (Lucide-style); fills with currentColor so --fb-attention
      drives the colour; the outer 'M' points + softer inner curve give a premium feel vs a
      plain 5-point polygon. */
   /* Kit [data-tip] tooltip replaces the SVG <title> so hover shows a .tt-styled bubble instead
@@ -623,45 +726,63 @@
     + '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .963L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>'
     + '</svg>';
 
-  /* Catalog card вЂ" always shows a Connect button. Connected items never appear in the catalog
+  /* Catalog card — always shows a Connect button. Connected items never appear in the catalog
      (they live exclusively in the "Connected (N)" compact list above). Star sits inline in
-     the name row вЂ" title placement is the clearest without overlapping any logo shape. */
-  function dsCardHtml(c){
-    return '<div class="ds-card" role="listitem">'
-      + '<span class="ds-mark-wrap">'
-      +   '<span class="ds-mark" aria-hidden="true">' + dsMkImg(c.slug, c.initial, c.mark) + '</span>'
-      + '</span>'
+     the name row — title placement is the clearest without overlapping any logo shape. */
+  var FLAME_BADGE = '<span aria-label="Popular" style="position:absolute;top:-5px;right:-5px;width:18px;height:18px;border-radius:50%;background:var(--card);border:1.5px solid var(--card);display:flex;align-items:center;justify-content:center">'
+    + '<svg viewBox="0 0 24 24" fill="#ef4444" stroke="none" aria-hidden="true" style="width:18px;height:18px;flex:none"><path d="M12 2c0 0-5 4.5-5 9a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5 0 2-1.5 3-1.5 3C13.5 8 12 5 12 2z"/></svg>'
+    + '</span>';
+
+  function dsMarkWrap(c){
+    return '<span style="position:relative;flex:none;display:inline-flex">'
+      + '<span class="ds-mark" aria-hidden="true">' + dsMkImg(c.slug, c.initial, c.mark) + '</span>'
+      + (c.popular ? FLAME_BADGE : '')
+      + '</span>';
+  }
+
+  function dsCard2MarkWrap(c){
+    return '<span style="position:relative;flex:none;display:inline-flex">'
+      + '<span class="ds-card2-mark" aria-hidden="true">' + dsMkImg(c.slug, c.initial, c.mark) + '</span>'
+      + (c.popular ? FLAME_BADGE : '')
+      + '</span>';
+  }
+
+  var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px;flex:none"><polyline points="20 6 9 17 4 12"/></svg>';
+  var PLUS_SVG_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px;flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
+
+  function dsCardHtml(c, isConnected){
+    var n = c.name.replace(/'/g, "\\'");
+    var btn = isConnected
+      ? '<button class="btn btn-sm btn-tertiary" type="button" aria-label="Edit connection" style="padding:0 .5rem;min-width:2rem;color:var(--fb-green)" onclick="dsOpenEdit(\'' + n + '\')">' + CHECK_SVG + '</button>'
+      : '<button class="btn btn-sm btn-tertiary" type="button" aria-label="Connect" style="padding:0 .5rem;min-width:2rem" onclick="dsConnect(\'' + n + '\')">' + PLUS_SVG_SM + '</button>';
+    var cardStyle = isConnected ? ' style="border-color:color-mix(in srgb,var(--fb-green) 35%,transparent)"' : '';
+    return '<div class="ds-card" role="listitem"' + cardStyle + '>'
+      + dsMarkWrap(c)
       + '<div class="ds-card-body">'
-      +   '<div class="ds-card-head">'
-      +     '<span class="ds-card-name">' + c.name + '</span>'
-      +     (c.popular ? STAR_SVG : '')
-      +   '</div>'
-      +   '<div class="ds-card-cat">' + c.cat + '</div>'
+      +   '<div class="ds-card-head"><span class="ds-card-name">' + c.name + '</span></div>'
+      +   '<div class="ds-card-cat">' + (c.cats || [c.cat]).join(' · ') + '</div>'
       + '</div>'
-      + '<div class="ds-card-act">'
-      +   '<button class="iconbtn iconbtn-secondary" type="button" aria-label="Connect" onclick="dsConnect(' + JSON.stringify(c.name) + ')">'
-      +     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg>'
-      +   '</button>'
-      + '</div>'
+      + '<div class="ds-card-act">' + btn + '</div>'
       + '</div>';
   }
 
-  function dsCard2Html(c){
+  function dsCard2Html(c, isConnected){
+    var n = c.name.replace(/'/g, "\\'");
+    var PLUS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px;flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
     var cats = (c.cats || [c.cat]).map(function(cat){
       return '<span class="badge badge-sm badge-body">' + cat + '</span>';
     }).join('');
-    return '<div class="ds-card2" role="listitem">'
+    var btn = isConnected
+      ? '<button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Edit connection" style="margin-left:auto;flex:none;color:var(--fb-green)" onclick="dsOpenEdit(\'' + n + '\')">' + CHECK_SVG + '</button>'
+      : '<button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Connect" style="margin-left:auto;flex:none" onclick="dsConnect(\'' + n + '\')">' + PLUS_SVG + '</button>';
+    var cardStyle = isConnected ? ' style="border-color:color-mix(in srgb,var(--fb-green) 35%,transparent)"' : '';
+    return '<div class="ds-card2" role="listitem"' + cardStyle + '>'
       + '<div class="ds-card2-head">'
-      +   '<span class="ds-card2-mark" aria-hidden="true">' + dsMkImg(c.slug, c.initial, c.mark) + '</span>'
+      +   dsCard2MarkWrap(c)
       +   '<span class="ds-card2-name">' + c.name + '</span>'
-      +   (c.popular ? STAR_SVG : '')
+      +   btn
       + '</div>'
-      + '<div class="ds-card2-foot">'
-      +   '<div class="ds-card2-cats">' + cats + '</div>'
-      +   '<button class="iconbtn iconbtn-secondary" style="flex:none" type="button" aria-label="Connect" onclick="dsConnect(' + JSON.stringify(c.name) + ')">'
-      +     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg>'
-      +   '</button>'
-      + '</div>'
+      + '<div class="ds-card2-foot">' + cats + '</div>'
       + '</div>';
   }
 
@@ -680,21 +801,57 @@
 
   function dsToggleCardStyle(){
     DS_CARD_STYLE = DS_CARD_STYLE === 1 ? 2 : 1;
+    DS_VIEW = DS_CARD_STYLE === 2 ? 'table' : 'card';
     STATE.page = 1;
     dsRenderGrid();
+    dsRenderConnectedList();
+  }
+
+  function dsSegActivate(groupIds, activeId){
+    groupIds.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.classList.toggle('is-active', id === activeId);
+    });
+  }
+
+  function dsSegState(btn, state){
+    dsSegActivate(['ds-seg-empty','ds-seg-connected'], btn.id);
+    var app = document.querySelector('.ds-app');
+    var hasConn = state === 'connected';
+    app.classList.toggle('has-connections', hasConn);
+    var bw = document.getElementById('ds-banner-wrap');
+    if(bw) bw.classList.toggle('is-dismissed', hasConn);
+    var connTab = document.getElementById('ds-tab-connections');
+    if(connTab){
+      if(hasConn){ connTab.disabled = false; connTab.removeAttribute('aria-disabled'); }
+      else {
+        connTab.disabled = true; connTab.setAttribute('aria-disabled','true');
+        if(connTab.classList.contains('is-active'))
+          dsSwitchTab('catalog', document.getElementById('ds-tab-catalog'));
+      }
+    }
+    dsRenderConnectedList();
+  }
+
+  function dsSegConcept(btn, n){
+    dsSegActivate(['ds-seg-c1','ds-seg-c2'], btn.id);
+    DS_CARD_STYLE = n;
+    DS_VIEW = n === 2 ? 'table' : 'card';
+    STATE.page = 1;
+    dsRenderGrid();
+    dsRenderConnectedList();
+  }
+
+  function dsSegTheme(btn, theme){
+    dsSegActivate(['ds-seg-light','ds-seg-dark'], btn.id);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
   }
 
   function dsGetFiltered(){
-    var connectedNames = CONNECTED.map(function(c){return c.name;});
-    /* Connected items live exclusively in the compact list above — always filter them out of the
-       catalog so there is never any duplication regardless of empty/connected state. */
     return CONNECTORS.filter(function(c){
       if(STATE.cat !== 'All'){
-        /* Style 2 filters against multi-category array; style 1 uses single cat */
-        var cats = DS_CARD_STYLE === 2 ? (c.cats || [c.cat]) : [c.cat];
-        if(cats.indexOf(STATE.cat) === -1) return false;
+        if((c.cats || [c.cat]).indexOf(STATE.cat) === -1) return false;
       }
-      if(connectedNames.indexOf(c.name) !== -1) return false;
       if(STATE.q && c.name.toLowerCase().indexOf(STATE.q) === -1) return false;
       return true;
     });
@@ -705,21 +862,21 @@
     var filtered = dsGetFiltered();
     var host = document.getElementById('ds-grid');
     var emptyMsg = '<div style="grid-column:1/-1;padding:1.5rem;text-align:center;color:var(--ink-secondary);font-size:.8125rem">No connectors match your filters.</div>';
+    var connectedNames = CONNECTED.map(function(c){return c.name;});
     var cardFn = DS_CARD_STYLE === 2 ? dsCard2Html : dsCardHtml;
+    var wrapFn = function(c){ return cardFn(c, connectedNames.indexOf(c.name) !== -1); };
     var prevCount = (STATE.page - 1) * PAGE_SIZE;
     var slice = filtered.slice(0, STATE.page * PAGE_SIZE);
     if(STATE.page === 1){
-      /* Full reset — replace entire grid content */
-      host.innerHTML = slice.length ? slice.map(cardFn).join('') : emptyMsg;
+      host.innerHTML = slice.length ? slice.map(wrapFn).join('') : emptyMsg;
     } else {
-      /* Append mode — remove old sentinel, append only new cards */
       var oldSentinel = host.querySelector('.ds-load-sentinel');
       if(oldSentinel){ host.removeChild(oldSentinel); }
       var newCards = filtered.slice(prevCount, STATE.page * PAGE_SIZE);
       if(newCards.length){
         var frag = document.createDocumentFragment();
         var tmp = document.createElement('div');
-        tmp.innerHTML = newCards.map(cardFn).join('');
+        tmp.innerHTML = newCards.map(wrapFn).join('');
         while(tmp.firstChild){ frag.appendChild(tmp.firstChild); }
         host.appendChild(frag);
       }
@@ -740,12 +897,13 @@
   }
 
   function dsConnRowHtml(c, src){
+    var n = c.name.replace(/'/g, "\\'");
     var dotClass = c.status === 'error' ? 'is-error' : 'is-active';
     var statusLabel = c.status === 'error' ? 'Error · last sync failed' : 'Active · syncing';
     var menuHtml = '<div class="menu ds-conn-menu" role="menu">'
-      + '<div class="mi" role="menuitem" onclick="dsOpenEdit(' + JSON.stringify(c.name) + ')">Edit</div>'
+      + '<div class="mi" role="menuitem" onclick="dsOpenEdit(\'' + n + '\')">Edit</div>'
       + '<div class="mi" role="menuitem">Test Connection</div>'
-      + '<div class="mi danger" role="menuitem" onclick="dsRemove(' + JSON.stringify(c.name) + ')">Delete</div>'
+      + '<div class="mi danger" role="menuitem" onclick="dsRemove(\'' + n + '\')">Delete</div>'
       + '</div>';
     var kebab = '<button class="iconbtn iconbtn-tertiary ds-conn-more mx-kebab-btn" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more">'
       + '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>'
@@ -759,21 +917,22 @@
         +   '<span class="ds-mark" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>'
         +   '<span style="color:var(--ink-secondary);font-size:.8125rem">' + c.name + '</span>'
         + '</div></td>'
+        + '<td style="font-size:.8125rem;color:var(--ink-secondary)">' + (c.desc || '') + '</td>'
         + '<td class="mx-tbl-badge"><span class="badge badge-sm ' + (c.status === 'error' ? 'badge-red' : 'badge-green') + '"><span class="b-dot"></span>' + badgeTxt + '</span></td>'
-        + '<td class="mx-tbl-actions ds-conn-cell-act">' + kebab + menuHtml + '</td>'
+        + '<td class="mx-tbl-actions ds-conn-cell-act"><div class="ds-conn-more-wrap">' + kebab + menuHtml + '</div></td>'
         + '</tr>';
     }
-    return '<div class="ds-conn-row" role="listitem" data-name="' + c.name + '">'
+    return '<div class="ds-conn-row hov-card" role="listitem" data-name="' + c.name + '">'
       + '<span class="ds-mark" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>'
       + '<div class="ds-conn-body">'
       +   '<span class="ds-conn-label">' + (c.label || c.name) + '</span>'
-      +   '<span class="ds-conn-provider">' + c.name + '</span>'
+      +   '<span class="ds-conn-meta">' + c.name + (c.desc ? '<span class="ds-conn-meta-sep">·</span><span class="ds-conn-desc">' + c.desc + '</span>' : '') + '</span>'
       + '</div>'
       + '<span class="ds-conn-status">'
       +   '<span class="ds-conn-dot ' + dotClass + '" aria-hidden="true"></span>'
       +   statusLabel
       + '</span>'
-      + kebab + menuHtml
+      + '<div class="ds-conn-more-wrap">' + kebab + menuHtml + '</div>'
       + '</div>';
   }
 
@@ -786,12 +945,12 @@
     if(DS_VIEW === 'table'){
       host.innerHTML = '<div class="ds-conn-tbl mx-tbl">'
         + '<table class="tbl" aria-label="Connected data sources" style="table-layout:fixed;width:100%"><colgroup>'
-        + '<col style="width:40%"><col style="width:30%"><col style="width:18%"><col style="width:12%">'
+        + '<col style="width:26%"><col style="width:22%"><col style="width:30%"><col style="width:14%"><col style="width:8%">'
         + '</colgroup><thead><tr>'
-        + '<th>Connection</th><th>Data Source</th><th>Status</th><th></th>'
+        + '<th>Connection name</th><th>Provider</th><th>Description</th><th>Status</th><th></th>'
         + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
     } else {
-      host.innerHTML = '<div class="ds-conn-list" role="list">' + rows + '</div>';
+      host.innerHTML = '<div class="ds-conn-list' + (DS_CARD_STYLE === 1 ? ' is-single' : '') + '" role="list">' + rows + '</div>';
     }
     var n = CONNECTED.length;
     var bw = document.getElementById('ds-banner-wrap');
@@ -867,26 +1026,61 @@
   }
 
   /* ===== Connect — animate card out, add row, auto-switch to My Connections. ===== */
+  var _dsConnName = '';
+
   function dsConnect(name){
-    var cardEl = null;
-    document.getElementById('ds-grid').querySelectorAll('.ds-card').forEach(function(el){
-      var nm = el.querySelector('.ds-card-name');
-      if(nm && nm.textContent.trim() === name) cardEl = el;
-    });
-    if(cardEl) cardEl.classList.add('is-leaving');
+    _dsConnName = name;
+    var src = CONNECTORS.find(function(c){ return c.name === name; }) || {};
+    var logo = document.getElementById('ds-conn-logo');
+    logo.innerHTML = dsMkImg(src.slug, src.initial, src.mark);
+    logo.style.background = src.mark && src.mark.startsWith('#') ? src.mark + '14' : 'var(--card)';
+    document.getElementById('ds-conn-subtitle').textContent = name + ' connection';
+    document.getElementById('ds-conn-dispname').value = name;
+    document.getElementById('ds-conn-desc').value = '';
+    // reset to step 1
+    document.getElementById('ds-conn-s1').classList.remove('is-hidden');
+    document.getElementById('ds-conn-s2').classList.add('is-hidden');
+    document.getElementById('ds-conn-ftr-s2').style.display = 'none';
+    document.getElementById('ds-conn-prog-txt').textContent = 'Step 1 of 2';
+    document.getElementById('ds-conn-prog-fill').style.width = '50%';
+    document.getElementById('ds-conn-s1-btn').textContent = 'Save';
+    document.getElementById('ds-conn-s1-btn').disabled = false;
+    var dlg = document.getElementById('ds-conn-dlg');
+    dlg.style.display = 'flex'; dlg.setAttribute('aria-hidden','false');
+  }
+
+  function dsConnStep1(){
+    var btn = document.getElementById('ds-conn-s1-btn');
+    btn.textContent = 'Saving…'; btn.disabled = true;
     setTimeout(function(){
-      if(CONNECTED.some(function(c){ return c.name === name; })) return;
-      CONNECTED.push({name:name, label:name, status:'active'});
-      document.querySelector('.ds-app').classList.add('has-connections');
-      /* Enable My Connections tab on first connection. */
-      var connTab = document.getElementById('ds-tab-connections');
-      if(connTab && connTab.disabled){ connTab.disabled = false; connTab.removeAttribute('aria-disabled'); }
-      dsRender();
-      /* Switch to My Connections so the user sees the new row. */
-      dsSwitchTab('connections', document.getElementById('ds-tab-connections'));
-      var newRow = document.querySelector('#ds-conn-body [data-name="' + name + '"]');
-      if(newRow && DS_VIEW === 'card') newRow.classList.add('is-entering');
-    }, 215);
+      document.getElementById('ds-conn-s1').classList.add('is-hidden');
+      document.getElementById('ds-conn-s2').classList.remove('is-hidden');
+      document.getElementById('ds-conn-ftr-s2').style.display = 'flex';
+      document.getElementById('ds-conn-prog-txt').textContent = 'Step 2 of 2';
+      document.getElementById('ds-conn-prog-fill').style.width = '100%';
+      setTimeout(function(){ document.getElementById('ds-conn-dispname').focus(); }, 50);
+    }, 1400);
+  }
+
+  function dsConnCreate(){
+    var name  = _dsConnName;
+    var label = document.getElementById('ds-conn-dispname').value.trim() || name;
+    var desc  = document.getElementById('ds-conn-desc').value.trim();
+    dsCloseConnDlg();
+    if(CONNECTED.some(function(c){ return c.name === name; })) return;
+    CONNECTED.push({name:name, label:label, status:'active', description:desc});
+    document.querySelector('.ds-app').classList.add('has-connections');
+    var connTab = document.getElementById('ds-tab-connections');
+    if(connTab && connTab.disabled){ connTab.disabled = false; connTab.removeAttribute('aria-disabled'); }
+    dsRender();
+    dsSwitchTab('connections', document.getElementById('ds-tab-connections'));
+    var newRow = document.querySelector('#ds-conn-body [data-name="' + name + '"]');
+    if(newRow && DS_VIEW === 'card') newRow.classList.add('is-entering');
+  }
+
+  function dsCloseConnDlg(){
+    var dlg = document.getElementById('ds-conn-dlg');
+    dlg.style.display = 'none'; dlg.setAttribute('aria-hidden','true');
   }
 
   /* ===== Edit connection dialog ===== */
@@ -949,7 +1143,12 @@
     }, 250);
   }
 
-  /* Init — render with transitions suppressed, then re-enable after first paint. */
+  /* Init — read ?cat= param first so deep-links from metrics page pre-select the right category. */
+  (function(){
+    var p = new URLSearchParams(window.location.search).get('cat');
+    if(p && CATEGORIES.indexOf(p) !== -1){ STATE.cat = p; }
+  })();
+
   document.body.classList.add('no-init-transition');
   dsRender();
   setTimeout(function(){ document.body.classList.remove('no-init-transition'); }, 0);
@@ -981,3 +1180,4 @@
 </script>
 </body>
 </html>
+

@@ -54,6 +54,30 @@
 - `box-shadow` on `.prov-ic-w` uses `rgba()` — permitted inside `box-shadow` per colour-token discipline rule 5.
 - Card hover border uses semantic token `--border-hover` (not a new token).
 
+## Hard requirements — provider card chip area (DO NOT REGRESS)
+
+These rules are locked. Any edit to `.prov-card .chip-meta`, `.prov-c2-card .chip-meta`, or `.prov-c2-foot` must preserve all of them:
+
+| Rule | Detail |
+|---|---|
+| **Exactly 5 chips per card** | Every provider card must render all 5 `chip-meta` buttons. Never hide chips with `nth-child(n+4){display:none}` or any count-based hide. |
+| **Chips must look like chips** | `chip-meta` retains its full visual spec: bordered pill, background fill, padding, border-radius. Removing `border`, `background`, or `padding` to produce plain inline text is forbidden. |
+| **Chips are clickable — clear affordance** | Each chip carries `onclick="mxOpenDetail(this)"` and a `chip-meta-arrow` chevron. The chevron must remain visible (`display:none` on the arrow is forbidden). |
+| **Chip row wraps freely** | `chip-row` inside a provider card uses `flex-wrap:wrap; overflow:visible`. Never use `nowrap` + `overflow:hidden` — that crops chips. |
+| **Purpose** | The 5 chips are a metric preview: they tell users what data is available from this provider before connecting. They are the primary interactive affordance on the empty-state card. |
+
+## Hard requirements — C2 provider card `+` button (DO NOT REGRESS)
+
+The `+` (iconbtn) in `.prov-c2-head` **must always be visible at rest**. Do not apply `opacity:0` or any hover-reveal pattern to it.
+
+| Rule | Detail |
+|---|---|
+| **Always visible** | `.prov-c2-head .iconbtn` has no `opacity` override. The button is visible in the default card state without any hover interaction. |
+| **Forbidden pattern** | `opacity:0` at rest + `opacity:1` on `:hover` or `.prov-c2-card:hover` is explicitly banned — it was reverted on 2026-06-18 after being flagged multiple times. |
+| **Why** | Users need to see the action is available before hovering. A hidden button is an invisible affordance — users won't know they can connect unless the button is always present. |
+
+The plain dot-separated inline text pattern (applied in error on 2026-06-18) broke all five rules above and was reverted. Do not re-apply it.
+
 ## Components referenced
 
 | Component | Change file | Summary |

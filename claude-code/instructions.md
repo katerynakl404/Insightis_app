@@ -66,6 +66,7 @@ Full-screen work (a `pages/*.html` mockup) gets a live markdown change page in *
 - **Links:** relative (`changes/<X>.md`) so a fresh `git clone` works with nothing broken.
 - **No empty / placeholder-only "States — was → became" tables.** If every row in a component's states table would be `— no change` or a `⚠ needed` placeholder, drop the entire `<div class="block">…</div>` containing it. The kit shows real diffs only.
 - **No iteration-history language in `current/` or `changes/`.** Files describe **Current → Expected**, full stop. Don't narrate the design process — phrases like *"Previous single token …"*, *"X was tried first"*, *"Iteration history:"*, *"Previous attempts:"*, *"Carried over from previous iteration"*, *"was 'too dark' / 'too green' / 'too clinical'"* belong in commit messages, not in the artifact. State the resolved value + its rationale, nothing about paths-not-taken.
+- **No "nothing changed" filler prose in `changes/*.md`.** Don't write sentences like *"The component itself is unchanged from prod"*, *"Same behaviour, same visuals, same defaults"*, *"No change in this iteration"* as an intro paragraph. If nothing about the component changed, use the **`No change (—)` marker** (one line) per the prior rule. If only one aspect changed (e.g. consumer wiring, not the component itself), let the relevant section heading + table say it — don't preface with "the component itself didn't change" because the absence of a "Component" section already conveys that. Reader can see what's listed; saying "and the rest didn't change" is value-less verbosity. Failure-to-learn-from example: TruncatedTitleTooltip.md replaced a clean `No change (—)` marker with *"The component itself is unchanged from prod — same behaviour wrapper, same visuals, same right-side default"* — the same information in 5× the words. Caught by user feedback: *"для чого ти додаєш коменти що нічого не змінилось?"*.
 
 ## How to start (Claude Code)
 
@@ -159,6 +160,29 @@ Removing a rule, dropping a `.dark` override, replacing a documented mix — all
 ### Past failure to learn from
 
 **SegmentedControl hover.** Documented spec text said "no surface change"; storybook demo inline style said `background: color-mix(white 50%, transparent)`; CSS rule shipped the white-50%/dark-10% recipe — the actual agreement. Claude read only the spec text, removed the bg overlay, broke the design. Correct move: surface the spec-vs-demo conflict and ask which is authoritative; never align silently.
+
+### Revert reference rule (hard rule)
+
+When the user says "revert to the last push", "go back to how it was", "match the pushed state", or any similar phrasing, **the reference is `HEAD`, not the first/initial commit**. Concretely:
+
+1. **Resolve the actual reference**: run `git rev-parse HEAD` (or `git log --oneline -5`) to confirm what "last push" is. The latest commit on the current branch — not whichever commit shows up first when you grep `git log` without context.
+2. **Use the resolved SHA, not a guessed one**: `git show HEAD:path/to/file` to read the canonical content. Don't pick a commit by its position in a list (`git log | head -1` is misleading if the working dir or upstream is behind).
+3. **Diff before reverting**: `git diff HEAD -- <file>` shows exactly what your working dir has that the pushed version doesn't. Read that diff before destructive operations.
+4. **If the file has multiple commits in its history** (e.g., `git log --oneline -- pages/kit-theme.css` returns more than one), and you're unsure WHICH commit the user means by "last push" — **ASK before reverting**. Don't pick one.
+
+**Past failure:** During a Secondary-button revert iteration, Claude used `1cda71f` (initial commit) as the "last push" reference and reverted to the original Slate-200/Grey-700 border. The actual last push (`594f6fb`) included a Variant-B border-darken change that the user wanted KEPT. Claude only caught the mistake when the user asked *"did you take the first push?"*. Correct move was to run `git rev-parse HEAD` first and use `git show HEAD:<file>` for the canonical content.
+
+### "If unsure — ask, don't guess" rule (hard rule)
+
+When the user's request has ambiguity about scope or reference that could materially affect what's changed:
+
+- **Don't guess and execute**. Even if guessing is faster, the cost of "did the wrong thing, now have to revert AND redo" is much higher than the cost of one clarification round-trip.
+- **Resolve the ambiguity in writing**: quote the candidate interpretations back, ask which is correct. Examples of ambiguity worth asking about:
+  - "Last push" → which commit exactly? (resolve via `git rev-parse HEAD`, confirm)
+  - "Revert this" → revert the file? the component? the whole session's changes?
+  - "Change the X" → if there are multiple X (e.g. Secondary button vs. Secondary tokens vs. Secondary in a specific page), name them and ask which.
+  - Token rename or restructure: ask before propagating across N files.
+- **Better to ask once than recover twice.** The user explicitly OK'd this: *"краще перепитай якщо не впевнений"*.
 
 ## Accessibility & consistency — Claude must self-check on every change
 

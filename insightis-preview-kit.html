@@ -1094,13 +1094,60 @@
     <!-- ===== MODAL ===== -->
     <section class="comp" id="modal">
       <h2>Modal</h2>
-      <div class="sub">Surface <code>Card</code>, radius <code>xl 12px</code>, padding 16px; title text-sm semibold.</div>
+      <div class="sub">Reusable multi-step shell: <code>.dlg</code> flex column inside <code>.dlg-overlay</code>. Header → optional progress bar → scrollable body with absolute-positioned steps → footer. Steps toggle via <code>.is-hidden</code> — no layout shift between them.</div>
       <div><a class="chg" href="changes/Modal.md">Changes ↗</a></div>
-      <div class="block"><div class="block-h">Preview</div><div class="block-b">
+      <div class="block"><div class="block-h">Preview — simple confirm dialog</div><div class="block-b">
         <div class="ce">
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod"><div style="width:240px;border:1px solid var(--border);background:var(--card);border-radius:12px;padding:16px"><div style="font-size:.875rem;font-weight:600;color:var(--ink)">Delete project?</div><div style="font-size:.875rem;color:var(--ink-secondary);margin-top:4px">This cannot be undone.</div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px"><button class="btn btn-sm btn-outline">Cancel</button><button class="btn btn-sm btn-destructive">Delete</button></div></div></div></div>
-          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><div style="width:240px;border:1px solid var(--border);background:var(--card);border-radius:12px;padding:16px"><div style="font-size:.875rem;font-weight:600;color:var(--ink)">Delete project?</div><div style="font-size:.875rem;color:var(--ink-secondary);margin-top:4px">This cannot be undone.</div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px"><button class="btn btn-sm btn-secondary">Cancel</button><button class="btn btn-sm btn-destructive">Delete</button></div></div></div><div style="padding:.5rem .7rem"><div class="cspec">Cancel → <code>Button secondary</code> (filled card, lower emphasis than Outlined); Delete → <code>Button destructive</code> (new theme-independent Red-700 fill). Both inherit the new state/contrast tokens.</div></div></div>
+          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><div style="width:240px;border:1px solid var(--border);background:var(--card);border-radius:12px;padding:16px"><div style="font-size:.875rem;font-weight:600;color:var(--ink)">Delete project?</div><div style="font-size:.875rem;color:var(--ink-secondary);margin-top:4px">This cannot be undone.</div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px"><button class="btn btn-sm btn-secondary">Cancel</button><button class="btn btn-sm btn-destructive">Delete</button></div></div></div><div style="padding:.5rem .7rem"><div class="cspec">Cancel → <code>Button secondary</code>; Delete → <code>Button destructive</code>. Both inherit new state/contrast tokens.</div></div></div>
         </div>
+      </div></div>
+      <div class="block"><div class="block-h">Kit structure — multi-step dialog</div><div class="block-b" style="padding:.875rem 1.25rem">
+        <div class="cspec" style="margin-bottom:.75rem">All modal CSS lives in <code>kit-theme.css</code>. Copy the skeleton below; add per-page classes only for content inside <code>.dlg-step</code>.</div>
+        <pre style="font-size:.75rem;line-height:1.6;color:var(--ink-secondary);background:var(--bg);border:1px solid var(--border);border-radius:.5rem;padding:.875rem 1rem;overflow-x:auto;margin:0"><code>&lt;div class="dlg-overlay" onclick="if(event.target===this)closeDialog()"&gt;
+  &lt;div class="dlg" style="width:480px;height:580px"&gt;
+
+    &lt;!-- header --&gt;
+    &lt;div class="dlg-hdr"&gt;
+      &lt;h2 class="dlg-title"&gt;Dialog title&lt;/h2&gt;
+      &lt;button class="iconbtn iconbtn-secondary" onclick="closeDialog()"&gt;…×…&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- optional progress bar --&gt;
+    &lt;div class="dlg-progress"&gt;
+      &lt;span class="dlg-progress-txt"&gt;Step 1 of 2&lt;/span&gt;
+      &lt;div class="dlg-progress-track"&gt;
+        &lt;div class="dlg-progress-fill" style="width:50%"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- body with absolute steps (no layout shift) --&gt;
+    &lt;div class="dlg-body"&gt;
+      &lt;div class="dlg-step"&gt;Step 1 content&lt;/div&gt;
+      &lt;div class="dlg-step is-hidden"&gt;Step 2 content&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- footer --&gt;
+    &lt;div class="dlg-ftr"&gt;
+      &lt;button class="btn btn-sm btn-secondary"&gt;Cancel&lt;/button&gt;
+      &lt;button class="btn btn-sm btn-primary"&gt;Next&lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div></div>
+      <div class="block"><div class="block-h">Structure tokens</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>Class</th><th>Role</th><th>Key rules</th></tr></thead><tbody>
+          <tr><td class="stname"><code>.dlg-overlay</code></td><td>Backdrop + centering shell</td><td><code>position:fixed;inset:0;z-index:60</code>; click-outside closes</td></tr>
+          <tr><td class="stname"><code>.dlg</code></td><td>Dialog surface</td><td><code>background:var(--card)</code>; <code>border-radius:.875rem</code>; flex column</td></tr>
+          <tr><td class="stname"><code>.dlg-hdr</code></td><td>Header row</td><td>padding <code>.875rem 1.25rem .5rem</code>; no bottom divider</td></tr>
+          <tr><td class="stname"><code>.dlg-title</code></td><td>H4-weight title</td><td><code>1.25rem / 1.75rem / 500</code>; <code>flex:1</code> so × button stays right</td></tr>
+          <tr><td class="stname"><code>.dlg-progress</code></td><td>Step indicator</td><td>text + 3 px track; omit block entirely if dialog is single-step</td></tr>
+          <tr><td class="stname"><code>.dlg-body</code></td><td>Scrollable content area</td><td><code>position:relative;overflow:hidden;flex:1</code></td></tr>
+          <tr><td class="stname"><code>.dlg-step</code></td><td>One step's content</td><td><code>position:absolute;inset:0</code> — both steps occupy same space</td></tr>
+          <tr><td class="stname"><code>.dlg-step.is-hidden</code></td><td>Hidden step</td><td><code>display:none</code></td></tr>
+          <tr><td class="stname"><code>.dlg-ftr</code></td><td>Footer action bar</td><td>border-top divider; right-aligned buttons; omit on steps with inline CTA</td></tr>
+        </tbody></table>
       </div></div>
     </section>
 

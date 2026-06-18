@@ -10,6 +10,13 @@
 
 ## [Unreleased]
 
+### Sidebar
+
+- **Tooltips removed** ([`changes/Sidebar.md`](changes/Sidebar.md), [`changes/TruncatedTitleTooltip.md`](changes/TruncatedTitleTooltip.md))
+  - Dropped the `TruncatedTitleTooltip` wiring on `.sbx-chat` (chat-row labels no longer surface a hover tooltip with the full title — the persistent right-edge gradient fade is the only truncation signal; kebab → Rename remains the way to access/edit the full label). Removed `title=` from chat-row markup in [`pages/concept/chat-landing.html`](pages/concept/chat-landing.html) and the storybook chat-row demo in [`insightis-preview-kit.html`](insightis-preview-kit.html).
+  - Dropped `data-tip` / `data-tip-side="right"` from every `.sbx-nav-item` in [`pages/concept/data-sources_connections-landing.html`](pages/concept/data-sources_connections-landing.html) and [`pages/concept/data-sources_files-landing.html`](pages/concept/data-sources_files-landing.html). Collapsed-mode nav rows still expose their name via `aria-label` (preserved); no visual tooltip overlays remain in the sidebar.
+  - Tooltip primitive itself is unchanged — `.tt` class and `[data-tip-side]` CSS rules stay for other consumers (Chats Library row, breadcrumbs, future surfaces).
+
 ### Pages
 
 - **Metrics — connector card empty-state redesign** ([`pages/concept/metrics-landing.html`](pages/concept/metrics-landing.html) + [`page-changes/metrics-landing.md`](page-changes/metrics-landing.md) + [`pages/kit-theme.css`](pages/kit-theme.css))

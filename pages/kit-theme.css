@@ -70,12 +70,10 @@
     --btn-secondary-bg:var(--card);
     /* Secondary Button / IconButton hover bg — brand-tinted overlay so hover stays distinguishable from any surrounding neutral surface (page bg, Card, modal panel). 8% Brand/Primary mixed over Surface/Card. Re-resolves per-theme via --card and --brand-primary. */
     --btn-secondary-bg-hover:color-mix(in srgb, var(--brand-primary) 8%, var(--card));
-    /* Secondary Button / IconButton borders — bumped one step darker than --border for visibility
-       on Card surface (Slate-200 read as too soft on white). Stepwise hover affordance preserved.
-       REVERT path: replace --btn-secondary-border with var(--border) and --btn-secondary-border-hover
-       with var(--slate-300). */
-    --btn-secondary-border:var(--slate-300);        /* default — was --border (Slate-200) */
-    --btn-secondary-border-hover:var(--slate-400);  /* hover — bumped from Slate-300 */
+    /* Secondary Button / IconButton borders — one step darker than --border for visibility on
+       Card surface. Stepwise hover affordance preserved (default Slate-300 → hover Slate-400). */
+    --btn-secondary-border:var(--slate-300);
+    --btn-secondary-border-hover:var(--slate-400);
     /* Outlined Button / IconButton hover + press bg — soft Brand/Primary overlays over transparent.
        Theme-static (same recipe in both themes — Brand-Primary is bright enough at 500 in dark that
        6% still registers). Single source of truth for the .btn-outline + .iconbtn-outline family. */
@@ -116,6 +114,9 @@
        via cascaded --brand-primary. */
     --card-border-hover:color-mix(in srgb, var(--brand-primary) 25%, transparent);
     --card-border-press:color-mix(in srgb, var(--brand-primary) 40%, transparent);
+    /* Icon-wrapper bg — used by .prov-ic-w (provider cards) and .mx-prov-ic (table rows).
+       LOCKED: 5% brand tint over page bg. Do NOT change without updating both components + changes/ProviderCard.md. */
+    --icon-wrapper-bg:color-mix(in srgb, var(--brand-primary) 5%, var(--bg));
     /* Badge Primary — component-scoped so light/dark/prod each cleanly set their own surface + text without cascade collisions. Light: pale Brand-50 surface with deeper Brand-700 text → 5.84:1 AA. */
     --badge-primary-bg:var(--brand-50);--badge-primary-text:var(--brand-secondary);
     /* Badge Secondary — Card2 surface + Text/Body. Distinct from --chips so the chip stays visible against any neutral surface (the kit stages use --bg = Slate-50, and --chips = Slate-50 → invisible). Light Slate-100 vs Slate-50 stage = 1.13:1 lightness lift; text Slate-700 on Slate-100 = 10.36:1 AAA. */
@@ -201,11 +202,10 @@
     --logo-mark:var(--brand-500);
     /* Button component-scoped tokens — identical to :root for theme-independent AA contrast */
     --btn-primary-bg:var(--brand-600);--btn-primary-bg-hover:var(--brand-700);--btn-primary-bg-press:var(--tertiary-800);--btn-primary-text:var(--white);
-    /* Secondary Button / IconButton borders (dark) — bumped one step lighter (= more contrast against
-       Grey-900 card) than --border. REVERT: --btn-secondary-border → var(--border) (Grey-700),
-       --btn-secondary-border-hover → var(--grey-600). */
-    --btn-secondary-border:var(--grey-600);        /* default — was --border (Grey-700) */
-    --btn-secondary-border-hover:var(--grey-500);  /* hover — bumped from Grey-600 */
+    /* Secondary Button / IconButton borders (dark) — one step lighter than --border for more
+       contrast against Grey-900 card. Stepwise hover: default Grey-600 → hover Grey-500. */
+    --btn-secondary-border:var(--grey-600);
+    --btn-secondary-border-hover:var(--grey-500);
     /* Destructive Outlined overlays — bumped on dark because @6% red over a near-black surface barely registers. 14%/22% gives parity of perceived prominence vs the light theme's 6%/8% on white. */
     --btn-outline-destructive-bg-hover:color-mix(in srgb, var(--fb-red) 14%, transparent);
     --btn-outline-destructive-bg-press:color-mix(in srgb, var(--fb-red) 22%, transparent);
@@ -617,7 +617,7 @@
   .ava-img{background:var(--brand-tertiary)}
 
   /* Active indicator = button-width underline via ::after; gap between tabs provides visual text-width appearance without edge indent */
-  .tab{padding:.5rem .75rem;font-size:.875rem;color:var(--ink-secondary);border:none;margin-bottom:-1px;cursor:pointer;background:none;font-family:inherit;border-radius:4px 4px 0 0;position:relative}
+  .tab{padding:.5rem .75rem .75rem;font-size:.875rem;color:var(--ink-secondary);border:none;margin-bottom:-1px;cursor:pointer;background:none;font-family:inherit;border-radius:4px 4px 0 0;position:relative}
   .tab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:transparent;border-radius:1px;transition:background .15s}
   .tab:hover{color:var(--ink-body)}
   .tab.is-active{color:var(--ink-highlight);font-weight:500}
@@ -716,6 +716,20 @@
   /* Menu separator — thin rule used to group related items inside a .menu. Negative horizontal
      margin lets the rule span edge-to-edge across the menu's 4 px padding. */
   .menu-sep{height:1px;margin:4px -4px;background:var(--border);border:0}
+
+  /* Dialog / Modal — reusable multi-step shell */
+  .dlg-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.45)}
+  .dlg{background:var(--card);border:1px solid var(--border);border-radius:.875rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)}
+  .dlg-hdr{display:flex;align-items:center;gap:.75rem;padding:.875rem 1.25rem .5rem;flex:none}
+  .dlg-title{font-size:1.25rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;flex:1;min-width:0}
+  .dlg-progress{padding:0 1.25rem .875rem;flex:none;display:flex;flex-direction:column;gap:.375rem}
+  .dlg-progress-txt{font-size:.75rem;color:var(--ink-secondary)}
+  .dlg-progress-track{height:3px;background:var(--border);border-radius:99px;overflow:hidden}
+  .dlg-progress-fill{height:100%;background:var(--brand-primary);border-radius:99px;transition:width .4s ease}
+  .dlg-body{flex:1;overflow:hidden;position:relative;min-height:0}
+  .dlg-step{position:absolute;inset:0;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+  .dlg-step.is-hidden{display:none}
+  .dlg-ftr{border-top:1px solid var(--border);padding:.875rem 1.25rem;display:flex;justify-content:flex-end;gap:.5rem;flex:none}
 
   /* Sidebar (new) */
   .sb{width:200px;background:var(--card);border:1px solid var(--border);border-radius:.5rem;padding:8px;display:flex;flex-direction:column;gap:4px}
@@ -1400,8 +1414,14 @@
   .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
   .prov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--border-hover);transform:translateY(-2px)}
   .prov-card:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  /* Utility — card-lift hover. Shared recipe across catalog cards and connection rows:
+     --shadow-lift-hover + 22% brand-tinted border + translateY(-1px).
+     Bundles the transition so any element gets the right duration on first use. */
+  .hov-card{transition:box-shadow .18s,border-color .18s,transform .18s}
+  .hov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)}
   .prov-card-head{display:flex;align-items:center;gap:.875rem}
-  .prov-ic-w{width:2.75rem;height:2.75rem;border-radius:.625rem;border:1px solid var(--border);background:color-mix(in srgb,var(--brand-primary) 5%,var(--bg));display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.08)}
+  /* spec — see #prov-card | LOCKED: background = var(--icon-wrapper-bg). Do NOT inline a hex/rgb/color-mix here. */
+  .prov-ic-w{width:2.75rem;height:2.75rem;border-radius:.625rem;border:1px solid var(--border);background:var(--icon-wrapper-bg);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.08)}
   .prov-ic-w img{width:1.625rem;height:1.625rem;object-fit:contain;display:block}
   .prov-ic-w.is-azure{background:#0078D4;border-color:#0078D4;color:#fff;font-size:.5rem;font-weight:700}
   .prov-card-info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
@@ -1409,23 +1429,18 @@
   .prov-card-status{display:inline-flex;align-items:center;gap:.3125rem}
   .prov-card-dot{width:.4375rem;height:.4375rem;border-radius:9999px;background:var(--ink-inactive);flex:none;display:inline-block}
   .prov-card-status-text{font-size:.75rem;color:var(--ink-secondary)}
-  .prov-card-divider{border:none;border-top:1px solid var(--border);margin:0}
-  .prov-card-metrics-label{font-size:.6875rem;font-weight:600;color:var(--ink-inactive);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.5rem}
+  .prov-card-divider{display:none}
+  .prov-card-metrics-label{display:none}
   .prov-card-divider + div{flex:1}
   .prov-card-footer{display:flex;align-items:center;justify-content:flex-end;gap:.5rem}
   .prov-card-footer .btn{width:100%}
   .prov-card.is-browse{align-items:center;justify-content:center;text-align:center;background:var(--bg);border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 35%,transparent);cursor:pointer}
   .prov-card.is-browse:hover{background:var(--state-hover);transform:none;box-shadow:none;border-color:color-mix(in srgb,var(--ink-secondary) 55%,transparent)}
-
   .prov-card-browse-ic{width:2.5rem;height:2.5rem;border-radius:9999px;border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 45%,transparent);display:flex;align-items:center;justify-content:center;color:var(--ink-secondary);flex:none;margin:0 auto .75rem}
   .prov-card-browse-label{font-size:.875rem;font-weight:600;color:var(--ink-secondary);margin:0 0 .25rem}
   .prov-card-browse-sub{font-size:.75rem;color:var(--ink-inactive);margin:0}
-  /* chip-meta inside prov-card: soft fill (no border), muted arrow */
-  .prov-card .chip-meta{background:var(--state-hover);border-color:transparent}
-  .dark .prov-card .chip-meta{background:var(--chips);border-color:transparent}
-  .prov-card .chip-meta:hover,.prov-card .chip-meta.s-hover{background:color-mix(in srgb,var(--brand-primary) 10%,transparent);border-color:color-mix(in srgb,var(--brand-primary) 22%,transparent);color:var(--ink)}
-  .dark .prov-card .chip-meta:hover,.dark .prov-card .chip-meta.s-hover{background:color-mix(in srgb,var(--brand-primary) 14%,transparent);border-color:color-mix(in srgb,var(--brand-primary) 28%,transparent)}
-  .prov-card .chip-meta-arrow{color:var(--ink-inactive);margin-left:.125rem;display:block}
+  /* chip-meta inside prov-card: 5 clickable bordered chips, always all visible, wrap freely */
+  .prov-card .chip-row{gap:.3125rem;flex-wrap:wrap;overflow:visible;align-items:center}
 
   /* ===== MetaRow — count + actions, fully transparent (no background, no border, no card wrapper).
      Used above any list view (Chats library, search results, table headers without a Card).
@@ -1528,7 +1543,8 @@
      =================================================================== */
 
   /* ── Provider icon (small inline logo badge used in table rows + group headers) ── */
-  .mx-prov-ic{width:1.25rem;height:1.25rem;border-radius:.25rem;display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);border:1px solid var(--border)}
+  /* spec — see #prov-card | LOCKED: background = var(--icon-wrapper-bg). Do NOT inline a hex/rgb/color-mix here. */
+  .mx-prov-ic{width:1.25rem;height:1.25rem;border-radius:.25rem;display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--icon-wrapper-bg);border:1px solid var(--border)}
   .mx-prov-ic img{width:65%;height:65%;object-fit:contain;display:block}
   .dark .mx-prov-ic img[src*="github"]{filter:invert(1)}
   .mx-prov-cell{display:flex;align-items:center;gap:.5rem}

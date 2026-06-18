@@ -18,6 +18,19 @@
 - **"Add new" button** is hidden while on the Catalog tab; appears only on the My Connections tab
 - **Files panel** removed — Files is now a separate top-level route
 
+## Hard requirements — catalog card `+` button (DO NOT REGRESS)
+
+The connect action button on **Card Style 1** (`dsCardHtml`) must use the standard secondary button from the design system.
+
+| Rule | Detail |
+|---|---|
+| **Correct class** | `btn btn-sm btn-secondary` — the standard kit secondary button. |
+| **Forbidden class** | `iconbtn iconbtn-secondary` — that is the icon-only square variant, visually wrong for this context. |
+| **Always visible** | The button must be visible in the card's default (rest) state. Never use `opacity:0` or hover-reveal patterns on it. |
+| **Markup location** | Built in `dsCardHtml()` in the page `<script>` block — in the `ds-card-act` container. |
+
+This was corrected on 2026-06-18 after being flagged multiple times. Do not revert to `iconbtn`.
+
 ## Out of scope
 
 - Files page (separate route, separate handoff)

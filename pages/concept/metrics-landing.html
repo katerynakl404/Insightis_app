@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" class="">
 <head>
 <meta charset="utf-8" />
@@ -48,6 +48,8 @@
   .mx-sect-head ~ .mx-tbl{margin-top:.5rem}
   .mx-tbl table.tbl{width:100%}
   .mx-tbl table.tbl tbody tr:last-child td{border-bottom:none}
+  .mx-tbl .mx-tbl-desc{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--ink-secondary);font-size:.8125rem}
+  .mx-tbl .mx-tbl-name,.mx-tbl .mx-tbl-alias{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 
   /* ── Row interaction ── */
   .mx-tbl table.tbl tbody tr{cursor:pointer;transition:background .1s}
@@ -64,16 +66,16 @@
   #mx-panel{position:fixed;top:40px;right:0;bottom:0;width:420px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
   .ov.is-open #mx-panel{transform:translateX(0)}
   #mx-panel-head{display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex:none}
-  #mx-panel-title{flex:1;font-size:1.0625rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #mx-panel-title{flex:1;font-size:1.125rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #mx-panel-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem}
   .mx-panel-sect{display:flex;flex-direction:column;gap:1rem;padding:1rem;border:1px solid var(--border);border-radius:.625rem;background:var(--card)}
   .mx-panel-sect-title{font-size:.75rem;font-weight:600;color:var(--ink-secondary);letter-spacing:.01em;padding-bottom:.5rem;border-bottom:1px solid var(--border);margin:0}
-  .mx-dl{display:flex;flex-direction:column;gap:1.25rem;font-size:.875rem;margin:0}
-  .mx-dl > div{display:flex;flex-direction:column;gap:.25rem}
-  .mx-dl dt{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin:0}
-  .mx-dl dt::after{content:':'}
-  .mx-dl dd{color:var(--ink);margin:0;line-height:1.45}
-  .mx-dl .chip{border-radius:.375rem;cursor:default;pointer-events:none;background:var(--badge-secondary-bg);color:var(--badge-secondary-text);border-color:transparent}
+  .mx-facts{display:flex;flex-direction:column;gap:1.25rem;font-size:.875rem}
+  .mx-facts-row{display:flex;flex-direction:column;gap:.25rem}
+  .mx-fact-label{font-size:.6875rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-body)}
+  .mx-fact-value{flex:1;color:var(--ink);display:flex;align-items:center;gap:.375rem;min-width:0}
+
+  #mx-panel-cta{padding:1.5rem;border-top:1px solid var(--border);flex:none}
   .mx-panel-foot{padding:1rem 1.5rem;border-top:1px solid var(--border);flex:none;display:flex;gap:.5rem;justify-content:flex-end}
 
   /* ── Dialog title ── */
@@ -123,13 +125,12 @@
   .mx-c2-grid{grid-template-columns:repeat(3,1fr);gap:.625rem;margin-top:.75rem !important}
   .prov-c2-card{display:flex;flex-direction:column;gap:.625rem;padding:.875rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s;min-height:9rem}
   .prov-c2-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--border-hover);transform:translateY(-2px)}
+  /* C1 icon tile — no brand tint, no shadow (concept override) */
+  .prov-ic-w{background:var(--card);box-shadow:none}
   .prov-c2-head{display:flex;align-items:center;gap:.625rem}
-  .prov-c2-ic{width:2.25rem;height:2.25rem;border-radius:.5rem;border:1px solid var(--border);background:color-mix(in srgb,var(--brand-primary) 5%,var(--bg));display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+  .prov-c2-ic{width:2.25rem;height:2.25rem;border-radius:.5rem;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}
   .prov-c2-ic img{width:1.25rem;height:1.25rem;object-fit:contain}
-  .prov-c2-ic.is-azure{background:#0078D4;border-color:#0078D4;color:#fff;font-size:.5625rem;font-weight:700}
-  /* + button: hidden at rest, revealed on card hover */
-  .prov-c2-head .iconbtn{opacity:0;transition:opacity .15s;margin-left:auto;flex:none}
-  .prov-c2-card:hover .prov-c2-head .iconbtn{opacity:1}
+  .prov-c2-head .iconbtn{margin-left:auto;flex:none}
   .prov-c2-foot{display:flex;flex-wrap:wrap;gap:.3125rem}
   /* chips: no arrow, clean pill look */
   .prov-c2-card .chip-meta{font-size:.6875rem;padding:.1875rem .5rem;border-radius:99px}
@@ -143,6 +144,44 @@
   @media(max-width:1100px){.mx-c2-grid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:760px){.mx-c2-grid{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:480px){.mx-c2-grid{grid-template-columns:1fr}}
+
+  /* ── C3 variants — tertiary icon button override ── */
+  #mx-c2-grid[data-card-style] .prov-c2-head .iconbtn{background:transparent;border-color:transparent;color:var(--ink-body)}
+  #mx-c2-grid[data-card-style] .prov-c2-head .iconbtn:hover{background:var(--state-hover);border-color:transparent}
+  #mx-c2-grid[data-card-style] .prov-c2-card{min-height:0;gap:.375rem}
+  #mx-c2-grid[data-card-style] .prov-c2-foot{display:none}
+
+  /* 3A — row list with dividers */
+  .mx-c3a-metrics{display:flex;flex-direction:column}
+  .mx-c3a-row{display:flex;align-items:center;gap:.25rem;padding:.3125rem .25rem;font-size:.75rem;color:var(--ink-body);background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;width:100%;text-align:left;min-height:1.875rem;border-radius:0;transition:background .1s,color .1s}
+  .mx-c3a-row:last-child{border-bottom:none}
+  .mx-c3a-row:hover{background:var(--state-hover);color:var(--ink)}
+  .mx-c3a-row:hover .mx-expand-ic{color:var(--brand-primary)}
+  .mx-c3a-row:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;border-radius:.25rem}
+  .mx-c3a-row-lbl{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mx-expand-ic{width:.875rem;height:.875rem;flex:none;color:var(--ink-secondary);transition:color .1s}
+
+
+  /* 3C — inline wrap, link style, var(--bg) container */
+  .mx-c3c-links{display:flex;flex-wrap:wrap;align-items:center;gap:.125rem 0;background:var(--bg);border-radius:.375rem;padding:.375rem .5rem;margin-top:.25rem}
+  .mx-c3c-lnk{display:inline-flex;align-items:center;gap:.25rem;font-size:.75rem;font-weight:500;font-family:inherit;color:var(--ink-highlight);background:none;border:none;cursor:pointer;padding:.125rem .375rem;min-height:1.75rem;border-radius:.25rem;white-space:nowrap;text-decoration:none}
+  .mx-c3c-lnk:not(:last-child)::after{content:'';display:inline-block;width:1px;height:.6875rem;background:var(--border);margin-left:.375rem;flex:none;pointer-events:none;align-self:center}
+  .mx-c3c-lnk:hover{text-decoration:underline;text-underline-offset:25%;text-decoration-thickness:1px}
+  .mx-c3c-lnk:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand);border-radius:.125rem}
+  .mx-c3c-lnk .mx-expand-ic{width:.6875rem;height:.6875rem;color:inherit;opacity:1}
+
+  /* visibility — hide sections not active */
+  #mx-c2-grid:not([data-card-style]) .mx-c3a-metrics,
+  #mx-c2-grid[data-card-style="original"] .mx-c3a-metrics,
+  #mx-c2-grid[data-card-style="3c"] .mx-c3a-metrics{display:none}
+  #mx-c2-grid:not([data-card-style]) .mx-c3c-links,
+  #mx-c2-grid[data-card-style="original"] .mx-c3c-links,
+  #mx-c2-grid[data-card-style="3a"] .mx-c3c-links{display:none}
+
+  /* broken image placeholder */
+  .prov-ic-w.is-broken img,.prov-c2-ic.is-broken img{display:none}
+  .prov-ic-w.is-broken,.prov-c2-ic.is-broken{border-style:dashed;background:var(--bg)}
+  .prov-ic-w.is-broken::after,.prov-c2-ic.is-broken::after{content:'';display:block;width:1rem;height:1rem;background:var(--ink-inactive);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' fill='%23000'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5' fill='%23fff'/%3E%3Cpath d='M21 15 16 10 5 21 21 21Z' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' fill='%23000'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5' fill='%23fff'/%3E%3Cpath d='M21 15 16 10 5 21 21 21Z' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat}
 </style>
 </head>
 <body>
@@ -181,6 +220,11 @@
       <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" style="padding:0 .5rem" onclick="mxSetLayout(1);this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">C1</button>
       <button class="segctrl-btn" role="tab" type="button" aria-selected="false" style="padding:0 .5rem" onclick="mxSetLayout(2);this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">C2</button>
     </div>
+    <div class="segctrl is-sm" id="mx-card-style-seg" role="tablist" aria-label="Card style" style="width:auto;flex:none;display:none">
+      <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" style="padding:0 .5rem" onclick="mxSetCardStyle('3a');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">3A Links</button>
+      <button class="segctrl-btn" role="tab" type="button" aria-selected="false" style="padding:0 .5rem" onclick="mxSetCardStyle('original');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Original</button>
+      <button class="segctrl-btn" role="tab" type="button" aria-selected="false" style="padding:0 .5rem" onclick="mxSetCardStyle('3c');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">3C Grid</button>
+    </div>
     <div style="display:flex;gap:.375rem">
       <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
     </div>
@@ -213,7 +257,7 @@
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
           <span class="lbl">New Chat</span>
         </button>
-        <button class="sbx-nav-item" type="button">
+        <button class="sbx-nav-item" type="button" onclick="window.location.href='data-sources_connections-landing.html'">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
           <span class="lbl">Sources</span>
         </button>
@@ -356,11 +400,11 @@
             <div>
               <p class="prov-card-metrics-label">Preview metrics</p>
               <div class="chip-row">
-                <button class="chip-meta" type="button" data-name="Issues created" data-alias="@issues_created" data-provider="Jira Software Cloud" data-prov="jira" data-type="Count" data-desc="Number of issues created in the selected period." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Issues created<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-                <button class="chip-meta" type="button" data-name="Issues resolved" data-alias="@issues_resolved" data-provider="Jira Software Cloud" data-prov="jira" data-type="Count" data-desc="Number of issues resolved (closed) in the selected period." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Issues resolved<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-                <button class="chip-meta" type="button" data-name="Sprint velocity" data-alias="@sprint_velocity" data-provider="Jira Software Cloud" data-prov="jira" data-type="Average" data-desc="Average number of story points completed per sprint." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Sprint velocity<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-                <button class="chip-meta" type="button" data-name="Bug count" data-alias="@bug_count" data-provider="Jira Software Cloud" data-prov="jira" data-type="Count" data-desc="Number of open bugs at the end of the selected period." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Bug count<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-                <button class="chip-meta" type="button" data-name="Story points completed" data-alias="@story_pts_completed" data-provider="Jira Software Cloud" data-prov="jira" data-type="Sum" data-desc="Total story points completed across all sprints in the selected period." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Story points<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Issues created" data-alias="@issues_created" data-provider="Jira Software Cloud" data-prov="jira" data-type="Count" data-desc="Number of issues created in the selected period. Includes all issue types: bugs, tasks, stories, and epics. Does not filter by status or assignee." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Issues created<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Issues resolved" data-alias="@issues_resolved" data-provider="Jira Software Cloud" data-prov="jira" data-type="Count" data-desc="Number of issues resolved (closed) in the selected period. An issue counts as resolved when its status transitions to Done or a custom closed state. Reopened issues are not subtracted from the total." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Issues resolved<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Sprint velocity" data-alias="@sprint_velocity" data-provider="Jira Software Cloud" data-prov="jira" data-type="Average" data-desc="Average number of story points completed per sprint. Calculated across all sprints that ended within the selected period. Only counts points from issues in Done status at sprint close." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Sprint velocity<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Bug count" data-alias="@bug_count" data-provider="Jira Software Cloud" data-prov="jira" data-type="Count" data-desc="Number of open bugs at the end of the selected period. Counts issues with issue type Bug that have not been resolved. Provides a snapshot of backlog health at the period boundary." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Bug count<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Story points completed" data-alias="@story_pts_completed" data-provider="Jira Software Cloud" data-prov="jira" data-type="Sum" data-desc="Total story points completed across all sprints in the selected period. Counts only issues in Done status at sprint close. Use alongside Sprint velocity to compare team throughput over time." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Story points<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
               </div>
             </div>
             <div class="prov-card-footer">
@@ -371,7 +415,7 @@
           <!-- Azure DevOps — Engineering -->
           <div class="prov-card" data-category="Engineering">
             <div class="prov-card-head">
-              <span class="prov-ic-w is-azure">Az</span>
+              <span class="prov-ic-w"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0078D4" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" style="width:1.25rem;height:1.25rem" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
               <div class="prov-card-info">
                 <span class="prov-card-name">Azure DevOps</span>
                 <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
@@ -406,11 +450,11 @@
             <div>
               <p class="prov-card-metrics-label">Preview metrics</p>
               <div class="chip-row">
-                <button class="chip-meta" type="button" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-prov="github" data-type="Count" data-desc="Number of pull requests opened in the selected period." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">PRs opened<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-                <button class="chip-meta" type="button" data-name="Pull requests merged" data-alias="@prs_merged" data-provider="GitHub" data-prov="github" data-type="Count" data-desc="Number of pull requests merged into the main branch in the selected period." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">PRs merged<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-                <button class="chip-meta" type="button" data-name="Commits per day" data-alias="@commits_per_day" data-provider="GitHub" data-prov="github" data-type="Average" data-desc="Average number of commits pushed per calendar day in the selected period." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Commits per day<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-                <button class="chip-meta" type="button" data-name="Code review time" data-alias="@code_review_time" data-provider="GitHub" data-prov="github" data-type="Duration" data-desc="Average time from pull request creation to first review comment." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Code review time<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-                <button class="chip-meta" type="button" data-name="Issues closed" data-alias="@issues_closed" data-provider="GitHub" data-prov="github" data-type="Count" data-desc="Number of GitHub issues closed in the selected period." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Issues closed<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-prov="github" data-type="Count" data-desc="Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">PRs opened<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Pull requests merged" data-alias="@prs_merged" data-provider="GitHub" data-prov="github" data-type="Count" data-desc="Number of pull requests merged into the main branch in the selected period. Only counts merges into the repository's default branch. PRs closed without merging are not included." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">PRs merged<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Commits per day" data-alias="@commits_per_day" data-provider="GitHub" data-prov="github" data-type="Average" data-desc="Average number of commits pushed per calendar day in the selected period. Counts commits across all branches; merge commits are included. Weekends and holidays are not excluded from the daily average." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Commits per day<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Code review time" data-alias="@code_review_time" data-provider="GitHub" data-prov="github" data-type="Duration" data-desc="Average time from pull request creation to first review comment. Measured in hours across all PRs that received at least one review in the selected period. PRs with no review comments are excluded from the calculation." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Code review time<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+                <button class="chip-meta" type="button" data-name="Issues closed" data-alias="@issues_closed" data-provider="GitHub" data-prov="github" data-type="Count" data-desc="Number of GitHub issues closed in the selected period. Counts issues whose state changed to closed, including those auto-closed by a linked pull request. Issues that were reopened and closed again within the same period are counted once." data-custom="false" data-active="false" data-predefined="true" onclick="mxOpenDetail(this)">Issues closed<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
               </div>
             </div>
             <div class="prov-card-footer">
@@ -511,7 +555,7 @@
 
           <div class="prov-card" data-category="Marketing Sales">
             <div class="prov-card-head">
-              <span class="prov-ic-w" style="background:#00A1E0;border-color:#00A1E0;color:#fff;font-size:.5rem;font-weight:700">SF</span>
+              <span class="prov-ic-w"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 16" fill="#00A1E0" style="width:1.25rem;height:.875rem" aria-hidden="true"><path d="M20.1 5.3C19.3 2.3 16.7 0 13.5 0c-2.3 0-4.3 1.2-5.6 3-.6-.3-1.3-.5-2-.5C3.5 2.5 1.5 4.5 1.5 7v.2A4.8 4.8 0 0 0 4.8 16h14.5c2.6 0 4.7-2.1 4.7-4.7 0-2.3-1.6-4.2-3.9-6z"/></svg></span>
               <div class="prov-card-info"><span class="prov-card-name">Salesforce</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
             </div>
             <hr class="prov-card-divider">
@@ -893,7 +937,7 @@
           </div>
 
           <!-- View more — dynamic category -->
-          <div class="prov-card is-browse" role="button" tabindex="0" onclick="mxOpenConnDlg()" onkeydown="if(event.key==='Enter'||event.key===' ')mxOpenConnDlg()">
+          <div class="prov-card is-browse" role="button" tabindex="0" onclick="mxGoCatalog()" onkeydown="if(event.key==='Enter'||event.key===' ')mxGoCatalog()">
             <div class="prov-card-browse-ic" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
             </div>
@@ -916,7 +960,21 @@
                 <span class="prov-card-name">Jira Software Cloud</span>
                 <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
               </div>
-              <button class="iconbtn iconbtn-secondary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+            </div>
+            <div class="mx-c3a-metrics">
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Issues created</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Issues resolved</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Sprint velocity</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Bug count</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Story points</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+            </div>
+            <div class="mx-c3c-links">
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Issues created</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Issues resolved</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Sprint velocity</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Bug count</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Story points</button>
             </div>
             <div class="prov-c2-foot">
               <button class="chip-meta" type="button">Issues created<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
@@ -930,12 +988,26 @@
           <!-- Azure DevOps -->
           <div class="prov-c2-card" data-category="Engineering">
             <div class="prov-c2-head">
-              <span class="prov-c2-ic is-azure">Az</span>
+              <span class="prov-c2-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0078D4" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" style="width:1.25rem;height:1.25rem" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
               <div class="prov-card-info">
                 <span class="prov-card-name">Azure DevOps</span>
                 <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
               </div>
-              <button class="iconbtn iconbtn-secondary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+            </div>
+            <div class="mx-c3a-metrics">
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Work items</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Build success rate</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Pipeline runs</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Code coverage</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Deployment freq.</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+            </div>
+            <div class="mx-c3c-links">
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Work items</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Build success rate</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Pipeline runs</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Code coverage</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Deployment freq.</button>
             </div>
             <div class="prov-c2-foot">
               <button class="chip-meta" type="button">Work items<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
@@ -954,7 +1026,21 @@
                 <span class="prov-card-name">GitHub</span>
                 <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
               </div>
-              <button class="iconbtn iconbtn-secondary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+            </div>
+            <div class="mx-c3a-metrics">
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">PR merge time</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">PR count</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Commits</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Open issues</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Contributors</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+            </div>
+            <div class="mx-c3c-links">
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>PR merge time</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>PR count</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Commits</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Open issues</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Contributors</button>
             </div>
             <div class="prov-c2-foot">
               <button class="chip-meta" type="button">PR merge time<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
@@ -968,12 +1054,26 @@
           <!-- Salesforce -->
           <div class="prov-c2-card" data-category="Sales">
             <div class="prov-c2-head">
-              <span class="prov-c2-ic"><img src="https://cdn.simpleicons.org/salesforce" alt="" loading="lazy"></span>
+              <span class="prov-c2-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 16" fill="#00A1E0" style="width:1.25rem;height:.875rem" aria-hidden="true"><path d="M20.1 5.3C19.3 2.3 16.7 0 13.5 0c-2.3 0-4.3 1.2-5.6 3-.6-.3-1.3-.5-2-.5C3.5 2.5 1.5 4.5 1.5 7v.2A4.8 4.8 0 0 0 4.8 16h14.5c2.6 0 4.7-2.1 4.7-4.7 0-2.3-1.6-4.2-3.9-6z"/></svg></span>
               <div class="prov-card-info">
                 <span class="prov-card-name">Salesforce</span>
                 <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
               </div>
-              <button class="iconbtn iconbtn-secondary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+            </div>
+            <div class="mx-c3a-metrics">
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">New opportunities</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Won deals</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Pipeline value</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Win rate</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Avg deal size</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+            </div>
+            <div class="mx-c3c-links">
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>New opportunities</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Won deals</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Pipeline value</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Win rate</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Avg deal size</button>
             </div>
             <div class="prov-c2-foot">
               <button class="chip-meta" type="button">New opportunities<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
@@ -987,12 +1087,26 @@
           <!-- Google Analytics -->
           <div class="prov-c2-card" data-category="Marketing Product">
             <div class="prov-c2-head">
-              <span class="prov-c2-ic"><img src="https://cdn.simpleicons.org/googleanalytics" alt="" loading="lazy"></span>
+              <span class="prov-c2-ic"><img src="https://cdn.simpleicons.org/googleanalytics/E37400" alt="" loading="lazy"></span>
               <div class="prov-card-info">
                 <span class="prov-card-name">Google Analytics</span>
                 <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
               </div>
-              <button class="iconbtn iconbtn-secondary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+            </div>
+            <div class="mx-c3a-metrics">
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Sessions</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Bounce rate</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Avg session dur.</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">New users</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Goal completions</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+            </div>
+            <div class="mx-c3c-links">
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Sessions</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Bounce rate</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Avg session dur.</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>New users</button>
+              <button class="mx-c3c-lnk" type="button"><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>Goal completions</button>
             </div>
             <div class="prov-c2-foot">
               <button class="chip-meta" type="button">Sessions<svg class="chip-meta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
@@ -1004,7 +1118,7 @@
           </div>
 
           <!-- Browse catalog -->
-          <div class="prov-c2-card is-browse" role="button" tabindex="0" onclick="mxOpenConnDlg()" onkeydown="if(event.key==='Enter'||event.key===' ')mxOpenConnDlg()">
+          <div class="prov-c2-card is-browse" role="button" tabindex="0" onclick="mxGoCatalog()" onkeydown="if(event.key==='Enter'||event.key===' ')mxGoCatalog()">
             <div class="prov-c2-browse-ic" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
             </div>
@@ -1047,9 +1161,9 @@
             <colgroup>
               <col style="width:2.75rem">
               <col style="width:22%">
+              <col style="width:8rem">
               <col>
               <col style="width:6.5rem">
-              <col style="width:11rem">
               <col style="width:5rem">
             </colgroup>
             <thead>
@@ -1057,7 +1171,7 @@
                 <th scope="col"></th>
                 <th scope="col">Metric name</th>
                 <th scope="col">Alias</th>
-                <th scope="col">Description</th>
+                <th scope="col">Definition</th>
                 <th scope="col">Badge</th>
                 <th scope="col" class="mx-tbl-actions">Actions</th>
               </tr>
@@ -1074,7 +1188,7 @@
                 </div></td>
               </tr>
               <!-- Custom metrics first -->
-              <tr class="mx-metric-child" data-prov="jira" data-name="MRR growth" data-alias="@mrr_growth" data-provider="Jira Software Cloud" data-type="Custom formula" data-desc="Month-over-month growth rate of MRR derived from Jira billing data." data-custom="true" data-active="true" data-row-id="custom-1" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="jira" data-name="MRR growth" data-alias="@mrr_growth" data-provider="Jira Software Cloud" data-type="Custom formula" data-desc="Month-over-month growth rate of MRR derived from Jira billing data. Calculated as (MRR this month − MRR last month) ÷ MRR last month × 100. Positive values indicate revenue expansion; negative values signal churn or contraction." data-custom="true" data-active="true" data-row-id="custom-1" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="MRR growth — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">MRR growth</td>
                 <td class="mx-tbl-alias">@mrr_growth</td>
@@ -1090,7 +1204,7 @@
                 </td>
               </tr>
               <!-- Built-in metrics -->
-              <tr class="mx-metric-child" data-prov="jira" data-name="Issues created" data-alias="@issues_created" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues created in the selected period." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="jira" data-name="Issues created" data-alias="@issues_created" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues created in the selected period. Includes all issue types: bugs, tasks, stories, and epics. Does not filter by status or assignee." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues created — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues created</td>
                 <td class="mx-tbl-alias">@issues_created</td>
@@ -1103,7 +1217,7 @@
                   </div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="jira" data-name="Issues resolved" data-alias="@issues_resolved" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues resolved (closed) in the selected period." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="jira" data-name="Issues resolved" data-alias="@issues_resolved" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues resolved (closed) in the selected period. An issue counts as resolved when its status transitions to Done or a custom closed state. Reopened issues are not subtracted from the total." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues resolved — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues resolved</td>
                 <td class="mx-tbl-alias">@issues_resolved</td>
@@ -1116,7 +1230,7 @@
                   </div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="jira" data-name="Sprint velocity" data-alias="@sprint_velocity" data-provider="Jira Software Cloud" data-type="Average" data-desc="Average number of story points completed per sprint." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="jira" data-name="Sprint velocity" data-alias="@sprint_velocity" data-provider="Jira Software Cloud" data-type="Average" data-desc="Average number of story points completed per sprint. Calculated across all sprints that ended within the selected period. Only counts points from issues in Done status at sprint close." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Sprint velocity — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Sprint velocity</td>
                 <td class="mx-tbl-alias">@sprint_velocity</td>
@@ -1129,7 +1243,7 @@
                   </div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="jira" data-name="Bug count" data-alias="@bug_count" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of open bugs at the end of the selected period." data-custom="false" data-active="false" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="jira" data-name="Bug count" data-alias="@bug_count" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of open bugs at the end of the selected period. Counts issues with issue type Bug that have not been resolved. Provides a snapshot of backlog health at the period boundary." data-custom="false" data-active="false" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Bug count — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Bug count</td>
                 <td class="mx-tbl-alias">@bug_count</td>
@@ -1142,7 +1256,7 @@
                   </div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="jira" data-name="Story points completed" data-alias="@story_pts_completed" data-provider="Jira Software Cloud" data-type="Sum" data-desc="Total story points completed across all sprints in the selected period." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="jira" data-name="Story points completed" data-alias="@story_pts_completed" data-provider="Jira Software Cloud" data-type="Sum" data-desc="Total story points completed across all sprints in the selected period. Counts only issues in Done status at sprint close. Use alongside Sprint velocity to compare team throughput over time." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Story points completed — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Story points completed</td>
                 <td class="mx-tbl-alias">@story_pts_completed</td>
@@ -1191,7 +1305,7 @@
                   <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" onclick="event.stopPropagation();mxOpenAddDlg()">+ Add Metric</button>
                 </div></td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests opened in the selected period." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="github" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests opened — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Pull requests opened</td>
                 <td class="mx-tbl-alias">@prs_opened</td>
@@ -1202,7 +1316,7 @@
                   <div class="menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="event.stopPropagation();mxKebabClose();mxDuplicateFromRow(this.closest('tr'))">Duplicate</button></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Pull requests merged" data-alias="@prs_merged" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests merged into the main branch in the selected period." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="github" data-name="Pull requests merged" data-alias="@prs_merged" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests merged into the main branch in the selected period. Only counts merges into the repository's default branch. PRs closed without merging are not included." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests merged — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Pull requests merged</td>
                 <td class="mx-tbl-alias">@prs_merged</td>
@@ -1213,7 +1327,7 @@
                   <div class="menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="event.stopPropagation();mxKebabClose();mxDuplicateFromRow(this.closest('tr'))">Duplicate</button></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Commits per day" data-alias="@commits_per_day" data-provider="GitHub" data-type="Average" data-desc="Average number of commits pushed per calendar day in the selected period." data-custom="false" data-active="false" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="github" data-name="Commits per day" data-alias="@commits_per_day" data-provider="GitHub" data-type="Average" data-desc="Average number of commits pushed per calendar day in the selected period. Counts commits across all branches; merge commits are included. Weekends and holidays are not excluded from the daily average." data-custom="false" data-active="false" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Commits per day — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Commits per day</td>
                 <td class="mx-tbl-alias">@commits_per_day</td>
@@ -1224,7 +1338,7 @@
                   <div class="menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="event.stopPropagation();mxKebabClose();mxDuplicateFromRow(this.closest('tr'))">Duplicate</button></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Code review time" data-alias="@code_review_time" data-provider="GitHub" data-type="Duration" data-desc="Average time from pull request creation to first review comment." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="github" data-name="Code review time" data-alias="@code_review_time" data-provider="GitHub" data-type="Duration" data-desc="Average time from pull request creation to first review comment. Measured in hours across all PRs that received at least one review in the selected period. PRs with no review comments are excluded from the calculation." data-custom="false" data-active="true" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Code review time — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Code review time</td>
                 <td class="mx-tbl-alias">@code_review_time</td>
@@ -1235,7 +1349,7 @@
                   <div class="menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="event.stopPropagation();mxKebabClose();mxDuplicateFromRow(this.closest('tr'))">Duplicate</button></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Issues closed" data-alias="@issues_closed" data-provider="GitHub" data-type="Count" data-desc="Number of GitHub issues closed in the selected period." data-custom="false" data-active="false" onclick="mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="github" data-name="Issues closed" data-alias="@issues_closed" data-provider="GitHub" data-type="Count" data-desc="Number of GitHub issues closed in the selected period. Counts issues whose state changed to closed, including those auto-closed by a linked pull request. Issues that were reopened and closed again within the same period are counted once." data-custom="false" data-active="false" onclick="mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Issues closed — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues closed</td>
                 <td class="mx-tbl-alias">@issues_closed</td>
@@ -1276,64 +1390,67 @@
 <div id="mx-ov" class="ov" aria-hidden="true" onclick="if(event.target===this)mxCloseDetail()">
   <div id="mx-panel" role="dialog" aria-modal="true" aria-labelledby="mx-panel-title">
     <div id="mx-panel-head">
-      <h2 id="mx-panel-title">Metric</h2>
+      <h2 id="mx-panel-title">Metric details</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close panel" onclick="mxCloseDetail()" style="width:1.75rem;height:1.75rem">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <div id="mx-panel-body"></div>
+    <div id="mx-panel-cta" style="display:none"></div>
   </div>
 </div>
 
 <!-- ===== Connect-source dialog ===== -->
 <div id="mx-conn-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:rgba(15,23,42,.4)" aria-hidden="true" onclick="if(event.target===this)mxCloseConnDlg()">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.5rem;width:26rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;gap:1.25rem;box-shadow:0 20px 25px -5px rgba(0,0,0,.15)" role="dialog" aria-modal="true" aria-labelledby="mx-conn-title">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:.75rem">
-      <h2 id="mx-conn-title" class="mx-dlg-title">Add a connector</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="mxCloseConnDlg()" style="flex:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:26rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="mx-conn-title">
+    <div class="dlg-hdr">
+      <h2 id="mx-conn-title" class="dlg-title">Add a connector</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="mxCloseConnDlg()" style="width:2rem;height:2rem;flex:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
-    <p style="font-size:.875rem;color:var(--ink-secondary);margin:0">Connectors link Insightis to a provider. All provider metrics appear in your workspace automatically.</p>
-    <div style="display:flex;flex-direction:column;gap:.375rem" id="mx-conn-prov-list">
-      <button class="btn btn-secondary" type="button" style="justify-content:flex-start;gap:.75rem;height:auto;padding:.625rem .875rem" data-prov-id="jira" onclick="mxConnectProv(this)">
-        <span class="mx-prov-ic" style="flex:none"><img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy" onerror="this.parentElement.textContent='J'"></span>
-        <span style="display:flex;flex-direction:column;align-items:flex-start;gap:.125rem">
-          <span style="font-weight:500;color:var(--ink)">Jira Software Cloud</span>
-          <span style="font-size:.75rem;color:var(--ink-secondary);font-weight:400">5 ready-made metrics</span>
-        </span>
-      </button>
-      <button class="btn btn-secondary" type="button" style="justify-content:flex-start;gap:.75rem;height:auto;padding:.625rem .875rem" data-prov-id="azure" onclick="mxConnectProv(this)">
-        <span class="mx-prov-ic" style="flex:none;background:#0078D4;border-color:#0078D4;color:#fff;font-size:.5rem;font-weight:700">Az</span>
-        <span style="display:flex;flex-direction:column;align-items:flex-start;gap:.125rem">
-          <span style="font-weight:500;color:var(--ink)">Azure DevOps</span>
-          <span style="font-size:.75rem;color:var(--ink-secondary);font-weight:400">5 ready-made metrics</span>
-        </span>
-      </button>
-      <button class="btn btn-secondary" type="button" style="justify-content:flex-start;gap:.75rem;height:auto;padding:.625rem .875rem" data-prov-id="github" onclick="mxConnectProv(this)">
-        <span class="mx-prov-ic" style="flex:none"><img src="https://cdn.simpleicons.org/github/000000" alt="" loading="lazy" onerror="this.parentElement.textContent='GH'"></span>
-        <span style="display:flex;flex-direction:column;align-items:flex-start;gap:.125rem">
-          <span style="font-weight:500;color:var(--ink)">GitHub</span>
-          <span style="font-size:.75rem;color:var(--ink-secondary);font-weight:400">5 ready-made metrics</span>
-        </span>
-      </button>
+    <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:1rem">
+      <p style="font-size:.875rem;color:var(--ink-secondary);margin:0">Connectors link Insightis to a provider. All provider metrics appear in your workspace automatically.</p>
+      <div style="display:flex;flex-direction:column;gap:.375rem" id="mx-conn-prov-list">
+        <button class="btn btn-secondary" type="button" style="justify-content:flex-start;gap:.75rem;height:auto;padding:.625rem .875rem" data-prov-id="jira" onclick="mxConnectProv(this)">
+          <span class="mx-prov-ic" style="flex:none"><img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy" onerror="this.parentElement.textContent='J'"></span>
+          <span style="display:flex;flex-direction:column;align-items:flex-start;gap:.125rem">
+            <span style="font-weight:500;color:var(--ink)">Jira Software Cloud</span>
+            <span style="font-size:.75rem;color:var(--ink-secondary);font-weight:400">5 ready-made metrics</span>
+          </span>
+        </button>
+        <button class="btn btn-secondary" type="button" style="justify-content:flex-start;gap:.75rem;height:auto;padding:.625rem .875rem" data-prov-id="azure" onclick="mxConnectProv(this)">
+          <span class="mx-prov-ic" style="flex:none;background:#0078D4;border-color:#0078D4;color:#fff;font-size:.5rem;font-weight:700">Az</span>
+          <span style="display:flex;flex-direction:column;align-items:flex-start;gap:.125rem">
+            <span style="font-weight:500;color:var(--ink)">Azure DevOps</span>
+            <span style="font-size:.75rem;color:var(--ink-secondary);font-weight:400">5 ready-made metrics</span>
+          </span>
+        </button>
+        <button class="btn btn-secondary" type="button" style="justify-content:flex-start;gap:.75rem;height:auto;padding:.625rem .875rem" data-prov-id="github" onclick="mxConnectProv(this)">
+          <span class="mx-prov-ic" style="flex:none"><img src="https://cdn.simpleicons.org/github/000000" alt="" loading="lazy" onerror="this.parentElement.textContent='GH'"></span>
+          <span style="display:flex;flex-direction:column;align-items:flex-start;gap:.125rem">
+            <span style="font-weight:500;color:var(--ink)">GitHub</span>
+            <span style="font-size:.75rem;color:var(--ink-secondary);font-weight:400">5 ready-made metrics</span>
+          </span>
+        </button>
+      </div>
     </div>
-    <div style="display:flex;justify-content:flex-end">
-      <button class="btn btn-outline" type="button" onclick="mxCloseConnDlg()">Cancel</button>
+    <div class="dlg-ftr">
+      <button class="btn btn-secondary btn-sm" type="button" onclick="mxCloseConnDlg()">Cancel</button>
     </div>
   </div>
 </div>
 
 <!-- ===== Add custom metric dialog ===== -->
 <div id="mx-add-dlg" aria-hidden="true" onclick="if(event.target===this)mxCloseAddDlg()">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.5rem 1.5rem;width:30rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;gap:1.25rem;box-shadow:0 20px 25px -5px rgba(0,0,0,.15)" role="dialog" aria-modal="true" aria-labelledby="mx-add-title">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:30rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="mx-add-title">
 
     <!-- Header -->
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:.75rem">
-      <h2 id="mx-add-title" class="mx-dlg-title">Create Metric</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="mxCloseAddDlg()" style="flex:none;width:1.75rem;height:1.75rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="dlg-hdr">
+      <h2 id="mx-add-title" class="dlg-title">Create Metric</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="mxCloseAddDlg()" style="width:2rem;height:2rem;flex:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
 
     <!-- Fields -->
-    <div style="display:flex;flex-direction:column;gap:.875rem">
+    <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:.875rem">
       <!-- Name -->
       <div>
         <label class="mx-form-label" for="mx-name-inp">Name</label>
@@ -1381,9 +1498,8 @@
       </div>
     </div>
 
-    <!-- Actions -->
-    <div style="display:flex;gap:.5rem;justify-content:flex-end">
-      <button class="btn btn-outline btn-sm" type="button" onclick="mxCloseAddDlg()">Cancel</button>
+    <div class="dlg-ftr">
+      <button class="btn btn-secondary btn-sm" type="button" onclick="mxCloseAddDlg()">Cancel</button>
       <button class="btn btn-primary btn-sm" type="button" onclick="mxConfirmAdd()">Save</button>
     </div>
   </div>
@@ -1397,6 +1513,13 @@ var mxRoot = document.getElementById('mx-root');
 /* ═══════════════════════════════════════
    CATEGORY FILTER (empty state)
 ════════════════════════════════════════ */
+function mxGoCatalog() {
+  var active = document.querySelector('#mx-cat-chips .chip.is-active');
+  var cat = active ? active.getAttribute('data-cat') : '';
+  var url = 'data-sources_connections-landing.html' + (cat ? '?cat=' + encodeURIComponent(cat) : '');
+  window.location.href = url;
+}
+
 function mxCatFilter(btn) {
   document.querySelectorAll('#mx-cat-chips .chip').forEach(function(b){ b.classList.remove('is-active'); });
   btn.classList.add('is-active');
@@ -1469,6 +1592,19 @@ function mxSetState(v) {
 
 function mxSetLayout(v) {
   mxRoot.classList.toggle('is-c2', v === 2);
+  var seg = document.getElementById('mx-card-style-seg');
+  if (seg) seg.style.display = v === 2 ? '' : 'none';
+  if (v === 2) {
+    mxSetCardStyle('3a');
+    if (seg) { seg.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')}); var first=seg.querySelector('.segctrl-btn'); if(first){first.classList.add('is-active');first.setAttribute('aria-selected','true');} }
+  }
+}
+
+function mxSetCardStyle(v) {
+  var grid = document.getElementById('mx-c2-grid');
+  if (!grid) return;
+  if (v === 'original') { grid.removeAttribute('data-card-style'); }
+  else { grid.setAttribute('data-card-style', v); }
 }
 
 
@@ -1499,6 +1635,7 @@ var mxActiveRow = null;
 var mxOv = document.getElementById('mx-ov');
 var mxPanelTitle = document.getElementById('mx-panel-title');
 var mxPanelBody = document.getElementById('mx-panel-body');
+var mxPanelCta  = document.getElementById('mx-panel-cta');
 
 var MX_PROV_META = {
   jira:   { slug: 'jira',         fb: 'J',  color: '#0052CC' },
@@ -1533,32 +1670,33 @@ function mxOpenDetail(row) {
 
   var html = '';
 
-  // Details section — prod style: flat field list, each pair wrapped for proximity
   var provLabel = (custom && connector) ? mxEsc(connector) : mxEsc(provider);
   var provIcon  = mxProvIcon(prov);
   var provDd    = provIcon
-    ? '<div class="mx-prov-cell">'+ provIcon + provLabel +'</div>'
+    ? '<span style="display:inline-flex;align-items:center;gap:.375rem;color:var(--ink)">'+ provIcon + provLabel +'</span>'
     : provLabel;
-  html += '<dl class="mx-dl">'
-       +  '<div><dt>Name</dt><dd style="font-size:1.25rem;line-height:1.75rem;font-weight:600;color:var(--ink)">'+ mxEsc(name) +'</dd></div>'
-       +  '<div><dt>Source</dt><dd><span class="badge badge-sm '+(custom?'badge-primary':'badge-secondary')+'">'+(custom?'Custom':'Built-in')+'</span></dd></div>'
-       +  '<div><dt>Provider</dt><dd>'+ provDd +'</dd></div>'
-       +  '<div><dt>Alias</dt><dd><span class="chip">'+ mxEsc(alias) +'</span></dd></div>';
-  if (type) html += '<div><dt>Type</dt><dd>'+ mxEsc(type) +'</dd></div>';
-  // Status as a dl field for connected/custom metrics (item 9)
-  if (!predef) {
-    var swtOn = active ? 'on' : '';
-    var swtChecked = active ? 'true' : 'false';
-    var wrapOn = active ? 'is-on' : '';
-    html += '<div><dt>Status</dt><dd style="display:flex;align-items:center;gap:.625rem">'
-         +  '<div class="mx-swt-wrap '+ wrapOn +'">'
-         +  '<button class="swt '+ swtOn +'" id="mx-panel-swt" type="button" role="switch" aria-checked="'+ swtChecked +'" aria-label="'+ mxEsc(name) +' — toggle active" onclick="mxPanelToggle(this)">'
-         +  '</button></div>'
-         +  '<span style="font-size:.875rem;color:var(--ink-secondary)">'+ (active ? 'Active' : 'Inactive') +'</span>'
-         +  '</dd></div>';
-  }
-  if (desc) html += '<div><dt>Definition</dt><dd style="color:var(--ink-body);line-height:1.6;font-size:.8125rem">'+ mxEsc(desc) +'</dd></div>';
-  html +=  '</dl>';
+  html += '<h3 style="font-size:1.5rem;line-height:2rem;font-weight:500;color:var(--ink);margin:0">'+ mxEsc(name) +'</h3>';
+  var swtOn = active ? 'on' : '';
+  var swtChecked = active ? 'true' : 'false';
+  var wrapOn = active ? 'is-on' : '';
+  var activeRow = !predef
+    ? '<div class="mx-facts-row"><span class="mx-fact-label">Active</span><span class="mx-fact-value">'
+      + '<div class="mx-swt-wrap '+ wrapOn +'">'
+      + '<button class="swt '+ swtOn +'" id="mx-panel-swt" type="button" role="switch" aria-checked="'+ swtChecked +'" aria-label="'+ mxEsc(name) +' — toggle active" onclick="mxPanelToggle(this)"></button>'
+      + '</div>'
+      + '<span style="font-size:.875rem;color:var(--ink-secondary)">'+ (active ? 'Active' : 'Inactive') +'</span>'
+      + '</span></div>'
+    : '';
+  html += '<div class="mx-facts">'
+       +  '<div class="mx-facts-row"><span class="mx-fact-label">Provider</span><span class="mx-fact-value">'+ provDd +'</span></div>'
+       +  '<div class="mx-facts-row"><span class="mx-fact-label">Alias</span><span class="mx-fact-value"><span class="badge badge-secondary">'+ mxEsc(alias) +'</span></span></div>'
+       +  '<div class="mx-facts-row"><span class="mx-fact-label">Status</span><span class="mx-fact-value"><span class="badge '+(custom?'badge-primary':'badge-secondary')+'">'+(custom?'Custom':'Built-in')+'</span></span></div>'
+       +  activeRow
+       +  '</div>';
+  if (desc) html += '<div style="display:flex;flex-direction:column;gap:.125rem;margin-top:.75rem">'
+                +  '<span class="mx-fact-label">Definition</span>'
+                +  '<p style="font-size:.875rem;color:var(--ink-secondary);line-height:1.6;margin:0">'+ mxEsc(desc) +'</p>'
+                +  '</div>';
 
   // Edit + Delete buttons (custom metrics) — edit form hidden until Edit clicked
   if (custom) {
@@ -1583,31 +1721,33 @@ function mxOpenDetail(row) {
          +  '</div>';
   }
 
-  // Unconnected predefined: Connect CTA only (item 4)
+  var ctaHtml = '';
+
   if (predef) {
-    html += '<div class="mx-panel-sect" style="gap:.75rem">'
-         +  '<p style="font-size:.8125rem;color:var(--ink-body);line-height:1.5;margin:0">'
-         +  'This metric is provided by <strong style="color:var(--ink);font-weight:600">'+ mxEsc(provider) +'</strong>. '
-         +  'Connecting the provider activates all its metrics at once — no manual setup needed.'
-         +  '</p>'
-         +  '<button class="btn btn-primary btn-sm" type="button" onclick="mxCloseDetail();mxOpenConnDlg(\''+ mxEsc(prov) +'\',this)">Connect '+ mxEsc(provider) +'</button>'
-         +  '</div>';
+    ctaHtml += '<div style="display:flex;flex-direction:column;gap:.75rem">'
+            +  '<p style="font-size:.8125rem;color:var(--ink-body);line-height:1.5;margin:0">'
+            +  'This metric is provided by <strong style="color:var(--ink);font-weight:600">'+ mxEsc(provider) +'</strong>. '
+            +  'Connecting the provider activates all its metrics at once — no manual setup needed.'
+            +  '</p>'
+            +  '<button class="btn btn-primary btn-md" style="width:100%" type="button" onclick="mxCloseDetail();mxOpenConnDlg(\''+ mxEsc(prov) +'\',this)">Connect '+ mxEsc(provider) +'</button>'
+            +  '</div>';
   }
 
-  // Connected provider metric (not predefined, not custom) — offer Duplicate (item 10)
   if (!predef && !custom) {
-    html += '<div class="mx-panel-sect" style="gap:.5rem;flex-direction:row;align-items:center">'
-         +  '<div style="flex:1;min-width:0">'
-         +  '<p style="font-size:.8125rem;font-weight:500;color:var(--ink);margin:0 0 .125rem">Duplicate &amp; customize</p>'
-         +  '<p style="font-size:.75rem;color:var(--ink-secondary);margin:0">Create your own version of this metric with a custom formula.</p>'
-         +  '</div>'
-         +  '<button class="btn btn-outline btn-xs" style="flex:none" type="button" '
-         +  'data-dup-name="'+ mxEsc(name) +'" data-dup-alias="'+ mxEsc(alias.replace(/^@/,'')) +'" data-dup-prov="'+ mxEsc(prov) +'" '
-         +  'onclick="mxDuplicateMetric(this)">Duplicate</button>'
-         +  '</div>';
+    ctaHtml += '<div style="display:flex;align-items:center;gap:.75rem">'
+            +  '<div style="flex:1;min-width:0">'
+            +  '<p style="font-size:.8125rem;font-weight:500;color:var(--ink);margin:0 0 .125rem">Duplicate &amp; Customize</p>'
+            +  '<p style="font-size:.75rem;color:var(--ink-secondary);margin:0">Create your own version with a custom formula.</p>'
+            +  '</div>'
+            +  '<button class="btn btn-outline btn-sm" style="flex:none" type="button" '
+            +  'data-dup-name="'+ mxEsc(name) +'" data-dup-alias="'+ mxEsc(alias.replace(/^@/,'')) +'" data-dup-prov="'+ mxEsc(prov) +'" '
+            +  'onclick="mxDuplicateMetric(this)">Duplicate</button>'
+            +  '</div>';
   }
 
   mxPanelBody.innerHTML = html;
+  mxPanelCta.innerHTML = ctaHtml;
+  mxPanelCta.style.display = ctaHtml ? '' : 'none';
   mxOv.classList.add('is-open');
   mxOv.setAttribute('aria-hidden', 'false');
 }
@@ -1616,6 +1756,8 @@ function mxCloseDetail() {
   mxOv.classList.remove('is-open');
   mxOv.setAttribute('aria-hidden', 'true');
   if (mxActiveRow) { mxActiveRow.classList.remove('is-selected'); mxActiveRow = null; }
+  mxPanelCta.innerHTML = '';
+  mxPanelCta.style.display = 'none';
 }
 
 function mxPanelToggle(panelSwt) {
@@ -1972,6 +2114,14 @@ document.addEventListener('click', function(e){
     if (t) t.setAttribute('aria-expanded','false');
   });
 });
+
+/* broken image placeholder */
+document.addEventListener('error', function(e) {
+  if (e.target.tagName === 'IMG') {
+    var ic = e.target.closest('.prov-ic-w, .prov-c2-ic');
+    if (ic) ic.classList.add('is-broken');
+  }
+}, true);
 </script>
 </body>
 </html>
