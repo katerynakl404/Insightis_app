@@ -36,6 +36,11 @@
   @media (min-width:768px){
     .cl-page-title{font-size:1.875rem;line-height:2.25rem}
   }
+  /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) so the page title
+     isn't overlapped by the hamburger button at narrow widths. */
+  @media (max-width: 1023.98px){
+    .cl-page{padding-left:3.25rem}
+  }
 
   /* Search input — expanded to fill the container (kit's default .field max-width 240 is for inline use) */
   .cl-search.field{max-width:none;height:2.5rem;background:var(--card)}

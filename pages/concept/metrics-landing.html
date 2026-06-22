@@ -22,6 +22,9 @@
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   .cl-page-title{font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0}
   @media(min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
+  /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) so the page title
+     isn't overlapped by the hamburger button at narrow widths. */
+  @media (max-width: 1023.98px){.cl-page{padding-left:3.25rem}}
   @media(max-width:720px){.cl-side{display:none}.cl-shell{grid-template-columns:1fr}}
 
   /* ── Page header row ── */

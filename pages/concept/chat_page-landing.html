@@ -29,6 +29,11 @@
 
   /* ── Header bar ── */
   .cp-header{flex:none;display:flex;align-items:center;padding:0 1.5rem;height:3rem;gap:.5rem}
+  /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) at narrow widths
+     so the page title isn't overlapped by the hamburger button. */
+  @media (max-width: 1023.98px){
+    .cp-header{padding-left:3.25rem}
+  }
   .cp-header-title{font-size:.9375rem;font-weight:600;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0}
   /* Title + chevron dropdown */
   .cp-title-wrap{display:flex;align-items:center;gap:.25rem;flex:1;min-width:0;position:relative}
