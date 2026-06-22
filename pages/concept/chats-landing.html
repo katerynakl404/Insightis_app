@@ -100,6 +100,7 @@
 </style>
 </head>
 <body>
+<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -144,6 +145,9 @@
 </div>
 
 <div class="cl-shell">
+  <!-- Mobile backdrop — overlays the main column while the off-canvas sidebar drawer is open.
+       Click closes the drawer. Hidden ≥ 1024 px via the shared kit-theme.css rule. -->
+  <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')"></div>
   <!-- Sidebar — mirror of pages/chat-landing.html's <aside class="cl-side">. Kept in sync by copy
        (single source of truth: chat-landing.html). The earlier runtime fetch loader was dropped
        because it silently fails on file:// double-click; an inline copy renders unconditionally.
@@ -173,7 +177,7 @@
           </button>
           <button class="sbx-nav-item" type="button" onclick="location.href='data-sources_connections-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
-            <span class="lbl">Sources</span>
+            <span class="lbl">Data Sources</span>
           </button>
           <button class="sbx-nav-item" type="button" onclick="location.href='metrics-landing.html'">
             <!-- Pie-chart icon — Metrics glyph -->
@@ -193,10 +197,10 @@
                 <span class="sbx-sect-label">Pinned</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
             </div>
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only; Move up/down removed. -->
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -207,7 +211,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -218,7 +222,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Churn deep-dive</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -236,7 +240,7 @@
                 <span class="sbx-sect-label">Recent</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
             </div>
             <div class="sbx-chat s-active" role="button" tabindex="0" aria-current="true">
               <span class="sbx-chat-lbl">Chats library</span>
@@ -249,7 +253,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Top movers — weekly</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -331,6 +335,12 @@
 
   <!-- ============= MAIN ============= -->
   <main class="cl-main">
+    <!-- Mobile/tablet hamburger — opens the sidebar as an overlay drawer (≤ 1023.98 px).
+         Lives on the page (absolute top-left of .cl-main) so it survives the kit topbar
+         being removed for prod. Hidden on desktop via the shared kit-theme.css rule. -->
+    <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <div class="cl-page">
       <h1 class="cl-page-title">Chats Library</h1>
 
@@ -713,10 +723,27 @@
 (function(){
   var navMap = {
     'New Chat': 'chat-landing.html',
-    'Sources':  'data-sources_connections-landing.html',
+    'Data Sources':  'data-sources_connections-landing.html',
     'Metrics':  'metrics-landing.html',
     'Files':    'data-sources_files-landing.html'
   };
+  // Mobile/tablet hamburger — opens the sidebar drawer overlay. Cross-page consistent with chat-landing.
+  window.clOpenSidebar = function(){
+    document.documentElement.classList.add('side-open');
+    var sbx = document.querySelector('.cl-side .sbx');
+    if(sbx) sbx.classList.remove('is-collapsed');
+  };
+  // Close on Escape
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && document.documentElement.classList.contains('side-open')){
+      document.documentElement.classList.remove('side-open');
+    }
+  });
+  // Reset overlay state when crossing back to desktop, so layout resumes cleanly.
+  (function(){
+    function apply(){ if(window.innerWidth >= 1024) document.documentElement.classList.remove('side-open'); }
+    window.addEventListener('resize', apply); apply();
+  })();
   var current = location.pathname.split('/').pop();
   document.querySelectorAll('.sbx-nav .sbx-nav-item').forEach(function(btn){
     var lbl = btn.querySelector('.lbl');

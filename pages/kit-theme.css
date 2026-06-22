@@ -27,10 +27,10 @@
     /* Content-width scale for full-page mockups. Two anchors so a page can opt into the right
        proportion for its content without inventing one-off pixel values:
          --content-max-narrow (680px) → conversation lists, focused reading (chats, settings).
-         --content-max-wide   (960px) → default for dashboards / multi-column pages.
+         --content-max-wide  (1200px) → default for dashboards / multi-column pages.
        --content-max-width is kept as a backwards-compat alias = the wide variant. */
     --content-max-narrow:680px;
-    --content-max-wide:960px;
+    --content-max-wide:1200px;
     --content-max-width:var(--content-max-wide);
     --bg:var(--slate-50);--card:var(--white);--card2:var(--slate-100);--chips:var(--slate-50);
     /* Subtle brand-tinted surface — for accent tiles (e.g. AccountModal credits) that need to
@@ -53,17 +53,21 @@
        token used by .link, .cl-kw, and any other "emphasised text" so every highlight stays
        consistent across the system. */
     --ink-highlight:var(--brand-primary);
-    --fb-attention:var(--orange-500);--fb-green:var(--green-light-600);
+    --fb-attention:var(--orange-500);--fb-attention-text:#b45309;--fb-green:var(--green-light-600);
     --focus-ring:var(--slate-900);
     --logo-ink:var(--slate-900);                 /* was #111827 — Slate-900 is the closest primitive */
     --logo-mark:var(--brand-600);                /* was #07807D — typo of Brand-600 */
     /* Button (component-scoped, theme-independent — keep AA vs #FFF in both themes) */
     --btn-primary-bg:var(--brand-600);--btn-primary-bg-hover:var(--brand-700);--btn-primary-bg-press:var(--tertiary-800);--btn-primary-text:var(--white);
-    /* Banner gradient variant — override --grad-teal-dark per-instance to swap the fill. */
-    --grad-teal-dark:linear-gradient(135deg,var(--brand-400) 0%,var(--slate-900) 100%);
+    /* Banner gradient variant — override --grad-teal-dark per-instance to swap the fill.
+       Light: brand-400→brand-800. Dark: overridden in .dark block below to brand-600→brand-900. */
+    --grad-teal-dark:linear-gradient(135deg,var(--brand-400) 0%,var(--brand-800) 100%);
+    --grad-noise:linear-gradient(135deg,var(--tertiary-700) 0%,var(--brand-600) 20%,var(--brand-100) 100%);
     --banner-grad-text:var(--white);
     --banner-grad-sub:color-mix(in srgb,var(--white) 82%,transparent);
     --banner-grad-ic-bg:color-mix(in srgb,var(--white) 18%,transparent);
+    --banner-grad-ic-border:rgba(255,255,255,.4);
+    --banner-grad-ic-shadow:0 0 0 8px rgba(255,255,255,.07),0 0 24px rgba(255,255,255,.09);
     /* Always-white content on solid surfaces — destructive Button text, Checkbox mark + indeterminate bar, Switch thumb. Theme-independent. */
     --content-on-solid:var(--white);
     /* Secondary Button / IconButton default bg — exact Card surface so the button shares the card-fill identity. */
@@ -140,6 +144,17 @@
     /* Press feedback comes from bg-color shift alone (Tailwind UI / shadcn / Primer pattern) — no transform, no shadow, no text-position shift on press */
     /* Opacity — reusable for disabled / loading / "less-interactive" treatments */
     --opacity-disabled:.65;
+    /* Toast variant backgrounds + borders — 8% colour tint over Card surface, tinted border at 30%.
+       Uses theme-aware sub-tokens (--card, --fb-*, --brand-primary) so both themes resolve correctly
+       without explicit .dark overrides. */
+    --toast-bg-success:color-mix(in srgb, var(--fb-green) 8%, var(--card));
+    --toast-bg-info:color-mix(in srgb, var(--brand-primary) 8%, var(--card));
+    --toast-bg-warning:color-mix(in srgb, var(--fb-attention) 8%, var(--card));
+    --toast-bg-error:color-mix(in srgb, var(--fb-red-text) 8%, var(--card));
+    --toast-border-success:color-mix(in srgb, var(--fb-green) 30%, transparent);
+    --toast-border-info:color-mix(in srgb, var(--brand-primary) 30%, transparent);
+    --toast-border-warning:color-mix(in srgb, var(--fb-attention) 30%, transparent);
+    --toast-border-error:color-mix(in srgb, var(--fb-red-text) 30%, transparent);
 
     /* ===== Motion tokens — reusable durations + easings for transitions / animations =====
        Three-tier duration scale (matches Material's "small / medium" buckets):
@@ -194,7 +209,7 @@
        Brighter than Brand-Primary's Brand-500 mapping so links and highlighted text "pop"
        in dark without adding a new primitive. */
     --ink-highlight:var(--tertiary-400);
-    --fb-attention:var(--orange-500);--fb-green:var(--green-dark-500);
+    --fb-attention:var(--orange-500);--fb-attention-text:#fb923c;--fb-green:var(--green-dark-500);
     --focus-ring:var(--slate-100);
     --logo-ink:var(--brand-50);
     /* --logo-mark must lighten in dark mode: Brand-600 (#07807E) on Surface/Card (#17171E) fails AA at 3.74:1.
@@ -242,6 +257,12 @@
     /* Form-control error — brighter red on the dark Card (red-500 = 5.32:1 vs grey-900; red-700 fails at 2.76:1) */
     --input-error:var(--red-500);
     /* Press feedback comes from bg-color shift alone — see :root for the rationale */
+    /* Banner gradient — dark: brand-600→brand-900. */
+    --grad-teal-dark:linear-gradient(135deg,var(--brand-600) 0%,var(--brand-900) 100%);
+    --grad-noise:linear-gradient(135deg,var(--slate-900) 0%,var(--brand-800) 48%,var(--brand-700) 100%);
+    --banner-grad-ic-bg:color-mix(in srgb,var(--white) 12%,transparent);
+    --banner-grad-ic-border:rgba(255,255,255,.18);
+    --banner-grad-ic-shadow:0 0 0 6px rgba(255,255,255,.04),0 0 16px rgba(255,255,255,.05);
   }
   /* ===== PROD (actual code: globals.css + component classes) ===== */
   .prod{
@@ -303,6 +324,9 @@
   .prod .ta.is-disabled{background:transparent;color:var(--ink-body);opacity:.5}
   .prod .progress{height:4px;background:var(--bg)} .prod .progress>span{background:var(--p-grad)}
   .prod .ava-init{background:var(--bg);color:var(--ink-body)}
+  /* Toast — restore prod appearance: fixed 240px width, solid bg-card, neutral border for all variants */
+  .prod .toast{width:240px;max-width:none;min-width:0}
+  .prod .toast.var-success,.prod .toast.var-info,.prod .toast.var-warning,.prod .toast.var-error{background:var(--card);border-color:var(--border)}
   /* Sheet close: prod-style bare ✕ button (opacity 0.7 → 1, no bg) */
   .prod .sht .sht-x{display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--ink);opacity:.7;cursor:pointer;border-radius:2px;width:20px;height:20px;top:8px;right:8px}
   .prod .sht .sht-x:hover{opacity:1}
@@ -697,7 +721,7 @@
      (angle, stops, colours). Text and icon automatically adapt to the dark background. */
   .banner-grad{background:var(--grad-teal-dark);border:none}
   /* Icon on gradient: circle shape + translucent border + subtle glow ring */
-  .banner-grad .banner-ic{background:var(--banner-grad-ic-bg);border:1.5px solid rgba(255,255,255,.4);border-radius:9999px;box-shadow:0 0 0 8px rgba(255,255,255,.07),0 0 24px rgba(255,255,255,.09);color:var(--banner-grad-text)}
+  .banner-grad .banner-ic{background:var(--banner-grad-ic-bg);border:1.5px solid var(--banner-grad-ic-border);border-radius:9999px;box-shadow:var(--banner-grad-ic-shadow);color:var(--banner-grad-text)}
   .banner-grad .banner-t{color:var(--banner-grad-text)}
   .banner-grad .banner-d{color:var(--banner-grad-sub)}
   .banner-grad .banner-d b{color:var(--banner-grad-text)}
@@ -712,6 +736,11 @@
   .mi.danger:hover{background:color-mix(in srgb,var(--fb-red) 8%,var(--card))}
   .mi.danger:active{background:color-mix(in srgb,var(--fb-red) 14%,var(--card))}
   .mi.is-disabled{color:var(--ink-inactive);cursor:not-allowed;pointer-events:none}
+  /* WIP stub — prepended inside any .menu that hasn't been redesigned yet */
+  .menu-wip{display:flex;align-items:center;gap:6px;padding:5px 10px 6px;border-bottom:1px solid var(--border);margin-bottom:4px;font-size:11px;font-weight:500;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 8%,var(--card));border-radius:4px 4px 0 0}
+  .menu-wip svg{flex-shrink:0;width:12px;height:12px}
+  /* Page-level WIP indicator — fixed right-edge vertical pill for pages not yet finalised */
+  .pg-wip-tag{position:fixed;right:0;top:5.875rem;transform:translateY(-50%);writing-mode:vertical-rl;padding:8px 5px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-attention) 25%,transparent);border-right:none;border-radius:6px 0 0 6px;z-index:9999;white-space:nowrap}
   .mi .mi-ic{width:16px;height:16px;flex:none;color:currentColor}
   /* Menu separator — thin rule used to group related items inside a .menu. Negative horizontal
      margin lets the rule span edge-to-edge across the menu's 4 px padding. */
@@ -861,8 +890,11 @@
 
   .sbx-sect{display:flex;flex-direction:column;gap:1px}
   .sbx-sect-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;height:1.5rem;padding:0 .5rem;border-radius:.25rem}
-  /* Section toggle — clickable label area that collapses/expands the chats list */
-  .sbx-sect-label-wrap{display:inline-flex;align-items:center;gap:.25rem;min-width:0;border:none;background:transparent;cursor:pointer;font-family:inherit;color:inherit;padding:0;border-radius:.25rem}
+  /* Section toggle — the FULL row (label + the empty space around it) is the collapse target,
+     not just the label/chevron. The button stretches via `flex:1` so the empty horizontal space
+     between the label and the "See all" link still triggers collapse on click. The "See all"
+     link sits as a sibling (not a child) so it stays an independent click target. */
+  .sbx-sect-label-wrap{display:flex;align-items:center;gap:.25rem;min-width:0;border:none;background:transparent;cursor:pointer;font-family:inherit;color:inherit;padding:0;border-radius:.25rem;flex:1;justify-content:flex-start;text-align:left}
   .sbx-sect-label-wrap:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   /* Section labels — uses --ink-inactive semantic token (theme-aware: slate-450 light / grey-500 dark),
      same pattern as .block-h / .side .grp section dividers in the kit. */
@@ -877,6 +909,67 @@
   /* See-all link reuses .link styles; only opacity-reveal lives here. Use with class="link sbx-sect-link" */
   .sbx-sect-link{font-size:.6875rem;opacity:0;transition:opacity .12s}
   .sbx-sect-head:hover .sbx-sect-link,.sbx-sect-head.s-hover .sbx-sect-link,.sbx-sect-link:focus-visible{opacity:1}
+  /* Touch + tablet/mobile (no hover available, OR viewport ≤ 1023.98 px): the section chevron
+     stays visible at all times so collapse/expand is reachable without hover. The "See all"
+     link's visibility is handled separately below — visible at the same responsive widths
+     (so touch users can reach the chats library), hover-only on desktop. */
+  @media (max-width: 1023.98px), (hover: none) {
+    .sbx-sect-chev{opacity:1}
+  }
+
+  /* =========================================================
+     Sidebar — mobile/tablet drawer (shared across all pages)
+     ---------------------------------------------------------
+     Promoted from chat-landing.html so every sidebar-bearing page gets the same overlay drawer
+     behaviour at ≤ 1023.98 px. Markup contract per page:
+       • <button class="cl-burger" onclick="clOpenSidebar()"> inside .cl-main
+       • <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')">
+         as a sibling of .cl-side (inside .cl-shell)
+       • Inline JS: clOpenSidebar() adds .side-open to <html> (also removes .is-collapsed from .sbx)
+     Outside-click + outside-tap on backdrop closes the drawer; the same handler also closes
+     on Escape (each page wires Escape via its own listener if needed). */
+  .cl-main{position:relative}                         /* anchor for .cl-burger absolute positioning */
+  .cl-burger{display:none;width:2rem;height:2rem;border-radius:.375rem;color:var(--ink-body);position:absolute;top:.75rem;left:.75rem;z-index:10;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;font-family:inherit}
+  .cl-burger svg{width:18px;height:18px}
+  .cl-burger:hover{background:var(--state-hover)}
+  .cl-burger:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .cl-side-backdrop{display:none}
+
+  @media (max-width: 1023.98px) {
+    /* Sidebar hidden by default on mobile/tablet — no icon-mode rail. Page reads as main-only.
+       The hamburger surfaces it as an overlay drawer when explicitly opened.
+       !important on both rules so this shared kit-theme.css rule wins over per-page .cl-side /
+       .cl-shell rules in pages' inline <style> blocks (which load after this stylesheet). */
+    .cl-side{display:none !important}
+    .cl-shell{grid-template-columns:1fr !important}
+    .cl-burger{display:inline-flex}
+    /* Backdrop dimmer — below the sidebar but above main column + topbar so the whole page
+       reads as inactive while the overlay is open. Clicking it closes the drawer. */
+    .cl-side-backdrop{display:block;position:fixed;inset:0;background:rgba(15,23,42,.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:55;opacity:0;pointer-events:none;transition:opacity .2s ease}
+    html.side-open .cl-side-backdrop{opacity:1 !important;pointer-events:auto !important}
+    .dark .cl-side-backdrop{background:rgba(2,6,23,.6)}
+    /* When opened via hamburger, sidebar becomes a position:fixed overlay drawer that slides
+       in from the left. Slide is a one-off paint when .side-open is set; close is just display:none. */
+    html.side-open .cl-side{
+      display:flex !important;                     /* !important so this overrides the .cl-side{display:none !important} above */
+      position:fixed;top:0;left:0;bottom:0;
+      width:min(18rem,86vw);height:100%;z-index:60;
+      box-shadow:0 10px 30px rgba(2,6,23,.32);
+      animation:clSideSlide .22s ease both;
+    }
+    @keyframes clSideSlide{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+  }
+
+  /* Sidebar responsive — "See all" link in Pinned/Recent section headers stays visible at
+     tablet/mobile so the chats library is reachable on touch (no hover dependency). On desktop
+     the link remains hover-only (the section header reads quieter at rest). This is the only
+     responsive-sidebar UX rule beyond the burger/overlay-drawer in the block above.
+     History: an earlier exploration surfaced a `Chats Library` nav-row at position 2 as the
+     touch entry point; retired 2026-06-19 — see `archive/2026-06-19-concept-A-chats-library-nav`
+     (local-only, not pushed) for the full recipe + restore instructions if it should come back. */
+  @media (max-width: 1023.98px) {
+    .sbx-sect-link{opacity:1}
+  }
 
   /* Chat row — single-line label with persistent right-edge gradient fade;
      hover reveals kebab; at rest the row can show a status indicator (loading / new-data). */
@@ -888,7 +981,13 @@
      Right-corner radius matches the row's 6 px — when the row's overflow flips to visible
      (kebab focused or menu open, see the :has() rules below), the gradient's right corners
      stay rounded instead of leaking past the row's edge as square. */
-  .sbx-chat::after{content:"";position:absolute;top:0;right:0;bottom:0;width:36px;pointer-events:none;background:linear-gradient(90deg,transparent 0,var(--chat-fade) 70%);border-top-right-radius:6px;border-bottom-right-radius:6px}
+  .sbx-chat::after{content:"";position:absolute;top:0;right:0;bottom:0;width:36px;pointer-events:none;background:linear-gradient(90deg,transparent 0,var(--chat-fade) 70%);border-top-right-radius:6px;border-bottom-right-radius:6px;transition:width .12s}
+  /* When kebab is visible (row hover / focus-within / menu open, or the .s-hover demo class) the
+     fade zone EXPANDS in width — from 36 px to 72 px — staying anchored to the row's right edge.
+     The gradient still reaches 100 % solid `--chat-fade` at the right edge, so the kebab sits on
+     clean row hover bg. The wider band means text starts fading further to the left, giving a
+     longer/smoother transition rather than the abrupt 36 px cliff right next to the kebab. */
+  .sbx-chat:hover::after,.sbx-chat.s-hover::after,.sbx-chat:focus-within::after,.sbx-chat:has(.sbx-chat-more[aria-expanded="true"])::after{width:72px}
   /* Hover: bg only — text color unchanged; gradient fades into hover bg */
   .sbx-chat:hover,.sbx-chat.s-hover,
   /* Keep the sidebar chat in its hover state while its own kebab menu is open — same reasoning
@@ -931,7 +1030,7 @@
   .sbx-chat-more[aria-expanded="true"]{background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
   /* Per-row dropdown — shows when the kebab is aria-expanded="true" (via inline-script toggle). Reuses .menu / .mi / .mi.danger styles. */
   /* Width inherits from .menu (140 min / 320 max / max-content). Only position + shadow override here. */
-  .sbx-chat-menu{position:absolute;top:calc(100% + 2px);right:.5rem;display:none;z-index:5;box-shadow:0 6px 16px -4px rgba(0,0,0,.18),0 2px 4px -2px rgba(0,0,0,.08)}
+  .sbx-chat-menu{position:absolute;top:calc(100% + 4px);right:.5rem;display:none;z-index:5;box-shadow:0 6px 16px -4px rgba(0,0,0,.18),0 2px 4px -2px rgba(0,0,0,.08)}
   /* When a menu is open, allow the dropdown to overflow its containing block — both the chat row itself (which has overflow:hidden for the gradient/label) and the chats container */
   .sbx-chats:has(.sbx-chat-more[aria-expanded="true"]){overflow:visible}
   .sbx-chat:has(.sbx-chat-more[aria-expanded="true"]){overflow:visible}
@@ -1308,18 +1407,24 @@
   @keyframes skel-pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
   /* Toast */
-  .toast{width:240px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .toast{min-width:280px;max-width:600px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px}
   .toast .toast-row{display:flex;align-items:flex-start;gap:12px}
-  .toast .toast-ic{width:20px;height:20px;flex:none;margin-top:1px}
-  .toast .toast-msg{flex:1;font-size:.875rem;font-weight:500;color:var(--ink);line-height:1.4}
+  .toast .toast-ic{width:20px;height:20px;flex:none;margin-top:1px;stroke-linecap:round;stroke-linejoin:round}
+  .toast .toast-body{flex:1;display:flex;flex-direction:column;gap:2px}
+  .toast .toast-msg{font-size:.875rem;font-weight:500;color:var(--ink);line-height:1.4}
+  .toast .toast-desc{font-size:.75rem;font-weight:400;color:var(--ink-secondary);line-height:1.4}
   /* Toast close: positioning hook only — color, hover, pressed, focus all inherit from .iconbtn.iconbtn-tertiary (mirrors prod IconButton variant="transparent"). */
   .toast .toast-x{width:24px;height:24px;flex:none;border-radius:4px}
   .toast .toast-x svg{width:14px;height:14px}
   .toast .toast-prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:transparent}
   .toast .toast-prog>span{display:block;height:100%}
+  .toast.var-success{background:var(--toast-bg-success);border-color:var(--toast-border-success)}
   .toast.var-success .toast-ic{color:var(--fb-green)} .toast.var-success .toast-prog>span{background:var(--fb-green);width:60%}
+  .toast.var-info{background:var(--toast-bg-info);border-color:var(--toast-border-info)}
   .toast.var-info .toast-ic{color:var(--brand-primary)} .toast.var-info .toast-prog>span{background:var(--brand-primary);width:60%}
+  .toast.var-warning{background:var(--toast-bg-warning);border-color:var(--toast-border-warning)}
   .toast.var-warning .toast-ic{color:var(--fb-attention)} .toast.var-warning .toast-prog>span{background:var(--fb-attention);width:60%}
+  .toast.var-error{background:var(--toast-bg-error);border-color:var(--toast-border-error)}
   .toast.var-error .toast-ic{color:var(--fb-red-text)} .toast.var-error .toast-prog>span{background:var(--fb-red-text);width:60%}
 
   /* Autocomplete */
@@ -1411,7 +1516,7 @@
      Footer: full-width CTA.
      Browse variant (.is-browse): ghost dashed outline, centred, bottom-aligned CTA. */
   .prov-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem}
-  .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
+  .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s;will-change:transform}
   .prov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--border-hover);transform:translateY(-2px)}
   .prov-card:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
   /* Utility — card-lift hover. Shared recipe across catalog cards and connection rows:
@@ -1596,10 +1701,17 @@
   .mx-tbl-actions .iconbtn{width:1.625rem;height:1.625rem;opacity:0;transition:opacity .12s;display:inline-flex;align-items:center;justify-content:center}
   .mx-tbl-actions .iconbtn svg{width:13px;height:13px}
   tr:hover .mx-tbl-actions .iconbtn{opacity:1}
-  .mx-tbl-actions .mx-kebab-btn{opacity:1}
-  .mx-tbl-actions .mx-kebab-btn[aria-expanded="true"]{background:var(--state-pressed);color:var(--ink)}
-  .mx-tbl-actions .menu{position:absolute;top:calc(100% + 2px);right:0;left:auto;display:none;z-index:30}
-  .mx-tbl-actions [aria-expanded="true"] ~ .menu{display:block}
+  /* On a hovered row the td bg is --state-hover; use --state-pressed so the button hover is visible */
+  tr:hover .mx-tbl-actions .iconbtn:hover{background:var(--state-pressed);color:var(--ink)}
+  tr:hover .mx-tbl-actions .iconbtn:active{background:color-mix(in srgb,var(--brand-primary) 12%,transparent);color:var(--ink)}
+  /* ── Unified kebab component — works for both .mx-tbl and .mx-tbl (ds-conn) ── */
+  [data-kbp]{opacity:1}
+  [data-kbp][aria-expanded="true"]{background:var(--state-pressed);color:var(--ink)}
+  .kbp-menu{position:absolute;top:calc(100% + 2px);right:0;left:auto;display:none;z-index:30}
+  [data-kbp][aria-expanded="true"] ~ .kbp-menu{display:block}
+  /* Prevent table overflow from clipping the dropdown */
+  .mx-tbl:has([data-kbp][aria-expanded="true"]){overflow:visible}
+  tr:has([data-kbp][aria-expanded="true"]){position:relative;z-index:20}
 
   /* ── "+ Add metric" hover button on group/connector rows ── */
   .mx-add-metric-hover-btn{opacity:0;transition:opacity .15s;flex:none}

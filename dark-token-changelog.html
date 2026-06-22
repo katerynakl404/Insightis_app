@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Dark theme token changelog</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;font-size:14px;line-height:1.5;background:#fff;color:#111;padding:2rem}
+@media(prefers-color-scheme:dark){body{background:#111;color:#f1f1f1}}
+h1{font-size:20px;font-weight:600;margin-bottom:.25rem}
+.subtitle{color:#666;font-size:13px;margin-bottom:2rem}
+@media(prefers-color-scheme:dark){.subtitle{color:#aaa}}
+h2{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#888;margin:2rem 0 .75rem;padding-bottom:.4rem;border-bottom:1px solid #e5e7eb}
+@media(prefers-color-scheme:dark){h2{color:#888;border-color:#333}}
+table{width:100%;border-collapse:collapse;margin-bottom:1.5rem;font-size:13px}
+th{text-align:left;padding:6px 10px;font-weight:500;color:#888;border-bottom:1px solid #e5e7eb;font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+@media(prefers-color-scheme:dark){th{color:#777;border-color:#2a2a2a}}
+td{padding:8px 10px;border-bottom:1px solid #f3f4f6;vertical-align:top}
+@media(prefers-color-scheme:dark){td{border-color:#1e1e1e}}
+tr:last-child td{border-bottom:none}
+code{font-family:ui-monospace,monospace;font-size:12px;background:#f3f4f6;padding:1px 5px;border-radius:3px}
+@media(prefers-color-scheme:dark){code{background:#2a2a2a}}
+.swatch{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;margin-right:5px;border:1px solid rgba(0,0,0,.12)}
+.from{color:#dc2626}
+.to{color:#059669}
+.arrow{color:#aaa;margin:0 4px}
+.tag{display:inline-block;font-size:10px;font-weight:600;padding:1px 6px;border-radius:3px;margin-left:6px;vertical-align:middle}
+.tag-surface{background:#fef3c7;color:#92400e}
+.tag-text{background:#ede9fe;color:#5b21b6}
+.tag-border{background:#dbeafe;color:#1e40af}
+.tag-state{background:#dcfce7;color:#166534}
+.tag-new{background:#fce7f3;color:#9d174d}
+@media(prefers-color-scheme:dark){
+  .tag-surface{background:#3d2e07;color:#fbbf24}
+  .tag-text{background:#2e1f5e;color:#c4b5fd}
+  .tag-border{background:#1e3a5f;color:#93c5fd}
+  .tag-state{background:#0f3820;color:#86efac}
+  .tag-new{background:#4a0e2e;color:#f9a8d4}
+}
+.note{font-size:12px;color:#888;margin-top:.25rem}
+.impact-high{color:#dc2626;font-weight:500}
+.impact-med{color:#d97706;font-weight:500}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1.5rem;font-size:12px}
+.legend-item{display:flex;align-items:center;gap:5px}
+.diff-row{background:#fff9f9}
+@media(prefers-color-scheme:dark){.diff-row{background:#1a1010}}
+.dl-btn{display:inline-flex;align-items:center;gap:6px;margin-bottom:1.5rem;padding:7px 14px;font-size:13px;font-weight:500;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc;color:#334155;cursor:pointer;text-decoration:none}
+.dl-btn:hover{background:#f1f5f9;border-color:#cbd5e1}
+@media(prefers-color-scheme:dark){.dl-btn{background:#1e1e2e;border-color:#334155;color:#cbd5e1}.dl-btn:hover{background:#252535}}
+</style>
+</head>
+<body>
+<h1>Dark theme — token changelog</h1>
+<p class="subtitle">Поточний стан (<strong>prod</strong>) → очікуваний стан (<strong>kit</strong>) · June 2026</p>
+<a class="dl-btn" id="dl" href="#">⬇ Завантажити HTML</a>
+<script>
+document.getElementById('dl').addEventListener('click',function(e){
+  e.preventDefault();
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([document.documentElement.outerHTML],{type:'text/html'}));
+  a.download='dark-token-changelog.html';
+  a.click();
+});
+</script>
+
+<div class="legend">
+  <span class="legend-item"><span class="tag tag-surface">surface</span> фони / поверхні</span>
+  <span class="legend-item"><span class="tag tag-text">text</span> типографіка / чорнило</span>
+  <span class="legend-item"><span class="tag tag-border">border</span> обводки</span>
+  <span class="legend-item"><span class="tag tag-state">state</span> інтерактивні стани</span>
+  <span class="legend-item"><span class="tag tag-new">naming</span> перейменування токену</span>
+</div>
+
+<h2>Поверхні і фони</h2>
+<table>
+  <thead><tr><th>Токен</th><th>Поточно (prod .dark)</th><th>Очікувано (kit .dark)</th><th>Різниця</th></tr></thead>
+  <tbody>
+    <tr class="diff-row">
+      <td><code>--background</code> <span class="tag tag-surface">surface</span></td>
+      <td><span class="swatch" style="background:#090910"></span><code>hsl(240 14% 4%)</code><br><span class="note">#090910 — синюватий чорний</span></td>
+      <td><span class="swatch" style="background:#0F0E14"></span><code>var(--grey-950)</code><br><span class="note">#0F0E14 — нейтральний</span></td>
+      <td><span class="impact-med">середня</span> — трохи темніший + синій відтінок</td>
+    </tr>
+    <tr class="diff-row">
+      <td><code>--card</code> <span class="tag tag-surface">surface</span></td>
+      <td><span class="swatch" style="background:#181726"></span><code>hsl(252 10% 10%)</code><br><span class="note">#181726 — фіолетовий відтінок</span></td>
+      <td><span class="swatch" style="background:#17171E"></span><code>var(--grey-900)</code><br><span class="note">#17171E — нейтральний</span></td>
+      <td><span class="impact-high">висока</span> — всі card-поверхні мають фіолетовий cast</td>
+    </tr>
+    <tr class="diff-row">
+      <td><code>--card2</code> <span class="tag tag-surface">surface</span><span class="tag tag-new">naming</span></td>
+      <td><span class="swatch" style="background:#232327"></span><code>hsl(240 5% 15%)</code><br><span class="note">задається через <code>--chip</code></span></td>
+      <td><span class="swatch" style="background:#21212C"></span><code>var(--grey-800)</code><br><span class="note">#21212C</span></td>
+      <td><span class="impact-med">середня</span> — синюватий vs нейтральний</td>
+    </tr>
+    <tr>
+      <td><code>--chips</code> / <code>--surface-chips</code> <span class="tag tag-surface">surface</span><span class="tag tag-new">naming</span></td>
+      <td><span class="swatch" style="background:#232327"></span><code>hsl(240 5% 15%)</code><br><span class="note">prod: <code>--chip</code></span></td>
+      <td><span class="swatch" style="background:#2A2834"></span><code>var(--grey-700)</code><br><span class="note">#2A2834</span></td>
+      <td><span class="impact-med">середня</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Типографіка і чорнило</h2>
+<table>
+  <thead><tr><th>Токен</th><th>Поточно (prod .dark)</th><th>Очікувано (kit .dark)</th><th>Різниця</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><code>--ink</code> / <code>--text-primary</code> <span class="tag tag-text">text</span></td>
+      <td><span class="swatch" style="background:#ffffff;border:1px solid #ccc"></span><code>#fff</code><br><span class="note">чистий білий</span></td>
+      <td><span class="swatch" style="background:#F9FAFB;border:1px solid #ccc"></span><code>var(--grey-50)</code><br><span class="note">#F9FAFB — майже білий</span></td>
+      <td><span class="impact-med">мінімальна</span> — 1 ступінь</td>
+    </tr>
+    <tr>
+      <td><code>--ink-body</code> / <code>--text-body</code> <span class="tag tag-text">text</span></td>
+      <td><span class="swatch" style="background:#DEDEDE;border:1px solid #ccc"></span><code>hsl(0 0% 87%)</code><br><span class="note">#DEDEDE</span></td>
+      <td><span class="swatch" style="background:#F4F4F5;border:1px solid #ccc"></span><code>var(--grey-100)</code><br><span class="note">#F4F4F5</span></td>
+      <td><span class="impact-med">середня</span> — 87% vs 96% яскравості</td>
+    </tr>
+    <tr class="diff-row">
+      <td><code>--ink-secondary</code> / <code>--text-secondary</code> <span class="tag tag-text">text</span></td>
+      <td><span class="swatch" style="background:#969699;border:1px solid #ccc"></span><code>hsl(240 1% 59%)</code><br><span class="note">#969699 — середній сірий</span></td>
+      <td><span class="swatch" style="background:#D1D5DB;border:1px solid #ccc"></span><code>var(--grey-300)</code><br><span class="note">#D1D5DB — світлий сірий</span></td>
+      <td><span class="impact-high">критична</span> — 59% vs 84% яскравості. Secondary text надто темний — ієрархія тексту «провалюється»</td>
+    </tr>
+    <tr class="diff-row">
+      <td><code>--ink-inactive</code> / <code>--text-light</code> <span class="tag tag-text">text</span></td>
+      <td><span class="swatch" style="background:#4E5159;border:1px solid #ccc"></span><code>hsl(220 4% 32%)</code><br><span class="note">#4E5159 — темний сірий</span></td>
+      <td><span class="swatch" style="background:#94A3B8;border:1px solid #ccc"></span><code>var(--slate-400)</code><br><span class="note">#94A3B8 — середньо-світлий</span></td>
+      <td><span class="impact-high">критична</span> — 32% vs 64% яскравості. Inactive-елементи майже невидимі</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Обводки</h2>
+<table>
+  <thead><tr><th>Токен</th><th>Поточно (prod .dark)</th><th>Очікувано (kit .dark)</th><th>Різниця</th></tr></thead>
+  <tbody>
+    <tr class="diff-row">
+      <td><code>--border</code> / <code>--stroke-border</code> <span class="tag tag-border">border</span><span class="tag tag-new">naming</span></td>
+      <td><span class="swatch" style="background:#2B2A35"></span><code>hsl(255 9% 18%)</code><br><span class="note">#2B2A35 — фіолетовий відтінок</span></td>
+      <td><span class="swatch" style="background:#2A2834"></span><code>var(--grey-700)</code><br><span class="note">#2A2834</span></td>
+      <td><span class="impact-med">середня</span> — фіолетовий cast</td>
+    </tr>
+    <tr>
+      <td><code>--border-hover</code> / <code>--stroke-border-hover</code> <span class="tag tag-border">border</span><span class="tag tag-new">naming</span></td>
+      <td><span class="note">задається в <code>.dark</code> як <code>var(--slate-700)</code> ✓</span></td>
+      <td><code>var(--slate-700)</code></td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Інтерактивні стани</h2>
+<table>
+  <thead><tr><th>Токен</th><th>Поточно (prod .dark)</th><th>Очікувано (kit .dark)</th><th>Різниця</th></tr></thead>
+  <tbody>
+    <tr class="diff-row">
+      <td><code>--state-hover</code> / <code>--hover</code> <span class="tag tag-state">state</span></td>
+      <td><span class="swatch" style="background:#142022"></span><code>hsl(193 42% 14%)</code><br><span class="note">#142022 — темний teal</span></td>
+      <td><span class="swatch" style="background:#21212C"></span><code>var(--grey-800)</code><br><span class="note">#21212C — нейтральний</span></td>
+      <td><span class="impact-high">висока</span> — hover-стан має teal-cast замість нейтрального підйому</td>
+    </tr>
+    <tr>
+      <td><code>--state-pressed</code> <span class="tag tag-state">state</span></td>
+      <td><span class="note"><code>var(--grey-700)</code> ✓</span></td>
+      <td><code>var(--grey-700)</code></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code>--state-disabled</code> <span class="tag tag-state">state</span></td>
+      <td><code>hsl(220 4% 32%/.5)</code></td>
+      <td><code>var(--grey-700)</code></td>
+      <td><span class="impact-med">середня</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Перейменування токенів (naming alignment)</h2>
+<p style="font-size:12px;color:#888;margin-bottom:.75rem">Prod вже встановлює ці токени з правильними значеннями, але під іншими іменами. Компоненти що читають старі імена отримують значення з :root (light theme). Потрібно або мігрувати компоненти, або додати аліаси.</p>
+<table>
+  <thead><tr><th>Kit (очікуване ім'я)</th><th>Prod (поточне ім'я)</th><th>Значення в .dark</th></tr></thead>
+  <tbody>
+    <tr><td><code>--ink</code></td><td><code>--ink-primary</code></td><td><code>var(--grey-50)</code> ✓</td></tr>
+    <tr><td><code>--card</code></td><td><code>--surface-card</code></td><td><code>var(--grey-900)</code> ✓</td></tr>
+    <tr><td><code>--card2</code></td><td><code>--surface-card2</code></td><td><code>var(--grey-800)</code> ✓</td></tr>
+    <tr><td><code>--chips</code></td><td><code>--surface-chips</code></td><td><code>var(--grey-700)</code> ✓</td></tr>
+    <tr><td><code>--border</code></td><td><code>--stroke-border</code></td><td><code>var(--grey-700)</code> ✓</td></tr>
+    <tr><td><code>--border-hover</code></td><td><code>--stroke-border-hover</code></td><td><code>var(--slate-700)</code> ✓</td></tr>
+    <tr><td><code>--focus-ring</code></td><td><code>--state-focus-ring</code></td><td><code>var(--slate-100)</code> ✓</td></tr>
+    <tr><td><code>--fb-red-hover</code></td><td><code>--fb-error-hover</code></td><td><code>var(--red-800)</code> ✓</td></tr>
+    <tr><td><code>--fb-red-press</code></td><td><code>--fb-error-press</code></td><td><code>var(--red-850)</code> ✓</td></tr>
+  </tbody>
+</table>
+
+<h2>Токени що відсутні у prod .dark (fallback на light theme)</h2>
+<table>
+  <thead><tr><th>Токен</th><th>Потрібне значення в .dark</th><th>Наслідок відсутності</th></tr></thead>
+  <tbody>
+    <tr><td><code>--bg</code></td><td><code>var(--grey-950)</code></td><td>Компоненти що читають <code>--bg</code> отримують Slate-50 (світлий)</td></tr>
+    <tr><td><code>--badge-primary-text</code></td><td><code>var(--brand-secondary)</code> = Brand-400</td><td>Текст бейджа не адаптується до dark</td></tr>
+    <tr><td><code>--btn-secondary-bg</code></td><td><code>var(--card)</code> (auto-resolves ✓)</td><td>Ок — через cascade</td></tr>
+  </tbody>
+</table>
+
+<h2>Пріоритет виправлень</h2>
+<table>
+  <thead><tr><th>Пріоритет</th><th>Токен</th><th>Причина</th></tr></thead>
+  <tbody>
+    <tr><td><span class="impact-high">P1</span></td><td><code>--ink-secondary</code> / <code>--text-secondary</code></td><td>59% vs 84% — текстова ієрархія ламається, UI нечитаємий</td></tr>
+    <tr><td><span class="impact-high">P1</span></td><td><code>--ink-inactive</code> / <code>--text-light</code></td><td>32% vs 64% — inactive-елементи майже невидимі</td></tr>
+    <tr><td><span class="impact-high">P1</span></td><td><code>--state-hover</code> / <code>--hover</code></td><td>teal hover замість нейтрального — усі hover-стани виглядають брендово</td></tr>
+    <tr><td><span class="impact-high">P1</span></td><td><code>--card</code></td><td>фіолетовий cast на всіх card-поверхнях</td></tr>
+    <tr><td><span class="impact-med">P2</span></td><td><code>--background</code> / <code>--bg</code></td><td>неправильний page-bg</td></tr>
+    <tr><td><span class="impact-med">P2</span></td><td><code>--border</code> / <code>--stroke-border</code></td><td>фіолетовий cast + naming alignment</td></tr>
+    <tr><td><span class="impact-med">P2</span></td><td>Всі naming-аліаси</td><td>Компоненти на old-token-API отримують light-theme значення</td></tr>
+    <tr><td style="color:#888">P3</td><td><code>--ink-body</code> / <code>--text-body</code></td><td>невелика різниця яскравості</td></tr>
+  </tbody>
+</table>
+
+</body>
+</html>

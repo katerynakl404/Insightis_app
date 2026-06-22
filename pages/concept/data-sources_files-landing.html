@@ -105,6 +105,7 @@
 </style>
 </head>
 <body>
+<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -140,12 +141,18 @@
 <!-- ===== Topbar ===== -->
 <div class="topbar">
   <span class="ttl">Data Sources (Files)</span>
-  <div style="display:flex;gap:.375rem">
+  <div style="display:flex;align-items:center;gap:.625rem">
+    <div class="segctrl is-sm" id="cl-width-seg" role="tablist" aria-label="Content width" style="width:auto;flex:none">
+      <button class="segctrl-btn" role="tab" type="button" aria-selected="false" data-w="960" style="padding:0 .5rem" onclick="clSetWidth(960,this)">960</button>
+      <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" data-w="1200" style="padding:0 .5rem" onclick="clSetWidth(1200,this)">1200</button>
+    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
 
 <div class="cl-shell">
+  <!-- Mobile backdrop — overlays the main column while the off-canvas sidebar drawer is open. -->
+  <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')"></div>
 
   <!-- ============= Sidebar — same as data-sources_connections-landing.html (Sources nav active) ============= -->
   <aside class="cl-side">
@@ -172,7 +179,7 @@
           </button>
           <button class="sbx-nav-item" type="button" onclick="location.href='data-sources_connections-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
-            <span class="lbl">Sources</span>
+            <span class="lbl">Data Sources</span>
           </button>
           <button class="sbx-nav-item" type="button" onclick="location.href='metrics-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
@@ -191,12 +198,12 @@
                 <span class="sbx-sect-label">Pinned</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
             </div>
           </div>
@@ -206,9 +213,9 @@
                 <span class="sbx-sect-label">Recent</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Top movers — weekly</span>
             </div>
           </div>
@@ -282,6 +289,10 @@
 
   <!-- ============= MAIN ============= -->
   <main class="cl-main">
+    <!-- Mobile/tablet hamburger — opens sidebar as an overlay drawer (≤ 1023.98 px). -->
+    <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <div class="cl-page" id="dsf-app">
 
       <!-- Page title — Files is now a top-level sidebar destination, no longer a tab inside Data Sources -->
@@ -551,10 +562,25 @@
 (function(){
   var navMap = {
     'New Chat': 'chat-landing.html',
-    'Sources':  'data-sources_connections-landing.html',
+    'Data Sources':  'data-sources_connections-landing.html',
     'Metrics':  'metrics-landing.html',
     'Files':    'data-sources_files-landing.html'
   };
+  // Mobile/tablet hamburger — opens the sidebar drawer overlay.
+  window.clOpenSidebar = function(){
+    document.documentElement.classList.add('side-open');
+    var sbx = document.querySelector('.cl-side .sbx');
+    if(sbx) sbx.classList.remove('is-collapsed');
+  };
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && document.documentElement.classList.contains('side-open')){
+      document.documentElement.classList.remove('side-open');
+    }
+  });
+  (function(){
+    function apply(){ if(window.innerWidth >= 1024) document.documentElement.classList.remove('side-open'); }
+    window.addEventListener('resize', apply); apply();
+  })();
   var current = location.pathname.split('/').pop();
   document.querySelectorAll('.sbx-nav .sbx-nav-item').forEach(function(btn){
     var lbl = btn.querySelector('.lbl');
@@ -568,6 +594,26 @@
     });
   });
 })();
+
+function clSetWidth(w, btn) {
+  document.documentElement.style.setProperty('--content-max-width', w + 'px');
+  try { localStorage.setItem('cl-content-width', String(w)); } catch(e) {}
+  if (btn) {
+    btn.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
+    btn.classList.add('is-active');
+    btn.setAttribute('aria-selected','true');
+  }
+}
+(function(){
+  var w = +(localStorage.getItem('cl-content-width') || 1200);
+  document.documentElement.style.setProperty('--content-max-width', w + 'px');
+  var seg = document.getElementById('cl-width-seg');
+  if (seg) {
+    seg.querySelectorAll('.segctrl-btn').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
+    var active = seg.querySelector('[data-w="' + w + '"]');
+    if (active) { active.classList.add('is-active'); active.setAttribute('aria-selected','true'); }
+  }
+}());
 </script>
 </body>
 </html>

@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="../kit-theme.css" />
 <style>
   /* ===== Page-only layout (no component restyling) ===== */
+  .cl-page{max-width:960px}
   /* Slim the kit's topbar for pages/ (kit-theme.css default is .7rem 1.25rem ≈ 54px tall;
      here we want a compact chrome strip — logo removed, smaller btn-xs toggles).
      Also pinned to a known height so the rest of the layout can subtract it cleanly. */
@@ -208,9 +209,12 @@
 
   /* No motion to suppress — the bg is fully static. Reduced-motion block kept as a no-op
      for future additions (animated keywords / cursor effects would land here if reintroduced). */
+
+  /* pg-wip-tag lives in kit-theme.css */
 </style>
 </head>
 <body>
+<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols — copied verbatim from insightis-preview-kit.html so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -291,11 +295,9 @@
             </svg>
             <span class="lbl">New Chat</span>
           </button>
-          <!-- No nav row is active here: chat landing IS the "New Chat" state;
-               Sources / Files / Metrics are other top-level destinations in their default state. -->
           <button class="sbx-nav-item" type="button" onclick="location.href='data-sources_connections-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
-            <span class="lbl">Sources</span>
+            <span class="lbl">Data Sources</span>
           </button>
           <button class="sbx-nav-item" type="button" onclick="location.href='metrics-landing.html'">
             <!-- Pie-chart icon — Metrics glyph -->
@@ -310,20 +312,16 @@
         </div>
 
         <div class="sbx-chats">
-          <!-- Collapsed-mode icon: replaces the Pinned/Recent lists when the sidebar is in icon mode (sbx.is-collapsed). Click expands the sidebar. -->
-          <button class="sbx-chats-icon" type="button" aria-label="Chats" onclick="clToggleSbxCollapse()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </button>
           <div class="sbx-sect">
             <div class="sbx-sect-head">
               <button class="sbx-sect-label-wrap" type="button" aria-expanded="true" onclick="var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <span class="sbx-sect-label">Pinned</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
             </div>
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only; reorder via Move up/down was removed (replaced with drag-to-reorder if/when pinned-set ordering ships). -->
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -334,7 +332,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -345,7 +343,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Churn deep-dive</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -364,9 +362,9 @@
                 <span class="sbx-sect-label">Recent</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Top movers — weekly</span>
               <span class="sbx-chat-status is-new" aria-hidden="true"></span>
               <span class="sbx-sr">New activity</span>
@@ -379,7 +377,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q4 GTM retro long title that fades on the right edge</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -467,6 +465,7 @@
     <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
+
     <section class="cl-hero">
       <h1 class="cl-title">What <span class="cl-highlight">insight</span><br/>are you <span class="cl-highlight">looking for</span>?</h1>
 
@@ -479,6 +478,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
               </button>
               <div class="cl-dropdown-menu menu" role="menu">
+                <div class="menu-wip" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5L14.5 13H1.5L8 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6v3.5M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Not yet redesigned</div>
                 <div class="mi" role="menuitem" onclick="clAttachClose()">
                   <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                   Upload file
@@ -492,11 +492,12 @@
             <div class="cl-dropdown-wrap">
               <button class="cl-dropdown" type="button" aria-haspopup="menu" aria-expanded="false" onclick="clDdToggle(this)">
                 <svg class="cl-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="7" height="7" rx="1.2"/><rect x="15" y="15" width="7" height="7" rx="1.2"/><path d="M5.5 9v4a2 2 0 0 0 2 2h7"/></svg>
-                <span class="cl-dropdown-lbl">Connectors</span>
+                <span class="cl-dropdown-lbl">Connections</span>
                 <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
               <div class="cl-dropdown-menu menu" role="menu">
-                <div class="mi" role="menuitem" onclick="clDdSelect(this,'Connectors')">All sources</div>
+                <div class="menu-wip" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5L14.5 13H1.5L8 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6v3.5M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Not yet redesigned</div>
+                <div class="mi" role="menuitem" onclick="clDdSelect(this,'Connections')">All sources</div>
                 <div class="mi" role="menuitem" onclick="clDdSelect(this,'Snowflake')">Snowflake</div>
                 <div class="mi" role="menuitem" onclick="clDdSelect(this,'Salesforce')">Salesforce</div>
                 <div class="mi" role="menuitem" onclick="clDdSelect(this,'BigQuery')">BigQuery</div>
@@ -509,6 +510,7 @@
                 <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
               <div class="cl-dropdown-menu menu" role="menu">
+                <div class="menu-wip" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5L14.5 13H1.5L8 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6v3.5M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Not yet redesigned</div>
                 <div class="mi" role="menuitem" onclick="clDdSelect(this,'Gemini 2.0 Pro')">Gemini 2.0 Pro</div>
                 <div class="mi" role="menuitem" onclick="clDdSelect(this,'Gemini Flash')">Gemini Flash</div>
                 <div class="mi" role="menuitem" onclick="clDdSelect(this,'GPT-4o')">GPT-4o</div>
@@ -655,7 +657,7 @@
 (function(){
   var navMap = {
     'New Chat': 'chat-landing.html',
-    'Sources':  'data-sources_connections-landing.html',
+    'Data Sources':  'data-sources_connections-landing.html',
     'Metrics':  'metrics-landing.html',
     'Files':    'data-sources_files-landing.html'
   };

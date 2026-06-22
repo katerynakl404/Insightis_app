@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" class="">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insightis · Banner Gradient Variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../kit-theme.css" />
+<style>
+  html,body{min-height:100%;background:var(--bg);color:var(--ink-body);font-family:"DM Sans",ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{padding:1.5rem 2rem 4rem}
+
+  .bgv-topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem}
+  .bgv-page-title{font-size:1.25rem;font-weight:600;color:var(--ink);margin:0}
+  .bgv-page-sub{font-size:.8125rem;color:var(--ink-secondary);margin:.25rem 0 0}
+
+  .bgv-grid{display:flex;flex-direction:column;gap:2rem}
+
+  /* Each variant: label row + banner pair */
+  .bgv-label-row{display:flex;align-items:baseline;gap:.75rem;margin-bottom:.625rem}
+  .bgv-name{font-size:.875rem;font-weight:600;color:var(--ink);margin:0}
+  .bgv-desc{font-size:.75rem;color:var(--ink-secondary);margin:0}
+
+  /* Two banners side by side */
+  .bgv-pair{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  .bgv-theme-label{font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-secondary);margin-bottom:.375rem}
+
+  /* Forced dark wrapper */
+  .bgv-dark{background:var(--grey-950);padding:.75rem;border-radius:.875rem}
+  .bgv-dark .bgv-theme-label{color:var(--grey-300)}
+  /* Re-resolve btn-secondary-bg so it picks up the dark --card (#17171E).
+     --btn-secondary-bg is set in :root as var(--card); when .dark is on a sub-element
+     rather than html/body the token freezes at the light value. Re-declaring here unfreezes it. */
+  .bgv-dark.dark{--btn-secondary-bg:var(--card)}
+</style>
+</head>
+<body>
+<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+
+<div class="bgv-topbar">
+  <div>
+    <p class="bgv-page-title">Banner Gradient Variants</p>
+    <p class="bgv-page-sub">Right column = forced dark context. Light / Dark toggle changes the page background only.</p>
+  </div>
+  <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
+</div>
+
+<div class="bgv-grid">
+
+  <!-- A — Horizontal Wide -->
+  <!-- Light: brand-700 (dark, text-safe) → brand-200 (very light teal, blends toward white bg) -->
+  <!-- Dark:  brand-900 (near-black) → brand-700 (mid-dark teal, blends with dark bg) -->
+  <div>
+    <div class="bgv-label-row">
+      <p class="bgv-name">A — Horizontal Wide</p>
+      <p class="bgv-desc">90deg · Light: brand-700 → brand-200 · Dark: brand-900 → brand-700 · Horizontal sweep, wide tonal range</p>
+    </div>
+    <div class="bgv-pair">
+      <div>
+        <p class="bgv-theme-label">Light</p>
+        <div class="banner banner-grad" style="--grad-teal-dark:linear-gradient(90deg,var(--brand-700) 0%,var(--brand-200) 100%)">
+          <div class="banner-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <div class="banner-body"><p class="banner-t">Explore your metrics library</p><p class="banner-d">Browse built-in metrics below and connect a source from the panel to activate.</p></div>
+          <div class="banner-cta"><button class="btn btn-primary btn-sm">Create Connection</button></div>
+        </div>
+      </div>
+      <div class="bgv-dark dark">
+        <p class="bgv-theme-label">Dark</p>
+        <div class="banner banner-grad" style="--grad-teal-dark:linear-gradient(90deg,var(--brand-900) 0%,var(--brand-700) 100%)">
+          <div class="banner-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <div class="banner-body"><p class="banner-t">Explore your metrics library</p><p class="banner-d">Browse built-in metrics below and connect a source from the panel to activate.</p></div>
+          <div class="banner-cta"><button class="btn btn-primary btn-sm">Create Connection</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B — Diagonal Airy -->
+  <!-- Light: brand-700 (dark left) → brand-100 (near-white right, maximum air, blends with bg) -->
+  <!-- Dark:  brand-600 (visible teal left) → brand-900 (near-black right, darkens into bg) -->
+  <div>
+    <div class="bgv-label-row">
+      <p class="bgv-name">B — Diagonal Airy</p>
+      <p class="bgv-desc">135deg · Light: brand-700 → brand-100 · Dark: brand-600 → brand-900 · Diagonal — fades light on light, deepens dark on dark</p>
+    </div>
+    <div class="bgv-pair">
+      <div>
+        <p class="bgv-theme-label">Light</p>
+        <div class="banner banner-grad" style="--grad-teal-dark:linear-gradient(135deg,var(--brand-700) 0%,var(--brand-100) 100%)">
+          <div class="banner-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <div class="banner-body"><p class="banner-t">Explore your metrics library</p><p class="banner-d">Browse built-in metrics below and connect a source from the panel to activate.</p></div>
+          <div class="banner-cta"><button class="btn btn-secondary btn-sm">Create Connection</button></div>
+        </div>
+      </div>
+      <div class="bgv-dark dark">
+        <p class="bgv-theme-label">Dark</p>
+        <div class="banner banner-grad" style="--grad-teal-dark:linear-gradient(135deg,var(--brand-600) 0%,var(--brand-900) 100%)">
+          <div class="banner-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <div class="banner-body"><p class="banner-t">Explore your metrics library</p><p class="banner-d">Browse built-in metrics below and connect a source from the panel to activate.</p></div>
+          <div class="banner-cta"><button class="btn btn-secondary btn-sm">Create Connection</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C — Diagonal Fade -->
+  <!-- Light: brand-700 (text-safe left) → transparent (right dissolves into page bg) -->
+  <!-- Dark:  brand-800 (rich teal left) → transparent (right dissolves into dark bg) -->
+  <div>
+    <div class="bgv-label-row">
+      <p class="bgv-name">C — Diagonal Fade</p>
+      <p class="bgv-desc">135deg · Light: brand-700 → transparent · Dark: brand-800 → transparent · Diagonal dissolve into bg — fully adaptive</p>
+    </div>
+    <div class="bgv-pair">
+      <div>
+        <p class="bgv-theme-label">Light</p>
+        <div class="banner banner-grad" style="--grad-teal-dark:linear-gradient(135deg,var(--brand-700) 0%,var(--brand-700) 55%,color-mix(in srgb,var(--brand-700) 20%,transparent) 100%)">
+          <div class="banner-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <div class="banner-body"><p class="banner-t">Explore your metrics library</p><p class="banner-d">Browse built-in metrics below and connect a source from the panel to activate.</p></div>
+          <div class="banner-cta"><button class="btn btn-secondary btn-sm">Create Connection</button></div>
+        </div>
+      </div>
+      <div class="bgv-dark dark">
+        <p class="bgv-theme-label">Dark</p>
+        <div class="banner banner-grad" style="--grad-teal-dark:linear-gradient(135deg,var(--brand-600) 0%,var(--brand-600) 55%,color-mix(in srgb,var(--brand-600) 20%,transparent) 100%)">
+          <div class="banner-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <div class="banner-body"><p class="banner-t">Explore your metrics library</p><p class="banner-d">Browse built-in metrics below and connect a source from the panel to activate.</p></div>
+          <div class="banner-cta"><button class="btn btn-secondary btn-sm">Create Connection</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D — Horizontal Slab -->
+  <!-- Light: brand-700 solid until 45%, then fades out → teal "slab" with soft exit -->
+  <!-- Dark:  brand-800 solid until 45%, then fades out → same slab on dark bg -->
+  <div>
+    <div class="bgv-label-row">
+      <p class="bgv-name">D — Horizontal Slab</p>
+      <p class="bgv-desc">90deg · Light: brand-700 solid → fade from 45% · Dark: brand-800 solid → fade from 45% · Defined teal zone, sharp drop-off</p>
+    </div>
+    <div class="bgv-pair">
+      <div>
+        <p class="bgv-theme-label">Light</p>
+        <div class="banner banner-grad" style="--grad-teal-dark:linear-gradient(90deg,var(--brand-700) 0%,var(--brand-700) 45%,color-mix(in srgb,var(--brand-700) 0%,transparent) 100%)">
+          <div class="banner-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <div class="banner-body"><p class="banner-t">Explore your metrics library</p><p class="banner-d">Browse built-in metrics below and connect a source from the panel to activate.</p></div>
+          <div class="banner-cta"><button class="btn btn-secondary btn-sm">Create Connection</button></div>
+        </div>
+      </div>
+      <div class="bgv-dark dark">
+        <p class="bgv-theme-label">Dark</p>
+        <div class="banner banner-grad" style="--grad-teal-dark:linear-gradient(90deg,var(--brand-800) 0%,var(--brand-800) 45%,color-mix(in srgb,var(--brand-800) 0%,transparent) 100%)">
+          <div class="banner-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <div class="banner-body"><p class="banner-t">Explore your metrics library</p><p class="banner-d">Browse built-in metrics below and connect a source from the panel to activate.</p></div>
+          <div class="banner-cta"><button class="btn btn-secondary btn-sm">Create Connection</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

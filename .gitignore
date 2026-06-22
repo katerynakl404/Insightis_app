@@ -16,3 +16,7 @@ release-notes/
 
 # Accessibility self-check files (local audit notes, not part of the handoff artifact)
 a11y/
+
+# Archived design decisions (rejected iterations preserved locally for recovery).
+# Never referenced by live pages or kit components — see archive/README.md.
+archive/

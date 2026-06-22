@@ -28,7 +28,7 @@ Colour tokens for all of the above resolve through the migrated palette → [col
 
 ## Out of scope
 
-- **Sidebar** redesign (3 nav rows — Sources, Metrics, Files — plus Pinned/Recent, footer): [Sidebar.md](../changes/Sidebar.md). Prod still shows 4 nav items (Sources, Metrics, Favorites, Chats); the new `Files` row is promoted from a tab inside the Data Sources page.
+- **Sidebar** redesign (4 nav rows — New Chat, Data Sources, Metrics, Files — plus Pinned/Recent chat sections, footer): [Sidebar.md](../changes/Sidebar.md). Prod still shows 4 nav items (Sources, Metrics, Favorites, Chats); the new `Files` row is promoted from a tab inside the Data Sources page, and the prod `Chats` collapsible group is replaced by the inline Pinned/Recent sections.
 
 ## A11y / consistency self-check
 

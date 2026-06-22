@@ -6,7 +6,7 @@
 <title>Insightis · Data Sources</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../kit-theme.css" />
 <style>
   /* ===== Page-only layout (NO component restyling) ===== */
@@ -23,6 +23,8 @@
   /* Status badges — softer bg than kit default 15% */
   .ds-conn-tbl .badge-green{background:color-mix(in srgb,var(--fb-green) 8%,transparent)}
   .ds-conn-tbl .badge-red{background:color-mix(in srgb,var(--fb-red) 8%,transparent)}
+  .ds-conn-tbl table.tbl tbody tr.is-selected td{background:var(--state-pressed)}
+  .ds-conn-tbl table.tbl tbody tr:hover td{background:var(--state-hover)}
 
   /* Search — same pattern as chats-landing */
   .ds-search.field{max-width:none;height:2.5rem;background:var(--card)}
@@ -40,7 +42,7 @@
   .ds-page-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
   .ds-page-head .cl-page-title{margin:0}
   .ds-page-head .ds-addnew{flex:none;border-radius:9999px}
-  /* "Add new" is only relevant on the My Connections tab. */
+  /* Create Connection only relevant on My Connections tab; + buttons on cards handle Catalog. */
   .ds-app.ds-tab-catalog .ds-addnew{display:none}
 
   /* Tab row — single border-bottom shared with tabset. */
@@ -51,22 +53,21 @@
   .ds-conn-section{display:flex;flex-direction:column;overflow:hidden;max-height:0;opacity:0;
     transition:max-height .32s cubic-bezier(.4,0,.2,1),opacity .25s ease}
   .ds-app.has-connections .ds-conn-section{max-height:60rem;opacity:1}
-  .ds-conn-section:has(.ds-conn-more[aria-expanded="true"]){overflow:visible}
+  .ds-conn-section:has([data-kbp][aria-expanded="true"]){overflow:visible}
 
   /* ===== Connector grid ===== */
-  .ds-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:.75rem}
+  .ds-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:.75rem}
   /* Concept 1 — horizontal row card */
   .ds-card{display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
   .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)}
   .ds-mark{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);border:1px solid var(--border)}
   .ds-card .ds-mark{background:var(--card);border:1px solid var(--border)}
-  .ds-card2-mark{background:var(--card);border:1px solid var(--border);width:1.5rem;height:1.5rem;border-radius:.25rem}
   .ds-conn-cell-name .ds-mark{width:1.5rem;height:1.5rem;border-radius:.25rem}
   .ds-mark img{width:78%;height:78%;object-fit:contain;display:block}
   .ds-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .ds-card-head{display:flex;align-items:center;gap:.375rem;min-width:0}
-  .ds-card-name{font-size:.875rem;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .ds-card-cat{font-size:.75rem;color:var(--ink-secondary);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ds-card-name{font-size:.875rem;font-weight:600;color:var(--ink);line-height:1.3}
+  html.content-960 .ds-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .ds-mark-wrap{flex:none;display:inline-flex}
   .ds-popular{width:12px;height:12px;color:var(--fb-attention);flex:none;filter:drop-shadow(0 0 2px color-mix(in srgb,var(--fb-attention) 60%,transparent))}
   #ds-cats{flex-wrap:wrap;padding-bottom:2px;margin-top:.75rem}
@@ -74,14 +75,6 @@
   .ds-grid-sep{grid-column:1/-1;font-size:.6875rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive);padding:.5rem 0 .25rem;margin-top:.125rem}
   .ds-grid-sep:first-child{margin-top:0;padding-top:0}
   .ds-card-act{flex:none;display:flex;justify-content:flex-end;align-items:center}
-  /* Concept 2 — vertical card: iconbtn top-right + category chips footer */
-  .ds-card2{display:flex;flex-direction:column;gap:0;padding:.875rem;border:1px solid var(--border);border-radius:.625rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
-  .ds-card2:hover{box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)}
-  .ds-card2-head{display:flex;align-items:center;gap:.625rem;min-width:0}
-  .ds-card2-mark{width:2.5rem;height:2.5rem;border-radius:.5rem;display:inline-flex;align-items:center;justify-content:center;flex:none}
-  .ds-card2-mark img{width:60%;height:60%;object-fit:contain;display:block}
-  .ds-card2-name{font-size:.875rem;font-weight:600;color:var(--ink);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .ds-card2-foot{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.625rem}
 
   /* Lazy-load sentinel — zero-height trigger element appended after last card when more remain */
   .ds-load-sentinel{grid-column:1/-1;height:1px;margin:0;padding:0}
@@ -106,18 +99,12 @@
   .ds-conn-cell-name{display:flex;align-items:center;gap:.625rem}
   .ds-conn-cell-label{font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ds-conn-cell-act{position:relative;overflow:visible}
-  /* Shared: kebab button + dropdown */
+  /* Kebab wrapper — positioning context for .kbp-menu (kit-theme.css handles the rest) */
   .ds-conn-more-wrap{position:relative;flex:none}
-  .ds-conn-more{height:1.75rem;width:1.75rem;border-radius:.375rem;flex:none}
-  .ds-conn-more:hover{background:var(--state-hover)}
-  .ds-conn-more[aria-expanded="true"]{background:var(--state-pressed);color:var(--ink-body)}
   .ds-conn-more svg{width:16px;height:16px}
-  .ds-conn-menu{position:absolute;top:calc(100% + 2px);right:.5rem;display:none;z-index:30}
-  .ds-conn-row:has(.ds-conn-more[aria-expanded="true"]){z-index:20}
-  .ds-conn-more[aria-expanded="true"] ~ .ds-conn-menu{display:block}
-  .ds-conn-section:has(.ds-conn-more[aria-expanded="true"]){overflow:visible}
-  .ds-conn-body:has(.ds-conn-more[aria-expanded="true"]){overflow:visible}
-  .cl-main:has(.ds-conn-more[aria-expanded="true"]){overflow-x:visible}
+  .ds-conn-row:has([data-kbp][aria-expanded="true"]){z-index:20}
+  .ds-conn-body:has([data-kbp][aria-expanded="true"]){overflow:visible}
+  .cl-main:has([data-kbp][aria-expanded="true"]){overflow-x:visible}
 
   /* ===== Connect / Remove animations ===== */
   @keyframes ds-card-out{
@@ -157,17 +144,20 @@
   }
   /* integration frame — static visual reference */
   /* Integration frame — external provider styling, intentionally NOT using design tokens */
-  .ds-intg-frame{border-radius:.375rem;overflow:hidden;background:#fff;border:1px solid #e2e8f0}
-  .ds-intg-row{padding:.75rem 1rem;display:flex;flex-direction:column;gap:.375rem}
-  .ds-intg-lbl{font-size:.875rem;font-weight:700;color:#1e293b}
-  .ds-intg-field{height:2.5rem;border:1px solid #2563eb;border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;font-size:.875rem;color:#64748b;background:#fff;width:100%}
-  .ds-intg-check{display:flex;align-items:center;gap:.625rem;padding:.5rem 1rem}
-  .ds-intg-check-ico{width:1.125rem;height:1.125rem;border-radius:.25rem;background:#2563eb;display:flex;align-items:center;justify-content:center;flex:none}
-  .ds-intg-check-lbl{font-size:.875rem;color:#1e293b}
-  .ds-intg-select{height:2.5rem;border:1px solid #2563eb;border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;justify-content:space-between;font-size:.875rem;color:#1e293b;background:#fff;width:100%}
+  /* ds-intg-frame always renders as a light-theme third-party UI — selectors use .ds-intg-frame prefix
+     to beat any global dark-theme color cascade */
+  .ds-intg-frame{border-radius:.375rem;overflow:hidden;background:#fff;border:1px solid #e2e8f0;color:#1e293b}
+  .ds-intg-frame .ds-intg-row{padding:.75rem 1rem;display:flex;flex-direction:column;gap:.375rem}
+  .ds-intg-frame .ds-intg-lbl{font-size:.875rem;font-weight:700;color:#1e293b}
+  .ds-intg-frame .ds-intg-field{height:2.5rem;border:1px solid #2563eb;border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;font-size:.875rem;color:#64748b;background:#fff;width:100%}
+  .ds-intg-frame .ds-intg-check{display:flex;align-items:center;gap:.625rem;padding:.5rem 1rem}
+  .ds-intg-frame .ds-intg-check-ico{width:1.125rem;height:1.125rem;border-radius:.25rem;background:#2563eb;display:flex;align-items:center;justify-content:center;flex:none}
+  .ds-intg-frame .ds-intg-check-lbl{font-size:.875rem;color:#1e293b}
+  .ds-intg-frame .ds-intg-select{height:2.5rem;border:1px solid #2563eb;border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;justify-content:space-between;font-size:.875rem;color:#1e293b;background:#fff;width:100%}
 </style>
 </head>
 <body>
+<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -211,9 +201,9 @@
       <button class="segctrl-btn is-active" id="ds-seg-empty" type="button" onclick="dsSegState(this,'empty')">Empty</button>
       <button class="segctrl-btn" id="ds-seg-connected" type="button" onclick="dsSegState(this,'connected')">Connected</button>
     </div>
-    <div class="segctrl is-sm" style="width:auto">
-      <button class="segctrl-btn is-active" id="ds-seg-c1" type="button" onclick="dsSegConcept(this,1)">Concept 1</button>
-      <button class="segctrl-btn" id="ds-seg-c2" type="button" onclick="dsSegConcept(this,2)">Concept 2</button>
+    <div class="segctrl is-sm" id="cl-width-seg" role="tablist" aria-label="Content width" style="width:auto;flex:none">
+      <button class="segctrl-btn" role="tab" type="button" aria-selected="false" data-w="960" style="padding:0 .5rem" onclick="clSetWidth(960,this)">960</button>
+      <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" data-w="1200" style="padding:0 .5rem" onclick="clSetWidth(1200,this)">1200</button>
     </div>
     <div class="segctrl is-sm" style="width:auto">
       <button class="segctrl-btn is-active" id="ds-seg-light" type="button" onclick="dsSegTheme(this,'light')">Light</button>
@@ -223,6 +213,8 @@
 </div>
 
 <div class="cl-shell">
+  <!-- Mobile backdrop — overlays the main column while the off-canvas sidebar drawer is open. -->
+  <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')"></div>
   <!-- ============= Sidebar — kept in sync with chats-landing.html (single source of truth);
        only the active row differs (Sources here, not Chats). ============= -->
   <aside class="cl-side">
@@ -247,9 +239,9 @@
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
             <span class="lbl">New Chat</span>
           </button>
-          <button class="sbx-nav-item active" type="button" aria-current="page" data-tip="Sources" data-tip-side="right" onclick="location.href='data-sources_connections-landing.html'">
+          <button class="sbx-nav-item active" type="button" aria-current="page" data-tip="Data Sources" data-tip-side="right" onclick="location.href='data-sources_connections-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
-            <span class="lbl">Sources</span>
+            <span class="lbl">Data Sources</span>
           </button>
           <button class="sbx-nav-item" type="button" data-tip="Metrics" data-tip-side="right" onclick="location.href='metrics-landing.html'">
             <!-- Pie-chart icon — Metrics glyph -->
@@ -269,10 +261,10 @@
                 <span class="sbx-sect-label">Pinned</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
             </div>
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only. -->
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -283,7 +275,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -294,7 +286,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Churn deep-dive</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -312,9 +304,9 @@
                 <span class="sbx-sect-label">Recent</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Chats library</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -325,7 +317,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Top movers &mdash; weekly</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -407,23 +399,27 @@
 
   <!-- ============= MAIN ============= -->
   <main class="cl-main">
+    <!-- Mobile/tablet hamburger — opens sidebar as an overlay drawer (≤ 1023.98 px). -->
+    <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <div class="cl-page ds-app ds-tab-catalog has-connections">
-      <!-- Page head — title + primary CTA. "Add new" hidden on Catalog tab (via CSS). -->
+      <!-- Page head — title + primary CTA. Hidden on Catalog tab (card + buttons serve that role). -->
       <div class="ds-page-head">
         <h1 class="cl-page-title scroll-m-20 font-medium text-2xl md:text-3xl text-content-primary text-left">Data Sources</h1>
-        <button class="btn btn-primary btn-sm ds-addnew" type="button" onclick="dsSwitchTab('catalog', document.getElementById('ds-tab-catalog'))">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-          Add New
+        <button class="btn btn-primary btn-sm ds-addnew" type="button" onclick="dsConnect(null)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Create Connection
         </button>
       </div>
 
       <div class="ds-page-body">
-        <!-- Tab row: Providers Catalog | My Connections -->
+        <!-- Tab row: Catalog | My Connections -->
         <div class="dsf-tabrow">
           <div class="tabset" role="tablist">
             <button class="tab is-active" role="tab" aria-selected="true"
                     aria-controls="ds-panel-catalog" id="ds-tab-catalog"
-                    onclick="dsSwitchTab('catalog',this)">Providers Catalog</button>
+                    onclick="dsSwitchTab('catalog',this)">Catalog</button>
             <span id="ds-tab-conn-tip" style="display:inline-block" data-tip-side="bottom">
               <button class="tab" role="tab" aria-selected="false"
                       aria-controls="ds-panel-connections" id="ds-tab-connections"
@@ -433,17 +429,17 @@
           </div>
         </div>
 
-        <!-- Panel 1 — Providers Catalog -->
+        <!-- Panel 1 — Catalog -->
         <div id="ds-panel-catalog">
           <div class="field ds-search">
             <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-            <input id="ds-search-input" type="search" placeholder="Search providers…" aria-label="Search providers" oninput="dsFilterSearch(this.value)">
+            <input id="ds-search-input" type="search" placeholder="Search data sources…" aria-label="Search data sources" oninput="dsFilterSearch(this.value)">
             <button class="ds-search-clear" type="button" aria-label="Clear search" onclick="dsClearSearch()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
           </div>
-          <div class="chip-row" role="tablist" aria-label="Connector categories" id="ds-cats"></div>
-          <div class="ds-grid" id="ds-grid" aria-label="Available connectors"></div>
+          <div class="chip-row" role="tablist" aria-label="Data Source categories" id="ds-cats"></div>
+          <div class="ds-grid" id="ds-grid" aria-label="Available data sources"></div>
         </div>
 
         <!-- Panel 2 — My Connections (hidden until first connection) -->
@@ -456,7 +452,7 @@
               </span>
               <div class="banner-body">
                 <p class="banner-t">Connect your first data source</p>
-                <p class="banner-d">Browse the <b>Providers Catalog</b> and click Connect to get started in about <b>2 minutes</b>.</p>
+                <p class="banner-d">Browse the <b>Catalog</b> and click Connect to get started in about <b>2 minutes</b>.</p>
               </div>
               <button class="btn btn-secondary btn-sm"
                       onclick="dsSwitchTab('catalog', document.getElementById('ds-tab-catalog'))">
@@ -481,7 +477,7 @@
   <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:30rem;max-width:calc(100vw - 2rem);height:580px;display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-conn-dlg-title">
     <!-- Shared header -->
     <div class="dlg-hdr">
-      <h2 id="ds-conn-dlg-title" class="dlg-title">New connection</h2>
+      <h2 id="ds-conn-dlg-title" class="dlg-title">New Connection</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsCloseConnDlg()" style="width:2rem;height:2rem;flex:none">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -533,7 +529,7 @@
       <!-- Step 2: name the connection -->
       <div id="ds-conn-s2" class="dlg-step is-hidden">
         <div style="display:flex;flex-direction:column">
-          <label class="mx-form-label" for="ds-conn-dispname">Display name</label>
+          <label class="mx-form-label" for="ds-conn-dispname">Connection name</label>
           <div class="field" style="max-width:none"><input id="ds-conn-dispname" type="text" placeholder="Connection name" autocomplete="off"></div>
         </div>
         <div style="display:flex;flex-direction:column">
@@ -544,7 +540,27 @@
     </div>
     <!-- Footer — step 2 only -->
     <div id="ds-conn-ftr-s2" class="dlg-ftr" style="display:none">
-      <button class="btn btn-primary btn-sm" type="button" onclick="dsConnCreate()">Save connection</button>
+      <button class="btn btn-primary btn-sm" type="button" onclick="dsConnCreate()">Save Connection</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Disconnect confirm dialog ===== -->
+<div id="ds-disc-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:rgba(15,23,42,.4)" aria-hidden="true" onclick="if(event.target===this)dsCloseDisc()">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:24rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-disc-title">
+    <div class="dlg-hdr">
+      <h2 id="ds-disc-title" class="dlg-title">Delete <span id="ds-disc-name" style="color:var(--ink)"></span>?</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsCloseDisc()" style="width:2rem;height:2rem;flex:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="padding:1rem 1.25rem 1.25rem">
+      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">This connection will be removed. Your existing metric data will be preserved and a new connection can be created at any time.</p>
+    </div>
+    <input type="hidden" id="ds-disc-key">
+    <div class="dlg-ftr">
+      <button class="btn btn-secondary btn-sm" type="button" onclick="dsCloseDisc()">Cancel</button>
+      <button class="btn btn-destructive btn-sm" type="button" onclick="dsDisconnectConfirmed()">Delete</button>
     </div>
   </div>
 </div>
@@ -552,7 +568,7 @@
 <div id="ds-edit-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:rgba(15,23,42,.4)" aria-hidden="true" onclick="if(event.target===this)dsCloseEdit()">
   <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:30rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-edit-title">
     <div class="dlg-hdr">
-      <h2 id="ds-edit-title" class="dlg-title">Edit connection</h2>
+      <h2 id="ds-edit-title" class="dlg-title">Edit Connection</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsCloseEdit()" style="width:2rem;height:2rem;flex:none">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -575,6 +591,27 @@
   </div>
 </div>
 
+<!-- ===== Data Source detail side panel ===== -->
+<div id="ds-ov" style="position:fixed;inset:0;z-index:40;pointer-events:none;background:transparent;transition:background .2s" aria-hidden="true" onclick="if(event.target===this)dsPanelClose()">
+  <div id="ds-panel" role="dialog" aria-modal="true" aria-labelledby="ds-panel-title"
+       style="position:fixed;top:40px;right:0;bottom:0;width:360px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);pointer-events:auto">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex:none">
+      <h2 id="ds-panel-title" style="flex:1;font-size:1.5rem;line-height:2rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Connection details</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsPanelClose()" style="width:1.75rem;height:1.75rem;flex:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- Body -->
+    <div id="ds-panel-body" style="flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem">
+    </div>
+    <!-- Footer actions: Disconnect (low priority, left) | Edit (primary action, right) -->
+    <div id="ds-panel-foot" style="padding:1rem 1.5rem;border-top:1px solid var(--border);flex:none;display:flex;gap:.5rem;justify-content:flex-end">
+      <button class="btn btn-outline-destructive btn-sm" type="button" style="margin-right:auto" id="ds-panel-delete-btn" onclick="">Delete Connection</button>
+      <button class="btn btn-secondary btn-sm" type="button" id="ds-panel-edit-btn" onclick="">Edit</button>
+    </div>
+  </div>
+</div>
 
 <script>
   /* ===== Connector data ===== */
@@ -678,8 +715,8 @@
     { name:'Stripe',     label:'Stripe Payments', status:'error',  desc:'Revenue and subscription data' },
     { name:'HubSpot',    label:'Marketing Hub',   status:'active', desc:'Campaign performance & lead scoring' },
   ];
-  var DS_VIEW = 'card'; /* 'card' | 'table' */
-  var DS_CARD_STYLE = 1; /* 1 = horizontal row | 2 = vertical multi-category */
+  var DS_VIEW = 'table'; /* always table for My Connections */
+  var DS_CARD_STYLE = 1;
 
   function dsMarkFallback(img, initial, color){
     var s = document.createElement('span');
@@ -740,49 +777,18 @@
       + '</span>';
   }
 
-  function dsCard2MarkWrap(c){
-    return '<span style="position:relative;flex:none;display:inline-flex">'
-      + '<span class="ds-card2-mark" aria-hidden="true">' + dsMkImg(c.slug, c.initial, c.mark) + '</span>'
-      + (c.popular ? FLAME_BADGE : '')
-      + '</span>';
-  }
-
   var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px;flex:none"><polyline points="20 6 9 17 4 12"/></svg>';
   var PLUS_SVG_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px;flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
 
-  function dsCardHtml(c, isConnected){
+  function dsCardHtml(c){
     var n = c.name.replace(/'/g, "\\'");
-    var btn = isConnected
-      ? '<button class="btn btn-sm btn-tertiary" type="button" aria-label="Edit connection" style="padding:0 .5rem;min-width:2rem;color:var(--fb-green)" onclick="dsOpenEdit(\'' + n + '\')">' + CHECK_SVG + '</button>'
-      : '<button class="btn btn-sm btn-tertiary" type="button" aria-label="Connect" style="padding:0 .5rem;min-width:2rem" onclick="dsConnect(\'' + n + '\')">' + PLUS_SVG_SM + '</button>';
-    var cardStyle = isConnected ? ' style="border-color:color-mix(in srgb,var(--fb-green) 35%,transparent)"' : '';
-    return '<div class="ds-card" role="listitem"' + cardStyle + '>'
+    var btn = '<button class="btn btn-sm btn-tertiary" type="button" aria-label="Connect" style="padding:0 .5rem;min-width:2rem" onclick="dsConnect(\'' + n + '\')">' + PLUS_SVG_SM + '</button>';
+    return '<div class="ds-card" role="listitem">'
       + dsMarkWrap(c)
       + '<div class="ds-card-body">'
       +   '<div class="ds-card-head"><span class="ds-card-name">' + c.name + '</span></div>'
-      +   '<div class="ds-card-cat">' + (c.cats || [c.cat]).join(' · ') + '</div>'
       + '</div>'
       + '<div class="ds-card-act">' + btn + '</div>'
-      + '</div>';
-  }
-
-  function dsCard2Html(c, isConnected){
-    var n = c.name.replace(/'/g, "\\'");
-    var PLUS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px;flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
-    var cats = (c.cats || [c.cat]).map(function(cat){
-      return '<span class="badge badge-sm badge-body">' + cat + '</span>';
-    }).join('');
-    var btn = isConnected
-      ? '<button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Edit connection" style="margin-left:auto;flex:none;color:var(--fb-green)" onclick="dsOpenEdit(\'' + n + '\')">' + CHECK_SVG + '</button>'
-      : '<button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Connect" style="margin-left:auto;flex:none" onclick="dsConnect(\'' + n + '\')">' + PLUS_SVG + '</button>';
-    var cardStyle = isConnected ? ' style="border-color:color-mix(in srgb,var(--fb-green) 35%,transparent)"' : '';
-    return '<div class="ds-card2" role="listitem"' + cardStyle + '>'
-      + '<div class="ds-card2-head">'
-      +   dsCard2MarkWrap(c)
-      +   '<span class="ds-card2-name">' + c.name + '</span>'
-      +   btn
-      + '</div>'
-      + '<div class="ds-card2-foot">' + cats + '</div>'
       + '</div>';
   }
 
@@ -797,14 +803,6 @@
     STATE.q = '';
     STATE.page = 1;
     dsRenderGrid();
-  }
-
-  function dsToggleCardStyle(){
-    DS_CARD_STYLE = DS_CARD_STYLE === 1 ? 2 : 1;
-    DS_VIEW = DS_CARD_STYLE === 2 ? 'table' : 'card';
-    STATE.page = 1;
-    dsRenderGrid();
-    dsRenderConnectedList();
   }
 
   function dsSegActivate(groupIds, activeId){
@@ -833,15 +831,6 @@
     dsRenderConnectedList();
   }
 
-  function dsSegConcept(btn, n){
-    dsSegActivate(['ds-seg-c1','ds-seg-c2'], btn.id);
-    DS_CARD_STYLE = n;
-    DS_VIEW = n === 2 ? 'table' : 'card';
-    STATE.page = 1;
-    dsRenderGrid();
-    dsRenderConnectedList();
-  }
-
   function dsSegTheme(btn, theme){
     dsSegActivate(['ds-seg-light','ds-seg-dark'], btn.id);
     document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -862,9 +851,7 @@
     var filtered = dsGetFiltered();
     var host = document.getElementById('ds-grid');
     var emptyMsg = '<div style="grid-column:1/-1;padding:1.5rem;text-align:center;color:var(--ink-secondary);font-size:.8125rem">No connectors match your filters.</div>';
-    var connectedNames = CONNECTED.map(function(c){return c.name;});
-    var cardFn = DS_CARD_STYLE === 2 ? dsCard2Html : dsCardHtml;
-    var wrapFn = function(c){ return cardFn(c, connectedNames.indexOf(c.name) !== -1); };
+    var wrapFn = function(c){ return dsCardHtml(c); };
     var prevCount = (STATE.page - 1) * PAGE_SIZE;
     var slice = filtered.slice(0, STATE.page * PAGE_SIZE);
     if(STATE.page === 1){
@@ -900,25 +887,24 @@
     var n = c.name.replace(/'/g, "\\'");
     var dotClass = c.status === 'error' ? 'is-error' : 'is-active';
     var statusLabel = c.status === 'error' ? 'Error · last sync failed' : 'Active · syncing';
-    var menuHtml = '<div class="menu ds-conn-menu" role="menu">'
+    var menuHtml = '<div class="menu ds-conn-menu kbp-menu" role="menu">'
       + '<div class="mi" role="menuitem" onclick="dsOpenEdit(\'' + n + '\')">Edit</div>'
       + '<div class="mi" role="menuitem">Test Connection</div>'
-      + '<div class="mi danger" role="menuitem" onclick="dsRemove(\'' + n + '\')">Delete</div>'
+      + '<div class="mi danger" role="menuitem" onclick="dsConfirmDisconnect(\'' + n + '\')">Disconnect</div>'
       + '</div>';
-    var kebab = '<button class="iconbtn iconbtn-tertiary ds-conn-more mx-kebab-btn" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more">'
+    var kebab = '<button class="iconbtn iconbtn-tertiary ds-conn-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1">'
       + '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>'
       + '</button>';
     if(DS_VIEW === 'table'){
       var dotColor = c.status === 'error' ? 'var(--fb-red-text)' : 'var(--fb-green)';
       var badgeTxt = c.status === 'error' ? 'Error' : 'Active';
-      return '<tr data-name="' + c.name + '">'
+      return '<tr data-name="' + c.name + '" onclick="if(!event.target.closest(\'[data-kbp],.kbp-menu\'))dsPanelOpen(\'' + n + '\')" style="cursor:pointer">'
         + '<td><span class="ds-conn-cell-label">' + (c.label || c.name) + '</span></td>'
         + '<td><div class="ds-conn-cell-name">'
         +   '<span class="ds-mark" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>'
         +   '<span style="color:var(--ink-secondary);font-size:.8125rem">' + c.name + '</span>'
         + '</div></td>'
-        + '<td style="font-size:.8125rem;color:var(--ink-secondary)">' + (c.desc || '') + '</td>'
-        + '<td class="mx-tbl-badge"><span class="badge badge-sm ' + (c.status === 'error' ? 'badge-red' : 'badge-green') + '"><span class="b-dot"></span>' + badgeTxt + '</span></td>'
+        + '<td style="font-size:.8125rem;color:var(--ink-secondary);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:0">' + (c.desc || '') + '</td>'
         + '<td class="mx-tbl-actions ds-conn-cell-act"><div class="ds-conn-more-wrap">' + kebab + menuHtml + '</div></td>'
         + '</tr>';
     }
@@ -945,9 +931,9 @@
     if(DS_VIEW === 'table'){
       host.innerHTML = '<div class="ds-conn-tbl mx-tbl">'
         + '<table class="tbl" aria-label="Connected data sources" style="table-layout:fixed;width:100%"><colgroup>'
-        + '<col style="width:26%"><col style="width:22%"><col style="width:30%"><col style="width:14%"><col style="width:8%">'
+        + '<col style="width:28%"><col style="width:22%"><col style="width:40%"><col style="width:10%">'
         + '</colgroup><thead><tr>'
-        + '<th>Connection name</th><th>Provider</th><th>Description</th><th>Status</th><th></th>'
+        + '<th>Connection name</th><th>Data Source</th><th>Description</th><th></th>'
         + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
     } else {
       host.innerHTML = '<div class="ds-conn-list' + (DS_CARD_STYLE === 1 ? ' is-single' : '') + '" role="list">' + rows + '</div>';
@@ -957,7 +943,7 @@
     if(bw) bw.classList.toggle('is-dismissed', n > 0);
     var tip = document.getElementById('ds-tab-conn-tip');
     if(tip){
-      if(n === 0) tip.setAttribute('data-tip', 'Connect a provider first');
+      if(n === 0) tip.setAttribute('data-tip', 'Connect a data source first');
       else tip.removeAttribute('data-tip');
     }
   }
@@ -1000,24 +986,24 @@
     document.querySelector('.ds-app').classList.toggle('ds-tab-catalog', tab === 'catalog');
   }
 
-  /* Click delegation — category chips + connected-row kebab menus. */
+  function dsKebabClose(){
+    document.querySelectorAll('[data-kbp][aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+  }
+  /* Click delegation — category chips + unified kebab menus. */
   document.addEventListener('click', function(e){
     var cat = e.target.closest('.chip[data-cat]');
     if(cat){ STATE.cat = cat.getAttribute('data-cat'); STATE.page = 1; dsRenderCats(); dsRenderGrid(); return; }
-    var more = e.target.closest('[data-action="more"]');
-    if(more){
-      e.stopPropagation();
-      var willOpen = more.getAttribute('aria-expanded') !== 'true';
-      document.querySelectorAll('.ds-conn-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-      more.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    var kbp = e.target.closest('[data-kbp]');
+    if(kbp){
+      var willOpen = kbp.getAttribute('aria-expanded') !== 'true';
+      dsKebabClose();
+      kbp.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
       return;
     }
-    if(!e.target.closest('.ds-conn-menu')){
-      document.querySelectorAll('.ds-conn-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-    }
+    if(!e.target.closest('.kbp-menu')) dsKebabClose();
   });
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') document.querySelectorAll('.ds-conn-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+    if(e.key === 'Escape') dsKebabClose();
   });
 
   function dsToggleSbxCollapse(){
@@ -1067,15 +1053,14 @@
     var label = document.getElementById('ds-conn-dispname').value.trim() || name;
     var desc  = document.getElementById('ds-conn-desc').value.trim();
     dsCloseConnDlg();
-    if(CONNECTED.some(function(c){ return c.name === name; })) return;
     CONNECTED.push({name:name, label:label, status:'active', description:desc});
     document.querySelector('.ds-app').classList.add('has-connections');
     var connTab = document.getElementById('ds-tab-connections');
     if(connTab && connTab.disabled){ connTab.disabled = false; connTab.removeAttribute('aria-disabled'); }
     dsRender();
-    dsSwitchTab('connections', document.getElementById('ds-tab-connections'));
     var newRow = document.querySelector('#ds-conn-body [data-name="' + name + '"]');
     if(newRow && DS_VIEW === 'card') newRow.classList.add('is-entering');
+    dsShowToast('<strong>' + label + '</strong> connected.', '<a href="#" onclick="dsSwitchTab(\'connections\',document.getElementById(\'ds-tab-connections\'));return false;" style="text-decoration:underline;color:var(--ink)">Manage in My Connections</a>');
   }
 
   function dsCloseConnDlg(){
@@ -1085,7 +1070,7 @@
 
   /* ===== Edit connection dialog ===== */
   function dsOpenEdit(name){
-    document.querySelectorAll('.ds-conn-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+    dsKebabClose();
     var c = CONNECTED.find(function(x){ return x.name === name; });
     if(!c) return;
     document.getElementById('ds-edit-key').value  = name;
@@ -1110,9 +1095,15 @@
     dsRenderConnectedList();
   }
 
-  /* ===== Remove — collapse row, then re-disable tab if last connection gone. ===== */
+  /* ===== Remove — update grid immediately, then animate connected-section row away. ===== */
   function dsRemove(name){
-    document.querySelectorAll('.ds-conn-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+    dsKebabClose();
+    /* Immediately remove from data + re-render catalog grid so card shows + button at once.
+       Reset page to 1 so dsRenderGrid always does a full host.innerHTML replace (not incremental append). */
+    CONNECTED = CONNECTED.filter(function(c){ return c.name !== name; });
+    STATE.page = 1;
+    dsRenderGrid();
+    /* Animate the connected-section row collapse */
     var rowEl = document.querySelector('#ds-conn-body [data-name="' + name + '"]');
     if(rowEl){
       var h = rowEl.offsetHeight;
@@ -1128,14 +1119,12 @@
       });
     }
     setTimeout(function(){
-      CONNECTED = CONNECTED.filter(function(c){ return c.name !== name; });
       if(CONNECTED.length === 0){
         document.querySelector('.ds-app').classList.remove('has-connections');
         var connTab = document.getElementById('ds-tab-connections');
         if(connTab){ connTab.disabled = true; connTab.setAttribute('aria-disabled','true'); }
-        dsSwitchTab('catalog', document.getElementById('ds-tab-catalog'));
       }
-      dsRender();
+      dsRenderConnectedList();
       document.getElementById('ds-grid').querySelectorAll('.ds-card').forEach(function(el){
         var nm = el.querySelector('.ds-card-name');
         if(nm && nm.textContent.trim() === name) el.classList.add('is-entering');
@@ -1177,6 +1166,138 @@
       if(t) t.setAttribute('aria-expanded','false');
     });
   });
+
+  /* ===== Data Source sidepanel ===== */
+  function dsPanelOpen(name) {
+    var c = CONNECTED.find(function(x){ return x.name === name; });
+    if (!c) return;
+    var src = CONNECTORS.find(function(x){ return x.name === name; }) || {};
+    var panelTitle = document.getElementById('ds-panel-title');
+    var panelBody  = document.getElementById('ds-panel-body');
+    var editBtn    = document.getElementById('ds-panel-edit-btn');
+    var deleteBtn  = document.getElementById('ds-panel-delete-btn');
+    if (panelTitle) panelTitle.textContent = 'Connection details';
+    var markHtml  = src.slug ? '<span class="ds-mark" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>' : '';
+    if (panelBody) panelBody.innerHTML = ''
+      + '<div style="display:flex;flex-direction:column;gap:1.25rem;font-size:.875rem">'
+      + '<div style="display:flex;flex-direction:column;gap:.25rem"><span style="font-size:.6875rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-body)">Name</span>'
+      + '<span style="font-weight:500;color:var(--ink)">'+ (c.label || c.name) +'</span></div>'
+      + '<div style="display:flex;flex-direction:column;gap:.375rem"><span style="font-size:.6875rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-body)">Data Source</span>'
+      + '<div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">'
+      + '<span style="display:inline-flex;align-items:center;gap:.5rem;color:var(--ink)">'+ markHtml +'<span>'+ c.name +'</span></span>'
+      + '<button class="btn btn-outline btn-sm" type="button" style="flex:none;font-size:.75rem" onclick="alert(\'Testing connection…\')">Test Connection</button>'
+      + '</div></div>'
+      + (c.desc ? '<div style="display:flex;flex-direction:column;gap:.25rem"><span style="font-size:.6875rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-body)">Description</span>'
+      + '<p style="font-size:.875rem;color:var(--ink-secondary);line-height:1.6;margin:0">'+ c.desc +'</p></div>' : '')
+      + '</div>';
+    if (editBtn)   editBtn.onclick   = function(){ dsPanelClose(); dsOpenEdit(name); };
+    if (deleteBtn) deleteBtn.onclick = function(){ dsPanelClose(); dsConfirmDisconnect(name); };
+    var ov = document.getElementById('ds-ov');
+    var panel = document.getElementById('ds-panel');
+    if (ov) { ov.style.pointerEvents = 'auto'; ov.style.background = 'rgba(15,23,42,.35)'; ov.setAttribute('aria-hidden','false'); }
+    if (panel) panel.style.transform = 'translateX(0)';
+    document.querySelectorAll('#ds-conn-body tr').forEach(function(r){ r.classList.remove('is-selected'); });
+    var sel = document.querySelector('#ds-conn-body tr[data-name="'+ name +'"]');
+    if (sel) sel.classList.add('is-selected');
+  }
+  function dsPanelClose() {
+    var ov = document.getElementById('ds-ov');
+    var panel = document.getElementById('ds-panel');
+    if (ov) { ov.style.pointerEvents = 'none'; ov.style.background = 'transparent'; ov.setAttribute('aria-hidden','true'); }
+    if (panel) panel.style.transform = 'translateX(100%)';
+    document.querySelectorAll('#ds-conn-body tr.is-selected').forEach(function(r){ r.classList.remove('is-selected'); });
+  }
+
+/* ===== Disconnect confirm ===== */
+function dsConfirmDisconnect(name) {
+  dsKebabClose();
+  var c = CONNECTED.find(function(x){ return x.name === name; });
+  document.getElementById('ds-disc-name').textContent = (c && c.label) ? c.label : name;
+  document.getElementById('ds-disc-key').value = name;
+  var dlg = document.getElementById('ds-disc-dlg');
+  dlg.style.display = 'flex'; dlg.setAttribute('aria-hidden','false');
+  setTimeout(function(){ dlg.querySelector('.btn-destructive').focus(); }, 50);
+}
+function dsCloseDisc() {
+  var dlg = document.getElementById('ds-disc-dlg');
+  dlg.style.display = 'none'; dlg.setAttribute('aria-hidden','true');
+}
+function dsDisconnectConfirmed() {
+  var name = document.getElementById('ds-disc-key').value;
+  dsCloseDisc();
+  dsRemove(name);
+}
+
+function clSetWidth(w, btn) {
+  document.documentElement.style.setProperty('--content-max-width', w + 'px');
+  document.documentElement.classList.toggle('content-960', w === 960);
+  try { localStorage.setItem('cl-content-width', String(w)); } catch(e) {}
+  if (btn) {
+    btn.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
+    btn.classList.add('is-active');
+    btn.setAttribute('aria-selected','true');
+  }
+}
+(function(){
+  var w = +(localStorage.getItem('cl-content-width') || 1200);
+  document.documentElement.style.setProperty('--content-max-width', w + 'px');
+  document.documentElement.classList.toggle('content-960', w === 960);
+  var seg = document.getElementById('cl-width-seg');
+  if (seg) {
+    seg.querySelectorAll('.segctrl-btn').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
+    var active = seg.querySelector('[data-w="' + w + '"]');
+    if (active) { active.classList.add('is-active'); active.setAttribute('aria-selected','true'); }
+  }
+}());
+</script>
+<script>
+/* Mobile/tablet hamburger — opens the sidebar drawer overlay. Cross-page consistent. */
+window.clOpenSidebar = function(){
+  document.documentElement.classList.add('side-open');
+  var sbx = document.querySelector('.cl-side .sbx');
+  if(sbx) sbx.classList.remove('is-collapsed');
+};
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && document.documentElement.classList.contains('side-open')){
+    document.documentElement.classList.remove('side-open');
+  }
+});
+(function(){
+  function apply(){ if(window.innerWidth >= 1024) document.documentElement.classList.remove('side-open'); }
+  window.addEventListener('resize', apply); apply();
+})();
+</script>
+<div id="ds-toast-wrap" role="status" aria-live="polite" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:60;pointer-events:none;opacity:0;transform:translateY(.5rem);transition:opacity .2s,transform .2s">
+  <div class="toast var-success">
+    <div class="toast-row">
+      <svg class="toast-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      <div class="toast-body"><span class="toast-msg" id="ds-toast-msg"></span></div>
+      <button class="iconbtn iconbtn-tertiary toast-x" type="button" aria-label="Close" onclick="dsHideToast()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="toast-prog"><span id="ds-toast-prog"></span></div>
+  </div>
+</div>
+<script>
+var _dsToastTimer = null;
+function dsShowToast(msg, linkHtml){
+  var wrap = document.getElementById('ds-toast-wrap');
+  var msgEl = document.getElementById('ds-toast-msg');
+  var prog = document.getElementById('ds-toast-prog');
+  if(!wrap || !msgEl) return;
+  msgEl.innerHTML = msg + (linkHtml ? ' ' + linkHtml : '');
+  wrap.style.pointerEvents = 'auto';
+  wrap.style.opacity = '1'; wrap.style.transform = 'translateY(0)';
+  prog.style.transition = 'none'; prog.style.width = '100%';
+  requestAnimationFrame(function(){
+    prog.style.transition = 'width 5s linear'; prog.style.width = '0';
+  });
+  clearTimeout(_dsToastTimer);
+  _dsToastTimer = setTimeout(dsHideToast, 5000);
+}
+function dsHideToast(){
+  var wrap = document.getElementById('ds-toast-wrap');
+  if(wrap){ wrap.style.opacity = '0'; wrap.style.transform = 'translateY(.5rem)'; wrap.style.pointerEvents = 'none'; }
+}
 </script>
 </body>
 </html>

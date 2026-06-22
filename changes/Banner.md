@@ -10,13 +10,13 @@ Adds a `.banner-grad` modifier variant. The base `.banner` component is unchange
 | **`.banner-grad .banner-t`** | — | `color: var(--banner-grad-text)` (white) | Full white for contrast on dark gradient |
 | **`.banner-grad .banner-d`** | — | `color: var(--banner-grad-sub)` (white @ 82%); `<b>` inside → `var(--banner-grad-text)` | Slightly dimmed to create title/desc hierarchy on gradient |
 | **`.banner-grad .btn-primary`** | — | `background: var(--banner-grad-text)` (white); `color: var(--brand-primary)`; hover: `background: var(--banner-grad-sub)` | Inverted: white button with brand text — highest contrast CTA on gradient |
-| **`.banner-grad .btn-secondary`** | — | No override — standard btn-secondary across both themes | Same button in light and dark |
+| **`.banner-grad .btn-secondary`** | — | No override — default `btn-secondary` styles apply (card bg, `--ink-body` text, `--btn-secondary-border`) | Solid card-surface button — readable on gradient without custom rules |
 
 ## Token map
 
 | Token | Value | Layer |
 |---|---|---|
-| `--grad-teal-dark` | `linear-gradient(135deg, var(--brand-400) 0%, var(--slate-900) 100%)` | Semantic |
+| `--grad-teal-dark` | Light: `linear-gradient(90deg, var(--brand-700) 0%, var(--brand-400) 100%)` · Dark: `linear-gradient(90deg, var(--brand-900) 0%, var(--brand-700) 100%)` | Semantic |
 | `--banner-grad-text` | `var(--white)` | Semantic |
 | `--banner-grad-sub` | `color-mix(in srgb, var(--white) 82%, transparent)` | Semantic |
 | `--banner-grad-ic-bg` | `color-mix(in srgb, var(--white) 18%, transparent)` | Semantic |

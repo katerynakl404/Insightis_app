@@ -12,6 +12,18 @@
 
 ### Sidebar
 
+- **`Chats` top-level nav row retired** ([`archive/2026-06-22-chats-nav-item/`](archive/2026-06-22-chats-nav-item/))
+  - The standalone `Chats` `.sbx-nav-item` (added to all six sidebar pages between `New Chat` and `Data Sources`) has been removed. Original markup preserved verbatim under `archive/2026-06-22-chats-nav-item/` with a restore recipe.
+  - Why retired: now that Concept B drawer is the default, the See-all links inside the Pinned / Recent section headers stay visible at `≤ 1023.98 px` and the headers themselves are fully-clickable rows. The Pinned / Recent chat list is rendered inline directly below the nav block — that **is** the chats-library entry point — so a separate `Chats` nav-item duplicated the meaning of the chat-list block immediately under it.
+  - Section chevron is still always-visible on touch / tablet widths (`@media (max-width: 1023.98px)` in `pages/kit-theme.css`) so touch users keep their entry point.
+  - **`.sbx-chats-icon` is unchanged** — it remains the collapsed-mode icon button that re-expands the icon-rail sidebar. Only the standalone full-width nav row has been removed.
+
+- **Chat-row fade gradient — wider fade band when the kebab appears** ([`changes/Sidebar.md`](changes/Sidebar.md), [`pages/kit-theme.css`](pages/kit-theme.css))
+  - On hover / focus-within / open-menu, `.sbx-chat::after`'s `width` **expands** from `36 px → 72 px` while staying anchored at `right: 0`. The gradient still resolves to full `--chat-fade` at the right edge — so the kebab sits on clean solid row hover bg — but the wider band means text starts fading further to the left, giving a longer smooth transition rather than the abrupt 36 px cliff right next to the button.
+
+- **Section header — full-row collapse trigger** ([`changes/Sidebar.md`](changes/Sidebar.md), [`pages/kit-theme.css`](pages/kit-theme.css))
+  - `.sbx-sect-label-wrap` toggle button now stretches `flex:1` to fill the row from the left padding to just before the `See all` link (was `inline-flex` sized to text width). Clicking anywhere on the **PINNED** / **RECENT** header — label, chevron, or the empty horizontal space between them — now collapses/expands the section. `See all` sits as a sibling and keeps its own click target (navigates, never collapses). No markup change required; the change is one CSS rule.
+
 - **Tooltips removed** ([`changes/Sidebar.md`](changes/Sidebar.md), [`changes/TruncatedTitleTooltip.md`](changes/TruncatedTitleTooltip.md))
   - Dropped the `TruncatedTitleTooltip` wiring on `.sbx-chat` (chat-row labels no longer surface a hover tooltip with the full title — the persistent right-edge gradient fade is the only truncation signal; kebab → Rename remains the way to access/edit the full label). Removed `title=` from chat-row markup in [`pages/concept/chat-landing.html`](pages/concept/chat-landing.html) and the storybook chat-row demo in [`insightis-preview-kit.html`](insightis-preview-kit.html).
   - Dropped `data-tip` / `data-tip-side="right"` from every `.sbx-nav-item` in [`pages/concept/data-sources_connections-landing.html`](pages/concept/data-sources_connections-landing.html) and [`pages/concept/data-sources_files-landing.html`](pages/concept/data-sources_files-landing.html). Collapsed-mode nav rows still expose their name via `aria-label` (preserved); no visual tooltip overlays remain in the sidebar.

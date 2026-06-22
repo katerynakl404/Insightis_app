@@ -15,6 +15,13 @@ Quick rules:
 
 **Page files show Expected state only** — never add a "Current / Expected" toggle button or `.sb-cur` / `.prod` scoping to `pages/*.html` files. The current prod state already exists on the live product; page files are Expected-only design references.
 
+**Archive folder rules (`archive/`)** — `archive/` is the local graveyard for retired design iterations. Three hard rules apply:
+1. **Nothing live depends on `archive/`.** No `pages/*.html`, `insightis-preview-kit.html`, `pages/kit-theme.css`, `changes/*.md`, or `current/*.md` may `<link>`, `<script src>`, `@import`, or copy-paste from `archive/`. The folder must be deletable at any time without breaking the kit.
+2. **Always preserve verbatim what was archived.** When a user says "send X to archive", create `archive/YYYY-MM-DD-<slug>/` with the original CSS/HTML/JS fragments saved as files there, plus a `README.md` covering *What / Why / How to restore*. Don't summarise — preserve the source so it's recoverable by copy-paste.
+3. **`archive/` is not pushed to git** (it's in `.gitignore`). When restoring, the user re-introduces selectors / markup / scripts manually using the README as the recipe.
+
+See `archive/README.md` for the full conventions and per-subfolder structure.
+
 **Spacing follows the 4px design-system step** — never override the global `.cl-page` gap in a page `<style>` block. Use `margin-top` on individual section wrappers at valid 4px-step rem values (`.5rem`, `.75rem`, `1rem`, `1.25rem`, `1.5rem`, `2rem`, …).
 
 **Visibility-toggle classes must never sit directly on a kit component** — kit components (`.banner`, `.card`, `.chip-row`, `.swt`, etc.) define their own `display` property (often `flex`). Putting a visibility class such as `mx-c1-only`, `mx-c3-only`, `mx-browse`, `mx-mymetrics` directly on the component overrides that `display` and breaks its layout. **Always wrap in a neutral `<div>`:**
@@ -39,6 +46,8 @@ Rest state also carries a ghost shadow: `box-shadow: 0 1px 2px 0 rgba(15,23,42,.
 `--border-hover` is reserved for **form inputs only** (`.field`, `.ta`, `.igrp`).
 
 **No raw components in page layout** — never drop a bare `.chip`, `.card`, `.badge`, etc. directly into page layout without wrapping it in a page-specific class. Kit components are always composed, never used raw.
+
+**Undesigned sub-surfaces (dropdowns, modals, popovers)** — When creating or redesigning a page, list every interactive trigger that opens a surface (dropdown, modal, drawer, popover). For each one, ask: *"Is this in scope, or should I add a WIP placeholder?"* If not in scope, prepend `<div class="menu-wip" aria-hidden="true">…</div>` inside the menu and add a `<div class="pg-wip-tag" aria-hidden="true">In redesign</div>` side label to the page. Do not move a page to approved/finalised without coordinating all opening elements. Markup: `.menu-wip` (amber header row in any `.menu`) and `.pg-wip-tag` (fixed right-edge vertical pill) are both defined in `pages/kit-theme.css`.
 
 ## Change discipline (hard rules — read before editing any kit component)
 

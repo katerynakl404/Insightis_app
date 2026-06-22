@@ -15,6 +15,7 @@ designs the expected state, edits the kit, and keeps the change files in sync.
 | `token-diff-report.md` | Authoritative color-token migration reference (prod tokens → new system). |
 | `pages/` | Full-page composition mockups + the shared `kit-theme.css`. |
 | `logo/` | Brand logos (light/dark). |
+| **`archive/`** | **Local graveyard for retired design iterations. NOT pushed to git (`.gitignore`'d). NEVER referenced by live pages, the kit, or any change/current doc — `archive/` must be deletable at any time without breaking the artifact. When the user says "send X to archive", create `archive/YYYY-MM-DD-<slug>/` with the original CSS/HTML/JS fragments saved verbatim + a README covering What / Why / How to restore.** Full conventions: `archive/README.md`. |
 
 ## The golden rule (read carefully)
 
