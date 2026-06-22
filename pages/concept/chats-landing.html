@@ -36,10 +36,16 @@
   @media (min-width:768px){
     .cl-page-title{font-size:1.875rem;line-height:2.25rem}
   }
-  /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) so the page title
-     isn't overlapped by the hamburger button at narrow widths. */
-  @media (max-width: 1023.98px){
-    .cl-page{padding-left:3.25rem}
+  /* Narrow-width burger alignment: pull content (.cl-page) left to align with the burger's left
+     edge (both at .75 rem from .cl-main edge), shift ONLY the title further right to clear the
+     burger horizontally (title text at burger right + 8 px = 52 px = 3.25 rem from .cl-main edge,
+     so 2.5 rem padding-left from the now-narrower .cl-page edge), and drop the burger down to sit
+     on the same row as the title. Threshold matches kit-theme's burger breakpoint
+     (= prod's useIsMobile, < 768 px). */
+  @media (max-width: 767px){
+    .cl-page{padding-left:.75rem;padding-right:.75rem}
+    .cl-page > .cl-page-title{padding-left:2.5rem}
+    .cl-burger{top:2.25rem}
   }
 
   /* Search input — expanded to fill the container (kit's default .field max-width 240 is for inline use) */
@@ -105,7 +111,6 @@
 </style>
 </head>
 <body>
-<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -143,7 +148,10 @@
 
 <!-- ===== Topbar with two toggles ===== -->
 <div class="topbar">
-  <span class="ttl">Chats library</span>
+  <div style="display:flex;align-items:center;gap:.5rem">
+    <span class="ttl">Chats library</span>
+    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+  </div>
   <div style="display:flex;gap:.375rem">
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
@@ -196,6 +204,11 @@
           </button>
         </div>
         <div class="sbx-chats">
+          <!-- Collapsed-mode icon: shown only when .sbx has .is-collapsed. Replaces the hidden Pinned/Recent
+               sections in icon-rail mode; clicking it expands the sidebar back to full width. -->
+          <button class="sbx-chats-icon" type="button" aria-label="Chats" onclick="document.querySelector('.cl-side .sbx').classList.remove('is-collapsed')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
           <div class="sbx-sect">
             <div class="sbx-sect-head">
               <button class="sbx-sect-label-wrap" type="button" aria-expanded="true" onclick="var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">

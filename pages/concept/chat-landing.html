@@ -214,7 +214,6 @@
 </style>
 </head>
 <body>
-<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols — copied verbatim from insightis-preview-kit.html so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -254,7 +253,10 @@
      Kit chrome only (page title + Light/Dark toggle). Removed for prod — so the hamburger
      can NOT live here; it lives on the page itself (see .cl-main below). -->
 <div class="topbar">
-  <span class="ttl">Chat landing</span>
+  <div style="display:flex;align-items:center;gap:.5rem">
+    <span class="ttl">Chat landing</span>
+    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+  </div>
   <div style="display:flex;gap:.375rem">
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
@@ -312,6 +314,11 @@
         </div>
 
         <div class="sbx-chats">
+          <!-- Collapsed-mode icon: shown only when .sbx has .is-collapsed. Replaces the hidden Pinned/Recent
+               sections in icon-rail mode; clicking it expands the sidebar back to full width. -->
+          <button class="sbx-chats-icon" type="button" aria-label="Chats" onclick="document.querySelector('.cl-side .sbx').classList.remove('is-collapsed')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
           <div class="sbx-sect">
             <div class="sbx-sect-head">
               <button class="sbx-sect-label-wrap" type="button" aria-expanded="true" onclick="var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">

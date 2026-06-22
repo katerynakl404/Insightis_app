@@ -18,9 +18,11 @@
   .cl-main{position:relative;display:flex;flex-direction:column;width:100%;min-width:0;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px);overflow-x:hidden}
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   .cl-page-title{margin:0 0 .25rem}
-  /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) so the page title
-     isn't overlapped by the hamburger button at narrow widths. */
-  @media (max-width: 1023.98px){.cl-page{padding-left:3.25rem}}
+  /* Narrow-width burger alignment: pull content (.cl-page) left to align with burger's left edge
+     (both at .75 rem), shift ONLY the title-row right to clear the burger horizontally (title text
+     at 52 px from .cl-main edge), and drop the burger down to sit on the same row as the title.
+     Threshold matches kit-theme's burger breakpoint (= prod's useIsMobile, < 768 px). */
+  @media (max-width: 767px){.cl-page{padding-left:.75rem;padding-right:.75rem}.cl-page > .ds-page-head{padding-left:2.5rem}.cl-burger{top:2.25rem}}
 
   /* ===== Data Sources — layout-only helpers ===== */
   /* Status badges — softer bg than kit default 15% */
@@ -58,8 +60,18 @@
   .ds-app.has-connections .ds-conn-section{max-height:60rem;opacity:1}
   .ds-conn-section:has([data-kbp][aria-expanded="true"]){overflow:visible}
 
-  /* ===== Connector grid ===== */
+  /* ===== Connector grid =====
+     Responsive breakpoints account for the sidebar (visible at ≥ 768 px, consuming 16 rem ≈ 256 px
+     of viewport). Available content width = viewport − 256 px sidebar − 64 px page padding.
+     ≥ 1280 px       → 4 cols (content ≥ 960 px → cards ≥ 230 px each)
+     1024 – 1279 px  → 3 cols (content 704–959 → cards 235–320 px)
+     768 – 1023 px   → 2 cols (content 448–703 → cards 224–352 px)
+     600 – 767 px    → 2 cols (sidebar drawer-only, content = viewport − 64 px)
+     < 600 px        → 1 col  (full-width single-column for narrow phones) */
   .ds-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:.75rem}
+  @media (max-width:1279px){.ds-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media (max-width:1023px){.ds-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:599px){.ds-grid{grid-template-columns:1fr}}
   /* Concept 1 — horizontal row card */
   .ds-card{display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
   .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)}
@@ -136,10 +148,15 @@
   .no-init-transition *{transition:none!important}
 
   @media (max-width:880px){
-    .cl-shell{grid-template-columns:1fr}
-    .cl-side{display:none}
-    .ds-grid{grid-template-columns:1fr}
+    /* Page-specific layout: tighten .cl-main top/bottom padding on smaller viewports. Grid column
+       counts are handled by the .ds-grid breakpoints above (1024 → 3 cols, 768 → 2 cols, 600 → 1
+       col). Sidebar visibility is handled by kit-theme.css at < 768 px. */
     .cl-main{padding:1.5rem 0 3rem}
+  }
+  /* When the burger DOES appear (< 768 px) and .cl-main has the 1.5rem padding-top (set by the
+     880 rule above), re-align the burger to that smaller top so it stays on the title row. */
+  @media (max-width:767px){
+    .cl-burger{top:1.5rem}
   }
   @media (max-width:600px){
     .ds-page-head{flex-wrap:wrap}
@@ -160,7 +177,6 @@
 </style>
 </head>
 <body>
-<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -198,7 +214,10 @@
 
 <!-- ===== Topbar with toggles ===== -->
 <div class="topbar">
-  <span class="ttl" style="white-space:nowrap">Data Sources</span>
+  <div style="display:flex;align-items:center;gap:.5rem">
+    <span class="ttl" style="white-space:nowrap">Data Sources</span>
+    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+  </div>
   <div style="display:flex;align-items:center;gap:.625rem;flex-shrink:0">
     <div class="segctrl is-sm" style="width:auto">
       <button class="segctrl-btn is-active" id="ds-seg-empty" type="button" onclick="dsSegState(this,'empty')">Empty</button>
@@ -238,26 +257,31 @@
           </button>
         </div>
         <div class="sbx-nav">
-          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" data-tip="New Chat" data-tip-side="right" onclick="location.href='chat-landing.html'">
+          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='chat-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
             <span class="lbl">New Chat</span>
           </button>
-          <button class="sbx-nav-item active" type="button" aria-current="page" data-tip="Data Sources" data-tip-side="right" onclick="location.href='data-sources_connections-landing.html'">
+          <button class="sbx-nav-item active" type="button" aria-current="page" aria-label="Data Sources" onclick="location.href='data-sources_connections-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
             <span class="lbl">Data Sources</span>
           </button>
-          <button class="sbx-nav-item" type="button" data-tip="Metrics" data-tip-side="right" onclick="location.href='metrics-landing.html'">
+          <button class="sbx-nav-item" type="button" aria-label="Metrics" onclick="location.href='metrics-landing.html'">
             <!-- Pie-chart icon — Metrics glyph -->
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
             <span class="lbl">Metrics</span>
           </button>
-          <button class="sbx-nav-item" type="button" data-tip="Files" data-tip-side="right" onclick="location.href='data-sources_files-landing.html'">
+          <button class="sbx-nav-item" type="button" aria-label="Files" onclick="location.href='data-sources_files-landing.html'">
             <!-- Folder icon — Files glyph (Lucide folder) -->
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
             <span class="lbl">Files</span>
           </button>
         </div>
         <div class="sbx-chats">
+          <!-- Collapsed-mode icon: shown only when .sbx has .is-collapsed. Replaces the hidden Pinned/Recent
+               sections in icon-rail mode; clicking it expands the sidebar back to full width. -->
+          <button class="sbx-chats-icon" type="button" aria-label="Chats" onclick="document.querySelector('.cl-side .sbx').classList.remove('is-collapsed')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
           <div class="sbx-sect">
             <div class="sbx-sect-head">
               <button class="sbx-sect-label-wrap" type="button" aria-expanded="true" onclick="var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
@@ -600,7 +624,7 @@
        style="position:fixed;top:40px;right:0;bottom:0;width:360px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);pointer-events:auto">
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex:none">
-      <h2 id="ds-panel-title" style="flex:1;font-size:1.5rem;line-height:2rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Connection details</h2>
+      <h2 id="ds-panel-title" style="flex:1;font-size:1.125rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Connection details</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsPanelClose()" style="width:1.75rem;height:1.75rem;flex:none">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -608,10 +632,10 @@
     <!-- Body -->
     <div id="ds-panel-body" style="flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem">
     </div>
-    <!-- Footer actions: Disconnect (low priority, left) | Edit (primary action, right) -->
-    <div id="ds-panel-foot" style="padding:1rem 1.5rem;border-top:1px solid var(--border);flex:none;display:flex;gap:.5rem;justify-content:flex-end">
-      <button class="btn btn-outline-destructive btn-sm" type="button" style="margin-right:auto" id="ds-panel-delete-btn" onclick="">Delete Connection</button>
-      <button class="btn btn-secondary btn-sm" type="button" id="ds-panel-edit-btn" onclick="">Edit</button>
+    <!-- Footer actions: Test connection (left) | Disconnect | Edit -->
+    <div id="ds-panel-foot" style="padding:1rem 1.5rem;border-top:1px solid var(--border);flex:none;display:flex;gap:.5rem;align-items:center">
+      <button class="btn btn-outline-destructive btn-sm" type="button" id="ds-panel-delete-btn" style="margin-right:auto" onclick="">Disconnect</button>
+      <button class="btn btn-primary btn-sm" type="button" id="ds-panel-edit-btn" onclick="">Edit</button>
     </div>
   </div>
 </div>
@@ -1180,18 +1204,19 @@
     var editBtn    = document.getElementById('ds-panel-edit-btn');
     var deleteBtn  = document.getElementById('ds-panel-delete-btn');
     if (panelTitle) panelTitle.textContent = 'Connection details';
-    var markHtml  = src.slug ? '<span class="ds-mark" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>' : '';
+    var markHtml  = src.slug ? '<span class="ds-mark" style="width:2rem;height:2rem;border-radius:.375rem;flex:none" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>' : '';
     if (panelBody) panelBody.innerHTML = ''
-      + '<div style="display:flex;flex-direction:column;gap:1.25rem;font-size:.875rem">'
-      + '<div style="display:flex;flex-direction:column;gap:.25rem"><span style="font-size:.6875rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-body)">Name</span>'
-      + '<span style="font-weight:500;color:var(--ink)">'+ (c.label || c.name) +'</span></div>'
-      + '<div style="display:flex;flex-direction:column;gap:.375rem"><span style="font-size:.6875rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-body)">Data Source</span>'
-      + '<div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">'
-      + '<span style="display:inline-flex;align-items:center;gap:.5rem;color:var(--ink)">'+ markHtml +'<span>'+ c.name +'</span></span>'
-      + '<button class="btn btn-outline btn-sm" type="button" style="flex:none;font-size:.75rem" onclick="alert(\'Testing connection…\')">Test Connection</button>'
+      + '<div class="dp-fields">'
+      + '<div class="dp-field"><span class="dp-label">Name</span>'
+      + '<span class="dp-value-name">'+ (c.label || c.name) +'</span></div>'
+      + '<div class="dp-field"><span class="dp-label">Data Source</span>'
+      + '<div style="display:flex;align-items:center;gap:.625rem">'
+      + markHtml
+      + '<span style="font-size:.875rem;font-weight:500;color:var(--ink);line-height:1.4">'+ c.name +'</span>'
       + '</div></div>'
-      + (c.desc ? '<div style="display:flex;flex-direction:column;gap:.25rem"><span style="font-size:.6875rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-body)">Description</span>'
-      + '<p style="font-size:.875rem;color:var(--ink-secondary);line-height:1.6;margin:0">'+ c.desc +'</p></div>' : '')
+      + '<button type="button" class="btn btn-outline btn-sm" style="width:100%" onclick="alert(\'Testing connection…\')">Test Connection</button>'
+      + (c.desc ? '<div class="dp-field"><span class="dp-label">Description</span>'
+      + '<p class="dp-value-body">'+ c.desc +'</p></div>' : '')
       + '</div>';
     if (editBtn)   editBtn.onclick   = function(){ dsPanelClose(); dsOpenEdit(name); };
     if (deleteBtn) deleteBtn.onclick = function(){ dsPanelClose(); dsConfirmDisconnect(name); };

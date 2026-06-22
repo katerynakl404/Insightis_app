@@ -12,6 +12,7 @@
 
 ## Layout changes
 
+- **Category chip filters** (`#ds-cats`) scroll horizontally on tablet + mobile (≤ 880 px) — no wrapping. Desktop keeps `flex-wrap:wrap`. Rule lives in `kit-theme.css` on `.chip-row`.
 - **Search** moves from page-level into the Catalog panel (above chip filters); placeholder reads "Search data sources…"
 - **My Connections tab** is disabled on load; JS enables it on first successful connection and re-disables it when the last connection is removed
 - **Banner** in My Connections uses `.banner.banner-grad` (same gradient style as the Metrics page); collapses via `.is-dismissed` once connections exist; label reads "Browse the Catalog"
@@ -71,6 +72,33 @@ The connect action button on **Card Style 1** (`dsCardHtml`) must use the standa
 | **Markup location** | Built in `dsCardHtml()` in the page `<script>` block — in the `ds-card-act` container. |
 
 This was corrected on 2026-06-18 after being flagged multiple times. Do not revert to `iconbtn`.
+
+## Mobile layout — My Connections table (≤ 767 px)
+
+At the `< 768 px` breakpoint (prod's `useIsMobile` threshold) the My Connections table reflows into a vertical card stack via `.ds-conn-tbl`. No horizontal scroll — each row becomes a 2-column grid card.
+
+| | Desktop | ≤ 767 px (mobile) |
+|---|---|---|
+| Layout | `<table>` with `thead` + `tbody tr` | `thead` hidden; each `tbody tr` → card with `grid-template-columns: 1fr auto` |
+| Visual order | col 1 = connection label · col 2 = DS icon+name | **DS icon+name leads** (row 1 via `grid-row`) · connection label as subtitle (row 2) — swapped from DOM order |
+| Description | col 3, single-line truncated | col 3 → row 3, `-webkit-line-clamp: 2` |
+| Kebab | col 4, hover-reveal | col 4 → right column spanning all rows; always visible (no hover on touch) |
+| Hover state | `State/Hover` bg + brand-tinted border + shadow | Suppressed on touch; re-enabled only under `(hover: hover)` media query |
+| Row with open menu | `overflow: visible` inherited | `z-index: 20; overflow: visible` via `:has([data-kbp][aria-expanded="true"])` |
+
+Selector: `.ds-conn-tbl` wraps the `<table class="tbl">` element. Rule lives in `pages/kit-theme.css` at the shared responsive-tables block (below the `.mx-tbl` block).
+
+## Detail panel fields
+
+Clicking a connection row opens a right sidepanel. Fields are rendered with the shared `.dp-fields` → `.dp-field` → `.dp-label` / `.dp-value` component (defined in `pages/kit-theme.css`):
+
+| Class | Role |
+|---|---|
+| `.dp-fields` | Column container, `gap: 1.25rem` |
+| `.dp-label` | Uppercase `0.75rem` / weight 500 / `--ink-secondary` field label |
+| `.dp-value` | `0.875rem` / `--ink` field value, flex row for icon + text |
+| `.dp-value-name` | `1rem` / weight 600 primary name row |
+| `.dp-value-body` | `0.875rem` / `--ink-body` prose description |
 
 ## Out of scope
 

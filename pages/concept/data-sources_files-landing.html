@@ -23,9 +23,11 @@
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   .cl-page-title{scroll-margin:5rem;font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0 0 .25rem}
   @media (min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
-  /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) so the page title
-     isn't overlapped by the hamburger button at narrow widths. */
-  @media (max-width: 1023.98px){.cl-page{padding-left:3.25rem}}
+  /* Narrow-width burger alignment: pull content (.cl-page) left to align with burger's left edge
+     (both at .75 rem), shift ONLY the title-row right to clear the burger horizontally (title text
+     at 52 px from .cl-main edge), and drop the burger down to sit on the same row as the title.
+     Threshold matches kit-theme's burger breakpoint (= prod's useIsMobile, < 768 px). */
+  @media (max-width: 767px){.cl-page{padding-left:.75rem;padding-right:.75rem}.cl-page > .ds-page-head{padding-left:2.5rem}.cl-burger{top:2.25rem}}
 
   /* Page head — title left, no separate CTA (action lives in the tab row per spec) */
   .ds-page-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
@@ -108,7 +110,6 @@
 </style>
 </head>
 <body>
-<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -143,7 +144,10 @@
 
 <!-- ===== Topbar ===== -->
 <div class="topbar">
-  <span class="ttl">Data Sources (Files)</span>
+  <div style="display:flex;align-items:center;gap:.5rem">
+    <span class="ttl">Data Sources (Files)</span>
+    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+  </div>
   <div style="display:flex;align-items:center;gap:.625rem">
     <div class="segctrl is-sm" id="cl-width-seg" role="tablist" aria-label="Content width" style="width:auto;flex:none">
       <button class="segctrl-btn" role="tab" type="button" aria-selected="false" data-w="960" style="padding:0 .5rem" onclick="clSetWidth(960,this)">960</button>
@@ -195,6 +199,11 @@
           </button>
         </div>
         <div class="sbx-chats">
+          <!-- Collapsed-mode icon: shown only when .sbx has .is-collapsed. Replaces the hidden Pinned/Recent
+               sections in icon-rail mode; clicking it expands the sidebar back to full width. -->
+          <button class="sbx-chats-icon" type="button" aria-label="Chats" onclick="document.querySelector('.cl-side .sbx').classList.remove('is-collapsed')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
           <div class="sbx-sect">
             <div class="sbx-sect-head">
               <button class="sbx-sect-label-wrap" type="button" aria-expanded="true">

@@ -190,6 +190,49 @@
     --shadow-overlay-soft:0 10px 15px -3px rgba(0,0,0,.12),0 4px 6px -4px rgba(0,0,0,.08);
     --shadow-menu:0 6px 16px -4px rgba(0,0,0,.12),0 2px 4px -2px rgba(0,0,0,.06);
   }
+
+  /* =========================================================================
+     RESPONSIVE BREAKPOINTS — canonical thresholds used across the kit and pages.
+     ---------------------------------------------------------------------------
+     Whole-number values, aligned with the industry-standard sm/md/lg/xl scale
+     (640 / 768 / 1024 / 1280) used by Tailwind, Bootstrap, Material, etc.
+     For `max-width` queries we use the value one pixel BELOW each boundary so
+     `@media (max-width: 1023px)` and `@media (min-width: 1024px)` partition
+     the viewport without overlap or gap.
+
+     Use the SAME numerical thresholds everywhere — don't invent new ones
+     (no 720, 760, 880, 1100, etc). When you need a new bucket, add it here
+     first, then use it consistently. CSS doesn't allow `var()` inside `@media`,
+     so the values are documented here rather than as actual `var()` tokens.
+
+       Standard boundary  | max-width form  | meaning
+       ─────────────────────────────────────────────────────────────────────
+       600 px (sm)        | max-width: 599  | single-column phone layout
+       768 px (md)        | max-width: 767  | ≡ prod's `useIsMobile` hook —
+                                              sidebar drawer overlay activates,
+                                              burger button becomes visible.
+       1024 px (lg)       | max-width: 1023 | sidebar visible but content narrow —
+                                              grids drop one column, banners
+                                              stack instead of row.
+       1280 px (xl)       | max-width: 1279 | full multi-column layout for
+                                              content grids; below this drop
+                                              one column.
+
+     Pattern for content grids that drop one column per step:
+       4 cols (≥ xl 1280)
+       3 cols (≤ xl 1279)
+       2 cols (≤ lg 1023)
+       1 col  (≤ sm 599)
+
+     Pattern for layout switches:
+       Drawer + burger              → ≤ md (767)
+       Stack row → column           → ≤ md (767) for most flex rows;
+                                      ≤ lg (1023) for content like banners
+                                      where the row gets cramped at tablet.
+       Always-visible affordances
+         (See all, section chevron) → ≤ md (767) (matches drawer threshold)
+     ========================================================================= */
+
   /* ===== SEMANTIC TOKENS — dark theme overrides ===== */
   .dark{
     --bg:var(--grey-950);--card:var(--grey-900);--card2:var(--grey-800);--chips:var(--grey-700);
@@ -710,9 +753,29 @@
   .banner-ic svg{width:28px;height:28px}
   .banner-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.375rem}
   .banner-t{font-size:1rem;font-weight:600;color:var(--ink);line-height:1.3;margin:0}
-  .banner-d{font-size:.875rem;color:var(--ink-body);line-height:1.5;margin:0}
+  .banner-d{font-size:.875rem;color:var(--ink-body);line-height:1.5;margin:0;max-width:66ch}
   .banner-d b{color:var(--ink);font-weight:600}
   .banner-cta{flex:none}
+  /* Compact modifier — smaller padding + icon; use on secondary/inline banners */
+  .banner-sm{padding:1rem 1.25rem}
+  .banner-sm .banner-ic{width:2.5rem;height:2.5rem;border-radius:.5rem}
+  .banner-sm .banner-ic svg{width:20px;height:20px}
+  .banner-sm .banner-t{font-size:.9375rem}
+  /* Responsive — aligns with kit breakpoints (880 px sidebar hides / 600 px single-col).
+     880 px: stacks slots vertically, tightens padding, CTA constrained to 20 rem so it
+     doesn't fill a landscape phone screen edge-to-edge.
+     600 px: removes CTA max-width — full-width feels natural on very narrow viewports. */
+  @media(max-width:880px){
+    .banner{flex-direction:column;align-items:flex-start;gap:.875rem;padding:1.25rem}
+    .banner-ic{width:2.75rem;height:2.75rem;border-radius:.625rem}
+    .banner-ic svg{width:22px;height:22px}
+    .banner-cta{width:100%;display:flex}
+    .banner-cta .btn{flex:1;justify-content:center;max-width:12rem}
+  }
+  @media(max-width:600px){
+    .banner{padding:1rem}
+    .banner-cta .btn{max-width:none}
+  }
   /* Collapse animation — add .is-dismissed on the wrapper element */
   .banner-wrap{overflow:hidden;max-height:11rem;opacity:1;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,margin .35s ease}
   .banner-wrap.is-dismissed{max-height:0;opacity:0;pointer-events:none;margin-bottom:0}
@@ -740,7 +803,7 @@
   .menu-wip{display:flex;align-items:center;gap:6px;padding:5px 10px 6px;border-bottom:1px solid var(--border);margin-bottom:4px;font-size:11px;font-weight:500;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 8%,var(--card));border-radius:4px 4px 0 0}
   .menu-wip svg{flex-shrink:0;width:12px;height:12px}
   /* Page-level WIP indicator — fixed right-edge vertical pill for pages not yet finalised */
-  .pg-wip-tag{position:fixed;right:0;top:5.875rem;transform:translateY(-50%);writing-mode:vertical-rl;padding:8px 5px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-attention) 25%,transparent);border-right:none;border-radius:6px 0 0 6px;z-index:9999;white-space:nowrap}
+  .pg-wip-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-attention) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
   .mi .mi-ic{width:16px;height:16px;flex:none;color:currentColor}
   /* Menu separator — thin rule used to group related items inside a .menu. Negative horizontal
      margin lets the rule span edge-to-edge across the menu's 4 px padding. */
@@ -909,11 +972,11 @@
   /* See-all link reuses .link styles; only opacity-reveal lives here. Use with class="link sbx-sect-link" */
   .sbx-sect-link{font-size:.6875rem;opacity:0;transition:opacity .12s}
   .sbx-sect-head:hover .sbx-sect-link,.sbx-sect-head.s-hover .sbx-sect-link,.sbx-sect-link:focus-visible{opacity:1}
-  /* Touch + tablet/mobile (no hover available, OR viewport ≤ 1023.98 px): the section chevron
+  /* Touch + mobile (no hover available, OR viewport < 768 px): the section chevron
      stays visible at all times so collapse/expand is reachable without hover. The "See all"
      link's visibility is handled separately below — visible at the same responsive widths
      (so touch users can reach the chats library), hover-only on desktop. */
-  @media (max-width: 1023.98px), (hover: none) {
+  @media (max-width: 767px), (hover: none) {
     .sbx-sect-chev{opacity:1}
   }
 
@@ -921,7 +984,7 @@
      Sidebar — mobile/tablet drawer (shared across all pages)
      ---------------------------------------------------------
      Promoted from chat-landing.html so every sidebar-bearing page gets the same overlay drawer
-     behaviour at ≤ 1023.98 px. Markup contract per page:
+     behaviour at < 768 px (matches prod's `useIsMobile` threshold). Markup contract per page:
        • <button class="cl-burger" onclick="clOpenSidebar()"> inside .cl-main
        • <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')">
          as a sibling of .cl-side (inside .cl-shell)
@@ -935,8 +998,8 @@
   .cl-burger:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
   .cl-side-backdrop{display:none}
 
-  @media (max-width: 1023.98px) {
-    /* Sidebar hidden by default on mobile/tablet — no icon-mode rail. Page reads as main-only.
+  @media (max-width: 767px) {
+    /* Sidebar hidden by default on mobile — no icon-mode rail. Page reads as main-only.
        The hamburger surfaces it as an overlay drawer when explicitly opened.
        !important on both rules so this shared kit-theme.css rule wins over per-page .cl-side /
        .cl-shell rules in pages' inline <style> blocks (which load after this stylesheet). */
@@ -967,7 +1030,7 @@
      History: an earlier exploration surfaced a `Chats Library` nav-row at position 2 as the
      touch entry point; retired 2026-06-19 — see `archive/2026-06-19-concept-A-chats-library-nav`
      (local-only, not pushed) for the full recipe + restore instructions if it should come back. */
-  @media (max-width: 1023.98px) {
+  @media (max-width: 767px) {
     .sbx-sect-link{opacity:1}
   }
 
@@ -1065,42 +1128,50 @@
 
   /* Collapsed (icon-only) variant — width 3.563rem; labels, CTA text, chat sections, footer meta hidden;
      full logo swaps for the brand mark. */
-  .sbx.is-collapsed{width:57px}
-  .sbx.is-collapsed .sbx-head{padding:6px 0 4px;gap:4px;align-items:center}
-  /* Brand area in collapsed mode: brand-mark shown by default; on hover the collapse-trigger swaps in */
-  .sbx.is-collapsed .sbx-brand{justify-content:center;padding:0;position:relative;width:28px;height:28px}
-  .sbx.is-collapsed .sbx-brand-id{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .12s}
-  .sbx.is-collapsed .sbx-brand-logo,
-  .sbx.is-collapsed .sbx-cta span,
-  .sbx.is-collapsed .sbx-nav-item .lbl,
-  .sbx.is-collapsed .sbx-sect-head,
-  .sbx.is-collapsed .sbx-chat,
-  .sbx.is-collapsed .sbx-tok,
-  .sbx.is-collapsed .sbx-user-info,
-  .sbx.is-collapsed .sbx-user-chev{display:none}
-  .sbx.is-collapsed .sbx-brand-mark{display:block;width:20px;height:20px}
-  /* Collapse trigger swaps in on hover of the brand area (icon-only mode → click to expand) */
-  .sbx.is-collapsed .sbx-collapse{display:inline-flex;position:absolute;inset:0;width:auto;height:auto;opacity:0;transition:opacity .12s;background:transparent}
-  .sbx.is-collapsed .sbx-brand:hover .sbx-collapse,.sbx.is-collapsed .sbx-collapse:focus-visible{opacity:1}
-  .sbx.is-collapsed .sbx-brand:hover .sbx-brand-id{opacity:0}
-  /* Tighter, equal-sized icon buttons — 28×28 for a calmer hierarchy along the 57 px sidebar */
-  .sbx.is-collapsed .sbx-cta{padding:0;width:28px;height:28px;align-self:center}
-  .sbx.is-collapsed .sbx-cta svg{width:14px;height:14px}
-  .sbx.is-collapsed .sbx-nav{padding:2px 0;align-items:center;gap:1px}
-  .sbx.is-collapsed .sbx-nav-item{width:28px;height:28px;justify-content:center;padding:0}
-  .sbx.is-collapsed .sbx-nav-item .ic{width:14px;height:14px}
   /* Tooltip only needed when label is hidden (collapsed); suppress in expanded state */
   .sbx:not(.is-collapsed) .sbx-nav-item[data-tip]::after{display:none}
-  /* Single "Chats" icon replaces the Pinned/Recent lists in collapsed mode — click expands the sidebar */
-  .sbx.is-collapsed .sbx-chats{display:flex;padding:2px 0;align-items:center;justify-content:flex-start;overflow:hidden;flex:0 0 auto}
   .sbx-chats-icon{display:none}
-  .sbx.is-collapsed .sbx-chats-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:none;background:transparent;color:var(--ink-secondary);border-radius:6px;cursor:pointer;font-family:inherit;transition:background .12s,color .12s}
   .sbx-chats-icon svg{width:14px;height:14px}
-  .sbx.is-collapsed .sbx-chats-icon:hover{background:var(--state-hover)}
-  .sbx.is-collapsed .sbx-chats-icon:active{background:var(--state-pressed)}
-  .sbx.is-collapsed .sbx-chats-icon:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
-  .sbx.is-collapsed .sbx-foot{padding:6px 0;align-items:center;gap:2px}
-  .sbx.is-collapsed .sbx-user{justify-content:center;width:28px;height:28px;padding:0}
+  /* Collapsed icon-rail mode applies ONLY at desktop widths (≥ 768 px). Below that the sidebar is
+     a drawer overlay (kit-theme `.cl-side` rules above), and the drawer must always show the full
+     sidebar layout — even if .sbx still carries the .is-collapsed class from a prior desktop
+     interaction (e.g. user collapsed the rail at desktop, then resized to mobile). Wrapping these
+     rules in `min-width: 768px` makes the drawer immune to that stale state. */
+  @media (min-width: 768px) {
+    .sbx.is-collapsed{width:57px}
+    .sbx.is-collapsed .sbx-head{padding:6px 0 4px;gap:4px;align-items:center}
+    /* Brand area in collapsed mode: brand-mark shown by default; on hover the collapse-trigger swaps in */
+    .sbx.is-collapsed .sbx-brand{justify-content:center;padding:0;position:relative;width:28px;height:28px}
+    .sbx.is-collapsed .sbx-brand-id{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .12s}
+    .sbx.is-collapsed .sbx-brand-logo,
+    .sbx.is-collapsed .sbx-cta span,
+    .sbx.is-collapsed .sbx-nav-item .lbl,
+    .sbx.is-collapsed .sbx-sect,
+    .sbx.is-collapsed .sbx-sect-head,
+    .sbx.is-collapsed .sbx-chat,
+    .sbx.is-collapsed .sbx-tok,
+    .sbx.is-collapsed .sbx-user-info,
+    .sbx.is-collapsed .sbx-user-chev{display:none}
+    .sbx.is-collapsed .sbx-brand-mark{display:block;width:20px;height:20px}
+    /* Collapse trigger swaps in on hover of the brand area (icon-only mode → click to expand) */
+    .sbx.is-collapsed .sbx-collapse{display:inline-flex;position:absolute;inset:0;width:auto;height:auto;opacity:0;transition:opacity .12s;background:transparent}
+    .sbx.is-collapsed .sbx-brand:hover .sbx-collapse,.sbx.is-collapsed .sbx-collapse:focus-visible{opacity:1}
+    .sbx.is-collapsed .sbx-brand:hover .sbx-brand-id{opacity:0}
+    /* Tighter, equal-sized icon buttons — 28×28 for a calmer hierarchy along the 57 px sidebar */
+    .sbx.is-collapsed .sbx-cta{padding:0;width:28px;height:28px;align-self:center}
+    .sbx.is-collapsed .sbx-cta svg{width:14px;height:14px}
+    .sbx.is-collapsed .sbx-nav{padding:2px 0;align-items:center;gap:1px}
+    .sbx.is-collapsed .sbx-nav-item{width:28px;height:28px;justify-content:center;padding:0}
+    .sbx.is-collapsed .sbx-nav-item .ic{width:14px;height:14px}
+    /* Single "Chats" icon replaces the Pinned/Recent lists in collapsed mode — click expands the sidebar */
+    .sbx.is-collapsed .sbx-chats{display:flex;padding:2px 0;align-items:center;justify-content:flex-start;overflow:hidden;flex:0 0 auto}
+    .sbx.is-collapsed .sbx-chats-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:none;background:transparent;color:var(--ink-secondary);border-radius:6px;cursor:pointer;font-family:inherit;transition:background .12s,color .12s}
+    .sbx.is-collapsed .sbx-chats-icon:hover{background:var(--state-hover)}
+    .sbx.is-collapsed .sbx-chats-icon:active{background:var(--state-pressed)}
+    .sbx.is-collapsed .sbx-chats-icon:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+    .sbx.is-collapsed .sbx-foot{padding:6px 0;align-items:center;gap:2px}
+    .sbx.is-collapsed .sbx-user{justify-content:center;width:28px;height:28px;padding:0}
+  }
 
   /* ===== Popovers (Account / Tokens) — shared shell + variant content =====
      Same Figma shape: surface/background bg, stroke/border, padding 8px, rounded 4px, drop-shadow-lg. */
@@ -1484,6 +1555,12 @@
      Optional trailing .chip-n count uses --ink-inactive at rest and a desaturated --btn-primary-text
      when active (kept legible against the brand fill). Container .chip-row owns the wrap + gap. */
   .chip-row{display:flex;flex-wrap:wrap;gap:.375rem}
+  /* Responsive — tablet + mobile (≤880px): single-line horizontal scroll instead of wrap.
+     .prov-card .chip-row is exempt — higher specificity keeps flex-wrap:wrap there. */
+  @media(max-width:880px){
+    .chip-row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-inline-end:1rem}
+    .chip-row::-webkit-scrollbar{display:none}
+  }
   .chip{display:inline-flex;align-items:center;gap:.375rem;height:1.75rem;padding:0 .75rem;border-radius:9999px;font-size:.8125rem;font-weight:500;font-family:inherit;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--ink-body);transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
   .chip:hover,.chip.s-hover{background:var(--state-hover);color:var(--ink)}
   .chip:active,.chip.s-pressed{background:var(--state-pressed);color:var(--ink)}
@@ -1762,7 +1839,125 @@
   .mx-form-label{display:block;margin-bottom:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink)}
 
 
+/* ── Detail panel fields (shared: metrics, data-sources connections) ── */
+.dp-fields{display:flex;flex-direction:column;gap:1.25rem;font-size:.875rem}
+.dp-field{display:flex;flex-direction:column;gap:.25rem}
+.dp-label{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-secondary)}
+.dp-value{font-size:.875rem;color:var(--ink);line-height:1.5;display:flex;align-items:center;gap:.375rem;min-width:0}
+.dp-value-name{font-size:1rem;font-weight:600;color:var(--ink);line-height:1.5}
+.dp-value-body{font-size:.875rem;color:var(--ink-body);line-height:1.6;margin:0}
+
 /* ── Responsive demo block (shared across all pages) ── */
 .cp-resp-block{margin-top:2rem;padding:1.5rem;border-top:1px solid var(--border)}
 .cp-resp-label{font-size:.75rem;font-weight:600;color:var(--ink-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem}
 .cp-resp-frame{max-width:100%;overflow:hidden;border:1px solid var(--border);border-radius:.75rem}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESPONSIVE TABLES — shared card-stack layout (≤ 767 px, md breakpoint)
+   ───────────────────────────────────────────────────────────────────────
+   At the md breakpoint (sidebar becomes a drawer) horizontal tables no
+   longer fit. These rules reflow any scoped table wrapper into a vertical
+   card stack. Two patterns are provided:
+
+     .ds-conn-tbl  — DS Connections: 2-col grid (content | kebab)
+                     Visual order swaps td[1]/td[2] so DS icon+name leads
+                     (primary) and the connection label is the subtitle.
+     .mx-tbl       — Metrics: 4-col grid (toggle | content | badge | kebab)
+                     Badge moves inline with the title row; no more absolute
+                     positioning for toggle or kebab.
+
+   Hover states are intentionally ABSENT from the mobile block — touch
+   devices have no hover and would flash the state on tap. Hover is
+   re-introduced only in the (hover: hover) block below.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+
+  /* ── DS Connections: table → 2-column grid cards ──
+     Visual hierarchy: [DS icon + name] (primary) → [connection label] (subtitle) → [description]
+     Achieved by assigning td[2] to grid-row:1 and td[1] to grid-row:2. */
+  .ds-conn-tbl{overflow:visible}
+  .ds-conn-tbl .tbl,.ds-conn-tbl .tbl tbody{display:flex;flex-direction:column;gap:.5rem}
+  .ds-conn-tbl .tbl thead{display:none}
+  .ds-conn-tbl .tbl tbody tr{
+    display:grid;
+    grid-template-columns:1fr auto;
+    grid-template-rows:auto auto auto;
+    column-gap:.75rem;row-gap:.2rem;
+    align-items:start;
+    padding:.875rem;
+    background:var(--card);border:1px solid var(--border);border-radius:.75rem;
+    box-shadow:0 1px 2px 0 rgba(15,23,42,.03);
+    cursor:pointer;overflow:visible
+  }
+  .ds-conn-tbl .tbl tbody tr td{display:block;padding:0;border:none;overflow:visible;white-space:normal;max-width:none;text-overflow:clip}
+  /* td[1] connection label → subtitle (row 2) */
+  .ds-conn-tbl .tbl tbody tr td:nth-child(1){grid-column:1;grid-row:2;font-size:.8125rem;font-weight:400;color:var(--ink-secondary);line-height:1.3}
+  /* td[2] DS icon + name → primary title (row 1) */
+  .ds-conn-tbl .tbl tbody tr td:nth-child(2){grid-column:1;grid-row:1}
+  .ds-conn-tbl .tbl tbody tr td:nth-child(2) .ds-conn-cell-name{gap:.5rem;align-items:center}
+  .ds-conn-tbl .tbl tbody tr td:nth-child(2) .ds-conn-cell-name>span:last-child{font-size:.9375rem;font-weight:600;color:var(--ink)}
+  /* td[3] description → tertiary (row 3), 2-line clamp */
+  .ds-conn-tbl .tbl tbody tr td:nth-child(3){grid-column:1;grid-row:3;font-size:.8125rem;color:var(--ink-tertiary);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  /* td[4] kebab → right column, spans all rows, top-aligned */
+  .ds-conn-tbl .tbl tbody tr td:nth-child(4){grid-column:2;grid-row:1/4;display:flex;align-items:flex-start;overflow:visible}
+  .ds-conn-tbl .tbl tbody tr:has([data-kbp][aria-expanded="true"]){z-index:20;overflow:visible}
+
+  /* ── Metrics: table → 4-column grid cards ──
+     Columns: toggle | content | badge | kebab
+     Badge moves from the bottom of the card into the title row. */
+  .mx-tbl{overflow:visible}
+  .mx-tbl .tbl,.mx-tbl .tbl tbody{display:flex;flex-direction:column;gap:.5rem}
+  .mx-tbl .tbl thead{display:none}
+  /* Provider group row — section separator with left accent */
+  .mx-tbl .tbl tbody tr.mx-prov-group{display:block}
+  .mx-tbl .tbl tbody tr.mx-prov-group td{display:block;border:none;border-left:3px solid var(--border);padding:.5rem 0 .25rem .625rem}
+  /* Metric row → 4-col grid card */
+  .mx-tbl .tbl tbody tr.mx-metric-child{
+    display:grid;
+    grid-template-columns:auto 1fr auto auto;
+    grid-template-rows:auto auto auto;
+    column-gap:.625rem;row-gap:.25rem;
+    align-items:start;
+    padding:.875rem;
+    background:var(--card);border:1px solid var(--border);border-radius:.75rem;
+    box-shadow:0 1px 2px 0 rgba(15,23,42,.03);
+    cursor:pointer;overflow:visible
+  }
+  .mx-tbl .tbl tbody tr.mx-metric-child td{display:block;padding:0;border:none}
+  /* td[1] toggle — col 1, row 1, centred with name */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(1){grid-column:1;grid-row:1;align-self:center;position:static;top:auto;left:auto}
+  /* td[2] metric name — col 2, row 1 */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(2){grid-column:2;grid-row:1;font-size:.9375rem;font-weight:600;color:var(--ink);line-height:1.3;padding-right:0}
+  /* td[3] alias — col 2, row 2 */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3){grid-column:2;grid-row:2;font-size:.75rem;color:var(--ink-tertiary);font-family:ui-monospace,monospace;letter-spacing:-.01em}
+  /* td[4] definition — col 2, row 3, 2-line clamp */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(4){grid-column:2;grid-row:3;font-size:.8125rem;color:var(--ink-secondary);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  /* td[5] badge — col 3, row 1, centred with name */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(5){grid-column:3;grid-row:1;align-self:center}
+  /* td[6] kebab — col 4, row 1, top-aligned */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(6){grid-column:4;grid-row:1;align-self:start;position:static;top:auto;right:auto;overflow:visible}
+  .mx-tbl .tbl tbody tr.mx-metric-child:has([data-kbp][aria-expanded="true"]){z-index:20;overflow:visible}
+
+  /* Kebab always visible on mobile (no hover to reveal it) */
+  .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn{opacity:1}
+  .ds-conn-tbl .tbl tbody tr .ds-conn-more{opacity:1}
+
+  /* Suppress desktop-only hover-reveal patterns that rely on tr:hover */
+  .mx-tbl .tbl tbody tr.mx-metric-child:hover td{background:transparent}
+  .ds-conn-tbl .tbl tbody tr:hover td{background:transparent}
+}
+
+/* Card hover — pointer devices only (no mobile flash on tap) */
+@media (max-width: 767px) and (hover: hover) {
+  .ds-conn-tbl .tbl tbody tr:hover{
+    background:var(--state-hover);
+    border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent);
+    box-shadow:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04)
+  }
+  .mx-tbl .tbl tbody tr.mx-metric-child:hover{
+    background:var(--state-hover);
+    border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent);
+    box-shadow:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04)
+  }
+}

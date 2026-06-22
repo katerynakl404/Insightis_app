@@ -84,7 +84,7 @@
 
   /* Balance */
   /* Same coin-blue.svg as .sbx-pop-tok-meter .coin */
-  .acct-bal-circle{width:2.25rem;height:2.25rem;background:url('../coin-blue.svg') center/contain no-repeat;flex:none}
+  .acct-bal-circle{width:2.25rem;height:2.25rem;background:url('../../coin-blue.svg') center/contain no-repeat;flex:none}
   .acct-bal-amount{font-size:1.75rem;font-weight:700;color:var(--ink);line-height:1.1}
   .acct-usage-table{width:100%;border-collapse:collapse;font-size:.875rem}
   .acct-usage-table th{text-align:left;font-size:.75rem;font-weight:500;color:var(--ink-secondary);padding:.375rem .5rem;border-bottom:1px solid var(--border)}
@@ -210,8 +210,6 @@
 </style>
 </head>
 <body>
-<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
-
 <!-- Brand symbols -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="lg" viewBox="0 0 418 100">
@@ -235,7 +233,10 @@
 
 <!-- ===== Topbar ===== -->
 <div class="topbar">
-  <span class="ttl">Metrics · Account modal</span>
+  <div style="display:flex;align-items:center;gap:.5rem">
+    <span class="ttl">Metrics · Account modal</span>
+    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+  </div>
   <div style="display:flex;gap:.375rem">
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>

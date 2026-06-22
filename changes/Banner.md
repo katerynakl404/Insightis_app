@@ -12,6 +12,20 @@ Adds a `.banner-grad` modifier variant. The base `.banner` component is unchange
 | **`.banner-grad .btn-primary`** | — | `background: var(--banner-grad-text)` (white); `color: var(--brand-primary)`; hover: `background: var(--banner-grad-sub)` | Inverted: white button with brand text — highest contrast CTA on gradient |
 | **`.banner-grad .btn-secondary`** | — | No override — default `btn-secondary` styles apply (card bg, `--ink-body` text, `--btn-secondary-border`) | Solid card-surface button — readable on gradient without custom rules |
 
+## Base component — updates
+
+| Part | Before | After | Specification |
+|---|---|---|---|
+| **`.banner-d`** | No max-width | `max-width: 66ch` | Prevents very long descriptions from spanning the full banner width on wide viewports — keeps line length readable |
+| **`.banner-sm` modifier** | — did not exist | Reduces padding to `1rem 1.25rem`; icon `2.5rem / .5rem` radius / `20px` SVG; title `0.9375rem` | Compact variant for secondary or inline banners; add class alongside `.banner` |
+
+## Responsive behaviour (base `.banner`)
+
+| Breakpoint | Layout change | Specification |
+|---|---|---|
+| **≤ 880 px** | `flex-direction: column; align-items: flex-start; gap: .875rem; padding: 1.25rem`; icon tightens to `2.75rem / .625rem` radius / `22px` SVG; CTA fills `100%` width (with `max-width: 12rem` so it doesn't span edge-to-edge on landscape phone) | 880 px is the sidebar-hides threshold — below it the banner row gets cramped, so stacking feels natural |
+| **≤ 600 px** | Padding further tightens to `1rem`; CTA `max-width` removed — full-width CTA is appropriate at phone width | Single-column phone layout; 600 px = kit `sm` boundary |
+
 ## Token map
 
 | Token | Value | Layer |

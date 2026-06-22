@@ -12,5 +12,12 @@ Single-select filter pill. Pill shape (radius `full`), height `1.75rem` (28px).
 | Disabled | `opacity: .5` | — | `opacity: var(--opacity-disabled)` (.65) | Reusable token; .65 chosen to remain legible |
 | `.chip-n` count | `--ink-inactive` rest · alpha-tint text when active | — | `--ink-inactive` rest · 70% `--ink-highlight` when active | Matches the active border/text token |
 
+## Container — responsive behaviour
+
+| | Prod (Current) | Expected |
+|---|---|---|
+| `.chip-row` on ≤ 880 px (tablet + mobile) | wraps to multiple lines | single-line horizontal scroll — `flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none`; native scrollbar hidden; `padding-inline-end:1rem` so last chip doesn't clip |
+| `.prov-card .chip-row` at any width | wraps freely | **unchanged — always wraps** (higher specificity; hard requirement) |
+
 ## No change (—)
 Radius `full`, height `1.75rem` (28px), padding `0 .75rem`, font `.8125rem` / weight 500, hover surface `State/Hover`.

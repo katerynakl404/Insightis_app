@@ -30,8 +30,9 @@
   /* ── Header bar ── */
   .cp-header{flex:none;display:flex;align-items:center;padding:0 1.5rem;height:3rem;gap:.5rem}
   /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) at narrow widths
-     so the page title isn't overlapped by the hamburger button. */
-  @media (max-width: 1023.98px){
+     so the page title isn't overlapped by the hamburger button. Threshold matches kit-theme's
+     burger breakpoint (= prod's useIsMobile, < 768 px). */
+  @media (max-width: 767px){
     .cp-header{padding-left:3.25rem}
   }
   .cp-header-title{font-size:.9375rem;font-weight:600;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0}
@@ -128,7 +129,6 @@
 </style>
 </head>
 <body>
-<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols — verbatim from chat-landing.html -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -166,7 +166,10 @@
 
 <!-- ===== Topbar ===== -->
 <div class="topbar">
-  <span class="ttl">Chat page</span>
+  <div style="display:flex;align-items:center;gap:.5rem">
+    <span class="ttl">Chat page</span>
+    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+  </div>
   <div style="display:flex;gap:.375rem">
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
@@ -216,6 +219,11 @@
           </button>
         </div>
         <div class="sbx-chats">
+          <!-- Collapsed-mode icon: shown only when .sbx has .is-collapsed. Replaces the hidden Pinned/Recent
+               sections in icon-rail mode; clicking it expands the sidebar back to full width. -->
+          <button class="sbx-chats-icon" type="button" aria-label="Chats" onclick="document.querySelector('.cl-side .sbx').classList.remove('is-collapsed')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
           <div class="sbx-sect">
             <div class="sbx-sect-head">
               <button class="sbx-sect-label-wrap" type="button" aria-expanded="true" onclick="var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">

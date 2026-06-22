@@ -22,9 +22,11 @@
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   .cl-page-title{font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0}
   @media(min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
-  /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) so the page title
-     isn't overlapped by the hamburger button at narrow widths. */
-  @media (max-width: 1023.98px){.cl-page{padding-left:3.25rem}}
+  /* Narrow-width burger alignment: pull content (.cl-page) left to align with burger's left edge
+     (both at .75 rem), shift ONLY the title-row right to clear the burger horizontally (title text
+     at 52 px from .cl-main edge), and drop the burger down to sit on the same row as the title.
+     Threshold matches kit-theme's burger breakpoint (= prod's useIsMobile, < 768 px). */
+  @media (max-width: 767px){.cl-page{padding-left:.75rem;padding-right:.75rem}.cl-page > .mx-page-head{padding-left:2.5rem}.cl-burger{top:2.25rem}}
   @media(max-width:720px){.cl-side{display:none}.cl-shell{grid-template-columns:1fr}}
 
   /* ── Page header row ── */
@@ -37,7 +39,7 @@
   #mx-root.is-filled .mx-empty{display:none}
   #mx-root.is-filled .mx-filled{display:flex;flex-direction:column;gap:1rem}
   .mx-add-btn{display:none !important}
-  #mx-root.is-filled .mx-add-btn{display:inline-flex !important}
+  #mx-root.is-filled #mx-add-custom-btn{display:inline-flex !important}
 
   /* ── Section header ── */
   .mx-sect-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:1.5rem}
@@ -68,14 +70,14 @@
   /* ── Detail side panel ── */
   #mx-panel{position:fixed;top:40px;right:0;bottom:0;width:420px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
   .ov.is-open #mx-panel{transform:translateX(0)}
-  #mx-panel-head{display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex:none}
+  #mx-panel-head{display:flex;align-items:flex-start;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex:none}
   #mx-panel-title{flex:1;font-size:1.125rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #mx-panel-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem}
   .mx-panel-sect{display:flex;flex-direction:column;gap:1rem;padding:1rem;border:1px solid var(--border);border-radius:.625rem;background:var(--card)}
   .mx-panel-sect-title{font-size:.75rem;font-weight:600;color:var(--ink-secondary);letter-spacing:.01em;padding-bottom:.5rem;border-bottom:1px solid var(--border);margin:0}
   .mx-facts{display:flex;flex-direction:column;gap:1.25rem;font-size:.875rem}
   .mx-facts-row{display:flex;flex-direction:column;gap:.25rem}
-  .mx-fact-label{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-body)}
+  .mx-fact-label{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-secondary)}
   .mx-fact-value{flex:1;color:var(--ink);display:flex;align-items:center;gap:.375rem;min-width:0}
 
   #mx-panel-cta{padding:1.5rem;border-top:1px solid var(--border);flex:none}
@@ -112,9 +114,11 @@
   /* Tooltip rendered via JS as position:fixed — no clipping */
   #mx-tip{position:fixed;z-index:9999;background:var(--ink);color:var(--card);font-size:.6875rem;font-weight:500;padding:.25rem .5rem;border-radius:.3125rem;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity .12s;font-family:inherit}
 
-  /* ── C3 empty — provider card grid responsive overrides ── */
-  @media(max-width:880px){.prov-card-grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:600px){.prov-card-grid{grid-template-columns:1fr}}
+  /* Provider-card grid — uses the kit's canonical breakpoints (see kit-theme.css → "RESPONSIVE
+     BREAKPOINTS"). Default is 3 cols (set in kit-theme.css); drop to 2 cols at the tablet
+     boundary (sidebar visible, content narrower) and to 1 col at mobile-narrow. */
+  @media (max-width:1023px){.prov-card-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:599px){.prov-card-grid{grid-template-columns:1fr}}
 
 
 
@@ -137,9 +141,10 @@
   .prov-c2-browse-ic{width:1.75rem;height:1.75rem;border-radius:9999px;border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 45%,transparent);display:flex;align-items:center;justify-content:center;color:var(--ink-secondary)}
   .prov-c2-browse-label{font-size:.8125rem;font-weight:600;color:var(--ink-secondary);margin:0}
   .prov-c2-browse-sub{font-size:.6875rem;color:var(--ink-inactive);margin:0}
-  @media(max-width:1100px){.mx-c2-grid{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:760px){.mx-c2-grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:480px){.mx-c2-grid{grid-template-columns:1fr}}
+  /* C2 compact-card grid — uses kit's canonical breakpoints (see kit-theme.css → "RESPONSIVE
+     BREAKPOINTS"). Same step-down pattern as .prov-card-grid above. */
+  @media (max-width:1023px){.mx-c2-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:599px){.mx-c2-grid{grid-template-columns:1fr}}
 
   /* ── C3 variants — tertiary icon button override ── */
   #mx-c2-grid[data-card-style] .prov-c2-head .iconbtn{background:transparent;border-color:transparent;color:var(--ink-body)}
@@ -203,10 +208,10 @@
   /* Toast */
   .mx-toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(.75rem);background:var(--card);border:1px solid var(--border);border-radius:.5rem;box-shadow:0 8px 24px rgba(15,23,42,.14);padding:.625rem 1rem;display:flex;align-items:center;gap:.5rem;font-size:.875rem;color:var(--ink);white-space:nowrap;opacity:0;transition:opacity .2s,transform .2s;z-index:80;pointer-events:none}
   .mx-toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
+
 </style>
 </head>
 <body>
-<div class="pg-wip-tag" aria-hidden="true">In redesign</div>
 
 <!-- Brand symbols -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -231,8 +236,11 @@
 
 <!-- ===== Topbar ===== -->
 <div class="topbar">
-  <span class="ttl">Metrics</span>
-  <div style="display:flex;align-items:center;gap:.75rem">
+  <div style="display:flex;align-items:center;gap:.5rem">
+    <span class="ttl">Metrics</span>
+    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+  </div>
+  <div style="display:flex;align-items:flex-start;gap:.75rem">
     <!-- State toggle — kit SegmentedControl (.segctrl.is-sm). Labels stay short ("Empty" / "Filled"); the topbar context makes "State:" prefix unnecessary. mxSetState() still drives the body class toggle. -->
     <div class="segctrl is-sm" id="mx-state-seg" role="tablist" aria-label="Demo state" style="width:auto;flex:none">
       <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" data-state="empty" style="padding:0 .5rem" onclick="mxSetState('empty');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Empty</button>
@@ -300,6 +308,11 @@
         </button>
       </div>
       <div class="sbx-chats">
+        <!-- Collapsed-mode icon: shown only when .sbx has .is-collapsed. Replaces the hidden Pinned/Recent
+             sections in icon-rail mode; clicking it expands the sidebar back to full width. -->
+        <button class="sbx-chats-icon" type="button" aria-label="Chats" onclick="document.querySelector('.cl-side .sbx').classList.remove('is-collapsed')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
         <div class="sbx-sect">
           <div class="sbx-sect-head">
             <button class="sbx-sect-label-wrap" type="button" aria-expanded="true"><span class="sbx-sect-label">Pinned</span><svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -380,7 +393,7 @@
       <div class="mx-page-head">
         <h1 class="cl-page-title">Metrics</h1>
         <div style="display:flex;align-items:center;gap:.5rem">
-          <button class="btn btn-secondary btn-sm mx-add-btn" type="button" id="mx-newconn-btn" onclick="mxOpenConnDlg(this)" style="border-radius:9999px">
+          <button class="btn btn-secondary btn-sm mx-add-btn" type="button" id="mx-newconn-btn" onclick="window.location.href='data-sources_connections-landing.html'" style="border-radius:9999px">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             New Connection
           </button>
@@ -1667,7 +1680,7 @@
         </div>
 
         <!-- Connect more — gradient banner CTA -->
-        <div class="banner banner-grad banner-noise" role="note" style="margin-top:2.5rem">
+        <div class="banner banner-grad banner-noise banner-sm" role="note" style="margin-top:2.5rem">
           <div class="banner-ic" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-4"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8H6a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2Z"/></svg>
           </div>
@@ -1720,7 +1733,7 @@
     </div>
     <div class="dlg-body">
       <div id="mx-conn-s1" class="dlg-step">
-        <div style="display:flex;align-items:center;gap:.75rem">
+        <div style="display:flex;align-items:flex-start;gap:.75rem">
           <span id="mx-conn-logo" style="width:2.25rem;height:2.25rem;border-radius:.5rem;border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);font-size:.75rem;font-weight:600;color:var(--ink-secondary)"></span>
           <span id="mx-conn-subtitle" style="font-size:.875rem;font-weight:500;color:var(--ink)"></span>
         </div>
@@ -1993,7 +2006,7 @@ function mxOpenDetail(row) {
   var desc      = row.getAttribute('data-desc') || '';
   var custom    = row.getAttribute('data-custom') === 'true';
   var active    = row.getAttribute('data-active') === 'true';
-  var predef    = row.getAttribute('data-predefined') === 'true';
+  var predef    = row.getAttribute('data-predefined') === 'true' || !!row.closest('.prov-card');
   var prov      = row.getAttribute('data-prov') || '';
 
   mxPanelTitle.textContent = 'Metric details';
@@ -2028,16 +2041,15 @@ function mxOpenDetail(row) {
     }
   }
 
-  html += '<div class="mx-facts">'
-       +  '<div class="mx-facts-row"><span class="mx-fact-label">Name</span><span class="mx-fact-value" style="font-weight:500;color:var(--ink)">'+ mxEsc(name) +'</span></div>'
-       +  '<div class="mx-facts-row"><span class="mx-fact-label">Data Source</span><span class="mx-fact-value">'+ provDd +'</span></div>'
-       +  '<div class="mx-facts-row"><span class="mx-fact-label">Alias</span><span class="mx-fact-value"><span class="badge badge-secondary">'+ mxEsc(alias) +'</span></span></div>'
-       +  '<div class="mx-facts-row"><span class="mx-fact-label">Type</span><span class="mx-fact-value"><span class="badge '+(custom?'badge-primary':'badge-secondary')+'">'+(custom?'Custom':'Built-in')+'</span></span></div>'
+  html += '<div class="dp-fields">'
+       +  '<div class="dp-field"><span class="dp-label">Name</span><span class="dp-value-name">'+ mxEsc(name) +'</span></div>'
+       +  '<div class="dp-field"><span class="dp-label">Data Source</span><span class="dp-value">'+ provDd +'</span></div>'
+       +  '<div class="dp-field"><span class="dp-label">Alias</span><span class="dp-value"><span class="badge badge-secondary">'+ mxEsc(alias) +'</span></span></div>'
+       +  '<div class="dp-field"><span class="dp-label">Type</span><span class="dp-value"><span class="badge '+(custom?'badge-primary':'badge-secondary')+'">'+(custom?'Custom':'Built-in')+'</span></span></div>'
+       +  (desc ? '<div class="dp-field"><span class="dp-label">Definition</span><p class="dp-value-body">'+ mxEsc(desc) +'</p></div>' : '')
        +  '</div>';
-  if (desc) html += '<div style="display:flex;flex-direction:column;gap:.125rem;margin-top:.75rem">'
-                +  '<span class="mx-fact-label">Definition</span>'
-                +  '<p style="font-size:.875rem;color:var(--ink-secondary);line-height:1.6;margin:0">'+ mxEsc(desc) +'</p>'
-                +  '</div>';
+
+  // System metric notice for built-in connected metrics
 
   // Edit form (custom metrics) — hidden until Edit in footer is clicked
   if (custom) {
@@ -2069,22 +2081,22 @@ function mxOpenDetail(row) {
   }
 
   if (predef) {
-    ctaHtml += '<div style="display:flex;flex-direction:column;gap:.75rem">'
-            +  '<p style="font-size:.8125rem;color:var(--ink-body);line-height:1.5;margin:0">'
-            +  'This metric is designed for <strong style="color:var(--ink);font-weight:600">'+ mxEsc(provider) +'</strong>. '
-            +  'Adding a connection activates all its metrics at once — no manual setup needed.'
-            +  '</p>'
-            +  '<button class="btn btn-primary btn-md" style="width:100%" type="button" onclick="mxCloseDetail();mxOpenConnDlg(\''+ mxEsc(prov) +'\',this)">Connect '+ mxEsc(provider) +'</button>'
+    ctaHtml += '<div style="display:flex;align-items:flex-start;gap:.75rem">'
+            +  '<div style="flex:1;min-width:0">'
+            +  '<p style="font-size:.8125rem;font-weight:500;color:var(--ink);margin:0 0 .125rem">Connect '+ mxEsc(provider) +'</p>'
+            +  '<p style="font-size:.75rem;color:var(--ink-secondary);margin:0;line-height:1.5">Activates all metrics from this source at once.</p>'
+            +  '</div>'
+            +  '<button class="btn btn-primary btn-sm" style="flex:none" type="button" onclick="mxCloseDetail();mxOpenConnDlg(\''+ mxEsc(prov) +'\',this)">Connect</button>'
             +  '</div>';
   }
 
   if (!predef && !custom) {
-    ctaHtml += '<div style="display:flex;align-items:center;gap:.75rem">'
+    ctaHtml += '<div style="display:flex;align-items:flex-start;gap:.75rem">'
             +  '<div style="flex:1;min-width:0">'
             +  '<p style="font-size:.8125rem;font-weight:500;color:var(--ink);margin:0 0 .125rem">Duplicate &amp; Customize</p>'
-            +  '<p style="font-size:.75rem;color:var(--ink-secondary);margin:0">Create your own version with a custom formula.</p>'
+            +  '<p style="font-size:.75rem;color:var(--ink-secondary);margin:0;line-height:1.5">Create your own version with a custom formula.</p>'
             +  '</div>'
-            +  '<button class="btn btn-outline btn-sm" style="flex:none" type="button" '
+            +  '<button class="btn btn-secondary btn-sm" style="flex:none" type="button" '
             +  'data-dup-name="'+ mxEsc(name) +'" data-dup-alias="'+ mxEsc(alias.replace(/^@/,'')) +'" data-dup-prov="'+ mxEsc(prov) +'" '
             +  'onclick="mxDuplicateMetric(this)">Duplicate</button>'
             +  '</div>';

@@ -44,6 +44,9 @@
 | | Prod (Current) | Expected |
 |---|---|---|
 | Chip set (7) | All, Engineering, Marketing, SEO, Finance, HR, Sales, Product | All, Business Intelligence, Commerce, Communication, IT Operations, Marketing, Productivity, Sales & CRM, Storage & Files, Support, Other (11 chips matching Data Source categories) |
+| Responsive layout on ≤ 880 px | wraps to multiple lines | single-line horizontal scroll (kit `.chip-row` rule) — swipe to see all chips |
+
+> **Note:** Provider card chip rows (`.prov-card .chip-row` — metric preview chips) keep `flex-wrap:wrap` at all widths per the hard requirement.
 
 ### Empty state
 
@@ -141,6 +144,23 @@ The `+` (iconbtn) in `.prov-c2-head` **must always be visible at rest**. Do not 
 | **Why** | Users need to see the action is available before hovering. A hidden button is an invisible affordance — users won't know they can connect unless the button is always present. |
 
 The plain dot-separated inline text pattern (applied in error on 2026-06-18) broke all five rules above and was reverted. Do not re-apply it.
+
+## Mobile layout — Metrics table (≤ 767 px)
+
+At the `< 768 px` breakpoint the metrics table reflows into a vertical card stack via `.mx-tbl`. No horizontal scroll — each metric row becomes a 4-column grid card.
+
+| | Desktop | ≤ 767 px (mobile) |
+|---|---|---|
+| Layout | `<table>` with `thead` + `tbody` | `thead` hidden; provider group rows → left-accented block; metric rows → grid cards |
+| Provider group row (`.mx-prov-group`) | Full-width separator row | Block with `border-left: 3px solid --border` left accent |
+| Metric row (`.mx-metric-child`) | 6 cols: toggle · name · alias · definition · badge · kebab | `grid-template-columns: auto 1fr auto auto` (toggle · content · badge · kebab); content spans rows 1–3 (name / alias / definition) |
+| Badge placement | Rightmost data col | Inline with name (grid-column 3, row 1) — no absolute positioning |
+| Toggle placement | Leftmost col | grid-column 1, row 1, `align-self: center` |
+| Kebab | Absolute-positioned, hover-reveal | grid-column 4, row 1; always visible (no hover on touch) |
+| Hover state | `State/Hover` bg + brand-tinted border + shadow | Suppressed on touch; re-enabled only under `(hover: hover)` media query |
+| Row with open menu | `overflow: visible` inherited | `z-index: 20; overflow: visible` via `:has([data-kbp][aria-expanded="true"])` |
+
+Selector: `.mx-tbl` wraps the `<table class="tbl">` element. Rule lives in `pages/kit-theme.css` shared responsive-tables block.
 
 ## Components referenced
 
