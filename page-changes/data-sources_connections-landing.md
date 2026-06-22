@@ -12,7 +12,7 @@
 
 ## Layout changes
 
-- **Category chip filters** (`#ds-cats`) scroll horizontally on tablet + mobile (≤ 880 px) — no wrapping. Desktop keeps `flex-wrap:wrap`. Rule lives in `kit-theme.css` on `.chip-row`.
+- **Category chip filters** (`#ds-cats`) scroll horizontally on tablet + mobile (≤ 1023 px) — no wrapping. Desktop keeps `flex-wrap:wrap`. Override lives in the page `<style>` block on `#ds-cats` (needed because the ID selector has higher specificity than the kit `.chip-row` rule).
 - **Search** moves from page-level into the Catalog panel (above chip filters); placeholder reads "Search data sources…"
 - **My Connections tab** is disabled on load; JS enables it on first successful connection and re-disables it when the last connection is removed
 - **Banner** in My Connections uses `.banner.banner-grad` (same gradient style as the Metrics page); collapses via `.is-dismissed` once connections exist; label reads "Browse the Catalog"
@@ -44,8 +44,18 @@
 
 ## Connection row sidepanel
 
-Clicking a connection row opens a new sidepanel on the right side showing:
-- Connection name
+Clicking a connection row opens a new sidepanel on the right side. Fields are rendered with `.dp-fields` → `.dp-field` → `.dp-label` / `.dp-value`:
+
+| Class | Role |
+|---|---|
+| `.dp-fields` | Column container, `gap: 1.25rem` |
+| `.dp-label` | Uppercase `0.75rem` / weight 500 / `--ink-secondary` field label |
+| `.dp-value` | `0.875rem` / `--ink` field value, flex row for icon + text |
+| `.dp-value-name` | `1rem` / weight 600 primary name row |
+| `.dp-value-body` | `0.875rem` / `--ink-body` prose description |
+
+Fields shown:
+- Connection name (`.dp-value-name`)
 - Data Source (logo + name)
 - Status badge
 - Description
@@ -87,18 +97,6 @@ At the `< 768 px` breakpoint (prod's `useIsMobile` threshold) the My Connections
 | Row with open menu | `overflow: visible` inherited | `z-index: 20; overflow: visible` via `:has([data-kbp][aria-expanded="true"])` |
 
 Selector: `.ds-conn-tbl` wraps the `<table class="tbl">` element. Rule lives in `pages/kit-theme.css` at the shared responsive-tables block (below the `.mx-tbl` block).
-
-## Detail panel fields
-
-Clicking a connection row opens a right sidepanel. Fields are rendered with the shared `.dp-fields` → `.dp-field` → `.dp-label` / `.dp-value` component (defined in `pages/kit-theme.css`):
-
-| Class | Role |
-|---|---|
-| `.dp-fields` | Column container, `gap: 1.25rem` |
-| `.dp-label` | Uppercase `0.75rem` / weight 500 / `--ink-secondary` field label |
-| `.dp-value` | `0.875rem` / `--ink` field value, flex row for icon + text |
-| `.dp-value-name` | `1rem` / weight 600 primary name row |
-| `.dp-value-body` | `0.875rem` / `--ink-body` prose description |
 
 ## Out of scope
 

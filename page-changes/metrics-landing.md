@@ -44,7 +44,7 @@
 | | Prod (Current) | Expected |
 |---|---|---|
 | Chip set (7) | All, Engineering, Marketing, SEO, Finance, HR, Sales, Product | All, Business Intelligence, Commerce, Communication, IT Operations, Marketing, Productivity, Sales & CRM, Storage & Files, Support, Other (11 chips matching Data Source categories) |
-| Responsive layout on ≤ 880 px | wraps to multiple lines | single-line horizontal scroll (kit `.chip-row` rule) — swipe to see all chips |
+| Responsive layout on ≤ 1023 px | wraps to multiple lines | single-line horizontal scroll (kit `.chip-row` rule) — swipe to see all chips |
 
 > **Note:** Provider card chip rows (`.prov-card .chip-row` — metric preview chips) keep `flex-wrap:wrap` at all widths per the hard requirement.
 
@@ -98,6 +98,18 @@
 - Card hover border uses semantic token `--border-hover` (not a new token).
 
 ## Sidepanel
+
+Fields are rendered with `.dp-fields` → `.dp-field` → `.dp-label` / `.dp-value` (same pattern as DS Connections sidepanel):
+
+| Class | Role |
+|---|---|
+| `.dp-fields` | Column container, `gap: 1.25rem` |
+| `.dp-label` | Uppercase `0.75rem` / weight 500 / `--ink-secondary` field label |
+| `.dp-value` | `0.875rem` / `--ink` field value, flex row for icon + text |
+| `.dp-value-name` | `1rem` / weight 600 primary name row |
+| `.dp-value-body` | `0.875rem` / `--ink-body` prose description |
+
+Fields shown: Name, Data Source, Alias, Type badge, Definition.
 
 | | Prod (Current) | Expected |
 |---|---|---|
