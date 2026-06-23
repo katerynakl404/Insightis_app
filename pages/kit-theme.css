@@ -1157,7 +1157,7 @@
   /* Collapsed (icon-only) variant — width 3.563rem; labels, CTA text, chat sections, footer meta hidden;
      full logo swaps for the brand mark. */
   /* Tooltip only needed when label is hidden (collapsed); suppress in expanded state */
-  .sbx:not(.is-collapsed) .sbx-nav-item[data-tip]::after{display:none}
+  .sbx:not(.is-collapsed) .sbx-nav-item[data-tip]::after,.sbx:not(.is-collapsed) .sbx-cta[data-tip]::after{display:none}
   .sbx-chats-icon{display:none}
   .sbx-chats-icon svg{width:14px;height:14px}
   /* Collapsed icon-rail mode applies ONLY at desktop widths (≥ 1024 px). Below that the sidebar is
@@ -1630,8 +1630,8 @@
      Footer: full-width CTA.
      Browse variant (.is-browse): ghost dashed outline, centred, bottom-aligned CTA. */
   .prov-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem}
-  .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s;will-change:transform}
-  .prov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--border-hover);transform:translateY(-2px)}
+  .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
+  .prov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--border-hover);transform:translateY(-2px);will-change:transform}
   .prov-card:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
   /* Utility — card-lift hover. Shared recipe across catalog cards and connection rows:
      --shadow-lift-hover + 22% brand-tinted border + translateY(-1px).
@@ -1967,9 +1967,8 @@
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(6){grid-column:4;grid-row:1;align-self:start;position:static;top:auto;right:auto;overflow:visible;width:auto;text-align:left;padding-right:0}
   .mx-tbl .tbl tbody tr.mx-metric-child:has([data-kbp][aria-expanded="true"]){z-index:20;overflow:visible}
 
-  /* Add Metric → icon-only button on mobile */
-  .mx-add-metric-label{display:none}
-  .mx-add-metric-hover-btn{opacity:1;padding:0;width:1.75rem;height:1.75rem;display:inline-flex;align-items:center;justify-content:center}
+  /* Add Metric → always visible on mobile */
+  .mx-add-metric-hover-btn{opacity:1}
 
   /* Kebab always visible on mobile (no hover to reveal it) */
   .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn{opacity:1}

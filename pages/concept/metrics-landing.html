@@ -277,7 +277,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
           </button>
         </div>
-        <button class="btn btn-primary btn-sm sbx-cta" type="button">
+        <button class="btn btn-primary btn-sm sbx-cta" type="button" data-tip="New Chat">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
           <span>New Chat</span>
         </button>
@@ -450,7 +450,8 @@
         <div class="mx-cat-header">
           <span class="mx-cat-label">Top 5 Data Sources for</span>
           <div class="chip-row" id="mx-cat-chips" role="tablist">
-            <button class="chip is-active" type="button" data-cat="Business Intelligence" onclick="mxCatFilter(this)">Business Intelligence</button>
+            <button class="chip is-active" type="button" data-cat="All" onclick="mxCatFilter(this)">All</button>
+            <button class="chip" type="button" data-cat="Business Intelligence" onclick="mxCatFilter(this)">Business Intelligence</button>
             <button class="chip" type="button" data-cat="Commerce" onclick="mxCatFilter(this)">Commerce</button>
             <button class="chip" type="button" data-cat="Communication" onclick="mxCatFilter(this)">Communication</button>
             <button class="chip" type="button" data-cat="IT Operations" onclick="mxCatFilter(this)">IT Operations</button>
@@ -1478,7 +1479,7 @@
                   <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
                   <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy"></span>
                   <span class="mx-prov-group-name">Jira Software Cloud</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label"> Add Metric</span></button>
+                  <button class="iconbtn iconbtn-tertiary mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
                 </div></td>
               </tr>
               <!-- Custom metrics first -->
@@ -1568,7 +1569,7 @@
                 <td colspan="6"><div class="mx-conn-sub-label">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                   <span class="mx-conn-sub-label-text">Skyvia Jira</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label"> Add Metric</span></button>
+                  <button class="iconbtn iconbtn-tertiary mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-conn="Skyvia Jira" data-name="Jira ticket sync lag" data-alias="@jira_sync_lag" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Average" data-desc="Average delay (in minutes) between a Jira issue update and its appearance in Insightis. Measured via Skyvia Jira connector sync timestamps. Spikes indicate connector throttling or API rate-limit events." data-custom="true" data-active="true" data-row-id="custom-skyvia-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1593,7 +1594,7 @@
                   <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
                   <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/azuredevops" alt="" loading="lazy" data-fb="Az" data-color="#0078D4" onerror="var s=this.parentElement;s.style.background=this.dataset.color;s.style.border='none';s.style.color='#fff';s.style.fontSize='.5625rem';s.style.fontWeight='700';s.textContent=this.dataset.fb"></span>
                   <span class="mx-prov-group-name">Azure DevOps</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label"> Add Metric</span></button>
+                  <button class="iconbtn iconbtn-tertiary mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
                 </div></td>
               </tr>
               <tr class="mx-no-builtin-row" data-prov="azure">
@@ -1611,7 +1612,7 @@
                   <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
                   <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/github/000000" alt="" loading="lazy" class="dark-invert"></span>
                   <span class="mx-prov-group-name">GitHub</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label"> Add Metric</span></button>
+                  <button class="iconbtn iconbtn-tertiary mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
