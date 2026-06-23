@@ -147,10 +147,10 @@
     /* Toast variant backgrounds + borders — 8% colour tint over Card surface, tinted border at 30%.
        Uses theme-aware sub-tokens (--card, --fb-*, --brand-primary) so both themes resolve correctly
        without explicit .dark overrides. */
-    --toast-bg-success:color-mix(in srgb, var(--fb-green) 8%, var(--card));
-    --toast-bg-info:color-mix(in srgb, var(--brand-primary) 8%, var(--card));
-    --toast-bg-warning:color-mix(in srgb, var(--fb-attention) 8%, var(--card));
-    --toast-bg-error:color-mix(in srgb, var(--fb-red-text) 8%, var(--card));
+    --toast-bg-success:color-mix(in srgb, var(--fb-green) 5%, var(--card));
+    --toast-bg-info:color-mix(in srgb, var(--brand-primary) 5%, var(--card));
+    --toast-bg-warning:color-mix(in srgb, var(--fb-attention) 5%, var(--card));
+    --toast-bg-error:color-mix(in srgb, var(--fb-red-text) 5%, var(--card));
     --toast-border-success:color-mix(in srgb, var(--fb-green) 30%, transparent);
     --toast-border-info:color-mix(in srgb, var(--brand-primary) 30%, transparent);
     --toast-border-warning:color-mix(in srgb, var(--fb-attention) 30%, transparent);
@@ -208,12 +208,11 @@
        Standard boundary  | max-width form  | meaning
        ─────────────────────────────────────────────────────────────────────
        600 px (sm)        | max-width: 599  | single-column phone layout
-       768 px (md)        | max-width: 767  | ≡ prod's `useIsMobile` hook —
-                                              sidebar drawer overlay activates,
-                                              burger button becomes visible.
-       1024 px (lg)       | max-width: 1023 | sidebar visible but content narrow —
-                                              grids drop one column, banners
-                                              stack instead of row.
+       768 px (md)        | max-width: 767  | ≡ prod's `useIsMobile` hook (reference only) —
+                                              in the kit the sidebar drawer activates at 1024px.
+       1024 px (lg)       | max-width: 1023 | sidebar drawer overlay activates,
+                                              burger button becomes visible; grids drop one
+                                              column, banners stack instead of row.
        1280 px (xl)       | max-width: 1279 | full multi-column layout for
                                               content grids; below this drop
                                               one column.
@@ -303,6 +302,11 @@
     /* Banner gradient — dark: brand-600→brand-900. */
     --grad-teal-dark:linear-gradient(135deg,var(--brand-600) 0%,var(--brand-900) 100%);
     --grad-noise:linear-gradient(135deg,var(--slate-900) 0%,var(--brand-800) 48%,var(--brand-700) 100%);
+    /* Toast bg — restore 8% tint on dark (light uses 4% for a more transparent feel on white) */
+    --toast-bg-success:color-mix(in srgb, var(--fb-green) 8%, var(--card));
+    --toast-bg-info:color-mix(in srgb, var(--brand-primary) 8%, var(--card));
+    --toast-bg-warning:color-mix(in srgb, var(--fb-attention) 8%, var(--card));
+    --toast-bg-error:color-mix(in srgb, var(--fb-red-text) 8%, var(--card));
     --banner-grad-ic-bg:color-mix(in srgb,var(--white) 12%,transparent);
     --banner-grad-ic-border:rgba(255,255,255,.18);
     --banner-grad-ic-shadow:0 0 0 6px rgba(255,255,255,.04),0 0 16px rgba(255,255,255,.05);
@@ -718,18 +722,30 @@
     white-space:nowrap;
     pointer-events:none;
     opacity:0;
-    transition:opacity .12s,transform .12s;
+    transition:opacity .1s,transform .1s;
     z-index:9999;
   }
+  /* When JS tooltip engine is active (.tt-js on <html>), suppress the CSS ::after fallback. */
+  html.tt-js [data-tip]::after,html.tt-js [data-tip]:hover::after,html.tt-js [data-tip]:focus-visible::after,
+  html.tt-js [data-tip][data-tip-side="right"]::after,html.tt-js [data-tip][data-tip-side="right"]:hover::after,
+  html.tt-js [data-tip][data-tip-side="bottom"]::after,html.tt-js [data-tip][data-tip-side="bottom"]:hover::after{display:none}
+  /* Cold enter: 300ms delay on first tooltip; leave: 100ms (controlled by resting state above). */
   [data-tip]:hover::after,[data-tip]:focus-visible::after{
     opacity:1;
     transform:translateX(-50%) translateY(0);
+    transition:opacity .12s .3s,transform .12s .3s;
+  }
+  /* Warm enter: 0ms delay when .tt-warm is active (within warm-up window after a recent tooltip). */
+  .tt-warm [data-tip]:hover::after,.tt-warm [data-tip]:focus-visible::after{
+    transition:opacity .12s,transform .12s;
   }
   /* Side variants — data-tip-side="right|bottom|left" */
   [data-tip][data-tip-side="right"]::after{bottom:auto;top:50%;left:calc(100% + 5px);transform:translateY(-50%) translateX(-3px)}
-  [data-tip][data-tip-side="right"]:hover::after,[data-tip][data-tip-side="right"]:focus-visible::after{transform:translateY(-50%) translateX(0)}
+  [data-tip][data-tip-side="right"]:hover::after,[data-tip][data-tip-side="right"]:focus-visible::after{transform:translateY(-50%) translateX(0);transition:opacity .12s .3s,transform .12s .3s}
+  .tt-warm [data-tip][data-tip-side="right"]:hover::after,.tt-warm [data-tip][data-tip-side="right"]:focus-visible::after{transition:opacity .12s,transform .12s}
   [data-tip][data-tip-side="bottom"]::after{bottom:auto;top:calc(100% + 5px);left:50%;transform:translateX(-50%) translateY(-3px)}
-  [data-tip][data-tip-side="bottom"]:hover::after,[data-tip][data-tip-side="bottom"]:focus-visible::after{transform:translateX(-50%) translateY(0)}
+  [data-tip][data-tip-side="bottom"]:hover::after,[data-tip][data-tip-side="bottom"]:focus-visible::after{transform:translateX(-50%) translateY(0);transition:opacity .12s .3s,transform .12s .3s}
+  .tt-warm [data-tip][data-tip-side="bottom"]:hover::after,.tt-warm [data-tip][data-tip-side="bottom"]:focus-visible::after{transition:opacity .12s,transform .12s}
 
   /* Dropdown surface + menu item — renewed values throughout (px units to match the rest of the kit's layout system: .iconbtn 32×32, .sb-item 32/8/8, etc.). Prod's cramped 2/6/6/4 dimensions live in the .prod .mi override above; this is the renewed Expected pass. */
   /* Context-menu sizing — fluid: `width:max-content` hugs the longest item, clamped between min 140 / max 320. Labels longer than 320 px wrap; menus never collapse below 140 px. Every .menu instance (.sbx-chat-menu, .chat-row-menu, .ds-conn-menu, etc.) inherits this via the base rule — variants no longer override `width`. */
@@ -998,14 +1014,19 @@
   .cl-burger:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
   .cl-side-backdrop{display:none}
 
-  @media (max-width: 767px) {
-    /* Sidebar hidden by default on mobile — no icon-mode rail. Page reads as main-only.
+  @media (max-width: 1023px) {
+    /* Sidebar hidden by default on tablet/mobile — no icon-mode rail. Page reads as main-only.
        The hamburger surfaces it as an overlay drawer when explicitly opened.
        !important on both rules so this shared kit-theme.css rule wins over per-page .cl-side /
        .cl-shell rules in pages' inline <style> blocks (which load after this stylesheet). */
     .cl-side{display:none !important}
     .cl-shell{grid-template-columns:1fr !important}
-    .cl-burger{display:inline-flex}
+    /* Burger sits at the same x as cl-page left edge (2rem) so it visually aligns with content.
+       The page title row clears the burger via a universal :first-child rule below. */
+    .cl-burger{display:inline-flex;top:2.25rem;left:2rem}
+    /* Shift only the title row right to clear the burger (burger right = 2+2 = 4rem from cl-main;
+       cl-page already at 2rem, so first-child needs 2.5rem extra to land at 4.5rem + 8px gap). */
+    .cl-page > :first-child{padding-left:2.5rem}
     /* Backdrop dimmer — below the sidebar but above main column + topbar so the whole page
        reads as inactive while the overlay is open. Clicking it closes the drawer. */
     .cl-side-backdrop{display:block;position:fixed;inset:0;background:rgba(15,23,42,.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:55;opacity:0;pointer-events:none;transition:opacity .2s ease}
@@ -1014,9 +1035,10 @@
     /* When opened via hamburger, sidebar becomes a position:fixed overlay drawer that slides
        in from the left. Slide is a one-off paint when .side-open is set; close is just display:none. */
     html.side-open .cl-side{
-      display:flex !important;                     /* !important so this overrides the .cl-side{display:none !important} above */
-      position:fixed;top:0;left:0;bottom:0;
-      width:min(18rem,86vw);height:100%;z-index:60;
+      display:flex !important;
+      position:fixed !important;top:0 !important;left:0 !important;bottom:0 !important;
+      max-height:none !important;
+      width:min(18rem,86vw);z-index:60;
       box-shadow:0 10px 30px rgba(2,6,23,.32);
       animation:clSideSlide .22s ease both;
     }
@@ -1030,8 +1052,14 @@
      History: an earlier exploration surfaced a `Chats Library` nav-row at position 2 as the
      touch entry point; retired 2026-06-19 — see `archive/2026-06-19-concept-A-chats-library-nav`
      (local-only, not pushed) for the full recipe + restore instructions if it should come back. */
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     .sbx-sect-link{opacity:1}
+  }
+  /* Mobile override — squeeze cl-page padding so content uses full narrow screen width;
+     reset burger to left:.75rem to match the narrower cl-page edge. */
+  @media (max-width: 767px) {
+    .cl-page{padding-left:.75rem !important;padding-right:.75rem !important}
+    .cl-burger{left:.75rem}
   }
 
   /* Chat row — single-line label with persistent right-edge gradient fade;
@@ -1132,12 +1160,12 @@
   .sbx:not(.is-collapsed) .sbx-nav-item[data-tip]::after{display:none}
   .sbx-chats-icon{display:none}
   .sbx-chats-icon svg{width:14px;height:14px}
-  /* Collapsed icon-rail mode applies ONLY at desktop widths (≥ 768 px). Below that the sidebar is
+  /* Collapsed icon-rail mode applies ONLY at desktop widths (≥ 1024 px). Below that the sidebar is
      a drawer overlay (kit-theme `.cl-side` rules above), and the drawer must always show the full
      sidebar layout — even if .sbx still carries the .is-collapsed class from a prior desktop
-     interaction (e.g. user collapsed the rail at desktop, then resized to mobile). Wrapping these
-     rules in `min-width: 768px` makes the drawer immune to that stale state. */
-  @media (min-width: 768px) {
+     interaction (e.g. user collapsed the rail at desktop, then resized to tablet). Wrapping these
+     rules in `min-width: 1024px` makes the drawer immune to that stale state. */
+  @media (min-width: 1024px) {
     .sbx.is-collapsed{width:57px}
     .sbx.is-collapsed .sbx-head{padding:6px 0 4px;gap:4px;align-items:center}
     /* Brand area in collapsed mode: brand-mark shown by default; on hover the collapse-trigger swaps in */
@@ -1156,6 +1184,7 @@
     /* Collapse trigger swaps in on hover of the brand area (icon-only mode → click to expand) */
     .sbx.is-collapsed .sbx-collapse{display:inline-flex;position:absolute;inset:0;width:auto;height:auto;opacity:0;transition:opacity .12s;background:transparent}
     .sbx.is-collapsed .sbx-brand:hover .sbx-collapse,.sbx.is-collapsed .sbx-collapse:focus-visible{opacity:1}
+    .sbx.is-collapsed .sbx-collapse:hover{background:var(--state-hover)}
     .sbx.is-collapsed .sbx-brand:hover .sbx-brand-id{opacity:0}
     /* Tighter, equal-sized icon buttons — 28×28 for a calmer hierarchy along the 57 px sidebar */
     .sbx.is-collapsed .sbx-cta{padding:0;width:28px;height:28px;align-self:center}
@@ -1426,9 +1455,9 @@
   .sel-trig[aria-expanded="true"],.sel-trig.s-open{border-color:var(--input-focus)}
   .sel-val{flex:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .sel-ph{flex:1;color:var(--ink-inactive)}
-  .sel-chev{width:14px;height:14px;color:var(--ink-secondary);flex:none;transition:transform .15s}
+  .sel-chev{width:16px;height:16px;color:var(--ink-secondary);flex:none;transition:transform .15s}
   .sel-trig[aria-expanded="true"] .sel-chev,.sel-trig.s-open .sel-chev{transform:rotate(180deg)}
-  .sel-menu{position:absolute;top:calc(100% + 2px);left:0;right:0;width:100%;z-index:50;display:none}
+  .sel-menu{position:absolute;top:calc(100% + 2px);left:0;right:0;width:100%;min-width:unset;max-width:unset;z-index:50;display:none}
   .sel-trig[aria-expanded="true"]+.sel-menu{display:block}
   .sel-trig.is-sm{height:2rem} .sel-trig.is-lg{height:2.5rem} .sel-trig.is-xl{height:2.75rem}
 
@@ -1555,11 +1584,19 @@
      Optional trailing .chip-n count uses --ink-inactive at rest and a desaturated --btn-primary-text
      when active (kept legible against the brand fill). Container .chip-row owns the wrap + gap. */
   .chip-row{display:flex;flex-wrap:wrap;gap:.375rem}
-  /* Responsive — tablet + mobile (≤880px): single-line horizontal scroll instead of wrap.
-     .prov-card .chip-row is exempt — higher specificity keeps flex-wrap:wrap there. */
-  @media(max-width:880px){
-    .chip-row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-inline-end:1rem}
+  /* Responsive — tablet + mobile (≤767px): single-line horizontal scroll instead of wrap.
+     .prov-card .chip-row is exempt — higher specificity keeps flex-wrap:wrap there.
+     Bleed (margin-inline) applied per-page so it matches each page's cl-page padding. */
+  @media(max-width:767px){
+    .chip-row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-inline-end:2.5rem;max-width:100%;min-width:0;
+      /* Default: both-side fades — right signals more content; left signals page-edge bleed */
+      -webkit-mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 calc(100% - 2.5rem),transparent 100%);
+      mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 calc(100% - 2.5rem),transparent 100%)}
     .chip-row::-webkit-scrollbar{display:none}
+    /* At right end: left fade only */
+    .chip-row[data-chip-scroll="end"]{
+      -webkit-mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 100%);
+      mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 100%)}
   }
   .chip{display:inline-flex;align-items:center;gap:.375rem;height:1.75rem;padding:0 .75rem;border-radius:9999px;font-size:.8125rem;font-weight:500;font-family:inherit;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--ink-body);transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
   .chip:hover,.chip.s-hover{background:var(--state-hover);color:var(--ink)}
@@ -1748,9 +1785,7 @@
   .mx-prov-group td{padding:.25rem 1rem;border-bottom:1px solid var(--border)}
   .mx-prov-group-cell{display:flex;align-items:center;gap:.5rem}
   .mx-prov-group-name{font-size:.8125rem;font-weight:600;color:var(--ink);flex:1;min-width:0}
-  /* Group-header icon — bare, no card bg or border */
-  .mx-prov-group .mx-prov-ic{background:transparent;border:none;width:1.125rem;height:1.125rem}
-  .mx-prov-group .mx-prov-ic img{width:100%;height:100%}
+  /* Group-header icon — same bordered container as other mx-prov-ic usages */
 
   /* ── Collapsible group chevron ── */
   .mx-prov-collapse-btn{background:none;border:none;padding:0;cursor:pointer;color:var(--ink-secondary);flex:none;line-height:0;display:flex;align-items:center}
@@ -1766,7 +1801,7 @@
   .mx-tbl-name .mx-swt-wrap{display:inline-flex;vertical-align:middle;margin-right:.5rem}
   .mx-tbl-name .badge{display:inline;vertical-align:middle}
   .mx-tbl-name .mx-tbl-sub{display:inline;vertical-align:middle}
-  .mx-tbl-alias{font-size:.75rem;color:var(--ink-secondary)}
+  .mx-tbl-alias{font-size:.75rem;color:var(--ink-secondary);width:9rem}
   .mx-tbl-desc{font-size:.75rem;color:var(--ink-secondary);max-width:18rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
   .mx-tbl-badge{vertical-align:middle;white-space:nowrap}
   .mx-badge-inl{margin-left:.375rem;vertical-align:middle}
@@ -1774,7 +1809,7 @@
   .mx-tbl-sub{display:block;font-size:.75rem;color:var(--ink-secondary);font-weight:400;margin-top:.0625rem}
 
   /* ── Actions column + kebab ── */
-  .mx-tbl-actions{width:4.5rem;padding-right:.5rem;position:relative;text-align:right;vertical-align:middle;white-space:nowrap}
+  .mx-tbl-actions{width:3rem;padding-right:.5rem;position:relative;text-align:right;vertical-align:middle;white-space:nowrap}
   .mx-tbl-actions .iconbtn{width:1.625rem;height:1.625rem;opacity:0;transition:opacity .12s;display:inline-flex;align-items:center;justify-content:center}
   .mx-tbl-actions .iconbtn svg{width:13px;height:13px}
   tr:hover .mx-tbl-actions .iconbtn{opacity:1}
@@ -1804,7 +1839,7 @@
   /* ── No built-in metrics row ── */
   .mx-no-builtin-row{cursor:default !important}
   .mx-no-builtin-row:hover td,.mx-no-builtin-row:active td{background:inherit !important}
-  .mx-no-builtin-row td{padding:.5rem 1rem 1rem;border-bottom:1px solid var(--border)}
+  .tbl .mx-no-builtin-row td{padding:.6rem 1rem;border-bottom:1px solid var(--border);height:2.875rem}
   .mx-no-builtin-msg{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--ink-secondary)}
   .mx-no-builtin-msg svg{color:var(--ink-secondary);opacity:.6;flex:none}
   .mx-no-builtin-link{background:none;border:none;padding:0;cursor:pointer;font-size:inherit;font-family:inherit;color:var(--brand-primary);font-weight:500;text-decoration:none}
@@ -1824,7 +1859,7 @@
   .mx-c3-toolbar .igrp{width:100%;background:var(--card);height:2.5rem}
   .mx-c3-filter-chips{display:flex;align-items:center;gap:.375rem}
   .mx-active-toggle{margin-left:auto;display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8125rem;font-weight:500;color:var(--ink-secondary);white-space:nowrap;user-select:none}
-  .mx-c3-toolbar .igrp-add{padding:0 6px}
+  .mx-c3-toolbar .igrp-add{padding:0 6px 0 10px}
   .mx-c3-toolbar .igrp-add svg{width:15px;height:15px}
   .mx-c3-toolbar .igrp-input{padding-left:3px}
 
@@ -1855,64 +1890,39 @@
 /* ═══════════════════════════════════════════════════════════════════════
    RESPONSIVE TABLES — shared card-stack layout (≤ 767 px, md breakpoint)
    ───────────────────────────────────────────────────────────────────────
-   At the md breakpoint (sidebar becomes a drawer) horizontal tables no
-   longer fit. These rules reflow any scoped table wrapper into a vertical
-   card stack. Two patterns are provided:
+   DS Connections: JS detects viewport and switches to .ds-conn-row list
+   markup at < 768 px, reusing existing card styles. matchMedia listener
+   re-renders when crossing the breakpoint.
 
-     .ds-conn-tbl  — DS Connections: 2-col grid (content | kebab)
-                     Visual order swaps td[1]/td[2] so DS icon+name leads
-                     (primary) and the connection label is the subtitle.
-     .mx-tbl       — Metrics: 4-col grid (toggle | content | badge | kebab)
-                     Badge moves inline with the title row; no more absolute
-                     positioning for toggle or kebab.
+   Metrics: table rows reflowed to 4-col grid cards via CSS since the
+   metrics table is static HTML with no JS view-mode toggle.
 
-   Hover states are intentionally ABSENT from the mobile block — touch
-   devices have no hover and would flash the state on tap. Hover is
-   re-introduced only in the (hover: hover) block below.
+   Hover states intentionally absent — touch has no hover. Re-introduced
+   only in the (hover: hover) block below.
    ═══════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 767px) {
 
-  /* ── DS Connections: table → 2-column grid cards ──
-     Visual hierarchy: [DS icon + name] (primary) → [connection label] (subtitle) → [description]
-     Achieved by assigning td[2] to grid-row:1 and td[1] to grid-row:2. */
-  .ds-conn-tbl{overflow:visible}
-  .ds-conn-tbl .tbl,.ds-conn-tbl .tbl tbody{display:flex;flex-direction:column;gap:.5rem}
-  .ds-conn-tbl .tbl thead{display:none}
-  .ds-conn-tbl .tbl tbody tr{
-    display:grid;
-    grid-template-columns:1fr auto;
-    grid-template-rows:auto auto auto;
-    column-gap:.75rem;row-gap:.2rem;
-    align-items:start;
-    padding:.875rem;
-    background:var(--card);border:1px solid var(--border);border-radius:.75rem;
-    box-shadow:0 1px 2px 0 rgba(15,23,42,.03);
-    cursor:pointer;overflow:visible
-  }
-  .ds-conn-tbl .tbl tbody tr td{display:block;padding:0;border:none;overflow:visible;white-space:normal;max-width:none;text-overflow:clip}
-  /* td[1] connection label → subtitle (row 2) */
-  .ds-conn-tbl .tbl tbody tr td:nth-child(1){grid-column:1;grid-row:2;font-size:.8125rem;font-weight:400;color:var(--ink-secondary);line-height:1.3}
-  /* td[2] DS icon + name → primary title (row 1) */
-  .ds-conn-tbl .tbl tbody tr td:nth-child(2){grid-column:1;grid-row:1}
-  .ds-conn-tbl .tbl tbody tr td:nth-child(2) .ds-conn-cell-name{gap:.5rem;align-items:center}
-  .ds-conn-tbl .tbl tbody tr td:nth-child(2) .ds-conn-cell-name>span:last-child{font-size:.9375rem;font-weight:600;color:var(--ink)}
-  /* td[3] description → tertiary (row 3), 2-line clamp */
-  .ds-conn-tbl .tbl tbody tr td:nth-child(3){grid-column:1;grid-row:3;font-size:.8125rem;color:var(--ink-tertiary);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  /* td[4] kebab → right column, spans all rows, top-aligned */
-  .ds-conn-tbl .tbl tbody tr td:nth-child(4){grid-column:2;grid-row:1/4;display:flex;align-items:flex-start;overflow:visible}
-  .ds-conn-tbl .tbl tbody tr:has([data-kbp][aria-expanded="true"]){z-index:20;overflow:visible}
-
-  /* ── Metrics: table → 4-column grid cards ──
-     Columns: toggle | content | badge | kebab
-     Badge moves from the bottom of the card into the title row. */
-  .mx-tbl{overflow:visible}
-  .mx-tbl .tbl,.mx-tbl .tbl tbody{display:flex;flex-direction:column;gap:.5rem}
+  /* ── Metrics: table → group cards with divider rows ──
+     Each provider group = one joined card: prov-group header + metric rows.
+     Metric rows are separated by dividers inside the card, not individual boxes.
+     Outer .mx-tbl wrapper loses its card shell — group cards replace it. */
+  .mx-tbl{background:transparent;border:none;border-radius:0;overflow:visible}
+  .mx-tbl .tbl,.mx-tbl .tbl tbody{display:flex;flex-direction:column;gap:0}
   .mx-tbl .tbl thead{display:none}
-  /* Provider group row — section separator with left accent */
-  .mx-tbl .tbl tbody tr.mx-prov-group{display:block}
-  .mx-tbl .tbl tbody tr.mx-prov-group td{display:block;border:none;border-left:3px solid var(--border);padding:.5rem 0 .25rem .625rem}
-  /* Metric row → 4-col grid card */
+
+  /* Provider group = section label (not a card) */
+  .mx-tbl .tbl tbody tr.mx-prov-group{
+    display:block;
+    margin-top:1.25rem;
+    background:transparent;
+    border:none;
+    border-radius:0
+  }
+  .mx-tbl .tbl tbody tr.mx-prov-group:first-child{margin-top:0}
+  .mx-tbl .tbl tbody tr.mx-prov-group td{display:block;border:none;padding:.125rem 0 .375rem}
+
+  /* Metric row = standalone card */
   .mx-tbl .tbl tbody tr.mx-metric-child{
     display:grid;
     grid-template-columns:auto 1fr auto auto;
@@ -1920,10 +1930,28 @@
     column-gap:.625rem;row-gap:.25rem;
     align-items:start;
     padding:.875rem;
-    background:var(--card);border:1px solid var(--border);border-radius:.75rem;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:.5rem;
     box-shadow:0 1px 2px 0 rgba(15,23,42,.03);
-    cursor:pointer;overflow:visible
+    cursor:pointer;overflow:visible;
+    margin-top:.375rem
   }
+  /* Each metric is its own card — no stitching */
+  .mx-tbl .tbl tbody tr.mx-metric-child + .mx-metric-child{border-top:1px solid var(--border)}
+  .mx-tbl .tbl tbody tr.mx-metric-child:last-child{border-radius:.5rem}
+  .mx-tbl .tbl tbody tr.mx-metric-child:has(+ tr.mx-prov-group){border-radius:.5rem}
+
+  /* Empty state row = standalone card (same shell as a metric card) */
+  .mx-tbl .tbl tbody tr.mx-no-builtin-row{
+    display:block;
+    margin-top:.375rem;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:.5rem
+  }
+  .mx-tbl .tbl tbody tr.mx-no-builtin-row td{display:block;border:none;padding:.875rem}
+
   .mx-tbl .tbl tbody tr.mx-metric-child td{display:block;padding:0;border:none}
   /* td[1] toggle — col 1, row 1, centred with name */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(1){grid-column:1;grid-row:1;align-self:center;position:static;top:auto;left:auto}
@@ -1932,32 +1960,50 @@
   /* td[3] alias — col 2, row 2 */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3){grid-column:2;grid-row:2;font-size:.75rem;color:var(--ink-tertiary);font-family:ui-monospace,monospace;letter-spacing:-.01em}
   /* td[4] definition — col 2, row 3, 2-line clamp */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(4){grid-column:2;grid-row:3;font-size:.8125rem;color:var(--ink-secondary);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  /* td[5] badge — col 3, row 1, centred with name */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(4){grid-column:2 / -1;grid-row:3;font-size:.8125rem;color:var(--ink-secondary);line-height:1.55;white-space:normal;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-width:0;width:100%}
+  /* td[5] badge — col 3, row 1, aligned with metric name */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(5){grid-column:3;grid-row:1;align-self:center}
-  /* td[6] kebab — col 4, row 1, top-aligned */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(6){grid-column:4;grid-row:1;align-self:start;position:static;top:auto;right:auto;overflow:visible}
+  /* td[6] kebab — col 4, row 1 */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(6){grid-column:4;grid-row:1;align-self:start;position:static;top:auto;right:auto;overflow:visible;width:auto;text-align:left;padding-right:0}
   .mx-tbl .tbl tbody tr.mx-metric-child:has([data-kbp][aria-expanded="true"]){z-index:20;overflow:visible}
+
+  /* Add Metric → icon-only button on mobile */
+  .mx-add-metric-label{display:none}
+  .mx-add-metric-hover-btn{opacity:1;padding:0;width:1.75rem;height:1.75rem;display:inline-flex;align-items:center;justify-content:center}
 
   /* Kebab always visible on mobile (no hover to reveal it) */
   .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn{opacity:1}
   .ds-conn-tbl .tbl tbody tr .ds-conn-more{opacity:1}
 
-  /* Suppress desktop-only hover-reveal patterns that rely on tr:hover */
+  /* Suppress desktop td-level hover; use tr-level below */
   .mx-tbl .tbl tbody tr.mx-metric-child:hover td{background:transparent}
-  .ds-conn-tbl .tbl tbody tr:hover td{background:transparent}
 }
 
-/* Card hover — pointer devices only (no mobile flash on tap) */
+/* Metric card hover/active — matches card recipe from CLAUDE.md */
 @media (max-width: 767px) and (hover: hover) {
-  .ds-conn-tbl .tbl tbody tr:hover{
-    background:var(--state-hover);
-    border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent);
-    box-shadow:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04)
-  }
-  .mx-tbl .tbl tbody tr.mx-metric-child:hover{
-    background:var(--state-hover);
-    border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent);
-    box-shadow:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04)
-  }
+  .mx-tbl .tbl tbody tr.mx-metric-child:hover{background:var(--state-hover);border-color:color-mix(in srgb, var(--brand-primary) 25%, transparent);box-shadow:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04)}
+}
+@media (max-width: 767px) {
+  .mx-tbl .tbl tbody tr.mx-metric-child:active:not(:has(button:active)):not(:has(.kbp-menu button:active)){transform:scale(.99);box-shadow:0 1px 2px 0 rgba(15,23,42,.03)}
+}
+
+/* ═══ DS Connections card list — breakpoint 960px ═══════════════════════
+   JS switches table → .ds-conn-list at < 960px (wider than the sidebar
+   drawer breakpoint) because the 4-column table becomes unreadable below
+   ~960px content width. These rules style the card list at that range.
+   ════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 959px) {
+  /* Single-column stack */
+  .ds-conn-list{grid-template-columns:1fr}
+  /* DS source = primary: bold, larger, leading line */
+  .ds-conn-list .ds-conn-row .ds-conn-src{display:inline-flex;align-items:center;gap:.5rem;font-size:.9375rem;font-weight:600;color:var(--ink)}
+  .ds-conn-list .ds-conn-row .ds-conn-src .ds-mark{width:1.375rem;height:1.375rem;flex-shrink:0}
+  /* Connection label = secondary: smaller, muted, below source name */
+  .ds-conn-list .ds-conn-row .ds-conn-label{font-size:.8125rem;font-weight:400;color:var(--ink-secondary);white-space:normal;overflow:visible;text-overflow:clip}
+  /* Meta: flex column — source row (already first in markup), then label, then desc */
+  .ds-conn-list .ds-conn-row .ds-conn-meta{display:flex;flex-direction:column;gap:.125rem;white-space:normal;overflow:visible;text-overflow:clip}
+  /* Description: up to 2 lines, tertiary */
+  .ds-conn-list .ds-conn-row .ds-conn-desc{color:var(--ink-tertiary);white-space:normal;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  /* Kebab always visible — no hover on narrower viewports */
+  .ds-conn-list .ds-conn-row .ds-conn-more{opacity:1}
 }

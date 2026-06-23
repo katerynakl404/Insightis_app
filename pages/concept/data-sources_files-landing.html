@@ -23,11 +23,7 @@
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   .cl-page-title{scroll-margin:5rem;font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0 0 .25rem}
   @media (min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
-  /* Narrow-width burger alignment: pull content (.cl-page) left to align with burger's left edge
-     (both at .75 rem), shift ONLY the title-row right to clear the burger horizontally (title text
-     at 52 px from .cl-main edge), and drop the burger down to sit on the same row as the title.
-     Threshold matches kit-theme's burger breakpoint (= prod's useIsMobile, < 768 px). */
-  @media (max-width: 767px){.cl-page{padding-left:.75rem;padding-right:.75rem}.cl-page > .ds-page-head{padding-left:2.5rem}.cl-burger{top:2.25rem}}
+  /* Burger alignment handled globally in kit-theme.css — no per-page rules needed. */
 
   /* Page head — title left, no separate CTA (action lives in the tab row per spec) */
   .ds-page-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
@@ -170,7 +166,7 @@
               <svg class="sbx-brand-logo" aria-label="Insightis"><use href="#lg"/></svg>
               <svg class="sbx-brand-mark" aria-hidden="true"><use href="#lg-mark"/></svg>
             </div>
-            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Toggle Sidebar" type="button" onclick="dsfToggleSbxCollapse()">
+            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Toggle Sidebar" type="button" onclick="dsfToggleSbxCollapse()" data-tip="Collapse">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
@@ -356,6 +352,38 @@
 
 
 <script>
+  /* Tooltip engine — JS-positioned fixed tooltip, warm-up aware, escapes overflow:hidden. */
+  (function(){
+    document.documentElement.classList.add('tt-js');
+    var ft,warmTimer,showTimer,isWarm=false;
+    function getFt(){
+      if(!ft){ft=document.createElement('div');ft.setAttribute('aria-hidden','true');
+        ft.style.cssText='position:fixed;z-index:9999;background:var(--ink);color:var(--card);font-size:.75rem;border-radius:6px;padding:4px 8px;pointer-events:none;white-space:nowrap;font-family:inherit;line-height:1.35;opacity:0;transition:opacity .1s;display:none';
+        document.body.appendChild(ft);}return ft;
+    }
+    function show(el){
+      var text=el.getAttribute('data-tip');if(!text)return;
+      var f=getFt(),r=el.getBoundingClientRect();
+      f.textContent=text;f.style.display='inline-flex';f.style.opacity='0';
+      var tw=f.offsetWidth,th=f.offsetHeight;
+      var lx=Math.max(4,Math.min(r.left+r.width/2-tw/2,window.innerWidth-tw-4));
+      var ty=r.top-th-5;if(ty<4)ty=r.bottom+5;
+      f.style.left=lx+'px';f.style.top=ty+'px';
+      f.style.transition='opacity .12s';f.style.opacity='1';
+    }
+    function hide(){if(ft){ft.style.transition='opacity .1s';ft.style.opacity='0';}clearTimeout(showTimer);}
+    document.addEventListener('mouseover',function(e){
+      var el=e.target.closest('[data-tip]');if(!el)return;
+      clearTimeout(showTimer);showTimer=setTimeout(function(){show(el);},isWarm?0:300);
+    },true);
+    document.addEventListener('mouseout',function(e){
+      var el=e.target.closest('[data-tip]');if(!el)return;
+      var to=e.relatedTarget;if(to&&to.closest&&to.closest('[data-tip]'))return;
+      hide();clearTimeout(warmTimer);isWarm=true;
+      warmTimer=setTimeout(function(){isWarm=false;},600);
+    },true);
+  })();
+
   /* ===== File data — single source of truth driving the file list, count, and meta row ===== */
   var FILES = [
     { id:'f1', name:'quarterly-report.csv',  type:'csv',  size:'2.4 MB',  date:'3d ago',      selected:false },
@@ -438,7 +466,7 @@
     /* Selection state: ✕ · N selected · Select all | Download · Delete */
     var allSelected = selectedCount === totalCount;
     meta.innerHTML = ''
-      + '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Clear selection">' + CLOSE + '</button>'
+      + '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Clear selection" data-tip="Clear selection">' + CLOSE + '</button>'
       + '<span class="meta-row-count">' + selectedCount + ' selected</span>'
       + '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all">' + (allSelected ? 'Deselect all' : 'Select all') + '</button>'
       + '<span class="dsf-bulk-right">'
@@ -534,8 +562,11 @@
 
   /* ===== Sidebar collapse ===== */
   function dsfToggleSbxCollapse(){
+    if(window.innerWidth<=1023){document.documentElement.classList.remove('side-open');return}
     var sbx = document.querySelector('.cl-side .sbx');
     if (sbx) sbx.classList.toggle('is-collapsed');
+    var btn = document.querySelector('.sbx-collapse');
+    if(btn) btn.setAttribute('data-tip', sbx && sbx.classList.contains('is-collapsed') ? 'Expand' : 'Collapse');
   }
 
   /* Initial render */

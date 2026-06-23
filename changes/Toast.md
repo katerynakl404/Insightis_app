@@ -7,7 +7,7 @@ Source: `@insightis/ui` `Toast/` (Toaster, ToastMessage, `toast()`). Baseline: [
 | State | Current (prod) | Expected | Specification |
 |---|---|---|---|
 | Width | `width:240px` (fixed) | `min-width:280px; max-width:600px; width:100%` | Fluid to 600 px; min prevents collapse on narrow containers |
-| Background | `background:var(--card)` — solid, same for all variants | Variant-tinted: `var(--toast-bg-*)` — 8% colour mix over `--card` | Auto-adapts in dark theme via theme-aware sub-tokens |
+| Background | `background:var(--card)` — solid, same for all variants | Variant-tinted: `var(--toast-bg-*)` — **5% colour mix over `--card`** (light) / 8% on dark | More transparent on white backgrounds; dark retains 8% for parity |
 | Border | `1px solid var(--border)` — neutral, same for all variants | Variant-tinted: `var(--toast-border-*)` — 30% colour mix over transparent | Pairs with bg tint; stronger than bg tint to stay visible on tinted surface |
 | Closing | Progress bar drains; `onClose` runs at end | — | Duration default 4000ms unchanged |
 
@@ -48,10 +48,10 @@ Icon colors (`--fb-green`, `--brand-primary`, `--fb-attention`, `--fb-red-text`)
 
 | Token | Value | Layer |
 |---|---|---|
-| `--toast-bg-success` | `color-mix(in srgb, var(--fb-green) 8%, var(--card))` | Component-scoped |
-| `--toast-bg-info` | `color-mix(in srgb, var(--brand-primary) 8%, var(--card))` | Component-scoped |
-| `--toast-bg-warning` | `color-mix(in srgb, var(--fb-attention) 8%, var(--card))` | Component-scoped |
-| `--toast-bg-error` | `color-mix(in srgb, var(--fb-red-text) 8%, var(--card))` | Component-scoped |
+| `--toast-bg-success` | `color-mix(in srgb, var(--fb-green) 5%, var(--card))` light / `8%` dark | Component-scoped |
+| `--toast-bg-info` | `color-mix(in srgb, var(--brand-primary) 5%, var(--card))` light / `8%` dark | Component-scoped |
+| `--toast-bg-warning` | `color-mix(in srgb, var(--fb-attention) 5%, var(--card))` light / `8%` dark | Component-scoped |
+| `--toast-bg-error` | `color-mix(in srgb, var(--fb-red-text) 5%, var(--card))` light / `8%` dark | Component-scoped |
 | `--toast-border-success` | `color-mix(in srgb, var(--fb-green) 30%, transparent)` | Component-scoped |
 | `--toast-border-info` | `color-mix(in srgb, var(--brand-primary) 30%, transparent)` | Component-scoped |
 | `--toast-border-warning` | `color-mix(in srgb, var(--fb-attention) 30%, transparent)` | Component-scoped |

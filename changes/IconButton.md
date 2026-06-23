@@ -38,6 +38,16 @@ Prod ships a single IconButton style (≈ Secondary's new look — neutral borde
 | Hover border | `Stroke/Border_Hover` | `Stroke/Border_Hover` (kept) | `--btn-secondary-border-hover` | Token-aligned; resolves to same value as `Stroke/Border_Hover` |
 | Disabled | `border-gradient-inner-border`, icon `content-light` | bg `State/Disabled`, icon `Text/Inactive` | — (no change from v1.0) | Mirrors Button Secondary disabled recipe |
 
+## Tooltip
+
+| Property | Current (prod) | Expected | Specification |
+|---|---|---|---|
+| Tooltip on hover | — no tooltip | `[data-tip]` CSS-only bubble above the button | Required — icon-only buttons must label themselves |
+| Enter delay (cold) | — | 300 ms (`transition-delay: .3s` on `:hover::after`) | First tooltip in a session; gives the eye time to land before the overlay appears |
+| Enter delay (warm) | — | 0 ms (`.tt-warm [data-tip]:hover::after` — no delay) | Subsequent tooltips within 600 ms of leaving a previous one; keeps fast scanning fluid |
+| Leave duration | — | 100 ms (`transition: opacity .1s, transform .1s` on resting `::after`) | Short fade — the bubble exits before the eye chases it |
+| Warm-up window | — | 600 ms (JS `setTimeout` clears `.tt-warm` on `<body>`) | CSS reads `.tt-warm` body class; JS sets it on `mouseout` of any `[data-tip]` and clears after 600 ms with no new hover |
+
 ## No change (—)
 Size 36×36, radius `md 6px`, icon 18px, transition .12s.
 

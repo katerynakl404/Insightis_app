@@ -16,7 +16,7 @@ Single-select filter pill. Pill shape (radius `full`), height `1.75rem` (28px).
 
 | | Prod (Current) | Expected |
 |---|---|---|
-| `.chip-row` on ≤ 880 px (tablet + mobile) | wraps to multiple lines | single-line horizontal scroll — `flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none`; native scrollbar hidden; `padding-inline-end:1rem` so last chip doesn't clip |
+| `.chip-row` on ≤ 1023 px (tablet + mobile) | wraps to multiple lines | single-line horizontal scroll — `flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none`; native scrollbar hidden; `padding-inline-end:1rem` so last chip doesn't clip |
 | `.prov-card .chip-row` at any width | wraps freely | **unchanged — always wraps** (higher specificity; hard requirement) |
 
 ## No change (—)

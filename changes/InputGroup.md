@@ -25,6 +25,14 @@ Same as primary, only bg swaps to `card` (`#FFFFFF` / dark `#17171E`). No own ch
 | Click delegates to input focus | yes (unless target is a `<button>`) | — | — no change |
 | Group disabled | `opacity-50` via `group-data-[disabled=true]` | — | — no change |
 
+## Responsive behaviour (≤ 767 px)
+
+| | Prod (Current) | Expected |
+|---|---|---|
+| Full-width page search height on mobile (`.mx-c3-toolbar .igrp`) | `38.4px` — **no change at any breakpoint** | `2.25rem` (36px) on ≤ 767px — standard kit default; saves vertical space on narrow screens. Page-level override. |
+
+> **Note — iOS font-size:** prod uses `14px` on inputs at all breakpoints. Bumping to `16px` on mobile eliminates iOS Safari auto-zoom but makes placeholder visually oversized in a compact field. Kept at `14px`; iOS zoom is a known prod-parity limitation.
+
 ## No change (—)
 Layout grammar (`inline-start` / `inline-end` / `block-start` / `block-end` align), label / error-text auto-rendering, kbd shortcut indent.
 

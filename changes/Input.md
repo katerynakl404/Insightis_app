@@ -16,6 +16,14 @@ identical hover / focus / error / disabled tokens and shape.
 | Error | border `red/20`, bg `red/5`, ring `red/20`, icon `red/60`, placeholder `red/60` | — | 1 px solid `--input-error` border (theme-adaptive: light `red-700 #B91C1C` / dark `red-500 #EF4444`), red helper text below; **no** bg tint, **no** outer ring | drop the red bg + ring; status is now paired with helper text → not by colour alone (WCAG 1.4.1). Token is theme-adaptive because the global `Feedback/Red` is locked to `red-700` in both themes (badge/button contract) but `#B91C1C` only reaches 2.76 : 1 on the dark Card — fails 3 : 1 for the border AND 4.5 : 1 for body text. |
 | Disabled | `pointer-events-none cursor-not-allowed`, opacity-based dimming | — | bg `State/Disabled`, border `Stroke/Border`, placeholder `Text/Inactive`, text `Text/Inactive`, `cursor:not-allowed` | replaces opacity with a real disabled fill — clearer affordance, AA-safe text |
 
+## Responsive behaviour (≤ 767 px)
+
+| | Prod (Current) | Expected |
+|---|---|---|
+| Full-width page search height on mobile (`.cl-search.field`, `.ds-search.field`) | `38.4px` — **no change at any breakpoint** | `2.25rem` (36px) on ≤ 767px — standard kit default height; reduces visual weight on narrow screens. Page-level override per search class. |
+
+> **Note — iOS font-size:** prod uses `14px` (`text-sm`) on inputs at all breakpoints. Bumping to `16px` on mobile eliminates iOS Safari auto-zoom but makes the placeholder visually oversized in a 36px field. Kept at `14px` to preserve visual density; iOS zoom is a known prod-parity limitation.
+
 ## No change (—)
 
 Height 36 px, radius `md 6 px`, padding-x 8 px, text-sm, placeholder token name (`content-secondary` → `Text/Secondary` — values shift only, see [colors](colors.md)), `transition` property list.
