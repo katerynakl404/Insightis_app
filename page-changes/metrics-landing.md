@@ -4,6 +4,23 @@
 **Handoff:** [`../pages/metrics-landing.html`](../pages/metrics-landing.html)  
 **State:** Expected only (no Current toggle — prod state is live at the URL above)
 
+---
+
+## Hard rules — read before editing this page
+
+These are locked decisions. Do not change without explicit approval.
+
+| # | Rule |
+|---|---|
+| 1 | **No "All" chip in the category filter** (`#mx-cat-chips`). The first chip must be "Business Intelligence". "All" was explicitly removed — do not re-add it. |
+| 2 | Category chip list (`#mx-cat-chips`) is synchronised with the DS Connections Catalog — same 10 categories, same order. However: Metrics has **no** "All" chip; DS Connections has "All" as the first and default-active chip. Do not add "All" to Metrics or remove "All" from DS Connections. |
+| 3 | The metric ownership model has three levels: (a) **Built-in metrics** exist at the Data Source level — they appear automatically when any connection to that source is created and carry no connection sub-label. (b) **Custom metrics at Source level** — user-created, attached to the Data Source globally, no connection sub-label. (c) **Custom metrics at Connection level** — user-created and attached to a specific connection; these must show a "via [Connection name]" sub-label in the Data Source cell (C1). Only level (c) metrics show the sub-label. Do not apply the sub-label to built-in or source-level custom metrics. |
+| 4 | Category filter chips (`#mx-cat-chips`) use single-line horizontal scroll (`nowrap + overflow-x:auto`) on ≤1023px. Provider card chip rows (`.prov-card .chip-row`) must use `flex-wrap:wrap; overflow:visible` at **all** widths. These are opposite behaviors — do not swap them. |
+| 5 | Kebab menu items differ by metric origin: **built-in predefined** → "Duplicate" only. **Connection-linked or custom** → "Edit · Duplicate · Delete". Do not add Edit or Delete to built-in metrics. |
+| 6 | The C1 toolbar filter chips ("All" / "Built-in" / "Custom" + "Active only" toggle) are separate from the empty-state category chips. They filter the filled-state table only and are never shown in empty state. Do not merge or conflate these two chip sets. |
+
+---
+
 ## Design pass — connector-first redesign (2026-06-15)
 
 ### Summary of changes

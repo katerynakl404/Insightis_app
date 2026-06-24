@@ -216,7 +216,8 @@ Responsive:   PASS / ⚠️ <missing breakpoint or demo block>
 
 **Responsive check (run for every `pages/*.html` task):**
 - [ ] Page has CSS `@media` rules for the relevant breakpoints (no static inline preview blocks)
-- [ ] At `max-width: 880px`: sidebar hidden, layout single-column, any multi-column grid reflowed
+- [ ] At `max-width: 1023px`: the sidebar collapses into the off-canvas drawer + burger — **this is handled by the shared kit rule** (`kit-theme.css` `@media (max-width:1023px){.cl-side{display:none!important}}`), so pages do **not** redeclare it
+- [ ] At `max-width: 880px`: `.cl-main` padding tightens; multi-column grids reflow
 - [ ] At `max-width: 600px`: further stacking / width changes where needed
 - [ ] Resize the browser to confirm the layout adapts — do not fake it with an inline copy
 
@@ -224,8 +225,12 @@ Breakpoints to use (prod values only — do not invent others):
 
 | Breakpoint | Query | Typical changes |
 |---|---|---|
-| Narrow | `max-width: 880px` | Sidebar hides, grid single-column |
-| Compact | `max-width: 600px` | Further stacking, full-width inputs |
+| Sidebar→drawer | `max-width: 1023px` | **Kit-owned:** `.cl-side` hides into the off-canvas drawer, burger appears. Pages don't redeclare it. |
+| Narrow | `max-width: 880px` | `.cl-main` padding tightens; multi-column grids reflow |
+| Burger/search/chips | `max-width: 767px` | Burger repositions; chip-rows switch to single-line horizontal scroll |
+| Compact | `max-width: 600px` | Further stacking, full-width inputs, single-column grids |
+
+The shared demo `.topbar` (state / variant / theme toggles, `kit-theme.css`) scrolls horizontally (`overflow-x:auto`, children `flex:none`) when it can't fit, instead of squeezing/clipping the controls — no per-page work needed.
 
 A page without `@media` rules reports as `Responsive: ⚠️ WARN — no breakpoints found`.
 
@@ -236,21 +241,22 @@ Pages are design-handoff mockups that the front-end team resizes to review break
 **What to implement:**
 
 ```css
-/* inside the page <style> block */
+/* inside the page <style> block — page-specific reflow only.
+   Do NOT redeclare .cl-side{display:none}: the shared kit rule already collapses the sidebar
+   into the drawer at ≤1023px (with !important). Pages only handle their own grid/content. */
 @media (max-width: 880px) {
-  .cl-shell { grid-template-columns: 1fr; }
-  .cl-side  { display: none; }
-  /* page-specific: e.g. grid reflows to 1 col */
-  .ds-grid  { grid-template-columns: 1fr; }
+  /* page-specific: e.g. grid reflows */
+  .ds-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px) {
+  .ds-grid { grid-template-columns: 1fr; }
   /* further stacking if needed */
 }
 ```
 
 **Self-check — add to every page task:**
-- [ ] `@media (max-width: 880px)` rule present and tested by resizing
-- [ ] Sidebar hidden at narrow breakpoint
+- [ ] Sidebar collapses to the drawer at ≤1023px — verify it works (kit-owned; don't redeclare in the page)
+- [ ] `@media` reflow rules present for the page's own grids/content, tested by resizing
 - [ ] Multi-column grids reflow to 1 column (or 2 if explicitly designed)
 - [ ] No `cp-resp-block` / static inline preview in the markup
 

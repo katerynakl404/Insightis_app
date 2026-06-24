@@ -16,7 +16,8 @@ Single-select filter pill. Pill shape (radius `full`), height `1.75rem` (28px).
 
 | | Prod (Current) | Expected |
 |---|---|---|
-| `.chip-row` on ≤ 1023 px (tablet + mobile) | wraps to multiple lines | single-line horizontal scroll — `flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none`; native scrollbar hidden; `padding-inline-end:1rem` so last chip doesn't clip |
+| `.chip-row` on ≤ 767 px (tablet + mobile) | wraps to multiple lines | single-line horizontal scroll — `flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none`; native scrollbar hidden |
+| `.chip-row` edge fade | none | **scroll-driven only.** JS sets `data-chip-scroll` = `none \| start \| middle \| end`; the CSS `mask-image` shows the fade **only while the row overflows** — right edge at `start`, both edges in `middle`, left edge at `end`, **no fade when it fits** (`none`). `padding-inline-end:2.5rem` applied only in the scrolling states so the last chip clears the fade. Recomputed on scroll, content change (`MutationObserver`), and resize. |
 | `.prov-card .chip-row` at any width | wraps freely | **unchanged — always wraps** (higher specificity; hard requirement) |
 
 ## No change (—)

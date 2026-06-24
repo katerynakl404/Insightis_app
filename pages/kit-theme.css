@@ -7,8 +7,8 @@
     /* Tertiary (custom cyan-teal) */
     --tertiary-50:#EBF8F8;--tertiary-100:#C6EEED;--tertiary-200:#95E1DF;--tertiary-300:#5ED0CF;--tertiary-400:#2EBEC4;
     --tertiary-500:#14A8AF;--tertiary-600:#0D8E97;--tertiary-700:#0D717A;--tertiary-800:#0E5862;--tertiary-900:#0E464C;--tertiary-950:#052A32;
-    /* Slate (Tailwind + custom 450, 550) */
-    --slate-50:#F8FAFC;--slate-100:#F1F5F9;--slate-200:#E2E8F0;--slate-300:#CBD5E1;--slate-400:#94A3B8;
+    /* Slate (Tailwind + custom 150, 450, 550) */
+    --slate-50:#F8FAFC;--slate-100:#F1F5F9;--slate-150:#EAEFF5;--slate-200:#E2E8F0;--slate-300:#CBD5E1;--slate-400:#94A3B8;
     --slate-450:#7C8CA2;--slate-500:#64748B;--slate-550:#5A6A80;--slate-600:#475569;--slate-700:#334155;--slate-800:#1E293B;--slate-900:#0F172A;--slate-950:#020617;
     /* Grey (custom dark end) */
     --grey-50:#F9FAFB;--grey-100:#F4F4F5;--grey-200:#E5E7EB;--grey-300:#D1D5DB;--grey-400:#9CA3AF;
@@ -33,6 +33,16 @@
     --content-max-wide:1200px;
     --content-max-width:var(--content-max-wide);
     --bg:var(--slate-50);--card:var(--white);--card2:var(--slate-100);--chips:var(--slate-50);
+    /* Section/group-header band — Slate-150 primitive: one step lighter than
+       Slate-200 (too heavy as a band) and one step darker than --state-hover
+       (Slate-100), so a hovered row never matches a static group header. */
+    --mx-group-band:var(--slate-150);
+    /* Metric-row hover. Light: soft slate-50 (lighter than the slate-100 default).
+       Dark/prod override to --state-hover, which is lighter than the row there. */
+    --tbl-row-hover:var(--slate-50);
+    /* Pressed/selected metric row — neutral (not brand-tinted), one step darker than
+       --state-hover (slate-50) and distinct from the slate-150 band. */
+    --tbl-row-pressed:var(--slate-100);
     /* Subtle brand-tinted surface — for accent tiles (e.g. AccountModal credits) that need to
        feel "branded but quiet". Uses desaturated brand primitives (Brand-50-soft / Brand-900-soft)
        — same lightness as canonical Brand-50/-900 but reduced teal saturation, so the tile reads
@@ -40,8 +50,10 @@
     --surface-accent:var(--brand-50-soft);
     --brand-primary:var(--brand-600);--brand-secondary:var(--brand-700);--brand-tertiary:var(--tertiary-600);--brand-hover:var(--brand-500);--brand-press:var(--brand-700);
     --ink:var(--slate-900);--ink-body:var(--slate-700);--ink-secondary:var(--slate-550);--ink-inactive:var(--slate-450);
-    --border:var(--slate-200);--border-hover:var(--slate-300);
+    --border:var(--slate-200);--border-hover:var(--slate-450);
     --state-hover:var(--slate-100);--state-pressed:var(--brand-50);--state-disabled:var(--slate-200);
+    /* Modal / drawer / sheet backdrop scrim — one source of truth (was hand-written rgba everywhere). */
+    --overlay-scrim:rgba(15,23,42,.45);
     --progress-track:var(--card2);
     --fb-red:var(--red-700);--fb-red-hover:var(--red-800);--fb-red-press:var(--red-850);
     /* Feedback/Red_Text — theme-adaptive destructive text/icon colour. Red-700 on white card = 8.39:1 AA.
@@ -118,6 +130,9 @@
        via cascaded --brand-primary. */
     --card-border-hover:color-mix(in srgb, var(--brand-primary) 25%, transparent);
     --card-border-press:color-mix(in srgb, var(--brand-primary) 40%, transparent);
+    /* Lift-family card hover border — 22% brand tint OVER --border (vs --card-border-hover's 25%
+       over transparent for the flat row family). Used by .hov-card / .prov-card / .prov-c2-card. */
+    --card-lift-border:color-mix(in srgb, var(--brand-primary) 22%, var(--border));
     /* Icon-wrapper bg — used by .prov-ic-w (provider cards) and .mx-prov-ic (table rows).
        LOCKED: 5% brand tint over page bg. Do NOT change without updating both components + changes/ProviderCard.md. */
     --icon-wrapper-bg:color-mix(in srgb, var(--brand-primary) 5%, var(--bg));
@@ -138,7 +153,7 @@
        this iteration from --ink-secondary (Slate-550 #5A6A80) to Slate-500 (#64748B): still
        clears WCAG 1.4.11's 3:1 UI-contrast minimum (~3.2:1 on white) but sits visually softer.
        No brand tint on form fields. */
-    --input-focus:var(--slate-500);
+    --input-focus:var(--slate-600);
     /* Form-control error — theme-adaptive (light red-700 AA on Card, dark red-500 AA on Card) */
     --input-error:var(--red-700);
     /* Press feedback comes from bg-color shift alone (Tailwind UI / shadcn / Primer pattern) — no transform, no shadow, no text-position shift on press */
@@ -178,14 +193,14 @@
     /* ===== Shadow tokens — reusable elevation recipes =====
        Canonical depth scale. Pick by intent, not by raw values:
          --shadow-rest         — barely-there "ghost" depth at rest (cards, list rows)
-         --shadow-rest-hover   — slight lift on hover (chat-row, flat-hover pattern)
+         --shadow-card-hover   — slight lift on hover (chat-row / ds-conn-row, flat-hover pattern)
          --shadow-lift-hover   — elevation lift on hover (provider cards, ds-cards): deeper shadow + translateY(-1px)
          --shadow-overlay-soft — floating overlay (popover, sheet, toast)
          --shadow-menu         — dropdown menu (lighter than overlay-soft, more focused)
        Tokenises the recipes that previously repeated across .menu, .sbx-pop, .toast, .chat-row,
        .ds-card. Existing call sites are being migrated one component at a time. */
     --shadow-rest:0 1px 2px 0 rgba(15,23,42,.03);
-    --shadow-rest-hover:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04);
+    --shadow-card-hover:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04);
     --shadow-lift-hover:0 6px 16px -3px rgba(15,23,42,.09),0 2px 4px -1px rgba(15,23,42,.05);
     --shadow-overlay-soft:0 10px 15px -3px rgba(0,0,0,.12),0 4px 6px -4px rgba(0,0,0,.08);
     --shadow-menu:0 6px 16px -4px rgba(0,0,0,.12),0 2px 4px -2px rgba(0,0,0,.06);
@@ -235,13 +250,21 @@
   /* ===== SEMANTIC TOKENS — dark theme overrides ===== */
   .dark{
     --bg:var(--grey-950);--card:var(--grey-900);--card2:var(--grey-800);--chips:var(--grey-700);
+    /* Grey-700 — lighter than --state-hover (grey-800), distinct band on dark. */
+    --mx-group-band:var(--grey-700);
+    /* Hover = --state-hover (grey-800), lighter than the grey-900 row. */
+    --tbl-row-hover:var(--state-hover);
+    /* Pressed/selected = neutral grey-800 (= hover tier), distinct from the grey-700
+       band; not brand-tinted, so it never reads as "too green" on dark. */
+    --tbl-row-pressed:var(--grey-800);
     /* Dark accent surface — Brand-900-soft (desaturated Brand-900), subtly tinted dark teal
        that doesn't compete with content. */
     --surface-accent:var(--brand-900-soft);
     --brand-primary:var(--brand-500);--brand-secondary:var(--brand-400);--brand-tertiary:var(--tertiary-500);--brand-hover:var(--brand-400);--brand-press:var(--brand-600);
     --ink:var(--grey-50);--ink-body:var(--grey-100);--ink-secondary:var(--grey-300);--ink-inactive:var(--slate-400);
-    --border:var(--grey-700);--border-hover:var(--slate-700);
+    --border:var(--grey-700);--border-hover:var(--slate-600);
     --state-hover:var(--grey-800);--state-pressed:var(--grey-700);--state-disabled:var(--grey-700);
+    --overlay-scrim:rgba(2,6,23,.6);
     --fb-red:var(--red-700);--fb-red-hover:var(--red-800);--fb-red-press:var(--red-850);
     /* Feedback/Red_Text — Red-400 on dark Surface/Card (#17171E) = 5.27:1 AA (comfortable margin).
        Red-500 was tried first at 4.74:1 but read as too muted; Red-700 fails at 2.76:1. */
@@ -285,9 +308,12 @@
     --segctrl-hover-shadow:inset 0 0 0 1px color-mix(in srgb, var(--white) 3%, transparent);
     /* Always-white content on solid surfaces — same value as light theme; theme-independent. */
     --content-on-solid:var(--white);
-    /* Badge Primary — deep teal surface (Brand-900) + Brand-400 text → 5.77:1 AA in dark. --brand-secondary already adapts to Brand-400 in dark, so only the bg needs an override. */
-    --badge-primary-bg:var(--brand-900);
-    /* Badge Secondary — Card2 surface + Text/Body in dark; Grey-100 on Grey-800 = 12.86:1 AAA. */
+    /* Badge Primary — subtle Brand-800 tint: the dark analogue of light's Brand-50,
+       matching that subtlety (~1.2:1 vs card). Brand-900 was invisible (≈1:1);
+       a filled Brand-700 read far too loud next to the soft light chip. Text stays
+       Brand/Secondary (Brand-400 in dark). */
+    --badge-primary-bg:var(--brand-800);
+    /* Badge Secondary — Card2 surface + Text/Body in dark (subtle, as before). */
     --badge-secondary-bg:var(--card2);--badge-secondary-text:var(--ink-body);
     /* Switch off-track — Grey-700 sits clearly above the page bg (Grey-950) in dark. Hover lifts to Grey-600. */
     --switch-off-bg:var(--grey-700);--switch-off-bg-hover:var(--grey-600);
@@ -295,7 +321,7 @@
     /* Form-control focus — softened to Slate-600 in dark, parallel to light's Slate-500
        shift. Slate-600 #475569 on Grey-900 Card #17171E = ~4.5:1 — clears 1.4.11 with margin
        but visually softer than the previous Grey-400 mapping. */
-    --input-focus:var(--slate-600);
+    --input-focus:var(--slate-500);
     /* Form-control error — brighter red on the dark Card (red-500 = 5.32:1 vs grey-900; red-700 fails at 2.76:1) */
     --input-error:var(--red-500);
     /* Press feedback comes from bg-color shift alone — see :root for the rationale */
@@ -314,6 +340,11 @@
   /* ===== PROD (actual code: globals.css + component classes) ===== */
   .prod{
     --bg:hsl(210 40% 98%);--card:#fff;--card2:hsl(210 20% 96%);--chips:hsl(210 20% 96%);
+    /* Prod row hover = its own --state-hover (lighter than the card in both prod
+       and dark-prod); re-resolves locally, including for the dark-prod element. */
+    --tbl-row-hover:var(--state-hover);
+    /* Prod pressed/selected = its own --state-pressed (distinct from the band). */
+    --tbl-row-pressed:var(--state-pressed);
     /* Prod has no accent surface — mirror --card2 value so anything that uses --surface-accent
        in .prod scope falls back to the closest prod equivalent. */
     --surface-accent:var(--card2);
@@ -405,7 +436,10 @@
   .logo{color:var(--logo-ink);height:26px;width:120px;display:block}
 
   /* ===== layout ===== */
-  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--card);padding:.7rem 1.25rem}
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:.75rem;border-bottom:1px solid var(--border);background:var(--card);padding:.7rem 1.25rem;overflow-x:auto;scrollbar-width:thin}
+  /* Keep the title + control groups at their natural size and let the bar scroll horizontally on
+     small screens, rather than squeezing/clipping the toggles. No effect on wide screens. */
+  .topbar>*{flex:none}
   .topbar .ttl{font-size:.8125rem;font-weight:600;color:var(--ink)}
   .layout{display:grid;grid-template-columns:240px 1fr}
   .side{position:sticky;top:56px;align-self:start;height:calc(100vh - 56px);overflow:auto;border-right:1px solid var(--border);background:var(--card);padding:1rem .75rem}
@@ -425,7 +459,7 @@
   .comp>h2{font-size:1.25rem;font-weight:600;color:var(--ink);margin:0}
   .comp>.sub{font-size:.8125rem;color:var(--ink-secondary);margin:.15rem 0 0}
   .variant-label{font-size:.875rem;font-weight:600;color:var(--ink);margin:1.4rem 0 .4rem}
-  .chg{display:inline-flex;align-items:center;gap:.4rem;font-size:.8125rem;font-weight:700;color:#fff;background:var(--brand-primary);border:1px solid transparent;border-radius:.5rem;padding:.4rem .8rem;margin-top:.5rem;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+  .chg{display:inline-flex;align-items:center;gap:.4rem;font-size:.8125rem;font-weight:700;color:var(--content-on-solid);background:var(--brand-primary);border:1px solid transparent;border-radius:.5rem;padding:.4rem .8rem;margin-top:.5rem;box-shadow:0 1px 3px rgba(0,0,0,.18)}
   .chg::before{content:"●";font-size:.6em;color:var(--fb-attention)}
   .chg:hover{background:var(--brand-hover);transform:translateY(-1px)}
   .chg.none{background:transparent;color:var(--ink-inactive);border-color:var(--border);box-shadow:none;pointer-events:none}
@@ -749,7 +783,7 @@
 
   /* Dropdown surface + menu item — renewed values throughout (px units to match the rest of the kit's layout system: .iconbtn 32×32, .sb-item 32/8/8, etc.). Prod's cramped 2/6/6/4 dimensions live in the .prod .mi override above; this is the renewed Expected pass. */
   /* Context-menu sizing — fluid: `width:max-content` hugs the longest item, clamped between min 140 / max 320. Labels longer than 320 px wrap; menus never collapse below 140 px. Every .menu instance (.sbx-chat-menu, .chat-row-menu, .ds-conn-menu, etc.) inherits this via the base rule — variants no longer override `width`. */
-  .menu{min-width:140px;max-width:320px;width:max-content;border-radius:8px;border:1px solid var(--border);background:var(--card);padding:4px;box-shadow:0 6px 16px -4px rgba(0,0,0,.12),0 2px 4px -2px rgba(0,0,0,.06)}
+  .menu{min-width:140px;max-width:320px;width:max-content;border-radius:8px;border:1px solid var(--border);background:var(--card);padding:4px;box-shadow:var(--shadow-menu)}
   .mi{display:flex;align-items:center;gap:8px;border-radius:4px;padding:6px 12px;font-size:14px;color:var(--ink-body);cursor:pointer;border:none;background:transparent;font-family:inherit;text-align:left;width:100%}
   /* Hover bg is calculated against --card (the .menu's surface) so the highlight is always
      visible regardless of what sits underneath the menu — important because the trigger row
@@ -776,7 +810,7 @@
   .banner-sm{padding:1rem 1.25rem}
   .banner-sm .banner-ic{width:2.5rem;height:2.5rem;border-radius:.5rem}
   .banner-sm .banner-ic svg{width:20px;height:20px}
-  .banner-sm .banner-t{font-size:.9375rem}
+  .banner-sm .banner-t{font-size:.875rem;line-height:1.25rem}
   /* Responsive — aligns with kit breakpoints (880 px sidebar hides / 600 px single-col).
      880 px: stacks slots vertically, tightens padding, CTA constrained to 20 rem so it
      doesn't fill a landscape phone screen edge-to-edge.
@@ -826,7 +860,7 @@
   .menu-sep{height:1px;margin:4px -4px;background:var(--border);border:0}
 
   /* Dialog / Modal — reusable multi-step shell */
-  .dlg-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.45)}
+  .dlg-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--overlay-scrim)}
   .dlg{background:var(--card);border:1px solid var(--border);border-radius:.875rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)}
   .dlg-hdr{display:flex;align-items:center;gap:.75rem;padding:.875rem 1.25rem .5rem;flex:none}
   .dlg-title{font-size:1.25rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;flex:1;min-width:0}
@@ -1007,8 +1041,12 @@
        • Inline JS: clOpenSidebar() adds .side-open to <html> (also removes .is-collapsed from .sbx)
      Outside-click + outside-tap on backdrop closes the drawer; the same handler also closes
      on Escape (each page wires Escape via its own listener if needed). */
-  .cl-main{position:relative}                         /* anchor for .cl-burger absolute positioning */
-  .cl-burger{display:none;width:2rem;height:2rem;border-radius:.375rem;color:var(--ink-body);position:absolute;top:.75rem;left:.75rem;z-index:10;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;font-family:inherit}
+  .cl-main{position:relative}
+  /* Burger is FIXED to the viewport so it stays put while .cl-main scrolls (it was
+     absolute inside the scroll container and scrolled away). top:4.75rem clears the
+     40px demo top bar (2.5rem) + page padding so it lines up with the title at rest;
+     z-index above the top bar. */
+  .cl-burger{display:none;width:2rem;height:2rem;border-radius:.375rem;color:var(--ink-body);position:fixed;top:4.75rem;left:.75rem;z-index:60;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;font-family:inherit}
   .cl-burger svg{width:18px;height:18px}
   .cl-burger:hover{background:var(--state-hover)}
   .cl-burger:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
@@ -1023,15 +1061,14 @@
     .cl-shell{grid-template-columns:1fr !important}
     /* Burger sits at the same x as cl-page left edge (2rem) so it visually aligns with content.
        The page title row clears the burger via a universal :first-child rule below. */
-    .cl-burger{display:inline-flex;top:2.25rem;left:2rem}
+    .cl-burger{display:inline-flex;top:4.75rem;left:2rem}
     /* Shift only the title row right to clear the burger (burger right = 2+2 = 4rem from cl-main;
        cl-page already at 2rem, so first-child needs 2.5rem extra to land at 4.5rem + 8px gap). */
     .cl-page > :first-child{padding-left:2.5rem}
     /* Backdrop dimmer — below the sidebar but above main column + topbar so the whole page
        reads as inactive while the overlay is open. Clicking it closes the drawer. */
-    .cl-side-backdrop{display:block;position:fixed;inset:0;background:rgba(15,23,42,.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:55;opacity:0;pointer-events:none;transition:opacity .2s ease}
+    .cl-side-backdrop{display:block;position:fixed;inset:0;background:var(--overlay-scrim);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:55;opacity:0;pointer-events:none;transition:opacity .2s ease}
     html.side-open .cl-side-backdrop{opacity:1 !important;pointer-events:auto !important}
-    .dark .cl-side-backdrop{background:rgba(2,6,23,.6)}
     /* When opened via hamburger, sidebar becomes a position:fixed overlay drawer that slides
        in from the left. Slide is a one-off paint when .side-open is set; close is just display:none. */
     html.side-open .cl-side{
@@ -1043,6 +1080,29 @@
       animation:clSideSlide .22s ease both;
     }
     @keyframes clSideSlide{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+    /* ── Global sticky page-head pattern (.cl-page-head) ──────────────────────────────────
+       Pages place <div class="cl-page-head"> as the first child of .cl-page, with the
+       .cl-burger button as its first child. Kit makes it sticky + scoped background.
+       Burger stays in-flow (cancel fixed positioning) when nested inside cl-page-head. */
+    .cl-page-head .cl-burger{position:static;top:auto;left:auto;flex:none;z-index:auto}
+    /* Remove cl-main top padding when sticky head is present — head provides its own spacing. */
+    .cl-main:has(.cl-page-head){padding-top:0}
+    .cl-page > .cl-page-head{
+      display:flex;align-items:center;justify-content:flex-start;gap:.75rem;
+      position:sticky;top:0;z-index:50;
+      background:var(--bg);
+      margin:0 -2rem;padding:.625rem 2rem; /* padding-left:2rem beats :first-child's 2.5rem */
+      transition:padding .18s;
+    }
+    /* Title inherits scroll-shrink when JS adds .is-scrolled to .cl-main (scrollY > 60). */
+    .cl-page-head .cl-page-title{transition:font-size .18s,line-height .18s;margin:0}
+    .cl-main.is-scrolled .cl-page > .cl-page-head{padding-top:.375rem;padding-bottom:.375rem}
+    .cl-main.is-scrolled .cl-page-head .cl-page-title{font-size:1.125rem!important;line-height:1.5rem!important}
+    /* Hide floating burger AND sticky head while sidebar overlay is open.
+       position:fixed burger (z-index:60) and position:sticky head both pierce the backdrop
+       (z-index:55); visibility:hidden is the reliable cross-browser workaround. */
+    html.side-open .cl-burger,
+    html.side-open .cl-page-head{visibility:hidden}
   }
 
   /* Sidebar responsive — "See all" link in Pinned/Recent section headers stays visible at
@@ -1060,6 +1120,7 @@
   @media (max-width: 767px) {
     .cl-page{padding-left:.75rem !important;padding-right:.75rem !important}
     .cl-burger{left:.75rem}
+    .cl-page > .cl-page-head{margin:0 -.75rem;padding-left:.75rem;padding-right:.75rem}
   }
 
   /* Chat row — single-line label with persistent right-edge gradient fade;
@@ -1148,7 +1209,7 @@
   .sbx-user:hover{background:var(--state-hover)}
   .sbx-user:active{background:var(--state-pressed)}
   .sbx-user:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
-  .sbx-user-ava{width:1.5rem;height:1.5rem;border-radius:9999px;background:var(--brand-tertiary);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;font-size:.6875rem;font-weight:600}
+  .sbx-user-ava{width:1.5rem;height:1.5rem;border-radius:9999px;background:var(--brand-tertiary);color:var(--content-on-solid);display:flex;align-items:center;justify-content:center;flex:none;font-size:.6875rem;font-weight:600}
   .sbx-user-info{display:flex;flex-direction:column;line-height:1.15;flex:1;min-width:0;gap:1px}
   .sbx-user-name{font-size:.75rem;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .sbx-user-meta{font-size:.625rem;color:var(--ink-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1214,7 +1275,6 @@
   /* Anchored above each trigger inside the footer */
   .sbx-pop-account{left:.5rem;right:.5rem;bottom:calc(100% + 4px)}
   .sbx-pop-tokens{left:.5rem;right:.5rem;bottom:calc(100% + 4px);width:auto}
-  .sbx-foot{position:relative}
 
   /* Section labels + lists shared by account popover. Larger label→list gap (8px) so the section header sits clearly above its items. */
   .sbx-pop-sect{display:flex;flex-direction:column;gap:.5rem;width:100%}
@@ -1327,13 +1387,31 @@
   .statv-success .vic{background:color-mix(in srgb,var(--fb-green) 10%,transparent);color:var(--fb-green)}
   .statv-error .vic{background:color-mix(in srgb,var(--fb-red) 10%,transparent);color:var(--fb-red-text)}
   .statv .vt{font-size:.875rem;font-weight:500;color:var(--ink)} .statv .vd{font-size:.75rem;color:var(--ink-secondary)}
+  /* ===== Empty State — minimalist, app-style "no-results / empty list" block =====
+     Bare variant of StatusView (#statusview): no card wrapping the whole block — an
+     illustration (or simple glyph) + title + message, centred on the page bg. Optional
+     trailing .btn = CTA. Shared by chats / connections / metrics — single source of truth,
+     documented in changes/StatusView.md. All theme-aware via tokens (no .dark override). */
+  .empty-state{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:3rem 1.5rem;text-align:center}
+  .empty-state .empty-ic{width:48px;height:48px;color:var(--ink-inactive);margin-bottom:.25rem}
+  /* "Fading result cards" illustration — the empty state mirrors the shape of the list/grid
+     it replaces: a crisp top row fading into two ghosts below. Cards/borders/placeholders all
+     flow through tokens; the only shadow sits on the top card (rgba shadow = allowed convention). */
+  .empty-state .es-illu{width:150px;height:auto;margin-bottom:.25rem}
+  .empty-state .es-card{fill:var(--card);stroke:var(--border);stroke-width:1}
+  .empty-state .es-card-top{filter:drop-shadow(0 2px 5px rgba(15,23,42,.10))}
+  .empty-state .es-ph{fill:var(--ink-inactive);fill-opacity:.35}
+  .empty-state .es-ph-ic{fill-opacity:.55}
+  .empty-state .empty-title{font-size:1rem;font-weight:600;color:var(--ink);margin:0;line-height:1.5rem}
+  .empty-state .empty-msg{font-size:.875rem;color:var(--ink-secondary);margin:0;max-width:32ch;line-height:1.25rem}
+  .empty-state .btn{margin-top:.75rem}
   .rsz{display:flex;width:240px;height:60px;border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
   .rsz .p{flex:1;display:flex;align-items:center;justify-content:center;background:var(--card2);font-size:.75rem;color:var(--ink-secondary)}
   .rsz .hd{width:6px;background:var(--border);cursor:col-resize}
   .rsz .hd:hover{background:color-mix(in srgb,var(--brand-primary) 30%,transparent)}
   .step{display:flex;align-items:center;gap:8px}
   .step .dot{width:24px;height:24px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600}
-  .step .dot.done,.step .dot.active{background:var(--brand-primary);color:#fff}
+  .step .dot.done,.step .dot.active{background:var(--brand-primary);color:var(--content-on-solid)}
   .step .dot.active{box-shadow:0 0 0 3px color-mix(in srgb,var(--brand-primary) 25%,transparent)}
   .step .dot.todo{background:var(--chips);color:var(--ink-secondary)}
   .step .ln{width:24px;height:2px;background:var(--border)}
@@ -1349,13 +1427,13 @@
   table.tbl{width:100%;border-collapse:collapse;font-size:.875rem}
   table.tbl th{text-align:left;font-size:.75rem;font-weight:500;color:var(--ink-secondary);padding:.6rem 1rem;border-bottom:1px solid var(--border)}
   table.tbl td{padding:.6rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-body)}
-  /* Selected row — uses --state-pressed (theme-aware: brand-50 light / grey-700 dark). Hover-while-selected layers a 10% brand tint on top so the two states stay distinguishable. */
-  table.tbl tr.is-selected td{background:var(--state-pressed)}
-  table.tbl tr.is-selected:hover td{background:color-mix(in srgb,var(--brand-primary) 10%,var(--state-pressed))}
-  /* Row hover — bg-shift to State/Hover; .s-hover mirrors :hover for storybook simulation */
-  table.tbl tbody tr:hover td,table.tbl tbody tr.s-hover td{background:var(--state-hover)}
+  /* Selected row — uses --tbl-row-pressed (neutral: slate-100 light / grey-800 dark — not brand-tinted). Hover-while-selected layers a 10% brand tint on top so the two states stay distinguishable. */
+  table.tbl tr.is-selected td{background:var(--tbl-row-pressed)}
+  table.tbl tr.is-selected:hover td{background:color-mix(in srgb,var(--brand-primary) 10%,var(--tbl-row-pressed))}
+  /* Row hover — uses --tbl-row-hover (slate-50 on light, state-hover on dark/prod). .s-hover mirrors :hover for storybook simulation */
+  table.tbl tbody tr:hover td,table.tbl tbody tr.s-hover td{background:var(--tbl-row-hover)}
   /* Transient press feedback — bg-shift only, matches the kit's "Usage pattern" in changes/colors.md */
-  table.tbl tr:active td{background:var(--state-pressed)}
+  table.tbl tr:active td{background:var(--tbl-row-pressed)}
   table.tbl tbody tr{transition:background .1s}
 
   /* ===== NEW COMPONENT HELPERS (Card, Collapsible, Datepicker, File, InputGroup, PasswordInput,
@@ -1397,10 +1475,10 @@
   .dpk-wd{font-size:.75rem;font-weight:500;color:var(--ink-secondary);text-align:center;padding:6px 0}
   .dpk-day{height:30px;display:flex;align-items:center;justify-content:center;font-size:.8125rem;color:var(--ink-body);border-radius:9999px;cursor:pointer;background:transparent;border:none;font-family:inherit}
   .dpk-day.outside{color:var(--ink-inactive)}
-  .dpk-day.selected{background:var(--brand-primary);color:#fff}
-  .dpk-day.range-start{background:var(--brand-primary);color:#fff;border-top-right-radius:0;border-bottom-right-radius:0}
+  .dpk-day.selected{background:var(--brand-primary);color:var(--content-on-solid)}
+  .dpk-day.range-start{background:var(--brand-primary);color:var(--content-on-solid);border-top-right-radius:0;border-bottom-right-radius:0}
   .dpk-day.range-middle{background:var(--chips);color:var(--ink);border-radius:0}
-  .dpk-day.range-end{background:var(--brand-primary);color:#fff;border-top-left-radius:0;border-bottom-left-radius:0}
+  .dpk-day.range-end{background:var(--brand-primary);color:var(--content-on-solid);border-top-left-radius:0;border-bottom-left-radius:0}
   .dpk-day.focused{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .dpk-day:hover:not(.selected):not(.range-start):not(.range-end):not(.range-middle){background:var(--state-hover)}
   .dpk-foot{display:flex;align-items:center;gap:8px;padding:0 12px 12px}
@@ -1443,7 +1521,7 @@
   .igrp .igrp-kbd{font-size:.6875rem;font-family:inherit;border:var(--border-width) solid var(--border);border-radius:4px;padding:1px 6px;background:var(--card2);color:var(--ink-body);line-height:1.4}
   .igrp.s-error{border-color:var(--input-error);background:transparent}
   .igrp.s-error svg,.igrp.s-error .igrp-input::placeholder{color:var(--input-error)}
-  .igrp.s-disabled{opacity:.5;pointer-events:none}
+  .igrp.s-disabled{opacity:var(--opacity-disabled);pointer-events:none}
   .igrp.is-xs{height:28px} .igrp.is-sm{height:32px} .igrp.is-lg{height:40px} .igrp.is-xl{height:44px}
 
   /* Selector — custom single-select trigger. Field-like shell at rest; --input-focus border when open (same active signal as Input / InputGroup). */
@@ -1588,12 +1666,22 @@
      .prov-card .chip-row is exempt — higher specificity keeps flex-wrap:wrap there.
      Bleed (margin-inline) applied per-page so it matches each page's cl-page padding. */
   @media(max-width:767px){
-    .chip-row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-inline-end:2.5rem;max-width:100%;min-width:0;
-      /* Default: both-side fades — right signals more content; left signals page-edge bleed */
+    .chip-row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%;min-width:0}
+    .chip-row::-webkit-scrollbar{display:none}
+    /* Edge fades appear ONLY while the row actually overflows/scrolls. JS sets data-chip-scroll
+       to none|start|middle|end; no attribute (or "none") = no mask, no trailing padding. */
+    .chip-row[data-chip-scroll="start"],
+    .chip-row[data-chip-scroll="middle"],
+    .chip-row[data-chip-scroll="end"]{padding-inline-end:2.5rem}
+    /* At scroll start: more is to the right → fade the right edge only. */
+    .chip-row[data-chip-scroll="start"]{
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 2.5rem),transparent 100%);
+      mask-image:linear-gradient(to right,#000 calc(100% - 2.5rem),transparent 100%)}
+    /* Mid-scroll: more both ways → fade both edges. */
+    .chip-row[data-chip-scroll="middle"]{
       -webkit-mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 calc(100% - 2.5rem),transparent 100%);
       mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 calc(100% - 2.5rem),transparent 100%)}
-    .chip-row::-webkit-scrollbar{display:none}
-    /* At right end: left fade only */
+    /* At scroll end: more is to the left → fade the left edge only. */
     .chip-row[data-chip-scroll="end"]{
       -webkit-mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 100%);
       mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 100%)}
@@ -1629,15 +1717,18 @@
      Metrics section: small-caps label + chip-meta row.
      Footer: full-width CTA.
      Browse variant (.is-browse): ghost dashed outline, centred, bottom-aligned CTA. */
-  .prov-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem}
+  /* Content-aware columns: reflows on the grid's own available width, not the
+     viewport — so the sidebar (which narrows content) can't leave 3 cramped
+     columns on a wide viewport. ~290px min → 3 cols ≳900px, 2 cols ≳600px, else 1. */
+  .prov-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.875rem}
   .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
-  .prov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--border-hover);transform:translateY(-2px);will-change:transform}
+  .prov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-2px);will-change:transform}
   .prov-card:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
   /* Utility — card-lift hover. Shared recipe across catalog cards and connection rows:
      --shadow-lift-hover + 22% brand-tinted border + translateY(-1px).
      Bundles the transition so any element gets the right duration on first use. */
   .hov-card{transition:box-shadow .18s,border-color .18s,transform .18s}
-  .hov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)}
+  .hov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
   .prov-card-head{display:flex;align-items:center;gap:.875rem}
   /* spec — see #prov-card | LOCKED: background = var(--icon-wrapper-bg). Do NOT inline a hex/rgb/color-mix here. */
   .prov-ic-w{width:2.75rem;height:2.75rem;border-radius:.625rem;border:1px solid var(--border);background:var(--icon-wrapper-bg);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.08)}
@@ -1684,12 +1775,12 @@
      mix of --border + a very soft drop shadow for depth. Hover lifts the border closer to its full
      strength + brand tint; selected swaps to --brand-primary for unambiguous feedback. Press feedback
      is a subtle scale(.985) — light enough to feel tactile, small enough not to read as a glitch. */
-  .chat-row{position:relative;display:flex;align-items:center;gap:.75rem;height:2.75rem;padding:0 .75rem;border:1px solid color-mix(in srgb, var(--border) 45%, transparent);border-radius:.5rem;color:var(--ink-body);font-size:.875rem;font-weight:500;background:var(--card);cursor:pointer;box-shadow:0 1px 2px 0 rgba(15,23,42,.03);transition:background-color var(--motion-slow) var(--motion-ease-out), border-color var(--motion-slow) var(--motion-ease-out), color var(--motion-fast) var(--motion-ease), transform var(--motion-slow) var(--motion-ease-out), box-shadow var(--motion-slow) var(--motion-ease-out)}
+  .chat-row{position:relative;display:flex;align-items:center;gap:.75rem;height:2.75rem;padding:0 .75rem;border:1px solid color-mix(in srgb, var(--border) 45%, transparent);border-radius:.5rem;color:var(--ink-body);font-size:.875rem;font-weight:500;background:var(--card);cursor:pointer;box-shadow:var(--shadow-rest);transition:background-color var(--motion-slow) var(--motion-ease-out), border-color var(--motion-slow) var(--motion-ease-out), color var(--motion-fast) var(--motion-ease), transform var(--motion-slow) var(--motion-ease-out), box-shadow var(--motion-slow) var(--motion-ease-out)}
   .chat-row:hover,.chat-row.s-hover,
   /* Keep the row in its hover state while its own kebab menu is open. Without this the cursor
      leaves the row to enter the menu and the row snaps back to rest — read as "hover was removed"
      while interacting with the menu items. */
-  .chat-row:has(.chat-row-more[aria-expanded="true"]){background:var(--state-hover);border-color:color-mix(in srgb, var(--brand-primary) 25%, transparent);box-shadow:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04)}
+  .chat-row:has(.chat-row-more[aria-expanded="true"]){background:var(--state-hover);border-color:var(--card-border-hover);box-shadow:var(--shadow-card-hover)}
   .chat-row.is-selected,.chat-row.s-selected{background:var(--state-pressed);border-color:var(--brand-primary);box-shadow:0 1px 2px 0 rgba(15,23,42,.04)}
   .chat-row.is-selected:hover,.chat-row.s-selected:hover{background:color-mix(in srgb,var(--brand-primary) 10%,var(--state-pressed));border-color:var(--brand-primary)}
   /* Active/press — subtle 1% inward scale + we also calm the hover shadow back to its rest value
@@ -1698,7 +1789,7 @@
      only the transform. Release is slower (--motion-slow + --motion-ease-out on the row's
      transform) so the spring back doesn't snap. Excluded when a child control is being clicked
      so the row doesn't shrink while the user targets pin / kebab / cbx / menu item. */
-  .chat-row:active:not(:has(button:active)):not(:has(.cbx:active)){transform:scale(.99);box-shadow:0 1px 2px 0 rgba(15,23,42,.03)}
+  .chat-row:active:not(:has(button:active)):not(:has(.cbx:active)){transform:scale(.99);box-shadow:var(--shadow-rest)}
   /* Reduced-motion: keep the colour/border feedback but drop the scale animation. The shadow
      reset on press is preserved so hover+press still feels less stacked. */
   @media (prefers-reduced-motion: reduce){
@@ -1769,22 +1860,35 @@
   .mx-prov-cell{display:flex;align-items:center;gap:.5rem}
 
   /* ── Metrics table shell ── */
-  .mx-tbl{background:var(--card);border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
+  /* --mx-prov-indent = the single left-alignment line shared by the provider logo,
+     metric toggles, "Metric name" header, connector icon, and empty-state text:
+     header pad (1rem) + collapse chevron (13px) + cell gap (.5rem). One source so
+     all five stay aligned if the chevron/gap ever changes. */
+  .mx-tbl{background:var(--card);border:1px solid var(--border);border-radius:.5rem;overflow:hidden;--mx-prov-indent:calc(1rem + 13px + .5rem)}
   .mx-tbl table.tbl{border-collapse:collapse;table-layout:fixed;width:100%}
   .mx-tbl table.tbl thead tr:first-child th:first-child{border-top-left-radius:.5rem}
+  /* "Metric name" header sits in the toggle column and aligns to --mx-prov-indent
+     (same left line as the logo + toggles); it overflows right over the empty
+     name-column header, which reads as labelling the whole metric block. */
+  .mx-tbl table.tbl thead th.mx-th-name{padding-left:var(--mx-prov-indent);white-space:nowrap;overflow:visible}
   .mx-tbl table.tbl thead tr:first-child th:last-child{border-top-right-radius:.5rem}
   .mx-tbl table.tbl tbody tr:last-child td{border-bottom:none}
   .mx-tbl table.tbl tbody tr{cursor:pointer;transition:background .1s}
-  .mx-tbl table.tbl tbody tr:hover td{background:var(--state-hover)}
-  .mx-tbl table.tbl tbody tr:active td{background:var(--state-pressed)}
-  .mx-tbl table.tbl tbody tr.is-selected td{background:var(--state-pressed)}
+  /* Hover/active/selected handled by base table.tbl rules (--tbl-row-hover / --tbl-row-pressed).
+     .mx-tbl only adds cursor:pointer. */
 
   /* ── Provider group rows (accordion heads — non-interactive background rows) ── */
-  .mx-prov-group{cursor:default !important;background:var(--bg)}
-  .mx-prov-group:hover td,.mx-prov-group:active td{background:inherit !important}
-  .mx-prov-group td{padding:.25rem 1rem;border-bottom:1px solid var(--border)}
+  /* Header band uses --mx-group-band — deliberately distinct from --state-hover
+     so a hovered metric row never looks identical to a static group header. */
+  /* Whole header row is clickable (collapse/expand) — not just the chevron. */
+  .mx-prov-group{cursor:pointer}
+  .mx-prov-group td{padding:.625rem 1rem;background:var(--mx-group-band);border-bottom:1px solid var(--border)}
+  .mx-prov-group:hover td,.mx-prov-group:active td{background:var(--mx-group-band) !important}
+  /* No inter-group gap: the --mx-group-band header colour + the 1px top border
+     already separate provider blocks. A border-top "gap" only inflated the header
+     height and read as an odd strip stuck above the band (esp. on dark). */
   .mx-prov-group-cell{display:flex;align-items:center;gap:.5rem}
-  .mx-prov-group-name{font-size:.8125rem;font-weight:600;color:var(--ink);flex:1;min-width:0}
+  .mx-prov-group-name{font-size:.875rem;font-weight:600;color:var(--ink);flex:1;min-width:0}
   /* Group-header icon — same bordered container as other mx-prov-ic usages */
 
   /* ── Collapsible group chevron ── */
@@ -1793,11 +1897,16 @@
   tr.mx-prov-group.is-collapsed .mx-prov-collapse-btn svg{transform:rotate(-90deg)}
 
   /* ── Metric child rows ── */
-  .mx-metric-child td{padding:.4375rem 1rem}
+  /* Fixed row height so every metric row is identical regardless of content
+     (vertical-align:middle on the cells centres the contents). */
+  .mx-metric-child td{padding:.4375rem 1rem;height:2.875rem;box-sizing:border-box}
+  /* Indent the toggle so its left edge lines up with the shared --mx-prov-indent
+     line. The first colgroup col is widened to 4.25rem to hold the shifted toggle. */
+  .mx-metric-child td:first-child{padding-left:var(--mx-prov-indent)}
   .mx-child-indent{padding-left:2.75rem !important}
 
   /* ── Table cell types ── */
-  .mx-tbl-name{font-weight:500;color:var(--ink);vertical-align:middle;white-space:nowrap}
+  .mx-tbl-name{font-weight:500;color:var(--ink-body);vertical-align:middle;white-space:nowrap}
   .mx-tbl-name .mx-swt-wrap{display:inline-flex;vertical-align:middle;margin-right:.5rem}
   .mx-tbl-name .badge{display:inline;vertical-align:middle}
   .mx-tbl-name .mx-tbl-sub{display:inline;vertical-align:middle}
@@ -1823,7 +1932,10 @@
   [data-kbp][aria-expanded="true"] ~ .kbp-menu{display:block}
   /* Prevent table overflow from clipping the dropdown */
   .mx-tbl:has([data-kbp][aria-expanded="true"]){overflow:visible}
-  tr:has([data-kbp][aria-expanded="true"]){position:relative;z-index:20}
+  /* z-index on the td (already position:relative) so the menu stacks above neighbouring rows.
+     Removed position:relative from tr — competing with td's own positioning context caused
+     the menu to anchor to the full-width tr instead of the actions cell. */
+  tr:has([data-kbp][aria-expanded="true"]) .mx-tbl-actions{z-index:30}
 
   /* ── "+ Add metric" hover button on group/connector rows ── */
   .mx-add-metric-hover-btn{opacity:0;transition:opacity .15s;flex:none}
@@ -1839,18 +1951,21 @@
   /* ── No built-in metrics row ── */
   .mx-no-builtin-row{cursor:default !important}
   .mx-no-builtin-row:hover td,.mx-no-builtin-row:active td{background:inherit !important}
-  .tbl .mx-no-builtin-row td{padding:.6rem 1rem;border-bottom:1px solid var(--border);height:2.875rem}
+  .tbl .mx-no-builtin-row td{padding:.6rem 1rem;padding-left:var(--mx-prov-indent);border-bottom:1px solid var(--border);min-height:2.875rem}
   .mx-no-builtin-msg{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--ink-secondary)}
   .mx-no-builtin-msg svg{color:var(--ink-secondary);opacity:.6;flex:none}
-  .mx-no-builtin-link{background:none;border:none;padding:0;cursor:pointer;font-size:inherit;font-family:inherit;color:var(--brand-primary);font-weight:500;text-decoration:none}
-  .mx-no-builtin-link:hover{text-decoration:underline}
+  /* The "Create a custom metric →" trigger reuses the kit .link component
+     (colour = --ink-highlight); no bespoke link rule here. */
 
   /* ── Connector sub-header row ── */
   .mx-conn-sub-row{cursor:default !important}
   .mx-conn-sub-row:hover td,.mx-conn-sub-row:active td{background:inherit !important}
-  .mx-conn-sub-row td{padding:.3125rem 1rem;border-bottom:1px solid var(--border)}
-  .mx-conn-sub-label{font-size:.75rem;font-weight:600;color:var(--ink-secondary);display:flex;align-items:center;gap:.375rem;width:100%}
-  .mx-conn-sub-label svg{flex:none;opacity:.55;width:11px;height:11px}
+  /* Match the metric-row height (2.875rem) + vertical-center the label in the row. */
+  .tbl .mx-conn-sub-row td{padding:.3125rem 1rem;padding-left:var(--mx-prov-indent);border-bottom:1px solid var(--border);height:2.875rem;box-sizing:border-box;vertical-align:middle}
+  .mx-conn-sub-label{font-size:.8125rem;font-weight:600;color:var(--ink-secondary);display:flex;align-items:center;gap:.375rem;width:100%}
+  /* Only the leading link icon (direct child) — NOT the nested "+" svg inside the
+     Add Metric button, which must keep the button's own icon size/colour. */
+  .mx-conn-sub-label > svg{flex:none;opacity:.55;width:11px;height:11px}
   .mx-conn-sub-label-text{flex:1;min-width:0}
 
 
@@ -1882,11 +1997,6 @@
 .dp-value-name{font-size:1rem;font-weight:600;color:var(--ink);line-height:1.5}
 .dp-value-body{font-size:.875rem;color:var(--ink-body);line-height:1.6;margin:0}
 
-/* ── Responsive demo block (shared across all pages) ── */
-.cp-resp-block{margin-top:2rem;padding:1.5rem;border-top:1px solid var(--border)}
-.cp-resp-label{font-size:.75rem;font-weight:600;color:var(--ink-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem}
-.cp-resp-frame{max-width:100%;overflow:hidden;border:1px solid var(--border);border-radius:.75rem}
-
 /* ═══════════════════════════════════════════════════════════════════════
    RESPONSIVE TABLES — shared card-stack layout (≤ 767 px, md breakpoint)
    ───────────────────────────────────────────────────────────────────────
@@ -1910,19 +2020,42 @@
   .mx-tbl{background:transparent;border:none;border-radius:0;overflow:visible}
   .mx-tbl .tbl,.mx-tbl .tbl tbody{display:flex;flex-direction:column;gap:0}
   .mx-tbl .tbl thead{display:none}
+  /* --mx-prov-indent stays at the desktop value: the provider header carries a
+     1rem left pad (chevron at 1rem, logo at 1rem+chevron+gap), and metric rows
+     pad-left to the same 37px, so the toggle lines up with the logo *inside* the
+     joined card. */
 
-  /* Provider group = section label (not a card) */
+  /* All rows of a provider group stitch into ONE card (the documented intent):
+     a continuous --card surface with side borders; the provider header caps the
+     top (grey band, rounded top), the last metric caps the bottom. Containment —
+     not floating per-metric boxes — is what makes the metrics read as belonging
+     to the provider, restoring the table's hierarchy on mobile. */
+  .mx-tbl .tbl tbody tr.mx-prov-group,
+  .mx-tbl .tbl tbody tr.mx-metric-child,
+  .mx-tbl .tbl tbody tr.mx-conn-sub-row,
+  .mx-tbl .tbl tbody tr.mx-no-builtin-row{
+    background:var(--card);
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    border-radius:0;
+    box-shadow:none;
+    margin-top:0
+  }
+
+  /* Provider header = card top: grey band, rounded top, gap above the card */
   .mx-tbl .tbl tbody tr.mx-prov-group{
     display:block;
-    margin-top:1.25rem;
-    background:transparent;
-    border:none;
-    border-radius:0
+    margin-top:1rem;
+    background:var(--mx-group-band);
+    border-top:1px solid var(--border);
+    border-top-left-radius:.5rem;
+    border-top-right-radius:.5rem
   }
   .mx-tbl .tbl tbody tr.mx-prov-group:first-child{margin-top:0}
-  .mx-tbl .tbl tbody tr.mx-prov-group td{display:block;border:none;padding:.125rem 0 .375rem}
+  .mx-tbl .tbl tbody tr.mx-prov-group td{display:block;border:none;background:transparent;padding:.625rem 1rem}
 
-  /* Metric row = standalone card */
+  /* Metric row = stitched row inside the card, divided from the row above by a
+     hairline (incl. from the header band). */
   .mx-tbl .tbl tbody tr.mx-metric-child{
     display:grid;
     grid-template-columns:auto 1fr auto auto;
@@ -1930,60 +2063,78 @@
     column-gap:.625rem;row-gap:.25rem;
     align-items:start;
     padding:.875rem;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:.5rem;
-    box-shadow:0 1px 2px 0 rgba(15,23,42,.03);
-    cursor:pointer;overflow:visible;
-    margin-top:.375rem
+    padding-left:var(--mx-prov-indent);
+    border-top:1px solid var(--border);
+    cursor:pointer;overflow:visible
   }
-  /* Each metric is its own card — no stitching */
-  .mx-tbl .tbl tbody tr.mx-metric-child + .mx-metric-child{border-top:1px solid var(--border)}
-  .mx-tbl .tbl tbody tr.mx-metric-child:last-child{border-radius:.5rem}
-  .mx-tbl .tbl tbody tr.mx-metric-child:has(+ tr.mx-prov-group){border-radius:.5rem}
+  /* Connector sub-header + empty state = stitched rows too */
+  .mx-tbl .tbl tbody tr.mx-conn-sub-row{display:block;border-top:1px solid var(--border)}
+  .mx-tbl .tbl tbody tr.mx-no-builtin-row{display:block;border-top:1px solid var(--border)}
+  .mx-tbl .tbl tbody tr.mx-no-builtin-row td{display:block;border:none;padding:.875rem;padding-left:var(--mx-prov-indent)}
 
-  /* Empty state row = standalone card (same shell as a metric card) */
-  .mx-tbl .tbl tbody tr.mx-no-builtin-row{
-    display:block;
-    margin-top:.375rem;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:.5rem
+  /* Bottom of the group card = last row before the next provider (or the very
+     last row in the table): close the border and round the bottom corners. */
+  .mx-tbl .tbl tbody tr.mx-metric-child:last-child,
+  .mx-tbl .tbl tbody tr.mx-no-builtin-row:last-child,
+  .mx-tbl .tbl tbody tr.mx-metric-child:has(+ tr.mx-prov-group),
+  .mx-tbl .tbl tbody tr.mx-no-builtin-row:has(+ tr.mx-prov-group){
+    border-bottom:1px solid var(--border);
+    border-bottom-left-radius:.5rem;
+    border-bottom-right-radius:.5rem
   }
-  .mx-tbl .tbl tbody tr.mx-no-builtin-row td{display:block;border:none;padding:.875rem}
 
-  .mx-tbl .tbl tbody tr.mx-metric-child td{display:block;padding:0;border:none}
+  /* height:auto resets the desktop fixed row height (2.875rem) that would
+     otherwise make every grid cell 46px tall — the cause of the huge gaps. */
+  .mx-tbl .tbl tbody tr.mx-metric-child td{display:block;padding:0;border:none;height:auto}
   /* td[1] toggle — col 1, row 1, centred with name */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(1){grid-column:1;grid-row:1;align-self:center;position:static;top:auto;left:auto}
   /* td[2] metric name — col 2, row 1 */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(2){grid-column:2;grid-row:1;font-size:.9375rem;font-weight:600;color:var(--ink);line-height:1.3;padding-right:0}
-  /* td[3] alias — col 2, row 2 */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3){grid-column:2;grid-row:2;font-size:.75rem;color:var(--ink-tertiary);font-family:ui-monospace,monospace;letter-spacing:-.01em}
-  /* td[4] definition — col 2, row 3, 2-line clamp */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(4){grid-column:2 / -1;grid-row:3;font-size:.8125rem;color:var(--ink-secondary);line-height:1.55;white-space:normal;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-width:0;width:100%}
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(2){grid-column:2;grid-row:1;font-size:.875rem;font-weight:600;color:var(--ink);line-height:1.25rem;padding-right:0}
+  /* td[3] alias — full width, row 2, aligned to the toggle (col 1 left edge) */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3){grid-column:1 / -1;grid-row:2;font-size:.75rem;color:var(--ink-tertiary);font-family:ui-monospace,monospace;letter-spacing:-.01em}
+  /* td[4] definition — full width, row 3, aligned to the toggle. max-width:none
+     overrides the desktop .mx-tbl-desc{max-width:18rem} (=288px) that was capping
+     it short of the card edge; wraps freely and fills the whole card width. */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(4){grid-column:1 / -1;grid-row:3;display:block;max-width:none;font-size:.8125rem;color:var(--ink-secondary);line-height:1.55;white-space:normal;overflow:visible;min-width:0}
   /* td[5] badge — col 3, row 1, aligned with metric name */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(5){grid-column:3;grid-row:1;align-self:center}
   /* td[6] kebab — col 4, row 1 */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(6){grid-column:4;grid-row:1;align-self:start;position:static;top:auto;right:auto;overflow:visible;width:auto;text-align:left;padding-right:0}
   .mx-tbl .tbl tbody tr.mx-metric-child:has([data-kbp][aria-expanded="true"]){z-index:20;overflow:visible}
 
-  /* Add Metric → always visible on mobile */
-  .mx-add-metric-hover-btn{opacity:1}
+  /* Add Metric on cards → always visible AND collapsed to an icon button (the
+     "+" only), pinned to the right of the header/connector row. */
+  .mx-add-metric-hover-btn{opacity:1;padding:0;width:1.75rem;height:1.75rem;justify-content:center;flex:none}
+  .mx-add-metric-label{display:none}
+  /* Connector sub-header must be full width so the label's flex:1 text pushes the
+     icon button to the right edge (was hugging the name on cards). */
+  /* border-bottom:none kills the double divider — the desktop .mx-conn-sub-row td
+     border-bottom would stack with the next metric row's border-top on cards.
+     display:flex + align-items:center vertically centres the label/button in the
+     row (block left them top-aligned, since vertical-align doesn't apply on cards). */
+  .mx-tbl .tbl tbody tr.mx-conn-sub-row td{display:flex;align-items:center;width:100%;border-bottom:none}
 
   /* Kebab always visible on mobile (no hover to reveal it) */
   .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn{opacity:1}
   .ds-conn-tbl .tbl tbody tr .ds-conn-more{opacity:1}
 
-  /* Suppress desktop td-level hover; use tr-level below */
-  .mx-tbl .tbl tbody tr.mx-metric-child:hover td{background:transparent}
+  /* Suppress ALL desktop td-level state backgrounds (hover/active/selected) — on
+     cards the td are grid cells, so colouring them paints disconnected boxes.
+     The whole-card tint is applied at the tr level below instead. */
+  .mx-tbl .tbl tbody tr.mx-metric-child:hover td,
+  .mx-tbl .tbl tbody tr.mx-metric-child:active td,
+  .mx-tbl .tbl tbody tr.mx-metric-child.is-selected td{background:transparent}
 }
 
-/* Metric card hover/active — matches card recipe from CLAUDE.md */
+/* Stitched metric rows — hover/active tint only (no border/shadow/scale, which
+   would break the continuous card). Mirrors the desktop table row states. */
 @media (max-width: 767px) and (hover: hover) {
-  .mx-tbl .tbl tbody tr.mx-metric-child:hover{background:var(--state-hover);border-color:color-mix(in srgb, var(--brand-primary) 25%, transparent);box-shadow:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04)}
+  .mx-tbl .tbl tbody tr.mx-metric-child:hover{background:var(--tbl-row-hover)}
 }
 @media (max-width: 767px) {
-  .mx-tbl .tbl tbody tr.mx-metric-child:active:not(:has(button:active)):not(:has(.kbp-menu button:active)){transform:scale(.99);box-shadow:0 1px 2px 0 rgba(15,23,42,.03)}
+  .mx-tbl .tbl tbody tr.mx-metric-child:active:not(:has(button:active)):not(:has(.kbp-menu button:active)){background:var(--tbl-row-pressed)}
+  /* Selected card tint at tr level too (td are transparent on cards) */
+  .mx-tbl .tbl tbody tr.mx-metric-child.is-selected{background:var(--tbl-row-pressed)}
 }
 
 /* ═══ DS Connections card list — breakpoint 960px ═══════════════════════
@@ -1994,15 +2145,12 @@
 @media (max-width: 959px) {
   /* Single-column stack */
   .ds-conn-list{grid-template-columns:1fr}
-  /* DS source = primary: bold, larger, leading line */
-  .ds-conn-list .ds-conn-row .ds-conn-src{display:inline-flex;align-items:center;gap:.5rem;font-size:.9375rem;font-weight:600;color:var(--ink)}
-  .ds-conn-list .ds-conn-row .ds-conn-src .ds-mark{width:1.375rem;height:1.375rem;flex-shrink:0}
-  /* Connection label = secondary: smaller, muted, below source name */
-  .ds-conn-list .ds-conn-row .ds-conn-label{font-size:.8125rem;font-weight:400;color:var(--ink-secondary);white-space:normal;overflow:visible;text-overflow:clip}
-  /* Meta: flex column — source row (already first in markup), then label, then desc */
-  .ds-conn-list .ds-conn-row .ds-conn-meta{display:flex;flex-direction:column;gap:.125rem;white-space:normal;overflow:visible;text-overflow:clip}
+  /* User label = primary (overrides kit default white-space for card wrapping) */
+  .ds-conn-list .ds-conn-row .ds-conn-label{white-space:normal;overflow:visible;text-overflow:clip}
+  /* Connector row = secondary: flex row, logo + name */
+  .ds-conn-list .ds-conn-row .ds-conn-meta{white-space:normal;overflow:visible;text-overflow:clip}
   /* Description: up to 2 lines, tertiary */
-  .ds-conn-list .ds-conn-row .ds-conn-desc{color:var(--ink-tertiary);white-space:normal;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .ds-conn-list .ds-conn-row .ds-conn-desc{color:var(--ink-secondary);white-space:normal;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
   /* Kebab always visible — no hover on narrower viewports */
   .ds-conn-list .ds-conn-row .ds-conn-more{opacity:1}
 }

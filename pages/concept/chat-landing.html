@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="../kit-theme.css" />
 <style>
   /* ===== Page-only layout (no component restyling) ===== */
-  .cl-page{max-width:960px}
   /* Slim the kit's topbar for pages/ (kit-theme.css default is .7rem 1.25rem ≈ 54px tall;
      here we want a compact chrome strip — logo removed, smaller btn-xs toggles).
      Also pinned to a known height so the rest of the layout can subtract it cleanly. */
@@ -28,7 +27,7 @@
   .cl-main{flex:1;min-width:0;height:100%;overflow:auto}
   /* When the sidebar lives inside the page (not the kit stage) it spans the column,
      no kit-default 14.75rem width / 700px height / rounded border. */
-  .cl-side .sb-full,.cl-side .sbx{width:100%;height:auto;border:none;border-radius:0;flex:1 1 0;min-height:0}
+  .cl-side .sbx{width:100%;height:auto;border:none;border-radius:0;flex:1 1 0;min-height:0}
 
   /* Sidebar wrapper inherits cl-side's flex height directly — no Current/Expected swap any more
      (Current state was removed; only Expected remains). */
@@ -109,7 +108,6 @@
                                  pattern the right-panel uses on Metrics.
        < 640px (mobile fine-tune): title + composer paddings/font-size shrink.
      ============================================================================ */
-  .cl-side{transition:width .2s ease}
   /* Page hamburger — sits on the page itself (not in the topbar) so it survives when the kit
      topbar is removed for prod. Absolute-positioned at top-left of .cl-main; hidden on desktop. */
   .cl-burger{display:none;width:2rem;height:2rem;border-radius:.375rem;color:var(--ink-body);position:absolute;top:.75rem;left:.75rem;z-index:10}
@@ -126,11 +124,8 @@
     .cl-burger:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
     /* Backdrop dimmer — sits below the sidebar but above main column + topbar so the
        whole page reads as inactive while overlay is open. Clicking it closes. */
-    .cl-side-backdrop{display:block;position:fixed;inset:0;background:rgba(15,23,42,.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:55;opacity:0;pointer-events:none;transition:opacity .2s ease}
+    .cl-side-backdrop{display:block;position:fixed;inset:0;background:var(--overlay-scrim);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:55;opacity:0;pointer-events:none;transition:opacity .2s ease}
     html.side-open .cl-side-backdrop{opacity:1;pointer-events:auto}
-    /* Dark theme — slightly stronger dimmer + slate undertone to read against the
-       already-dark background. */
-    .dark .cl-side-backdrop{background:rgba(2,6,23,.6)}
     /* When opened via hamburger, sidebar becomes a position:fixed overlay that
        slides in from the left. The slide-in is a one-off paint when .side-open is
        set; closing is just `display:none` because we're going from "rendered" to
@@ -280,7 +275,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
-          <button class="btn btn-primary btn-sm sbx-cta" type="button">
+          <button class="btn btn-primary btn-sm sbx-cta" type="button" data-tip="New Chat">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             <span>New Chat</span>
           </button>

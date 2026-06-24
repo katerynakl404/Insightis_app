@@ -1,5 +1,19 @@
 # Data Sources — page-level changes
 
+## Hard rules — read before editing this page
+
+These are locked decisions. Do not change without explicit approval.
+
+| # | Rule |
+|---|---|
+| 1 | "My Connections" tab is disabled on initial page load until at least one data source is connected. JS enables it on first successful connection and re-disables it when the last connection is removed. Do not enable it unconditionally or via a URL param. |
+| 2 | Category chips in the Catalog (`#ds-cats`) include "All" as the **first chip, selected by default**. This is the inverse of the Metrics page which has no "All" chip. Do not remove "All" from DS Connections. |
+| 3 | Category chip list in the Catalog (excluding "All") must match the Metrics page chip list exactly — same 10 categories, same order. If categories change, both pages must be updated simultaneously. |
+| 4 | Search bar lives inside the Catalog tab panel (above `#ds-cats`), not at page level. Do not move it to the page header or outside the tab panel. |
+| 5 | "Create Connection" button is hidden while the Catalog tab is active and visible only on the My Connections tab. Do not show it on both tabs simultaneously. |
+
+---
+
 ## Tab structure
 
 | | Prod (Current) | Expected |
@@ -16,6 +30,7 @@
 - **Search** moves from page-level into the Catalog panel (above chip filters); placeholder reads "Search data sources…"
 - **My Connections tab** is disabled on load; JS enables it on first successful connection and re-disables it when the last connection is removed
 - **Banner** in My Connections uses `.banner.banner-grad` (same gradient style as the Metrics page); collapses via `.is-dismissed` once connections exist; label reads "Browse the Catalog"
+- **Connected list rows** (`.ds-conn-row`, card view) use the kit's flat list-row hover recipe — same as `.chat-row`: softened rest border (`color-mix(--border 45%, transparent)` + `--shadow-rest`), hover → `background:var(--state-hover)` + `border-color:var(--card-border-hover)` + `box-shadow:var(--shadow-card-hover)`. Previously the row had no hover state and a full-strength rest border.
 - **"Add new" button** is hidden while on the Catalog tab; appears only on the My Connections tab
 - **Files panel** removed — Files is now a separate top-level route
 - **Concept 1 / Concept 2 toggle** removed from topbar — single unified concept only

@@ -14,18 +14,16 @@
   .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--bg);transition:grid-template-columns .2s ease}
   .cl-shell:has(.sbx.is-collapsed){grid-template-columns:3.563rem 1fr}
   .cl-side{background:var(--card);border-right:1px solid var(--border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
-  .cl-side .sb-full,.cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
-  .cl-main{position:relative;display:flex;flex-direction:column;width:100%;min-width:0;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px);overflow-x:hidden}
+  .cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
+  /* overflow-x:clip (not hidden) so cl-main doesn't become a scroll container —
+     position:sticky on ds-page-head needs the window as its scroll ancestor. */
+  .cl-main{position:relative;display:flex;flex-direction:column;width:100%;min-width:0;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px);overflow-x:clip}
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   .cl-page-title{margin:0 0 .25rem}
   /* Burger alignment handled globally in kit-theme.css — no per-page rules needed. */
 
   /* ===== Data Sources — layout-only helpers ===== */
-  /* Status badges — softer bg than kit default 15% */
-  .ds-conn-tbl .badge-green{background:color-mix(in srgb,var(--fb-green) 8%,transparent)}
-  .ds-conn-tbl .badge-red{background:color-mix(in srgb,var(--fb-red) 8%,transparent)}
   .ds-conn-tbl table.tbl tbody tr.is-selected td{background:var(--state-pressed)}
-  .ds-conn-tbl table.tbl tbody tr:hover td{background:var(--state-hover)}
 
   /* Search — same pattern as chats-landing */
   .ds-search.field{max-width:none;height:2.5rem;background:var(--card)}
@@ -65,56 +63,109 @@
      768 – 1023 px   → 2 cols (content 448–703 → cards 224–352 px)
      600 – 767 px    → 2 cols (sidebar drawer-only, content = viewport − 64 px)
      < 600 px        → 1 col  (full-width single-column for narrow phones) */
+  /* ===== Grid =====
+     Variant 1 (horizontal rows): 4 / 3 / 2 / 1 wide columns.
+     Variant 2 (square tiles, default): dense 6 / 5 / 4 / 3 / 2 grid — many more cards per row. */
   .ds-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:.75rem}
   @media (max-width:1279px){.ds-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
   @media (max-width:1023px){.ds-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media (max-width:599px){.ds-grid{grid-template-columns:1fr}}
-  /* Concept 1 — horizontal row card */
-  .ds-card{display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
-  .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:color-mix(in srgb,var(--brand-primary) 22%,var(--border));transform:translateY(-1px)}
+  /* Variant 2 — compact square tiles auto-packed: fits as many ~7.5rem cards as the row allows,
+     responsive by nature (no fixed column counts needed). */
+  .ds-app.ds-v2 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr));gap:.5rem}
+
+  /* Horizontal row card — shared shell for both variants */
+  .ds-card{position:relative;display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
+  .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
   .ds-mark{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);border:1px solid var(--border)}
-  .ds-card .ds-mark{background:var(--card);border:1px solid var(--border)}
+  /* Both variants enlarge the catalog-card logo to 3rem (scoped so connected-list marks stay small). */
+  .ds-card .ds-mark{width:3rem;height:3rem;border-radius:.5rem;background:var(--card);border:1px solid var(--border)}
   .ds-conn-cell-name .ds-mark{width:1.5rem;height:1.5rem;border-radius:.25rem}
   .ds-mark img{width:78%;height:78%;object-fit:contain;display:block}
   .ds-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .ds-card-head{display:flex;align-items:center;gap:.375rem;min-width:0}
-  .ds-card-name{font-size:.875rem;font-weight:600;color:var(--ink);line-height:1.3}
-  html.content-960 .ds-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .ds-mark-wrap{flex:none;display:inline-flex}
+  /* Label = Typography "text-sm" level (14px / 20px), per current/typography.md. */
+  .ds-card-name{font-size:.875rem;line-height:1.25rem;font-weight:500;color:var(--ink)}
+  /* Variant 1 — title steps up to the "text-base" level (16px / 24px) to match the bigger logo. */
+  .ds-app.ds-v1 .ds-card-name{font-size:1rem;line-height:1.5rem}
+
+  /* ===== Variant 2 — vertical card: logo on top, text below; Connect on hover ===== */
+  .ds-card-hover{display:none}
+  .ds-app.ds-v2 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.625rem;padding:.875rem .75rem;height:7.5rem}
+  /* Fixed tile height keeps every card uniform; clamp the name to 2 lines so a long name fits
+     without growing the tile. No reserved min-height — content stays truly vertically centered.
+     Size = Typography "text-sm" (14px / 20px). */
+  .ds-app.ds-v2 .ds-card-name{font-size:.875rem;line-height:1.25rem;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .ds-app.ds-v2 .ds-card .ds-mark{width:2.75rem;height:2.75rem}
+  .ds-app.ds-v2 .ds-card-body{flex:0 0 auto;align-items:center}
+  .ds-app.ds-v2 .ds-card-head{justify-content:center}
+  .ds-app.ds-v2 .ds-card-act{display:none}
+  .ds-app.ds-v2 .ds-card-hover{display:flex;align-items:center;justify-content:center;
+    position:absolute;inset:0;border-radius:inherit;
+    background:color-mix(in srgb,var(--card) 78%,transparent);
+    opacity:0;pointer-events:none;transition:opacity var(--motion-slow) var(--motion-ease)}
+  /* The button itself eases in/out with a small slide so the reveal feels fluid, not a flat fade. */
+  .ds-app.ds-v2 .ds-card-connect{transform:translateY(.375rem);
+    transition:transform var(--motion-slow) var(--motion-ease)}
+  .ds-app.ds-v2 .ds-card:hover .ds-card-hover,
+  .ds-app.ds-v2 .ds-card:focus-within .ds-card-hover{opacity:1;pointer-events:auto}
+  .ds-app.ds-v2 .ds-card:hover .ds-card-connect,
+  .ds-app.ds-v2 .ds-card:focus-within .ds-card-connect{transform:translateY(0)}
+  .ds-card-connect span{margin-left:.25rem}
+  /* Touch / narrow viewports have no hover — surface the Connect action permanently as an
+     inline button at the bottom of the card (no scrim, always visible & tappable). */
+  /* Permanent Connect for TOUCH devices only. Driven by hover capability, not width, so every
+     hover-capable desktop (incl. small/narrow ones) keeps the hover-reveal scrim and the button
+     is NOT shown immediately. Real tablets/phones (hover:none) get a persistent action — and a
+     floating corner "+" reads oddly on a vertical tile, so the card flips to a HORIZONTAL row
+     (logo + name on the left, "+" on the right) which makes the always-on action logical. */
+  @media (hover:none){
+    .ds-app.ds-v2 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}
+    .ds-app.ds-v2 .ds-card{flex-direction:row;align-items:center;text-align:left;height:auto;
+      gap:.625rem;padding:.625rem .75rem}
+    .ds-app.ds-v2 .ds-card-body{flex:1;align-items:flex-start}
+    .ds-app.ds-v2 .ds-card-head{justify-content:flex-start}
+    .ds-app.ds-v2 .ds-card-name{-webkit-line-clamp:1}
+    .ds-app.ds-v2 .ds-card-hover{display:none}
+    .ds-app.ds-v2 .ds-card-act{display:flex}
+  }
   .ds-popular{width:12px;height:12px;color:var(--fb-attention);flex:none;filter:drop-shadow(0 0 2px color-mix(in srgb,var(--fb-attention) 60%,transparent))}
   #ds-cats{flex-wrap:wrap;padding-bottom:2px;margin-top:.75rem}
   #ds-cats::-webkit-scrollbar{display:none}
   @media(max-width:767px){#ds-cats{flex-wrap:nowrap;overflow-x:auto}}
-  .ds-grid-sep{grid-column:1/-1;font-size:.6875rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive);padding:.5rem 0 .25rem;margin-top:.125rem}
-  .ds-grid-sep:first-child{margin-top:0;padding-top:0}
   .ds-card-act{flex:none;display:flex;justify-content:flex-end;align-items:center}
 
   /* Lazy-load sentinel — zero-height trigger element appended after last card when more remain */
   .ds-load-sentinel{grid-column:1/-1;height:1px;margin:0;padding:0}
 
   /* ===== Connected — card list ===== */
-  .ds-conn-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.375rem}
-  .ds-conn-list.is-single{grid-template-columns:1fr}
-  @media(max-width:599px){.ds-conn-list{grid-template-columns:1fr}}
-  .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:.625rem .75rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);margin-bottom:.375rem;position:relative;transition:box-shadow .18s,border-color .18s,transform .18s}
-  .ds-conn-row:last-child{margin-bottom:0}
+  .ds-conn-list{display:grid;grid-template-columns:1fr;gap:.875rem}
+  /* Hover = prov-card lift recipe (matches catalog cards). .hov-card:hover handles it;
+     override only the menu-open state to keep position stable. */
+  .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:1rem 1.125rem;border:1px solid var(--border);border-radius:.75rem;background:var(--card);box-shadow:var(--shadow-rest);position:relative;transition:box-shadow .18s,border-color .18s,transform .18s}
+
   .ds-card .iconbtn{background:var(--bg)}
-  .ds-conn-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.1875rem}
-  .ds-conn-label{font-size:.875rem;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .ds-conn-meta{font-size:.75rem;color:var(--ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ds-conn-meta-sep{margin:0 .25rem;color:var(--ink-inactive)}
-  .ds-conn-desc{color:var(--ink-inactive)}
-  .ds-conn-status{display:inline-flex;align-items:center;gap:.375rem;margin-left:auto;font-size:.75rem;color:var(--ink-secondary);font-weight:500}
-  .ds-conn-dot{width:.5rem;height:.5rem;border-radius:9999px;flex:none}
-  .ds-conn-dot.is-active{background:var(--fb-green)}
-  .ds-conn-dot.is-error{background:var(--fb-red-text)}
+  .ds-conn-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+  /* Title line: bold name + · + logo + connector type, all inline, clips with ellipsis */
+  .ds-conn-title{display:flex;align-items:center;gap:.25rem;overflow:hidden;white-space:nowrap}
+  .ds-conn-label{font-size:.875rem;font-weight:600;color:var(--ink);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:1;min-width:0}
+  .ds-conn-dot{color:var(--ink-inactive);font-size:.875rem;flex:none}
+  /* Inline source: small logo + connector name */
+  .ds-conn-src-row{display:flex;align-items:center;gap:.25rem;flex:none;overflow:hidden}
+  .ds-conn-src-mark{width:.875rem;height:.875rem;border-radius:.125rem;flex:none}
+  .ds-conn-meta{font-size:.8125rem;color:var(--ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ds-conn-desc{font-size:.75rem;color:var(--ink-secondary)}
   /* ===== Connected — table view (shared kebab styles) ===== */
   .ds-conn-tbl{margin-top:.25rem}
+  .ds-conn-tbl .ds-conn-cell-desc{font-size:.8125rem;color:var(--ink-secondary);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:0}
   .ds-conn-cell-name{display:flex;align-items:center;gap:.625rem}
-  .ds-conn-cell-label{font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ds-conn-cell-label{font-weight:500;color:var(--ink-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ds-conn-cell-act{position:relative;overflow:visible}
   /* Kebab wrapper — positioning context for .kbp-menu (kit-theme.css handles the rest) */
   .ds-conn-more-wrap{position:relative;flex:none}
+  /* Card mode — pin the kebab to the top-right corner instead of vertically centering it. */
+  .ds-conn-row .ds-conn-more-wrap{align-self:flex-start}
   .ds-conn-more svg{width:16px;height:16px}
   .ds-conn-row:has([data-kbp][aria-expanded="true"]){z-index:20}
   .ds-conn-body:has([data-kbp][aria-expanded="true"]){overflow:visible}
@@ -146,19 +197,16 @@
   /* Suppress all transitions on first paint to prevent jump */
   .no-init-transition *{transition:none!important}
 
-  @media (max-width:880px){
-    /* Page-specific layout: tighten .cl-main top/bottom padding on smaller viewports. Grid column
-       counts are handled by the .ds-grid breakpoints above (1024 → 3 cols, 768 → 2 cols, 600 → 1
-       col). Sidebar visibility is handled by kit-theme.css at < 768 px. */
-    .cl-main{padding:1.5rem 0 3rem}
-  }
-  /* When the burger DOES appear (< 768 px) and .cl-main has the 1.5rem padding-top (set by the
-     880 rule above), re-align the burger to that smaller top so it stays on the title row. */
-  @media (max-width:767px){
-    .cl-burger{top:1.5rem}
+  /* ===== Sticky page head at tablet/mobile (≤ 1023 px) ===== */
+  @media(max-width:1023px){
+    /* No top padding on cl-main — cl-page-head provides its own spacing via its padding. */
+    .cl-main{padding-top:0}
+    /* Belt-and-suspenders: override ds-page-head's space-between so burger+title stay left. */
+    .ds-page-head{justify-content:flex-start}
+    /* DS-specific: Create Connection button pinned right; title+burger sit left via cl-page-head flex-start. */
+    .ds-page-head .ds-addnew{margin-left:auto}
   }
   @media (max-width:600px){
-    .ds-page-head{flex-wrap:wrap}
     .ds-card-act{width:auto}
   }
   /* integration frame — static visual reference */
@@ -222,9 +270,9 @@
       <button class="segctrl-btn is-active" id="ds-seg-empty" type="button" onclick="dsSegState(this,'empty')">Empty</button>
       <button class="segctrl-btn" id="ds-seg-connected" type="button" onclick="dsSegState(this,'connected')">Connected</button>
     </div>
-    <div class="segctrl is-sm" id="cl-width-seg" role="tablist" aria-label="Content width" style="width:auto;flex:none">
-      <button class="segctrl-btn" role="tab" type="button" aria-selected="false" data-w="960" style="padding:0 .5rem" onclick="clSetWidth(960,this)">960</button>
-      <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" data-w="1200" style="padding:0 .5rem" onclick="clSetWidth(1200,this)">1200</button>
+    <div class="segctrl is-sm" style="width:auto" aria-label="Card layout">
+      <button class="segctrl-btn" id="ds-seg-v1" type="button" onclick="dsSegVariant(this,'v1')">Variant 1</button>
+      <button class="segctrl-btn is-active" id="ds-seg-v2" type="button" onclick="dsSegVariant(this,'v2')">Variant 2</button>
     </div>
     <div class="segctrl is-sm" style="width:auto">
       <button class="segctrl-btn is-active" id="ds-seg-light" type="button" onclick="dsSegTheme(this,'light')">Light</button>
@@ -250,7 +298,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
-          <button class="btn btn-primary btn-sm sbx-cta" type="button">
+          <button class="btn btn-primary btn-sm sbx-cta" type="button" data-tip="New Chat">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             <span>New Chat</span>
           </button>
@@ -425,13 +473,13 @@
 
   <!-- ============= MAIN ============= -->
   <main class="cl-main">
-    <!-- Mobile/tablet hamburger — opens sidebar as an overlay drawer (≤ 1023.98 px). -->
-    <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-    <div class="cl-page ds-app ds-tab-catalog has-connections">
-      <!-- Page head — title + primary CTA. Hidden on Catalog tab (card + buttons serve that role). -->
-      <div class="ds-page-head">
+    <div class="cl-page ds-app ds-tab-catalog has-connections ds-v2">
+      <!-- Page head — title + primary CTA. At ≤ 1023 px the burger is inline here so the whole
+           row can be position:sticky and remain accessible during scroll. -->
+      <div class="cl-page-head ds-page-head">
+        <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
         <h1 class="cl-page-title scroll-m-20 font-medium text-2xl md:text-3xl text-content-primary text-left">Data Sources</h1>
         <button class="btn btn-primary btn-sm ds-addnew" type="button" onclick="dsConnect(null)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
@@ -499,7 +547,7 @@
 
 <!-- ===== Edit connection dialog ===== -->
 <!-- ===== New Connection dialog ===== -->
-<div id="ds-conn-dlg" style="display:none;position:fixed;inset:0;z-index:60;align-items:center;justify-content:center;background:rgba(15,23,42,.45)" aria-hidden="true" onclick="if(event.target===this)dsCloseConnDlg()">
+<div id="ds-conn-dlg" style="display:none;position:fixed;inset:0;z-index:60;align-items:center;justify-content:center;background:var(--overlay-scrim)" aria-hidden="true" onclick="if(event.target===this)dsCloseConnDlg()">
   <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:30rem;max-width:calc(100vw - 2rem);height:580px;display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-conn-dlg-title">
     <!-- Shared header -->
     <div class="dlg-hdr">
@@ -548,7 +596,7 @@
           </div>
           <!-- Save is part of the external integration UI -->
           <div class="ds-intg-row" style="align-items:flex-end;flex-direction:row;justify-content:flex-end;padding:.75rem .875rem">
-            <button id="ds-conn-s1-btn" type="button" style="background:var(--brand-primary);color:#fff;border:none;border-radius:.375rem;padding:.4375rem 1rem;font-size:.875rem;font-weight:500;cursor:pointer;line-height:1.25" onclick="dsConnStep1()">Connect</button>
+            <button id="ds-conn-s1-btn" type="button" style="background:var(--brand-primary);color:var(--content-on-solid);border:none;border-radius:.375rem;padding:.4375rem 1rem;font-size:.875rem;font-weight:500;cursor:pointer;line-height:1.25" onclick="dsConnStep1()">Connect</button>
           </div>
         </div>
       </div>
@@ -572,7 +620,7 @@
 </div>
 
 <!-- ===== Disconnect confirm dialog ===== -->
-<div id="ds-disc-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:rgba(15,23,42,.4)" aria-hidden="true" onclick="if(event.target===this)dsCloseDisc()">
+<div id="ds-disc-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:var(--overlay-scrim)" aria-hidden="true" onclick="if(event.target===this)dsCloseDisc()">
   <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:24rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-disc-title">
     <div class="dlg-hdr">
       <h2 id="ds-disc-title" class="dlg-title">Disconnect <span id="ds-disc-name" style="color:var(--ink)"></span>?</h2>
@@ -591,7 +639,7 @@
   </div>
 </div>
 
-<div id="ds-edit-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:rgba(15,23,42,.4)" aria-hidden="true" onclick="if(event.target===this)dsCloseEdit()">
+<div id="ds-edit-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:var(--overlay-scrim)" aria-hidden="true" onclick="if(event.target===this)dsCloseEdit()">
   <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:30rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-edit-title">
     <div class="dlg-hdr">
       <h2 id="ds-edit-title" class="dlg-title">Edit Connection</h2>
@@ -623,7 +671,7 @@
        style="position:fixed;top:40px;right:0;bottom:0;width:360px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);pointer-events:auto">
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex:none">
-      <h2 id="ds-panel-title" style="flex:1;font-size:1.125rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Connection details</h2>
+      <h2 id="ds-panel-title" style="flex:1;font-size:1.125rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Connection Details</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsPanelClose()" style="width:1.75rem;height:1.75rem;flex:none" data-tip="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -808,13 +856,19 @@
 
   function dsCardHtml(c){
     var n = c.name.replace(/'/g, "\\'");
+    // Variant 1 — always-visible compact "+" tertiary button on the row.
     var btn = '<button class="btn btn-sm btn-tertiary" type="button" aria-label="Connect" style="padding:0 .5rem;min-width:2rem" onclick="dsConnect(\'' + n + '\')">' + PLUS_SVG_SM + '</button>';
-    return '<div class="ds-card" role="listitem">'
+    // Variant 2 — secondary Connect button revealed over a translucent scrim on card hover.
+    var hover = '<div class="ds-card-hover">'
+      + '<button class="btn btn-sm btn-secondary ds-card-connect" type="button" aria-label="Connect ' + c.name + '" onclick="dsConnect(\'' + n + '\')">' + PLUS_SVG_SM + '<span>Connect</span></button>'
+      + '</div>';
+    return '<div class="ds-card" role="listitem" style="cursor:pointer" onclick="if(!event.target.closest(\'button\'))dsConnect(\'' + n + '\')">'
       + dsMarkWrap(c)
       + '<div class="ds-card-body">'
       +   '<div class="ds-card-head"><span class="ds-card-name">' + c.name + '</span></div>'
       + '</div>'
       + '<div class="ds-card-act">' + btn + '</div>'
+      + hover
       + '</div>';
   }
 
@@ -862,6 +916,13 @@
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }
 
+  function dsSegVariant(btn, variant){
+    dsSegActivate(['ds-seg-v1','ds-seg-v2'], btn.id);
+    var app = document.querySelector('.ds-app');
+    app.classList.toggle('ds-v1', variant === 'v1');
+    app.classList.toggle('ds-v2', variant === 'v2');
+  }
+
   function dsGetFiltered(){
     return CONNECTORS.filter(function(c){
       if(STATE.cat !== 'All'){
@@ -876,7 +937,12 @@
     if(_dsObserver){ _dsObserver.disconnect(); _dsObserver = null; }
     var filtered = dsGetFiltered();
     var host = document.getElementById('ds-grid');
-    var emptyMsg = '<div style="grid-column:1/-1;padding:1.5rem;text-align:center;color:var(--ink-secondary);font-size:.8125rem">No connectors match your filters.</div>';
+    var emptyMsg = '<div style="grid-column:1/-1">'
+      + '<div class="empty-state" role="status">'
+      + '<svg class="es-illu" viewBox="0 0 150 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g><rect class="es-card es-card-top" x="9" y="4" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="11" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="14" width="80" height="6" rx="3"/></g><g opacity="0.55"><rect class="es-card" x="9" y="38" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="45" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="48" width="64" height="6" rx="3"/></g><g opacity="0.28"><rect class="es-card" x="9" y="72" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="79" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="82" width="72" height="6" rx="3"/></g></svg>'
+      + '<p class="empty-title">No matches found</p>'
+      + '<p class="empty-msg">No data sources match your search or filters. Try a different term or clear the filters.</p>'
+      + '</div></div>';
     var wrapFn = function(c){ return dsCardHtml(c); };
     var prevCount = (STATE.page - 1) * PAGE_SIZE;
     var slice = filtered.slice(0, STATE.page * PAGE_SIZE);
@@ -929,17 +995,18 @@
         +   '<span class="ds-mark" style="flex-shrink:0" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>'
         +   '<span style="color:var(--ink-secondary);font-size:.8125rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">' + c.name + '</span>'
         + '</div></td>'
-        + '<td style="font-size:.8125rem;color:var(--ink-secondary);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:0;padding-left:.25rem">' + (c.desc || '') + '</td>'
+        + '<td class="ds-conn-cell-desc">' + (c.desc || '') + '</td>'
         + '<td class="mx-tbl-actions ds-conn-cell-act"><div class="ds-conn-more-wrap">' + kebab + menuHtml + '</div></td>'
         + '</tr>';
     }
     return '<div class="ds-conn-row hov-card" role="listitem" data-name="' + c.name + '" style="cursor:pointer" onclick="if(!event.target.closest(\'[data-kbp],.kbp-menu\'))dsPanelOpen(\'' + n + '\')">'
       + '<div class="ds-conn-body">'
-      +   '<span class="ds-conn-label">' + (c.label || c.name) + '</span>'
-      +   '<span class="ds-conn-meta">'
-      +     '<span class="ds-conn-src"><span class="ds-mark" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>' + c.name + '</span>'
-      +     (c.desc ? '<span class="ds-conn-meta-sep" aria-hidden="true">·</span><span class="ds-conn-desc">' + c.desc + '</span>' : '')
-      +   '</span>'
+      +   '<div class="ds-conn-title">'
+      +     '<span class="ds-conn-label">' + (c.label || c.name) + '</span>'
+      +     '<span class="ds-conn-dot" aria-hidden="true">·</span>'
+      +     '<span class="ds-conn-meta ds-conn-src-row"><span class="ds-mark ds-conn-src-mark" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>' + c.name + '</span>'
+      +   '</div>'
+      + (c.desc ? '<span class="ds-conn-desc">' + c.desc + '</span>' : '')
       + '</div>'
       + '<div class="ds-conn-more-wrap">' + kebab + menuHtml + '</div>'
       + '</div>';
@@ -947,7 +1014,8 @@
 
   function dsRenderConnectedList(){
     var host = document.getElementById('ds-conn-body');
-    var isMobile = window.innerWidth < 960;
+    // Table→card swap at 767px — the kit table card-stack breakpoint (matches Metrics & page-changes).
+    var isMobile = window.innerWidth < 768;
     var renderMode = (DS_VIEW === 'table' && !isMobile) ? 'table' : 'card';
     var rows = CONNECTED.map(function(c){
       var src = CONNECTORS.find(function(x){return x.name === c.name;}) || {slug:c.name.toLowerCase()};
@@ -973,34 +1041,11 @@
     }
   }
 
-  function dsToggleView(){
-    DS_VIEW = DS_VIEW === 'card' ? 'table' : 'card';
-    dsRenderConnectedList();
-  }
-
-  /* Topbar demo toggle — switches between empty and pre-populated connected state. */
-  function dsToggleEmptyConnected(){
-    var app = document.querySelector('.ds-app');
-    app.classList.toggle('has-connections');
-    var hasConn = app.classList.contains('has-connections');
-    var bw = document.getElementById('ds-banner-wrap');
-    if(bw) bw.classList.toggle('is-dismissed', hasConn);
-    var connTab = document.getElementById('ds-tab-connections');
-    if(connTab){
-      if(hasConn){ connTab.disabled = false; connTab.removeAttribute('aria-disabled'); }
-      else {
-        connTab.disabled = true; connTab.setAttribute('aria-disabled','true');
-        if(connTab.classList.contains('is-active'))
-          dsSwitchTab('catalog', document.getElementById('ds-tab-catalog'));
-      }
-    }
-  }
-
   function dsRender(){ dsRenderCats(); dsRenderGrid(); dsRenderConnectedList(); }
 
   /* Re-render connections list when crossing the mobile breakpoint */
   (function(){
-    var _mq = window.matchMedia('(max-width: 959px)');
+    var _mq = window.matchMedia('(max-width: 767px)');
     function _onBreak(){ if(document.querySelector('.ds-app.has-connections')) dsRenderConnectedList(); }
     if(_mq.addEventListener) _mq.addEventListener('change', _onBreak);
     else _mq.addListener(_onBreak);
@@ -1056,8 +1101,8 @@
     var logo = document.getElementById('ds-conn-logo');
     logo.innerHTML = dsMkImg(src.slug, src.initial, src.mark);
     logo.style.background = src.mark && src.mark.startsWith('#') ? src.mark + '14' : 'var(--card)';
-    document.getElementById('ds-conn-subtitle').textContent = name + ' connection';
-    document.getElementById('ds-conn-dispname').value = name;
+    document.getElementById('ds-conn-subtitle').textContent = name ? name + ' connection' : 'New connection';
+    document.getElementById('ds-conn-dispname').value = name || '';
     document.getElementById('ds-conn-desc').value = '';
     // reset to step 1
     document.getElementById('ds-conn-s1').classList.remove('is-hidden');
@@ -1212,13 +1257,13 @@
     var panelBody  = document.getElementById('ds-panel-body');
     var editBtn    = document.getElementById('ds-panel-edit-btn');
     var deleteBtn  = document.getElementById('ds-panel-delete-btn');
-    if (panelTitle) panelTitle.textContent = 'Connection details';
+    if (panelTitle) panelTitle.textContent = 'Connection Details';
     var markHtml  = src.slug ? '<span class="ds-mark" style="width:2rem;height:2rem;border-radius:.375rem;flex:none" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>' : '';
     if (panelBody) panelBody.innerHTML = ''
       + '<div class="dp-fields">'
       + '<div class="dp-field"><span class="dp-label">Name</span>'
       + '<span class="dp-value-name">'+ (c.label || c.name) +'</span></div>'
-      + '<div class="dp-field"><span class="dp-label">Data Source</span>'
+      + '<div class="dp-field"><span class="dp-label">Data source</span>'
       + '<div style="display:flex;flex-direction:column;gap:.625rem;align-items:flex-start">'
       + '<div style="display:flex;align-items:center;gap:.625rem">'
       + markHtml
@@ -1267,27 +1312,15 @@ function dsDisconnectConfirmed() {
   dsRemove(name);
 }
 
-function clSetWidth(w, btn) {
-  document.documentElement.style.setProperty('--content-max-width', w + 'px');
-  document.documentElement.classList.toggle('content-960', w === 960);
-  try { localStorage.setItem('cl-content-width', String(w)); } catch(e) {}
-  if (btn) {
-    btn.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
-    btn.classList.add('is-active');
-    btn.setAttribute('aria-selected','true');
-  }
-}
 (function(){
-  var w = +(localStorage.getItem('cl-content-width') || 1200);
-  document.documentElement.style.setProperty('--content-max-width', w + 'px');
-  document.documentElement.classList.toggle('content-960', w === 960);
-  var seg = document.getElementById('cl-width-seg');
-  if (seg) {
-    seg.querySelectorAll('.segctrl-btn').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
-    var active = seg.querySelector('[data-w="' + w + '"]');
-    if (active) { active.classList.add('is-active'); active.setAttribute('aria-selected','true'); }
-  }
-}());
+  var main=document.querySelector('.cl-main');
+  if(!main)return;
+  function upd(){main.classList.toggle('is-scrolled',(window.scrollY||main.scrollTop)>60);}
+  window.addEventListener('scroll',upd,{passive:true});
+  main.addEventListener('scroll',upd,{passive:true});
+  upd();
+})();
+
 </script>
 <script>
 /* Mobile/tablet hamburger — opens the sidebar drawer overlay. Cross-page consistent. */
@@ -1369,6 +1402,26 @@ function dsHideToast(){
     hide();clearTimeout(warmTimer);isWarm=true;
     warmTimer=setTimeout(function(){isWarm=false;},600);
   },true);
+})();
+</script>
+<script>
+/* Chip-row edge fade — set data-chip-scroll so the CSS mask shows the fade ONLY while the row
+   actually overflows: none (fits → no fade), start (right fade), middle (both), end (left fade).
+   Recomputed on scroll, on content change (categories render dynamically), and on resize. */
+(function(){
+  function updateChipScroll(row){
+    if(row.scrollWidth - row.clientWidth <= 2){ row.dataset.chipScroll = 'none'; return; }
+    var atStart = row.scrollLeft <= 2;
+    var atEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - 2;
+    row.dataset.chipScroll = atStart ? 'start' : atEnd ? 'end' : 'middle';
+  }
+  function initChipRow(row){
+    row.addEventListener('scroll', function(){ updateChipScroll(this); }, {passive:true});
+    if('MutationObserver' in window) new MutationObserver(function(){ updateChipScroll(row); }).observe(row, {childList:true});
+    updateChipScroll(row);
+  }
+  document.querySelectorAll('.chip-row').forEach(initChipRow);
+  window.addEventListener('resize', function(){ document.querySelectorAll('.chip-row').forEach(updateChipScroll); }, {passive:true});
 })();
 </script>
 </body>

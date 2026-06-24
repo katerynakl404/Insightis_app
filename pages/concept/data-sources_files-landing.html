@@ -16,7 +16,7 @@
   .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--bg);transition:grid-template-columns .2s ease}
   .cl-shell:has(.sbx.is-collapsed){grid-template-columns:3.563rem 1fr}
   .cl-side{background:var(--card);border-right:1px solid var(--border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
-  .cl-side .sb-full,.cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
+  .cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
 
   /* Main column — max-width and alignment identical to Chats Library / Connections pages. */
   .cl-main{position:relative;display:flex;flex-direction:column;width:100%;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px)}
@@ -28,17 +28,7 @@
   /* Page head — title left, no separate CTA (action lives in the tab row per spec) */
   .ds-page-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
   .ds-page-head .cl-page-title{margin:0}
-
-  /* ===== Tab row — tabset + action button sharing one border-bottom =====
-     The tabset's own border-bottom is suppressed; the wrapper row owns it so the
-     action button aligns flush with the underline of the active tab. */
-  .dsf-tabrow{display:flex;align-items:flex-end;gap:.75rem;border-bottom:1px solid var(--border)}
-  .dsf-tabrow .tabset{flex:1;border-bottom:none}
-  .dsf-tabrow .tab{display:inline-flex;align-items:center;gap:.375rem}
-
-  /* Search input */
-  .ds-search.field{max-width:none;height:2.5rem;background:var(--card)}
-  .ds-search .field-icon{width:16px;height:16px;color:var(--ink-secondary);flex:none}
+  @media(max-width:1023px){.cl-main{padding-top:0}}
 
   /* ===== Drop zone =====
      Expected: card2 bg + soft dashed border token. Drag-over lifts to state-hover + solid border.
@@ -49,9 +39,8 @@
     text-align:center;transition:background .15s,border-color .15s;cursor:pointer}
   .dsf-drop.is-dragover{background:var(--state-hover);border-style:solid}
   .dsf-drop-ic{width:3.5rem;height:3.5rem;color:var(--ink-inactive);flex:none}
-  .dsf-drop-title{font-size:.9375rem;font-weight:500;color:var(--ink);margin:0}
-  .dsf-drop-sub{font-size:.8125rem;color:var(--ink-secondary);margin:0;max-width:36ch;line-height:1.45}
-  .dsf-fmt-row{display:flex;align-items:center;gap:.1875rem;flex-wrap:wrap;justify-content:center}
+  .dsf-drop-title{font-size:1rem;line-height:1.5rem;font-weight:500;color:var(--ink);margin:0}
+  .dsf-drop-sub{font-size:.8125rem;color:var(--ink-secondary);margin:0;max-width:36ch;line-height:1.125rem}
   /* ===== File type icon — colored square + extension label =====
      Follows the same connector-mark pattern (.ds-mark) from the Connections tab: square avatar
      with explicit --mark-bg per type. Colors reference kit tokens only; no raw hex. */
@@ -98,11 +87,7 @@
   .dsf-meta-dl.is-disabled,.dsf-meta-del.is-disabled{color:var(--ink-inactive);cursor:not-allowed;pointer-events:none}
   /* Right-anchor the download+delete pair to the row's far right */
   .dsf-bulk-right{margin-left:auto;display:inline-flex;align-items:center;gap:.25rem}
-
-  @media (max-width:720px){
-    .cl-shell{grid-template-columns:1fr}
-    .cl-side{display:none}
-  }
+  /* Sidebar→drawer is kit-owned at ≤1023px (kit-theme.css) — pages must not redeclare it. */
 </style>
 </head>
 <body>
@@ -145,10 +130,6 @@
     <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
   </div>
   <div style="display:flex;align-items:center;gap:.625rem">
-    <div class="segctrl is-sm" id="cl-width-seg" role="tablist" aria-label="Content width" style="width:auto;flex:none">
-      <button class="segctrl-btn" role="tab" type="button" aria-selected="false" data-w="960" style="padding:0 .5rem" onclick="clSetWidth(960,this)">960</button>
-      <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" data-w="1200" style="padding:0 .5rem" onclick="clSetWidth(1200,this)">1200</button>
-    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
@@ -170,7 +151,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
-          <button class="btn btn-primary btn-sm sbx-cta" type="button">
+          <button class="btn btn-primary btn-sm sbx-cta" type="button" data-tip="New Chat">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             <span>New Chat</span>
           </button>
@@ -298,13 +279,13 @@
   <!-- ============= MAIN ============= -->
   <main class="cl-main">
     <!-- Mobile/tablet hamburger — opens sidebar as an overlay drawer (≤ 1023.98 px). -->
-    <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
     <div class="cl-page" id="dsf-app">
 
       <!-- Page title — Files is now a top-level sidebar destination, no longer a tab inside Data Sources -->
-      <div class="ds-page-head" style="display:flex;align-items:center;justify-content:space-between;gap:.75rem">
+      <div class="cl-page-head ds-page-head">
+        <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
         <h1 class="cl-page-title scroll-m-20 font-medium text-2xl md:text-3xl text-content-primary text-left">Files</h1>
       </div>
 
@@ -638,25 +619,16 @@
   });
 })();
 
-function clSetWidth(w, btn) {
-  document.documentElement.style.setProperty('--content-max-width', w + 'px');
-  try { localStorage.setItem('cl-content-width', String(w)); } catch(e) {}
-  if (btn) {
-    btn.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
-    btn.classList.add('is-active');
-    btn.setAttribute('aria-selected','true');
-  }
-}
+</script>
+<script>
 (function(){
-  var w = +(localStorage.getItem('cl-content-width') || 1200);
-  document.documentElement.style.setProperty('--content-max-width', w + 'px');
-  var seg = document.getElementById('cl-width-seg');
-  if (seg) {
-    seg.querySelectorAll('.segctrl-btn').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
-    var active = seg.querySelector('[data-w="' + w + '"]');
-    if (active) { active.classList.add('is-active'); active.setAttribute('aria-selected','true'); }
-  }
-}());
+  var main=document.querySelector('.cl-main');
+  if(!main)return;
+  function upd(){main.classList.toggle('is-scrolled',(window.scrollY||main.scrollTop)>60);}
+  window.addEventListener('scroll',upd,{passive:true});
+  main.addEventListener('scroll',upd,{passive:true});
+  upd();
+})();
 </script>
 </body>
 </html>
