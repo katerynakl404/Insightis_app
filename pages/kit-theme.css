@@ -2041,13 +2041,6 @@
   .mx-prov-group{cursor:pointer}
   .mx-prov-group td{padding:.625rem 1rem;background:var(--mx-group-band);border-bottom:1px solid var(--border)}
   .mx-prov-group:hover td,.mx-prov-group:active td{background:var(--mx-group-band) !important}
-  /* Solid concept — fully saturated Brand/Primary band; header content flips to white. */
-  #mx-root.mx-group-solid{--mx-group-band:var(--mx-group-band-solid)}
-  #mx-root.mx-group-solid .mx-prov-group-name,
-  #mx-root.mx-group-solid .mx-prov-collapse-btn{color:var(--content-on-solid)}
-  #mx-root.mx-group-solid .mx-prov-ic{background:var(--card);border-color:transparent}
-  #mx-root.mx-group-solid .mx-add-metric-hover-btn{color:var(--content-on-solid);background:transparent;border-color:color-mix(in srgb,var(--content-on-solid) 55%,transparent)}
-  #mx-root.mx-group-solid .mx-add-metric-hover-btn:hover{background:color-mix(in srgb,var(--content-on-solid) 16%,transparent)}
   /* No inter-group gap: the --mx-group-band header colour + the 1px top border
      already separate provider blocks. A border-top "gap" only inflated the header
      height and read as an odd strip stuck above the band (esp. on dark). */
@@ -2299,6 +2292,78 @@
   .mx-tbl .tbl tbody tr.mx-metric-child:active:not(:has(button:active)):not(:has(.kbp-menu button:active)){background:var(--tbl-row-pressed)}
   /* Selected card tint at tr level too (td are transparent on cards) */
   .mx-tbl .tbl tbody tr.mx-metric-child.is-selected{background:var(--tbl-row-pressed)}
+}
+
+/* ═══ Sectioned metrics table — each provider group is its own card ════════
+   Opt-in via .mx-tbl-sections on the .mx-tbl wrapper (Metrics filled-state).
+   Desktop only (≥768px): at ≤767px the shared responsive .mx-tbl recipe above
+   already splits each provider group into a card. The single <table> is kept
+   (the filled view's collapse / search-filter JS walks one tbody); native
+   table-layout keeps every section card's columns on one shared grid. */
+@media (min-width: 768px) {
+  /* Drop the single outer card shell — each provider group becomes its own card. */
+  .mx-tbl-sections{background:transparent;border:none;border-radius:0;overflow:visible}
+  .mx-tbl-sections table.tbl{border-collapse:separate;border-spacing:0}
+  /* Column meaning is carried by the cell content, matching the responsive card
+     view — one header row floating above N separate cards reads as orphaned. */
+  .mx-tbl-sections table.tbl thead{display:none}
+
+  /* Body rows = card surface. */
+  .mx-tbl-sections .mx-metric-child td,
+  .mx-tbl-sections .mx-conn-sub-row td,
+  .mx-tbl-sections .mx-no-builtin-row td{background:var(--card)}
+  /* The non-interactive connector sub-row keeps its rest surface on hover (the
+     global rule pins it to `inherit`, which with the outer shell dropped would
+     resolve to the darker page bg). */
+  .mx-tbl-sections tr.mx-conn-sub-row:hover td,
+  .mx-tbl-sections tr.mx-conn-sub-row:active td{background:var(--card) !important}
+
+  /* Spacer row = the gap between two adjacent provider cards. */
+  .mx-tbl-sections tr.mx-section-gap > td{height:1rem;padding:0;border:none;background:transparent}
+  /* Collapse the gap directly above a filtered-out group (mxC3Filter sets the
+     group row's inline display:none but leaves the spacer alone). */
+  .mx-tbl-sections tr.mx-section-gap:has(+ tr.mx-prov-group[style*="display: none"]) > td{height:0}
+
+  /* Card top = provider header band (band colour + bottom divider inherited from
+     the base .mx-prov-group td rule). */
+  .mx-tbl-sections tr.mx-prov-group > td{
+    border-top:1px solid var(--border);
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    border-top-left-radius:.5rem;
+    border-top-right-radius:.5rem;
+  }
+  /* Collapsed group = a standalone card: round its bottom corners too. */
+  .mx-tbl-sections tr.mx-prov-group.is-collapsed > td{
+    border-bottom-left-radius:.5rem;
+    border-bottom-right-radius:.5rem;
+  }
+  /* Card side borders on every body row. */
+  .mx-tbl-sections tr.mx-metric-child > td:first-child,
+  .mx-tbl-sections tr.mx-conn-sub-row > td,
+  .mx-tbl-sections tr.mx-no-builtin-row > td{border-left:1px solid var(--border)}
+  .mx-tbl-sections tr.mx-metric-child > td:last-child,
+  .mx-tbl-sections tr.mx-conn-sub-row > td,
+  .mx-tbl-sections tr.mx-no-builtin-row > td{border-right:1px solid var(--border)}
+
+  /* Card bottom = the last body row before the next gap / group / table end.
+     The :last-child cases carry table.tbl tbody so they outrank the base
+     `tbody tr:last-child td{border-bottom:none}` rule. */
+  .mx-tbl-sections table.tbl tbody tr.mx-metric-child:last-child > td,
+  .mx-tbl-sections table.tbl tbody tr.mx-no-builtin-row:last-child > td,
+  .mx-tbl-sections tr.mx-metric-child:has(+ tr.mx-section-gap) > td,
+  .mx-tbl-sections tr.mx-no-builtin-row:has(+ tr.mx-section-gap) > td,
+  .mx-tbl-sections tr.mx-metric-child:has(+ tr.mx-prov-group) > td,
+  .mx-tbl-sections tr.mx-no-builtin-row:has(+ tr.mx-prov-group) > td{border-bottom:1px solid var(--border)}
+  .mx-tbl-sections tr.mx-metric-child:last-child > td:first-child,
+  .mx-tbl-sections tr.mx-metric-child:has(+ tr.mx-section-gap) > td:first-child,
+  .mx-tbl-sections tr.mx-metric-child:has(+ tr.mx-prov-group) > td:first-child{border-bottom-left-radius:.5rem}
+  .mx-tbl-sections tr.mx-metric-child:last-child > td:last-child,
+  .mx-tbl-sections tr.mx-metric-child:has(+ tr.mx-section-gap) > td:last-child,
+  .mx-tbl-sections tr.mx-metric-child:has(+ tr.mx-prov-group) > td:last-child{border-bottom-right-radius:.5rem}
+  .mx-tbl-sections tr.mx-no-builtin-row:last-child > td,
+  .mx-tbl-sections tr.mx-no-builtin-row:has(+ tr.mx-section-gap) > td,
+  .mx-tbl-sections tr.mx-no-builtin-row:has(+ tr.mx-prov-group) > td{border-bottom-left-radius:.5rem;border-bottom-right-radius:.5rem}
 }
 
 /* ═══ DS Connections card list — breakpoint 960px ═══════════════════════
