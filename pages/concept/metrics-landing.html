@@ -113,50 +113,13 @@
 
 
 
-  /* ── C2 concept — compact card grid ── */
-  #mx-root.is-filled #mx-layout-seg{opacity:var(--opacity-disabled);pointer-events:none}
-  .mx-c2-grid{display:none}
-  #mx-root.is-c2 #mx-card-grid{display:none}
-  #mx-root.is-c2 .mx-c2-grid{display:grid}
-  .mx-c2-grid{grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.625rem;margin-top:.75rem !important}
-  .prov-c2-card{display:flex;flex-direction:column;gap:.625rem;padding:.875rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s;min-height:9rem}
-  .prov-c2-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-2px)}
   /* C1 icon tile — no brand tint, no shadow (concept override) */
   .prov-ic-w{background:var(--card);box-shadow:none}
-  .prov-c2-head{display:flex;align-items:center;gap:.625rem}
-  .prov-c2-ic{width:2.25rem;height:2.25rem;border-radius:.5rem;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}
-  .prov-c2-ic img{width:1.25rem;height:1.25rem;object-fit:contain}
-  .prov-c2-head .iconbtn{margin-left:auto;flex:none}
-  .prov-c2-card.is-browse{align-items:center;justify-content:center;text-align:center;background:var(--bg);border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 35%,transparent);cursor:pointer;gap:.375rem}
-  .prov-c2-card.is-browse:hover{background:var(--state-hover);transform:none;box-shadow:none;border-color:color-mix(in srgb,var(--ink-secondary) 55%,transparent)}
-  .prov-c2-browse-ic{width:1.75rem;height:1.75rem;border-radius:9999px;border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 45%,transparent);display:flex;align-items:center;justify-content:center;color:var(--ink-secondary)}
-  .prov-c2-browse-label{font-size:.8125rem;font-weight:600;color:var(--ink-secondary);margin:0}
-  .prov-c2-browse-sub{font-size:.6875rem;color:var(--ink-inactive);margin:0}
-  /* C2 compact-card grid: skip the awkward 2-column state — jump directly from 3 cols (≥1280px)
-     to 1 col (<1280px). The sidebar at 256px leaves ~720px content at 1050px which only fits 2
-     narrow cards; single column looks better in that range. */
-  @media (max-width:1279px){.mx-c2-grid{grid-template-columns:1fr}}
-
-  /* ── C3 variants — tertiary icon button override ── */
-  #mx-c2-grid[data-card-style] .prov-c2-head .iconbtn{background:transparent;border-color:transparent;color:var(--ink-body)}
-  #mx-c2-grid[data-card-style] .prov-c2-head .iconbtn:hover{background:var(--state-hover);border-color:transparent}
-  #mx-c2-grid[data-card-style] .prov-c2-card{min-height:0;gap:.375rem}
-
-  /* 3A — row list with dividers */
-  .mx-c3a-metrics{display:flex;flex-direction:column}
-  .mx-c3a-row{display:flex;align-items:center;gap:.25rem;padding:.3125rem .25rem;font-size:.75rem;color:var(--ink-body);background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;width:100%;text-align:left;min-height:1.875rem;border-radius:0;transition:background .1s,color .1s}
-  .mx-c3a-row:last-child{border-bottom:none}
-  .mx-c3a-row:hover{background:var(--state-hover);color:var(--ink)}
-  .mx-c3a-row:hover .mx-expand-ic{color:var(--brand-primary)}
-  .mx-c3a-row:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;border-radius:.25rem}
-  .mx-c3a-row-lbl{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .mx-expand-ic{width:.875rem;height:.875rem;flex:none;color:var(--ink-secondary);transition:color .1s}
-
 
   /* broken image placeholder */
-  .prov-ic-w.is-broken img,.prov-c2-ic.is-broken img{display:none}
-  .prov-ic-w.is-broken,.prov-c2-ic.is-broken{border-style:dashed;background:var(--bg)}
-  .prov-ic-w.is-broken::after,.prov-c2-ic.is-broken::after{content:attr(data-initials);font-size:.4375rem;font-weight:700;letter-spacing:.04em;color:var(--ink-secondary);line-height:1}
+  .prov-ic-w.is-broken img{display:none}
+  .prov-ic-w.is-broken{border-style:dashed;background:var(--bg)}
+  .prov-ic-w.is-broken::after{content:attr(data-initials);font-size:.4375rem;font-weight:700;letter-spacing:.04em;color:var(--ink-secondary);line-height:1}
 
   /* ── New connection dialog — integration form mock ── */
   .ds-intg-frame{border-radius:.375rem;overflow:hidden;background:var(--white);border:1px solid var(--border)}
@@ -168,9 +131,6 @@
   .ds-intg-check-lbl{font-size:.875rem;color:var(--ink)}
   .ds-intg-select{height:2.5rem;border:1px solid var(--brand-primary);border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;justify-content:space-between;font-size:.875rem;color:var(--ink);background:var(--white);width:100%}
 
-  /* ── Banner concept switcher — exploration only ── */
-  .mc-concepts{display:flex;flex-direction:column;gap:0}
-  .mc-concept-item[hidden]{display:none}
   /* Gradient banner buttons — always render as light-theme appearance, theme-independent */
   .banner-grad .btn-secondary,
   .dark .banner-grad .btn-secondary{background:var(--white);border-color:var(--slate-300);color:var(--slate-900)}
@@ -180,17 +140,11 @@
   .dark .banner-grad .btn-primary{background:var(--white);color:var(--brand-600)}
   .banner-grad .btn-primary:hover,
   .dark .banner-grad .btn-primary:hover{background:color-mix(in srgb,var(--brand-600) 8%,var(--white));color:var(--brand-600)}
-  /* Per-variant gradients */
-  #mc-b .banner-grad{--grad-teal-dark:linear-gradient(135deg,var(--brand-700) 0%,var(--brand-100) 100%)}
-  .dark #mc-b .banner-grad{--grad-teal-dark:linear-gradient(135deg,var(--brand-600) 0%,var(--brand-900) 100%)}
   /* ── Noise: diagonal gradient + grain texture ── */
-  #mc-noise .banner-grad,
   .banner-noise{--grad-teal-dark:var(--grad-noise);position:relative;overflow:hidden}
-  #mc-noise .banner-grad::after,
   .banner-noise::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
     opacity:.07;mix-blend-mode:soft-light}
-  .dark #mc-noise .banner-grad::after,
   .dark .banner-noise::after{opacity:.15}
   /* Banner button — semi-transparent white, for use on gradient banners */
   .btn-banner{display:inline-flex;align-items:center;justify-content:center;gap:.375rem;padding:0 .875rem;height:2rem;font-size:.8125rem;font-weight:500;line-height:1;border-radius:.375rem;border:1px solid color-mix(in srgb,var(--white) 40%,transparent);background:color-mix(in srgb,var(--white) 14%,transparent);color:var(--white);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
@@ -236,15 +190,6 @@
     <div class="segctrl is-sm" id="mx-state-seg" role="tablist" aria-label="Demo state" style="width:auto;flex:none">
       <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" data-state="empty" style="padding:0 .5rem" onclick="mxSetState('empty');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Empty</button>
       <button class="segctrl-btn" role="tab" type="button" aria-selected="false" data-state="filled" style="padding:0 .5rem" onclick="mxSetState('filled');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Filled</button>
-    </div>
-    <div class="segctrl is-sm" id="mx-layout-seg" role="tablist" aria-label="Card layout" style="width:auto;flex:none">
-      <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" style="padding:0 .5rem" onclick="mxSetLayout(1);this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">C1</button>
-      <button class="segctrl-btn" role="tab" type="button" aria-selected="false" style="padding:0 .5rem" onclick="mxSetLayout(2);this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">C2</button>
-    </div>
-    <div class="segctrl is-sm" role="tablist" aria-label="Banner concept" style="width:auto;flex:none">
-      <button class="segctrl-btn" role="tab" type="button" aria-selected="false" style="padding:0 .5rem" onclick="mcSwitch(this,'mc-orig')">Original</button>
-      <button class="segctrl-btn" role="tab" type="button" aria-selected="false" style="padding:0 .5rem" onclick="mcSwitch(this,'mc-b')">B</button>
-      <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" style="padding:0 .5rem" onclick="mcSwitch(this,'mc-noise')">Noise</button>
     </div>
     <div style="display:flex;gap:.375rem">
       <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
@@ -393,48 +338,16 @@
       <!-- ════════ EMPTY STATE ════════ -->
       <div class="mx-empty" id="mx-empty">
 
-        <!-- Hero banner — concept switcher (controlled from topbar segctrl) -->
-        <div class="mc-concepts">
-
-          <div id="mc-orig" class="mc-concept-item" hidden>
-            <div class="banner banner-grad" role="note">
-              <div class="banner-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
-              <div class="banner-body">
-                <p class="banner-t">Explore your metrics library</p>
-                <p class="banner-d">50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.</p>
-              </div>
-              <div class="banner-cta">
-                <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Create Connection</button>
-              </div>
-            </div>
+        <!-- Hero banner -->
+        <div class="banner banner-grad banner-noise" role="note">
+          <div class="banner-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+          <div class="banner-body">
+            <p class="banner-t">Explore your metrics library</p>
+            <p class="banner-d">50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.</p>
           </div>
-
-          <div id="mc-b" class="mc-concept-item" hidden>
-            <div class="banner banner-grad" role="note">
-              <div class="banner-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
-              <div class="banner-body">
-                <p class="banner-t">Explore your metrics library</p>
-                <p class="banner-d">50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.</p>
-              </div>
-              <div class="banner-cta">
-                <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Create Connection</button>
-              </div>
-            </div>
+          <div class="banner-cta">
+            <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Create Connection</button>
           </div>
-
-          <div id="mc-noise" class="mc-concept-item">
-            <div class="banner banner-grad" role="note">
-              <div class="banner-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
-              <div class="banner-body">
-                <p class="banner-t">Explore your metrics library</p>
-                <p class="banner-d">50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.</p>
-              </div>
-              <div class="banner-cta">
-                <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Create Connection</button>
-              </div>
-            </div>
-          </div>
-
         </div>
 
         <!-- Category filter header -->
@@ -1304,115 +1217,6 @@
 
         </div><!-- /prov-card-grid -->
 
-        <!-- ── Concept 2 — compact card grid ── -->
-        <div class="mx-c2-grid" id="mx-c2-grid">
-
-          <!-- Jira Software Cloud -->
-          <div class="prov-c2-card" data-category="IT Operations|Productivity">
-            <div class="prov-c2-head">
-              <span class="prov-c2-ic"><img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy"></span>
-              <div class="prov-card-info">
-                <span class="prov-card-name">Jira Software Cloud</span>
-                <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
-              </div>
-              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg(this)" data-tip="Connect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
-            </div>
-            <div class="mx-c3a-metrics">
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Issues created</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Issues resolved</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Sprint velocity</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Bug count</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Story points</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-            </div>
-          </div>
-
-          <!-- Azure DevOps -->
-          <div class="prov-c2-card" data-category="IT Operations">
-            <div class="prov-c2-head">
-              <span class="prov-c2-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0078D4" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" style="width:1.25rem;height:1.25rem" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
-              <div class="prov-card-info">
-                <span class="prov-card-name">Azure DevOps</span>
-                <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
-              </div>
-              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg(this)" data-tip="Connect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
-            </div>
-            <div class="mx-c3a-metrics">
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Work items</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Build success rate</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Pipeline runs</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Code coverage</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Deployment freq.</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-            </div>
-          </div>
-
-          <!-- GitHub -->
-          <div class="prov-c2-card" data-category="IT Operations">
-            <div class="prov-c2-head">
-              <span class="prov-c2-ic"><img src="https://cdn.simpleicons.org/github/000000" alt="" loading="lazy" class="dark-invert"></span>
-              <div class="prov-card-info">
-                <span class="prov-card-name">GitHub</span>
-                <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
-              </div>
-              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg(this)" data-tip="Connect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
-            </div>
-            <div class="mx-c3a-metrics">
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">PR merge time</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">PR count</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Commits</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Open issues</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Contributors</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-            </div>
-          </div>
-
-          <!-- Salesforce -->
-          <div class="prov-c2-card" data-category="Sales & CRM|Marketing">
-            <div class="prov-c2-head">
-              <span class="prov-c2-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 16" fill="#00A1E0" style="width:1.25rem;height:.875rem" aria-hidden="true"><path d="M20.1 5.3C19.3 2.3 16.7 0 13.5 0c-2.3 0-4.3 1.2-5.6 3-.6-.3-1.3-.5-2-.5C3.5 2.5 1.5 4.5 1.5 7v.2A4.8 4.8 0 0 0 4.8 16h14.5c2.6 0 4.7-2.1 4.7-4.7 0-2.3-1.6-4.2-3.9-6z"/></svg></span>
-              <div class="prov-card-info">
-                <span class="prov-card-name">Salesforce</span>
-                <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
-              </div>
-              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg(this)" data-tip="Connect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
-            </div>
-            <div class="mx-c3a-metrics">
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">New opportunities</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Won deals</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Pipeline value</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Win rate</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Avg deal size</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-            </div>
-          </div>
-
-          <!-- Google Analytics -->
-          <div class="prov-c2-card" data-category="Business Intelligence|Marketing">
-            <div class="prov-c2-head">
-              <span class="prov-c2-ic"><img src="https://cdn.simpleicons.org/googleanalytics/E37400" alt="" loading="lazy"></span>
-              <div class="prov-card-info">
-                <span class="prov-card-name">Google Analytics</span>
-                <div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div>
-              </div>
-              <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Connect" style="flex:none" onclick="mxOpenConnDlg(this)" data-tip="Connect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
-            </div>
-            <div class="mx-c3a-metrics">
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Sessions</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Bounce rate</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Avg session dur.</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">New users</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-              <button class="mx-c3a-row" type="button"><span class="mx-c3a-row-lbl">Goal completions</span><svg class="mx-expand-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-            </div>
-          </div>
-
-          <!-- Browse catalog -->
-          <div class="prov-c2-card is-browse" role="button" tabindex="0" onclick="mxGoCatalog()" onkeydown="if(event.key==='Enter'||event.key===' ')mxGoCatalog()">
-            <div class="prov-c2-browse-ic" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-            </div>
-            <p class="prov-c2-browse-label">Explore more data sources</p>
-            <p class="prov-c2-browse-sub">200+ integrations available</p>
-          </div>
-
-        </div><!-- /mx-c2-grid -->
-
       </div><!-- /mx-empty -->
 
       <!-- ════════ FILLED STATE ════════ -->
@@ -1440,8 +1244,8 @@
           </div>
         </div>
 
-        <!-- Flat table with collapsible provider groups -->
-        <div class="mx-tbl">
+        <!-- Provider groups rendered as separate section cards (.mx-tbl-sections). -->
+        <div class="mx-tbl mx-tbl-sections">
           <table class="tbl" aria-label="All metrics" id="mx-filled-table">
             <colgroup>
               <col style="width:4.25rem">
@@ -1578,6 +1382,7 @@
                 </td>
               </tr>
 
+              <tr class="mx-section-gap" aria-hidden="true"><td colspan="6"></td></tr>
               <!-- ══ Azure DevOps (no built-in metrics demo) ══ -->
               <tr class="mx-prov-group" data-prov="azure" onclick="mxToggleGroup(this)">
                 <td colspan="6"><div class="mx-prov-group-cell">
@@ -1596,6 +1401,7 @@
                 </td>
               </tr>
 
+              <tr class="mx-section-gap" aria-hidden="true"><td colspan="6"></td></tr>
               <!-- ══ GitHub ══ -->
               <tr class="mx-prov-group" data-prov="github" onclick="mxToggleGroup(this)">
                 <td colspan="6"><div class="mx-prov-group-cell">
@@ -1917,7 +1723,9 @@ function mxToggleGroup(btn) {
   var collapsed = groupRow.classList.toggle('is-collapsed');
   var next = groupRow.nextElementSibling;
   while (next && !next.classList.contains('mx-prov-group')) {
-    next.style.display = collapsed ? 'none' : '';
+    /* Keep the .mx-section-gap spacer visible so the gap between this group and
+       the next is preserved while the group is collapsed (.mx-tbl-sections). */
+    if (!next.classList.contains('mx-section-gap')) next.style.display = collapsed ? 'none' : '';
     next = next.nextElementSibling;
   }
 }
@@ -1966,21 +1774,6 @@ function mxSetState(v) {
   mxCloseDetail();
   mxKebabClose();
 }
-
-function mxSetLayout(v) {
-  mxRoot.classList.toggle('is-c2', v === 2);
-  if (v === 2) {
-    mxSetCardStyle('3a');
-  }
-}
-
-function mxSetCardStyle(v) {
-  var grid = document.getElementById('mx-c2-grid');
-  if (!grid) return;
-  grid.setAttribute('data-card-style', '3a');
-}
-
-
 
 /* ═══════════════════════════════════════
    TOGGLE SWITCH
@@ -2241,8 +2034,8 @@ function mxOpenConnDlg(btnOrName, _unused) {
      or a slug string (from detail panel onclick). */
   var provName;
   if (btnOrName && typeof btnOrName === 'object') {
-    var card = btnOrName.closest('.prov-card, .prov-c2-card');
-    provName = card ? (card.querySelector('.prov-card-name, .prov-c2-name') || {textContent:''}).textContent.trim() : '';
+    var card = btnOrName.closest('.prov-card');
+    provName = card ? (card.querySelector('.prov-card-name') || {textContent:''}).textContent.trim() : '';
   } else {
     provName = btnOrName || '';
   }
@@ -2621,9 +2414,9 @@ document.addEventListener('click', function(e){
 /* broken image placeholder — shows provider initials */
 document.addEventListener('error', function(e) {
   if (e.target.tagName === 'IMG') {
-    var ic = e.target.closest('.prov-ic-w, .prov-c2-ic');
+    var ic = e.target.closest('.prov-ic-w');
     if (ic) {
-      var card = ic.closest('.prov-card, .prov-c2-card');
+      var card = ic.closest('.prov-card');
       var nameEl = card ? card.querySelector('.prov-card-name') : null;
       var name = nameEl ? nameEl.textContent.trim() : '';
       var initials = name.split(/\s+/).slice(0, 2).map(function(w) { return w[0]; }).join('').toUpperCase();
@@ -2667,18 +2460,6 @@ document.addEventListener('keydown', function(e){
   function apply(){ if(window.innerWidth >= 1024) document.documentElement.classList.remove('side-open'); }
   window.addEventListener('resize', apply); apply();
 })();
-</script>
-<script>
-function mcSwitch(btn, targetId) {
-  btn.closest('[role="tablist"]').querySelectorAll('.segctrl-btn').forEach(b => {
-    b.classList.remove('is-active');
-    b.setAttribute('aria-selected', 'false');
-  });
-  btn.classList.add('is-active');
-  btn.setAttribute('aria-selected', 'true');
-  document.querySelectorAll('.mc-concept-item').forEach(el => { el.hidden = true; });
-  document.getElementById(targetId).hidden = false;
-}
 </script>
 <script>
 /* Chip-row edge fade — set data-chip-scroll so the CSS mask shows the fade ONLY while the row

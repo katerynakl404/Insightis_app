@@ -29,12 +29,10 @@ These are locked decisions. Do not change without explicit approval.
 |---|---|---|
 | View structure | Browse / My Metrics tabs | Single unified view: empty state + filled state |
 | State toggle | `is-browse` class on root | `is-filled` class on root |
-| Concept numbering | C1 flat / C3 structured | C1 flat / **C2 structured** (renamed) |
-| Empty state C1 | Flat locked table + simple banner | Unchanged — hover reveals "Connect" per row |
-| Empty state C2 | Structured provider group table + spotlight banner | Unchanged — persistent "Connect" per provider |
-| Filled state C1 | Flat combined table | + Search toolbar (`#mx-c1-toolbar`) filters by name or data source |
-| Filled state C2 | Structured table + own toolbar | Unchanged |
-| Filled state variants | C1, C2, 3C, Original | C1 and C2 (3a) only — 3C and Original variants removed |
+| Layout concept toggle | `Card layout` segctrl (C1 / C2) switching the empty-state grid | **Removed** — C2 (the `.mx-c2-grid` compact card-grid layout) deleted; the topbar `Card layout` segctrl, `mxSetLayout`/`mxSetCardStyle`, `.is-c2`, `.prov-c2-*`, and `.mx-c3a-*` are all gone |
+| Banner concept switcher | Topbar segctrl (Original / B / Noise) + `mcSwitch` swapping 3 hero-banner variants | **Removed** — only the Noise banner remains (`banner banner-grad banner-noise`); `mcSwitch`, `.mc-concepts`, `#mc-orig`/`#mc-b` gone. Topbar slot now hosts the **Group style** (Neutral / Green / Green +2 / Inverted) segctrl. |
+| Empty state | Flat locked table + simple banner | Single layout — provider card grid (`#mx-card-grid` / `.prov-card-grid`); hover reveals "Connect" per row |
+| Filled state | Flat combined table | Single layout — sectioned provider-group table (`.mx-tbl-sections`) + search toolbar (`#mx-c3-toolbar`) |
 | Card-style segctrl | Present in topbar (filled state) | Removed |
 | Custom metric connector | No label | "via Skyvia Jira" sub-label in Data Source cell (C1) |
 | CTA copy | "Connect a Source" | "Connect a data source" |
@@ -78,12 +76,6 @@ These are locked decisions. Do not change without explicit approval.
 | Banner title | — | "Connect more data sources" |
 | Banner body | — | "50+ data sources available — add connections to unlock more built-in metrics" |
 | Banner CTA | — | "Browse Data Sources" |
-
-### C2 browse card
-
-| | Prod (Current) | Expected |
-|---|---|---|
-| Browse card label | "Explore more providers" | "Explore more data sources" |
 
 ### Mental model clarified
 
@@ -152,7 +144,7 @@ Fields shown: Name, Data Source, Alias, Type badge, Definition.
 
 ## Hard requirements — provider card chip area (DO NOT REGRESS)
 
-These rules are locked. Any edit to `.prov-card .chip-meta`, `.prov-c2-card .chip-meta`, or `.prov-c2-foot` must preserve all of them:
+These rules are locked. Any edit to `.prov-card .chip-meta` must preserve all of them:
 
 | Rule | Detail |
 |---|---|
@@ -161,18 +153,6 @@ These rules are locked. Any edit to `.prov-card .chip-meta`, `.prov-c2-card .chi
 | **Chips are clickable — clear affordance** | Each chip carries `onclick="mxOpenDetail(this)"` and a `chip-meta-arrow` chevron. The chevron must remain visible (`display:none` on the arrow is forbidden). |
 | **Chip row wraps freely** | `chip-row` inside a provider card uses `flex-wrap:wrap; overflow:visible`. Never use `nowrap` + `overflow:hidden` — that crops chips. |
 | **Purpose** | The 5 chips are a metric preview: they tell users what data is available from this data source before connecting. They are the primary interactive affordance on the empty-state card. |
-
-## Hard requirements — C2 provider card `+` button (DO NOT REGRESS)
-
-The `+` (iconbtn) in `.prov-c2-head` **must always be visible at rest**. Do not apply `opacity:0` or any hover-reveal pattern to it.
-
-| Rule | Detail |
-|---|---|
-| **Always visible** | `.prov-c2-head .iconbtn` has no `opacity` override. The button is visible in the default card state without any hover interaction. |
-| **Forbidden pattern** | `opacity:0` at rest + `opacity:1` on `:hover` or `.prov-c2-card:hover` is explicitly banned — it was reverted on 2026-06-18 after being flagged multiple times. |
-| **Why** | Users need to see the action is available before hovering. A hidden button is an invisible affordance — users won't know they can connect unless the button is always present. |
-
-The plain dot-separated inline text pattern (applied in error on 2026-06-18) broke all five rules above and was reverted. Do not re-apply it.
 
 ## Mobile layout — Metrics table (≤ 767 px)
 
@@ -190,6 +170,22 @@ At the `< 768 px` breakpoint the metrics table reflows into a vertical card stac
 | Row with open menu | `overflow: visible` inherited | `z-index: 20; overflow: visible` via `:has([data-kbp][aria-expanded="true"])` |
 
 Selector: `.mx-tbl` wraps the `<table class="tbl">` element. Rule lives in `pages/kit-theme.css` shared responsive-tables block.
+
+## Filled state — sectioned table (desktop)
+
+The filled-state table renders each provider group as **its own separate card section** on desktop (≥ 768 px) — the same separated-card treatment the table already uses on responsive (≤ 767 px), but with the native table columns preserved and aligned across every card.
+
+| | Before | After |
+|---|---|---|
+| Desktop filled layout | One `<table>` in a single `.mx-tbl` card; provider groups separated only by the grey band header rows | Each provider group is its own bordered card; the single outer card shell is dropped |
+| Card separation | — | 16 px (1 rem) gap between provider cards |
+| Body row background | White via the single card shell | White via `--card` set on each body row (the dropped outer shell no longer paints it) |
+| Provider header band | `--mx-group-band` = slate-150 (light) / grey-700 (dark) | Unchanged neutral default. Exploration variants via the topbar **Group style** segctrl (`mxGroupVariant`): **Green** (`#mx-root.mx-group-green` → `--mx-group-band-green`, Brand/Primary tint over `--card`, 12% light / 22% dark); **Green +2** (green + only the first 2 metrics per source shown — `mxApplyLimit` adds `.mx-lim-extra` to surplus rows + connector sub-headers and `.mx-lim-cap` to re-close the card); **Inverted** (`#mx-root.mx-group-invert` → white group headers `--card`, faint light-grey body rows `--mx-row-bg-invert` = slate-50 light / card2 dark; also repoints `--tbl-row-hover` to `--mx-row-hover-invert` so hover stays visible against the lighter rest row). Body rows read `--mx-row-bg` (default `--card`). |
+| Column headers (`thead`) | Visible once at the top | Hidden — a single header floating above N separate cards reads as orphaned; column meaning carried by cell content (mono alias, badge chip, toggle), matching the responsive card view |
+| Markup | One `<table id="mx-filled-table">` / `<tbody id="mx-filled-body">` | Unchanged — single table preserved so the collapse / search-filter / add-delete JS keeps working; a `.mx-section-gap` spacer `<tr>` is inserted between provider groups for the inter-card gap |
+| Collapsed group | — | Keeps the gap to the next card and rounds into a standalone card (all four corners) |
+
+Opt-in via `.mx-tbl-sections` on the `.mx-tbl` wrapper. Rule lives in `pages/kit-theme.css` immediately after the responsive `.mx-tbl` block, gated to `@media (min-width: 768px)` so it stays clear of the ≤ 767 px responsive recipe (which already produces separate cards). Reuses existing tokens (`--card`, `--card2`, `--border`, `--mx-group-band`, `--mx-row-bg`), so light + dark both re-theme correctly. The group-header band and body rows keep their neutral defaults (`--mx-group-band` / `--mx-row-bg = --card`); the **Group style** segctrl (`mxGroupVariant`) repoints those tokens per variant (Green / Green +2 / Inverted — see the table above). Body-row background reads `--mx-row-bg` via a deliberately low-specificity selector so the base `:hover` / `.is-selected` row tints still win. The Inverted variant additionally repoints `--tbl-row-hover` (→ slate-150 light / grey-700 dark) so the hover stays visible against its lighter rest row in both themes. `mxToggleGroup` skips `.mx-section-gap` rows, so the inter-card gap is preserved while a group is collapsed; a spacer directly above a filtered-out group collapses to `0` via `:has(+ .mx-prov-group[style*="display: none"])`. The non-interactive connector sub-row's hover is pinned to `--mx-row-bg` (`.mx-tbl-sections tr.mx-conn-sub-row:hover td`): the global rule sets it to `inherit`, which — with the section card's outer shell removed — would resolve to the darker page background and make the sub-row darken on hover while metric rows lighten.
 
 ## Components referenced
 

@@ -1734,6 +1734,163 @@
   .prov-ic-w{width:2.75rem;height:2.75rem;border-radius:.625rem;border:1px solid var(--border);background:var(--icon-wrapper-bg);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.08)}
   .prov-ic-w img{width:1.625rem;height:1.625rem;object-fit:contain;display:block}
   .prov-ic-w.is-azure{background:#0078D4;border-color:#0078D4;color:#fff;font-size:.5rem;font-weight:700}
+
+  /* ===== Connector logos — individual brand SVGs (assets/logos/<slug>.svg) =====
+     Plain brand logo: NO container, NO border, NO backing. Each connector is its own
+     256×256 SVG (split out of the source sprite); the per-slug rule points the base class
+     at that file. background-size:contain fits the mark in the box at any --logo-size, so
+     scaling stays pixel-accurate. url() is relative to this stylesheet (pages/), so the
+     same class works from every page and the kit.
+     Usage: <span class="logo-spr salesforce" role="img" aria-label="Salesforce logo"></span>
+     Size:  set --logo-size (default 2rem) on the element or an ancestor rule. */
+  .logo-spr{--logo-size:2rem;width:var(--logo-size);height:var(--logo-size);flex:none;display:inline-block;
+    background-repeat:no-repeat;background-position:center;background-size:contain}
+  .logo-spr.actito{background-image:url(assets/logos/actito.svg)}
+  .logo-spr.activecampaign{background-image:url(assets/logos/activecampaign.svg)}
+  .logo-spr.acuityscheduling{background-image:url(assets/logos/acuityscheduling.svg)}
+  .logo-spr.acumatica{background-image:url(assets/logos/acumatica.svg)}
+  .logo-spr.airtable{background-image:url(assets/logos/airtable.svg)}
+  .logo-spr.alloydb{background-image:url(assets/logos/alloydb.svg)}
+  .logo-spr.amazonrds{background-image:url(assets/logos/amazonrds.svg)}
+  .logo-spr.amazons3{background-image:url(assets/logos/amazons3.svg)}
+  .logo-spr.amplitude{background-image:url(assets/logos/amplitude.svg)}
+  .logo-spr.asana{background-image:url(assets/logos/asana.svg)}
+  .logo-spr.avalara{background-image:url(assets/logos/avalara.svg)}
+  .logo-spr.azureblobstorage{background-image:url(assets/logos/azureblobstorage.svg)}
+  .logo-spr.azuredatalakestorage{background-image:url(assets/logos/azuredatalakestorage.svg)}
+  .logo-spr.azuredwh{background-image:url(assets/logos/azuredwh.svg)}
+  .logo-spr.azurefilestorage{background-image:url(assets/logos/azurefilestorage.svg)}
+  .logo-spr.backup{background-image:url(assets/logos/backup.svg)}
+  .logo-spr.bamboohr{background-image:url(assets/logos/bamboohr.svg)}
+  .logo-spr.bigcommerce{background-image:url(assets/logos/bigcommerce.svg)}
+  .logo-spr.bigquery{background-image:url(assets/logos/bigquery.svg)}
+  .logo-spr.bitbucket{background-image:url(assets/logos/bitbucket.svg)}
+  .logo-spr.box{background-image:url(assets/logos/box.svg)}
+  .logo-spr.constantcontact{background-image:url(assets/logos/constantcontact.svg)}
+  .logo-spr.csv{background-image:url(assets/logos/csv.svg)}
+  .logo-spr.d365businesscentral{background-image:url(assets/logos/d365businesscentral.svg)}
+  .logo-spr.database{background-image:url(assets/logos/database.svg)}
+  .logo-spr.databricks{background-image:url(assets/logos/databricks.svg)}
+  .logo-spr.dbt-streamline{background-image:url(assets/logos/dbt-streamline.svg)}
+  .logo-spr.dearinventory{background-image:url(assets/logos/dearinventory.svg)}
+  .logo-spr.demo{background-image:url(assets/logos/demo.svg)}
+  .logo-spr.drip{background-image:url(assets/logos/drip.svg)}
+  .logo-spr.dropbox{background-image:url(assets/logos/dropbox.svg)}
+  .logo-spr.dynamics{background-image:url(assets/logos/dynamics.svg)}
+  .logo-spr.dynamics365finops{background-image:url(assets/logos/dynamics365finops.svg)}
+  .logo-spr.dynamicscrm{background-image:url(assets/logos/dynamicscrm.svg)}
+  .logo-spr.elasticsearch{background-image:url(assets/logos/elasticsearch.svg)}
+  .logo-spr.emailoctopus{background-image:url(assets/logos/emailoctopus.svg)}
+  .logo-spr.exactonline{background-image:url(assets/logos/exactonline.svg)}
+  .logo-spr.exacttarget{background-image:url(assets/logos/exacttarget.svg)}
+  .logo-spr.excelonline{background-image:url(assets/logos/excelonline.svg)}
+  .logo-spr.facebookads{background-image:url(assets/logos/facebookads.svg)}
+  .logo-spr.facebookpages{background-image:url(assets/logos/facebookpages.svg)}
+  .logo-spr.firefliesai{background-image:url(assets/logos/firefliesai.svg)}
+  .logo-spr.freshbooks{background-image:url(assets/logos/freshbooks.svg)}
+  .logo-spr.freshcaller{background-image:url(assets/logos/freshcaller.svg)}
+  .logo-spr.freshdesk{background-image:url(assets/logos/freshdesk.svg)}
+  .logo-spr.freshsales{background-image:url(assets/logos/freshsales.svg)}
+  .logo-spr.ftp{background-image:url(assets/logos/ftp.svg)}
+  .logo-spr.gemini{background-image:url(assets/logos/gemini.svg)}
+  .logo-spr.github{background-image:url(assets/logos/github.svg)}
+  .logo-spr.gitlab{background-image:url(assets/logos/gitlab.svg)}
+  .logo-spr.google{background-image:url(assets/logos/google.svg)}
+  .logo-spr.googleads{background-image:url(assets/logos/googleads.svg)}
+  .logo-spr.googleanalytics{background-image:url(assets/logos/googleanalytics.svg)}
+  .logo-spr.googleanalytics_v4{background-image:url(assets/logos/googleanalytics_v4.svg)}
+  .logo-spr.googleapps{background-image:url(assets/logos/googleapps.svg)}
+  .logo-spr.googlecloudsqlmysql{background-image:url(assets/logos/googlecloudsqlmysql.svg)}
+  .logo-spr.googlecloudsqlpostgresql{background-image:url(assets/logos/googlecloudsqlpostgresql.svg)}
+  .logo-spr.googlecloudsqlserver{background-image:url(assets/logos/googlecloudsqlserver.svg)}
+  .logo-spr.googledrive{background-image:url(assets/logos/googledrive.svg)}
+  .logo-spr.googlesheets{background-image:url(assets/logos/googlesheets.svg)}
+  .logo-spr.graphql{background-image:url(assets/logos/graphql.svg)}
+  .logo-spr.grok{background-image:url(assets/logos/grok.svg)}
+  .logo-spr.heymarket{background-image:url(assets/logos/heymarket.svg)}
+  .logo-spr.hubdb{background-image:url(assets/logos/hubdb.svg)}
+  .logo-spr.hubspot{background-image:url(assets/logos/hubspot.svg)}
+  .logo-spr.insightly{background-image:url(assets/logos/insightly.svg)}
+  .logo-spr.intercom{background-image:url(assets/logos/intercom.svg)}
+  .logo-spr.jira{background-image:url(assets/logos/jira.svg)}
+  .logo-spr.jira_new{background-image:url(assets/logos/jira_new.svg)}
+  .logo-spr.keap{background-image:url(assets/logos/keap.svg)}
+  .logo-spr.linkedinads{background-image:url(assets/logos/linkedinads.svg)}
+  .logo-spr.logger{background-image:url(assets/logos/logger.svg)}
+  .logo-spr.looker-studio{background-image:url(assets/logos/looker-studio.svg)}
+  .logo-spr.magento{background-image:url(assets/logos/magento.svg)}
+  .logo-spr.mailchimp{background-image:url(assets/logos/mailchimp.svg)}
+  .logo-spr.mailjet{background-image:url(assets/logos/mailjet.svg)}
+  .logo-spr.mariadb{background-image:url(assets/logos/mariadb.svg)}
+  .logo-spr.marketo{background-image:url(assets/logos/marketo.svg)}
+  .logo-spr.mcp{background-image:url(assets/logos/mcp.svg)}
+  .logo-spr.microsoft{background-image:url(assets/logos/microsoft.svg)}
+  .logo-spr.microsoftads{background-image:url(assets/logos/microsoftads.svg)}
+  .logo-spr.mondaycom{background-image:url(assets/logos/mondaycom.svg)}
+  .logo-spr.mongodb{background-image:url(assets/logos/mongodb.svg)}
+  .logo-spr.myob{background-image:url(assets/logos/myob.svg)}
+  .logo-spr.mysql{background-image:url(assets/logos/mysql.svg)}
+  .logo-spr.netsuite{background-image:url(assets/logos/netsuite.svg)}
+  .logo-spr.netsuite_v2{background-image:url(assets/logos/netsuite_v2.svg)}
+  .logo-spr.notion{background-image:url(assets/logos/notion.svg)}
+  .logo-spr.odata{background-image:url(assets/logos/odata.svg)}
+  .logo-spr.odbc{background-image:url(assets/logos/odbc.svg)}
+  .logo-spr.onedrive{background-image:url(assets/logos/onedrive.svg)}
+  .logo-spr.openai{background-image:url(assets/logos/openai.svg)}
+  .logo-spr.oracle{background-image:url(assets/logos/oracle.svg)}
+  .logo-spr.pinterest{background-image:url(assets/logos/pinterest.svg)}
+  .logo-spr.pipedrive{background-image:url(assets/logos/pipedrive.svg)}
+  .logo-spr.podio{background-image:url(assets/logos/podio.svg)}
+  .logo-spr.postgresql{background-image:url(assets/logos/postgresql.svg)}
+  .logo-spr.quickbooks{background-image:url(assets/logos/quickbooks.svg)}
+  .logo-spr.quickbooksdesktop{background-image:url(assets/logos/quickbooksdesktop.svg)}
+  .logo-spr.redshift{background-image:url(assets/logos/redshift.svg)}
+  .logo-spr.rest{background-image:url(assets/logos/rest.svg)}
+  .logo-spr.rocketchat{background-image:url(assets/logos/rocketchat.svg)}
+  .logo-spr.sageaccounting{background-image:url(assets/logos/sageaccounting.svg)}
+  .logo-spr.salesforce{background-image:url(assets/logos/salesforce.svg)}
+  .logo-spr.scoro{background-image:url(assets/logos/scoro.svg)}
+  .logo-spr.sdk{background-image:url(assets/logos/sdk.svg)}
+  .logo-spr.sendpulse{background-image:url(assets/logos/sendpulse.svg)}
+  .logo-spr.servicenow{background-image:url(assets/logos/servicenow.svg)}
+  .logo-spr.sftp{background-image:url(assets/logos/sftp.svg)}
+  .logo-spr.sharepointfiles{background-image:url(assets/logos/sharepointfiles.svg)}
+  .logo-spr.sharepointlists{background-image:url(assets/logos/sharepointlists.svg)}
+  .logo-spr.shiphero{background-image:url(assets/logos/shiphero.svg)}
+  .logo-spr.shipstation{background-image:url(assets/logos/shipstation.svg)}
+  .logo-spr.shopify{background-image:url(assets/logos/shopify.svg)}
+  .logo-spr.shopify_v2{background-image:url(assets/logos/shopify_v2.svg)}
+  .logo-spr.slack{background-image:url(assets/logos/slack.svg)}
+  .logo-spr.smartsuite{background-image:url(assets/logos/smartsuite.svg)}
+  .logo-spr.snowflake{background-image:url(assets/logos/snowflake.svg)}
+  .logo-spr.sql-api{background-image:url(assets/logos/sql-api.svg)}
+  .logo-spr.sqlazure{background-image:url(assets/logos/sqlazure.svg)}
+  .logo-spr.sqlserver{background-image:url(assets/logos/sqlserver.svg)}
+  .logo-spr.streak{background-image:url(assets/logos/streak.svg)}
+  .logo-spr.stripe{background-image:url(assets/logos/stripe.svg)}
+  .logo-spr.sugar{background-image:url(assets/logos/sugar.svg)}
+  .logo-spr.surveymonkey{background-image:url(assets/logos/surveymonkey.svg)}
+  .logo-spr.tiktokads{background-image:url(assets/logos/tiktokads.svg)}
+  .logo-spr.timely{background-image:url(assets/logos/timely.svg)}
+  .logo-spr.twitterads{background-image:url(assets/logos/twitterads.svg)}
+  .logo-spr.upload{background-image:url(assets/logos/upload.svg)}
+  .logo-spr.woocommerce{background-image:url(assets/logos/woocommerce.svg)}
+  .logo-spr.wordpress{background-image:url(assets/logos/wordpress.svg)}
+  .logo-spr.xero{background-image:url(assets/logos/xero.svg)}
+  .logo-spr.yammer{background-image:url(assets/logos/yammer.svg)}
+  .logo-spr.zendesk{background-image:url(assets/logos/zendesk.svg)}
+  .logo-spr.zoho{background-image:url(assets/logos/zoho.svg)}
+  .logo-spr.zohoanalytics{background-image:url(assets/logos/zohoanalytics.svg)}
+  .logo-spr.zohobooks{background-image:url(assets/logos/zohobooks.svg)}
+  .logo-spr.zohocreator{background-image:url(assets/logos/zohocreator.svg)}
+  .logo-spr.zohodesk{background-image:url(assets/logos/zohodesk.svg)}
+  .logo-spr.zohoinventory{background-image:url(assets/logos/zohoinventory.svg)}
+  .logo-spr.zohoinvoice{background-image:url(assets/logos/zohoinvoice.svg)}
+  .logo-spr.zohopeople{background-image:url(assets/logos/zohopeople.svg)}
+  .logo-spr.zohosprints{background-image:url(assets/logos/zohosprints.svg)}
+  .logo-spr.zohoworkdrive{background-image:url(assets/logos/zohoworkdrive.svg)}
+  .logo-spr.zoom{background-image:url(assets/logos/zoom.svg)}
+  .logo-spr.zuora{background-image:url(assets/logos/zuora.svg)}
   .prov-card-info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
   .prov-card-name{font-weight:600;font-size:.875rem;color:var(--ink);line-height:1.25;margin:0 0 .125rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
   .prov-card-status{display:inline-flex;align-items:center;gap:.3125rem}
@@ -1884,6 +2041,13 @@
   .mx-prov-group{cursor:pointer}
   .mx-prov-group td{padding:.625rem 1rem;background:var(--mx-group-band);border-bottom:1px solid var(--border)}
   .mx-prov-group:hover td,.mx-prov-group:active td{background:var(--mx-group-band) !important}
+  /* Solid concept — fully saturated Brand/Primary band; header content flips to white. */
+  #mx-root.mx-group-solid{--mx-group-band:var(--mx-group-band-solid)}
+  #mx-root.mx-group-solid .mx-prov-group-name,
+  #mx-root.mx-group-solid .mx-prov-collapse-btn{color:var(--content-on-solid)}
+  #mx-root.mx-group-solid .mx-prov-ic{background:var(--card);border-color:transparent}
+  #mx-root.mx-group-solid .mx-add-metric-hover-btn{color:var(--content-on-solid);background:transparent;border-color:color-mix(in srgb,var(--content-on-solid) 55%,transparent)}
+  #mx-root.mx-group-solid .mx-add-metric-hover-btn:hover{background:color-mix(in srgb,var(--content-on-solid) 16%,transparent)}
   /* No inter-group gap: the --mx-group-band header colour + the 1px top border
      already separate provider blocks. A border-top "gap" only inflated the header
      height and read as an odd strip stuck above the band (esp. on dark). */

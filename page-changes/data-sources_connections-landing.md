@@ -113,6 +113,20 @@ At the `< 768 px` breakpoint (prod's `useIsMobile` threshold) the My Connections
 
 Selector: `.ds-conn-tbl` wraps the `<table class="tbl">` element. Rule lives in `pages/kit-theme.css` at the shared responsive-tables block (below the `.mx-tbl` block).
 
+## Connector logos — plain sprite marks (no container)
+
+Every connector logo (catalog cards, My Connections list + table, connect dialog, connection sidepanel) renders as a **plain brand logo with no container** — no border, no background box, no rounded backing. Each connector is its own offline `256×256` brand SVG at `pages/assets/logos/<slug>.svg` (split out of the source sprite); the shared `.logo-spr` class in `kit-theme.css` sets the size and `.logo-spr.<slug>` points at the file. Size per context is set with `--logo-size`.
+
+| | Prod (Current) | Expected |
+|---|---|---|
+| Logo source | `cdn.simpleicons.org` remote monochrome icons | Offline brand SVGs (`assets/logos/<slug>.svg`), full-colour |
+| Container | Bordered square (`1px var(--border)` + `var(--card)` bg) around each logo | None — plain logo sits directly on the surface |
+| Catalog set | Mixed; several connectors had no real logo | Trimmed to connectors present in the sprite |
+
+Sizes (`--logo-size`): catalog tile 2.75rem · catalog row 3rem · connect dialog 2.25rem · sidepanel 2rem · My Connections table 1.5rem · inline source mark 0.875rem.
+
+> Dark-theme note: a few sprite logos are near-black (e.g. GitHub, Notion); without the former light backing they have low contrast on the dark surface. Flagged for review if dark theme is in scope.
+
 ## Out of scope
 
 - Files page (separate route, separate handoff)

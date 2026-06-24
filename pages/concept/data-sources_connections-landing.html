@@ -63,44 +63,34 @@
      768 – 1023 px   → 2 cols (content 448–703 → cards 224–352 px)
      600 – 767 px    → 2 cols (sidebar drawer-only, content = viewport − 64 px)
      < 600 px        → 1 col  (full-width single-column for narrow phones) */
-  /* ===== Grid =====
-     Variant 1 (horizontal rows): 4 / 3 / 2 / 1 wide columns.
-     Variant 2 (square tiles, default): dense 6 / 5 / 4 / 3 / 2 grid — many more cards per row. */
-  .ds-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:.75rem}
-  @media (max-width:1279px){.ds-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-  @media (max-width:1023px){.ds-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media (max-width:599px){.ds-grid{grid-template-columns:1fr}}
+  /* ===== Grid — the tile variants set their own columns (.ds-app.ds-v2 / .ds-v3). ===== */
+  .ds-grid{display:grid;gap:.75rem;margin-top:.75rem}
   /* Variant 2 — compact square tiles auto-packed: fits as many ~7.5rem cards as the row allows,
      responsive by nature (no fixed column counts needed). */
   .ds-app.ds-v2 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr));gap:.5rem}
 
-  /* Horizontal row card — shared shell for both variants */
+  /* Base card shell — the tile variants (.ds-v2 / .ds-v3) override to a vertical layout */
   .ds-card{position:relative;display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
   .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
-  .ds-mark{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);border:1px solid var(--border)}
-  /* Both variants enlarge the catalog-card logo to 3rem (scoped so connected-list marks stay small). */
-  .ds-card .ds-mark{width:3rem;height:3rem;border-radius:.5rem;background:var(--card);border:1px solid var(--border)}
-  .ds-conn-cell-name .ds-mark{width:1.5rem;height:1.5rem;border-radius:.25rem}
-  .ds-mark img{width:78%;height:78%;object-fit:contain;display:block}
+  /* Plain connector logos (.logo-spr, kit-theme.css) — no container. Per-context size only. */
+  .ds-card .logo-spr{--logo-size:3rem}
+  .ds-conn-cell-name .logo-spr{--logo-size:1.5rem}
   .ds-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .ds-card-head{display:flex;align-items:center;gap:.375rem;min-width:0}
   /* Label = Typography "text-sm" level (14px / 20px), per current/typography.md. */
-  .ds-card-name{font-size:.875rem;line-height:1.25rem;font-weight:500;color:var(--ink)}
-  /* Variant 1 — title steps up to the "text-base" level (16px / 24px) to match the bigger logo. */
-  .ds-app.ds-v1 .ds-card-name{font-size:1rem;line-height:1.5rem}
+  .ds-card-name{font-size:.875rem;line-height:1.25rem;font-weight:400;color:var(--ink)}
 
   /* ===== Variant 2 — vertical card: logo on top, text below; Connect on hover ===== */
   .ds-card-hover{display:none}
-  .ds-app.ds-v2 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.625rem;padding:.875rem .75rem;height:7.5rem}
+  .ds-app.ds-v2 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5rem;padding:.875rem .75rem;height:7.5rem}
   /* Fixed tile height keeps every card uniform; clamp the name to 2 lines so a long name fits
      without growing the tile. No reserved min-height — content stays truly vertically centered.
      Size = Typography "text-sm" (14px / 20px). */
   .ds-app.ds-v2 .ds-card-name{font-size:.875rem;line-height:1.25rem;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .ds-app.ds-v2 .ds-card .ds-mark{width:2.75rem;height:2.75rem}
+  .ds-app.ds-v2 .ds-card .logo-spr{--logo-size:2.75rem}
   .ds-app.ds-v2 .ds-card-body{flex:0 0 auto;align-items:center}
   .ds-app.ds-v2 .ds-card-head{justify-content:center}
-  .ds-app.ds-v2 .ds-card-act{display:none}
   .ds-app.ds-v2 .ds-card-hover{display:flex;align-items:center;justify-content:center;
     position:absolute;inset:0;border-radius:inherit;
     background:color-mix(in srgb,var(--card) 78%,transparent);
@@ -113,28 +103,46 @@
   .ds-app.ds-v2 .ds-card:hover .ds-card-connect,
   .ds-app.ds-v2 .ds-card:focus-within .ds-card-connect{transform:translateY(0)}
   .ds-card-connect span{margin-left:.25rem}
-  /* Touch / narrow viewports have no hover — surface the Connect action permanently as an
-     inline button at the bottom of the card (no scrim, always visible & tappable). */
-  /* Permanent Connect for TOUCH devices only. Driven by hover capability, not width, so every
-     hover-capable desktop (incl. small/narrow ones) keeps the hover-reveal scrim and the button
-     is NOT shown immediately. Real tablets/phones (hover:none) get a persistent action — and a
-     floating corner "+" reads oddly on a vertical tile, so the card flips to a HORIZONTAL row
-     (logo + name on the left, "+" on the right) which makes the always-on action logical. */
+  /* Touch / no-hover devices have no hover event, so the desktop hover-reveal (translucent
+     scrim + Connect button) is driven by TAP instead. First tap on a tile adds .is-active →
+     reveals the overlay exactly like desktop :hover; the Connect button then performs the
+     action. Tapping the scrim again — or another tile — collapses it (handled in dsCardTap).
+     Tiles stay vertical: same layout and same reveal as desktop, just triggered by tap. */
   @media (hover:none){
-    .ds-app.ds-v2 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}
-    .ds-app.ds-v2 .ds-card{flex-direction:row;align-items:center;text-align:left;height:auto;
-      gap:.625rem;padding:.625rem .75rem}
-    .ds-app.ds-v2 .ds-card-body{flex:1;align-items:flex-start}
-    .ds-app.ds-v2 .ds-card-head{justify-content:flex-start}
-    .ds-app.ds-v2 .ds-card-name{-webkit-line-clamp:1}
-    .ds-app.ds-v2 .ds-card-hover{display:none}
-    .ds-app.ds-v2 .ds-card-act{display:flex}
+    .ds-app.ds-v2 .ds-card.is-active .ds-card-hover{opacity:1;pointer-events:auto}
+    .ds-app.ds-v2 .ds-card.is-active .ds-card-connect{transform:translateY(0)}
+  }
+
+  /* ===== Variant 3 — alternative concept: larger vertical tiles, capped at 6 per row
+     (bigger card + bigger logo than Variant 2, so the row holds 6 instead of ~8). Same
+     hover / tap reveal behaviour as Variant 2 (scrim + Connect). The max() min-track grows
+     once 6 tiles would each clear 10rem, so auto-fill never places a 7th; below that the
+     10rem floor lets it reflow down as the content narrows. ===== */
+  .ds-app.ds-v3 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(max(10rem,(100% - 5 * .75rem)/6),1fr));gap:.75rem}
+  .ds-app.ds-v3 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5rem;padding:1.25rem 1rem;height:9.5rem}
+  .ds-app.ds-v3 .ds-card-name{font-size:1rem;line-height:1.5rem;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .ds-app.ds-v3 .ds-card .logo-spr{--logo-size:3.5rem}
+  .ds-app.ds-v3 .ds-card-body{flex:0 0 auto;align-items:center}
+  .ds-app.ds-v3 .ds-card-head{justify-content:center}
+  .ds-app.ds-v3 .ds-card-hover{display:flex;align-items:center;justify-content:center;
+    position:absolute;inset:0;border-radius:inherit;
+    background:color-mix(in srgb,var(--card) 78%,transparent);
+    opacity:0;pointer-events:none;transition:opacity var(--motion-slow) var(--motion-ease)}
+  .ds-app.ds-v3 .ds-card-connect{transform:translateY(.375rem);
+    transition:transform var(--motion-slow) var(--motion-ease)}
+  .ds-app.ds-v3 .ds-card:hover .ds-card-hover,
+  .ds-app.ds-v3 .ds-card:focus-within .ds-card-hover{opacity:1;pointer-events:auto}
+  .ds-app.ds-v3 .ds-card:hover .ds-card-connect,
+  .ds-app.ds-v3 .ds-card:focus-within .ds-card-connect{transform:translateY(0)}
+  @media (hover:none){
+    .ds-app.ds-v3 .ds-card.is-active .ds-card-hover{opacity:1;pointer-events:auto}
+    .ds-app.ds-v3 .ds-card.is-active .ds-card-connect{transform:translateY(0)}
   }
   .ds-popular{width:12px;height:12px;color:var(--fb-attention);flex:none;filter:drop-shadow(0 0 2px color-mix(in srgb,var(--fb-attention) 60%,transparent))}
   #ds-cats{flex-wrap:wrap;padding-bottom:2px;margin-top:.75rem}
   #ds-cats::-webkit-scrollbar{display:none}
   @media(max-width:767px){#ds-cats{flex-wrap:nowrap;overflow-x:auto}}
-  .ds-card-act{flex:none;display:flex;justify-content:flex-end;align-items:center}
 
   /* Lazy-load sentinel — zero-height trigger element appended after last card when more remain */
   .ds-load-sentinel{grid-column:1/-1;height:1px;margin:0;padding:0}
@@ -153,7 +161,7 @@
   .ds-conn-dot{color:var(--ink-inactive);font-size:.875rem;flex:none}
   /* Inline source: small logo + connector name */
   .ds-conn-src-row{display:flex;align-items:center;gap:.25rem;flex:none;overflow:hidden}
-  .ds-conn-src-mark{width:.875rem;height:.875rem;border-radius:.125rem;flex:none}
+  .ds-conn-src-mark{--logo-size:.875rem}
   .ds-conn-meta{font-size:.8125rem;color:var(--ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ds-conn-desc{font-size:.75rem;color:var(--ink-secondary)}
   /* ===== Connected — table view (shared kebab styles) ===== */
@@ -205,9 +213,6 @@
     .ds-page-head{justify-content:flex-start}
     /* DS-specific: Create Connection button pinned right; title+burger sit left via cl-page-head flex-start. */
     .ds-page-head .ds-addnew{margin-left:auto}
-  }
-  @media (max-width:600px){
-    .ds-card-act{width:auto}
   }
   /* integration frame — static visual reference */
   /* Integration frame — external provider styling, intentionally NOT using design tokens */
@@ -271,8 +276,8 @@
       <button class="segctrl-btn" id="ds-seg-connected" type="button" onclick="dsSegState(this,'connected')">Connected</button>
     </div>
     <div class="segctrl is-sm" style="width:auto" aria-label="Card layout">
-      <button class="segctrl-btn" id="ds-seg-v1" type="button" onclick="dsSegVariant(this,'v1')">Variant 1</button>
       <button class="segctrl-btn is-active" id="ds-seg-v2" type="button" onclick="dsSegVariant(this,'v2')">Variant 2</button>
+      <button class="segctrl-btn" id="ds-seg-v3" type="button" onclick="dsSegVariant(this,'v3')">Variant 3</button>
     </div>
     <div class="segctrl is-sm" style="width:auto">
       <button class="segctrl-btn is-active" id="ds-seg-light" type="button" onclick="dsSegTheme(this,'light')">Light</button>
@@ -566,7 +571,7 @@
       <!-- Step 1: integration reference (no Insightis footer — Save is part of the external form) -->
       <div id="ds-conn-s1" class="dlg-step">
         <div style="display:flex;align-items:center;gap:.75rem">
-          <span id="ds-conn-logo" style="width:2.25rem;height:2.25rem;border-radius:.5rem;border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);font-size:.75rem;font-weight:600;color:var(--ink-secondary)"></span>
+          <span id="ds-conn-logo" style="display:inline-flex;align-items:center;justify-content:center;flex:none"></span>
           <span id="ds-conn-subtitle" style="font-size:.875rem;font-weight:500;color:var(--ink)"></span>
         </div>
         <!-- Static visual reference of the integration form -->
@@ -690,97 +695,95 @@
 <script>
   /* ===== Connector data ===== */
   var CATEGORIES = ['All','Business Intelligence','Commerce','Communication','IT Operations','Marketing','Productivity','Sales \& CRM','Storage \& Files','Support','Other'];
+  /* Catalog trimmed to connectors with a brand logo in assets/logos/<slug>.svg
+     (see .logo-spr.<slug> in kit-theme.css). Plain logos, no container. */
   var CONNECTORS = [
     /* IT Operations */
-    { name:'PostgreSQL',          cat:'IT Operations',           cats:['IT Operations'],                          popular:true,  mark:'#336791', initial:'P', slug:'postgresql' },
-    { name:'MySQL',               cat:'IT Operations',           cats:['IT Operations'],                          popular:true,  mark:'#00758F', initial:'M', slug:'mysql' },
-    { name:'Snowflake',           cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],              popular:true,  mark:'#29B5E8', initial:'S', slug:'snowflake' },
-    { name:'BigQuery',            cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],              popular:false, mark:'#4285F4', initial:'B', slug:'googlebigquery' },
-    { name:'Redshift',            cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#8C4FFF', initial:'R', slug:'amazonredshift' },
-    { name:'MongoDB',             cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#13AA52', initial:'M', slug:'mongodb' },
-    { name:'Redis',               cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#DC382D', initial:'R', slug:'redis' },
-    { name:'Elasticsearch',       cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],              popular:false, mark:'#005571', initial:'E', slug:'elasticsearch' },
-    { name:'Cassandra',           cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#1287B1', initial:'C', slug:'apachecassandra' },
-    { name:'Oracle',              cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#F80000', initial:'O', slug:'oracle' },
-    { name:'SQL Server',          cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#CC2927', initial:'S', slug:'microsoftsqlserver' },
-    { name:'DynamoDB',            cat:'IT Operations',           cats:['IT Operations'],                          popular:false, mark:'#4053D6', initial:'D', slug:'amazondynamodb' },
+    { name:'PostgreSQL',          cat:'IT Operations',           cats:['IT Operations'],                              popular:true,  slug:'postgresql' },
+    { name:'MySQL',               cat:'IT Operations',           cats:['IT Operations'],                              popular:true,  slug:'mysql' },
+    { name:'Snowflake',           cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],      popular:true,  slug:'snowflake' },
+    { name:'BigQuery',            cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],      popular:false, slug:'bigquery' },
+    { name:'Redshift',            cat:'IT Operations',           cats:['IT Operations'],                              popular:false, slug:'redshift' },
+    { name:'MongoDB',             cat:'IT Operations',           cats:['IT Operations'],                              popular:false, slug:'mongodb' },
+    { name:'MariaDB',             cat:'IT Operations',           cats:['IT Operations'],                              popular:false, slug:'mariadb' },
+    { name:'Oracle',              cat:'IT Operations',           cats:['IT Operations'],                              popular:false, slug:'oracle' },
+    { name:'SQL Server',          cat:'IT Operations',           cats:['IT Operations'],                              popular:false, slug:'sqlserver' },
+    { name:'Elasticsearch',       cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],      popular:false, slug:'elasticsearch' },
+    { name:'Databricks',          cat:'IT Operations',           cats:['IT Operations','Business Intelligence'],      popular:false, slug:'databricks' },
+    { name:'GitHub',              cat:'IT Operations',           cats:['IT Operations'],                              popular:true,  slug:'github' },
+    { name:'GitLab',              cat:'IT Operations',           cats:['IT Operations'],                              popular:false, slug:'gitlab' },
+    { name:'Bitbucket',           cat:'IT Operations',           cats:['IT Operations'],                              popular:false, slug:'bitbucket' },
     /* Sales & CRM */
-    { name:'Salesforce',          cat:'Sales \& CRM',                 cats:['Sales \& CRM','Business Intelligence'],                    popular:true,  mark:'#00A1E0', initial:'S', slug:'salesforce' },
-    { name:'HubSpot',             cat:'Sales \& CRM',                 cats:['Sales \& CRM','Marketing'],                    popular:true,  mark:'#FF7A59', initial:'H', slug:'hubspot' },
-    { name:'Pipedrive',           cat:'Sales \& CRM',                 cats:['Sales \& CRM'],                                popular:false, mark:'#1A1A1A', initial:'P', slug:'pipedrive' },
-    { name:'Zoho CRM',            cat:'Sales \& CRM',                 cats:['Sales \& CRM'],                                popular:false, mark:'#E42527', initial:'Z', slug:'zoho' },
-    { name:'Freshsales',          cat:'Sales \& CRM',                 cats:['Sales \& CRM','Support'],                      popular:false, mark:'#1BD3AE', initial:'F', slug:'freshworks' },
+    { name:'Salesforce',          cat:'Sales \& CRM',            cats:['Sales \& CRM','Business Intelligence'],       popular:true,  slug:'salesforce' },
+    { name:'HubSpot',             cat:'Sales \& CRM',            cats:['Sales \& CRM','Marketing'],                   popular:true,  slug:'hubspot' },
+    { name:'Pipedrive',           cat:'Sales \& CRM',            cats:['Sales \& CRM'],                               popular:false, slug:'pipedrive' },
+    { name:'Zoho CRM',            cat:'Sales \& CRM',            cats:['Sales \& CRM'],                               popular:false, slug:'zoho' },
+    { name:'Freshsales',          cat:'Sales \& CRM',            cats:['Sales \& CRM','Support'],                     popular:false, slug:'freshsales' },
+    { name:'Insightly',           cat:'Sales \& CRM',            cats:['Sales \& CRM'],                               popular:false, slug:'insightly' },
+    { name:'Keap',                cat:'Sales \& CRM',            cats:['Sales \& CRM','Marketing'],                   popular:false, slug:'keap' },
+    { name:'SugarCRM',            cat:'Sales \& CRM',            cats:['Sales \& CRM'],                               popular:false, slug:'sugar' },
     /* Marketing */
-    { name:'Mailchimp',           cat:'Marketing',           cats:['Marketing'],                          popular:true,  mark:'#FFE01B', initial:'M', slug:'mailchimp' },
-    { name:'Klaviyo',             cat:'Marketing',           cats:['Marketing'],                          popular:false, mark:'#1B1B1B', initial:'K', slug:'klaviyo' },
-    { name:'Google Ads',          cat:'Marketing',           cats:['Marketing','Business Intelligence'],              popular:false, mark:'#4285F4', initial:'G', slug:'googleads' },
-    { name:'Marketo',             cat:'Marketing',           cats:['Marketing'],                          popular:false, mark:'#5C4C9F', initial:'M', slug:'marketo' },
-    { name:'ActiveCampaign',      cat:'Marketing',           cats:['Marketing','Sales \& CRM'],                    popular:false, mark:'#356AE6', initial:'A', slug:'activecampaign' },
-    { name:'Constant Contact',    cat:'Marketing',           cats:['Marketing'],                          popular:false, mark:'#1454A0', initial:'C', slug:'constantcontact' },
+    { name:'Mailchimp',           cat:'Marketing',               cats:['Marketing'],                                  popular:true,  slug:'mailchimp' },
+    { name:'Marketo',             cat:'Marketing',               cats:['Marketing'],                                  popular:false, slug:'marketo' },
+    { name:'ActiveCampaign',      cat:'Marketing',               cats:['Marketing','Sales \& CRM'],                   popular:false, slug:'activecampaign' },
+    { name:'Constant Contact',    cat:'Marketing',               cats:['Marketing'],                                  popular:false, slug:'constantcontact' },
+    { name:'Google Ads',          cat:'Marketing',               cats:['Marketing','Business Intelligence'],          popular:false, slug:'googleads' },
+    { name:'LinkedIn Ads',        cat:'Marketing',               cats:['Marketing'],                                  popular:false, slug:'linkedinads' },
+    { name:'TikTok Ads',          cat:'Marketing',               cats:['Marketing'],                                  popular:false, slug:'tiktokads' },
+    { name:'Microsoft Ads',       cat:'Marketing',               cats:['Marketing'],                                  popular:false, slug:'microsoftads' },
+    { name:'Pinterest',           cat:'Marketing',               cats:['Marketing'],                                  popular:false, slug:'pinterest' },
+    { name:'SendPulse',           cat:'Marketing',               cats:['Marketing'],                                  popular:false, slug:'sendpulse' },
     /* Commerce */
-    { name:'Stripe',              cat:'Commerce',             cats:['Commerce','Business Intelligence'],                popular:true,  mark:'#635BFF', initial:'S', slug:'stripe' },
-    { name:'QuickBooks',          cat:'Commerce',             cats:['Commerce'],                            popular:false, mark:'#2CA01C', initial:'Q', slug:'quickbooks' },
-    { name:'Xero',                cat:'Commerce',             cats:['Commerce'],                            popular:false, mark:'#13B5EA', initial:'X', slug:'xero' },
-    { name:'FreshBooks',          cat:'Commerce',             cats:['Commerce'],                            popular:false, mark:'#1DA462', initial:'F', slug:'freshbooks' },
+    { name:'Stripe',              cat:'Commerce',                cats:['Commerce','Business Intelligence'],           popular:true,  slug:'stripe' },
+    { name:'QuickBooks',          cat:'Commerce',                cats:['Commerce'],                                   popular:false, slug:'quickbooks' },
+    { name:'Xero',                cat:'Commerce',                cats:['Commerce'],                                   popular:false, slug:'xero' },
+    { name:'FreshBooks',          cat:'Commerce',                cats:['Commerce'],                                   popular:false, slug:'freshbooks' },
+    { name:'Shopify',             cat:'Commerce',                cats:['Commerce','Business Intelligence'],           popular:true,  slug:'shopify' },
+    { name:'WooCommerce',         cat:'Commerce',                cats:['Commerce'],                                   popular:false, slug:'woocommerce' },
+    { name:'Magento',             cat:'Commerce',                cats:['Commerce'],                                   popular:false, slug:'magento' },
+    { name:'BigCommerce',         cat:'Commerce',                cats:['Commerce'],                                   popular:false, slug:'bigcommerce' },
+    { name:'NetSuite',            cat:'Commerce',                cats:['Commerce'],                                   popular:false, slug:'netsuite' },
+    { name:'Sage Accounting',     cat:'Commerce',                cats:['Commerce'],                                   popular:false, slug:'sageaccounting' },
     /* Business Intelligence */
-    { name:'Google Analytics',    cat:'Business Intelligence',           cats:['Business Intelligence','Marketing'],              popular:true,  mark:'#E37400', initial:'G', slug:'googleanalytics' },
-    { name:'Mixpanel',            cat:'Business Intelligence',           cats:['Business Intelligence','Marketing'],              popular:false, mark:'#7856FF', initial:'M', slug:'mixpanel' },
-    { name:'Amplitude',           cat:'Business Intelligence',           cats:['Business Intelligence'],                          popular:false, mark:'#1E61F0', initial:'A', slug:'amplitude' },
-    { name:'Looker',              cat:'Business Intelligence',           cats:['Business Intelligence'],                          popular:false, mark:'#4285F4', initial:'L', slug:'looker' },
-    { name:'Power BI',            cat:'Business Intelligence',           cats:['Business Intelligence'],                          popular:false, mark:'#F2C811', initial:'P', slug:'powerbi' },
-    { name:'Segment',             cat:'Business Intelligence',           cats:['Business Intelligence','Marketing'],              popular:false, mark:'#52BD95', initial:'S', slug:'segment' },
-    { name:'Tableau',             cat:'Business Intelligence',           cats:['Business Intelligence'],                          popular:false, mark:'#E97627', initial:'T', slug:'tableau' },
+    { name:'Google Analytics',    cat:'Business Intelligence',   cats:['Business Intelligence','Marketing'],          popular:true,  slug:'googleanalytics' },
+    { name:'Looker Studio',       cat:'Business Intelligence',   cats:['Business Intelligence'],                      popular:false, slug:'looker-studio' },
+    { name:'Amplitude',           cat:'Business Intelligence',   cats:['Business Intelligence'],                      popular:false, slug:'amplitude' },
+    { name:'Zoho Analytics',      cat:'Business Intelligence',   cats:['Business Intelligence'],                      popular:false, slug:'zohoanalytics' },
     /* Support */
-    { name:'Zendesk',             cat:'Support',             cats:['Support'],                            popular:true,  mark:'#03363D', initial:'Z', slug:'zendesk' },
-    { name:'Intercom',            cat:'Support',             cats:['Support','Sales \& CRM'],                      popular:false, mark:'#1F8DED', initial:'I', slug:'intercom' },
-    { name:'Freshdesk',           cat:'Support',             cats:['Support'],                            popular:false, mark:'#25C16F', initial:'F', slug:'freshdesk' },
-    { name:'Help Scout',          cat:'Support',             cats:['Support'],                            popular:false, mark:'#1292EE', initial:'H', slug:'helpscout' },
+    { name:'Zendesk',             cat:'Support',                 cats:['Support'],                                    popular:true,  slug:'zendesk' },
+    { name:'Intercom',            cat:'Support',                 cats:['Support','Sales \& CRM'],                     popular:false, slug:'intercom' },
+    { name:'Freshdesk',           cat:'Support',                 cats:['Support'],                                    popular:false, slug:'freshdesk' },
+    { name:'ServiceNow',          cat:'Support',                 cats:['Support','IT Operations'],                    popular:false, slug:'servicenow' },
     /* Productivity */
-    { name:'Workday',             cat:'Productivity',                  cats:['Productivity'],                                 popular:true,  mark:'#F5820B', initial:'W', slug:'workday' },
-    { name:'BambooHR',            cat:'Productivity',                  cats:['Productivity'],                                 popular:false, mark:'#73C41D', initial:'B', slug:'bamboohr' },
-    { name:'ADP',                 cat:'Productivity',                  cats:['Productivity','Commerce'],                       popular:false, mark:'#D9232F', initial:'A', slug:'adp' },
-    { name:'Greenhouse',          cat:'Productivity',                  cats:['Productivity'],                                 popular:false, mark:'#24A47F', initial:'G', slug:'greenhouse' },
-    { name:'Lever',               cat:'Productivity',                  cats:['Productivity'],                                 popular:false, mark:'#00B49C', initial:'L', slug:'lever' },
-    /* IT Operations (DevOps) */
-    { name:'GitHub',              cat:'IT Operations',              cats:['IT Operations'],                             popular:true,  mark:'#181717', initial:'G', slug:'github' },
-    { name:'GitLab',              cat:'IT Operations',              cats:['IT Operations'],                             popular:true,  mark:'#FC6D26', initial:'G', slug:'gitlab' },
-    { name:'Jenkins',             cat:'IT Operations',              cats:['IT Operations'],                             popular:false, mark:'#D24939', initial:'J', slug:'jenkins' },
-    { name:'CircleCI',            cat:'IT Operations',              cats:['IT Operations'],                             popular:false, mark:'#343434', initial:'C', slug:'circleci' },
-    { name:'Datadog',             cat:'IT Operations',              cats:['IT Operations','Business Intelligence'],                 popular:false, mark:'#632CA6', initial:'D', slug:'datadog' },
-    { name:'PagerDuty',           cat:'IT Operations',              cats:['IT Operations'],                             popular:false, mark:'#06AC38', initial:'P', slug:'pagerduty' },
-    { name:'New Relic',           cat:'IT Operations',              cats:['IT Operations','Business Intelligence'],                 popular:false, mark:'#008C99', initial:'N', slug:'newrelic' },
-    { name:'Sentry',              cat:'IT Operations',              cats:['IT Operations'],                             popular:false, mark:'#362D59', initial:'S', slug:'sentry' },
-    /* Productivity (PM) */
-    { name:'Jira',                cat:'Productivity',  cats:['Productivity'],                 popular:true,  mark:'#0052CC', initial:'J', slug:'jira' },
-    { name:'Asana',               cat:'Productivity',  cats:['Productivity'],                 popular:true,  mark:'#F06A6A', initial:'A', slug:'asana' },
-    { name:'Trello',              cat:'Productivity',  cats:['Productivity'],                 popular:false, mark:'#0052CC', initial:'T', slug:'trello' },
-    { name:'Monday.com',          cat:'Productivity',  cats:['Productivity'],                 popular:false, mark:'#F62B54', initial:'M', slug:'mondaydotcom' },
-    { name:'Notion',              cat:'Productivity',  cats:['Productivity'],                 popular:false, mark:'#000000', initial:'N', slug:'notion' },
-    { name:'Basecamp',            cat:'Productivity',  cats:['Productivity'],                 popular:false, mark:'#1D2D35', initial:'B', slug:'basecamp' },
-    { name:'Linear',              cat:'Productivity',  cats:['Productivity','IT Operations'],        popular:false, mark:'#5E6AD2', initial:'L', slug:'linear' },
-    /* Storage & Files */
-    { name:'AWS S3',              cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:true,  mark:'#569A31', initial:'S', slug:'amazons3' },
-    { name:'Google Cloud Storage',cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:false, mark:'#4285F4', initial:'G', slug:'googlecloud' },
-    { name:'Azure Blob Storage',  cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:false, mark:'#0078D4', initial:'A', slug:'microsoftazure' },
-    { name:'Dropbox',             cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:false, mark:'#0061FF', initial:'D', slug:'dropbox' },
-    { name:'Box',                 cat:'Storage \& Files',             cats:['Storage \& Files'],                            popular:false, mark:'#0061D5', initial:'B', slug:'box' },
+    { name:'Jira',                cat:'Productivity',            cats:['Productivity','IT Operations'],               popular:true,  slug:'jira' },
+    { name:'Asana',               cat:'Productivity',            cats:['Productivity'],                               popular:true,  slug:'asana' },
+    { name:'Monday.com',          cat:'Productivity',            cats:['Productivity'],                               popular:false, slug:'mondaycom' },
+    { name:'Notion',              cat:'Productivity',            cats:['Productivity'],                               popular:false, slug:'notion' },
+    { name:'SmartSuite',          cat:'Productivity',            cats:['Productivity'],                               popular:false, slug:'smartsuite' },
+    { name:'BambooHR',            cat:'Productivity',            cats:['Productivity'],                               popular:false, slug:'bamboohr' },
+    { name:'SurveyMonkey',        cat:'Productivity',            cats:['Productivity'],                               popular:false, slug:'surveymonkey' },
     /* Communication */
-    { name:'Slack',               cat:'Communication',       cats:['Communication'],                      popular:true,  mark:'#4A154B', initial:'S', slug:'slack' },
-    { name:'Microsoft Teams',     cat:'Communication',       cats:['Communication'],                      popular:true,  mark:'#6264A7', initial:'T', slug:'microsoftteams' },
-    { name:'Discord',             cat:'Communication',       cats:['Communication'],                      popular:false, mark:'#5865F2', initial:'D', slug:'discord' },
-    { name:'Zoom',                cat:'Communication',       cats:['Communication'],                      popular:false, mark:'#2D8CFF', initial:'Z', slug:'zoom' },
-    { name:'Twilio',              cat:'Communication',       cats:['Communication'],                      popular:false, mark:'#F22F46', initial:'T', slug:'twilio' },
-    /* Commerce (E-commerce) */
-    { name:'Shopify',             cat:'Commerce',          cats:['Commerce','Business Intelligence'],             popular:true,  mark:'#96BF48', initial:'S', slug:'shopify' },
-    { name:'WooCommerce',         cat:'Commerce',          cats:['Commerce'],                         popular:false, mark:'#7F54B3', initial:'W', slug:'woocommerce' },
-    { name:'Magento',             cat:'Commerce',          cats:['Commerce'],                         popular:false, mark:'#EE672F', initial:'M', slug:'magento' },
-    { name:'BigCommerce',         cat:'Commerce',          cats:['Commerce'],                         popular:false, mark:'#121118', initial:'B', slug:'bigcommerce' },
+    { name:'Slack',               cat:'Communication',           cats:['Communication'],                              popular:true,  slug:'slack' },
+    { name:'Zoom',                cat:'Communication',           cats:['Communication'],                              popular:true,  slug:'zoom' },
+    { name:'Yammer',              cat:'Communication',           cats:['Communication'],                              popular:false, slug:'yammer' },
+    /* Storage & Files */
+    { name:'Amazon S3',           cat:'Storage \& Files',        cats:['Storage \& Files'],                           popular:true,  slug:'amazons3' },
+    { name:'Google Drive',        cat:'Storage \& Files',        cats:['Storage \& Files'],                           popular:false, slug:'googledrive' },
+    { name:'OneDrive',            cat:'Storage \& Files',        cats:['Storage \& Files'],                           popular:false, slug:'onedrive' },
+    { name:'Dropbox',             cat:'Storage \& Files',        cats:['Storage \& Files'],                           popular:false, slug:'dropbox' },
+    { name:'Box',                 cat:'Storage \& Files',        cats:['Storage \& Files'],                           popular:false, slug:'box' },
+    { name:'SharePoint Files',    cat:'Storage \& Files',        cats:['Storage \& Files'],                           popular:false, slug:'sharepointfiles' },
+    { name:'Google Sheets',       cat:'Storage \& Files',        cats:['Storage \& Files','Business Intelligence'],   popular:false, slug:'googlesheets' },
+    { name:'Excel Online',        cat:'Storage \& Files',        cats:['Storage \& Files'],                           popular:false, slug:'excelonline' },
+    { name:'Azure Blob Storage',  cat:'Storage \& Files',        cats:['Storage \& Files'],                           popular:false, slug:'azureblobstorage' },
     /* Other */
-    { name:'Zapier',              cat:'Other',               cats:['Other'],                              popular:true,  mark:'#FF4A00', initial:'Z', slug:'zapier' },
-    { name:'Make',                cat:'Other',               cats:['Other'],                              popular:false, mark:'#6D00CC', initial:'M', slug:'make' },
-    { name:'Airtable',            cat:'Other',               cats:['Other'],                              popular:false, mark:'#18BFFF', initial:'A', slug:'airtable' },
-    { name:'Notion',              cat:'Other',               cats:['Other'],                              popular:false, mark:'#000000', initial:'N', slug:'notion' },
-    { name:'Webhooks',            cat:'Other',               cats:['Other'],                              popular:false, mark:'#1e1e2e', initial:'W', slug:'webhooks' },
+    { name:'Airtable',            cat:'Other',                   cats:['Other','Productivity'],                       popular:true,  slug:'airtable' },
+    { name:'OpenAI',              cat:'Other',                   cats:['Other'],                                      popular:false, slug:'openai' },
+    { name:'Gemini',              cat:'Other',                   cats:['Other'],                                      popular:false, slug:'gemini' },
+    { name:'WordPress',           cat:'Other',                   cats:['Other'],                                      popular:false, slug:'wordpress' },
+    { name:'REST API',            cat:'Other',                   cats:['Other'],                                      popular:false, slug:'rest' },
+    { name:'GraphQL',             cat:'Other',                   cats:['Other'],                                      popular:false, slug:'graphql' },
+    { name:'OData',               cat:'Other',                   cats:['Other'],                                      popular:false, slug:'odata' },
   ];
   /* Connected (State 2): subset by name + per-source status (active / error). */
   var CONNECTED = [
@@ -792,16 +795,11 @@
   var DS_VIEW = 'table'; /* always table for My Connections */
   var DS_CARD_STYLE = 0;
 
-  function dsMarkFallback(img, initial, color){
-    var s = document.createElement('span');
-    s.style.cssText = 'font-size:1rem;font-weight:700;line-height:1;color:' + color;
-    s.textContent = initial;
-    if(img.parentNode) img.parentNode.replaceChild(s, img);
-  }
-  function dsMkImg(slug, initial, color){
-    var esc = color.replace(/"/g,'&quot;');
-    return '<img src="https://cdn.simpleicons.org/' + slug + '" alt="" loading="lazy"'
-      + ' onerror="dsMarkFallback(this,\'' + initial + '\',\'' + esc + '\')">';
+  /* Plain connector logo from the sprite (kit-theme.css .logo-spr.<slug>). No container.
+     Optional sizeRem sets --logo-size inline; otherwise the context's CSS sizes it. */
+  function dsLogo(slug, name, sizeRem){
+    return '<span class="logo-spr ' + slug + '" role="img" aria-label="' + name + ' logo"'
+      + (sizeRem ? ' style="--logo-size:' + sizeRem + '"' : '') + '></span>';
   }
 
   /* Unified filter state — single chip row/grid, no per-state split. */
@@ -845,8 +843,8 @@
     + '</span>';
 
   function dsMarkWrap(c){
-    return '<span style="position:relative;flex:none;display:inline-flex">'
-      + '<span class="ds-mark" aria-hidden="true">' + dsMkImg(c.slug, c.initial, c.mark) + '</span>'
+    return '<span class="ds-logo-wrap" style="position:relative;flex:none;display:inline-flex">'
+      + dsLogo(c.slug, c.name)
       + (c.popular ? FLAME_BADGE : '')
       + '</span>';
   }
@@ -856,20 +854,36 @@
 
   function dsCardHtml(c){
     var n = c.name.replace(/'/g, "\\'");
-    // Variant 1 — always-visible compact "+" tertiary button on the row.
-    var btn = '<button class="btn btn-sm btn-tertiary" type="button" aria-label="Connect" style="padding:0 .5rem;min-width:2rem" onclick="dsConnect(\'' + n + '\')">' + PLUS_SVG_SM + '</button>';
-    // Variant 2 — secondary Connect button revealed over a translucent scrim on card hover.
+    // Secondary Connect button revealed over a translucent scrim on card hover (tile variants).
     var hover = '<div class="ds-card-hover">'
       + '<button class="btn btn-sm btn-secondary ds-card-connect" type="button" aria-label="Connect ' + c.name + '" onclick="dsConnect(\'' + n + '\')">' + PLUS_SVG_SM + '<span>Connect</span></button>'
       + '</div>';
-    return '<div class="ds-card" role="listitem" style="cursor:pointer" onclick="if(!event.target.closest(\'button\'))dsConnect(\'' + n + '\')">'
+    return '<div class="ds-card" role="listitem" style="cursor:pointer" onclick="dsCardTap(event,this,\'' + n + '\')">'
       + dsMarkWrap(c)
       + '<div class="ds-card-body">'
       +   '<div class="ds-card-head"><span class="ds-card-name">' + c.name + '</span></div>'
       + '</div>'
-      + '<div class="ds-card-act">' + btn + '</div>'
       + hover
       + '</div>';
+  }
+
+  /* Card tap handler.
+     - Hover-capable (desktop): tapping the body connects directly — the scrim already
+       revealed on hover, so the tap is the confirming action.
+     - No-hover (touch): the FIRST tap reveals the hover overlay (scrim + Connect) instead
+       of connecting, mirroring the desktop hover state. The Connect button then performs
+       the action; tapping the scrim again — or another tile — collapses it. */
+  function dsCardTap(ev, el, name){
+    if(ev.target.closest('button')) return;                 // Connect button handles itself
+    if(window.matchMedia('(hover:none)').matches){
+      var open = el.classList.contains('is-active');
+      var grid = el.parentNode;
+      var active = grid.querySelectorAll('.ds-card.is-active');
+      for(var i=0;i<active.length;i++) active[i].classList.remove('is-active');
+      if(!open) el.classList.add('is-active');               // toggle: reveal or collapse
+      return;
+    }
+    dsConnect(name);
   }
 
   function dsFilterSearch(q){
@@ -917,10 +931,10 @@
   }
 
   function dsSegVariant(btn, variant){
-    dsSegActivate(['ds-seg-v1','ds-seg-v2'], btn.id);
+    dsSegActivate(['ds-seg-v2','ds-seg-v3'], btn.id);
     var app = document.querySelector('.ds-app');
-    app.classList.toggle('ds-v1', variant === 'v1');
     app.classList.toggle('ds-v2', variant === 'v2');
+    app.classList.toggle('ds-v3', variant === 'v3');
   }
 
   function dsGetFiltered(){
@@ -992,7 +1006,7 @@
       return '<tr data-name="' + c.name + '" onclick="if(!event.target.closest(\'[data-kbp],.kbp-menu\'))dsPanelOpen(\'' + n + '\')" style="cursor:pointer">'
         + '<td><span class="ds-conn-cell-label">' + (c.label || c.name) + '</span></td>'
         + '<td style="overflow:hidden"><div class="ds-conn-cell-name" style="overflow:hidden;min-width:0">'
-        +   '<span class="ds-mark" style="flex-shrink:0" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>'
+        +   dsLogo(src.slug, c.name)
         +   '<span style="color:var(--ink-secondary);font-size:.8125rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">' + c.name + '</span>'
         + '</div></td>'
         + '<td class="ds-conn-cell-desc">' + (c.desc || '') + '</td>'
@@ -1004,7 +1018,7 @@
       +   '<div class="ds-conn-title">'
       +     '<span class="ds-conn-label">' + (c.label || c.name) + '</span>'
       +     '<span class="ds-conn-dot" aria-hidden="true">·</span>'
-      +     '<span class="ds-conn-meta ds-conn-src-row"><span class="ds-mark ds-conn-src-mark" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>' + c.name + '</span>'
+      +     '<span class="ds-conn-meta ds-conn-src-row"><span class="logo-spr ds-conn-src-mark ' + src.slug + '" role="img" aria-label="' + c.name + ' logo"></span>' + c.name + '</span>'
       +   '</div>'
       + (c.desc ? '<span class="ds-conn-desc">' + c.desc + '</span>' : '')
       + '</div>'
@@ -1099,8 +1113,7 @@
     _dsConnName = name;
     var src = CONNECTORS.find(function(c){ return c.name === name; }) || {};
     var logo = document.getElementById('ds-conn-logo');
-    logo.innerHTML = dsMkImg(src.slug, src.initial, src.mark);
-    logo.style.background = src.mark && src.mark.startsWith('#') ? src.mark + '14' : 'var(--card)';
+    logo.innerHTML = src.slug ? dsLogo(src.slug, name, '2.25rem') : '';
     document.getElementById('ds-conn-subtitle').textContent = name ? name + ' connection' : 'New connection';
     document.getElementById('ds-conn-dispname').value = name || '';
     document.getElementById('ds-conn-desc').value = '';
@@ -1258,7 +1271,7 @@
     var editBtn    = document.getElementById('ds-panel-edit-btn');
     var deleteBtn  = document.getElementById('ds-panel-delete-btn');
     if (panelTitle) panelTitle.textContent = 'Connection Details';
-    var markHtml  = src.slug ? '<span class="ds-mark" style="width:2rem;height:2rem;border-radius:.375rem;flex:none" aria-hidden="true">' + dsMkImg(src.slug, src.initial, src.mark) + '</span>' : '';
+    var markHtml  = src.slug ? dsLogo(src.slug, c.name, '2rem') : '';
     if (panelBody) panelBody.innerHTML = ''
       + '<div class="dp-fields">'
       + '<div class="dp-field"><span class="dp-label">Name</span>'
