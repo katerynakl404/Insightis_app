@@ -8,6 +8,21 @@ Baseline: [`../current/Tooltip.md`](../current/Tooltip.md).
 | Default — dark mode | ⚠ broken — bg lightens to `--ink` `#F9FAFB` but text stays hardcoded `#FFF` → invisible | **fixed** — bg `--ink` `#F9FAFB`, text `--card` `#17171E` (dark Card surface) | Root cause: hardcoded `color:#fff`, not a missing token. Replaced with `var(--card)` — the same theme-aware token used everywhere else as a surface, used here as text on the inverted ink chip. |
 | Inline style → class | every Tooltip occurrence inlined `background:var(--ink);color:#fff;font-size:.75rem;border-radius:6px;padding:4px 8px` | **new** — shared `.tt` class in `pages/kit-theme.css` | Single source of truth — eliminates the chance of the bug recurring in TruncatedTitleTooltip or any future tooltip surface. |
 
+## Concrete dimensions (`.tt`, `pages/kit-theme.css:738`)
+
+`.tt{display:inline-flex; align-items:center; background:var(--ink); color:var(--card); font-size:.75rem; border-radius:6px; padding:4px 8px}`
+
+| Property | Value |
+|---|---|
+| Font size | **.75rem (12px)** — `text-xs` |
+| Padding | **4px top/bottom · 8px left/right** |
+| Radius | **6px** (`md`) |
+| Background | `--ink` (Text/Primary) |
+| Text | `--card` (Surface/Card, theme-aware) |
+| Layout | `inline-flex`, vertically centred · no fixed width/height (hugs content) |
+
+No min-width, max-width, or fixed height — the bubble sizes to its label.
+
 ## No change (—)
 
 text-xs (`.75rem`), padding 4/8 px, radius `md` (6 px), placements (top/right/bottom/left), fade/zoom + slide-in animations, Radix transform-origins.

@@ -11,6 +11,23 @@ Source: `@insightis/ui` `Toast/` (Toaster, ToastMessage, `toast()`). Baseline: [
 | Border | `1px solid var(--border)` — neutral, same for all variants | Variant-tinted: `var(--toast-border-*)` — 30% colour mix over transparent | Pairs with bg tint; stronger than bg tint to stay visible on tinted surface |
 | Closing | Progress bar drains; `onClose` runs at end | — | Duration default 4000ms unchanged |
 
+## Reproduction values (kit-theme.css ~1667–1677)
+
+| Part | Selector | Values |
+|---|---|---|
+| Container | `.toast` | `min-width:280px; max-width:600px; border-radius:8px; padding:16px; background:var(--card); border:1px solid var(--border); box-shadow:0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1); position:relative; overflow:hidden; display:flex; flex-direction:column; gap:12px` |
+| Content row | `.toast .toast-row` | `display:flex; align-items:flex-start; gap:12px` |
+| Icon | `.toast .toast-ic` | `width:20px; height:20px; flex:none; margin-top:1px; stroke-linecap:round; stroke-linejoin:round` |
+| Body | `.toast .toast-body` | `flex:1; display:flex; flex-direction:column; gap:2px` |
+| Title | `.toast .toast-msg` | `font-size:.875rem; font-weight:500; color:var(--ink); line-height:1.4` |
+| Description | `.toast .toast-desc` | `font-size:.75rem; font-weight:400; color:var(--ink-secondary); line-height:1.4` |
+| Close button | `.toast .toast-x` | `width:24px; height:24px; flex:none; border-radius:4px` (colour/hover/pressed/focus inherit from `.iconbtn.iconbtn-tertiary`) |
+| Close icon | `.toast .toast-x svg` | `width:14px; height:14px` |
+| Progress bar | `.toast .toast-prog` | `position:absolute; left:0; right:0; bottom:0; height:3px; background:transparent` |
+| Progress fill | `.toast .toast-prog>span` | `display:block; height:100%` (variant sets the colour + `width:60%`) |
+
+Note: the doc table above labels this surface "ToastMessage container"; in the shipped kit those container values live on `.toast` (width / bg / border per the table at the top of this doc).
+
 ## Variants — icon + background
 
 | Variant | Current icon | Expected icon | Background / border |
@@ -21,6 +38,19 @@ Source: `@insightis/ui` `Toast/` (Toaster, ToastMessage, `toast()`). Baseline: [
 | **error** | `X` — bare cross (same shape as close button) | `XCircle` — circle + cross (distinguishable from close) | `--toast-bg-error` / `--toast-border-error` |
 
 Icon colors (`--fb-green`, `--brand-primary`, `--fb-attention`, `--fb-red-text`) and progress bar colors unchanged.
+
+### Per-variant reproduction (each variant standalone — bg / border / icon / progress)
+
+Every variant sets four things off one source colour. Resolved selectors from `pages/kit-theme.css` (~1678–1685):
+
+| Variant | Source colour | Background (`.toast.var-*`) | Border (`.toast.var-*`) | Icon (`.toast-ic`) + progress fill (`.toast-prog>span`) |
+|---|---|---|---|---|
+| **success** | `--fb-green` | `var(--toast-bg-success)` = `color-mix(--fb-green 5%, --card)` light / `8%` dark | `var(--toast-border-success)` = `color-mix(--fb-green 30%, transparent)` | `color:var(--fb-green)` · progress `background:var(--fb-green); width:60%` |
+| **info** (default) | `--brand-primary` | `var(--toast-bg-info)` = `color-mix(--brand-primary 5%, --card)` light / `8%` dark | `var(--toast-border-info)` = `color-mix(--brand-primary 30%, transparent)` | `color:var(--brand-primary)` · progress `background:var(--brand-primary); width:60%` |
+| **warning** | `--fb-attention` | `var(--toast-bg-warning)` = `color-mix(--fb-attention 5%, --card)` light / `8%` dark | `var(--toast-border-warning)` = `color-mix(--fb-attention 30%, transparent)` | `color:var(--fb-attention)` · progress `background:var(--fb-attention); width:60%` |
+| **error** | `--fb-red-text` | `var(--toast-bg-error)` = `color-mix(--fb-red-text 5%, --card)` light / `8%` dark | `var(--toast-border-error)` = `color-mix(--fb-red-text 30%, transparent)` | `color:var(--fb-red-text)` · progress `background:var(--fb-red-text); width:60%` |
+
+All four variants share the identical container box model (radius 8px, padding 16px, gap 12px, icon 20px, close 24px, progress 3px — see Reproduction values above); only the source colour and resolved bg/border/icon/progress differ.
 
 ## Text structure
 

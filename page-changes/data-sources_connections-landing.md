@@ -11,6 +11,7 @@ These are locked decisions. Do not change without explicit approval.
 | 3 | Category chip list in the Catalog (excluding "All") must match the Metrics page chip list exactly — same 10 categories, same order. If categories change, both pages must be updated simultaneously. |
 | 4 | Search bar lives inside the Catalog tab panel (above `#ds-cats`), not at page level. Do not move it to the page header or outside the tab panel. |
 | 5 | "Create Connection" button is hidden while the Catalog tab is active and visible only on the My Connections tab. Do not show it on both tabs simultaneously. |
+| 6 | **No active/enable toggle in My Connections** (removed 2026-06-25). Connection rows (table + card view) and the detail sidepanel must NOT show a `.swt` active/inactive switch. A connection's only state indicator is the status dot/badge (active / error). Do not re-add the `dsToggleEnabled` / `dsPanelToggle` / `dsSetEnabled` functions, the `enabled` flag, or the "Active" table column — the table is 4 columns (Connection name / Data Source / Description / Actions, 28% / 22% / 40% / 10%). |
 
 ---
 

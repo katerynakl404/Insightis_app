@@ -16,6 +16,36 @@ It is the shared single source of truth for chats, connections, and metrics empt
 | CTA | — | optional trailing `.btn` with `margin-top:.75rem` | first-run only (e.g. chats "New Chat"); omitted for search-no-match |
 | Variants | info / success / error / neutral | — | the minimalist variant is single-tone (neutral); status colour belongs to the card `.statv` |
 
+## Card StatusView (`.statv`) — full per-variant + per-size spec
+
+The prod `StatusView` is the **card** form: a tinted icon circle on a bordered `bg-card` block. Reproduce any variant/size from the tables below.
+
+### Container (shared)
+`.statv` → `display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; padding:24px; border:1px solid var(--border); border-radius:.5rem (8px); background:var(--card); width:220px`. Title `.vt` → `.875rem / 500 / var(--ink)`. Message `.vd` → `.75rem / var(--ink-secondary)`.
+
+### Icon-circle colour per variant
+Circle `.vic` → `width:40px; height:40px; border-radius:9999px` (shared). Each variant tints the circle bg @10% and sets the glyph colour:
+
+| Variant | Selector | Circle background | Glyph colour |
+|---|---|---|---|
+| **info** | `.statv-info .vic` | `color-mix(in srgb, var(--brand-primary) 10%, transparent)` | `var(--brand-primary)` |
+| **success** | `.statv-success .vic` | `color-mix(in srgb, var(--fb-green) 10%, transparent)` | `var(--fb-green)` |
+| **error** | `.statv-error .vic` | `color-mix(in srgb, var(--fb-red) 10%, transparent)` | `var(--fb-red-text)` |
+| **neutral** | `.statv-neutral .vic` | `var(--state-hover)` | `var(--ink-secondary)` |
+
+> **Resolved — neutral variant added to `pages/kit-theme.css`.** `.statv-neutral .vic{background:var(--state-hover);color:var(--ink-secondary)}`. The kit now implements all four variants (info / success / error / neutral), matching prod's neutral (`bg-accent/40 text-secondary`).
+
+### Sizes
+The kit CSS ships **three sizes**: base `.statv` is the **md** default; `.statv.is-sm` and `.statv.is-lg` modifiers scale the circle, glyph, gap, padding, and type. Prod (`current/StatusView.md`) reference values shown alongside.
+
+| Size | Class | Icon circle | Glyph | gap / padding (kit) | Title / desc (kit) | Prod reference |
+|---|---|---|---|---|---|---|
+| **sm** | `.statv.is-sm` | `32px` | `16px` (svg) | gap `8px` · padding `16px` | title `.8125rem` · desc `.6875rem` | `gap-3` (12px) · `px-4 py-6` (16/24px) · circle `size-10` |
+| **md** (default) | `.statv` | `40px` | `20px` (`size-5`) | gap `12px` · padding `24px` | title `.875rem` · desc `.75rem` | `gap-4` (16px) · `px-4 py-8` (16/32px) · circle `size-10` |
+| **lg** | `.statv.is-lg` | `56px` | `28px` (svg) | gap `16px` · padding `32px` | title `1rem` · desc `.8125rem` | `gap-5` (20px) · `px-6 py-12` (24/48px) · circle `size-14` |
+
+> **Resolved — `sm` / `lg` size modifiers added to `pages/kit-theme.css`.** `.statv.is-sm{gap:8px;padding:16px}` (circle 32px, glyph 16px, title `.8125rem`, desc `.6875rem`) and `.statv.is-lg{gap:16px;padding:32px}` (circle 56px, glyph 28px, title `1rem`, desc `.8125rem`); base `.statv` remains the md default (circle 40px, gap 12px, padding 24px). The kit's relative gap/padding scale follows prod's sm/md/lg ramp.
+
 ## Token map (`.empty-state`)
 
 | Property | Token |

@@ -470,27 +470,7 @@
             <!-- leave-feedback section -->
             <div data-section="leave-feedback" style="display:none">
               <div class="acct-section" style="border-bottom:none;padding-bottom:0">
-                <div class="segctrl-group">
-                <span class="segctrl-label">Category</span>
-                <div class="segctrl is-md" id="acct-fb-cat" role="tablist" aria-label="Feedback category">
-                  <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-send-label="Send feature request"
-                          onclick="this.closest('.segctrl').querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-                    <span class="segctrl-lbl">Feature</span>
-                  </button>
-                  <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-send-label="Send bug report"
-                          onclick="this.closest('.segctrl').querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg>
-                    <span class="segctrl-lbl">Bug</span>
-                  </button>
-                  <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-send-label="Send feedback"
-                          onclick="this.closest('.segctrl').querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>
-                    <span class="segctrl-lbl">Feedback</span>
-                  </button>
-                </div>
-                </div><!-- /segctrl-group -->
-                <div style="margin-top:.5rem">
+                <div>
                   <label class="acct-sect-title" for="fb-msg" style="display:block;margin-bottom:.375rem">Your feedback</label>
                   <textarea id="fb-msg" class="ta" rows="5"
                             style="max-width:100%;width:100%;box-sizing:border-box;resize:vertical"></textarea>
@@ -500,7 +480,7 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="14" height="14"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
                     Attach file
                   </button>
-                  <button class="btn btn-primary btn-sm" type="button" id="acct-fb-send">Send feature request</button>
+                  <button class="btn btn-primary btn-sm" type="button">Send feedback</button>
                 </div>
               </div>
             </div>
@@ -653,22 +633,6 @@
     if(btn.getAttribute('aria-label') === 'Dark theme')
       document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
-  });
-
-  /* ── Feedback category → Send-button label mapping ──
-     Each .segctrl-btn inside #acct-fb-cat carries data-send-label with the
-     full CTA copy for its category (Feature → "Send feature request", Bug →
-     "Send bug report", Feedback → "Send feedback"). Clicking a segment updates
-     #acct-fb-send so the primary CTA always names the exact action that will
-     be submitted. Initial markup ships with the Feature-state label to match
-     the default is-active segment. */
-  document.addEventListener('click', function(e){
-    var btn = e.target.closest('#acct-fb-cat .segctrl-btn');
-    if(!btn) return;
-    var sendBtn = document.getElementById('acct-fb-send');
-    if(!sendBtn) return;
-    var lbl = btn.getAttribute('data-send-label');
-    if(lbl) sendBtn.textContent = lbl;
   });
 
   /* Activate default section on page load */

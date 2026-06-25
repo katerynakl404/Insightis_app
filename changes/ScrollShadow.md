@@ -12,6 +12,22 @@ Source: `@insightis/ui` `ScrollShadow/index.tsx` + `hooks/use-scroll-shadow`. Ba
 | Default `orientation` | `vertical` | — no change |
 | Default `visibility` | `auto` | — no change |
 
+## Kit-demo dimensions (`.ssh`, kit-theme.css ~1619)
+
+Prod is **headless** (behavior wrapper; the only token it touches is `var(--background)`). The kit ships a styled demo so reviewers see the fade in context — these are demo values, not a prod contract:
+
+| Element | Selector | Exact size / padding / radius |
+|---|---|---|
+| Shell | `.ssh` | width **220px**; height **96px**; border **1px** `var(--border)`; radius **6px**; bg `var(--card)`; `overflow:hidden` (line 1619) |
+| Scroll inner | `.ssh-inner` | padding **8px 12px**; font-size **.875rem (14px)**; line-height **1.5**; `overflow-y:auto`; height 100% (line 1620) |
+| Fade band (top & bottom) | `.ssh::before` / `::after` | **height 24px**; full width; `pointer-events:none`; `z-index:1` (line 1621) |
+| Top gradient | `.ssh::before` | `linear-gradient(180deg, var(--bg) 0%, transparent 100%)` (line 1622) |
+| Bottom gradient | `.ssh::after` | `linear-gradient(0deg, var(--bg) 0%, transparent 100%)` (line 1623) |
+
+> ⚠ The fade-band height in the **kit demo is 24px**, whereas the React component's **default `size` prop is 40px** (table above). Both are valid — the demo just renders a shorter band — but a dev reproducing from the demo gets 24px, from the prop default gets 40px. Stated explicitly so the two aren't conflated.
+>
+> Props recap: `size` (band length, default **40px**), `offset` (default **0px**), `orientation` (default **vertical** → top/bottom bands; horizontal → left/right), `visibility` (default **auto** — band shows only when content overflows that edge).
+
 ## ⚠ Best-practice states — to define
 - **Reduced-motion** — the shadow fade has no transition, so nothing to adapt.
 - **A11y** — the gradient is presentational; the inner scroll container should expose `tabindex="0"` if focusable so keyboard users can scroll. Not enforced by the component today; document for consumers.

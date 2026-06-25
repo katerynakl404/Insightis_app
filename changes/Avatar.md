@@ -9,9 +9,23 @@ Baseline: [`../current/Avatar.md`](../current/Avatar.md).
 | Counter chip bg | `chip` (`#FAFAFA`) | `Surface/Chips` `--chips` (`#F8FAFC`) | — | Hex shift only (→ [colors](colors.md)); no change this iteration |
 | Counter chip text | `content-secondary` | `Text/Secondary` `--ink-secondary` | — | Hex shift only |
 
+## Self-reproducing spec — sizes + types (final contract)
+
+Source: `kit-theme.css:722–725`. One size only — there are **no size variants** in the CSS; every avatar is 32px.
+
+**Base `.ava`** (shared by all three types) — `display:inline-flex; align-items:center; justify-content:center`; `width:2rem; height:2rem` (32px, `size-8`); `border-radius:9999px` (full circle); `font-size:.75rem` (12px); `font-weight:600`. Add exactly one type modifier below.
+
+| Type | Modifier class | Distinguishing tokens |
+|---|---|---|
+| **Image** | `.ava-img` | `background:var(--brand-tertiary)` — tertiary-brand backing shown behind/while the image loads (or as fallback tint). Same 32px circle as base. |
+| **Initials** | `.ava-init` | `background:var(--brand-primary)`; text `color:var(--content-on-solid)` (white, theme-independent). Holds 2-letter initials at 12px/600. |
+| **Count** | `.ava-count` | `background:var(--chips)` (Surface/Chips); text `color:var(--ink-secondary)` (Text/Secondary). Holds the overflow counter (e.g. `+5`). |
+
+> All three are 32px circles differing only by `background` (+ text colour for initials/count). The image type is the only one not previously documented here — added for per-type completeness.
+
 ## No change (—)
 
-Size 32 px (`size-8`), radius `full`, font-size `.75rem`, font-weight 600.
+Size 32 px (`size-8`), radius `full`, font-size `.75rem`, font-weight 600. Image-type backing `--brand-tertiary` is prod state, unchanged this iteration.
 
 ## Token map used
 

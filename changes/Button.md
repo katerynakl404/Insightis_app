@@ -105,5 +105,19 @@ Reference image showed the Loading button keeping its variant colour with a slig
 - `opacity: var(--opacity-disabled)` — reusable token (`.65`), visible but clearly "in progress".
 - Spinner uses `currentColor` so it works on any variant.
 
+## Sizes (per-size spec — unchanged from prod, listed for reproducibility)
+
+Shared across every variant. Base `.btn`: `border-radius:.375rem` (6px), `gap:.375rem` (6px), `font-weight:500`, `border:1px solid transparent`, `transition:all .12s`. Only height / padding-x / font-size differ per size.
+
+| Size | Class | Height | Padding-x | Font-size | Radius | Gap |
+|---|---|---|---|---|---|---|
+| xs | `.btn-xs` | `1.75rem` (28px) | `.625rem` (10px) | `.75rem` (12px) | `.375rem` (6px) | `.375rem` (6px) |
+| sm | `.btn-sm` | `2rem` (32px) | `.625rem` (10px) | `.875rem` (14px) | `.375rem` (6px) | `.375rem` (6px) |
+| md | `.btn-md` | `2.25rem` (36px) | `.625rem` (10px) | `.875rem` (14px) | `.375rem` (6px) | `.375rem` (6px) |
+| lg | `.btn-lg` | `2.5rem` (40px) | `.75rem` (12px) | `.875rem` (14px) | `.375rem` (6px) | `.375rem` (6px) |
+| xl | `.btn-xl` | `2.75rem` (44px) | `.875rem` (14px) | `.875rem` (14px) | `.375rem` (6px) | `.375rem` (6px) |
+
+> Padding-x grows on `lg`/`xl` (`.75rem`/`.875rem`) while `xs`–`md` share `.625rem`; font-size steps only from `.75rem` (xs) to `.875rem` (sm and up). Size affects geometry only — colour comes entirely from the variant class.
+
 ## No change (—)
-Sizes (xs 28 / sm 32 / md 36 / lg 40 / xl 44px), radius `md 6px`, gap 6px, font-medium 500.
+Sizes (xs 28 / sm 32 / md 36 / lg 40 / xl 44px — see Sizes table above for full per-size geometry), radius `md 6px`, gap 6px, font-medium 500.

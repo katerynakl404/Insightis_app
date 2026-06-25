@@ -1,0 +1,43 @@
+<!--
+  AccountPopover skeleton — loading state.
+  Mirrors: components/AccountPopover.html · current/AccountPopover.md · changes/AccountPopover.md
+  Base box from: pages/kit-theme.css → .sbx-pop / .sbx-pop-account
+  Repeats: 1 popover — Account section (label + 4 items) + Support section (label + 2 items)
+           + theme switcher (3 segments) + Sign-out item (match prod default content).
+  Notes: reuses the live .sbx-pop shell + .is-open (flex column, gap .875rem, border 1px,
+  radius .5rem, padding 1rem .75rem). The popover is position:absolute + bottom-anchored
+  at rest; inline position:relative + inset:auto render it in-flow for the swap pair so it
+  occupies the same footprint without an anchoring parent. Item rows mirror .sbx-pop-item
+  (icon 16×16 + label, ~2rem tall). Label boxes ~.75rem (.sbx-pop-label). Theme track
+  mirrors .sbx-pop-theme (3 × 1.25rem buttons, flex:1).
+-->
+<div class="sk-skel">
+  <div class="sbx-pop sbx-pop-account is-open" style="position:relative;inset:auto;left:auto;right:auto;bottom:auto">
+    <!-- Account section: label + 4 items -->
+    <div class="sbx-pop-sect">
+      <span class="skel shimmer r-sm" style="width:4rem;height:.75rem;margin:0 .5rem"></span>
+      <div class="sbx-pop-list">
+        <div class="sbx-pop-item"><span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span><span class="skel shimmer r-sm" style="flex:1;height:.875rem;max-width:6rem"></span></div>
+        <div class="sbx-pop-item"><span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span><span class="skel shimmer r-sm" style="flex:1;height:.875rem;max-width:6.5rem"></span></div>
+        <div class="sbx-pop-item"><span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span><span class="skel shimmer r-sm" style="flex:1;height:.875rem;max-width:4rem"></span></div>
+        <div class="sbx-pop-item"><span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span><span class="skel shimmer r-sm" style="flex:1;height:.875rem;max-width:4.5rem"></span></div>
+      </div>
+    </div>
+    <!-- Support section: label + 2 items -->
+    <div class="sbx-pop-sect">
+      <span class="skel shimmer r-sm" style="width:3.5rem;height:.75rem;margin:0 .5rem"></span>
+      <div class="sbx-pop-list">
+        <div class="sbx-pop-item"><span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span><span class="skel shimmer r-sm" style="flex:1;height:.875rem;max-width:7rem"></span></div>
+        <div class="sbx-pop-item"><span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span><span class="skel shimmer r-sm" style="flex:1;height:.875rem;max-width:5.5rem"></span></div>
+      </div>
+    </div>
+    <!-- Theme switcher: 3 segments -->
+    <div class="sbx-pop-theme">
+      <span class="skel shimmer" style="flex:1;height:1.25rem"></span>
+      <span class="skel shimmer" style="flex:1;height:1.25rem"></span>
+      <span class="skel shimmer" style="flex:1;height:1.25rem"></span>
+    </div>
+    <!-- Sign-out item -->
+    <div class="sbx-pop-item"><span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span><span class="skel shimmer r-sm" style="flex:1;height:.875rem;max-width:4rem"></span></div>
+  </div>
+</div>

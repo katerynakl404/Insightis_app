@@ -9,7 +9,6 @@ changed on that screen and links to the relevant `changes/` files.
 | Chats Library | [chats-landing.md](chats-landing.md) | ChatRow, MetaRow (new), Sidebar |
 | Metrics + Account Modal | [metrics-landing.md](metrics-landing.md) | AccountModal (new), Sidebar, Colors (hex-only) |
 | Data Sources (Connections) | [data-sources_connections-landing.md](data-sources_connections-landing.md) | Tabs, Banner |
-| Banner Gradient Variants | [banner-grad-variants.md](banner-grad-variants.md) | Banner (exploration) |
 
 ## No floating stickers on pages
 

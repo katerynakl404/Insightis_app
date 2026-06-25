@@ -9,13 +9,17 @@ Every interactive state is now documented in **both** the unchecked and checked 
 | Default | unchecked: border `border`, bg `card` · checked: bg+border `accent`, mark `#FFF` | — | border `Stroke/Border_Hover`, bg `Surface/Card` | bg + border `Brand/Primary`, mark `Content/On_Solid` | stronger default border for visibility (border + box ≥ 3:1 vs Card); hex shift only on checked fill |
 | Hover *(new)* | ⚠ undefined | — | border `Text/Secondary` (neutral, no brand tint) | bg `Brand/Primary_Hover` | signals interactivity before click without colour-cueing the action; hover for checked matches Button Primary hover |
 | Focus *(new)* | ⚠ undefined (was `ring-2 ring-ring ring-offset-2`) | — | `box-shadow:0 0 0 2px Surface/Card, 0 0 0 4px State/Focus_Ring` (neutral) | identical neutral ring | brand colour reserved for the checked fill + Button focus; form-control focus stays neutral. Same ring shape in both positions. |
-| Indeterminate *(new)* | ⚠ undefined | — | (n/a — tri-state contract) | bg + border `Brand/Primary`, mark = 10 × 2 px white horizontal bar | required for "some selected" cases (tables, tree-lists). Single position only — indeterminate is neither checked nor unchecked. |
+| Indeterminate *(new)* | ⚠ undefined | — | (n/a — tri-state contract) | bg + border `Brand/Primary`, mark = `.625rem` (10 px) × 2 px white horizontal bar, radius 1 px (`::before`) | required for "some selected" cases (tables, tree-lists). Single position only — indeterminate is neither checked nor unchecked. |
 | **Error *(new)*** | ⚠ undefined | — | border `--input-error`, bg unchanged | bg + border `--input-error`, mark `Content/On_Solid` | mirrors Input `.s-error` border treatment. Error has higher priority than checked → bg follows error colour when both apply. |
 | **Disabled *(amended → opacity recipe)*** | opacity 50% (both positions) | — | `opacity:var(--opacity-disabled)` (.65) + `cursor:not-allowed` + `pointer-events:none` — fades from `--card` / `--border-hover` base | same opacity recipe — fades from `--brand-primary` base; **mark + indeterminate bar drop from `#FFF` to `Text/Inactive`** so the disabled mark reads as muted (consistent with disabled-text language across the system). 1.4.3 exempts the mark/bg contrast for disabled components. | Was: kit had bg + border colour swap to `--state-disabled` — a divergence from prod's opacity-based recipe. Now reunified with the rest of the kit's disabled treatments. No colour override on the surfaces; only the mark shifts. |
 
+## Reproduction values (kit `.cbx`)
+
+Box **18 × 18 px** (`1.125rem` — kit uses this for ministage compactness; prod is 20 × 20). Radius **`.25rem` (4 px)** — note `.prod .cbx` is `.375rem` (6 px); the prior doc had Expected/prod swapped. Border **`1.5px solid`** (`--border-hover` unchecked). Bg `--card`. Mark colour `--content-on-solid`. Checked: bg + border `--brand-primary`, mark `--content-on-solid`. Container transition `background-color .12s, border-color .12s, box-shadow .12s`. Mark svg `opacity:0 → 1` on `.on` with `transition: opacity .1s`. Indeterminate bar `.625rem` (10 px) × 2 px, radius 1 px.
+
 ## No change (—)
 
-Size 20 × 20 (kit uses 18 × 18 for ministage compactness), radius `md` 6 px, mark stroke `Content/On_Solid`, label font-size / weight / gap scale, indeterminate's single-position behaviour.
+Mark stroke `Content/On_Solid`, label font-size / weight / gap scale, indeterminate's single-position behaviour.
 
 ## Token map used
 

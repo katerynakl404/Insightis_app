@@ -2,7 +2,21 @@
 
 Source: `@insightis/ui` `CircularProgress/index.tsx`. Baseline: [`../current/CircularProgress.md`](../current/CircularProgress.md).
 
-**No component-level change (—).** CircularProgress draws an SVG ring whose colours come from `--background` (track) and `--primary` / `--secondary` (indicator). Only the underlying hex shifts (documented in [`colors`](colors.md)).
+**No component-level change (—).** **Props-driven SVG component** — geometry is computed from props, not from fixed CSS. CircularProgress draws an SVG ring whose colours come from `--background` (track) and `--primary` / `--secondary` (indicator). Only the underlying hex shifts (documented in [`colors`](colors.md)).
+
+## Concrete dimensions (defaults + kit demo)
+
+Layout wrapper `.cpr` (`pages/kit-theme.css:1711–1713`) plus the SVG ring props:
+
+| Element | Selector / prop | Dimensions / padding | Other |
+|---|---|---|---|
+| Wrapper | `.cpr` | size = `size` prop, **default 40×40px** · `position:relative; display:inline-flex`, centred (no padding) | — |
+| SVG ring | `.cpr svg` | `position:absolute; inset:0` (fills wrapper) | viewBox = `0 0 {size} {size}` |
+| Stroke (track + indicator) | `strokeWidth` prop | **default 2.5px** | track `--background`, indicator `--primary` (or `--secondary`), `strokeLinecap="round"` |
+| Ring radius | computed | `r = (size − strokeWidth) / 2` → for default 40 / 2.5 = **17.5px**, circumference ≈ 109.96 | rotated **−90°** (0° = 12 o'clock) |
+| Centre label | `.cpr .cpr-lbl` | `position:relative` (no padding) | font **.75rem / 600**, colour `--ink` |
+
+Kit-demo scale (storybook `#circularprogress`, lines 2338–2340): 40px ring → strokeWidth 2.5; 48px & 56px rings → strokeWidth 3 (proportional override). ⚠ Note the separate `#spinner` storybook block (line 1063) renders the CircularProgress demo at 40px with **strokeWidth 4** on a 36-unit viewBox — inconsistent with the 2.5 default; both are illustrative demos, not the component default.
 
 | State | Current (prod) · was | Expected · became | Specification |
 |---|---|---|---|

@@ -1,0 +1,16 @@
+<!--
+  Selector skeleton — loading state.
+  Mirrors: components/Selector.html · current/Selector.md
+  Base box from: pages/kit-theme.css → .sel-trig
+  Repeats: 1
+  Placeholdered: .sel-lbl (label) + .sel-trig control box. The .sel-menu dropdown is
+  display:none at rest, so it is not skeletoned. .sel-trig keeps prod footprint
+  (height 2.25rem, full width of .sel-wrap 240px); default .skel radius (6px) ≈ .sel-trig
+  .375rem. Label box ~6.25rem × .9375rem inside the 1.125rem line-height row.
+-->
+<div class="sk-skel">
+  <div class="sel-wrap">
+    <span class="sel-lbl"><span class="skel shimmer r-sm" style="width:6.25rem;height:.9375rem"></span></span>
+    <span class="skel shimmer" style="display:block;width:100%;height:2.25rem"></span>
+  </div>
+</div>

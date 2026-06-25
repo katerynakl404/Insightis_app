@@ -11,9 +11,37 @@ Baseline: [`../current/Badge.md`](../current/Badge.md).
 | Error | bg `red/15`, text `red` | — | — no change (hex shift dark theme only → [colors](colors.md)) | — |
 | Attention | bg `attention/15`, text `attention` | — | — no change | — |
 | **With leading icon** *(new)* | — did not exist | — | **new** — inline SVG slot via existing `gap:.5rem`; helper class `.badge .b-ic{width:14px;height:14px;flex:none}` | Icon inherits `currentColor` so it picks up the chip's text token across every variant. |
-| **Removable (close)** *(new)* | — did not exist | — | **new** — trailing `×` button: `.badge .b-x{width:14px;height:14px;margin-left:2px;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent}` + hover `opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)` + brand focus ring | Promotes the existing `.acpl .acpl-ctrl .badge .b-x` pattern into a first-class Badge slot. |
+| **Removable (close)** *(new)* | — did not exist | — | **new** — trailing `×` button: `.badge .b-x{width:16px;height:16px;margin-left:2px;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent}` + hover `opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)` + brand focus ring | Promotes the existing `.acpl .acpl-ctrl .badge .b-x` pattern into a first-class Badge slot. |
 | **Status dot** *(new)* | — did not exist | — | **new** — leading 6×6 dot: `.badge .b-dot{width:6px;height:6px;border-radius:9999px;background:currentColor;flex:none}`, paired with semantic colour variants (`badge-green` online / `badge-attention` idle / `badge-red` offline) | Dot uses `currentColor` so it inherits the variant's text token. Status conveyed by dot **+** text label, never colour alone (WCAG 1.4.1). |
 | **Size: small (sm)** | — (did not exist) | — | height `1.25rem` (20 px), padding `0 .375rem`, font `0.6875rem` (11 px), radius `0.25rem` | New compact size for dense UI contexts (table cells, inline labels) |
+
+## Sizes (per-size spec — both sizes listed individually)
+
+Base `.badge`: `display:inline-flex`, `align-items:center`, `gap:.5rem` (8px between slot + label), `border:1px solid transparent`, `font-weight:500`, `line-height:1`. Only height / padding / radius / font-size differ per size.
+
+| Size | Class | Height | Padding | Radius | Font-size | Font-weight |
+|---|---|---|---|---|---|---|
+| md (default) | `.badge` | `1.75rem` (28px) | `0 .625rem` (0 / 10px) | `.375rem` (6px) | `.75rem` (12px) | 500 |
+| sm | `.badge-sm` | `1.25rem` (20px) | `0 .375rem` (0 / 6px) | `.25rem` (4px) | `.6875rem` (11px) | 500 |
+
+> `md` is the implicit default carried by the base `.badge` rule (no modifier class). `.badge-sm` overrides height, padding, radius and font-size for dense contexts (table cells, inline labels). Variant colour and slots (`.b-ic` / `.b-dot` / `.b-x`) are size-independent.
+
+## Slots (per-slot spec — size-independent, inherit `currentColor`)
+
+| Slot | Class | Size | Notes |
+|---|---|---|---|
+| Leading icon | `.b-ic` | 14×14px (`flex:none`) | Inline SVG; inherits the variant's text token via `currentColor` |
+| Status dot | `.b-dot` | 6×6px, `border-radius:9999px`, `background:currentColor` (`flex:none`) | Pair with text label — never colour alone (1.4.1) |
+| Removable × | `.b-x` | 16×16px, `margin-left:2px`, `opacity:.7` → hover `opacity:1` + `color-mix(currentColor 12%,transparent)` bg; `:focus-visible` brand ring (`0 0 0 2px --card, 0 0 0 4px --focus-ring-brand`) | Promotes the old `.acpl .acpl-ctrl .badge .b-x` into a first-class slot |
+
+## Variant colour tokens (per-variant exact values)
+
+| Variant | Class | bg token → primitive | text token → primitive |
+|---|---|---|---|
+| Primary | `.badge-primary` | `--badge-primary-bg` → light `--brand-50` `#E8F2F5` / dark `--brand-800` `#142B31` | `--badge-primary-text` → `--brand-secondary` (light Brand-700 `#066867` / dark Brand-400 `#2FA29B`) |
+| Secondary | `.badge-secondary` | `--badge-secondary-bg` → `--card2` (light `#F1F5F9` / dark `#21212C`) | `--badge-secondary-text` → `--ink-body` (Text/Body) |
+
+> `.prod` scope remaps `--badge-primary-bg`/`-text` to `color-mix(--p-primary 20%, transparent)` / `--p-primary`, and `--badge-secondary-bg`/`-text` to `--chips` / `--ink-secondary`, so the Current column still reflects what prod ships.
 
 ## No change (—)
 

@@ -10,7 +10,7 @@ All dimensions below apply to **every** menu in the system — base text menu (E
 | Surface elevation | `shadow-md` (Tailwind: `0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1)`) | — | `0 6px 16px -4px rgba(0,0,0,.12), 0 2px 4px -2px rgba(0,0,0,.06)` | Same elevation feel, softer outer edge |
 | **Item padding** | `py-0.5 px-1.5` (`2 / 6 px`) — prod's actual `.prod .mi` values per DevTools | — | `6 / 12 px` | Roomier hit target; clears WCAG 2.5.8 (≥ 24 px) |
 | **Item gap (icon ↔ label)** | `gap-1.5` (`6 px`) | — | `8 px` | Modest breathing room from the label |
-| **Item radius** | `rounded` (`4 px`, Tailwind default) | — | `6 px` | Matches the step the surface takes (md → lg) |
+| **Item radius** | `rounded` (`4 px`, Tailwind default) | — | `4 px` | `.mi` keeps the 4 px item radius (the `.menu` shell steps md → lg to 8 px; items stay 4 px) |
 | **Item height** | `~24 px` (cramped) | — | `~32 px` | Bigger hit target without overshooting |
 | Item text | `content-primary` `#111827` · text-sm `14 px` · DM Sans | — | `Text/Primary` `#0F172A` · text-sm `14 px` · DM Sans | Token rename; visually near-identical |
 | Item hover bg | `primary/10` | — | `State/Hover` | Unified with the rest of the kit's low-emphasis hover system |

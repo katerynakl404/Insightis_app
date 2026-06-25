@@ -1,0 +1,17 @@
+<!--
+  Tabs skeleton — loading state.
+  Mirrors: components/Tabs.html · current/Tabs.md · changes/Tabs.md
+  Base box from: pages/kit-theme.css → .tabset / .tab
+  Repeats: 3 tabs (match prod default Overview / Activity / Settings).
+  Notes: reuses live .tabset (flex, gap .5rem, border-bottom 1px) so the footprint and
+  underline baseline match prod. Each .tab box mirrors the tab label area: .tab padding
+  is .5rem .75rem .75rem, font-size .875rem → label boxes ~4.5rem × .875rem with vertical
+  padding via inline margin so the row keeps the prod 2.25rem-ish height incl. underline.
+-->
+<div class="sk-skel">
+  <div class="tabset">
+    <span class="skel shimmer r-sm" style="width:4.5rem;height:.875rem;margin:.5rem .75rem .75rem"></span>
+    <span class="skel shimmer r-sm" style="width:4rem;height:.875rem;margin:.5rem .75rem .75rem"></span>
+    <span class="skel shimmer r-sm" style="width:4.25rem;height:.875rem;margin:.5rem .75rem .75rem"></span>
+  </div>
+</div>

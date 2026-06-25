@@ -1,0 +1,55 @@
+<!--
+  Sidebar skeleton — loading state.
+  Mirrors: components/Sidebar.html · current/Sidebar.md · changes/Sidebar.md
+  Base box from: pages/kit-theme.css → .sbx (+ .sbx-head / .sbx-nav / .sbx-nav-item / .sbx-foot / .sbx-user)
+  Repeats: 1 sidebar — header logo block + 5 nav rows (icon square + label line) + footer user row.
+  Notes: reuses the live .sbx shell (width 14.75rem, height 700px, border 1px, radius
+  .625rem, flex column) so toggling causes zero layout shift. Header mirrors .sbx-brand
+  (height 32px, logo 24×100). Nav rows mirror .sbx-nav-item (height 2rem, .ic 16×16 icon
+  square + label line). Footer mirrors .sbx-foot/.sbx-user (avatar 1.5rem circle + name +
+  meta lines). .sbx-nav already supplies gap 2px / padding 0 8px 16px.
+-->
+<div class="sk-skel">
+  <div class="sbx">
+    <!-- header: brand logo block -->
+    <div class="sbx-head">
+      <div class="sbx-brand">
+        <span class="skel shimmer r-sm" style="width:100px;height:24px"></span>
+        <span class="skel shimmer r-lg" style="width:1.75rem;height:1.75rem;flex:none"></span>
+      </div>
+    </div>
+    <!-- 5 nav rows: icon square + label line -->
+    <div class="sbx-nav">
+      <div class="sbx-nav-item">
+        <span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span>
+        <span class="skel shimmer r-sm" style="flex:1;height:.8125rem;max-width:7rem"></span>
+      </div>
+      <div class="sbx-nav-item">
+        <span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span>
+        <span class="skel shimmer r-sm" style="flex:1;height:.8125rem;max-width:6rem"></span>
+      </div>
+      <div class="sbx-nav-item">
+        <span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span>
+        <span class="skel shimmer r-sm" style="flex:1;height:.8125rem;max-width:8rem"></span>
+      </div>
+      <div class="sbx-nav-item">
+        <span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span>
+        <span class="skel shimmer r-sm" style="flex:1;height:.8125rem;max-width:5.5rem"></span>
+      </div>
+      <div class="sbx-nav-item">
+        <span class="skel shimmer r-sm" style="width:16px;height:16px;flex:none"></span>
+        <span class="skel shimmer r-sm" style="flex:1;height:.8125rem;max-width:6.5rem"></span>
+      </div>
+    </div>
+    <!-- footer: user row -->
+    <div class="sbx-foot">
+      <div class="sbx-user">
+        <span class="skel shimmer r-full" style="width:1.5rem;height:1.5rem;flex:none"></span>
+        <div class="sbx-user-info">
+          <span class="skel shimmer r-sm" style="width:6rem;height:.75rem"></span>
+          <span class="skel shimmer r-sm" style="width:4rem;height:.625rem"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

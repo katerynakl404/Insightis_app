@@ -124,10 +124,8 @@ sidebar user row). Clicking any nav item in the popover calls `acctOpenModal(sec
 
 | Element | Expected |
 |---|---|
-| Category | `.segctrl-group` → `.segctrl-label` "Category" + `.segctrl.is-md#acct-fb-cat` (Feature / Bug / Feedback icons + labels). Each `.segctrl-btn` carries `data-send-label` with the CTA copy for its category — Feature → "Send feature request", Bug → "Send bug report", Feedback → "Send feedback". |
-| Textarea | `.ta`, `rows="5"`, full-width, `max-width:100%`, labelled "Your feedback" |
-| Actions row | `.acct-fb-bottom` (flex, `justify-content:flex-end`, `gap:.5rem`) — `.btn .btn-secondary .btn-sm` "Attach file" (paperclip icon + label) + `.btn .btn-primary .btn-sm#acct-fb-send` whose text is driven by the active category (initial "Send feature request" matching the default Feature segment). |
-| Category → CTA wiring | Document-level click listener (`#acct-fb-cat .segctrl-btn` → `#acct-fb-send.textContent`) rewrites the primary CTA label whenever the category changes, so the Send button always names the exact action being submitted. No state stored separately — `data-send-label` on the clicked button IS the source of truth. |
+| Textarea | `.ta`, `rows="5"`, full-width, `max-width:100%`, labelled "Your feedback" (first element in the section — Category segmented control removed) |
+| Actions row | `.acct-fb-bottom` (flex, `justify-content:flex-end`, `gap:.5rem`) — `.btn .btn-secondary .btn-sm` "Attach file" (paperclip icon + label) + `.btn .btn-primary .btn-sm` "Send feedback". |
 
 ---
 
@@ -182,7 +180,7 @@ Hidden on desktop (`display:none`). Shown at ≤767px as `display:flex`.
 
 | Element | Desktop | Mobile (≤767px) |
 |---|---|---|
-| Segctrl buttons (Theme / Feedback category) | Icon + `<span class="segctrl-lbl">` text label | Labels hidden (`segctrl-lbl{display:none}`) — icon only; `aria-label` on each button preserves accessible name |
+| Segctrl buttons (Theme) | Icon + `<span class="segctrl-lbl">` text label | Labels hidden (`segctrl-lbl{display:none}`) — icon only; `aria-label` on each button preserves accessible name |
 | Delete account section | `flex-direction:row` (text left, button right) | `flex-wrap:wrap` — button wraps to second row at its natural width |
 | Balance progress texts | "32% of total credits used" / "1,451 remaining" | Short variants via `.acct-show-mobile`: "32% used" / "1,451 left". Full text in `.acct-hide-mobile`, hidden at ≤767px |
 | Balance CTA buttons | Natural width, right-aligned on wrap row | `flex:1` on each `.btn` inside `.acct-bal-btns` → equal-width split across full row |
@@ -197,7 +195,7 @@ Hidden on desktop (`display:none`). Shown at ≤767px as `display:flex`.
 
 **Balance:** `.acct-bal-circle`, `.acct-bal-amount`, `.acct-usage-table`
 
-**Feedback:** `.acct-fb-bottom`, `.acct-fb-attach`, `.acct-fb-send`
+**Feedback:** `.acct-fb-bottom`
 
 **New kit-theme.css additions (this iteration):**
 - `--progress-track: var(--card2)` — semantic token in `:root`
@@ -231,7 +229,6 @@ Reused kit classes: `.sbx-pop-sect`, `.sbx-pop-label`, `.sbx-pop-list`, `.sbx-po
 - Close (desktop): `aria-label="Close account settings"`.
 - Mobile back: `aria-label="Back"`.
 - Theme buttons: `aria-label` per option + `aria-pressed`.
-- Category tabs: `role="tablist"` / `role="tab"` + `aria-selected`.
 
 ---
 
@@ -239,4 +236,4 @@ Reused kit classes: `.sbx-pop-sect`, `.sbx-pop-label`, `.sbx-pop-list`, `.sbx-po
 
 **Consistency:** PASS — `--card`/`--border`/kit shadows; hover/pressed via `--state-hover`/`--state-pressed`; `--brand-primary` for active; no raw hex; `--progress-track` isolates track intent from `--state-hover`; chevrons and mobile header use `--ink-secondary`; Log Out uses `--fb-red-text`.
 
-**Accessibility:** PASS — mobile items ≥ 44px hit targets; desktop items ≥ 30px; dialog labeled; active state uses colour + bg (not colour alone); Log Out red text + icon; external link labeled; category tabs keyboard-navigable.
+**Accessibility:** PASS — mobile items ≥ 44px hit targets; desktop items ≥ 30px; dialog labeled; active state uses colour + bg (not colour alone); Log Out red text + icon; external link labeled.

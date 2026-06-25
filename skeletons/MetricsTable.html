@@ -1,0 +1,149 @@
+<!--
+  MetricsTable skeleton — loading state.
+  Mirrors: components/MetricsTable.html
+  Base box from: pages/kit-theme.css → .mx-tbl
+  Repeats: 2 provider groups × ~3 metric rows (match prod default)
+-->
+<div class="sk-skel">
+  <div class="mx-tbl" aria-hidden="true">
+    <table class="tbl">
+      <colgroup>
+        <col style="width:2.75rem"><!-- toggle -->
+        <col style="width:22%">    <!-- name -->
+        <col>                      <!-- description (auto) -->
+        <col style="width:6.5rem"><!-- badge -->
+        <col style="width:11rem"> <!-- alias -->
+        <col style="width:5rem">  <!-- actions -->
+      </colgroup>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Metric</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Alias</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ── Provider group 1 ── -->
+        <tr class="mx-prov-group">
+          <td colspan="5">
+            <div class="mx-prov-group-cell">
+              <span class="skel shimmer r-sm" style="width:13px;height:13px"></span>
+              <span class="skel shimmer r-sm" style="width:1.25rem;height:1.25rem"></span>
+              <span class="skel shimmer r-sm" style="width:9rem;height:.875rem"></span>
+            </div>
+          </td>
+          <td class="mx-tbl-actions"></td>
+        </tr>
+
+        <!-- metric row 1 -->
+        <tr class="mx-metric-child">
+          <td>
+            <div class="mx-tbl-name mx-child-indent">
+              <div class="mx-swt-wrap">
+                <span class="skel shimmer r-full" style="width:2.25rem;height:1.25rem"></span>
+              </div>
+            </div>
+          </td>
+          <td class="mx-tbl-name">
+            <span class="skel shimmer r-sm" style="display:block;width:8rem;height:.875rem"></span>
+            <span class="skel shimmer r-sm" style="display:block;width:6rem;height:.75rem;margin-top:.25rem"></span>
+          </td>
+          <td class="mx-tbl-desc"><span class="skel shimmer r-sm" style="display:block;width:13rem;height:.75rem"></span></td>
+          <td class="mx-tbl-badge"><span class="skel shimmer r-full" style="display:inline-block;width:3.75rem;height:1.125rem"></span></td>
+          <td class="mx-tbl-alias"><span class="skel shimmer r-sm" style="display:block;width:6rem;height:.75rem"></span></td>
+          <td class="mx-tbl-actions"><span class="skel shimmer r-sm" style="display:inline-block;width:1.625rem;height:1.625rem"></span></td>
+        </tr>
+
+        <!-- metric row 2 -->
+        <tr class="mx-metric-child">
+          <td>
+            <div class="mx-tbl-name mx-child-indent">
+              <div class="mx-swt-wrap">
+                <span class="skel shimmer r-full" style="width:2.25rem;height:1.25rem"></span>
+              </div>
+            </div>
+          </td>
+          <td class="mx-tbl-name">
+            <span class="skel shimmer r-sm" style="display:block;width:6.5rem;height:.875rem"></span>
+          </td>
+          <td class="mx-tbl-desc"><span class="skel shimmer r-sm" style="display:block;width:15rem;height:.75rem"></span></td>
+          <td class="mx-tbl-badge"><span class="skel shimmer r-full" style="display:inline-block;width:3.25rem;height:1.125rem"></span></td>
+          <td class="mx-tbl-alias"><span class="skel shimmer r-sm" style="display:block;width:5rem;height:.75rem"></span></td>
+          <td class="mx-tbl-actions"><span class="skel shimmer r-sm" style="display:inline-block;width:1.625rem;height:1.625rem"></span></td>
+        </tr>
+
+        <!-- metric row 3 -->
+        <tr class="mx-metric-child">
+          <td>
+            <div class="mx-tbl-name mx-child-indent">
+              <div class="mx-swt-wrap">
+                <span class="skel shimmer r-full" style="width:2.25rem;height:1.25rem"></span>
+              </div>
+            </div>
+          </td>
+          <td class="mx-tbl-name">
+            <span class="skel shimmer r-sm" style="display:block;width:9rem;height:.875rem"></span>
+          </td>
+          <td class="mx-tbl-desc"><span class="skel shimmer r-sm" style="display:block;width:11rem;height:.75rem"></span></td>
+          <td class="mx-tbl-badge"><span class="skel shimmer r-full" style="display:inline-block;width:3.75rem;height:1.125rem"></span></td>
+          <td class="mx-tbl-alias"><span class="skel shimmer r-sm" style="display:block;width:6.5rem;height:.75rem"></span></td>
+          <td class="mx-tbl-actions"><span class="skel shimmer r-sm" style="display:inline-block;width:1.625rem;height:1.625rem"></span></td>
+        </tr>
+
+        <!-- ── Provider group 2 ── -->
+        <tr class="mx-prov-group">
+          <td colspan="5">
+            <div class="mx-prov-group-cell">
+              <span class="skel shimmer r-sm" style="width:13px;height:13px"></span>
+              <span class="skel shimmer r-sm" style="width:1.25rem;height:1.25rem"></span>
+              <span class="skel shimmer r-sm" style="width:7.5rem;height:.875rem"></span>
+            </div>
+          </td>
+          <td class="mx-tbl-actions"></td>
+        </tr>
+
+        <!-- metric row 1 -->
+        <tr class="mx-metric-child">
+          <td>
+            <div class="mx-tbl-name mx-child-indent">
+              <div class="mx-swt-wrap">
+                <span class="skel shimmer r-full" style="width:2.25rem;height:1.25rem"></span>
+              </div>
+            </div>
+          </td>
+          <td class="mx-tbl-name">
+            <span class="skel shimmer r-sm" style="display:block;width:7rem;height:.875rem"></span>
+          </td>
+          <td class="mx-tbl-desc"><span class="skel shimmer r-sm" style="display:block;width:14rem;height:.75rem"></span></td>
+          <td class="mx-tbl-badge"><span class="skel shimmer r-full" style="display:inline-block;width:3.25rem;height:1.125rem"></span></td>
+          <td class="mx-tbl-alias"><span class="skel shimmer r-sm" style="display:block;width:5.5rem;height:.75rem"></span></td>
+          <td class="mx-tbl-actions"><span class="skel shimmer r-sm" style="display:inline-block;width:1.625rem;height:1.625rem"></span></td>
+        </tr>
+
+        <!-- metric row 2 -->
+        <tr class="mx-metric-child">
+          <td>
+            <div class="mx-tbl-name mx-child-indent">
+              <div class="mx-swt-wrap">
+                <span class="skel shimmer r-full" style="width:2.25rem;height:1.25rem"></span>
+              </div>
+            </div>
+          </td>
+          <td class="mx-tbl-name">
+            <span class="skel shimmer r-sm" style="display:block;width:8.5rem;height:.875rem"></span>
+            <span class="skel shimmer r-sm" style="display:block;width:5.5rem;height:.75rem;margin-top:.25rem"></span>
+          </td>
+          <td class="mx-tbl-desc"><span class="skel shimmer r-sm" style="display:block;width:12rem;height:.75rem"></span></td>
+          <td class="mx-tbl-badge"><span class="skel shimmer r-full" style="display:inline-block;width:3.75rem;height:1.125rem"></span></td>
+          <td class="mx-tbl-alias"><span class="skel shimmer r-sm" style="display:block;width:6rem;height:.75rem"></span></td>
+          <td class="mx-tbl-actions"><span class="skel shimmer r-sm" style="display:inline-block;width:1.625rem;height:1.625rem"></span></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

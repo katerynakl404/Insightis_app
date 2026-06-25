@@ -1,0 +1,19 @@
+<!--
+  Pagination skeleton — loading state.
+  Mirrors: components/Pagination.html · current/Pagination.md · changes/Pagination.md
+  Base box from: pages/kit-theme.css → .btn.btn-sm / .iconbtn (Pagination is a composed row, no own container class)
+  Repeats: 4 controls — prev (IconButton 2rem) + 2 page buttons (2rem) + next (IconButton 2rem),
+           matching the kit demo default.
+  Notes: Pagination has no dedicated container selector — it is a flex row of composed
+  buttons. Wrapper div carries inline display:flex + gap .25rem (Spacing/2 step) to mirror
+  the demo .stage row. Prev/Next mirror IconButton secondary (height 2rem / width 2rem,
+  radius .375rem ≈ .skel default 6px). Page buttons mirror btn-sm at width 2rem, height 2rem.
+-->
+<div class="sk-skel">
+  <div style="display:flex;align-items:center;gap:.25rem">
+    <span class="skel shimmer r-lg" style="width:2rem;height:2rem"></span>
+    <span class="skel shimmer r-lg" style="width:2rem;height:2rem"></span>
+    <span class="skel shimmer r-lg" style="width:2rem;height:2rem"></span>
+    <span class="skel shimmer r-lg" style="width:2rem;height:2rem"></span>
+  </div>
+</div>

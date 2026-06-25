@@ -31,6 +31,20 @@ Theme switcher).
 `.sbx-pop`, `.sbx-pop-account`, `.sbx-pop-sect`, `.sbx-pop-label`, `.sbx-pop-list`,
 `.sbx-pop-item`, `.sbx-pop-theme`, `.sbx-pop-theme-btn`.
 
+## Dimensions (reproduction)
+
+Shell + rows come from the shared `.sbx-pop` recipe — canonical table in [`Popover.md`](Popover.md#kit-reproduction--shipped-sbx-pop-values); the theme switcher from [`SegmentedControl.md`](SegmentedControl.md). Account-popover values:
+
+| Part | Size / spacing |
+|---|---|
+| Surface (`.sbx-pop.sbx-pop-account`) | bg `Surface/Card` (`--card`), 1 px `Stroke/Border`, **radius 8 px**, **padding 16 px 12 px**, shadow `drop-shadow-lg`, `z-index:20` |
+| Position | `bottom:calc(100% + 4px)`, `left:.5rem`, `right:.5rem` — anchored above the footer user row |
+| Open layout | `display:flex; flex-direction:column;` **section gap 14 px** (`.875rem`) |
+| Section (`.sbx-pop-sect`) | **gap 8 px**; label `.sbx-pop-label` **12 px / 500** `--ink-secondary`, padding `0 .5rem` |
+| List (`.sbx-pop-list`) | column, **gap 1 px** |
+| Item (`.sbx-pop-item`) | height ~30 px, **padding 6 px 8 px**, **gap 10 px**, **radius 6 px**, font **14 px** `--ink-body`; icon **16 px** `--ink-secondary` |
+| Theme switcher | SegmentedControl `is-sm` — **20 px tall, icon-only**, 12 px icons, 2 px padding, 6 px radius; bg overridden to `Surface/Chips` (`--chips`) |
+
 ## A11y
 
 - Trigger: `aria-haspopup="menu"`, `aria-expanded` toggled on open/close.

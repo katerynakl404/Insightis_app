@@ -72,13 +72,26 @@
      Open state = pressed-tertiary (bg stays pressed while menu is visible). */
   .cl-dropdown{display:inline-flex;align-items:center;justify-content:center;height:2rem;padding:0 .5rem;gap:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink-body);background:transparent;border:none;border-radius:.375rem;cursor:pointer;font-family:inherit;transition:background .12s,color .12s;white-space:nowrap;flex:none}
   .cl-dropdown:hover{background:var(--state-hover)}
-  .cl-dropdown:active,.cl-dropdown[aria-expanded="true"]{background:var(--state-pressed)}
+  /* Open/pressed wins over hover — an expanded trigger keeps its pressed surface while hovered. */
+  .cl-dropdown:active,.cl-dropdown[aria-expanded="true"],.cl-dropdown[aria-expanded="true"]:hover{background:var(--state-pressed)}
   .cl-dropdown:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
   .cl-dropdown .cl-dropdown-icon{width:16px;height:16px;color:var(--ink-body)}
   .cl-dropdown .cl-ic-chev{width:14px;height:14px;color:var(--ink-secondary);transition:transform .15s}
   .cl-dropdown[aria-expanded="true"] .cl-ic-chev{transform:rotate(180deg)}
-  /* Attach icon button — same pressed-open state as .cl-dropdown */
-  .cl-attach[aria-expanded="true"]{background:var(--state-pressed)}
+  /* Attach icon button — same pressed-open state as .cl-dropdown; open wins over hover. */
+  .cl-attach[aria-expanded="true"],.cl-attach[aria-expanded="true"]:hover{background:var(--state-pressed)}
+  /* Disabled-after-upload state — aria-disabled (not [disabled]) so the tooltip engine still
+     fires on hover to explain why ("Only one file allowed"). Pointer events stay on. */
+  .cl-attach[aria-disabled="true"]{color:var(--ink-inactive);cursor:not-allowed}
+  .cl-attach[aria-disabled="true"]:hover{background:transparent}
+  /* Attached-file chip — appears in the tools row once a file is loaded; × removes it. */
+  .cl-file-chip{display:inline-flex;align-items:center;gap:.375rem;height:2rem;padding:0 .25rem 0 .5rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);font-size:.8125rem;color:var(--ink-body);max-width:12rem}
+  /* The class sets display:inline-flex, which beats the UA [hidden]{display:none} — restore it. */
+  .cl-file-chip[hidden]{display:none}
+  .cl-file-chip .cl-file-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cl-file-chip .cl-file-chip-x{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border:none;background:transparent;border-radius:.25rem;color:var(--ink-secondary);cursor:pointer;flex:none}
+  .cl-file-chip .cl-file-chip-x:hover{background:var(--state-hover);color:var(--ink-body)}
+  .cl-file-chip svg{width:14px;height:14px}
   .cl-dropdown-wrap{position:relative}
   .cl-dropdown-menu{position:absolute;bottom:calc(100% + 4px);left:0;z-index:50;display:none}
   .cl-dropdown[aria-expanded="true"]+.cl-dropdown-menu,.cl-attach[aria-expanded="true"]+.cl-dropdown-menu{display:block}
@@ -476,20 +489,26 @@
         <div class="cl-composer-foot">
           <div class="cl-composer-tools">
             <div class="cl-dropdown-wrap">
-              <button class="iconbtn iconbtn-tertiary cl-attach" type="button" aria-label="Attach file" aria-haspopup="menu" aria-expanded="false" onclick="clAttachToggle(this)" data-tip="Attach file">
+              <button class="iconbtn iconbtn-tertiary cl-attach" type="button" aria-label="Add file" aria-haspopup="menu" aria-expanded="false" onclick="clAttachToggle(this)" data-tip="Add file">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
               </button>
-              <div class="cl-dropdown-menu menu" role="menu">
-                <div class="menu-wip" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5L14.5 13H1.5L8 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6v3.5M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Not yet redesigned</div>
-                <div class="mi" role="menuitem" onclick="clAttachClose()">
-                  <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                  Upload file
-                </div>
-                <div class="mi" role="menuitem" onclick="clAttachClose()">
-                  <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                  Paste URL
-                </div>
+              <div class="cl-dropdown-menu menu cl-attach-menu" role="menu">
+                <button class="btn btn-secondary btn-sm cl-attach-choose" type="button" onclick="clChooseFile()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Choose File
+                </button>
+                <div class="cl-menu-label">Recent files</div>
+                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('Q3-revenue.csv')">Q3-revenue.csv</div>
+                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('customers-export.xlsx')">customers-export.xlsx</div>
+                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('churn-analysis.pdf')">churn-analysis.pdf</div>
               </div>
+            </div>
+            <!-- Attached-file chip — populated by JS once a file is loaded (only one allowed). -->
+            <div class="cl-file-chip" id="cl-file-chip" hidden>
+              <span class="cl-file-chip-name"></span>
+              <button class="cl-file-chip-x" type="button" aria-label="Remove file" onclick="clRemoveFile()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
             </div>
             <div class="cl-dropdown-wrap">
               <button class="cl-dropdown" type="button" aria-haspopup="menu" aria-expanded="false" onclick="clDdToggle(this)">
@@ -497,12 +516,45 @@
                 <span class="cl-dropdown-lbl">Connections</span>
                 <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <div class="cl-dropdown-menu menu" role="menu">
-                <div class="menu-wip" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5L14.5 13H1.5L8 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6v3.5M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Not yet redesigned</div>
-                <div class="mi" role="menuitem" onclick="clDdSelect(this,'Connections')">All sources</div>
-                <div class="mi" role="menuitem" onclick="clDdSelect(this,'Snowflake')">Snowflake</div>
-                <div class="mi" role="menuitem" onclick="clDdSelect(this,'Salesforce')">Salesforce</div>
-                <div class="mi" role="menuitem" onclick="clDdSelect(this,'BigQuery')">BigQuery</div>
+              <div class="cl-dropdown-menu menu cl-conn-menu" role="menu">
+                <div class="cl-menu-label">Your connections</div>
+                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                  <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
+                  <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span><span class="cl-conn-type">PostgreSQL</span></span>
+                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB in this chat"></button>
+                </div>
+                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                  <span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span>
+                  <span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span><span class="cl-conn-type">Salesforce</span></span>
+                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM in this chat"></button>
+                </div>
+                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                  <span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span>
+                  <span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span><span class="cl-conn-type">HubSpot</span></span>
+                  <button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub in this chat"></button>
+                </div>
+                <hr class="menu-sep" />
+                <div class="cl-menu-label">Suggested</div>
+                <a class="mi cl-conn-item" role="menuitem" href="data-sources_connections-landing.html">
+                  <span class="logo-spr bigquery cl-conn-logo" role="img" aria-label="BigQuery logo"></span>
+                  <span class="cl-conn-text"><span class="cl-conn-name">BigQuery</span></span>
+                  <span class="cl-conn-add">Connect</span>
+                </a>
+                <a class="mi cl-conn-item" role="menuitem" href="data-sources_connections-landing.html">
+                  <span class="logo-spr googlesheets cl-conn-logo" role="img" aria-label="Google Sheets logo"></span>
+                  <span class="cl-conn-text"><span class="cl-conn-name">Google Sheets</span></span>
+                  <span class="cl-conn-add">Connect</span>
+                </a>
+                <a class="mi cl-conn-item" role="menuitem" href="data-sources_connections-landing.html">
+                  <span class="logo-spr snowflake cl-conn-logo" role="img" aria-label="Snowflake logo"></span>
+                  <span class="cl-conn-text"><span class="cl-conn-name">Snowflake</span></span>
+                  <span class="cl-conn-add">Connect</span>
+                </a>
+                <hr class="menu-sep" />
+                <a class="mi cl-conn-manage" role="menuitem" href="data-sources_connections-landing.html">
+                  <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Manage Connections
+                </a>
               </div>
             </div>
             <div class="cl-dropdown-wrap">
@@ -511,11 +563,22 @@
                 <span class="cl-dropdown-lbl">Gemini Pro</span>
                 <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <div class="cl-dropdown-menu menu" role="menu">
-                <div class="menu-wip" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5L14.5 13H1.5L8 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6v3.5M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Not yet redesigned</div>
-                <div class="mi" role="menuitem" onclick="clDdSelect(this,'Gemini 2.0 Pro')">Gemini 2.0 Pro</div>
-                <div class="mi" role="menuitem" onclick="clDdSelect(this,'Gemini Flash')">Gemini Flash</div>
-                <div class="mi" role="menuitem" onclick="clDdSelect(this,'GPT-4o')">GPT-4o</div>
+              <div class="cl-dropdown-menu menu cl-model-menu" role="menu">
+                <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="true" onclick="clModelSelect(this,'Gemini Pro')">
+                  <img class="cl-model-logo" src="../assets/logos/gemini.svg" alt="Gemini" />
+                  <span class="cl-model-text"><span class="cl-model-name">Gemini Pro</span><span class="cl-model-desc">Balanced speed &amp; quality</span></span>
+                  <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="false" onclick="clModelSelect(this,'Gemini Flash')">
+                  <img class="cl-model-logo" src="../assets/logos/gemini.svg" alt="Gemini" />
+                  <span class="cl-model-text"><span class="cl-model-name">Gemini Flash</span><span class="cl-model-desc">Fastest, for quick tasks</span></span>
+                  <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="false" onclick="clModelSelect(this,'GPT-4o')">
+                  <img class="cl-model-logo" src="../assets/logos/openai.svg" alt="OpenAI" />
+                  <span class="cl-model-text"><span class="cl-model-name">GPT-4o</span><span class="cl-model-desc">Strong general reasoning</span></span>
+                  <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
               </div>
             </div>
           </div>
@@ -666,14 +729,30 @@
     clCloseAll();
     btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
   }
-  function clDdSelect(item, label){
+  function clModelSelect(item, label){
     var wrap = item.closest('.cl-dropdown-wrap');
-    var lbl = wrap && wrap.querySelector('.cl-dropdown-lbl');
+    if(!wrap) return;
+    wrap.querySelectorAll('.cl-model-item').forEach(function(m){m.setAttribute('aria-checked', m === item ? 'true' : 'false');});
+    var lbl = wrap.querySelector('.cl-dropdown-lbl');
     if(lbl) lbl.textContent = label;
-    var btn = wrap && wrap.querySelector('.cl-dropdown');
+    var btn = wrap.querySelector('.cl-dropdown');
     if(btn) btn.setAttribute('aria-expanded','false');
   }
+  // Connected sources — flip the row's toggle (kit Switch) on/off; the menu stays open so several
+  // can be switched in one pass. A click anywhere on the row (incl. the switch, which bubbles)
+  // toggles it; keyboard Space/Enter on the focused switch bubbles here too. (Suggested rows are
+  // links that open the connection window — they don't toggle.)
+  function clConnToggle(row){
+    var sw = row.querySelector('.cl-conn-swt');
+    if(!sw) return;
+    var on = sw.getAttribute('aria-checked') === 'true';
+    sw.setAttribute('aria-checked', on ? 'false' : 'true');
+    sw.classList.toggle('on', !on);
+  }
+  // Attach button — single-file rule. Once a file is loaded the icon is aria-disabled (kept
+  // hoverable so its tooltip can explain why); the chosen file shows as a removable chip.
   function clAttachToggle(btn){
+    if(btn.getAttribute('aria-disabled') === 'true') return;
     var willOpen = btn.getAttribute('aria-expanded') !== 'true';
     clCloseAll();
     btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
@@ -681,6 +760,20 @@
   function clAttachClose(){
     var att = document.querySelector('.cl-attach');
     if(att) att.setAttribute('aria-expanded','false');
+  }
+  function clChooseFile(){ clPickFile('data-upload.csv'); }   // stands in for the OS file picker
+  function clPickFile(name){
+    clAttachClose();
+    var chip = document.getElementById('cl-file-chip');
+    if(chip){ chip.querySelector('.cl-file-chip-name').textContent = name; chip.hidden = false; }
+    var att = document.querySelector('.cl-attach');
+    if(att){ att.setAttribute('aria-disabled','true'); att.setAttribute('data-tip','Only one file allowed'); }
+  }
+  function clRemoveFile(){
+    var chip = document.getElementById('cl-file-chip');
+    if(chip){ chip.hidden = true; chip.querySelector('.cl-file-chip-name').textContent = ''; }
+    var att = document.querySelector('.cl-attach');
+    if(att){ att.removeAttribute('aria-disabled'); att.setAttribute('data-tip','Add file'); }
   }
   // Sticker drag IIFE removed — sticker is no longer rendered on this page (info documented
   // in ../page-changes/chat-landing.md).

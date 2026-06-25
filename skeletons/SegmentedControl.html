@@ -1,0 +1,17 @@
+<!--
+  SegmentedControl skeleton — loading state.
+  Mirrors: components/SegmentedControl.html · current/SegmentedControl.md · changes/SegmentedControl.md
+  Base box from: pages/kit-theme.css → .segctrl / .segctrl-btn
+  Repeats: 3 segments (match prod default md example: Light / Dark / System).
+  Notes: reuses live .segctrl.is-md track (border 1px, padding 2px, gap .25rem, flex,
+  width:100%) so the footprint matches prod. Each .segctrl-btn in md is height 2rem and
+  flex:1 — placeholders take flex:1 + height 2rem to fill the track exactly. Default
+  .skel radius (6px) ≈ the .25rem segctrl-btn corner.
+-->
+<div class="sk-skel">
+  <div class="segctrl is-md">
+    <span class="skel shimmer" style="flex:1;height:2rem"></span>
+    <span class="skel shimmer" style="flex:1;height:2rem"></span>
+    <span class="skel shimmer" style="flex:1;height:2rem"></span>
+  </div>
+</div>

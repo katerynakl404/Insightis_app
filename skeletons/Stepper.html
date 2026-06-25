@@ -1,0 +1,18 @@
+<!--
+  Stepper skeleton — loading state.
+  Mirrors: components/Stepper.html · current/Stepper.md · changes/Stepper.md
+  Base box from: pages/kit-theme.css → .step / .step .dot / .step .ln
+  Repeats: 3 steps (3 dots + 2 connector lines — match prod default example composition).
+  Notes: Stepper is headless; the example composition uses .step (flex, align center,
+  gap 8px) with .dot (24×24 circle) nodes joined by .ln (24×2px) connectors. Reuses .step
+  so the footprint matches. Dots → .skel.r-full at 24×24; connector lines → .skel at 24×2px.
+-->
+<div class="sk-skel">
+  <div class="step">
+    <span class="skel shimmer r-full" style="width:24px;height:24px"></span>
+    <span class="skel shimmer r-full" style="width:24px;height:2px"></span>
+    <span class="skel shimmer r-full" style="width:24px;height:24px"></span>
+    <span class="skel shimmer r-full" style="width:24px;height:2px"></span>
+    <span class="skel shimmer r-full" style="width:24px;height:24px"></span>
+  </div>
+</div>

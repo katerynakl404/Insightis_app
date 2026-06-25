@@ -18,7 +18,32 @@ The Modal kit demo previously rendered its Expected column under the `.prod` sco
 - Delete `<button class="btn btn-sm btn-destructive">` (unchanged classname; new tokens under the hood)
 
 ## No change (—)
-Surface `Card`, radius `lg/xl`, padding 16px, shadow-lg, overlay `black/80`.
+Surface `Card` — the React/Tailwind value that renders the same as the shipped kit (`bg-card` = `--card`), so it's kept as-is. (Radius, padding, shadow and overlay are **not** "no change": the kit `.dlg` overrides them visually — see "Resolved" below.)
+
+## Kit reproduction — shipped `.dlg` values (kit-theme.css 933–943)
+
+The values above describe the React/Radix/Tailwind prod component. The **shipped kit** `.dlg` modal diverges — these are the values to reproduce from the kit:
+
+| Part | Selector | Shipped value |
+|---|---|---|
+| Overlay | `.dlg-overlay` | `background:var(--overlay-scrim)` = `rgba(15,23,42,.45)` light / `rgba(2,6,23,.6)` dark (NOT `black/80`) |
+| Shell | `.dlg` | `background:var(--card); border:1px solid var(--border); border-radius:.875rem` (14px); `box-shadow:0 20px 40px -8px rgba(0,0,0,.22)`; `max-width:calc(100vw - 2rem); display:flex; flex-direction:column` |
+| Header | `.dlg-hdr` | `display:flex; align-items:center; gap:.75rem; padding:.875rem 1.25rem .5rem; flex:none` |
+| Title | `.dlg-title` | `font-size:1.25rem; line-height:1.75rem; font-weight:600; color:var(--ink); margin:0; flex:1; min-width:0` |
+| Progress track | `.dlg-progress-track` | `height:3px; background:var(--border); border-radius:99px; overflow:hidden` |
+| Progress fill | `.dlg-progress-fill` | `height:100%; background:var(--brand-primary); border-radius:99px; transition:width .4s ease` |
+| Body / step | `.dlg-body` / `.dlg-step` | step padding `1.25rem`; body `flex:1; overflow:hidden; min-height:0` |
+
+## Resolved — kit `.dlg` authoritative where it diverges visually
+
+Decision (same rule as [`Popover.md`](Popover.md)): a React/Tailwind value is kept only where it renders the **same** as the shipped kit (e.g. Surface = `Card` = `--card`). Where the React/Tailwind value would render **differently** — the four properties below — the shipped kit `.dlg` value is **authoritative**, and the React/Tailwind value is a superseded prod-reference only (not the target).
+
+| Property | React/Tailwind (superseded prod-reference) | Shipped kit (`.dlg`) — **authoritative** |
+|---|---|---|
+| Overlay | `black/80` | **`--overlay-scrim`** (`rgba(15,23,42,.45)` light / `rgba(2,6,23,.6)` dark) |
+| Radius | `lg/xl` | **`.875rem` (14px)** |
+| Box-shadow | `shadow-lg` (Tailwind) | **`0 20px 40px -8px rgba(0,0,0,.22)`** |
+| Padding | 16px (uniform) | header **`.875rem 1.25rem .5rem`**; step **`1.25rem`** |
 
 ## Still needed (per kit)
 - Modal sizes (sm / md / lg)

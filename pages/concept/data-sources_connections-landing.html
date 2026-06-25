@@ -22,9 +22,6 @@
   .cl-page-title{margin:0 0 .25rem}
   /* Burger alignment handled globally in kit-theme.css — no per-page rules needed. */
 
-  /* ===== Data Sources — layout-only helpers ===== */
-  .ds-conn-tbl table.tbl tbody tr.is-selected td{background:var(--state-pressed)}
-
   /* Search — same pattern as chats-landing */
   .ds-search.field{max-width:none;height:2.5rem;background:var(--card)}
   @media(max-width:767px){.ds-search.field{height:2.25rem}}
@@ -68,139 +65,14 @@
   /* Variant 2 — compact square tiles auto-packed: fits as many ~7.5rem cards as the row allows,
      responsive by nature (no fixed column counts needed). */
   .ds-app.ds-v2 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr));gap:.5rem}
-
-  /* Base card shell — the tile variants (.ds-v2 / .ds-v3) override to a vertical layout */
-  .ds-card{position:relative;display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
-  .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
-  /* Plain connector logos (.logo-spr, kit-theme.css) — no container. Per-context size only. */
-  .ds-card .logo-spr{--logo-size:3rem}
-  .ds-conn-cell-name .logo-spr{--logo-size:1.5rem}
-  .ds-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
-  .ds-card-head{display:flex;align-items:center;gap:.375rem;min-width:0}
-  /* Label = Typography "text-sm" level (14px / 20px), per current/typography.md. */
-  .ds-card-name{font-size:.875rem;line-height:1.25rem;font-weight:400;color:var(--ink)}
-
-  /* ===== Variant 2 — vertical card: logo on top, text below; Connect on hover ===== */
-  .ds-card-hover{display:none}
-  .ds-app.ds-v2 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5rem;padding:.875rem .75rem;height:7.5rem}
-  /* Fixed tile height keeps every card uniform; clamp the name to 2 lines so a long name fits
-     without growing the tile. No reserved min-height — content stays truly vertically centered.
-     Size = Typography "text-sm" (14px / 20px). */
-  .ds-app.ds-v2 .ds-card-name{font-size:.875rem;line-height:1.25rem;
-    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .ds-app.ds-v2 .ds-card .logo-spr{--logo-size:2.75rem}
-  .ds-app.ds-v2 .ds-card-body{flex:0 0 auto;align-items:center}
-  .ds-app.ds-v2 .ds-card-head{justify-content:center}
-  .ds-app.ds-v2 .ds-card-hover{display:flex;align-items:center;justify-content:center;
-    position:absolute;inset:0;border-radius:inherit;
-    background:color-mix(in srgb,var(--card) 78%,transparent);
-    opacity:0;pointer-events:none;transition:opacity var(--motion-slow) var(--motion-ease)}
-  /* The button itself eases in/out with a small slide so the reveal feels fluid, not a flat fade. */
-  .ds-app.ds-v2 .ds-card-connect{transform:translateY(.375rem);
-    transition:transform var(--motion-slow) var(--motion-ease)}
-  .ds-app.ds-v2 .ds-card:hover .ds-card-hover,
-  .ds-app.ds-v2 .ds-card:focus-within .ds-card-hover{opacity:1;pointer-events:auto}
-  .ds-app.ds-v2 .ds-card:hover .ds-card-connect,
-  .ds-app.ds-v2 .ds-card:focus-within .ds-card-connect{transform:translateY(0)}
-  .ds-card-connect span{margin-left:.25rem}
-  /* Touch / no-hover devices have no hover event, so the desktop hover-reveal (translucent
-     scrim + Connect button) is driven by TAP instead. First tap on a tile adds .is-active →
-     reveals the overlay exactly like desktop :hover; the Connect button then performs the
-     action. Tapping the scrim again — or another tile — collapses it (handled in dsCardTap).
-     Tiles stay vertical: same layout and same reveal as desktop, just triggered by tap. */
-  @media (hover:none){
-    .ds-app.ds-v2 .ds-card.is-active .ds-card-hover{opacity:1;pointer-events:auto}
-    .ds-app.ds-v2 .ds-card.is-active .ds-card-connect{transform:translateY(0)}
-  }
-
-  /* ===== Variant 3 — alternative concept: larger vertical tiles, capped at 6 per row
-     (bigger card + bigger logo than Variant 2, so the row holds 6 instead of ~8). Same
-     hover / tap reveal behaviour as Variant 2 (scrim + Connect). The max() min-track grows
-     once 6 tiles would each clear 10rem, so auto-fill never places a 7th; below that the
-     10rem floor lets it reflow down as the content narrows. ===== */
+  /* ===== Variant 3 grid — page-composition column rule (the .ds-card tile styling for v3
+     lives in kit-theme.css alongside the other ds-card rules). Larger vertical tiles capped at
+     6 per row: the max() min-track grows once 6 tiles would each clear 10rem, so auto-fill never
+     places a 7th; below that the 10rem floor lets it reflow down as the content narrows. ===== */
   .ds-app.ds-v3 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(max(10rem,(100% - 5 * .75rem)/6),1fr));gap:.75rem}
-  .ds-app.ds-v3 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5rem;padding:1.25rem 1rem;height:9.5rem}
-  .ds-app.ds-v3 .ds-card-name{font-size:1rem;line-height:1.5rem;
-    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .ds-app.ds-v3 .ds-card .logo-spr{--logo-size:3.5rem}
-  .ds-app.ds-v3 .ds-card-body{flex:0 0 auto;align-items:center}
-  .ds-app.ds-v3 .ds-card-head{justify-content:center}
-  .ds-app.ds-v3 .ds-card-hover{display:flex;align-items:center;justify-content:center;
-    position:absolute;inset:0;border-radius:inherit;
-    background:color-mix(in srgb,var(--card) 78%,transparent);
-    opacity:0;pointer-events:none;transition:opacity var(--motion-slow) var(--motion-ease)}
-  .ds-app.ds-v3 .ds-card-connect{transform:translateY(.375rem);
-    transition:transform var(--motion-slow) var(--motion-ease)}
-  .ds-app.ds-v3 .ds-card:hover .ds-card-hover,
-  .ds-app.ds-v3 .ds-card:focus-within .ds-card-hover{opacity:1;pointer-events:auto}
-  .ds-app.ds-v3 .ds-card:hover .ds-card-connect,
-  .ds-app.ds-v3 .ds-card:focus-within .ds-card-connect{transform:translateY(0)}
-  @media (hover:none){
-    .ds-app.ds-v3 .ds-card.is-active .ds-card-hover{opacity:1;pointer-events:auto}
-    .ds-app.ds-v3 .ds-card.is-active .ds-card-connect{transform:translateY(0)}
-  }
-  .ds-popular{width:12px;height:12px;color:var(--fb-attention);flex:none;filter:drop-shadow(0 0 2px color-mix(in srgb,var(--fb-attention) 60%,transparent))}
   #ds-cats{flex-wrap:wrap;padding-bottom:2px;margin-top:.75rem}
   #ds-cats::-webkit-scrollbar{display:none}
   @media(max-width:767px){#ds-cats{flex-wrap:nowrap;overflow-x:auto}}
-
-  /* Lazy-load sentinel — zero-height trigger element appended after last card when more remain */
-  .ds-load-sentinel{grid-column:1/-1;height:1px;margin:0;padding:0}
-
-  /* ===== Connected — card list ===== */
-  .ds-conn-list{display:grid;grid-template-columns:1fr;gap:.875rem}
-  /* Hover = prov-card lift recipe (matches catalog cards). .hov-card:hover handles it;
-     override only the menu-open state to keep position stable. */
-  .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:1rem 1.125rem;border:1px solid var(--border);border-radius:.75rem;background:var(--card);box-shadow:var(--shadow-rest);position:relative;transition:box-shadow .18s,border-color .18s,transform .18s}
-
-  .ds-card .iconbtn{background:var(--bg)}
-  .ds-conn-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.25rem}
-  /* Title line: bold name + · + logo + connector type, all inline, clips with ellipsis */
-  .ds-conn-title{display:flex;align-items:center;gap:.25rem;overflow:hidden;white-space:nowrap}
-  .ds-conn-label{font-size:.875rem;font-weight:600;color:var(--ink);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:1;min-width:0}
-  .ds-conn-dot{color:var(--ink-inactive);font-size:.875rem;flex:none}
-  /* Inline source: small logo + connector name */
-  .ds-conn-src-row{display:flex;align-items:center;gap:.25rem;flex:none;overflow:hidden}
-  .ds-conn-src-mark{--logo-size:.875rem}
-  .ds-conn-meta{font-size:.8125rem;color:var(--ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ds-conn-desc{font-size:.75rem;color:var(--ink-secondary)}
-  /* ===== Connected — table view (shared kebab styles) ===== */
-  .ds-conn-tbl{margin-top:.25rem}
-  .ds-conn-tbl .ds-conn-cell-desc{font-size:.8125rem;color:var(--ink-secondary);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:0}
-  .ds-conn-cell-name{display:flex;align-items:center;gap:.625rem}
-  .ds-conn-cell-label{font-weight:500;color:var(--ink-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ds-conn-cell-act{position:relative;overflow:visible}
-  /* Kebab wrapper — positioning context for .kbp-menu (kit-theme.css handles the rest) */
-  .ds-conn-more-wrap{position:relative;flex:none}
-  /* Card mode — pin the kebab to the top-right corner instead of vertically centering it. */
-  .ds-conn-row .ds-conn-more-wrap{align-self:flex-start}
-  .ds-conn-more svg{width:16px;height:16px}
-  .ds-conn-row:has([data-kbp][aria-expanded="true"]){z-index:20}
-  .ds-conn-body:has([data-kbp][aria-expanded="true"]){overflow:visible}
-  .cl-main:has([data-kbp][aria-expanded="true"]){overflow-x:visible}
-
-  /* ===== Connect / Remove animations ===== */
-  @keyframes ds-card-out{
-    0%  {opacity:1;transform:scale(1) translateY(0)}
-    100%{opacity:0;transform:scale(.87) translateY(-10px)}
-  }
-  @keyframes ds-row-in{
-    0%  {opacity:0;transform:translateY(-16px);box-shadow:0 0 0 2px var(--brand-primary),0 0 0 5px color-mix(in srgb,var(--brand-primary) 22%,transparent)}
-    52% {opacity:1;transform:translateY(0);box-shadow:0 0 0 2px var(--brand-primary),0 0 0 5px color-mix(in srgb,var(--brand-primary) 22%,transparent)}
-    100%{opacity:1;transform:translateY(0);box-shadow:0 0 0 0 transparent}
-  }
-  @keyframes ds-row-out{
-    0%  {opacity:1;transform:translateX(0) scale(1)}
-    100%{opacity:0;transform:translateX(12px) scale(.96)}
-  }
-  @keyframes ds-card-in{
-    from{opacity:0;transform:scale(.9) translateY(10px)}
-    to  {opacity:1;transform:scale(1) translateY(0)}
-  }
-  .ds-card.is-leaving  {animation:ds-card-out .2s cubic-bezier(.4,0,1,1) both;pointer-events:none}
-  .ds-card.is-entering {animation:ds-card-in .35s cubic-bezier(.15,0,.1,1) .04s both}
-  .ds-conn-row.is-entering{animation:ds-row-in .5s cubic-bezier(.15,0,.1,1) both}
-  .ds-conn-row.is-leaving {animation:ds-row-out .2s cubic-bezier(.4,0,1,1) both;pointer-events:none}
 
   /* Suppress all transitions on first paint to prevent jump */
   .no-init-transition *{transition:none!important}
@@ -276,8 +148,8 @@
       <button class="segctrl-btn" id="ds-seg-connected" type="button" onclick="dsSegState(this,'connected')">Connected</button>
     </div>
     <div class="segctrl is-sm" style="width:auto" aria-label="Card layout">
-      <button class="segctrl-btn is-active" id="ds-seg-v2" type="button" onclick="dsSegVariant(this,'v2')">Variant 2</button>
-      <button class="segctrl-btn" id="ds-seg-v3" type="button" onclick="dsSegVariant(this,'v3')">Variant 3</button>
+      <button class="segctrl-btn" id="ds-seg-v2" type="button" onclick="dsSegVariant(this,'v2')">Variant 2</button>
+      <button class="segctrl-btn is-active" id="ds-seg-v3" type="button" onclick="dsSegVariant(this,'v3')">Variant 3</button>
     </div>
     <div class="segctrl is-sm" style="width:auto">
       <button class="segctrl-btn is-active" id="ds-seg-light" type="button" onclick="dsSegTheme(this,'light')">Light</button>
@@ -478,7 +350,7 @@
 
   <!-- ============= MAIN ============= -->
   <main class="cl-main">
-    <div class="cl-page ds-app ds-tab-catalog has-connections ds-v2">
+    <div class="cl-page ds-app ds-tab-catalog has-connections ds-v3">
       <!-- Page head — title + primary CTA. At ≤ 1023 px the burger is inline here so the whole
            row can be position:sticky and remain accessible during scroll. -->
       <div class="cl-page-head ds-page-head">
@@ -826,20 +698,11 @@
     }).join('');
   }
 
-  /* Sparkle path — 4-pointed star (Lucide-style); fills with currentColor so --fb-attention
-     drives the colour; the outer 'M' points + softer inner curve give a premium feel vs a
-     plain 5-point polygon. */
-  /* Kit [data-tip] tooltip replaces the SVG <title> so hover shows a .tt-styled bubble instead
-     of the browser-native grey tooltip. aria-label keeps the accessible name for screen readers. */
-  var STAR_SVG = '<svg class="ds-popular" viewBox="0 0 24 24" fill="currentColor" aria-label="Popular" data-tip="Popular" aria-hidden="false">'
-    + '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .963L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>'
-    + '</svg>';
-
   /* Catalog card — always shows a Connect button. Connected items never appear in the catalog
      (they live exclusively in the "Connected (N)" compact list above). Star sits inline in
      the name row — title placement is the clearest without overlapping any logo shape. */
   var FLAME_BADGE = '<span aria-label="Popular" style="position:absolute;top:-5px;right:-5px;width:18px;height:18px;border-radius:50%;background:var(--card);border:1.5px solid var(--card);display:flex;align-items:center;justify-content:center">'
-    + '<svg viewBox="0 0 24 24" fill="#ef4444" stroke="none" aria-hidden="true" style="width:18px;height:18px;flex:none"><path d="M12 2c0 0-5 4.5-5 9a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5 0 2-1.5 3-1.5 3C13.5 8 12 5 12 2z"/></svg>'
+    + '<svg viewBox="0 0 24 24" fill="var(--popular-flame)" stroke="none" aria-hidden="true" style="width:18px;height:18px;flex:none"><path d="M12 2c0 0-5 4.5-5 9a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5 0 2-1.5 3-1.5 3C13.5 8 12 5 12 2z"/></svg>'
     + '</span>';
 
   function dsMarkWrap(c){
@@ -936,6 +799,7 @@
     app.classList.toggle('ds-v2', variant === 'v2');
     app.classList.toggle('ds-v3', variant === 'v3');
   }
+
 
   function dsGetFiltered(){
     return CONNECTORS.filter(function(c){
@@ -1038,7 +902,7 @@
     if(renderMode === 'table'){
       host.innerHTML = '<div class="ds-conn-tbl mx-tbl">'
         + '<table class="tbl" aria-label="Connected data sources" style="table-layout:fixed;width:100%"><colgroup>'
-        + '<col style="width:28%"><col style="width:22%"><col><col style="width:5rem">'
+        + '<col style="width:28%"><col style="width:22%"><col style="width:40%"><col style="width:10%">'
         + '</colgroup><thead><tr>'
         + '<th>Connection name</th><th>Data Source</th><th>Description</th><th>Actions</th>'
         + '</tr></thead><tbody>' + rows + '</tbody></table></div>';

@@ -14,6 +14,31 @@ This iteration **fills** the off-track with a medium-grey (Slate-300 light / Gre
 | **Hit target** | 36 × 20 px (visual + hit area) — fails WCAG 2.5.8 (24 × 24) on the short axis | — | 36 × 20 px visual, **44 × 44 px invisible hit area** via `.swt::before { content:""; position:absolute; inset:-12px -4px; border-radius:inherit }` — sits above the thumb (`::after`) and the track without altering layout | Closes the WCAG 2.5.5 (AAA 44 × 44) and 2.5.8 (AA 24 × 24) gap on the short axis. Visual size unchanged. |
 | **Size: small (is-sm)** | — (did not exist) | — | track `1.75rem × 1rem` (28 × 16 px), thumb `0.75rem × 0.75rem` (12 × 12 px); same border-radius, same transitions, same colour tokens as standard size | Compact variant for dense form rows or settings lists |
 
+## Per-size dimensions (full spec — reproduce either size from this table alone)
+
+| Token | Default (`.swt`) | Small (`.swt.is-sm`) |
+|---|---|---|
+| Track width × height | `2.25rem × 1.25rem` (36 × 20 px) | `1.75rem × 1rem` (28 × 16 px) |
+| Thumb width × height | `1rem × 1rem` (16 × 16 px) | `0.75rem × 0.75rem` (12 × 12 px) |
+| Thumb rest position | `top:2px; left:2px` | `top:2px; left:2px` |
+| Thumb on-position (travel) | `left:calc(100% − 1.125rem)` (18 px from left → 16 px travel) | `left:calc(100% − .875rem)` (14 px from left → 12 px travel) |
+| Border-radius | `9999px` (full) | `9999px` (full) — inherited |
+| Track transition | `background-color .15s, box-shadow .15s` | inherited (same) |
+| Thumb transition | `left .15s` | inherited (same) |
+
+Both sizes share **every colour token and every state recipe** (on/off/hover/focus/disabled below); only the four dimension values above differ. The 44 × 44 px invisible hit-target (`.swt::before { inset:-12px -4px }`) is defined once on the base `.swt` and applies to both sizes.
+
+## Shared states (both sizes — full reproduction tokens)
+
+| State | Track | Thumb |
+|---|---|---|
+| Off (rest) | `background: var(--switch-off-bg)` = Slate-300 `#CBD5E1` light / Grey-700 `#2A2834` dark | `background: var(--content-on-solid)`; `box-shadow: 0 1px 2px rgba(0,0,0,.20), 0 0 0 0.5px rgba(0,0,0,.06)` |
+| On (rest) | `.swt.on` → `background: var(--brand-primary)` `#07807E` light / `#148F8D` dark | `.swt.on::after` → `box-shadow: 0 1px 2px rgba(0,0,0,.18)` (thumb at on-position) |
+| Off hover | `.swt:hover, .swt.s-hover` → `background: var(--switch-off-bg-hover)` = Slate-400 `#94A3B8` light / Grey-600 `#525258` dark | unchanged |
+| On hover | `.swt.on:hover, .swt.on.s-hover` → `background: var(--brand-hover)` | unchanged |
+| Focus (off & on) | `box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--focus-ring)` (`outline:none`); identical on both positions | unchanged |
+| Disabled (off & on) | `opacity: var(--opacity-disabled)` (.65); `pointer-events:none`; `cursor:not-allowed` — each position fades from its own base | unchanged |
+
 > **Loading state — intentionally not defined.** A thumb-as-spinner treatment was prototyped (2 px `Brand/Primary` ring replacing the thumb circle) but read as broken — the thumb visually disappeared into a ring shape that didn't match any other component. Switches that need to signal async state should disable via the parent form and surface the spinner alongside (next to the label / form section), not inside the track. Removed this iteration.
 
 ## No change (—)

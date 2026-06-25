@@ -66,7 +66,13 @@
        consistent across the system. */
     --ink-highlight:var(--brand-primary);
     --fb-attention:var(--orange-500);--fb-attention-text:#b45309;--fb-green:var(--green-light-600);
-    --focus-ring:var(--slate-900);
+    /* Popular-connector flame badge (DataSourceCard) — decorative red flame, not a logo, so it
+       flows through a token. Red-500 reads as a warm "trending" accent on the white badge ring. */
+    --popular-flame:var(--red-500);
+    /* Unified focus ring: ALL focus states use one colour (= --focus-ring-brand).
+       Previously destructive / generic .btn / .s-focus used a neutral slate ring
+       while branded controls used brand — now every ring is the same brand colour. */
+    --focus-ring:var(--focus-ring-brand);
     --logo-ink:var(--slate-900);                 /* was #111827 — Slate-900 is the closest primitive */
     --logo-mark:var(--brand-600);                /* was #07807D — typo of Brand-600 */
     /* Button (component-scoped, theme-independent — keep AA vs #FFF in both themes) */
@@ -275,7 +281,7 @@
        in dark without adding a new primitive. */
     --ink-highlight:var(--tertiary-400);
     --fb-attention:var(--orange-500);--fb-attention-text:#fb923c;--fb-green:var(--green-dark-500);
-    --focus-ring:var(--slate-100);
+    --focus-ring:var(--focus-ring-brand);
     --logo-ink:var(--brand-50);
     /* --logo-mark must lighten in dark mode: Brand-600 (#07807E) on Surface/Card (#17171E) fails AA at 3.74:1.
        Brand-500 (#148F8D) lifts contrast to 4.54:1 (AA pass) while keeping the same brand hue. */
@@ -426,7 +432,7 @@
   a{color:inherit;text-decoration:none}
   code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink-body)}
 
-  /* ===== Link — reusable text-link style. Colour from --ink-highlight (Brand-700 light / Brand-400 dark) so AA holds in both themes. Hover underline sits 25% of font-size below the baseline (`text-underline-offset:25%`) so the rule has clear separation from descenders — crisper than the browser-default tight underline. Thickness pinned at 1 px so it doesn't get heavier at larger font sizes. ===== */
+  /* ===== Link — reusable text-link style. Colour from --ink-highlight (Brand-600 light / Tertiary-400 dark) so AA holds in both themes. Hover underline sits 25% of font-size below the baseline (`text-underline-offset:25%`) so the rule has clear separation from descenders — crisper than the browser-default tight underline. Thickness pinned at 1 px so it doesn't get heavier at larger font sizes. ===== */
   .link{color:var(--ink-highlight);text-decoration:none;cursor:pointer;font-weight:500;background:none;border:none;padding:0;font-family:inherit;font-size:inherit;line-height:inherit}
   .link:hover{text-decoration:underline;text-underline-offset:25%;text-decoration-thickness:1px}
   .link:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand);border-radius:.125rem}
@@ -610,7 +616,7 @@
   .iconbtn-primary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .iconbtn-primary:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
   .iconbtn-secondary:hover{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
-  .iconbtn-secondary:active{background:var(--state-pressed);color:var(--ink-body);border-color:var(--border)}
+  .iconbtn-secondary:active{background:var(--state-pressed);color:var(--ink-body);border-color:var(--btn-secondary-border)}
   .iconbtn-secondary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
   .iconbtn-outline:hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
   .iconbtn-outline:active{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
@@ -854,10 +860,78 @@
   .menu-wip svg{flex-shrink:0;width:12px;height:12px}
   /* Page-level WIP indicator — fixed right-edge vertical pill for pages not yet finalised */
   .pg-wip-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-attention) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
+  /* Page-level Approved indicator — green sibling of .pg-wip-tag (same recipe, --fb-green family).
+     Set by /approve-page when a page moves concept → approved; replaces the In redesign tag. */
+  .pg-approved-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-green);background:color-mix(in srgb,var(--fb-green) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-green) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
   .mi .mi-ic{width:16px;height:16px;flex:none;color:currentColor}
   /* Menu separator — thin rule used to group related items inside a .menu. Negative horizontal
      margin lets the rule span edge-to-edge across the menu's 4 px padding. */
   .menu-sep{height:1px;margin:4px -4px;background:var(--border);border:0}
+
+  /* ============================================================================
+     Composer dropdown menus — Attach / Connections / Models. Shared by both chat
+     composers (chat-landing.html + chat_page-landing.html). Each composes the kit
+     .menu shell + .mi item; the classes below add only the menu-specific internals
+     (section labels, file list, connector rows, model rows). The triggers
+     (.cl-dropdown / .cl-attach) live in each page's <style> alongside the rest of
+     the composer chrome (.cl-composer / .cl-prompt / .cl-send), identical on both. */
+  /* Quiet uppercase group heading inside a composer menu — smallest tier (size + tracking carry
+     the hierarchy; colour stays --ink-secondary for AA, since --ink-inactive fails on Card). */
+  .cl-menu-label{padding:8px 12px 4px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-secondary)}
+  .cl-menu-label + .menu-sep,.menu-sep + .cl-menu-label{margin-top:0}
+
+  /* — Attach menu — fixed 280px: secondary "Choose File" pill + plain recent-file list (no icons). */
+  .cl-attach-menu{width:280px;max-width:280px}
+  /* CTA pill — full-width, content left-aligned at the same 12px inset as the section label and
+     the recent-file rows below, so the whole menu shares one left edge. Rounded to a full pill;
+     weight 600 sits one step above the regular-weight file names. */
+  .cl-attach-choose{width:100%;justify-content:flex-start;gap:.5rem;padding:0 12px;border-radius:999px;font-weight:600;margin-bottom:8px}
+  /* Recent files read as a plain text list — no leading icon, regular weight (one step below the
+     CTA), --ink-body, single-line ellipsis. */
+  .cl-file-item{display:block;font-weight:400;color:var(--ink-body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* — Connections menu — existing connections + suggested group + manage link. Width unified
+     with the Models menu (280px) so the composer dropdowns share one width. */
+  .cl-conn-menu{width:280px;max-width:280px}
+  /* Uniform row rhythm for the 2-line connector/model rows — 8px vertical (overrides the .mi base
+     6px for these composer rows only) so rows breathe around the 24px logo. On the 4px grid. */
+  .cl-conn-item,.cl-model-item{padding-top:8px;padding-bottom:8px}
+  /* Connector logo — sprite. Compound selector beats the base .logo-spr{--logo-size:2rem}
+     (equal specificity, base is defined later in the file), pinning these menu logos to 18px. */
+  .logo-spr.cl-conn-logo{--logo-size:24px}
+  /* Model logo — an <img>, not a sprite: gemini.svg uses a mask+pattern+embedded raster that
+     does NOT paint when an SVG is a CSS background-image, but renders fine as an <img>. 24px = 4px grid. */
+  .cl-model-logo{width:24px;height:24px;flex:none;object-fit:contain}
+  .cl-conn-text,.cl-model-text{display:flex;flex-direction:column;line-height:1.25;min-width:0;flex:1}
+  /* User's connection name = primary; connector type = secondary (kit connection-hierarchy rule). */
+  .cl-conn-name,.cl-model-name{font-size:14px;font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cl-conn-type,.cl-model-desc{font-size:12px;color:var(--ink-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Connected-source toggle — kit Switch (small), pinned to the row's right edge. Connections are
+     on/off sources for the chat → a toggle; models are single-select → a check (below). */
+  .cl-conn-swt{margin-left:auto}
+  /* Selected-model check — revealed when the row is aria-checked. Uses --ink-highlight
+     (theme-adaptive accent, AA in both themes) — same accent as the selected model name. */
+  .cl-model-check{width:16px;height:16px;flex:none;color:var(--ink-highlight);opacity:0}
+  .cl-model-item[aria-checked="true"] .cl-model-check{opacity:1}
+  /* Suggested-connector CTA — small outlined pill that opens the connection window. Follows the
+     Outlined family recipe: brand border + neutral Text/Body label. Revealed only on row
+     hover/focus (its space is always reserved → no layout shift) so the resting Suggested list
+     stays a clean logo + name list instead of a stack of repeated pills. */
+  .cl-conn-add{margin-left:auto;flex:none;display:inline-flex;align-items:center;height:24px;padding:0 12px;font-size:12px;font-weight:600;color:var(--ink-body);border:1px solid var(--brand-primary);border-radius:999px;opacity:0;transition:opacity .12s}
+  .cl-conn-item:hover .cl-conn-add,.cl-conn-item:focus-visible .cl-conn-add{opacity:1;background:var(--btn-outline-bg-hover)}
+  /* Manage link — full-width row, brand label + leading icon. */
+  .cl-conn-manage{color:var(--ink-highlight);font-weight:500;text-decoration:none}
+  /* Gear sits in the same 24px leading column as the connector logos so every row's text shares
+     one left edge (glyph stays 16px, centred in the 24px box). */
+  .cl-conn-manage .mi-ic{width:24px;height:24px;padding:4px;color:currentColor}
+
+  /* — Models menu — provider logo + name/desc + selected check. Width unified with Connections. */
+  .cl-model-menu{width:280px;max-width:280px}
+  .cl-model-item[aria-checked="true"] .cl-model-name{color:var(--ink-highlight)}
+  /* Selected model = persistent brand-tinted surface (same --state-pressed the kit uses for
+     selected elsewhere). Hover on the selected row KEEPS the tint — (0,3,0) beats .mi:hover
+     (0,2,0) — so the neutral hover never collapses the selection. */
+  .cl-model-item[aria-checked="true"],.cl-model-item[aria-checked="true"]:hover{background:var(--state-pressed)}
 
   /* Dialog / Modal — reusable multi-step shell */
   .dlg-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--overlay-scrim)}
@@ -1386,7 +1460,11 @@
   .statv-info .vic{background:color-mix(in srgb,var(--brand-primary) 10%,transparent);color:var(--brand-primary)}
   .statv-success .vic{background:color-mix(in srgb,var(--fb-green) 10%,transparent);color:var(--fb-green)}
   .statv-error .vic{background:color-mix(in srgb,var(--fb-red) 10%,transparent);color:var(--fb-red-text)}
+  .statv-neutral .vic{background:var(--state-hover);color:var(--ink-secondary)}
   .statv .vt{font-size:.875rem;font-weight:500;color:var(--ink)} .statv .vd{font-size:.75rem;color:var(--ink-secondary)}
+  /* Size modifiers — base .statv is the md default (vic 40px, gap 12px, pad 24px). sm/lg follow prod's relative gap/padding scale. */
+  .statv.is-sm{gap:8px;padding:16px} .statv.is-sm .vic{width:32px;height:32px} .statv.is-sm .vic svg{width:16px;height:16px} .statv.is-sm .vt{font-size:.8125rem} .statv.is-sm .vd{font-size:.6875rem}
+  .statv.is-lg{gap:16px;padding:32px} .statv.is-lg .vic{width:56px;height:56px} .statv.is-lg .vic svg{width:28px;height:28px} .statv.is-lg .vt{font-size:1rem} .statv.is-lg .vd{font-size:.8125rem}
   /* ===== Empty State — minimalist, app-style "no-results / empty list" block =====
      Bare variant of StatusView (#statusview): no card wrapping the whole block — an
      illustration (or simple glyph) + title + message, centred on the page bg. Optional
@@ -1531,6 +1609,7 @@
   .sel-trig:hover,.sel-trig.s-hover{border-color:var(--border-hover)}
   .sel-trig:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
   .sel-trig[aria-expanded="true"],.sel-trig.s-open{border-color:var(--input-focus)}
+  .sel-trig:disabled,.sel-trig.s-disabled{opacity:var(--opacity-disabled);cursor:not-allowed;pointer-events:none}
   .sel-val{flex:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .sel-ph{flex:1;color:var(--ink-inactive)}
   .sel-chev{width:16px;height:16px;color:var(--ink-secondary);flex:none;transition:transform .15s}
@@ -1560,12 +1639,12 @@
   .sep.var-secondary{background:var(--brand-secondary)}
 
   /* Overlay — reusable full-viewport backdrop */
-  .ov{position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:40;display:none}
+  .ov{position:fixed;inset:0;background:var(--overlay-scrim);z-index:40;display:none}
   .ov.is-open{display:block}
 
   /* Sheet */
   .sht{position:relative;width:240px;height:240px;background:var(--bg);border:1px solid var(--border);border-radius:6px;overflow:hidden}
-  .sht .sht-mask{position:absolute;inset:0;background:rgba(0,0,0,.6)}
+  .sht .sht-mask{position:absolute;inset:0;background:var(--overlay-scrim)}
   .sht .sht-panel{position:absolute;top:0;right:0;bottom:0;width:65%;background:var(--bg);padding:16px;box-shadow:-4px 0 10px rgba(0,0,0,.15);display:flex;flex-direction:column;gap:8px;font-family:inherit}
   .sht .sht-t{font-size:1rem;font-weight:600;color:var(--ink)}
   .sht .sht-d{font-size:.75rem;color:var(--ink-secondary)}
@@ -1578,11 +1657,23 @@
 
   /* Skeleton */
   .skel{display:inline-block;background:var(--chips);position:relative;overflow:hidden;border-radius:6px;vertical-align:middle}
-  .skel.shimmer::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0,color-mix(in srgb,var(--card) 80%,transparent) 50%,transparent 100%);animation:skel-shim 1.4s linear infinite}
+  /* Shimmer is the DEFAULT animation (matches prod) — a bare .skel sweeps. .pulse swaps to an
+     opacity loop; .none opts out to a static block (tests / reduced-motion). The legacy .shimmer
+     class is kept as an explicit (now-redundant) alias so existing markup stays valid. */
+  .skel::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0,color-mix(in srgb,var(--card) 80%,transparent) 50%,transparent 100%);animation:skel-shim 1.4s linear infinite}
+  .skel.pulse::after,.skel.none::after{content:none}
   .skel.pulse{animation:skel-pulse 1.4s ease-in-out infinite}
   .skel.r-none{border-radius:0} .skel.r-sm{border-radius:2px} .skel.r-lg{border-radius:8px} .skel.r-xl{border-radius:12px} .skel.r-full{border-radius:9999px}
   @keyframes skel-shim{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
   @keyframes skel-pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  /* Skeleton-state toggle — approved pages preview their initial-load state in place via a
+     topbar SegmentedControl that flips html.skel-on. Each swappable region carries two siblings:
+     .sk-loaded (real content) and .sk-skel (its .skel placeholder). This is a loading-state
+     preview, NOT a Current/Expected scope — do not confuse with the banned .prod/.sb-cur toggle.
+     .sk-skel containers are block-level; put any flex/grid layout on an inner wrapper. */
+  .sk-skel{display:none}
+  html.skel-on .sk-loaded{display:none}
+  html.skel-on .sk-skel{display:block}
 
   /* Toast */
   .toast{min-width:280px;max-width:600px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px}
@@ -1908,6 +1999,141 @@
   .prov-card-browse-sub{font-size:.75rem;color:var(--ink-inactive);margin:0}
   /* chip-meta inside prov-card: 5 clickable bordered chips, always all visible, wrap freely */
   .prov-card .chip-row{gap:.3125rem;flex-wrap:wrap;overflow:visible;align-items:center}
+
+  /* ===== Data source card (ds-card / ds-conn-row) =====
+     Connector catalog card + connected-list row used on the Data Sources → Connections page.
+     Moved verbatim out of the page <style> block so all component style lives in the kit.
+     Page-composition rules (.ds-grid column counts, #ds-cats, .ds-conn-section show/hide) stay
+     in the page — they encode page-state layout, not the component itself. */
+  .ds-conn-tbl table.tbl tbody tr.is-selected td{background:var(--state-pressed)}
+
+  /* Base card shell — the tile variants (.ds-v2 / .ds-v3) override to a vertical layout */
+  .ds-card{position:relative;display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
+  .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
+  /* Plain connector logos (.logo-spr, kit-theme.css) — no container. Per-context size only. */
+  .ds-card .logo-spr{--logo-size:3rem}
+  .ds-conn-cell-name .logo-spr{--logo-size:1.5rem}
+  .ds-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
+  .ds-card-head{display:flex;align-items:center;gap:.375rem;min-width:0}
+  /* Label = Typography "text-sm" level (14px / 20px), per current/typography.md. */
+  .ds-card-name{font-size:.875rem;line-height:1.25rem;font-weight:400;color:var(--ink)}
+
+  /* ===== Variant 2 — vertical card: logo on top, text below; Connect on hover ===== */
+  .ds-card-hover{display:none}
+  .ds-app.ds-v2 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5rem;padding:.875rem .75rem;height:7.5rem}
+  /* Fixed tile height keeps every card uniform; clamp the name to 2 lines so a long name fits
+     without growing the tile. No reserved min-height — content stays truly vertically centered.
+     Size = Typography "text-sm" (14px / 20px). */
+  .ds-app.ds-v2 .ds-card-name{font-size:.875rem;line-height:1.25rem;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .ds-app.ds-v2 .ds-card .logo-spr{--logo-size:2.75rem}
+  .ds-app.ds-v2 .ds-card-body{flex:0 0 auto;align-items:center}
+  .ds-app.ds-v2 .ds-card-head{justify-content:center}
+  .ds-app.ds-v2 .ds-card-hover{display:flex;align-items:center;justify-content:center;
+    position:absolute;inset:0;border-radius:inherit;
+    background:color-mix(in srgb,var(--card) 78%,transparent);
+    opacity:0;pointer-events:none;transition:opacity var(--motion-slow) var(--motion-ease)}
+  /* The button itself eases in/out with a small slide so the reveal feels fluid, not a flat fade. */
+  .ds-app.ds-v2 .ds-card-connect{transform:translateY(.375rem);
+    transition:transform var(--motion-slow) var(--motion-ease)}
+  .ds-app.ds-v2 .ds-card:hover .ds-card-hover,
+  .ds-app.ds-v2 .ds-card:focus-within .ds-card-hover{opacity:1;pointer-events:auto}
+  .ds-app.ds-v2 .ds-card:hover .ds-card-connect,
+  .ds-app.ds-v2 .ds-card:focus-within .ds-card-connect{transform:translateY(0)}
+  .ds-card-connect span{margin-left:.25rem}
+  /* Touch / no-hover devices have no hover event, so the desktop hover-reveal (translucent
+     scrim + Connect button) is driven by TAP instead. First tap on a tile adds .is-active →
+     reveals the overlay exactly like desktop :hover; the Connect button then performs the
+     action. Tapping the scrim again — or another tile — collapses it (handled in dsCardTap).
+     Tiles stay vertical: same layout and same reveal as desktop, just triggered by tap. */
+  @media (hover:none){
+    .ds-app.ds-v2 .ds-card.is-active .ds-card-hover{opacity:1;pointer-events:auto}
+    .ds-app.ds-v2 .ds-card.is-active .ds-card-connect{transform:translateY(0)}
+  }
+
+  /* ===== Variant 3 — alternative concept: larger vertical tiles, capped at 6 per row
+     (bigger card + bigger logo than Variant 2, so the row holds 6 instead of ~8). Same
+     hover / tap reveal behaviour as Variant 2 (scrim + Connect). The max() min-track grows
+     once 6 tiles would each clear 10rem, so auto-fill never places a 7th; below that the
+     10rem floor lets it reflow down as the content narrows. ===== */
+  .ds-app.ds-v3 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5rem;padding:1.25rem 1rem;height:9.5rem}
+  .ds-app.ds-v3 .ds-card-name{font-size:1rem;line-height:1.5rem;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .ds-app.ds-v3 .ds-card .logo-spr{--logo-size:3.5rem}
+  .ds-app.ds-v3 .ds-card-body{flex:0 0 auto;align-items:center}
+  .ds-app.ds-v3 .ds-card-head{justify-content:center}
+  .ds-app.ds-v3 .ds-card-hover{display:flex;align-items:center;justify-content:center;
+    position:absolute;inset:0;border-radius:inherit;
+    background:color-mix(in srgb,var(--card) 78%,transparent);
+    opacity:0;pointer-events:none;transition:opacity var(--motion-slow) var(--motion-ease)}
+  .ds-app.ds-v3 .ds-card-connect{transform:translateY(.375rem);
+    transition:transform var(--motion-slow) var(--motion-ease)}
+  .ds-app.ds-v3 .ds-card:hover .ds-card-hover,
+  .ds-app.ds-v3 .ds-card:focus-within .ds-card-hover{opacity:1;pointer-events:auto}
+  .ds-app.ds-v3 .ds-card:hover .ds-card-connect,
+  .ds-app.ds-v3 .ds-card:focus-within .ds-card-connect{transform:translateY(0)}
+  @media (hover:none){
+    .ds-app.ds-v3 .ds-card.is-active .ds-card-hover{opacity:1;pointer-events:auto}
+    .ds-app.ds-v3 .ds-card.is-active .ds-card-connect{transform:translateY(0)}
+  }
+
+  /* Lazy-load sentinel — zero-height trigger element appended after last card when more remain */
+  .ds-load-sentinel{grid-column:1/-1;height:1px;margin:0;padding:0}
+
+  /* ===== Connected — card list ===== */
+  .ds-conn-list{display:grid;grid-template-columns:1fr;gap:.875rem}
+  /* Hover = prov-card lift recipe (matches catalog cards). .hov-card:hover handles it;
+     override only the menu-open state to keep position stable. */
+  .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:1rem 1.125rem;border:1px solid var(--border);border-radius:.75rem;background:var(--card);box-shadow:var(--shadow-rest);position:relative;transition:box-shadow .18s,border-color .18s,transform .18s}
+
+  .ds-card .iconbtn{background:var(--bg)}
+  .ds-conn-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+  /* Title line: bold name + · + logo + connector type, all inline, clips with ellipsis */
+  .ds-conn-title{display:flex;align-items:center;gap:.25rem;overflow:hidden;white-space:nowrap}
+  .ds-conn-label{font-size:.875rem;font-weight:600;color:var(--ink);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:1;min-width:0}
+  .ds-conn-dot{color:var(--ink-inactive);font-size:.875rem;flex:none}
+  /* Inline source: small logo + connector name */
+  .ds-conn-src-row{display:flex;align-items:center;gap:.25rem;flex:none;overflow:hidden}
+  .ds-conn-src-mark{--logo-size:.875rem}
+  .ds-conn-meta{font-size:.8125rem;color:var(--ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ds-conn-desc{font-size:.75rem;color:var(--ink-secondary)}
+  /* ===== Connected — table view (shared kebab styles) ===== */
+  .ds-conn-tbl{margin-top:.25rem}
+  .ds-conn-tbl .ds-conn-cell-desc{font-size:.8125rem;color:var(--ink-secondary);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:0}
+  .ds-conn-cell-name{display:flex;align-items:center;gap:.625rem}
+  .ds-conn-cell-label{font-weight:500;color:var(--ink-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ds-conn-cell-act{position:relative;overflow:visible}
+  /* Kebab wrapper — positioning context for .kbp-menu (kit-theme.css handles the rest) */
+  .ds-conn-more-wrap{position:relative;flex:none}
+  /* Card mode — pin the kebab to the top-right corner instead of vertically centering it. */
+  .ds-conn-row .ds-conn-more-wrap{align-self:flex-start}
+  .ds-conn-more svg{width:16px;height:16px}
+  .ds-conn-row:has([data-kbp][aria-expanded="true"]){z-index:20}
+  .ds-conn-body:has([data-kbp][aria-expanded="true"]){overflow:visible}
+  .cl-main:has([data-kbp][aria-expanded="true"]){overflow-x:visible}
+
+  /* ===== Connect / Remove animations ===== */
+  @keyframes ds-card-out{
+    0%  {opacity:1;transform:scale(1) translateY(0)}
+    100%{opacity:0;transform:scale(.87) translateY(-10px)}
+  }
+  @keyframes ds-row-in{
+    0%  {opacity:0;transform:translateY(-16px);box-shadow:0 0 0 2px var(--brand-primary),0 0 0 5px color-mix(in srgb,var(--brand-primary) 22%,transparent)}
+    52% {opacity:1;transform:translateY(0);box-shadow:0 0 0 2px var(--brand-primary),0 0 0 5px color-mix(in srgb,var(--brand-primary) 22%,transparent)}
+    100%{opacity:1;transform:translateY(0);box-shadow:0 0 0 0 transparent}
+  }
+  @keyframes ds-row-out{
+    0%  {opacity:1;transform:translateX(0) scale(1)}
+    100%{opacity:0;transform:translateX(12px) scale(.96)}
+  }
+  @keyframes ds-card-in{
+    from{opacity:0;transform:scale(.9) translateY(10px)}
+    to  {opacity:1;transform:scale(1) translateY(0)}
+  }
+  .ds-card.is-leaving  {animation:ds-card-out .2s cubic-bezier(.4,0,1,1) both;pointer-events:none}
+  .ds-card.is-entering {animation:ds-card-in .35s cubic-bezier(.15,0,.1,1) .04s both}
+  .ds-conn-row.is-entering{animation:ds-row-in .5s cubic-bezier(.15,0,.1,1) both}
+  .ds-conn-row.is-leaving {animation:ds-row-out .2s cubic-bezier(.4,0,1,1) both;pointer-events:none}
 
   /* ===== MetaRow — count + actions, fully transparent (no background, no border, no card wrapper).
      Used above any list view (Chats library, search results, table headers without a Card).

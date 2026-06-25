@@ -6,7 +6,7 @@ A new `Link` primitive is introduced as a shared, promoted style — replaces ev
 
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
-| Default | colour `accent` `#07827F` (Brand-600 raw), browser-default underline always on, sitting tight against the baseline | — | colour `--ink-highlight` (Brand-700 `#066867` light / Brand-400 `#2FA29B` dark — theme-adaptive, AA in both), **no underline at rest**, font-weight 500 | underline reveals on hover → reads as quieter inline emphasis in body copy until the cursor signals interactivity |
+| Default | colour `accent` `#07827F` (Brand-600 raw), browser-default underline always on, sitting tight against the baseline | — | colour `--ink-highlight` (resolves to `--brand-primary` = Brand-600 `#07807E` light / `--tertiary-400` = Tertiary-400 `#2EBEC4` dark — theme-adaptive, AA in both), **no underline at rest**, font-weight 500 | underline reveals on hover → reads as quieter inline emphasis in body copy until the cursor signals interactivity |
 | Hover *(new)* | (no change from default — underline already on) | — | underline appears, `text-underline-offset: 25%` (of font-size, sits 25% below the baseline), `text-decoration-thickness: 1px` | the 25% offset gives the rule visible breathing room from descenders so it doesn't smudge into the letterforms — crisper than browser-default tight underline. Thickness pinned at 1 px so it doesn't get heavier at larger font sizes. |
 | Focus (keyboard) *(new)* | ⚠ browser-default ring | — | `box-shadow: 0 0 0 2px Surface/Card, 0 0 0 4px --focus-ring-brand` + `border-radius: .125rem` | same recipe used by Button / IconButton / nav rows / `.sbx-pop-theme-btn` — one ring shape across the system |
 | Disabled *(new)* | ⚠ undefined | — | colour `Text/Inactive`, no underline, `cursor: not-allowed`, `pointer-events: none` | matches Button disabled language; toggle via `.is-disabled` class or `[disabled]` attribute |
@@ -17,6 +17,6 @@ A new `Link` primitive is introduced as a shared, promoted style — replaces ev
 
 ## Token map used
 
-`--ink-highlight` (default colour, theme-adaptive) · `--ink-inactive` (disabled colour) · `--focus-ring-brand` (focus ring) · `--card` (focus-ring gap). All resolve via existing semantic aliases — no new tokens.
+`--ink-highlight` (default colour, theme-adaptive — resolves to `--brand-primary` Brand-600 `#07807E` light / `--tertiary-400` `#2EBEC4` dark) · `--ink-inactive` (disabled colour) · `--focus-ring-brand` (focus ring) · `--card` (focus-ring gap). All resolve via existing semantic aliases — no new tokens.
 
 `--ink-highlight` is the same token used by `.cl-kw` (gradient-text keywords in chat-landing's hero) and any other "emphasised text" surface. One source of truth for "this text is brand-emphasised" across the system.

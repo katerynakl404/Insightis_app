@@ -1,0 +1,66 @@
+<!--
+  DetailPanel skeleton — loading state.
+  Mirrors: components/DetailPanel.html
+  Base box from: pages/kit-theme.css → #mx-panel
+  Repeats: 4 field rows (Definition dl) + 2 label/field pairs (Configuration) — match prod default
+-->
+<div class="sk-skel">
+  <div class="ov is-open">
+    <div class="mx-panel" id="mx-panel">
+
+      <!-- Header — title line + close-button square (iconbtn = 2.25rem, radius .375rem) -->
+      <div class="mx-panel-head" id="mx-panel-head">
+        <span class="skel r-sm" style="height:1.125rem;width:9rem;flex:1;max-width:9rem"></span>
+        <span class="skel" style="height:2.25rem;width:2.25rem;flex:none;border-radius:.375rem"></span>
+      </div>
+
+      <!-- Body -->
+      <div class="mx-panel-body" id="mx-panel-body">
+
+        <!-- Definition section (mx-panel-sect: padding 1rem, gap 1rem) -->
+        <div class="mx-panel-sect">
+          <span class="skel r-sm" style="height:.75rem;width:5rem"></span>
+          <!-- 4 dl rows: short label line + wider value line, gap 1.25rem between rows -->
+          <div style="display:flex;flex-direction:column;gap:.25rem">
+            <span class="skel r-sm" style="height:.6875rem;width:3.5rem"></span>
+            <span class="skel r-sm" style="height:.875rem;width:9rem"></span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.25rem">
+            <span class="skel r-sm" style="height:.6875rem;width:2.5rem"></span>
+            <span class="skel r-sm" style="height:.875rem;width:5rem"></span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.25rem">
+            <span class="skel r-sm" style="height:.6875rem;width:3rem"></span>
+            <span class="skel r-full" style="height:1.25rem;width:7rem"></span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.25rem">
+            <span class="skel r-sm" style="height:.6875rem;width:5rem"></span>
+            <span class="skel r-sm" style="height:.875rem;width:100%;max-width:16rem"></span>
+            <span class="skel r-sm" style="height:.875rem;width:80%;max-width:13rem"></span>
+          </div>
+        </div>
+
+        <!-- Configuration section: 2 label + field (field height 2.25rem, radius .375rem) -->
+        <div class="mx-panel-sect">
+          <span class="skel r-sm" style="height:.75rem;width:6rem"></span>
+          <div style="display:flex;flex-direction:column;gap:.375rem">
+            <span class="skel r-sm" style="height:.8125rem;width:6rem"></span>
+            <span class="skel" style="height:2.25rem;width:100%;max-width:15rem;border-radius:.375rem"></span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.375rem">
+            <span class="skel r-sm" style="height:.8125rem;width:3rem"></span>
+            <span class="skel" style="height:2.25rem;width:100%;max-width:15rem;border-radius:.375rem"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer — two button-sized placeholders (btn radius .375rem) -->
+      <div class="mx-panel-foot">
+        <span class="skel" style="height:2.25rem;width:5rem;border-radius:.375rem"></span>
+        <span class="skel" style="height:2.25rem;width:7.5rem;border-radius:.375rem"></span>
+      </div>
+
+    </div>
+  </div>
+</div>
