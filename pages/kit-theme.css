@@ -1933,9 +1933,15 @@
   .logo-spr.google{background-image:url(assets/logos/google.svg)}
   .logo-spr.googleads{background-image:url(assets/logos/googleads.svg)}
   .logo-spr.googleanalytics{background-image:url(assets/logos/googleanalytics.svg)}
-  /* Alias: metrics carry data-prov="ga4" for Google Analytics, but the sprite/asset is named
-     googleanalytics — map ga4 to the same logo so the detail-panel / chip logo resolves. */
-  .logo-spr.ga4{background-image:url(assets/logos/googleanalytics.svg)}
+  /* Aliases: some metric data-prov slugs differ from the sprite/asset name. Map each to the
+     same logo its browse card uses, so the detail-panel / chip logo resolves (otherwise the
+     sprite span is empty → no logo). Keep in sync if a metric's data-prov slug changes. */
+  .logo-spr.ga4{background-image:url(assets/logos/googleanalytics.svg)}        /* Google Analytics */
+  .logo-spr.hubcrm{background-image:url(assets/logos/hubspot.svg)}             /* HubSpot CRM */
+  .logo-spr.meta{background-image:url(assets/logos/facebookads.svg)}           /* Meta Ads */
+  .logo-spr.mondaydotcom{background-image:url(assets/logos/mondaycom.svg)}     /* Monday.com */
+  .logo-spr.qbo{background-image:url(assets/logos/quickbooks.svg)}             /* QuickBooks Online */
+  .logo-spr.sharepoint{background-image:url(assets/logos/sharepointfiles.svg)} /* SharePoint */
   .logo-spr.googleanalytics_v4{background-image:url(assets/logos/googleanalytics_v4.svg)}
   .logo-spr.googleapps{background-image:url(assets/logos/googleapps.svg)}
   .logo-spr.googlecloudsqlmysql{background-image:url(assets/logos/googlecloudsqlmysql.svg)}

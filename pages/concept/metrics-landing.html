@@ -1,9 +1,9 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" class="">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Insightis · Metrics</title>
+<title>Insightis В· Metrics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
@@ -23,9 +23,9 @@
   .cl-page-title{font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0}
   @media(min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
   /* Burger alignment handled globally in kit-theme.css:
-     ≤1023px: burger left:2rem + top:2.25rem; .cl-page > :first-child gets padding-left:2.5rem.
-     ≤767px: cl-page padding squeezed to .75rem; burger resets to left:.75rem. */
-  /* Sidebar→drawer is kit-owned at ≤1023px (kit-theme.css) — pages must not redeclare it. */
+     в‰¤1023px: burger left:2rem + top:2.25rem; .cl-page > :first-child gets padding-left:2.5rem.
+     в‰¤767px: cl-page padding squeezed to .75rem; burger resets to left:.75rem. */
+  /* Sidebarв†’drawer is kit-owned at в‰¤1023px (kit-theme.css) вЂ” pages must not redeclare it. */
   /* Chip-row bleed: extend category + C3 filter chips to the cl-page edge on both sides
      by breaking out of cl-page padding (2rem desktop, 0.75rem mobile).
      Symmetric: margin-inline bleed + matching padding-inline-start so scroll origin = page edge. */
@@ -34,14 +34,14 @@
     .prov-card .chip-row{margin-right:0;margin-left:0;padding-left:0;max-width:100%;-webkit-mask-image:none;mask-image:none}
   }
 
-  /* ── Page header row ── */
+  /* в”Ђв”Ђ Page header row в”Ђв”Ђ */
   .mx-page-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
   @media(max-width:1023px){
     .cl-main{padding-top:0}
     .mx-head-actions{margin-left:auto}
   }
 
-  /* ── State visibility — default = empty (no class); filled = is-filled ── */
+  /* в”Ђв”Ђ State visibility вЂ” default = empty (no class); filled = is-filled в”Ђв”Ђ */
   .mx-empty{display:flex;flex-direction:column;gap:.75rem}
   .mx-filled{display:none;flex-direction:column;gap:.75rem}
   #mx-root.is-filled .mx-empty{display:none}
@@ -49,16 +49,16 @@
   .mx-add-btn{display:none !important}
   #mx-root.is-filled #mx-add-custom-btn{display:inline-flex !important}
 
-  /* ── Shared table shell — page-specific overrides only; base rules live in kit-theme.css ── */
+  /* в”Ђв”Ђ Shared table shell вЂ” page-specific overrides only; base rules live in kit-theme.css в”Ђв”Ђ */
   .mx-tbl .mx-tbl-desc{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--ink-secondary);font-size:.8125rem}
   .mx-tbl .mx-tbl-name,.mx-tbl .mx-tbl-alias{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 
-  /* ── Toggle wrapper — size overrides for table row toggles (base display from kit) ── */
+  /* в”Ђв”Ђ Toggle wrapper вЂ” size overrides for table row toggles (base display from kit) в”Ђв”Ђ */
   .mx-swt-wrap .swt{width:1.75rem;height:1rem}
   .mx-swt-wrap .swt::after{width:.75rem;height:.75rem;top:2px;left:2px}
   .mx-swt-wrap .swt.on::after{left:calc(100% - .875rem)}
 
-  /* ── Detail side panel ── */
+  /* в”Ђв”Ђ Detail side panel в”Ђв”Ђ */
   #mx-panel{position:fixed;top:40px;right:0;bottom:0;width:420px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
   .ov.is-open #mx-panel{transform:translateX(0)}
   #mx-panel-head{display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex:none}
@@ -72,23 +72,23 @@
      uses #mx-panel-cta; .mx-panel-foot is kept for the documented reuse pattern. */
   .mx-panel-foot{padding:1rem 1.5rem;border-top:1px solid var(--border);flex:none;display:flex;gap:.5rem;justify-content:flex-end}
 
-  /* Suppress native browser clear button on search inputs — kit .igrp-clear handles this */
+  /* Suppress native browser clear button on search inputs вЂ” kit .igrp-clear handles this */
   .igrp input[type="search"]::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
 
-  /* ── Add custom metric dialog ── */
+  /* в”Ђв”Ђ Add custom metric dialog в”Ђв”Ђ */
   #mx-add-dlg{display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:var(--overlay-scrim)}
   #mx-add-dlg.is-open{display:flex}
   #mx-add-dlg .field,#mx-add-dlg .ta,#mx-add-dlg select.field{max-width:100%;width:100%}
   #mx-add-dlg .igrp{background:var(--card);max-width:100%;width:100%}
   #mx-add-dlg select.field{appearance:auto;padding:0 .5rem;font-size:.875rem;color:var(--ink);font-family:inherit;cursor:pointer;height:2.25rem}
 
-  /* ── Category filter header (empty state) ── */
+  /* в”Ђв”Ђ Category filter header (empty state) в”Ђв”Ђ */
   .mx-cat-header{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;margin-top:1.25rem}
   .mx-cat-label{font-size:1.125rem;font-weight:600;color:var(--ink);white-space:nowrap;flex:none;line-height:1.75rem}
   .mx-cat-chips{display:flex;flex-wrap:wrap;gap:.375rem}
   .prov-card-grid{margin-top:0}
 
-  /* ── C3 filled toolbar — 2-row layout ── */
+  /* в”Ђв”Ђ C3 filled toolbar вЂ” 2-row layout в”Ђв”Ђ */
   .mx-c3-toolbar{display:none;flex-direction:column;gap:1rem}
   #mx-root.is-filled .mx-c3-toolbar{display:flex}
   .mx-c3-toolbar .igrp{width:100%;background:var(--card);height:2.5rem}
@@ -100,20 +100,27 @@
   .mx-c3-toolbar .igrp-add svg{width:15px;height:15px}
   .mx-c3-toolbar .igrp-input{padding-left:4px}
 
-  /* Tooltip rendered via JS as position:fixed — no clipping */
+  /* Tooltip rendered via JS as position:fixed вЂ” no clipping */
   #mx-tip{position:fixed;z-index:9999;background:var(--ink);color:var(--card);font-size:.6875rem;font-weight:500;padding:.25rem .5rem;border-radius:.3125rem;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity .12s;font-family:inherit}
 
   /* Provider-card grid columns are content-aware (auto-fill/minmax in kit-theme.css),
-     so it reflows on available width regardless of the sidebar — no viewport
+     so it reflows on available width regardless of the sidebar вЂ” no viewport
      breakpoints needed here. */
 
-  /* "Connect more data sources" banner — gap above it tightens on responsive. */
+  /* Pre-init: render only the first 5 data-source cards (the default "All" top-5) so the
+     initial paint matches the JS-filtered state вЂ” without this the full ~30-card grid paints
+     then mxCatFilter() collapses it to 5, jumping the content below. The .is-browse "Explore
+     more" card always stays. mxCatFilter() removes .mx-preinit after the first run so category
+     switches (which reveal cards beyond the 5th via inline display) work normally. */
+  #mx-card-grid.mx-preinit .prov-card:nth-child(n+6):not(.is-browse){display:none}
+
+  /* "Connect more data sources" banner вЂ” gap above it tightens on responsive. */
   .mx-connect-banner{margin-top:2.25rem}
   @media (max-width:767px){.mx-connect-banner{margin-top:1.5rem}}
 
 
 
-  /* C1 icon tile — no brand tint, no shadow (concept override) */
+  /* C1 icon tile вЂ” no brand tint, no shadow (concept override) */
   .prov-ic-w{background:var(--card);box-shadow:none}
 
   /* broken image placeholder */
@@ -121,7 +128,7 @@
   .prov-ic-w.is-broken{border-style:dashed;background:var(--bg)}
   .prov-ic-w.is-broken::after{content:attr(data-initials);font-size:.4375rem;font-weight:700;letter-spacing:.04em;color:var(--ink-secondary);line-height:1}
 
-  /* ── New connection dialog — integration form mock ── */
+  /* в”Ђв”Ђ New connection dialog вЂ” integration form mock в”Ђв”Ђ */
   .ds-intg-frame{border-radius:.375rem;overflow:hidden;background:var(--white);border:1px solid var(--border)}
   .ds-intg-row{padding:.75rem 1rem;display:flex;flex-direction:column;gap:.375rem}
   .ds-intg-lbl{font-size:.875rem;font-weight:700;color:var(--ink)}
@@ -131,7 +138,7 @@
   .ds-intg-check-lbl{font-size:.875rem;color:var(--ink)}
   .ds-intg-select{height:2.5rem;border:1px solid var(--brand-primary);border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;justify-content:space-between;font-size:.875rem;color:var(--ink);background:var(--white);width:100%}
 
-  /* Gradient banner buttons — always render as light-theme appearance, theme-independent */
+  /* Gradient banner buttons вЂ” always render as light-theme appearance, theme-independent */
   .banner-grad .btn-secondary,
   .dark .banner-grad .btn-secondary{background:var(--white);border-color:var(--slate-300);color:var(--slate-900)}
   .banner-grad .btn-secondary:hover,
@@ -140,13 +147,13 @@
   .dark .banner-grad .btn-primary{background:var(--white);color:var(--brand-600)}
   .banner-grad .btn-primary:hover,
   .dark .banner-grad .btn-primary:hover{background:color-mix(in srgb,var(--brand-600) 8%,var(--white));color:var(--brand-600)}
-  /* ── Noise: diagonal gradient + grain texture ── */
+  /* в”Ђв”Ђ Noise: diagonal gradient + grain texture в”Ђв”Ђ */
   .banner-noise{--grad-teal-dark:var(--grad-noise);position:relative;overflow:hidden}
   .banner-noise::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
     opacity:.07;mix-blend-mode:soft-light}
   .dark .banner-noise::after{opacity:.15}
-  /* Banner button — semi-transparent white, for use on gradient banners */
+  /* Banner button вЂ” semi-transparent white, for use on gradient banners */
   .btn-banner{display:inline-flex;align-items:center;justify-content:center;gap:.375rem;padding:0 .875rem;height:2rem;font-size:.8125rem;font-weight:500;line-height:1;border-radius:.375rem;border:1px solid color-mix(in srgb,var(--white) 40%,transparent);background:color-mix(in srgb,var(--white) 14%,transparent);color:var(--white);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
   .btn-banner:hover{background:color-mix(in srgb,var(--white) 24%,transparent);border-color:color-mix(in srgb,var(--white) 55%,transparent)}
   .btn-banner:active{background:color-mix(in srgb,var(--white) 10%,transparent)}
@@ -186,7 +193,7 @@
     <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
   </div>
   <div style="display:flex;align-items:flex-start;gap:.75rem">
-    <!-- State toggle — kit SegmentedControl (.segctrl.is-sm). Labels stay short ("Empty" / "Filled"); the topbar context makes "State:" prefix unnecessary. mxSetState() still drives the body class toggle. -->
+    <!-- State toggle вЂ” kit SegmentedControl (.segctrl.is-sm). Labels stay short ("Empty" / "Filled"); the topbar context makes "State:" prefix unnecessary. mxSetState() still drives the body class toggle. -->
     <div class="segctrl is-sm" id="mx-state-seg" role="tablist" aria-label="Demo state" style="width:auto;flex:none">
       <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" data-state="empty" style="padding:0 .5rem" onclick="mxSetState('empty');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Empty</button>
       <button class="segctrl-btn" role="tab" type="button" aria-selected="false" data-state="filled" style="padding:0 .5rem" onclick="mxSetState('filled');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Filled</button>
@@ -198,7 +205,7 @@
 </div>
 
 <div class="cl-shell" id="mx-root">
-  <!-- Mobile backdrop — overlays the main column while the off-canvas sidebar drawer is open. -->
+  <!-- Mobile backdrop вЂ” overlays the main column while the off-canvas sidebar drawer is open. -->
   <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')"></div>
 
   <!-- ===== SIDEBAR ===== -->
@@ -234,7 +241,7 @@
           <span class="lbl">Metrics</span>
         </button>
         <button class="sbx-nav-item" type="button" onclick="window.location.href='data-sources_files-landing.html'">
-          <!-- Folder icon — Files glyph (Lucide folder) -->
+          <!-- Folder icon вЂ” Files glyph (Lucide folder) -->
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
           <span class="lbl">Files</span>
         </button>
@@ -264,9 +271,9 @@
       </div>
       <div class="sbx-foot">
         <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')"><div class="sbx-tok-row"><span class="sbx-tok-label">Tokens</span><span class="sbx-tok-val">673 / 1000</span></div><div class="sbx-tok-bar"><span style="width:67.3%"></span></div></button>
-        <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')"><span class="sbx-user-ava">K</span><span class="sbx-user-info"><span class="sbx-user-name">Kateryna K.</span><span class="sbx-user-meta">Admin · Professional</span></span><svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></button>
+        <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')"><span class="sbx-user-ava">K</span><span class="sbx-user-info"><span class="sbx-user-name">Kateryna K.</span><span class="sbx-user-meta">Admin В· Professional</span></span><svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></button>
 
-        <!-- Account popover — opens above the user row -->
+        <!-- Account popover вЂ” opens above the user row -->
         <div class="sbx-pop sbx-pop-account" id="sbx-pop-account" role="menu" aria-label="Account">
           <div class="sbx-pop-sect">
             <span class="sbx-pop-label">Account</span>
@@ -292,7 +299,7 @@
           <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign out</button>
         </div>
 
-        <!-- Subscription Tokens popover — opens above the tokens row -->
+        <!-- Subscription Tokens popover вЂ” opens above the tokens row -->
         <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription tokens">
           <div class="sbx-pop-tok-head"><span class="plan-badge" aria-hidden="true"></span><span class="plan-name">Basic</span></div>
           <div class="sbx-pop-tok-meter">
@@ -317,7 +324,7 @@
   <main class="cl-main">
     <div class="cl-page">
 
-      <!-- Page heading — burger lives here so .cl-page-head sticky bar includes it at mobile. -->
+      <!-- Page heading вЂ” burger lives here so .cl-page-head sticky bar includes it at mobile. -->
       <div class="cl-page-head mx-page-head">
         <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -335,7 +342,7 @@
         </div>
       </div>
 
-      <!-- ════════ EMPTY STATE ════════ -->
+      <!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ EMPTY STATE в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
       <div class="mx-empty" id="mx-empty">
 
         <!-- Hero banner -->
@@ -343,7 +350,7 @@
           <div class="banner-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
           <div class="banner-body">
             <p class="banner-t">Explore your metrics library</p>
-            <p class="banner-d">50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.</p>
+            <p class="banner-d">50+ built-in metrics across popular data sources. Browse below to explore definitions вЂ” connect a source to activate any metric.</p>
           </div>
           <div class="banner-cta">
             <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Create Connection</button>
@@ -368,10 +375,10 @@
         </div>
 
         <!-- Provider card grid -->
-        <div class="prov-card-grid" id="mx-card-grid">
+        <div class="prov-card-grid mx-preinit" id="mx-card-grid">
 
-          <!-- Jira Software Cloud — IT Operations / Productivity -->
-          <div class="prov-card" data-category="IT Operations|Productivity">
+          <!-- Jira Software Cloud вЂ” IT Operations / Productivity -->
+          <div class="prov-card" style="display:none" data-category="IT Operations|Productivity">
             <div class="prov-card-head">
               <span class="logo-spr jira" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info">
@@ -395,8 +402,8 @@
             </div>
           </div>
 
-          <!-- GitLab — IT Operations -->
-          <div class="prov-card" data-category="IT Operations">
+          <!-- GitLab вЂ” IT Operations -->
+          <div class="prov-card" style="display:none" data-category="IT Operations">
             <div class="prov-card-head">
               <span class="logo-spr gitlab" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info">
@@ -420,8 +427,8 @@
             </div>
           </div>
 
-          <!-- GitHub — IT Operations -->
-          <div class="prov-card" data-category="IT Operations">
+          <!-- GitHub вЂ” IT Operations -->
+          <div class="prov-card" style="display:none" data-category="IT Operations">
             <div class="prov-card-head">
               <span class="logo-spr github" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info">
@@ -445,8 +452,8 @@
             </div>
           </div>
 
-          <!-- Bitbucket — IT Operations -->
-          <div class="prov-card" data-category="IT Operations|Productivity">
+          <!-- Bitbucket вЂ” IT Operations -->
+          <div class="prov-card" style="display:none" data-category="IT Operations|Productivity">
             <div class="prov-card-head">
               <span class="logo-spr bitbucket" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info">
@@ -469,8 +476,8 @@
             </div>
           </div>
 
-          <!-- Elasticsearch — IT Operations -->
-          <div class="prov-card" data-category="IT Operations">
+          <!-- Elasticsearch вЂ” IT Operations -->
+          <div class="prov-card" style="display:none" data-category="IT Operations">
             <div class="prov-card-head">
               <span class="logo-spr elasticsearch" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info">
@@ -493,8 +500,8 @@
             </div>
           </div>
 
-          <!-- ─── Marketing cards ─── -->
-          <div class="prov-card" data-category="Marketing|Sales & CRM">
+          <!-- в”Ђв”Ђв”Ђ Marketing cards в”Ђв”Ђв”Ђ -->
+          <div class="prov-card" style="display:none" data-category="Marketing|Sales & CRM">
             <div class="prov-card-head">
               <span class="logo-spr hubspot" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">HubSpot</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -522,7 +529,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Marketing|Communication">
+          <div class="prov-card" style="display:none" data-category="Marketing|Communication">
             <div class="prov-card-head">
               <span class="logo-spr mailchimp" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Mailchimp</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -536,7 +543,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Sales & CRM">
+          <div class="prov-card" style="display:none" data-category="Sales & CRM">
             <div class="prov-card-head">
               <span class="logo-spr salesforce" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Salesforce</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -564,8 +571,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- ─── SEO cards ─── -->
-          <div class="prov-card" data-category="Marketing">
+          <!-- в”Ђв”Ђв”Ђ SEO cards в”Ђв”Ђв”Ђ -->
+          <div class="prov-card" style="display:none" data-category="Marketing">
             <div class="prov-card-head">
               <span class="logo-spr googleads" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Google Ads</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -579,7 +586,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Marketing">
+          <div class="prov-card" style="display:none" data-category="Marketing">
             <div class="prov-card-head">
               <span class="logo-spr microsoftads" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Microsoft Ads</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -593,7 +600,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Marketing">
+          <div class="prov-card" style="display:none" data-category="Marketing">
             <div class="prov-card-head">
               <span class="logo-spr linkedinads" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">LinkedIn Ads</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -607,7 +614,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Marketing">
+          <div class="prov-card" style="display:none" data-category="Marketing">
             <div class="prov-card-head">
               <span class="logo-spr pinterest" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Pinterest</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -621,7 +628,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Marketing">
+          <div class="prov-card" style="display:none" data-category="Marketing">
             <div class="prov-card-head">
               <span class="logo-spr tiktokads" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">TikTok Ads</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -635,8 +642,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- ─── Finance cards ─── -->
-          <div class="prov-card" data-category="Commerce">
+          <!-- в”Ђв”Ђв”Ђ Finance cards в”Ђв”Ђв”Ђ -->
+          <div class="prov-card" style="display:none" data-category="Commerce">
             <div class="prov-card-head">
               <span class="logo-spr quickbooks" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">QuickBooks</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -650,7 +657,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Commerce">
+          <div class="prov-card" style="display:none" data-category="Commerce">
             <div class="prov-card-head">
               <span class="logo-spr stripe" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Stripe</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -664,7 +671,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Commerce">
+          <div class="prov-card" style="display:none" data-category="Commerce">
             <div class="prov-card-head">
               <span class="logo-spr xero" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Xero</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -678,7 +685,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Commerce">
+          <div class="prov-card" style="display:none" data-category="Commerce">
             <div class="prov-card-head">
               <span class="logo-spr shopify" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Shopify</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -692,7 +699,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Commerce">
+          <div class="prov-card" style="display:none" data-category="Commerce">
             <div class="prov-card-head">
               <span class="logo-spr netsuite" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">NetSuite</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -706,8 +713,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- ─── HR cards ─── -->
-          <div class="prov-card" data-category="Productivity">
+          <!-- в”Ђв”Ђв”Ђ HR cards в”Ђв”Ђв”Ђ -->
+          <div class="prov-card" style="display:none" data-category="Productivity">
             <div class="prov-card-head">
               <span class="logo-spr bamboohr" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">BambooHR</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -721,7 +728,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Productivity">
+          <div class="prov-card" style="display:none" data-category="Productivity">
             <div class="prov-card-head">
               <span class="logo-spr surveymonkey" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">SurveyMonkey</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -735,7 +742,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Productivity">
+          <div class="prov-card" style="display:none" data-category="Productivity">
             <div class="prov-card-head">
               <span class="logo-spr smartsuite" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">SmartSuite</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -749,7 +756,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Commerce">
+          <div class="prov-card" style="display:none" data-category="Commerce">
             <div class="prov-card-head">
               <span class="logo-spr sageaccounting" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Sage Accounting</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -763,7 +770,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Sales & CRM">
+          <div class="prov-card" style="display:none" data-category="Sales & CRM">
             <div class="prov-card-head">
               <span class="logo-spr insightly" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Insightly</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -777,8 +784,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- ─── Sales cards ─── -->
-          <div class="prov-card" data-category="Sales & CRM|Marketing">
+          <!-- в”Ђв”Ђв”Ђ Sales cards в”Ђв”Ђв”Ђ -->
+          <div class="prov-card" style="display:none" data-category="Sales & CRM|Marketing">
             <div class="prov-card-head">
               <span class="logo-spr zoho" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Zoho CRM</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -792,7 +799,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Sales & CRM|Marketing">
+          <div class="prov-card" style="display:none" data-category="Sales & CRM|Marketing">
             <div class="prov-card-head">
               <span class="logo-spr hubspot" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">HubSpot CRM</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -806,7 +813,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Sales & CRM">
+          <div class="prov-card" style="display:none" data-category="Sales & CRM">
             <div class="prov-card-head">
               <span class="logo-spr pipedrive" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Pipedrive</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -820,7 +827,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Sales & CRM">
+          <div class="prov-card" style="display:none" data-category="Sales & CRM">
             <div class="prov-card-head">
               <span class="logo-spr freshsales" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Freshsales</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -834,7 +841,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="Sales & CRM">
+          <div class="prov-card" style="display:none" data-category="Sales & CRM">
             <div class="prov-card-head">
               <span class="logo-spr keap" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Keap</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -848,7 +855,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- ─── Product cards ─── -->
+          <!-- в”Ђв”Ђв”Ђ Product cards в”Ђв”Ђв”Ђ -->
           <div class="prov-card" data-category="Business Intelligence|Productivity">
             <div class="prov-card-head">
               <span class="logo-spr amplitude" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -891,7 +898,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="IT Operations|Business Intelligence">
+          <div class="prov-card" style="display:none" data-category="IT Operations|Business Intelligence">
             <div class="prov-card-head">
               <span class="logo-spr bigquery" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">BigQuery</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -905,7 +912,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <div class="prov-card" data-category="IT Operations|Business Intelligence">
+          <div class="prov-card" style="display:none" data-category="IT Operations|Business Intelligence">
             <div class="prov-card-head">
               <span class="logo-spr databricks" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Databricks</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -919,8 +926,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Looker Studio — Business Intelligence -->
-          <div class="prov-card" data-category="Business Intelligence">
+          <!-- Looker Studio вЂ” Business Intelligence -->
+          <div class="prov-card" style="display:none" data-category="Business Intelligence">
             <div class="prov-card-head">
               <span class="logo-spr looker-studio" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Looker Studio</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -934,8 +941,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Slack — Communication -->
-          <div class="prov-card" data-category="Communication">
+          <!-- Slack вЂ” Communication -->
+          <div class="prov-card" style="display:none" data-category="Communication">
             <div class="prov-card-head">
               <span class="logo-spr slack" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Slack</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -949,8 +956,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Zoom — Communication -->
-          <div class="prov-card" data-category="Communication">
+          <!-- Zoom вЂ” Communication -->
+          <div class="prov-card" style="display:none" data-category="Communication">
             <div class="prov-card-head">
               <span class="logo-spr zoom" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Zoom</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -964,8 +971,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Intercom — Communication / Support -->
-          <div class="prov-card" data-category="Communication|Support">
+          <!-- Intercom вЂ” Communication / Support -->
+          <div class="prov-card" style="display:none" data-category="Communication|Support">
             <div class="prov-card-head">
               <span class="logo-spr intercom" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Intercom</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -979,8 +986,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- SendPulse — Marketing -->
-          <div class="prov-card" data-category="Marketing|Communication">
+          <!-- SendPulse вЂ” Marketing -->
+          <div class="prov-card" style="display:none" data-category="Marketing|Communication">
             <div class="prov-card-head">
               <span class="logo-spr sendpulse" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">SendPulse</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -994,8 +1001,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Dropbox — Storage & Files -->
-          <div class="prov-card" data-category="Storage & Files">
+          <!-- Dropbox вЂ” Storage & Files -->
+          <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr dropbox" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Dropbox</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1009,8 +1016,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Google Drive — Storage & Files -->
-          <div class="prov-card" data-category="Storage & Files">
+          <!-- Google Drive вЂ” Storage & Files -->
+          <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr googledrive" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Google Drive</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1024,8 +1031,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- OneDrive — Storage & Files -->
-          <div class="prov-card" data-category="Storage & Files">
+          <!-- OneDrive вЂ” Storage & Files -->
+          <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr onedrive" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">OneDrive</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1039,8 +1046,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Box — Storage & Files -->
-          <div class="prov-card" data-category="Storage & Files">
+          <!-- Box вЂ” Storage & Files -->
+          <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr box" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Box</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1054,8 +1061,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- SharePoint — Storage & Files -->
-          <div class="prov-card" data-category="Storage & Files">
+          <!-- SharePoint вЂ” Storage & Files -->
+          <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr sharepointfiles" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">SharePoint</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1069,8 +1076,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Zendesk — Support -->
-          <div class="prov-card" data-category="Support">
+          <!-- Zendesk вЂ” Support -->
+          <div class="prov-card" style="display:none" data-category="Support">
             <div class="prov-card-head">
               <span class="logo-spr zendesk" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Zendesk</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1084,8 +1091,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Freshdesk — Support -->
-          <div class="prov-card" data-category="Support">
+          <!-- Freshdesk вЂ” Support -->
+          <div class="prov-card" style="display:none" data-category="Support">
             <div class="prov-card-head">
               <span class="logo-spr freshdesk" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Freshdesk</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1099,8 +1106,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- ServiceNow — Support -->
-          <div class="prov-card" data-category="Support">
+          <!-- ServiceNow вЂ” Support -->
+          <div class="prov-card" style="display:none" data-category="Support">
             <div class="prov-card-head">
               <span class="logo-spr servicenow" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">ServiceNow</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1114,8 +1121,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Freshcaller — Support -->
-          <div class="prov-card" data-category="Support">
+          <!-- Freshcaller вЂ” Support -->
+          <div class="prov-card" style="display:none" data-category="Support">
             <div class="prov-card-head">
               <span class="logo-spr freshcaller" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Freshcaller</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1129,8 +1136,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Notion — Other -->
-          <div class="prov-card" data-category="Other">
+          <!-- Notion вЂ” Other -->
+          <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr notion" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Notion</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1144,8 +1151,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Asana — Other -->
-          <div class="prov-card" data-category="Other">
+          <!-- Asana вЂ” Other -->
+          <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr asana" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Asana</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1159,8 +1166,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Monday.com — Other -->
-          <div class="prov-card" data-category="Other">
+          <!-- Monday.com вЂ” Other -->
+          <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr mondaycom" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Monday.com</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1174,8 +1181,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- REST API — Other -->
-          <div class="prov-card" data-category="Other">
+          <!-- REST API вЂ” Other -->
+          <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr rest" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">REST API</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1189,8 +1196,8 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Airtable — Other -->
-          <div class="prov-card" data-category="Other">
+          <!-- Airtable вЂ” Other -->
+          <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr airtable" aria-hidden="true" style="--logo-size:2.5rem"></span>
               <div class="prov-card-info"><span class="prov-card-name">Airtable</span><div class="prov-card-status"><span class="prov-card-dot" aria-hidden="true"></span><span class="prov-card-status-text">Not connected</span></div></div>
@@ -1204,7 +1211,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- View more — dynamic category -->
+          <!-- View more вЂ” dynamic category -->
           <div class="prov-card is-browse" role="button" tabindex="0" onclick="mxGoCatalog()" onkeydown="if(event.key==='Enter'||event.key===' ')mxGoCatalog()">
             <div class="prov-card-browse-ic" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
@@ -1219,7 +1226,7 @@
 
       </div><!-- /mx-empty -->
 
-      <!-- ════════ FILLED STATE ════════ -->
+      <!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ FILLED STATE в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
       <div class="mx-filled" id="mx-filled">
 
         <!-- Toolbar: search row + filter chips row -->
@@ -1267,7 +1274,7 @@
             </thead>
             <tbody id="mx-filled-body">
 
-              <!-- ══ Jira Software Cloud ══ -->
+              <!-- в•ђв•ђ Jira Software Cloud в•ђв•ђ -->
               <tr class="mx-prov-group" data-prov="jira" onclick="mxToggleGroup(this)">
                 <td colspan="6"><div class="mx-prov-group-cell">
                   <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -1277,8 +1284,8 @@
                 </div></td>
               </tr>
               <!-- Custom metrics first -->
-              <tr class="mx-metric-child" data-prov="jira" data-name="MRR growth" data-alias="@mrr_growth" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Custom formula" data-desc="Month-over-month growth rate of MRR derived from Jira billing data. Calculated as (MRR this month − MRR last month) ÷ MRR last month × 100. Positive values indicate revenue expansion; negative values signal churn or contraction." data-custom="true" data-active="true" data-row-id="custom-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="MRR growth — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+              <tr class="mx-metric-child" data-prov="jira" data-name="MRR growth" data-alias="@mrr_growth" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Custom formula" data-desc="Month-over-month growth rate of MRR derived from Jira billing data. Calculated as (MRR this month в€’ MRR last month) Г· MRR last month Г— 100. Positive values indicate revenue expansion; negative values signal churn or contraction." data-custom="true" data-active="true" data-row-id="custom-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="MRR growth вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">MRR growth</td>
                 <td class="mx-tbl-alias">@mrr_growth</td>
                 <td class="mx-tbl-desc">Month-over-month growth rate of MRR derived from Jira billing data.</td>
@@ -1294,7 +1301,7 @@
               </tr>
               <!-- Built-in metrics -->
               <tr class="mx-metric-child" data-prov="jira" data-name="Issues created" data-alias="@issues_created" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues created in the selected period. Includes all issue types: bugs, tasks, stories, and epics. Does not filter by status or assignee." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues created — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues created вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues created</td>
                 <td class="mx-tbl-alias">@issues_created</td>
                 <td class="mx-tbl-desc">Number of issues created in the selected period.</td>
@@ -1307,7 +1314,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Issues resolved" data-alias="@issues_resolved" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues resolved (closed) in the selected period. An issue counts as resolved when its status transitions to Done or a custom closed state. Reopened issues are not subtracted from the total." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues resolved — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues resolved вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues resolved</td>
                 <td class="mx-tbl-alias">@issues_resolved</td>
                 <td class="mx-tbl-desc">Number of issues resolved (closed) in the selected period.</td>
@@ -1320,7 +1327,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Sprint velocity" data-alias="@sprint_velocity" data-provider="Jira Software Cloud" data-type="Average" data-desc="Average number of story points completed per sprint. Calculated across all sprints that ended within the selected period. Only counts points from issues in Done status at sprint close." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Sprint velocity — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Sprint velocity вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Sprint velocity</td>
                 <td class="mx-tbl-alias">@sprint_velocity</td>
                 <td class="mx-tbl-desc">Average number of story points completed per sprint.</td>
@@ -1333,7 +1340,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Bug count" data-alias="@bug_count" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of open bugs at the end of the selected period. Counts issues with issue type Bug that have not been resolved. Provides a snapshot of backlog health at the period boundary." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Bug count — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Bug count вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Bug count</td>
                 <td class="mx-tbl-alias">@bug_count</td>
                 <td class="mx-tbl-desc">Number of open bugs at the end of the selected period.</td>
@@ -1346,7 +1353,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Story points completed" data-alias="@story_pts_completed" data-provider="Jira Software Cloud" data-type="Sum" data-desc="Total story points completed across all sprints in the selected period. Counts only issues in Done status at sprint close. Use alongside Sprint velocity to compare team throughput over time." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Story points completed — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Story points completed вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Story points completed</td>
                 <td class="mx-tbl-alias">@story_pts_completed</td>
                 <td class="mx-tbl-desc">Total story points completed across all sprints in the selected period.</td>
@@ -1367,7 +1374,7 @@
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-conn="Skyvia Jira" data-name="Jira ticket sync lag" data-alias="@jira_sync_lag" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Average" data-desc="Average delay (in minutes) between a Jira issue update and its appearance in Insightis. Measured via Skyvia Jira connector sync timestamps. Spikes indicate connector throttling or API rate-limit events." data-custom="true" data-active="true" data-row-id="custom-skyvia-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Jira ticket sync lag — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Jira ticket sync lag вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Jira ticket sync lag</td>
                 <td class="mx-tbl-alias">@jira_sync_lag</td>
                 <td class="mx-tbl-desc">Average delay between a Jira issue update and its appearance in Insightis.</td>
@@ -1383,7 +1390,7 @@
               </tr>
 
               <tr class="mx-section-gap" aria-hidden="true"><td colspan="6"></td></tr>
-              <!-- ══ Azure DevOps (no built-in metrics demo) ══ -->
+              <!-- в•ђв•ђ Azure DevOps (no built-in metrics demo) в•ђв•ђ -->
               <tr class="mx-prov-group" data-prov="azure" onclick="mxToggleGroup(this)">
                 <td colspan="6"><div class="mx-prov-group-cell">
                   <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -1396,13 +1403,13 @@
                 <td colspan="6">
                   <div class="mx-no-builtin-msg">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                    <span>No built-in metrics for Azure DevOps. <button class="link" type="button" onclick="event.stopPropagation();mxOpenAddDlg()">Create a custom metric →</button></span>
+                    <span>No built-in metrics for Azure DevOps. <button class="link" type="button" onclick="event.stopPropagation();mxOpenAddDlg()">Create a custom metric в†’</button></span>
                   </div>
                 </td>
               </tr>
 
               <tr class="mx-section-gap" aria-hidden="true"><td colspan="6"></td></tr>
-              <!-- ══ GitHub ══ -->
+              <!-- в•ђв•ђ GitHub в•ђв•ђ -->
               <tr class="mx-prov-group" data-prov="github" onclick="mxToggleGroup(this)">
                 <td colspan="6"><div class="mx-prov-group-cell">
                   <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -1412,7 +1419,7 @@
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests opened — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests opened вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Pull requests opened</td>
                 <td class="mx-tbl-alias">@prs_opened</td>
                 <td class="mx-tbl-desc">Number of pull requests opened in the selected period.</td>
@@ -1423,7 +1430,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Pull requests merged" data-alias="@prs_merged" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests merged into the main branch in the selected period. Only counts merges into the repository's default branch. PRs closed without merging are not included." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests merged — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests merged вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Pull requests merged</td>
                 <td class="mx-tbl-alias">@prs_merged</td>
                 <td class="mx-tbl-desc">Number of pull requests merged into the main branch in the selected period.</td>
@@ -1434,7 +1441,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Commits per day" data-alias="@commits_per_day" data-provider="GitHub" data-type="Average" data-desc="Average number of commits pushed per calendar day in the selected period. Counts commits across all branches; merge commits are included. Weekends and holidays are not excluded from the daily average." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Commits per day — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Commits per day вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Commits per day</td>
                 <td class="mx-tbl-alias">@commits_per_day</td>
                 <td class="mx-tbl-desc">Average number of commits pushed per calendar day in the selected period.</td>
@@ -1445,7 +1452,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Code review time" data-alias="@code_review_time" data-provider="GitHub" data-type="Duration" data-desc="Average time from pull request creation to first review comment. Measured in hours across all PRs that received at least one review in the selected period. PRs with no review comments are excluded from the calculation." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Code review time — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Code review time вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Code review time</td>
                 <td class="mx-tbl-alias">@code_review_time</td>
                 <td class="mx-tbl-desc">Average time from pull request creation to first review comment.</td>
@@ -1456,7 +1463,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Issues closed" data-alias="@issues_closed" data-provider="GitHub" data-type="Count" data-desc="Number of GitHub issues closed in the selected period. Counts issues whose state changed to closed, including those auto-closed by a linked pull request. Issues that were reopened and closed again within the same period are counted once." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Issues closed — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Issues closed вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues closed</td>
                 <td class="mx-tbl-alias">@issues_closed</td>
                 <td class="mx-tbl-desc">Number of GitHub issues closed in the selected period.</td>
@@ -1471,7 +1478,7 @@
           </table>
         </div>
 
-        <!-- Search / filter empty state — shared kit .empty-state (kit-theme.css, #statusview).
+        <!-- Search / filter empty state вЂ” shared kit .empty-state (kit-theme.css, #statusview).
              Toggled by mxC3Filter() when no metric rows match the query/filters. -->
         <div class="empty-state" id="mx-c3-empty" role="status" style="display:none">
           <svg class="es-illu" viewBox="0 0 150 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1483,14 +1490,14 @@
           <p class="empty-msg">No metrics match your search or filters. Try a different term or clear the filters.</p>
         </div>
 
-        <!-- Connect more — gradient banner CTA -->
+        <!-- Connect more вЂ” gradient banner CTA -->
         <div class="banner banner-grad banner-noise banner-sm mx-connect-banner" role="note">
           <div class="banner-ic" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-4"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8H6a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2Z"/></svg>
           </div>
           <div class="banner-body">
             <p class="banner-t">Connect more data sources</p>
-            <p class="banner-d">50+ data sources available — add connections to unlock more built-in metrics for your library.</p>
+            <p class="banner-d">50+ data sources available вЂ” add connections to unlock more built-in metrics for your library.</p>
           </div>
           <div class="banner-cta">
             <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Browse Data Sources</button>
@@ -1548,7 +1555,7 @@
           </div>
           <div class="ds-intg-row">
             <div class="ds-intg-lbl">API Key</div>
-            <div class="ds-intg-field">••••••••••</div>
+            <div class="ds-intg-field">вЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂў</div>
           </div>
           <div class="ds-intg-check">
             <span class="ds-intg-check-ico"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:9px;height:9px"><polyline points="2 6 5 9 10 3"/></svg></span>
@@ -1617,11 +1624,11 @@
       <!-- Definition -->
       <div>
         <label class="mx-form-label" for="mx-def-inp">Definition</label>
-        <textarea class="ta" id="mx-def-inp" rows="4" maxlength="1500" placeholder="Describe how to compute this metric…" style="max-width:100%;min-height:5.5rem" oninput="var c=document.getElementById('mx-def-count');c.textContent=this.value.length+' / 1500'"></textarea>
+        <textarea class="ta" id="mx-def-inp" rows="4" maxlength="1500" placeholder="Describe how to compute this metricвЂ¦" style="max-width:100%;min-height:5.5rem" oninput="var c=document.getElementById('mx-def-count');c.textContent=this.value.length+' / 1500'"></textarea>
         <div style="text-align:right;font-size:.6875rem;color:var(--ink-inactive);margin-top:.25rem" aria-live="polite"><span id="mx-def-count">0 / 1500</span></div>
       </div>
 
-      <!-- Link to — Connector | Provider segctrl -->
+      <!-- Link to вЂ” Connector | Provider segctrl -->
       <div style="margin-top:-.375rem">
         <span class="mx-form-label">Link to</span>
         <div class="segctrl is-md" id="mx-link-type-ctrl" style="width:100%;margin-top:.375rem">
@@ -1635,7 +1642,7 @@
         <label class="mx-form-label" id="mx-connector-lbl" for="mx-connector-trig">Data source</label>
         <div class="sel-wrap" style="width:100%;max-width:none">
           <button class="sel-trig is-lg" type="button" id="mx-connector-trig" aria-haspopup="listbox" aria-expanded="false" onclick="mxSelToggle(this)">
-            <span id="mx-connector-ph" class="sel-ph">Select a data source…</span>
+            <span id="mx-connector-ph" class="sel-ph">Select a data sourceвЂ¦</span>
             <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="sel-menu menu" role="listbox">
@@ -1653,10 +1660,10 @@
   </div>
 </div>
 
-<!-- Sticker removed — "Changed in Expected" links are in ../page-changes/metrics-landing.md. -->
+<!-- Sticker removed вЂ” "Changed in Expected" links are in ../page-changes/metrics-landing.md. -->
 
 <script>
-  /* Tooltip engine — JS-positioned fixed tooltip, warm-up aware, escapes overflow:hidden. */
+  /* Tooltip engine вЂ” JS-positioned fixed tooltip, warm-up aware, escapes overflow:hidden. */
   (function(){
     document.documentElement.classList.add('tt-js');
     var ft,warmTimer,showTimer,isWarm=false;
@@ -1691,9 +1698,9 @@
 <script>
 var mxRoot = document.getElementById('mx-root');
 
-/* ═══════════════════════════════════════
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
    CATEGORY FILTER (empty state)
-════════════════════════════════════════ */
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 function mxGoCatalog() {
   var active = document.querySelector('#mx-cat-chips .chip.is-active');
   var cat = active ? active.getAttribute('data-cat') : '';
@@ -1759,25 +1766,32 @@ function mxSetLinkType(type, btn) {
   var lbl = document.getElementById('mx-connector-lbl');
   var ph = document.getElementById('mx-connector-ph');
   if (lbl) lbl.textContent = type === 'connection' ? 'Connection' : 'Data Source';
-  if (ph && !ph.classList.contains('sel-val')) ph.textContent = type === 'connection' ? 'Select a connection…' : 'Select a data source…';
+  if (ph && !ph.classList.contains('sel-val')) ph.textContent = type === 'connection' ? 'Select a connectionвЂ¦' : 'Select a data sourceвЂ¦';
 }
 
-// initialize: default to empty state (no is-filled class needed — it's the default)
-;(function(){var defaultChip=document.querySelector('#mx-cat-chips .chip.is-active');if(defaultChip)mxCatFilter(defaultChip);}());
+// initialize: default to empty state (no is-filled class needed вЂ” it's the default)
+;(function(){
+  var defaultChip=document.querySelector('#mx-cat-chips .chip.is-active');
+  if(defaultChip)mxCatFilter(defaultChip);
+  // Drop the pre-init guard now that inline display states are set, so category switches
+  // can reveal cards beyond the first 5 (the CSS guard would otherwise re-hide them).
+  var grid=document.getElementById('mx-card-grid');
+  if(grid)grid.classList.remove('mx-preinit');
+}());
 
 
-/* ═══════════════════════════════════════
-   STATE TOGGLE — Empty / Filled
-════════════════════════════════════════ */
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+   STATE TOGGLE вЂ” Empty / Filled
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 function mxSetState(v) {
   mxRoot.classList.toggle('is-filled', v === 'filled');
   mxCloseDetail();
   mxKebabClose();
 }
 
-/* ═══════════════════════════════════════
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
    TOGGLE SWITCH
-════════════════════════════════════════ */
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 function mxToggleSwt(btn) {
   var on = btn.classList.toggle('on');
   btn.setAttribute('aria-checked', on ? 'true' : 'false');
@@ -1794,9 +1808,9 @@ function mxToggleSwt(btn) {
   }
 }
 
-/* ═══════════════════════════════════════
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
    DETAIL PANEL
-════════════════════════════════════════ */
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 var mxActiveRow = null;
 var mxOv = document.getElementById('mx-ov');
 var mxPanelTitle      = document.getElementById('mx-panel-title');
@@ -1811,11 +1825,11 @@ var MX_PROV_META = {
 };
 
 function mxProvIcon(provKey) {
-  if (!provKey || provKey === '—') return '';
+  if (!provKey || provKey === 'вЂ”') return '';
   var m = MX_PROV_META[provKey];
   // Comprehensive fallback: the logo sprite (assets/logos/<slug>.svg) covers every data source
-  // — only jira/azure/github use the simpleicons CDN path via MX_PROV_META. Without this,
-  // every other provider (gitlab, bitbucket, zoho, zohoanalytics, elasticsearch, …) showed no
+  // вЂ” only jira/azure/github use the simpleicons CDN path via MX_PROV_META. Without this,
+  // every other provider (gitlab, bitbucket, zoho, zohoanalytics, elasticsearch, вЂ¦) showed no
   // logo in the detail panel's "Data source" / "Linked to" rows.
   if (!m) return '<span class="logo-spr ' + provKey + '" style="--logo-size:1.25rem;vertical-align:middle" aria-hidden="true"></span>';
   var fb = 'onerror="var s=this.parentElement;s.style.background=this.dataset.color;s.style.border=\'none\';s.style.color=\'#fff\';s.style.fontSize=\'.5625rem\';s.style.fontWeight=\'700\';s.textContent=this.dataset.fb"';
@@ -1828,8 +1842,8 @@ function mxOpenDetail(row) {
   row.classList.add('is-selected');
 
   var name      = row.getAttribute('data-name') || '';
-  var alias     = row.getAttribute('data-alias') || '—';
-  var provider  = row.getAttribute('data-provider') || '—';
+  var alias     = row.getAttribute('data-alias') || 'вЂ”';
+  var provider  = row.getAttribute('data-provider') || 'вЂ”';
   var connector = row.getAttribute('data-connector') || '';
   var type      = row.getAttribute('data-type') || '';
   var desc      = row.getAttribute('data-desc') || '';
@@ -1859,7 +1873,7 @@ function mxOpenDetail(row) {
       if (panelSwt) {
         panelSwt.className = 'swt' + (swtOn ? ' on' : '');
         panelSwt.setAttribute('aria-checked', swtChecked);
-        panelSwt.setAttribute('aria-label', mxEsc(name) + ' — toggle active');
+        panelSwt.setAttribute('aria-label', mxEsc(name) + ' вЂ” toggle active');
         var wrap = panelSwt.closest('.mx-swt-wrap');
         if (wrap) wrap.className = 'mx-swt-wrap' + (wrapOn ? ' is-on' : '');
       }
@@ -1885,7 +1899,7 @@ function mxOpenDetail(row) {
 
   // System metric notice for built-in connected metrics
 
-  // Edit form (custom metrics) — hidden until Edit in footer is clicked
+  // Edit form (custom metrics) вЂ” hidden until Edit in footer is clicked
   if (custom) {
     html += '<div class="mx-panel-sect" id="mx-panel-edit-form" style="display:none;flex-direction:column;gap:.75rem;margin-top:.75rem">'
          +  '<p class="mx-panel-sect-title">Edit metric</p>'
@@ -1920,7 +1934,7 @@ function mxOpenDetail(row) {
             +  '<svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex:none;margin-top:.125rem" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>'
             +  '<p style="font-size:.8125rem;color:var(--ink-body);line-height:1.5;margin:0;flex:1;min-width:0">'
             +  'This metric is designed for <strong style="color:var(--ink);font-weight:600">'+ mxEsc(provider) +'</strong>. '
-            +  'Adding a connection activates all its metrics at once — no manual setup needed.'
+            +  'Adding a connection activates all its metrics at once вЂ” no manual setup needed.'
             +  '</p></div>'
             +  '<button class="btn btn-primary btn-md" style="width:100%" type="button" onclick="mxCloseDetail();mxOpenConnDlg(\''+ mxEsc(prov) +'\',this)">Connect '+ mxEsc(provider) +'</button>'
             +  '</div>';
@@ -2009,7 +2023,7 @@ function mxKebabClose() {
   });
 }
 
-/* Unified kebab delegation — no stopPropagation needed */
+/* Unified kebab delegation вЂ” no stopPropagation needed */
 document.addEventListener('click', function(e){
   var kbp = e.target.closest('[data-kbp]');
   if(kbp){
@@ -2028,9 +2042,9 @@ function mxEsc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ═══════════════════════════════════════
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
    CONNECT-SOURCE DIALOG
-════════════════════════════════════════ */
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 var mxConnDlg = document.getElementById('mx-conn-dlg');
 var _mxConnName = '';
 
@@ -2068,7 +2082,7 @@ function mxCloseConnDlg() {
 
 function mxConnStep1() {
   var btn = document.getElementById('mx-conn-s1-btn');
-  btn.textContent = 'Saving…'; btn.disabled = true;
+  btn.textContent = 'SavingвЂ¦'; btn.disabled = true;
   setTimeout(function() {
     document.getElementById('mx-conn-s1').classList.add('is-hidden');
     document.getElementById('mx-conn-s2').classList.remove('is-hidden');
@@ -2109,9 +2123,9 @@ function mxConnectProv(item) {
   if (sel) sel.value = 'filled';
 }
 
-/* ═══════════════════════════════════════
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
    ADD CUSTOM METRIC DIALOG
-════════════════════════════════════════ */
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 var mxAddDlg = document.getElementById('mx-add-dlg');
 var mxEditingRowId = null;
 
@@ -2135,7 +2149,7 @@ function mxOpenDlgWithData(opts) {
     var connPh  = document.getElementById('mx-connector-ph');
     var connTrig = document.getElementById('mx-connector-trig');
     if (connInp) connInp.value = '';
-    if (connPh)  { connPh.textContent = 'Select a data source…'; connPh.className = 'sel-ph'; }
+    if (connPh)  { connPh.textContent = 'Select a data sourceвЂ¦'; connPh.className = 'sel-ph'; }
     if (connTrig) connTrig.setAttribute('aria-expanded','false');
   }
   // Reset link-type segctrl to Data Source
@@ -2184,7 +2198,7 @@ function mxConfirmAdd() {
   if (!name) { document.getElementById('mx-name-inp').focus(); return; }
   var aliasVal = alias ? ('@' + alias.replace(/^@/,'')) : '';
 
-  // Edit mode — update the existing row in place
+  // Edit mode вЂ” update the existing row in place
   if (mxEditingRowId) {
     var existing = document.querySelector('[data-row-id="' + mxEditingRowId + '"]');
     if (existing) {
@@ -2203,7 +2217,7 @@ function mxConfirmAdd() {
   }
   var rowId = 'custom-' + (mxRowCounter++);
   var kebabSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>';
-  var swtHtml = '<div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="'+mxEsc(name)+' — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div>';
+  var swtHtml = '<div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="'+mxEsc(name)+' вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div>';
 
   /* New 7-col flat table row */
   var tr = document.createElement('tr');
@@ -2239,9 +2253,9 @@ function mxConfirmAdd() {
   mxCloseAddDlg();
 }
 
-/* ═══════════════════════════════════════
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
    EDIT / DUPLICATE METRIC
-════════════════════════════════════════ */
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 function mxEditFromRow(tr) {
   if (!tr) return;
   mxKebabClose();
@@ -2277,9 +2291,9 @@ function mxDuplicateMetric(btn) {
   });
 }
 
-/* ═══════════════════════════════════════
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
    SEARCH + FILTER (filled table)
-════════════════════════════════════════ */
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 function mxC3FilterChip(btn) {
   var filter = btn.getAttribute('data-filter');
   if (filter === 'active-only') {
@@ -2330,16 +2344,16 @@ function mxC3Filter() {
     }
     tr.style.display = anyVisible ? '' : 'none';
   });
-  /* No metric matched → swap the table for the shared empty-state block. */
+  /* No metric matched в†’ swap the table for the shared empty-state block. */
   var mxTbl = document.querySelector('#mx-filled .mx-tbl');
   var mxEmpty = document.getElementById('mx-c3-empty');
   if (mxTbl) mxTbl.style.display = anyMetricVisible ? '' : 'none';
   if (mxEmpty) mxEmpty.style.display = anyMetricVisible ? 'none' : 'flex';
 }
 
-/* ═══════════════════════════════════════
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
    SHARED FIXED TOOLTIP (data-tip attr)
-════════════════════════════════════════ */
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 (function() {
   var tip = document.createElement('div');
   tip.id = 'mx-tip';
@@ -2371,7 +2385,7 @@ function mxC3Filter() {
   document.addEventListener('mouseout', function(e) {
     /* Only hide when leaving a tip target for a non-tip target.
        Moving between two [data-tip] elements (e.g. adjacent lock icons) must NOT
-       trigger a fade-out — that left a ghost tooltip at the previous position. */
+       trigger a fade-out вЂ” that left a ghost tooltip at the previous position. */
     if (!e.target.closest('[data-tip]')) return;
     if (e.relatedTarget && e.relatedTarget.closest('[data-tip]')) return;
     tip.style.opacity = '0';
@@ -2379,9 +2393,9 @@ function mxC3Filter() {
   document.addEventListener('scroll', function(){ tip.style.opacity = '0'; }, true);
 }());
 
-/* ═══════════════════════════════════════
+/* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
    CLOSE OPEN MENUS ON OUTSIDE CLICK
-════════════════════════════════════════ */
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 document.addEventListener('click', function(e) {
   document.querySelectorAll('[aria-haspopup][aria-expanded="true"]').forEach(function(btn){
     if (btn.contains(e.target) || (btn.nextElementSibling && btn.nextElementSibling.contains(e.target))) return;
@@ -2389,9 +2403,9 @@ document.addEventListener('click', function(e) {
   });
 });
 
-// Sticker drag IIFE removed — sticker no longer rendered (info in ../page-changes/metrics-landing.md).
+// Sticker drag IIFE removed вЂ” sticker no longer rendered (info in ../page-changes/metrics-landing.md).
 
-/* Sidebar footer popovers — same recipe shared across all sidebar-bearing pages. */
+/* Sidebar footer popovers вЂ” same recipe shared across all sidebar-bearing pages. */
 function clTogglePop(id){
   var pop = document.getElementById(id);
   if(!pop) return;
@@ -2416,7 +2430,7 @@ document.addEventListener('click', function(e){
   });
 });
 
-/* broken image placeholder — shows provider initials */
+/* broken image placeholder вЂ” shows provider initials */
 document.addEventListener('error', function(e) {
   if (e.target.tagName === 'IMG') {
     var ic = e.target.closest('.prov-ic-w');
@@ -2440,7 +2454,7 @@ document.addEventListener('error', function(e) {
   });
 })();
 
-/* sbx-chat navigation — delegated so it survives dynamic re-renders */
+/* sbx-chat navigation вЂ” delegated so it survives dynamic re-renders */
 document.addEventListener('click', function(e) {
   var chat = e.target.closest('.sbx-chat');
   if (chat && !e.target.closest('.sbx-chat-more') && !e.target.closest('.sbx-chat-menu')) {
@@ -2450,7 +2464,7 @@ document.addEventListener('click', function(e) {
 
 </script>
 <script>
-/* Mobile/tablet hamburger — opens the sidebar drawer overlay. Cross-page consistent. */
+/* Mobile/tablet hamburger вЂ” opens the sidebar drawer overlay. Cross-page consistent. */
 window.clOpenSidebar = function(){
   document.documentElement.classList.add('side-open');
   var sbx = document.querySelector('.cl-side .sbx');
@@ -2467,8 +2481,8 @@ document.addEventListener('keydown', function(e){
 })();
 </script>
 <script>
-/* Chip-row edge fade — set data-chip-scroll so the CSS mask shows the fade ONLY while the row
-   actually overflows: none (fits → no fade), start (right fade), middle (both), end (left fade).
+/* Chip-row edge fade вЂ” set data-chip-scroll so the CSS mask shows the fade ONLY while the row
+   actually overflows: none (fits в†’ no fade), start (right fade), middle (both), end (left fade).
    Recomputed on scroll, on content change (chips render dynamically), and on resize. */
 (function(){
   function updateChipScroll(row){
