@@ -581,7 +581,7 @@
   .s-pressed.btn-destructive{background:var(--fb-red-press)}
   .s-disabled.btn-destructive{background:var(--state-disabled);color:var(--ink-inactive)}
   .s-focus.btn-destructive{box-shadow:var(--shadow-focus)}
-  /* Destructive Outlined states — mirror the Outlined pattern (transparent bg, brand-coloured overlay) but with Feedback/Red instead of Brand/Primary; focus ring stays neutral to avoid red-on-red. */
+  /* Destructive Outlined states — mirror the Outlined pattern (transparent bg, brand-coloured overlay) but with Feedback/Red instead of Brand/Primary; focus ring is the unified brand --shadow-focus (teal ≠ red, so red-on-red is still avoided — see --focus-ring note at top). */
   .s-hover.btn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
   .s-pressed.btn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
   .s-disabled.btn-outline-destructive{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
@@ -1861,10 +1861,10 @@
      Bundles the transition so any element gets the right duration on first use. */
   .hov-card{transition:box-shadow .18s,border-color .18s,transform .18s}
   .hov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
-  .prov-card-head{display:flex;align-items:center;gap:.375rem}
+  .prov-card-head{display:flex;align-items:center;gap:.5rem}
   /* Provider-card logo size — bigger image than the inline default the markup sets on the
      sprite mark. !important is needed only to override that per-element inline --logo-size. */
-  .prov-card-head .logo-spr{--logo-size:3rem!important}
+  .prov-card-head .logo-spr{--logo-size:3rem!important;background-size:120%}
   /* spec — see #prov-card | LOCKED: background = var(--icon-wrapper-bg). Do NOT inline a hex/rgb/color-mix here. */
   .prov-ic-w{width:2.75rem;height:2.75rem;border-radius:.625rem;border:1px solid var(--border);background:var(--icon-wrapper-bg);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.08)}
   .prov-ic-w img{width:1.625rem;height:1.625rem;object-fit:contain;display:block}
@@ -2294,7 +2294,7 @@
   /* No inter-group gap: the --mx-group-band header colour + the 1px top border
      already separate provider blocks. A border-top "gap" only inflated the header
      height and read as an odd strip stuck above the band (esp. on dark). */
-  .mx-prov-group-cell{display:flex;align-items:center;gap:.375rem}
+  .mx-prov-group-cell{display:flex;align-items:center;gap:.5rem}
   .mx-prov-group-name{font-size:var(--text-14);font-weight:600;color:var(--ink);flex:1;min-width:0}
   /* Group-header icon — same bordered container as other mx-prov-ic usages */
 
