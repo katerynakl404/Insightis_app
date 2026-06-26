@@ -1861,7 +1861,7 @@
      Bundles the transition so any element gets the right duration on first use. */
   .hov-card{transition:box-shadow .18s,border-color .18s,transform .18s}
   .hov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
-  .prov-card-head{display:flex;align-items:center;gap:.5rem}
+  .prov-card-head{display:flex;align-items:center;gap:.375rem}
   /* Provider-card logo size — bigger image than the inline default the markup sets on the
      sprite mark. !important is needed only to override that per-element inline --logo-size. */
   .prov-card-head .logo-spr{--logo-size:3rem!important}
@@ -2294,7 +2294,7 @@
   /* No inter-group gap: the --mx-group-band header colour + the 1px top border
      already separate provider blocks. A border-top "gap" only inflated the header
      height and read as an odd strip stuck above the band (esp. on dark). */
-  .mx-prov-group-cell{display:flex;align-items:center;gap:.5rem}
+  .mx-prov-group-cell{display:flex;align-items:center;gap:.375rem}
   .mx-prov-group-name{font-size:var(--text-14);font-weight:600;color:var(--ink);flex:1;min-width:0}
   /* Group-header icon — same bordered container as other mx-prov-ic usages */
 
