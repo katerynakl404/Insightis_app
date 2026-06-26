@@ -32,6 +32,11 @@
     --content-max-narrow:680px;
     --content-max-wide:1200px;
     --content-max-width:var(--content-max-wide);
+    /* Type scale — font-size tokens (px-named, theme-independent). Every component font-size reads
+       one of these, never a raw rem/px. Mirrors the storybook Typography "Size scale". Non-type
+       exceptions left literal: .5rem (Azure logo-mark monogram), .5625rem (.colhint storybook
+       scaffolding), and relative .92em/.6em icon sizings. */
+    --text-10:.625rem;--text-11:.6875rem;--text-12:.75rem;--text-13:.8125rem;--text-14:.875rem;--text-16:1rem;--text-18:1.125rem;--text-20:1.25rem;--text-24:1.5rem;--text-30:1.875rem;--text-36:2.25rem;--text-48:3rem;
     --bg:var(--slate-50);--card:var(--white);--card2:var(--slate-100);--chips:var(--slate-50);
     /* Section/group-header band — Slate-150 primitive: one step lighter than
        Slate-200 (too heavy as a band) and one step darker than --state-hover
@@ -120,16 +125,19 @@
        clearly enough that an equal-strength hover felt as loud as a click on dark; halving the lift
        gives a subtle preview that still tracks the eye. */
     --segctrl-btn-hover-bg:color-mix(in srgb, var(--card) 50%, var(--card2));
-    /* Active-pill lift — INSET 1px rim + outset drop shadow. The visible rim is preserved as the
-       defining edge of the active state. Rim uses the kit's canonical --border (Slate-200) so the
-       edge is harmonious with every other 1 px border in the system instead of a pure-black-alpha
-       (which previously read as too neutral / cool-grey against the cool-slate palette). Hover
-       uses the same colour at 50% mix below — same rim shape, softer tone. */
-    --segctrl-active-shadow:inset 0 0 0 1px var(--border), 0 1px 2px rgba(0,0,0,.06);
-    /* Hover rim — --border at 50% mix with transparent, so it reads as a half-strength version of
-       active. Same hue, half the opacity — gives a clean default → hover → active progression
-       without introducing a new token. */
-    --segctrl-hover-shadow:inset 0 0 0 1px color-mix(in srgb, var(--border) 50%, transparent);
+    /* Rim shadow (active) — INSET 1px rim + outset drop shadow. The "inset border" recipe for any
+       raised toggle/pill surface: SegmentedControl (.segctrl-btn), the account-popover theme toggle
+       (.sbx-pop-theme-btn), and — in prod — Switch + SidebarMenuButton. Theme-aware (dark override in
+       the .dark block). Rim uses the kit's canonical --border (Slate-200) so the edge is harmonious
+       with every other 1 px border in the system instead of a pure-black-alpha (which previously read
+       as too neutral / cool-grey against the cool-slate palette). Hover uses the same colour at 50%
+       mix below — same rim shape, softer tone. Generalised from the old --segctrl-*-shadow names
+       because four components now share the recipe; intent-named, not component-named. */
+    --shadow-rim-active:inset 0 0 0 1px var(--border), 0 1px 2px rgba(0,0,0,.06);
+    /* Rim shadow (hover) — --border at 50% mix with transparent, so it reads as a half-strength
+       version of active. Same hue, half the opacity — gives a clean default → hover → active
+       progression without introducing a new token. */
+    --shadow-rim-hover:inset 0 0 0 1px color-mix(in srgb, var(--border) 50%, transparent);
     /* Card / list-row hover + press border — soft brand-tinted alphas. Separate token from
        --border-hover (which stays neutral for form controls). Used by .card-c, .sbx-chat,
        .cl-composer in chat-landing, any future card-style component. Re-resolves per-theme
@@ -153,8 +161,15 @@
     /* Border widths — default 1px stroke, 2px focus halo */
     --border-width:1px;
     --border-width-focus:2px;
-    /* Reusable focus-ring shadow: card-colored 2px gap + brand-colored 2px outer halo */
-    --shadow-focus-brand:0 0 0 var(--border-width-focus) var(--card),0 0 0 calc(var(--border-width-focus) * 2) var(--focus-ring-brand);
+    /* THE focus-visible ring — 2px surface-coloured gap + 2px outer halo. The halo colour flows
+       through --focus-ring (the single focus-colour seam, brand by default), so any component that
+       needs a different focus tone overrides --focus-ring locally rather than swapping the shadow.
+       Used by every interactive element with an outset focus ring. */
+    --shadow-focus:0 0 0 var(--border-width-focus) var(--card),0 0 0 calc(var(--border-width-focus) * 2) var(--focus-ring);
+    /* Inset focus ring — for interactive children nested inside a hovering/scrolling parent (the
+       chat-row kebab + pin buttons) where an outset halo would be clipped by the row's mask. A single
+       2px ring drawn inward instead of the outset gap+halo; same --focus-ring colour seam. */
+    --shadow-focus-inset:inset 0 0 0 var(--border-width-focus) var(--focus-ring);
     /* Form-control focus — NEUTRAL border, shared by Input + TextArea + InputGroup. Softened
        this iteration from --ink-secondary (Slate-550 #5A6A80) to Slate-500 (#64748B): still
        clears WCAG 1.4.11's 3:1 UI-contrast minimum (~3.2:1 on white) but sits visually softer.
@@ -197,19 +212,36 @@
     --motion-ease-out:cubic-bezier(0,0,.2,1);
 
     /* ===== Shadow tokens — reusable elevation recipes =====
-       Canonical depth scale. Pick by intent, not by raw values:
+       ONE canonical depth ladder. Every elevation surface picks a rung by intent, never an inline
+       recipe. Rungs (low → high):
          --shadow-rest         — barely-there "ghost" depth at rest (cards, list rows)
          --shadow-card-hover   — slight lift on hover (chat-row / ds-conn-row, flat-hover pattern)
          --shadow-lift-hover   — elevation lift on hover (provider cards, ds-cards): deeper shadow + translateY(-1px)
-         --shadow-overlay-soft — floating overlay (popover, sheet, toast)
-         --shadow-menu         — dropdown menu (lighter than overlay-soft, more focused)
-       Tokenises the recipes that previously repeated across .menu, .sbx-pop, .toast, .chat-row,
-       .ds-card. Existing call sites are being migrated one component at a time. */
+         --shadow-overlay      — ANY floating surface: dropdown menu, autocomplete list, popover, toast
+                                 (.menu, .sbx-chat-menu, .pop, .acpl-list, .sbx-pop, .toast). One rung —
+                                 menu and overlay used to be two near-identical values; merged since the
+                                 visual delta didn't earn a token and the two never stack.
+         --shadow-modal        — modal dialog: the deepest rung (.dlg)
+       The two floating rungs (overlay / modal) are THEME-AWARE: low-opacity black is invisible on a
+       dark surface, so each gets a boosted `.dark` override (heavier drop + a 1px white inset highlight
+       ring) — see the .dark block. Light → dark is the only place these values differ.
+       Two more shadow families sit nearer the tokens they depend on (listed here so the catalogue is
+       complete):
+         --shadow-focus        — THE focus-visible ring (2px card gap + 2px halo); halo colour via
+                                 --focus-ring (brand by default). --shadow-focus-inset = single inward
+                                 2px ring for nested children whose outset halo would clip. Defined by
+                                 the focus-ring tokens above.
+         --shadow-rim-active / --shadow-rim-hover — inset 1px "rim" + drop for raised toggle/pill
+                                 surfaces (SegmentedControl, theme toggle, Switch, SidebarMenuButton).
+                                 Defined in the SegmentedControl token block above + the .dark block.
+       NOT on the ladder (intentionally inline): directional drawer shadows (.sht-panel slides from an
+       edge, .cl-drawer), and component-internal micro-shadows (.swt thumb, .prov-ic-w, .banner-ic
+       brand glow, .chat-row selected hairline) — these aren't depth rungs and aren't reused. */
     --shadow-rest:0 1px 2px 0 rgba(15,23,42,.03);
     --shadow-card-hover:0 2px 6px -1px rgba(15,23,42,.08),0 1px 2px 0 rgba(15,23,42,.04);
     --shadow-lift-hover:0 6px 16px -3px rgba(15,23,42,.09),0 2px 4px -1px rgba(15,23,42,.05);
-    --shadow-overlay-soft:0 10px 15px -3px rgba(0,0,0,.12),0 4px 6px -4px rgba(0,0,0,.08);
-    --shadow-menu:0 6px 16px -4px rgba(0,0,0,.12),0 2px 4px -2px rgba(0,0,0,.06);
+    --shadow-overlay:0 10px 15px -3px rgba(0,0,0,.12),0 4px 6px -4px rgba(0,0,0,.08);
+    --shadow-modal:0 20px 40px -8px rgba(0,0,0,.22);
   }
 
   /* =========================================================================
@@ -307,11 +339,16 @@
        hover read as a click — halving the step calmed it.) */
     --segctrl-btn-hover-bg:color-mix(in srgb, var(--chips) 50%, var(--card2));
     /* Active-pill shadow on dark — INSET 1px white-alpha rim (black would be invisible against
-       the dark pill) + drop shadow. Hover uses --segctrl-hover-shadow below: same shape, lower
+       the dark pill) + drop shadow. Hover uses --shadow-rim-hover below: same shape, lower
        opacity so the rim reads as a softer outline. */
-    --segctrl-active-shadow:inset 0 0 0 1px color-mix(in srgb, var(--white) 6%, transparent), 0 1px 2px rgba(0,0,0,.3);
+    --shadow-rim-active:inset 0 0 0 1px color-mix(in srgb, var(--white) 6%, transparent), 0 1px 2px rgba(0,0,0,.3);
     /* Hover rim on dark — 3% white (half of active's 6%). Same recipe shape, half-tinted. */
-    --segctrl-hover-shadow:inset 0 0 0 1px color-mix(in srgb, var(--white) 3%, transparent);
+    --shadow-rim-hover:inset 0 0 0 1px color-mix(in srgb, var(--white) 3%, transparent);
+    /* Floating-rung shadows on dark — low-opacity black is invisible on a dark surface, so each rung
+       gets a heavier drop + a 1px white inset highlight ring (the shipped .sbx-pop dark recipe, now
+       graded across the three rungs: menu < overlay < modal). Light values stay in :root. */
+    --shadow-overlay:0 16px 32px -8px rgba(0,0,0,.65),0 6px 14px -4px rgba(0,0,0,.5),inset 0 1px 0 0 rgba(255,255,255,.04);
+    --shadow-modal:0 24px 48px -12px rgba(0,0,0,.72),0 8px 18px -6px rgba(0,0,0,.55),inset 0 1px 0 0 rgba(255,255,255,.05);
     /* Always-white content on solid surfaces — same value as light theme; theme-independent. */
     --content-on-solid:var(--white);
     /* Badge Primary — subtle Brand-800 tint: the dark analogue of light's Brand-50,
@@ -435,7 +472,7 @@
   /* ===== Link — reusable text-link style. Colour from --ink-highlight (Brand-600 light / Tertiary-400 dark) so AA holds in both themes. Hover underline sits 25% of font-size below the baseline (`text-underline-offset:25%`) so the rule has clear separation from descenders — crisper than the browser-default tight underline. Thickness pinned at 1 px so it doesn't get heavier at larger font sizes. ===== */
   .link{color:var(--ink-highlight);text-decoration:none;cursor:pointer;font-weight:500;background:none;border:none;padding:0;font-family:inherit;font-size:inherit;line-height:inherit}
   .link:hover{text-decoration:underline;text-underline-offset:25%;text-decoration-thickness:1px}
-  .link:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand);border-radius:.125rem}
+  .link:focus-visible{outline:none;box-shadow:var(--shadow-focus);border-radius:.125rem}
   .link.is-disabled,.link[disabled]{color:var(--ink-inactive);cursor:not-allowed;text-decoration:none;pointer-events:none}
 
   /* logo */
@@ -446,26 +483,26 @@
   /* Keep the title + control groups at their natural size and let the bar scroll horizontally on
      small screens, rather than squeezing/clipping the toggles. No effect on wide screens. */
   .topbar>*{flex:none}
-  .topbar .ttl{font-size:.8125rem;font-weight:600;color:var(--ink)}
+  .topbar .ttl{font-size:var(--text-13);font-weight:600;color:var(--ink)}
   .layout{display:grid;grid-template-columns:240px 1fr}
   .side{position:sticky;top:56px;align-self:start;height:calc(100vh - 56px);overflow:auto;border-right:1px solid var(--border);background:var(--card);padding:1rem .75rem}
-  .side a{display:flex;align-items:center;gap:8px;border-radius:6px;padding:5px 10px;font-size:13px;color:var(--ink-body)}
+  .side a{display:flex;align-items:center;gap:8px;border-radius:6px;padding:4px 10px;font-size:var(--text-13);color:var(--ink-body)}
   .side a:hover{background:var(--state-hover);color:var(--brand-primary)}
-  .side .grp{margin:16px 10px 6px;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive)}
+  .side .grp{margin:16px 10px 6px;font-size:var(--text-10);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive)}
 
   .content{min-width:0;padding:1.75rem 2rem 6rem;max-width:1080px}
   @media (max-width:880px){.layout{grid-template-columns:1fr}.side{display:none}}
 
-  h1.page{font-size:1.5rem;font-weight:600;color:var(--ink);margin:0 0 .25rem}
-  .lead{font-size:.8125rem;color:var(--ink-secondary);background:var(--card2);border:1px solid var(--border);border-radius:.5rem;padding:.65rem .8rem;margin:.6rem 0 1.5rem}
+  h1.page{font-size:var(--text-24);font-weight:600;color:var(--ink);margin:0 0 .25rem}
+  .lead{font-size:var(--text-13);color:var(--ink-secondary);background:var(--card2);border:1px solid var(--border);border-radius:.5rem;padding:.65rem .8rem;margin:.6rem 0 1.5rem}
   .lead b{color:var(--ink)}
 
   .comp{scroll-margin-top:70px;padding-top:1.5rem}
   .comp+.comp{margin-top:2rem;border-top:1px solid var(--border)}
-  .comp>h2{font-size:1.25rem;font-weight:600;color:var(--ink);margin:0}
-  .comp>.sub{font-size:.8125rem;color:var(--ink-secondary);margin:.15rem 0 0}
-  .variant-label{font-size:.875rem;font-weight:600;color:var(--ink);margin:1.4rem 0 .4rem}
-  .chg{display:inline-flex;align-items:center;gap:.4rem;font-size:.8125rem;font-weight:700;color:var(--content-on-solid);background:var(--brand-primary);border:1px solid transparent;border-radius:.5rem;padding:.4rem .8rem;margin-top:.5rem;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+  .comp>h2{font-size:var(--text-20);font-weight:600;color:var(--ink);margin:0}
+  .comp>.sub{font-size:var(--text-13);color:var(--ink-secondary);margin:.15rem 0 0}
+  .variant-label{font-size:var(--text-14);font-weight:600;color:var(--ink);margin:1.4rem 0 .4rem}
+  .chg{display:inline-flex;align-items:center;gap:.4rem;font-size:var(--text-13);font-weight:700;color:var(--content-on-solid);background:var(--brand-primary);border:1px solid transparent;border-radius:.5rem;padding:.4rem .8rem;margin-top:.5rem;box-shadow:0 1px 3px rgba(0,0,0,.18)}
   .chg::before{content:"●";font-size:.6em;color:var(--fb-attention)}
   .chg:hover{background:var(--brand-hover);transform:translateY(-1px)}
   .chg.none{background:transparent;color:var(--ink-inactive);border-color:var(--border);box-shadow:none;pointer-events:none}
@@ -473,30 +510,33 @@
 
   /* Preview / States blocks */
   .block{border:1px solid var(--border);border-radius:.625rem;background:var(--card);margin:.5rem 0 .9rem;overflow:hidden}
-  .block-h{font-size:.625rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive);padding:.5rem .8rem;border-bottom:1px solid var(--border);background:var(--card2)}
+  .block-h{font-size:var(--text-10);font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive);padding:.5rem .8rem;border-bottom:1px solid var(--border);background:var(--card2)}
   .block-b{padding:.85rem}
   .ce{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
   @media (max-width:600px){.ce{grid-template-columns:1fr}}
   .ce-cell{border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
-  .ce-tag{font-size:.625rem;font-weight:600;padding:.3rem .55rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.35rem}
+  .ce-tag{font-size:var(--text-10);font-weight:600;padding:.3rem .55rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.35rem}
   .ce-tag::before{content:"";width:7px;height:7px;border-radius:9999px}
   .ce-tag.prodt{color:var(--ink-inactive)} .ce-tag.prodt::before{background:var(--ink-inactive)}
   .ce-tag.expt{color:var(--brand-primary)} .ce-tag.expt::before{background:var(--brand-primary)}
   .stage{display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;min-height:72px;padding:.85rem;background:var(--bg)}
-  .spec{font-size:.75rem;line-height:1.85;color:var(--ink-body);margin-top:.7rem;background:var(--card2);border:1px solid var(--border);border-radius:.5rem;padding:.6rem .75rem}
-  .spec b{display:inline-block;color:var(--ink-inactive);font-size:.625rem;letter-spacing:.05em;text-transform:uppercase;font-weight:700;margin-right:.4rem}
-  .spec code,.stbl code{background:var(--card);border:1px solid var(--border);border-radius:.3rem;padding:.06rem .35rem;font-size:.92em;color:var(--ink);white-space:nowrap}
+  .spec{font-size:var(--text-12);line-height:1.85;color:var(--ink-body);margin-top:.7rem;background:var(--card2);border:1px solid var(--border);border-radius:.5rem;padding:.6rem .75rem}
+  .spec b{display:inline-block;color:var(--ink-inactive);font-size:var(--text-10);letter-spacing:.05em;text-transform:uppercase;font-weight:700;margin-right:.4rem}
+  /* Long values (e.g. multi-layer shadow recipes) must wrap inside the narrow States "Specification"
+     column instead of forcing the cell wider and clipping. white-space:normal + overflow-wrap lets a
+     recipe break at its spaces/commas; short tokens still fit on one line and don't wrap. */
+  .spec code,.stbl code{background:var(--card);border:1px solid var(--border);border-radius:.3rem;padding:.06rem .35rem;font-size:.92em;color:var(--ink);white-space:normal;overflow-wrap:break-word;word-break:break-word}
   .stbl td{line-height:1.7}
-  .cspec{font-size:.625rem;color:var(--ink-secondary);margin-top:.4rem;line-height:1.45}
+  .cspec{font-size:var(--text-10);color:var(--ink-secondary);margin-top:.4rem;line-height:1.45}
   .cspec code,.cspec b{color:var(--ink)} .cspec .was{color:var(--ink-inactive)}
 
   /* states table */
-  .stbl{width:100%;border-collapse:collapse;font-size:.75rem}
-  .stbl th{text-align:left;font-size:.625rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-secondary);padding:.5rem .6rem;border-bottom:1px solid var(--border)}
+  .stbl{width:100%;border-collapse:collapse;font-size:var(--text-12)}
+  .stbl th{text-align:left;font-size:var(--text-10);font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-secondary);padding:.5rem .6rem;border-bottom:1px solid var(--border)}
   .stbl td{padding:.55rem .6rem;border-bottom:1px solid var(--border);vertical-align:middle}
   .stbl tr:last-child td{border-bottom:none}
   .stbl .stname{font-weight:600;color:var(--ink);white-space:nowrap}
-  .stcell{background:var(--bg)}
+  .stcell{background:var(--bg);min-width:0;overflow-wrap:anywhere;word-break:break-word}
   .ministage{display:inline-flex;align-items:center;justify-content:center;min-width:120px;min-height:46px;padding:.4rem .6rem;background:var(--bg);border-radius:.375rem}
   .fill{min-height:30px;min-width:96px;border:1px dashed var(--border-hover);border-radius:.375rem;opacity:.5}
   .block-h .pend{color:var(--fb-attention);font-weight:700}
@@ -504,11 +544,11 @@
 
   /* ===== component helpers (mirror @insightis/ui) ===== */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:.375rem;white-space:nowrap;font-weight:500;border-radius:.375rem;transition:all .12s;cursor:pointer;border:1px solid transparent;font-family:inherit}
-  .btn-xs{height:1.75rem;padding:0 .625rem;font-size:.75rem}
-  .btn-sm{height:2rem;padding:0 .625rem;font-size:.875rem}
-  .btn-md{height:2.25rem;padding:0 .625rem;font-size:.875rem}
-  .btn-lg{height:2.5rem;padding:0 .75rem;font-size:.875rem}
-  .btn-xl{height:2.75rem;padding:0 .875rem;font-size:.875rem}
+  .btn-xs{height:1.75rem;padding:0 .625rem;font-size:var(--text-12)}
+  .btn-sm{height:2rem;padding:0 .625rem;font-size:var(--text-14)}
+  .btn-md{height:2.25rem;padding:0 .625rem;font-size:var(--text-14)}
+  .btn-lg{height:2.5rem;padding:0 .75rem;font-size:var(--text-14)}
+  .btn-xl{height:2.75rem;padding:0 .875rem;font-size:var(--text-14)}
   .btn-primary{background:var(--btn-primary-bg);color:var(--btn-primary-text)}
   /* Secondary — filled card-style (was: teal border, transparent) */
   .btn-secondary{border-color:var(--btn-secondary-border);background:var(--btn-secondary-bg);color:var(--ink-body)}
@@ -523,53 +563,53 @@
   .s-hover.btn-primary{background:var(--btn-primary-bg-hover)}
   .s-pressed.btn-primary{background:var(--btn-primary-bg-press)}
   .s-disabled.btn-primary{background:var(--state-disabled);color:var(--ink-inactive)}
-  .s-focus.btn-primary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .s-focus.btn-primary{box-shadow:var(--shadow-focus)}
   /* Secondary + Tertiary hover/pressed unified with .sbx-nav-item — neutral State/Hover + State/Pressed (no brand tint). Visual cohesion across nav rows and low-emphasis buttons. */
   .s-hover.btn-secondary{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .s-pressed.btn-secondary{background:var(--state-pressed);color:var(--ink-body);border-color:var(--btn-secondary-border)}
   .s-disabled.btn-secondary{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border)}
-  .s-focus.btn-secondary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .s-focus.btn-secondary{box-shadow:var(--shadow-focus)}
   .s-hover.btn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
   .s-pressed.btn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
   .s-disabled.btn-outline{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
-  .s-focus.btn-outline{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .s-focus.btn-outline{box-shadow:var(--shadow-focus)}
   .s-hover.btn-tertiary{background:var(--state-hover);color:var(--ink-body)}
   .s-pressed.btn-tertiary{background:var(--state-pressed);color:var(--ink-body)}
   .s-disabled.btn-tertiary{color:var(--ink-inactive);background:transparent}
-  .s-focus.btn-tertiary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .s-focus.btn-tertiary{box-shadow:var(--shadow-focus)}
   .s-hover.btn-destructive{background:var(--fb-red-hover)}
   .s-pressed.btn-destructive{background:var(--fb-red-press)}
   .s-disabled.btn-destructive{background:var(--state-disabled);color:var(--ink-inactive)}
-  .s-focus.btn-destructive{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .s-focus.btn-destructive{box-shadow:var(--shadow-focus)}
   /* Destructive Outlined states — mirror the Outlined pattern (transparent bg, brand-coloured overlay) but with Feedback/Red instead of Brand/Primary; focus ring stays neutral to avoid red-on-red. */
   .s-hover.btn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
   .s-pressed.btn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
   .s-disabled.btn-outline-destructive{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
-  .s-focus.btn-outline-destructive{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
-  .s-focus{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .s-focus.btn-outline-destructive{box-shadow:var(--shadow-focus)}
+  .s-focus{box-shadow:var(--shadow-focus)}
   /* real interactive states (live preview) */
   .btn-primary:hover{background:var(--btn-primary-bg-hover)}
   .btn-primary:active{background:var(--btn-primary-bg-press)}
-  .btn-primary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .btn-primary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-primary:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
   .btn-secondary:hover{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .btn-secondary:active{background:var(--state-pressed);color:var(--ink-body)}
-  .btn-secondary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .btn-secondary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-outline:hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
   .btn-outline:active{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
   .btn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
   .btn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
-  .btn-tertiary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
-  .btn-outline:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .btn-tertiary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .btn-outline:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-destructive:hover{background:var(--fb-red-hover)}
   .btn-destructive:active{background:var(--fb-red-press)}
-  .btn-destructive:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .btn-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-destructive:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
   .btn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
   .btn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
-  .btn-outline-destructive:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .btn-outline-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
-  .btn:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* loading state (works on any Button/IconButton variant via currentColor; opacity-based — no disabled-colour swap) */
   .btn .spinner,.iconbtn .spinner{width:.85em;height:.85em;border-radius:9999px;border:2px solid currentColor;border-right-color:transparent;display:inline-block;animation:btn-spin .7s linear infinite;vertical-align:-.1em}
   .s-loading.btn,.s-loading.iconbtn{pointer-events:none;opacity:var(--opacity-disabled)}
@@ -593,44 +633,44 @@
   .s-hover.iconbtn-primary{background:var(--btn-primary-bg-hover)}
   .s-pressed.iconbtn-primary{background:var(--btn-primary-bg-press)}
   .s-disabled.iconbtn-primary{background:var(--state-disabled);color:var(--ink-inactive)}
-  .s-focus.iconbtn-primary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .s-focus.iconbtn-primary{box-shadow:var(--shadow-focus)}
   .s-hover.iconbtn-secondary{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .s-pressed.iconbtn-secondary{background:var(--state-pressed);color:var(--ink-body);border-color:var(--btn-secondary-border)}
   .s-disabled.iconbtn-secondary{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border)}
-  .s-focus.iconbtn-secondary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .s-focus.iconbtn-secondary{box-shadow:var(--shadow-focus)}
   .s-hover.iconbtn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
   .s-pressed.iconbtn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
   .s-disabled.iconbtn-outline{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
-  .s-focus.iconbtn-outline{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .s-focus.iconbtn-outline{box-shadow:var(--shadow-focus)}
   .s-hover.iconbtn-tertiary{background:var(--state-hover);color:var(--ink-body)}
   .s-pressed.iconbtn-tertiary{background:var(--state-pressed);color:var(--ink-body)}
   .s-disabled.iconbtn-tertiary{color:var(--ink-inactive);background:transparent}
-  .s-focus.iconbtn-tertiary{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .s-focus.iconbtn-tertiary{box-shadow:var(--shadow-focus)}
   .s-hover.iconbtn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
   .s-pressed.iconbtn-outline-destructive{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
   .s-disabled.iconbtn-outline-destructive{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
-  .s-focus.iconbtn-outline-destructive{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .s-focus.iconbtn-outline-destructive{box-shadow:var(--shadow-focus)}
   /* real interactive states */
   .iconbtn-primary:hover{background:var(--btn-primary-bg-hover)}
   .iconbtn-primary:active{background:var(--btn-primary-bg-press)}
-  .iconbtn-primary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .iconbtn-primary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-primary:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
   .iconbtn-secondary:hover{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .iconbtn-secondary:active{background:var(--state-pressed);color:var(--ink-body);border-color:var(--btn-secondary-border)}
-  .iconbtn-secondary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .iconbtn-secondary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-outline:hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
   .iconbtn-outline:active{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
-  .iconbtn-outline:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .iconbtn-outline:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
   .iconbtn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
-  .iconbtn-tertiary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .iconbtn-tertiary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
   .iconbtn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
-  .iconbtn-outline-destructive:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .iconbtn-outline-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
 
-  .badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid transparent;font-weight:500;border-radius:.375rem;height:1.75rem;padding:0 .625rem;font-size:.75rem;line-height:1}
-  .badge-sm{height:1.25rem;padding:0 .375rem;font-size:.6875rem;border-radius:.25rem}
+  .badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid transparent;font-weight:500;border-radius:.375rem;height:1.75rem;padding:0 .625rem;font-size:var(--text-12);line-height:1}
+  .badge-sm{height:1.25rem;padding:0 .375rem;font-size:var(--text-11);border-radius:.25rem}
   .rf{border-radius:9999px}
   /* Primary — component-scoped tokens so light/dark/prod scopes each set their own values cleanly (avoids .dark vs .prod cascade collision). Text uses Brand-700 light / Brand-400 dark so AA holds in both themes (~5.8:1) — --brand-primary on Brand-50 would be only 4.21:1. */
   .badge-primary{background:var(--badge-primary-bg);color:var(--badge-primary-text)}
@@ -643,13 +683,13 @@
   /* Badge slots — leading icon, status dot, removable close. All inherit currentColor so they auto-pick up each variant's text token. */
   .badge .b-ic{width:14px;height:14px;flex:none}
   .badge .b-dot{width:6px;height:6px;border-radius:9999px;background:currentColor;flex:none}
-  .badge .b-x{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-left:2px;font-size:.875rem;line-height:1;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent;font-family:inherit;padding:0;flex:none}
+  .badge .b-x{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-left:2px;font-size:var(--text-14);line-height:1;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent;font-family:inherit;padding:0;flex:none}
   .badge .b-x:hover{opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)}
-  .badge .b-x:focus-visible{outline:none;opacity:1;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .badge .b-x:focus-visible{outline:none;opacity:1;box-shadow:var(--shadow-focus)}
 
   /* Form-control system — shared by Input (.field) and TextArea (.ta) */
   .field{display:flex;align-items:center;height:2.25rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:0 .5rem;gap:.375rem;width:100%;max-width:240px;transition:border-color .12s, box-shadow .12s}
-  .field input{height:100%;width:100%;background:transparent;border:none;outline:none;font-size:.875rem;color:var(--ink);font-family:inherit}
+  .field input{height:100%;width:100%;background:transparent;border:none;outline:none;font-size:var(--text-14);color:var(--ink);font-family:inherit}
   .field input::placeholder{color:var(--ink-inactive)}
   .field:hover,.field.s-hover{border-color:var(--border-hover)}
   .field:focus-within,.field.s-focus{border-color:var(--input-focus);box-shadow:none;outline:none}
@@ -664,28 +704,28 @@
      read as one row at any density. Mirrors .igrp.is-xs/sm/lg/xl below. md is the existing
      default (2.25rem) and is kept as a class for explicitness when authoring. */
   .field.is-xs{height:1.75rem;padding:0 .375rem;gap:.25rem}
-  .field.is-xs input{font-size:.75rem}
+  .field.is-xs input{font-size:var(--text-12)}
   .field.is-xs .field-icon{width:14px;height:14px}
-  .field.is-sm{height:2rem;padding:0 .4375rem;gap:.3125rem}
-  .field.is-sm input{font-size:.8125rem}
+  .field.is-sm{height:2rem;padding:0 .5rem;gap:.25rem}
+  .field.is-sm input{font-size:var(--text-13)}
   .field.is-md{height:2.25rem}
-  .field.is-lg{height:2.5rem;padding:0 .5625rem}
+  .field.is-lg{height:2.5rem;padding:0 .5rem}
   .field.is-xl{height:2.75rem;padding:0 .625rem}
   /* TextArea size variants — height becomes a min-height so the resize handle still works.
      Padding scales with the visual weight; font size matches .field at the same step. */
-  .ta.is-xs{min-height:1.75rem;padding:.25rem .375rem;font-size:.75rem}
-  .ta.is-sm{min-height:2rem;padding:.375rem .4375rem;font-size:.8125rem}
+  .ta.is-xs{min-height:1.75rem;padding:.25rem .375rem;font-size:var(--text-12)}
+  .ta.is-sm{min-height:2rem;padding:.375rem .5rem;font-size:var(--text-13)}
   .ta.is-md{min-height:2.25rem}
-  .ta.is-lg{min-height:2.5rem;padding:.5625rem .5625rem}
+  .ta.is-lg{min-height:2.5rem;padding:.5rem .5rem}
   .ta.is-xl{min-height:2.75rem;padding:.625rem .625rem}
-  .ta{width:100%;max-width:260px;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:.5rem;font-size:.875rem;color:var(--ink);outline:none;resize:none;font-family:inherit;transition:border-color .12s, box-shadow .12s}
+  .ta{width:100%;max-width:260px;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:.5rem;font-size:var(--text-14);color:var(--ink);outline:none;resize:none;font-family:inherit;transition:border-color .12s, box-shadow .12s}
   .ta::placeholder{color:var(--ink-inactive)}
   .ta:hover,.ta.s-hover{border-color:var(--border-hover)}
   .ta:focus,.ta.s-focus{border-color:var(--input-focus);box-shadow:none;outline:none}
   .ta.s-error{border-color:var(--input-error);box-shadow:none}
   .ta.is-disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
   /* Shared red helper-text under .field.s-error / .ta.s-error — theme-adaptive (--input-error) */
-  .err-help{color:var(--input-error);font-size:.6875rem;font-weight:500;margin-top:.25rem;line-height:1.3}
+  .err-help{color:var(--input-error);font-size:var(--text-11);font-weight:500;margin-top:.25rem;line-height:1.3}
 
   /* Switch (.swt) — filled track in both positions (no inset stroke). Off uses --switch-off-bg (theme-aware: Slate-300 light / Grey-700 dark) — a medium grey that sits clearly above the page bg without a hard outline. State is conveyed by thumb position (WCAG 1.4.1); the white thumb's drop-shadow + faint 0.5 px hairline gives the thumb a perceivable edge against the filled off-track. ::before pseudo expands the hit target to 44×44 invisibly (WCAG 2.5.5/2.5.8). padding:0 neutralises <button> user-agent default. */
   .swt{position:relative;width:2.25rem;height:1.25rem;border-radius:9999px;background:var(--switch-off-bg);transition:background-color .15s, box-shadow .15s;flex:none;cursor:pointer;border:none;padding:0;margin:0;display:inline-block;vertical-align:middle}
@@ -696,8 +736,8 @@
   .swt.on::after{left:calc(100% - 1.125rem);box-shadow:0 1px 2px rgba(0,0,0,.18)}
   .swt:hover,.swt.s-hover{background:var(--switch-off-bg-hover)}
   .swt.on:hover,.swt.on.s-hover{background:var(--brand-hover)}
-  .swt:focus-visible,.swt.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
-  .swt.on:focus-visible,.swt.on.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
+  .swt:focus-visible,.swt.s-focus{outline:none;box-shadow:var(--shadow-focus)}
+  .swt.on:focus-visible,.swt.on.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   .swt.s-disabled,.swt:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
   /* Small switch variant — 28 × 16 px track, 12 × 12 px thumb */
   .swt.is-sm{width:1.75rem;height:1rem}
@@ -709,11 +749,12 @@
   .cbx.on{background:var(--brand-primary);border-color:var(--brand-primary)}
   .cbx:hover,.cbx.s-hover{border-color:var(--ink-secondary)}
   .cbx.on:hover,.cbx.on.s-hover{background:var(--brand-hover);border-color:var(--brand-hover)}
-  .cbx:focus-visible,.cbx.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)}
-  /* Disabled — unified opacity recipe (was colour-shift; now matches Switch / Button / IconButton / Tabs). Each cbx fades from its own base. The checked tick + indeterminate bar drop from #FFF to Text/Inactive so the disabled mark reads as muted (consistent with disabled text); 1.4.3 exempts this contrast from AA. */
+  .cbx:focus-visible,.cbx.s-focus{outline:none;box-shadow:var(--shadow-focus)}
+  /* Disabled — opacity-only de-emphasis (matches Switch / Button / IconButton / Tabs). The box
+     fades from its own base; the checked tick + indeterminate bar stay WHITE (--content-on-solid,
+     via currentColor / ::before) and are muted purely by the opacity — no separate colour drop, so
+     the mark always reads white, never grey. 1.4.3 exempts disabled from AA. */
   .cbx.s-disabled,.cbx:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
-  .cbx.on.s-disabled,.cbx.on:disabled,.cbx.is-indeterminate.s-disabled,.cbx.is-indeterminate:disabled{color:var(--ink-inactive)}
-  .cbx.is-indeterminate.s-disabled::before,.cbx.is-indeterminate:disabled::before{background:var(--ink-inactive)}
   /* Error — mirrors Input .s-error: border colour swap, no bg change for unchecked; checked fills with the error colour */
   .cbx.s-error{border-color:var(--input-error)}
   .cbx.on.s-error{background:var(--input-error);border-color:var(--input-error)}
@@ -722,23 +763,23 @@
   .cbx svg{opacity:0;transition:opacity .1s} .cbx.on svg{opacity:1}
   .cbx.is-indeterminate svg{display:none}
 
-  .ava{display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:9999px;font-size:.75rem;font-weight:600}
+  .ava{display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:9999px;font-size:var(--text-12);font-weight:600}
   .ava-init{background:var(--brand-primary);color:var(--content-on-solid)}
   .ava-count{background:var(--chips);color:var(--ink-secondary)}
   .ava-img{background:var(--brand-tertiary)}
 
   /* Active indicator = button-width underline via ::after; gap between tabs provides visual text-width appearance without edge indent */
-  .tab{padding:.5rem .75rem .75rem;font-size:.875rem;color:var(--ink-secondary);border:none;margin-bottom:-1px;cursor:pointer;background:none;font-family:inherit;border-radius:4px 4px 0 0;position:relative}
+  .tab{padding:.5rem .75rem .75rem;font-size:var(--text-14);color:var(--ink-secondary);border:none;margin-bottom:-1px;cursor:pointer;background:none;font-family:inherit;border-radius:4px 4px 0 0;position:relative}
   .tab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:transparent;border-radius:1px;transition:background .15s}
   .tab:hover{color:var(--ink-body)}
   .tab.is-active{color:var(--ink-highlight);font-weight:500}
   .tab.is-active::after,.tab.s-active::after{background:var(--ink-highlight)}
-  .tab:focus-visible,.tab.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .tab:focus-visible,.tab.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   .tab.s-disabled,.tab:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
   .tabset{display:flex;gap:.5rem;border-bottom:1px solid var(--border)}
 
   /* Tooltip (.tt) — bg inverts via --ink, text via --card (the same theme-aware token used everywhere else as a surface, used here as text on the inverted ink chip). Promoted from inline style so the fix lives in one place. */
-  .tt{display:inline-flex;align-items:center;background:var(--ink);color:var(--card);font-size:.75rem;border-radius:6px;padding:4px 8px}
+  .tt{display:inline-flex;align-items:center;background:var(--ink);color:var(--card);font-size:var(--text-12);border-radius:6px;padding:4px 8px}
 
   /* CSS-only tooltip anchor — [data-tip] wraps the trigger; ::after renders a .tt-styled bubble
      above (default) the anchor on :hover/:focus-visible. Positioned with z-index:9999 so it
@@ -753,7 +794,7 @@
     transform:translateX(-50%) translateY(3px);
     background:var(--ink);
     color:var(--card);
-    font-size:.75rem;
+    font-size:var(--text-12);
     font-family:inherit;
     font-weight:400;
     line-height:1.35;
@@ -789,8 +830,8 @@
 
   /* Dropdown surface + menu item — renewed values throughout (px units to match the rest of the kit's layout system: .iconbtn 32×32, .sb-item 32/8/8, etc.). Prod's cramped 2/6/6/4 dimensions live in the .prod .mi override above; this is the renewed Expected pass. */
   /* Context-menu sizing — fluid: `width:max-content` hugs the longest item, clamped between min 140 / max 320. Labels longer than 320 px wrap; menus never collapse below 140 px. Every .menu instance (.sbx-chat-menu, .chat-row-menu, .ds-conn-menu, etc.) inherits this via the base rule — variants no longer override `width`. */
-  .menu{min-width:140px;max-width:320px;width:max-content;border-radius:8px;border:1px solid var(--border);background:var(--card);padding:4px;box-shadow:var(--shadow-menu)}
-  .mi{display:flex;align-items:center;gap:8px;border-radius:4px;padding:6px 12px;font-size:14px;color:var(--ink-body);cursor:pointer;border:none;background:transparent;font-family:inherit;text-align:left;width:100%}
+  .menu{min-width:140px;max-width:320px;width:max-content;border-radius:8px;border:1px solid var(--border);background:var(--card);padding:4px;box-shadow:var(--shadow-overlay)}
+  .mi{display:flex;align-items:center;gap:8px;border-radius:4px;padding:6px 12px;font-size:var(--text-14);color:var(--ink-body);cursor:pointer;border:none;background:transparent;font-family:inherit;text-align:left;width:100%}
   /* Hover bg is calculated against --card (the .menu's surface) so the highlight is always
      visible regardless of what sits underneath the menu — important because the trigger row
      (chat-row / sbx-chat) stays in its own --state-hover state while the menu is open, and if
@@ -808,15 +849,15 @@
   .banner-ic{width:3.75rem;height:3.75rem;display:flex;align-items:center;justify-content:center;border-radius:.875rem;background:var(--brand-primary);color:var(--btn-primary-text);flex:none;box-shadow:0 6px 16px -4px color-mix(in srgb,var(--brand-primary) 50%,transparent)}
   .banner-ic svg{width:28px;height:28px}
   .banner-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.375rem}
-  .banner-t{font-size:1rem;font-weight:600;color:var(--ink);line-height:1.3;margin:0}
-  .banner-d{font-size:.875rem;color:var(--ink-body);line-height:1.5;margin:0;max-width:66ch}
+  .banner-t{font-size:var(--text-16);font-weight:600;color:var(--ink);line-height:1.3;margin:0}
+  .banner-d{font-size:var(--text-14);color:var(--ink-body);line-height:1.5;margin:0;max-width:66ch}
   .banner-d b{color:var(--ink);font-weight:600}
   .banner-cta{flex:none}
   /* Compact modifier — smaller padding + icon; use on secondary/inline banners */
   .banner-sm{padding:1rem 1.25rem}
   .banner-sm .banner-ic{width:2.5rem;height:2.5rem;border-radius:.5rem}
   .banner-sm .banner-ic svg{width:20px;height:20px}
-  .banner-sm .banner-t{font-size:.875rem;line-height:1.25rem}
+  .banner-sm .banner-t{font-size:var(--text-14);line-height:1.25rem}
   /* Responsive — aligns with kit breakpoints (880 px sidebar hides / 600 px single-col).
      880 px: stacks slots vertically, tightens padding, CTA constrained to 20 rem so it
      doesn't fill a landscape phone screen edge-to-edge.
@@ -856,13 +897,13 @@
   .mi.danger:active{background:color-mix(in srgb,var(--fb-red) 14%,var(--card))}
   .mi.is-disabled{color:var(--ink-inactive);cursor:not-allowed;pointer-events:none}
   /* WIP stub — prepended inside any .menu that hasn't been redesigned yet */
-  .menu-wip{display:flex;align-items:center;gap:6px;padding:5px 10px 6px;border-bottom:1px solid var(--border);margin-bottom:4px;font-size:11px;font-weight:500;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 8%,var(--card));border-radius:4px 4px 0 0}
+  .menu-wip{display:flex;align-items:center;gap:6px;padding:4px 10px 6px;border-bottom:1px solid var(--border);margin-bottom:4px;font-size:var(--text-11);font-weight:500;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 8%,var(--card));border-radius:4px 4px 0 0}
   .menu-wip svg{flex-shrink:0;width:12px;height:12px}
   /* Page-level WIP indicator — fixed right-edge vertical pill for pages not yet finalised */
-  .pg-wip-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-attention) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
+  .pg-wip-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-attention) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
   /* Page-level Approved indicator — green sibling of .pg-wip-tag (same recipe, --fb-green family).
      Set by /approve-page when a page moves concept → approved; replaces the In redesign tag. */
-  .pg-approved-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-green);background:color-mix(in srgb,var(--fb-green) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-green) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
+  .pg-approved-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-green);background:color-mix(in srgb,var(--fb-green) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-green) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
   .mi .mi-ic{width:16px;height:16px;flex:none;color:currentColor}
   /* Menu separator — thin rule used to group related items inside a .menu. Negative horizontal
      margin lets the rule span edge-to-edge across the menu's 4 px padding. */
@@ -877,7 +918,7 @@
      the composer chrome (.cl-composer / .cl-prompt / .cl-send), identical on both. */
   /* Quiet uppercase group heading inside a composer menu — smallest tier (size + tracking carry
      the hierarchy; colour stays --ink-secondary for AA, since --ink-inactive fails on Card). */
-  .cl-menu-label{padding:8px 12px 4px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-secondary)}
+  .cl-menu-label{padding:8px 12px 4px;font-size:var(--text-11);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-secondary)}
   .cl-menu-label + .menu-sep,.menu-sep + .cl-menu-label{margin-top:0}
 
   /* — Attach menu — fixed 280px: secondary "Choose File" pill + plain recent-file list (no icons). */
@@ -904,8 +945,8 @@
   .cl-model-logo{width:24px;height:24px;flex:none;object-fit:contain}
   .cl-conn-text,.cl-model-text{display:flex;flex-direction:column;line-height:1.25;min-width:0;flex:1}
   /* User's connection name = primary; connector type = secondary (kit connection-hierarchy rule). */
-  .cl-conn-name,.cl-model-name{font-size:14px;font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .cl-conn-type,.cl-model-desc{font-size:12px;color:var(--ink-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cl-conn-name,.cl-model-name{font-size:var(--text-14);font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cl-conn-type,.cl-model-desc{font-size:var(--text-12);color:var(--ink-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   /* Connected-source toggle — kit Switch (small), pinned to the row's right edge. Connections are
      on/off sources for the chat → a toggle; models are single-select → a check (below). */
   .cl-conn-swt{margin-left:auto}
@@ -917,7 +958,7 @@
      Outlined family recipe: brand border + neutral Text/Body label. Revealed only on row
      hover/focus (its space is always reserved → no layout shift) so the resting Suggested list
      stays a clean logo + name list instead of a stack of repeated pills. */
-  .cl-conn-add{margin-left:auto;flex:none;display:inline-flex;align-items:center;height:24px;padding:0 12px;font-size:12px;font-weight:600;color:var(--ink-body);border:1px solid var(--brand-primary);border-radius:999px;opacity:0;transition:opacity .12s}
+  .cl-conn-add{margin-left:auto;flex:none;display:inline-flex;align-items:center;height:24px;padding:0 12px;font-size:var(--text-12);font-weight:600;color:var(--ink-body);border:1px solid var(--brand-primary);border-radius:999px;opacity:0;transition:opacity .12s}
   .cl-conn-item:hover .cl-conn-add,.cl-conn-item:focus-visible .cl-conn-add{opacity:1;background:var(--btn-outline-bg-hover)}
   /* Manage link — full-width row, brand label + leading icon. */
   .cl-conn-manage{color:var(--ink-highlight);font-weight:500;text-decoration:none}
@@ -935,11 +976,11 @@
 
   /* Dialog / Modal — reusable multi-step shell */
   .dlg-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--overlay-scrim)}
-  .dlg{background:var(--card);border:1px solid var(--border);border-radius:.875rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)}
+  .dlg{background:var(--card);border:1px solid var(--border);border-radius:.875rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:var(--shadow-modal)}
   .dlg-hdr{display:flex;align-items:center;gap:.75rem;padding:.875rem 1.25rem .5rem;flex:none}
-  .dlg-title{font-size:1.25rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;flex:1;min-width:0}
+  .dlg-title{font-size:var(--text-20);line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;flex:1;min-width:0}
   .dlg-progress{padding:0 1.25rem .875rem;flex:none;display:flex;flex-direction:column;gap:.375rem}
-  .dlg-progress-txt{font-size:.75rem;color:var(--ink-secondary)}
+  .dlg-progress-txt{font-size:var(--text-12);color:var(--ink-secondary)}
   .dlg-progress-track{height:3px;background:var(--border);border-radius:99px;overflow:hidden}
   .dlg-progress-fill{height:100%;background:var(--brand-primary);border-radius:99px;transition:width .4s ease}
   .dlg-body{flex:1;overflow:hidden;position:relative;min-height:0}
@@ -949,7 +990,7 @@
 
   /* Sidebar (new) */
   .sb{width:200px;background:var(--card);border:1px solid var(--border);border-radius:.5rem;padding:8px;display:flex;flex-direction:column;gap:4px}
-  .sb-item{display:flex;align-items:center;gap:8px;height:32px;padding:0 8px;border-radius:6px;font-size:.875rem;font-weight:500;color:var(--ink-body);cursor:pointer}
+  .sb-item{display:flex;align-items:center;gap:8px;height:32px;padding:0 8px;border-radius:6px;font-size:var(--text-14);font-weight:500;color:var(--ink-body);cursor:pointer}
   .sb-item .ic{width:16px;height:16px;flex:none}
   .sb-item .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .sb-item:hover{color:var(--brand-primary)}
@@ -971,11 +1012,11 @@
   .sb-head .sb-collapse:hover{color:var(--brand-primary);background:var(--state-hover)}
   .sb-content{flex:1;min-height:0;display:flex;flex-direction:column;gap:1rem;padding:.5rem 0;overflow:auto}
   .sb-cta-wrap{padding:0 1rem}
-  .sb-cta{width:100%;height:2rem;border-radius:9999px;justify-content:center;gap:.375rem;padding:0 .625rem;font-size:.875rem;font-weight:500}
+  .sb-cta{width:100%;height:2rem;border-radius:9999px;justify-content:center;gap:.375rem;padding:0 .625rem;font-size:var(--text-14);font-weight:500}
   .sb-cta svg{width:16px;height:16px}
   .sb-menu{display:flex;flex-direction:column;gap:.25rem}
   /* Prod sb-item: full-row width — hover/active bg + accent rail span the entire sidebar edge-to-edge (no margin, no rounding) */
-  .sb-full .sb-item{display:flex;align-items:center;gap:.375rem;height:2rem;padding:.375rem .75rem;margin:0;border-radius:0;font-size:.875rem;font-weight:500;color:var(--ink-secondary);cursor:pointer;background:transparent}
+  .sb-full .sb-item{display:flex;align-items:center;gap:.375rem;height:2rem;padding:.375rem .75rem;margin:0;border-radius:0;font-size:var(--text-14);font-weight:500;color:var(--ink-secondary);cursor:pointer;background:transparent}
   .sb-full .sb-item .ic{width:20px;height:20px;flex:none}
   .sb-full .sb-item .lbl{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
   /* Chevron always visible for collapsible items; positioned at the row's right edge via margin-left:auto */
@@ -985,22 +1026,22 @@
   .sb-full .sb-item.active{background:var(--chips);color:var(--brand-primary)}
   .sb-full .sb-item.is-open .sb-chev{transform:rotate(90deg)}
   .sb-submenu{margin:.25rem 0 0 1.5rem;padding:0 .625rem 0 .5rem;border-left:1px solid var(--border);display:flex;flex-direction:column;gap:.125rem}
-  .sb-sub-empty{padding:.25rem .5rem;font-size:.75rem;color:var(--ink-secondary)}
+  .sb-sub-empty{padding:.25rem .5rem;font-size:var(--text-12);color:var(--ink-secondary)}
   /* SidebarMenuSubButton — h-7, rounded-md, text-secondary, hover/active text-accent, active bg-background */
-  .sb-sub-item{display:flex;align-items:center;gap:.375rem;height:1.75rem;padding:0 .5rem;border-radius:.375rem;font-size:.75rem;color:var(--ink-secondary);cursor:pointer;background:transparent;border:none;font-family:inherit;width:100%;text-align:left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:block;line-height:1.75rem}
+  .sb-sub-item{display:flex;align-items:center;gap:.375rem;height:1.75rem;padding:0 .5rem;border-radius:.375rem;font-size:var(--text-12);color:var(--ink-secondary);cursor:pointer;background:transparent;border:none;font-family:inherit;width:100%;text-align:left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:block;line-height:1.75rem}
   .sb-sub-item:hover{color:var(--brand-primary)}
   .sb-sub-item.active{background:var(--bg);color:var(--brand-primary);font-weight:500}
   .sb-foot{border-top:1px solid var(--border);padding:.75rem 1rem;display:flex;flex-direction:column;gap:.75rem}
   .sb-tok{display:flex;flex-direction:column;gap:.5rem}
   .sb-tok-row{display:flex;align-items:center;justify-content:space-between;gap:.25rem}
-  .sb-tok-label{font-size:.875rem;font-weight:500;color:var(--ink-secondary);flex:1;text-align:left}
-  .sb-tok-val{font-size:.875rem;color:var(--ink);font-weight:400;font-variant-numeric:tabular-nums;display:inline-flex;align-items:baseline;gap:.125rem}
+  .sb-tok-label{font-size:var(--text-14);font-weight:500;color:var(--ink-secondary);flex:1;text-align:left}
+  .sb-tok-val{font-size:var(--text-14);color:var(--ink);font-weight:400;font-variant-numeric:tabular-nums;display:inline-flex;align-items:baseline;gap:.125rem}
   .sb-tok .progress{width:100%;height:4px;border-radius:.5rem;background:var(--bg);margin-top:0}
   .sb-user{display:flex;align-items:center;gap:.5rem;background:transparent;border:none;cursor:pointer;padding:0;text-align:left;font-family:inherit;width:100%}
-  .sb-user-ava{width:2.5rem;height:2.5rem;border-radius:9999px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex:none;font-size:.875rem;font-weight:500;color:var(--ink-body)}
+  .sb-user-ava{width:2.5rem;height:2.5rem;border-radius:9999px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex:none;font-size:var(--text-14);font-weight:500;color:var(--ink-body)}
   .sb-user-info{display:flex;flex-direction:column;line-height:1.2;flex:1;min-width:0}
-  .sb-user-name{font-size:.875rem;color:var(--ink);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
-  .sb-user-role{font-size:.75rem;color:var(--ink-secondary);font-weight:500;text-align:left}
+  .sb-user-name{font-size:var(--text-14);color:var(--ink);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
+  .sb-user-role{font-size:var(--text-12);color:var(--ink-secondary);font-weight:500;text-align:left}
   .sb-user-chev{width:20px;height:20px;flex:none;color:var(--ink-body)}
   .progress{height:.5rem;width:160px;border-radius:9999px;background:var(--chips);overflow:hidden}
   .progress>span{display:block;height:100%;border-radius:9999px;background:var(--brand-primary)}
@@ -1008,7 +1049,9 @@
 
   /* ===== Sidebar — EXPECTED redesign (compact, brand row + CTA, Pinned/Recent chat sections, refined footer) =====
      Uses default semantic tokens (no `.prod` scope) so Light/Dark toggle re-themes it. */
-  .sbx{width:14.75rem;height:700px;background:var(--card);border:1px solid var(--border);border-radius:.625rem;display:flex;flex-direction:column;font-family:inherit;overflow:hidden}
+  /* 16rem = the deployed page sidebar width (.cl-shell grid column; pages override to width:100%
+     to fill it). The standalone storybook preview card matches that real width. */
+  .sbx{width:16rem;height:700px;background:var(--card);border:1px solid var(--border);border-radius:.625rem;display:flex;flex-direction:column;font-family:inherit;overflow:hidden}
 
   /* Header — brand row sits apart; the CTA is grouped with the nav rows below
      (16px brand → CTA gap, 4px CTA → Sources gap). */
@@ -1023,7 +1066,7 @@
   /* Logo is itself clickable — opens the same page as the New Chat CTA. Button-reset surface,
      no hover visual (brand glyph stays unchanged); focus ring reuses the brand shadow token. */
   .sbx-brand-id{display:inline-flex;align-items:center;gap:.5rem;min-width:0;flex:1;border:none;background:transparent;cursor:pointer;font-family:inherit;padding:0;border-radius:6px}
-  .sbx-brand-id:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .sbx-brand-id:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* Full Insightis logo (mark + wordmark) — reuses the kit's shared #lg symbol so the wordmark
      stays in sync with any future brand update. Mark is the fallback for collapsed mode.
      Sized at 24×100 so the wordmark glyphs sit at ~13px x-height and the mark renders at ~24×24
@@ -1054,7 +1097,7 @@
   /* Nav menu — two compact rows. Tight intra-group (2px between rows), generous inter-group
      (16px bottom padding before the chat sections). */
   .sbx-nav{display:flex;flex-direction:column;gap:2px;padding:0 8px 16px}
-  .sbx-nav-item{display:flex;align-items:center;gap:.5rem;height:2rem;padding:0 .5rem;border-radius:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink-secondary);background:transparent;border:none;cursor:pointer;font-family:inherit;width:100%;text-align:left;transition:background .12s,color .12s;position:relative}
+  .sbx-nav-item{display:flex;align-items:center;gap:.5rem;height:2rem;padding:0 .5rem;border-radius:.375rem;font-size:var(--text-13);font-weight:500;color:var(--ink-secondary);background:transparent;border:none;cursor:pointer;font-family:inherit;width:100%;text-align:left;transition:background .12s,color .12s;position:relative}
   .sbx-nav-item .ic{width:16px;height:16px;flex:none;color:currentColor}
   .sbx-nav-item .lbl{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   /* Hover: bg only — text/icon color unchanged */
@@ -1066,9 +1109,9 @@
      via the persistent surface tint + the one-step content contrast bump. No brand colour on the
      content; theme-aware via the cascaded --ink-body. */
   .sbx-nav-item.active,.sbx-nav-item.s-active{background:var(--state-pressed);color:var(--ink-body)}
-  .sbx-nav-item:focus-visible,.sbx-nav-item.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .sbx-nav-item:focus-visible,.sbx-nav-item.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   .sbx-nav-item.s-disabled,.sbx-nav-item:disabled{opacity:var(--opacity-disabled);pointer-events:none;color:var(--ink-inactive)}
-  .sbx-nav-item .nav-badge{margin-left:auto;background:color-mix(in srgb,var(--brand-primary) 15%,transparent);color:var(--brand-primary);font-size:.625rem;font-weight:600;padding:1px 6px;border-radius:9999px;line-height:1.4;font-variant-numeric:tabular-nums}
+  .sbx-nav-item .nav-badge{margin-left:auto;background:color-mix(in srgb,var(--brand-primary) 15%,transparent);color:var(--brand-primary);font-size:var(--text-10);font-weight:600;padding:1px 6px;border-radius:9999px;line-height:1.4;font-variant-numeric:tabular-nums}
 
   /* Chat sections — scroll area, scrollbar visually hidden. Tight intra-section (1px between chat rows
      via .sbx-sect gap), generous inter-section (12px between Pinned and Recent groups). */
@@ -1082,10 +1125,10 @@
      between the label and the "See all" link still triggers collapse on click. The "See all"
      link sits as a sibling (not a child) so it stays an independent click target. */
   .sbx-sect-label-wrap{display:flex;align-items:center;gap:.25rem;min-width:0;border:none;background:transparent;cursor:pointer;font-family:inherit;color:inherit;padding:0;border-radius:.25rem;flex:1;justify-content:flex-start;text-align:left}
-  .sbx-sect-label-wrap:focus-visible{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .sbx-sect-label-wrap:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* Section labels — uses --ink-inactive semantic token (theme-aware: slate-450 light / grey-500 dark),
      same pattern as .block-h / .side .grp section dividers in the kit. */
-  .sbx-sect-label{font-size:10px;line-height:1;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-inactive);transition:color .12s}
+  .sbx-sect-label{font-size:var(--text-10);line-height:1;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-inactive);transition:color .12s}
   /* Chevron — hidden at rest, revealed on hover; rotates -90° (right-pointing) when section is collapsed */
   .sbx-sect-chev{width:10px;height:10px;color:var(--brand-tertiary);opacity:0;transition:opacity .12s,transform .15s;flex:none}
   .sbx-sect-head:hover .sbx-sect-chev,.sbx-sect-head.s-hover .sbx-sect-chev,.sbx-sect-label-wrap:focus-visible .sbx-sect-chev{opacity:1}
@@ -1094,7 +1137,7 @@
   .sbx-sect-label-wrap[aria-expanded="false"] .sbx-sect-chev{opacity:1;transform:rotate(-90deg)}
   .sbx-sect:has(.sbx-sect-label-wrap[aria-expanded="false"]) > *:not(.sbx-sect-head){display:none}
   /* See-all link reuses .link styles; only opacity-reveal lives here. Use with class="link sbx-sect-link" */
-  .sbx-sect-link{font-size:.6875rem;opacity:0;transition:opacity .12s}
+  .sbx-sect-link{font-size:var(--text-11);opacity:0;transition:opacity .12s}
   .sbx-sect-head:hover .sbx-sect-link,.sbx-sect-head.s-hover .sbx-sect-link,.sbx-sect-link:focus-visible{opacity:1}
   /* Touch + mobile (no hover available, OR viewport < 768 px): the section chevron
      stays visible at all times so collapse/expand is reachable without hover. The "See all"
@@ -1123,7 +1166,7 @@
   .cl-burger{display:none;width:2rem;height:2rem;border-radius:.375rem;color:var(--ink-body);position:fixed;top:4.75rem;left:.75rem;z-index:60;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;font-family:inherit}
   .cl-burger svg{width:18px;height:18px}
   .cl-burger:hover{background:var(--state-hover)}
-  .cl-burger:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .cl-burger:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .cl-side-backdrop{display:none}
 
   @media (max-width: 1023px) {
@@ -1171,7 +1214,7 @@
     /* Title inherits scroll-shrink when JS adds .is-scrolled to .cl-main (scrollY > 60). */
     .cl-page-head .cl-page-title{transition:font-size .18s,line-height .18s;margin:0}
     .cl-main.is-scrolled .cl-page > .cl-page-head{padding-top:.375rem;padding-bottom:.375rem}
-    .cl-main.is-scrolled .cl-page-head .cl-page-title{font-size:1.125rem!important;line-height:1.5rem!important}
+    .cl-main.is-scrolled .cl-page-head .cl-page-title{font-size:var(--text-18)!important;line-height:1.5rem!important}
     /* Hide floating burger AND sticky head while sidebar overlay is open.
        position:fixed burger (z-index:60) and position:sticky head both pierce the backdrop
        (z-index:55); visibility:hidden is the reliable cross-browser workaround. */
@@ -1201,7 +1244,7 @@
      hover reveals kebab; at rest the row can show a status indicator (loading / new-data). */
   /* Chat row — same dimensions and hover/pressed bg as .sbx-nav-item so the two row types feel cohesive.
      Chat-row click navigates to the chat; the kebab inside opens the context menu. */
-  .sbx-chat{--chat-fade:var(--card);position:relative;display:flex;align-items:center;height:28px;padding:0 8px;border-radius:6px;font-size:13px;font-weight:500;color:var(--ink-secondary);cursor:pointer;background:transparent;border:none;text-align:left;width:100%;font-family:inherit;overflow:hidden;transition:background .12s,color .12s}
+  .sbx-chat{--chat-fade:var(--card);position:relative;display:flex;align-items:center;height:28px;padding:0 8px;border-radius:6px;font-size:var(--text-13);font-weight:500;color:var(--ink-secondary);cursor:pointer;background:transparent;border:none;text-align:left;width:100%;font-family:inherit;overflow:hidden;transition:background .12s,color .12s}
   .sbx-chat-lbl{flex:1;min-width:0;white-space:nowrap;overflow:hidden;display:block}
   /* Gradient persists at all states; end-color tracks the row's current bg via --chat-fade.
      Right-corner radius matches the row's 6 px — when the row's overflow flips to visible
@@ -1228,7 +1271,7 @@
   .sbx-chat.s-pressed{background:var(--state-pressed);--chat-fade:var(--state-pressed)}
   /* Inset focus ring — stays within the row's bounding box so it never overlaps adjacent rows in stacked previews */
   /* Canonical outset focus halo (matches every other interactive element). The :has() rule below flips chats column + sidebar to overflow:visible so the halo isn't clipped. The row itself stays overflow:hidden in this rule — for row-level focus the halo escapes via the column flip. The kebab-focus and menu-open rules further down DO flip the row to visible (the dropdown menu has to escape downward); the gradient ::after carries its own right-corner radius so the row's rounded shape is preserved in that case. */
-  .sbx-chat:focus-visible,.sbx-chat.s-focus{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .sbx-chat:focus-visible,.sbx-chat.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   .sbx-chats:has(> * .sbx-chat:focus-visible),.sbx-chats:has(> * .sbx-chat.s-focus),.sbx:has(.sbx-chat:focus-visible),.sbx:has(.sbx-chat.s-focus){overflow:visible}
   /* Active (currently open chat) — bg --state-pressed + content one step up on the ink scale:
      --ink-secondary (default/hover/pressed) → --ink-body (active). Mirrors the nav-item active rule;
@@ -1248,15 +1291,15 @@
      hover bg. The 8/12% brand mix gives the kebab a contrasting surface ON TOP of the row's hover. */
   .sbx-chat-more:hover{background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
   .sbx-chat-more:active{background:color-mix(in srgb,var(--brand-primary) 12%,transparent);color:var(--ink-body)}
-  /* Focus uses the canonical --shadow-focus-brand outset halo (same as every other interactive element). The :has() rule below flips the row + chats column + sidebar to overflow:visible while the kebab is focused so the outer halo isn't clipped by the row's gradient mask. */
-  .sbx-chat-more:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  /* Focus uses the canonical --shadow-focus outset halo (same as every other interactive element). The :has() rule below flips the row + chats column + sidebar to overflow:visible while the kebab is focused so the outer halo isn't clipped by the row's gradient mask. */
+  .sbx-chat-more:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .sbx-chats:has(.sbx-chat-more:focus-visible),.sbx-chat:has(.sbx-chat-more:focus-visible),.sbx:has(.sbx-chat-more:focus-visible){overflow:visible}
   /* Preserve translateY centering on :active / :hover / .s-pressed — without this, the iconbtn-tertiary's scale transform would replace the translateY and the kebab would jump down */
   .sbx-chat-more:hover,.sbx-chat-more:active,.sbx-chat-more.s-pressed,.sbx-chat-more[aria-expanded="true"]{transform:translateY(-50%)}
   .sbx-chat-more[aria-expanded="true"]{background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
   /* Per-row dropdown — shows when the kebab is aria-expanded="true" (via inline-script toggle). Reuses .menu / .mi / .mi.danger styles. */
   /* Width inherits from .menu (140 min / 320 max / max-content). Only position + shadow override here. */
-  .sbx-chat-menu{position:absolute;top:calc(100% + 4px);right:.5rem;display:none;z-index:5;box-shadow:0 6px 16px -4px rgba(0,0,0,.18),0 2px 4px -2px rgba(0,0,0,.08)}
+  .sbx-chat-menu{position:absolute;top:calc(100% + 4px);right:.5rem;display:none;z-index:5;box-shadow:var(--shadow-overlay)}
   /* When a menu is open, allow the dropdown to overflow its containing block — both the chat row itself (which has overflow:hidden for the gradient/label) and the chats container */
   .sbx-chats:has(.sbx-chat-more[aria-expanded="true"]){overflow:visible}
   .sbx-chat:has(.sbx-chat-more[aria-expanded="true"]){overflow:visible}
@@ -1275,18 +1318,18 @@
   .sbx-foot{border-top:var(--border-width) solid var(--border);padding:8px;display:flex;flex-direction:column;gap:8px;margin-top:auto;position:relative}
   .sbx-tok{display:flex;flex-direction:column;gap:.25rem}
   .sbx-tok-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-  .sbx-tok-label{font-size:.6875rem;font-weight:500;color:var(--ink-secondary)}
-  .sbx-tok-val{font-size:.6875rem;color:var(--ink-secondary);font-variant-numeric:tabular-nums}
+  .sbx-tok-label{font-size:var(--text-11);font-weight:500;color:var(--ink-secondary)}
+  .sbx-tok-val{font-size:var(--text-11);color:var(--ink-secondary);font-variant-numeric:tabular-nums}
   .sbx-tok-bar{width:100%;height:3px;border-radius:9999px;background:var(--chips);overflow:hidden}
   .sbx-tok-bar>span{display:block;height:100%;border-radius:9999px;background:var(--brand-primary)}
   .sbx-user{display:flex;align-items:center;gap:.5rem;background:transparent;border:none;cursor:pointer;padding:.25rem;border-radius:.375rem;text-align:left;font-family:inherit;width:100%}
   .sbx-user:hover{background:var(--state-hover)}
   .sbx-user:active{background:var(--state-pressed)}
-  .sbx-user:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
-  .sbx-user-ava{width:1.5rem;height:1.5rem;border-radius:9999px;background:var(--brand-tertiary);color:var(--content-on-solid);display:flex;align-items:center;justify-content:center;flex:none;font-size:.6875rem;font-weight:600}
+  .sbx-user:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .sbx-user-ava{width:1.5rem;height:1.5rem;border-radius:9999px;background:var(--brand-tertiary);color:var(--content-on-solid);display:flex;align-items:center;justify-content:center;flex:none;font-size:var(--text-11);font-weight:600}
   .sbx-user-info{display:flex;flex-direction:column;line-height:1.15;flex:1;min-width:0;gap:1px}
-  .sbx-user-name{font-size:.75rem;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .sbx-user-meta{font-size:.625rem;color:var(--ink-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sbx-user-name{font-size:var(--text-12);font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sbx-user-meta{font-size:var(--text-10);color:var(--ink-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .sbx-user-chev{width:14px;height:14px;flex:none;color:var(--ink-body);opacity:.7}
 
   /* Collapsed (icon-only) variant — width 3.563rem; labels, CTA text, chat sections, footer meta hidden;
@@ -1332,7 +1375,7 @@
     .sbx.is-collapsed .sbx-chats-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:none;background:transparent;color:var(--ink-secondary);border-radius:6px;cursor:pointer;font-family:inherit;transition:background .12s,color .12s}
     .sbx.is-collapsed .sbx-chats-icon:hover{background:var(--state-hover)}
     .sbx.is-collapsed .sbx-chats-icon:active{background:var(--state-pressed)}
-    .sbx.is-collapsed .sbx-chats-icon:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+    .sbx.is-collapsed .sbx-chats-icon:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
     .sbx.is-collapsed .sbx-foot{padding:6px 0;align-items:center;gap:2px}
     .sbx.is-collapsed .sbx-user{justify-content:center;width:28px;height:28px;padding:0}
   }
@@ -1340,11 +1383,9 @@
   /* ===== Popovers (Account / Tokens) — shared shell + variant content =====
      Same Figma shape: surface/background bg, stroke/border, padding 8px, rounded 4px, drop-shadow-lg. */
   /* Padding intentionally asymmetric — 16px top/bottom gives the section labels and trailing items real breathing room from the popover edge; 12px left/right keeps the item rows' inner padding (.5rem .75rem) reading as a sensible "indent" rather than crashing into the border. Surface is --card so the popover lifts above the page bg in both themes — matches Dropdown / Modal / Sheet convention. */
-  .sbx-pop{background:var(--card);border:var(--border-width) solid var(--border);border-radius:.5rem;padding:1rem .75rem;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.05);position:absolute;display:none;z-index:20;font-family:inherit}
-  /* Dark-mode shadow lift: low-opacity black is invisible on dark surfaces. Boost the drop
-     shadow + add a 1px inner highlight ring (subtle white via inset shadow) so the popover
-     reads as an elevated surface — standard dark-mode elevation recipe (Material 3, iOS). */
-  .dark .sbx-pop{box-shadow:0 16px 32px -8px rgba(0,0,0,.65),0 6px 14px -4px rgba(0,0,0,.5),inset 0 1px 0 0 rgba(255,255,255,.04)}
+  .sbx-pop{background:var(--card);border:var(--border-width) solid var(--border);border-radius:.5rem;padding:1rem .75rem;box-shadow:var(--shadow-overlay);position:absolute;display:none;z-index:20;font-family:inherit}
+  /* Dark-mode shadow lift is carried by --shadow-overlay's .dark override (boosted drop + 1px
+     white inset highlight) — no per-component dark rule needed. */
   .sbx-pop.is-open{display:flex;flex-direction:column;gap:.875rem}
   /* Anchored above each trigger inside the footer */
   .sbx-pop-account{left:.5rem;right:.5rem;bottom:calc(100% + 4px)}
@@ -1352,11 +1393,11 @@
 
   /* Section labels + lists shared by account popover. Larger label→list gap (8px) so the section header sits clearly above its items. */
   .sbx-pop-sect{display:flex;flex-direction:column;gap:.5rem;width:100%}
-  .sbx-pop-label{font-size:.75rem;line-height:1;font-weight:500;color:var(--ink-secondary);padding:0 .5rem}
+  .sbx-pop-label{font-size:var(--text-12);line-height:1;font-weight:500;color:var(--ink-secondary);padding:0 .5rem}
   /* 1px gap between items — items live as a tightly grouped list within their section, so the visible separation comes from the outer popover padding + the inter-section gap, not from inter-row spacing */
   .sbx-pop-list{display:flex;flex-direction:column;gap:1px}
   /* Item padding 6/8 (was 6/12) — narrower horizontal inset so the row hover/pressed bg pill extends closer to the popover edge and the labels sit tighter against the icon column. Vertical stays compact-but-touchable (~30 px row height). Icon→label gap stays at 10px. */
-  .sbx-pop-item{display:flex;align-items:center;gap:.625rem;padding:.375rem .5rem;border:none;background:transparent;border-radius:.375rem;font-size:.875rem;line-height:1.25;color:var(--ink-body);cursor:pointer;font-family:inherit;width:100%;text-align:left;transition:background .12s}
+  .sbx-pop-item{display:flex;align-items:center;gap:.625rem;padding:.375rem .5rem;border:none;background:transparent;border-radius:.375rem;font-size:var(--text-14);line-height:1.25;color:var(--ink-body);cursor:pointer;font-family:inherit;width:100%;text-align:left;transition:background .12s}
   .sbx-pop-item .ic{width:16px;height:16px;flex:none;color:var(--ink-secondary)}
   .sbx-pop-item .ext{width:14px;height:14px;flex:none;margin-left:auto;color:var(--ink-secondary)}
   /* Hover / pressed: only bg shifts — text + icons stay at their default ink. Matches the rest
@@ -1372,30 +1413,30 @@
      left-rail nav, future popover-as-nav surfaces) inherits the same recipe — change here, propagate
      everywhere. */
   .sbx-pop-item.active{background:var(--state-pressed)}
-  .sbx-pop-item:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .sbx-pop-item:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
 
   /* SegmentedControl — pill-style single-select. "Raised tile" pattern per Apple HIG:
      the slot is itself a lifted surface, and the active segment lifts further above it.
      - Light: parent --card (white) → slot --card2 (Slate-100) → active pill --card (white)
      - Dark:  parent --card (Grey-900) → slot --card2 (Grey-800, lifted from parent) → active pill --chips (Grey-700, lifted from slot)
      Hover sits halfway between slot and active. Drop shadow + 1px hairline rim carry the lift
-     cue (theme-aware via --segctrl-active-shadow). */
+     cue (theme-aware via --shadow-rim-active). */
   .segctrl{background:var(--card2);border:var(--border-width) solid var(--border);padding:2px;border-radius:.375rem;display:inline-flex;gap:.25rem;width:100%}
   .segctrl-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.375rem;border:none;background:transparent;border-radius:.25rem;color:var(--ink-secondary);cursor:pointer;font-family:inherit;transition:background .12s,color .12s,box-shadow .12s;white-space:nowrap}
   /* Hover applies only to unselected items — lifts toward active. Same 1 px inset rim shape as
-     active (`--segctrl-active-shadow`), with a lower-opacity tint (`--segctrl-hover-shadow`) so the
+     active (`--shadow-rim-active`), with a lower-opacity tint (`--shadow-rim-hover`) so the
      hover rim reads as a softer outline. Both states therefore share identical footprint and the
      difference is purely chromatic: subtle hover rim → defined active rim. */
-  .segctrl-btn:not(.is-active):not([aria-selected="true"]):hover{background:var(--segctrl-btn-hover-bg);color:var(--ink);box-shadow:var(--segctrl-hover-shadow)}
+  .segctrl-btn:not(.is-active):not([aria-selected="true"]):hover{background:var(--segctrl-btn-hover-bg);color:var(--ink);box-shadow:var(--shadow-rim-hover)}
   /* Selected pill — bg-shift to one step above slot + drop shadow + 1px hairline rim. Brand colour
      intentionally NOT introduced on the icon — kit's "one strong cue per state" convention. */
-  .segctrl-btn.is-active,.segctrl-btn[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:var(--segctrl-active-shadow)}
+  .segctrl-btn.is-active,.segctrl-btn[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:var(--shadow-rim-active)}
   .dark .segctrl-btn.is-active,.dark .segctrl-btn[aria-selected="true"]{background:var(--chips)}
-  .segctrl-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .segctrl-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .segctrl-btn.s-disabled,.segctrl-btn:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
-  .segctrl.is-sm .segctrl-btn{height:1.25rem;font-size:.6875rem;padding:0 .25rem}
+  .segctrl.is-sm .segctrl-btn{height:1.25rem;font-size:var(--text-11);padding:0 .25rem}
   .segctrl.is-sm .segctrl-btn svg{width:12px;height:12px}
-  .segctrl.is-md .segctrl-btn{height:2rem;font-size:.8125rem;font-weight:500;padding:0 .75rem}
+  .segctrl.is-md .segctrl-btn{height:2rem;font-size:var(--text-13);font-weight:500;padding:0 .75rem}
   .segctrl.is-md .segctrl-btn svg{width:14px;height:14px}
 
   /* Theme switcher tabset — Sidebar Account popover legacy class; mirrors .segctrl recipe.
@@ -1408,63 +1449,63 @@
   .sbx-pop-theme-btn svg{width:12px;height:12px}
   /* Hover + active recipes mirror .segctrl-btn (shared tokens). 1 px inset rim in slot colour
      compensates for the active pill's visible rim — keeps both states at identical footprint. */
-  .sbx-pop-theme-btn:not(.is-active):hover{background:var(--segctrl-btn-hover-bg);color:var(--ink);box-shadow:var(--segctrl-hover-shadow)}
-  .sbx-pop-theme-btn.is-active{background:var(--card);color:var(--ink);box-shadow:var(--segctrl-active-shadow)}
+  .sbx-pop-theme-btn:not(.is-active):hover{background:var(--segctrl-btn-hover-bg);color:var(--ink);box-shadow:var(--shadow-rim-hover)}
+  .sbx-pop-theme-btn.is-active{background:var(--card);color:var(--ink);box-shadow:var(--shadow-rim-active)}
   .dark .sbx-pop-theme-btn.is-active{background:var(--chips)}
-  .sbx-pop-theme-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .sbx-pop-theme-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
 
   /* SegmentedControl label + group — composition helpers for "labelled control" layouts
      (Theme settings, density chooser, etc.). The label sits above the control with an 8px gap
      (kit's 4px-step). Not part of the canonical SegmentedControl spec — purely page-level layout. */
   .segctrl-group{display:flex;flex-direction:column;gap:.5rem}
-  .segctrl-label{font-size:.875rem;font-weight:600;color:var(--ink)}
+  .segctrl-label{font-size:var(--text-14);font-weight:600;color:var(--ink)}
 
   /* Tokens popover — plan header + metered rows + actions.
      Coin / plan-badge artwork sourced from the agreed external SVG icons in the project root
      (achievement-shield.svg, coin-blue.svg, coin-green.svg) — pure-vector, themeable, no raster. */
   .sbx-pop-tok-head{display:flex;align-items:center;gap:.5rem;padding:0 .25rem}
   .sbx-pop-tok-head .plan-badge{display:inline-block;width:21px;height:16px;flex:none;background:url("../achievement-shield.svg") center/contain no-repeat}
-  .sbx-pop-tok-head .plan-name{font-size:.875rem;line-height:1.25rem;font-weight:500;color:var(--ink)}
+  .sbx-pop-tok-head .plan-name{font-size:var(--text-14);line-height:1.25rem;font-weight:500;color:var(--ink)}
   /* Increased intra-row gap (label → coin → value: 8px) and inter-meter gap (6px between the row and the bar) so the meter doesn't read as a single dense block */
   .sbx-pop-tok-meter{display:flex;flex-direction:column;gap:.375rem;padding:0 .25rem;width:100%}
   .sbx-pop-tok-meter .row{display:flex;align-items:center;gap:.5rem}
-  .sbx-pop-tok-meter .label{font-size:.75rem;line-height:1;color:var(--ink-secondary);flex:1}
+  .sbx-pop-tok-meter .label{font-size:var(--text-12);line-height:1;color:var(--ink-secondary);flex:1}
   .sbx-pop-tok-meter .coin{display:inline-block;width:24px;height:24px;flex:none;background:url("../coin-blue.svg") center/contain no-repeat}
   .sbx-pop-tok-meter .coin.sm{width:16px;height:16px;background:url("../coin-green.svg") center/contain no-repeat}
-  .sbx-pop-tok-meter .val{font-size:1rem;line-height:1.5rem;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
-  .sbx-pop-tok-meter .val.sm{font-size:.75rem;line-height:1}
+  .sbx-pop-tok-meter .val{font-size:var(--text-16);line-height:1.5rem;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+  .sbx-pop-tok-meter .val.sm{font-size:var(--text-12);line-height:1}
   /* Empty meter track — must stay visible against the new --card popover surface (was --card when popover was --bg). --card2 = next layer down in light, next layer up in dark — subtle but perceivable in both themes (~1.05:1 light / ~1.4:1 dark vs the popover). */
   .sbx-pop-tok-meter .bar{width:100%;height:4px;border-radius:9999px;background:var(--card2);overflow:hidden}
   .sbx-pop-tok-meter .bar>span{display:block;height:100%;border-radius:9999px}
   .sbx-pop-tok-actions{display:flex;flex-direction:column;gap:.625rem;width:100%;margin-top:.125rem}
-  .sbx-pop-cta{width:100%;height:2rem;border-radius:9999px;justify-content:center;font-size:.8125rem;font-weight:500}
+  .sbx-pop-cta{width:100%;height:2rem;border-radius:9999px;justify-content:center;font-size:var(--text-13);font-weight:500}
 
   /* Tokens row → tertiary IconButton-style button */
   .sbx-tok{border:none;background:transparent;cursor:pointer;font-family:inherit;text-align:left;width:100%;padding:.25rem .375rem;border-radius:.375rem;transition:background .12s,color .12s}
   .sbx-tok:hover{background:var(--state-hover)}
   .sbx-tok:active{background:var(--state-pressed)}
-  .sbx-tok:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .sbx-tok:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
 
   /* Mini variants for States cells (ministage previews) */
   .sbx-mini{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border);border-radius:.375rem;padding:.25rem;width:180px;gap:1px}
-  .sbx-mini .sbx-nav-item{height:1.75rem;padding:0 .375rem;font-size:.75rem}
-  .sbx-mini .sbx-chat{height:1.75rem;padding:0 .375rem;font-size:.75rem}
+  .sbx-mini .sbx-nav-item{height:1.75rem;padding:0 .375rem;font-size:var(--text-12)}
+  .sbx-mini .sbx-chat{height:1.75rem;padding:0 .375rem;font-size:var(--text-12)}
 
   /* New (04.06) */
   .acc{width:280px;border:1px solid var(--border);border-radius:.5rem;background:var(--card);overflow:hidden}
   .acc-item{border-bottom:1px solid var(--border)} .acc-item:last-child{border-bottom:none}
-  .acc-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;font-size:.875rem;font-weight:500;color:var(--ink);cursor:pointer}
-  .acc-b{padding:0 12px 12px;font-size:.875rem;color:var(--ink-body)}
+  .acc-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;font-size:var(--text-14);font-weight:500;color:var(--ink);cursor:pointer}
+  .acc-b{padding:0 12px 12px;font-size:var(--text-14);color:var(--ink-body)}
   .statv{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:24px;border:1px solid var(--border);border-radius:.5rem;background:var(--card);width:220px}
   .statv .vic{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:9999px}
   .statv-info .vic{background:color-mix(in srgb,var(--brand-primary) 10%,transparent);color:var(--brand-primary)}
   .statv-success .vic{background:color-mix(in srgb,var(--fb-green) 10%,transparent);color:var(--fb-green)}
   .statv-error .vic{background:color-mix(in srgb,var(--fb-red) 10%,transparent);color:var(--fb-red-text)}
   .statv-neutral .vic{background:var(--state-hover);color:var(--ink-secondary)}
-  .statv .vt{font-size:.875rem;font-weight:500;color:var(--ink)} .statv .vd{font-size:.75rem;color:var(--ink-secondary)}
+  .statv .vt{font-size:var(--text-14);font-weight:500;color:var(--ink)} .statv .vd{font-size:var(--text-12);color:var(--ink-secondary)}
   /* Size modifiers — base .statv is the md default (vic 40px, gap 12px, pad 24px). sm/lg follow prod's relative gap/padding scale. */
-  .statv.is-sm{gap:8px;padding:16px} .statv.is-sm .vic{width:32px;height:32px} .statv.is-sm .vic svg{width:16px;height:16px} .statv.is-sm .vt{font-size:.8125rem} .statv.is-sm .vd{font-size:.6875rem}
-  .statv.is-lg{gap:16px;padding:32px} .statv.is-lg .vic{width:56px;height:56px} .statv.is-lg .vic svg{width:28px;height:28px} .statv.is-lg .vt{font-size:1rem} .statv.is-lg .vd{font-size:.8125rem}
+  .statv.is-sm{gap:8px;padding:16px} .statv.is-sm .vic{width:32px;height:32px} .statv.is-sm .vic svg{width:16px;height:16px} .statv.is-sm .vt{font-size:var(--text-13)} .statv.is-sm .vd{font-size:var(--text-11)}
+  .statv.is-lg{gap:16px;padding:32px} .statv.is-lg .vic{width:56px;height:56px} .statv.is-lg .vic svg{width:28px;height:28px} .statv.is-lg .vt{font-size:var(--text-16)} .statv.is-lg .vd{font-size:var(--text-13)}
   /* ===== Empty State — minimalist, app-style "no-results / empty list" block =====
      Bare variant of StatusView (#statusview): no card wrapping the whole block — an
      illustration (or simple glyph) + title + message, centred on the page bg. Optional
@@ -1480,30 +1521,30 @@
   .empty-state .es-card-top{filter:drop-shadow(0 2px 5px rgba(15,23,42,.10))}
   .empty-state .es-ph{fill:var(--ink-inactive);fill-opacity:.35}
   .empty-state .es-ph-ic{fill-opacity:.55}
-  .empty-state .empty-title{font-size:1rem;font-weight:600;color:var(--ink);margin:0;line-height:1.5rem}
-  .empty-state .empty-msg{font-size:.875rem;color:var(--ink-secondary);margin:0;max-width:32ch;line-height:1.25rem}
+  .empty-state .empty-title{font-size:var(--text-16);font-weight:600;color:var(--ink);margin:0;line-height:1.5rem}
+  .empty-state .empty-msg{font-size:var(--text-14);color:var(--ink-secondary);margin:0;max-width:32ch;line-height:1.25rem}
   .empty-state .btn{margin-top:.75rem}
   .rsz{display:flex;width:240px;height:60px;border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
-  .rsz .p{flex:1;display:flex;align-items:center;justify-content:center;background:var(--card2);font-size:.75rem;color:var(--ink-secondary)}
+  .rsz .p{flex:1;display:flex;align-items:center;justify-content:center;background:var(--card2);font-size:var(--text-12);color:var(--ink-secondary)}
   .rsz .hd{width:6px;background:var(--border);cursor:col-resize}
   .rsz .hd:hover{background:color-mix(in srgb,var(--brand-primary) 30%,transparent)}
   .step{display:flex;align-items:center;gap:8px}
-  .step .dot{width:24px;height:24px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600}
+  .step .dot{width:24px;height:24px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:var(--text-12);font-weight:600}
   .step .dot.done,.step .dot.active{background:var(--brand-primary);color:var(--content-on-solid)}
   .step .dot.active{box-shadow:0 0 0 3px color-mix(in srgb,var(--brand-primary) 25%,transparent)}
   .step .dot.todo{background:var(--chips);color:var(--ink-secondary)}
   .step .ln{width:24px;height:2px;background:var(--border)}
 
   .swatch{height:40px;border-radius:.5rem;border:1px solid var(--border)}
-  .tok{font-size:.6875rem;line-height:1.3;margin-top:.25rem;color:var(--ink-secondary)}
+  .tok{font-size:var(--text-11);line-height:1.3;margin-top:.25rem;color:var(--ink-secondary)}
   .palette{display:grid;grid-template-columns:repeat(10,1fr);gap:.4rem}
   @media (max-width:700px){.palette{grid-template-columns:repeat(5,1fr)}}
   .semgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.6rem}
   .card-panel{border:1px solid var(--border);background:var(--card);border-radius:.625rem;padding:.6rem}
   .typorow{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--border);padding:.35rem 0}
   .typorow:last-child{border-bottom:none}
-  table.tbl{width:100%;border-collapse:collapse;font-size:.875rem}
-  table.tbl th{text-align:left;font-size:.75rem;font-weight:500;color:var(--ink-secondary);padding:.6rem 1rem;border-bottom:1px solid var(--border)}
+  table.tbl{width:100%;border-collapse:collapse;font-size:var(--text-14)}
+  table.tbl th{text-align:left;font-size:var(--text-12);font-weight:500;color:var(--ink-secondary);padding:.6rem 1rem;border-bottom:1px solid var(--border)}
   table.tbl td{padding:.6rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-body)}
   /* Selected row — uses --tbl-row-pressed (neutral: slate-100 light / grey-800 dark — not brand-tinted). Hover-while-selected layers a 10% brand tint on top so the two states stay distinguishable. */
   table.tbl tr.is-selected td{background:var(--tbl-row-pressed)}
@@ -1527,16 +1568,16 @@
   .card-c.s-pressed,.card-c:active{border-color:var(--card-border-press);background:color-mix(in srgb,var(--brand-primary) 4%,transparent)}
   .card-c.var-secondary{background:var(--card);border:1px solid var(--border)}
   .card-c.var-secondary.s-hover{background:var(--state-hover);color:var(--ink-secondary)}
-  .card-c .c-title{font-size:1rem;font-weight:600;color:var(--ink);letter-spacing:-.01em}
-  .card-c .c-desc{font-size:.875rem;color:var(--ink-secondary)}
-  .card-c .c-body{font-size:.875rem;color:var(--ink-body)}
+  .card-c .c-title{font-size:var(--text-16);font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .card-c .c-desc{font-size:var(--text-14);color:var(--ink-secondary)}
+  .card-c .c-body{font-size:var(--text-14);color:var(--ink-body)}
   .card-c .c-foot{display:flex;align-items:center;gap:8px}
 
   /* Collapsible */
   .clps{width:240px;border:1px solid var(--border);border-radius:6px;background:var(--card);overflow:hidden}
-  .clps .clps-trig{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;font-size:.875rem;font-weight:500;color:var(--ink);cursor:pointer;background:transparent;border:none;width:100%;font-family:inherit;text-align:left}
+  .clps .clps-trig{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;font-size:var(--text-14);font-weight:500;color:var(--ink);cursor:pointer;background:transparent;border:none;width:100%;font-family:inherit;text-align:left}
   .clps .clps-trig:hover{background:var(--state-hover);color:var(--brand-primary)}
-  .clps .clps-cnt{padding:0 12px 12px;font-size:.875rem;color:var(--ink-body)}
+  .clps .clps-cnt{padding:0 12px 12px;font-size:var(--text-14);color:var(--ink-body)}
   .clps[data-state=closed] .clps-cnt{display:none}
   .clps[data-state=closed] .clps-chev{transform:rotate(0deg)}
   .clps[data-state=open] .clps-chev{transform:rotate(90deg)}
@@ -1548,16 +1589,16 @@
   .dpk-nav{display:flex;align-items:center;justify-content:space-between;height:32px;padding:0 4px}
   .dpk-nav .nav-btn{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;border-radius:4px}
   .dpk-nav .nav-btn:hover{color:var(--ink)}
-  .dpk-cap{font-size:.875rem;font-weight:500;color:var(--ink)}
+  .dpk-cap{font-size:var(--text-14);font-weight:500;color:var(--ink)}
   .dpk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:6px}
-  .dpk-wd{font-size:.75rem;font-weight:500;color:var(--ink-secondary);text-align:center;padding:6px 0}
-  .dpk-day{height:30px;display:flex;align-items:center;justify-content:center;font-size:.8125rem;color:var(--ink-body);border-radius:9999px;cursor:pointer;background:transparent;border:none;font-family:inherit}
+  .dpk-wd{font-size:var(--text-12);font-weight:500;color:var(--ink-secondary);text-align:center;padding:6px 0}
+  .dpk-day{height:30px;display:flex;align-items:center;justify-content:center;font-size:var(--text-13);color:var(--ink-body);border-radius:9999px;cursor:pointer;background:transparent;border:none;font-family:inherit}
   .dpk-day.outside{color:var(--ink-inactive)}
   .dpk-day.selected{background:var(--brand-primary);color:var(--content-on-solid)}
   .dpk-day.range-start{background:var(--brand-primary);color:var(--content-on-solid);border-top-right-radius:0;border-bottom-right-radius:0}
   .dpk-day.range-middle{background:var(--chips);color:var(--ink);border-radius:0}
   .dpk-day.range-end{background:var(--brand-primary);color:var(--content-on-solid);border-top-left-radius:0;border-bottom-left-radius:0}
-  .dpk-day.focused{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .dpk-day.focused{box-shadow:var(--shadow-focus)}
   .dpk-day:hover:not(.selected):not(.range-start):not(.range-end):not(.range-middle){background:var(--state-hover)}
   .dpk-foot{display:flex;align-items:center;gap:8px;padding:0 12px 12px}
   .dpk-foot .btn{flex:1}
@@ -1567,8 +1608,8 @@
   .file .file-l{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
   .file .file-ic{width:24px;height:24px;color:var(--brand-tertiary);flex:none}
   .file .file-meta{display:flex;flex-direction:column;min-width:0}
-  .file .file-name{font-size:.875rem;font-weight:500;color:var(--ink-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .file .file-size{font-size:.75rem;color:var(--ink-secondary)}
+  .file .file-name{font-size:var(--text-14);font-weight:500;color:var(--ink-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .file .file-size{font-size:var(--text-12);color:var(--ink-secondary)}
   .file .file-r{display:flex;align-items:center;gap:4px;color:var(--ink-secondary)}
   .file.s-error{border-color:color-mix(in srgb,var(--fb-red) 20%,transparent);background:color-mix(in srgb,var(--fb-red) 5%,transparent)}
   .file.s-error .file-ic,.file.s-error .file-r svg{color:color-mix(in srgb,var(--fb-red-text) 75%,transparent)}
@@ -1578,12 +1619,12 @@
 
   /* InputGroup */
   .igrp-wrap{display:flex;flex-direction:column;gap:4px;width:240px}
-  .igrp-lbl{font-size:.75rem;font-weight:500;color:var(--ink-secondary)}
-  .igrp{display:flex;align-items:center;height:36px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--ink-secondary);transition:border-color .15s,box-shadow .15s,color .15s;font-size:.875rem;padding-right:0}
+  .igrp-lbl{font-size:var(--text-12);font-weight:500;color:var(--ink-secondary)}
+  .igrp{display:flex;align-items:center;height:36px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--ink-secondary);transition:border-color .15s,box-shadow .15s,color .15s;font-size:var(--text-14);padding-right:0}
   .igrp.var-outline{background:var(--card)}
   .igrp .igrp-add{display:inline-flex;align-items:center;justify-content:center;height:100%;padding:0 10px;color:var(--ink-secondary);gap:8px}
   .igrp .igrp-add svg{width:20px;height:20px}
-  .igrp .igrp-input{flex:1;height:100%;background:transparent;border:none;outline:none;font-size:.875rem;color:var(--ink);font-family:inherit;padding:0 8px;min-width:0}
+  .igrp .igrp-input{flex:1;height:100%;background:transparent;border:none;outline:none;font-size:var(--text-14);color:var(--ink);font-family:inherit;padding:0 8px;min-width:0}
   .igrp .igrp-input::placeholder{color:var(--ink-inactive)}
   .igrp:hover,.igrp.s-hover{border-color:var(--border-hover)}
   .igrp:focus-within,.igrp.s-focus{border-color:var(--input-focus);box-shadow:none}
@@ -1596,7 +1637,7 @@
   .igrp:has(.igrp-input:not(:placeholder-shown)) .igrp-clear{display:inline-flex}
   /* Trailing kbd slot in Outline variant — chip on the input surface, not a Card-on-Card hairline. */
   .igrp .igrp-kbd-slot{padding:0 8px 0 4px;gap:8px}
-  .igrp .igrp-kbd{font-size:.6875rem;font-family:inherit;border:var(--border-width) solid var(--border);border-radius:4px;padding:1px 6px;background:var(--card2);color:var(--ink-body);line-height:1.4}
+  .igrp .igrp-kbd{font-size:var(--text-11);font-family:inherit;border:var(--border-width) solid var(--border);border-radius:4px;padding:1px 6px;background:var(--card2);color:var(--ink-body);line-height:1.4}
   .igrp.s-error{border-color:var(--input-error);background:transparent}
   .igrp.s-error svg,.igrp.s-error .igrp-input::placeholder{color:var(--input-error)}
   .igrp.s-disabled{opacity:var(--opacity-disabled);pointer-events:none}
@@ -1604,10 +1645,10 @@
 
   /* Selector — custom single-select trigger. Field-like shell at rest; --input-focus border when open (same active signal as Input / InputGroup). */
   .sel-wrap{display:flex;flex-direction:column;gap:4px;width:240px;position:relative}
-  .sel-lbl{font-size:.75rem;font-weight:500;color:var(--ink-secondary)}
-  .sel-trig{display:flex;align-items:center;height:2.25rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:0 .75rem;gap:.375rem;font-size:.875rem;color:var(--ink);cursor:pointer;font-family:inherit;transition:border-color .12s;width:100%;text-align:left}
+  .sel-lbl{font-size:var(--text-12);font-weight:500;color:var(--ink-secondary)}
+  .sel-trig{display:flex;align-items:center;height:2.25rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:0 .75rem;gap:.375rem;font-size:var(--text-14);color:var(--ink);cursor:pointer;font-family:inherit;transition:border-color .12s;width:100%;text-align:left}
   .sel-trig:hover,.sel-trig.s-hover{border-color:var(--border-hover)}
-  .sel-trig:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .sel-trig:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .sel-trig[aria-expanded="true"],.sel-trig.s-open{border-color:var(--input-focus)}
   .sel-trig:disabled,.sel-trig.s-disabled{opacity:var(--opacity-disabled);cursor:not-allowed;pointer-events:none}
   .sel-val{flex:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1619,13 +1660,13 @@
   .sel-trig.is-sm{height:2rem} .sel-trig.is-lg{height:2.5rem} .sel-trig.is-xl{height:2.75rem}
 
   /* Popover */
-  .pop{width:200px;border:1px solid var(--border);background:var(--bg);color:var(--ink);border-radius:6px;padding:16px;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);font-size:.875rem}
+  .pop{width:200px;border:1px solid var(--border);background:var(--bg);color:var(--ink);border-radius:6px;padding:16px;box-shadow:var(--shadow-overlay);font-size:var(--text-14)}
   .pop .pop-t{font-weight:600;margin-bottom:4px;color:var(--ink)}
-  .pop .pop-d{font-size:.75rem;color:var(--ink-secondary)}
+  .pop .pop-d{font-size:var(--text-12);color:var(--ink-secondary)}
 
   /* ScrollShadow */
   .ssh{width:220px;height:96px;border:1px solid var(--border);border-radius:6px;background:var(--card);position:relative;overflow:hidden}
-  .ssh .ssh-inner{padding:8px 12px;overflow-y:auto;height:100%;font-size:.875rem;color:var(--ink-body);line-height:1.5}
+  .ssh .ssh-inner{padding:8px 12px;overflow-y:auto;height:100%;font-size:var(--text-14);color:var(--ink-body);line-height:1.5}
   .ssh::before,.ssh::after{content:"";position:absolute;left:0;right:0;height:24px;pointer-events:none;z-index:1}
   .ssh::before{top:0;background:linear-gradient(180deg,var(--bg) 0%,transparent 100%)}
   .ssh::after{bottom:0;background:linear-gradient(0deg,var(--bg) 0%,transparent 100%)}
@@ -1646,8 +1687,8 @@
   .sht{position:relative;width:240px;height:240px;background:var(--bg);border:1px solid var(--border);border-radius:6px;overflow:hidden}
   .sht .sht-mask{position:absolute;inset:0;background:var(--overlay-scrim)}
   .sht .sht-panel{position:absolute;top:0;right:0;bottom:0;width:65%;background:var(--bg);padding:16px;box-shadow:-4px 0 10px rgba(0,0,0,.15);display:flex;flex-direction:column;gap:8px;font-family:inherit}
-  .sht .sht-t{font-size:1rem;font-weight:600;color:var(--ink)}
-  .sht .sht-d{font-size:.75rem;color:var(--ink-secondary)}
+  .sht .sht-t{font-size:var(--text-16);font-weight:600;color:var(--ink)}
+  .sht .sht-d{font-size:var(--text-12);color:var(--ink-secondary)}
   /* Sheet close: positioning hook only — color, hover, pressed, focus all inherit from .iconbtn.iconbtn-tertiary in Expected */
   .sht .sht-x{position:absolute;top:6px;right:6px;width:24px;height:24px}
   .sht .sht-x svg{width:14px;height:14px}
@@ -1676,12 +1717,12 @@
   html.skel-on .sk-skel{display:block}
 
   /* Toast */
-  .toast{min-width:280px;max-width:600px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .toast{min-width:280px;max-width:600px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;box-shadow:var(--shadow-overlay);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px}
   .toast .toast-row{display:flex;align-items:flex-start;gap:12px}
   .toast .toast-ic{width:20px;height:20px;flex:none;margin-top:1px;stroke-linecap:round;stroke-linejoin:round}
   .toast .toast-body{flex:1;display:flex;flex-direction:column;gap:2px}
-  .toast .toast-msg{font-size:.875rem;font-weight:500;color:var(--ink);line-height:1.4}
-  .toast .toast-desc{font-size:.75rem;font-weight:400;color:var(--ink-secondary);line-height:1.4}
+  .toast .toast-msg{font-size:var(--text-14);font-weight:500;color:var(--ink);line-height:1.4}
+  .toast .toast-desc{font-size:var(--text-12);font-weight:400;color:var(--ink-secondary);line-height:1.4}
   /* Toast close: positioning hook only — color, hover, pressed, focus all inherit from .iconbtn.iconbtn-tertiary (mirrors prod IconButton variant="transparent"). */
   .toast .toast-x{width:24px;height:24px;flex:none;border-radius:4px}
   .toast .toast-x svg{width:14px;height:14px}
@@ -1698,11 +1739,11 @@
 
   /* Autocomplete */
   .acpl{width:280px;display:flex;flex-direction:column;gap:6px;position:relative}
-  .acpl .acpl-lbl{font-size:.75rem;font-weight:500;color:var(--ink)}
-  .acpl .acpl-ctrl{display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-height:40px;border:1px solid var(--border);background:var(--card);border-radius:6px;padding:5px 5px 5px 5px}
-  .acpl .acpl-ctrl .badge{height:1.5rem;padding:0 6px;font-size:.75rem}
+  .acpl .acpl-lbl{font-size:var(--text-12);font-weight:500;color:var(--ink)}
+  .acpl .acpl-ctrl{display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-height:40px;border:1px solid var(--border);background:var(--card);border-radius:6px;padding:4px}
+  .acpl .acpl-ctrl .badge{height:1.5rem;padding:0 6px;font-size:var(--text-12)}
   .acpl .acpl-ctrl .badge .b-x{margin-left:4px;font-weight:600;cursor:pointer;color:var(--ink-secondary)}
-  .acpl .acpl-ctrl input{flex:1;min-width:8ch;height:1.5rem;background:transparent;border:none;outline:none;font-size:.875rem;color:var(--ink);font-family:inherit;padding:0 4px}
+  .acpl .acpl-ctrl input{flex:1;min-width:8ch;height:1.5rem;background:transparent;border:none;outline:none;font-size:var(--text-14);color:var(--ink);font-family:inherit;padding:0 4px}
   .acpl .acpl-ctrl input::placeholder{color:var(--ink-inactive)}
   .acpl .acpl-end{display:inline-flex;align-items:center;gap:2px;padding-right:4px}
   .acpl .acpl-end .iconbtn-mini{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;border-radius:4px}
@@ -1710,15 +1751,15 @@
   .acpl.is-open .acpl-end .chev{transform:rotate(180deg)}
   .acpl .acpl-end .chev{transition:transform .2s;width:16px;height:16px}
   .acpl:focus-within .acpl-ctrl{border-color:var(--ink)}
-  .acpl .acpl-list{margin-top:4px;border:1px solid var(--border);background:var(--card);border-radius:8px;padding:4px;box-shadow:0 4px 6px -1px rgba(0,0,0,.1)}
-  .acpl .acpl-opt{padding:6px 10px;font-size:.875rem;color:var(--ink-body);border-radius:4px;cursor:pointer}
+  .acpl .acpl-list{margin-top:4px;border:1px solid var(--border);background:var(--card);border-radius:8px;padding:4px;box-shadow:var(--shadow-overlay)}
+  .acpl .acpl-opt{padding:6px 10px;font-size:var(--text-14);color:var(--ink-body);border-radius:4px;cursor:pointer}
   .acpl .acpl-opt:hover,.acpl .acpl-opt[data-highlighted]{background:var(--state-hover)}
-  .acpl .acpl-empty{padding:16px 8px;text-align:center;font-size:.875rem;color:var(--ink-secondary)}
+  .acpl .acpl-empty{padding:16px 8px;text-align:center;font-size:var(--text-14);color:var(--ink-secondary)}
 
   /* CircularProgress */
   .cpr{position:relative;display:inline-flex;align-items:center;justify-content:center}
   .cpr svg{position:absolute;inset:0}
-  .cpr .cpr-lbl{position:relative;font-size:.75rem;font-weight:600;color:var(--ink)}
+  .cpr .cpr-lbl{position:relative;font-size:var(--text-12);font-weight:600;color:var(--ink)}
 
   /* ===== Tailwind utility shims =====
      The kit mirrors @insightis/ui markup verbatim; some surfaces (page titles, section headings)
@@ -1731,20 +1772,20 @@
   .font-medium{font-weight:500}
   .font-semibold{font-weight:600}
   .text-left{text-align:left}
-  .text-xs{font-size:.75rem;line-height:1rem}
-  .text-sm{font-size:.875rem;line-height:1.25rem}
-  .text-base{font-size:1rem;line-height:1.5rem}
-  .text-lg{font-size:1.125rem;line-height:1.75rem}
-  .text-xl{font-size:1.25rem;line-height:1.75rem}
-  .text-2xl{font-size:1.5rem;line-height:2rem}
-  .text-3xl{font-size:1.875rem;line-height:2.25rem}
+  .text-xs{font-size:var(--text-12);line-height:1rem}
+  .text-sm{font-size:var(--text-14);line-height:1.25rem}
+  .text-base{font-size:var(--text-16);line-height:1.5rem}
+  .text-lg{font-size:var(--text-18);line-height:1.75rem}
+  .text-xl{font-size:var(--text-20);line-height:1.75rem}
+  .text-2xl{font-size:var(--text-24);line-height:2rem}
+  .text-3xl{font-size:var(--text-30);line-height:2.25rem}
   .text-content-primary{color:var(--ink)}
   .text-content-secondary{color:var(--ink-secondary)}
   .text-content-body{color:var(--ink-body)}
   @media (min-width:768px){
-    .md\:text-3xl{font-size:1.875rem;line-height:2.25rem}
-    .md\:text-2xl{font-size:1.5rem;line-height:2rem}
-    .md\:text-xl{font-size:1.25rem;line-height:1.75rem}
+    .md\:text-3xl{font-size:var(--text-30);line-height:2.25rem}
+    .md\:text-2xl{font-size:var(--text-24);line-height:2rem}
+    .md\:text-xl{font-size:var(--text-20);line-height:1.75rem}
   }
 
   /* ===== Chip — interactive single-select tag for filter rows / faceted lookups =====
@@ -1777,14 +1818,14 @@
       -webkit-mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 100%);
       mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 100%)}
   }
-  .chip{display:inline-flex;align-items:center;gap:.375rem;height:1.75rem;padding:0 .75rem;border-radius:9999px;font-size:.8125rem;font-weight:500;font-family:inherit;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--ink-body);transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
+  .chip{display:inline-flex;align-items:center;gap:.375rem;height:1.75rem;padding:0 .75rem;border-radius:9999px;font-size:var(--text-13);font-weight:500;font-family:inherit;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--ink-body);transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
   .chip:hover,.chip.s-hover{background:var(--state-hover);color:var(--ink)}
   .chip:active,.chip.s-pressed{background:var(--state-pressed);color:var(--ink)}
   .chip.is-active,.chip[aria-pressed="true"]{background:var(--state-pressed);color:var(--ink-highlight);border-color:var(--ink-highlight);cursor:default}
   .chip.is-active:hover,.chip[aria-pressed="true"]:hover,.chip.is-active.s-hover{background:var(--state-pressed);border-color:var(--ink-highlight)}
-  .chip:focus-visible,.chip.s-focus{outline:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)}
+  .chip:focus-visible,.chip.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   .chip.s-disabled,.chip:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
-  .chip-n{font-size:.6875rem;font-weight:500;color:var(--ink-inactive);font-variant-numeric:tabular-nums;line-height:inherit;display:inline-flex;align-items:center}
+  .chip-n{font-size:var(--text-11);font-weight:500;color:var(--ink-inactive);font-variant-numeric:tabular-nums;line-height:inherit;display:inline-flex;align-items:center}
   .chip.is-active .chip-n,.chip[aria-pressed="true"] .chip-n{color:color-mix(in srgb,var(--ink-highlight) 70%,transparent)}
 
   /* ===== Chip/Meta — small rectangular chip with trailing chevron for "drill-in" / "expand to detail"
@@ -1793,11 +1834,11 @@
      metric list chips, breadcrumb-like info chips, "view more" inline triggers.
      Dark override lifts chip ABOVE --card (via --card2) instead of sinking below to --bg —
      prevents the "hole" feel against the parent card surface. */
-  .chip-meta{display:inline-flex;align-items:center;gap:.25rem;padding:.125rem .4375rem;border-radius:.375rem;font-size:.75rem;font-weight:500;font-family:inherit;color:var(--ink-secondary);background:var(--bg);border:1px solid var(--border);cursor:pointer;transition:color .12s,background .12s,border-color .12s,box-shadow .12s;line-height:1.4;white-space:nowrap}
+  .chip-meta{display:inline-flex;align-items:center;gap:.25rem;padding:.125rem .5rem;border-radius:.375rem;font-size:var(--text-12);font-weight:500;font-family:inherit;color:var(--ink-secondary);background:var(--bg);border:1px solid var(--border);cursor:pointer;transition:color .12s,background .12s,border-color .12s,box-shadow .12s;line-height:1.4;white-space:nowrap}
   .dark .chip-meta{background:var(--card2)}
   .chip-meta:hover,.chip-meta.s-hover{color:var(--ink);background:var(--state-hover);border-color:color-mix(in srgb,var(--brand-primary) 35%,transparent)}
   .dark .chip-meta:hover,.dark .chip-meta.s-hover{background:var(--chips)}
-  .chip-meta:focus-visible,.chip-meta.s-focus{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .chip-meta:focus-visible,.chip-meta.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   .chip-meta.s-disabled,.chip-meta:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
   .chip-meta-arrow{width:10px;height:10px;flex:none;color:var(--brand-primary)}
 
@@ -1814,13 +1855,16 @@
   .prov-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.875rem}
   .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
   .prov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-2px);will-change:transform}
-  .prov-card:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .prov-card:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* Utility — card-lift hover. Shared recipe across catalog cards and connection rows:
      --shadow-lift-hover + 22% brand-tinted border + translateY(-1px).
      Bundles the transition so any element gets the right duration on first use. */
   .hov-card{transition:box-shadow .18s,border-color .18s,transform .18s}
   .hov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
-  .prov-card-head{display:flex;align-items:center;gap:.875rem}
+  .prov-card-head{display:flex;align-items:center;gap:.5rem}
+  /* Provider-card logo size — bigger image than the inline default the markup sets on the
+     sprite mark. !important is needed only to override that per-element inline --logo-size. */
+  .prov-card-head .logo-spr{--logo-size:3rem!important}
   /* spec — see #prov-card | LOCKED: background = var(--icon-wrapper-bg). Do NOT inline a hex/rgb/color-mix here. */
   .prov-ic-w{width:2.75rem;height:2.75rem;border-radius:.625rem;border:1px solid var(--border);background:var(--icon-wrapper-bg);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.08)}
   .prov-ic-w img{width:1.625rem;height:1.625rem;object-fit:contain;display:block}
@@ -1889,6 +1933,9 @@
   .logo-spr.google{background-image:url(assets/logos/google.svg)}
   .logo-spr.googleads{background-image:url(assets/logos/googleads.svg)}
   .logo-spr.googleanalytics{background-image:url(assets/logos/googleanalytics.svg)}
+  /* Alias: metrics carry data-prov="ga4" for Google Analytics, but the sprite/asset is named
+     googleanalytics — map ga4 to the same logo so the detail-panel / chip logo resolves. */
+  .logo-spr.ga4{background-image:url(assets/logos/googleanalytics.svg)}
   .logo-spr.googleanalytics_v4{background-image:url(assets/logos/googleanalytics_v4.svg)}
   .logo-spr.googleapps{background-image:url(assets/logos/googleapps.svg)}
   .logo-spr.googlecloudsqlmysql{background-image:url(assets/logos/googlecloudsqlmysql.svg)}
@@ -1983,10 +2030,10 @@
   .logo-spr.zoom{background-image:url(assets/logos/zoom.svg)}
   .logo-spr.zuora{background-image:url(assets/logos/zuora.svg)}
   .prov-card-info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
-  .prov-card-name{font-weight:600;font-size:.875rem;color:var(--ink);line-height:1.25;margin:0 0 .125rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-  .prov-card-status{display:inline-flex;align-items:center;gap:.3125rem}
+  .prov-card-name{font-weight:600;font-size:var(--text-14);color:var(--ink);line-height:1.25;margin:0 0 .125rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .prov-card-status{display:inline-flex;align-items:center;gap:.25rem}
   .prov-card-dot{width:.4375rem;height:.4375rem;border-radius:9999px;background:var(--ink-inactive);flex:none;display:inline-block}
-  .prov-card-status-text{font-size:.75rem;color:var(--ink-secondary)}
+  .prov-card-status-text{font-size:var(--text-12);color:var(--ink-secondary)}
   .prov-card-divider{display:none}
   .prov-card-metrics-label{display:none}
   .prov-card-divider + div{flex:1}
@@ -1995,10 +2042,10 @@
   .prov-card.is-browse{align-items:center;justify-content:center;text-align:center;background:var(--bg);border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 35%,transparent);cursor:pointer}
   .prov-card.is-browse:hover{background:var(--state-hover);transform:none;box-shadow:none;border-color:color-mix(in srgb,var(--ink-secondary) 55%,transparent)}
   .prov-card-browse-ic{width:2.5rem;height:2.5rem;border-radius:9999px;border:1.5px dashed color-mix(in srgb,var(--ink-secondary) 45%,transparent);display:flex;align-items:center;justify-content:center;color:var(--ink-secondary);flex:none;margin:0 auto .75rem}
-  .prov-card-browse-label{font-size:.875rem;font-weight:600;color:var(--ink-secondary);margin:0 0 .25rem}
-  .prov-card-browse-sub{font-size:.75rem;color:var(--ink-inactive);margin:0}
+  .prov-card-browse-label{font-size:var(--text-14);font-weight:600;color:var(--ink-secondary);margin:0 0 .25rem}
+  .prov-card-browse-sub{font-size:var(--text-12);color:var(--ink-inactive);margin:0}
   /* chip-meta inside prov-card: 5 clickable bordered chips, always all visible, wrap freely */
-  .prov-card .chip-row{gap:.3125rem;flex-wrap:wrap;overflow:visible;align-items:center}
+  .prov-card .chip-row{gap:.25rem;flex-wrap:wrap;overflow:visible;align-items:center}
 
   /* ===== Data source card (ds-card / ds-conn-row) =====
      Connector catalog card + connected-list row used on the Data Sources → Connections page.
@@ -2007,7 +2054,7 @@
      in the page — they encode page-state layout, not the component itself. */
   .ds-conn-tbl table.tbl tbody tr.is-selected td{background:var(--state-pressed)}
 
-  /* Base card shell — the tile variants (.ds-v2 / .ds-v3) override to a vertical layout */
+  /* Base card shell — the catalog tile (.ds-v3, approved) overrides to a vertical layout */
   .ds-card{position:relative;display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
   .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
   /* Plain connector logos (.logo-spr, kit-theme.css) — no container. Per-context size only. */
@@ -2016,48 +2063,19 @@
   .ds-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .ds-card-head{display:flex;align-items:center;gap:.375rem;min-width:0}
   /* Label = Typography "text-sm" level (14px / 20px), per current/typography.md. */
-  .ds-card-name{font-size:.875rem;line-height:1.25rem;font-weight:400;color:var(--ink)}
+  .ds-card-name{font-size:var(--text-14);line-height:1.25rem;font-weight:400;color:var(--ink)}
 
-  /* ===== Variant 2 — vertical card: logo on top, text below; Connect on hover ===== */
+  /* Shared catalog-tile bits. */
   .ds-card-hover{display:none}
-  .ds-app.ds-v2 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5rem;padding:.875rem .75rem;height:7.5rem}
-  /* Fixed tile height keeps every card uniform; clamp the name to 2 lines so a long name fits
-     without growing the tile. No reserved min-height — content stays truly vertically centered.
-     Size = Typography "text-sm" (14px / 20px). */
-  .ds-app.ds-v2 .ds-card-name{font-size:.875rem;line-height:1.25rem;
-    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .ds-app.ds-v2 .ds-card .logo-spr{--logo-size:2.75rem}
-  .ds-app.ds-v2 .ds-card-body{flex:0 0 auto;align-items:center}
-  .ds-app.ds-v2 .ds-card-head{justify-content:center}
-  .ds-app.ds-v2 .ds-card-hover{display:flex;align-items:center;justify-content:center;
-    position:absolute;inset:0;border-radius:inherit;
-    background:color-mix(in srgb,var(--card) 78%,transparent);
-    opacity:0;pointer-events:none;transition:opacity var(--motion-slow) var(--motion-ease)}
-  /* The button itself eases in/out with a small slide so the reveal feels fluid, not a flat fade. */
-  .ds-app.ds-v2 .ds-card-connect{transform:translateY(.375rem);
-    transition:transform var(--motion-slow) var(--motion-ease)}
-  .ds-app.ds-v2 .ds-card:hover .ds-card-hover,
-  .ds-app.ds-v2 .ds-card:focus-within .ds-card-hover{opacity:1;pointer-events:auto}
-  .ds-app.ds-v2 .ds-card:hover .ds-card-connect,
-  .ds-app.ds-v2 .ds-card:focus-within .ds-card-connect{transform:translateY(0)}
   .ds-card-connect span{margin-left:.25rem}
-  /* Touch / no-hover devices have no hover event, so the desktop hover-reveal (translucent
-     scrim + Connect button) is driven by TAP instead. First tap on a tile adds .is-active →
-     reveals the overlay exactly like desktop :hover; the Connect button then performs the
-     action. Tapping the scrim again — or another tile — collapses it (handled in dsCardTap).
-     Tiles stay vertical: same layout and same reveal as desktop, just triggered by tap. */
-  @media (hover:none){
-    .ds-app.ds-v2 .ds-card.is-active .ds-card-hover{opacity:1;pointer-events:auto}
-    .ds-app.ds-v2 .ds-card.is-active .ds-card-connect{transform:translateY(0)}
-  }
 
-  /* ===== Variant 3 — alternative concept: larger vertical tiles, capped at 6 per row
-     (bigger card + bigger logo than Variant 2, so the row holds 6 instead of ~8). Same
-     hover / tap reveal behaviour as Variant 2 (scrim + Connect). The max() min-track grows
-     once 6 tiles would each clear 10rem, so auto-fill never places a 7th; below that the
-     10rem floor lets it reflow down as the content narrows. ===== */
+  /* ===== Catalog tile — APPROVED layout (was "Variant 3"): vertical tile — logo on top, name
+     below; Connect revealed over a translucent scrim on hover (desktop) and on TAP for touch /
+     no-hover devices (.is-active, set in dsCardTap; tap the scrim or another tile to collapse).
+     Capped at 6 per row — the grid's max() min-track grows once 6 tiles would each clear 10rem,
+     so auto-fill never places a 7th; below that the 10rem floor reflows down as content narrows. ===== */
   .ds-app.ds-v3 .ds-card{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5rem;padding:1.25rem 1rem;height:9.5rem}
-  .ds-app.ds-v3 .ds-card-name{font-size:1rem;line-height:1.5rem;
+  .ds-app.ds-v3 .ds-card-name{font-size:var(--text-16);line-height:1.5rem;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .ds-app.ds-v3 .ds-card .logo-spr{--logo-size:3.5rem}
   .ds-app.ds-v3 .ds-card-body{flex:0 0 auto;align-items:center}
@@ -2090,17 +2108,17 @@
   .ds-conn-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.25rem}
   /* Title line: bold name + · + logo + connector type, all inline, clips with ellipsis */
   .ds-conn-title{display:flex;align-items:center;gap:.25rem;overflow:hidden;white-space:nowrap}
-  .ds-conn-label{font-size:.875rem;font-weight:600;color:var(--ink);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:1;min-width:0}
-  .ds-conn-dot{color:var(--ink-inactive);font-size:.875rem;flex:none}
+  .ds-conn-label{font-size:var(--text-14);font-weight:600;color:var(--ink);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:1;min-width:0}
+  .ds-conn-dot{color:var(--ink-inactive);font-size:var(--text-14);flex:none}
   /* Inline source: small logo + connector name */
   .ds-conn-src-row{display:flex;align-items:center;gap:.25rem;flex:none;overflow:hidden}
   .ds-conn-src-mark{--logo-size:.875rem}
-  .ds-conn-meta{font-size:.8125rem;color:var(--ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ds-conn-desc{font-size:.75rem;color:var(--ink-secondary)}
+  .ds-conn-meta{font-size:var(--text-13);color:var(--ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ds-conn-desc{font-size:var(--text-12);color:var(--ink-secondary)}
   /* ===== Connected — table view (shared kebab styles) ===== */
   .ds-conn-tbl{margin-top:.25rem}
-  .ds-conn-tbl .ds-conn-cell-desc{font-size:.8125rem;color:var(--ink-secondary);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:0}
-  .ds-conn-cell-name{display:flex;align-items:center;gap:.625rem}
+  .ds-conn-tbl .ds-conn-cell-desc{font-size:var(--text-13);color:var(--ink-secondary);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:0}
+  .ds-conn-cell-name{display:flex;align-items:center;gap:.375rem}
   .ds-conn-cell-label{font-weight:500;color:var(--ink-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ds-conn-cell-act{position:relative;overflow:visible}
   /* Kebab wrapper — positioning context for .kbp-menu (kit-theme.css handles the rest) */
@@ -2147,7 +2165,7 @@
      made it visibly bigger than the count next to it.
      min-height is set so the row matches the tallest possible child (the 1.5rem iconbtn used by
      this page in edit mode) — keeps the row vertically stable when the action set changes. */
-  .meta-row{display:flex;align-items:center;gap:.75rem;padding:.375rem 0;min-height:2.25rem;background:transparent;border:none;font-size:.8125rem;line-height:1.4}
+  .meta-row{display:flex;align-items:center;gap:.75rem;padding:.375rem 0;min-height:2.25rem;background:transparent;border:none;font-size:var(--text-13);line-height:1.4}
   .meta-row.var-split{justify-content:space-between}
   .meta-row-count{color:var(--ink-secondary);font-weight:400}
   .meta-row-actions{display:inline-flex;align-items:center;gap:.5rem}
@@ -2157,8 +2175,8 @@
      hard --border line was too contrasted at full strength against the bg, so the row uses a 45%
      mix of --border + a very soft drop shadow for depth. Hover lifts the border closer to its full
      strength + brand tint; selected swaps to --brand-primary for unambiguous feedback. Press feedback
-     is a subtle scale(.985) — light enough to feel tactile, small enough not to read as a glitch. */
-  .chat-row{position:relative;display:flex;align-items:center;gap:.75rem;height:2.75rem;padding:0 .75rem;border:1px solid color-mix(in srgb, var(--border) 45%, transparent);border-radius:.5rem;color:var(--ink-body);font-size:.875rem;font-weight:500;background:var(--card);cursor:pointer;box-shadow:var(--shadow-rest);transition:background-color var(--motion-slow) var(--motion-ease-out), border-color var(--motion-slow) var(--motion-ease-out), color var(--motion-fast) var(--motion-ease), transform var(--motion-slow) var(--motion-ease-out), box-shadow var(--motion-slow) var(--motion-ease-out)}
+     is a subtle scale(.99) — light enough to feel tactile, small enough not to read as a glitch. */
+  .chat-row{position:relative;display:flex;align-items:center;gap:.75rem;height:2.75rem;padding:0 .75rem;border:1px solid color-mix(in srgb, var(--border) 45%, transparent);border-radius:.5rem;color:var(--ink-body);font-size:var(--text-14);font-weight:500;background:var(--card);cursor:pointer;box-shadow:var(--shadow-rest);transition:background-color var(--motion-slow) var(--motion-ease-out), border-color var(--motion-slow) var(--motion-ease-out), color var(--motion-fast) var(--motion-ease), transform var(--motion-slow) var(--motion-ease-out), box-shadow var(--motion-slow) var(--motion-ease-out)}
   .chat-row:hover,.chat-row.s-hover,
   /* Keep the row in its hover state while its own kebab menu is open. Without this the cursor
      leaves the row to enter the menu and the row snaps back to rest — read as "hover was removed"
@@ -2177,9 +2195,9 @@
      reset on press is preserved so hover+press still feels less stacked. */
   @media (prefers-reduced-motion: reduce){
     .chat-row{transition:background-color var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast), box-shadow var(--motion-fast)}
-    .chat-row:active:not(:has(button:active)):not(:has(.cbx:active)){transform:none;box-shadow:0 1px 2px 0 rgba(15,23,42,.03)}
+    .chat-row:active:not(:has(button:active)):not(:has(.cbx:active)){transform:none;box-shadow:var(--shadow-rest)}
   }
-  .chat-row:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--focus-ring-brand)}
+  .chat-row:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--focus-ring)}
   /* Checkbox slot — completely removed from layout by default so the title sits flush against the
      row's left padding. Becomes visible (and takes space) only when the list has .is-selecting
      (explicit edit mode driven by the page). Avoids the hover-reveal pattern entirely so there's
@@ -2197,7 +2215,7 @@
      between name and time reads as balanced negative space, not stranded — and the row no longer
      feels too wide for its content. */
   .chat-row-name{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:inherit}
-  .chat-row-time{margin-left:auto;font-size:.75rem;color:var(--ink-secondary);font-weight:400;font-variant-numeric:tabular-nums;flex:none}
+  .chat-row-time{margin-left:auto;font-size:var(--text-12);color:var(--ink-secondary);font-weight:400;font-variant-numeric:tabular-nums;flex:none}
   /* Pin marker — rendered ONLY for pinned rows; sits inline next to the title so the affordance
      reads as "this conversation is pinned" rather than a per-row toggle. Click still toggles to unpin.
      Default glyph is rotated 30° so it reads as a pushpin stuck into the surface at an angle (rather
@@ -2212,14 +2230,14 @@
   @media (prefers-reduced-motion: reduce){
     .chat-row-pin svg{transition:none}
   }
-  .chat-row-pin:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--focus-ring-brand)}
+  .chat-row-pin:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
   /* Kebab slot — 24×24 tertiary icon button, follows the timestamp on the right edge. Hidden until
      row hover/focus-within or menu open — same fade recipe as .sbx-chat-more. */
   .chat-row-more{height:1.5rem;width:1.5rem;border-radius:.25rem;flex:none;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--ink-secondary);padding:0;font-family:inherit;opacity:0;pointer-events:none;transition:opacity .12s, color .12s, background-color .12s}
   .chat-row-more svg{width:16px;height:16px}
   /* Brand-mix is deliberate (not drift): .chat-row-more sits inside .chat-row which hovers to --state-hover. A neutral hover would make the kebab disappear into the row's hover bg. The 6/8% brand mix keeps the kebab visible as a distinct surface on top of the hovered row. */
   .chat-row-more:hover{color:var(--ink-body);background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
-  .chat-row-more:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--focus-ring-brand)}
+  .chat-row-more:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
   .chat-row-more[aria-expanded="true"]{background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
   .chat-row:hover .chat-row-more,.chat-row.s-hover .chat-row-more,.chat-row:focus-within .chat-row-more,.chat-row-more:focus-visible,.chat-row-more[aria-expanded="true"]{opacity:1;pointer-events:auto}
   /* Context menu — anchored bottom-right of the kebab, reuses kit's .menu / .mi shell + .mi.danger token. */
@@ -2271,7 +2289,7 @@
      already separate provider blocks. A border-top "gap" only inflated the header
      height and read as an odd strip stuck above the band (esp. on dark). */
   .mx-prov-group-cell{display:flex;align-items:center;gap:.5rem}
-  .mx-prov-group-name{font-size:.875rem;font-weight:600;color:var(--ink);flex:1;min-width:0}
+  .mx-prov-group-name{font-size:var(--text-14);font-weight:600;color:var(--ink);flex:1;min-width:0}
   /* Group-header icon — same bordered container as other mx-prov-ic usages */
 
   /* ── Collapsible group chevron ── */
@@ -2282,7 +2300,7 @@
   /* ── Metric child rows ── */
   /* Fixed row height so every metric row is identical regardless of content
      (vertical-align:middle on the cells centres the contents). */
-  .mx-metric-child td{padding:.4375rem 1rem;height:2.875rem;box-sizing:border-box}
+  .mx-metric-child td{padding:.5rem 1rem;height:2.875rem;box-sizing:border-box}
   /* Indent the toggle so its left edge lines up with the shared --mx-prov-indent
      line. The first colgroup col is widened to 4.25rem to hold the shifted toggle. */
   .mx-metric-child td:first-child{padding-left:var(--mx-prov-indent)}
@@ -2293,12 +2311,12 @@
   .mx-tbl-name .mx-swt-wrap{display:inline-flex;vertical-align:middle;margin-right:.5rem}
   .mx-tbl-name .badge{display:inline;vertical-align:middle}
   .mx-tbl-name .mx-tbl-sub{display:inline;vertical-align:middle}
-  .mx-tbl-alias{font-size:.75rem;color:var(--ink-secondary);width:9rem}
-  .mx-tbl-desc{font-size:.75rem;color:var(--ink-secondary);max-width:18rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+  .mx-tbl-alias{font-size:var(--text-12);color:var(--ink-secondary);width:9rem}
+  .mx-tbl-desc{font-size:var(--text-12);color:var(--ink-secondary);max-width:18rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
   .mx-tbl-badge{vertical-align:middle;white-space:nowrap}
   .mx-badge-inl{margin-left:.375rem;vertical-align:middle}
   .mx-prov-badge{opacity:.55}
-  .mx-tbl-sub{display:block;font-size:.75rem;color:var(--ink-secondary);font-weight:400;margin-top:.0625rem}
+  .mx-tbl-sub{display:block;font-size:var(--text-12);color:var(--ink-secondary);font-weight:400;margin-top:.0625rem}
 
   /* ── Actions column + kebab ── */
   .mx-tbl-actions{width:3rem;padding-right:.5rem;position:relative;text-align:right;vertical-align:middle;white-space:nowrap}
@@ -2335,7 +2353,7 @@
   .mx-no-builtin-row{cursor:default !important}
   .mx-no-builtin-row:hover td,.mx-no-builtin-row:active td{background:inherit !important}
   .tbl .mx-no-builtin-row td{padding:.6rem 1rem;padding-left:var(--mx-prov-indent);border-bottom:1px solid var(--border);min-height:2.875rem}
-  .mx-no-builtin-msg{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--ink-secondary)}
+  .mx-no-builtin-msg{display:flex;align-items:center;gap:.5rem;font-size:var(--text-12);color:var(--ink-secondary)}
   .mx-no-builtin-msg svg{color:var(--ink-secondary);opacity:.6;flex:none}
   /* The "Create a custom metric →" trigger reuses the kit .link component
      (colour = --ink-highlight); no bespoke link rule here. */
@@ -2344,8 +2362,8 @@
   .mx-conn-sub-row{cursor:default !important}
   .mx-conn-sub-row:hover td,.mx-conn-sub-row:active td{background:inherit !important}
   /* Match the metric-row height (2.875rem) + vertical-center the label in the row. */
-  .tbl .mx-conn-sub-row td{padding:.3125rem 1rem;padding-left:var(--mx-prov-indent);border-bottom:1px solid var(--border);height:2.875rem;box-sizing:border-box;vertical-align:middle}
-  .mx-conn-sub-label{font-size:.8125rem;font-weight:600;color:var(--ink-secondary);display:flex;align-items:center;gap:.375rem;width:100%}
+  .tbl .mx-conn-sub-row td{padding:.25rem 1rem;padding-left:var(--mx-prov-indent);border-bottom:1px solid var(--border);height:2.875rem;box-sizing:border-box;vertical-align:middle}
+  .mx-conn-sub-label{font-size:var(--text-13);font-weight:600;color:var(--ink-secondary);display:flex;align-items:center;gap:.375rem;width:100%}
   /* Only the leading link icon (direct child) — NOT the nested "+" svg inside the
      Add Metric button, which must keep the button's own icon size/colour. */
   .mx-conn-sub-label > svg{flex:none;opacity:.55;width:11px;height:11px}
@@ -2356,29 +2374,29 @@
   .mx-c3-toolbar{display:flex;flex-direction:column;gap:.5rem}
   .mx-c3-toolbar .igrp{width:100%;background:var(--card);height:2.5rem}
   .mx-c3-filter-chips{display:flex;align-items:center;gap:.375rem}
-  .mx-active-toggle{margin-left:auto;display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8125rem;font-weight:500;color:var(--ink-secondary);white-space:nowrap;user-select:none}
+  .mx-active-toggle{margin-left:auto;display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;font-size:var(--text-13);font-weight:500;color:var(--ink-secondary);white-space:nowrap;user-select:none}
   .mx-c3-toolbar .igrp-add{padding:0 6px 0 10px}
   .mx-c3-toolbar .igrp-add svg{width:15px;height:15px}
-  .mx-c3-toolbar .igrp-input{padding-left:3px}
+  .mx-c3-toolbar .igrp-input{padding-left:4px}
 
-  .mx-dl{display:flex;flex-direction:column;gap:1.25rem;font-size:.875rem;margin:0}
+  .mx-dl{display:flex;flex-direction:column;gap:1.25rem;font-size:var(--text-14);margin:0}
   .mx-dl > div{display:flex;flex-direction:column;gap:.25rem}
-  .mx-dl dt{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin:0}
+  .mx-dl dt{font-size:var(--text-11);font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin:0}
   .mx-dl dt::after{content:':'}
   .mx-dl dd{color:var(--ink);margin:0;line-height:1.45}
   .mx-dl .chip{border-radius:.375rem;cursor:default;pointer-events:none;background:var(--state-hover);color:var(--ink);border-color:var(--border)}
 
   /* ── Form label (shared in dialogs + panels) ── */
-  .mx-form-label{display:block;margin-bottom:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink)}
+  .mx-form-label{display:block;margin-bottom:.375rem;font-size:var(--text-13);font-weight:500;color:var(--ink)}
 
 
 /* ── Detail panel fields (shared: metrics, data-sources connections) ── */
-.dp-fields{display:flex;flex-direction:column;gap:1.25rem;font-size:.875rem}
+.dp-fields{display:flex;flex-direction:column;gap:1.25rem;font-size:var(--text-14)}
 .dp-field{display:flex;flex-direction:column;gap:.25rem}
-.dp-label{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-secondary)}
-.dp-value{font-size:.875rem;color:var(--ink);line-height:1.5;display:flex;align-items:center;gap:.375rem;min-width:0}
-.dp-value-name{font-size:1rem;font-weight:600;color:var(--ink);line-height:1.5}
-.dp-value-body{font-size:.875rem;color:var(--ink-body);line-height:1.6;margin:0}
+.dp-label{font-size:var(--text-12);font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-secondary)}
+.dp-value{font-size:var(--text-14);color:var(--ink);line-height:1.5;display:flex;align-items:center;gap:.375rem;min-width:0}
+.dp-value-name{font-size:var(--text-16);font-weight:600;color:var(--ink);line-height:1.5}
+.dp-value-body{font-size:var(--text-14);color:var(--ink-body);line-height:1.6;margin:0}
 
 /* ═══════════════════════════════════════════════════════════════════════
    RESPONSIVE TABLES — shared card-stack layout (≤ 767 px, md breakpoint)
@@ -2472,13 +2490,13 @@
   /* td[1] toggle — col 1, row 1, centred with name */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(1){grid-column:1;grid-row:1;align-self:center;position:static;top:auto;left:auto}
   /* td[2] metric name — col 2, row 1 */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(2){grid-column:2;grid-row:1;font-size:.875rem;font-weight:600;color:var(--ink);line-height:1.25rem;padding-right:0}
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(2){grid-column:2;grid-row:1;font-size:var(--text-14);font-weight:600;color:var(--ink);line-height:1.25rem;padding-right:0}
   /* td[3] alias — full width, row 2, aligned to the toggle (col 1 left edge) */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3){grid-column:1 / -1;grid-row:2;font-size:.75rem;color:var(--ink-tertiary);font-family:ui-monospace,monospace;letter-spacing:-.01em}
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3){grid-column:1 / -1;grid-row:2;font-size:var(--text-12);color:var(--ink-tertiary);font-family:ui-monospace,monospace;letter-spacing:-.01em}
   /* td[4] definition — full width, row 3, aligned to the toggle. max-width:none
      overrides the desktop .mx-tbl-desc{max-width:18rem} (=288px) that was capping
      it short of the card edge; wraps freely and fills the whole card width. */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(4){grid-column:1 / -1;grid-row:3;display:block;max-width:none;font-size:.8125rem;color:var(--ink-secondary);line-height:1.55;white-space:normal;overflow:visible;min-width:0}
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(4){grid-column:1 / -1;grid-row:3;display:block;max-width:none;font-size:var(--text-13);color:var(--ink-secondary);line-height:1.55;white-space:normal;overflow:visible;min-width:0}
   /* td[5] badge — col 3, row 1, aligned with metric name */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(5){grid-column:3;grid-row:1;align-self:center}
   /* td[6] kebab — col 4, row 1 */

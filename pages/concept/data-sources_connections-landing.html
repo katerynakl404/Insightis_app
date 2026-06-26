@@ -31,7 +31,7 @@
   .ds-search-clear{display:none;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.25rem;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;padding:0;font-family:inherit;flex:none;transition:color var(--motion-fast) var(--motion-ease),background-color var(--motion-fast) var(--motion-ease)}
   .ds-search-clear svg{width:14px;height:14px}
   .ds-search-clear:hover{color:var(--ink-body);background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
-  .ds-search-clear:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--focus-ring-brand)}
+  .ds-search-clear:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
   .ds-search:has(input:not(:placeholder-shown)) .ds-search-clear{display:inline-flex}
 
   /* Page head — title left, CTA right. */
@@ -60,15 +60,11 @@
      768 – 1023 px   → 2 cols (content 448–703 → cards 224–352 px)
      600 – 767 px    → 2 cols (sidebar drawer-only, content = viewport − 64 px)
      < 600 px        → 1 col  (full-width single-column for narrow phones) */
-  /* ===== Grid — the tile variants set their own columns (.ds-app.ds-v2 / .ds-v3). ===== */
+  /* ===== Catalog grid — approved layout (.ds-v3): larger vertical tiles capped at 6 per row.
+     The .ds-card tile styling lives in kit-theme.css; this is the page-composition column rule.
+     The max() min-track grows once 6 tiles would each clear 10rem, so auto-fill never places a
+     7th; below that the 10rem floor lets it reflow down as the content narrows. ===== */
   .ds-grid{display:grid;gap:.75rem;margin-top:.75rem}
-  /* Variant 2 — compact square tiles auto-packed: fits as many ~7.5rem cards as the row allows,
-     responsive by nature (no fixed column counts needed). */
-  .ds-app.ds-v2 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr));gap:.5rem}
-  /* ===== Variant 3 grid — page-composition column rule (the .ds-card tile styling for v3
-     lives in kit-theme.css alongside the other ds-card rules). Larger vertical tiles capped at
-     6 per row: the max() min-track grows once 6 tiles would each clear 10rem, so auto-fill never
-     places a 7th; below that the 10rem floor lets it reflow down as the content narrows. ===== */
   .ds-app.ds-v3 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(max(10rem,(100% - 5 * .75rem)/6),1fr));gap:.75rem}
   #ds-cats{flex-wrap:wrap;padding-bottom:2px;margin-top:.75rem}
   #ds-cats::-webkit-scrollbar{display:none}
@@ -146,10 +142,6 @@
     <div class="segctrl is-sm" style="width:auto">
       <button class="segctrl-btn is-active" id="ds-seg-empty" type="button" onclick="dsSegState(this,'empty')">Empty</button>
       <button class="segctrl-btn" id="ds-seg-connected" type="button" onclick="dsSegState(this,'connected')">Connected</button>
-    </div>
-    <div class="segctrl is-sm" style="width:auto" aria-label="Card layout">
-      <button class="segctrl-btn" id="ds-seg-v2" type="button" onclick="dsSegVariant(this,'v2')">Variant 2</button>
-      <button class="segctrl-btn is-active" id="ds-seg-v3" type="button" onclick="dsSegVariant(this,'v3')">Variant 3</button>
     </div>
     <div class="segctrl is-sm" style="width:auto">
       <button class="segctrl-btn is-active" id="ds-seg-light" type="button" onclick="dsSegTheme(this,'light')">Light</button>
@@ -473,7 +465,7 @@
           </div>
           <!-- Save is part of the external integration UI -->
           <div class="ds-intg-row" style="align-items:flex-end;flex-direction:row;justify-content:flex-end;padding:.75rem .875rem">
-            <button id="ds-conn-s1-btn" type="button" style="background:var(--brand-primary);color:var(--content-on-solid);border:none;border-radius:.375rem;padding:.4375rem 1rem;font-size:.875rem;font-weight:500;cursor:pointer;line-height:1.25" onclick="dsConnStep1()">Connect</button>
+            <button id="ds-conn-s1-btn" type="button" style="background:var(--brand-primary);color:var(--content-on-solid);border:none;border-radius:.375rem;padding:.5rem 1rem;font-size:.875rem;font-weight:500;cursor:pointer;line-height:1.25" onclick="dsConnStep1()">Connect</button>
           </div>
         </div>
       </div>
@@ -792,14 +784,6 @@
     dsSegActivate(['ds-seg-light','ds-seg-dark'], btn.id);
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }
-
-  function dsSegVariant(btn, variant){
-    dsSegActivate(['ds-seg-v2','ds-seg-v3'], btn.id);
-    var app = document.querySelector('.ds-app');
-    app.classList.toggle('ds-v2', variant === 'v2');
-    app.classList.toggle('ds-v3', variant === 'v3');
-  }
-
 
   function dsGetFiltered(){
     return CONNECTORS.filter(function(c){

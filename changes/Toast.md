@@ -15,7 +15,7 @@ Source: `@insightis/ui` `Toast/` (Toaster, ToastMessage, `toast()`). Baseline: [
 
 | Part | Selector | Values |
 |---|---|---|
-| Container | `.toast` | `min-width:280px; max-width:600px; border-radius:8px; padding:16px; background:var(--card); border:1px solid var(--border); box-shadow:0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1); position:relative; overflow:hidden; display:flex; flex-direction:column; gap:12px` |
+| Container | `.toast` | `min-width:280px; max-width:600px; border-radius:8px; padding:16px; background:var(--card); border:1px solid var(--border); box-shadow:var(--shadow-overlay)` (floating-overlay rung — light `0 10px 15px -3px rgba(0,0,0,.12), 0 4px 6px -4px rgba(0,0,0,.08)`, theme-aware dark; normalised from the prior inline `.1/.1` drift)`; position:relative; overflow:hidden; display:flex; flex-direction:column; gap:12px` |
 | Content row | `.toast .toast-row` | `display:flex; align-items:flex-start; gap:12px` |
 | Icon | `.toast .toast-ic` | `width:20px; height:20px; flex:none; margin-top:1px; stroke-linecap:round; stroke-linejoin:round` |
 | Body | `.toast .toast-body` | `flex:1; display:flex; flex-direction:column; gap:2px` |
@@ -62,17 +62,33 @@ All four variants share the identical container box model (radius 8px, padding 1
 
 ## Markup contract
 
+The container `.toast` is a `display:flex; flex-direction:column; gap:12px` column. It holds, in order: the `.toast-row` (icon + body + close), an **optional** action button, and the `.toast-prog` strip. Both the action button and progress strip are direct children of `.toast`, not of `.toast-row`.
+
 ```html
-<!-- new structure -->
-<div class="toast-row">
-  <svg class="toast-ic">…</svg>
-  <div class="toast-body">
-    <span class="toast-msg">Title text</span>
-    <span class="toast-desc">Optional description</span>  <!-- omit if unused -->
+<!-- new structure — variant class one of var-success / var-info / var-warning / var-error -->
+<div class="toast var-info">
+  <div class="toast-row">
+    <svg class="toast-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">…</svg>
+    <div class="toast-body">
+      <span class="toast-msg">Title text</span>
+      <span class="toast-desc">Optional description</span>  <!-- omit if unused -->
+    </div>
+    <button class="iconbtn iconbtn-tertiary toast-x" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
   </div>
-  <button class="iconbtn iconbtn-tertiary toast-x" aria-label="Close">…</button>
+  <button class="btn btn-xs btn-outline">View</button>  <!-- optional action; omit when no action -->
+  <div class="toast-prog"><span></span></div>           <!-- countdown strip; always present -->
 </div>
 ```
+
+Icon SVGs are 24×24 viewBox, `fill="none" stroke="currentColor" stroke-width="2"`, colour inherited from the variant rule on `.toast-ic`. Per-variant glyph paths:
+- **success** `CheckCircle2` — `<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>`
+- **info** `Info` — `<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>`
+- **warning** `AlertTriangle` — `<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/>`
+- **error** `XCircle` — `<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/>`
+
+The optional action button reuses `.btn.btn-xs.btn-outline` (see [Button.md](Button.md)) verbatim — no toast-specific override. The close button reuses `.iconbtn.iconbtn-tertiary` (see [IconButton.md](IconButton.md)) for colour / hover / pressed / focus-visible; `.toast-x` adds only the `24×24` box + `4px` radius positioning hook, and `.toast-x svg` sizes the glyph to `14×14`.
 
 ## Token map
 

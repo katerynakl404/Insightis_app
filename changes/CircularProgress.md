@@ -6,15 +6,15 @@ Source: `@insightis/ui` `CircularProgress/index.tsx`. Baseline: [`../current/Cir
 
 ## Concrete dimensions (defaults + kit demo)
 
-Layout wrapper `.cpr` (`pages/kit-theme.css:1711–1713`) plus the SVG ring props:
+Layout wrapper `.cpr` (`pages/kit-theme.css:1719–1721`) plus the SVG ring props:
 
 | Element | Selector / prop | Dimensions / padding | Other |
 |---|---|---|---|
-| Wrapper | `.cpr` | size = `size` prop, **default 40×40px** · `position:relative; display:inline-flex`, centred (no padding) | — |
+| Wrapper | `.cpr` | size = `size` prop, **default 40×40px** · `position:relative; display:inline-flex; align-items:center; justify-content:center` (no padding, no border, no bg) | — |
 | SVG ring | `.cpr svg` | `position:absolute; inset:0` (fills wrapper) | viewBox = `0 0 {size} {size}` |
 | Stroke (track + indicator) | `strokeWidth` prop | **default 2.5px** | track `--background`, indicator `--primary` (or `--secondary`), `strokeLinecap="round"` |
 | Ring radius | computed | `r = (size − strokeWidth) / 2` → for default 40 / 2.5 = **17.5px**, circumference ≈ 109.96 | rotated **−90°** (0° = 12 o'clock) |
-| Centre label | `.cpr .cpr-lbl` | `position:relative` (no padding) | font **.75rem / 600**, colour `--ink` |
+| Centre label | `.cpr .cpr-lbl` | `position:relative` (no padding) | `font-size:.75rem; font-weight:600; color:var(--ink)`; no explicit `line-height` (vertical centring comes from the wrapper's flex `align-items/justify-content:center`) |
 
 Kit-demo scale (storybook `#circularprogress`, lines 2338–2340): 40px ring → strokeWidth 2.5; 48px & 56px rings → strokeWidth 3 (proportional override). ⚠ Note the separate `#spinner` storybook block (line 1063) renders the CircularProgress demo at 40px with **strokeWidth 4** on a 36-unit viewBox — inconsistent with the 2.5 default; both are illustrative demos, not the component default.
 
@@ -23,6 +23,8 @@ Kit-demo scale (storybook `#circularprogress`, lines 2338–2340): 40px ring →
 | Determinate (`value`) | track `hsl(var(--background))`, indicator `hsl(var(--primary))` (or `--secondary`) | — no change (hex → [colors](colors.md)) | `Brand/Primary` (was `#07827F`, became `#07807E`) |
 | 0% | indicator fully offset (invisible) | — no change | — |
 | 100% | closed ring | — no change | — |
+
+**No interaction states / transitions / dark overrides.** The live CSS for `.cpr` / `.cpr svg` / `.cpr .cpr-lbl` has no `:hover` / `:focus-visible` / `:active` / `:disabled` / `.is-*` rules, no `transition`, no pseudo-elements, no `@media` query, and no `.dark` override. Theme adaptation is automatic: track `--background` (`--bg`), indicator `--primary`/`--secondary`, label `--ink` all resolve per active theme. Markup is a `<div class="cpr">` containing one `<svg viewBox="0 0 {size} {size}">` (two `<circle r="(size−strokeWidth)/2">` — track then indicator, indicator carries `stroke-dasharray`=circumference, `stroke-dashoffset`, `stroke-linecap="round"`, `transform="rotate(-90 cx cy)"`) plus an optional `<span class="cpr-lbl">`.
 
 ## Variants — no change
 - **primary** (default): indicator `--primary`.

@@ -98,7 +98,7 @@ These are locked decisions. Do not change without explicit approval.
 | Footer count | "X metrics available" label | Removed — footer is Connect button only |
 | Connect button | `btn-secondary` | `btn-secondary` — unchanged |
 | Card hover | `shadow-lift-hover` + teal ring (`Brand @ 22%` tinted border) | `shadow-lift-hover` + `translateY(-2px)` + neutral `--border-hover` — no colored ring (reserved for focus-visible/selected) |
-| Card focus | No explicit ring | `--shadow-focus-brand` ring |
+| Card focus | No explicit ring | `--shadow-focus` ring |
 
 ### Token / component lineage
 

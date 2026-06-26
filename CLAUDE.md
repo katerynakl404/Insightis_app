@@ -73,6 +73,12 @@ If I touch a rule in `pages/kit-theme.css` (token, selector, recipe), the change
 
 When any of (1)–(3) is skipped, the artifact lies — the doc says one thing, the CSS does another, two pages render differently. Don't ship a half-propagated change.
 
+**Lockstep applies to EVERY edit, in BOTH directions — not just CSS-first redesigns.** The three spec surfaces — `pages/kit-theme.css` (implementation = ground truth), the storybook `#<component>` section, and `changes/<Component>.md` — are one contract and must always read the same values. Editing ANY one obligates the other two in the same pass (a one-line value tweak, a renamed token, a new state, even a fixed comment). Two more hard sub-rules that the spec-completeness audit proved were missing:
+- **Completeness (self-reproducing):** `changes/<X>.md` + the storybook section must let a dev rebuild the component WITHOUT reading the CSS — so every CSS value (all dims, every state + its token, typography incl. line-height, markup, transitions, dark overrides) must appear in the spec. No omissions; no "reuses X — see X.md" for the component's own states (inline them). No `⚠ to define` over a state the CSS already implements.
+- **Intra-file consistency:** a code comment stating a value (`/* scale(.985) */`) must match its rule (`scale(.99)`); fix the comment in the same edit. Storybook demo markup/inline values must equal the CSS.
+
+Before declaring any component change done, run the **verification gate**: `grep` the component's classes across all three surfaces and confirm every CSS value appears identically in the storybook + changes doc; correct any doc value to the CSS (implementation wins — if you think the *intent* differs, surface it per rule 3, don't keep the stale value). Full rule + root-cause analysis: [`claude-code/instructions.md`](claude-code/instructions.md) → "Lockstep — the three spec surfaces move together".
+
 ### 3. Confirm before modifying agreed-and-already-implemented visuals
 
 Pattern that bit us: user agrees on design X, I implement X, user approves, weeks later I read the code and "improve" X to Y based on my own taste. **Don't.** Anything labelled in the comment as "agreed", "locked", or "spec — see #<component>" — or anything documented in `changes/*.md` with a "became" value — is a frozen contract. To change it I must:

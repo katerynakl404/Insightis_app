@@ -13,7 +13,7 @@ Baseline: [`../current/Avatar.md`](../current/Avatar.md).
 
 Source: `kit-theme.css:722–725`. One size only — there are **no size variants** in the CSS; every avatar is 32px.
 
-**Base `.ava`** (shared by all three types) — `display:inline-flex; align-items:center; justify-content:center`; `width:2rem; height:2rem` (32px, `size-8`); `border-radius:9999px` (full circle); `font-size:.75rem` (12px); `font-weight:600`. Add exactly one type modifier below.
+**Base `.ava`** (shared by all three types) — element is an inline `<span class="ava ava-…">`, with the label text (initials / `+N` counter) as its only child; the image type carries an `<img>` child once a source loads. `display:inline-flex; align-items:center; justify-content:center`; `width:2rem; height:2rem` (32px, `size-8`); `border-radius:9999px` (full circle); `font-size:.75rem` (12px); `font-weight:600`. No `line-height` is set — vertical centring is handled by `align-items:center`. No `:hover`/`:focus-visible`/`:active`/`:disabled` states, no transition, no `@media` rule: the avatar is a static, non-interactive element. Add exactly one type modifier below.
 
 | Type | Modifier class | Distinguishing tokens |
 |---|---|---|

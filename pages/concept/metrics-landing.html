@@ -98,7 +98,7 @@
   @media(max-width:767px){.mx-active-toggle{margin-left:0}}
   .mx-c3-toolbar .igrp-add{padding:0 6px 0 10px}
   .mx-c3-toolbar .igrp-add svg{width:15px;height:15px}
-  .mx-c3-toolbar .igrp-input{padding-left:3px}
+  .mx-c3-toolbar .igrp-input{padding-left:4px}
 
   /* Tooltip rendered via JS as position:fixed — no clipping */
   #mx-tip{position:fixed;z-index:9999;background:var(--ink);color:var(--card);font-size:.6875rem;font-weight:500;padding:.25rem .5rem;border-radius:.3125rem;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity .12s;font-family:inherit}
@@ -1566,7 +1566,7 @@
             </div>
           </div>
           <div class="ds-intg-row" style="align-items:flex-end;flex-direction:row;justify-content:flex-end;padding:.75rem .875rem">
-            <button id="mx-conn-s1-btn" type="button" style="background:var(--brand-primary);color:var(--white);border:none;border-radius:.375rem;padding:.4375rem 1rem;font-size:.875rem;font-weight:500;cursor:pointer;line-height:1.25" onclick="mxConnStep1()">Save</button>
+            <button id="mx-conn-s1-btn" type="button" style="background:var(--brand-primary);color:var(--white);border:none;border-radius:.375rem;padding:.5rem 1rem;font-size:.875rem;font-weight:500;cursor:pointer;line-height:1.25" onclick="mxConnStep1()">Save</button>
           </div>
         </div>
       </div>
@@ -1811,8 +1811,13 @@ var MX_PROV_META = {
 };
 
 function mxProvIcon(provKey) {
+  if (!provKey || provKey === '—') return '';
   var m = MX_PROV_META[provKey];
-  if (!m) return '';
+  // Comprehensive fallback: the logo sprite (assets/logos/<slug>.svg) covers every data source
+  // — only jira/azure/github use the simpleicons CDN path via MX_PROV_META. Without this,
+  // every other provider (gitlab, bitbucket, zoho, zohoanalytics, elasticsearch, …) showed no
+  // logo in the detail panel's "Data source" / "Linked to" rows.
+  if (!m) return '<span class="logo-spr ' + provKey + '" style="--logo-size:1.25rem;vertical-align:middle" aria-hidden="true"></span>';
   var fb = 'onerror="var s=this.parentElement;s.style.background=this.dataset.color;s.style.border=\'none\';s.style.color=\'#fff\';s.style.fontSize=\'.5625rem\';s.style.fontWeight=\'700\';s.textContent=this.dataset.fb"';
   return '<span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/' + m.slug + '" alt="" loading="lazy" data-fb="' + m.fb + '" data-color="' + m.color + '" ' + fb + '></span>';
 }

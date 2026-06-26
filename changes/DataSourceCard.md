@@ -2,23 +2,21 @@
 
 Connector-catalog card used on the [Data Sources → Connections](../pages/concept/data-sources_connections-landing.html) page. Storybook section: `#dscard` in [`../insightis-preview-kit.html`](../insightis-preview-kit.html).
 
-> **New component — no prod equivalent.** The Connections catalog did not ship this card on prod; the storybook Current column is **⚠ pending capture** for every state. The Expected column below is the agreed contract, derived from the live mockup CSS/JS in `pages/concept/data-sources_connections-landing.html` (the `.ds-card` rules + `dsCardHtml()` / `dsMarkWrap()` builders). Treat an empty Current cell as "not yet measured", not "did not exist".
+> **New component — no prod equivalent.** The Connections catalog did not ship this card on prod, so the storybook `#dscard` States table has **no Current (prod) column** — only Expected (brand-new components carry no "current state" column). The Expected spec below is the agreed contract, derived from the live mockup CSS/JS in `pages/concept/data-sources_connections-landing.html` (the `.ds-card` rules + `dsCardHtml()` / `dsMarkWrap()` builders).
 
-> **CSS location.** All `.ds-card` / `.ds-conn-row` component CSS lives in `pages/kit-theme.css` (block `/* ===== Data source card (ds-card / ds-conn-row) ===== */`, after the ProviderCard `.prov-*` rules). Only page-composition rules — the grid column counts (`.ds-grid`, `.ds-app.ds-v2/.ds-v3 .ds-grid`), the category bar (`#ds-cats`), and the Connected-section show/hide animation (`.ds-conn-section`, tied to `.ds-app.has-connections` page state) — remain in the page `<style>` block, since they encode page-state layout rather than the component itself.
+> **CSS location.** All `.ds-card` / `.ds-conn-row` component CSS lives in `pages/kit-theme.css` (block `/* ===== Data source card (ds-card / ds-conn-row) ===== */`, after the ProviderCard `.prov-*` rules). Only page-composition rules — the grid column count (`.ds-grid`, `.ds-app.ds-v3 .ds-grid`), the category bar (`#ds-cats`), and the Connected-section show/hide animation (`.ds-conn-section`, tied to `.ds-app.has-connections` page state) — remain in the page `<style>` block, since they encode page-state layout rather than the component itself.
 
 ## Variants
 
-One builder — `dsCardHtml(c)` — emits the same `.ds-card` markup for every variant. The active variant is selected by the class on the **grid container** `.ds-app` (`.ds-v1` horizontal row · `.ds-v2` compact tile · `.ds-v3` large tile), which re-scopes the card's layout. Connected connectors are always excluded from the catalog (they live in the separate Connected list).
+`dsCardHtml(c)` emits the `.ds-card` markup; the page applies `.ds-app.ds-v3` — the **approved catalog layout, and the only variant**. It is a vertical tile (logo on top, name below, centered). Connected connectors are always excluded from the catalog (they live in the separate Connected list).
 
 | Variant | Container class | Layout | Logo size | Tile height | Connect affordance |
 |---|---|---|---|---|---|
-| Style 1 — horizontal row | `.ds-app.ds-v1` (base `.ds-card`) | `flex` row, logo + name + (hover Connect) | `3rem` | auto (`.75rem .875rem` pad) | `.ds-card-hover` is `display:none` at base → no Connect surface in v1 (see note) |
-| Style 2 — compact tile | `.ds-app.ds-v2` | vertical, centered | `2.75rem` | `7.5rem` fixed | hover/tap scrim reveals `.ds-card-connect` |
-| Style 3 — large tile | `.ds-app.ds-v3` | vertical, centered | `3.5rem` | `9.5rem` fixed | hover/tap scrim reveals `.ds-card-connect` |
+| Variant 3 — vertical tile (**approved, only layout**) | `.ds-app.ds-v3` | vertical, centered | `3.5rem` | `9.5rem` fixed | hover/tap scrim reveals `.ds-card-connect` |
 
-> **⚠ Storybook vs. builder divergence (Style 1).** The storybook `#dscard` Style-1 preview shows an always-visible `btn btn-sm btn-tertiary` `+` button on each row, but the live `dsCardHtml()` emits only `.ds-card-hover` (the scrim+Connect block), and base `.ds-card-hover{display:none}` hides it entirely in v1. So as built, v1 rows currently have **no** Connect button. This is an unresolved contract conflict — surface it before relying on either reading; do not silently pick one.
+> **Resolved — Variant 3 is the sole catalog layout.** Earlier iterations explored a "Style 1" horizontal row (`.ds-v1`, never shipped) and a compact "Variant 2" tile (`.ds-v2`). Both — and the topbar layout toggle — are **removed**. The catalog renders only the Variant 3 tile. The bare horizontal `.ds-card` shell remains in CSS as the base the tile extends, but is not a rendered variant.
 
-## Self-reproducing spec — base card (`.ds-card`, Style 1 shell)
+## Self-reproducing spec — base card shell (`.ds-card`, extended by the Variant 3 tile)
 
 | Property | Value / token |
 |---|---|
@@ -38,12 +36,14 @@ One builder — `dsCardHtml(c)` — emits the same `.ds-card` markup for every v
 | Sub-part | Class | Spec |
 |---|---|---|
 | Logo wrapper | `.ds-logo-wrap` | inline span, `position:relative; flex:none; display:inline-flex` (anchors the flame badge) |
-| Connector logo | `.logo-spr.<slug>` | plain sprite, **no container / border / backing**; `--logo-size:3rem` (base/v1). Defined in [`kit-theme.css`](../pages/kit-theme.css) `.logo-spr`. |
+| Connector logo | `.logo-spr.<slug>` | plain sprite, **no container / border / backing**; `--logo-size:3rem` (base shell; the Variant 3 tile overrides to `3.5rem`). Defined in [`kit-theme.css`](../pages/kit-theme.css) `.logo-spr`. |
 | Body | `.ds-card-body` | `flex:1; min-width:0; display:flex; flex-direction:column; gap:.125rem` |
 | Head row | `.ds-card-head` | `display:flex; align-items:center; gap:.375rem; min-width:0` |
-| Name | `.ds-card-name` | `font-size:.875rem` (14px) · `line-height:1.25rem` (20px) · `font-weight:400` · `color:var(--ink)`. Maps to Typography **text-sm** — see [`../current/typography.md`](../current/typography.md). Name only — no category, no description. |
+| Name | `.ds-card-name` | `font-size:.875rem` (14px) · `line-height:1.25rem` (20px) · `font-weight:400` (regular — **not** 600) · `color:var(--ink)`. Maps to Typography **text-sm** — see [`../current/typography.md`](../current/typography.md). Name only — no category, no description. |
 
-## Hover — elevation lift (LOCKED recipe, all variants)
+> **Weight is `400`, not `600` (shipped CSS wins).** `.ds-card-name{font-weight:400}` in `kit-theme.css` (line ~2019) — no per-variant override, so the Variant 3 tile name is `400`. The storybook `#dscard` demos historically inlined `font-weight:600` on every name span; that is a storybook-only divergence, corrected to `400` to match the live rule.
+
+## Hover — elevation lift (LOCKED recipe)
 
 `.ds-card:hover`:
 
@@ -55,30 +55,30 @@ One builder — `dsCardHtml(c)` — emits the same `.ds-card` markup for every v
 
 This is the **lift-family** hover (deeper shadow + lift + 22% brand-tinted border over `--border`), shared with [`.prov-card` / `.hov-card`](ProviderCard.md). It is **not** the flat card-row hover (`--state-hover` bg + 25% tint over transparent) used by `.chat-row` / `.ds-conn-row`. Catalog tiles lift; list rows tint. Do not swap one for the other.
 
-## Style 2 / Style 3 — tile overrides
+## Variant 3 — tile overrides
 
-Scoped under `.ds-app.ds-v2 .ds-card` (and `.ds-v3`). Base shell otherwise inherited.
+Scoped under `.ds-app.ds-v3 .ds-card`. Base shell otherwise inherited.
 
-| Property | Style 2 (`.ds-v2`) | Style 3 (`.ds-v3`) |
-|---|---|---|
-| `flex-direction` | `column` | `column` |
-| `align-items` / `justify-content` | `center` / `center` | `center` / `center` |
-| `text-align` | `center` | `center` |
-| `gap` | `.5rem` | `.5rem` |
-| `padding` | `.875rem .75rem` | `1.25rem 1rem` |
-| `height` | `7.5rem` (fixed) | `9.5rem` (fixed) |
-| logo `--logo-size` | `2.75rem` | `3.5rem` |
-| `.ds-card-name` | `.875rem`/`1.25rem`, 2-line clamp | `1rem`/`1.5rem`, 2-line clamp |
-| `.ds-card-body` | `flex:0 0 auto; align-items:center` | `flex:0 0 auto; align-items:center` |
-| `.ds-card-head` | `justify-content:center` | `justify-content:center` |
+| Property | Variant 3 (`.ds-v3`) |
+|---|---|
+| `flex-direction` | `column` |
+| `align-items` / `justify-content` | `center` / `center` |
+| `text-align` | `center` |
+| `gap` | `.5rem` |
+| `padding` | `1.25rem 1rem` |
+| `height` | `9.5rem` (fixed) |
+| logo `--logo-size` | `3.5rem` |
+| `.ds-card-name` | `1rem`/`1.5rem`, 2-line clamp |
+| `.ds-card-body` | `flex:0 0 auto; align-items:center` |
+| `.ds-card-head` | `justify-content:center` |
 
-Name clamp (both tiles): `display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden` — long names cap at 2 lines without growing the fixed-height tile.
+Name clamp: `display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden` — long names cap at 2 lines without growing the fixed-height tile.
 
-Grid container (set on `.ds-grid`, not the card): v2 `grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr)); gap:.5rem` · v3 `repeat(auto-fill,minmax(max(10rem,(100% - 5 * .75rem)/6),1fr)); gap:.75rem` (caps at 6/row).
+Grid container (set on `.ds-grid`, not the card): `repeat(auto-fill,minmax(max(10rem,(100% - 5 * .75rem)/6),1fr)); gap:.75rem` (caps at 6/row).
 
 ## Hover scrim + Connect reveal (tile variants only)
 
-Base `.ds-card-hover{display:none}`. In v2/v3 it becomes a full-cover scrim:
+Base `.ds-card-hover{display:none}`. In the Variant 3 tile it becomes a full-cover scrim:
 
 | Element | Property | Value / token |
 |---|---|---|
@@ -114,7 +114,6 @@ Stated as component + variant only; not re-documented here.
 
 - **Connector logo** — `.logo-spr.<slug>` sprite, plain (no container). Spec in [`../pages/kit-theme.css`](../pages/kit-theme.css). Size set per-variant via `--logo-size`.
 - **Connect button (tile scrim)** — `btn btn-sm btn-secondary` + `.ds-card-connect` modifier (slide-up reveal). Button base/variants → [`Button.md`](Button.md).
-- **Connect button (Style 1, per storybook preview)** — `btn btn-sm btn-tertiary`, icon-only `+`, `aria-label="Connect"`. See the divergence note above — not emitted by the current builder.
 
 ## No change (—)
 
@@ -132,5 +131,4 @@ n/a — new component. Shares the lift hover with [`ProviderCard.md`](ProviderCa
 - **Popular not by colour alone** — "Popular" is conveyed by the badge **shape/icon** plus `aria-label="Popular"` (and `data-tip` on the sparkle variant), not colour alone — passes WCAG 1.4.1. ✓
 - **Name contrast** — `--ink` on `--card` meets AA. ✓
 - **Token discipline — flame badge tokenised.** `FLAME_BADGE` now fills with `var(--popular-flame)` (semantic token → `--red-500` primitive) instead of raw `#ef4444`; colour flows through all three token layers per the colour-token discipline rule. ✓
-- **⚠ Style-1 Connect affordance** — as built, v1 rows expose no Connect surface (`.ds-card-hover` hidden, no tertiary button emitted). Resolve against the storybook preview. ✗
 - **Dead popular marker removed** — `.ds-popular` CSS rule + `STAR_SVG` JS var (both unreferenced) deleted per the cascading-delete rule; the flame badge is the sole popular marker. ✓

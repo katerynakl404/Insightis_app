@@ -30,7 +30,7 @@ Source: `@insightis/ui` `Sheet/index.tsx`. Baseline: [`../current/Sheet.md`](../
 
 **Prod `SheetContent` (Tailwind, React source):** panel `gap-4` = **16px** internal gap · `p-6` = **24px** padding all sides · `shadow-lg` · transitions **500ms open / 300ms close**, `ease-in-out`. Overlay scrim **Expected `--overlay-scrim`** (`rgba(15,23,42,.45)` light / `rgba(2,6,23,.6)` dark — unified with all overlays; prod was `bg-black/80` / 80% black), full-screen `fixed inset-0`, `z-50`, `fade-in-0` / `fade-out-0`. Side width: left/right `w-3/4` (**75% viewport**) capped at `sm:max-w-sm` (**384px**); top/bottom span `inset-x-0` (full width), auto height. Title `text-lg` (**18px / 600**); description `text-sm` (**14px**).
 
-**Kit-demo `.sht` (storybook, `pages/kit-theme.css:1638–1648`)** — a miniature illustrative box, *not* the prod dimensions:
+**Kit-demo `.sht` (storybook, `pages/kit-theme.css:1646–1656`)** — a miniature illustrative box, *not* the prod dimensions:
 
 | Element | Selector | Dimensions / padding | Other |
 |---|---|---|---|
@@ -44,7 +44,7 @@ Source: `@insightis/ui` `Sheet/index.tsx`. Baseline: [`../current/Sheet.md`](../
 | Description | `.sht .sht-d` | font **.75rem** | colour `--ink-secondary` |
 | Close button | `.sht .sht-x` | **24×24px**, positioned `top:6px; right:6px` · **reuses IconButton tertiary** (see Close-button row above) | inner `svg` **14×14px** |
 
-(⚠ The legacy `.prod .sht .sht-x` rule at `kit-theme.css:412` declares a **20×20px** bespoke close button with `opacity:.7` / `border-radius:2px` — superseded by the 24×24 IconButton-tertiary version at line 1644; the prod-scope rule still lingers.)
+(⚠ The legacy `.prod .sht .sht-x` rule at `kit-theme.css:415` declares a **20×20px** bespoke close button — `display:inline-flex` / `align-items:center` / `justify-content:center`, `border:none`, `background:transparent`, `color:var(--ink)`, `opacity:.7`, `cursor:pointer`, `border-radius:2px`, positioned `top:8px; right:8px`, with `:hover{opacity:1}` (line 416) — superseded by the 24×24 IconButton-tertiary version at line 1652; the prod-scope rule still lingers.)
 
 ## ⚠ Best-practice states — to define
 - **Surface harmonization** — settle Sheet vs Popover vs Modal on either `bg-card` or `bg-background`, not both.

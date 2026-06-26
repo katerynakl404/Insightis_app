@@ -44,9 +44,15 @@ These are locked decisions. Do not change without explicit approval.
 
 ## Catalog cards
 
+**Approved layout: vertical tile (`.ds-app.ds-v3`).** The card-layout exploration is resolved — **Variant 3 is approved** and is the only catalog layout. Variant 1 (horizontal row) and Variant 2 (compact ~7.5rem tile) and the topbar layout toggle are removed.
+
 | | Prod (Current) | Expected |
 |---|---|---|
-| Card layout | C1 horizontal + C2 variant | C1 horizontal only — `.ds-card2` variant removed |
+| Card layout | C1 horizontal + C2 variant + layout toggle | **Variant 3 only** — vertical tile, no toggle |
+| Tile | — | Vertical: logo on top (`3.5rem`), name below (2-line clamp, centred), fixed `9.5rem` height |
+| Columns | — | Capped at **6 per row** (`auto-fill` + `max(10rem, (100% − 5·gap)/6)`), reflows down when narrower |
+| Connect | — | Revealed over a translucent scrim on **hover** (desktop) / **tap** (touch, `.is-active`); tap scrim or another tile to collapse |
+| Logo | bordered container | Plain sprite logo, no container (`.logo-spr`) |
 | Category text on card | Present (`.ds-card-cat`) | Removed — `.ds-card-cat` element and class gone |
 
 ## My Connections table
@@ -86,18 +92,16 @@ Fields shown:
 | Tooltip (disabled metric/action) | "Connect a provider first" | "Connect a data source first" |
 | Banner CTA label | "Browse the Providers Catalog" | "Browse the Catalog" |
 
-## Hard requirements — catalog card `+` button (DO NOT REGRESS)
+## Hard requirements — catalog tile `+` Connect button (DO NOT REGRESS)
 
-The connect action button on **Card Style 1** (`dsCardHtml`) must use the standard secondary button from the design system.
+The connect action on the **Variant 3 catalog tile** (`dsCardHtml`) must use the standard secondary button from the design system, revealed by the hover/tap scrim.
 
 | Rule | Detail |
 |---|---|
-| **Correct class** | `btn btn-sm btn-secondary` — the standard kit secondary button. |
-| **Forbidden class** | `iconbtn iconbtn-secondary` — that is the icon-only square variant, visually wrong for this context. |
-| **Always visible** | The button must be visible in the card's default (rest) state. Never use `opacity:0` or hover-reveal patterns on it. |
-| **Markup location** | Built in `dsCardHtml()` in the page `<script>` block — in the `ds-card-act` container. |
-
-This was corrected on 2026-06-18 after being flagged multiple times. Do not revert to `iconbtn`.
+| **Correct class** | `btn btn-sm btn-secondary` (+ `.ds-card-connect`) — the standard kit secondary button. |
+| **Forbidden class** | `iconbtn iconbtn-secondary` — the icon-only square variant, visually wrong here. Flagged repeatedly, fixed 2026-06-18 — do not revert to `iconbtn`. |
+| **Reveal (approved)** | Revealed over a translucent scrim (`.ds-card-hover`) on **hover** (desktop) / **tap** (touch, `.is-active`) — the approved Variant 3 behaviour. **Not** shown in the rest state. |
+| **Markup location** | Built in `dsCardHtml()` (page `<script>`), inside the `.ds-card-hover` block. |
 
 ## Mobile layout — My Connections table (≤ 767 px)
 

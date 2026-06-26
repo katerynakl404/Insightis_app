@@ -5,7 +5,7 @@ Source: `@insightis/ui` `Card/index.tsx` + sub-parts. Baseline: [`../current/Car
 ## Outline (default)
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
-| Default | border `border` (`#F1F5F9` light / `#2A2834` dark), shadow-sm, text `content-body` | — | — no change (hex shift only → [colors](colors.md)) | `.card-c`: width `220px`, `display:flex; flex-direction:column`, gap `12px`, padding `16px`, radius `8px`, border `1px solid var(--border)`, bg `var(--card)`, text `var(--ink-body)`, `transition: border .3s, box-shadow .3s`, rest ghost shadow (`--shadow-rest`) |
+| Default | border `border` (`#F1F5F9` light / `#2A2834` dark), shadow-sm, text `content-body` | — | — no change (hex shift only → [colors](colors.md)) | `.card-c`: width `220px`, `display:flex; flex-direction:column`, gap `12px`, padding `16px`, radius `8px`, border `1px solid var(--border)`, bg `var(--card)`, text `var(--ink-body)`, `transition: border .3s, box-shadow .3s`. **No box-shadow on any state** (`.card-c` is a flat bordered surface — neither rest, hover, nor pressed sets a `box-shadow`; the `box-shadow` listed in the transition is unused). |
 | Hover | border `primary` (`#07827F`) | — | border `var(--card-border-hover)` = `color-mix(in srgb, var(--brand-primary) 25%, transparent)` | `.card-c:hover, .card-c.s-hover` — soft brand-tinted alpha border (Chats Library hover recipe), not solid `--brand-primary`. Distinct from `--border-hover` (form-only) |
 | Focus | ⚠ none defined | ⚠ state needed — to define | ⚠ state needed — to define | focusable card should expose `--focus-ring-brand` 2px on `:focus-visible` |
 | Pressed *(new)* | ⚠ none defined | bg `color-mix(in srgb, Brand/Primary 4%, transparent)`, border `Brand/Primary` (40% mix), text `Text/Body` | bg `color-mix(in srgb, var(--brand-primary) 4%, transparent)`, border `var(--card-border-press)` = `color-mix(in srgb, var(--brand-primary) 40%, transparent)` | `.card-c.s-pressed, .card-c:active` — one step deeper than hover: brand-tinted bg (4%) + 40% brand border. Bg-only feedback, no inset shadow |
@@ -37,8 +37,21 @@ The prod `Card` exposes a `radius` prop; each option maps to a fixed `border-rad
 
 | Variant | Selector | Rest (full spec) |
 |---|---|---|
-| **Outline** (default) | `.card-c` | `display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--ink-body); transition:border .3s, box-shadow .3s; width:220px`; rest ghost shadow `--shadow-rest`. Hover → `border-color:var(--card-border-hover)` (25% brand mix). Pressed → `border-color:var(--card-border-press)` (40% brand mix) + `background:color-mix(in srgb, var(--brand-primary) 4%, transparent)`. |
+| **Outline** (default) | `.card-c` | `display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--ink-body); transition:border .3s, box-shadow .3s; width:220px`; **no box-shadow on any state**. Hover (`.card-c:hover, .card-c.s-hover`) → `border-color:var(--card-border-hover)` (25% brand mix), bg unchanged. Pressed (`.card-c:active, .card-c.s-pressed`) → `border-color:var(--card-border-press)` (40% brand mix) + `background:color-mix(in srgb, var(--brand-primary) 4%, transparent)`. |
 | **Secondary** | `.card-c.var-secondary` | Same box model as Outline; `background:var(--card); border:1px solid var(--border)`. Hover (`.var-secondary.s-hover`) → `background:var(--state-hover)` + `color:var(--ink-secondary)`. No own pressed/focus/disabled (see ⚠ gaps in tables above). |
+
+## Sub-part typography & layout (exact CSS — for standalone reproduction)
+
+These descendant rules are unchanged from prod (token-hex shifts only) but are required to rebuild the card:
+
+| Sub-part | Selector | Full spec |
+|---|---|---|
+| Title | `.card-c .c-title` | `font-size:1rem; font-weight:600; color:var(--ink); letter-spacing:-.01em` |
+| Description | `.card-c .c-desc` | `font-size:.875rem; color:var(--ink-secondary)` |
+| Body | `.card-c .c-body` | `font-size:.875rem; color:var(--ink-body)` |
+| Footer | `.card-c .c-foot` | `display:flex; align-items:center; gap:8px` |
+
+> No explicit `line-height` is set on any sub-part — each inherits the document/page default. DOM order inside `.card-c` is free; the demo uses `.c-title` → `.c-desc` → `.c-body` (with optional `.c-foot`), separated by the parent's `gap:12px` (no per-element margins). No icon SVG rule is scoped to the card.
 
 ## No change (—)
 Sub-parts (Header / Title / Description / Content / Footer), spacing scale, radius set, animation duration.

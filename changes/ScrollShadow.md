@@ -12,17 +12,19 @@ Source: `@insightis/ui` `ScrollShadow/index.tsx` + `hooks/use-scroll-shadow`. Ba
 | Default `orientation` | `vertical` | — no change |
 | Default `visibility` | `auto` | — no change |
 
-## Kit-demo dimensions (`.ssh`, kit-theme.css ~1619)
+## Kit-demo dimensions (`.ssh`, kit-theme.css ~1627)
 
 Prod is **headless** (behavior wrapper; the only token it touches is `var(--background)`). The kit ships a styled demo so reviewers see the fade in context — these are demo values, not a prod contract:
 
 | Element | Selector | Exact size / padding / radius |
 |---|---|---|
-| Shell | `.ssh` | width **220px**; height **96px**; border **1px** `var(--border)`; radius **6px**; bg `var(--card)`; `overflow:hidden` (line 1619) |
-| Scroll inner | `.ssh-inner` | padding **8px 12px**; font-size **.875rem (14px)**; line-height **1.5**; `overflow-y:auto`; height 100% (line 1620) |
-| Fade band (top & bottom) | `.ssh::before` / `::after` | **height 24px**; full width; `pointer-events:none`; `z-index:1` (line 1621) |
-| Top gradient | `.ssh::before` | `linear-gradient(180deg, var(--bg) 0%, transparent 100%)` (line 1622) |
-| Bottom gradient | `.ssh::after` | `linear-gradient(0deg, var(--bg) 0%, transparent 100%)` (line 1623) |
+| Shell | `.ssh` | width **220px**; height **96px**; border **1px solid** `var(--border)`; radius **6px**; bg `var(--card)`; `position:relative`; `overflow:hidden` (line 1627) |
+| Scroll inner | `.ssh-inner` | padding **8px 12px**; font-size **.875rem (14px)**; line-height **1.5**; color `var(--ink-body)`; `overflow-y:auto`; height **100%** (line 1628) |
+| Fade band (top & bottom) | `.ssh::before` / `::after` | `content:""`; `position:absolute`; `left:0`; `right:0`; **height 24px**; `pointer-events:none`; `z-index:1` (line 1629) |
+| Top gradient | `.ssh::before` | `top:0`; `background:linear-gradient(180deg, var(--bg) 0%, transparent 100%)` (line 1630) |
+| Bottom gradient | `.ssh::after` | `bottom:0`; `background:linear-gradient(0deg, var(--bg) 0%, transparent 100%)` (line 1631) |
+
+**DOM/markup:** `<div class="ssh"><div class="ssh-inner">…scrollable content…</div></div>`. The shell (`.ssh`) is the positioning context (`position:relative`) and clips overflow; the two fade bands are generated pseudo-elements on `.ssh` (no markup), absolutely positioned and stacked above the inner content via `z-index:1`. No icons/SVG.
 
 > ⚠ The fade-band height in the **kit demo is 24px**, whereas the React component's **default `size` prop is 40px** (table above). Both are valid — the demo just renders a shorter band — but a dev reproducing from the demo gets 24px, from the prop default gets 40px. Stated explicitly so the two aren't conflated.
 >

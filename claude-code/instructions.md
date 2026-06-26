@@ -132,16 +132,45 @@ Run this 3-step check **before** editing a kit selector, token value, or storybo
 
 The temptation is to spot a subtle inconsistency ("this hover overlay is too strong / the spec text contradicts the demo") and "fix" it inline. Don't. Subtle visual values (hover %, shadow depth, transition curve) carry **intent** that can't be reverse-engineered. The 5-second cost of asking is cheap; an unannounced visual revert is expensive.
 
-### When a kit change IS approved, propagate it everywhere in the same pass
+### Lockstep — the three spec surfaces move together, atomically (hard rule, blocks merge)
 
-A kit-level change is incomplete until **all four** of these are updated in the same commit:
+A component is ONE contract spread across three surfaces that must ALWAYS agree, value-for-value:
 
-1. **CSS** — the rule in `pages/kit-theme.css`.
-2. **Storybook** — the `#<component>` section in `insightis-preview-kit.html`. Both the Preview cells (Current vs Expected) AND the States table. Inline demo styles in storybook cells **must match** the live CSS rule — a contradiction is a bug.
-3. **Changes doc** — the matching row in `changes/<Component>.md`. Update the "became" column, the token-map list, and the accessibility self-check section.
-4. **Pages** — `grep` every page (`pages/*.html`) for the selector or markup pattern; update each instance if the markup contract changed (added attributes, new wrapper, new menu items).
+1. **`pages/kit-theme.css`** — the implementation (the **ground truth** for every value).
+2. **`insightis-preview-kit.html` `#<component>`** — the visual spec: Preview cells (Current vs Expected) + States table + the `<div class="sub">` dimensions line + demo markup/inline styles.
+3. **`changes/<Component>.md`** — the written spec: Expected / Specification columns + token map + a11y self-check.
+
+(Plus a 4th consumer: **Pages** — `grep pages/*.html` for the selector/markup and update each instance if the markup contract changed.)
+
+**This rule applies to EVERY edit — not only "approved redesigns."** A one-line value tweak, a renamed token, a new state, a fixed comment — all trigger the lockstep. You may not leave a value, state, variant, dimension, token, or comment correct in one surface and missing/stale in another.
+
+**(a) Completeness contract (self-reproducing spec).** `changes/<X>.md` + the storybook section must let a developer rebuild the component from those two alone, WITHOUT reading the CSS. So every value the CSS rule carries must appear in the spec: all dimensions (height / padding / radius / gap / border-width), every interaction state (rest / hover / focus-visible / active / disabled / selected / error) with its exact token, typography (size / weight / line-height), DOM / markup structure (element types, required classes, icon SVG), transitions, and dark-mode overrides. "Reuses X — see X.md" for the component's **own** states is NOT allowed — inline the values; cross-reference only for genuinely external sub-components.
+
+**(b) Intra-file consistency.** A code comment that states a value (e.g. `/* press is scale(.985) */`) MUST match the rule it annotates (`transform:scale(.99)`). Change a value → update its comment in the same edit. A comment that disagrees with its rule is a bug. (This is exactly the ChatRow `.985`↔`.99` drift.)
+
+**(c) No "to define" over implemented states.** A spec row may say `⚠ to define` ONLY if the CSS genuinely has no rule for that state. If the CSS implements it, document the shipped values — never leave a placeholder over a live state. (This is the Dropdown-disabled drift.)
+
+**(d) No drifting demo values.** Storybook demo markup and inline styles (weights, sizes, colours) must equal the CSS/spec values. A demo rendering `font-weight:600` while the spec says `400` is a bug — fix the demo to the CSS truth. (This is the DataSourceCard drift.)
+
+**(e) Verification gate — run before declaring the change done:**
+```
+grep -n "<class>"        pages/kit-theme.css
+grep -n "<component>"    insightis-preview-kit.html
+cat changes/<Component>.md
+```
+Every value present in the CSS must appear, identical, in the storybook + changes doc. If a doc value disagrees with the CSS, correct it **to the CSS** (implementation is ground truth). If you believe the *intent* differs from what shipped, do NOT silently keep the stale doc value — surface it per the "Don't decide without confirmation" rule below and ask.
 
 Partial propagation is the source of every drift bug. Half-done changes ship lies.
+
+### Why the drift happened (root cause — recorded so it isn't repeated)
+
+The spec-completeness audit (`changes/spec-completeness-audit.md`) found **36/48** components only partially reproducible (2 not at all). Causes, each closed by a rule above:
+- Edits landed on ONE surface without the other two — the old propagation rule read as optional / "approved changes only". → fixed by the **lockstep applies to every edit** framing.
+- Specs were written PARTIAL from the start (no line-height / transition / focus / exact dims) and omissions passed unchecked. → **(a) completeness contract** + **(e) verification gate**.
+- A value changed in CSS but its comment/doc kept the old number (ChatRow `.985`/`.99`). → **(b) intra-file consistency**.
+- Storybook demos hardcoded values that drifted (DataSourceCard `600` vs `400`). → **(d) no drifting demo values**.
+- "To define" placeholders sat over states the CSS already implemented (Dropdown disabled). → **(c) no "to define" over implemented states**.
+- Composites leaned on "reuses X" instead of inlining their own state values. → **(a) self-reproducing**, cross-ref only for external sub-components.
 
 ### Tokenise anything that repeats
 

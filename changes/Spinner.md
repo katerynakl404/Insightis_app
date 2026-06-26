@@ -10,6 +10,7 @@ Two distinct things in the kit carry the "spinner" name — document both:
 
 1. **Standalone `.spin` SVG** — the catalogue spinner (storybook `#spinner` preview).
 2. **`.spinner` inline loader** — a CSS border-ring used inside buttons (`.btn .spinner`, `.iconbtn .spinner`) and file-upload rows (`.file .file-r .spinner`).
+3. **`.sbx-spinner` sidebar chat-status loader** — a smaller CSS border-ring shown in the sidebar chat-row status slot (`.sbx-chat-status.is-loading .sbx-spinner`).
 
 ## 1 · Standalone spinner — `.spin` SVG (storybook `#spinner`, lines 1062 / 1066)
 
@@ -45,7 +46,20 @@ The `.spin` class itself carries **only** the rotation animation; size, stroke, 
 | Border | **2px solid `currentColor`**, `border-right-color:transparent` |
 | Animation | `btn-spin .7s linear infinite` |
 
-No padding on either loader ring — they are sized by `width`/`height` and inherit colour via `currentColor`.
+**Sidebar chat-status variant** (`pages/kit-theme.css:1269`, shown when the status slot carries `.is-loading`):
+
+| Property | Value |
+|---|---|
+| Size | **10×10px** |
+| Radius | **9999px** |
+| Border | **1.5px solid `currentColor`**, `border-right-color:transparent` |
+| Display | `inline-block` |
+| Animation | `btn-spin .7s linear infinite` |
+| Colour context | inherits `currentColor` from `.sbx-chat-status` (`color:var(--brand-primary)`, `pages/kit-theme.css:1267`) |
+
+Markup: `<span class="sbx-chat-status is-loading"><span class="sbx-spinner"></span></span>`. The thinner 1.5px border (vs 2px on the button/file rings) keeps the smaller 10px ring legible.
+
+No padding on any of the three loader rings — they are sized by `width`/`height` and inherit colour via `currentColor`.
 
 ## A11y
 
@@ -53,4 +67,4 @@ No padding on either loader ring — they are sized by `width`/`height` and inhe
 
 ## No change (—)
 
-Sizes (24px standalone, .85em button, 14px file-row), 2px / 2.5px strokes, full radius, `currentColor` / `--brand-primary` colours, `spin 1s` / `btn-spin .7s` linear-infinite animations. Only brand hex shifts → [colors](colors.md).
+Sizes (24px standalone, .85em button, 14px file-row, 10px sidebar status), 1.5px / 2px / 2.5px strokes, full radius, `currentColor` / `--brand-primary` colours, `spin 1s` / `btn-spin .7s` linear-infinite animations. Only brand hex shifts → [colors](colors.md).

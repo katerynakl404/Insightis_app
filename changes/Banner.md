@@ -47,8 +47,19 @@ Source: `kit-theme.css:804–848`. The base `.banner` is the default information
 
 | Breakpoint | Layout change | Specification |
 |---|---|---|
-| **≤ 880 px** | `flex-direction: column; align-items: flex-start; gap: .875rem; padding: 1.25rem`; icon tightens to `2.75rem / .625rem` radius / `22px` SVG; CTA fills `100%` width (with `max-width: 12rem` so it doesn't span edge-to-edge on landscape phone) | 880 px is the sidebar-hides threshold — below it the banner row gets cramped, so stacking feels natural |
-| **≤ 600 px** | Padding further tightens to `1rem`; CTA `max-width` removed — full-width CTA is appropriate at phone width | Single-column phone layout; 600 px = kit `sm` boundary |
+| **≤ 880 px** | `flex-direction: column; align-items: flex-start; gap: .875rem; padding: 1.25rem`; icon tightens to `2.75rem / .625rem` radius / `22px` SVG; `.banner-cta` → `width:100%; display:flex`; its `.btn` → `flex:1; justify-content:center; max-width:12rem` (so the CTA grows to fill the row but doesn't span edge-to-edge on landscape phone) | 880 px is the sidebar-hides threshold — below it the banner row gets cramped, so stacking feels natural |
+| **≤ 600 px** | `.banner` padding further tightens to `1rem`; `.banner-cta .btn` `max-width:none` — full-width CTA is appropriate at phone width | Single-column phone layout; 600 px = kit `sm` boundary |
+
+## Dismiss / collapse animation
+
+Source: `kit-theme.css:836–837`. Wrap a `.banner` in a `.banner-wrap` element to make it collapsible; toggle `.is-dismissed` on the wrapper (via JS) to animate it out. The wrapper, not the banner, carries the animation.
+
+| Part | Class | Spec |
+|---|---|---|
+| Wrapper (open) | `.banner-wrap` | `overflow:hidden; max-height:11rem; opacity:1; transition:max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease, margin .35s ease` |
+| Wrapper (dismissed) | `.banner-wrap.is-dismissed` | `max-height:0; opacity:0; pointer-events:none; margin-bottom:0` |
+
+> The wrapper collapses height + fades + zeroes its bottom margin in one transition. `max-height:11rem` is the open ceiling — tall enough for a standard banner row; very tall banners would clip, so keep content within ~176px. Dismiss is JS-driven (add `.is-dismissed`); there is no CSS-only trigger.
 
 ## Token map
 

@@ -74,7 +74,7 @@
   .cl-dropdown:hover{background:var(--state-hover)}
   /* Open/pressed wins over hover — an expanded trigger keeps its pressed surface while hovered. */
   .cl-dropdown:active,.cl-dropdown[aria-expanded="true"],.cl-dropdown[aria-expanded="true"]:hover{background:var(--state-pressed)}
-  .cl-dropdown:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+  .cl-dropdown:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .cl-dropdown .cl-dropdown-icon{width:16px;height:16px;color:var(--ink-body)}
   .cl-dropdown .cl-ic-chev{width:14px;height:14px;color:var(--ink-secondary);transition:transform .15s}
   .cl-dropdown[aria-expanded="true"] .cl-ic-chev{transform:rotate(180deg)}
@@ -134,7 +134,7 @@
     /* Hamburger replaces the sidebar's in-flow trigger as the open affordance */
     .cl-burger{display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer}
     .cl-burger:hover{background:var(--state-hover)}
-    .cl-burger:focus-visible{outline:none;box-shadow:var(--shadow-focus-brand)}
+    .cl-burger:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
     /* Backdrop dimmer — sits below the sidebar but above main column + topbar so the
        whole page reads as inactive while overlay is open. Clicking it closes. */
     .cl-side-backdrop{display:block;position:fixed;inset:0;background:var(--overlay-scrim);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:55;opacity:0;pointer-events:none;transition:opacity .2s ease}

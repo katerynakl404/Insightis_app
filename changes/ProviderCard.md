@@ -28,7 +28,7 @@ This card uses the repo's **locked card-hover recipe** (shared lift family with 
 |---|---|
 | **Rest** | bg `var(--card)`, border `var(--border)`, shadow `var(--shadow-rest)` |
 | **Hover** | `box-shadow: var(--shadow-lift-hover)` (`0 6px 16px -3px rgba(15,23,42,.09), 0 2px 4px -1px rgba(15,23,42,.05)`); `border-color: var(--card-lift-border)` (`color-mix(in srgb, var(--brand-primary) 22%, var(--border))`); `transform: translateY(-2px)`; `will-change: transform` |
-| **Focus** | `outline: none; box-shadow: var(--shadow-focus-brand)` (2px card gap + 2px `--focus-ring-brand` halo) |
+| **Focus** | `outline: none; box-shadow: var(--shadow-focus)` (2px card gap + 2px `--focus-ring` halo) |
 
 > Note: the lift family uses `--card-lift-border` (22% brand tint **over** `--border`), distinct from the flat-row family's `--card-border-hover` (25% over transparent). The provider card lifts `translateY(-2px)`; `.hov-card` lifts `-1px`. Both share `--shadow-lift-hover`. Do not substitute `border-color: var(--border-hover)` — that token is reserved for form inputs.
 
@@ -135,7 +135,7 @@ Ghost-dashed "explore more" card. Differences from the default card:
 | `--state-hover` | hover surface | Semantic |
 | `--shadow-rest` | `0 1px 2px 0 rgba(15,23,42,.03)` | Component (shadow scale) |
 | `--shadow-lift-hover` | `0 6px 16px -3px rgba(15,23,42,.09),0 2px 4px -1px rgba(15,23,42,.05)` | Component (shadow scale) |
-| `--shadow-focus-brand` | `0 0 0 2px var(--card),0 0 0 4px var(--focus-ring-brand)` | Component |
+| `--shadow-focus` | `0 0 0 2px var(--card),0 0 0 4px var(--focus-ring)` | Component |
 | `--card-lift-border` | `color-mix(in srgb, var(--brand-primary) 22%, var(--border))` | Component-scoped |
 | `--icon-wrapper-bg` | `color-mix(in srgb, var(--brand-primary) 5%, var(--bg))` | Component-scoped (**LOCKED**, shared w/ `.mx-prov-ic`) |
 
@@ -144,7 +144,7 @@ Ghost-dashed "explore more" card. Differences from the default card:
 ## Accessibility / consistency self-check
 
 - **Hover recipe matches the locked card family** (`.hov-card`, `.ds-card`, `.chat-row`): rest ghost shadow `--shadow-rest`, hover `--shadow-lift-hover` + `--card-lift-border` + `translateY(-2px)`. Not the reserved form-input `--border-hover`. ✔
-- **Focus** uses the canonical `--shadow-focus-brand` 2px halo — identical to every other interactive element in the kit. The default card is focusable; the browse variant is `cursor:pointer` and inherits the same focus treatment via `.prov-card:focus-visible`. ✔
+- **Focus** uses the canonical `--shadow-focus` 2px halo — identical to every other interactive element in the kit. The default card is focusable; the browse variant is `cursor:pointer` and inherits the same focus treatment via `.prov-card:focus-visible`. ✔
 - **Colour-token discipline**: every surface/border/text colour flows through a token; the only raw values are the deliberate `.is-azure` brand fill (`#0078D4`) and the dashed-border `color-mix` strengths (35/45/55% over `--ink-secondary`). Repeated overlay strengths in the lift family are tokenised via `--card-lift-border` / `--icon-wrapper-bg`. ✔
 - **Status colour ≠ sole signal**: the dot colour is paired with `.prov-card-status-text` ("Not connected" / "Connected") — status is conveyed textually, not by hue alone. ✔
 - **Truncation**: `.prov-card-name` ellipsis-truncates; ensure a `title` attribute is added at point-of-use so the full provider name stays available to AT. ⚠ point-of-use

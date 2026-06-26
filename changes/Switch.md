@@ -14,6 +14,33 @@ This iteration **fills** the off-track with a medium-grey (Slate-300 light / Gre
 | **Hit target** | 36 × 20 px (visual + hit area) — fails WCAG 2.5.8 (24 × 24) on the short axis | — | 36 × 20 px visual, **44 × 44 px invisible hit area** via `.swt::before { content:""; position:absolute; inset:-12px -4px; border-radius:inherit }` — sits above the thumb (`::after`) and the track without altering layout | Closes the WCAG 2.5.5 (AAA 44 × 44) and 2.5.8 (AA 24 × 24) gap on the short axis. Visual size unchanged. |
 | **Size: small (is-sm)** | — (did not exist) | — | track `1.75rem × 1rem` (28 × 16 px), thumb `0.75rem × 0.75rem` (12 × 12 px); same border-radius, same transitions, same colour tokens as standard size | Compact variant for dense form rows or settings lists |
 
+## DOM / markup (reproduce the element from this alone)
+
+A switch is a single `<button>` — no wrapper, no `<input>`. The thumb and the hit-target are pseudo-elements, so the element has **no children**.
+
+```html
+<button class="swt" type="button" role="switch" aria-checked="false" aria-label="…"></button>   <!-- off -->
+<button class="swt on" type="button" role="switch" aria-checked="true"  aria-label="…"></button>  <!-- on  -->
+```
+
+- `.on` toggles the on-position (track colour + thumb travel). Keep `aria-checked` in sync with the `.on` class.
+- Add `.is-sm` for the small variant; add `disabled` (or the demo class `.s-disabled`) to disable. `.s-hover` / `.s-focus` are storybook-only demo classes mirroring `:hover` / `:focus-visible`.
+- No icon SVG — the thumb is the CSS `::after` pill; there is no glyph inside the track.
+
+Base box-model on `.swt` (all literal, none inherited):
+
+| Property | Value |
+|---|---|
+| `position` | `relative` |
+| `display` | `inline-block` |
+| `vertical-align` | `middle` |
+| `flex` | `none` (never shrinks in a flex row) |
+| `border` | `none` |
+| `padding` / `margin` | `0` / `0` (neutralises `<button>` UA defaults) |
+| `cursor` | `pointer` |
+
+The two pseudo-elements: `::before` = invisible 44 × 44 hit target (`content:""; position:absolute; inset:-12px -4px; border-radius:inherit`); `::after` = the white thumb pill (see dimensions + states tables below).
+
 ## Per-size dimensions (full spec — reproduce either size from this table alone)
 
 | Token | Default (`.swt`) | Small (`.swt.is-sm`) |

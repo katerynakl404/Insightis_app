@@ -8,11 +8,28 @@ Source: `@insightis/ui` `Button/index.tsx` (cva) + `globals.css`.
 
 | Property | Value | Notes |
 |---|---|---|
+| Display / layout | `display:inline-flex; align-items:center; justify-content:center` | Centers the glyph in the square box. |
 | Width × Height | `2.25rem` × `2.25rem` (36 × 36px) | Single size — no xs/sm/lg/xl scale (unlike Button). Square footprint. |
 | Radius | `.375rem` (6px) | Matches Button `md`. |
 | Border | `1px solid transparent` | Variant class supplies the visible colour. |
+| Cursor | `pointer` (`not-allowed` when `:disabled`) | Set on base; disabled variants override to `not-allowed`. |
+| Font | `font-family:inherit` | No own type tokens — icon-only, no text. |
 | Transition | `all .12s` | Matches Button. |
 | Icon glyph | ≤18px typical (consumer-set) | **Icon size is flexible / consumer-set by design — not enforced by `.iconbtn`.** `.iconbtn` sizes only the button box; the glyph size comes from the consumer's inline SVG `width`/`height`. 18px is the typical/default, but it may be smaller per-instance (e.g. `.mx-tbl-actions .iconbtn svg{width:13px;height:13px}` in table action rows). Intentional — no base `.iconbtn svg{...}` rule, so each context picks its own glyph size. |
+
+### DOM / markup contract
+
+```html
+<button class="iconbtn iconbtn-{variant}" aria-label="Add" data-tip="Add">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2"><path d="…"/></svg>
+</button>
+```
+
+- Root element: `<button>` (or `<span class="iconbtn …">` when nested inside another button, e.g. `.sbx-chat-more` inside a chat row). Always carries `class="iconbtn iconbtn-{variant}"` — base class + exactly one variant class.
+- **`aria-label` is required** — icon-only control has no text. Add `data-tip` for the hover tooltip (see Tooltip section); typically mirrors the `aria-label`.
+- Icon is an **inline `<svg>`** with explicit `width`/`height`, `viewBox="0 0 24 24"`, and `stroke="currentColor"` (or `fill="currentColor"` for solid glyphs) so the glyph inherits the variant's `color`. No `<img>` / icon-font.
+- Loading: add `s-loading` (forced-state demo) / `aria-busy="true"` and replace the glyph with `<span class="spinner"></span>`.
 
 ## Variants
 
@@ -37,7 +54,11 @@ Single size (36×36) — variants differ in colour only, all reusing Button toke
 | Pressed | `--btn-primary-bg-press` / `State/Pressed` / `Brand/Primary @8%` — bg-shift only, no transform or shadow (Outline also keeps the `Brand/Primary_Hover` border from hover) |
 | Focus | ring 2px + 2px `Surface/Card` gap. Ring colour is `--focus-ring-brand` for Primary / Secondary / Outlined / Tertiary, but **`--focus-ring` (neutral) for Destructive Outlined** (`.iconbtn-outline-destructive` — mirrors Button Destructive; the red identity is carried by the border, not the focus ring) |
 | Disabled | bg `State/Disabled` (Primary/Secondary) or icon `Text/Inactive` (Outlined/Tertiary, bg transparent) |
-| Loading | spinner uses `currentColor`, `aria-busy="true"`, `pointer-events:none`, `--opacity-disabled` — variant colour preserved |
+| Loading | spinner (`.spinner`) uses `currentColor`, `aria-busy="true"`, `pointer-events:none`, `opacity:var(--opacity-disabled)` — variant colour preserved. `.s-loading.iconbtn{pointer-events:none;opacity:var(--opacity-disabled)}` |
+
+**Spinner geometry** (shared with Button — `.iconbtn .spinner`): `width/height .85em`, `border-radius:9999px`, `border:2px solid currentColor` with `border-right-color:transparent`, `display:inline-block`, `animation:btn-spin .7s linear infinite`, `vertical-align:-.1em`.
+
+**Forced-state vs real-interactive** — every state above is implemented twice and the two MUST agree: the `.s-{state}` forced classes (storybook demos) and the live pseudo-classes `:hover` / `:active` / `:focus-visible` / `:disabled`. `:focus-visible` also sets `outline:none` before the ring box-shadow.
 
 ## Prod baseline
 
@@ -64,6 +85,17 @@ Prod ships a single IconButton style (≈ Secondary's new look — neutral borde
 
 ## No change (—)
 Size 36×36, radius `md 6px`, icon ≤18px typical (consumer-set / flexible by design — no base CSS rule; see Base geometry table), transition .12s.
+
+## Contextual size overrides (consumer-scoped, not part of the base)
+
+The base `.iconbtn` is always 36×36; specific layouts shrink it via a scoping class. These are documented for completeness — the base spec is unchanged.
+
+| Context | Selector | Override |
+|---|---|---|
+| Table row actions | `.mx-tbl-actions .iconbtn` | `width/height 1.625rem` (26px), `opacity:0` at rest, `transition:opacity .12s`; revealed on `tr:hover` (`opacity:1`). Glyph: `.mx-tbl-actions .iconbtn svg{width:13px;height:13px}`. Hover `background:var(--state-pressed)`, active `background:color-mix(in srgb,var(--brand-primary) 12%,transparent)`, both `color:var(--ink)`. Child-metric rows force `opacity:1`. |
+| Autocomplete clear | `.acpl .acpl-end .iconbtn-mini` | Separate `.iconbtn-mini` (not `.iconbtn`): 24×24, transparent, borderless, `color:var(--ink-secondary)`, radius 4px; hover `color:var(--brand-primary)`. |
+| Data-source card | `.ds-card .iconbtn` | `background:var(--bg)` (matches card surface). |
+| Sidebar collapse / chat-more | `.sbx-collapse`, `.sbx-chat-more` | Use `.iconbtn iconbtn-tertiary` + scoping class; inherit colour/hover/pressed/focus from `.iconbtn-tertiary`, override only size + (for chat-more) absolute positioning / opacity-reveal. |
 
 ## Token reuse note
 

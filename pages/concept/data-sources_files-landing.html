@@ -70,7 +70,7 @@
     transition:color var(--motion-fast,80ms) var(--motion-ease,ease),
                background-color var(--motion-fast,80ms) var(--motion-ease,ease)}
   .dsf-meta-iconbtn:hover{color:var(--ink-body);background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
-  .dsf-meta-iconbtn:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--focus-ring-brand)}
+  .dsf-meta-iconbtn:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
   .dsf-meta-iconbtn svg{width:14px;height:14px}
   /* Download button — neutral destructive-style button without red (mirrors .meta-row-delete shape) */
   .dsf-meta-dl,.dsf-meta-del{margin-left:0;display:inline-flex;align-items:center;gap:.375rem;
@@ -82,7 +82,7 @@
   .dsf-meta-dl svg,.dsf-meta-del svg{width:14px;height:14px;flex:none}
   .dsf-meta-dl:hover{background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
   .dsf-meta-del:hover{background:color-mix(in srgb,var(--fb-red) 8%,transparent)}
-  .dsf-meta-dl:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--focus-ring-brand)}
+  .dsf-meta-dl:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--focus-ring)}
   .dsf-meta-del:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px color-mix(in srgb,var(--fb-red) 60%,transparent)}
   .dsf-meta-dl.is-disabled,.dsf-meta-del.is-disabled{color:var(--ink-inactive);cursor:not-allowed;pointer-events:none}
   /* Right-anchor the download+delete pair to the row's far right */

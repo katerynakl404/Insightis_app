@@ -11,9 +11,13 @@ A new `Link` primitive is introduced as a shared, promoted style — replaces ev
 | Focus (keyboard) *(new)* | ⚠ browser-default ring | — | `box-shadow: 0 0 0 2px Surface/Card, 0 0 0 4px --focus-ring-brand` + `border-radius: .125rem` | same recipe used by Button / IconButton / nav rows / `.sbx-pop-theme-btn` — one ring shape across the system |
 | Disabled *(new)* | ⚠ undefined | — | colour `Text/Inactive`, no underline, `cursor: not-allowed`, `pointer-events: none` | matches Button disabled language; toggle via `.is-disabled` class or `[disabled]` attribute |
 
+## DOM / markup
+
+Single element carrying class `.link` — either an `<a href>` (inline navigation) or a `<button type="button">` (inline action). The rule resets button chrome (`background:none; border:none; padding:0`) so a `<button class="link">` is visually identical to an `<a class="link">`. No wrapper, no icon slot, no pseudo-elements. Disabled state is toggled with the `.is-disabled` class or the `[disabled]` attribute on the same element.
+
 ## No change (—)
 
-`font-family`, `font-size`, `line-height`: all inherit from the parent context, so a link inside `text-xs` body copy renders at 12 px, inside `text-sm` at 14 px, etc. No `padding`, `border`, or background — the link is text-only.
+`font-family`, `font-size`, `line-height`: all `inherit` (explicitly set to `inherit` in the rule), so a link inside `text-xs` body copy renders at 12 px, inside `text-sm` at 14 px, etc. `cursor: pointer` at rest. No `padding` (`0`), `border` (`none`), or `background` (`none`) — the link is text-only. No transition is declared (state changes are instantaneous). No responsive `@media` rules and no separate `.dark` override — theme adaptation happens entirely through `--ink-highlight` resolving per theme.
 
 ## Token map used
 

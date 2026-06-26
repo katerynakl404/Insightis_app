@@ -27,12 +27,17 @@ The values above describe the React/Radix/Tailwind prod component. The **shipped
 | Part | Selector | Shipped value |
 |---|---|---|
 | Overlay | `.dlg-overlay` | `background:var(--overlay-scrim)` = `rgba(15,23,42,.45)` light / `rgba(2,6,23,.6)` dark (NOT `black/80`) |
-| Shell | `.dlg` | `background:var(--card); border:1px solid var(--border); border-radius:.875rem` (14px); `box-shadow:0 20px 40px -8px rgba(0,0,0,.22)`; `max-width:calc(100vw - 2rem); display:flex; flex-direction:column` |
+| Shell | `.dlg` | `background:var(--card); border:1px solid var(--border); border-radius:.875rem` (14px); `box-shadow:var(--shadow-modal)` (deepest elevation rung — light `0 20px 40px -8px rgba(0,0,0,.22)`, dark boosted `0 24px 48px -12px rgba(0,0,0,.72), 0 8px 18px -6px rgba(0,0,0,.55), inset 0 1px 0 0 rgba(255,255,255,.05)`); `max-width:calc(100vw - 2rem); display:flex; flex-direction:column` |
 | Header | `.dlg-hdr` | `display:flex; align-items:center; gap:.75rem; padding:.875rem 1.25rem .5rem; flex:none` |
 | Title | `.dlg-title` | `font-size:1.25rem; line-height:1.75rem; font-weight:600; color:var(--ink); margin:0; flex:1; min-width:0` |
+| Progress wrapper | `.dlg-progress` | `padding:0 1.25rem .875rem; flex:none; display:flex; flex-direction:column; gap:.375rem` (omit entire block on single-step dialogs) |
+| Progress text | `.dlg-progress-txt` | `font-size:.75rem; color:var(--ink-secondary)` (e.g. "Step 1 of 2") |
 | Progress track | `.dlg-progress-track` | `height:3px; background:var(--border); border-radius:99px; overflow:hidden` |
-| Progress fill | `.dlg-progress-fill` | `height:100%; background:var(--brand-primary); border-radius:99px; transition:width .4s ease` |
-| Body / step | `.dlg-body` / `.dlg-step` | step padding `1.25rem`; body `flex:1; overflow:hidden; min-height:0` |
+| Progress fill | `.dlg-progress-fill` | `height:100%; background:var(--brand-primary); border-radius:99px; transition:width .4s ease`; width set inline per step (e.g. `width:50%`) |
+| Body | `.dlg-body` | `flex:1; overflow:hidden; position:relative; min-height:0` |
+| Step | `.dlg-step` | `position:absolute; inset:0; overflow-y:auto; padding:1.25rem; display:flex; flex-direction:column; gap:1rem` — all steps stacked in same space, no layout shift |
+| Hidden step | `.dlg-step.is-hidden` | `display:none` |
+| Footer | `.dlg-ftr` | `border-top:1px solid var(--border); padding:.875rem 1.25rem; display:flex; justify-content:flex-end; gap:.5rem; flex:none` |
 
 ## Resolved — kit `.dlg` authoritative where it diverges visually
 
@@ -42,10 +47,14 @@ Decision (same rule as [`Popover.md`](Popover.md)): a React/Tailwind value is ke
 |---|---|---|
 | Overlay | `black/80` | **`--overlay-scrim`** (`rgba(15,23,42,.45)` light / `rgba(2,6,23,.6)` dark) |
 | Radius | `lg/xl` | **`.875rem` (14px)** |
-| Box-shadow | `shadow-lg` (Tailwind) | **`0 20px 40px -8px rgba(0,0,0,.22)`** |
+| Box-shadow | `shadow-lg` (Tailwind) | **`var(--shadow-modal)`** — light `0 20px 40px -8px rgba(0,0,0,.22)`, theme-aware dark override |
 | Padding | 16px (uniform) | header **`.875rem 1.25rem .5rem`**; step **`1.25rem`** |
 
+## Sizing
+There are **no** size-variant classes (sm/md/lg) in the CSS. Dimensions are set inline on the `.dlg` element: `style="width:480px;height:580px"` (storybook skeleton). The shell caps at `max-width:calc(100vw - 2rem)` so it never overflows the viewport on narrow screens.
+
+## Scrollable body pattern
+Each `.dlg-step` is `overflow-y:auto` inside the `flex:1; overflow:hidden` body, so long content scrolls within the step while header, progress and footer stay pinned (`flex:none` on each). No extra classes needed.
+
 ## Still needed (per kit)
-- Modal sizes (sm / md / lg)
-- Scrollable body pattern
-- Loading state inside the modal
+- Loading state inside the modal (not yet defined in CSS)

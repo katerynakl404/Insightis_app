@@ -12,7 +12,7 @@ There are **two live prod instances** of the segmented-control pattern, both on 
 | Item | flex 1, height 20 px, transparent bg, icon-only (12 × 12 SVG), text `Text/Secondary` |
 | Item hover | text → `Text/Primary` |
 | Item active | bg `Surface/Card`, text `Text/Primary`, `aria-selected="true"` |
-| Item focus-visible | `--shadow-focus-brand` |
+| Item focus-visible | `--shadow-focus` |
 | Item disabled | not defined in prod |
 | Size variants | none (icon-only, 20 px only) |
 | ARIA | `role="tablist"` on container, `role="tab"` on items |

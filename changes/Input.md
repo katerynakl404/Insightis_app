@@ -5,11 +5,43 @@ Baseline: [`../current/Input.md`](../current/Input.md). Diff strictly against th
 Input now shares one **form-control system** with [TextArea](TextArea.md):
 identical hover / focus / error / disabled tokens and shape.
 
+## DOM / markup
+
+```html
+<div class="field">
+  <!-- optional leading glyph (Lucide-style 24×24 stroke SVG, stroke-width 2, currentColor) -->
+  <svg class="field-icon" …></svg>
+  <input placeholder="…">
+</div>
+```
+
+`.field` is the **wrapper** (a flex shell); the native `<input>` is bare (no border/bg of its own — see token list). State classes (`.s-hover` / `.s-focus` / `.s-pressed` / `.s-error` / `.is-disabled`) and size classes (`.is-xs … .is-xl`) go on the **wrapper** `.field`, not the input. The error helper is a sibling `<div class="err-help">` placed **after** `.field`, inside a vertical flex column.
+
+**Wrapper (`.field`) base:** `display:flex; align-items:center; height:2.25rem` (36px); `border:1px solid var(--border)`; `border-radius:.375rem` (6px); `background:var(--card)`; `padding:0 .5rem` (8px); `gap:.375rem` (6px); `width:100%; max-width:240px`; `transition:border-color .12s, box-shadow .12s`.
+
+**Input (`.field input`):** `height:100%; width:100%; background:transparent; border:none; outline:none; font-size:.875rem` (text-sm, 14px); `color:var(--ink)`; `font-family:inherit`. Placeholder: `color:var(--ink-inactive)`.
+
+**Icon (`.field-icon`):** leading glyph, sized by the parent's `font-size`/explicit size; only the **`.is-xs`** variant pins it to `width:14px;height:14px` (other sizes inherit the SVG's intrinsic box). No general `.field-icon` rule exists — set the SVG box at the call site for non-xs sizes.
+
+## Size variants
+
+Heights line up with Button (`.btn-xs … .btn-xl`) so an Input + Button row reads as one row at any density. `md` = the default (2.25rem) and is also a class for explicit authoring. All sizes go on the wrapper `.field`.
+
+| Class | Height | Padding-x | Gap | Input font-size |
+|---|---|---|---|---|
+| `.is-xs` | `1.75rem` (28px) | `.375rem` (6px) | `.25rem` (4px) | `.75rem` (12px) — icon pinned 14×14 |
+| `.is-sm` | `2rem` (32px) | `.4375rem` (7px) | `.3125rem` (5px) | `.8125rem` (13px) |
+| `.is-md` (default) | `2.25rem` (36px) | `.5rem` (8px) | `.375rem` (6px) | `.875rem` (14px) |
+| `.is-lg` | `2.5rem` (40px) | `.5625rem` (9px) | `.375rem` (6px) | `.875rem` (14px) |
+| `.is-xl` | `2.75rem` (44px) | `.625rem` (10px) | `.375rem` (6px) | `.875rem` (14px) |
+
+(Only `.is-xs`/`.is-sm` override gap and input font-size; `lg`/`xl` keep the default gap and 14px font and only grow height + padding.)
+
 ## States
 
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
-| Default | `InputGroup` shell: `border-border`, `bg-card`/`bg-background`, radius `md`, `h-9` (36 px), `px-1.5` inner, placeholder `content-secondary` | — | — *no shape change*; hex shifts only — `Stroke/Border` → `#E2E8F0`, placeholder remapped to `Text/Inactive` → `#7C8CA2` (see [colors](colors.md)) | h 2.25rem/36px, radius `md .375rem/6px`, bg `--card`, padding `0 .5rem`/8px, border `--border`, text-sm, `transition:border-color, box-shadow` |
+| Default | `InputGroup` shell: `border-border`, `bg-card`/`bg-background`, radius `md`, `h-9` (36 px), `px-1.5` inner, placeholder `content-secondary` | — | — *no shape change*; hex shifts only — `Stroke/Border` → `#E2E8F0`, placeholder remapped to `Text/Inactive` → `#7C8CA2` (see [colors](colors.md)) | flex shell, `align-items:center`; h 2.25rem/36px, radius `md .375rem/6px`, bg `--card`, padding `0 .5rem`/8px, gap `.375rem`/6px, `width:100%; max-width:240px`, border `1px solid var(--border)`, input text-sm (`.875rem`/14px) `color:var(--ink)`, `transition:border-color .12s, box-shadow .12s` |
 | Hover | ⚠ undefined | — | **new** — border `Stroke/Border_Hover` (`--border-hover`) | light `#7C8CA2` (slate-450) / dark `#475569` (slate-600). Aligns with [Button Secondary](Button.md) hover affordance |
 | Pressed *(amended — no bg lift)* | ⚠ undefined | — | border `--input-focus` only; **no** bg change | the earlier kit recipe added `--state-pressed` as a bg lift on `:active`/`.s-pressed`. Removed — a single tap should not promote the field to a "selected" surface. Border swap is enough to acknowledge the click and matches the focus visual. |
 | Focus / Pressed | `has-[input:focus-visible]:border-content-primary` — dark slate border, no ring | — | 1 px solid neutral border via `--input-focus` (light `Slate-600 #475569` / dark `Slate-500 #64748B`), **no box-shadow ring** — neutral border only | brand colour is intentionally **not** used on form-control focus — keeps the indicator on the neutral axis. **Amended this iteration:** `--input-focus` was softened from `var(--focus-ring)` (Slate-900 / Slate-100) through `var(--ink-secondary)` (Slate-550 / Grey-400) and finally to `var(--slate-600)` light / `var(--slate-500)` dark, because the near-black border read too heavy when a parent wrapper picked it up via `:focus-within` (chat-landing's composer card made this obvious). New colour still clears WCAG 1.4.11 — Slate-600 = 7.04:1 on white Card / Slate-500 ≈ 4.5:1 on dark Card. Same border applies on `:active`/`.s-pressed`. |
@@ -26,7 +58,7 @@ identical hover / focus / error / disabled tokens and shape.
 
 ## No change (—)
 
-Height 36 px, radius `md 6 px`, padding-x 8 px, text-sm, `transition` property list. (Placeholder token is **remapped** — `content-secondary` → `Text/Inactive` (`--ink-inactive`) — not a no-change; see States · Default and [colors](colors.md).)
+Height 36 px, radius `md 6 px`, padding-x 8 px, gap 6 px, `max-width:240px`, text-sm (14px), `transition:border-color .12s, box-shadow .12s` property list. (Placeholder token is **remapped** — `content-secondary` → `Text/Inactive` (`--ink-inactive`) — not a no-change; see States · Default and [colors](colors.md).)
 
 ## Token map used
 
