@@ -41,7 +41,7 @@ Single size (36×36) — variants differ in colour only, all reusing Button toke
 | Secondary | `.iconbtn-secondary` | bg `Surface/Card` (`--btn-secondary-bg`), border `--btn-secondary-border` (Slate-300 light / Grey-600 dark), icon `Text/Body` | `.btn-secondary` | none |
 | Outlined | `.iconbtn-outline` | border `Brand/Secondary`, bg transparent, icon `Text/Body` | `.btn-outline` | none |
 | **Tertiary** *(new)* | `.iconbtn-tertiary` | bg transparent, no border, icon `Text/Body` | `.btn-tertiary` | none |
-| **Destructive Outlined** *(new)* | `.iconbtn-outline-destructive` | border `--btn-outline-destructive-border` (`Feedback/Red` light Red-700 / dark Red-800), bg transparent, icon `Text/Body` (label stays neutral — mirrors Outlined; the border carries the danger identity) | `.btn-outline-destructive` | **focus ring = `--focus-ring` (neutral), not `--focus-ring-brand`** — avoids red-on-red |
+| **Destructive Outlined** *(new)* | `.iconbtn-outline-destructive` | border `--btn-outline-destructive-border` (`Feedback/Red` light Red-700 / dark Red-800), bg transparent, icon `Text/Body` (label stays neutral — mirrors Outlined; the border carries the danger identity) | `.btn-outline-destructive` | **focus ring = `--shadow-focus`** (brand-teal, same as every variant) — teal ≠ red, so red-on-red is avoided; the red identity is carried by the border |
 
 > **Resolved — aligned to Button (`--btn-secondary-border`).** `.iconbtn-secondary:active` now uses `border-color:var(--btn-secondary-border)` (Slate-300), matching `.s-pressed.iconbtn-secondary` (forced-state) and the Button secondary pressed border. The earlier `--border` (Slate-200) value — one stop lighter — has been corrected, so real-interactive and forced-state pressed now agree.
 
@@ -52,7 +52,7 @@ Single size (36×36) — variants differ in colour only, all reusing Button toke
 | Default | variant defaults (see table above) |
 | Hover | `--btn-primary-bg-hover` (Primary) / `--btn-secondary-bg-hover` = `Brand/Primary @ 5%` over `Surface/Card` + border `--btn-secondary-border-hover` (Secondary — see [`colors.md`](colors.md) for why a brand tint replaced the earlier `State/Hover`) / `var(--btn-outline-bg-hover)` (Outlined + Tertiary, + `Brand/Primary_Hover` border on Outlined) |
 | Pressed | `--btn-primary-bg-press` / `State/Pressed` / `Brand/Primary @8%` — bg-shift only, no transform or shadow (Outline also keeps the `Brand/Primary_Hover` border from hover) |
-| Focus | ring 2px + 2px `Surface/Card` gap. Ring colour is `--focus-ring-brand` for Primary / Secondary / Outlined / Tertiary, but **`--focus-ring` (neutral) for Destructive Outlined** (`.iconbtn-outline-destructive` — mirrors Button Destructive; the red identity is carried by the border, not the focus ring) |
+| Focus | every variant (incl. Destructive Outlined) uses the single `--shadow-focus` ring — 2px + 2px `Surface/Card` gap, brand-teal halo via `--focus-ring`. Destructive carries its red identity on the border, not the ring; the teal ring already avoids red-on-red |
 | Disabled | bg `State/Disabled` (Primary/Secondary) or icon `Text/Inactive` (Outlined/Tertiary, bg transparent) |
 | Loading | spinner (`.spinner`) uses `currentColor`, `aria-busy="true"`, `pointer-events:none`, `opacity:var(--opacity-disabled)` — variant colour preserved. `.s-loading.iconbtn{pointer-events:none;opacity:var(--opacity-disabled)}` |
 

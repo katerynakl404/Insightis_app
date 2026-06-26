@@ -10,7 +10,7 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 | Default | fill `accent` `#07827F` (`border-gradient-inner-accent`), text = background; **themed** (lighter in dark — `#fff` contrast drops to 3.89:1) | — | flat fill `--btn-primary-bg` `#07807E` (Brand-600), text `--btn-primary-text` `#FFFFFF` — **theme-independent**, AA in both themes | Gradient replaced with flat fill; theme-independence fixes dark contrast |
 | Hover | gradient `primary→secondary` | — | `--btn-primary-bg-hover` `#066867` (Brand-700) | One step darker on hover |
 | Pressed | pressed gradient + inset shadow | — | `--btn-primary-bg-press` `#0E5862` (**Tertiary-800** — replaces the off-palette `#055454`) | bg-shift-only press feedback; no inset shadow |
-| Focus | global ring (slate / off-white) | — | ring `--focus-ring-brand` `#07807E` 2px + 2px `Surface/Card` gap | Brand-tinted ring; consistent with Outlined/Tertiary |
+| Focus | global ring (slate / off-white) | — | ring `--shadow-focus` `#07807E` 2px + 2px `Surface/Card` gap | Brand-tinted ring; consistent with Outlined/Tertiary |
 | Disabled | transparent + `border-gradient-inner-border`, text `content-light` | — | bg `State/Disabled`, text `Text/Inactive` | Neutral disabled palette |
 | **Loading (new)** | — (no built-in loading state) | — | spinner uses `currentColor`, label retained, `aria-busy="true"` + `pointer-events:none`, **opacity .65** — keeps the variant fill, does not swap to disabled palette | `--opacity-disabled` reusable token; variant colour preserved so loading is distinguishable from disabled |
 
@@ -20,7 +20,7 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 | Default | border `secondary` (teal), text `content-body`, bg transparent | bg `Surface/Card`, border `Stroke/Border` (Slate-200), text `Text/Body` | bg `Surface/Card`, border `--btn-secondary-border` (Slate-300 light / Grey-600 dark), text `Text/Body` | Border stepped up one stop from Stroke/Border (Slate-200) so the card-fill reads distinct from a borderless surface |
 | Hover | border `accent`, bg `primary/5`, icon `accent` | bg `--btn-secondary-bg-hover` = `Brand/Primary @ 5%` over `Surface/Card`, border `Stroke/Border_Hover`, text `Text/Body` | bg `--state-hover` (neutral State/Hover — **not** a brand tint), border `--btn-secondary-border-hover` (Slate-400 light / Grey-500 dark), text `--ink-body` (icon inherits same colour, does not shift to brand) | Neutral hover surface unified with `.sbx-nav-item` low-emphasis rows; border hover lifted one stop to match the bolder default border |
 | Pressed | bg `primary/5` + inset | — | bg `--state-pressed`, border `--btn-secondary-border` (reverts to default border), text `--ink-body` | Neutral pressed surface; border drops back to default stop |
-| Focus | global ring (slate / off-white) | — | ring `--focus-ring-brand` 2px + 2px `Surface/Card` gap | Brand-tinted ring |
+| Focus | global ring (slate / off-white) | — | ring `--shadow-focus` 2px + 2px `Surface/Card` gap | Brand-tinted ring |
 | Disabled | border + text `content-light` | — | bg `--state-disabled`, text `--ink-inactive`, border `--btn-secondary-border`, `cursor:not-allowed` | Inherits the same border token as default |
 
 > Emphasis shifts from a teal-coloured stroke to a card-tone fill — Secondary becomes a lower-emphasis filled action while still reading distinct from the page surface.
@@ -31,7 +31,7 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 | Default | border `border` (neutral), bg `card` (opaque), text `content-body` | — | border `Brand/Secondary` (teal), bg transparent, text `Text/Body` | Teal border moves from old Secondary to Outlined |
 | Hover | text `accent`, border `Stroke/Border_Hover` | — | border `Brand/Primary_Hover`, bg `Brand/Primary @6%` | Brand-tinted overlay on hover |
 | Pressed | text+border `accent` + inset | — | border `Brand/Primary_Hover`, bg `Brand/Primary @8%` | Deeper overlay on press |
-| Focus | global ring (slate / off-white) | — | ring `--focus-ring-brand` 2px + 2px `Surface/Card` gap | Brand-tinted ring |
+| Focus | global ring (slate / off-white) | — | ring `--shadow-focus` 2px + 2px `Surface/Card` gap | Brand-tinted ring |
 | Disabled | text `content-secondary` | — | border + text `Text/Inactive`, bg transparent | Neutral disabled |
 
 ## Tertiary  *(new variant — lowest-emphasis; borderless ghost with brand-tinted bg highlights)*
@@ -40,7 +40,7 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 | Default | — (did not exist) | — | bg transparent, no border, text `Text/Body` | Ghost — same brand-tinted overlays as Outlined, minus the border |
 | Hover | — | — | bg `Brand/Primary @6%` (`color-mix`), text `Text/Body` | Same overlay strength as Outlined hover |
 | Pressed | — | — | bg `Brand/Primary @8%` | Same overlay strength as Outlined press |
-| Focus | — | — | ring `--focus-ring-brand` 2px + 2px `Surface/Card` gap | Brand-tinted ring |
+| Focus | — | — | ring `--shadow-focus` 2px + 2px `Surface/Card` gap | Brand-tinted ring |
 | Disabled | — | — | text `Text/Inactive`, bg transparent | Neutral disabled |
 | Loading | — | — | spinner + label, `aria-busy`, `--opacity-disabled` | Variant fill preserved at reduced opacity |
 
@@ -52,7 +52,7 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 | Default | `border-gradient-inner-red`; themed prod `--fb-red` resolves to `#B91C1C` light (5.94:1) / **`#EF4444` dark (3.76:1 — fails AA)** | — | `Feedback/Red` (`--fb-red`) `#B91C1C` (Red-700) — **theme-independent**, 5.94:1 in both themes | Fix at Feedback semantic layer; `--fb-red` pinned to Red-700 in both themes |
 | Hover | red gradient | — | `Feedback/Error_Hover` (`--fb-red-hover`) `#991B1B` (Red-800, 8.39:1) | Darker on hover preserves AA |
 | Pressed | — | — | `Feedback/Error_Press` (`--fb-red-press`) `#7F1D1D` (Red-850, 10.34:1) | bg-shift-only press |
-| Focus | — | — | ring `--focus-ring` (Slate-900 / Slate-100 — neutral contrast) 2px + 2px `Surface/Card` gap | Neutral ring intentionally avoids red-on-red |
+| Focus | — | — | ring `--shadow-focus` (brand-teal, unified kit-wide) 2px + 2px `Surface/Card` gap | teal ≠ red, so red-on-red is still avoided — focus rings are unified to brand across the kit (see kit-theme.css `--focus-ring`) |
 | Disabled | opacity 50% | — | bg `State/Disabled` (neutral grey), text `Text/Inactive` — **no longer red-tinted** | Neutral disabled; red should not tint a non-interactive state |
 | **Loading (new)** | — | — | spinner + label, `aria-busy`, `--opacity-disabled` (.65) — variant red retained | Red preserved at .65 opacity; distinguishable from disabled |
 
@@ -67,7 +67,7 @@ Same red Feedback tokens as Destructive, applied to the Outlined stroke style.
 | Default | — (did not exist) | — | border `--btn-outline-destructive-border` (light `Feedback/Red` Red-700 / **dark Red-800**), bg transparent, text `Text/Body` | Dark dims one step — Red-700 reads too saturated against near-black Card |
 | Hover | — | — | border `--btn-outline-destructive-border-hover` (light Red-800 / **dark Red-500**), bg `--btn-outline-destructive-bg-hover` (light `Feedback/Red @6%` / **dark @14%**), text `Text/Body` | Dark flips direction (Red-500 = lighter) + bumps overlay to 14% for parity of perceived prominence |
 | Pressed | — | — | border `--btn-outline-destructive-border-hover`, bg `--btn-outline-destructive-bg-press` (light `Feedback/Red @8%` / **dark @22%**), text `Text/Body` | Same theme-asymmetry rationale as hover |
-| Focus | — | — | ring `--focus-ring` (neutral Slate-900 / Slate-100) — intentionally **not** red, to avoid red-on-red | Neutral ring |
+| Focus | — | — | ring `--shadow-focus` (brand-teal, unified kit-wide) — teal ≠ red, so red-on-red is avoided | Unified brand ring (same `--shadow-focus` as every variant) |
 | Disabled | — | — | border + text `Text/Inactive`, bg transparent | No red tint on disabled |
 | Loading | — | — | spinner inherits Feedback/Red via `currentColor`, `aria-busy`, `--opacity-disabled` | Red preserved at .65 opacity |
 
@@ -95,7 +95,7 @@ Same red Feedback tokens as Destructive, applied to the Outlined stroke style.
 | `--btn-secondary-border` *(new)* | **theme-aware** | light `var(--slate-300)` · dark `var(--grey-600)` | Default border for Secondary — was `--border` (Slate-200 light / Grey-700 dark). Stepped up one stop so the card-fill Secondary reads distinct from a borderless surface. |
 | `--btn-secondary-border-hover` *(new)* | **theme-aware** | light `var(--slate-400)` · dark `var(--grey-500)` | Hover/press border for Secondary — one stop darker than `--btn-secondary-border` in each theme. |
 
-Existing tokens reused: `--btn-primary-bg` (`var(--brand-600)`), `--btn-primary-bg-hover` (`var(--brand-700)`), `--btn-primary-text` (`var(--white)`), `--focus-ring-brand` (`var(--brand-600)`), `--btn-secondary-bg` (`var(--card)`), `--state-hover` / `--state-pressed` / `--state-disabled` (neutral), `--ink-body` / `--ink-inactive`, `--brand-secondary` (Outlined default border), `--brand-hover` (Outlined hover/press border), `--btn-outline-bg-hover` (`color-mix(--brand-primary 6%, transparent)`), `--btn-outline-bg-press` (`color-mix(--brand-primary 8%, transparent)`), `--content-on-solid` (`var(--white)`, Destructive label), `--focus-ring` (neutral Slate-900/Slate-100, Destructive + Destructive-Outlined ring).
+Existing tokens reused: `--btn-primary-bg` (`var(--brand-600)`), `--btn-primary-bg-hover` (`var(--brand-700)`), `--btn-primary-text` (`var(--white)`), `--focus-ring-brand` (`var(--brand-600)`), `--btn-secondary-bg` (`var(--card)`), `--state-hover` / `--state-pressed` / `--state-disabled` (neutral), `--ink-body` / `--ink-inactive`, `--brand-secondary` (Outlined default border), `--brand-hover` (Outlined hover/press border), `--btn-outline-bg-hover` (`color-mix(--brand-primary 6%, transparent)`), `--btn-outline-bg-press` (`color-mix(--brand-primary 8%, transparent)`), `--content-on-solid` (`var(--white)`, Destructive label), `--focus-ring` (focus-ring colour role — aliases `--focus-ring-brand` → brand `#07807E`; consumed by `--shadow-focus` for every variant incl. Destructive).
 
 > Note: a `--btn-secondary-bg-hover` token (`color-mix(--brand-primary 8%, var(--card))`) is defined in `kit-theme.css` but is **not** wired to any `.btn-secondary` rule — Secondary hover uses neutral `--state-hover`. Do not confuse the two.
 
@@ -144,7 +144,7 @@ Shared across every variant. Base `.btn`: `display:inline-flex`, `align-items:ce
 - **Icon**: inline Lucide-style `<svg>`, `stroke="currentColor"` so it inherits the label colour in every state (it does **not** shift to brand on hover). Typical icon box `18×18`. Icon precedes the label text node; `gap:.375rem` separates them.
 - **Static-state utility classes** (storybook / forced demo only): `.s-hover`, `.s-pressed`, `.s-focus`, `.s-disabled`, `.s-loading` mirror the live `:hover` / `:active` / `:focus-visible` / `:disabled` selectors so each state can be shown without interaction. Live usage relies on the real pseudo-classes; `:disabled` (and `.s-disabled`) also gets the global `cursor:not-allowed`.
 - **Spinner** (`.btn .spinner`): `width/height:.85em`, `border-radius:9999px`, `border:2px solid currentColor` with `border-right-color:transparent`, `display:inline-block`, `vertical-align:-.1em`, `animation:btn-spin .7s linear infinite` (`@keyframes btn-spin{to{transform:rotate(360deg)}}`). `.s-loading.btn`: `pointer-events:none; opacity:var(--opacity-disabled)` (.65).
-- **Focus ring** (every variant): `outline:none; box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--<ring>)` — brand/secondary/outlined/tertiary use `--focus-ring-brand`; destructive + destructive-outlined use neutral `--focus-ring`. The base `.btn:focus-visible` fallback uses `--focus-ring`.
+- **Focus ring** (every variant, incl. Destructive + Destructive-Outlined): `outline:none; box-shadow:var(--shadow-focus)` — the single focus-ring token (2px `Surface/Card` gap + 2px halo). Halo colour flows through `--focus-ring` (brand by default), so Destructive gets the same brand-teal ring — teal ≠ red, so red-on-red is avoided without a separate neutral token.
 
 ## Responsive / dark mode
 

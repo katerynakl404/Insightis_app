@@ -116,6 +116,6 @@ The optional action button reuses `.btn.btn-xs.btn-outline` (see [Button.md](But
 ## ⚠ Best-practice states — still to define
 
 - **Hover** — pause progress bar countdown.
-- **Focus-visible** — `--focus-ring-brand` around container when keyboard-focused.
+- **Focus-visible** — `--shadow-focus` around container when keyboard-focused.
 - **`role="status"` / `role="alert"`** — success/info → `status` (polite); error/warning → `alert` (assertive). Verify Toaster wiring.
 - **Stacking** — focus order when multiple toasts stack (Toaster's responsibility; document).

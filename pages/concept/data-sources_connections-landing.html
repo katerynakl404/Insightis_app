@@ -60,12 +60,12 @@
      768 – 1023 px   → 2 cols (content 448–703 → cards 224–352 px)
      600 – 767 px    → 2 cols (sidebar drawer-only, content = viewport − 64 px)
      < 600 px        → 1 col  (full-width single-column for narrow phones) */
-  /* ===== Catalog grid — approved layout (.ds-v3): larger vertical tiles capped at 6 per row.
+  /* ===== Catalog grid — approved layout (.ds-v3): vertical tiles capped at 8 per row.
      The .ds-card tile styling lives in kit-theme.css; this is the page-composition column rule.
-     The max() min-track grows once 6 tiles would each clear 10rem, so auto-fill never places a
-     7th; below that the 10rem floor lets it reflow down as the content narrows. ===== */
+     The max() min-track grows once 8 tiles would each clear 7rem, so auto-fill never places a
+     9th; below that the 7rem floor lets it reflow down as the content narrows. ===== */
   .ds-grid{display:grid;gap:.75rem;margin-top:.75rem}
-  .ds-app.ds-v3 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(max(10rem,(100% - 5 * .75rem)/6),1fr));gap:.75rem}
+  .ds-app.ds-v3 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(max(7rem,(100% - 7 * .75rem)/8),1fr));gap:.75rem}
   #ds-cats{flex-wrap:wrap;padding-bottom:2px;margin-top:.75rem}
   #ds-cats::-webkit-scrollbar{display:none}
   @media(max-width:767px){#ds-cats{flex-wrap:nowrap;overflow-x:auto}}

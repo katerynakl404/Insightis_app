@@ -4,7 +4,7 @@ Source: `@insightis/ui` `InputGroup/index.tsx` + `InputGroupAddon`, `InputGroupI
 
 ## Shell — primary variant
 
-Shares the **form-control system** with [Input](Input.md) and [TextArea](TextArea.md): same hover / focus / error tokens, no outer ring (replaces the earlier proposal to use the Button-style `--focus-ring-brand`).
+Shares the **form-control system** with [Input](Input.md) and [TextArea](TextArea.md): same hover / focus / error tokens, no outer ring (replaces the earlier proposal to use the Button-style `--shadow-focus`).
 
 ### DOM / markup structure
 ```html
@@ -29,7 +29,7 @@ Shares the **form-control system** with [Input](Input.md) and [TextArea](TextAre
 | Default | border `border`, bg `background`, text `content-secondary` | — | — no change (hex → [colors](colors.md)) | radius `6px`, heights xs 28 / sm 32 / md 36 / lg 40 / xl 44 px; input padding `0 8px`, addon padding `0 10px`, gap `8px`, font-size `.875rem`; border `1px solid --border`, bg `--bg` (outline variant `--card`) |
 | Hover | ⚠ none defined | — | **shipped** — border `Stroke/Border_Hover` (`--border-hover`) | `.igrp:hover{border-color:var(--border-hover)}` — light `#7C8CA2` (slate-450) / dark `#475569` (slate-600) |
 | Pressed | ⚠ none defined | — | **shipped** — border `--input-focus`; no bg change | `.igrp:active,.igrp.s-pressed{border-color:var(--input-focus)}` — same recipe as [Input](Input.md): border-only swap, no bg lift |
-| Focus (inner input `:focus-visible`) | shell border → `content-primary` (no ring) | — | 1 px neutral border via `--input-focus` (light `Slate-600 #475569` / dark `Slate-500 #64748B`), no outer ring | `.igrp:focus-within{border-color:var(--input-focus);box-shadow:none}`. `--input-focus` softened from `--focus-ring` (Slate-900 / Slate-100) through `--ink-secondary` (Slate-550 / Grey-400) to Slate-600 light / Slate-500 dark — see [Input](Input.md) |
+| Focus (inner input `:focus-visible`) | shell border → `content-primary` (no ring) | — | 1 px neutral border via `--input-focus` (light `Slate-600 #475569` / dark `Slate-500 #64748B`), no outer ring | `.igrp:focus-within{border-color:var(--input-focus);box-shadow:none}`. `--input-focus` softened from Slate-900 / Slate-100 through `--ink-secondary` (Slate-550 / Grey-400) to Slate-600 light / Slate-500 dark — see [Input](Input.md). (Form-control focus uses a neutral *border*, not the brand focus *ring* — distinct from `--shadow-focus`.) |
 | Error (`isInvalid` / `aria-invalid`) | border `red/20`, bg `red/5`, ring `red/20`, svg `red/60`, placeholder `red/60` | — | 1 px `--input-error` border (theme-adaptive: light `red-700` / dark `red-500`), no bg tint, no outer ring; icon + placeholder also `--input-error` | Theme-adaptive solves dark-mode AA fail (`red-700` 2.76:1 vs grey-900) |
 | Disabled (inner `:disabled`) | `opacity-50 select-none`; addons inherit | — | `opacity:var(--opacity-disabled)` (`.65`), `pointer-events:none`; addons inherit | ⚠ low text contrast on `Text/Body @ .65` — known limitation |
 

@@ -49,8 +49,8 @@ These are locked decisions. Do not change without explicit approval.
 | | Prod (Current) | Expected |
 |---|---|---|
 | Card layout | C1 horizontal + C2 variant + layout toggle | **Variant 3 only** — vertical tile, no toggle |
-| Tile | — | Vertical: logo on top (`3.5rem`), name below (2-line clamp, centred), fixed `9.5rem` height |
-| Columns | — | Capped at **6 per row** (`auto-fill` + `max(10rem, (100% − 5·gap)/6)`), reflows down when narrower |
+| Tile | — | Compact ~**square** vertical tile: small logo on top (`2.5rem`), name below (`text-14`, 2-line clamp, centred), fixed `8rem` height (≈ the ~8rem column width at 8/row) |
+| Columns | — | Capped at **8 per row** (`auto-fill` + `max(7rem, (100% − 7·gap)/8)`), reflows down when narrower (updated 2026-06-25 from 6) |
 | Connect | — | Revealed over a translucent scrim on **hover** (desktop) / **tap** (touch, `.is-active`); tap scrim or another tile to collapse |
 | Logo | bordered container | Plain sprite logo, no container (`.logo-spr`) |
 | Category text on card | Present (`.ds-card-cat`) | Removed — `.ds-card-cat` element and class gone |

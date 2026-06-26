@@ -12,7 +12,7 @@ Connector-catalog card used on the [Data Sources → Connections](../pages/conce
 
 | Variant | Container class | Layout | Logo size | Tile height | Connect affordance |
 |---|---|---|---|---|---|
-| Variant 3 — vertical tile (**approved, only layout**) | `.ds-app.ds-v3` | vertical, centered | `3.5rem` | `9.5rem` fixed | hover/tap scrim reveals `.ds-card-connect` |
+| Variant 3 — ~square vertical tile (**approved, only layout**) | `.ds-app.ds-v3` | vertical, centered | `2.5rem` | `8rem` fixed | hover/tap scrim reveals `.ds-card-connect` |
 
 > **Resolved — Variant 3 is the sole catalog layout.** Earlier iterations explored a "Style 1" horizontal row (`.ds-v1`, never shipped) and a compact "Variant 2" tile (`.ds-v2`). Both — and the topbar layout toggle — are **removed**. The catalog renders only the Variant 3 tile. The bare horizontal `.ds-card` shell remains in CSS as the base the tile extends, but is not a rendered variant.
 
@@ -36,7 +36,7 @@ Connector-catalog card used on the [Data Sources → Connections](../pages/conce
 | Sub-part | Class | Spec |
 |---|---|---|
 | Logo wrapper | `.ds-logo-wrap` | inline span, `position:relative; flex:none; display:inline-flex` (anchors the flame badge) |
-| Connector logo | `.logo-spr.<slug>` | plain sprite, **no container / border / backing**; `--logo-size:3rem` (base shell; the Variant 3 tile overrides to `3.5rem`). Defined in [`kit-theme.css`](../pages/kit-theme.css) `.logo-spr`. |
+| Connector logo | `.logo-spr.<slug>` | plain sprite, **no container / border / backing**; `--logo-size:3rem` (base shell; the Variant 3 tile overrides to `2.5rem`). Defined in [`kit-theme.css`](../pages/kit-theme.css) `.logo-spr`. |
 | Body | `.ds-card-body` | `flex:1; min-width:0; display:flex; flex-direction:column; gap:.125rem` |
 | Head row | `.ds-card-head` | `display:flex; align-items:center; gap:.375rem; min-width:0` |
 | Name | `.ds-card-name` | `font-size:.875rem` (14px) · `line-height:1.25rem` (20px) · `font-weight:400` (regular — **not** 600) · `color:var(--ink)`. Maps to Typography **text-sm** — see [`../current/typography.md`](../current/typography.md). Name only — no category, no description. |
@@ -65,16 +65,16 @@ Scoped under `.ds-app.ds-v3 .ds-card`. Base shell otherwise inherited.
 | `align-items` / `justify-content` | `center` / `center` |
 | `text-align` | `center` |
 | `gap` | `.5rem` |
-| `padding` | `1.25rem 1rem` |
-| `height` | `9.5rem` (fixed) |
-| logo `--logo-size` | `3.5rem` |
-| `.ds-card-name` | `1rem`/`1.5rem`, 2-line clamp |
+| `padding` | `1rem` |
+| `height` | `8rem` (fixed — ~square at the ~8rem column width) |
+| logo `--logo-size` | `2.5rem` |
+| `.ds-card-name` | `.875rem`/`1.25rem` (same as base shell), 2-line clamp |
 | `.ds-card-body` | `flex:0 0 auto; align-items:center` |
 | `.ds-card-head` | `justify-content:center` |
 
 Name clamp: `display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden` — long names cap at 2 lines without growing the fixed-height tile.
 
-Grid container (set on `.ds-grid`, not the card): `repeat(auto-fill,minmax(max(10rem,(100% - 5 * .75rem)/6),1fr)); gap:.75rem` (caps at 6/row).
+Grid container (set on `.ds-grid`, not the card): `repeat(auto-fill,minmax(max(7rem,(100% - 7 * .75rem)/8),1fr)); gap:.75rem` (caps at 8/row).
 
 ## Hover scrim + Connect reveal (tile variants only)
 

@@ -41,6 +41,6 @@ Trigger is a `<button type="button">`; chevron is an inline 14×14 SVG (`viewBox
 - Content exposes `data-state="open"|"closed"` for entry/exit transitions — consumer adds the animation.
 
 ## ⚠ Best-practice states — to define (consumer-level)
-- Focus ring on the trigger button (delegate to Button's `--focus-ring-brand`).
+- Focus ring on the trigger button (delegate to Button's `--shadow-focus`).
 - Open/closed icon affordance (chevron rotation) — convention only, not a token change.
 - Reduced-motion fallback for the open/close animation.

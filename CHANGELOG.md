@@ -47,7 +47,7 @@
   - Chip chevron (in card context): color `--brand-primary → --ink-inactive`, extra `margin-left: 0.125rem` gap. Scoped via `.mx-c3-prov-card .chip-meta-arrow`.
   - Footer: removed "X metrics available" count span from all 27 provider cards. Connect button is now full-width in the footer row.
   - Connect button: `btn-secondary` — unchanged.
-  - Card hover: border-color changed from `color-mix(Brand-primary 22%, --border)` to `--border-hover` (neutral) — no saturated teal ring on hover; `translateY` increased from `-1px → -2px` for stronger lift feel. Added explicit `:focus-visible` ring using `--shadow-focus-brand`.
+  - Card hover: border-color changed from `color-mix(Brand-primary 22%, --border)` to `--border-hover` (neutral) — no saturated teal ring on hover; `translateY` increased from `-1px → -2px` for stronger lift feel. Added explicit `:focus-visible` ring using `--shadow-focus`.
 
 ### Sidebar nav
 

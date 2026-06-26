@@ -31,7 +31,7 @@ Source: `@insightis/ui` `Autocomplete/index.tsx` + `hooks/use-autocomplete`. Bas
 |---|---|---|---|
 | Default | `InputGroup variant="outline" size="lg"` shell + chevron-down trailing | — no change | inherits InputGroup |
 | Open | root gets `.is-open`; chevron rotated 180° (`.acpl.is-open .acpl-end .chev`, 200ms transition) | — no change | matches Dropdown's open affordance |
-| Focus | — | **shipped:** `.acpl:focus-within .acpl-ctrl` → `border-color: var(--ink)` (line 1712). Forward-looking: inherit `--focus-ring-brand` once [`InputGroup`](InputGroup.md) is upgraded | focus-within darkens the control border to ink; brand ring is a planned upgrade, not shipped |
+| Focus | — | **shipped:** `.acpl:focus-within .acpl-ctrl` → `border-color: var(--ink)` (line 1712). Forward-looking: inherit `--shadow-focus` once [`InputGroup`](InputGroup.md) is upgraded | focus-within darkens the control border to ink; brand ring is a planned upgrade, not shipped |
 | Hover | clear button fades in on `group-hover` / `group-focus-within` / open | — no change | UX detail — preserve |
 | Error | propagates via `InputGroup isInvalid` | — no change (hex → [colors](colors.md)) | red/20 border, red/5 bg |
 | Disabled | DropdownMenuTrigger `disabled`; clear/popup hidden | — no change | parent InputGroup also `opacity-50` |

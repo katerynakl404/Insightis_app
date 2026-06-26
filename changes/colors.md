@@ -45,8 +45,10 @@ All semantic tokens are aliases — they resolve through `var(--<primitive>)`. V
 > **Usage pattern:** Press feedback across the kit is **bg-shift-only** — no transform, no shadow, no text-position shift on press. Each variant has a distinct pressed colour (Primary → `--btn-primary-bg-press`, Secondary → `--state-pressed`, Outline / Tertiary → `Brand/Primary @8%` overlay, Destructive → `--fb-red-press`). For low-emphasis nav-style items (`.sbx-nav-item`, `.sbx-chat`) the pressed bg simply stays at `--state-hover` — pressed visually equals hover, with the cursor change as the only state cue. This is the Tailwind UI / shadcn / GitHub Primer convention.
 | State/Disabled | Light | `#E6EAEF` | `#E2E8F0` | `var(--slate-200)` |
 | State/Disabled | Dark | `#232527` | `#2A2834` ⚠️ **lifted for shape visibility on Card** | `var(--grey-700)` — was `var(--grey-800)` `#21212C` but that's only 4pt lightness above `--card` Grey-900 (10% → 14%), so disabled buttons (e.g. the dark Send button) merged into the composer surface and didn't read as buttons. Grey-700 (18% L) gives an 8pt lift — the button shape is clearly distinct from the card while still reading as muted. Aliased with `--state-pressed`, `--chips`, and `--border` in dark, but those surfaces never co-occur with a disabled button's bg. Text `Slate-400` on Grey-700 = ~5.5:1 (still AA). |
-| State/Focus_Ring | Light | — | `#0F172A` | `var(--slate-900)` (`--focus-ring`) |
-| State/Focus_Ring | Dark | — | `#F1F5F9` | `var(--slate-100)` |
+| State/Focus_Ring | Light | — | `#0F172A` | `var(--slate-900)` — Figma neutral focus-ring token |
+| State/Focus_Ring | Dark | — | `#F1F5F9` | `var(--slate-100)` — Figma neutral focus-ring token |
+
+> **Kit override:** the kit does **not** wire `--focus-ring` to this neutral `State/Focus_Ring` slate. `--focus-ring: var(--focus-ring-brand)` → **brand `#07807E`**, so every focus ring (`--shadow-focus`, all components incl. Destructive) renders brand-teal, not neutral slate. The neutral Figma token is documented here for completeness but is not the shipped focus colour.
 | Surface/Card | Light | `#FFFFFF` | `#FFFFFF` | `var(--white)` |
 | Surface/Card | Dark | `#1A1A1F` | `#17171E` | `var(--grey-900)` |
 | Surface/Card 2 | Light | — | `#F1F5F9` | `var(--slate-100)` |
