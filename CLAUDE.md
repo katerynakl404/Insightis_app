@@ -73,11 +73,18 @@ If I touch a rule in `pages/kit-theme.css` (token, selector, recipe), the change
 
 When any of (1)–(3) is skipped, the artifact lies — the doc says one thing, the CSS does another, two pages render differently. Don't ship a half-propagated change.
 
-**Lockstep applies to EVERY edit, in BOTH directions — not just CSS-first redesigns.** The three spec surfaces — `pages/kit-theme.css` (implementation = ground truth), the storybook `#<component>` section, and `changes/<Component>.md` — are one contract and must always read the same values. Editing ANY one obligates the other two in the same pass (a one-line value tweak, a renamed token, a new state, even a fixed comment). Two more hard sub-rules that the spec-completeness audit proved were missing:
-- **Completeness (self-reproducing):** `changes/<X>.md` + the storybook section must let a dev rebuild the component WITHOUT reading the CSS — so every CSS value (all dims, every state + its token, typography incl. line-height, markup, transitions, dark overrides) must appear in the spec. No omissions; no "reuses X — see X.md" for the component's own states (inline them). No `⚠ to define` over a state the CSS already implements.
-- **Intra-file consistency:** a code comment stating a value (`/* scale(.985) */`) must match its rule (`scale(.99)`); fix the comment in the same edit. Storybook demo markup/inline values must equal the CSS.
+**Lockstep applies to EVERY edit, in BOTH directions.** The three surfaces have **distinct jobs** and no longer hand-copy values to each other (that copying is what drifted; the live Spec inspector now derives values):
+- **`pages/kit-theme.css`** — implementation + **single source of every value**.
+- **storybook `#<component>`** — live demos (full state/variant coverage) + the auto-generated **"Spec (live)" panel** that reads computed styles and maps them to tokens. The panel supplies the values; you don't hand-type them. Your job is correct, complete demo markup (real kit classes, every state + size) so the derived spec is real.
+- **`changes/<Component>.md`** — the change *story*: prod→Expected diff, the *why*, token map, `No change (—)`, a11y self-check. NOT a re-dump of values.
 
-Before declaring any component change done, run the **verification gate**: `grep` the component's classes across all three surfaces and confirm every CSS value appears identically in the storybook + changes doc; correct any doc value to the CSS (implementation wins — if you think the *intent* differs, surface it per rule 3, don't keep the stale value). Full rule + root-cause analysis: [`claude-code/instructions.md`](claude-code/instructions.md) → "Lockstep — the three spec surfaces move together".
+Editing one still obligates the others (CSS value tweak → ensure the demo renders the case → record the change + rationale in the doc), but:
+- **Values live in CSS, not prose.** Never restate a px/hex/weight/shadow in `changes/*.md` or storybook prose when the panel already derives it — record token NAMES + rationale. If the panel shows a value raw (no token), that's a cue to tokenise, not to document the raw value.
+- **Intra-file consistency:** a comment stating a value (`/* scale(.985) */`) must match its rule (`scale(.99)`); fix it in the same edit.
+- **Demos use real kit classes + cover every state/variant** — the panel only reflects what the demo renders; inline styles in demos are for layout only, never to fake appearance.
+- **Kit mirrors concepts:** a component change on a concept page propagates to the kit (storybook demo + `kit-theme.css`) the same pass; shared component CSS lives in `kit-theme.css`, never a page `<style>` block (molecule CSS hiding in a page `<style>` is why the metrics table / gradient banner / prov-card rendered wrong in the storybook).
+
+Full rule: [`claude-code/instructions.md`](claude-code/instructions.md) → "Lockstep — implementation, live demo, and change-story stay in sync".
 
 ### 3. Confirm before modifying agreed-and-already-implemented visuals
 
@@ -94,6 +101,12 @@ Removing a rule, dropping an `.dark` override, or replacing a documented mix is 
 
 If the same hover %, transition duration, scale value, or shadow recipe needs to live on multiple selectors, lift it to a `--token`. Otherwise the next person (or the next me) will edit one and miss the other, and the visual will drift. Existing examples: `--motion-fast/base/slow`, `--content-max-narrow/wide`, `--state-hover`, `--brand-primary`. New ones are cheap to add — name them by intent ("--hover-lift-overlay") not by value ("--white-50").
 
+**Adding / renaming / removing a `--token` obligates regenerating the storybook fallback list.** The live Spec inspector reads token names from `kit-theme.css` at view-time (drift-proof) — EXCEPT on `file://`, where Chrome blocks `cssRules`/`fetch`, so it falls back to the embedded `FALLBACK_TOKEN_NAMES` array in `insightis-preview-kit.html`. That array is the one hand-synced copy of the token-name set. When you touch the token set, regenerate it in the same pass:
+```
+grep -oE '\-\-[A-Za-z0-9_-]+[[:space:]]*:' pages/kit-theme.css | sed -E 's/[[:space:]]*:$//' | sort -u
+```
+paste the comma-joined result into `FALLBACK_TOKEN_NAMES` (regen command is also in the comment above the array). Safety net: when viewed over http the storybook auto-compares the live token set against this array and shows an amber `.spec-drift-note` banner (+ a `console.warn`) listing the new/removed tokens if it's stale — so drift is caught, but fixing it is still a manual regen.
+
 ### 4a. Cascading delete — when removing something, remove everything that hangs off it
 
 Whenever a feature, class, function, or block is removed, the deletion is incomplete until every dependent thing is also gone:
@@ -107,9 +120,9 @@ The failure mode is "orphan code": a JS handler that runs but its DOM target is 
 
 Before completing a delete, run a `Grep` sweep for the removed identifier across the whole repo. If anything still references it, that thing is also part of the delete.
 
-### 5. When asked to verify, verify against the documented spec — not against memory
+### 5. When asked to verify, verify against the live Spec panel + CSS — not against memory
 
-If the user says "this doesn't match what we agreed", the first move is `Grep` the storybook + `changes/<Component>.md` to find the documented values. Quote what's there, then compare with current rendering. If memory and doc disagree, the doc wins. If both disagree with the user, **ask** which one is authoritative — don't trust either silently.
+If the user says "this doesn't match what we agreed", the first move is to read the **live Spec (live) panel** for the component (the derived truth) and the `kit-theme.css` rule behind it, plus the rationale in `changes/<Component>.md`. Quote what's there, then compare with the current rendering. CSS/panel is the value truth; the doc holds the *why*. If they disagree with the user, **ask** which is authoritative — don't trust memory silently.
 
 ## How this round failed (so I don't repeat it)
 

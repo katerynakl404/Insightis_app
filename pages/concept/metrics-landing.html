@@ -49,14 +49,8 @@
   .mx-add-btn{display:none !important}
   #mx-root.is-filled #mx-add-custom-btn{display:inline-flex !important}
 
-  /* в”Ђв”Ђ Shared table shell вЂ” page-specific overrides only; base rules live in kit-theme.css в”Ђв”Ђ */
-  .mx-tbl .mx-tbl-desc{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--ink-secondary);font-size:.8125rem}
-  .mx-tbl .mx-tbl-name,.mx-tbl .mx-tbl-alias{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-
-  /* в”Ђв”Ђ Toggle wrapper вЂ” size overrides for table row toggles (base display from kit) в”Ђв”Ђ */
-  .mx-swt-wrap .swt{width:1.75rem;height:1rem}
-  .mx-swt-wrap .swt::after{width:.75rem;height:.75rem;top:2px;left:2px}
-  .mx-swt-wrap .swt.on::after{left:calc(100% - .875rem)}
+  /* Table molecule (.mx-tbl, .mx-swt-wrap size, cell ellipsis) now lives entirely in kit-theme.css
+     so the storybook renders it identically. Page keeps only page-layout glue below. */
 
   /* в”Ђв”Ђ Detail side panel в”Ђв”Ђ */
   #mx-panel{position:fixed;top:40px;right:0;bottom:0;width:420px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
@@ -138,21 +132,7 @@
   .ds-intg-check-lbl{font-size:.875rem;color:var(--ink)}
   .ds-intg-select{height:2.5rem;border:1px solid var(--brand-primary);border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;justify-content:space-between;font-size:.875rem;color:var(--ink);background:var(--white);width:100%}
 
-  /* Gradient banner buttons вЂ” always render as light-theme appearance, theme-independent */
-  .banner-grad .btn-secondary,
-  .dark .banner-grad .btn-secondary{background:var(--white);border-color:var(--slate-300);color:var(--slate-900)}
-  .banner-grad .btn-secondary:hover,
-  .dark .banner-grad .btn-secondary:hover{background:color-mix(in srgb,var(--brand-600) 8%,var(--white));border-color:var(--slate-400);color:var(--slate-900)}
-  .banner-grad .btn-primary,
-  .dark .banner-grad .btn-primary{background:var(--white);color:var(--brand-600)}
-  .banner-grad .btn-primary:hover,
-  .dark .banner-grad .btn-primary:hover{background:color-mix(in srgb,var(--brand-600) 8%,var(--white));color:var(--brand-600)}
-  /* в”Ђв”Ђ Noise: diagonal gradient + grain texture в”Ђв”Ђ */
-  .banner-noise{--grad-teal-dark:var(--grad-noise);position:relative;overflow:hidden}
-  .banner-noise::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    opacity:.07;mix-blend-mode:soft-light}
-  .dark .banner-noise::after{opacity:.15}
+  /* .banner-grad button styling + .banner-noise grain now live in kit-theme.css (single source). */
   /* Banner button вЂ” semi-transparent white, for use on gradient banners */
   .btn-banner{display:inline-flex;align-items:center;justify-content:center;gap:.375rem;padding:0 .875rem;height:2rem;font-size:.8125rem;font-weight:500;line-height:1;border-radius:.375rem;border:1px solid color-mix(in srgb,var(--white) 40%,transparent);background:color-mix(in srgb,var(--white) 14%,transparent);color:var(--white);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
   .btn-banner:hover{background:color-mix(in srgb,var(--white) 24%,transparent);border-color:color-mix(in srgb,var(--white) 55%,transparent)}

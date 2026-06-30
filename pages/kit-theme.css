@@ -88,6 +88,7 @@
     --grad-noise:linear-gradient(135deg,var(--tertiary-700) 0%,var(--brand-600) 20%,var(--brand-100) 100%);
     --banner-grad-text:var(--white);
     --banner-grad-sub:color-mix(in srgb,var(--white) 82%,transparent);
+    --banner-grad-btn-hover:color-mix(in srgb,var(--brand-600) 8%,var(--white));
     --banner-grad-ic-bg:color-mix(in srgb,var(--white) 18%,transparent);
     --banner-grad-ic-border:rgba(255,255,255,.4);
     --banner-grad-ic-shadow:0 0 0 8px rgba(255,255,255,.07),0 0 24px rgba(255,255,255,.09);
@@ -242,6 +243,16 @@
     --shadow-lift-hover:0 6px 16px -3px rgba(15,23,42,.09),0 2px 4px -1px rgba(15,23,42,.05);
     --shadow-overlay:0 10px 15px -3px rgba(0,0,0,.12),0 4px 6px -4px rgba(0,0,0,.08);
     --shadow-modal:0 20px 40px -8px rgba(0,0,0,.22);
+    /* Corner-radius scale (named steps from changes/Radius.md). Components may still author literal
+       equivalents (.375rem == --radius-md at 16px root); the spec inspector maps either to the token. */
+    --radius-sm:2px;       /* tiny accent corners (.b-x, tab-edge slivers) */
+    --radius-inner:4px;    /* .25rem — inner items inside an 8px shell (.mi, .badge-sm, .cbx) */
+    --radius-md:6px;       /* .375rem — workhorse controls (.btn, .iconbtn, .field, .ta, .badge) */
+    --radius-lg:8px;       /* .5rem — container shells (.menu, .card-c, .toast) */
+    --radius-panel:10px;   /* .625rem — .card-panel / .block lift family */
+    --radius-xl:12px;      /* .75rem — large feature panels */
+    --radius-2xl:14px;     /* .875rem — modal dialog (.dlg) */
+    --radius-full:9999px;  /* pills & circles (.swt, .chip, avatar, .b-dot, .spinner) */
   }
 
   /* =========================================================================
@@ -488,6 +499,7 @@
   .side{position:sticky;top:56px;align-self:start;height:calc(100vh - 56px);overflow:auto;border-right:1px solid var(--border);background:var(--card);padding:1rem .75rem}
   .side a{display:flex;align-items:center;gap:8px;border-radius:6px;padding:4px 10px;font-size:var(--text-13);color:var(--ink-body)}
   .side a:hover{background:var(--state-hover);color:var(--brand-primary)}
+  .side a.active{background:var(--state-pressed);color:var(--brand-primary);font-weight:600}
   .side .grp{margin:16px 10px 6px;font-size:var(--text-10);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive)}
 
   .content{min-width:0;padding:1.75rem 2rem 6rem;max-width:1080px}
@@ -541,6 +553,20 @@
   .fill{min-height:30px;min-width:96px;border:1px dashed var(--border-hover);border-radius:.375rem;opacity:.5}
   .block-h .pend{color:var(--fb-attention);font-weight:700}
   .colhint{font-size:.5625rem;color:var(--ink-inactive);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+  /* ── Live Spec inspector — auto-derived computed-value table (storybook JS) ── */
+  .spec-drift-note{position:sticky;top:0;z-index:50;padding:.5rem .9rem;background:var(--fb-attention);color:var(--fb-attention-text);font-size:var(--text-12);font-weight:600;border-bottom:1px solid var(--border)}
+  .specpanel{margin-top:.6rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);overflow:hidden}
+  .specpanel>summary{cursor:pointer;padding:.5rem .75rem;font-size:var(--text-12);font-weight:600;color:var(--ink-body);list-style:none;display:flex;align-items:center;gap:.4rem;user-select:none}
+  .specpanel>summary::-webkit-details-marker{display:none}
+  .specpanel>summary::before{content:"\25B8";color:var(--ink-secondary);transition:transform .12s;display:inline-block}
+  .specpanel[open]>summary::before{transform:rotate(90deg)}
+  .specpanel-note{font-size:var(--text-10);color:var(--ink-secondary);font-weight:400;margin-left:auto}
+  .spectable-wrap{overflow-x:auto;border-top:1px solid var(--border)}
+  .spectable{width:100%;border-collapse:collapse;font-size:var(--text-11);font-family:ui-monospace,Menlo,monospace}
+  .spectable th,.spectable td{text-align:left;padding:.3rem .6rem;border-top:1px solid var(--border);white-space:nowrap;vertical-align:top}
+  .spectable thead th{position:sticky;top:0;background:var(--card2);font-weight:700;color:var(--ink)}
+  .spectable .spec-prop{color:var(--ink-secondary);font-weight:500}
+  .spectable .spec-group{background:var(--bg);color:var(--ink-secondary);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:var(--text-10)}
 
   /* ===== component helpers (mirror @insightis/ui) ===== */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:.375rem;white-space:nowrap;font-weight:500;border-radius:.375rem;transition:all .12s;cursor:pointer;border:1px solid transparent;font-family:inherit}
@@ -888,8 +914,16 @@
   /* CTA on gradient — btn-secondary renders naturally (solid white card bg, dark text — high contrast).
      btn-primary flips to white bg + brand text so it doesn't clash with the white body copy.
      Dark theme: card bg is too dark against the gradient; use translucent white instead. */
-  .banner-grad .btn-primary{background:var(--banner-grad-text);color:var(--brand-primary)}
-  .banner-grad .btn-primary:hover{background:var(--banner-grad-sub)}
+  /* CTAs on the gradient stay white in BOTH themes (--banner-grad-text is theme-independent white),
+     so no .dark override is needed. Migrated from metrics-landing.html's <style> (was inline color-mix). */
+  .banner-grad .btn-secondary{background:var(--banner-grad-text);border-color:var(--slate-300);color:var(--slate-900)}
+  .banner-grad .btn-secondary:hover{background:var(--banner-grad-btn-hover);border-color:var(--slate-400);color:var(--slate-900)}
+  .banner-grad .btn-primary{background:var(--banner-grad-text);color:var(--brand-600)}
+  .banner-grad .btn-primary:hover{background:var(--banner-grad-btn-hover);color:var(--brand-600)}
+  /* Optional noise-textured gradient — swaps the fill to the noise gradient token + a soft grain overlay */
+  .banner-noise{--grad-teal-dark:var(--grad-noise);position:relative;overflow:hidden}
+  .banner-noise::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.07;mix-blend-mode:soft-light}
+  .dark .banner-noise::after{opacity:.15}
   .mi:active{background:var(--state-pressed)}
   .mi.danger{color:var(--fb-red-text)}
   /* Danger keeps a red-tinted hover so the warning intent is still visible at the surface level (red text alone can read as a quirky link colour on hover). Press feedback also red-tinted, slightly deeper, mirroring the destructive-button hover/press recipe. */
@@ -921,12 +955,13 @@
   .cl-menu-label{padding:8px 12px 4px;font-size:var(--text-11);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-secondary)}
   .cl-menu-label + .menu-sep,.menu-sep + .cl-menu-label{margin-top:0}
 
-  /* — Attach menu — fixed 280px: secondary "Choose File" pill + plain recent-file list (no icons). */
+  /* — Attach menu — fixed 280px: secondary "Choose File" button + plain recent-file list (no icons). */
   .cl-attach-menu{width:280px;max-width:280px}
-  /* CTA pill — full-width, content left-aligned at the same 12px inset as the section label and
-     the recent-file rows below, so the whole menu shares one left edge. Rounded to a full pill;
-     weight 600 sits one step above the regular-weight file names. */
-  .cl-attach-choose{width:100%;justify-content:flex-start;gap:.5rem;padding:0 12px;border-radius:999px;font-weight:600;margin-bottom:8px}
+  /* CTA — a standard kit secondary button (btn btn-secondary btn-sm): auto width, standard
+     .375rem corners, default 2rem height. Only the menu placement is overridden here (8px left
+     inset off the menu edge + 8px gap above the recent-files list). Was previously a full-width
+     999px stadium pill, which read as oversized/distorted at 270px wide. */
+  .cl-attach-choose{gap:.5rem;margin:0 8px 8px}
   /* Recent files read as a plain text list — no leading icon, regular weight (one step below the
      CTA), --ink-body, single-line ellipsis. */
   .cl-file-item{display:block;font-weight:400;color:var(--ink-body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -940,13 +975,14 @@
   /* Connector logo — sprite. Compound selector beats the base .logo-spr{--logo-size:2rem}
      (equal specificity, base is defined later in the file), pinning these menu logos to 18px. */
   .logo-spr.cl-conn-logo{--logo-size:24px}
-  /* Model logo — an <img>, not a sprite: gemini.svg uses a mask+pattern+embedded raster that
-     does NOT paint when an SVG is a CSS background-image, but renders fine as an <img>. 24px = 4px grid. */
-  .cl-model-logo{width:24px;height:24px;flex:none;object-fit:contain}
+  /* Model logo — the Insightis brand mark, inline <svg><use href="#lg-mark"/></svg> (the models are
+     first-party: Insightis Light / Insightis Ultra). currentColor → brand-primary. 24px = 4px grid. */
+  .cl-model-logo{width:24px;height:24px;flex:none;color:var(--brand-primary)}
   .cl-conn-text,.cl-model-text{display:flex;flex-direction:column;line-height:1.25;min-width:0;flex:1}
-  /* User's connection name = primary; connector type = secondary (kit connection-hierarchy rule). */
+  /* Connected rows show the user's connection name only (single line, no connector-type subtext);
+     model rows show name (primary) + description (secondary). */
   .cl-conn-name,.cl-model-name{font-size:var(--text-14);font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .cl-conn-type,.cl-model-desc{font-size:var(--text-12);color:var(--ink-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cl-model-desc{font-size:var(--text-12);color:var(--ink-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   /* Connected-source toggle — kit Switch (small), pinned to the row's right edge. Connections are
      on/off sources for the chat → a toggle; models are single-select → a check (below). */
   .cl-conn-swt{margin-left:auto}
@@ -954,12 +990,6 @@
      (theme-adaptive accent, AA in both themes) — same accent as the selected model name. */
   .cl-model-check{width:16px;height:16px;flex:none;color:var(--ink-highlight);opacity:0}
   .cl-model-item[aria-checked="true"] .cl-model-check{opacity:1}
-  /* Suggested-connector CTA — small outlined pill that opens the connection window. Follows the
-     Outlined family recipe: brand border + neutral Text/Body label. Revealed only on row
-     hover/focus (its space is always reserved → no layout shift) so the resting Suggested list
-     stays a clean logo + name list instead of a stack of repeated pills. */
-  .cl-conn-add{margin-left:auto;flex:none;display:inline-flex;align-items:center;height:24px;padding:0 12px;font-size:var(--text-12);font-weight:600;color:var(--ink-body);border:1px solid var(--brand-primary);border-radius:999px;opacity:0;transition:opacity .12s}
-  .cl-conn-item:hover .cl-conn-add,.cl-conn-item:focus-visible .cl-conn-add{opacity:1;background:var(--btn-outline-bg-hover)}
   /* Manage link — full-width row, brand label + leading icon. */
   .cl-conn-manage{color:var(--ink-highlight);font-weight:500;text-decoration:none}
   /* Gear sits in the same 24px leading column as the connector logos so every row's text shares
@@ -1281,7 +1311,7 @@
   /* Use with class="iconbtn iconbtn-tertiary sbx-chat-more" — inherits color/hover/pressed/focus
      from .iconbtn-tertiary; this rule only overrides size, absolute positioning, opacity-reveal. */
   .sbx-chat-more{position:absolute;top:50%;right:.25rem;transform:translateY(-50%);height:1.5rem;width:1.5rem;flex:none;opacity:0;pointer-events:none;transition:opacity .12s, background-color .12s, color .12s;z-index:2}
-  .sbx-chat-more svg{width:18px;height:18px}
+  .sbx-chat-more svg{width:14px;height:14px}
   /* Override the inherited .iconbtn-tertiary:hover (which uses --state-hover / slate-100) with a
      brand-tinted hover. This is critical because the row .sbx-chat:hover ALSO uses --state-hover,
      so if the kebab used the same colour its hover would be invisible against the row's hover bg.
@@ -2051,7 +2081,7 @@
   .prov-card-browse-label{font-size:var(--text-14);font-weight:600;color:var(--ink-secondary);margin:0 0 .25rem}
   .prov-card-browse-sub{font-size:var(--text-12);color:var(--ink-inactive);margin:0}
   /* chip-meta inside prov-card: 5 clickable bordered chips, always all visible, wrap freely */
-  .prov-card .chip-row{gap:.25rem;flex-wrap:wrap;overflow:visible;align-items:center}
+  .prov-card .chip-row{gap:.25rem;flex-wrap:wrap;overflow:visible;align-items:center;margin-left:0;margin-right:0;padding-left:0;max-width:100%;-webkit-mask-image:none;mask-image:none}
 
   /* ===== Data source card (ds-card / ds-conn-row) =====
      Connector catalog card + connected-list row used on the Data Sources → Connections page.
@@ -2189,7 +2219,7 @@
      leaves the row to enter the menu and the row snaps back to rest — read as "hover was removed"
      while interacting with the menu items. */
   .chat-row:has(.chat-row-more[aria-expanded="true"]){background:var(--state-hover);border-color:var(--card-border-hover);box-shadow:var(--shadow-card-hover)}
-  .chat-row.is-selected,.chat-row.s-selected{background:var(--state-pressed);border-color:var(--brand-primary);box-shadow:0 1px 2px 0 rgba(15,23,42,.04)}
+  .chat-row.is-selected,.chat-row.s-selected{background:var(--state-pressed);border-color:var(--brand-primary);box-shadow:var(--shadow-rest)}
   .chat-row.is-selected:hover,.chat-row.s-selected:hover{background:color-mix(in srgb,var(--brand-primary) 10%,var(--state-pressed));border-color:var(--brand-primary)}
   /* Active/press — subtle 1% inward scale + we also calm the hover shadow back to its rest value
      so press doesn't stack depth on top of hover (the combination read as "too contrasted"). The
@@ -2241,7 +2271,7 @@
   /* Kebab slot — 24×24 tertiary icon button, follows the timestamp on the right edge. Hidden until
      row hover/focus-within or menu open — same fade recipe as .sbx-chat-more. */
   .chat-row-more{height:1.5rem;width:1.5rem;border-radius:.25rem;flex:none;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--ink-secondary);padding:0;font-family:inherit;opacity:0;pointer-events:none;transition:opacity .12s, color .12s, background-color .12s}
-  .chat-row-more svg{width:16px;height:16px}
+  .chat-row-more svg{width:14px;height:14px}
   /* Brand-mix is deliberate (not drift): .chat-row-more sits inside .chat-row which hovers to --state-hover. A neutral hover would make the kebab disappear into the row's hover bg. The 6/8% brand mix keeps the kebab visible as a distinct surface on top of the hovered row. */
   .chat-row-more:hover{color:var(--ink-body);background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
   .chat-row-more:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
@@ -2314,11 +2344,16 @@
   .mx-child-indent{padding-left:2.75rem !important}
 
   /* ── Table cell types ── */
-  .mx-tbl-name{font-weight:500;color:var(--ink-body);vertical-align:middle;white-space:nowrap}
+  .mx-tbl-name{font-weight:500;color:var(--ink-body);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .mx-tbl-name .mx-swt-wrap{display:inline-flex;vertical-align:middle;margin-right:.5rem}
+  /* Table-row toggle is the small switch (28x16) — molecule behaviour, lives here so the storybook
+     renders it correctly (was previously only in metrics-landing.html's <style>). */
+  .mx-swt-wrap .swt{width:1.75rem;height:1rem}
+  .mx-swt-wrap .swt::after{width:.75rem;height:.75rem;top:2px;left:2px}
+  .mx-swt-wrap .swt.on::after{left:calc(100% - .875rem)}
   .mx-tbl-name .badge{display:inline;vertical-align:middle}
   .mx-tbl-name .mx-tbl-sub{display:inline;vertical-align:middle}
-  .mx-tbl-alias{font-size:var(--text-12);color:var(--ink-secondary);width:9rem}
+  .mx-tbl-alias{font-size:var(--text-12);color:var(--ink-secondary);width:9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .mx-tbl-desc{font-size:var(--text-12);color:var(--ink-secondary);max-width:18rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
   .mx-tbl-badge{vertical-align:middle;white-space:nowrap}
   .mx-badge-inl{margin-left:.375rem;vertical-align:middle}

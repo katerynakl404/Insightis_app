@@ -2,11 +2,24 @@
 
 Storybook: [`insightis-preview-kit.html` → `#radius`](../insightis-preview-kit.html). Live CSS: [`../pages/kit-theme.css`](../pages/kit-theme.css).
 
-This is a **foundation document**, not a prod→expected diff. Corner radius and spacing are baselines the rest of the kit composes against; they don't change column-by-column. The one thing to record as a correction (below) is that the old `--ui-radius` story was wrong.
+This is a **foundation document**, not a prod→expected diff. Corner radius and spacing are baselines the rest of the kit composes against; they don't change column-by-column.
 
-## ⚠️ Correction — there is no `--ui-radius` base token
+## Radius tokens (flat scale)
 
-Prior docs referenced a `--ui-radius: 0.5rem` base token with multipliers (e.g. `calc(var(--ui-radius) * 0.5)`). **That token does not exist** anywhere in `pages/kit-theme.css`. Radii are **literal per-component values** — each component hard-codes its own `border-radius` (`6px`, `.375rem`, `9999px`, …). There is no tokenised base+multiplier system to point at. When reproducing a component, copy its literal radius from the rule; do not derive it from a base.
+A flat `--radius-*` token scale is defined in `pages/kit-theme.css` (`:root`) — one token per named step, no base+multiplier maths:
+
+| Token | px | Role |
+|---|---|---|
+| `--radius-sm` | 2px | tiny accent corners (`.b-x`, tab-edge slivers) |
+| `--radius-inner` | 4px | inner items inside an 8px shell (`.mi`, `.badge-sm`, `.cbx`) |
+| `--radius-md` | 6px | workhorse controls (`.btn`, `.iconbtn`, `.field`, `.ta`, `.badge`) |
+| `--radius-lg` | 8px | container shells (`.menu`, `.card-c`, `.toast`) |
+| `--radius-panel` | 10px | `.card-panel` / `.block` lift family |
+| `--radius-xl` | 12px | large feature panels |
+| `--radius-2xl` | 14px | modal dialog (`.dlg`) |
+| `--radius-full` | 9999px | pills & circles (`.swt`, `.chip`, avatar, `.b-dot`, `.spinner`) |
+
+The storybook **Spec (live)** panels render every component's `radius` row as the matching token (the inspector maps the computed px → token, large radii ≥90px → `--radius-full`). **Migration note:** many component rules still author the literal equivalent (`.375rem` == `--radius-md` at the 16px root); the literal and the token render the same corner, and migrating those rules to `border-radius:var(--radius-*)` is an in-progress cleanup. There is **no** `--ui-radius` base-token-with-multipliers system (a prior doc claimed one — it never existed); the scale above is flat.
 
 ## Radius scale
 
@@ -64,7 +77,7 @@ Sub-step fractional values used inside controls (`.375rem` = 6px, `.625rem` = 10
 
 ## Consistency self-check
 
-- [x] No `--ui-radius` token exists in `pages/kit-theme.css` — grep confirms zero matches; doc states radii are literal per-component.
+- [x] A flat `--radius-*` scale (sm/inner/md/lg/panel/xl/2xl/full) is defined in `:root`; no `--ui-radius` base-multiplier token exists (grep confirms zero matches). Inspector maps computed radius px → token; some component rules still author literal equivalents (migration in progress).
 - [x] Five named steps (sm 2 / md 6 / lg 8 / xl 12–14 / full) each map to a Tailwind v3 utility with concrete px given.
 - [x] 6px and `.375rem` documented as the same rendered corner (16px root) so the px/rem split in CSS doesn't read as two steps.
 - [x] Intermediate `.25rem` (4) and `.625rem` (10) values noted as variations, not separate steps, with their consuming components.

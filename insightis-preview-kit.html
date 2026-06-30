@@ -249,8 +249,9 @@
       <h2>Typography — DM Sans</h2>
       <div class="sub">Standard Tailwind scale on DM Sans (matches Figma Text Styles). Source: Typography component variants.</div>
       <div><a class="chg none">No change —</a></div>
-      <div class="variant-label">Semantic levels (Typography component)</div>
+      <div class="variant-label">Content / prose levels (Typography component)</div>
       <div class="block"><div class="block-b">
+        <div class="spec" style="margin-bottom:.6rem">Prose / page-content roles. Components (buttons, chips, sidebar, meta) do <b>not</b> use these — see <b>UI text</b> below for the size×weight combos controls actually ship.</div>
         <div class="typorow"><span style="font-size:36px;font-weight:500;color:var(--ink)">H1 heading</span><code>text-4xl · 36/40 · medium 500</code></div>
         <div class="typorow"><span style="font-size:30px;font-weight:500;color:var(--ink)">H2 heading</span><code>text-3xl · 30/36 · medium 500</code></div>
         <div class="typorow"><span style="font-size:24px;font-weight:500;color:var(--ink)">H3 heading</span><code>text-2xl · 24/32 · medium 500</code></div>
@@ -265,12 +266,24 @@
         <div class="typorow"><span style="font-family:ui-monospace,Menlo,monospace;font-weight:600;color:var(--ink)">code</span><code>mono · semibold 600</code></div>
         <div class="typorow"><span style="font-style:italic;font-weight:500;color:var(--ink)">blockquote</span><code>italic · medium 500</code></div>
       </div></div>
+      <div class="variant-label">UI text — size × weight by component role</div>
+      <div class="block"><div class="block-b">
+        <div class="spec" style="margin-bottom:.6rem">Controls compose the size scale + a weight directly (not the prose levels above). These are the combinations actually shipped across components — derived from the live Spec panels; the &ldquo;used in&rdquo; list is exhaustive at time of writing.</div>
+        <div class="typorow"><span style="font-size:14px;font-weight:500;color:var(--ink-body)">Control / label</span><code>text-sm (--text-14) · medium 500 · button, tabs, chat-row title, pagination</code></div>
+        <div class="typorow"><span style="font-size:14px;font-weight:400;color:var(--ink-body)">Body / table cell</span><code>text-sm (--text-14) · normal 400 · table, textarea, popover, input-group</code></div>
+        <div class="typorow"><span style="font-size:13px;font-weight:500;color:var(--ink-body)">Sub-label</span><code>text-[13px] (--text-13) · medium 500 · sidebar nav item</code></div>
+        <div class="typorow"><span style="font-size:13px;font-weight:400;color:var(--ink-body)">Caption / meta</span><code>text-[13px] (--text-13) · normal 400 · meta-row, datepicker</code></div>
+        <div class="typorow"><span style="font-size:12px;font-weight:500;color:var(--ink-body)">Chip · badge · small-button label</span><code>text-xs (--text-12) · medium 500 · badge, link, button-sm</code></div>
+        <div class="typorow"><span style="font-size:12px;font-weight:400;color:var(--ink-body)">Helper / tooltip</span><code>text-xs (--text-12) · normal 400 · tooltip</code></div>
+        <div class="typorow"><span style="font-size:12px;font-weight:600;color:var(--ink-body)">Avatar initials</span><code>text-xs (--text-12) · semibold 600 · avatar</code></div>
+        <div class="typorow"><span style="font-size:11px;font-weight:500;color:var(--ink-body)">Micro / overline</span><code>text-[11px] (--text-11) · medium 500 · badge-sm</code></div>
+      </div></div>
       <div class="variant-label">Size scale (font-size / line-height)</div>
       <div class="block"><div class="block-b">
-        <div class="typorow"><span style="font-size:10px;color:var(--ink)">text-[10px]</span><code>10 / 14 · micro labels (badge, section header, meta, nav badge)</code></div>
-        <div class="typorow"><span style="font-size:11px;color:var(--ink)">text-[11px]</span><code>11 / 16 · small controls (badge-sm, segmented-sm, kbd, helper text, token labels)</code></div>
+        <div class="typorow"><span style="font-size:10px;color:var(--ink)">text-[10px]</span><code>10 / 14</code></div>
+        <div class="typorow"><span style="font-size:11px;color:var(--ink)">text-[11px]</span><code>11 / 16</code></div>
         <div class="typorow"><span style="font-size:12px;color:var(--ink)">text-xs</span><code>12 / 16</code></div>
-        <div class="typorow"><span style="font-size:13px;color:var(--ink)">text-[13px]</span><code>13 / 18 · compact sub-labels (e.g. connector sub-header)</code></div>
+        <div class="typorow"><span style="font-size:13px;color:var(--ink)">text-[13px]</span><code>13 / 18</code></div>
         <div class="typorow"><span style="font-size:14px;color:var(--ink)">text-sm</span><code>14 / 20</code></div>
         <div class="typorow"><span style="font-size:16px;color:var(--ink)">text-base</span><code>16 / 24</code></div>
         <div class="typorow"><span style="font-size:18px;color:var(--ink)">text-lg</span><code>18 / 28</code></div>
@@ -418,10 +431,24 @@
     </section>
 
     <!-- ===== BUTTON ===== -->
-    <section class="comp" id="button">
+    <section class="comp" id="button" data-spec-variant-label="Sizes">
       <h2>Button</h2>
-      <div class="sub">Base: <code>font-medium 500</code>, radius <code>md 6px</code>, gap 6px. Heights xs 28 / sm 32 / md 36 / lg 40 / xl 44px.</div>
+      <div class="sub">Medium-weight label, radius <code>md</code>, 6px icon gap. Five sizes (xs–xl) — heights / padding / font-size per step in the <b>Sizes</b> panel.</div>
       <div><a class="chg" href="changes/Button.md">Changes ↗</a></div>
+
+      <div class="variant-label">Sizes</div>
+      <div class="block">
+        <div class="block-h">Five size steps — the Spec (live) — Sizes panel below reads height / padding / font-size per step</div>
+        <div class="block-b">
+          <div class="stage" style="gap:.75rem;flex-wrap:wrap">
+            <button class="btn btn-primary btn-xs" data-spec-variant="xs">xs</button>
+            <button class="btn btn-primary btn-sm" data-spec-variant="sm">sm</button>
+            <button class="btn btn-primary btn-md" data-spec-variant="md">md</button>
+            <button class="btn btn-primary btn-lg" data-spec-variant="lg">lg</button>
+            <button class="btn btn-primary btn-xl" data-spec-variant="xl">xl</button>
+          </div>
+        </div>
+      </div>
 
       <div class="variant-label">Primary</div>
       <div class="block">
@@ -606,33 +633,26 @@
         <div class="block-h">Preview — interactive</div>
         <div class="block-b">
           <div class="ce">
-            <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod" style="justify-content:flex-start;padding:1.2rem .85rem"><span class="colhint">— did not exist</span></div></div>
             <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><button class="btn btn-md btn-outline-destructive">Delete</button></div><div style="padding:.5rem .7rem"><div class="cspec"><b>negative outlined</b>: border <code>--btn-outline-destructive-border</code> (light Red-700 / dark Red-800 — dimmed on dark to avoid red-700 reading as too saturated against the near-black Card surface), bg transparent, text <code>Text/Body</code> — mirrors Outlined (coloured border + neutral label; the border carries the danger identity, the label stays readable). <b>hover</b> border <code>--btn-outline-destructive-border-hover</code> + bg <code>--btn-outline-destructive-bg-hover</code> · <b>pressed</b> border same, bg <code>--btn-outline-destructive-bg-press</code>. Both overlay tokens are <b>theme-aware</b>: light @6%/@8%, <b>dark @14%/@22%</b> — red gets absorbed by dark surfaces, so the dark theme uses stronger percentages for parity of perceived prominence. Border-hover also flips direction (light Red-800 darker / dark Red-500 lighter), <b>focus</b> ring <code>--focus-ring</code> (neutral, not red — avoids red-on-red). Low-emphasis destructive action (inline "Remove" / "Discard" / cancel buttons)</div></div></div>
           </div>
         </div>
       </div>
       <div class="block">
-        <div class="block-h">States — specification: was → became</div>
+        <div class="block-h">States — specification (new component)</div>
         <div class="block-b" style="padding:0">
-          <table class="stbl"><thead><tr><th>State</th><th>Current (prod) · was</th><th>Expected · became</th></tr></thead><tbody>
+          <table class="stbl"><thead><tr><th>State</th><th>Specification</th></tr></thead><tbody>
             <tr><td class="stname">Default</td>
-              <td class="stcell"><span class="colhint">— did not exist</span></td>
-              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive">Delete</button></span><div class="cspec"><b>became:</b> border <code>--btn-outline-destructive-border</code> (light Red-700 / dark Red-800 — dimmed on dark to avoid over-saturation against the near-black surface), bg transparent, text <code>Text/Body</code></div></td></tr>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive">Delete</button></span><div class="cspec">border <code>--btn-outline-destructive-border</code> (light Red-700 / dark Red-800 — dimmed on dark to avoid over-saturation against the near-black surface), bg transparent, text <code>Text/Body</code></div></td></tr>
             <tr><td class="stname">Hover</td>
-              <td class="stcell"><span class="colhint">— did not exist</span></td>
-              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-hover">Delete</button></span><div class="cspec"><b>became:</b> border <code>--btn-outline-destructive-border-hover</code> (light Red-800 / dark Red-500 — flips direction so border stays visible on dark), bg <code>--btn-outline-destructive-bg-hover</code> (light Red @6% / dark @14% — bumped because red is absorbed by dark surfaces), text <code>Text/Body</code></div></td></tr>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-hover">Delete</button></span><div class="cspec">border <code>--btn-outline-destructive-border-hover</code> (light Red-800 / dark Red-500 — flips direction so border stays visible on dark), bg <code>--btn-outline-destructive-bg-hover</code> (light Red @6% / dark @14% — bumped because red is absorbed by dark surfaces), text <code>Text/Body</code></div></td></tr>
             <tr><td class="stname">Pressed</td>
-              <td class="stcell"><span class="colhint">— did not exist</span></td>
-              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-pressed">Delete</button></span><div class="cspec"><b>became:</b> border <code>--btn-outline-destructive-border-hover</code> (same theme-aware values as hover), bg <code>--btn-outline-destructive-bg-press</code> (light Red @8% / dark @22%), text <code>Text/Body</code></div></td></tr>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-pressed">Delete</button></span><div class="cspec">border <code>--btn-outline-destructive-border-hover</code> (same theme-aware values as hover), bg <code>--btn-outline-destructive-bg-press</code> (light Red @8% / dark @22%), text <code>Text/Body</code></div></td></tr>
             <tr><td class="stname">Focus</td>
-              <td class="stcell"><span class="colhint">— did not exist</span></td>
-              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-focus">Delete</button></span><div class="cspec"><b>became:</b> ring <code>--shadow-focus</code> (brand-teal, unified kit-wide) 2px + 2px <code>Surface/Card</code> gap. Teal (not red) avoids red-on-red.</div></td></tr>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-focus">Delete</button></span><div class="cspec">ring <code>--shadow-focus</code> (brand-teal, unified kit-wide) 2px + 2px <code>Surface/Card</code> gap. Teal (not red) avoids red-on-red.</div></td></tr>
             <tr><td class="stname">Disabled</td>
-              <td class="stcell"><span class="colhint">— did not exist</span></td>
-              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-disabled">Delete</button></span><div class="cspec"><b>became:</b> border + text <code>Text/Inactive</code>, bg transparent — no longer red-tinted</div></td></tr>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-disabled">Delete</button></span><div class="cspec">border + text <code>Text/Inactive</code>, bg transparent — no longer red-tinted</div></td></tr>
             <tr><td class="stname">Loading</td>
-              <td class="stcell"><span class="colhint">— did not exist</span></td>
-              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-loading" aria-busy="true"><span class="spinner"></span>Loading</button></span><div class="cspec"><b>became:</b> spinner (<code>currentColor</code> = Text/Body, matching the label) + label, <code>aria-busy</code>, <b><code>--opacity-disabled</code></b> on the variant — the red border remains as the destructive signal</div></td></tr>
+              <td class="stcell"><span class="ministage"><button class="btn btn-md btn-outline-destructive s-loading" aria-busy="true"><span class="spinner"></span>Loading</button></span><div class="cspec">spinner (<code>currentColor</code> = Text/Body, matching the label) + label, <code>aria-busy</code>, <b><code>--opacity-disabled</code></b> on the variant — the red border remains as the destructive signal</div></td></tr>
           </tbody></table>
         </div>
       </div>
@@ -641,7 +661,7 @@
     <!-- ===== ICONBUTTON ===== -->
     <section class="comp" id="iconbutton">
       <h2>IconButton</h2>
-      <div class="sub">36×36, radius <code>md 6px</code>, icon glyph consumer-set (18px typical; e.g. 13px in table rows). Variants reuse Button tokens 1:1 — no IconButton-specific colour tokens.</div>
+      <div class="sub">Square icon button; icon glyph consumer-set (18px typical; 13px in table rows). Variants reuse Button tokens 1:1 — no IconButton-specific colour tokens. Box dims in the Spec panel.</div>
       <div><a class="chg" href="changes/IconButton.md">Changes ↗</a></div>
 
       <div class="variant-label">Primary</div>
@@ -758,10 +778,20 @@
     </section>
 
     <!-- ===== INPUT ===== -->
-    <section class="comp" id="input">
+    <section class="comp" id="input" data-spec-variant-label="Sizes">
       <h2>Input</h2>
-      <div class="sub">Height 36px, radius <code>md 6px</code>, padding-x 8px, text-sm. Shares the form-control system with <a href="#textarea" style="color:var(--brand-primary)">TextArea</a> — identical hover / focus / error / disabled treatment.</div>
+      <div class="sub">Text form-control. Shares the form-control system with <a href="#textarea" style="color:var(--brand-primary)">TextArea</a> — identical hover / focus / error / disabled treatment. Dimensions per size in the <b>Sizes</b> panel.</div>
       <div><a class="chg" href="changes/Input.md">Changes ↗</a></div>
+      <div class="variant-label">Sizes</div>
+      <div class="block"><div class="block-h">Five size steps — the Spec (live) — Sizes panel reads height / padding per step (font-size: xs 12 / sm 13 / md–xl 14)</div><div class="block-b">
+        <div class="stage" style="gap:.75rem;flex-wrap:wrap;align-items:center">
+          <div data-spec-variant="xs" style="width:9rem"><div class="field is-xs"><input placeholder="xs"></div></div>
+          <div data-spec-variant="sm" style="width:9rem"><div class="field is-sm"><input placeholder="sm"></div></div>
+          <div data-spec-variant="md" style="width:9rem"><div class="field is-md"><input placeholder="md"></div></div>
+          <div data-spec-variant="lg" style="width:9rem"><div class="field is-lg"><input placeholder="lg"></div></div>
+          <div data-spec-variant="xl" style="width:9rem"><div class="field is-xl"><input placeholder="xl"></div></div>
+        </div>
+      </div></div>
       <div class="block"><div class="block-h">Preview — click to focus</div><div class="block-b">
         <div class="ce">
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod"><div class="field"><input placeholder="name@devart.com"></div></div><div style="padding:.5rem .7rem"><div class="cspec">bg <code>card</code>, border <code>border</code>, placeholder <code>content-secondary</code></div></div></div>
@@ -779,38 +809,23 @@
         </tbody></table>
       </div></div>
 
-      <div class="block"><div class="block-h">Selector — <code>.sel-wrap</code> / <code>.sel-trig</code> / <code>.sel-menu</code></div><div class="block-b">
-        <div class="ce">
-          <div class="ce-cell"><div class="ce-tag expt">Default</div><div class="stage" style="align-items:flex-start;padding-top:8px;padding-bottom:160px">
-            <div class="sel-wrap" style="width:14rem">
-              <button class="sel-trig" type="button" aria-haspopup="listbox" aria-expanded="false" onclick="kitSelToggle(this)">
-                <span class="sel-ph">Select a source…</span>
-                <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="sel-menu menu" role="listbox">
-                <div class="mi" role="option" onclick="kitSelSelect(this)">Jira Software Cloud</div>
-                <div class="mi" role="option" onclick="kitSelSelect(this)">Azure DevOps</div>
-                <div class="mi" role="option" onclick="kitSelSelect(this)">BigQuery</div>
-              </div>
-            </div>
-          </div><div style="padding:.5rem .7rem"><div class="cspec">Custom select trigger — <code>.sel-trig</code> (same shell as <code>Input</code>); dropdown = <code>.sel-menu.menu</code> with <code>.mi</code> options, 2 px below trigger. <code>aria-expanded</code> drives open/close via CSS adjacent-sibling selector.</div></div></div>
-          <div class="ce-cell"><div class="ce-tag expt">Disabled</div><div class="stage">
-            <div class="sel-wrap" style="width:14rem">
-              <button class="sel-trig s-disabled" type="button" disabled>
-                <span class="sel-ph">Select a source…</span>
-                <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-            </div>
-          </div><div style="padding:.5rem .7rem"><div class="cspec">Add <code>disabled</code> + <code>.s-disabled</code> to <code>.sel-trig</code> — inherits <code>opacity:var(--opacity-disabled)</code> and <code>cursor:not-allowed</code>.</div></div></div>
-        </div>
-      </div></div>
     </section>
 
     <!-- ===== TEXTAREA ===== -->
-    <section class="comp" id="textarea">
+    <section class="comp" id="textarea" data-spec-variant-label="Sizes">
       <h2>TextArea</h2>
       <div class="sub">Multiline form-control. Same border / radius / colour tokens as <a href="#input" style="color:var(--brand-primary)">Input</a>; padding 8px on all sides; <code>resize:none</code>. Hover / focus / error / disabled match Input exactly.</div>
       <div><a class="chg" href="changes/TextArea.md">Changes ↗</a></div>
+      <div class="variant-label">Sizes</div>
+      <div class="block"><div class="block-h">Five size steps — the Spec (live) — Sizes panel reads min-height / padding / font-size per step</div><div class="block-b">
+        <div class="stage" style="gap:.75rem;flex-wrap:wrap;align-items:flex-start">
+          <div data-spec-variant="xs" style="width:9rem"><textarea class="ta is-xs" rows="2" placeholder="xs"></textarea></div>
+          <div data-spec-variant="sm" style="width:9rem"><textarea class="ta is-sm" rows="2" placeholder="sm"></textarea></div>
+          <div data-spec-variant="md" style="width:9rem"><textarea class="ta is-md" rows="2" placeholder="md"></textarea></div>
+          <div data-spec-variant="lg" style="width:9rem"><textarea class="ta is-lg" rows="2" placeholder="lg"></textarea></div>
+          <div data-spec-variant="xl" style="width:9rem"><textarea class="ta is-xl" rows="2" placeholder="xl"></textarea></div>
+        </div>
+      </div></div>
       <div class="block"><div class="block-h">Preview — click to focus</div><div class="block-b">
         <div class="ce">
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod"><textarea class="ta" rows="2" placeholder="Comment…"></textarea></div><div style="padding:.5rem .7rem"><div class="cspec">border <code>border</code>, text <code>content-body</code>, focus <code>accent</code> border, disabled opacity 50%</div></div></div>
@@ -831,7 +846,7 @@
     <!-- ===== CHECKBOX ===== -->
     <section class="comp" id="checkbox">
       <h2>Checkbox</h2>
-      <div class="sub">18×18, radius <code>sm 4px</code>.</div>
+      <div class="sub">Tri-state checkbox (unchecked / checked / indeterminate). Box dims + radius in the Spec panel.</div>
       <div><a class="chg" href="changes/Checkbox.md">Changes ↗</a></div>
       <div class="block"><div class="block-h">Preview — click to toggle</div><div class="block-b">
         <div class="ce">
@@ -852,10 +867,17 @@
     </section>
 
     <!-- ===== SWITCH ===== -->
-    <section class="comp" id="switch">
+    <section class="comp" id="switch" data-spec-variant-label="Sizes">
       <h2>Switch</h2>
-      <div class="sub">Track 36×20, thumb 16px, radius <code>full</code>.</div>
+      <div class="sub">Pill toggle. Track / thumb dimensions per size in the Spec / Sizes panels.</div>
       <div><a class="chg" href="changes/Switch.md">Changes ↗</a></div>
+      <div class="variant-label">Sizes</div>
+      <div class="block"><div class="block-h">Size steps — the Spec (live) — Sizes panel reads track width / height per step (default md 36×20, sm 28×16)</div><div class="block-b">
+        <div class="stage" style="gap:1.25rem;align-items:center">
+          <div data-spec-variant="default (md)"><button class="swt on"></button></div>
+          <div data-spec-variant="sm"><button class="swt is-sm on"></button></div>
+        </div>
+      </div></div>
       <div class="block"><div class="block-h">Preview — click to toggle</div><div class="block-b">
         <div class="ce">
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod" style="gap:1.25rem"><button class="swt js-toggle on"></button><button class="swt js-toggle"></button></div><div style="padding:.5rem .7rem"><div class="cspec">on track <code>accent</code>, off track <code>background</code> + border, thumb <code>#FFF</code>; no hover / focus / loading</div></div></div>
@@ -876,10 +898,17 @@
     </section>
 
     <!-- ===== SEGMENTEDCONTROL ===== -->
-    <section class="comp" id="segctrl">
+    <section class="comp" id="segctrl" data-spec-sel=".segctrl-btn" data-spec-variant-label="Sizes">
       <h2>SegmentedControl</h2>
       <div class="sub">Pill-style single-select. Two sizes: <code>sm</code> (20px, icon-only) · <code>md</code> (32px, icon + label). Selected item gets a card-coloured pill with a 1px rim + drop-shadow; text &amp; icon stay neutral <code>Text/Primary</code> at weight 500 — no brand colour, no weight shift (the bg-shift is the single selection cue).</div>
       <div><a class="chg" href="changes/SegmentedControl.md">Changes ↗</a></div>
+      <div class="variant-label">Sizes</div>
+      <div class="block"><div class="block-h">Size steps — the Spec (live) — Sizes panel reads button height / font-size / padding per step (sm 20 · md 32)</div><div class="block-b">
+        <div class="stage" style="gap:1rem;flex-wrap:wrap;align-items:center;background:var(--card)">
+          <div data-spec-variant="sm"><div class="segctrl is-sm" style="width:120px"><button class="segctrl-btn" type="button">A</button><button class="segctrl-btn" type="button">B</button></div></div>
+          <div data-spec-variant="md"><div class="segctrl is-md" style="width:160px"><button class="segctrl-btn" type="button">One</button><button class="segctrl-btn" type="button">Two</button></div></div>
+        </div>
+      </div></div>
       <div class="block"><div class="block-h">Preview — click to select</div><div class="block-b">
         <div class="ce">
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod" style="flex-direction:column;gap:1rem;align-items:flex-start"><div style="font-size:.75rem;color:var(--ink-secondary)">— no segmented-control primitive in prod; the Sidebar Account popover&#39;s theme switcher (<code>.sbx-pop-theme</code>) is the only live instance and stays as-is.</div></div></div>
@@ -916,10 +945,17 @@
     </section>
 
     <!-- ===== BADGE ===== -->
-    <section class="comp" id="badge">
+    <section class="comp" id="badge" data-spec-variant-label="Sizes">
       <h2>Badge</h2>
-      <div class="sub">Height md 28px / sm 20px, text-xs/11px <code>font-medium</code>, radius <code>md</code>/<code>full</code>, gap 8px. Size modifier: <code>.badge-sm</code>.</div>
+      <div class="sub">Compact status / label chip. Two sizes (default / <code>.badge-sm</code>) plus leading-icon, removable and status-dot variants. Dimensions per size in the <b>Sizes</b> panel.</div>
       <div><a class="chg" href="changes/Badge.md">Changes ↗</a></div>
+      <div class="variant-label">Sizes</div>
+      <div class="block"><div class="block-h">Size steps — the Spec (live) — Sizes panel reads height / padding / font-size / radius per step</div><div class="block-b">
+        <div class="stage" style="gap:.75rem;align-items:center">
+          <div data-spec-variant="default (md)"><span class="badge badge-primary">Badge</span></div>
+          <div data-spec-variant="sm"><span class="badge badge-primary badge-sm">Badge</span></div>
+        </div>
+      </div></div>
       <div class="block"><div class="block-h">Preview</div><div class="block-b">
         <div class="ce">
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod"><span class="badge badge-primary">Primary</span><span class="badge badge-secondary">Secondary</span><span class="badge badge-red rf">Error</span></div><div style="padding:.5rem .7rem"><div class="cspec">primary <code>primary/20</code> (alpha-mix mud), secondary text <code>content-secondary</code> (lower contrast than other chips), error <code>red/15</code>; no icon / removable / status-dot variants</div></div></div>
@@ -944,7 +980,7 @@
     <!-- ===== AVATAR ===== -->
     <section class="comp" id="avatar">
       <h2>Avatar</h2>
-      <div class="sub">32px, radius <code>full</code>.</div>
+      <div class="sub">Circular avatar (image / initials fallback). Size + radius in the Spec panel.</div>
       <div><a class="chg" href="changes/Avatar.md">Changes ↗</a></div>
       <div class="block"><div class="block-h">Preview</div><div class="block-b">
         <div class="ce">
@@ -985,9 +1021,9 @@
         </tbody></table>
       </div></div>
       <div class="block"><div class="block-h">Metrics table — molecule anatomy (Expected-only)</div><div class="block-b" style="padding:0;overflow-x:auto">
-        <div class="mx-tbl" style="border-radius:0;border-left:none;border-right:none;border-top:none">
+        <div class="mx-tbl" style="border-radius:0;border-left:none;border-right:none;border-top:none;pointer-events:none">
           <table class="tbl" style="table-layout:fixed;width:100%;min-width:560px">
-            <colgroup><col style="width:2.75rem"><col style="width:22%"><col style="width:8rem"><col><col style="width:7.5rem"><col style="width:4.5rem"></colgroup>
+            <colgroup><col style="width:4.25rem"><col style="width:22%"><col style="width:9.5rem"><col><col style="width:5rem"><col style="width:5rem"></colgroup>
             <thead><tr>
               <th></th><th>Metric name</th><th>Alias</th><th>Description</th><th>Badge</th><th class="mx-tbl-actions">Actions</th>
             </tr></thead>
@@ -1132,7 +1168,7 @@
     <!-- ===== PROGRESSBAR ===== -->
     <section class="comp" id="progress">
       <h2>ProgressBar</h2>
-      <div class="sub">Height 8px, radius <code>full</code>.</div>
+      <div class="sub">Determinate linear progress. Height / radius in the Spec panel.</div>
       <div><a class="chg" href="changes/ProgressBar.md">Changes ↗</a></div>
       <div class="block"><div class="block-h">Preview</div><div class="block-b">
         <div class="ce">
@@ -1213,7 +1249,7 @@
     </section>
 
     <!-- ===== MODAL ===== -->
-    <section class="comp" id="modal">
+    <section class="comp" id="modal" data-spec-sel=".dlg">
       <h2>Modal</h2>
       <div class="sub">Reusable multi-step shell: <code>.dlg</code> flex column inside <code>.dlg-overlay</code>. Header → optional progress bar → scrollable body with absolute-positioned steps → footer. Steps toggle via <code>.is-hidden</code> — no layout shift between them.</div>
       <div><a class="chg" href="changes/Modal.md">Changes ↗</a></div>
@@ -1223,7 +1259,7 @@
           <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><div style="width:240px;border:1px solid var(--border);background:var(--card);border-radius:12px;padding:16px"><div style="font-size:.875rem;font-weight:600;color:var(--ink)">Delete project?</div><div style="font-size:.875rem;color:var(--ink-secondary);margin-top:4px">This cannot be undone.</div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px"><button class="btn btn-sm btn-secondary">Cancel</button><button class="btn btn-sm btn-destructive">Delete</button></div></div></div><div style="padding:.5rem .7rem"><div class="cspec">Cancel → <code>Button secondary</code>; Delete → <code>Button destructive</code>. Both inherit new state/contrast tokens.</div></div></div>
         </div>
       </div></div>
-      <div class="block"><div class="block-h">Kit structure — multi-step dialog</div><div class="block-b" style="padding:.875rem 1.25rem">
+      <details class="block"><summary class="block-h" style="cursor:pointer">Kit structure — multi-step dialog <span style="font-weight:400;text-transform:none;color:var(--ink-secondary)">(copy-paste HTML skeleton — click to expand)</span></summary><div class="block-b" style="padding:.875rem 1.25rem">
         <div class="cspec" style="margin-bottom:.75rem">All modal CSS lives in <code>kit-theme.css</code>. Copy the skeleton below; add per-page classes only for content inside <code>.dlg-step</code>.</div>
         <pre style="font-size:.75rem;line-height:1.6;color:var(--ink-secondary);background:var(--bg);border:1px solid var(--border);border-radius:.5rem;padding:.875rem 1rem;overflow-x:auto;margin:0"><code>&lt;div class="dlg-overlay" onclick="if(event.target===this)closeDialog()"&gt;
   &lt;div class="dlg" style="width:480px;height:580px"&gt;
@@ -1256,7 +1292,7 @@
 
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-      </div></div>
+      </div></details>
       <div class="block"><div class="block-h">Structure tokens</div><div class="block-b" style="padding:0">
         <table class="stbl"><thead><tr><th>Class</th><th>Role</th><th>Key rules</th></tr></thead><tbody>
           <tr><td class="stname"><code>.dlg-overlay</code></td><td>Backdrop + centering shell</td><td><code>position:fixed;inset:0;z-index:60</code>; click-outside closes</td></tr>
@@ -1691,10 +1727,18 @@
     </section>
 
     <!-- ===== STATUSVIEW (new 04.06) ===== -->
-    <section class="comp" id="statusview">
+    <section class="comp" id="statusview" data-spec-variant-label="Sizes">
       <h2>StatusView</h2>
       <div class="sub">Centered status / empty block; icon circle (size-10 / 14), variants info / success / error / neutral, sizes sm/md/lg. <b>New minimalist variant</b> (<code>.empty-state</code>): a "fading result cards" illustration that mirrors the list/grid it replaces — no card wrapping the block — for search / filter "no results" and first-run empty lists.</div>
       <div><a class="chg" href="changes/StatusView.md">Changes ↗</a></div>
+      <div class="variant-label">Sizes</div>
+      <div class="block"><div class="block-h">Size steps — the Spec (live) — Sizes panel reads container padding / gap per step (icon &amp; text sizes scale on the inner .vic/.vt/.vd: sm 32/13/11 · md 40 · lg 56/16/13)</div><div class="block-b">
+        <div class="stage" style="gap:1rem;flex-wrap:wrap;align-items:flex-start">
+          <div data-spec-variant="sm"><div class="statv statv-info is-sm"><div class="vic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div><div class="vt">Title</div><div class="vd">sm</div></div></div>
+          <div data-spec-variant="md"><div class="statv statv-info"><div class="vic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div><div class="vt">Title</div><div class="vd">md</div></div></div>
+          <div data-spec-variant="lg"><div class="statv statv-info is-lg"><div class="vic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div><div class="vt">Title</div><div class="vd">lg</div></div></div>
+        </div>
+      </div></div>
       <div class="block"><div class="block-h">Preview</div><div class="block-b">
         <div class="ce">
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage" style="gap:10px">
@@ -1756,10 +1800,18 @@
     </section>
 
     <!-- ===== BANNER ===== -->
-    <section class="comp" id="banner">
+    <section class="comp" id="banner" data-spec-variant-label="Sizes">
       <h2>Banner</h2>
       <div class="sub">Full-width informational strip with icon, title, description and an optional CTA button. Used to surface onboarding or connection-required notices. Wrap in <code>.banner-wrap</code> for dismiss animation (<code>.is-dismissed</code> collapses it). CSS classes: <code>.banner</code>, <code>.banner-ic</code>, <code>.banner-body</code>, <code>.banner-t</code>, <code>.banner-d</code>, <code>.banner-cta</code>, <code>.banner-wrap</code>.</div>
       <div><a class="chg" href="changes/Banner.md">Changes ↗</a></div>
+
+      <div class="variant-label">Sizes</div>
+      <div class="block"><div class="block-h">Size steps — the Spec (live) — Sizes panel reads padding per step (sm also shrinks .banner-ic 40px &amp; .banner-t to text-14)</div><div class="block-b">
+        <div class="stage" style="flex-direction:column;gap:.75rem;align-items:stretch">
+          <div data-spec-variant="default"><div class="banner" role="note" aria-label="default banner"><div class="banner-ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></div><div class="banner-body"><div class="banner-t">Default banner</div><div class="banner-d">Standard padding and icon size.</div></div></div></div>
+          <div data-spec-variant="sm"><div class="banner banner-sm" role="note" aria-label="sm banner"><div class="banner-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></div><div class="banner-body"><div class="banner-t">Small banner</div><div class="banner-d">Compact padding and icon.</div></div></div></div>
+        </div>
+      </div></div>
 
       <div class="variant-label">Default</div>
       <div class="block"><div class="block-h">Preview — interactive (click Dismiss)</div><div class="block-b">
@@ -2174,10 +2226,21 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
     </section>
 
     <!-- ===== INPUTGROUP ===== -->
-    <section class="comp" id="inputgroup">
+    <section class="comp" id="inputgroup" data-spec-variant-label="Sizes">
       <h2>InputGroup</h2>
-      <div class="sub">Composite shell for inputs with addons. Heights xs 28 / sm 32 / md 36 (default) / lg 40 / xl 44. Radius <code>md 6px</code>. Variants <code>primary (default, bg-background) / outline (bg-card)</code>. Addon align <code>inline-start | inline-end | block-start | block-end</code>.</div>
+      <div class="sub">Composite shell for inputs with addons. Five sizes (xs–xl — heights in the <b>Sizes</b> panel). Variants <code>primary (default, bg-background) / outline (bg-card)</code>. Addon align <code>inline-start | inline-end | block-start | block-end</code>.</div>
       <div><a class="chg" href="changes/InputGroup.md">Changes ↗</a></div>
+
+      <div class="variant-label">Sizes</div>
+      <div class="block"><div class="block-h">Five size steps — the Spec (live) — Sizes panel reads height per step (xs 28 / sm 32 / md 36 / lg 40 / xl 44)</div><div class="block-b">
+        <div class="stage" style="gap:.75rem;flex-wrap:wrap;align-items:center">
+          <div data-spec-variant="xs" style="width:10rem"><div class="igrp is-xs"><input class="igrp-input" placeholder="xs"></div></div>
+          <div data-spec-variant="sm" style="width:10rem"><div class="igrp is-sm"><input class="igrp-input" placeholder="sm"></div></div>
+          <div data-spec-variant="md" style="width:10rem"><div class="igrp is-md"><input class="igrp-input" placeholder="md"></div></div>
+          <div data-spec-variant="lg" style="width:10rem"><div class="igrp is-lg"><input class="igrp-input" placeholder="lg"></div></div>
+          <div data-spec-variant="xl" style="width:10rem"><div class="igrp is-xl"><input class="igrp-input" placeholder="xl"></div></div>
+        </div>
+      </div></div>
 
       <div class="variant-label">Primary (default)</div>
       <div class="block"><div class="block-h">Preview — focus the input</div><div class="block-b">
@@ -2201,8 +2264,8 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
       <div class="variant-label">Outline (bg-card)</div>
       <div class="block"><div class="block-h">Preview</div><div class="block-b">
         <div class="ce">
-          <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod"><div class="igrp var-outline"><span class="igrp-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12 18 8l-4 4 4 4"/><path d="M2 12h16"/></svg></span><input class="igrp-input" placeholder="Compose…"><span class="igrp-add igrp-kbd-slot"><kbd class="igrp-kbd">⌘K</kbd></span></div></div></div>
-          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><div class="igrp var-outline"><span class="igrp-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12 18 8l-4 4 4 4"/><path d="M2 12h16"/></svg></span><input class="igrp-input" placeholder="Compose…"><span class="igrp-add igrp-kbd-slot"><kbd class="igrp-kbd">⌘K</kbd></span></div></div></div>
+          <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage prod"><div class="igrp var-outline"><span class="igrp-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><input class="igrp-input" placeholder="Compose…"><span class="igrp-add igrp-kbd-slot"><kbd class="igrp-kbd">⌘K</kbd></span></div></div></div>
+          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage"><div class="igrp var-outline"><span class="igrp-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><input class="igrp-input" placeholder="Compose…"><span class="igrp-add igrp-kbd-slot"><kbd class="igrp-kbd">⌘K</kbd></span></div></div></div>
         </div>
       </div></div>
     </section>
@@ -2242,10 +2305,19 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
     </section>
 
     <!-- ===== SELECTOR ===== -->
-    <section class="comp" id="selector">
+    <section class="comp" id="selector" data-spec-sel=".sel-trig" data-spec-variant-label="Sizes">
       <h2>Selector</h2>
       <div class="sub">Custom single-select. Trigger: <code>field</code>-like shell (border + card bg, 36 px, radius 6 px). Open state gains <code>--input-focus</code> border — same active signal as <a href="#input" style="color:var(--brand-primary)">Input</a>. Optional label above. Chevron rotates 180° when open. Closes on outside click.</div>
       <div><a class="chg" href="changes/Selector.md">Changes ↗</a></div>
+      <div class="variant-label">Sizes</div>
+      <div class="block"><div class="block-h">Size steps — the Spec (live) — Sizes panel reads trigger height per step (sm 32 / md 36 / lg 40 / xl 44)</div><div class="block-b">
+        <div class="stage" style="gap:.75rem;flex-wrap:wrap;align-items:center">
+          <div data-spec-variant="sm" style="width:9rem"><button class="sel-trig is-sm" type="button"><span>Option</span></button></div>
+          <div data-spec-variant="md" style="width:9rem"><button class="sel-trig is-md" type="button"><span>Option</span></button></div>
+          <div data-spec-variant="lg" style="width:9rem"><button class="sel-trig is-lg" type="button"><span>Option</span></button></div>
+          <div data-spec-variant="xl" style="width:9rem"><button class="sel-trig is-xl" type="button"><span>Option</span></button></div>
+        </div>
+      </div></div>
 
       <div class="block"><div class="block-h">Preview — click to open</div><div class="block-b">
         <div class="ce">
@@ -2471,7 +2543,7 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
     </section>
 
     <!-- ===== METAROW ===== -->
-    <section class="comp" id="metarow">
+    <section class="comp" id="metarow" data-spec-sel=".meta-row">
       <h2>MetaRow</h2>
       <div class="sub">Caption row above a list view. Fully transparent — no background, no border, no card wrapper. Left slot: a count ("N conversation(s)"). Right slot: inline actions (typically a <a href="#" style="color:var(--ink-highlight)">.link</a>-styled Select all / Deselect all). Used on Chats library, search results, table headers without a Card.</div>
       <div><a class="chg" href="changes/MetaRow.md">Changes ↗</a></div>
@@ -2494,7 +2566,7 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
     </section>
 
     <!-- ===== CHATROW ===== -->
-    <section class="comp" id="chatrow">
+    <section class="comp" id="chatrow" data-spec-sel=".chat-row">
       <h2>ChatRow</h2>
       <div class="sub">List row used on the Chats library page. Composes <a href="#checkbox" style="color:var(--brand-primary)">Checkbox</a> · name · (pin marker — only when pinned) · timestamp · kebab menu trigger. Each row sits on a <code>--card</code> surface with a softened <code>45%</code>-<code>--border</code> outline + <code>--shadow-rest</code> ghost depth; hover lifts to <code>--state-hover</code> bg + <code>--card-border-hover</code> + <code>--shadow-card-hover</code>; selected uses <code>--state-pressed</code> + <code>--brand-primary</code>; context-menu Delete uses <code>.mi.danger</code>. Two ancestor-driven visibility rules: <b>(a)</b> <code>.chat-row .cbx</code> is hidden until row hover, focus-within, or list-level <code>.is-selecting</code> (any row selected); <b>(b)</b> <code>.chat-row-pin</code> is rendered only on pinned rows (inline marker after the title, not a per-row toggle slot). The kebab fades in on hover / focus-within. Context menu reuses <code>.menu</code> / <code>.mi</code> / <code>.mi.danger</code>.</div>
       <div><a class="chg" href="changes/ChatRow.md">Changes ↗</a></div>
@@ -2779,6 +2851,339 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
       });
     });
   });
+
+  /* ===== Live Spec inspector =====================================================
+     Reads computed styles off the storybook's live Expected demos and renders a
+     complete, always-accurate values table per component. Drift-proof: derived at
+     view time from the rendered component; re-runs on the Light/Dark toggle. The
+     values come from whatever is rendered, so they can never fall out of sync with
+     kit-theme.css. Demos are taken from each component's States-table "became"
+     mini-renders (labelled by state), plus any element tagged data-spec-variant
+     (e.g. size variants), with the Preview Expected stages as a fallback.
+     Per-section override: data-spec-sel="<selector>" picks the primary element to
+     profile when the demo's root is a wrapper. ============================================= */
+  (function(){
+    var SKIP = { colors:1, typography:1, radius:1, shadows:1 };
+    var GROUPS = [
+      ['Box',    [['width','width'],['max-width','max-width'],['min-width','min-width'],['height','height'],['min-height','min-height'],['padding','padding'],['border-top-width','border-width'],['border-top-style','border-style'],['border-top-color','border-color'],['border-radius','radius']]],
+      ['Layout', [['display','display'],['gap','gap'],['align-items','align-items'],['justify-content','justify-content']]],
+      ['Type',   [['font-size','font-size'],['font-weight','font-weight'],['line-height','line-height'],['letter-spacing','letter-spacing']]],
+      ['Color',  [['color','text color'],['background-color','background'],['box-shadow','box-shadow'],['opacity','opacity']]],
+      ['Motion', [['transition-duration','transition'],['transition-timing-function','easing']]]
+    ];
+    var TRIVIAL = { '':1,'none':1,'normal':1,'auto':1,'0px':1,'rgba(0, 0, 0, 0)':1,'0s':1,'1':1 };
+    var WEIGHTS = { 100:'Thin', 200:'ExtraLight', 300:'Light', 400:'Normal', 500:'Medium', 600:'Semibold', 700:'Bold', 800:'ExtraBold', 900:'Black' };
+    function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    /* getComputedStyle resolves colours to rgb(); reverse-map them back to the CSS token so the
+       spec reads in tokens, not raw values. Rebuilt per theme (light/dark resolve differently). */
+    var TOKMAP={}, FONTMAP={}, SHADOWMAP={}, RADIUSMAP={}, OPAC_DISABLED='', CSS_NAMES=null, RULES_READABLE=false;
+    /* Fallback token-name list for file:// (Chrome blocks both cssRules enumeration AND fetch there).
+       Token VALUES still resolve live via a probe — only the NAMES come from here. On http this list
+       is unused (names read live from the stylesheet). REGENERATE when tokens change:
+       grep -oE '\-\-[A-Za-z0-9_-]+[[:space:]]*:' pages/kit-theme.css | sed -E 's/[[:space:]]*:$//' | sort -u */
+    var FALLBACK_TOKEN_NAMES = "--badge-primary-bg,--badge-primary-text,--badge-secondary-bg,--badge-secondary-text,--banner-grad-ic-bg,--banner-grad-ic-border,--banner-grad-ic-shadow,--banner-grad-sub,--banner-grad-text,--bg,--black,--border,--border-hover,--border-width,--border-width-focus,--brand-100,--brand-200,--brand-300,--brand-400,--brand-50,--brand-50-soft,--brand-500,--brand-600,--brand-700,--brand-800,--brand-900,--brand-900-soft,--brand-hover,--brand-press,--brand-primary,--brand-secondary,--brand-tertiary,--btn-outline-bg-hover,--btn-outline-bg-press,--btn-outline-destructive-bg-hover,--btn-outline-destructive-bg-press,--btn-outline-destructive-border,--btn-outline-destructive-border-hover,--btn-primary-bg,--btn-primary-bg-hover,--btn-primary-bg-press,--btn-primary-text,--btn-secondary-bg,--btn-secondary-bg-hover,--btn-secondary-border,--btn-secondary-border-hover,--card,--card-border-hover,--card-border-press,--card-lift-border,--card2,--chat-fade,--chips,--content-max-narrow,--content-max-wide,--content-max-width,--content-on-solid,--fb-attention,--fb-attention-text,--fb-green,--fb-red,--fb-red-hover,--fb-red-press,--fb-red-text,--focus-ring,--focus-ring-brand,--grad-noise,--grad-teal-dark,--green-dark-500,--green-light-600,--grey-100,--grey-200,--grey-300,--grey-400,--grey-50,--grey-500,--grey-600,--grey-700,--grey-800,--grey-900,--grey-950,--icon-wrapper-bg,--ink,--ink-body,--ink-highlight,--ink-inactive,--ink-secondary,--input-error,--input-focus,--logo-ink,--logo-mark,--logo-size,--motion-base,--motion-ease,--motion-ease-out,--motion-fast,--motion-slow,--mx-group-band,--mx-prov-indent,--opacity-disabled,--orange-500,--overlay-scrim,--p-accent,--p-grad,--p-gradh,--p-light,--p-primary,--p-secondary,--popular-flame,--progress-track,--radius-2xl,--radius-full,--radius-inner,--radius-lg,--radius-md,--radius-panel,--radius-sm,--radius-xl,--red-100,--red-200,--red-300,--red-400,--red-50,--red-500,--red-600,--red-700,--red-800,--red-850,--red-900,--red-950,--segctrl-btn-hover-bg,--shadow-card-hover,--shadow-focus,--shadow-focus-inset,--shadow-lift-hover,--shadow-modal,--shadow-overlay,--shadow-rest,--shadow-rim-active,--shadow-rim-hover,--slate-100,--slate-150,--slate-200,--slate-300,--slate-400,--slate-450,--slate-50,--slate-500,--slate-550,--slate-600,--slate-700,--slate-800,--slate-900,--slate-950,--state-disabled,--state-hover,--state-pressed,--surface-accent,--switch-off-bg,--switch-off-bg-hover,--tbl-row-hover,--tbl-row-pressed,--tertiary-100,--tertiary-200,--tertiary-300,--tertiary-400,--tertiary-50,--tertiary-500,--tertiary-600,--tertiary-700,--tertiary-800,--tertiary-900,--tertiary-950,--text-10,--text-11,--text-12,--text-13,--text-14,--text-16,--text-18,--text-20,--text-24,--text-30,--text-36,--text-48,--toast-bg-error,--toast-bg-info,--toast-bg-success,--toast-bg-warning,--toast-border-error,--toast-border-info,--toast-border-success,--toast-border-warning,--white".split(',');
+    function isPrimitive(n){ return /-\d+$/.test(n) || /^--(white|black)$/.test(n); }
+    // Collect --token names. cssRules is blocked on file:// (and cross-origin sheets) — so if no
+    // rules are readable, fall back to fetching the linked stylesheet text and parsing names.
+    // Token VALUES are always resolved live via a probe (works even when enumeration is blocked).
+    function loadTokenNames(cb){
+      var names=[], total=0;
+      for(var i=0;i<document.styleSheets.length;i++){ var rules; try{ rules=document.styleSheets[i].cssRules; }catch(e){ continue; }
+        total+=rules.length;
+        for(var j=0;j<rules.length;j++){ var st=rules[j].style; if(!st) continue;
+          for(var k=0;k<st.length;k++){ var pn=st[k]; if(pn.indexOf('--')===0 && names.indexOf(pn)<0) names.push(pn); } } }
+      RULES_READABLE = total>0;
+      if(names.length){ CSS_NAMES=names; flagFallbackDrift(names); cb(); return; }
+      var hrefs=[].map.call(document.querySelectorAll('link[rel=stylesheet]'), function(l){ return l.href; });
+      Promise.all(hrefs.map(function(h){ return fetch(h).then(function(r){ return r.text(); }).catch(function(){ return ''; }); }))
+        .then(function(txts){ var set={}, re=/(--[A-Za-z0-9_-]+)\s*:/g, m;
+          txts.forEach(function(t){ while((m=re.exec(t))) set[m[1]]=1; });
+          var parsed=Object.keys(set);
+          CSS_NAMES = parsed.length ? parsed : FALLBACK_TOKEN_NAMES; // file:// blocks fetch too → embedded list
+          cb(); })
+        .catch(function(){ CSS_NAMES=FALLBACK_TOKEN_NAMES; cb(); });
+    }
+    // When names are read live (http), compare against the embedded file:// fallback and warn if it's
+    // stale — so a maintainer viewing over http is told to regenerate FALLBACK_TOKEN_NAMES.
+    function flagFallbackDrift(live){
+      var fb={}; FALLBACK_TOKEN_NAMES.forEach(function(n){ fb[n]=1; });
+      var ls={}; live.forEach(function(n){ ls[n]=1; });
+      var added=live.filter(function(n){ return !fb[n]; });
+      var removed=FALLBACK_TOKEN_NAMES.filter(function(n){ return !ls[n]; });
+      if(!added.length && !removed.length) return;
+      try{ console.warn('[spec] FALLBACK_TOKEN_NAMES is stale — regenerate (see comment above it in the storybook <script>). Added:', added, 'Removed:', removed); }catch(e){}
+      if(document.querySelector('.spec-drift-note')) return;
+      var b=document.createElement('div'); b.className='spec-drift-note';
+      b.textContent='⚠ Spec token fallback is stale — '+added.length+' new / '+removed.length+' removed token(s). Regenerate FALLBACK_TOKEN_NAMES (file:// view will miss them). New: '+(added.join(', ')||'—');
+      if(document.body) document.body.insertBefore(b, document.body.firstChild);
+    }
+    function buildTokenMap(){
+      TOKMAP={}; FONTMAP={}; SHADOWMAP={}; RADIUSMAP={}; var names=CSS_NAMES||[];
+      // sentinel lives on the PARENT: an invalid (non-colour) token makes `color` inherit it,
+      // so length/size tokens resolve to rgb(1,2,3) and are rejected.
+      var holder=document.createElement('div'); holder.style.cssText='position:absolute;left:-99999px;top:0;color:rgb(1, 2, 3)';
+      var probe=document.createElement('span'); holder.appendChild(probe); document.body.appendChild(holder);
+      names.forEach(function(n){ probe.style.color='var('+n+')';
+        var rgb=getComputedStyle(probe).color;
+        if(!rgb||rgb==='rgb(1, 2, 3)'||rgb==='rgba(0, 0, 0, 0)') return; // inherited sentinel ⇒ not a colour token
+        (TOKMAP[rgb]=TOKMAP[rgb]||[]).push(n); });
+      // typography: map resolved font-size px → its --text-N token (e.g. 14px → --text-14)
+      names.forEach(function(n){ if(!/^--text-\d+$/.test(n)) return;
+        probe.style.fontSize='var('+n+')'; var fs=getComputedStyle(probe).fontSize;
+        if(fs && !FONTMAP[fs]) FONTMAP[fs]=n; });
+      // box-shadow: map a token's resolved shadow string → its name, so the spec shows the WHOLE
+      // existing token (e.g. --shadow-focus) instead of decomposing it into parts.
+      names.forEach(function(n){ if(!/shadow/i.test(n)) return;
+        probe.style.boxShadow=''; probe.style.boxShadow='var('+n+')'; var sh=getComputedStyle(probe).boxShadow;
+        if(sh && sh!=='none' && !SHADOWMAP[sh]) SHADOWMAP[sh]=n; });
+      // corner-radius: map a token's resolved radius px → its name (e.g. 6px → --radius-md)
+      names.forEach(function(n){ if(!/^--radius/.test(n)) return;
+        probe.style.borderRadius=''; probe.style.borderRadius='var('+n+')'; var rr=getComputedStyle(probe).borderTopLeftRadius;
+        if(rr && !RADIUSMAP[rr]) RADIUSMAP[rr]=n; });
+      probe.style.opacity=''; probe.style.opacity='var(--opacity-disabled)'; OPAC_DISABLED=getComputedStyle(probe).opacity;
+      holder.remove();
+      // semantic/component tokens before primitives
+      Object.keys(TOKMAP).forEach(function(rgb){ TOKMAP[rgb].sort(function(a,b){ return (isPrimitive(a)?1:0)-(isPrimitive(b)?1:0); }); });
+    }
+    function pickToken(rgb, prop){ var c=TOKMAP[rgb]; if(!c) return null;
+      var sem=c.filter(function(n){return !isPrimitive(n);}); var pool=sem.length?sem:c;
+      var isText=prop==='color', isBorder=/border/.test(prop)&&/color/.test(prop);
+      var bad, pref; // exclude wrong-category tokens that merely share this rgb, then prefer in-category
+      if(isText){ bad=/bg|surface|fill|card|stroke|border|ring|shadow/i; pref=/content|ink|text|on[-_]|label/i; }
+      else if(isBorder){ bad=/text|ink|label|on[-_]|shadow/i; pref=/stroke|border|ring|divider|outline/i; }
+      else { bad=/text|ink|label|on[-_]|stroke|ring/i; pref=/card|surface|bg|fill|hover|press|disabled|brand|state|accent/i; }
+      var f=pool.filter(function(n){return !bad.test(n);});
+      if(!f.length) return null; // only wrong-category tokens share this rgb → show raw, don't mislabel
+      pool=f; var hit=pool.find(function(n){return pref.test(n);});
+      return '--'+(hit||pool[0]).slice(2);
+    }
+    function tokenize(val, prop){ if(!val) return val;
+      return val.replace(/(?:rgba?|color)\([^)]*\)/g, function(m){
+        if(m==='rgba(0, 0, 0, 0)') return 'transparent';
+        return pickToken(m, prop)||m; }); }
+    function primaryOf(host, sel){ if(!host) return null; if(sel){ var m=host.querySelector(sel); if(m) return m; } return host.firstElementChild || host; }
+    function demosFromTable(tbl, sel){
+      var demos=[];
+      tbl.querySelectorAll('tbody tr').forEach(function(tr){
+        var name=tr.querySelector('.stname'); if(!name) return;
+        var cells=tr.querySelectorAll('.stcell'); var last=cells[cells.length-1];
+        var mini=last && last.querySelector('.ministage'); var el=primaryOf(mini, sel);
+        if(mini && el && !el.classList.contains('colhint')){ demos.push({label:name.textContent.trim(), el:el}); }
+      });
+      return demos;
+    }
+    function tableLabel(tbl){
+      var blk=tbl.closest('.block'), node=blk?blk.previousElementSibling:null;
+      while(node){
+        if(node.classList && node.classList.contains('variant-label')){
+          // skip labels heading a data-spec-variant demo block (e.g. "Sizes") — not a States variant group
+          var after=node.nextElementSibling;
+          if(after && after.querySelector && after.querySelector('[data-spec-variant]')){ node=node.previousElementSibling; continue; }
+          return node.textContent.trim();
+        }
+        node=node.previousElementSibling;
+      }
+      return '';
+    }
+    // getComputedStyle resolves width/height to a USED px value even when CSS says auto,
+    // so a content-/flex-sized element reports the rendered width of its demo text as if it
+    // were a spec (e.g. badge "64.8px"). Detect that: clone off-flow, add content, see if the
+    // dimension grows. If it does the size is content-driven → report "auto" (trivial, dropped).
+    function contentSized(el, prop){
+      try{
+        var w=document.createElement('div');
+        w.style.cssText='position:absolute;left:-99999px;top:0;visibility:hidden;height:auto';
+        // append inside el's real parent (not body) so ancestor-scoped rules — e.g.
+        // `.segctrl.is-sm .segctrl-btn{height}` — still apply to the clone; abs-positioning keeps
+        // the width-resize probe independent of the parent's width.
+        (el.parentNode||document.body).appendChild(w);
+        var c=el.cloneNode(true); c.style.margin='0'; w.appendChild(c);
+        function dim(){ var r=c.getBoundingClientRect(); return prop==='width'?r.width:r.height; }
+        w.style.width='560px'; var wide=dim();
+        w.style.width='240px'; var narrow=dim();
+        var containerDriven=Math.abs(wide-narrow)>0.5;
+        w.style.width='560px'; var before=dim();
+        var pad=document.createElement('span'); pad.textContent=' MMMMMMMMMMMM';
+        if(prop==='height') pad.style.cssText='display:block;height:60px';
+        c.appendChild(pad);
+        var contentDriven=Math.abs(dim()-before)>0.5;
+        w.remove();
+        // return a readable label so the spec SHOWS that the dimension is adaptive, not a fixed px
+        if(containerDriven) return 'auto (fills container)';
+        if(contentDriven) return 'auto (hugs content)';
+        return '';
+      }catch(e){ return ''; }
+    }
+    // getComputedStyle returns the device-snapped USED border-width (1px→0.8px, 1.5px→0.8px at 1.25 DPR),
+    // which is unrecoverable. Read the AUTHORED value straight from the matching CSS rules instead.
+    function widthFromShorthand(s){ if(!s) return ''; var m=s.match(/(?:^|\s)(\d*\.?\d+(?:px|rem|em))(?:\s|$)/); return m?m[1]:''; }
+    function authoredBorderWidth(el){
+      if(!RULES_READABLE) return ''; // can't read rules → use computed fallback
+      var val='';
+      for(var i=0;i<document.styleSheets.length;i++){ var rules; try{ rules=document.styleSheets[i].cssRules; }catch(e){ continue; }
+        for(var j=0;j<rules.length;j++){ var rule=rules[j]; if(!rule.style||!rule.selectorText) continue;
+          // CSSOM won't expand a shorthand containing var() into border-top-width, so also parse `border`/`border-top`
+          var v=rule.style.getPropertyValue('border-top-width')
+              || widthFromShorthand(rule.style.getPropertyValue('border-top'))
+              || widthFromShorthand(rule.style.getPropertyValue('border'));
+          if(!v || /^(medium|thin|thick)$/.test(v)) continue;
+          try{ if(el.matches(rule.selectorText)) val=v; }catch(e){} } }
+      return val.trim();
+    }
+    // does any matching rule actually author this property on el? (vs. inherited ambient — e.g. an
+    // icon-only button inheriting font-size). Used to keep the Type group free of inherited noise.
+    function authoredProp(el, prop){
+      if(!RULES_READABLE) return true; // can't read rules → don't gate (show computed type, never drop it)
+      for(var i=0;i<document.styleSheets.length;i++){ var rules; try{ rules=document.styleSheets[i].cssRules; }catch(e){ continue; }
+        for(var j=0;j<rules.length;j++){ var rule=rules[j]; if(!rule.style||!rule.selectorText) continue;
+          if(!rule.style.getPropertyValue(prop)) continue;
+          try{ if(el.matches(rule.selectorText)) return true; }catch(e){} } }
+      return false;
+    }
+    function buildTable(demos){
+      var css=demos.map(function(d){ return getComputedStyle(d.el); });
+      var head='<thead><tr><th>property</th>'+demos.map(function(d){return '<th>'+esc(d.label)+'</th>';}).join('')+'</tr></thead>';
+      var body='';
+      GROUPS.forEach(function(g){
+        var rows='';
+        var isType=(g[0]==='Type');
+        g[1].forEach(function(p){
+          var isDim=(p[0]==='width'||p[0]==='height');
+          var isCol=/color|shadow|background/.test(p[0]); var isBW=p[0]==='border-top-width';
+          var vals=css.map(function(c,i){ var v=c.getPropertyValue(p[0]); v=v?v.trim():'';
+            if(isType && !authoredProp(demos[i].el, p[0])) return ''; // inherited ambient ⇒ not this component's spec
+            if(isDim && v){ var px=parseFloat(v);
+              var kind=contentSized(demos[i].el, p[0]); if(kind) return kind; // adaptive → labelled, not dropped
+              if(px && Math.abs(px-Math.round(px))>0.05) return 'auto (hugs content)'; } // fractional ⇒ text-metric artifact
+            if(isBW && v){ var a=authoredBorderWidth(demos[i].el); if(a) v=a;
+              else { var bw=parseFloat(v); if(bw){ var r=Math.round(bw*2)/2; v=(r%1?r.toFixed(1):r)+'px'; } } }
+            if(p[0]==='box-shadow' && v && v!=='none'){ v = SHADOWMAP[v] || tokenize(v, p[0]); } // whole-token (--shadow-focus) before decomposing
+            else if(isCol && v) v=tokenize(v, p[0]);
+            if(p[0]==='font-size' && v && FONTMAP[v]) v=FONTMAP[v]; // typography token (e.g. --text-14)
+            if(p[0]==='font-weight' && v){ var wn=WEIGHTS[parseInt(v,10)]; if(wn) v=wn+' '+parseInt(v,10); } // named weight (e.g. Medium 500)
+            if(p[0]==='border-radius' && v && !/\s/.test(v)){ var rv=parseFloat(v); // uniform radius only (skip multi-value like tab tops)
+              if(rv>=90) v='--radius-full'; else if(RADIUSMAP[v]) v=RADIUSMAP[v]; }
+            if(p[0]==='opacity' && v && OPAC_DISABLED && v===OPAC_DISABLED) v='--opacity-disabled'; // disabled token
+            return v; });
+          if(vals.every(function(v){ return TRIVIAL[v]; })) return;
+          rows+='<tr><td class="spec-prop">'+esc(p[1])+'</td>'+vals.map(function(v){return '<td>'+esc(v)+'</td>';}).join('')+'</tr>';
+        });
+        if(rows) body+='<tr><td class="spec-group" colspan="'+(demos.length+1)+'">'+g[0]+'</td></tr>'+rows;
+      });
+      var wrap=document.createElement('div'); wrap.className='spectable-wrap';
+      var t=document.createElement('table'); t.className='spectable'; t.innerHTML=head+'<tbody>'+body+'</tbody>';
+      wrap.appendChild(t); return wrap;
+    }
+    function makePanel(label, demos){
+      var d=document.createElement('details'); d.className='specpanel';
+      d.innerHTML='<summary>'+esc(label?('Spec (live) — '+label):'Spec (live) — computed values')+'<span class="specpanel-note">read from the rendered component · always current</span></summary>';
+      d.appendChild(buildTable(demos)); return d;
+    }
+    function build(section){
+      var sel=section.getAttribute('data-spec-sel')||'';
+      section.querySelectorAll(':scope > .specpanel, :scope .block > .specpanel').forEach(function(p){ p.remove(); });
+      var made=0;
+      // one narrow panel per States table, inserted after that table's .block, labelled by its variant
+      section.querySelectorAll('.stbl').forEach(function(tbl){
+        var demos=demosFromTable(tbl, sel); if(!demos.length) return;
+        var blk=tbl.closest('.block'), panel=makePanel(tableLabel(tbl), demos);
+        if(blk && blk.parentNode) blk.parentNode.insertBefore(panel, blk.nextSibling); else section.appendChild(panel);
+        made++;
+      });
+      // explicit extra demos (e.g. size variants) → panel placed right after the demo block it describes
+      var variantNodes=[].slice.call(section.querySelectorAll('[data-spec-variant]'));
+      var variants=variantNodes.map(function(n){
+        var el=sel?(n.querySelector(sel)||primaryOf(n,sel)):primaryOf(n,''); return {label:n.getAttribute('data-spec-variant'), el:el||n}; }).filter(function(d){return d.el;});
+      if(variants.length){
+        var vpanel=makePanel(section.getAttribute('data-spec-variant-label')||'Variants', variants);
+        var demoBlock=variantNodes[0].closest('.block');
+        if(demoBlock && demoBlock.parentNode) demoBlock.parentNode.insertBefore(vpanel, demoBlock.nextSibling);
+        else section.appendChild(vpanel);
+        made++;
+      }
+      // fallback for sections without a States table: profile the Preview Expected stages
+      if(!made){
+        var demos=[];
+        section.querySelectorAll('.ce .ce-cell').forEach(function(cell){
+          var stage=cell.querySelector('.stage'); if(!stage || stage.classList.contains('prod')) return;
+          var el=primaryOf(stage, sel); var tag=cell.querySelector('.ce-tag');
+          if(el && !el.classList.contains('colhint')){ demos.push({label: tag?tag.textContent.trim():'Expected', el:el}); }
+        });
+        if(demos.length) section.appendChild(makePanel('', demos));
+      }
+    }
+    // Agreed rule: a brand-new component/variant has no prod state → no Current(prod) column.
+    // Auto-detect any States table whose prod column is ENTIRELY "did not exist" and drop that
+    // column (+ its Preview prod cell). Covers current and future fully-new components; mixed
+    // tables (existing component with one new state) keep their prod column. Idempotent.
+    function stripNewProdColumns(){
+      document.querySelectorAll('section.comp .stbl').forEach(function(tbl){
+        var ths=[].slice.call(tbl.querySelectorAll('thead th'));
+        var idx=-1; ths.forEach(function(th,i){ if(/current|prod|\bwas\b/i.test(th.textContent)) idx=i; });
+        if(idx<0) return;
+        var rows=[].slice.call(tbl.querySelectorAll('tbody tr'));
+        var allNew=rows.length>0 && rows.every(function(r){ var c=r.querySelectorAll('td')[idx]; return c && /did not exist/i.test(c.textContent); });
+        if(!allNew) return;
+        ths[idx].remove();
+        rows.forEach(function(r){ var c=r.querySelectorAll('td')[idx]; if(c) c.remove(); });
+        var rem=tbl.querySelectorAll('thead th'); if(rem[1]) rem[1].textContent='Specification';
+        var blk=tbl.closest('.block'), bh=blk&&blk.querySelector('.block-h');
+        if(bh && /was|became|specification/i.test(bh.textContent)) bh.textContent='States — specification (new component)';
+      });
+      document.querySelectorAll('section.comp .ce .ce-cell').forEach(function(cell){
+        var st=cell.querySelector('.stage.prod'); if(st && /did not exist/i.test(cell.textContent)) cell.remove();
+      });
+    }
+    // An Expected Preview cell that's only a 'no change' hint is pointless next to the Current demo.
+    // Drop it and relabel the surviving demo. Gated on the section having another spec source
+    // (States table or Sizes variants) so we never remove the sole basis for the live panel.
+    function collapseNoChange(){
+      document.querySelectorAll('section.comp').forEach(function(sec){
+        sec.querySelectorAll('.ce').forEach(function(ce){
+          var cells=[].slice.call(ce.children).filter(function(c){ return c.classList && c.classList.contains('ce-cell'); });
+          if(cells.length!==2) return;
+          var exp=null, prod=null;
+          cells.forEach(function(c){ var t=c.querySelector('.ce-tag'); if(!t) return; if(t.classList.contains('expt')) exp=c; else if(t.classList.contains('prodt')) prod=c; });
+          if(!exp || !prod) return;
+          var st=exp.querySelector('.stage'), hint=st && st.querySelector('.colhint');
+          if(st && st.children.length===1 && hint && /no change/i.test(hint.textContent)){
+            exp.remove();
+            var pt=prod.querySelector('.ce-tag'); if(pt){ pt.textContent='No change vs prod'; pt.className='ce-tag'; }
+          }
+        });
+      });
+    }
+    function buildAll(){ stripNewProdColumns(); collapseNoChange(); buildTokenMap(); document.querySelectorAll('section.comp').forEach(function(s){ if(!SKIP[s.id]) build(s); }); }
+    function run(){ loadTokenNames(buildAll); }
+    if(document.readyState!=='loading') run(); else document.addEventListener('DOMContentLoaded', run);
+    // External kit-theme.css may not be parsed at DOMContentLoaded → rebuild once fully loaded.
+    window.addEventListener('load', run);
+    new MutationObserver(function(m){ for(var i=0;i<m.length;i++){ if(m[i].attributeName==='class'){ buildAll(); break; } } })
+      .observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+  })();
+
+  /* Scroll-spy — highlight the left-nav link for the section currently at the top of the viewport,
+     and keep that link visible in the (scrollable) nav. Scroll-event based (works everywhere). */
+  (function(){
+    var links={}; document.querySelectorAll('.side a[href^="#"]').forEach(function(a){ links[a.getAttribute('href').slice(1)]=a; });
+    var sections=[].slice.call(document.querySelectorAll('section.comp[id]')).filter(function(s){ return links[s.id]; });
+    if(!sections.length) return;
+    var active=null, ticking=false;
+    function setActive(id){
+      if(id===active || !links[id]) return;
+      if(active && links[active]) links[active].classList.remove('active');
+      active=id; var a=links[id]; a.classList.add('active');
+      var r=a.getBoundingClientRect(); if(r.top<56 || r.bottom>window.innerHeight) a.scrollIntoView({block:'nearest'});
+    }
+    function update(){
+      ticking=false; var thresh=72, best=sections[0], bestTop=-Infinity;
+      for(var i=0;i<sections.length;i++){ var t=sections[i].getBoundingClientRect().top; if(t<=thresh && t>bestTop){ bestTop=t; best=sections[i]; } }
+      setActive(best.id);
+    }
+    window.addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
+    window.addEventListener('resize', update, {passive:true});
+    update();
+  })();
 </script>
 </body>
 </html>

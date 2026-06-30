@@ -4,16 +4,25 @@ A workflow and a self-contained preview kit for preparing precise UI-change exam
 
 ## Contents
 
-- **`insightis-preview-kit.html`** — a self-contained HTML preview of the design system.
-  Opens with a double click in any browser (no dev server, no build, no node_modules).
-  It reflects the **current** Figma design system from `token-diff-report.md`:
+The kit is **two files** (kept deliberately split):
+
+- **`insightis-preview-kit.html`** — the storybook: component markup + JS. **It has no `<style>` block** — every selector lives in the external stylesheet.
+- **`pages/kit-theme.css`** — all CSS, and the **single source of truth for every value**. The three-layer token system (Primitives → Semantic → Component-scoped) for light and dark, the typography / radius / spacing / shadow / opacity scales, and all component rules live here.
+
+The storybook reflects the current design system:
   - Primitives (Slate, Brand, Tertiary, Red, Grey) and semantic tokens (Surface, Brand, Text, State, Feedback, Stroke) for both light and dark modes.
-  - Typography (DM Sans, standard Tailwind scale + semantic levels), radius and spacing scales.
-  - Components (Button, IconButton, Badge, Input, TextArea, Checkbox, Switch, Avatar, Tabs, ProgressBar, Spinner, Tooltip, Dropdown, Modal, Table, Pagination).
-  - **Component states** rendered statically (default / hover / pressed / focus / disabled), so transient states can be screenshotted for handoff.
-  - Light/dark logos from `Insightis platform/logo`, embedded inline and theme-aware.
-- **`token-diff-report.md`** — the authoritative color-token migration spec (old → current).
-- **`logo/`** — the source SVG logos (`Insightis_Light.svg`, `Insightis_Black.svg`).
+  - Typography (DM Sans, content/prose levels + a separate UI-text size×weight table), and tokenised radius (`--radius-*`), spacing, shadow (`--shadow-*`), opacity scales.
+  - Components rendered as live demos with full state coverage (default / hover / pressed / focus / disabled / loading) for screenshotting.
+  - **Live "Spec (live)" panel under every component** — see below.
+  - Light/dark logos, embedded inline and theme-aware.
+
+### The live Spec inspector (why specs never drift)
+
+Under each component the storybook renders a collapsible **"Spec (live)"** table that reads the **rendered component's computed styles** at view-time and presents a complete, per-state, per-theme values table. Because it derives from the live element, it is **complete by construction and cannot drift** from the CSS. It also **maps values back to tokens** — colours → `--brand-primary` etc., box-shadow → `--shadow-focus`, font-size → `--text-14`, font-weight → `Medium 500`, radius → `--radius-md`, opacity → `--opacity-disabled` — so the spec reads in design-system terms, not raw `rgb()`/px. Size variants get a dedicated **Sizes** panel (height/padding/font per step). `changes/*.md` records the diff + rationale; the panel supplies the values.
+
+### Viewing — use http, not `file://`
+
+**Open the storybook over http** (a local static server, or GitHub Pages), e.g. `http://localhost:8765/insightis-preview-kit.html`. The Spec inspector needs to read the stylesheet (`cssRules`), which Chrome **blocks for `file://`** pages. There is an embedded fallback so token *names* still resolve from `file://`, but http is the supported path and renders everything reliably. (A simple static server is in `.claude/launch.json` / `.claude/static-server.ps1`.)
 
 ## How to request a change (3 steps)
 
@@ -38,13 +47,12 @@ A workflow and a self-contained preview kit for preparing precise UI-change exam
 
 - Tokens and theme are extracted **once** — no need to touch them again.
 - Batch several edits into one request instead of many small ones.
-- Make tiny visual tweaks (spacing, color, size) directly in the HTML —
-  all classes are standard Tailwind plus the `.btn-*` / `.badge-*` helpers.
-- If the product theme changes, just update the `:root` block in the kit's `<head>`.
+- Make visual tweaks by editing **`pages/kit-theme.css`** (the single source of values) — not the HTML, which carries no styles. The Spec panel re-derives automatically.
+- If the product theme changes, update the token blocks (`:root` / `.dark`) in **`pages/kit-theme.css`**. If you add/rename/remove a `--token`, also regenerate the `FALLBACK_TOKEN_NAMES` list in the storybook (the on-page drift banner flags this when viewed over http) — see `CLAUDE.md`.
+- **Kit mirrors the concepts:** if a component changes on a concept page (`pages/concept/*.html`), update the kit (storybook demo + `kit-theme.css`) in the same pass. Shared component CSS lives in `kit-theme.css`, never in a page `<style>` block — otherwise the storybook renders the component unstyled.
 
 ## Accuracy notes
 
-- Colors reflect the current Figma system (`token-diff-report.md`); the platform code
-  still uses the old tokens — see the report for the full migration list.
+- Values are authoritative in **`pages/kit-theme.css`**; the live Spec panels derive from it. Per-component change rationale (prod → expected diffs + why) lives in **`changes/*.md`**; the colour-token migration is in **`changes/colors.md`**; per-screen differences in **`page-changes/*.md`**.
 - Complex interactivity (animations, Radix internals) is simplified in mockups —
   enough for a "how it should look" specification.
