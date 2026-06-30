@@ -945,33 +945,78 @@
 
   /* ============================================================================
      Composer dropdown menus — Attach / Connections / Models. Shared by both chat
-     composers (chat-landing.html + chat_page-landing.html). Each composes the kit
-     .menu shell + .mi item; the classes below add only the menu-specific internals
-     (section labels, file list, connector rows, model rows). The triggers
-     (.cl-dropdown / .cl-attach) live in each page's <style> alongside the rest of
-     the composer chrome (.cl-composer / .cl-prompt / .cl-send), identical on both. */
-  /* Quiet uppercase group heading inside a composer menu — smallest tier (size + tracking carry
-     the hierarchy; colour stays --ink-secondary for AA, since --ink-inactive fails on Card). */
-  .cl-menu-label{padding:8px 12px 4px;font-size:var(--text-11);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-secondary)}
-  .cl-menu-label + .menu-sep,.menu-sep + .cl-menu-label{margin-top:0}
+     composers (chat-landing.html + chat_page-landing.html) AND the storybook
+     (#composer-menus). Each composes the kit .menu shell + .mi item; the classes
+     below add the trigger buttons + menu-specific internals (section labels, file
+     list, connector rows, model rows). THIS IS THE SINGLE SOURCE — pages and the
+     storybook all read these rules; nothing is hand-copied into a page <style>.
+     (Page <style> keeps only composer LAYOUT glue: .cl-composer / .cl-prompt /
+     .cl-send and the page's own responsive reflow.)
+     ============================================================================ */
+  /* — Triggers — the buttons that open the Attach/Connections/Models menus. Tertiary-button
+     recipe: no border, neutral hover, pressed-while-open (open wins over hover). */
+  .cl-attach{height:2rem;width:2rem;border-radius:.375rem;color:var(--ink-body)}
+  .cl-attach svg{width:16px;height:16px}
+  .cl-dropdown{display:inline-flex;align-items:center;justify-content:center;height:2rem;padding:0 .5rem;gap:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink-body);background:transparent;border:none;border-radius:.375rem;cursor:pointer;font-family:inherit;transition:background .12s,color .12s;white-space:nowrap;flex:none}
+  .cl-dropdown:hover,.cl-dropdown.s-hover{background:var(--state-hover)}
+  /* Open/pressed wins over hover — an expanded trigger keeps its pressed surface while hovered.
+     (.s-pressed is the storybook's static-state companion to the live :active/[aria-expanded].) */
+  .cl-dropdown:active,.cl-dropdown.s-pressed,.cl-dropdown[aria-expanded="true"],.cl-dropdown[aria-expanded="true"]:hover{background:var(--state-pressed)}
+  .cl-dropdown:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .cl-dropdown .cl-dropdown-icon{width:16px;height:16px;color:var(--ink-body)}
+  .cl-dropdown .cl-ic-chev{width:14px;height:14px;color:var(--ink-secondary);transition:transform .15s}
+  .cl-dropdown[aria-expanded="true"] .cl-ic-chev{transform:rotate(180deg)}
+  /* Attach icon button — same pressed-open state as .cl-dropdown; open wins over hover. */
+  .cl-attach[aria-expanded="true"],.cl-attach[aria-expanded="true"]:hover{background:var(--state-pressed)}
+  /* Disabled-after-upload state — aria-disabled (not [disabled]) so the tooltip engine still
+     fires on hover to explain why ("Only one file allowed"). Pointer events stay on. */
+  .cl-attach[aria-disabled="true"]{color:var(--ink-inactive);cursor:not-allowed}
+  .cl-attach[aria-disabled="true"]:hover{background:transparent}
+  /* Trigger ↔ menu anchoring — the menu floats just above the trigger, shown while aria-expanded. */
+  .cl-dropdown-wrap{position:relative}
+  .cl-dropdown-menu{position:absolute;bottom:calc(100% + 4px);left:0;z-index:50;display:none}
+  .cl-dropdown[aria-expanded="true"]+.cl-dropdown-menu,.cl-attach[aria-expanded="true"]+.cl-dropdown-menu{display:block}
+  /* Attached-file chip — appears in the tools row once a file is loaded; × removes it. */
+  .cl-file-chip{display:inline-flex;align-items:center;gap:.375rem;height:2rem;padding:0 .25rem 0 .5rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);font-size:.8125rem;color:var(--ink-body);max-width:12rem}
+  /* The class sets display:inline-flex, which beats the UA [hidden]{display:none} — restore it. */
+  .cl-file-chip[hidden]{display:none}
+  .cl-file-chip .cl-file-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cl-file-chip .cl-file-chip-x{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border:none;background:transparent;border-radius:.25rem;color:var(--ink-secondary);cursor:pointer;flex:none}
+  .cl-file-chip .cl-file-chip-x:hover{background:var(--state-hover);color:var(--ink-body)}
+  .cl-file-chip svg{width:14px;height:14px}
 
-  /* — Attach menu — fixed 280px: secondary "Choose File" button + plain recent-file list (no icons). */
-  .cl-attach-menu{width:280px;max-width:280px}
+  /* Group heading inside a composer menu — same recipe as the account popover's section label
+     (.sbx-pop-label): 12px / weight 500 / --ink-secondary, sentence case (no uppercase or tracking).
+     Only the menu-context padding differs (aligns the heading to the .mi 12px text inset). */
+  .cl-menu-label{padding:8px 12px 4px;font-size:var(--text-12);line-height:1;font-weight:500;color:var(--ink-secondary)}
+  .cl-menu-label + .menu-sep,.menu-sep + .cl-menu-label{margin-top:0}
+  /* Scrollable list region — wraps the connector / recent-file rows so the section heading (and,
+     for Connections, the Manage footer) stay pinned while the rows scroll. Caps at ~10 rows (20rem)
+     or 60vh on short screens, whichever is smaller, then scrolls. overscroll-behavior:contain keeps
+     the wheel from chaining to the page once the list reaches its end. */
+  .cl-menu-scroll{max-height:min(20rem,60vh);overflow-y:auto;overscroll-behavior:contain}
+  /* Empty state — shown in place of the list when there are no connectors / recent files. */
+  .cl-menu-empty{padding:14px 12px;text-align:center;font-size:var(--text-13);line-height:1.4;color:var(--ink-secondary)}
+
+  /* — Attach menu — secondary "Choose File" button + plain recent-file list (no icons). Width is
+     fluid: inherits the base .menu max-content clamp (140–320px), so each composer menu hugs its
+     own content and the three can differ in width. */
   /* CTA — a standard kit secondary button (btn btn-secondary btn-sm): auto width, standard
      .375rem corners, default 2rem height. Only the menu placement is overridden here (8px left
      inset off the menu edge + 8px gap above the recent-files list). Was previously a full-width
      999px stadium pill, which read as oversized/distorted at 270px wide. */
   .cl-attach-choose{gap:.5rem;margin:0 8px 8px}
   /* Recent files read as a plain text list — no leading icon, regular weight (one step below the
-     CTA), --ink-body, single-line ellipsis. */
-  .cl-file-item{display:block;font-weight:400;color:var(--ink-body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+     CTA), --ink (darker than the former --ink-body so the file names read clearly), single-line ellipsis. */
+  .cl-file-item{display:block;font-weight:400;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-  /* — Connections menu — existing connections + suggested group + manage link. Width unified
-     with the Models menu (280px) so the composer dropdowns share one width. */
-  .cl-conn-menu{width:280px;max-width:280px}
-  /* Uniform row rhythm for the 2-line connector/model rows — 8px vertical (overrides the .mi base
-     6px for these composer rows only) so rows breathe around the 24px logo. On the 4px grid. */
-  .cl-conn-item,.cl-model-item{padding-top:8px;padding-bottom:8px}
+  /* — Connections menu — existing connections + manage link. Fluid width (base .menu clamp). */
+  /* Model rows are 2-line (name + description) → 8px vertical (overrides the .mi base 6px) so the
+     pair of lines breathes around the 24px logo. On the 4px grid. */
+  .cl-model-item{padding-top:8px;padding-bottom:8px}
+  /* Connector rows are single-line (connection name only) → 4px vertical. The 2-line model padding
+     (8px) read as too airy on a one-line row; 4px keeps the 24px-logo rows compact. On the 4px grid. */
+  .cl-conn-item{padding-top:4px;padding-bottom:4px}
   /* Connector logo — sprite. Compound selector beats the base .logo-spr{--logo-size:2rem}
      (equal specificity, base is defined later in the file), pinning these menu logos to 18px. */
   .logo-spr.cl-conn-logo{--logo-size:24px}
@@ -987,7 +1032,7 @@
      on/off sources for the chat → a toggle; models are single-select → a check (below). */
   .cl-conn-swt{margin-left:auto}
   /* Selected-model check — revealed when the row is aria-checked. Uses --ink-highlight
-     (theme-adaptive accent, AA in both themes) — same accent as the selected model name. */
+     (theme-adaptive accent, AA in both themes); it is the sole coloured selection cue. */
   .cl-model-check{width:16px;height:16px;flex:none;color:var(--ink-highlight);opacity:0}
   .cl-model-item[aria-checked="true"] .cl-model-check{opacity:1}
   /* Manage link — full-width row, brand label + leading icon. */
@@ -996,9 +1041,9 @@
      one left edge (glyph stays 16px, centred in the 24px box). */
   .cl-conn-manage .mi-ic{width:24px;height:24px;padding:4px;color:currentColor}
 
-  /* — Models menu — provider logo + name/desc + selected check. Width unified with Connections. */
-  .cl-model-menu{width:280px;max-width:280px}
-  .cl-model-item[aria-checked="true"] .cl-model-name{color:var(--ink-highlight)}
+  /* — Models menu — provider logo + name/desc + selected check. Fluid width (base .menu clamp). */
+  /* Selected model is signalled by the persistent brand-tinted surface + the check only — the model
+     name stays --ink (no accent recolour), so selection reads from the check/tint, not coloured text. */
   /* Selected model = persistent brand-tinted surface (same --state-pressed the kit uses for
      selected elsewhere). Hover on the selected row KEEPS the tint — (0,3,0) beats .mi:hover
      (0,2,0) — so the neutral hover never collapses the selection. */

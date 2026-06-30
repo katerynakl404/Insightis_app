@@ -381,25 +381,45 @@
         document.body.appendChild(ft);}return ft;
     }
     function show(el){
-      var text=el.getAttribute('data-tip');if(!text)return;
+      var text=el.getAttribute('data-tip');
+      /* Collapsed sidebar rail: nav items carry no data-tip — derive the label from the (hidden)
+         .lbl or aria-label so each icon tips on hover with the standard delay. When the sidebar is
+         expanded the .lbl is visible → skip, so the tooltip never duplicates a visible label. */
+      if(!text && (el.classList.contains('sbx-nav-item')||el.classList.contains('sbx-chats-icon'))){
+        if(!el.closest('.sbx.is-collapsed')) return;
+        var sbLbl=el.querySelector('.lbl');
+        text=(sbLbl?sbLbl.textContent:(el.getAttribute('aria-label')||'')).trim();
+      }
+      if(!text)return;
       var f=getFt(),r=el.getBoundingClientRect();
       f.textContent=text;f.style.display='inline-flex';f.style.opacity='0';
       var tw=f.offsetWidth,th=f.offsetHeight;
-      var lx=Math.max(4,Math.min(r.left+r.width/2-tw/2,window.innerWidth-tw-4));
-      var ty=r.top-th-5;if(ty<4)ty=r.bottom+5;
+      var lx,ty;
+      if(el.closest('.sbx.is-collapsed')){
+        /* Collapsed sidebar rail → tooltip to the RIGHT of the icon, vertically centred
+           (flips to the left edge if the viewport can't fit it on the right). */
+        lx=r.right+8; if(lx+tw>window.innerWidth-4) lx=r.left-tw-8;
+        ty=Math.max(4,Math.min(r.top+r.height/2-th/2,window.innerHeight-th-4));
+      } else {
+        lx=Math.max(4,Math.min(r.left+r.width/2-tw/2,window.innerWidth-tw-4));
+        ty=r.top-th-5;if(ty<4)ty=r.bottom+5;
+      }
       f.style.left=lx+'px';f.style.top=ty+'px';
       f.style.transition='opacity .12s';f.style.opacity='1';
     }
     function hide(){if(ft){ft.style.transition='opacity .1s';ft.style.opacity='0';}clearTimeout(showTimer);}
     document.addEventListener('mouseover',function(e){
-      var el=e.target.closest('[data-tip]');if(!el)return;
+      var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
       clearTimeout(showTimer);showTimer=setTimeout(function(){show(el);},isWarm?0:300);
     },true);
     document.addEventListener('mouseout',function(e){
-      var el=e.target.closest('[data-tip]');if(!el)return;
-      var to=e.relatedTarget;if(to&&to.closest&&to.closest('[data-tip]'))return;
-      hide();clearTimeout(warmTimer);isWarm=true;
-      warmTimer=setTimeout(function(){isWarm=false;},600);
+      var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
+      var to=e.relatedTarget;if(to&&to.closest&&to.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon'))return;
+      /* Warm-up only counts if a tooltip was actually visible — merely passing the cursor over a
+         tip target (no tooltip shown) must NOT pre-warm, else the next hover skips its 300ms delay. */
+      var wasShown=ft&&ft.style.opacity==='1';
+      hide();
+      if(wasShown){clearTimeout(warmTimer);isWarm=true;warmTimer=setTimeout(function(){isWarm=false;},600);}
     },true);
   })();
 

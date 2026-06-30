@@ -65,36 +65,9 @@
   .cl-prompt:hover,.cl-prompt:focus,.cl-prompt:focus-visible{border:none;box-shadow:none}
   .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
   .cl-composer-tools{display:flex;align-items:center;gap:.25rem}
-  /* All footer buttons share the same 32×… size, .375rem radius, and flex-center their icon+label so they read as one row of consistent controls. */
-  .cl-attach{height:2rem;width:2rem;border-radius:.375rem;color:var(--ink-body)}
-  .cl-attach svg{width:16px;height:16px}
-  /* Composer footer dropdowns — tertiary-button recipe: no border, neutral hover/pressed.
-     Open state = pressed-tertiary (bg stays pressed while menu is visible). */
-  .cl-dropdown{display:inline-flex;align-items:center;justify-content:center;height:2rem;padding:0 .5rem;gap:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink-body);background:transparent;border:none;border-radius:.375rem;cursor:pointer;font-family:inherit;transition:background .12s,color .12s;white-space:nowrap;flex:none}
-  .cl-dropdown:hover{background:var(--state-hover)}
-  /* Open/pressed wins over hover — an expanded trigger keeps its pressed surface while hovered. */
-  .cl-dropdown:active,.cl-dropdown[aria-expanded="true"],.cl-dropdown[aria-expanded="true"]:hover{background:var(--state-pressed)}
-  .cl-dropdown:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .cl-dropdown .cl-dropdown-icon{width:16px;height:16px;color:var(--ink-body)}
-  .cl-dropdown .cl-ic-chev{width:14px;height:14px;color:var(--ink-secondary);transition:transform .15s}
-  .cl-dropdown[aria-expanded="true"] .cl-ic-chev{transform:rotate(180deg)}
-  /* Attach icon button — same pressed-open state as .cl-dropdown; open wins over hover. */
-  .cl-attach[aria-expanded="true"],.cl-attach[aria-expanded="true"]:hover{background:var(--state-pressed)}
-  /* Disabled-after-upload state — aria-disabled (not [disabled]) so the tooltip engine still
-     fires on hover to explain why ("Only one file allowed"). Pointer events stay on. */
-  .cl-attach[aria-disabled="true"]{color:var(--ink-inactive);cursor:not-allowed}
-  .cl-attach[aria-disabled="true"]:hover{background:transparent}
-  /* Attached-file chip — appears in the tools row once a file is loaded; × removes it. */
-  .cl-file-chip{display:inline-flex;align-items:center;gap:.375rem;height:2rem;padding:0 .25rem 0 .5rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);font-size:.8125rem;color:var(--ink-body);max-width:12rem}
-  /* The class sets display:inline-flex, which beats the UA [hidden]{display:none} — restore it. */
-  .cl-file-chip[hidden]{display:none}
-  .cl-file-chip .cl-file-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .cl-file-chip .cl-file-chip-x{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border:none;background:transparent;border-radius:.25rem;color:var(--ink-secondary);cursor:pointer;flex:none}
-  .cl-file-chip .cl-file-chip-x:hover{background:var(--state-hover);color:var(--ink-body)}
-  .cl-file-chip svg{width:14px;height:14px}
-  .cl-dropdown-wrap{position:relative}
-  .cl-dropdown-menu{position:absolute;bottom:calc(100% + 4px);left:0;z-index:50;display:none}
-  .cl-dropdown[aria-expanded="true"]+.cl-dropdown-menu,.cl-attach[aria-expanded="true"]+.cl-dropdown-menu{display:block}
+  /* Composer trigger buttons (.cl-attach / .cl-dropdown), menu anchoring (.cl-dropdown-wrap /
+     .cl-dropdown-menu) and the attached-file chip (.cl-file-chip) now live in the single source
+     pages/kit-theme.css (storybook #composer-menus). Page <style> keeps only layout glue below. */
   .cl-send{height:2rem;padding:0 .75rem;gap:.375rem;font-size:.8125rem;border-radius:.375rem;white-space:nowrap;flex:none}
   .cl-send svg{width:14px;height:14px}
 
@@ -499,9 +472,11 @@
                   Choose File
                 </button>
                 <div class="cl-menu-label">Recent files</div>
-                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('Q3-revenue.csv')">Q3-revenue.csv</div>
-                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('customers-export.xlsx')">customers-export.xlsx</div>
-                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('churn-analysis.pdf')">churn-analysis.pdf</div>
+                <div class="cl-menu-scroll">
+                  <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('Q3-revenue.csv')">Q3-revenue.csv</div>
+                  <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('customers-export.xlsx')">customers-export.xlsx</div>
+                  <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('churn-analysis.pdf')">churn-analysis.pdf</div>
+                </div>
               </div>
             </div>
             <!-- Attached-file chip — populated by JS once a file is loaded (only one allowed). -->
@@ -520,20 +495,22 @@
               <div class="cl-dropdown-menu menu cl-conn-menu" role="menu">
                 <div class="menu-wip" aria-hidden="true">In redesign</div>
                 <div class="cl-menu-label">Your connections</div>
-                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
-                  <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
-                  <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
-                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB in this chat"></button>
-                </div>
-                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
-                  <span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span>
-                  <span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span></span>
-                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM in this chat"></button>
-                </div>
-                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
-                  <span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span>
-                  <span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span></span>
-                  <button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub in this chat"></button>
+                <div class="cl-menu-scroll">
+                  <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                    <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
+                    <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
+                    <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB in this chat"></button>
+                  </div>
+                  <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                    <span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span>
+                    <span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span></span>
+                    <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM in this chat"></button>
+                  </div>
+                  <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                    <span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span>
+                    <span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span></span>
+                    <button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub in this chat"></button>
+                  </div>
                 </div>
                 <hr class="menu-sep" />
                 <a class="mi cl-conn-manage" role="menuitem" href="data-sources_connections-landing.html">
@@ -545,17 +522,17 @@
             <div class="cl-dropdown-wrap">
               <button class="cl-dropdown" type="button" aria-haspopup="menu" aria-expanded="false" onclick="clDdToggle(this)">
                 <svg class="cl-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2a2.5 2.5 0 0 0-2.5 2.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
-                <span class="cl-dropdown-lbl">Insightis Ultra</span>
+                <span class="cl-dropdown-lbl">Insightis Light</span>
                 <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
               <div class="cl-dropdown-menu menu cl-model-menu" role="menu">
                 <div class="menu-wip" aria-hidden="true">In redesign</div>
-                <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="false" onclick="clModelSelect(this,'Insightis Light')">
+                <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="true" onclick="clModelSelect(this,'Insightis Light')">
                   <svg class="cl-model-logo" aria-hidden="true"><use href="#lg-mark"/></svg>
                   <span class="cl-model-text"><span class="cl-model-name">Insightis Light</span><span class="cl-model-desc">Fast, everyday answers</span></span>
                   <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
-                <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="true" onclick="clModelSelect(this,'Insightis Ultra')">
+                <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="false" onclick="clModelSelect(this,'Insightis Ultra')">
                   <svg class="cl-model-logo" aria-hidden="true"><use href="#lg-mark"/></svg>
                   <span class="cl-model-text"><span class="cl-model-name">Insightis Ultra</span><span class="cl-model-desc">Deepest reasoning &amp; analysis</span></span>
                   <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -601,26 +578,52 @@
         document.body.appendChild(ft);}return ft;
     }
     function show(el){
-      var text=el.getAttribute('data-tip');if(!text)return;
+      var text=el.getAttribute('data-tip');
+      /* Collapsed sidebar rail: nav items carry no data-tip — derive the label from the (hidden)
+         .lbl or aria-label so each icon tips on hover with the standard delay. When the sidebar is
+         expanded the .lbl is visible → skip, so the tooltip never duplicates a visible label. */
+      if(!text && (el.classList.contains('sbx-nav-item')||el.classList.contains('sbx-chats-icon'))){
+        if(!el.closest('.sbx.is-collapsed')) return;
+        var sbLbl=el.querySelector('.lbl');
+        text=(sbLbl?sbLbl.textContent:(el.getAttribute('aria-label')||'')).trim();
+      }
+      if(!text)return;
+      /* Pressed/open wins over hover: never float the tooltip while the trigger's menu is open
+         (aria-expanded="true") — it would overlap the menu the button just opened. */
+      if(el.getAttribute('aria-expanded')==='true')return;
       var f=getFt(),r=el.getBoundingClientRect();
       f.textContent=text;f.style.display='inline-flex';f.style.opacity='0';
       var tw=f.offsetWidth,th=f.offsetHeight;
-      var lx=Math.max(4,Math.min(r.left+r.width/2-tw/2,window.innerWidth-tw-4));
-      var ty=r.top-th-5;if(ty<4)ty=r.bottom+5;
+      var lx,ty;
+      if(el.closest('.sbx.is-collapsed')){
+        /* Collapsed sidebar rail → tooltip to the RIGHT of the icon, vertically centred
+           (flips to the left edge if the viewport can't fit it on the right). */
+        lx=r.right+8; if(lx+tw>window.innerWidth-4) lx=r.left-tw-8;
+        ty=Math.max(4,Math.min(r.top+r.height/2-th/2,window.innerHeight-th-4));
+      } else {
+        lx=Math.max(4,Math.min(r.left+r.width/2-tw/2,window.innerWidth-tw-4));
+        ty=r.top-th-5;if(ty<4)ty=r.bottom+5;
+      }
       f.style.left=lx+'px';f.style.top=ty+'px';
       f.style.transition='opacity .12s';f.style.opacity='1';
     }
     function hide(){if(ft){ft.style.transition='opacity .1s';ft.style.opacity='0';}clearTimeout(showTimer);}
     document.addEventListener('mouseover',function(e){
-      var el=e.target.closest('[data-tip]');if(!el)return;
+      var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
       clearTimeout(showTimer);showTimer=setTimeout(function(){show(el);},isWarm?0:300);
     },true);
     document.addEventListener('mouseout',function(e){
-      var el=e.target.closest('[data-tip]');if(!el)return;
-      var to=e.relatedTarget;if(to&&to.closest&&to.closest('[data-tip]'))return;
-      hide();clearTimeout(warmTimer);isWarm=true;
-      warmTimer=setTimeout(function(){isWarm=false;},600);
+      var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
+      var to=e.relatedTarget;if(to&&to.closest&&to.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon'))return;
+      /* Warm-up only counts if a tooltip was actually visible — merely passing the cursor over a
+         tip target (no tooltip shown) must NOT pre-warm, else the next hover skips its 300ms delay. */
+      var wasShown=ft&&ft.style.opacity==='1';
+      hide();
+      if(wasShown){clearTimeout(warmTimer);isWarm=true;warmTimer=setTimeout(function(){isWarm=false;},600);}
     },true);
+    /* Clicking a trigger opens its menu — hide any visible tooltip at once so it never lingers
+       over the menu (pairs with the aria-expanded guard in show()). */
+    document.addEventListener('mousedown',hide,true);
   })();
 
   function clOnInput(t){
