@@ -136,7 +136,7 @@
 <div class="topbar">
   <div style="display:flex;align-items:center;gap:.5rem">
     <span class="ttl" style="white-space:nowrap">Data Sources</span>
-    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+    <div class="pg-approved-tag" aria-hidden="true">Approved</div>
   </div>
   <div style="display:flex;align-items:center;gap:.625rem;flex-shrink:0">
     <div class="segctrl is-sm" style="width:auto">
@@ -173,7 +173,7 @@
           </button>
         </div>
         <div class="sbx-nav">
-          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='chat-landing.html'">
+          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='../concept/chat-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
             <span class="lbl">New Chat</span>
           </button>
@@ -186,7 +186,7 @@
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
             <span class="lbl">Metrics</span>
           </button>
-          <button class="sbx-nav-item" type="button" aria-label="Files" onclick="location.href='data-sources_files-landing.html'">
+          <button class="sbx-nav-item" type="button" aria-label="Files" onclick="location.href='../concept/data-sources_files-landing.html'">
             <!-- Folder icon — Files glyph (Lucide folder) -->
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
             <span class="lbl">Files</span>
@@ -204,10 +204,10 @@
                 <span class="sbx-sect-label">Pinned</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only. -->
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -218,7 +218,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -229,7 +229,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Churn deep-dive</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -247,9 +247,9 @@
                 <span class="sbx-sect-label">Recent</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Chats library</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -260,7 +260,7 @@
                 <div class="mi danger">Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Top movers &mdash; weekly</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>

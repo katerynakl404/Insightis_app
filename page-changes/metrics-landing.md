@@ -1,7 +1,8 @@
 # Metrics — page-level changes
 
 **Page:** Metrics (`/metrics`)  
-**Handoff:** [`../pages/metrics-landing.html`](../pages/metrics-landing.html)  
+**Handoff:** [`../pages/approved/metrics-landing.html`](../pages/approved/metrics-landing.html)  
+**Status:** ✅ Approved (погоджено) — 2026-06-30  
 **State:** Expected only (no Current toggle — prod state is live at the URL above)
 
 ---

@@ -69,8 +69,8 @@ a generic stock magnifier glyph.
 ## Consumers
 
 - **Chats** (`pages/concept/chats-landing.html`) — search-empty (fading result cards) + first-run empty (chat-bubble `.empty-ic` + "New Chat" CTA). Migrated from the page-local `.chat-list-empty` recipe to the shared kit class.
-- **Connections** (`pages/concept/data-sources_connections-landing.html`) — replaces the prior plain inline-text "No connectors match your filters." with the illustration empty-state, grid-spanning via a neutral wrapper.
-- **Metrics** (`pages/concept/metrics-landing.html`) — "All metrics" table search/filter now swaps the table for the empty-state when nothing matches (previously left a blank region).
+- **Connections** (`pages/approved/data-sources_connections-landing.html`) — replaces the prior plain inline-text "No connectors match your filters." with the illustration empty-state, grid-spanning via a neutral wrapper.
+- **Metrics** (`pages/approved/metrics-landing.html`) — "All metrics" table search/filter now swaps the table for the empty-state when nothing matches (previously left a blank region).
 
 ## Accessibility self-check
 

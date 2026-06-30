@@ -119,6 +119,12 @@
   .cl-send[disabled]{background:var(--brand-primary);color:var(--content-on-solid);border-color:transparent;opacity:1;pointer-events:none}
 
   /* Sticker removed — no in-page handoff note. */
+  /* Concept control row (design-review only) — switches the composer popovers between states.
+     Page-layout glue only; the switcher itself is the kit SegmentedControl. */
+  .cp-popstate{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.5rem .75rem;margin-bottom:.5rem}
+  .cp-popstate-lbl{font-size:var(--text-12);color:var(--ink-secondary)}
+  .cp-popstate-lbl em{font-style:normal;color:var(--ink-inactive)}
+  .cp-popstate-seg{width:16rem;flex:none}
   /* Sidebar→drawer is kit-owned at ≤1023px (kit-theme.css) — pages must not redeclare it. */
 </style>
 </head>
@@ -197,11 +203,11 @@
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
             <span class="lbl">New Chat</span>
           </button>
-          <button class="sbx-nav-item" type="button" onclick="location.href='data-sources_connections-landing.html'">
+          <button class="sbx-nav-item" type="button" onclick="location.href='../approved/data-sources_connections-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
             <span class="lbl">Data Sources</span>
           </button>
-          <button class="sbx-nav-item" type="button" onclick="location.href='metrics-landing.html'">
+          <button class="sbx-nav-item" type="button" onclick="location.href='../approved/metrics-landing.html'">
             <!-- Pie-chart icon — Metrics glyph -->
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
             <span class="lbl">Metrics</span>
@@ -466,6 +472,16 @@
 
     <!-- Composer -->
     <div class="cp-composer-area">
+      <!-- Concept control (design-review only, not product UI): switches the Connections / Add-file
+           popovers between empty · filled · scrolling so each state can be reviewed in the live composer. -->
+      <div class="cp-popstate" role="group" aria-label="Popover state (concept)">
+        <span class="cp-popstate-lbl">Popover state <em>(concept)</em> — open <b>Connections</b> or <b>Add file</b> to preview</span>
+        <div class="segctrl is-md cp-popstate-seg" role="tablist" aria-label="Popover state">
+          <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetPopState('empty',this)">Empty</button>
+          <button class="segctrl-btn" type="button" role="tab" aria-selected="true" onclick="clSetPopState('filled',this)">Filled</button>
+          <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetPopState('scroll',this)">Scrolling</button>
+        </div>
+      </div>
       <div class="cp-composer-inner">
         <div class="cl-composer card-panel">
           <textarea class="ta cl-prompt" rows="2" placeholder="Ask anything about your data…" oninput="cpOnInput(this)"></textarea>
@@ -482,7 +498,7 @@
                     Choose File
                   </button>
                   <div class="cl-menu-label">Recent files</div>
-                  <div class="cl-menu-scroll">
+                  <div class="cl-file-list" id="cl-file-list">
                     <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('Q3-revenue.csv')">Q3-revenue.csv</div>
                     <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('customers-export.xlsx')">customers-export.xlsx</div>
                     <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('churn-analysis.pdf')">churn-analysis.pdf</div>
@@ -505,7 +521,7 @@
                 <div class="cl-dropdown-menu menu cl-conn-menu" role="menu">
                   <div class="menu-wip" aria-hidden="true">In redesign</div>
                   <div class="cl-menu-label">Your connections</div>
-                  <div class="cl-menu-scroll">
+                  <div class="cl-conn-list" id="cl-conn-list">
                     <div class="mi cl-conn-item" onclick="clConnToggle(this)">
                       <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
                       <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
@@ -523,7 +539,7 @@
                     </div>
                   </div>
                   <hr class="menu-sep" />
-                  <a class="mi cl-conn-manage" role="menuitem" href="data-sources_connections-landing.html">
+                  <a class="mi cl-conn-manage" role="menuitem" href="../approved/data-sources_connections-landing.html">
                     <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
                   Manage Connections
                 </a>
@@ -693,8 +709,56 @@
     var att = document.querySelector('.cl-attach');
     if(att){ att.removeAttribute('aria-disabled'); att.setAttribute('data-tip','Add file'); }
   }
-  /* Close open menus on outside click */
+  /* ── Popover-state concept switcher ───────────────────────────────────────────
+     Design-review control: re-renders the Connections + Recent-files lists in one of
+     three states — empty · filled (3) · scrolling (12, caps ~10 rows then scrolls via
+     .cl-menu-scroll). The section heading + Manage / Choose-File chrome stay pinned. */
+  var CL_CONNS=[
+    {logo:'postgresql',name:'Production DB',on:true},
+    {logo:'salesforce',name:'Main CRM',on:true},
+    {logo:'hubspot',name:'Marketing Hub',on:false},
+    {logo:'postgresql',name:'Analytics DW',on:true},
+    {logo:'postgresql',name:'Billing DB',on:false},
+    {logo:'salesforce',name:'Sales Sandbox',on:false},
+    {logo:'hubspot',name:'Support Tickets',on:true},
+    {logo:'postgresql',name:'Inventory DB',on:false},
+    {logo:'postgresql',name:'Web Event Logs',on:true},
+    {logo:'salesforce',name:'Partner CRM',on:false},
+    {logo:'hubspot',name:'Product Catalog',on:false},
+    {logo:'postgresql',name:'User Directory',on:false}
+  ];
+  var CL_FILES=['Q3-revenue.csv','customers-export.xlsx','churn-analysis.pdf','ad-spend-2024.xlsx','cohort-retention.csv','nps-survey-q3.pdf','pipeline-q4.xlsx','refunds-2024.csv','sessions-raw.csv','ltv-model.xlsx','campaign-utm.csv','forecast-2025.pdf'];
+  function clConnRow(c){
+    return '<div class="mi cl-conn-item" onclick="clConnToggle(this)">'+
+      '<span class="logo-spr '+c.logo+' cl-conn-logo" role="img" aria-label="'+c.name+' logo"></span>'+
+      '<span class="cl-conn-text"><span class="cl-conn-name">'+c.name+'</span></span>'+
+      '<button class="swt is-sm '+(c.on?'on ':'')+'cl-conn-swt" type="button" role="switch" aria-checked="'+(c.on?'true':'false')+'" aria-label="Use '+c.name+' in this chat"></button>'+
+      '</div>';
+  }
+  function clRenderConn(state){
+    var box=document.getElementById('cl-conn-list'); if(!box) return;
+    if(state==='empty'){ box.innerHTML='<div class="cl-menu-empty">No connections yet.<br>Connect a source to use it in this chat.</div>'; return; }
+    var rows=(state==='scroll'?CL_CONNS:CL_CONNS.slice(0,3)).map(clConnRow).join('');
+    box.innerHTML=(state==='scroll')?'<div class="cl-menu-scroll">'+rows+'</div>':rows;
+  }
+  function clRenderFiles(state){
+    var box=document.getElementById('cl-file-list'); if(!box) return;
+    if(state==='empty'){ box.innerHTML='<div class="cl-menu-empty">No recent files.</div>'; return; }
+    var rows=(state==='scroll'?CL_FILES:CL_FILES.slice(0,3)).map(function(f){
+      return '<div class="mi cl-file-item" role="menuitem" onclick="clPickFile(\''+f+'\')">'+f+'</div>';
+    }).join('');
+    box.innerHTML=(state==='scroll')?'<div class="cl-menu-scroll">'+rows+'</div>':rows;
+  }
+  function clSetPopState(state, btn){
+    clRenderConn(state); clRenderFiles(state);
+    if(btn){ var sibs=btn.parentNode.querySelectorAll('.segctrl-btn');
+      for(var i=0;i<sibs.length;i++) sibs[i].setAttribute('aria-selected','false');
+      btn.setAttribute('aria-selected','true'); }
+  }
+  /* Close open menus on outside click — but ignore clicks on the popover-state switcher so
+     toggling a state doesn't immediately close the popover the reviewer just opened. */
   document.addEventListener('click', function(e){
+    if(e.target.closest && e.target.closest('.cp-popstate')) return;
     document.querySelectorAll('[aria-haspopup][aria-expanded="true"]').forEach(function(btn){
       if(btn.contains(e.target) || btn.parentElement.contains(e.target)) return;
       btn.setAttribute('aria-expanded','false');
@@ -735,8 +799,8 @@
 (function(){
   var navMap = {
     'New Chat': 'chat-landing.html',
-    'Data Sources':  'data-sources_connections-landing.html',
-    'Metrics':  'metrics-landing.html',
+    'Data Sources':  '../approved/data-sources_connections-landing.html',
+    'Metrics':  '../approved/metrics-landing.html',
     'Files':    'data-sources_files-landing.html'
   };
   // Mobile/tablet hamburger — opens the sidebar drawer overlay.

@@ -1,5 +1,9 @@
 # Data Sources — page-level changes
 
+**Page:** Data Sources — Connections (`/data-sources`)  
+**Handoff:** [`../pages/approved/data-sources_connections-landing.html`](../pages/approved/data-sources_connections-landing.html)  
+**Status:** ✅ Approved (погоджено) — 2026-06-30
+
 ## Hard rules — read before editing this page
 
 These are locked decisions. Do not change without explicit approval.

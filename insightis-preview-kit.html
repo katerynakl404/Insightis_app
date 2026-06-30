@@ -1286,11 +1286,9 @@
                 Choose File
               </button>
               <div class="cl-menu-label">Recent files</div>
-              <div class="cl-menu-scroll">
-                <div class="mi cl-file-item" role="menuitem">Q3-revenue.csv</div>
-                <div class="mi cl-file-item" role="menuitem">customers-export.xlsx</div>
-                <div class="mi cl-file-item" role="menuitem">churn-analysis.pdf</div>
-              </div>
+              <div class="mi cl-file-item" role="menuitem">Q3-revenue.csv</div>
+              <div class="mi cl-file-item" role="menuitem">customers-export.xlsx</div>
+              <div class="mi cl-file-item" role="menuitem">churn-analysis.pdf</div>
             </div>
           </div>
 
@@ -1298,22 +1296,20 @@
             <div class="cspec" style="font-weight:600">Connections — single-line rows</div>
             <div class="menu cl-conn-menu" role="menu">
               <div class="cl-menu-label">Your connections</div>
-              <div class="cl-menu-scroll">
-                <div class="mi cl-conn-item">
-                  <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
-                  <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
-                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB in this chat"></button>
-                </div>
-                <div class="mi cl-conn-item">
-                  <span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span>
-                  <span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span></span>
-                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM in this chat"></button>
-                </div>
-                <div class="mi cl-conn-item">
-                  <span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span>
-                  <span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span></span>
-                  <button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub in this chat"></button>
-                </div>
+              <div class="mi cl-conn-item">
+                <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
+                <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
+                <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB in this chat"></button>
+              </div>
+              <div class="mi cl-conn-item">
+                <span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span>
+                <span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span></span>
+                <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM in this chat"></button>
+              </div>
+              <div class="mi cl-conn-item">
+                <span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span>
+                <span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span></span>
+                <button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub in this chat"></button>
               </div>
               <hr class="menu-sep" />
               <a class="mi cl-conn-manage" role="menuitem" href="pages/concept/data-sources_connections-landing.html">
@@ -1341,90 +1337,6 @@
 
         </div>
         <div class="spec"><b>Composition.</b> Surface, border, radius, shadow + item hover/disabled all inherit from <a href="#dropdown" style="color:var(--brand-primary)">Dropdown</a> (<code>.menu</code> / <code>.mi</code>). Composer-specific bits: <b>Add file</b> — a <a href="#button" style="color:var(--brand-primary)">Button</a> <code>secondary sm</code> "Choose File" CTA + a plain recent-files text list (<code>.cl-file-item</code>, <code>--ink</code>, no leading icon). <b>Connections</b> — single-line rows (<code>.cl-conn-item</code>, 4px vertical padding) = 24px source logo + connection name (<code>--ink</code>) + a <a href="#switch" style="color:var(--brand-primary)">Switch</a> <code>is-sm</code> on/off toggle; <code>Manage Connections</code> footer link. <b>Models</b> — 2-line rows (<code>.cl-model-item</code>, 8px vertical padding) = brand mark + name/description, single-select (<code>role="menuitemradio"</code>). The selected row keeps a persistent <code>State/Pressed</code> tint + a <code>--ink-highlight</code> check (the only coloured cue — the name stays <code>--ink</code>). <b>Insightis Light</b> is the default selection.</div>
-      </div></div>
-
-      <div class="variant-label">List states — empty · filled · scrolling</div>
-      <div class="block"><div class="block-h">Preview — Connections &amp; Files: empty / scrolling (filled is shown above). List caps at ~10 rows (20rem) or 60vh, then scrolls; heading + footer stay pinned.</div><div class="block-b">
-        <div class="stage" style="gap:1.5rem;align-items:flex-start;flex-wrap:wrap;padding-bottom:1rem">
-
-          <div style="display:flex;flex-direction:column;gap:.5rem">
-            <div class="cspec" style="font-weight:600">Connections — empty</div>
-            <div class="menu cl-conn-menu" role="menu" style="width:15rem">
-              <div class="cl-menu-label">Your connections</div>
-              <div class="cl-menu-empty">No connections yet.<br>Connect a source to use it in this chat.</div>
-              <hr class="menu-sep" />
-              <a class="mi cl-conn-manage" role="menuitem" href="pages/concept/data-sources_connections-landing.html">
-                <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                Manage Connections
-              </a>
-            </div>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:.5rem">
-            <div class="cspec" style="font-weight:600">Connections — scrolling (12)</div>
-            <div class="menu cl-conn-menu" role="menu" style="width:15rem">
-              <div class="cl-menu-label">Your connections</div>
-              <div class="cl-menu-scroll">
-                <div class="mi cl-conn-item"><span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span><button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span></span><button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span></span><button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Analytics DW</span></span><button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Analytics DW"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Billing DB</span></span><button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Billing DB"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Sales Sandbox</span></span><button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Sales Sandbox"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Support Tickets</span></span><button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Support Tickets"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Inventory DB</span></span><button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Inventory DB"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Web Event Logs</span></span><button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Web Event Logs"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Partner CRM</span></span><button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Partner CRM"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span><span class="cl-conn-text"><span class="cl-conn-name">Product Catalog</span></span><button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Product Catalog"></button></div>
-                <div class="mi cl-conn-item"><span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span><span class="cl-conn-text"><span class="cl-conn-name">User Directory</span></span><button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use User Directory"></button></div>
-              </div>
-              <hr class="menu-sep" />
-              <a class="mi cl-conn-manage" role="menuitem" href="pages/concept/data-sources_connections-landing.html">
-                <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                Manage Connections
-              </a>
-            </div>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:.5rem">
-            <div class="cspec" style="font-weight:600">Files — empty</div>
-            <div class="menu cl-attach-menu" role="menu" style="width:15rem">
-              <button class="btn btn-secondary btn-sm cl-attach-choose" type="button">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                Choose File
-              </button>
-              <div class="cl-menu-label">Recent files</div>
-              <div class="cl-menu-empty">No recent files.</div>
-            </div>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:.5rem">
-            <div class="cspec" style="font-weight:600">Files — scrolling (12)</div>
-            <div class="menu cl-attach-menu" role="menu" style="width:15rem">
-              <button class="btn btn-secondary btn-sm cl-attach-choose" type="button">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                Choose File
-              </button>
-              <div class="cl-menu-label">Recent files</div>
-              <div class="cl-menu-scroll">
-                <div class="mi cl-file-item" role="menuitem">Q3-revenue.csv</div>
-                <div class="mi cl-file-item" role="menuitem">customers-export.xlsx</div>
-                <div class="mi cl-file-item" role="menuitem">churn-analysis.pdf</div>
-                <div class="mi cl-file-item" role="menuitem">ad-spend-2024.xlsx</div>
-                <div class="mi cl-file-item" role="menuitem">cohort-retention.csv</div>
-                <div class="mi cl-file-item" role="menuitem">nps-survey-q3.pdf</div>
-                <div class="mi cl-file-item" role="menuitem">pipeline-q4.xlsx</div>
-                <div class="mi cl-file-item" role="menuitem">refunds-2024.csv</div>
-                <div class="mi cl-file-item" role="menuitem">sessions-raw.csv</div>
-                <div class="mi cl-file-item" role="menuitem">ltv-model.xlsx</div>
-                <div class="mi cl-file-item" role="menuitem">campaign-utm.csv</div>
-                <div class="mi cl-file-item" role="menuitem">forecast-2025.pdf</div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="spec"><b>States.</b> <b>Empty</b> — the list is replaced by <code>.cl-menu-empty</code> (a muted <code>--ink-secondary</code> message); the heading and (Connections) the Manage footer stay. <b>Filled</b> — see the block above. <b>Scrolling</b> — the rows live in <code>.cl-menu-scroll</code> (<code>max-height: min(20rem, 60vh)</code>, <code>overflow-y:auto</code>): up to ~10 rows show when height allows, beyond that the region scrolls while the heading + footer stay pinned. The trigger label and the rest of the menu chrome do not scroll.</div>
       </div></div>
 
       <div class="variant-label">Trigger states</div>

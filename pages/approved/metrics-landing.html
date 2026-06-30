@@ -170,7 +170,7 @@
 <div class="topbar">
   <div style="display:flex;align-items:center;gap:.5rem">
     <span class="ttl">Metrics</span>
-    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+    <div class="pg-approved-tag" aria-hidden="true">Approved</div>
   </div>
   <div style="display:flex;align-items:flex-start;gap:.75rem">
     <!-- State toggle вЂ” kit SegmentedControl (.segctrl.is-sm). Labels stay short ("Empty" / "Filled"); the topbar context makes "State:" prefix unnecessary. mxSetState() still drives the body class toggle. -->
@@ -208,7 +208,7 @@
       </div>
       <div class="sbx-nav">
         <!-- New Chat as nav-row at the TOP. Previously absent on this page; the .sbx-cta pill at the top of the header still triggers new-chat creation. -->
-        <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="window.location.href='chat-landing.html'">
+        <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="window.location.href='../concept/chat-landing.html'">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
           <span class="lbl">New Chat</span>
         </button>
@@ -220,7 +220,7 @@
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
           <span class="lbl">Metrics</span>
         </button>
-        <button class="sbx-nav-item" type="button" onclick="window.location.href='data-sources_files-landing.html'">
+        <button class="sbx-nav-item" type="button" onclick="window.location.href='../concept/data-sources_files-landing.html'">
           <!-- Folder icon вЂ” Files glyph (Lucide folder) -->
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
           <span class="lbl">Files</span>
@@ -235,18 +235,18 @@
         <div class="sbx-sect">
           <div class="sbx-sect-head">
             <button class="sbx-sect-label-wrap" type="button" aria-expanded="true"><span class="sbx-sect-label">Pinned</span><svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-            <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
+            <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
           </div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Q1 revenue commentary draft</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Onboarding cohort analysis</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'"><span class="sbx-chat-lbl">Q1 revenue commentary draft</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'"><span class="sbx-chat-lbl">Onboarding cohort analysis</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
         </div>
         <div class="sbx-sect">
           <div class="sbx-sect-head">
             <button class="sbx-sect-label-wrap" type="button" aria-expanded="true"><span class="sbx-sect-label">Recent</span><svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-            <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
+            <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
           </div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Issues created by team</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Azure DevOps metrics overview</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'"><span class="sbx-chat-lbl">Issues created by team</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'"><span class="sbx-chat-lbl">Azure DevOps metrics overview</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
         </div>
       </div>
       <div class="sbx-foot">
@@ -1924,7 +1924,7 @@ function mxOpenDetail(row) {
     // Delete (low priority, left) | Edit (primary action, right)
     ctaHtml += '<div style="display:flex;gap:.5rem;width:100%">'
             +  '<button class="btn btn-outline btn-sm" type="button" style="color:var(--fb-red-text);border-color:var(--fb-red-text);margin-right:auto" onclick="mxDeleteCustom(\''+ rowId +'\');mxCloseDetail()">Delete</button>'
-            +  '<button class="btn btn-secondary btn-sm" id="mx-edit-toggle" type="button" onclick="mxEditFromRow(mxActiveRow)">Edit</button>'
+            +  '<button class="btn btn-primary btn-sm" id="mx-edit-toggle" type="button" onclick="mxEditFromRow(mxActiveRow)">Edit</button>'
             +  '</div>';
   }
 
@@ -2458,7 +2458,7 @@ document.addEventListener('error', function(e) {
 document.addEventListener('click', function(e) {
   var chat = e.target.closest('.sbx-chat');
   if (chat && !e.target.closest('.sbx-chat-more') && !e.target.closest('.sbx-chat-menu')) {
-    window.location.href = 'chat_page-landing.html';
+    window.location.href = '../concept/chat_page-landing.html';
   }
 });
 

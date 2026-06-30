@@ -1,6 +1,6 @@
 # DataSourcesFiles — Changes (Current → Expected)
 
-> **Update (Unreleased):** Files is now a **top-level sidebar destination** (see [`Sidebar.md`](Sidebar.md) — nav row order `Sources → Files → Metrics`), not a tab inside Data Sources. The three `Tab bar — …` rows below are kept for historical context but are no longer the Expected state — there is no tab bar; the `Browse Files` action moved into the page header next to the `Files` h1. The `.dsf-tabrow` / `.tabset` markup was removed from [`pages/data-sources_files-landing.html`](../pages/data-sources_files-landing.html) and [`pages/data-sources_connections-landing.html`](../pages/data-sources_connections-landing.html).
+> **Update (Unreleased):** Files is now a **top-level sidebar destination** (see [`Sidebar.md`](Sidebar.md) — nav row order `Sources → Files → Metrics`), not a tab inside Data Sources. The three `Tab bar — …` rows below are kept for historical context but are no longer the Expected state — there is no tab bar; the `Browse Files` action moved into the page header next to the `Files` h1. The `.dsf-tabrow` / `.tabset` markup was removed from [`pages/data-sources_files-landing.html`](../pages/data-sources_files-landing.html) and [`pages/approved/data-sources_connections-landing.html`](../pages/approved/data-sources_connections-landing.html).
 
 | State / Element | Current (prod) | Expected | Specification |
 |---|---|---|---|

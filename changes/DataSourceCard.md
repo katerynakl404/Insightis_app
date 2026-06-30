@@ -1,8 +1,8 @@
 # Data Source Card — prod → expected
 
-Connector-catalog card used on the [Data Sources → Connections](../pages/concept/data-sources_connections-landing.html) page. Storybook section: `#dscard` in [`../insightis-preview-kit.html`](../insightis-preview-kit.html).
+Connector-catalog card used on the [Data Sources → Connections](../pages/approved/data-sources_connections-landing.html) page. Storybook section: `#dscard` in [`../insightis-preview-kit.html`](../insightis-preview-kit.html).
 
-> **New component — no prod equivalent.** The Connections catalog did not ship this card on prod, so the storybook `#dscard` States table has **no Current (prod) column** — only Expected (brand-new components carry no "current state" column). The Expected spec below is the agreed contract, derived from the live mockup CSS/JS in `pages/concept/data-sources_connections-landing.html` (the `.ds-card` rules + `dsCardHtml()` / `dsMarkWrap()` builders).
+> **New component — no prod equivalent.** The Connections catalog did not ship this card on prod, so the storybook `#dscard` States table has **no Current (prod) column** — only Expected (brand-new components carry no "current state" column). The Expected spec below is the agreed contract, derived from the live mockup CSS/JS in `pages/approved/data-sources_connections-landing.html` (the `.ds-card` rules + `dsCardHtml()` / `dsMarkWrap()` builders).
 
 > **CSS location.** All `.ds-card` / `.ds-conn-row` component CSS lives in `pages/kit-theme.css` (block `/* ===== Data source card (ds-card / ds-conn-row) ===== */`, after the ProviderCard `.prov-*` rules). Only page-composition rules — the grid column count (`.ds-grid`, `.ds-app.ds-v3 .ds-grid`), the category bar (`#ds-cats`), and the Connected-section show/hide animation (`.ds-conn-section`, tied to `.ds-app.has-connections` page state) — remain in the page `<style>` block, since they encode page-state layout rather than the component itself.
 

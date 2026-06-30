@@ -278,11 +278,11 @@
             </svg>
             <span class="lbl">New Chat</span>
           </button>
-          <button class="sbx-nav-item" type="button" onclick="location.href='data-sources_connections-landing.html'">
+          <button class="sbx-nav-item" type="button" onclick="location.href='../approved/data-sources_connections-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
             <span class="lbl">Data Sources</span>
           </button>
-          <button class="sbx-nav-item" type="button" onclick="location.href='metrics-landing.html'">
+          <button class="sbx-nav-item" type="button" onclick="location.href='../approved/metrics-landing.html'">
             <!-- Pie-chart icon — Metrics glyph -->
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
             <span class="lbl">Metrics</span>
@@ -472,11 +472,9 @@
                   Choose File
                 </button>
                 <div class="cl-menu-label">Recent files</div>
-                <div class="cl-menu-scroll">
-                  <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('Q3-revenue.csv')">Q3-revenue.csv</div>
-                  <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('customers-export.xlsx')">customers-export.xlsx</div>
-                  <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('churn-analysis.pdf')">churn-analysis.pdf</div>
-                </div>
+                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('Q3-revenue.csv')">Q3-revenue.csv</div>
+                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('customers-export.xlsx')">customers-export.xlsx</div>
+                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('churn-analysis.pdf')">churn-analysis.pdf</div>
               </div>
             </div>
             <!-- Attached-file chip — populated by JS once a file is loaded (only one allowed). -->
@@ -495,25 +493,23 @@
               <div class="cl-dropdown-menu menu cl-conn-menu" role="menu">
                 <div class="menu-wip" aria-hidden="true">In redesign</div>
                 <div class="cl-menu-label">Your connections</div>
-                <div class="cl-menu-scroll">
-                  <div class="mi cl-conn-item" onclick="clConnToggle(this)">
-                    <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
-                    <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
-                    <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB in this chat"></button>
-                  </div>
-                  <div class="mi cl-conn-item" onclick="clConnToggle(this)">
-                    <span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span>
-                    <span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span></span>
-                    <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM in this chat"></button>
-                  </div>
-                  <div class="mi cl-conn-item" onclick="clConnToggle(this)">
-                    <span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span>
-                    <span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span></span>
-                    <button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub in this chat"></button>
-                  </div>
+                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                  <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
+                  <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
+                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB in this chat"></button>
+                </div>
+                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                  <span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span>
+                  <span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span></span>
+                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM in this chat"></button>
+                </div>
+                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                  <span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span>
+                  <span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span></span>
+                  <button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub in this chat"></button>
                 </div>
                 <hr class="menu-sep" />
-                <a class="mi cl-conn-manage" role="menuitem" href="data-sources_connections-landing.html">
+                <a class="mi cl-conn-manage" role="menuitem" href="../approved/data-sources_connections-landing.html">
                   <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
                   Manage Connections
                 </a>
@@ -769,8 +765,8 @@
 (function(){
   var navMap = {
     'New Chat': 'chat-landing.html',
-    'Data Sources':  'data-sources_connections-landing.html',
-    'Metrics':  'metrics-landing.html',
+    'Data Sources':  '../approved/data-sources_connections-landing.html',
+    'Metrics':  '../approved/metrics-landing.html',
     'Files':    'data-sources_files-landing.html'
   };
   var current = location.pathname.split('/').pop();
