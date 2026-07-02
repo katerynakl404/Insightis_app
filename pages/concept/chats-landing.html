@@ -268,7 +268,7 @@
         <div class="sbx-foot">
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
-              <span class="sbx-tok-label">Tokens</span>
+              <span class="sbx-tok-label">Usage</span>
               <span class="sbx-tok-val">673 / 1000</span>
             </div>
             <div class="sbx-tok-bar"><span style="width:67.3%"></span></div>
@@ -308,14 +308,14 @@
             <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign out</button>
           </div>
 
-          <!-- Subscription Tokens popover — opens above the tokens row -->
-          <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription tokens">
+          <!-- Subscription credits popover — opens above the tokens row -->
+          <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head">
               <span class="plan-badge" aria-hidden="true"></span>
               <span class="plan-name">Basic</span>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Subscription tokens</span></div>
+              <div class="row"><span class="label">Subscription credits</span></div>
               <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
               <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
             </div>
@@ -324,8 +324,8 @@
               <div class="bar"><span style="width:50%;background:var(--fb-green)"></span></div>
             </div>
             <div class="sbx-pop-tok-actions">
-              <button class="btn btn-primary sbx-pop-cta" type="button">Buy credits</button>
-              <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade plan</button>
+              <button class="btn btn-primary sbx-pop-cta" type="button">Buy Credits</button>
+              <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade Plan</button>
             </div>
           </div>
         </div>
@@ -745,6 +745,14 @@
   /* Sidebar footer popovers — open one at a time. Closes any sibling popover first so the user
      never sees two open at once. Wired into .sbx-tok + .sbx-user via inline onclick (same shape
      as chat-landing.html). Outside-click closer lives in the global click handler below. */
+  /* Account popover items open the user-profile modal on the matching tab */
+  document.addEventListener('click', function(e){
+    var acctItem = e.target.closest('#sbx-pop-account .sbx-pop-item');
+    if(!acctItem) return;
+    var acctMap = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
+    var acctSec = acctMap[acctItem.textContent.trim()];
+    if(acctSec) window.location.href = 'user_profile-modal.html?section=' + acctSec;
+  });
   function clTogglePop(id){
     var pop = document.getElementById(id);
     if(!pop) return;

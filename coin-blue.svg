@@ -39,7 +39,6 @@
     </filter>
   </defs>
 
-  <ellipse cx="100" cy="186" rx="78" ry="5.5" fill="#000000" opacity="0.4"/>
   <g filter="url(#cb-drop)">
     <path d="M 18 96 A 82 78 0 0 0 182 96 L 182 103 A 82 78 0 0 1 18 103 Z" fill="url(#cb-side)"/>
     <g stroke="#021820" stroke-opacity="0.85" stroke-width="1.4" stroke-linecap="round">

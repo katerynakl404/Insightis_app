@@ -60,6 +60,12 @@
     /* Modal / drawer / sheet backdrop scrim — one source of truth (was hand-written rgba everywhere). */
     --overlay-scrim:rgba(15,23,42,.45);
     --progress-track:var(--card2);
+    /* Balance two-zone credit bar — soft "available" tracks per pool. Mixed over the theme-aware
+       --progress-track so both re-resolve per theme (no .dark override needed). Colours match the
+       credits popover coding: subscription = --brand-tertiary (blue), purchased = --fb-green; the
+       solid fills reuse those same tokens directly. */
+    --balance-subscription-track:color-mix(in srgb, var(--brand-tertiary) 18%, var(--progress-track));
+    --balance-purchased-track:color-mix(in srgb, var(--fb-green) 18%, var(--progress-track));
     --fb-red:var(--red-700);--fb-red-hover:var(--red-800);--fb-red-press:var(--red-850);
     /* Feedback/Red_Text — theme-adaptive destructive text/icon colour. Red-700 on white card = 8.39:1 AA.
        --fb-red (red-700) would fail AA 2.76:1 against dark Surface/Card, so a brighter red is used in .dark below.
@@ -153,6 +159,8 @@
     --icon-wrapper-bg:color-mix(in srgb, var(--brand-primary) 5%, var(--bg));
     /* Badge Primary — component-scoped so light/dark/prod each cleanly set their own surface + text without cascade collisions. Light: pale Brand-50 surface with deeper Brand-700 text → 5.84:1 AA. */
     --badge-primary-bg:var(--brand-50);--badge-primary-text:var(--brand-secondary);
+    /* DropZone rest border — one notch stronger than --border (Slate-200) so the dashed outline reads against the near-white page bg (Slate-50), where surface fills give almost no contrast. */
+    --dropzone-border:var(--slate-300);
     /* Badge Secondary — Card2 surface + Text/Body. Distinct from --chips so the chip stays visible against any neutral surface (the kit stages use --bg = Slate-50, and --chips = Slate-50 → invisible). Light Slate-100 vs Slate-50 stage = 1.13:1 lightness lift; text Slate-700 on Slate-100 = 10.36:1 AAA. */
     --badge-secondary-bg:var(--card2);--badge-secondary-text:var(--ink-body);
     /* Switch off-track — filled medium grey, perceivably above the page bg without a hard outline. Slate-300 sits 1.52:1 above Slate-50. Hover lifts one step to Slate-400. */
@@ -367,6 +375,8 @@
        a filled Brand-700 read far too loud next to the soft light chip. Text stays
        Brand/Secondary (Brand-400 in dark). */
     --badge-primary-bg:var(--brand-800);
+    /* DropZone rest border — Grey-600 reads on the Grey-950 page bg (Grey-700 = too close). */
+    --dropzone-border:var(--grey-600);
     /* Badge Secondary — Card2 surface + Text/Body in dark (subtle, as before). */
     --badge-secondary-bg:var(--card2);--badge-secondary-text:var(--ink-body);
     /* Switch off-track — Grey-700 sits clearly above the page bg (Grey-950) in dark. Hover lifts to Grey-600. */
@@ -635,6 +645,13 @@
   .btn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
   .btn-outline-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
+  /* Real :disabled parity for the remaining variants — mirror their .s-disabled forced-class
+     values above so a `disabled` attribute dims the button (previously only Primary / Destructive /
+     Outline-destructive had a real :disabled rule; Outline / Secondary / Tertiary only dimmed via
+     the storybook .s-disabled class). */
+  .btn-outline:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
+  .btn-secondary:disabled{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border);cursor:not-allowed}
+  .btn-tertiary:disabled{color:var(--ink-inactive);background:transparent;cursor:not-allowed}
   .btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* loading state (works on any Button/IconButton variant via currentColor; opacity-based — no disabled-colour swap) */
   .btn .spinner,.iconbtn .spinner{width:.85em;height:.85em;border-radius:9999px;border:2px solid currentColor;border-right-color:transparent;display:inline-block;animation:btn-spin .7s linear infinite;vertical-align:-.1em}
@@ -857,6 +874,11 @@
   /* Dropdown surface + menu item — renewed values throughout (px units to match the rest of the kit's layout system: .iconbtn 32×32, .sb-item 32/8/8, etc.). Prod's cramped 2/6/6/4 dimensions live in the .prod .mi override above; this is the renewed Expected pass. */
   /* Context-menu sizing — fluid: `width:max-content` hugs the longest item, clamped between min 140 / max 320. Labels longer than 320 px wrap; menus never collapse below 140 px. Every .menu instance (.sbx-chat-menu, .chat-row-menu, .ds-conn-menu, etc.) inherits this via the base rule — variants no longer override `width`. */
   .menu{min-width:140px;max-width:320px;width:max-content;border-radius:8px;border:1px solid var(--border);background:var(--card);padding:4px;box-shadow:var(--shadow-overlay)}
+  /* Menu width sizes — opt-in fixed widths (default menus stay fluid `max-content`). S/M/L give a
+     roomy, consistent popover instead of a too-narrow content-hug. Reusable across any .menu. */
+  .menu.is-sm{width:14rem;max-width:14rem}
+  .menu.is-md{width:18rem;max-width:18rem}
+  .menu.is-lg{width:22rem;max-width:22rem}
   .mi{display:flex;align-items:center;gap:8px;border-radius:4px;padding:6px 12px;font-size:var(--text-14);color:var(--ink-body);cursor:pointer;border:none;background:transparent;font-family:inherit;text-align:left;width:100%}
   /* Hover bg is calculated against --card (the .menu's surface) so the highlight is always
      visible regardless of what sits underneath the menu — important because the trigger row
@@ -977,7 +999,7 @@
   .cl-dropdown-menu{position:absolute;bottom:calc(100% + 4px);left:0;z-index:50;display:none}
   .cl-dropdown[aria-expanded="true"]+.cl-dropdown-menu,.cl-attach[aria-expanded="true"]+.cl-dropdown-menu{display:block}
   /* Attached-file chip — appears in the tools row once a file is loaded; × removes it. */
-  .cl-file-chip{display:inline-flex;align-items:center;gap:.375rem;height:2rem;padding:0 .25rem 0 .5rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);font-size:.8125rem;color:var(--ink-body);max-width:12rem}
+  .cl-file-chip{display:inline-flex;align-items:center;gap:.375rem;height:2rem;padding:0 .25rem 0 .75rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);font-size:.8125rem;color:var(--ink-body);max-width:12rem;align-self:flex-start}
   /* The class sets display:inline-flex, which beats the UA [hidden]{display:none} — restore it. */
   .cl-file-chip[hidden]{display:none}
   .cl-file-chip .cl-file-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -985,30 +1007,66 @@
   .cl-file-chip .cl-file-chip-x:hover{background:var(--state-hover);color:var(--ink-body)}
   .cl-file-chip svg{width:14px;height:14px}
 
-  /* Group heading inside a composer menu — same recipe as the account popover's section label
-     (.sbx-pop-label): 12px / weight 500 / --ink-secondary, sentence case (no uppercase or tracking).
-     Only the menu-context padding differs (aligns the heading to the .mi 12px text inset). */
-  .cl-menu-label{padding:8px 12px 4px;font-size:var(--text-12);line-height:1;font-weight:500;color:var(--ink-secondary)}
+  /* Composer menus use the M width (18rem) — roomy, consistent — with the base .menu 4px padding
+     (tight, like a standard dropdown). 4px padding also lets .menu-sep span edge-to-edge (its -4px
+     side margin reaches the menu border). Override to is-sm/is-lg per menu. */
+  .cl-attach-menu,.cl-conn-menu,.cl-model-menu{width:18rem;max-width:18rem;padding:4px}
+  /* Empty state is sparse — drop the fixed M width for a smaller 15rem box so it isn't a big
+     mostly-blank popover (but not so narrow the helper text wraps into many lines). */
+  .cl-dropdown-menu:has(.cl-menu-empty){width:15rem;max-width:15rem}
+  /* Attach keeps the divider at the default 4px below the Choose File row. Connections: the divider
+     gets breathing room below the connection list (6px) when the list fits — but when the list is
+     scrolling (`:has(.cl-menu-scroll)`) it sits flush so scrolling never reveals a white strip before
+     it. Both dividers span the full menu width (their -4px side margin reaches the border). */
+  .cl-conn-menu .menu-sep{margin-top:6px}
+  .cl-conn-menu:has(.cl-menu-scroll) .menu-sep{margin-top:0}
+  /* Composer dividers read as a subtle hairline — the 1px --border line is lightened (opacity) so it
+     doesn't look heavy against the menu surface. */
+  .cl-dropdown-menu .menu-sep{opacity:.5}
+  /* Group heading inside a composer menu — mirrors the sidebar section label (.sbx-sect-label):
+     10px / weight 600 / .08em tracking / UPPERCASE / --ink-inactive (a muted slate, lighter than
+     --ink-secondary). Same "quiet overline" treatment as the sidebar's Pinned/Recent headers, so
+     the composer's "Recent files" reads as a section overline, not a body line. Only the padding
+     differs (menu context — aligns to the .mi 12px text inset). Markup text stays sentence case;
+     the caps are display-only via text-transform, same as the sidebar. */
+  .cl-menu-label{padding:8px 12px 4px;font-size:var(--text-10);line-height:1;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-inactive)}
   .cl-menu-label + .menu-sep,.menu-sep + .cl-menu-label{margin-top:0}
   /* Scrollable list region — wraps the connector / recent-file rows so the section heading (and,
-     for Connections, the Manage footer) stay pinned while the rows scroll. Caps at ~10 rows (20rem)
-     or 60vh on short screens, whichever is smaller, then scrolls. overscroll-behavior:contain keeps
-     the wheel from chaining to the page once the list reaches its end. */
-  .cl-menu-scroll{max-height:min(20rem,60vh);overflow-y:auto;overscroll-behavior:contain}
-  /* Empty state — shown in place of the list when there are no connectors / recent files. */
-  .cl-menu-empty{padding:14px 12px;text-align:center;font-size:var(--text-13);line-height:1.4;color:var(--ink-secondary)}
+     for Connections, the Manage footer) stay pinned while the rows scroll. clFitMenu (page JS) caps
+     this to the space above the trigger (popover opens upward → never slides under the topbar); this
+     max-height is the no-JS fallback. Minimalist thin scrollbar — not the chunky default. */
+  .cl-menu-scroll{max-height:min(16rem,40vh);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+  /* Floating ~4px thumb (10px gutter minus a 3px transparent inset via background-clip) — no track
+     channel, light --border thumb → minimal/modern, not the chunky default bar. Darkens on hover. */
+  .cl-menu-scroll::-webkit-scrollbar{width:10px}
+  .cl-menu-scroll::-webkit-scrollbar-track{background:transparent}
+  .cl-menu-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .cl-menu-scroll:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+  /* Empty state — modern pattern: a tinted icon chip, a short title, helper text, then the CTA,
+     centered with generous breathing room (replaces the old cramped one-line message + button). */
+  .cl-menu-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.25rem;padding:12px}
+  .cl-menu-empty-ic{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9999px;background:var(--icon-wrapper-bg);color:var(--ink-secondary);margin-bottom:.125rem}
+  .cl-menu-empty-ic svg{width:16px;height:16px}
+  .cl-menu-empty-title{font-size:var(--text-14);font-weight:500;color:var(--ink)}
+  /* text-wrap:balance evens the two lines so a single word never orphans onto its own line. */
+  .cl-menu-empty-sub{font-size:var(--text-12);line-height:1.45;color:var(--ink-secondary);max-width:24ch;text-wrap:balance}
+  .cl-menu-empty .btn{margin-top:.5rem}
 
   /* — Attach menu — secondary "Choose File" button + plain recent-file list (no icons). Width is
-     fluid: inherits the base .menu max-content clamp (140–320px), so each composer menu hugs its
-     own content and the three can differ in width. */
-  /* CTA — a standard kit secondary button (btn btn-secondary btn-sm): auto width, standard
-     .375rem corners, default 2rem height. Only the menu placement is overridden here (8px left
-     inset off the menu edge + 8px gap above the recent-files list). Was previously a full-width
-     999px stadium pill, which read as oversized/distorted at 270px wide. */
-  .cl-attach-choose{gap:.5rem;margin:0 8px 8px}
-  /* Recent files read as a plain text list — no leading icon, regular weight (one step below the
-     CTA), --ink (darker than the former --ink-body so the file names read clearly), single-line ellipsis. */
-  .cl-file-item{display:block;font-weight:400;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+     the fixed M size (18rem), set on the composer-menu rule above. */
+  /* CTA — a plain menu-item row (`.mi` + upload `.mi-ic`), not a bordered button: no border to
+     double-up with the divider, and it sits with the same padding as every other row (natural
+     breathing room instead of a big button filling the popover). The leading icon + brand colour +
+     medium weight make it scan instantly as the primary action; a full-width .menu-sep below
+     separates it from the recent-files list. Its icon column lines up with the file rows below
+     (both `.mi-ic`), so the whole popover reads as one clean left column, not a ragged indent. */
+  .cl-attach-choose{color:var(--ink-highlight);font-weight:500}
+  /* Recent files — each row carries a file glyph (`.mi-ic`) so the list reads unmistakably as files
+     and its icon column aligns with the Choose File CTA above. Name is regular weight (one step
+     below the CTA), --ink (darker, legible), single-line ellipsis via the inner .cl-file-name span. */
+  .cl-file-item{font-weight:400;color:var(--ink)}
+  .cl-file-item .mi-ic{color:var(--ink-secondary)}
+  .cl-file-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
   /* — Connections menu — existing connections + manage link. Fluid width (base .menu clamp). */
   /* Model rows are 2-line (name + description) → 8px vertical (overrides the .mi base 6px) so the
@@ -1041,13 +1099,9 @@
      one left edge (glyph stays 16px, centred in the 24px box). */
   .cl-conn-manage .mi-ic{width:24px;height:24px;padding:4px;color:currentColor}
 
-  /* — Models menu — provider logo + name/desc + selected check. Fluid width (base .menu clamp). */
-  /* Selected model is signalled by the persistent brand-tinted surface + the check only — the model
-     name stays --ink (no accent recolour), so selection reads from the check/tint, not coloured text. */
-  /* Selected model = persistent brand-tinted surface (same --state-pressed the kit uses for
-     selected elsewhere). Hover on the selected row KEEPS the tint — (0,3,0) beats .mi:hover
-     (0,2,0) — so the neutral hover never collapses the selection. */
-  .cl-model-item[aria-checked="true"],.cl-model-item[aria-checked="true"]:hover{background:var(--state-pressed)}
+  /* — Models menu — provider logo + name/desc + selected check. */
+  /* Selection is signalled by the check ONLY — no background fill on the selected row (the row keeps
+     the default transparent bg + normal .mi hover). Name stays --ink (no accent recolour). */
 
   /* Dialog / Modal — reusable multi-step shell */
   .dlg-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--overlay-scrim)}
@@ -1537,9 +1591,9 @@
 
   /* Tokens popover — plan header + metered rows + actions.
      Coin / plan-badge artwork sourced from the agreed external SVG icons in the project root
-     (achievement-shield.svg, coin-blue.svg, coin-green.svg) — pure-vector, themeable, no raster. */
+     (basic.svg plan badge, coin-blue.svg, coin-green.svg) — pure-vector, themeable, no raster. */
   .sbx-pop-tok-head{display:flex;align-items:center;gap:.5rem;padding:0 .25rem}
-  .sbx-pop-tok-head .plan-badge{display:inline-block;width:21px;height:16px;flex:none;background:url("../achievement-shield.svg") center/contain no-repeat}
+  .sbx-pop-tok-head .plan-badge{display:inline-block;width:21px;height:16px;flex:none;background:url("../basic.svg") center/contain no-repeat}
   .sbx-pop-tok-head .plan-name{font-size:var(--text-14);line-height:1.25rem;font-weight:500;color:var(--ink)}
   /* Increased intra-row gap (label → coin → value: 8px) and inter-meter gap (6px between the row and the bar) so the meter doesn't read as a single dense block */
   .sbx-pop-tok-meter{display:flex;flex-direction:column;gap:.375rem;padding:0 .25rem;width:100%}
@@ -1916,6 +1970,27 @@
   .chip-meta:focus-visible,.chip-meta.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   .chip-meta.s-disabled,.chip-meta:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
   .chip-meta-arrow{width:10px;height:10px;flex:none;color:var(--brand-primary)}
+
+  /* ===== DropZone — file-upload target (drag-and-drop + click-to-browse) =====
+     Rest: dashed Stroke/Border on Surface/Card 2, upload icon inline with the title.
+     Hover / focus-within: border + icon tint toward Brand/Primary with a faint brand wash
+       (inline brand color-mix, following the .chip-meta hover recipe — single-use overlay).
+     Drag-over (.is-dragover): solid Brand/Primary border + State/Hover fill = active drop target.
+     The zone is a click target; keyboard users reach the inner Browse button, whose focus lifts
+     the zone via :focus-within. .s-hover / .s-focus / .s-dragover are storybook state hooks. */
+  .dsf-drop{border:1.5px dashed var(--dropzone-border);border-radius:.75rem;background:var(--card2);
+    padding:1.25rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;
+    text-align:center;cursor:pointer;
+    transition:background var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease)}
+  .dsf-drop:hover,.dsf-drop.s-hover,.dsf-drop:focus-within,.dsf-drop.s-focus{
+    border-color:color-mix(in srgb,var(--brand-primary) 45%,var(--dropzone-border));
+    background:color-mix(in srgb,var(--brand-primary) 4%,var(--card2))}
+  .dsf-drop.is-dragover,.dsf-drop.s-dragover{background:var(--state-hover);border-style:solid;border-color:var(--brand-primary)}
+  .dsf-drop-head{display:flex;align-items:center;gap:.5rem}
+  .dsf-drop-ic{width:1.25rem;height:1.25rem;color:var(--ink-secondary);flex:none;transition:color var(--motion-base) var(--motion-ease)}
+  .dsf-drop:hover .dsf-drop-ic,.dsf-drop.s-hover .dsf-drop-ic,.dsf-drop:focus-within .dsf-drop-ic,.dsf-drop.s-focus .dsf-drop-ic,.dsf-drop.is-dragover .dsf-drop-ic,.dsf-drop.s-dragover .dsf-drop-ic{color:var(--brand-primary)}
+  .dsf-drop-title{font-size:1rem;line-height:1.5rem;font-weight:600;color:var(--ink);margin:0}
+  .dsf-drop-sub{font-size:.8125rem;color:var(--ink-secondary);margin:0;line-height:1.3;text-wrap:balance}
 
   /* ===== Provider Card — data-source / integration card used in empty-state grids =====
      Grid: 3-column fixed then auto-fill min 14 rem.

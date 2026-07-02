@@ -26,6 +26,27 @@ Theme switcher).
 | Settings detail (email, Delete Account, Change password) | right panel | — not in popover; accessible via My Account | out of scope for popover surface |
 | Focus | — | focus enters on open; Escape closes + returns focus to trigger | consumer responsibility |
 
+## Item routing (consumer wiring)
+
+Every consuming page wires the popover items to open the account modal
+([`../pages/concept/user_profile-modal.html`](../pages/concept/user_profile-modal.html))
+on the matching tab, via a delegated click handler that maps the item label to a
+`?section=` param:
+
+| Item | Destination |
+|---|---|
+| My account | `user_profile-modal.html?section=my-account` |
+| Manage plan | `?section=manage-plan` |
+| Billing | `?section=billing` |
+| Balance | `?section=balance` |
+| Leave feedback | `?section=leave-feedback` |
+| Resources | external link (`.ext`, opens in new tab) — not routed to the modal |
+| Sign out | sign-out action — not routed to the modal |
+
+The modal reads `?section=` on load and calls `acctSetSection()` for that tab (falling
+back to Balance when the param is absent/unknown). This is page-level wiring — no popover
+component style changes.
+
 ## Reused styles (no new CSS)
 
 `.sbx-pop`, `.sbx-pop-account`, `.sbx-pop-sect`, `.sbx-pop-label`, `.sbx-pop-list`,

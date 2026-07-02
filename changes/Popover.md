@@ -64,25 +64,25 @@ Default `align="center"`, `sideOffset={4}`, animation set, portalling, transform
 | Variant | Where it's used | Note |
 |---|---|---|
 | **Account menu** *(documented this iteration)* | Sidebar footer — `<button class="sb-user">` opens it | Shell = the `.sbx-pop` reproduction above (bg `Surface/Card`, 1 px `Stroke/Border`, **radius 8 px, padding 16 px 12 px, inter-section gap 14 px**, `drop-shadow-lg`). Two labelled sections (`Account`, `Support`): section label 12 px/500 `--ink-secondary`; rows `.sbx-pop-item` **gap 10 px, padding 6 px 8 px, radius 6 px, 14 px label + 16 px icon**. Theme switcher = SegmentedControl `is-sm` (**20 px height, icon-only, 12 px icons**), markup `.segctrl.is-sm.sbx-pop-theme` with `.segctrl-btn.sbx-pop-theme-btn` children. Surface ladder (mirrors `.segctrl` recipe with `.sbx-pop-theme` overrides): **light** slot `var(--chips)` → active pill `var(--card)`; **dark** slot `var(--card2)` (`.dark .sbx-pop-theme`) → active pill `var(--chips)` (`.dark .sbx-pop-theme-btn.is-active`). Btn hover (non-active) `background:var(--segctrl-btn-hover-bg); color:var(--ink); box-shadow:var(--shadow-rim-hover)`; active `box-shadow:var(--shadow-rim-active)`; focus `var(--shadow-focus)`; `transition:background .12s,color .12s,box-shadow .12s`. Plain `Sign Out` row. Relocated from Stepper to the Popover section. |
-| **Subscription tokens** *(documented this iteration)* | Sidebar footer — tokens-meter button opens it | **Container 260 px wide**, same `.sbx-pop` shell as the Account variant. Plan header (`.sbx-pop-tok-head`, **gap 8 px**): **21×16 px** shield-check badge in `Brand/Tertiary` + 14 px `font-medium` plan name. Two metered rows (`.sbx-pop-tok-meter`, **gap 6 px**; label 12 px `--ink-secondary`): Subscription Tokens = **24 px coin + 16 px value**, `Brand/Tertiary` fill; Purchased Credits = **16 px coin + 12 px value**, `Feedback/Green` fill; progress bar **4 px**, track `--card2`, radius full. Actions (`.sbx-pop-tok-actions`, vertical, **gap 10 px**): two full-width `rounded-full` CTAs at **h32** — `Button primary` Buy Credits + `Button secondary` Upgrade Plan (`--card` bg, neutral `--border`, `--ink-body` text). Relocated from Stepper to the Popover section. |
+| **Subscription credits** *(documented this iteration)* | Sidebar footer — tokens-meter button opens it | **Container 260 px wide**, same `.sbx-pop` shell as the Account variant. Plan header (`.sbx-pop-tok-head`, **gap 8 px**): **21×16 px** shield-check badge in `Brand/Tertiary` + 14 px `font-medium` plan name. Two metered rows (`.sbx-pop-tok-meter`, **gap 6 px**; label 12 px `--ink-secondary`): Subscription Credits = **24 px coin + 16 px value**, `Brand/Tertiary` fill; Purchased Credits = **16 px coin + 12 px value**, `Feedback/Green` fill; progress bar **4 px**, track `--card2`, radius full. Actions (`.sbx-pop-tok-actions`, vertical, **gap 10 px**): two full-width `rounded-full` CTAs at **h32** — `Button primary` Buy Credits + `Button secondary` Upgrade Plan (`--card` bg, neutral `--border`, `--ink-body` text). Relocated from Stepper to the Popover section. |
 
-## Subscription tokens — icon assets *(this iteration)*
+## Subscription credits — icon assets *(this iteration)*
 
 | Slot | Current (prod) | Expected | Specification |
 |---|---|---|---|
-| Plan badge (next to "Basic") | 21×16 inline base64 PNG embedded in `.sbx-pop-tok-head .plan-badge` | external SVG `achievement-shield.svg` referenced via `background: url("achievement-shield.svg") center/contain no-repeat` | Pure-vector, themeable, no raster. Source = Figma-exported SVG (gradients preserved). Relative URL from kit HTML. |
-| Subscription Tokens coin (24×24) | inline base64 PNG embedded in `.sbx-pop-tok-meter .coin` | external SVG `coin-blue.svg` | Teal-family coin (matches `Brand/Tertiary` progress bar in same row). Hand-built pure-vector with reeded edge and shadow-only emboss. |
+| Plan badge (next to "Basic") | 21×16 inline base64 PNG embedded in `.sbx-pop-tok-head .plan-badge` | external SVG `basic.svg` (purple shield + star) referenced via `background: url("../basic.svg") center/contain no-repeat` | Pure-vector, themeable, no raster. Source = Figma-exported SVG (gradients preserved). Relative URL from kit HTML. |
+| Subscription Credits coin (24×24) | inline base64 PNG embedded in `.sbx-pop-tok-meter .coin` | external SVG `coin-blue.svg` | Teal-family coin (matches `Brand/Tertiary` progress bar in same row). Hand-built pure-vector with reeded edge and shadow-only emboss. **The ground cast-shadow ellipse was removed** — the coin reads flat with no drop shadow beneath it. |
 | Purchased Credits coin (16×16) | inline base64 PNG embedded in `.sbx-pop-tok-meter .coin.sm` | external SVG `coin-green.svg` | Green-family coin (matches `Feedback/Green` progress bar in same row). Same construction as blue, only palette swap. |
 
 No size / layout / spacing / colour change. Only the icon source format changes (PNG → SVG). Both prod-demo and Expected popover copies share the same CSS class, so both columns of the kit pick up the new SVG references automatically.
 
-## Subscription tokens — kit reproduction (kit-theme.css 1425–1440)
+## Subscription credits — kit reproduction (kit-theme.css 1425–1440)
 
 | Part | Selector | Shipped value |
 |---|---|---|
 | Container width | `.sbx-pop-tokens` | `width:auto` with `left:.5rem; right:.5rem` (fills footer column ~260px) |
 | Plan header | `.sbx-pop-tok-head` | `display:flex; align-items:center; gap:.5rem` (8px); `padding:0 .25rem` |
-| Plan badge | `.sbx-pop-tok-head .plan-badge` | `display:inline-block; width:21px; height:16px; flex:none; background:url("../achievement-shield.svg") center/contain no-repeat` |
+| Plan badge | `.sbx-pop-tok-head .plan-badge` | `display:inline-block; width:21px; height:16px; flex:none; background:url("../basic.svg") center/contain no-repeat` |
 | Plan name | `.sbx-pop-tok-head .plan-name` | `font-size:.875rem; line-height:1.25rem; font-weight:500; color:var(--ink)` |
 | Meter group | `.sbx-pop-tok-meter` | `display:flex; flex-direction:column; gap:.375rem` (6px); `padding:0 .25rem; width:100%` |
 | Meter row | `.sbx-pop-tok-meter .row` | `display:flex; align-items:center; gap:.5rem` (8px) |

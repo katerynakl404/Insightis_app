@@ -33,14 +33,15 @@ sidebar user row). Clicking any nav item in the popover calls `acctOpenModal(sec
 - Button groups are right-aligned (`justify-content:flex-end` or `margin-left:auto` on a single button).
 - Within a group: secondary/outline variants come first (left), the primary action is always last (rightmost).
 - On mobile with `flex-wrap:wrap`, single buttons use `margin-left:auto` so they stay right-aligned on the wrapped row.
+- **Casing:** every CTA button uses **Title Case** ("Buy Credits", "Upgrade Plan", "Update Plan", "Delete Account", "Send Feedback", "Change Password") — matching the sidebar credits popover (`.sbx-pop-cta` "Buy Credits" / "Upgrade Plan"). The **popup/dialog title** (`.acct-title` / `#acct-modal-title`, and the mobile `.acct-mobile-title`) uses **Sentence case** ("My account", "Manage plan", "Billing", "Balance", "Buy credits", "Feedback", "Change password") — the **kit-wide dialog-title convention**, so the other kit dialogs were flipped to match ("New connection", "Edit connection", "Create metric" / "Edit metric"). In-content section headings (`.acct-sect-title`), form labels, `.link` actions, and left-nav **menu items** all stay Sentence case too. Net effect: a CTA button and a dialog title of the same words differ in case (button Title Case → dialog Sentence case, e.g. the "New Connection" button opens the "New connection" dialog) — intended.
 
 | Section | Button order (left → right) |
 |---|---|
-| Manage plan | View usage (outline) → **Upgrade plan (primary)** |
+| Manage plan | Per-card full-width CTA (Free = outline "Current Plan" disabled; Starter/Pro = primary "Upgrade Plan") — one CTA spans each card, no horizontal row |
 | Billing — payment | Update (outline) — single, right via `space-between` |
-| Balance hero | Update plan (outline) → **Buy credits (primary)** |
+| Balance hero | Update Plan (outline) → **Buy Credits (primary)** |
 | Delete account | single button, `margin-left:auto` → always right |
-| Feedback | Attach file (secondary) → **Send feedback (primary)** |
+| Feedback | Attach File (secondary) → **Send Feedback (primary)** |
 
 ---
 
@@ -65,7 +66,7 @@ sidebar user row). Clicking any nav item in the popover calls `acctOpenModal(sec
 | Markup | `.acct-modal-nav` wrapping `.sbx-pop-sect` / `.sbx-pop-label` / `.sbx-pop-list` / `.sbx-pop-item` — same classes as the floating popover |
 | Active state | `.sbx-pop-item.active` — defined centrally in `kit-theme.css`; auto-syncs with sidebar active recipe |
 | Log Out | `.sbx-pop-item.danger` inside `.acct-nav-foot` (auto-`margin-top` + `border-top` separator) |
-| Close button | `.acct-close` icon-btn top-right of body header; `aria-label="Close account settings"` |
+| Close button | Kit `.iconbtn.iconbtn-tertiary` (same component as the `.dlg` dialog close) — `2rem` button, `16px` glyph, `stroke-width:2`, `data-tip="Close"`, `aria-label="Close account settings"`. Inherits colour/hover/pressed/**focus-visible ring** from the component. (Bespoke `.acct-close` class removed.) **On activate → `acctCloseModal()` returns to the previous screen via `history.back()`** (consuming pages open the modal by navigating with `?section=…`); fallback hides the overlay when the file is opened directly. Escape key and the mobile header close route through the same function. |
 
 ### State table
 
@@ -92,10 +93,21 @@ sidebar user row). Clicking any nav item in the popover calls `acctOpenModal(sec
 
 ### Manage plan
 
+Redesigned from a single "current plan" summary row into a **3-plan pricing comparison**
+(Free / Starter / Pro) with a billing-period toggle — matching the product's Manage Plan screen.
+
 | Element | Expected |
 |---|---|
-| Current plan | "Professional" label in `--ink` |
-| CTAs | `btn btn-primary btn-sm` "Upgrade plan" + `btn btn-outline btn-sm` "View usage" |
+| Section header | `.acct-plan-head` — "All Plans" (`.acct-sect-title`, grows) + billing-period toggle right-aligned |
+| Billing toggle | `.segctrl.is-sm` (Monthly / Yearly), `role="tablist"`; page-local `width:auto` so it shrinks to content instead of the segctrl default full-width. `acctSetPlanPeriod()` swaps every `data-monthly`/`data-yearly` price on switch |
+| Plan grid | `.acct-plan-grid` — `repeat(3,1fr)`, `gap:1rem`; reflows to 1 column at ≤767px. Modal widened to `max-width:960px` to give the 3 cards room (each card stays single-line, so the CTAs align) |
+| Plan card | `.acct-plan-card` — static panel (`--card` + `--border`, `radius .75rem`, `padding:1.25rem`); **not** the interactive card-hover recipe (informational, non-clickable). Vertical rhythm is 3-tier: name/price/tagline share the `.375rem` base gap (tight header cluster), the tagline's `margin-bottom` + the feature list's `margin-top` open a `.75rem` band around the CTA |
+| Tagline | `.acct-plan-tagline` — `--ink-secondary`, `margin-bottom:.375rem` (separates the header cluster from the CTA) |
+| Popular card | `.acct-plan-card.is-popular` (Pro) — `border-color:var(--brand-primary)`, theme-aware |
+| Discount / popular badges | Composed kit badges inside `.acct-plan-name-row`: `.badge.badge-green.badge-sm` "50% OFF" (savings = green), `.badge.badge-primary.badge-sm` "POPULAR" (brand tint). `.acct-plan-name-row` has `min-height:1.75rem` so a badge-less card (Free) keeps the same head height → price/CTA line up across all three |
+| Price row | `.acct-plan-price` (current, `--ink`, weight 700) + `.acct-plan-price-was` (line-through, `--ink-inactive`) + `.acct-plan-per` ("/ month", `--ink-secondary`). **No horizontal jump on toggle:** `.acct-plan-price-was` gets `min-width:3.25em`, and the popular card's `.acct-plan-price` gets `min-width:3.15em`, so "/ month" stays put when the numbers change width (DM Sans has no tabular figures, so `tabular-nums` alone is insufficient) |
+| CTA | Full-width kit button at **`btn-md`** (36px) so all three match a design-system size and align on one baseline — Free = `btn btn-outline btn-md` **`disabled`** "Current Plan" (now dims via the new real `.btn-outline:disabled` rule); Starter/Pro = `btn btn-primary btn-md` "Upgrade Plan". Width via page-layout `.acct-plan-card .btn.acct-plan-cta{width:100%}` (sizing only) |
+| Feature list | `.acct-plan-feats` `<ul>` — **check-mark** marker (lucide tick via CSS `mask`, filled with `--brand-primary`, theme-aware) on flex rows, `--ink-body` items |
 
 ### Billing
 
@@ -113,10 +125,10 @@ sidebar user row). Clicking any nav item in the popover calls `acctOpenModal(sec
 | Progress context | Below bar. Two spans: "32% of total credits used" + "1,451 remaining" — `font-size:.75rem; color:var(--ink-secondary)`. Mobile: short variants "32% used" / "1,451 left" via `.acct-show-mobile` |
 | CTAs row | Below progress. `.acct-bal-btns` — `justify-content:flex-end` on desktop; `width:100%; .btn{flex:1}` on mobile (equal-width split) |
 | Stats tiles | Two flex tiles side-by-side (`gap:.5rem`), `background:var(--bg)`, `border-radius:.375rem`, `padding:.5rem .75rem` |
-| Stats tile label | `.acct-field-label` (`font-size:.625rem` = 10px) — "Monthly Credits" / "Extra Credits" |
+| Stats tile label | `.acct-field-label` (`font-size:.625rem` = 10px) — "Subscription credits" / "Purchased credits" (matches the sidebar credits popover naming) |
 | Stats tile value | `.acct-sect-title` (`font-size:.9375rem; font-weight:600`) — 1,584 / 540 |
 | Credit usage | `.acct-usage-table` — Date / Request type / Spent tokens columns; `border-collapse:collapse` |
-| CTAs | `btn btn-outline btn-sm` "Update plan" + `btn btn-primary btn-sm` "Buy credits" — placed **in content** (not header). `acctSectionActions = {}` |
+| CTAs | `btn btn-outline btn-sm` "Update Plan" + `btn btn-primary btn-sm` "Buy Credits" — placed **in content** (not header). `acctSectionActions = {}` |
 
 **Token:** `--progress-track: var(--card2)` — new semantic token added to `:root` in `kit-theme.css` (Slate-100 light / Grey-800 dark). Separates "progress track" intent from `--state-hover` which is reserved for interactive hover surfaces.
 
@@ -125,7 +137,7 @@ sidebar user row). Clicking any nav item in the popover calls `acctOpenModal(sec
 | Element | Expected |
 |---|---|
 | Textarea | `.ta`, `rows="5"`, full-width, `max-width:100%`, labelled "Your feedback" (first element in the section — Category segmented control removed) |
-| Actions row | `.acct-fb-bottom` (flex, `justify-content:flex-end`, `gap:.5rem`) — `.btn .btn-secondary .btn-sm` "Attach file" (paperclip icon + label) + `.btn .btn-primary .btn-sm` "Send feedback". |
+| Actions row | `.acct-fb-bottom` (flex, `justify-content:flex-end`, `gap:.5rem`) — `.btn .btn-secondary .btn-sm` "Attach File" (paperclip icon + label) + `.btn .btn-primary .btn-sm` "Send Feedback". |
 
 ---
 
@@ -189,7 +201,7 @@ Hidden on desktop (`display:none`). Shown at ≤767px as `display:flex`.
 
 ## New page-scope CSS (`<style>` in `user_profile-modal.html`)
 
-**Layout:** `.acct-overlay`, `.acct-modal`, `.acct-modal-nav`, `.acct-modal-body`, `.acct-header`, `.acct-header-actions`, `.acct-title`, `.acct-close`, `.acct-content`, `.acct-section`, `.acct-sect-title`, `.acct-field-row`, `.acct-field-label`, `.acct-field-val`, `.acct-danger-warn`, `.acct-nav-foot`
+**Layout:** `.acct-overlay`, `.acct-modal`, `.acct-modal-nav`, `.acct-modal-body`, `.acct-header`, `.acct-header-actions`, `.acct-title` (20px/600, matches `.dlg-title`), `.acct-content`, `.acct-section`, `.acct-sect-title`, `.acct-field-row`, `.acct-field-label`, `.acct-field-val`, `.acct-danger-warn`, `.acct-nav-foot`. (Close button uses kit `.iconbtn.iconbtn-tertiary` — no page-scope close class.)
 
 **Mobile:** `.acct-mobile-hdr`, `.acct-mobile-btn`, `.acct-mobile-title`, `.acct-nav-chev`, `.acct-hide-mobile`, `.acct-show-mobile`, `.segctrl-lbl`
 
@@ -197,12 +209,16 @@ Hidden on desktop (`display:none`). Shown at ≤767px as `display:flex`.
 
 **Feedback:** `.acct-fb-bottom`
 
+**Manage plan (pricing cards):** `.acct-plan-head`, `.acct-plan-toggle` (+ `.acct-plan-toggle .segctrl{width:auto}`), `.acct-plan-grid` (`repeat(3,1fr)` → `1fr` at ≤767px), `.acct-plan-card` (+ `.is-popular`), `.acct-plan-name-row` (`min-height:1.75rem` for cross-card alignment), `.acct-plan-name`, `.acct-plan-price-row`, `.acct-plan-price` (+ `.is-popular` variant `min-width:3.15em`), `.acct-plan-price-was` (`min-width:3.25em`), `.acct-plan-per`, `.acct-plan-tagline`, `.acct-plan-cta` (sizing only), `.acct-plan-feats` (+ `li::before` **check-mark** via CSS `mask`, `--brand-primary`). All page-layout composition — no new kit component. Badges/buttons/segctrl are reused kit components composed inside these wrappers. New JS: `acctSetPlanPeriod(period, btn)`.
+
+**Kit fix (this pass):** added real `:disabled` rules for `.btn-outline` / `.btn-secondary` / `.btn-tertiary` in `kit-theme.css` (mirroring their existing `.s-disabled` forced-class values) — previously only Primary / Destructive / Outline-destructive dimmed on a real `disabled` attribute. See [Button.md](../../changes/Button.md).
+
 **New kit-theme.css additions (this iteration):**
 - `--progress-track: var(--card2)` — semantic token in `:root`
 - `.segctrl-group` — `display:flex; flex-direction:column; gap:.5rem`
 - `.segctrl-label` — `font-size:.875rem; font-weight:600; color:var(--ink)`
 
-Reused kit classes: `.sbx-pop-sect`, `.sbx-pop-label`, `.sbx-pop-list`, `.sbx-pop-item`, `.segctrl`, `.segctrl-btn`, `.sbx-pop-theme`, `.sbx-pop-theme-btn`, `.btn`, `.btn-outline`, `.btn-outline-destructive`, `.btn-primary`, `.btn-sm`, `.link`, `.ta`
+Reused kit classes: `.sbx-pop-sect`, `.sbx-pop-label`, `.sbx-pop-list`, `.sbx-pop-item`, `.segctrl`, `.segctrl-btn`, `.sbx-pop-theme`, `.sbx-pop-theme-btn`, `.btn`, `.btn-outline`, `.btn-outline-destructive`, `.btn-primary`, `.btn-sm`, `.link`, `.ta`, `.badge`, `.badge-sm`, `.badge-green`, `.badge-primary`
 
 ---
 

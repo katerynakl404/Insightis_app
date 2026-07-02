@@ -72,6 +72,7 @@
     <a href="#switch">Switch</a>
     <a href="#segctrl">SegmentedControl</a>
     <div class="grp">Data display</div>
+    <a href="#dropzone">DropZone</a>
     <a href="#badge">Badge</a>
     <a href="#avatar">Avatar</a>
     <a href="#table">Table</a>
@@ -946,6 +947,29 @@
     </section>
 
     <!-- ===== BADGE ===== -->
+    <!-- ===== DROPZONE ===== -->
+    <section class="comp" id="dropzone">
+      <h2>DropZone</h2>
+      <div class="sub">File-upload target — drag-and-drop + click-to-browse. Upload icon inline with the title, helper line + Browse button below. States: rest · hover / focus · drag-over. New component (no prod equivalent).</div>
+      <div><a class="chg" href="changes/DropZone.md">Changes ↗</a></div>
+      <div class="block"><div class="block-h">Preview</div><div class="block-b">
+        <div class="stage" style="display:block">
+          <div class="dsf-drop" data-spec-variant="rest" style="max-width:520px;margin:0 auto">
+            <div class="dsf-drop-head"><svg class="dsf-drop-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p class="dsf-drop-title">Drag &amp; drop files here</p></div>
+            <p class="dsf-drop-sub">or click to browse — files you upload are available to query in chats</p>
+            <button class="btn btn-outline btn-sm" type="button">Browse Files</button>
+          </div>
+        </div>
+      </div></div>
+      <div class="block"><div class="block-h">States</div><div class="block-b" style="padding:0">
+        <table class="stbl"><thead><tr><th>State</th><th>Expected</th></tr></thead><tbody>
+          <tr><td class="stname">Rest</td><td class="stcell"><div class="ministage" style="display:block"><div class="dsf-drop" style="padding:.75rem 1rem;gap:.25rem;max-width:260px"><div class="dsf-drop-head"><svg class="dsf-drop-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p class="dsf-drop-title" style="font-size:.8125rem">Drop files</p></div></div></div><div class="cspec">dashed <code>Stroke/Border</code> on <code>Surface/Card 2</code>; icon <code>Text/Secondary</code></div></td></tr>
+          <tr><td class="stname">Hover / focus</td><td class="stcell"><div class="ministage" style="display:block"><div class="dsf-drop s-hover" style="padding:.75rem 1rem;gap:.25rem;max-width:260px"><div class="dsf-drop-head"><svg class="dsf-drop-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p class="dsf-drop-title" style="font-size:.8125rem">Drop files</p></div></div></div><div class="cspec"><code>:hover</code> / <code>:focus-within</code> — border + icon tint toward <code>Brand/Primary</code>, faint brand wash</div></td></tr>
+          <tr><td class="stname">Drag over</td><td class="stcell"><div class="ministage" style="display:block"><div class="dsf-drop is-dragover" style="padding:.75rem 1rem;gap:.25rem;max-width:260px"><div class="dsf-drop-head"><svg class="dsf-drop-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p class="dsf-drop-title" style="font-size:.8125rem">Drop files</p></div></div></div><div class="cspec"><code>.is-dragover</code> — solid <code>Brand/Primary</code> border + <code>State/Hover</code> fill</div></td></tr>
+        </tbody></table>
+      </div></div>
+    </section>
+
     <section class="comp" id="badge" data-spec-variant-label="Sizes">
       <h2>Badge</h2>
       <div class="sub">Compact status / label chip. Two sizes (default / <code>.badge-sm</code>) plus leading-icon, removable and status-dot variants. Dimensions per size in the <b>Sizes</b> panel.</div>
@@ -1252,7 +1276,7 @@
     <!-- ===== COMPOSER DROPDOWNS ===== -->
     <section class="comp" id="composer-menus" data-spec-sel=".cl-dropdown">
       <h2>Composer dropdowns</h2>
-      <div class="sub">The three chat-composer menus — <b>Add file</b>, <b>Connections</b>, <b>Models</b> — shared by both chat composers. Each composes the kit <a href="#dropdown" style="color:var(--brand-primary)">Dropdown</a> <code>.menu</code> shell + <code>.mi</code> item; the trigger is a tertiary button (<code>.cl-dropdown</code> / icon-only <code>.cl-attach</code>, neutral hover, pressed-while-open). CSS is single-sourced in <code>pages/kit-theme.css</code> — both pages and this storybook read the same rules. Menu hugs its content (base <code>.menu</code> 140–320px clamp), so the three can differ in width.</div>
+      <div class="sub">The three chat-composer menus — <b>Add file</b>, <b>Connections</b>, <b>Models</b> — shared by both chat composers. Each composes the kit <a href="#dropdown" style="color:var(--brand-primary)">Dropdown</a> <code>.menu</code> shell + <code>.mi</code> item; the trigger is a tertiary button (<code>.cl-dropdown</code> / icon-only <code>.cl-attach</code>, neutral hover, pressed-while-open). CSS is single-sourced in <code>pages/kit-theme.css</code> — both pages and this storybook read the same rules. Menus use the fixed <b>M</b> width (18rem) from the new menu size system (<code>.menu.is-sm</code> 14rem / <code>.menu.is-md</code> 18rem / <code>.menu.is-lg</code> 22rem) + 8px padding.</div>
       <div><a class="chg" href="page-changes/chat-landing.md">Changes ↗</a></div>
 
       <div class="variant-label">Triggers</div>
@@ -1281,21 +1305,21 @@
           <div style="display:flex;flex-direction:column;gap:.5rem">
             <div class="cspec" style="font-weight:600">Add file</div>
             <div class="menu cl-attach-menu" role="menu">
-              <button class="btn btn-secondary btn-sm cl-attach-choose" type="button">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <button class="mi cl-attach-choose" type="button" role="menuitem">
+                <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                 Choose File
               </button>
+              <hr class="menu-sep" />
               <div class="cl-menu-label">Recent files</div>
-              <div class="mi cl-file-item" role="menuitem">Q3-revenue.csv</div>
-              <div class="mi cl-file-item" role="menuitem">customers-export.xlsx</div>
-              <div class="mi cl-file-item" role="menuitem">churn-analysis.pdf</div>
+              <div class="mi cl-file-item" role="menuitem"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span class="cl-file-name">Q3-revenue.csv</span></div>
+              <div class="mi cl-file-item" role="menuitem"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span class="cl-file-name">customers-export.xlsx</span></div>
+              <div class="mi cl-file-item" role="menuitem"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span class="cl-file-name">churn-analysis.pdf</span></div>
             </div>
           </div>
 
           <div style="display:flex;flex-direction:column;gap:.5rem">
             <div class="cspec" style="font-weight:600">Connections — single-line rows</div>
             <div class="menu cl-conn-menu" role="menu">
-              <div class="cl-menu-label">Your connections</div>
               <div class="mi cl-conn-item">
                 <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
                 <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
@@ -1336,7 +1360,7 @@
           </div>
 
         </div>
-        <div class="spec"><b>Composition.</b> Surface, border, radius, shadow + item hover/disabled all inherit from <a href="#dropdown" style="color:var(--brand-primary)">Dropdown</a> (<code>.menu</code> / <code>.mi</code>). Composer-specific bits: <b>Add file</b> — a <a href="#button" style="color:var(--brand-primary)">Button</a> <code>secondary sm</code> "Choose File" CTA + a plain recent-files text list (<code>.cl-file-item</code>, <code>--ink</code>, no leading icon). <b>Connections</b> — single-line rows (<code>.cl-conn-item</code>, 4px vertical padding) = 24px source logo + connection name (<code>--ink</code>) + a <a href="#switch" style="color:var(--brand-primary)">Switch</a> <code>is-sm</code> on/off toggle; <code>Manage Connections</code> footer link. <b>Models</b> — 2-line rows (<code>.cl-model-item</code>, 8px vertical padding) = brand mark + name/description, single-select (<code>role="menuitemradio"</code>). The selected row keeps a persistent <code>State/Pressed</code> tint + a <code>--ink-highlight</code> check (the only coloured cue — the name stays <code>--ink</code>). <b>Insightis Light</b> is the default selection.</div>
+        <div class="spec"><b>Composition.</b> Surface, border, radius, shadow + item hover/disabled all inherit from <a href="#dropdown" style="color:var(--brand-primary)">Dropdown</a> (<code>.menu</code> / <code>.mi</code>). Composer-specific bits: <b>Add file</b> — a "Choose File" <code>.mi</code> action row (upload <code>.mi-ic</code>, medium weight) + full-width <code>.menu-sep</code> + a plain recent-files text list (<code>.cl-file-item</code>, <code>--ink</code>, no leading icon). <b>Connections</b> — single-line rows (<code>.cl-conn-item</code>, 4px vertical padding) = 24px source logo + connection name (<code>--ink</code>) + a <a href="#switch" style="color:var(--brand-primary)">Switch</a> <code>is-sm</code> on/off toggle; <code>Manage Connections</code> footer link. <b>Models</b> — 2-line rows (<code>.cl-model-item</code>, 8px vertical padding) = brand mark + name/description, single-select (<code>role="menuitemradio"</code>). The selected row keeps a persistent <code>State/Pressed</code> tint + a <code>--ink-highlight</code> check (the only coloured cue — the name stays <code>--ink</code>). <b>Insightis Light</b> is the default selection.</div>
       </div></div>
 
       <div class="variant-label">Trigger states</div>
@@ -1560,7 +1584,7 @@
               <div class="sb-foot">
                 <div class="sb-tok">
                   <div class="sb-tok-row">
-                    <span class="sb-tok-label">Tokens used</span>
+                    <span class="sb-tok-label">Credits used</span>
                     <span class="sb-tok-val"><span>673</span><span>of</span><span>1000</span></span>
                   </div>
                   <div class="progress"><span style="width:67%"></span></div>
@@ -1655,7 +1679,7 @@
               <div class="sbx-foot">
                 <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens">
                   <div class="sbx-tok-row">
-                    <span class="sbx-tok-label">Tokens used</span>
+                    <span class="sbx-tok-label">Usage</span>
                     <span class="sbx-tok-val">673 / 1000</span>
                   </div>
                   <div class="sbx-tok-bar"><span style="width:67%"></span></div>
@@ -1694,13 +1718,13 @@
                   <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>Sign Out</button>
                 </div>
                 <!-- Tokens popover — anchored above the tokens row -->
-                <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription tokens">
+                <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
                   <div class="sbx-pop-tok-head">
                     <span class="plan-badge" aria-hidden="true"></span>
                     <span class="plan-name">Basic</span>
                   </div>
                   <div class="sbx-pop-tok-meter">
-                    <div class="row"><span class="label">Subscription Tokens</span></div>
+                    <div class="row"><span class="label">Subscription Credits</span></div>
                     <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
                     <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
                   </div>
@@ -1745,7 +1769,7 @@
               </div>
               <div class="sbx-chats" style="overflow:hidden"><div class="sbx-sect"><div class="sbx-sect-head"><button class="sbx-sect-label-wrap" type="button" aria-expanded="true"><span class="sbx-sect-label">Pinned</span><svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div><button class="sbx-chat" type="button"><span class="sbx-chat-lbl">Q3 KPI deep-dive with marketing</span></button></div></div>
               <div class="sbx-foot">
-                <div class="sbx-tok"><div class="sbx-tok-row"><span class="sbx-tok-label">Tokens used</span><span class="sbx-tok-val">673 / 1000</span></div><div class="sbx-tok-bar"><span style="width:67%"></span></div></div>
+                <div class="sbx-tok"><div class="sbx-tok-row"><span class="sbx-tok-label">Usage</span><span class="sbx-tok-val">673 / 1000</span></div><div class="sbx-tok-bar"><span style="width:67%"></span></div></div>
                 <button class="sbx-user" type="button"><span class="sbx-user-ava">K</span><span class="sbx-user-info"><span class="sbx-user-name">Kateryna K.</span><span class="sbx-user-meta">Admin · Professional</span></span><svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></button>
               </div>
             </div>
@@ -1762,7 +1786,7 @@
               </div>
               <div class="sbx-chats"><button class="sbx-chats-icon" type="button" aria-label="Chats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
               <div class="sbx-foot">
-                <div class="sbx-tok"><div class="sbx-tok-row"><span class="sbx-tok-label">Tokens used</span><span class="sbx-tok-val">673 / 1000</span></div><div class="sbx-tok-bar"><span style="width:67%"></span></div></div>
+                <div class="sbx-tok"><div class="sbx-tok-row"><span class="sbx-tok-label">Usage</span><span class="sbx-tok-val">673 / 1000</span></div><div class="sbx-tok-bar"><span style="width:67%"></span></div></div>
                 <button class="sbx-user" type="button" aria-label="Kateryna K., Admin · Professional"><span class="sbx-user-ava">K</span><span class="sbx-user-info"><span class="sbx-user-name">Kateryna K.</span><span class="sbx-user-meta">Admin · Professional</span></span><svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></button>
               </div>
             </div>
@@ -2156,17 +2180,17 @@
         </div>
         <div class="spec"><b>Spec.</b> Surface <code>Surface/Card</code>, border <code>Stroke/Border</code> (1 px via <code>--border-width</code>), radius 8 px, padding 16 px 12 px, section gap 14 px, shadow <code>drop-shadow-lg</code>. Two labelled sections (<code>Account</code>, <code>Support</code> — label 12 px <code>font-medium</code> <code>--ink-secondary</code>) of <code>SelectMenuItem</code> rows (gap 10 px, padding 6 px 8 px, radius 6 px, 14 px label + 16 px Lucide icon in <code>--ink-secondary</code>). Theme switcher (sun / moon / monitor-speaker) reuses <a href="#segctrl">SegmentedControl</a> <code>is-sm</code> (20 px, icon-only) — only deviation: bg overridden to <code>Surface/Chips</code> (<code>--chips</code>) instead of the variant default. Sign Out is a plain row (no red — kept neutral per Figma).</div>
       </div></div>
-      <div class="variant-label">Variant — Subscription tokens (used in Sidebar footer)</div>
+      <div class="variant-label">Variant — Subscription credits (used in Sidebar footer)</div>
       <div class="block"><div class="block-h">Preview</div><div class="block-b">
         <div class="ce">
           <div class="ce-cell"><div class="ce-tag prodt">Current (prod)</div><div class="stage"><span class="colhint">— no equivalent</span></div></div>
-          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage" style="align-items:center;justify-content:center;padding:1.5rem"><div class="sbx-pop sbx-pop-tokens is-open" style="position:static;width:15rem" role="dialog" aria-label="Subscription tokens">
+          <div class="ce-cell"><div class="ce-tag expt">Expected</div><div class="stage" style="align-items:center;justify-content:center;padding:1.5rem"><div class="sbx-pop sbx-pop-tokens is-open" style="position:static;width:15rem" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head">
               <span class="plan-badge" aria-hidden="true"></span>
               <span class="plan-name">Basic</span>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Subscription Tokens</span></div>
+              <div class="row"><span class="label">Subscription Credits</span></div>
               <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
               <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
             </div>
@@ -2180,7 +2204,7 @@
             </div>
           </div></div></div>
         </div>
-        <div class="spec"><b>Spec.</b> Container 260 px wide; same shell as the Account variant (<code>Surface/Card</code>, 1 px <code>Stroke/Border</code> via <code>--border-width</code>, radius 8 px, padding 16 px 12 px, <code>drop-shadow-lg</code>). Plan header (<code>.sbx-pop-tok-head</code>, gap 8 px): 21×16 px <code>shield-check</code> badge in <code>Brand/Tertiary</code> + 14 px <code>font-medium</code> plan name. Two metered rows (<code>.sbx-pop-tok-meter</code>, column gap 6 px) — row label 12 px <code>--ink-secondary</code>; Subscription Tokens = 24 px coin + 16 px <code>font-medium</code> value, <code>Brand/Tertiary</code> fill; Purchased Credits = 16 px coin + 12 px value, <code>Feedback/Green</code> fill. Progress bar 4 px, track <code>Surface/Card2</code> (<code>--card2</code>), radius full; fill colour set per-instance. Actions (<code>.sbx-pop-tok-actions</code>, vertical stack, gap 10 px): two full-width <code>rounded-full</code> CTAs at h32 — <b>Buy Credits</b> (<code>Button primary</code>) + <b>Upgrade Plan</b> (<code>Button secondary</code> — <code>--card</code> bg, neutral <code>--border</code>, <code>--ink-body</code> text).</div>
+        <div class="spec"><b>Spec.</b> Container 260 px wide; same shell as the Account variant (<code>Surface/Card</code>, 1 px <code>Stroke/Border</code> via <code>--border-width</code>, radius 8 px, padding 16 px 12 px, <code>drop-shadow-lg</code>). Plan header (<code>.sbx-pop-tok-head</code>, gap 8 px): 21×16 px <code>shield-check</code> badge in <code>Brand/Tertiary</code> + 14 px <code>font-medium</code> plan name. Two metered rows (<code>.sbx-pop-tok-meter</code>, column gap 6 px) — row label 12 px <code>--ink-secondary</code>; Subscription Credits = 24 px coin + 16 px <code>font-medium</code> value, <code>Brand/Tertiary</code> fill; Purchased Credits = 16 px coin + 12 px value, <code>Feedback/Green</code> fill. Progress bar 4 px, track <code>Surface/Card2</code> (<code>--card2</code>), radius full; fill colour set per-instance. Actions (<code>.sbx-pop-tok-actions</code>, vertical stack, gap 10 px): two full-width <code>rounded-full</code> CTAs at h32 — <b>Buy Credits</b> (<code>Button primary</code>) + <b>Upgrade Plan</b> (<code>Button secondary</code> — <code>--card</code> bg, neutral <code>--border</code>, <code>--ink-body</code> text).</div>
       </div></div>
     </section>
 
@@ -2985,7 +3009,7 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
        Token VALUES still resolve live via a probe — only the NAMES come from here. On http this list
        is unused (names read live from the stylesheet). REGENERATE when tokens change:
        grep -oE '\-\-[A-Za-z0-9_-]+[[:space:]]*:' pages/kit-theme.css | sed -E 's/[[:space:]]*:$//' | sort -u */
-    var FALLBACK_TOKEN_NAMES = "--badge-primary-bg,--badge-primary-text,--badge-secondary-bg,--badge-secondary-text,--banner-grad-ic-bg,--banner-grad-ic-border,--banner-grad-ic-shadow,--banner-grad-sub,--banner-grad-text,--bg,--black,--border,--border-hover,--border-width,--border-width-focus,--brand-100,--brand-200,--brand-300,--brand-400,--brand-50,--brand-50-soft,--brand-500,--brand-600,--brand-700,--brand-800,--brand-900,--brand-900-soft,--brand-hover,--brand-press,--brand-primary,--brand-secondary,--brand-tertiary,--btn-outline-bg-hover,--btn-outline-bg-press,--btn-outline-destructive-bg-hover,--btn-outline-destructive-bg-press,--btn-outline-destructive-border,--btn-outline-destructive-border-hover,--btn-primary-bg,--btn-primary-bg-hover,--btn-primary-bg-press,--btn-primary-text,--btn-secondary-bg,--btn-secondary-bg-hover,--btn-secondary-border,--btn-secondary-border-hover,--card,--card-border-hover,--card-border-press,--card-lift-border,--card2,--chat-fade,--chips,--content-max-narrow,--content-max-wide,--content-max-width,--content-on-solid,--fb-attention,--fb-attention-text,--fb-green,--fb-red,--fb-red-hover,--fb-red-press,--fb-red-text,--focus-ring,--focus-ring-brand,--grad-noise,--grad-teal-dark,--green-dark-500,--green-light-600,--grey-100,--grey-200,--grey-300,--grey-400,--grey-50,--grey-500,--grey-600,--grey-700,--grey-800,--grey-900,--grey-950,--icon-wrapper-bg,--ink,--ink-body,--ink-highlight,--ink-inactive,--ink-secondary,--input-error,--input-focus,--logo-ink,--logo-mark,--logo-size,--motion-base,--motion-ease,--motion-ease-out,--motion-fast,--motion-slow,--mx-group-band,--mx-prov-indent,--opacity-disabled,--orange-500,--overlay-scrim,--p-accent,--p-grad,--p-gradh,--p-light,--p-primary,--p-secondary,--popular-flame,--progress-track,--radius-2xl,--radius-full,--radius-inner,--radius-lg,--radius-md,--radius-panel,--radius-sm,--radius-xl,--red-100,--red-200,--red-300,--red-400,--red-50,--red-500,--red-600,--red-700,--red-800,--red-850,--red-900,--red-950,--segctrl-btn-hover-bg,--shadow-card-hover,--shadow-focus,--shadow-focus-inset,--shadow-lift-hover,--shadow-modal,--shadow-overlay,--shadow-rest,--shadow-rim-active,--shadow-rim-hover,--slate-100,--slate-150,--slate-200,--slate-300,--slate-400,--slate-450,--slate-50,--slate-500,--slate-550,--slate-600,--slate-700,--slate-800,--slate-900,--slate-950,--state-disabled,--state-hover,--state-pressed,--surface-accent,--switch-off-bg,--switch-off-bg-hover,--tbl-row-hover,--tbl-row-pressed,--tertiary-100,--tertiary-200,--tertiary-300,--tertiary-400,--tertiary-50,--tertiary-500,--tertiary-600,--tertiary-700,--tertiary-800,--tertiary-900,--tertiary-950,--text-10,--text-11,--text-12,--text-13,--text-14,--text-16,--text-18,--text-20,--text-24,--text-30,--text-36,--text-48,--toast-bg-error,--toast-bg-info,--toast-bg-success,--toast-bg-warning,--toast-border-error,--toast-border-info,--toast-border-success,--toast-border-warning,--white".split(',');
+    var FALLBACK_TOKEN_NAMES = "--badge-primary-bg,--badge-primary-text,--badge-secondary-bg,--badge-secondary-text,--balance-purchased-track,--balance-subscription-track,--banner-grad-btn-hover,--banner-grad-ic-bg,--banner-grad-ic-border,--banner-grad-ic-shadow,--banner-grad-sub,--banner-grad-text,--bg,--black,--border,--border-hover,--border-width,--border-width-focus,--brand-100,--brand-200,--brand-300,--brand-400,--brand-50,--brand-50-soft,--brand-500,--brand-600,--brand-700,--brand-800,--brand-900,--brand-900-soft,--brand-hover,--brand-press,--brand-primary,--brand-secondary,--brand-tertiary,--btn-outline-bg-hover,--btn-outline-bg-press,--btn-outline-destructive-bg-hover,--btn-outline-destructive-bg-press,--btn-outline-destructive-border,--btn-outline-destructive-border-hover,--btn-primary-bg,--btn-primary-bg-hover,--btn-primary-bg-press,--btn-primary-text,--btn-secondary-bg,--btn-secondary-bg-hover,--btn-secondary-border,--btn-secondary-border-hover,--card,--card-border-hover,--card-border-press,--card-lift-border,--card2,--chat-fade,--chips,--content-max-narrow,--content-max-wide,--content-max-width,--content-on-solid,--dropzone-border,--fb-attention,--fb-attention-text,--fb-green,--fb-red,--fb-red-hover,--fb-red-press,--fb-red-text,--focus-ring,--focus-ring-brand,--grad-noise,--grad-teal-dark,--green-dark-500,--green-light-600,--grey-100,--grey-200,--grey-300,--grey-400,--grey-50,--grey-500,--grey-600,--grey-700,--grey-800,--grey-900,--grey-950,--icon-wrapper-bg,--ink,--ink-body,--ink-highlight,--ink-inactive,--ink-secondary,--input-error,--input-focus,--logo-ink,--logo-mark,--logo-size,--motion-base,--motion-ease,--motion-ease-out,--motion-fast,--motion-slow,--mx-group-band,--mx-prov-indent,--opacity-disabled,--orange-500,--overlay-scrim,--p-accent,--p-grad,--p-gradh,--p-light,--p-primary,--p-secondary,--popular-flame,--progress-track,--radius-2xl,--radius-full,--radius-inner,--radius-lg,--radius-md,--radius-panel,--radius-sm,--radius-xl,--red-100,--red-200,--red-300,--red-400,--red-50,--red-500,--red-600,--red-700,--red-800,--red-850,--red-900,--red-950,--segctrl-btn-hover-bg,--shadow-card-hover,--shadow-focus,--shadow-focus-inset,--shadow-lift-hover,--shadow-modal,--shadow-overlay,--shadow-rest,--shadow-rim-active,--shadow-rim-hover,--slate-100,--slate-150,--slate-200,--slate-300,--slate-400,--slate-450,--slate-50,--slate-500,--slate-550,--slate-600,--slate-700,--slate-800,--slate-900,--slate-950,--state-disabled,--state-hover,--state-pressed,--surface-accent,--switch-off-bg,--switch-off-bg-hover,--tbl-row-hover,--tbl-row-pressed,--tertiary-100,--tertiary-200,--tertiary-300,--tertiary-400,--tertiary-50,--tertiary-500,--tertiary-600,--tertiary-700,--tertiary-800,--tertiary-900,--tertiary-950,--text-10,--text-11,--text-12,--text-13,--text-14,--text-16,--text-18,--text-20,--text-24,--text-30,--text-36,--text-48,--toast-bg-error,--toast-bg-info,--toast-bg-success,--toast-bg-warning,--toast-border-error,--toast-border-info,--toast-border-success,--toast-border-warning,--white".split(',');
     function isPrimitive(n){ return /-\d+$/.test(n) || /^--(white|black)$/.test(n); }
     // Collect --token names. cssRules is blocked on file:// (and cross-origin sheets) — so if no
     // rules are readable, fall back to fetching the linked stylesheet text and parsing names.

@@ -25,7 +25,7 @@
     z-index:40;padding:1.5rem
   }
   .acct-modal{
-    display:flex;width:100%;max-width:860px;height:90dvh;max-height:40rem;
+    display:flex;width:100%;max-width:960px;height:90dvh;max-height:40rem;
     background:var(--card);border:1px solid var(--border);border-radius:.75rem;
     box-shadow:0 20px 40px -8px rgba(15,23,42,.2),0 8px 16px -4px rgba(15,23,42,.12);
     overflow:hidden
@@ -61,16 +61,11 @@
     display:flex;align-items:center;gap:.5rem;
     padding:.5rem 1.25rem;border-bottom:1px solid var(--border);flex:none
   }
-  .acct-title{flex:1;font-size:1rem;font-weight:600;color:var(--ink);line-height:1.25}
+  /* Title matches .dlg-title (kit dialog) — 20px/600, the modal's nearest popup analogue. */
+  .acct-title{flex:1;font-size:var(--text-20);line-height:1.75rem;font-weight:600;color:var(--ink)}
   .acct-header-actions{display:flex;gap:.375rem;align-items:center}
-  .acct-close{
-    display:inline-flex;align-items:center;justify-content:center;
-    width:1.75rem;height:1.75rem;border-radius:.375rem;
-    border:none;background:transparent;color:var(--ink-secondary);
-    cursor:pointer;font-family:inherit;flex:none;transition:color .12s,background .12s
-  }
-  .acct-close:hover{color:var(--ink-body);background:var(--state-hover)}
-  .acct-close svg{width:16px;height:16px}
+  /* Close button reuses the kit .iconbtn.iconbtn-tertiary component (same as the .dlg dialog
+     close) — no bespoke .acct-close class. Size (2rem) + glyph (16px) set inline on the button. */
   .acct-content{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem}
   .acct-section{display:flex;flex-direction:column;gap:.75rem;padding-top:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
   .acct-section:first-child{padding-top:0}
@@ -90,6 +85,48 @@
   .acct-usage-table th{text-align:left;font-size:.75rem;font-weight:500;color:var(--ink-secondary);padding:.375rem .5rem;border-bottom:1px solid var(--border)}
   .acct-usage-table td{padding:.5rem .5rem;border-bottom:1px solid var(--border);color:var(--ink-body)}
   .acct-usage-table tr:last-child td{border-bottom:none}
+
+  /* ── Balance V2 two-zone credit bar (page-layout only; colours from tokens).
+        The V1/V2 concept switch is a .segctrl in the topbar, next to the theme toggle. ── */
+
+  /* V2 two-zone credit bar. Bar = total pool (2,124). Two zones sized by flex-basis:
+     subscription 74.58% (1,584/2,124), purchased 25.42% (540/2,124). Each zone is a soft
+     "available" track holding a solid "used" fill. A 2px card-coloured gap between zones marks
+     the subscription-limit break. Colours match the credits popover (subscription = blue
+     --brand-tertiary, purchased = green --fb-green); read from tokens only. */
+  .acct-bal2-legend{display:flex;flex-direction:column;gap:.25rem;margin-bottom:.5rem}
+  .acct-bal2-leg{display:inline-flex;align-items:center;gap:.375rem;font-size:.75rem;color:var(--ink-secondary);align-self:flex-start}
+  .acct-bal2-dot{width:.625rem;height:.625rem;border-radius:9999px;flex:none}
+  .acct-bal2-dot.is-subscription{background:var(--brand-tertiary)}
+  .acct-bal2-dot.is-purchased{background:var(--fb-green)}
+  .acct-bal2-leg strong{color:var(--ink-body);font-weight:600}
+
+  .acct-bal2-bar{display:flex;gap:2px;height:14px;border-radius:9999px;overflow:hidden}
+  .acct-bal2-zone{position:relative;height:100%;overflow:hidden}
+  .acct-bal2-zone:first-child{border-radius:9999px 0 0 9999px}
+  .acct-bal2-zone:last-child{border-radius:0 9999px 9999px 0}
+  .acct-bal2-zone.is-subscription{flex:0 0 74.58%;background:var(--balance-subscription-track)}
+  .acct-bal2-zone.is-purchased{flex:0 0 25.42%;background:var(--balance-purchased-track)}
+  .acct-bal2-fill{position:absolute;inset:0 auto 0 0;height:100%;border-radius:inherit}
+  .acct-bal2-fill.is-subscription{background:var(--brand-tertiary)}
+  .acct-bal2-fill.is-purchased{background:var(--fb-green)}
+
+  /* ── Balance V3 — separate per-pool bars (page-layout only; tokens for colour). Each pool has its
+        own full-scale bar (subscription blue / purchased green), read independently. ── */
+  .acct-bal3-seg{display:flex;flex-direction:column;gap:1rem}
+  .acct-bal3-grp{display:flex;flex-direction:column;gap:.375rem}
+  .acct-bal3-grp-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-size:.8125rem}
+  .acct-bal3-grp-name{display:inline-flex;align-items:center;gap:.375rem;font-weight:600;color:var(--ink)}
+  .acct-bal3-grp-left{color:var(--ink-secondary)}
+  .acct-bal3-grp-left strong{color:var(--ink-body);font-weight:600}
+  .acct-bal3-track{height:8px;border-radius:9999px;background:var(--progress-track);overflow:hidden}
+  .acct-bal3-track-fill{height:100%;border-radius:9999px}
+  .acct-bal3-track-fill.is-subscription{background:var(--brand-tertiary)}
+  .acct-bal3-track-fill.is-purchased{background:var(--fb-green)}
+  .acct-bal3-grp-foot{display:flex;justify-content:space-between;gap:.5rem;font-size:.75rem;color:var(--ink-secondary)}
+  .acct-bal3-dot{width:.5rem;height:.5rem;border-radius:9999px;flex:none}
+  .acct-bal3-dot.is-subscription{background:var(--brand-tertiary)}
+  .acct-bal3-dot.is-purchased{background:var(--fb-green)}
 
   /* Feedback */
   .acct-fb-bottom{display:flex;align-items:center;justify-content:flex-end;gap:.5rem}
@@ -206,6 +243,69 @@
   .chpw-eye:hover{color:var(--ink-body);background:var(--state-hover)}
   .chpw-eye svg{width:15px;height:15px}
 
+  /* ===== Manage plan — pricing cards (page-layout composition) ===== */
+  /* Header row: "All Plans" title (grows) + compact billing-period toggle (right). */
+  .acct-plan-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
+  .acct-plan-head .acct-sect-title{flex:1}
+  /* Toggle shrinks to its content instead of the segctrl's default full width — same
+     page-local segctrl adjustment pattern as .segctrl-lbl below. */
+  .acct-plan-toggle{flex:none}
+  .acct-plan-toggle .segctrl{width:auto}
+  /* 3-across pricing grid; reflows to 1 column in the mobile sheet (≤767px, below). */
+  .acct-plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  /* Static pricing panel — NOT the interactive card-hover recipe (these are informational,
+     not clickable). --card surface + --border, brand-primary border on the popular plan. */
+  /* Tight header cluster (name/price/tagline share the .375rem base gap); the tagline's
+     margin-bottom + the feature list's margin-top open a clear .75rem band around the CTA,
+     giving the card a 3-tier rhythm instead of one flat evenly-spaced stack. */
+  .acct-plan-card{position:relative;display:flex;flex-direction:column;gap:.375rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem}
+  .acct-plan-card.is-popular{border-color:var(--brand-primary)}
+  /* min-height keeps the name row a constant height whether or not a card carries badges, so the
+     price / tagline / CTA below all line up across the three cards. */
+  .acct-plan-name-row{display:flex;align-items:center;flex-wrap:wrap;gap:.375rem;min-height:1.75rem}
+  .acct-plan-name{font-size:var(--text-18);font-weight:600;color:var(--ink)}
+  .acct-plan-price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:.375rem}
+  /* tabular-nums fixes digit width so the price + "/ month" don't shift horizontally when the
+     Monthly ↔ Yearly toggle swaps the numbers. */
+  .acct-plan-price{font-size:var(--text-24);font-weight:700;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+  /* Reserve a fixed slot for the strike-through price (DM Sans lacks tabular figures, so tabular-nums
+     alone won't stop the width change) — this pins "/ month" so it can't shift on the period toggle. */
+  .acct-plan-price-was{font-size:var(--text-14);color:var(--ink-inactive);text-decoration:line-through;font-variant-numeric:tabular-nums;display:inline-block;min-width:3.25em}
+  /* Pro's current price changes glyph width across the toggle ($19.99 ↔ $11.99), so pin its slot too
+     to keep "/ month" fixed. Starter ($9.99 ↔ $5.99) is equal-width already; Free has no toggle. */
+  .acct-plan-card.is-popular .acct-plan-price{display:inline-block;min-width:3.15em}
+  .acct-plan-per{font-size:var(--text-13);color:var(--ink-secondary)}
+  .acct-plan-tagline{font-size:var(--text-13);color:var(--ink-secondary);margin-bottom:.375rem}
+  /* Full-width CTA (layout sizing only — visual variant + height come from .btn-primary/.btn-outline + .btn-md). */
+  .acct-plan-card .btn.acct-plan-cta{width:100%;justify-content:center}
+  .acct-plan-feats{list-style:none;margin:.375rem 0 0;padding:0;display:flex;flex-direction:column;gap:.5rem}
+  .acct-plan-feats li{display:flex;align-items:flex-start;gap:.5rem;font-size:var(--text-13);color:var(--ink-body);line-height:1.45}
+  /* Check marker — brand-tinted tick via CSS mask (clean markup, colour flows from --brand-primary). */
+  .acct-plan-feats li::before{content:"";width:14px;height:14px;flex:none;margin-top:.15rem;background:var(--brand-primary);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat}
+  /* ── Manage plan / Buy-credits shared extras (page-layout only; colours from tokens) ── */
+  /* Muted "≈ N reports · $X each" line under a price (Buy-credits packs) */
+  .acct-plan-outcome{font-size:var(--text-12);color:var(--ink-inactive);margin-bottom:.375rem}
+  /* Recommended / best-value ribbon (offset onto the card's top border; card is position:relative) */
+  .acct-plan-ribbon{position:absolute;top:-.5rem;left:1rem;font-size:var(--text-11);font-weight:600;padding:.125rem .5rem;border-radius:.375rem;background:var(--brand-primary);color:var(--content-on-solid)}
+  /* Reassurance row (Buy credits) */
+  .acct-plan-trust{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;justify-content:center;font-size:var(--text-12);color:var(--ink-secondary)}
+  .acct-plan-trust span{display:inline-flex;align-items:center;gap:.375rem}
+  .acct-plan-trust svg{width:13px;height:13px;flex:none}
+  /* Buy-credits pack grid — 4 compact tiles (more options than the 3-plan grid); reflows 4→2→1.
+     Cards + badges reuse the .acct-plan-* / .badge kit classes; only the column count differs. */
+  .acct-bc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+  @media (max-width:880px){ .acct-bc-grid{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:480px){ .acct-bc-grid{grid-template-columns:1fr} }
+  /* Pin each pack's CTA to the card bottom so the buttons align across tiles whose content
+     differs in height (only some packs carry a savings badge + was-price). */
+  .acct-bc-grid .acct-plan-cta{margin-top:auto}
+
+  /* Reflow to a single column in the ≤767px sheet. Placed after the base grid rule so it wins
+     the cascade (same specificity — source order decides). */
+  @media (max-width:767px){
+    .acct-plan-grid{grid-template-columns:1fr}
+  }
+
   /* Sticker removed — no in-page handoff note. */
 </style>
 </head>
@@ -237,7 +337,14 @@
     <span class="ttl">Metrics · Account modal</span>
     <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
   </div>
-  <div style="display:flex;gap:.375rem">
+  <div style="display:flex;gap:.375rem;align-items:center">
+    <!-- Concept version toggle — switches the current tab's layout between versions (demo control,
+         lives with the theme toggle). Buttons auto-hide for versions the active tab doesn't have. -->
+    <div class="segctrl is-sm" id="concept-toggle" role="tablist" aria-label="Concept version" style="width:auto">
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-ver-btn="v1" onclick="setConceptVersion('v1')">Version 1</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-ver-btn="v2" onclick="setConceptVersion('v2')">Version 2</button>
+      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-ver-btn="v3" onclick="setConceptVersion('v3')">Version 3</button>
+    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
@@ -325,11 +432,18 @@
         <!-- Right panel -->
         <div class="acct-modal-body">
           <div class="acct-header">
+            <!-- Sub-page back control — shown only on the Buy-credits sub-page (JS toggles it in
+                 acctSetSection). Icon-only chevron left of the title, same iconbtn as the close. -->
+            <button class="iconbtn iconbtn-tertiary acct-hdr-back" id="acct-hdr-back" type="button"
+                    aria-label="Back to Balance" data-tip="Back to Balance"
+                    onclick="acctSetSection('balance')" style="width:2rem;height:2rem;flex:none;display:none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
             <h2 class="acct-title" id="acct-modal-title">My account</h2>
             <div class="acct-header-actions" id="acct-header-actions"></div>
-            <button class="acct-close" type="button" aria-label="Close account settings"
-                    onclick="acctCloseModal()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close account settings"
+                    data-tip="Close" onclick="acctCloseModal()" style="width:2rem;height:2rem;flex:none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
           <div class="acct-content" id="acct-content">
@@ -351,7 +465,7 @@
                   <div class="acct-sect-title">Delete my account</div>
                   <div class="acct-danger-warn">The datasets and chat sessions will also be permanently cleared</div>
                 </div>
-                <button class="btn btn-outline-destructive btn-sm" type="button" style="flex:none;margin-left:auto">Delete account</button>
+                <button class="btn btn-outline-destructive btn-sm" type="button" style="flex:none;margin-left:auto">Delete Account</button>
               </div>
               <div class="acct-section">
                 <div class="segctrl-group">
@@ -378,15 +492,191 @@
             </div>
 
             <!-- manage-plan section -->
+            <!-- Concept V1/V2 toggle lives in the topbar (next to the theme toggle). -->
             <div data-section="manage-plan" style="display:none">
-              <div class="acct-section">
-                <div class="acct-sect-title">Manage plan</div>
-                <div class="acct-field-label">Current plan: <strong style="color:var(--ink)">Professional</strong></div>
-                <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;margin-top:.25rem">
-                  <button class="btn btn-outline btn-sm" type="button">View usage</button>
-                  <button class="btn btn-primary btn-sm" type="button">Upgrade plan</button>
+
+              <!-- ═══ Version 1 — current pricing table ═══ -->
+              <div data-ver="v1" style="display:none">
+              <div class="acct-section" style="border-bottom:none;padding-bottom:0;gap:1rem">
+                <!-- Header row: "All Plans" + billing-period toggle -->
+                <div class="acct-plan-head">
+                  <div class="acct-sect-title">All Plans</div>
+                  <div class="acct-plan-toggle">
+                    <div class="segctrl is-sm" role="tablist" aria-label="Billing period">
+                      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true"
+                              data-period="monthly" onclick="acctSetPlanPeriod('monthly',this)">Monthly</button>
+                      <button class="segctrl-btn" type="button" role="tab" aria-selected="false"
+                              data-period="yearly" onclick="acctSetPlanPeriod('yearly',this)">Yearly</button>
+                    </div>
+                  </div>
                 </div>
+
+                <!-- Pricing cards -->
+                <div class="acct-plan-grid">
+
+                  <!-- Free -->
+                  <div class="acct-plan-card">
+                    <div class="acct-plan-name-row">
+                      <span class="acct-plan-name">Free</span>
+                    </div>
+                    <div class="acct-plan-price-row">
+                      <span class="acct-plan-price">$0</span>
+                      <span class="acct-plan-per">/ month</span>
+                    </div>
+                    <div class="acct-plan-tagline">For getting started</div>
+                    <button class="btn btn-outline btn-md acct-plan-cta" type="button" disabled aria-disabled="true">Current Plan</button>
+                    <ul class="acct-plan-feats">
+                      <li>1 user</li>
+                      <li>500 AI tokens / month</li>
+                      <li>Up to 3 data connectors</li>
+                      <li>24-hour data refresh</li>
+                      <li>Community support</li>
+                    </ul>
+                  </div>
+
+                  <!-- Starter -->
+                  <div class="acct-plan-card">
+                    <div class="acct-plan-name-row">
+                      <span class="acct-plan-name">Starter</span>
+                      <span class="badge badge-green badge-sm">50% OFF</span>
+                    </div>
+                    <div class="acct-plan-price-row">
+                      <span class="acct-plan-price" data-monthly="$9.99" data-yearly="$5.99">$9.99</span>
+                      <span class="acct-plan-price-was" data-monthly="$19.99" data-yearly="$11.99">$19.99</span>
+                      <span class="acct-plan-per">/ month</span>
+                    </div>
+                    <div class="acct-plan-tagline">For small teams · per user</div>
+                    <button class="btn btn-primary btn-md acct-plan-cta" type="button">Upgrade Plan</button>
+                    <ul class="acct-plan-feats">
+                      <li>Up to 5 users</li>
+                      <li>5,000 AI tokens / month</li>
+                      <li>Unlimited data connectors</li>
+                      <li>1-hour data refresh</li>
+                      <li>Custom semantic layer</li>
+                      <li>Priority email support</li>
+                    </ul>
+                  </div>
+
+                  <!-- Pro — highlighted / popular -->
+                  <div class="acct-plan-card is-popular">
+                    <div class="acct-plan-name-row">
+                      <span class="acct-plan-name">Pro</span>
+                      <span class="badge badge-green badge-sm">50% OFF</span>
+                      <span class="badge badge-primary badge-sm">POPULAR</span>
+                    </div>
+                    <div class="acct-plan-price-row">
+                      <span class="acct-plan-price" data-monthly="$19.99" data-yearly="$11.99">$19.99</span>
+                      <span class="acct-plan-price-was" data-monthly="$39.99" data-yearly="$23.99">$39.99</span>
+                      <span class="acct-plan-per">/ month</span>
+                    </div>
+                    <div class="acct-plan-tagline">For growing teams · per user</div>
+                    <button class="btn btn-primary btn-md acct-plan-cta" type="button">Upgrade Plan</button>
+                    <ul class="acct-plan-feats">
+                      <li>Unlimited users</li>
+                      <li>25,000 AI tokens / month</li>
+                      <li>Unlimited data connectors</li>
+                      <li>15-minute data refresh</li>
+                      <li>Full semantic-layer governance</li>
+                      <li>Email + live-chat support</li>
+                      <li>99.5% SLA</li>
+                    </ul>
+                  </div>
+
+                </div><!-- /acct-plan-grid -->
               </div>
+              </div><!-- /ver v1 -->
+
+              <!-- ═══ Version 2 — usage-anchored upgrade view ═══ -->
+              <div data-ver="v2">
+                <div class="acct-section" style="border-bottom:none;padding-bottom:0;gap:1rem">
+
+                  <!-- Header + billing period toggle -->
+                  <div class="acct-plan-head">
+                    <div class="acct-sect-title">Choose a plan</div>
+                    <div class="acct-plan-toggle">
+                      <div class="segctrl is-sm" role="tablist" aria-label="Billing period">
+                        <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true"
+                                data-period="monthly" onclick="acctSetPlanPeriod('monthly',this)">Monthly</button>
+                        <button class="segctrl-btn" type="button" role="tab" aria-selected="false"
+                                data-period="yearly" onclick="acctSetPlanPeriod('yearly',this)">Yearly</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pricing cards — Pro is the only filled CTA + "Most popular" ribbon -->
+                  <div class="acct-plan-grid">
+
+                    <!-- Free -->
+                    <div class="acct-plan-card">
+                      <div class="acct-plan-name-row">
+                        <span class="acct-plan-name">Free</span>
+                      </div>
+                      <div class="acct-plan-price-row">
+                        <span class="acct-plan-price">$0</span>
+                        <span class="acct-plan-per">/ mo</span>
+                      </div>
+                      <div class="acct-plan-tagline">For getting started</div>
+                      <button class="btn btn-outline btn-md acct-plan-cta" type="button" disabled aria-disabled="true">Current Plan</button>
+                      <ul class="acct-plan-feats">
+                        <li>1 user</li>
+                        <li>500 AI tokens / month</li>
+                        <li>Up to 3 data connectors</li>
+                        <li>24-hour data refresh</li>
+                        <li>Community support</li>
+                      </ul>
+                    </div>
+
+                    <!-- Starter — secondary CTA (outline) -->
+                    <div class="acct-plan-card">
+                      <div class="acct-plan-name-row">
+                        <span class="acct-plan-name">Starter</span>
+                        <span class="badge badge-green badge-sm">50% OFF</span>
+                      </div>
+                      <div class="acct-plan-price-row">
+                        <span class="acct-plan-price" data-monthly="$9.99" data-yearly="$5.99">$9.99</span>
+                        <span class="acct-plan-price-was" data-monthly="$19.99" data-yearly="$11.99">$19.99</span>
+                        <span class="acct-plan-per">/ mo</span>
+                      </div>
+                      <div class="acct-plan-tagline">For small teams · per user</div>
+                      <button class="btn btn-outline btn-md acct-plan-cta" type="button">Choose Starter</button>
+                      <ul class="acct-plan-feats">
+                        <li>Up to 5 users</li>
+                        <li>5,000 AI tokens / month</li>
+                        <li>Unlimited data connectors</li>
+                        <li>1-hour data refresh</li>
+                        <li>Custom semantic layer</li>
+                        <li>Priority email support</li>
+                      </ul>
+                    </div>
+
+                    <!-- Pro — recommended: ribbon + the only filled CTA -->
+                    <div class="acct-plan-card is-popular">
+                      <div class="acct-plan-ribbon">Most popular</div>
+                      <div class="acct-plan-name-row">
+                        <span class="acct-plan-name">Pro</span>
+                        <span class="badge badge-green badge-sm">50% OFF</span>
+                      </div>
+                      <div class="acct-plan-price-row">
+                        <span class="acct-plan-price" data-monthly="$19.99" data-yearly="$11.99">$19.99</span>
+                        <span class="acct-plan-price-was" data-monthly="$39.99" data-yearly="$23.99">$39.99</span>
+                        <span class="acct-plan-per">/ mo</span>
+                      </div>
+                      <div class="acct-plan-tagline">For growing teams · per user</div>
+                      <button class="btn btn-primary btn-md acct-plan-cta" type="button">Upgrade to Pro</button>
+                      <ul class="acct-plan-feats">
+                        <li>Unlimited users</li>
+                        <li>25,000 AI tokens / month</li>
+                        <li>Unlimited data connectors</li>
+                        <li>15-minute data refresh</li>
+                        <li>Full semantic-layer governance</li>
+                        <li>Email + live-chat support</li>
+                        <li>99.5% SLA</li>
+                      </ul>
+                    </div>
+
+                  </div><!-- /acct-plan-grid -->
+                </div>
+              </div><!-- /ver v2 -->
             </div>
 
             <!-- billing section -->
@@ -409,61 +699,236 @@
 
             <!-- balance section -->
             <div data-section="balance" style="display:none">
-              <div class="acct-section" style="gap:.75rem;border-bottom:none;padding-bottom:.75rem">
-                <!-- Hero row: icon + amount + CTAs (desktop); mobile hides .acct-bal-btns, shows .acct-bal-btns-mob after stats -->
-                <div class="acct-bal-hero-row">
-                  <div class="acct-bal-circle" aria-hidden="true"></div>
-                  <div class="acct-bal-amount" style="flex:1">673 <span style="font-size:1rem;font-weight:400;color:var(--ink-secondary)">/2,124 credits</span></div>
-                  <div class="acct-bal-btns">
-                    <button class="btn btn-outline btn-sm" type="button">Update plan</button>
-                    <button class="btn btn-primary btn-sm" type="button">Buy credits</button>
+
+              <!-- Concept V1/V2 toggle lives in the topbar (next to the theme toggle), not here. -->
+
+              <!-- ═══ Version 1 — current layout (single-colour bar) ═══ -->
+              <div data-ver="v1" style="display:none">
+                <div class="acct-section" style="gap:.75rem;border-bottom:none;padding-bottom:.75rem">
+                  <!-- Hero row: icon + amount + CTAs (desktop); mobile hides .acct-bal-btns, shows .acct-bal-btns-mob after stats -->
+                  <div class="acct-bal-hero-row">
+                    <div class="acct-bal-circle" aria-hidden="true"></div>
+                    <div class="acct-bal-amount" style="flex:1">673 <span style="font-size:1rem;font-weight:400;color:var(--ink-secondary)">/2,124 credits</span></div>
+                    <div class="acct-bal-btns">
+                      <button class="btn btn-outline btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                      <button class="btn btn-primary btn-sm" type="button" onclick="acctSetSection('buy-credits')">Buy Credits</button>
+                    </div>
+                  </div>
+                  <!-- Progress bar + context — sits between amount and CTAs -->
+                  <div>
+                    <div style="height:14px;border-radius:9999px;background:var(--progress-track);overflow:hidden">
+                      <div style="width:31.7%;height:100%;border-radius:9999px;background:var(--brand-primary)"></div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-top:.25rem">
+                      <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">32% of total credits used</span><span class="acct-show-mobile">32% used</span></span>
+                      <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">1,451 remaining</span><span class="acct-show-mobile">1,451 left</span></span>
+                    </div>
+                  </div>
+                  <!-- Stat tiles — --surface-accent fill + 1 px border, quiet branded tile. -->
+                  <div style="display:flex;gap:.5rem">
+                    <div style="flex:1;background:var(--surface-accent);border:1px solid var(--border);border-radius:.375rem;padding:.5rem .75rem">
+                      <div class="acct-field-label">Subscription credits</div>
+                      <div class="acct-sect-title" style="margin-top:.25rem">1,584</div>
+                    </div>
+                    <div style="flex:1;background:var(--surface-accent);border:1px solid var(--border);border-radius:.375rem;padding:.5rem .75rem">
+                      <div class="acct-field-label">Purchased credits</div>
+                      <div class="acct-sect-title" style="margin-top:.25rem">540</div>
+                    </div>
+                  </div>
+                  <!-- Mobile-only CTA row — shown below stats on ≤767px -->
+                  <div class="acct-bal-btns-mob">
+                    <button class="btn btn-outline btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                    <button class="btn btn-primary btn-sm" type="button" onclick="acctSetSection('buy-credits')">Buy Credits</button>
                   </div>
                 </div>
-                <!-- Progress bar + context — sits between amount and CTAs -->
-                <div>
-                  <div style="height:4px;border-radius:9999px;background:var(--progress-track);overflow:hidden">
-                    <div style="width:31.7%;height:100%;border-radius:9999px;background:var(--brand-primary)"></div>
+                <div class="acct-section" style="padding-top:.75rem">
+                  <div class="acct-sect-title">Credit usage</div>
+                  <table class="acct-usage-table">
+                    <thead><tr>
+                      <th>Date</th><th>Request type</th><th>Spent tokens</th>
+                    </tr></thead>
+                    <tbody>
+                      <tr><td>Jan 29, 2026</td><td>Chat</td><td>15</td></tr>
+                      <tr><td>Jan 29, 2026</td><td>Report</td><td>20</td></tr>
+                      <tr><td>Jan 5, 2026</td><td>Chat</td><td>3</td></tr>
+                      <tr><td>Dec 5, 2025</td><td>Report</td><td>5</td></tr>
+                      <tr><td>Nov 5, 2025</td><td>Chat</td><td>16</td></tr>
+                      <tr><td>Oct 5, 2025</td><td>Insight</td><td>4</td></tr>
+                      <tr><td>Sep 5, 2025</td><td>Insight</td><td>50</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div><!-- /balver v1 -->
+
+              <!-- ═══ Version 2 — two-zone credit bar concept ═══ -->
+              <div data-ver="v2">
+                <div class="acct-section" style="gap:.75rem;border-bottom:none;padding-bottom:.75rem">
+                  <!-- Hero row (unchanged from V1) -->
+                  <div class="acct-bal-hero-row">
+                    <div class="acct-bal-circle" aria-hidden="true"></div>
+                    <div class="acct-bal-amount" style="flex:1">673 <span style="font-size:1rem;font-weight:400;color:var(--ink-secondary)">/2,124 credits</span></div>
+                    <div class="acct-bal-btns">
+                      <button class="btn btn-outline btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                      <button class="btn btn-primary btn-sm" type="button" onclick="acctSetSection('buy-credits')">Buy Credits</button>
+                    </div>
                   </div>
-                  <div style="display:flex;justify-content:space-between;margin-top:.25rem">
-                    <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">32% of total credits used</span><span class="acct-show-mobile">32% used</span></span>
-                    <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">1,451 remaining</span><span class="acct-show-mobile">1,451 left</span></span>
+
+                  <!-- Two-zone credit bar: Subscription (blue --brand-tertiary) + Purchased (green
+                       --fb-green) — matches the credits popover coding. Zone widths encode the pool
+                       split (1,584 / 540 of 2,124); each zone's solid fill encodes credits used from
+                       that pool. Pool sizes are read from the legend + stat tiles below. -->
+                  <div>
+                    <div class="acct-bal2-legend">
+                      <span class="acct-bal2-leg"><span class="acct-bal2-dot is-subscription" aria-hidden="true"></span>Subscription <strong>673&nbsp;of&nbsp;1,584</strong>&nbsp;used</span>
+                      <span class="acct-bal2-leg"><span class="acct-bal2-dot is-purchased" aria-hidden="true"></span>Purchased <strong>0&nbsp;of&nbsp;540</strong>&nbsp;used</span>
+                    </div>
+                    <div class="acct-bal2-bar" role="img"
+                         aria-label="673 of 2,124 credits used: 673 of 1,584 subscription credits and 0 of 540 purchased credits">
+                      <div class="acct-bal2-zone is-subscription"><div class="acct-bal2-fill is-subscription" style="width:42.5%"></div></div>
+                      <div class="acct-bal2-zone is-purchased"><div class="acct-bal2-fill is-purchased" style="width:0%"></div></div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-top:.5rem">
+                      <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">32% of total credits used</span><span class="acct-show-mobile">32% used</span></span>
+                      <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">1,451 remaining</span><span class="acct-show-mobile">1,451 left</span></span>
+                    </div>
+                  </div>
+
+                  <!-- No stat tiles in V2: the legend above already states each pool's name, usage
+                       and total (Subscription 673/1,584, Purchased 0/540), so tiles would duplicate. -->
+                  <!-- Mobile-only CTA row — shown below the bar on ≤767px -->
+                  <div class="acct-bal-btns-mob">
+                    <button class="btn btn-outline btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                    <button class="btn btn-primary btn-sm" type="button" onclick="acctSetSection('buy-credits')">Buy Credits</button>
                   </div>
                 </div>
-                <!-- Stats tiles — --surface-accent fill (Brand-50 light / Brand-900 dark, subtle
-                     brand-tinted surface) + 1 px Stroke/Border. Gives tiles a quiet branded identity
-                     while staying clearly readable. -->
-                <div style="display:flex;gap:.5rem">
-                  <div style="flex:1;background:var(--surface-accent);border:1px solid var(--border);border-radius:.375rem;padding:.5rem .75rem">
-                    <div class="acct-field-label">Monthly credits</div>
-                    <div class="acct-sect-title" style="margin-top:.25rem">1,584</div>
+                <div class="acct-section" style="padding-top:.75rem">
+                  <div class="acct-sect-title">Credit usage</div>
+                  <table class="acct-usage-table">
+                    <thead><tr>
+                      <th>Date</th><th>Request type</th><th>Spent tokens</th>
+                    </tr></thead>
+                    <tbody>
+                      <tr><td>Jan 29, 2026</td><td>Chat</td><td>15</td></tr>
+                      <tr><td>Jan 29, 2026</td><td>Report</td><td>20</td></tr>
+                      <tr><td>Jan 5, 2026</td><td>Chat</td><td>3</td></tr>
+                      <tr><td>Dec 5, 2025</td><td>Report</td><td>5</td></tr>
+                      <tr><td>Nov 5, 2025</td><td>Chat</td><td>16</td></tr>
+                      <tr><td>Oct 5, 2025</td><td>Insight</td><td>4</td></tr>
+                      <tr><td>Sep 5, 2025</td><td>Insight</td><td>50</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div><!-- /balver v2 -->
+
+              <!-- ═══ Version 3 — single utilization bar + plain pool rows (simplest) ═══ -->
+              <div data-ver="v3">
+                <div class="acct-section" style="gap:.75rem;border-bottom:none;padding-bottom:.75rem">
+                  <!-- Hero row (unchanged) -->
+                  <div class="acct-bal-hero-row">
+                    <div class="acct-bal-circle" aria-hidden="true"></div>
+                    <div class="acct-bal-amount" style="flex:1">673 <span style="font-size:1rem;font-weight:400;color:var(--ink-secondary)">/2,124 credits</span></div>
+                    <div class="acct-bal-btns">
+                      <button class="btn btn-outline btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                      <button class="btn btn-primary btn-sm" type="button" onclick="acctSetSection('buy-credits')">Buy Credits</button>
+                    </div>
                   </div>
-                  <div style="flex:1;background:var(--surface-accent);border:1px solid var(--border);border-radius:.375rem;padding:.5rem .75rem">
-                    <div class="acct-field-label">Extra credits</div>
-                    <div class="acct-sect-title" style="margin-top:.25rem">540</div>
+
+                  <!-- Separate per-pool bars: each credit pool gets its own labelled bar so the two
+                       allotments read independently (each bar is full-scale for its own pool — no
+                       shared-scale ambiguity). Head = name + credits left; foot = used/total + context. -->
+                  <div class="acct-bal3-seg">
+                    <div class="acct-bal3-grp">
+                      <div class="acct-bal3-grp-head">
+                        <span class="acct-bal3-grp-name"><span class="acct-bal3-dot is-subscription" aria-hidden="true"></span>Subscription</span>
+                        <span class="acct-bal3-grp-left"><strong>911</strong> left</span>
+                      </div>
+                      <div class="acct-bal3-track" role="img" aria-label="Subscription: 673 of 1,584 credits used, 911 left">
+                        <div class="acct-bal3-track-fill is-subscription" style="width:42.5%"></div>
+                      </div>
+                      <div class="acct-bal3-grp-foot"><span>673 of 1,584 used</span></div>
+                    </div>
+                    <div class="acct-bal3-grp">
+                      <div class="acct-bal3-grp-head">
+                        <span class="acct-bal3-grp-name"><span class="acct-bal3-dot is-purchased" aria-hidden="true"></span>Purchased</span>
+                        <span class="acct-bal3-grp-left"><strong>540</strong> left</span>
+                      </div>
+                      <div class="acct-bal3-track" role="img" aria-label="Purchased: 0 of 540 credits used, 540 left">
+                        <div class="acct-bal3-track-fill is-purchased" style="width:0%"></div>
+                      </div>
+                      <div class="acct-bal3-grp-foot"><span>0 of 540 used</span></div>
+                    </div>
+                  </div>
+
+                  <!-- Mobile-only CTA row — shown below the bar on ≤767px -->
+                  <div class="acct-bal-btns-mob">
+                    <button class="btn btn-outline btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                    <button class="btn btn-primary btn-sm" type="button" onclick="acctSetSection('buy-credits')">Buy Credits</button>
                   </div>
                 </div>
-                <!-- Mobile-only CTA row — shown below stats on ≤767px -->
-                <div class="acct-bal-btns-mob">
-                  <button class="btn btn-outline btn-sm" type="button">Update plan</button>
-                  <button class="btn btn-primary btn-sm" type="button">Buy credits</button>
+                <div class="acct-section" style="padding-top:.75rem">
+                  <div class="acct-sect-title">Credit usage</div>
+                  <table class="acct-usage-table">
+                    <thead><tr>
+                      <th>Date</th><th>Request type</th><th>Spent tokens</th>
+                    </tr></thead>
+                    <tbody>
+                      <tr><td>Jan 29, 2026</td><td>Chat</td><td>15</td></tr>
+                      <tr><td>Jan 29, 2026</td><td>Report</td><td>20</td></tr>
+                      <tr><td>Jan 5, 2026</td><td>Chat</td><td>3</td></tr>
+                      <tr><td>Dec 5, 2025</td><td>Report</td><td>5</td></tr>
+                      <tr><td>Nov 5, 2025</td><td>Chat</td><td>16</td></tr>
+                      <tr><td>Oct 5, 2025</td><td>Insight</td><td>4</td></tr>
+                      <tr><td>Sep 5, 2025</td><td>Insight</td><td>50</td></tr>
+                    </tbody>
+                  </table>
                 </div>
-              </div>
-              <div class="acct-section" style="padding-top:.75rem">
-                <div class="acct-sect-title">Credit usage</div>
-                <table class="acct-usage-table">
-                  <thead><tr>
-                    <th>Date</th><th>Request type</th><th>Spent tokens</th>
-                  </tr></thead>
-                  <tbody>
-                    <tr><td>Jan 29, 2026</td><td>Chat</td><td>15</td></tr>
-                    <tr><td>Jan 29, 2026</td><td>Report</td><td>20</td></tr>
-                    <tr><td>Jan 5, 2026</td><td>Chat</td><td>3</td></tr>
-                    <tr><td>Dec 5, 2025</td><td>Report</td><td>5</td></tr>
-                    <tr><td>Nov 5, 2025</td><td>Chat</td><td>16</td></tr>
-                    <tr><td>Oct 5, 2025</td><td>Insight</td><td>4</td></tr>
-                    <tr><td>Sep 5, 2025</td><td>Insight</td><td>50</td></tr>
-                  </tbody>
-                </table>
+              </div><!-- /balver v3 -->
+
+            </div>
+
+            <!-- buy-credits section — opened from any "Buy Credits" button; a sub-page (not in the
+                 left nav) with a Back control returning to Balance -->
+            <div data-section="buy-credits" style="display:none">
+              <div class="acct-section" style="border-bottom:none;padding-bottom:0;gap:1rem">
+                <div class="acct-field-label">Top up your balance with extra credits. Purchased credits never expire and are used only after your monthly subscription runs out. You have <strong style="color:var(--ink)">1,451</strong> credits remaining.</div>
+
+                <div class="acct-bc-grid">
+                  <!-- 1,000 — entry pack, no discount -->
+                  <div class="acct-plan-card">
+                    <div class="acct-plan-name-row"><span class="acct-plan-name">1,000 credits</span></div>
+                    <div class="acct-plan-price-row"><span class="acct-plan-price">$10</span></div>
+                    <div class="acct-plan-outcome">$0.010 / credit · ≈ 50 reports</div>
+                    <button class="btn btn-outline btn-md acct-plan-cta" type="button">Buy 1,000</button>
+                  </div>
+                  <!-- 5,000 -->
+                  <div class="acct-plan-card">
+                    <div class="acct-plan-name-row"><span class="acct-plan-name">5,000 credits</span><span class="badge badge-green badge-sm">SAVE 10%</span></div>
+                    <div class="acct-plan-price-row"><span class="acct-plan-price">$45</span><span class="acct-plan-price-was">$50</span></div>
+                    <div class="acct-plan-outcome">$0.009 / credit · ≈ 250 reports</div>
+                    <button class="btn btn-outline btn-md acct-plan-cta" type="button">Buy 5,000</button>
+                  </div>
+                  <!-- 15,000 — best value: ribbon + brand highlight + only filled CTA -->
+                  <div class="acct-plan-card is-popular">
+                    <div class="acct-plan-ribbon">Best value</div>
+                    <div class="acct-plan-name-row"><span class="acct-plan-name">15,000 credits</span><span class="badge badge-green badge-sm">SAVE 20%</span></div>
+                    <div class="acct-plan-price-row"><span class="acct-plan-price">$120</span><span class="acct-plan-price-was">$150</span></div>
+                    <div class="acct-plan-outcome">$0.008 / credit · ≈ 750 reports</div>
+                    <button class="btn btn-primary btn-md acct-plan-cta" type="button">Buy 15,000</button>
+                  </div>
+                  <!-- 50,000 — power pack, deepest discount -->
+                  <div class="acct-plan-card">
+                    <div class="acct-plan-name-row"><span class="acct-plan-name">50,000 credits</span><span class="badge badge-green badge-sm">SAVE 30%</span></div>
+                    <div class="acct-plan-price-row"><span class="acct-plan-price">$350</span><span class="acct-plan-price-was">$500</span></div>
+                    <div class="acct-plan-outcome">$0.007 / credit · ≈ 2,500 reports</div>
+                    <button class="btn btn-outline btn-md acct-plan-cta" type="button">Buy 50,000</button>
+                  </div>
+                </div>
+
+                <div class="acct-plan-trust">
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Secure checkout</span>
+                  <span>One-time purchase</span>
+                  <span>Credits never expire</span>
+                </div>
               </div>
             </div>
 
@@ -478,9 +943,9 @@
                 <div class="acct-fb-bottom">
                   <button class="btn btn-secondary btn-sm" type="button">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="14" height="14"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-                    Attach file
+                    Attach File
                   </button>
-                  <button class="btn btn-primary btn-sm" type="button">Send feedback</button>
+                  <button class="btn btn-primary btn-sm" type="button">Send Feedback</button>
                 </div>
               </div>
             </div>
@@ -518,7 +983,7 @@
                 <div style="display:flex;justify-content:flex-end;gap:.5rem;margin-top:.25rem">
                   <button class="btn btn-outline btn-sm" type="button"
                           onclick="acctSetSection('my-account')">Cancel</button>
-                  <button class="btn btn-primary btn-sm" type="button">Change password</button>
+                  <button class="btn btn-primary btn-sm" type="button">Change Password</button>
                 </div>
               </div>
             </div>
@@ -551,15 +1016,24 @@
       : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>';
   }
 
+  /* Closing the modal returns to the previous screen — the app page that opened it (consuming
+     pages navigate here with ?section=…, so browser history holds that page). Fallback: if there's
+     no history (this file opened directly as the standalone demo), just hide the overlay. */
   function acctCloseModal(){
-    document.getElementById('acct-overlay').style.display = 'none';
+    if(history.length > 1){ history.back(); return; }
+    var ov = document.getElementById('acct-overlay');
+    if(ov) ov.style.display = 'none';
   }
 
+  /* Popup/dialog titles use Sentence case (kit-wide dialog-title convention — "New connection",
+     "Create metric"). CTA buttons stay Title Case; left-nav menu items + section headings stay
+     Sentence case too. */
   var acctSectionTitles = {
     'my-account':      'My account',
     'manage-plan':     'Manage plan',
     'billing':         'Billing',
     'balance':         'Balance',
+    'buy-credits':     'Buy credits',
     'leave-feedback':  'Feedback',
     'change-password': 'Change password'
   };
@@ -587,10 +1061,12 @@
     }
   }
 
-  /* Single < button: section → back to menu; menu → close modal */
+  /* Single < button: buy-credits sub-page → back to Balance; other section → back to menu;
+     menu → close modal */
   function acctMobileBack(){
     var modal = document.getElementById('acct-modal');
     if(modal && modal.getAttribute('data-mobile-state') === 'section'){
+      if(acctCurrentSection === 'buy-credits'){ acctSetSection('balance'); return; }
       acctSetMobileState('menu');
     } else {
       acctCloseModal();
@@ -609,6 +1085,10 @@
     /* Update desktop header title */
     var titleEl = document.getElementById('acct-modal-title');
     if(titleEl) titleEl.textContent = acctSectionTitles[sectionId] || sectionId;
+    /* Sub-page back control: the header back chevron shows only on the Buy-credits sub-page
+       (it always returns to Balance, which is where every Buy Credits button lives). */
+    var backBtn = document.getElementById('acct-hdr-back');
+    if(backBtn) backBtn.style.display = (sectionId === 'buy-credits') ? '' : 'none';
     /* Update header actions */
     var actionsEl = document.getElementById('acct-header-actions');
     if(actionsEl) actionsEl.innerHTML = acctSectionActions[sectionId] || '';
@@ -617,8 +1097,23 @@
       var show = panel.dataset.section === sectionId;
       panel.style.display = show ? (panel.dataset.display || '') : 'none';
     });
+    /* Apply the concept version to the newly-active section (buttons + fallback) */
+    applyConceptVersion();
     /* On mobile: switch to section state (updates mobile title too) */
     if(acctIsMobile()) acctSetMobileState('section');
+  }
+
+  /* ── Manage plan: billing-period toggle (Monthly / Yearly) ──
+     Swaps every price element carrying data-monthly / data-yearly to the chosen period.
+     Free ($0) has no data-* attributes, so it is left untouched. */
+  function acctSetPlanPeriod(period, btn){
+    var group = btn.closest('.segctrl');
+    group.querySelectorAll('.segctrl-btn').forEach(function(b){
+      b.classList.remove('is-active'); b.setAttribute('aria-selected','false');
+    });
+    btn.classList.add('is-active'); btn.setAttribute('aria-selected','true');
+    document.querySelectorAll('#acct-content [data-section="manage-plan"] [data-'+period+']')
+      .forEach(function(el){ el.textContent = el.getAttribute('data-'+period); });
   }
 
   /* ── Theme switcher (works in both popover and modal) ── */
@@ -635,8 +1130,39 @@
     else document.documentElement.classList.remove('dark');
   });
 
-  /* Activate default section on page load */
-  acctSetSection('my-account');
+  /* ── Concept version toggle (section-aware) ──
+     Stores a preferred version, then applies it to the ACTIVE section only. Sections expose
+     different version counts (Balance: v1/v2/v3, Manage plan: v1/v2), so the topbar buttons show
+     only the versions the current tab actually has, and the tab falls back to its highest
+     available version when the preferred one is missing. Re-run on every section change. */
+  var acctVerOrder = ['v1','v2','v3'];
+  var acctVerPref = 'v3';
+  function setConceptVersion(v){ acctVerPref = v; applyConceptVersion(); }
+  function applyConceptVersion(){
+    var sec = document.querySelector('#acct-content [data-section="'+acctCurrentSection+'"]');
+    var toggle = document.getElementById('concept-toggle');
+    var panels = sec ? sec.querySelectorAll(':scope > [data-ver]') : [];
+    if(!panels.length){ if(toggle) toggle.style.display = 'none'; return; }
+    if(toggle) toggle.style.display = '';
+    var avail = {}; panels.forEach(function(p){ avail[p.dataset.ver] = true; });
+    var target = avail[acctVerPref] ? acctVerPref
+               : acctVerOrder.filter(function(x){ return avail[x]; }).pop();
+    panels.forEach(function(p){ p.style.display = p.dataset.ver === target ? '' : 'none'; });
+    document.querySelectorAll('#concept-toggle [data-ver-btn]').forEach(function(btn){
+      var v = btn.dataset.verBtn;
+      btn.style.display = avail[v] ? '' : 'none';
+      var on = v === target;
+      btn.classList.toggle('is-active', on);
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+
+  /* Open on the tab named in ?section= (set by the account popover on every page);
+     fall back to Balance — this window is also the standalone Balance concept demo. */
+  var acctInitSection = new URLSearchParams(location.search).get('section');
+  var acctValidSections = ['my-account','manage-plan','billing','balance','buy-credits','leave-feedback','change-password'];
+  acctSetSection(acctValidSections.indexOf(acctInitSection) !== -1 ? acctInitSection : 'balance');
+  /* acctSetSection already applied the default concept version (acctVerPref = 'v3') */
   /* On mobile start in menu state so the nav list is shown first */
   if(acctIsMobile()) acctSetMobileState('menu');
 

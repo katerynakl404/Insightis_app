@@ -25,40 +25,56 @@
   @media (min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
   /* Burger alignment handled globally in kit-theme.css — no per-page rules needed. */
 
-  /* Page head — title left, no separate CTA (action lives in the tab row per spec) */
-  .ds-page-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+  /* Page head — title only (the Cards/Table view toggle is a demo control in the topbar, not content) */
+  .ds-page-head{display:flex;align-items:center;gap:.75rem}
   .ds-page-head .cl-page-title{margin:0}
+  /* Section rhythm — flat stack, consistent with the Chats Library page (no filled control band).
+     Upload zone (drop), then the library block (meta row + filter chips + list). */
+  .ds-page-body{display:flex;flex-direction:column;gap:1rem}
+  /* Invisible grouping so the whole library block can be hidden in the empty state. */
+  .dsf-library{display:flex;flex-direction:column;gap:.5rem}
   @media(max-width:1023px){.cl-main{padding-top:0}}
 
-  /* ===== Drop zone =====
-     Expected: card2 bg + soft dashed border token. Drag-over lifts to state-hover + solid border.
-     Current (prod): transparent bg + teal/brand-primary dashed border (the "heavy colored outline"
-     that the Expected replaces). */
-  .dsf-drop{border:2px dashed var(--border);border-radius:.75rem;background:var(--card2);
-    padding:1.25rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;
-    text-align:center;transition:background .15s,border-color .15s;cursor:pointer}
-  .dsf-drop.is-dragover{background:var(--state-hover);border-style:solid}
-  .dsf-drop-ic{width:3.5rem;height:3.5rem;color:var(--ink-inactive);flex:none}
-  .dsf-drop-title{font-size:1rem;line-height:1.5rem;font-weight:500;color:var(--ink);margin:0}
-  .dsf-drop-sub{font-size:.8125rem;color:var(--ink-secondary);margin:0;max-width:36ch;line-height:1.125rem}
-  /* ===== File type icon — colored square + extension label =====
-     Follows the same connector-mark pattern (.ds-mark) from the Connections tab: square avatar
-     with explicit --mark-bg per type. Colors reference kit tokens only; no raw hex. */
+  /* Drop zone (.dsf-drop*) is now a kit component in kit-theme.css (states: rest / hover / focus /
+     drag-over) — see storybook #dropzone. No page-level override here. */
+
+  /* ===== Source filter — flat chip row below the meta row (bare kit .chip filters in a page
+     wrapper, same pattern as the Metrics toolbar). */
+  .dsf-filter{display:flex;align-items:center;gap:.375rem}
+  /* ===== File type icon — colored square + extension label ===== */
   .dsf-file-ic{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;
     justify-content:center;font-size:.5625rem;font-weight:700;flex:none;letter-spacing:.04em;
     text-transform:uppercase;color:var(--content-on-solid);background:var(--mark-bg,var(--brand-tertiary))}
-  /* Format-specific mark backgrounds — token-based */
   .dsf-file-ic.type-csv{--mark-bg:var(--brand-tertiary)}
   .dsf-file-ic.type-xls{--mark-bg:var(--fb-green)}
   .dsf-file-ic.type-xlsx{--mark-bg:var(--fb-green)}
 
-  /* ===== File list — reuses .chat-row from kit-theme.css for all row states =====
-     Rows: checkbox (left) + file-icon + file name + meta (right) + kebab.
-     No new row styles needed — chat-row covers hover, selected, checked, focus, and kebab-open. */
-  .dsf-list{display:flex;flex-direction:column;gap:.375rem;position:relative}
-  .dsf-list .chat-list{margin:0} /* reset the margin-top override from chats-landing; not needed here */
-  /* File meta text (size or date) sits in the same slot as .chat-row-time */
-  /* No additional rule needed — .chat-row-time already applies. */
+  /* ===== File list — two layouts toggled by the view control ===== */
+  .dsf-list{position:relative}
+  /* Cards layout — reuses kit .chat-row (container also carries .chat-list for is-selecting/overflow) */
+  .dsf-list.is-cards{display:flex;flex-direction:column;gap:.375rem}
+  /* Load-more — centered kit button below the list; collapses out of flow when empty */
+  .dsf-more{display:flex;justify-content:center;margin-top:.25rem}
+  .dsf-more:empty{display:none}
+  .dsf-more-n{font-variant-numeric:tabular-nums;color:var(--ink-inactive);font-weight:500}
+  /* Table layout — reuses kit table.tbl */
+  .dsf-tbl-wrap{border:1px solid var(--border);border-radius:.5rem;background:var(--card)}
+  table.dsf-tbl{margin:0}
+  table.dsf-tbl thead th{background:var(--card2)}
+  table.dsf-tbl thead th:first-child{border-top-left-radius:.5rem}
+  table.dsf-tbl thead th:last-child{border-top-right-radius:.5rem}
+  table.dsf-tbl tbody tr:last-child td{border-bottom:none}
+  .dsft-name-cell{display:flex;align-items:center;gap:.625rem;min-width:0}
+  .dsft-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;color:var(--ink)}
+  td.dsft-size,td.dsft-date{color:var(--ink-secondary);font-variant-numeric:tabular-nums;white-space:nowrap}
+  th.dsft-cb,td.dsft-cb{width:1px;white-space:nowrap}
+  th.dsft-act,td.dsft-act{width:1px;white-space:nowrap;position:relative;text-align:right}
+  /* Kebab reveals on row hover / menu open (no .chat-row parent here to trigger the kit reveal) */
+  .dsf-tbl .chat-row-more{opacity:0;pointer-events:none}
+  .dsf-tbl tbody tr:hover .chat-row-more,
+  .dsf-tbl .chat-row-more[aria-expanded="true"],
+  .dsf-tbl .chat-row-more:focus-visible{opacity:1;pointer-events:auto}
+  @media (max-width:600px){th.dsft-size,td.dsft-size,th.dsft-date,td.dsft-date{display:none}}
 
   /* ===== Meta / bulk action row =====
      Identical structure to the Chats Library meta-row (see chats-landing.html and kit-theme.css).
@@ -130,6 +146,11 @@
     <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
   </div>
   <div style="display:flex;align-items:center;gap:.625rem">
+    <!-- Concept view toggle — switches the file list between Cards and Table (demo control, lives with the theme toggle) -->
+    <div class="segctrl is-sm ds-view-toggle" role="tablist" aria-label="File list layout" style="width:auto">
+      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-action="set-view" data-view="cards">Cards</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-action="set-view" data-view="table">Table</button>
+    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
@@ -212,7 +233,7 @@
         <div class="sbx-foot">
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
-              <span class="sbx-tok-label">Tokens</span>
+              <span class="sbx-tok-label">Usage</span>
               <span class="sbx-tok-val">673 / 1000</span>
             </div>
             <div class="sbx-tok-bar"><span style="width:67.3%"></span></div>
@@ -252,14 +273,14 @@
             <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign out</button>
           </div>
 
-          <!-- Subscription Tokens popover — opens above the tokens row -->
-          <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription tokens">
+          <!-- Subscription credits popover — opens above the tokens row -->
+          <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head">
               <span class="plan-badge" aria-hidden="true"></span>
               <span class="plan-name">Basic</span>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Subscription tokens</span></div>
+              <div class="row"><span class="label">Subscription credits</span></div>
               <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
               <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
             </div>
@@ -268,8 +289,8 @@
               <div class="bar"><span style="width:50%;background:var(--fb-green)"></span></div>
             </div>
             <div class="sbx-pop-tok-actions">
-              <button class="btn btn-primary sbx-pop-cta" type="button">Buy credits</button>
-              <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade plan</button>
+              <button class="btn btn-primary sbx-pop-cta" type="button">Buy Credits</button>
+              <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade Plan</button>
             </div>
           </div>
         </div>
@@ -291,40 +312,35 @@
 
       <div class="ds-page-body">
 
-        <!-- Drop zone — always visible above the file list per spec -->
+        <!-- Drop zone — dashed drop target; icon inline with the title -->
         <div class="dsf-drop" id="dsf-drop" role="region" aria-label="Upload area — drag files here or browse"
              onclick="dsfBrowseFiles()"
              ondragover="event.preventDefault();this.classList.add('is-dragover')"
              ondragleave="this.classList.remove('is-dragover')"
              ondrop="event.preventDefault();this.classList.remove('is-dragover');dsfHandleDrop(event)">
-          <!-- Upload illustration -->
-          <svg class="dsf-drop-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <!-- back document, tilted left -->
-            <g opacity=".38" transform="rotate(-10 20 30)">
-              <rect x="8" y="16" width="18" height="22" rx="2.5"/>
-              <line x1="12" y1="22" x2="22" y2="22"/>
-              <line x1="12" y1="26" x2="19" y2="26"/>
-            </g>
-            <!-- front document -->
-            <rect x="18" y="18" width="18" height="22" rx="2.5"/>
-            <line x1="22" y1="24" x2="32" y2="24"/>
-            <line x1="22" y1="28" x2="29" y2="28"/>
-            <line x1="22" y1="32" x2="31" y2="32"/>
-            <!-- up arrow above -->
-            <line x1="32" y1="14" x2="32" y2="6"/>
-            <polyline points="28,10 32,6 36,10"/>
-          </svg>
-          <!-- Instruction text -->
-          <p class="dsf-drop-title">Drag &amp; drop files here</p>
-          <p class="dsf-drop-sub">or click to browse — files you upload are available to query in chats (.csv, .xls, .xlsx)</p>
+          <div class="dsf-drop-head">
+            <svg class="dsf-drop-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="dsf-drop-title">Drag &amp; drop files here</p>
+          </div>
+          <p class="dsf-drop-sub">or click to browse — files you upload are available to query in chats</p>
           <button class="btn btn-outline btn-sm" type="button" onclick="event.stopPropagation();dsfBrowseFiles()">Browse Files</button>
         </div>
 
-        <!-- File count / bulk action bar — hidden when file count is 0 -->
-        <div class="meta-row" id="dsf-meta" role="toolbar" aria-label="File actions"></div>
-
-        <!-- File list — reuses .chat-row classes from kit-theme.css -->
-        <div class="dsf-list chat-list" id="dsf-list" role="list" aria-label="Uploaded files"></div>
+        <!-- Library block — filter chips, then the actions/meta row, then the list (flat; matches Chats Library) -->
+        <div class="dsf-library" id="dsf-library">
+          <!-- Source filter — All / Artifacts / Uploaded -->
+          <div class="dsf-filter" id="dsf-filter" role="group" aria-label="Filter files by source">
+            <button class="chip is-active" type="button" aria-pressed="true" data-action="filter" data-filter="all">All</button>
+            <button class="chip" type="button" aria-pressed="false" data-action="filter" data-filter="artifact">Artifacts</button>
+            <button class="chip" type="button" aria-pressed="false" data-action="filter" data-filter="uploaded">Uploaded</button>
+          </div>
+          <!-- Actions / bulk-action bar — sits between the chips and the list -->
+          <div class="meta-row" id="dsf-meta" role="toolbar" aria-label="File actions"></div>
+          <!-- File list — Cards (.chat-row) or Table (table.tbl); rendered by dsfRender() -->
+          <div class="dsf-list is-cards chat-list" id="dsf-list" role="list" aria-label="Uploaded files"></div>
+          <!-- Load more — appears when the filtered set exceeds the current page (rendered by dsfRender) -->
+          <div class="dsf-more" id="dsf-more"></div>
+        </div>
 
       </div>
     </div>
@@ -383,93 +399,194 @@
       hide();
       if(wasShown){clearTimeout(warmTimer);isWarm=true;warmTimer=setTimeout(function(){isWarm=false;},600);}
     },true);
+    /* Clicking a tip target (e.g. the ✕ clear-selection button) re-renders / removes it while it's
+       still hovered, so no mouseout fires and the tooltip would linger. Hide it on any pointer-down. */
+    document.addEventListener('mousedown',function(){hide();},true);
   })();
 
-  /* ===== File data — single source of truth driving the file list, count, and meta row ===== */
-  var FILES = [
-    { id:'f1', name:'quarterly-report.csv',  type:'csv',  size:'2.4 MB',  date:'3d ago',      selected:false },
-    { id:'f2', name:'customer-data.xlsx',     type:'xlsx', size:'890 KB',  date:'last week',   selected:false },
-    { id:'f3', name:'sales-metrics.xls',      type:'xls',  size:'1.1 MB',  date:'2 weeks ago', selected:false },
+  /* ===== File data — single source of truth driving the file list, count, and meta row.
+     Seeded with 24 rows (> one page) so the "Load more" pagination is demonstrable. ===== */
+  var FILE_SEED = [
+    ['quarterly-report.csv','csv','artifact','2.4 MB','3d ago'],
+    ['customer-data.xlsx','xlsx','uploaded','890 KB','last week'],
+    ['sales-metrics.xls','xls','uploaded','1.1 MB','2 weeks ago'],
+    ['revenue-forecast.xlsx','xlsx','artifact','1.6 MB','3 weeks ago'],
+    ['churn-analysis.csv','csv','artifact','512 KB','last month'],
+    ['marketing-spend.xlsx','xlsx','uploaded','2.1 MB','last month'],
+    ['user-signups.csv','csv','uploaded','340 KB','last month'],
+    ['cohort-retention.xls','xls','artifact','780 KB','2 months ago'],
+    ['nps-survey.csv','csv','uploaded','220 KB','2 months ago'],
+    ['support-tickets.xlsx','xlsx','uploaded','1.9 MB','2 months ago'],
+    ['ad-performance.csv','csv','artifact','610 KB','2 months ago'],
+    ['inventory-snapshot.xlsx','xlsx','uploaded','3.2 MB','3 months ago'],
+    ['pricing-experiments.csv','csv','artifact','145 KB','3 months ago'],
+    ['web-traffic.xls','xls','uploaded','990 KB','3 months ago'],
+    ['feature-usage.csv','csv','artifact','830 KB','3 months ago'],
+    ['payroll-summary.xlsx','xlsx','uploaded','470 KB','4 months ago'],
+    ['vendor-list.csv','csv','uploaded','88 KB','4 months ago'],
+    ['budget-2026.xlsx','xlsx','uploaded','1.3 MB','4 months ago'],
+    ['lead-scoring.csv','csv','artifact','560 KB','5 months ago'],
+    ['region-breakdown.xls','xls','artifact','720 KB','5 months ago'],
+    ['email-campaigns.csv','csv','uploaded','410 KB','5 months ago'],
+    ['product-catalog.xlsx','xlsx','uploaded','2.7 MB','6 months ago'],
+    ['subscription-mrr.csv','csv','artifact','275 KB','6 months ago'],
+    ['exit-survey.xlsx','xlsx','uploaded','640 KB','6 months ago'],
   ];
+  var FILES = FILE_SEED.map(function(r,i){
+    return { id:'f'+(i+1), name:r[0], type:r[1], origin:r[2], size:r[3], date:r[4], selected:false };
+  });
 
-  var editMode = false; /* true = selection mode, checkboxes visible for all rows */
+  var editMode = false;        /* true = selection mode, checkboxes visible for all rows */
+  var currentFilter = 'all';   /* 'all' | 'artifact' | 'uploaded' — source filter chip */
+  var viewMode = 'cards';      /* 'cards' | 'table' — list layout, switched by the segmented control */
+  var PAGE_SIZE = 20;          /* rows per page — a "Load more" button reveals the next batch */
+  var shownCount = PAGE_SIZE;  /* how many of the filtered rows are currently rendered */
+
+  /* Files currently visible under the active source filter — drives the list, count, and selection. */
+  function dsfVisible(){
+    return currentFilter === 'all' ? FILES : FILES.filter(function(f){ return f.origin === currentFilter; });
+  }
+  /* Per-origin status badge — Artifact = brand fill, Uploaded = neutral. Label (not colour) carries
+     the status, so it reads in any theme and passes 1.4.1. */
+  function dsfStatusBadge(origin){
+    return origin === 'artifact'
+      ? '<span class="badge badge-sm badge-primary">Artifact</span>'
+      : '<span class="badge badge-sm badge-secondary">Uploaded</span>';
+  }
 
   /* ===== SVG icons as variables — same pattern as chats-landing.html ===== */
   var KEBAB   = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>';
   var CHECK   = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>';
+  var DASH    = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14"/></svg>';
   var CLOSE   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
   var TRASH   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
   var DOWNLOAD= '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg>';
 
   function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  /* ===== Render file list ===== */
+  /* Row-menu (Download / Delete) markup, shared by both layouts. Text-only items — the kebab
+     menus elsewhere in the app (Chats Library, etc.) carry no leading icons. */
+  function dsfRowMenu(id){
+    return ''
+      + '<div class="menu chat-row-menu" role="menu">'
+      +   '<div class="mi" role="menuitem" data-action="download" data-id="' + id + '">Download</div>'
+      +   '<div class="mi danger" role="menuitem" data-action="delete" data-id="' + id + '">Delete</div>'
+      + '</div>';
+  }
+  function dsfKebab(id){
+    return '<button class="chat-row-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more" data-id="' + id + '">' + KEBAB + '</button>';
+  }
+
+  /* ===== Render file list — dispatches to the active layout, paginated to PAGE_SIZE ===== */
   function dsfRender(){
     var list = document.getElementById('dsf-list');
-    var meta = document.getElementById('dsf-meta');
-    var tabCount = document.getElementById('dsf-tab-count');
+    var library = document.getElementById('dsf-library');
+    var more = document.getElementById('dsf-more');
 
-    /* Update tab badge count */
-    if (tabCount) tabCount.textContent = FILES.length;
-
-    /* Hide meta row when no files */
+    /* Hide the whole library block when there are no files at all — only the drop zone remains. */
     if (FILES.length === 0){
-      meta.style.display = 'none';
+      if (library) library.style.display = 'none';
       list.innerHTML = '';
-      list.classList.remove('is-selecting');
+      if (more) more.innerHTML = '';
       return;
     }
-    meta.style.display = '';
+    if (library) library.style.display = '';
 
-    /* Build file rows using .chat-row markup */
-    list.innerHTML = FILES.map(function(f){
+    var vis = dsfVisible();
+    var page = vis.slice(0, shownCount);
+    if (viewMode === 'table') dsfRenderTable(list, page);
+    else dsfRenderCards(list, page);
+
+    /* Load-more control — shown only when more filtered rows exist beyond the current page. */
+    if (more){
+      var remaining = vis.length - page.length;
+      if (remaining > 0){
+        more.innerHTML = '<button class="btn btn-secondary btn-sm" type="button" data-action="load-more">Load more <span class="dsf-more-n">' + remaining + '</span></button>';
+      } else {
+        more.innerHTML = '';
+      }
+    }
+
+    dsfRenderMeta();
+  }
+
+  /* Cards layout — reuses kit .chat-row */
+  function dsfRenderCards(list, page){
+    list.className = 'dsf-list is-cards chat-list';
+    list.setAttribute('role', 'list');
+    list.innerHTML = page.map(function(f){
       return ''
         + '<div class="chat-row' + (f.selected ? ' is-selected' : '') + '" role="listitem" data-id="' + f.id + '" tabindex="0">'
         +   '<span class="cbx' + (f.selected ? ' on' : '') + '" role="checkbox" aria-checked="' + f.selected + '" tabindex="0" data-action="check" data-id="' + f.id + '">' + (f.selected ? CHECK : '') + '</span>'
         +   '<span class="dsf-file-ic type-' + f.type + '" aria-hidden="true">' + f.type.toUpperCase() + '</span>'
         +   '<span class="chat-row-name">' + escHtml(f.name) + '</span>'
+        +   dsfStatusBadge(f.origin)
         +   '<span class="chat-row-time">' + escHtml(f.size) + ' · ' + escHtml(f.date) + '</span>'
-        +   '<button class="chat-row-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more" data-id="' + f.id + '">' + KEBAB + '</button>'
-        +   '<div class="menu chat-row-menu" role="menu">'
-        +     '<div class="mi" role="menuitem" data-action="download" data-id="' + f.id + '">'
-        +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg>'
-        +       'Download'
-        +     '</div>'
-        +     '<div class="mi danger" role="menuitem" data-action="delete" data-id="' + f.id + '">'
-        +       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
-        +       'Delete'
-        +     '</div>'
-        +   '</div>'
+        +   dsfKebab(f.id)
+        +   dsfRowMenu(f.id)
         + '</div>';
     }).join('');
     list.classList.toggle('is-selecting', editMode);
+  }
 
-    dsfRenderMeta();
+  /* Table layout — reuses kit table.tbl. Columns: [checkbox] · Name · Source · Size · Modified · [kebab] */
+  function dsfRenderTable(list, page){
+    list.className = 'dsf-list is-table';
+    list.setAttribute('role', 'region');
+    /* Shared header checkbox — the table's select-all / bulk-selection control (replaces the
+       redundant "Select all" link in the meta row). Reflects all / some / none of the visible set. */
+    var vis = dsfVisible();
+    var allSel = vis.length > 0 && vis.every(function(f){ return f.selected; });
+    var someSel = vis.some(function(f){ return f.selected; });
+    var headMark = allSel ? CHECK : (someSel ? DASH : '');
+    list.innerHTML = ''
+      + '<div class="dsf-tbl-wrap"><table class="tbl dsf-tbl">'
+      +   '<thead><tr>'
+      +     '<th class="dsft-cb"><span class="cbx' + ((allSel || someSel) ? ' on' : '') + '" role="checkbox" aria-checked="' + (allSel ? 'true' : (someSel ? 'mixed' : 'false')) + '" tabindex="0" data-action="select-all-header" aria-label="Select all files">' + headMark + '</span></th>'
+      +     '<th>Name</th><th>Source</th>'
+      +     '<th class="dsft-size">Size</th><th class="dsft-date">Modified</th>'
+      +     '<th class="dsft-act" aria-label="Actions"></th>'
+      +   '</tr></thead><tbody>'
+      +   page.map(function(f){
+            return ''
+              + '<tr class="' + (f.selected ? 'is-selected' : '') + '" data-id="' + f.id + '">'
+              +   '<td class="dsft-cb"><span class="cbx' + (f.selected ? ' on' : '') + '" role="checkbox" aria-checked="' + f.selected + '" tabindex="0" data-action="check" data-id="' + f.id + '">' + (f.selected ? CHECK : '') + '</span></td>'
+              +   '<td><div class="dsft-name-cell"><span class="dsf-file-ic type-' + f.type + '" aria-hidden="true">' + f.type.toUpperCase() + '</span><span class="dsft-fname">' + escHtml(f.name) + '</span></div></td>'
+              +   '<td>' + dsfStatusBadge(f.origin) + '</td>'
+              +   '<td class="dsft-size">' + escHtml(f.size) + '</td>'
+              +   '<td class="dsft-date">' + escHtml(f.date) + '</td>'
+              +   '<td class="dsft-act">' + dsfKebab(f.id) + dsfRowMenu(f.id) + '</td>'
+              + '</tr>';
+          }).join('')
+      +   '</tbody></table></div>';
   }
 
   /* ===== Render meta / bulk action bar ===== */
   function dsfRenderMeta(){
     var meta = document.getElementById('dsf-meta');
-    var selectedCount = FILES.filter(function(f){ return f.selected; }).length;
-    var totalCount = FILES.length;
+    var vis = dsfVisible();
+    var selectedCount = vis.filter(function(f){ return f.selected; }).length;
+    var totalCount = vis.length;
 
     if (!editMode){
-      /* Default state: "N file(s)" · Select all */
-      var noun = totalCount === 1 ? 'file' : 'files';
-      meta.innerHTML = ''
-        + '<span class="meta-row-count">' + totalCount + ' ' + noun + '</span>'
-        + '<span class="meta-row-actions">'
-        +   '<button class="link" type="button" data-action="enter-edit">Select all</button>'
-        + '</span>';
+      /* Default state: no file count. Cards keep a "Select all" link (their entry into selection);
+         the table uses its header checkbox instead, so its default meta row is empty → hidden. */
+      var defActions = (viewMode === 'table') ? ''
+        : '<span class="meta-row-actions"><button class="link" type="button" data-action="enter-edit">Select all</button></span>';
+      meta.innerHTML = defActions;
+      meta.style.display = defActions ? '' : 'none';
       return;
     }
+    meta.style.display = '';
 
-    /* Selection state: ✕ · N selected · Select all | Download · Delete */
+    /* Selection state: ✕ · N selected · [Select all — cards only] | Download · Delete */
     var allSelected = selectedCount === totalCount;
+    var selectAllLink = (viewMode === 'table') ? ''
+      : '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all">' + (allSelected ? 'Deselect all' : 'Select all') + '</button>';
     meta.innerHTML = ''
       + '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Clear selection" data-tip="Clear selection">' + CLOSE + '</button>'
       + '<span class="meta-row-count">' + selectedCount + ' selected</span>'
-      + '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all">' + (allSelected ? 'Deselect all' : 'Select all') + '</button>'
+      + selectAllLink
       + '<span class="dsf-bulk-right">'
       +   '<button class="dsf-meta-dl' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
       +   '<button class="dsf-meta-del' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
@@ -500,9 +617,40 @@
       if (f){ f.selected = !f.selected; editMode = true; }
       dsfRender(); return;
     }
+    if (action === 'set-view'){
+      var v = e.target.closest('[data-view]').getAttribute('data-view');
+      if (v === viewMode) return;
+      viewMode = v;
+      document.querySelectorAll('.ds-view-toggle .segctrl-btn').forEach(function(b){
+        var on = b.getAttribute('data-view') === v;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      dsfRender(); return;
+    }
+    if (action === 'load-more'){
+      shownCount += PAGE_SIZE;
+      dsfRender(); return;
+    }
+    if (action === 'filter'){
+      var fil = e.target.closest('[data-filter]').getAttribute('data-filter');
+      currentFilter = fil;
+      /* Fresh view: reset pagination and the bulk-selection context when the visible set changes,
+         so a hidden selected file from a prior filter can't be silently bulk-actioned. */
+      shownCount = PAGE_SIZE;
+      editMode = false;
+      FILES.forEach(function(f){ f.selected = false; });
+      document.querySelectorAll('#dsf-filter .chip').forEach(function(c){
+        var on = c.getAttribute('data-filter') === fil;
+        c.classList.toggle('is-active', on);
+        c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      dsfRender(); return;
+    }
     if (action === 'enter-edit'){
       editMode = true;
-      FILES.forEach(function(f){ f.selected = true; });
+      dsfVisible().forEach(function(f){ f.selected = true; });
       dsfRender(); return;
     }
     if (action === 'cancel-edit'){
@@ -511,8 +659,18 @@
       dsfRender(); return;
     }
     if (action === 'select-all'){
-      var all = FILES.every(function(f){ return f.selected; });
-      FILES.forEach(function(f){ f.selected = !all; });
+      var vis = dsfVisible();
+      var all = vis.every(function(f){ return f.selected; });
+      vis.forEach(function(f){ f.selected = !all; });
+      dsfRender(); return;
+    }
+    /* Table header checkbox — shared select-all that drives bulk selection. All selected → clears;
+       otherwise selects all visible and enters selection mode (revealing the bulk actions). */
+    if (action === 'select-all-header'){
+      var visH = dsfVisible();
+      var allH = visH.length > 0 && visH.every(function(f){ return f.selected; });
+      visH.forEach(function(f){ f.selected = !allH; });
+      editMode = !allH;
       dsfRender(); return;
     }
     if (action === 'delete' && id){
@@ -544,7 +702,7 @@
     var sizes = ['3.1 MB','1.2 MB','456 KB','780 KB'];
     var idx = FILES.length % names.length;
     var newId = 'f' + (FILES.length + 10);
-    FILES.push({ id:newId, name:names[idx], type:types[idx], size:sizes[idx], date:'just now', selected:false });
+    FILES.push({ id:newId, name:names[idx], type:types[idx], origin:'uploaded', size:sizes[idx], date:'just now', selected:false });
     dsfRender();
   }
 
@@ -556,7 +714,7 @@
       var ext = (fname.split('.').pop() || '').toLowerCase();
       var type = ['csv','xls','xlsx'].indexOf(ext) !== -1 ? ext : 'other';
       var size = dropped[i].size ? (dropped[i].size / 1024 / 1024).toFixed(1) + ' MB' : '—';
-      FILES.push({ id:'fd' + i, name:fname, type:type, size:size, date:'just now', selected:false });
+      FILES.push({ id:'fd' + i, name:fname, type:type, origin:'uploaded', size:size, date:'just now', selected:false });
     }
     dsfRender();
   }
@@ -575,6 +733,14 @@
 
   /* Sidebar footer popovers — same recipe used on chats-landing / chat-landing / data-sources_connections.
      clTogglePop opens one popover at a time; outside-click handler dismisses the open one. */
+  /* Account popover items open the user-profile modal on the matching tab */
+  document.addEventListener('click', function(e){
+    var acctItem = e.target.closest('#sbx-pop-account .sbx-pop-item');
+    if(!acctItem) return;
+    var acctMap = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
+    var acctSec = acctMap[acctItem.textContent.trim()];
+    if(acctSec) window.location.href = 'user_profile-modal.html?section=' + acctSec;
+  });
   function clTogglePop(id){
     var pop = document.getElementById(id);
     if(!pop) return;

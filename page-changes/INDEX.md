@@ -9,6 +9,8 @@ changed on that screen and links to the relevant `changes/` files.
 | Chats Library | [chats-landing.md](chats-landing.md) | ChatRow, MetaRow (new), Sidebar |
 | Metrics + Account Modal | [metrics-landing.md](metrics-landing.md) | AccountModal (new), Sidebar, Colors (hex-only) |
 | Data Sources (Connections) | [data-sources_connections-landing.md](data-sources_connections-landing.md) | Tabs, Banner |
+| Data Sources (Files) | [data-sources_files-landing.md](data-sources_files-landing.md) | SegmentedControl (Cards/Table toggle), ChatRow, Table, Chip (filter), Badge (status) |
+| Account modal (Balance + Manage plan) | [user_profile-modal.md](user_profile-modal.md) | AccountModal (Balance V2/V3 + Manage plan V2 concepts), SegmentedControl (version toggle), Table |
 
 ## No floating stickers on pages
 
