@@ -39,7 +39,7 @@ All dimensions below apply to **every** menu in the system — base text menu (E
 </div>
 ```
 
-Items are `<div class="mi">` (the kit ships them as `div`s; `.mi` carries `border:none;background:transparent;text-align:left;width:100%` so a `<button>` works identically). `.menu` defaults to `width:max-content` clamped 140–320 px (variants `.sbx-chat-menu`, `.chat-row-menu`, `.ds-conn-menu` inherit). **Menu size system (opt-in fixed widths):** `.menu.is-sm` = 14rem · `.menu.is-md` = 18rem · `.menu.is-lg` = 22rem — for menus that should read as a roomy, consistent popover rather than hug their content (the composer Attach/Connections/Models menus use **M** at the default 4px padding). Optional WIP stub `.menu-wip` prepends inside any not-yet-redesigned menu.
+Items are `<div class="mi">` (the kit ships them as `div`s; `.mi` carries `border:none;background:transparent;text-align:left;width:100%` so a `<button>` works identically). `.menu` defaults to `width:max-content` clamped 140–320 px (variants `.sbx-chat-menu`, `.chat-row-menu`, `.ds-conn-menu` inherit). **Menu size system (opt-in fixed widths):** `.menu.is-sm` = 14rem · `.menu.is-md` = 18rem · `.menu.is-lg` = 22rem — for menus that should read as a roomy, consistent popover rather than hug their content (the composer Attach/Connections/Models menus use a fixed **16rem** — one width across all states — at the default 4px padding). Optional WIP stub `.menu-wip` prepends inside any not-yet-redesigned menu.
 
 ### `.menu-sep` (group divider)
 `height:1px; margin:4px -4px; background:var(--border); border:0` — the negative `-4px` horizontal margin lets the 1px rule span edge-to-edge across the menu's 4 px padding. Adjacent `.cl-menu-label` collapses the top margin to 0.

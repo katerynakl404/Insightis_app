@@ -15,7 +15,7 @@ Source: `@insightis/ui` `Button/index.tsx` (cva) + `globals.css`.
 | Cursor | `pointer` (`not-allowed` when `:disabled`) | Set on base; disabled variants override to `not-allowed`. |
 | Font | `font-family:inherit` | No own type tokens — icon-only, no text. |
 | Transition | `all .12s` | Matches Button. |
-| Icon glyph | ≤18px typical (consumer-set) | **Icon size is flexible / consumer-set by design — not enforced by `.iconbtn`.** `.iconbtn` sizes only the button box; the glyph size comes from the consumer's inline SVG `width`/`height`. 18px is the typical/default, but it may be smaller per-instance (e.g. `.mx-tbl-actions .iconbtn svg{width:13px;height:13px}` in table action rows). Intentional — no base `.iconbtn svg{...}` rule, so each context picks its own glyph size. |
+| Icon glyph | ≤18px typical (consumer-set) | **Icon size is flexible / consumer-set by design — not enforced by `.iconbtn`.** `.iconbtn` sizes only the button box; the glyph size comes from the consumer's inline SVG `width`/`height`. 18px is the typical/default, but it may be smaller per-instance (e.g. `.mx-tbl-actions .iconbtn svg{width:12px;height:12px}` in table action rows). Intentional — no base `.iconbtn svg{...}` rule, so each context picks its own glyph size. |
 
 ### DOM / markup contract
 
@@ -92,7 +92,7 @@ The base `.iconbtn` is always 36×36; specific layouts shrink it via a scoping c
 
 | Context | Selector | Override |
 |---|---|---|
-| Table row actions | `.mx-tbl-actions .iconbtn` | `width/height 1.625rem` (26px), `opacity:0` at rest, `transition:opacity .12s`; revealed on `tr:hover` (`opacity:1`). Glyph: `.mx-tbl-actions .iconbtn svg{width:13px;height:13px}`. Hover `background:var(--state-pressed)`, active `background:color-mix(in srgb,var(--brand-primary) 12%,transparent)`, both `color:var(--ink)`. Child-metric rows force `opacity:1`. |
+| Table row actions | `.mx-tbl-actions .iconbtn` | `width/height 1.625rem` (26px), `opacity:0` at rest, `transition:opacity .12s`; revealed on `tr:hover` (`opacity:1`). Glyph: `.mx-tbl-actions .iconbtn svg{width:12px;height:12px}`. Hover `background:var(--state-pressed)`, active `background:color-mix(in srgb,var(--brand-primary) 12%,transparent)`, both `color:var(--ink)`. Child-metric rows force `opacity:1`. |
 | Autocomplete clear | `.acpl .acpl-end .iconbtn-mini` | Separate `.iconbtn-mini` (not `.iconbtn`): 24×24, transparent, borderless, `color:var(--ink-secondary)`, radius 4px; hover `color:var(--brand-primary)`. |
 | Data-source card | `.ds-card .iconbtn` | `background:var(--bg)` (matches card surface). |
 | Sidebar collapse / chat-more | `.sbx-collapse`, `.sbx-chat-more` | Use `.iconbtn iconbtn-tertiary` + scoping class; inherit colour/hover/pressed/focus from `.iconbtn-tertiary`, override only size + (for chat-more) absolute positioning / opacity-reveal. |

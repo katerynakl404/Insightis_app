@@ -269,15 +269,15 @@
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
               <span class="sbx-tok-label">Usage</span>
-              <span class="sbx-tok-val">673 / 1000</span>
+              <span class="sbx-tok-val">213 / 500</span>
             </div>
-            <div class="sbx-tok-bar"><span style="width:67.3%"></span></div>
+            <div class="sbx-tok-bar"><span style="width:42.6%"></span></div>
           </button>
           <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
             <span class="sbx-user-ava">K</span>
             <span class="sbx-user-info">
               <span class="sbx-user-name">Kateryna K.</span>
-              <span class="sbx-user-meta">Admin · Professional</span>
+              <span class="sbx-user-meta">Admin · Free</span>
             </span>
             <svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
           </button>
@@ -312,20 +312,20 @@
           <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head">
               <span class="plan-badge" aria-hidden="true"></span>
-              <span class="plan-name">Basic</span>
+              <span class="plan-name">Free</span>
             </div>
             <div class="sbx-pop-tok-meter">
               <div class="row"><span class="label">Subscription credits</span></div>
-              <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
-              <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
+              <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
+              <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">50 of 100</span></div>
-              <div class="bar"><span style="width:50%;background:var(--fb-green)"></span></div>
+              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
+              <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
             </div>
             <div class="sbx-pop-tok-actions">
-              <button class="btn btn-primary sbx-pop-cta" type="button">Buy Credits</button>
-              <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade Plan</button>
+              <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=balance'">Buy Credits</button>
+              <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
             </div>
           </div>
         </div>
@@ -832,6 +832,17 @@
   main.addEventListener('scroll',upd,{passive:true});
   upd();
 })();
+</script>
+<script>
+/* Account-popover → profile-modal routing. Standalone block so it registers even if an earlier
+   script block throws (the in-block handler was not firing). Item label → ?section= tab. */
+document.addEventListener('click', function(e){
+  var it = e.target.closest('#sbx-pop-account .sbx-pop-item');
+  if(!it) return;
+  var map = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
+  var sec = map[it.textContent.trim()];
+  if(sec) window.location.href = 'user_profile-modal.html?section=' + sec;
+});
 </script>
 </body>
 </html>

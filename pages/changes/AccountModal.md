@@ -37,7 +37,7 @@ sidebar user row). Clicking any nav item in the popover calls `acctOpenModal(sec
 
 | Section | Button order (left → right) |
 |---|---|
-| Manage plan | Per-card full-width CTA (Free = outline "Current Plan" disabled; Starter/Pro = primary "Upgrade Plan") — one CTA spans each card, no horizontal row |
+| Manage plan | Per-card full-width CTA (Free = outline "Current Plan" disabled; Starter = outline "Upgrade to Starter"; Pro = primary "Upgrade to Pro") — one CTA spans each card, no horizontal row |
 | Billing — payment | Update (outline) — single, right via `space-between` |
 | Balance hero | Update Plan (outline) → **Buy Credits (primary)** |
 | Delete account | single button, `margin-left:auto` → always right |
@@ -103,10 +103,10 @@ Redesigned from a single "current plan" summary row into a **3-plan pricing comp
 | Plan grid | `.acct-plan-grid` — `repeat(3,1fr)`, `gap:1rem`; reflows to 1 column at ≤767px. Modal widened to `max-width:960px` to give the 3 cards room (each card stays single-line, so the CTAs align) |
 | Plan card | `.acct-plan-card` — static panel (`--card` + `--border`, `radius .75rem`, `padding:1.25rem`); **not** the interactive card-hover recipe (informational, non-clickable). Vertical rhythm is 3-tier: name/price/tagline share the `.375rem` base gap (tight header cluster), the tagline's `margin-bottom` + the feature list's `margin-top` open a `.75rem` band around the CTA |
 | Tagline | `.acct-plan-tagline` — `--ink-secondary`, `margin-bottom:.375rem` (separates the header cluster from the CTA) |
-| Popular card | `.acct-plan-card.is-popular` (Pro) — `border-color:var(--brand-primary)`, theme-aware |
-| Discount / popular badges | Composed kit badges inside `.acct-plan-name-row`: `.badge.badge-green.badge-sm` "50% OFF" (savings = green), `.badge.badge-primary.badge-sm` "POPULAR" (brand tint). `.acct-plan-name-row` has `min-height:1.75rem` so a badge-less card (Free) keeps the same head height → price/CTA line up across all three |
-| Price row | `.acct-plan-price` (current, `--ink`, weight 700) + `.acct-plan-price-was` (line-through, `--ink-inactive`) + `.acct-plan-per` ("/ month", `--ink-secondary`). **No horizontal jump on toggle:** `.acct-plan-price-was` gets `min-width:3.25em`, and the popular card's `.acct-plan-price` gets `min-width:3.15em`, so "/ month" stays put when the numbers change width (DM Sans has no tabular figures, so `tabular-nums` alone is insufficient) |
-| CTA | Full-width kit button at **`btn-md`** (36px) so all three match a design-system size and align on one baseline — Free = `btn btn-outline btn-md` **`disabled`** "Current Plan" (now dims via the new real `.btn-outline:disabled` rule); Starter/Pro = `btn btn-primary btn-md` "Upgrade Plan". Width via page-layout `.acct-plan-card .btn.acct-plan-cta{width:100%}` (sizing only) |
+| Popular card | Marked by its "Most popular" ribbon / POPULAR badge only — **no accent border** (all three cards keep the neutral `--border`) |
+| Discount / popular badges | Composed kit badges inside `.acct-plan-name-row`: `.badge.badge-green.badge-sm` "50% OFF" on both paid plans (savings = green), `.badge.badge-primary.badge-sm` "POPULAR" (brand tint) on Pro, `.badge.badge-secondary.badge-sm` "Current Plan" on the account's active plan (Free). `.acct-plan-name-row` has `min-height:1.75rem` so head heights match → price/CTA line up across all three |
+| Price row | `.acct-plan-price` (current, `--ink`, weight 700) + `.acct-plan-price-was` (line-through, `--ink-inactive`) on both paid plans + `.acct-plan-per` ("/ month", `--ink-secondary`). **No horizontal jump on toggle:** `.acct-plan-price-was` gets `min-width:3.25em`, and every toggling price (`.acct-plan-price[data-monthly]`) gets `min-width:3.15em`, so "/ month" stays put when the numbers change width (DM Sans has no tabular figures, so `tabular-nums` alone is insufficient) |
+| CTA | Full-width kit button at **`btn-md`** (36px) so all three match a design-system size and align on one baseline — Free = `btn btn-outline btn-md` **`disabled`** "Current Plan" (dims via the real `.btn-outline:disabled` rule); Starter = `btn btn-outline btn-md` "Upgrade to Starter"; Pro = `btn btn-primary btn-md` "Upgrade to Pro". Width via page-layout `.acct-plan-card .btn.acct-plan-cta{width:100%}` (sizing only) |
 | Feature list | `.acct-plan-feats` `<ul>` — **check-mark** marker (lucide tick via CSS `mask`, filled with `--brand-primary`, theme-aware) on flex rows, `--ink-body` items |
 
 ### Billing
@@ -120,14 +120,14 @@ Redesigned from a single "current plan" summary row into a **3-plan pricing comp
 
 | Element | Expected |
 |---|---|
-| Hero row | `.acct-bal-circle` (36px coin) + `.acct-bal-amount` "673 /2,124 credits" — coin + amount only, no buttons |
+| Hero row | `.acct-bal-circle` (36px coin) + `.acct-bal-amount` "213 /1,040 credits" — coin + amount only, no buttons |
 | Progress bar | Below hero row. `height:4px`, `border-radius:9999px`, track `var(--progress-track)`, fill `var(--brand-primary)` |
-| Progress context | Below bar. Two spans: "32% of total credits used" + "1,451 remaining" — `font-size:.75rem; color:var(--ink-secondary)`. Mobile: short variants "32% used" / "1,451 left" via `.acct-show-mobile` |
+| Progress context | Below bar. Two spans: "20% of total credits used" + "827 remaining" — `font-size:.75rem; color:var(--ink-secondary)`. Mobile: short variants "20% used" / "827 left" via `.acct-show-mobile` |
 | CTAs row | Below progress. `.acct-bal-btns` — `justify-content:flex-end` on desktop; `width:100%; .btn{flex:1}` on mobile (equal-width split) |
 | Stats tiles | Two flex tiles side-by-side (`gap:.5rem`), `background:var(--bg)`, `border-radius:.375rem`, `padding:.5rem .75rem` |
 | Stats tile label | `.acct-field-label` (`font-size:.625rem` = 10px) — "Subscription credits" / "Purchased credits" (matches the sidebar credits popover naming) |
-| Stats tile value | `.acct-sect-title` (`font-size:.9375rem; font-weight:600`) — 1,584 / 540 |
-| Credit usage | `.acct-usage-table` — Date / Request type / Spent tokens columns; `border-collapse:collapse` |
+| Stats tile value | `.acct-sect-title` (`font-size:.9375rem; font-weight:600`) — 500 / 540 |
+| Credit usage | `.acct-usage-table` — Date / Request type / Spent credits columns; `border-collapse:collapse` |
 | CTAs | `btn btn-outline btn-sm` "Update Plan" + `btn btn-primary btn-sm` "Buy Credits" — placed **in content** (not header). `acctSectionActions = {}` |
 
 **Token:** `--progress-track: var(--card2)` — new semantic token added to `:root` in `kit-theme.css` (Slate-100 light / Grey-800 dark). Separates "progress track" intent from `--state-hover` which is reserved for interactive hover surfaces.

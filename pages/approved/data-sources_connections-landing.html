@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en" class="">
 <head>
 <meta charset="utf-8" />
@@ -277,9 +277,9 @@
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
               <span class="sbx-tok-label">Usage</span>
-              <span class="sbx-tok-val">673 / 1000</span>
+              <span class="sbx-tok-val">213 / 500</span>
             </div>
-            <div class="sbx-tok-bar"><span style="width:67.3%"></span></div>
+            <div class="sbx-tok-bar"><span style="width:42.6%"></span></div>
           </button>
           <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
             <span class="sbx-user-ava">K</span>
@@ -320,20 +320,20 @@
           <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head">
               <span class="plan-badge" aria-hidden="true"></span>
-              <span class="plan-name">Basic</span>
+              <span class="plan-name">Free</span>
             </div>
             <div class="sbx-pop-tok-meter">
               <div class="row"><span class="label">Subscription credits</span></div>
-              <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
-              <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
+              <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
+              <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">50 of 100</span></div>
-              <div class="bar"><span style="width:50%;background:var(--fb-green)"></span></div>
+              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
+              <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
             </div>
             <div class="sbx-pop-tok-actions">
-              <button class="btn btn-primary sbx-pop-cta" type="button">Buy Credits</button>
-              <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade Plan</button>
+              <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='../concept/user_profile-modal.html?section=balance'">Buy Credits</button>
+              <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='../concept/user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
             </div>
           </div>
         </div>
@@ -460,7 +460,7 @@
             <div class="ds-intg-lbl">Metadata Cache</div>
             <div class="ds-intg-select">
               <span>Infinite</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;color:var(--ink-secondary)"><polyline points="6 9 12 15 18 9"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;color:var(--ink-secondary)"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
           </div>
           <!-- Save is part of the external integration UI -->
@@ -704,8 +704,8 @@
       + '</span>';
   }
 
-  var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px;flex:none"><polyline points="20 6 9 17 4 12"/></svg>';
-  var PLUS_SVG_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px;flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
+  var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px;flex:none"><polyline points="20 6 9 17 4 12"/></svg>';
+  var PLUS_SVG_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px;flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
 
   function dsCardHtml(c){
     var n = c.name.replace(/'/g, "\\'");

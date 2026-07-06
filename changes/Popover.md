@@ -70,7 +70,7 @@ Default `align="center"`, `sideOffset={4}`, animation set, portalling, transform
 
 | Slot | Current (prod) | Expected | Specification |
 |---|---|---|---|
-| Plan badge (next to "Basic") | 21×16 inline base64 PNG embedded in `.sbx-pop-tok-head .plan-badge` | external SVG `basic.svg` (purple shield + star) referenced via `background: url("../basic.svg") center/contain no-repeat` | Pure-vector, themeable, no raster. Source = Figma-exported SVG (gradients preserved). Relative URL from kit HTML. |
+| Plan badge (next to the plan name) | 21×16 inline base64 PNG embedded in `.sbx-pop-tok-head .plan-badge` | external SVG `basic.svg` (purple shield + star) referenced via `background: url("../basic.svg") center/contain no-repeat` | Pure-vector, themeable, no raster. Source = Figma-exported SVG (gradients preserved). Relative URL from kit HTML. |
 | Subscription Credits coin (24×24) | inline base64 PNG embedded in `.sbx-pop-tok-meter .coin` | external SVG `coin-blue.svg` | Teal-family coin (matches `Brand/Tertiary` progress bar in same row). Hand-built pure-vector with reeded edge and shadow-only emboss. **The ground cast-shadow ellipse was removed** — the coin reads flat with no drop shadow beneath it. |
 | Purchased Credits coin (16×16) | inline base64 PNG embedded in `.sbx-pop-tok-meter .coin.sm` | external SVG `coin-green.svg` | Green-family coin (matches `Feedback/Green` progress bar in same row). Same construction as blue, only palette swap. |
 

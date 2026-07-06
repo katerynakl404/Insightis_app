@@ -65,17 +65,30 @@ Source: `@insightis/ui` `Sidebar/` — overall component plus the sub-parts Side
 |---|---|---|---|---|
 | Container | `flex flex-col gap-2 p-2` + top border, generous padding inside (`.75rem 1rem`) | — | `.sbx-foot` = `border-top: var(--border-width) solid var(--border); padding:8px; flex column; gap:8px; margin-top:auto; position:relative`; ~30% shorter overall | "noticeably smaller than the current footer" |
 | Tokens row — label | 14px `font-medium` `Text/Secondary` | — | 11px `font-medium` `Text/Secondary` | compacted |
-| Tokens row — value | 14px `Text/Primary`, multi-span layout `673 of 1000` | — | 11px `Text/Secondary`, single span `673 / 1000`, tabular-nums | unified weight, single line |
+| Tokens row — value | 14px `Text/Primary`, multi-span layout `673 of 1000` | — | 11px `Text/Secondary`, single span `213 / 500`, tabular-nums | unified weight, single line |
 | Tokens bar | `Progress` h4 `Brand/Primary` over `Surface/Background` track | — | h3 `Brand/Primary` over `Surface/Chips` track, radius full | thinner; quieter track |
 | User row — avatar | 40×40 circle, `bg-bg`, text `Text/Body` initial | — | `.sbx-user-ava` = `1.5rem (24×24); border-radius:9999px; background: var(--brand-tertiary); color: var(--content-on-solid); flex centered; font-size:.6875rem (11px); font-weight:600` | colored accent ring around identity |
 | User row — primary | 14px `font-medium` `Text/Primary` (email `katerinakleina@gmail.com`) | — | 12px `font-semibold` `Text/Primary` (display name, e.g. `Kateryna K.`) | name, not email |
-| User row — secondary | 12px `font-medium` `Text/Secondary` (`Admin`) | — | 10px `Text/Secondary`, format `Admin · Professional` (role · plan) | adds plan info below the name |
+| User row — secondary | 12px `font-medium` `Text/Secondary` (`Admin`) | — | 10px `Text/Secondary`, format `Admin · Free` (role · plan) | adds plan info below the name |
 | User row — chevron | 20×20 prominent vertical chevrons `Text/Body` | — | 14×14 vertical chevrons **`Text/Body` at `opacity: 0.7`** | decorative icon inside the user-row button (not its own `iconbtn`); colored to align with the IconButton Tertiary icon palette without doubling up the button semantics |
 | Section action ("See all") | — | — | 11px **`.link`** styled (color `Brand/Primary`, hover underline, brand focus ring) — revealed on label-row hover or focus | reusable `.link` utility added at the global level for any future text-link; section-link layer (`.sbx-sect-link`) only handles the opacity-reveal |
 | User row — hover | none | — | bg `State/Hover`, radius `md`, padding `.25rem` for a comfortable hit area | now clearly interactive |
 | User row — focus | inherits global ring | — | explicit `--focus-ring` | parity |
 | **User row — click** | no menu | — | **Opens the Account popover** above the row. Two labelled sections (`Account`, `Support`), each containing `.sbx-pop-item` rows (padding 6 px 8 px, gap 10 px, 14 px label + 16 px Lucide icon, hover bg `State/Hover` — **no content recolour**, matching every other hoverable sidebar row — see [`AccountPopover.md`](AccountPopover.md)). Segmented theme switcher (sun / moon / monitor-smartphone, per prod) at the bottom uses the existing `Tabs`-style pattern — slot walks the surface ladder: light `var(--chips)` → pill `var(--card)`; dark `var(--bg)` → pill `var(--card2)` (legacy `.sbx-pop-theme` recipe — same dark behaviour as `.segctrl`, light keeps the popover's softer `--chips` look). Sign Out is a plain `SelectMenuItem` (neutral text, log-out icon). | reuses [`Popover`](Popover.md) `.sbx-pop` shell — single class drives both popovers |
 | **Tokens row** | plain `<div>` block | — | now a `<button>` `.sbx-tok` (`border:none; background:transparent; padding:.25rem .375rem; border-radius:.375rem; width:100%; text-align:left; transition:background .12s, color .12s`); hover bg neutral `State/Hover`, pressed `State/Pressed`, focus `--shadow-focus`. On click opens the **Subscription tokens popover** above the row with: shield-check plan badge + plan name, two metered rows (`Subscription Tokens` `Brand/Tertiary` progress, `Purchased Credits` `Feedback/Green` progress, 4 px bar), and two CTAs — `Buy Credits` (`Button primary`) and `Upgrade Plan` (`Button secondary` — `--card` bg, neutral `--border`, `--ink-body` text), both h32 `rounded-full`. | reuses [`Popover`](Popover.md) `.sbx-pop` shell + existing `Button primary` / `Button secondary` variants — no new component styles for the buttons |
+
+### Tokens-popover CTA routing (consumer wiring)
+
+`Buy Credits` and `Upgrade Plan` were previously inert (no `onclick`). Both now navigate to the
+account modal on every consuming page (4 `pages/concept/*.html` + 2 `pages/approved/*.html`):
+
+| CTA | Destination |
+|---|---|
+| Buy Credits | `user_profile-modal.html?section=balance` |
+| Upgrade Plan | `?section=manage-plan` |
+
+From `pages/approved/*.html` the path is `../concept/user_profile-modal.html?section=…` (one
+directory up from `pages/concept/`).
 
 ## Sub-parts — no visual change (API preserved)
 | Part | Current (prod) · was | v1.0 | Expected · became |

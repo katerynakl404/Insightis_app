@@ -94,7 +94,7 @@ Page-level overrides (not the kit default) — Metrics toolbar `.mx-c3-toolbar .
 |---|---|---|
 | `.mx-c3-toolbar .igrp` | `38.4px`, page bg | `width:100%; background:var(--card); height:2.5rem` (40px) |
 | `.mx-c3-toolbar .igrp-add` | — | `padding:0 6px 0 10px` |
-| `.mx-c3-toolbar .igrp-add svg` | `20px` (kit default) | `15px × 15px` |
+| `.mx-c3-toolbar .igrp-add svg` | `20px` (kit default) | `16px × 16px` |
 | `.mx-c3-toolbar .igrp-input` | `padding:0 8px` | `padding-left:3px` |
 
 > **Note — iOS font-size:** prod uses `14px` on inputs at all breakpoints. Bumping to `16px` on mobile eliminates iOS Safari auto-zoom but makes placeholder visually oversized in a compact field. Kept at `14px` (`.875rem`); iOS zoom is a known prod-parity limitation.

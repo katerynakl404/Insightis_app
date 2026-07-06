@@ -18,8 +18,39 @@
   .cl-side{background:var(--card);border-right:1px solid var(--border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
   .cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
 
+  /* ===== File preview — right split panel (opens on file click, like prod) =====
+     A third grid column holds the panel when open, so the list narrows (true split, not overlay).
+     Width is a live var so the panel is resizable via its left-edge grip; default ~28rem (prod-like). */
+  /* Third track is `auto` — it sizes to the panel's own width, so resizing sets .dsf-preview width
+     (not the grid track). Width isn't transitioned, so the drag applies cleanly (transitioning the
+     grid track between 2↔3 tracks was unreliable). Default width ~28rem (prod-like). */
+  .cl-shell.has-preview{grid-template-columns:16rem 1fr auto}
+  .cl-shell.has-preview:has(.sbx.is-collapsed){grid-template-columns:3.563rem 1fr auto}
+  .cl-shell.is-resizing{user-select:none;cursor:col-resize}
+  .dsf-preview{display:none;flex-direction:column;background:var(--card);border-left:1px solid var(--border);
+    position:sticky;top:40px;min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden}
+  .cl-shell.has-preview .dsf-preview{display:flex;width:28rem}
+  /* Left-edge resize grip — straddles the panel border; widens the hit area, subtle brand line on hover/drag */
+  .dsf-preview-grip{position:absolute;left:0;top:0;bottom:0;width:9px;transform:translateX(-50%);cursor:col-resize;z-index:3;touch-action:none}
+  .dsf-preview-grip::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);background:transparent;transition:background var(--motion-fast) var(--motion-ease)}
+  .dsf-preview-grip:hover::before,.cl-shell.is-resizing .dsf-preview-grip::before{background:var(--brand-primary)}
+  .dsf-preview-head{display:flex;align-items:center;gap:.5rem;padding:.625rem .625rem .625rem 1rem;border-bottom:1px solid var(--border);flex:none}
+  .dsf-preview-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--text-14);font-weight:600;color:var(--ink)}
+  .dsf-preview-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.625rem;padding:1.5rem;text-align:center;overflow:auto}
+  .dsf-preview-ic{width:3.5rem;height:3.5rem;color:var(--ink-inactive);flex:none}
+  .dsf-preview-name{font-size:var(--text-14);font-weight:600;color:var(--ink);word-break:break-word;max-width:28ch}
+  .dsf-preview-meta{font-size:var(--text-12);color:var(--ink-secondary)}
+  /* Previewed row highlight — brand-coloured name (both layouts) */
+  .chat-row.is-preview .chat-row-name,.dsf-tbl tbody tr.is-preview .dsft-fname{color:var(--brand-primary)}
+  /* Narrow: the panel overlays full-width instead of splitting the grid */
+  @media (max-width:1023px){
+    .cl-shell.has-preview,.cl-shell.has-preview:has(.sbx.is-collapsed){grid-template-columns:16rem 1fr}
+    .cl-shell.has-preview .dsf-preview{position:fixed;inset:40px 0 0 0;z-index:70;border-left:none;width:auto}
+    .dsf-preview-grip{display:none} /* full-width overlay on mobile — no resize */
+  }
+
   /* Main column — max-width and alignment identical to Chats Library / Connections pages. */
-  .cl-main{position:relative;display:flex;flex-direction:column;width:100%;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px)}
+  .cl-main{position:relative;display:flex;flex-direction:column;width:100%;min-width:0;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px)}
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   .cl-page-title{scroll-margin:5rem;font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0 0 .25rem}
   @media (min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
@@ -43,7 +74,7 @@
   .dsf-filter{display:flex;align-items:center;gap:.375rem}
   /* ===== File type icon — colored square + extension label ===== */
   .dsf-file-ic{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;
-    justify-content:center;font-size:.5625rem;font-weight:700;flex:none;letter-spacing:.04em;
+    justify-content:center;font-size:.5625rem;font-weight:700;flex:none;letter-spacing:var(--tracking-label);
     text-transform:uppercase;color:var(--content-on-solid);background:var(--mark-bg,var(--brand-tertiary))}
   .dsf-file-ic.type-csv{--mark-bg:var(--brand-tertiary)}
   .dsf-file-ic.type-xls{--mark-bg:var(--fb-green)}
@@ -51,8 +82,12 @@
 
   /* ===== File list — two layouts toggled by the view control ===== */
   .dsf-list{position:relative}
-  /* Cards layout — reuses kit .chat-row (container also carries .chat-list for is-selecting/overflow) */
+  /* Cards layout — reuses kit .chat-row (container also carries .chat-list for is-selecting/overflow).
+     Name flows naturally + ellipsizes when long (kit default). Date sits right next to the name
+     (muted, small); the status badge is the sole element anchored to the row's right edge. */
   .dsf-list.is-cards{display:flex;flex-direction:column;gap:.375rem}
+  .dsf-card-date{flex:none;font-size:var(--text-12);color:var(--ink-secondary);font-weight:400;white-space:nowrap}
+  .dsf-card-status{margin-left:auto;flex:none}
   /* Load-more — centered kit button below the list; collapses out of flow when empty */
   .dsf-more{display:flex;justify-content:center;margin-top:.25rem}
   .dsf-more:empty{display:none}
@@ -103,6 +138,21 @@
   .dsf-meta-dl.is-disabled,.dsf-meta-del.is-disabled{color:var(--ink-inactive);cursor:not-allowed;pointer-events:none}
   /* Right-anchor the download+delete pair to the row's far right */
   .dsf-bulk-right{margin-left:auto;display:inline-flex;align-items:center;gap:.25rem}
+
+  /* ===== Floating bulk-action bar (Table view) =====
+     Pinned bottom-centre, position:fixed (out of flow) so selecting rows never shifts the table.
+     Slides up + fades in on .is-visible. Reuses the .dsf-meta-dl / .dsf-meta-del / .dsf-meta-iconbtn
+     button styles from the inline bar. */
+  .dsf-floatbar{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%) translateY(.5rem);
+    display:none;align-items:center;gap:.5rem;background:var(--card);border:1px solid var(--border);
+    border-radius:.625rem;box-shadow:var(--shadow-overlay);padding:.375rem .375rem .375rem .875rem;
+    z-index:60;opacity:0;
+    transition:opacity var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)}
+  .dsf-floatbar.is-visible{display:flex;opacity:1;transform:translateX(-50%) translateY(0)}
+  .dsf-floatbar-count{font-size:var(--text-13);font-weight:500;color:var(--ink-body);white-space:nowrap}
+  .dsf-floatbar-sep{width:1px;height:1.25rem;background:var(--border);flex:none}
+  .dsf-floatbar-actions{display:inline-flex;align-items:center;gap:.25rem}
+  @media (prefers-reduced-motion: reduce){ .dsf-floatbar{transition:opacity var(--motion-fast) var(--motion-ease)} }
   /* Sidebar→drawer is kit-owned at ≤1023px (kit-theme.css) — pages must not redeclare it. */
 </style>
 </head>
@@ -148,8 +198,8 @@
   <div style="display:flex;align-items:center;gap:.625rem">
     <!-- Concept view toggle — switches the file list between Cards and Table (demo control, lives with the theme toggle) -->
     <div class="segctrl is-sm ds-view-toggle" role="tablist" aria-label="File list layout" style="width:auto">
-      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-action="set-view" data-view="cards">Cards</button>
-      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-action="set-view" data-view="table">Table</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-action="set-view" data-view="cards">Cards</button>
+      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-action="set-view" data-view="table">Table</button>
     </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
@@ -234,15 +284,15 @@
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
               <span class="sbx-tok-label">Usage</span>
-              <span class="sbx-tok-val">673 / 1000</span>
+              <span class="sbx-tok-val">213 / 500</span>
             </div>
-            <div class="sbx-tok-bar"><span style="width:67.3%"></span></div>
+            <div class="sbx-tok-bar"><span style="width:42.6%"></span></div>
           </button>
           <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
             <span class="sbx-user-ava">K</span>
             <span class="sbx-user-info">
               <span class="sbx-user-name">Kateryna K.</span>
-              <span class="sbx-user-meta">Admin · Professional</span>
+              <span class="sbx-user-meta">Admin · Free</span>
             </span>
             <svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
           </button>
@@ -277,20 +327,20 @@
           <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head">
               <span class="plan-badge" aria-hidden="true"></span>
-              <span class="plan-name">Basic</span>
+              <span class="plan-name">Free</span>
             </div>
             <div class="sbx-pop-tok-meter">
               <div class="row"><span class="label">Subscription credits</span></div>
-              <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
-              <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
+              <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
+              <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">50 of 100</span></div>
-              <div class="bar"><span style="width:50%;background:var(--fb-green)"></span></div>
+              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
+              <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
             </div>
             <div class="sbx-pop-tok-actions">
-              <button class="btn btn-primary sbx-pop-cta" type="button">Buy Credits</button>
-              <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade Plan</button>
+              <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=balance'">Buy Credits</button>
+              <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
             </div>
           </div>
         </div>
@@ -337,7 +387,7 @@
           <!-- Actions / bulk-action bar — sits between the chips and the list -->
           <div class="meta-row" id="dsf-meta" role="toolbar" aria-label="File actions"></div>
           <!-- File list — Cards (.chat-row) or Table (table.tbl); rendered by dsfRender() -->
-          <div class="dsf-list is-cards chat-list" id="dsf-list" role="list" aria-label="Uploaded files"></div>
+          <div class="dsf-list is-table" id="dsf-list" aria-label="Uploaded files"></div>
           <!-- Load more — appears when the filtered set exceeds the current page (rendered by dsfRender) -->
           <div class="dsf-more" id="dsf-more"></div>
         </div>
@@ -345,14 +395,21 @@
       </div>
     </div>
   </main>
+
+  <!-- File preview — right split panel (opens on file click, like prod); rendered by dsfRenderPreview() -->
+  <aside class="dsf-preview" id="dsf-preview" aria-label="File preview"></aside>
 </div>
+
+<!-- Floating bulk-action bar — Table view only. Pinned bottom-centre, out of flow, so selecting
+     rows never shifts the table. Rendered/toggled by dsfRenderFloatbar(). -->
+<div class="dsf-floatbar" id="dsf-floatbar" role="toolbar" aria-label="Bulk file actions"></div>
 
 
 <script>
   /* Tooltip engine — JS-positioned fixed tooltip, warm-up aware, escapes overflow:hidden. */
   (function(){
     document.documentElement.classList.add('tt-js');
-    var ft,warmTimer,showTimer,isWarm=false;
+    var ft,showTimer,TIP_DELAY=300;
     function getFt(){
       if(!ft){ft=document.createElement('div');ft.setAttribute('aria-hidden','true');
         ft.style.cssText='position:fixed;z-index:9999;background:var(--ink);color:var(--card);font-size:.75rem;border-radius:6px;padding:4px 8px;pointer-events:none;white-space:nowrap;font-family:inherit;line-height:1.35;opacity:0;transition:opacity .1s;display:none';
@@ -386,18 +443,16 @@
       f.style.transition='opacity .12s';f.style.opacity='1';
     }
     function hide(){if(ft){ft.style.transition='opacity .1s';ft.style.opacity='0';}clearTimeout(showTimer);}
+    /* Always wait TIP_DELAY before showing — no warm-up "instant re-show", so every tooltip has the
+       same hover delay (the warm-up made rapid hovers appear instantly, reading as "no delay"). */
     document.addEventListener('mouseover',function(e){
       var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
-      clearTimeout(showTimer);showTimer=setTimeout(function(){show(el);},isWarm?0:300);
+      clearTimeout(showTimer);showTimer=setTimeout(function(){show(el);},TIP_DELAY);
     },true);
     document.addEventListener('mouseout',function(e){
       var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
       var to=e.relatedTarget;if(to&&to.closest&&to.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon'))return;
-      /* Warm-up only counts if a tooltip was actually visible — merely passing the cursor over a
-         tip target (no tooltip shown) must NOT pre-warm, else the next hover skips its 300ms delay. */
-      var wasShown=ft&&ft.style.opacity==='1';
       hide();
-      if(wasShown){clearTimeout(warmTimer);isWarm=true;warmTimer=setTimeout(function(){isWarm=false;},600);}
     },true);
     /* Clicking a tip target (e.g. the ✕ clear-selection button) re-renders / removes it while it's
        still hovered, so no mouseout fires and the tooltip would linger. Hide it on any pointer-down. */
@@ -438,9 +493,10 @@
 
   var editMode = false;        /* true = selection mode, checkboxes visible for all rows */
   var currentFilter = 'all';   /* 'all' | 'artifact' | 'uploaded' — source filter chip */
-  var viewMode = 'cards';      /* 'cards' | 'table' — list layout, switched by the segmented control */
+  var viewMode = 'table';      /* 'cards' | 'table' — list layout, switched by the segmented control (table is the default concept) */
   var PAGE_SIZE = 20;          /* rows per page — a "Load more" button reveals the next batch */
   var shownCount = PAGE_SIZE;  /* how many of the filtered rows are currently rendered */
+  var previewId = null;        /* id of the file open in the right preview split panel, or null */
 
   /* Files currently visible under the active source filter — drives the list, count, and selection. */
   function dsfVisible(){
@@ -488,6 +544,8 @@
       if (library) library.style.display = 'none';
       list.innerHTML = '';
       if (more) more.innerHTML = '';
+      dsfRenderFloatbar();
+      dsfRenderPreview();
       return;
     }
     if (library) library.style.display = '';
@@ -508,7 +566,13 @@
     }
 
     dsfRenderMeta();
+    dsfRenderFloatbar();
+    dsfRenderPreview();
+    dsfPositionFloatbar(); /* after preview so the list has its final (narrowed) width */
   }
+
+  /* Reposition the floating bar when the layout width changes. */
+  window.addEventListener('resize', dsfPositionFloatbar);
 
   /* Cards layout — reuses kit .chat-row */
   function dsfRenderCards(list, page){
@@ -516,12 +580,12 @@
     list.setAttribute('role', 'list');
     list.innerHTML = page.map(function(f){
       return ''
-        + '<div class="chat-row' + (f.selected ? ' is-selected' : '') + '" role="listitem" data-id="' + f.id + '" tabindex="0">'
+        + '<div class="chat-row' + (f.selected ? ' is-selected' : '') + (f.id === previewId ? ' is-preview' : '') + '" role="listitem" data-id="' + f.id + '" tabindex="0">'
         +   '<span class="cbx' + (f.selected ? ' on' : '') + '" role="checkbox" aria-checked="' + f.selected + '" tabindex="0" data-action="check" data-id="' + f.id + '">' + (f.selected ? CHECK : '') + '</span>'
         +   '<span class="dsf-file-ic type-' + f.type + '" aria-hidden="true">' + f.type.toUpperCase() + '</span>'
         +   '<span class="chat-row-name">' + escHtml(f.name) + '</span>'
-        +   dsfStatusBadge(f.origin)
-        +   '<span class="chat-row-time">' + escHtml(f.size) + ' · ' + escHtml(f.date) + '</span>'
+        +   '<span class="dsf-card-date">· ' + escHtml(f.date) + '</span>'
+        +   '<span class="dsf-card-status">' + dsfStatusBadge(f.origin) + '</span>'
         +   dsfKebab(f.id)
         +   dsfRowMenu(f.id)
         + '</div>';
@@ -529,7 +593,7 @@
     list.classList.toggle('is-selecting', editMode);
   }
 
-  /* Table layout — reuses kit table.tbl. Columns: [checkbox] · Name · Source · Size · Modified · [kebab] */
+  /* Table layout — reuses kit table.tbl. Columns: [checkbox] · Name · Type · Size · Modified · [kebab] */
   function dsfRenderTable(list, page){
     list.className = 'dsf-list is-table';
     list.setAttribute('role', 'region');
@@ -543,13 +607,13 @@
       + '<div class="dsf-tbl-wrap"><table class="tbl dsf-tbl">'
       +   '<thead><tr>'
       +     '<th class="dsft-cb"><span class="cbx' + ((allSel || someSel) ? ' on' : '') + '" role="checkbox" aria-checked="' + (allSel ? 'true' : (someSel ? 'mixed' : 'false')) + '" tabindex="0" data-action="select-all-header" aria-label="Select all files">' + headMark + '</span></th>'
-      +     '<th>Name</th><th>Source</th>'
+      +     '<th>Name</th><th>Type</th>'
       +     '<th class="dsft-size">Size</th><th class="dsft-date">Modified</th>'
       +     '<th class="dsft-act" aria-label="Actions"></th>'
       +   '</tr></thead><tbody>'
       +   page.map(function(f){
             return ''
-              + '<tr class="' + (f.selected ? 'is-selected' : '') + '" data-id="' + f.id + '">'
+              + '<tr class="' + (f.selected ? 'is-selected' : '') + (f.id === previewId ? ' is-preview' : '') + '" data-id="' + f.id + '">'
               +   '<td class="dsft-cb"><span class="cbx' + (f.selected ? ' on' : '') + '" role="checkbox" aria-checked="' + f.selected + '" tabindex="0" data-action="check" data-id="' + f.id + '">' + (f.selected ? CHECK : '') + '</span></td>'
               +   '<td><div class="dsft-name-cell"><span class="dsf-file-ic type-' + f.type + '" aria-hidden="true">' + f.type.toUpperCase() + '</span><span class="dsft-fname">' + escHtml(f.name) + '</span></div></td>'
               +   '<td>' + dsfStatusBadge(f.origin) + '</td>'
@@ -561,37 +625,113 @@
       +   '</tbody></table></div>';
   }
 
-  /* ===== Render meta / bulk action bar ===== */
+  /* ===== Render meta / bulk action bar =====
+     Both views show the file count. Table: count only (its selection actions live in the floating
+     bar, so the table never shifts). Cards: "N files · Select all" at rest, ✕ · N selected ·
+     Select all | Download · Delete while selecting. */
   function dsfRenderMeta(){
     var meta = document.getElementById('dsf-meta');
     var vis = dsfVisible();
-    var selectedCount = vis.filter(function(f){ return f.selected; }).length;
     var totalCount = vis.length;
-
-    if (!editMode){
-      /* Default state: no file count. Cards keep a "Select all" link (their entry into selection);
-         the table uses its header checkbox instead, so its default meta row is empty → hidden. */
-      var defActions = (viewMode === 'table') ? ''
-        : '<span class="meta-row-actions"><button class="link" type="button" data-action="enter-edit">Select all</button></span>';
-      meta.innerHTML = defActions;
-      meta.style.display = defActions ? '' : 'none';
-      return;
-    }
+    var noun = totalCount === 1 ? 'file' : 'files';
+    var countHtml = '<span class="meta-row-count">' + totalCount + ' ' + noun + '</span>';
     meta.style.display = '';
 
-    /* Selection state: ✕ · N selected · [Select all — cards only] | Download · Delete */
+    /* Table: persistent file count only — selection count/actions live in the floating bar. */
+    if (viewMode === 'table'){ meta.innerHTML = countHtml; return; }
+
+    var selectedCount = vis.filter(function(f){ return f.selected; }).length;
+
+    if (!editMode){
+      /* Default: file count + "Select all" entry into selection. */
+      meta.innerHTML = countHtml + '<span class="meta-row-actions"><button class="link" type="button" data-action="enter-edit">Select all</button></span>';
+      return;
+    }
+
     var allSelected = selectedCount === totalCount;
-    var selectAllLink = (viewMode === 'table') ? ''
-      : '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all">' + (allSelected ? 'Deselect all' : 'Select all') + '</button>';
     meta.innerHTML = ''
       + '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Clear selection" data-tip="Clear selection">' + CLOSE + '</button>'
       + '<span class="meta-row-count">' + selectedCount + ' selected</span>'
-      + selectAllLink
+      + '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all">' + (allSelected ? 'Deselect all' : 'Select all') + '</button>'
       + '<span class="dsf-bulk-right">'
       +   '<button class="dsf-meta-dl' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
       +   '<button class="dsf-meta-del' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
       + '</span>';
   }
+
+  /* ===== Floating bulk-action bar (Table view) — overlays, so the table never shifts ===== */
+  function dsfRenderFloatbar(){
+    var fb = document.getElementById('dsf-floatbar');
+    if (!fb) return;
+    var selectedCount = dsfVisible().filter(function(f){ return f.selected; }).length;
+    if (viewMode === 'table' && selectedCount > 0){
+      fb.innerHTML = ''
+        + '<span class="dsf-floatbar-count">' + selectedCount + ' selected</span>'
+        + '<span class="dsf-floatbar-sep"></span>'
+        + '<span class="dsf-floatbar-actions">'
+        +   '<button class="dsf-meta-dl" type="button" data-action="download-selected">' + DOWNLOAD + 'Download</button>'
+        +   '<button class="dsf-meta-del" type="button" data-action="delete-selected">' + TRASH + 'Delete</button>'
+        + '</span>'
+        + '<span class="dsf-floatbar-sep"></span>'
+        + '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Clear selection" data-tip="Clear selection">' + CLOSE + '</button>';
+      fb.classList.add('is-visible');
+    } else {
+      fb.classList.remove('is-visible');
+    }
+  }
+  /* Centre the floating bar over the LIST (not the viewport) — the sidebar + preview panel offset
+     the table, so viewport-centring reads as off-centre. Measures #dsf-list's live centre. */
+  function dsfPositionFloatbar(){
+    var fb = document.getElementById('dsf-floatbar');
+    if (!fb || !fb.classList.contains('is-visible')) return;
+    var ref = document.getElementById('dsf-list');
+    if (!ref) return;
+    var r = ref.getBoundingClientRect();
+    fb.style.left = Math.round(r.left + r.width / 2) + 'px';
+  }
+
+  /* ===== File preview — right split panel (opens on file-row click, like prod) ===== */
+  var PREVIEW_DOC = '<svg class="dsf-preview-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+  function dsfRenderPreview(){
+    var panel = document.getElementById('dsf-preview');
+    var shell = document.querySelector('.cl-shell');
+    if (!panel || !shell) return;
+    var f = previewId ? FILES.find(function(x){ return x.id === previewId; }) : null;
+    if (!f){ shell.classList.remove('has-preview'); panel.style.width = ''; panel.innerHTML = ''; return; }
+    shell.classList.add('has-preview');
+    panel.innerHTML = ''
+      + '<div class="dsf-preview-grip" aria-hidden="true"></div>'
+      + '<div class="dsf-preview-head">'
+      +   '<span class="dsf-preview-title">' + escHtml(f.name) + '</span>'
+      +   '<button class="dsf-meta-iconbtn" type="button" data-action="download" data-id="' + f.id + '" aria-label="Download" data-tip="Download">' + DOWNLOAD + '</button>'
+      +   '<button class="dsf-meta-iconbtn" type="button" data-action="close-preview" aria-label="Close preview" data-tip="Close">' + CLOSE + '</button>'
+      + '</div>'
+      + '<div class="dsf-preview-body">'
+      +   PREVIEW_DOC
+      +   '<div class="dsf-preview-name">' + escHtml(f.name) + '</div>'
+      +   '<div class="dsf-preview-meta">' + escHtml(f.size) + ' · ' + (f.origin === 'artifact' ? 'Artifact' : 'Uploaded') + ' · ' + escHtml(f.date) + '</div>'
+      + '</div>';
+  }
+  /* Resizable preview — drag the left-edge grip; the panel hugs the right edge, so its width is
+     (viewport right − pointer x), clamped. Stored on the shell as --dsf-preview-w (px). */
+  (function(){
+    var shell = document.querySelector('.cl-shell');
+    document.addEventListener('pointerdown', function(e){
+      if (!e.target.closest('.dsf-preview-grip')) return;
+      e.preventDefault();
+      shell.classList.add('is-resizing');
+      var panel = document.getElementById('dsf-preview');
+      function move(ev){
+        var w = Math.max(320, Math.min(window.innerWidth - ev.clientX, Math.min(720, window.innerWidth - 360)));
+        if (panel) panel.style.width = w + 'px';
+      }
+      function up(){ shell.classList.remove('is-resizing'); document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', up); }
+      document.addEventListener('pointermove', move);
+      document.addEventListener('pointerup', up);
+    });
+  })();
+  function dsfOpenPreview(id){ previewId = id; dsfRender(); }
+  function dsfClosePreview(){ if (previewId === null) return; previewId = null; dsfRender(); }
 
   /* ===== Click delegation — handles all interactive elements in the expected section ===== */
   document.addEventListener('click', function(e){
@@ -686,11 +826,22 @@
     }
     if (action === 'download'){ return; } /* demo no-op */
     if (action === 'download-selected'){ return; } /* demo no-op */
+    if (action === 'close-preview'){ dsfClosePreview(); return; }
+
+    /* Row body click (not on the checkbox / kebab / menu) → open the file preview panel. */
+    var rowEl = e.target.closest('.chat-row[data-id], tr[data-id]');
+    if (rowEl && !action && !e.target.closest('.chat-row-menu')){
+      var pid = rowEl.getAttribute('data-id');
+      if (FILES.some(function(x){ return x.id === pid; })) dsfOpenPreview(pid);
+      return;
+    }
   });
 
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape'){
+      var hadMenu = document.querySelector('.chat-row-more[aria-expanded="true"]');
       document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      if (!hadMenu) dsfClosePreview();
     }
   });
 
@@ -815,6 +966,17 @@
   main.addEventListener('scroll',upd,{passive:true});
   upd();
 })();
+</script>
+<script>
+/* Account-popover → profile-modal routing. Standalone block so it registers even if an earlier
+   script block throws (the in-block handler was not firing). Item label → ?section= tab. */
+document.addEventListener('click', function(e){
+  var it = e.target.closest('#sbx-pop-account .sbx-pop-item');
+  if(!it) return;
+  var map = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
+  var sec = map[it.textContent.trim()];
+  if(sec) window.location.href = 'user_profile-modal.html?section=' + sec;
+});
 </script>
 </body>
 </html>

@@ -50,7 +50,7 @@
      interactive form-control; the inner textarea stays chromeless and the card does the
      border lift on hover and the input-focus border on focus-within). */
   /* Composer card — 8px top/right/bottom, 4px left (per design). Asymmetric left padding tucks the prompt text close to the visible inner edge while the footer controls keep balanced right margin. */
-  .cl-composer{width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem .5rem .5rem .25rem;border-radius:1rem;transition:border-color .15s,box-shadow .15s}
+  .cl-composer{width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem;border-radius:1rem;transition:border-color .15s,box-shadow .15s}
   /* Hover uses the kit's form-control --border-hover token — same as inputs / textarea /
      InputGroup. Both tokens were softened kit-wide so the affordance reads gently. */
   .cl-composer:hover{border-color:var(--border-hover)}
@@ -75,6 +75,10 @@
      (hero's gap is 28px; with -4px here the composer-to-chips gap reads as 24px, while
      the title-to-composer gap stays at the full 28px). */
   .cl-suggest{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:-4px}
+  /* Concept control (design-review only) — lives in the page topbar (top of page, never in content);
+     switches the composer popovers between states. The switcher itself is the kit SegmentedControl. */
+  .tb-concept{display:flex;align-items:center;gap:.375rem}
+  .tb-concept-lbl{font-size:var(--text-11);color:var(--ink-secondary);white-space:nowrap}
   .cl-pill{height:2.125rem;padding:0 .875rem;gap:.375rem;font-size:.8125rem;font-weight:500;border-radius:9999px}
   .cl-pill svg{width:14px;height:14px;color:var(--ink-secondary);flex:none}
 
@@ -238,7 +242,23 @@
     <span class="ttl">Chat landing</span>
     <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
   </div>
-  <div style="display:flex;gap:.375rem">
+  <div style="display:flex;align-items:center;gap:.625rem">
+    <div class="tb-concept" role="group" aria-label="Choose File style (concept)" title="Both versions open the Add-file popover (never a direct file picker). They differ only in the Choose File control: version 1 = a brand menu-item row; version 2 = a secondary button.">
+      <span class="tb-concept-lbl">Choose File</span>
+      <div class="segctrl is-sm" role="tablist" aria-label="Choose File style" style="width:auto">
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="true" onclick="clSetBehavior('c1',this)">1 · Row</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetBehavior('c2',this)">2 · Button</button>
+      </div>
+    </div>
+    <div class="tb-concept" role="group" aria-label="Popover state (concept)" title="Open Connections or Add file in the composer to preview the selected state">
+      <span class="tb-concept-lbl">Popover state</span>
+      <div class="segctrl is-sm" role="tablist" aria-label="Popover state" style="width:auto">
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetPopState('loading',this)">Loading</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetPopState('empty',this)">Empty</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="true" onclick="clSetPopState('filled',this)">Filled</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetPopState('scroll',this)">Scrolling</button>
+      </div>
+    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
@@ -382,16 +402,16 @@
         <div class="sbx-foot">
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
-              <span class="sbx-tok-label">Tokens</span>
-              <span class="sbx-tok-val">673 / 1000</span>
+              <span class="sbx-tok-label">Usage</span>
+              <span class="sbx-tok-val">213 / 500</span>
             </div>
-            <div class="sbx-tok-bar"><span style="width:67.3%"></span></div>
+            <div class="sbx-tok-bar"><span style="width:42.6%"></span></div>
           </button>
           <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
             <span class="sbx-user-ava">K</span>
             <span class="sbx-user-info">
               <span class="sbx-user-name">Kateryna K.</span>
-              <span class="sbx-user-meta">Admin · Professional</span>
+              <span class="sbx-user-meta">Admin · Free</span>
             </span>
             <svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
           </button>
@@ -422,24 +442,24 @@
             <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>Sign out</button>
           </div>
 
-          <!-- Subscription tokens popover — opens above the tokens row -->
-          <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription tokens">
+          <!-- Subscription credits popover — opens above the tokens row -->
+          <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head">
               <span class="plan-badge" aria-hidden="true"></span>
-              <span class="plan-name">Basic</span>
+              <span class="plan-name">Free</span>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Subscription tokens</span></div>
-              <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
-              <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
+              <div class="row"><span class="label">Subscription credits</span></div>
+              <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
+              <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">50 of 100</span></div>
-              <div class="bar"><span style="width:50%;background:var(--fb-green)"></span></div>
+              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
+              <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
             </div>
             <div class="sbx-pop-tok-actions">
-              <button class="btn btn-primary sbx-pop-cta" type="button">Buy credits</button>
-              <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade plan</button>
+              <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=balance'">Buy Credits</button>
+              <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
             </div>
           </div>
         </div>
@@ -458,31 +478,37 @@
       <h1 class="cl-title">What <span class="cl-highlight">insight</span><br/>are you <span class="cl-highlight">looking for</span>?</h1>
 
       <div class="cl-composer card-panel">
+        <!-- Attached-file chip — sits above the input; populated by JS once a file is loaded (only one allowed). -->
+        <div class="cl-file-chip" id="cl-file-chip" hidden>
+          <span class="cl-file-chip-ic" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg></span>
+          <span class="cl-file-chip-meta">
+            <span class="cl-file-chip-name"></span>
+            <span class="cl-file-chip-size"></span>
+          </span>
+          <button class="cl-file-chip-x" type="button" aria-label="Remove file" onclick="clRemoveFile()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
         <textarea class="ta cl-prompt" rows="2" placeholder="Ask anything about your data…" oninput="clOnInput(this)"></textarea>
         <div class="cl-composer-foot">
           <div class="cl-composer-tools">
             <div class="cl-dropdown-wrap">
-              <button class="iconbtn iconbtn-tertiary cl-attach" type="button" aria-label="Add file" aria-haspopup="menu" aria-expanded="false" onclick="clAttachToggle(this)" data-tip="Add file">
+              <button class="iconbtn iconbtn-tertiary cl-attach" type="button" aria-label="Attach file" aria-haspopup="menu" aria-expanded="false" onclick="clAttachToggle(this)" data-tip="Attach file">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
               </button>
               <div class="cl-dropdown-menu menu cl-attach-menu" role="menu">
-                <div class="menu-wip" aria-hidden="true">In redesign</div>
-                <button class="btn btn-secondary btn-sm cl-attach-choose" type="button" onclick="clChooseFile()">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <button class="mi cl-attach-choose" type="button" role="menuitem" onclick="clChooseFile()">
+                  <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                   Choose File
                 </button>
+                <hr class="menu-sep" />
                 <div class="cl-menu-label">Recent files</div>
-                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('Q3-revenue.csv')">Q3-revenue.csv</div>
-                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('customers-export.xlsx')">customers-export.xlsx</div>
-                <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('churn-analysis.pdf')">churn-analysis.pdf</div>
+                <div class="cl-file-list" id="cl-file-list">
+                  <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('Q3-revenue.csv')"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span class="cl-file-name">Q3-revenue.csv</span></div>
+                  <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('customers-export.xlsx')"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span class="cl-file-name">customers-export.xlsx</span></div>
+                  <div class="mi cl-file-item" role="menuitem" onclick="clPickFile('churn-analysis.pdf')"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span class="cl-file-name">churn-analysis.pdf</span></div>
+                </div>
               </div>
-            </div>
-            <!-- Attached-file chip — populated by JS once a file is loaded (only one allowed). -->
-            <div class="cl-file-chip" id="cl-file-chip" hidden>
-              <span class="cl-file-chip-name"></span>
-              <button class="cl-file-chip-x" type="button" aria-label="Remove file" onclick="clRemoveFile()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
             </div>
             <div class="cl-dropdown-wrap">
               <button class="cl-dropdown" type="button" aria-haspopup="menu" aria-expanded="false" onclick="clDdToggle(this)">
@@ -491,22 +517,22 @@
                 <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
               <div class="cl-dropdown-menu menu cl-conn-menu" role="menu">
-                <div class="menu-wip" aria-hidden="true">In redesign</div>
-                <div class="cl-menu-label">Your connections</div>
-                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
-                  <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
-                  <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
-                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB in this chat"></button>
-                </div>
-                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
-                  <span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span>
-                  <span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span></span>
-                  <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM in this chat"></button>
-                </div>
-                <div class="mi cl-conn-item" onclick="clConnToggle(this)">
-                  <span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span>
-                  <span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span></span>
-                  <button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub in this chat"></button>
+                <div class="cl-conn-list" id="cl-conn-list">
+                  <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                    <span class="logo-spr postgresql cl-conn-logo" role="img" aria-label="PostgreSQL logo"></span>
+                    <span class="cl-conn-text"><span class="cl-conn-name">Production DB</span></span>
+                    <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Production DB in this chat"></button>
+                  </div>
+                  <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                    <span class="logo-spr salesforce cl-conn-logo" role="img" aria-label="Salesforce logo"></span>
+                    <span class="cl-conn-text"><span class="cl-conn-name">Main CRM</span></span>
+                    <button class="swt is-sm on cl-conn-swt" type="button" role="switch" aria-checked="true" aria-label="Use Main CRM in this chat"></button>
+                  </div>
+                  <div class="mi cl-conn-item" onclick="clConnToggle(this)">
+                    <span class="logo-spr hubspot cl-conn-logo" role="img" aria-label="HubSpot logo"></span>
+                    <span class="cl-conn-text"><span class="cl-conn-name">Marketing Hub</span></span>
+                    <button class="swt is-sm cl-conn-swt" type="button" role="switch" aria-checked="false" aria-label="Use Marketing Hub in this chat"></button>
+                  </div>
                 </div>
                 <hr class="menu-sep" />
                 <a class="mi cl-conn-manage" role="menuitem" href="../approved/data-sources_connections-landing.html">
@@ -522,7 +548,7 @@
                 <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
               <div class="cl-dropdown-menu menu cl-model-menu" role="menu">
-                <div class="menu-wip" aria-hidden="true">In redesign</div>
+                <div id="cl-model-list">
                 <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="true" onclick="clModelSelect(this,'Insightis Light')">
                   <svg class="cl-model-logo" aria-hidden="true"><use href="#lg-mark"/></svg>
                   <span class="cl-model-text"><span class="cl-model-name">Insightis Light</span><span class="cl-model-desc">Fast, everyday answers</span></span>
@@ -533,6 +559,7 @@
                   <span class="cl-model-text"><span class="cl-model-name">Insightis Ultra</span><span class="cl-model-desc">Deepest reasoning &amp; analysis</span></span>
                   <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
+                </div>
               </div>
             </div>
           </div>
@@ -633,6 +660,14 @@
     ta.focus();
   }
   // Toggle the named popover; close any sibling popover so only one is open at a time.
+  /* Account popover items open the user-profile modal on the matching tab */
+  document.addEventListener('click', function(e){
+    var acctItem = e.target.closest('#sbx-pop-account .sbx-pop-item');
+    if(!acctItem) return;
+    var acctMap = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
+    var acctSec = acctMap[acctItem.textContent.trim()];
+    if(acctSec) window.location.href = 'user_profile-modal.html?section=' + acctSec;
+  });
   function clTogglePop(id){
     var pop = document.getElementById(id);
     if(!pop) return;
@@ -688,6 +723,7 @@
    // section-header toggles, which also use aria-expanded but are persistent UI, not popups).
    // Scoping to [aria-haspopup] keeps those section toggles immune to outside clicks.
   document.addEventListener('click', function(e){
+    if(e.target.closest && e.target.closest('.tb-concept')) return; // toggling the concept switcher must not close an open popover
     document.querySelectorAll('[aria-haspopup][aria-expanded="true"]').forEach(function(btn){
       if(btn.contains(e.target) || btn.parentElement.contains(e.target)) return;
       var ctrls = btn.getAttribute('aria-controls');
@@ -699,19 +735,59 @@
       btn.setAttribute('aria-expanded','false');
     });
   });
+  /* Concept controls (design-review only): which list state the popovers render, and which Choose
+     File style the Add-file popover uses. Both style versions open the popover — neither adds a file
+     directly. */
+  var clPopState='filled';   // 'empty' | 'filled' | 'scroll' — current popover-state concept
+  var clBehavior='c1';       // Choose File style (both versions open the popover): 'c1' = brand row (default); 'c2' = secondary button
+  function clSetBehavior(mode, btn){
+    clBehavior=mode;
+    if(btn){ var sibs=btn.parentNode.querySelectorAll('.segctrl-btn');
+      for(var i=0;i<sibs.length;i++) sibs[i].setAttribute('aria-selected','false');
+      btn.setAttribute('aria-selected','true'); }
+    clApplyChooseStyle();
+    clCloseAll();   // close any open popover so the newly selected style is evaluated cleanly
+  }
+  // Choose File style: c1 = brand `.mi` row (with upload icon); c2 = full-width secondary button.
+  // Toggled, not re-rendered, so the button keeps its onclick.
+  function clApplyChooseStyle(){
+    document.querySelectorAll('.cl-attach-choose').forEach(function(el){
+      el.className = (clBehavior==='c2') ? 'btn btn-secondary btn-sm cl-attach-choose' : 'mi cl-attach-choose';
+    });
+  }
+  clApplyChooseStyle();   // apply the default concept (c2) treatment on load
   function clCloseAll(){
     document.querySelectorAll('.cl-dropdown[aria-expanded="true"]').forEach(function(b){b.setAttribute('aria-expanded','false');});
     var att = document.querySelector('.cl-attach[aria-expanded="true"]');
     if(att) att.setAttribute('aria-expanded','false');
   }
+  // On open, paint the skeleton FIRST, then resolve to the current target state after a short
+  // simulated load — a popover always shows a skeleton before its content arrives. If the switcher
+  // is pinned to 'loading' it just stays skeleton. Widths are equal across states so nothing shifts.
+  function clSimOpen(btn){
+    var wrap=btn.closest('.cl-dropdown-wrap');
+    var menu=wrap&&wrap.querySelector('.cl-dropdown-menu');
+    if(!menu){ clFitMenu(btn); return; }
+    var kind=menu.classList.contains('cl-attach-menu')?'files':menu.classList.contains('cl-conn-menu')?'conn':'model';
+    if(kind==='model'){ clRenderModels(); clFitMenu(btn); return; }   // models are known client-side — no skeleton
+    function render(st){ if(kind==='files') clRenderFiles(st); else clRenderConn(st); }
+    render('loading'); clFitMenu(btn);
+    if(clPopState==='loading') return;
+    setTimeout(function(){
+      if(btn.getAttribute('aria-expanded')!=='true') return;   // closed during the simulated load
+      render(clPopState); clFitMenu(btn);
+    }, 650);
+  }
   function clDdToggle(btn){
     var willOpen = btn.getAttribute('aria-expanded') !== 'true';
     clCloseAll();
     btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    if(willOpen) clSimOpen(btn);
   }
   function clModelSelect(item, label){
     var wrap = item.closest('.cl-dropdown-wrap');
     if(!wrap) return;
+    clModelSel = label;   // remembered so a loading→loaded re-render keeps the selection
     wrap.querySelectorAll('.cl-model-item').forEach(function(m){m.setAttribute('aria-checked', m === item ? 'true' : 'false');});
     var lbl = wrap.querySelector('.cl-dropdown-lbl');
     if(lbl) lbl.textContent = label;
@@ -732,27 +808,129 @@
   // hoverable so its tooltip can explain why); the chosen file shows as a removable chip.
   function clAttachToggle(btn){
     if(btn.getAttribute('aria-disabled') === 'true') return;
+    // Both versions open the popover — never a direct file picker.
     var willOpen = btn.getAttribute('aria-expanded') !== 'true';
     clCloseAll();
     btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    if(willOpen) clSimOpen(btn);
   }
   function clAttachClose(){
     var att = document.querySelector('.cl-attach');
     if(att) att.setAttribute('aria-expanded','false');
   }
   function clChooseFile(){ clPickFile('data-upload.csv'); }   // stands in for the OS file picker
+  // Deterministic mock file size (KB) from the name — same file always reads the same size.
+  function clFileSize(name){ var s=0; for(var i=0;i<name.length;i++) s+=name.charCodeAt(i); return ((s%180)/10+2).toFixed(1)+' KB'; }
   function clPickFile(name){
     clAttachClose();
     var chip = document.getElementById('cl-file-chip');
-    if(chip){ chip.querySelector('.cl-file-chip-name').textContent = name; chip.hidden = false; }
+    if(chip){
+      chip.querySelector('.cl-file-chip-name').textContent = name;
+      chip.querySelector('.cl-file-chip-size').textContent = clFileSize(name);
+      chip.hidden = false;
+    }
     var att = document.querySelector('.cl-attach');
     if(att){ att.setAttribute('aria-disabled','true'); att.setAttribute('data-tip','Only one file allowed'); }
   }
   function clRemoveFile(){
     var chip = document.getElementById('cl-file-chip');
-    if(chip){ chip.hidden = true; chip.querySelector('.cl-file-chip-name').textContent = ''; }
+    if(chip){ chip.hidden = true; chip.querySelector('.cl-file-chip-name').textContent = ''; chip.querySelector('.cl-file-chip-size').textContent = ''; }
     var att = document.querySelector('.cl-attach');
-    if(att){ att.removeAttribute('aria-disabled'); att.setAttribute('data-tip','Add file'); }
+    if(att){ att.removeAttribute('aria-disabled'); att.setAttribute('data-tip','Attach file'); }
+  }
+  /* ── Popover-state concept switcher ───────────────────────────────────────────
+     Design-review control: re-renders the Connections + Recent-files lists in one of
+     three states — empty · filled (3) · scrolling (12, caps ~10 rows then scrolls via
+     .cl-menu-scroll). The section heading + Manage / Choose-File chrome stay pinned. */
+  var CL_CONNS=[
+    {logo:'postgresql',name:'Production DB',on:true},
+    {logo:'salesforce',name:'Main CRM',on:true},
+    {logo:'hubspot',name:'Marketing Hub',on:false},
+    {logo:'postgresql',name:'Analytics DW',on:true},
+    {logo:'postgresql',name:'Billing DB',on:false},
+    {logo:'salesforce',name:'Sales Sandbox',on:false},
+    {logo:'hubspot',name:'Support Tickets',on:true},
+    {logo:'postgresql',name:'Inventory DB',on:false},
+    {logo:'postgresql',name:'Web Event Logs',on:true},
+    {logo:'salesforce',name:'Partner CRM',on:false},
+    {logo:'hubspot',name:'Product Catalog',on:false},
+    {logo:'postgresql',name:'User Directory',on:false}
+  ];
+  var CL_FILES=['Q3-revenue.csv','customers-export.xlsx','churn-analysis.pdf','ad-spend-2024.xlsx','cohort-retention.csv','nps-survey-q3.pdf','pipeline-q4.xlsx','refunds-2024.csv','sessions-raw.csv','ltv-model.xlsx','campaign-utm.csv','forecast-2025.pdf'];
+  var CL_MODELS=[{name:'Insightis Light',desc:'Fast, everyday answers'},{name:'Insightis Ultra',desc:'Deepest reasoning & analysis'}];
+  var clModelSel='Insightis Light';
+  /* Skeleton rows — reuse the SAME .mi.<row> classes as the loaded rows so padding, font and
+     line-height (and therefore row height) match exactly; the popover must not resize when the real
+     content arrives. Skel dimensions are inline (per the kit Skeleton pattern); pointer-events:none
+     keeps the placeholder non-interactive. Loading keeps all chrome (Choose File / heading / divider
+     / Manage) visible — only the async row region swaps — so loading→loaded is a pure content swap. */
+  function clSkelConnRow(){ return '<div class="mi cl-conn-item" aria-hidden="true" style="pointer-events:none"><span class="skel r-full" style="width:24px;height:24px"></span><span class="cl-conn-text"><span class="cl-conn-name"><span class="skel" style="display:inline-block;width:8rem;height:.625rem"></span></span></span><span class="skel r-full" style="width:1.75rem;height:1rem"></span></div>'; }
+  function clSkelFileRow(){ return '<div class="mi cl-file-item" aria-hidden="true" style="pointer-events:none"><span class="skel r-sm" style="width:16px;height:16px"></span><span class="cl-file-name"><span class="skel" style="display:inline-block;width:9rem;height:.625rem"></span></span></div>'; }
+  function clModelRow(m,checked){ return '<button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="'+(checked?'true':'false')+'" onclick="clModelSelect(this,\''+m.name+'\')"><svg class="cl-model-logo" aria-hidden="true"><use href="#lg-mark"/></svg><span class="cl-model-text"><span class="cl-model-name">'+m.name+'</span><span class="cl-model-desc">'+m.desc+'</span></span><svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>'; }
+  // Models are known client-side (Insightis Light / Ultra) — no async fetch, so no skeleton: always render the real rows.
+  function clRenderModels(){ var box=document.getElementById('cl-model-list'); if(!box) return; box.innerHTML=CL_MODELS.map(function(m){return clModelRow(m,m.name===clModelSel);}).join(''); }
+  function clConnRow(c){
+    return '<div class="mi cl-conn-item" onclick="clConnToggle(this)">'+
+      '<span class="logo-spr '+c.logo+' cl-conn-logo" role="img" aria-label="'+c.name+' logo"></span>'+
+      '<span class="cl-conn-text"><span class="cl-conn-name">'+c.name+'</span></span>'+
+      '<button class="swt is-sm '+(c.on?'on ':'')+'cl-conn-swt" type="button" role="switch" aria-checked="'+(c.on?'true':'false')+'" aria-label="Use '+c.name+' in this chat"></button>'+
+      '</div>';
+  }
+  function clRenderConn(state){
+    var box=document.getElementById('cl-conn-list'); if(!box) return;
+    var menu=box.closest('.cl-conn-menu');
+    var sep=menu&&menu.querySelector('.menu-sep'), manage=menu&&menu.querySelector('.cl-conn-manage'), label=menu&&menu.querySelector('.cl-menu-label');
+    if(sep) sep.style.display=''; if(manage) manage.style.display=''; if(label) label.style.display='';  // chrome (divider + Manage footer) always stays — it IS the action, and keeping it means loading→empty doesn't jump
+    if(state==='empty'){
+      box.innerHTML='<div class="cl-menu-empty">'+
+        '<span class="cl-menu-empty-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="7" height="7" rx="1.2"/><rect x="15" y="15" width="7" height="7" rx="1.2"/><path d="M5.5 9v4a2 2 0 0 0 2 2h7"/></svg></span>'+
+        '<div class="cl-menu-empty-title">No connections yet</div>'+
+        '<div class="cl-menu-empty-sub">Connect a source to use it in this chat</div></div>';
+      return;
+    }
+    if(state==='loading'){ box.innerHTML=clSkelConnRow()+clSkelConnRow()+clSkelConnRow(); return; }
+    var rows=(state==='scroll'?CL_CONNS:CL_CONNS.slice(0,3)).map(clConnRow).join('');
+    box.innerHTML=(state==='scroll')?'<div class="cl-menu-scroll">'+rows+'</div>':rows;
+  }
+  function clRenderFiles(state){
+    var box=document.getElementById('cl-file-list'); if(!box) return;
+    var menu=box.closest('.cl-attach-menu');
+    var choose=menu&&menu.querySelector('.cl-attach-choose');
+    var sep=menu&&menu.querySelector('.menu-sep'), label=menu&&menu.querySelector('.cl-menu-label');
+    if(choose) choose.style.display=''; if(sep) sep.style.display=''; if(label) label.style.display='';  // chrome (Choose File row + divider + heading) always stays — Choose File IS the action, and keeping it means loading→empty doesn't drop/re-add the button (no jump)
+    if(state==='empty'){
+      box.innerHTML='<div class="cl-menu-empty">'+
+        '<span class="cl-menu-empty-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>'+
+        '<div class="cl-menu-empty-title">No recent files</div>'+
+        '<div class="cl-menu-empty-sub">Upload a file to use it in this chat</div></div>';
+      return;
+    }
+    if(state==='loading'){ box.innerHTML=clSkelFileRow()+clSkelFileRow()+clSkelFileRow(); return; }
+    var rows=(state==='scroll'?CL_FILES:CL_FILES.slice(0,3)).map(function(f){
+      return '<div class="mi cl-file-item" role="menuitem" onclick="clPickFile(\''+f+'\')"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span class="cl-file-name">'+f+'</span></div>';
+    }).join('');
+    box.innerHTML=(state==='scroll')?'<div class="cl-menu-scroll">'+rows+'</div>':rows;
+  }
+  function clSetPopState(state, btn){
+    clPopState=state;
+    clRenderConn(state); clRenderFiles(state); clRenderModels();
+    if(btn){ var sibs=btn.parentNode.querySelectorAll('.segctrl-btn');
+      for(var i=0;i<sibs.length;i++) sibs[i].setAttribute('aria-selected','false');
+      btn.setAttribute('aria-selected','true'); }
+    // re-fit any popover that's open so the new content respects the space above the trigger
+    document.querySelectorAll('.cl-attach[aria-expanded="true"],.cl-dropdown[aria-expanded="true"]').forEach(clFitMenu);
+  }
+  // The composer popover opens UPWARD; cap its scroll region to the space above the trigger so it can
+  // never slide under the topbar — it just scrolls earlier when space is tight. Only the scrolling
+  // state has a .cl-menu-scroll; empty/filled are short and need no cap.
+  function clFitMenu(btn){
+    var wrap=btn.closest('.cl-dropdown-wrap'); if(!wrap) return;
+    var menu=wrap.querySelector('.cl-dropdown-menu'); if(!menu) return;
+    var scroll=menu.querySelector('.cl-menu-scroll'); if(!scroll) return;
+    scroll.style.maxHeight='none';
+    var avail=btn.getBoundingClientRect().top - 56;       // space above trigger − topbar(40) − margin
+    var chrome=menu.offsetHeight - scroll.offsetHeight;    // pinned parts (button/label/sep/footer)
+    scroll.style.maxHeight=Math.max(112, Math.min(avail - chrome, 320))+'px';
   }
   // Sticker drag IIFE removed — sticker is no longer rendered on this page (info documented
   // in ../page-changes/chat-landing.md).
@@ -782,6 +960,17 @@
     });
   });
 })();
+</script>
+<script>
+/* Account-popover → profile-modal routing. Standalone block so it registers even if an earlier
+   script block throws (the in-block handler was not firing). Item label → ?section= tab. */
+document.addEventListener('click', function(e){
+  var it = e.target.closest('#sbx-pop-account .sbx-pop-item');
+  if(!it) return;
+  var map = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
+  var sec = map[it.textContent.trim()];
+  if(sec) window.location.href = 'user_profile-modal.html?section=' + sec;
+});
 </script>
 </body>
 </html>

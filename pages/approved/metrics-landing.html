@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en" class="">
 <head>
 <meta charset="utf-8" />
@@ -59,7 +59,7 @@
   #mx-panel-title{flex:1;font-size:1.125rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #mx-panel-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem}
   .mx-panel-sect{display:flex;flex-direction:column;gap:1rem;padding:1rem;border:1px solid var(--border);border-radius:.625rem;background:var(--card)}
-  .mx-panel-sect-title{font-size:.75rem;font-weight:600;color:var(--ink-secondary);letter-spacing:.01em;padding-bottom:.5rem;border-bottom:1px solid var(--border);margin:0}
+  .mx-panel-sect-title{font-size:.75rem;font-weight:600;color:var(--ink-secondary);letter-spacing:var(--tracking-normal);padding-bottom:.5rem;border-bottom:1px solid var(--border);margin:0}
 
   #mx-panel-cta{padding:1.5rem;border-top:1px solid var(--border);flex:none}
   /* Reusable detail-panel footer (documented in components/DetailPanel.html). Metrics' own panel
@@ -91,7 +91,7 @@
   .mx-active-toggle{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8125rem;color:var(--ink-secondary);user-select:none;white-space:nowrap}
   @media(max-width:767px){.mx-active-toggle{margin-left:0}}
   .mx-c3-toolbar .igrp-add{padding:0 6px 0 10px}
-  .mx-c3-toolbar .igrp-add svg{width:15px;height:15px}
+  .mx-c3-toolbar .igrp-add svg{width:16px;height:16px}
   .mx-c3-toolbar .igrp-input{padding-left:4px}
 
   /* Tooltip rendered via JS as position:fixed вЂ” no clipping */
@@ -120,7 +120,7 @@
   /* broken image placeholder */
   .prov-ic-w.is-broken img{display:none}
   .prov-ic-w.is-broken{border-style:dashed;background:var(--bg)}
-  .prov-ic-w.is-broken::after{content:attr(data-initials);font-size:.4375rem;font-weight:700;letter-spacing:.04em;color:var(--ink-secondary);line-height:1}
+  .prov-ic-w.is-broken::after{content:attr(data-initials);font-size:.4375rem;font-weight:700;letter-spacing:var(--tracking-label);color:var(--ink-secondary);line-height:1}
 
   /* в”Ђв”Ђ New connection dialog вЂ” integration form mock в”Ђв”Ђ */
   .ds-intg-frame{border-radius:.375rem;overflow:hidden;background:var(--white);border:1px solid var(--border)}
@@ -250,7 +250,7 @@
         </div>
       </div>
       <div class="sbx-foot">
-        <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')"><div class="sbx-tok-row"><span class="sbx-tok-label">Usage</span><span class="sbx-tok-val">673 / 1000</span></div><div class="sbx-tok-bar"><span style="width:67.3%"></span></div></button>
+        <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')"><div class="sbx-tok-row"><span class="sbx-tok-label">Usage</span><span class="sbx-tok-val">213 / 500</span></div><div class="sbx-tok-bar"><span style="width:42.6%"></span></div></button>
         <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')"><span class="sbx-user-ava">K</span><span class="sbx-user-info"><span class="sbx-user-name">Kateryna K.</span><span class="sbx-user-meta">Admin В· Professional</span></span><svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></button>
 
         <!-- Account popover вЂ” opens above the user row -->
@@ -281,19 +281,19 @@
 
         <!-- Subscription credits popover вЂ” opens above the tokens row -->
         <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
-          <div class="sbx-pop-tok-head"><span class="plan-badge" aria-hidden="true"></span><span class="plan-name">Basic</span></div>
+          <div class="sbx-pop-tok-head"><span class="plan-badge" aria-hidden="true"></span><span class="plan-name">Free</span></div>
           <div class="sbx-pop-tok-meter">
             <div class="row"><span class="label">Subscription credits</span></div>
-            <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">673 of 1000</span></div>
-            <div class="bar"><span style="width:67%;background:var(--brand-tertiary)"></span></div>
+            <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
+            <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
           </div>
           <div class="sbx-pop-tok-meter">
-            <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">50 of 100</span></div>
-            <div class="bar"><span style="width:50%;background:var(--fb-green)"></span></div>
+            <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
+            <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
           </div>
           <div class="sbx-pop-tok-actions">
-            <button class="btn btn-primary sbx-pop-cta" type="button">Buy Credits</button>
-            <button class="btn btn-secondary sbx-pop-cta" type="button">Upgrade Plan</button>
+            <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='../concept/user_profile-modal.html?section=balance'">Buy Credits</button>
+            <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='../concept/user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
           </div>
         </div>
       </div>
@@ -1257,10 +1257,10 @@
               <!-- в•ђв•ђ Jira Software Cloud в•ђв•ђ -->
               <tr class="mx-prov-group" data-prov="jira" onclick="mxToggleGroup(this)">
                 <td colspan="6"><div class="mx-prov-group-cell">
-                  <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg></button>
                   <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy"></span>
                   <span class="mx-prov-group-name">Jira Software Cloud</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
+                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
               <!-- Custom metrics first -->
@@ -1350,7 +1350,7 @@
                 <td colspan="6"><div class="mx-conn-sub-label">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                   <span class="mx-conn-sub-label-text">Skyvia Jira</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
+                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-conn="Skyvia Jira" data-name="Jira ticket sync lag" data-alias="@jira_sync_lag" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Average" data-desc="Average delay (in minutes) between a Jira issue update and its appearance in Insightis. Measured via Skyvia Jira connector sync timestamps. Spikes indicate connector throttling or API rate-limit events." data-custom="true" data-active="true" data-row-id="custom-skyvia-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1373,10 +1373,10 @@
               <!-- в•ђв•ђ Azure DevOps (no built-in metrics demo) в•ђв•ђ -->
               <tr class="mx-prov-group" data-prov="azure" onclick="mxToggleGroup(this)">
                 <td colspan="6"><div class="mx-prov-group-cell">
-                  <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg></button>
                   <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/azuredevops" alt="" loading="lazy" data-fb="Az" data-color="#0078D4" onerror="var s=this.parentElement;s.style.background=this.dataset.color;s.style.border='none';s.style.color='#fff';s.style.fontSize='.5625rem';s.style.fontWeight='700';s.textContent=this.dataset.fb"></span>
                   <span class="mx-prov-group-name">Azure DevOps</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
+                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
               <tr class="mx-no-builtin-row" data-prov="azure">
@@ -1392,10 +1392,10 @@
               <!-- в•ђв•ђ GitHub в•ђв•ђ -->
               <tr class="mx-prov-group" data-prov="github" onclick="mxToggleGroup(this)">
                 <td colspan="6"><div class="mx-prov-group-cell">
-                  <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse" onclick="event.stopPropagation();mxToggleGroup(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg></button>
                   <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/github/000000" alt="" loading="lazy" class="dark-invert"></span>
                   <span class="mx-prov-group-name">GitHub</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
+                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1549,7 +1549,7 @@
             <div class="ds-intg-lbl">Metadata Cache</div>
             <div class="ds-intg-select">
               <span>Infinite</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;color:var(--ink-secondary)"><polyline points="6 9 12 15 18 9"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;color:var(--ink-secondary)"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
           </div>
           <div class="ds-intg-row" style="align-items:flex-end;flex-direction:row;justify-content:flex-end;padding:.75rem .875rem">
@@ -1609,9 +1609,9 @@
       </div>
 
       <!-- Link to вЂ” Connector | Provider segctrl -->
-      <div style="margin-top:-.375rem">
+      <div>
         <span class="mx-form-label">Link to</span>
-        <div class="segctrl is-md" id="mx-link-type-ctrl" style="width:100%;margin-top:.375rem">
+        <div class="segctrl is-md" id="mx-link-type-ctrl" style="width:100%">
           <button class="segctrl-btn is-active" type="button" onclick="mxSetLinkType('datasource',this)">Data Source</button>
           <button class="segctrl-btn" type="button" onclick="mxSetLinkType('connection',this)">Connection</button>
         </div>

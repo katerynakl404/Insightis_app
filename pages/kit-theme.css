@@ -37,6 +37,12 @@
        exceptions left literal: .5rem (Azure logo-mark monogram), .5625rem (.colhint storybook
        scaffolding), and relative .92em/.6em icon sizings. */
     --text-10:.625rem;--text-11:.6875rem;--text-12:.75rem;--text-13:.8125rem;--text-14:.875rem;--text-16:1rem;--text-18:1.125rem;--text-20:1.25rem;--text-24:1.5rem;--text-30:1.875rem;--text-36:2.25rem;--text-48:3rem;
+    /* Letter-spacing (tracking) scale — every typographic tracking flows through these four steps;
+       no raw em values live on a component. tight = display headings + mono numerics; normal = body
+       and non-overline titles; label = small uppercase overlines / labels / badges (the project-wide
+       overline tracking); caps = the wider section overlines shared by the sidebar section label and
+       the composer menu heading. */
+    --tracking-tight:-.01em;--tracking-normal:0;--tracking-label:.05em;--tracking-caps:.08em;
     --bg:var(--slate-50);--card:var(--white);--card2:var(--slate-100);--chips:var(--slate-50);
     /* Section/group-header band — Slate-150 primitive: one step lighter than
        Slate-200 (too heavy as a band) and one step darker than --state-hover
@@ -500,7 +506,7 @@
   .logo{color:var(--logo-ink);height:26px;width:120px;display:block}
 
   /* ===== layout ===== */
-  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:.75rem;border-bottom:1px solid var(--border);background:var(--card);padding:.7rem 1.25rem;overflow-x:auto;scrollbar-width:thin}
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:.75rem;border-bottom:1px solid var(--border);background:var(--card);padding:.75rem 1.25rem;overflow-x:auto;scrollbar-width:thin}
   /* Keep the title + control groups at their natural size and let the bar scroll horizontally on
      small screens, rather than squeezing/clipping the toggles. No effect on wide screens. */
   .topbar>*{flex:none}
@@ -510,73 +516,73 @@
   .side a{display:flex;align-items:center;gap:8px;border-radius:6px;padding:4px 10px;font-size:var(--text-13);color:var(--ink-body)}
   .side a:hover{background:var(--state-hover);color:var(--brand-primary)}
   .side a.active{background:var(--state-pressed);color:var(--brand-primary);font-weight:600}
-  .side .grp{margin:16px 10px 6px;font-size:var(--text-10);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive)}
+  .side .grp{margin:16px 10px 6px;font-size:var(--text-10);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--ink-inactive)}
 
   .content{min-width:0;padding:1.75rem 2rem 6rem;max-width:1080px}
   @media (max-width:880px){.layout{grid-template-columns:1fr}.side{display:none}}
 
   h1.page{font-size:var(--text-24);font-weight:600;color:var(--ink);margin:0 0 .25rem}
-  .lead{font-size:var(--text-13);color:var(--ink-secondary);background:var(--card2);border:1px solid var(--border);border-radius:.5rem;padding:.65rem .8rem;margin:.6rem 0 1.5rem}
+  .lead{font-size:var(--text-13);color:var(--ink-secondary);background:var(--card2);border:1px solid var(--border);border-radius:.5rem;padding:.625rem .75rem;margin:.625rem 0 1.5rem}
   .lead b{color:var(--ink)}
 
   .comp{scroll-margin-top:70px;padding-top:1.5rem}
   .comp+.comp{margin-top:2rem;border-top:1px solid var(--border)}
   .comp>h2{font-size:var(--text-20);font-weight:600;color:var(--ink);margin:0}
   .comp>.sub{font-size:var(--text-13);color:var(--ink-secondary);margin:.15rem 0 0}
-  .variant-label{font-size:var(--text-14);font-weight:600;color:var(--ink);margin:1.4rem 0 .4rem}
-  .chg{display:inline-flex;align-items:center;gap:.4rem;font-size:var(--text-13);font-weight:700;color:var(--content-on-solid);background:var(--brand-primary);border:1px solid transparent;border-radius:.5rem;padding:.4rem .8rem;margin-top:.5rem;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+  .variant-label{font-size:var(--text-14);font-weight:600;color:var(--ink);margin:1.375rem 0 .375rem}
+  .chg{display:inline-flex;align-items:center;gap:.375rem;font-size:var(--text-13);font-weight:700;color:var(--content-on-solid);background:var(--brand-primary);border:1px solid transparent;border-radius:.5rem;padding:.375rem .75rem;margin-top:.5rem;box-shadow:0 1px 3px rgba(0,0,0,.18)}
   .chg::before{content:"●";font-size:.6em;color:var(--fb-attention)}
   .chg:hover{background:var(--brand-hover);transform:translateY(-1px)}
   .chg.none{background:transparent;color:var(--ink-inactive);border-color:var(--border);box-shadow:none;pointer-events:none}
   .chg.none::before{display:none}
 
   /* Preview / States blocks */
-  .block{border:1px solid var(--border);border-radius:.625rem;background:var(--card);margin:.5rem 0 .9rem;overflow:hidden}
-  .block-h{font-size:var(--text-10);font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-inactive);padding:.5rem .8rem;border-bottom:1px solid var(--border);background:var(--card2)}
-  .block-b{padding:.85rem}
-  .ce{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  .block{border:1px solid var(--border);border-radius:.625rem;background:var(--card);margin:.5rem 0 .875rem;overflow:hidden}
+  .block-h{font-size:var(--text-10);font-weight:700;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--ink-inactive);padding:.5rem .75rem;border-bottom:1px solid var(--border);background:var(--card2)}
+  .block-b{padding:.875rem}
+  .ce{display:grid;grid-template-columns:1fr 1fr;gap:.625rem}
   @media (max-width:600px){.ce{grid-template-columns:1fr}}
   .ce-cell{border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
-  .ce-tag{font-size:var(--text-10);font-weight:600;padding:.3rem .55rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.35rem}
+  .ce-tag{font-size:var(--text-10);font-weight:600;padding:.25rem .5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.375rem}
   .ce-tag::before{content:"";width:7px;height:7px;border-radius:9999px}
   .ce-tag.prodt{color:var(--ink-inactive)} .ce-tag.prodt::before{background:var(--ink-inactive)}
   .ce-tag.expt{color:var(--brand-primary)} .ce-tag.expt::before{background:var(--brand-primary)}
-  .stage{display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;min-height:72px;padding:.85rem;background:var(--bg)}
-  .spec{font-size:var(--text-12);line-height:1.85;color:var(--ink-body);margin-top:.7rem;background:var(--card2);border:1px solid var(--border);border-radius:.5rem;padding:.6rem .75rem}
-  .spec b{display:inline-block;color:var(--ink-inactive);font-size:var(--text-10);letter-spacing:.05em;text-transform:uppercase;font-weight:700;margin-right:.4rem}
+  .stage{display:flex;align-items:center;justify-content:center;gap:.625rem;flex-wrap:wrap;min-height:72px;padding:.875rem;background:var(--bg)}
+  .spec{font-size:var(--text-12);line-height:1.85;color:var(--ink-body);margin-top:.75rem;background:var(--card2);border:1px solid var(--border);border-radius:.5rem;padding:.625rem .75rem}
+  .spec b{display:inline-block;color:var(--ink-inactive);font-size:var(--text-10);letter-spacing:var(--tracking-label);text-transform:uppercase;font-weight:700;margin-right:.375rem}
   /* Long values (e.g. multi-layer shadow recipes) must wrap inside the narrow States "Specification"
      column instead of forcing the cell wider and clipping. white-space:normal + overflow-wrap lets a
      recipe break at its spaces/commas; short tokens still fit on one line and don't wrap. */
-  .spec code,.stbl code{background:var(--card);border:1px solid var(--border);border-radius:.3rem;padding:.06rem .35rem;font-size:.92em;color:var(--ink);white-space:normal;overflow-wrap:break-word;word-break:break-word}
+  .spec code,.stbl code{background:var(--card);border:1px solid var(--border);border-radius:.3rem;padding:.125rem .375rem;font-size:.92em;color:var(--ink);white-space:normal;overflow-wrap:break-word;word-break:break-word}
   .stbl td{line-height:1.7}
-  .cspec{font-size:var(--text-10);color:var(--ink-secondary);margin-top:.4rem;line-height:1.45}
+  .cspec{font-size:var(--text-10);color:var(--ink-secondary);margin-top:.375rem;line-height:1.45}
   .cspec code,.cspec b{color:var(--ink)} .cspec .was{color:var(--ink-inactive)}
 
   /* states table */
   .stbl{width:100%;border-collapse:collapse;font-size:var(--text-12)}
-  .stbl th{text-align:left;font-size:var(--text-10);font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-secondary);padding:.5rem .6rem;border-bottom:1px solid var(--border)}
-  .stbl td{padding:.55rem .6rem;border-bottom:1px solid var(--border);vertical-align:middle}
+  .stbl th{text-align:left;font-size:var(--text-10);font-weight:700;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--ink-secondary);padding:.5rem .625rem;border-bottom:1px solid var(--border)}
+  .stbl td{padding:.5rem .625rem;border-bottom:1px solid var(--border);vertical-align:middle}
   .stbl tr:last-child td{border-bottom:none}
   .stbl .stname{font-weight:600;color:var(--ink);white-space:nowrap}
   .stcell{background:var(--bg);min-width:0;overflow-wrap:anywhere;word-break:break-word}
-  .ministage{display:inline-flex;align-items:center;justify-content:center;min-width:120px;min-height:46px;padding:.4rem .6rem;background:var(--bg);border-radius:.375rem}
+  .ministage{display:inline-flex;align-items:center;justify-content:center;min-width:120px;min-height:46px;padding:.375rem .625rem;background:var(--bg);border-radius:.375rem}
   .fill{min-height:30px;min-width:96px;border:1px dashed var(--border-hover);border-radius:.375rem;opacity:.5}
   .block-h .pend{color:var(--fb-attention);font-weight:700}
-  .colhint{font-size:.5625rem;color:var(--ink-inactive);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+  .colhint{font-size:.5625rem;color:var(--ink-inactive);font-weight:600;text-transform:uppercase;letter-spacing:var(--tracking-label)}
   /* ── Live Spec inspector — auto-derived computed-value table (storybook JS) ── */
-  .spec-drift-note{position:sticky;top:0;z-index:50;padding:.5rem .9rem;background:var(--fb-attention);color:var(--fb-attention-text);font-size:var(--text-12);font-weight:600;border-bottom:1px solid var(--border)}
-  .specpanel{margin-top:.6rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);overflow:hidden}
-  .specpanel>summary{cursor:pointer;padding:.5rem .75rem;font-size:var(--text-12);font-weight:600;color:var(--ink-body);list-style:none;display:flex;align-items:center;gap:.4rem;user-select:none}
+  .spec-drift-note{position:sticky;top:0;z-index:50;padding:.5rem .875rem;background:var(--fb-attention);color:var(--fb-attention-text);font-size:var(--text-12);font-weight:600;border-bottom:1px solid var(--border)}
+  .specpanel{margin-top:.625rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);overflow:hidden}
+  .specpanel>summary{cursor:pointer;padding:.5rem .75rem;font-size:var(--text-12);font-weight:600;color:var(--ink-body);list-style:none;display:flex;align-items:center;gap:.375rem;user-select:none}
   .specpanel>summary::-webkit-details-marker{display:none}
   .specpanel>summary::before{content:"\25B8";color:var(--ink-secondary);transition:transform .12s;display:inline-block}
   .specpanel[open]>summary::before{transform:rotate(90deg)}
   .specpanel-note{font-size:var(--text-10);color:var(--ink-secondary);font-weight:400;margin-left:auto}
   .spectable-wrap{overflow-x:auto;border-top:1px solid var(--border)}
   .spectable{width:100%;border-collapse:collapse;font-size:var(--text-11);font-family:ui-monospace,Menlo,monospace}
-  .spectable th,.spectable td{text-align:left;padding:.3rem .6rem;border-top:1px solid var(--border);white-space:nowrap;vertical-align:top}
+  .spectable th,.spectable td{text-align:left;padding:.25rem .625rem;border-top:1px solid var(--border);white-space:nowrap;vertical-align:top}
   .spectable thead th{position:sticky;top:0;background:var(--card2);font-weight:700;color:var(--ink)}
   .spectable .spec-prop{color:var(--ink-secondary);font-weight:500}
-  .spectable .spec-group{background:var(--bg);color:var(--ink-secondary);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:var(--text-10)}
+  .spectable .spec-group{background:var(--bg);color:var(--ink-secondary);font-weight:700;text-transform:uppercase;letter-spacing:var(--tracking-label);font-size:var(--text-10)}
 
   /* ===== component helpers (mirror @insightis/ui) ===== */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:.375rem;white-space:nowrap;font-weight:500;border-radius:.375rem;transition:all .12s;cursor:pointer;border:1px solid transparent;font-family:inherit}
@@ -729,6 +735,12 @@
   .badge .b-x{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-left:2px;font-size:var(--text-14);line-height:1;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent;font-family:inherit;padding:0;flex:none}
   .badge .b-x:hover{opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)}
   .badge .b-x:focus-visible{outline:none;opacity:1;box-shadow:var(--shadow-focus)}
+  /* State-stacking: a badge inside a list/table row can share the row's bg when that row hovers/
+     selects (Badge/Secondary fill == --card2 == row hover/selected; Badge/Primary fill == --brand-50
+     == Card selected). Give the pill a subtle, ALWAYS-ON outline tinted from its OWN colour
+     (currentColor = the variant's text token) so it stays defined in every state and the border
+     reads as part of each badge — not a uniform grey that appears on interaction. */
+  .chat-row .badge,table.tbl tbody tr .badge{border-color:color-mix(in srgb,currentColor 25%,transparent)}
 
   /* Form-control system — shared by Input (.field) and TextArea (.ta) */
   .field{display:flex;align-items:center;height:2.25rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:0 .5rem;gap:.375rem;width:100%;max-width:240px;transition:border-color .12s, box-shadow .12s}
@@ -956,10 +968,10 @@
   .menu-wip{display:flex;align-items:center;gap:6px;padding:4px 10px 6px;border-bottom:1px solid var(--border);margin-bottom:4px;font-size:var(--text-11);font-weight:500;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 8%,var(--card));border-radius:4px 4px 0 0}
   .menu-wip svg{flex-shrink:0;width:12px;height:12px}
   /* Page-level WIP indicator — fixed right-edge vertical pill for pages not yet finalised */
-  .pg-wip-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-attention) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
+  .pg-wip-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-attention) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
   /* Page-level Approved indicator — green sibling of .pg-wip-tag (same recipe, --fb-green family).
      Set by /approve-page when a page moves concept → approved; replaces the In redesign tag. */
-  .pg-approved-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fb-green);background:color-mix(in srgb,var(--fb-green) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-green) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
+  .pg-approved-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fb-green);background:color-mix(in srgb,var(--fb-green) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-green) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
   .mi .mi-ic{width:16px;height:16px;flex:none;color:currentColor}
   /* Menu separator — thin rule used to group related items inside a .menu. Negative horizontal
      margin lets the rule span edge-to-edge across the menu's 4 px padding. */
@@ -998,22 +1010,32 @@
   .cl-dropdown-wrap{position:relative}
   .cl-dropdown-menu{position:absolute;bottom:calc(100% + 4px);left:0;z-index:50;display:none}
   .cl-dropdown[aria-expanded="true"]+.cl-dropdown-menu,.cl-attach[aria-expanded="true"]+.cl-dropdown-menu{display:block}
-  /* Attached-file chip — appears in the tools row once a file is loaded; × removes it. */
-  .cl-file-chip{display:inline-flex;align-items:center;gap:.375rem;height:2rem;padding:0 .25rem 0 .75rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);font-size:.8125rem;color:var(--ink-body);max-width:12rem;align-self:flex-start}
+  /* Attached-file chip — appears above the input once a file is loaded; × removes it. Follows the
+     prod chat chip (generic lucide "file" glyph in --brand-primary teal + two-line name/size meta +
+     × remove), tuned more compact than prod: 18px file glyph, 12/10px meta, and a larger 18px × in a
+     1.5rem hit target. Transparent fill, hairline --border, 4px (--radius-inner) corners, 4×8
+     padding, max 13rem. */
+  .cl-file-chip{display:inline-flex;align-items:center;gap:.5rem;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-inner);background:transparent;max-width:13rem;align-self:flex-start}
   /* The class sets display:inline-flex, which beats the UA [hidden]{display:none} — restore it. */
   .cl-file-chip[hidden]{display:none}
-  .cl-file-chip .cl-file-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .cl-file-chip .cl-file-chip-x{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border:none;background:transparent;border-radius:.25rem;color:var(--ink-secondary);cursor:pointer;flex:none}
+  .cl-file-chip .cl-file-chip-ic{flex:none;display:inline-flex;align-items:center;justify-content:center;color:var(--brand-primary)}
+  .cl-file-chip .cl-file-chip-ic svg{width:18px;height:18px}
+  .cl-file-chip .cl-file-chip-meta{flex:1;min-width:0;display:flex;flex-direction:column}
+  .cl-file-chip .cl-file-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--text-12);font-weight:500;line-height:1.3;color:var(--ink)}
+  .cl-file-chip .cl-file-chip-size{font-size:var(--text-10);font-weight:500;line-height:1.3;color:var(--ink-secondary)}
+  .cl-file-chip .cl-file-chip-x{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;padding:0;border:none;background:transparent;border-radius:var(--radius-inner);color:var(--ink-secondary);cursor:pointer;flex:none}
   .cl-file-chip .cl-file-chip-x:hover{background:var(--state-hover);color:var(--ink-body)}
-  .cl-file-chip svg{width:14px;height:14px}
+  .cl-file-chip .cl-file-chip-x svg{width:18px;height:18px}
 
   /* Composer menus use the M width (18rem) — roomy, consistent — with the base .menu 4px padding
      (tight, like a standard dropdown). 4px padding also lets .menu-sep span edge-to-edge (its -4px
      side margin reaches the menu border). Override to is-sm/is-lg per menu. */
-  .cl-attach-menu,.cl-conn-menu,.cl-model-menu{width:18rem;max-width:18rem;padding:4px}
-  /* Empty state is sparse — drop the fixed M width for a smaller 15rem box so it isn't a big
-     mostly-blank popover (but not so narrow the helper text wraps into many lines). */
-  .cl-dropdown-menu:has(.cl-menu-empty){width:15rem;max-width:15rem}
+  .cl-attach-menu,.cl-conn-menu,.cl-model-menu{width:16rem;max-width:16rem;padding:4px}
+  /* Width is FIXED at 16rem across every state — loading (skeleton) · empty · filled · scrolling.
+     A skeleton shows before the rows load, and at that point we can't know whether the list will
+     come back empty or filled, so all outcomes must share the skeleton's width or the popover would
+     resize when content arrives. (The empty state therefore does NOT shrink — its centered stack
+     just sits in the same 16rem box.) */
   /* Attach keeps the divider at the default 4px below the Choose File row. Connections: the divider
      gets breathing room below the connection list (6px) when the list fits — but when the list is
      scrolling (`:has(.cl-menu-scroll)`) it sits flush so scrolling never reveals a white strip before
@@ -1029,7 +1051,7 @@
      the composer's "Recent files" reads as a section overline, not a body line. Only the padding
      differs (menu context — aligns to the .mi 12px text inset). Markup text stays sentence case;
      the caps are display-only via text-transform, same as the sidebar. */
-  .cl-menu-label{padding:8px 12px 4px;font-size:var(--text-10);line-height:1;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-inactive)}
+  .cl-menu-label{padding:8px 12px 4px;font-size:var(--text-10);line-height:1;font-weight:600;letter-spacing:var(--tracking-caps);text-transform:uppercase;color:var(--ink-inactive)}
   .cl-menu-label + .menu-sep,.menu-sep + .cl-menu-label{margin-top:0}
   /* Scrollable list region — wraps the connector / recent-file rows so the section heading (and,
      for Connections, the Manage footer) stay pinned while the rows scroll. clFitMenu (page JS) caps
@@ -1054,13 +1076,19 @@
 
   /* — Attach menu — secondary "Choose File" button + plain recent-file list (no icons). Width is
      the fixed M size (18rem), set on the composer-menu rule above. */
-  /* CTA — a plain menu-item row (`.mi` + upload `.mi-ic`), not a bordered button: no border to
-     double-up with the divider, and it sits with the same padding as every other row (natural
-     breathing room instead of a big button filling the popover). The leading icon + brand colour +
-     medium weight make it scan instantly as the primary action; a full-width .menu-sep below
-     separates it from the recent-files list. Its icon column lines up with the file rows below
-     (both `.mi-ic`), so the whole popover reads as one clean left column, not a ragged indent. */
-  .cl-attach-choose{color:var(--ink-highlight);font-weight:500}
+  /* CTA — Concept 1 (Direct) renders it as a plain menu-item row (`.mi` + upload `.mi-ic`): no
+     border to double-up with the divider, same padding as every row; the leading icon + brand
+     colour make it scan as the primary action, icon column aligned with the file rows below.
+     Concept 2 (Menu, default) renders it as a full-width secondary button (`.btn.btn-secondary`) —
+     the class swap is driven by clApplyChooseStyle() in the page JS. The brand-colour cue is scoped
+     to the `.mi` form so it doesn't fight the secondary button's neutral label. */
+  .mi.cl-attach-choose{color:var(--ink-highlight);font-weight:500}
+  /* Concept-2 secondary-button form: block-level flex so it fills the menu width minus its own
+     margin (no width:100% overflow). margin:4px on top of the menu's 4px padding + the divider's 4px
+     top margin gives a uniform 8px of breathing room on all four sides (button↔edges == button↔
+     divider). Keeps its leading upload icon (.mi-ic), sized here since .mi .mi-ic doesn't apply. */
+  .cl-attach-choose.btn{display:flex;box-sizing:border-box;width:calc(100% - 8px);margin:4px 4px 8px}
+  .cl-attach-choose.btn .mi-ic{width:16px;height:16px;flex:none}
   /* Recent files — each row carries a file glyph (`.mi-ic`) so the list reads unmistakably as files
      and its icon column aligns with the Choose File CTA above. Name is regular weight (one step
      below the CTA), --ink (darker, legible), single-line ellipsis via the inner .cl-file-name span. */
@@ -1257,7 +1285,7 @@
   .sbx-sect-label-wrap:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* Section labels — uses --ink-inactive semantic token (theme-aware: slate-450 light / grey-500 dark),
      same pattern as .block-h / .side .grp section dividers in the kit. */
-  .sbx-sect-label{font-size:var(--text-10);line-height:1;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-inactive);transition:color .12s}
+  .sbx-sect-label{font-size:var(--text-10);line-height:1;font-weight:600;letter-spacing:var(--tracking-caps);text-transform:uppercase;color:var(--ink-inactive);transition:color .12s}
   /* Chevron — hidden at rest, revealed on hover; rotates -90° (right-pointing) when section is collapsed */
   .sbx-sect-chev{width:10px;height:10px;color:var(--brand-tertiary);opacity:0;transition:opacity .12s,transform .15s;flex:none}
   .sbx-sect-head:hover .sbx-sect-chev,.sbx-sect-head.s-hover .sbx-sect-chev,.sbx-sect-label-wrap:focus-visible .sbx-sect-chev{opacity:1}
@@ -1666,15 +1694,15 @@
 
   .swatch{height:40px;border-radius:.5rem;border:1px solid var(--border)}
   .tok{font-size:var(--text-11);line-height:1.3;margin-top:.25rem;color:var(--ink-secondary)}
-  .palette{display:grid;grid-template-columns:repeat(10,1fr);gap:.4rem}
+  .palette{display:grid;grid-template-columns:repeat(10,1fr);gap:.375rem}
   @media (max-width:700px){.palette{grid-template-columns:repeat(5,1fr)}}
-  .semgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.6rem}
-  .card-panel{border:1px solid var(--border);background:var(--card);border-radius:.625rem;padding:.6rem}
-  .typorow{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--border);padding:.35rem 0}
+  .semgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.625rem}
+  .card-panel{border:1px solid var(--border);background:var(--card);border-radius:.625rem;padding:.625rem}
+  .typorow{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--border);padding:.375rem 0}
   .typorow:last-child{border-bottom:none}
   table.tbl{width:100%;border-collapse:collapse;font-size:var(--text-14)}
-  table.tbl th{text-align:left;font-size:var(--text-12);font-weight:500;color:var(--ink-secondary);padding:.6rem 1rem;border-bottom:1px solid var(--border)}
-  table.tbl td{padding:.6rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-body)}
+  table.tbl th{text-align:left;font-size:var(--text-12);font-weight:500;color:var(--ink-secondary);padding:.625rem 1rem;border-bottom:1px solid var(--border)}
+  table.tbl td{padding:.625rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-body)}
   /* Selected row — uses --tbl-row-pressed (neutral: slate-100 light / grey-800 dark — not brand-tinted). Hover-while-selected layers a 10% brand tint on top so the two states stay distinguishable. */
   table.tbl tr.is-selected td{background:var(--tbl-row-pressed)}
   table.tbl tr.is-selected:hover td{background:color-mix(in srgb,var(--brand-primary) 10%,var(--tbl-row-pressed))}
@@ -1697,7 +1725,7 @@
   .card-c.s-pressed,.card-c:active{border-color:var(--card-border-press);background:color-mix(in srgb,var(--brand-primary) 4%,transparent)}
   .card-c.var-secondary{background:var(--card);border:1px solid var(--border)}
   .card-c.var-secondary.s-hover{background:var(--state-hover);color:var(--ink-secondary)}
-  .card-c .c-title{font-size:var(--text-16);font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .card-c .c-title{font-size:var(--text-16);font-weight:600;color:var(--ink);letter-spacing:var(--tracking-tight)}
   .card-c .c-desc{font-size:var(--text-14);color:var(--ink-secondary)}
   .card-c .c-body{font-size:var(--text-14);color:var(--ink-body)}
   .card-c .c-foot{display:flex;align-items:center;gap:8px}
@@ -2422,7 +2450,7 @@
      metric toggles, "Metric name" header, connector icon, and empty-state text:
      header pad (1rem) + collapse chevron (13px) + cell gap (.5rem). One source so
      all five stay aligned if the chevron/gap ever changes. */
-  .mx-tbl{background:var(--card);border:1px solid var(--border);border-radius:.5rem;overflow:hidden;--mx-prov-indent:calc(1rem + 13px + .5rem)}
+  .mx-tbl{background:var(--card);border:1px solid var(--border);border-radius:.5rem;overflow:hidden;--mx-prov-indent:calc(1rem + 12px + .5rem)}
   .mx-tbl table.tbl{border-collapse:collapse;table-layout:fixed;width:100%}
   .mx-tbl table.tbl thead tr:first-child th:first-child{border-top-left-radius:.5rem}
   /* "Metric name" header sits in the toggle column and aligns to --mx-prov-indent
@@ -2483,7 +2511,7 @@
   /* ── Actions column + kebab ── */
   .mx-tbl-actions{width:3rem;padding-right:.5rem;position:relative;text-align:right;vertical-align:middle;white-space:nowrap}
   .mx-tbl-actions .iconbtn{width:1.625rem;height:1.625rem;opacity:0;transition:opacity .12s;display:inline-flex;align-items:center;justify-content:center}
-  .mx-tbl-actions .iconbtn svg{width:13px;height:13px}
+  .mx-tbl-actions .iconbtn svg{width:12px;height:12px}
   tr:hover .mx-tbl-actions .iconbtn{opacity:1}
   /* On a hovered row the td bg is --state-hover; use --state-pressed so the button hover is visible */
   tr:hover .mx-tbl-actions .iconbtn:hover{background:var(--state-pressed);color:var(--ink)}
@@ -2514,7 +2542,7 @@
   /* ── No built-in metrics row ── */
   .mx-no-builtin-row{cursor:default !important}
   .mx-no-builtin-row:hover td,.mx-no-builtin-row:active td{background:inherit !important}
-  .tbl .mx-no-builtin-row td{padding:.6rem 1rem;padding-left:var(--mx-prov-indent);border-bottom:1px solid var(--border);min-height:2.875rem}
+  .tbl .mx-no-builtin-row td{padding:.625rem 1rem;padding-left:var(--mx-prov-indent);border-bottom:1px solid var(--border);min-height:2.875rem}
   .mx-no-builtin-msg{display:flex;align-items:center;gap:.5rem;font-size:var(--text-12);color:var(--ink-secondary)}
   .mx-no-builtin-msg svg{color:var(--ink-secondary);opacity:.6;flex:none}
   /* The "Create a custom metric →" trigger reuses the kit .link component
@@ -2528,7 +2556,7 @@
   .mx-conn-sub-label{font-size:var(--text-13);font-weight:600;color:var(--ink-secondary);display:flex;align-items:center;gap:.375rem;width:100%}
   /* Only the leading link icon (direct child) — NOT the nested "+" svg inside the
      Add Metric button, which must keep the button's own icon size/colour. */
-  .mx-conn-sub-label > svg{flex:none;opacity:.55;width:11px;height:11px}
+  .mx-conn-sub-label > svg{flex:none;opacity:.55;width:12px;height:12px}
   .mx-conn-sub-label-text{flex:1;min-width:0}
 
 
@@ -2538,12 +2566,12 @@
   .mx-c3-filter-chips{display:flex;align-items:center;gap:.375rem}
   .mx-active-toggle{margin-left:auto;display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;font-size:var(--text-13);font-weight:500;color:var(--ink-secondary);white-space:nowrap;user-select:none}
   .mx-c3-toolbar .igrp-add{padding:0 6px 0 10px}
-  .mx-c3-toolbar .igrp-add svg{width:15px;height:15px}
+  .mx-c3-toolbar .igrp-add svg{width:16px;height:16px}
   .mx-c3-toolbar .igrp-input{padding-left:4px}
 
   .mx-dl{display:flex;flex-direction:column;gap:1.25rem;font-size:var(--text-14);margin:0}
   .mx-dl > div{display:flex;flex-direction:column;gap:.25rem}
-  .mx-dl dt{font-size:var(--text-11);font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);margin:0}
+  .mx-dl dt{font-size:var(--text-11);font-weight:700;text-transform:uppercase;letter-spacing:var(--tracking-label);color:var(--ink);margin:0}
   .mx-dl dt::after{content:':'}
   .mx-dl dd{color:var(--ink);margin:0;line-height:1.45}
   .mx-dl .chip{border-radius:.375rem;cursor:default;pointer-events:none;background:var(--state-hover);color:var(--ink);border-color:var(--border)}
@@ -2555,7 +2583,7 @@
 /* ── Detail panel fields (shared: metrics, data-sources connections) ── */
 .dp-fields{display:flex;flex-direction:column;gap:1.25rem;font-size:var(--text-14)}
 .dp-field{display:flex;flex-direction:column;gap:.25rem}
-.dp-label{font-size:var(--text-12);font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-secondary)}
+.dp-label{font-size:var(--text-12);font-weight:500;text-transform:uppercase;letter-spacing:var(--tracking-label);color:var(--ink-secondary)}
 .dp-value{font-size:var(--text-14);color:var(--ink);line-height:1.5;display:flex;align-items:center;gap:.375rem;min-width:0}
 .dp-value-name{font-size:var(--text-16);font-weight:600;color:var(--ink);line-height:1.5}
 .dp-value-body{font-size:var(--text-14);color:var(--ink-body);line-height:1.6;margin:0}
@@ -2654,7 +2682,7 @@
   /* td[2] metric name — col 2, row 1 */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(2){grid-column:2;grid-row:1;font-size:var(--text-14);font-weight:600;color:var(--ink);line-height:1.25rem;padding-right:0}
   /* td[3] alias — full width, row 2, aligned to the toggle (col 1 left edge) */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3){grid-column:1 / -1;grid-row:2;font-size:var(--text-12);color:var(--ink-tertiary);font-family:ui-monospace,monospace;letter-spacing:-.01em}
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3){grid-column:1 / -1;grid-row:2;font-size:var(--text-12);color:var(--ink-tertiary);font-family:ui-monospace,monospace;letter-spacing:var(--tracking-tight)}
   /* td[4] definition — full width, row 3, aligned to the toggle. max-width:none
      overrides the desktop .mx-tbl-desc{max-width:18rem} (=288px) that was capping
      it short of the card edge; wraps freely and fills the whole card width. */

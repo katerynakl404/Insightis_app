@@ -26,6 +26,10 @@ Base `.badge`: `display:inline-flex`, `align-items:center`, `gap:.5rem` (8px bet
 
 > `md` is the implicit default carried by the base `.badge` rule (no modifier class). `.badge-sm` overrides only height, padding, radius and font-size for dense contexts (table cells, inline labels). Variant colour and slots (`.b-ic` / `.b-dot` / `.b-x`) are size-independent.
 
+### In-row outline (state-stacking, kit-level)
+
+A badge inside a `.chat-row` or `table.tbl` row shares the row's background when that row hovers/selects — `Badge/Secondary` fill = `--card2` = row hover/selected; `Badge/Primary` fill = `--brand-50` = Card selected — so the pill would vanish into the row. Kit rule (in `kit-theme.css`, next to the badge block) gives such badges an **always-on** outline tinted from the badge's **own colour**: `border-color: color-mix(in srgb, currentColor 25%, transparent)` (teal on Primary, neutral on Secondary — never a uniform grey, and it doesn't "appear" on interaction). Base badge border is `1px solid transparent`, so this adds no size. Applies to every consumer (Files, Metrics/Connections tables, chat rows) — never patch this per-page.
+
 ### Pill (full) radius helper
 
 Add `.rf` alongside the variant class to round the chip to a full pill: `.rf{border-radius:9999px}`. By convention the semantic-status variants (`.badge-green` / `.badge-red` / `.badge-attention`) and status-dot chips ship `.rf` (e.g. `class="badge badge-green rf"`); `.badge-primary` / `.badge-secondary` / `.badge-body` keep the default `.375rem` (sm: `.25rem`) corner.

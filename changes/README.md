@@ -10,6 +10,7 @@ Open `../insightis-preview-kit.html` for the visual side-by-side; each component
 ## Index
 
 - [colors](colors.md)
+- [Tracking (letter-spacing)](Tracking.md) — foundation token scale
 - [Button](Button.md)
 - IconButton — see [Button](Button.md) (shares variants)
 - [Input](Input.md)
