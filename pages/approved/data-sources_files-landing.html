@@ -659,13 +659,18 @@
         + '<button class="dsf-meta-sort dsf-meta-mobile-only" type="button" data-action="sort-date" aria-label="Sort by date"><span id="dsf-sort-lbl">' + (sortDir==='asc'?'Oldest':'Newest') + '</span>' + sortChevron + '</button>';
       return;
     }
+    /* Edit mode — same proximity-grouped toolbar as chats-landing.html:
+         LEFT  : [N selected] [Select all]   ← related selection controls
+         RIGHT : [Download] [🗑 Delete] [×]  ← actions + exit, anchored via .dsf-bulk-right
+       Only Select all carries brand colour; only Delete carries red. Cancel is a neutral icon. */
+    var allSelected = totalCount > 0 && selectedCount === totalCount;
     meta.innerHTML = ''
-      + '<button class="iconbtn iconbtn-tertiary" style="width:1.75rem;height:1.75rem;flex:none" type="button" data-action="cancel-edit" aria-label="Clear selection" data-tip="Clear selection">' + CLOSE + '</button>'
       + '<span class="meta-row-count">' + selectedCount + ' selected</span>'
-      + '<button class="meta-row-selall dsf-meta-mobile-only" type="button" data-action="cancel-edit">Unselect all</button>'
+      + '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all"' + (totalCount === 0 ? ' aria-disabled="true"' : '') + '>' + (allSelected ? 'Deselect all' : 'Select all') + '</button>'
       + '<span class="dsf-bulk-right">'
-      +   '<button class="btn btn-sm btn-tertiary' + (selectedCount === 0 ? ' s-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
-      +   '<button class="btn btn-sm btn-outline-destructive' + (selectedCount === 0 ? ' s-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
+      +   '<button class="dsf-meta-dl' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
+      +   '<button class="dsf-meta-del' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
+      +   '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Exit selection" data-tip="Exit selection">' + CLOSE + '</button>'
       + '</span>';
   }
 
