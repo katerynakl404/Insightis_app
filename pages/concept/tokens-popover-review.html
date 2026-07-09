@@ -17,7 +17,12 @@
   .rev-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.5rem}
   .rev-title{font-size:var(--text-20);font-weight:600;color:var(--ink)}
   .rev-group{margin-bottom:2rem}
-  .rev-group-title{font-size:var(--text-14);font-weight:600;color:var(--ink);margin-bottom:.75rem}
+  .rev-ver{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem}
+  .rev-ver-num{font-size:var(--text-24);font-weight:700;color:var(--ink);line-height:1}
+  .rev-ver-tag{font-size:var(--text-11);font-weight:600;padding:.2rem .5rem;border-radius:.25rem;letter-spacing:.03em;text-transform:uppercase}
+  .rev-ver-tag.is-shipped{background:color-mix(in srgb,var(--fb-green) 14%,transparent);color:var(--fb-green)}
+  .rev-ver-tag.is-parked{background:color-mix(in srgb,var(--ink-secondary) 12%,transparent);color:var(--ink-secondary)}
+  .rev-group-title{font-size:var(--text-13);color:var(--ink-secondary);margin-bottom:.75rem}
   /* align-items:stretch (default) so every column in a row is the same height; label/note stay
      top-aligned inside each column and .rev-stack's margin-top:auto pushes the mockup itself
      down to a shared bottom edge — text and visuals align independently, not as one flex item. */
@@ -37,7 +42,11 @@
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 
-  <div class="rev-group-title">Version 1 — coin-icon meter · <strong>shipped</strong>. Each pool: icon + "used of total" + progress bar.</div>
+  <div class="rev-ver">
+    <span class="rev-ver-num">Version 1</span>
+    <span class="rev-ver-tag is-shipped">Shipped</span>
+  </div>
+  <div class="rev-group-title">Coin-icon meter. Each pool: icon + "used of total" + progress bar.</div>
   <div class="rev-row">
 
     <!-- Shipped — coin meter, Free plan -->
@@ -99,11 +108,11 @@
 
   </div>
 
-  <div class="rev-head" style="margin-top:2rem">
-    <span class="rev-title" style="font-size:var(--text-13);color:var(--ink-secondary)">Parked — not shipped</span>
+  <div class="rev-ver" style="margin-top:2.5rem">
+    <span class="rev-ver-num">Version 2</span>
+    <span class="rev-ver-tag is-parked">Parked</span>
   </div>
-
-  <div class="rev-group-title">Version 2 — combined bar · <strong>parked</strong>. Single bar; legend breaks down by pool.</div>
+  <div class="rev-group-title">Combined bar. Single bar; legend breaks down by pool.</div>
   <div class="rev-row">
 
       <!-- Version 2 — Free -->
