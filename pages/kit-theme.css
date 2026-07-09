@@ -1781,6 +1781,23 @@
   table.tbl tr:active td,table.tbl tbody tr.s-pressed td{background:var(--tbl-row-pressed)}
   table.tbl tbody tr{transition:background .1s}
 
+  /* ===== Shared table cell atoms (lifted from the Files page 2026-07-09 so any table can reuse them) ===== */
+  /* File-type icon — coloured rounded square + uppercase extension label. Colour flows through
+     --mark-bg (per file type); keep the .type-* map as the single source. NOTE: prefix kept as
+     .dsf-file-ic during the lift to avoid a consumer rename; it is now a shared kit atom. */
+  .dsf-file-ic{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;font-size:.5625rem;font-weight:700;flex:none;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--content-on-solid);background:var(--mark-bg,var(--brand-tertiary))}
+  .dsf-file-ic.type-csv{--mark-bg:var(--brand-tertiary)}
+  .dsf-file-ic.type-xls{--mark-bg:var(--fb-green)}
+  .dsf-file-ic.type-xlsx{--mark-bg:var(--fb-green)}
+  /* Sortable column-header button — reuses the th's own text styling; the 12px chevron flips per
+     the th's aria-sort (descending default → ascending rotates 180°). Pattern is table-agnostic. */
+  .dsft-sortbtn{display:inline-flex;align-items:center;gap:.25rem;background:transparent;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer}
+  .dsft-sortbtn svg{width:12px;height:12px;flex:none;opacity:.5;transition:opacity var(--motion-fast) var(--motion-ease),transform var(--motion-fast) var(--motion-ease)}
+  th[aria-sort="ascending"] .dsft-sortbtn svg{transform:rotate(180deg);opacity:1}
+  th[aria-sort="descending"] .dsft-sortbtn svg{opacity:1}
+  .dsft-sortbtn:hover svg{opacity:1}
+  .dsft-sortbtn:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset);border-radius:.25rem}
+
   /* ===== NEW COMPONENT HELPERS (Card, Collapsible, Datepicker, File, InputGroup, PasswordInput,
                                   Popover, ScrollShadow, Separator, Sheet, Skeleton, Toast,
                                   Autocomplete, CircularProgress) ===== */

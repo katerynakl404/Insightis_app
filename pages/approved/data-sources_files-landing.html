@@ -74,13 +74,7 @@
   /* ===== Source filter — flat chip row below the meta row (bare kit .chip filters in a page
      wrapper, same pattern as the Metrics toolbar). */
   .dsf-filter{display:flex;align-items:center;gap:.375rem}
-  /* ===== File type icon — colored square + extension label ===== */
-  .dsf-file-ic{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;
-    justify-content:center;font-size:.5625rem;font-weight:700;flex:none;letter-spacing:var(--tracking-label);
-    text-transform:uppercase;color:var(--content-on-solid);background:var(--mark-bg,var(--brand-tertiary))}
-  .dsf-file-ic.type-csv{--mark-bg:var(--brand-tertiary)}
-  .dsf-file-ic.type-xls{--mark-bg:var(--fb-green)}
-  .dsf-file-ic.type-xlsx{--mark-bg:var(--fb-green)}
+  /* File-type icon (.dsf-file-ic + .type-*) now lives in kit-theme.css — shared table atom. */
 
   /* ===== File list — table only ===== */
   .dsf-list{position:relative}
@@ -92,7 +86,7 @@
   .dsf-tbl-wrap{border:1px solid var(--border);border-radius:.5rem;background:var(--card)}
   .cl-shell.has-preview .dsf-tbl-wrap{overflow-x:auto}
   table.dsf-tbl{margin:0}
-  table.dsf-tbl thead th{background:var(--card2)}
+  /* Header stays plain (no fill) — kit convention shared with Connections & Metrics; the wrap provides the card + radius. */
   table.dsf-tbl thead th:first-child{border-top-left-radius:.5rem}
   table.dsf-tbl thead th:last-child{border-top-right-radius:.5rem}
   table.dsf-tbl tbody tr:last-child td{border-bottom:none}
@@ -103,13 +97,7 @@
   .dsft-date-inline{display:none}
   .dsft-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;color:var(--ink)}
   td.dsft-size,td.dsft-date{color:var(--ink-secondary);font-variant-numeric:tabular-nums;white-space:nowrap}
-  /* Sortable "Modified" header — button reuses the th's own text styling, small chevron flips per aria-sort */
-  .dsft-sortbtn{display:inline-flex;align-items:center;gap:.25rem;background:transparent;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer}
-  .dsft-sortbtn svg{width:12px;height:12px;flex:none;opacity:.5;transition:opacity var(--motion-fast) var(--motion-ease),transform var(--motion-fast) var(--motion-ease)}
-  th[aria-sort="ascending"] .dsft-sortbtn svg{transform:rotate(180deg);opacity:1}
-  th[aria-sort="descending"] .dsft-sortbtn svg{opacity:1}
-  .dsft-sortbtn:hover svg{opacity:1}
-  .dsft-sortbtn:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset);border-radius:.25rem}
+  /* Sortable "Modified" header (.dsft-sortbtn + th[aria-sort] chevron) now lives in kit-theme.css — shared table atom. */
   th.dsft-cb,td.dsft-cb{width:1px;white-space:nowrap}
   th.dsft-act,td.dsft-act{width:1px;white-space:nowrap;position:relative;text-align:right}
   /* Kebab reveals on row hover / menu open (no .chat-row parent here to trigger the kit reveal) */
@@ -160,7 +148,6 @@
     table.dsf-tbl.is-editing tbody tr td.dsft-cb .cbx{opacity:1}
     /* Name cell: icon left, .dsft-info column right */
     .dsft-name-cell{align-items:center}
-    .dsf-file-ic{flex:none}
     .dsft-info{display:flex;flex-direction:column;gap:.125rem}
     .dsft-date-inline{display:block;font-size:var(--text-12);color:var(--ink-secondary)}
     /* Meta row controls */

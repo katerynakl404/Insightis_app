@@ -5,6 +5,7 @@ Baseline: [`../current/Table.md`](../current/Table.md).
 | State / part | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
 | Header text | `content-secondary` `#62748E` | — | `Text/Secondary` `#64748B` | hex shift only — [colors](colors.md) |
+| Header fill | — | — | **none** — `th` carries no background | Kit convention across **all** tables (Files · Connections · Metrics): the header is plain (bottom border + `Text/Secondary` label only), never a filled band. Files' page-local `thead th{background:var(--card2)}` tint was removed 2026-07-09 for consistency. |
 | Body text | `content-body` `#314158` | — | `Text/Body` `#334155` | hex shift only |
 | Row border | `Stroke/Border` `#F0F5FA` | — | `--border` `#E2E8F0` (light) / `#2A2834` (dark) | hex shift only |
 | Row hover | `State/Hover` `#F0F8FB` | — | `--tbl-row-hover` — halfway between the row surface and `--card2`: `--slate-50` light / `color-mix(--card2 50%, --card)` dark | Hover is a **smaller step off the row than selected → less contrast than the selected/pressed state**, the same in both themes (light: white row → slate-50 hover → slate-100 selected; dark: grey-900 row → half-step hover → grey-800 selected). Rule: `tbody tr:hover td{background:var(--tbl-row-hover)}`. Token is shared with all kit tables — reuse, don't reinvent. |
@@ -13,6 +14,15 @@ Baseline: [`../current/Table.md`](../current/Table.md).
 | Row pressed (transient) | — did not exist | — | **new** — `tr:active td{background:var(--tbl-row-pressed)}` | Bg-shift-only press feedback. Same token as selected state so the two collapse visually — transient press is indistinguishable from selection, which is intentional (they share the same surface). `.s-pressed` mirrors it for storybook. |
 | Badge in a row | badge had no border → vanished when a Secondary badge sat on a selected/hover row (fill == `--card2` == row bg) | — | **new** — `table.tbl tbody tr .badge{border-color:color-mix(in srgb,currentColor 25%,transparent)}` | Always-on hairline tinted from the badge's own text colour, so every badge stays defined in every row state. Shared rule with `.chat-row`. |
 | **Preview rendering** *(kit fix)* | only 2 rows rendered in the kit — read as "incomplete" | — | **expanded to 4 rows + 3 columns**; States table now covers header, default, hover, selected, hover-while-selected, pressed, and badge-in-row | Bug-fix to the kit only — no prod-code impact. |
+
+## Shared table cell atoms (kit — lifted from the Files page 2026-07-09)
+
+Two reusable table atoms now live in `kit-theme.css` (were page-local in `data-sources_files-landing.html`). Any table can reuse them; they carry no prod equivalent.
+
+| Atom | Class(es) | Specification |
+|---|---|---|
+| **File-type icon** | `.dsf-file-ic` + `.type-*` | Coloured rounded square with an uppercase extension label. `width/height:2rem` · `border-radius:.375rem` · `font-size:.5625rem;font-weight:700` · `letter-spacing:var(--tracking-label);text-transform:uppercase` · `color:var(--content-on-solid)` · `background:var(--mark-bg,var(--brand-tertiary))`. Colour flows through `--mark-bg`, set by the type modifier — the single source of the type→colour map: `.type-csv` → `--brand-tertiary`, `.type-xls`/`.type-xlsx` → `--fb-green`. Add a new file type by adding one `.type-x{--mark-bg:…}` line. |
+| **Sortable header button** | `.dsft-sortbtn` inside `th[aria-sort]` | Table-agnostic sort trigger that inherits the `th` text styling (`background:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer;display:inline-flex;gap:.25rem`). The 12×12 chevron `svg` sits at `opacity:.5`, lifts to `1` on hover and when the `th` is sorted; `th[aria-sort="ascending"]` rotates it `180°`, `descending` leaves it pointing down. Focus: `:focus-visible` → `--shadow-focus-inset` + `.25rem` radius. Sort direction/behaviour is page JS; this is the visual only. |
 
 ## Metrics table molecule — `.mx-tbl` (Expected-only, new)
 
@@ -60,7 +70,7 @@ Opt-in by adding `.mx-tbl-sections` to the `.mx-tbl` wrapper (Metrics filled sta
 
 ## Storybook `#table` structure
 
-The section opens with an **Overview index** table naming every variant (Base · Row actions · Interactions · Files · Connections · Metrics) with anchor links, then gives each its own demo block: base Preview + States, **Row actions** (kebab rest/open-menu + inline icon buttons + destructive `.mx-del-btn`), **Files table** (`.dsf-tbl` — checkbox · file-type icon · badge · size · sortable Modified · kebab), **Connections table** (`.ds-conn-tbl` — name · source logo+type · description · kebab), the Metrics anatomy + shipped sections variant, mobile responsive, and interaction patterns. Files/Connections specs are authoritative in their `page-changes/*.md`; the file-type icon (`.dsf-file-ic`) and sort-header button (`.dsft-sortbtn`) still live in the Files page and are candidates to lift into the kit.
+The section opens with an **Overview index** table naming every variant (Base · Row actions · Interactions · Files · Connections · Metrics) with anchor links, then gives each its own demo block: base Preview + States, **Row actions** (kebab rest/open-menu + inline icon buttons + destructive `.mx-del-btn`), **Files table** (`.dsf-tbl` — checkbox · file-type icon · badge · size · sortable Modified · kebab), **Connections table** (`.ds-conn-tbl` — name · source logo+type · description · kebab), the Metrics anatomy + shipped sections variant, mobile responsive, and interaction patterns. Files/Connections specs are authoritative in their `page-changes/*.md`. The file-type icon (`.dsf-file-ic` + `.type-*`) and the sortable-header button (`.dsft-sortbtn` + `th[aria-sort]` chevron) were lifted from the Files page into `kit-theme.css` (2026-07-09) as shared table atoms — see below.
 
 Beyond the plain row it demonstrates the full **Metrics molecule row set** — `tr.mx-prov-group` (collapsible provider header; click toggles `.is-collapsed`, chevron rotates −90°), `tr.mx-conn-sub-row` (per-connector sub-header, `.mx-conn-sub-label`), `tr.mx-no-builtin-row` (empty state with inline "Create a custom metric →"), and `tr.mx-section-gap` (inter-group spacer) — plus the `.mx-tbl-sections` desktop-cards variant.
 
