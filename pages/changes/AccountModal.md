@@ -38,8 +38,8 @@ sidebar user row). Clicking any nav item in the popover calls `acctOpenModal(sec
 | Section | Button order (left → right) |
 |---|---|
 | Manage plan | Per-card full-width CTA (Free = outline "Current Plan" disabled; Starter = outline "Upgrade to Starter"; Pro = primary "Upgrade to Pro") — one CTA spans each card, no horizontal row |
-| Billing — payment | Update (outline) — single, right via `space-between` |
-| Balance hero | Update Plan (outline) → **Buy Credits (primary)** |
+| Billing — payment | Update (secondary) — single, right via `space-between` |
+| Balance hero | Update Plan (secondary) → **Buy Credits (primary)** |
 | Delete account | single button, `margin-left:auto` → always right |
 | Feedback | Attach File (secondary) → **Send Feedback (primary)** |
 
@@ -113,14 +113,14 @@ Redesigned from a single "current plan" summary row into a **3-plan pricing comp
 
 | Element | Expected |
 |---|---|
-| Payment method | "Visa ending in 4242" + `btn btn-outline btn-sm` "Update" |
+| Payment method | "Visa ending in 4242" + `btn btn-secondary btn-sm` "Update" |
 | Next invoice | date + amount |
 
 ### Balance
 
 | Element | Expected |
 |---|---|
-| Hero row | `.acct-bal-circle` (36px coin) + `.acct-bal-amount` "213 /1,040 credits" — coin + amount only, no buttons |
+| Hero row | `.acct-bal-circle` (36px coin) + `.acct-bal-amount` "213 / 1,040 used" — icon kept, paired with the "Upgrade Plan" CTA |
 | Progress bar | Below hero row. `height:4px`, `border-radius:9999px`, track `var(--progress-track)`, fill `var(--brand-primary)` |
 | Progress context | Below bar. Two spans: "20% of total credits used" + "827 remaining" — `font-size:.75rem; color:var(--ink-secondary)`. Mobile: short variants "20% used" / "827 left" via `.acct-show-mobile` |
 | CTAs row | Below progress. `.acct-bal-btns` — `justify-content:flex-end` on desktop; `width:100%; .btn{flex:1}` on mobile (equal-width split) |
@@ -128,7 +128,7 @@ Redesigned from a single "current plan" summary row into a **3-plan pricing comp
 | Stats tile label | `.acct-field-label` (`font-size:.625rem` = 10px) — "Subscription credits" / "Purchased credits" (matches the sidebar credits popover naming) |
 | Stats tile value | `.acct-sect-title` (`font-size:.9375rem; font-weight:600`) — 500 / 540 |
 | Credit usage | `.acct-usage-table` — Date / Request type / Spent credits columns; `border-collapse:collapse` |
-| CTAs | `btn btn-outline btn-sm` "Update Plan" + `btn btn-primary btn-sm` "Buy Credits" — placed **in content** (not header). `acctSectionActions = {}` |
+| CTAs | `btn btn-secondary btn-sm` "Update Plan" + `btn btn-primary btn-sm` "Buy Credits" — placed **in content** (not header). `acctSectionActions = {}` |
 
 **Token:** `--progress-track: var(--card2)` — new semantic token added to `:root` in `kit-theme.css` (Slate-100 light / Grey-800 dark). Separates "progress track" intent from `--state-hover` which is reserved for interactive hover surfaces.
 
@@ -185,7 +185,7 @@ Hidden on desktop (`display:none`). Shown at ≤767px as `display:flex`.
 | `.sbx-pop-item` | `height:2.75rem; padding:.5rem .875rem; border-radius:0; border-bottom:1px solid var(--border); background:var(--card)` |
 | `.sbx-pop-item:last-child` | `border-bottom:none` |
 | Active item | `background:var(--state-pressed); color:var(--brand-primary)` + `.ic{color:var(--brand-primary)}` |
-| `.acct-nav-chev` | Chevron-right SVG (`14×14px`, `margin-left:auto`), hidden on desktop, `display:block` in menu state. Added to: My account, Manage plan, Billing, Balance, Leave feedback. Not added to: Resources (has `.ext`), Sign out (danger action) |
+| `.acct-nav-chev` | Chevron-right SVG (`14×14px`, `margin-left:auto`), hidden on desktop, `display:block` in menu state. Added to: My account, Manage plan, Billing, Balance, Leave feedback. Not added to: Resources (has `.ext`), Log out (danger action) |
 | Log Out | Own bordered card — `border:1px solid var(--border); border-radius:.5rem; background:var(--card); height:2.75rem`. `.acct-nav-foot` loses its desktop `border-top` separator in menu state |
 
 ### Mobile section content adaptations
@@ -201,7 +201,7 @@ Hidden on desktop (`display:none`). Shown at ≤767px as `display:flex`.
 
 ## New page-scope CSS (`<style>` in `user_profile-modal.html`)
 
-**Layout:** `.acct-overlay`, `.acct-modal`, `.acct-modal-nav`, `.acct-modal-body`, `.acct-header`, `.acct-header-actions`, `.acct-title` (20px/600, matches `.dlg-title`), `.acct-content`, `.acct-section`, `.acct-sect-title`, `.acct-field-row`, `.acct-field-label`, `.acct-field-val`, `.acct-danger-warn`, `.acct-nav-foot`. (Close button uses kit `.iconbtn.iconbtn-tertiary` — no page-scope close class.)
+**Layout:** `.acct-overlay`, `.acct-modal`, `.acct-modal-nav`, `.acct-modal-body`, `.acct-header`, `.acct-header-actions`, `.acct-title` (20px/500, matches `.dlg-title`), `.acct-content`, `.acct-section`, `.acct-sect-title`, `.acct-field-row`, `.acct-field-label`, `.acct-field-val`, `.acct-danger-warn`, `.acct-nav-foot`. (Close button uses kit `.iconbtn.iconbtn-tertiary` — no page-scope close class.)
 
 **Mobile:** `.acct-mobile-hdr`, `.acct-mobile-btn`, `.acct-mobile-title`, `.acct-nav-chev`, `.acct-hide-mobile`, `.acct-show-mobile`, `.segctrl-lbl`
 

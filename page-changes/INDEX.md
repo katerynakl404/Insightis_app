@@ -9,7 +9,7 @@ changed on that screen and links to the relevant `changes/` files.
 | Chats Library | [chats-landing.md](chats-landing.md) | ChatRow, MetaRow (new), Sidebar |
 | Metrics + Account Modal | [metrics-landing.md](metrics-landing.md) | AccountModal (new), Sidebar, Colors (hex-only) |
 | Data Sources (Connections) | [data-sources_connections-landing.md](data-sources_connections-landing.md) | Tabs, Banner |
-| Data Sources (Files) | [data-sources_files-landing.md](data-sources_files-landing.md) | SegmentedControl (Cards/Table toggle), ChatRow, Table, Chip (filter), Badge (status) |
+| Data Sources (Files) | [data-sources_files-landing.md](data-sources_files-landing.md) | Table (sortable Modified column), Chip (filter), Badge (status) |
 | Account modal (Balance + Manage plan + Buy credits) | [user_profile-modal.md](user_profile-modal.md) | AccountModal (Balance V2/V3, Manage plan V1 cards / V2 comparison table — current plan Free, 50% OFF on paid plans, Buy-credits packs), SegmentedControl (version toggle), Switch, Table |
 
 ## No floating stickers on pages

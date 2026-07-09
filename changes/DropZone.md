@@ -1,6 +1,6 @@
 # DropZone — component
 
-**Status:** New kit component (no prod equivalent). CSS lives in `pages/kit-theme.css`; demoed in storybook `#dropzone`; first used on the Files page ([`pages/concept/data-sources_files-landing.html`](../pages/concept/data-sources_files-landing.html)).
+**Status:** New kit component (no prod equivalent). CSS lives in `pages/kit-theme.css`; demoed in storybook `#dropzone`; first used on the Files page ([`pages/approved/data-sources_files-landing.html`](../pages/approved/data-sources_files-landing.html)).
 
 File-upload target: drag-and-drop **and** click-to-browse. Centered dashed zone with the upload icon inline with the title, a helper line, and a Browse button.
 
@@ -12,7 +12,7 @@ File-upload target: drag-and-drop **and** click-to-browse. Centered dashed zone 
 
 | State | Trigger | Treatment |
 |---|---|---|
-| Rest | — | `1.5px` dashed `--dropzone-border` on `Surface/Card 2`; icon `Text/Secondary` |
+| Rest | — | `1.5px` dashed `--dropzone-border` on `--dropzone-fill`; icon `Text/Secondary` |
 | Hover / focus | `:hover` (`.s-hover`) · `:focus-within` (`.s-focus`) | border + icon tint toward `Brand/Primary`, faint brand wash on the fill |
 | Drag over | `.is-dragover` (`.s-dragover`) — JS toggles on `dragover` / `drop` | solid `Brand/Primary` border + `State/Hover` fill (the active drop target) |
 

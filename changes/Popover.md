@@ -63,38 +63,56 @@ Default `align="center"`, `sideOffset={4}`, animation set, portalling, transform
 
 | Variant | Where it's used | Note |
 |---|---|---|
-| **Account menu** *(documented this iteration)* | Sidebar footer — `<button class="sb-user">` opens it | Shell = the `.sbx-pop` reproduction above (bg `Surface/Card`, 1 px `Stroke/Border`, **radius 8 px, padding 16 px 12 px, inter-section gap 14 px**, `drop-shadow-lg`). Two labelled sections (`Account`, `Support`): section label 12 px/500 `--ink-secondary`; rows `.sbx-pop-item` **gap 10 px, padding 6 px 8 px, radius 6 px, 14 px label + 16 px icon**. Theme switcher = SegmentedControl `is-sm` (**20 px height, icon-only, 12 px icons**), markup `.segctrl.is-sm.sbx-pop-theme` with `.segctrl-btn.sbx-pop-theme-btn` children. Surface ladder (mirrors `.segctrl` recipe with `.sbx-pop-theme` overrides): **light** slot `var(--chips)` → active pill `var(--card)`; **dark** slot `var(--card2)` (`.dark .sbx-pop-theme`) → active pill `var(--chips)` (`.dark .sbx-pop-theme-btn.is-active`). Btn hover (non-active) `background:var(--segctrl-btn-hover-bg); color:var(--ink); box-shadow:var(--shadow-rim-hover)`; active `box-shadow:var(--shadow-rim-active)`; focus `var(--shadow-focus)`; `transition:background .12s,color .12s,box-shadow .12s`. Plain `Sign Out` row. Relocated from Stepper to the Popover section. |
-| **Subscription credits** *(documented this iteration)* | Sidebar footer — tokens-meter button opens it | **Container 260 px wide**, same `.sbx-pop` shell as the Account variant. Plan header (`.sbx-pop-tok-head`, **gap 8 px**): **21×16 px** shield-check badge in `Brand/Tertiary` + 14 px `font-medium` plan name. Two metered rows (`.sbx-pop-tok-meter`, **gap 6 px**; label 12 px `--ink-secondary`): Subscription Credits = **24 px coin + 16 px value**, `Brand/Tertiary` fill; Purchased Credits = **16 px coin + 12 px value**, `Feedback/Green` fill; progress bar **4 px**, track `--card2`, radius full. Actions (`.sbx-pop-tok-actions`, vertical, **gap 10 px**): two full-width `rounded-full` CTAs at **h32** — `Button primary` Buy Credits + `Button secondary` Upgrade Plan (`--card` bg, neutral `--border`, `--ink-body` text). Relocated from Stepper to the Popover section. |
+| **Account menu** *(documented this iteration)* | Sidebar footer — `<button class="sb-user">` opens it | Shell = the `.sbx-pop` reproduction above (bg `Surface/Card`, 1 px `Stroke/Border`, **radius 8 px, padding 16 px 12 px, inter-section gap 14 px**, `drop-shadow-lg`). Two labelled sections (`Account`, `Support`): section label 12 px/500 `--ink-secondary`; rows `.sbx-pop-item` **gap 10 px, padding 6 px 8 px, radius 6 px, 14 px label + 16 px icon**. Theme switcher = SegmentedControl `is-sm` (**20 px height, icon-only, 12 px icons**), markup `.segctrl.is-sm.sbx-pop-theme` with `.segctrl-btn.sbx-pop-theme-btn` children. Surface ladder (mirrors `.segctrl` recipe with `.sbx-pop-theme` overrides): **light** slot `var(--chips)` → active pill `var(--card)`; **dark** slot `var(--card2)` (`.dark .sbx-pop-theme`) → active pill `var(--chips)` (`.dark .sbx-pop-theme-btn.is-active`). Btn hover (non-active) `background:var(--segctrl-btn-hover-bg); color:var(--ink); box-shadow:var(--shadow-rim-hover)`; active `box-shadow:var(--shadow-rim-active)`; focus `var(--shadow-focus)`; `transition:background .12s,color .12s,box-shadow .12s`. Plain `Log out` row. Relocated from Stepper to the Popover section. |
+| **Subscription credits** *(re-shipped this iteration)* | Sidebar footer — tokens-meter button opens it | **Container 260 px wide**, same `.sbx-pop` shell as the Account variant. Plan header (`.sbx-pop-tok-head`, **gap 8 px**): no icon — 18 px `font-semibold` plan name (`H5` desktop size); on `Pro` the name shares a row with a `badge-attention badge-sm` reading "Trial ends in N days". Per-pool coin meter (see the dedicated section below) — two `.sbx-pop-tok-meter` rows (Subscription / Purchased), each a label + coin icon + value + thin progress bar. Actions (`.sbx-pop-tok-actions`, vertical, **gap 10 px**): two full-width `rounded-full` CTAs at **h32** — `Button primary` Buy Credits + `Button secondary` Upgrade Plan (`--card` bg, neutral `--border`, `--ink-body` text). Relocated from Stepper to the Popover section. |
 
-## Subscription credits — icon assets *(this iteration)*
+## Subscription credits — kit reproduction (shipped)
 
-| Slot | Current (prod) | Expected | Specification |
+Two coin-icon meter rows — Subscription and Purchased — each a label, a coin icon + tabular value,
+and a thin progress bar underneath.
+
+| Slot | Prod (never existed) | Expected | Specification |
 |---|---|---|---|
-| Plan badge (next to the plan name) | 21×16 inline base64 PNG embedded in `.sbx-pop-tok-head .plan-badge` | external SVG `basic.svg` (purple shield + star) referenced via `background: url("../basic.svg") center/contain no-repeat` | Pure-vector, themeable, no raster. Source = Figma-exported SVG (gradients preserved). Relative URL from kit HTML. |
-| Subscription Credits coin (24×24) | inline base64 PNG embedded in `.sbx-pop-tok-meter .coin` | external SVG `coin-blue.svg` | Teal-family coin (matches `Brand/Tertiary` progress bar in same row). Hand-built pure-vector with reeded edge and shadow-only emboss. **The ground cast-shadow ellipse was removed** — the coin reads flat with no drop shadow beneath it. |
-| Purchased Credits coin (16×16) | inline base64 PNG embedded in `.sbx-pop-tok-meter .coin.sm` | external SVG `coin-green.svg` | Green-family coin (matches `Feedback/Green` progress bar in same row). Same construction as blue, only palette swap. |
+| Subscription Credits coin (24×24) | — | external SVG `coin-blue.svg` | Teal-family coin (matches `Brand/Tertiary`). Hand-built pure-vector, reeded edge, shadow-only emboss, no ground cast-shadow. |
+| Purchased Credits coin (16×16) | — | external SVG `coin-green.svg` | Green-family coin (matches `Feedback/Green`). Same construction as blue, palette swap only. |
 
-No size / layout / spacing / colour change. Only the icon source format changes (PNG → SVG). Both prod-demo and Expected popover copies share the same CSS class, so both columns of the kit pick up the new SVG references automatically.
-
-## Subscription credits — kit reproduction (kit-theme.css 1425–1440)
+> The plan-badge icon (`.plan-badge`, external `basic.svg`) documented in an earlier iteration of
+> this table was **removed** — see [`Sidebar.md`](Sidebar.md) → "Tokens popover — plan header".
 
 | Part | Selector | Shipped value |
 |---|---|---|
 | Container width | `.sbx-pop-tokens` | `width:auto` with `left:.5rem; right:.5rem` (fills footer column ~260px) |
-| Plan header | `.sbx-pop-tok-head` | `display:flex; align-items:center; gap:.5rem` (8px); `padding:0 .25rem` |
-| Plan badge | `.sbx-pop-tok-head .plan-badge` | `display:inline-block; width:21px; height:16px; flex:none; background:url("../basic.svg") center/contain no-repeat` |
-| Plan name | `.sbx-pop-tok-head .plan-name` | `font-size:.875rem; line-height:1.25rem; font-weight:500; color:var(--ink)` |
-| Meter group | `.sbx-pop-tok-meter` | `display:flex; flex-direction:column; gap:.375rem` (6px); `padding:0 .25rem; width:100%` |
-| Meter row | `.sbx-pop-tok-meter .row` | `display:flex; align-items:center; gap:.5rem` (8px) |
+| Plan header | `.sbx-pop-tok-head` | `display:flex; align-items:center; gap:.5rem` (8px); `padding:0 .25rem` — no icon |
+| Plan name | `.sbx-pop-tok-head .plan-name` | `font-size:1.125rem; line-height:1.75rem; font-weight:600; color:var(--ink)` (`H5` desktop size, weight matches `.acct-plan-name`) |
+| Plan info column | `.sbx-pop-tok-head .plan-info` | `display:flex; flex-direction:column; align-items:flex-start; gap:.25rem` — only used on the `Pro` plan, to hold the name row |
+| Plan name row | `.plan-info .plan-name-row` | `display:flex; align-items:center; gap:.5rem` — holds `.plan-name` and (when present) the trial badge in one row, never stacked |
+| Plan trial badge | `.plan-name-row .badge.badge-attention.badge-sm` | reuses [`Badge`](Badge.md) as-is, no overrides — renders only on the `Pro` plan; Free/Starter omit it entirely |
+| Meter | `.sbx-pop-tok-meter` | `display:flex; flex-direction:column; gap:.375rem; padding:0 .25rem; width:100%` — one per pool |
+| Meter label row | `.sbx-pop-tok-meter .row` | `display:flex; align-items:center; gap:.5rem` |
 | Meter label | `.sbx-pop-tok-meter .label` | `font-size:.75rem; line-height:1; color:var(--ink-secondary); flex:1` |
-| Coin (Subscription) | `.sbx-pop-tok-meter .coin` | `display:inline-block; width:24px; height:24px; flex:none; background:url("../coin-blue.svg") center/contain no-repeat` |
-| Coin (Purchased, sm) | `.sbx-pop-tok-meter .coin.sm` | `width:16px; height:16px; background:url("../coin-green.svg") center/contain no-repeat` |
-| Value | `.sbx-pop-tok-meter .val` | `font-size:1rem; line-height:1.5rem; font-weight:500; color:var(--ink); font-variant-numeric:tabular-nums` |
-| Value (sm) | `.sbx-pop-tok-meter .val.sm` | `font-size:.75rem; line-height:1` |
-| Progress track | `.sbx-pop-tok-meter .bar` | `width:100%; height:4px; border-radius:9999px; background:var(--card2); overflow:hidden` |
-| Progress fill | `.sbx-pop-tok-meter .bar>span` | `display:block; height:100%; border-radius:9999px` (inline fill colour: `Brand/Tertiary` for Subscription row, `Feedback/Green` for Purchased) |
+| Meter coin | `.sbx-pop-tok-meter .coin` (+ `.sm`) | `24×24` (`16×16` for `.sm`, the Purchased row); `background:url(coin-blue.svg)` / `coin-green.svg` |
+| Meter value | `.sbx-pop-tok-meter .val` (+ `.sm`) | `font-size:1rem; line-height:1.5rem; font-weight:500; color:var(--ink); tabular-nums` (`.75rem/1` for `.sm`) |
+| Meter bar | `.sbx-pop-tok-meter .bar` | `width:100%; height:4px; border-radius:9999px; background:var(--card2); overflow:hidden` |
+| Meter fill | `.sbx-pop-tok-meter .bar>span` | `height:100%; border-radius:9999px`; `Brand/Tertiary` (Subscription) / `Feedback/Green` (Purchased) |
 | Actions group | `.sbx-pop-tok-actions` | `display:flex; flex-direction:column; gap:.625rem` (10px); `width:100%; margin-top:.125rem` (2px) |
 | CTA button | `.sbx-pop-cta` | `width:100%; height:2rem` (h32); `border-radius:9999px; justify-content:center; font-size:.8125rem; font-weight:500` (composed onto `.btn` primary/secondary) |
+
+## Subscription credits — Balance-aligned legend + bar *(parked, not shipped)*
+
+A later exploration replaced the coin meter with a shared legend + combined two-zone bar recipe
+aligned to [`Manage Account → Balance`](../pages/approved/user_profile-modal.html)'s V2 view
+(`.sbx-pop-tok-legend` / `.sbx-pop-tok-balbar` / `.sbx-pop-tok-bar2`, tokens
+`--balance-subscription-track` / `--balance-purchased-track`). **Reverted back to the coin meter
+above** — the coin-meter recipe is the shipped design. The legend+bar CSS remains in
+`kit-theme.css` and is visible only in `pages/concept/tokens-popover-review.html` ("Concept 1 /
+Concept 2") as a parked reference; no consuming page or the kit storybook renders it.
+
+A "usage hero" variant (`.sbx-pop-tok-usage` / `.sbx-pop-tok-usage-of`, a big bold "N/total used"
+figure under the plan name) was also prototyped alongside the legend+bar concept ("Concept 2" in
+the review page) — likewise parked, not shipped.
+
+No new tokens introduced by the coin-meter recipe (reuses existing coin SVGs + `--brand-tertiary`
+/ `--fb-green`, already used elsewhere in the kit).
 
 ## ⚠ Best-practice states — to define
 - **Trigger focus / hover / pressed** — delegated to the consumer's Button / IconButton, already covered there.

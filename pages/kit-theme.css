@@ -32,6 +32,14 @@
     --content-max-narrow:680px;
     --content-max-wide:1200px;
     --content-max-width:var(--content-max-wide);
+    /* ── Mobile card-stack — table→card reflow shared design tokens ──────────────
+       Applied at ≤767px on all three list pages (Metrics, Connections, Files).
+       Override here to restyle all three consistently; never hardcode these values
+       on individual pages. */
+    --card-stack-gap:.5rem;           /* gap between sibling cards */
+    --card-stack-pad-v:1rem;          /* vertical padding inside a card */
+    --card-stack-pad-h:1.125rem;      /* horizontal padding inside a card */
+    --card-stack-radius:.75rem;       /* border-radius on each card */
     /* Type scale — font-size tokens (px-named, theme-independent). Every component font-size reads
        one of these, never a raw rem/px. Mirrors the storybook Typography "Size scale". Non-type
        exceptions left literal: .5rem (Azure logo-mark monogram), .5625rem (.colhint storybook
@@ -48,17 +56,26 @@
        Slate-200 (too heavy as a band) and one step darker than --state-hover
        (Slate-100), so a hovered row never matches a static group header. */
     --mx-group-band:var(--slate-150);
-    /* Metric-row hover. Light: soft slate-50 (lighter than the slate-100 default).
-       Dark/prod override to --state-hover, which is lighter than the row there. */
+    /* Table-row hover — a SMALLER step off the row than selected, so hover reads as LESS contrast
+       than the pressed/selected state. Here slate-50 (~halfway between the white row and slate-100
+       selected). Dark mirrors this (halfway between grey-900 row and grey-800 selected); prod
+       overrides to its own --state-hover. Shared rule: hover is less contrast than selected, both themes. */
     --tbl-row-hover:var(--slate-50);
-    /* Pressed/selected metric row — neutral (not brand-tinted), one step darker than
-       --state-hover (slate-50) and distinct from the slate-150 band. */
-    --tbl-row-pressed:var(--slate-100);
+    /* Pressed/selected row — exactly --card2 (the table-header band surface), so a selected row
+       and the thead band are identical BY CONSTRUCTION in every theme: slate-100 light /
+       grey-800 dark. Neutral, never brand-tinted. Re-resolves per theme via --card2 — no .dark
+       override needed (only .prod overrides to its own --state-pressed). */
+    --tbl-row-pressed:var(--card2);
     /* Subtle brand-tinted surface — for accent tiles (e.g. AccountModal credits) that need to
        feel "branded but quiet". Uses desaturated brand primitives (Brand-50-soft / Brand-900-soft)
        — same lightness as canonical Brand-50/-900 but reduced teal saturation, so the tile reads
        as "neutral with a hint of brand" rather than "obviously teal". */
     --surface-accent:var(--brand-50-soft);
+    /* Neutral fill one step stronger than --card2 — for surfaces that need to read as clearly
+       distinct from --bg without a border or any brand tint (e.g. chat message bubbles). Defined
+       once here as a formula over --card2/--border so it re-resolves correctly in .dark and .prod
+       without needing a per-scope override. */
+    --surface-neutral-strong:color-mix(in srgb, var(--card2) 50%, var(--border));
     --brand-primary:var(--brand-600);--brand-secondary:var(--brand-700);--brand-tertiary:var(--tertiary-600);--brand-hover:var(--brand-500);--brand-press:var(--brand-700);
     --ink:var(--slate-900);--ink-body:var(--slate-700);--ink-secondary:var(--slate-550);--ink-inactive:var(--slate-450);
     --border:var(--slate-200);--border-hover:var(--slate-450);
@@ -167,6 +184,8 @@
     --badge-primary-bg:var(--brand-50);--badge-primary-text:var(--brand-secondary);
     /* DropZone rest border — one notch stronger than --border (Slate-200) so the dashed outline reads against the near-white page bg (Slate-50), where surface fills give almost no contrast. */
     --dropzone-border:var(--slate-300);
+    /* DropZone rest fill — one primitive step off the page bg (Slate-50 → Slate-100) so the fill stays nearly invisible and the dashed border carries the edge (the component's documented intent). Dark overrides to --card for the same one-step relationship — see .dark. */
+    --dropzone-fill:var(--card2);
     /* Badge Secondary — Card2 surface + Text/Body. Distinct from --chips so the chip stays visible against any neutral surface (the kit stages use --bg = Slate-50, and --chips = Slate-50 → invisible). Light Slate-100 vs Slate-50 stage = 1.13:1 lightness lift; text Slate-700 on Slate-100 = 10.36:1 AAA. */
     --badge-secondary-bg:var(--card2);--badge-secondary-text:var(--ink-body);
     /* Switch off-track — filled medium grey, perceivably above the page bg without a hard outline. Slate-300 sits 1.52:1 above Slate-50. Hover lifts one step to Slate-400. */
@@ -315,11 +334,12 @@
     --bg:var(--grey-950);--card:var(--grey-900);--card2:var(--grey-800);--chips:var(--grey-700);
     /* Grey-700 — lighter than --state-hover (grey-800), distinct band on dark. */
     --mx-group-band:var(--grey-700);
-    /* Hover = --state-hover (grey-800), lighter than the grey-900 row. */
-    --tbl-row-hover:var(--state-hover);
-    /* Pressed/selected = neutral grey-800 (= hover tier), distinct from the grey-700
-       band; not brand-tinted, so it never reads as "too green" on dark. */
-    --tbl-row-pressed:var(--grey-800);
+    /* Hover — halfway between the row surface (--card grey-900) and the selected/header surface
+       (--card2 grey-800): a SMALLER step off the row than selected, so hover reads as LESS contrast
+       than the pressed/selected state. Mirrors light exactly (slate-50 is ~halfway between the white
+       row and slate-100 selected). Selected = --card2 = the thead band (via :root, no override).
+       Distinct from --mx-group-band (grey-700). Fixed 2026-07-09. */
+    --tbl-row-hover:color-mix(in srgb, var(--card2) 50%, var(--card));
     /* Dark accent surface — Brand-900-soft (desaturated Brand-900), subtly tinted dark teal
        that doesn't compete with content. */
     --surface-accent:var(--brand-900-soft);
@@ -383,6 +403,11 @@
     --badge-primary-bg:var(--brand-800);
     /* DropZone rest border — Grey-600 reads on the Grey-950 page bg (Grey-700 = too close). */
     --dropzone-border:var(--grey-600);
+    /* DropZone rest fill — --card (grey-900): one primitive step off the grey-950 page bg,
+       mirroring light's slate-50→slate-100 one-step relationship. --card2 (grey-800) sat THREE
+       steps above the bg and rendered as a heavy dark slab, inverting the zone's muted/secondary
+       reading vs light. Fixed 2026-07-09. */
+    --dropzone-fill:var(--card);
     /* Badge Secondary — Card2 surface + Text/Body in dark (subtle, as before). */
     --badge-secondary-bg:var(--card2);--badge-secondary-text:var(--ink-body);
     /* Switch off-track — Grey-700 sits clearly above the page bg (Grey-950) in dark. Hover lifts to Grey-600. */
@@ -1135,7 +1160,7 @@
   .dlg-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--overlay-scrim)}
   .dlg{background:var(--card);border:1px solid var(--border);border-radius:.875rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:var(--shadow-modal)}
   .dlg-hdr{display:flex;align-items:center;gap:.75rem;padding:.875rem 1.25rem .5rem;flex:none}
-  .dlg-title{font-size:var(--text-20);line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;flex:1;min-width:0}
+  .dlg-title{font-size:var(--text-20);line-height:1.75rem;font-weight:500;color:var(--ink);margin:0;flex:1;min-width:0}
   .dlg-progress{padding:0 1.25rem .875rem;flex:none;display:flex;flex-direction:column;gap:.375rem}
   .dlg-progress-txt{font-size:var(--text-12);color:var(--ink-secondary)}
   .dlg-progress-track{height:3px;background:var(--border);border-radius:99px;overflow:hidden}
@@ -1618,11 +1643,19 @@
   .segctrl-label{font-size:var(--text-14);font-weight:600;color:var(--ink)}
 
   /* Tokens popover — plan header + metered rows + actions.
-     Coin / plan-badge artwork sourced from the agreed external SVG icons in the project root
-     (basic.svg plan badge, coin-blue.svg, coin-green.svg) — pure-vector, themeable, no raster. */
+     Coin artwork sourced from the agreed external SVG icons in the project root
+     (coin-blue.svg, coin-green.svg) — pure-vector, themeable, no raster. No plan-badge icon —
+     the plan name (H5 desktop size) carries the header alone. */
   .sbx-pop-tok-head{display:flex;align-items:center;gap:.5rem;padding:0 .25rem}
-  .sbx-pop-tok-head .plan-badge{display:inline-block;width:21px;height:16px;flex:none;background:url("../basic.svg") center/contain no-repeat}
-  .sbx-pop-tok-head .plan-name{font-size:var(--text-14);line-height:1.25rem;font-weight:500;color:var(--ink)}
+  .sbx-pop-tok-head .plan-info{display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;min-width:0}
+  /* Name + trial badge sit in one row (not stacked) — the badge reads as a flag on the name, not a second line */
+  .sbx-pop-tok-head .plan-name-row{display:flex;align-items:center;gap:.5rem}
+  .sbx-pop-tok-head .plan-name{font-size:var(--text-18);line-height:1.75rem;font-weight:600;color:var(--ink)}
+  /* Trial badge reuses the existing Badge component (.badge.badge-attention.badge-sm) — no new styles */
+  /* Remaining-credits line — sits under the plan name/trial row (Balance-aligned concept). Bolded
+     number is the accent; "of total remaining" stays quiet, short "N/total" beats "N of total". */
+  .sbx-pop-tok-head .plan-remaining{font-size:var(--text-12);color:var(--ink-secondary)}
+  .sbx-pop-tok-head .plan-remaining strong{color:var(--ink);font-weight:700}
   /* Increased intra-row gap (label → coin → value: 8px) and inter-meter gap (6px between the row and the bar) so the meter doesn't read as a single dense block */
   .sbx-pop-tok-meter{display:flex;flex-direction:column;gap:.375rem;padding:0 .25rem;width:100%}
   .sbx-pop-tok-meter .row{display:flex;align-items:center;gap:.5rem}
@@ -1636,6 +1669,39 @@
   .sbx-pop-tok-meter .bar>span{display:block;height:100%;border-radius:9999px}
   .sbx-pop-tok-actions{display:flex;flex-direction:column;gap:.625rem;width:100%;margin-top:.125rem}
   .sbx-pop-cta{width:100%;height:2rem;border-radius:9999px;justify-content:center;font-size:var(--text-13);font-weight:500}
+
+  /* Tokens popover — Balance-aligned concept (alternative to the coin-meter rows above, not
+     shipped). Mirrors the Manage-account Balance page's default V2 two-zone bar: dot-legend →
+     one combined bar (zone width = pool share of the total, fill = used share of the pool) →
+     used/remaining summary. Reuses the same tokens as Balance V2 (--balance-*-track,
+     --brand-tertiary, --fb-green) so the two surfaces would read identically if ever unified. */
+  /* Usage hero — big "used/total credits" figure under the plan name, mirrors Balance's own
+     .acct-bal-amount hero row (213/1,040 credits) at a size that fits the popover. */
+  .sbx-pop-tok-usage{font-size:var(--text-20);font-weight:600;color:var(--ink);line-height:1.1;padding:0 .25rem}
+  .sbx-pop-tok-usage-of{font-size:var(--text-12);font-weight:400;color:var(--ink-secondary)}
+  .sbx-pop-tok-legend{display:flex;flex-direction:column;gap:.25rem;padding:0 .25rem}
+  .sbx-pop-tok-leg{display:inline-flex;align-items:center;gap:.375rem;font-size:var(--text-12);color:var(--ink-secondary)}
+  .sbx-pop-tok-leg strong{color:var(--ink-body);font-weight:600}
+  /* Trailing "used" word — tight gap so it doesn't read as a second space after the bold figure; matches .acct-bal-used-gap on the Balance page */
+  .sbx-pop-tok-leg-used{margin-left:.1875rem}
+  .sbx-pop-tok-dot{width:.5rem;height:.5rem;border-radius:9999px;flex:none}
+  .sbx-pop-tok-dot.is-subscription{background:var(--brand-tertiary)}
+  .sbx-pop-tok-dot.is-purchased{background:var(--fb-green)}
+  /* Bar + summary are wrapped together (.sbx-pop-tok-balbar) so they read as one caption-and-bar
+     unit at a tight 8px gap — left as separate top-level children they'd inherit the popover's
+     14px inter-section gap, reading as an oversized gap between the bar and its own caption. */
+  .sbx-pop-tok-balbar{display:flex;flex-direction:column;gap:.5rem}
+  .sbx-pop-tok-bar2{display:flex;gap:1px;height:8px;border-radius:9999px;overflow:hidden;margin:0 .25rem}
+  .sbx-pop-tok-zone{position:relative;height:100%;overflow:hidden}
+  .sbx-pop-tok-zone:first-child{border-radius:9999px 0 0 9999px}
+  .sbx-pop-tok-zone:last-child{border-radius:0 9999px 9999px 0}
+  .sbx-pop-tok-zone.is-subscription{flex:0 0 48.08%;background:var(--balance-subscription-track)}
+  .sbx-pop-tok-zone.is-purchased{flex:0 0 51.92%;background:var(--balance-purchased-track)}
+  .sbx-pop-tok-fill2{position:absolute;inset:0 auto 0 0;height:100%;border-radius:inherit}
+  .sbx-pop-tok-fill2.is-subscription{background:var(--brand-tertiary)}
+  .sbx-pop-tok-fill2.is-purchased{background:var(--fb-green)}
+  /* Used (left) / remaining (right) split under the bar — plain, uniform-weight text, matching Balance page's own summary row exactly (no bold accent) */
+  .sbx-pop-tok-summary{display:flex;justify-content:space-between;padding:0 .25rem;font-size:var(--text-12);color:var(--ink-secondary)}
 
   /* Tokens row → tertiary IconButton-style button */
   .sbx-tok{border:none;background:transparent;cursor:pointer;font-family:inherit;text-align:left;width:100%;padding:.25rem .375rem;border-radius:.375rem;transition:background .12s,color .12s}
@@ -1698,18 +1764,21 @@
   @media (max-width:700px){.palette{grid-template-columns:repeat(5,1fr)}}
   .semgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.625rem}
   .card-panel{border:1px solid var(--border);background:var(--card);border-radius:.625rem;padding:.625rem}
-  .typorow{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--border);padding:.375rem 0}
+  .typorow{display:flex;align-items:center;justify-content:space-between;gap:.75rem;border-bottom:1px solid var(--border);padding:.375rem 0}
   .typorow:last-child{border-bottom:none}
+  .ty-info{display:inline-flex;align-items:center;flex:none;color:var(--ink-inactive);cursor:default;transition:color var(--motion-fast)}
+  .ty-info:hover{color:var(--ink-body)}
   table.tbl{width:100%;border-collapse:collapse;font-size:var(--text-14)}
   table.tbl th{text-align:left;font-size:var(--text-12);font-weight:500;color:var(--ink-secondary);padding:.625rem 1rem;border-bottom:1px solid var(--border)}
   table.tbl td{padding:.625rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-body)}
-  /* Selected row — uses --tbl-row-pressed (neutral: slate-100 light / grey-800 dark — not brand-tinted). Hover-while-selected layers a 10% brand tint on top so the two states stay distinguishable. */
+  /* Selected row — --tbl-row-pressed = --card2, identical to the thead band in both themes (slate-100 light / grey-800 dark). Neutral, never brand-tinted. Hover-while-selected blends in --tbl-row-hover (also neutral) so no table row state carries brand hue. */
   table.tbl tr.is-selected td{background:var(--tbl-row-pressed)}
-  table.tbl tr.is-selected:hover td{background:color-mix(in srgb,var(--brand-primary) 10%,var(--tbl-row-pressed))}
+  /* Hover-while-selected — neutral blend of the two row tokens. .is-selected.s-hover mirrors :hover for storybook simulation. */
+  table.tbl tr.is-selected:hover td,table.tbl tr.is-selected.s-hover td{background:color-mix(in srgb,var(--tbl-row-hover) 50%,var(--tbl-row-pressed))}
   /* Row hover — uses --tbl-row-hover (slate-50 on light, state-hover on dark/prod). .s-hover mirrors :hover for storybook simulation */
   table.tbl tbody tr:hover td,table.tbl tbody tr.s-hover td{background:var(--tbl-row-hover)}
-  /* Transient press feedback — bg-shift only, matches the kit's "Usage pattern" in changes/colors.md */
-  table.tbl tr:active td{background:var(--tbl-row-pressed)}
+  /* Transient press feedback — bg-shift only, matches the kit's "Usage pattern" in changes/colors.md. .s-pressed mirrors :active for storybook simulation. */
+  table.tbl tr:active td,table.tbl tbody tr.s-pressed td{background:var(--tbl-row-pressed)}
   table.tbl tbody tr{transition:background .1s}
 
   /* ===== NEW COMPONENT HELPERS (Card, Collapsible, Datepicker, File, InputGroup, PasswordInput,
@@ -1836,8 +1905,10 @@
   .sep.var-primary{background:var(--brand-primary)}
   .sep.var-secondary{background:var(--brand-secondary)}
 
-  /* Overlay — reusable full-viewport backdrop */
-  .ov{position:fixed;inset:0;background:var(--overlay-scrim);z-index:40;display:none}
+  /* Overlay — reusable full-viewport backdrop. z-index:60 matches the modal scrim (.dlg-overlay)
+     tier so the backdrop + its panel always cover sticky page furniture (.topbar / .cl-page-head,
+     both z-index:50) instead of leaving it exposed above the dim. */
+  .ov{position:fixed;inset:0;background:var(--overlay-scrim);z-index:60;display:none}
   .ov.is-open{display:block}
 
   /* Sheet */
@@ -2006,19 +2077,20 @@
      Drag-over (.is-dragover): solid Brand/Primary border + State/Hover fill = active drop target.
      The zone is a click target; keyboard users reach the inner Browse button, whose focus lifts
      the zone via :focus-within. .s-hover / .s-focus / .s-dragover are storybook state hooks. */
-  .dsf-drop{border:1.5px dashed var(--dropzone-border);border-radius:.75rem;background:var(--card2);
-    padding:1.25rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  .dsf-drop{border:1.5px dashed var(--dropzone-border);border-radius:.75rem;background:var(--dropzone-fill);
+    padding:1.25rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:.25rem;
     text-align:center;cursor:pointer;
     transition:background var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease)}
   .dsf-drop:hover,.dsf-drop.s-hover,.dsf-drop:focus-within,.dsf-drop.s-focus{
     border-color:color-mix(in srgb,var(--brand-primary) 45%,var(--dropzone-border));
-    background:color-mix(in srgb,var(--brand-primary) 4%,var(--card2))}
+    background:color-mix(in srgb,var(--brand-primary) 4%,var(--dropzone-fill))}
   .dsf-drop.is-dragover,.dsf-drop.s-dragover{background:var(--state-hover);border-style:solid;border-color:var(--brand-primary)}
   .dsf-drop-head{display:flex;align-items:center;gap:.5rem}
   .dsf-drop-ic{width:1.25rem;height:1.25rem;color:var(--ink-secondary);flex:none;transition:color var(--motion-base) var(--motion-ease)}
   .dsf-drop:hover .dsf-drop-ic,.dsf-drop.s-hover .dsf-drop-ic,.dsf-drop:focus-within .dsf-drop-ic,.dsf-drop.s-focus .dsf-drop-ic,.dsf-drop.is-dragover .dsf-drop-ic,.dsf-drop.s-dragover .dsf-drop-ic{color:var(--brand-primary)}
   .dsf-drop-title{font-size:1rem;line-height:1.5rem;font-weight:600;color:var(--ink);margin:0}
   .dsf-drop-sub{font-size:.8125rem;color:var(--ink-secondary);margin:0;line-height:1.3;text-wrap:balance}
+  .dsf-drop>.btn{margin-top:.5rem}
 
   /* ===== Provider Card — data-source / integration card used in empty-state grids =====
      Grid: 3-column fixed then auto-fill min 14 rem.
@@ -2031,13 +2103,13 @@
      viewport — so the sidebar (which narrows content) can't leave 3 cramped
      columns on a wide viewport. ~290px min → 3 cols ≳900px, 2 cols ≳600px, else 1. */
   .prov-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.875rem}
-  .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
+  .prov-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-rest);transition:box-shadow var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)}
   .prov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-2px);will-change:transform}
   .prov-card:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* Utility — card-lift hover. Shared recipe across catalog cards and connection rows:
      --shadow-lift-hover + 22% brand-tinted border + translateY(-1px).
      Bundles the transition so any element gets the right duration on first use. */
-  .hov-card{transition:box-shadow .18s,border-color .18s,transform .18s}
+  .hov-card{transition:box-shadow var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)}
   .hov-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
   .prov-card-head{display:flex;align-items:center;gap:.5rem}
   /* Provider-card logo size — bigger image than the inline default the markup sets on the
@@ -2236,10 +2308,11 @@
      Moved verbatim out of the page <style> block so all component style lives in the kit.
      Page-composition rules (.ds-grid column counts, #ds-cats, .ds-conn-section show/hide) stay
      in the page — they encode page-state layout, not the component itself. */
-  .ds-conn-tbl table.tbl tbody tr.is-selected td{background:var(--state-pressed)}
+  /* Neutral --tbl-row-pressed, not --state-pressed (which is brand-tinted --brand-50 in light) — same neutral contract as base table.tbl. Fixed 2026-07-09. */
+  .ds-conn-tbl table.tbl tbody tr.is-selected td{background:var(--tbl-row-pressed)}
 
   /* Base card shell — the catalog tile (.ds-v3, approved) overrides to a vertical layout */
-  .ds-card{position:relative;display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow .18s,border-color .18s,transform .18s}
+  .ds-card{position:relative;display:flex;align-items:center;gap:.75rem;padding:.75rem .875rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--shadow-rest);transition:box-shadow var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)}
   .ds-card:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
   /* Plain connector logos (.logo-spr, kit-theme.css) — no container. Per-context size only. */
   .ds-card .logo-spr{--logo-size:3rem}
@@ -2284,10 +2357,16 @@
   .ds-load-sentinel{grid-column:1/-1;height:1px;margin:0;padding:0}
 
   /* ===== Connected — card list ===== */
-  .ds-conn-list{display:grid;grid-template-columns:1fr;gap:.875rem}
-  /* Hover = prov-card lift recipe (matches catalog cards). .hov-card:hover handles it;
-     override only the menu-open state to keep position stable. */
-  .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:1rem 1.125rem;border:1px solid var(--border);border-radius:.75rem;background:var(--card);box-shadow:var(--shadow-rest);position:relative;transition:box-shadow .18s,border-color .18s,transform .18s}
+  /* padding-top gives the first row's .hov-card lift (translateY(-1px) + shadow) room inside
+     the parent .ds-conn-section's overflow:hidden (page-level collapse/expand clip) — without
+     it the first card sits flush against the clip edge and its hover border/shadow gets cut
+     off flat instead of lifting. */
+  .ds-conn-list{display:grid;grid-template-columns:1fr;gap:var(--card-stack-gap);padding-top:.25rem}
+  /* Hover = .hov-card lift recipe. .card-stack-item owns hover/press/selected canonical rules. */
+  .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:var(--card-stack-pad-v) var(--card-stack-pad-h);border:1px solid var(--border);border-radius:var(--card-stack-radius);background:var(--card);box-shadow:var(--shadow-rest);position:relative;transition:box-shadow var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)}
+  /* Selected state — brand-tinted border + pressed bg (was missing) */
+  .ds-conn-row.is-selected{background:var(--tbl-row-pressed);border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)}
+  .ds-conn-row.is-selected:hover{background:color-mix(in srgb,var(--brand-primary) 10%,var(--tbl-row-pressed))}
 
   .ds-card .iconbtn{background:var(--bg)}
   .ds-conn-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.25rem}
@@ -2310,7 +2389,7 @@
   .ds-conn-more-wrap{position:relative;flex:none}
   /* Card mode — pin the kebab to the top-right corner instead of vertically centering it. */
   .ds-conn-row .ds-conn-more-wrap{align-self:flex-start}
-  .ds-conn-more svg{width:16px;height:16px}
+  .ds-conn-more svg{width:14px;height:14px}
   .ds-conn-row:has([data-kbp][aria-expanded="true"]){z-index:20}
   .ds-conn-body:has([data-kbp][aria-expanded="true"]){overflow:visible}
   .cl-main:has([data-kbp][aria-expanded="true"]){overflow-x:visible}
@@ -2431,6 +2510,20 @@
   /* Allow the absolutely-positioned menu to escape its row when open. */
   .chat-list:has(.chat-row-more[aria-expanded="true"]){overflow:visible}
 
+  /* ===== ChatMessage — message bubbles used on the Chat page thread (chat_page-landing.html).
+     User turn: neutral --card2 fill (grey, not brand-tinted) — the bubble is just a message
+     container, not a brand-affordance, so it follows the same neutral-surface rule as .chip/.card2.
+     AI turn: whole response sits in one neutral --card surface (.cp-ai-bubble); nested chart/metric
+     cards use --bg so they read as cards-on-top-of-the-bubble. */
+  .cp-msg-row{display:flex;flex-direction:column;gap:.375rem}
+  .cp-msg-row.user{align-items:flex-end}
+  .cp-msg-row.ai{align-items:flex-start}
+  .cp-bubble{max-width:72%;padding:.625rem .875rem;font-size:.875rem;line-height:1.55;color:var(--ink);border-radius:1rem}
+  /* card2 alone was too close to --bg (F1F5F9 on F8FAFC); full --border was too dark. Reads
+     --surface-neutral-strong, not --border directly — border tokens are for borders, not fills. */
+  .cp-bubble.user{background:var(--surface-neutral-strong);border-radius:1rem 1rem .25rem 1rem}
+  .cp-ai-bubble{display:flex;flex-direction:column;gap:.75rem;background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:.875rem 1rem}
+
   /* ===================================================================
      METRICS-PAGE COMPONENTS
      All selectors below are reusable across pages. CSS was originally
@@ -2510,8 +2603,8 @@
 
   /* ── Actions column + kebab ── */
   .mx-tbl-actions{width:3rem;padding-right:.5rem;position:relative;text-align:right;vertical-align:middle;white-space:nowrap}
-  .mx-tbl-actions .iconbtn{width:1.625rem;height:1.625rem;opacity:0;transition:opacity .12s;display:inline-flex;align-items:center;justify-content:center}
-  .mx-tbl-actions .iconbtn svg{width:12px;height:12px}
+  .mx-tbl-actions .iconbtn{width:1.5rem;height:1.5rem;opacity:0;transition:opacity var(--motion-fast);display:inline-flex;align-items:center;justify-content:center}
+  .mx-tbl-actions .iconbtn svg{width:14px;height:14px}
   tr:hover .mx-tbl-actions .iconbtn{opacity:1}
   /* On a hovered row the td bg is --state-hover; use --state-pressed so the button hover is visible */
   tr:hover .mx-tbl-actions .iconbtn:hover{background:var(--state-pressed);color:var(--ink)}
@@ -2589,6 +2682,54 @@
 .dp-value-body{font-size:var(--text-14);color:var(--ink-body);line-height:1.6;margin:0}
 
 /* ═══════════════════════════════════════════════════════════════════════
+   CARD-STACK — canonical mobile card recipe (table→card reflow ≤767px)
+   ───────────────────────────────────────────────────────────────────────
+   All three list pages (Metrics, Connections, Files) apply this class to
+   their card elements inside the @media (max-width:767px) block.
+   Tokens: --card-stack-gap / pad-v / pad-h / radius (in :root above).
+   Never override the visual properties below on a per-page basis — fix
+   the token or the class itself so all pages stay in sync. */
+.card-stack{display:flex;flex-direction:column;gap:var(--card-stack-gap)}
+.card-stack-item{
+  padding:var(--card-stack-pad-v) var(--card-stack-pad-h);
+  border-radius:var(--card-stack-radius);
+  border:1px solid var(--border);
+  background:var(--card);
+  box-shadow:var(--shadow-rest);
+  cursor:pointer;
+  overflow:visible;
+  position:relative;
+  transition:box-shadow var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)
+}
+/* Lift hover — same recipe as .hov-card and .ds-conn-row */
+.card-stack-item:hover{
+  box-shadow:var(--shadow-lift-hover);
+  border-color:var(--card-lift-border);
+  transform:translateY(-1px)
+}
+/* Press feedback */
+.card-stack-item:active:not(:has(button:active)){
+  transform:scale(.99) translateY(0);
+  box-shadow:var(--shadow-rest)
+}
+/* Selected state — brand-tinted border + tbl-row-pressed bg (theme-aware) */
+.card-stack-item.is-selected{
+  background:var(--tbl-row-pressed);
+  border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)
+}
+.card-stack-item.is-selected:hover{
+  background:color-mix(in srgb,var(--brand-primary) 10%,var(--tbl-row-pressed))
+}
+/* Open kebab menu raises card above siblings */
+.card-stack-item:has([aria-expanded="true"]){z-index:20;transform:none}
+/* Kebab — always iconbtn size (2.25rem × 2.25rem, 16px icon) in card context */
+.card-stack-item .chat-row-more{
+  opacity:1;pointer-events:auto;
+  width:2.25rem;height:2.25rem;border-radius:.375rem
+}
+.card-stack-item .chat-row-more svg{width:16px;height:16px}
+
+/* ═══════════════════════════════════════════════════════════════════════
    RESPONSIVE TABLES — shared card-stack layout (≤ 767 px, md breakpoint)
    ───────────────────────────────────────────────────────────────────────
    DS Connections: JS detects viewport and switches to .ds-conn-row list
@@ -2639,21 +2780,36 @@
     margin-top:1rem;
     background:var(--mx-group-band);
     border-top:1px solid var(--border);
-    border-top-left-radius:.5rem;
-    border-top-right-radius:.5rem
+    border-top-left-radius:var(--card-stack-radius);
+    border-top-right-radius:var(--card-stack-radius)
   }
   .mx-tbl .tbl tbody tr.mx-prov-group:first-child{margin-top:0}
   .mx-tbl .tbl tbody tr.mx-prov-group td{display:block;border:none;background:transparent;padding:.625rem 1rem}
+  /* Collapsed group = a standalone card (no metric rows to cap the bottom) — close
+     the border and round the bottom corners too, mirroring the desktop .mx-tbl-sections
+     is-collapsed rule so cards read the same on every width. */
+  .mx-tbl .tbl tbody tr.mx-prov-group.is-collapsed{
+    border-bottom:1px solid var(--border);
+    border-bottom-left-radius:var(--card-stack-radius);
+    border-bottom-right-radius:var(--card-stack-radius)
+  }
+  /* .mx-section-gap only exists to create a native table-row spacer for the desktop
+     sectioned-card layout (kit-theme.css, @media min-width:768px). On mobile the
+     card-to-card gap already comes from tr.mx-prov-group's own margin-top above, so
+     the spacer row must be hidden here — left unstyled it falls back to generic
+     .tbl td padding + divider border, producing a stray extra line + ~21px sliver
+     between collapsed cards. */
+  .mx-tbl .tbl tbody tr.mx-section-gap{display:none}
 
   /* Metric row = stitched row inside the card, divided from the row above by a
      hairline (incl. from the header band). */
   .mx-tbl .tbl tbody tr.mx-metric-child{
     display:grid;
     grid-template-columns:auto 1fr auto auto;
-    grid-template-rows:auto auto auto;
-    column-gap:.625rem;row-gap:.25rem;
-    align-items:start;
-    padding:.875rem;
+    grid-template-rows:auto;
+    column-gap:.625rem;
+    align-items:center;
+    padding:var(--card-stack-pad-v) var(--card-stack-pad-h);
     padding-left:var(--mx-prov-indent);
     border-top:1px solid var(--border);
     cursor:pointer;overflow:visible
@@ -2670,8 +2826,8 @@
   .mx-tbl .tbl tbody tr.mx-metric-child:has(+ tr.mx-prov-group),
   .mx-tbl .tbl tbody tr.mx-no-builtin-row:has(+ tr.mx-prov-group){
     border-bottom:1px solid var(--border);
-    border-bottom-left-radius:.5rem;
-    border-bottom-right-radius:.5rem
+    border-bottom-left-radius:var(--card-stack-radius);
+    border-bottom-right-radius:var(--card-stack-radius)
   }
 
   /* height:auto resets the desktop fixed row height (2.875rem) that would
@@ -2681,12 +2837,9 @@
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(1){grid-column:1;grid-row:1;align-self:center;position:static;top:auto;left:auto}
   /* td[2] metric name — col 2, row 1 */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(2){grid-column:2;grid-row:1;font-size:var(--text-14);font-weight:600;color:var(--ink);line-height:1.25rem;padding-right:0}
-  /* td[3] alias — full width, row 2, aligned to the toggle (col 1 left edge) */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3){grid-column:1 / -1;grid-row:2;font-size:var(--text-12);color:var(--ink-tertiary);font-family:ui-monospace,monospace;letter-spacing:var(--tracking-tight)}
-  /* td[4] definition — full width, row 3, aligned to the toggle. max-width:none
-     overrides the desktop .mx-tbl-desc{max-width:18rem} (=288px) that was capping
-     it short of the card edge; wraps freely and fills the whole card width. */
-  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(4){grid-column:1 / -1;grid-row:3;display:block;max-width:none;font-size:var(--text-13);color:var(--ink-secondary);line-height:1.55;white-space:normal;overflow:visible;min-width:0}
+  /* td[3] alias + td[4] definition — hidden on mobile; one-line card (toggle + name + badge + kebab only) */
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(3),
+  .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(4){display:none}
   /* td[5] badge — col 3, row 1, aligned with metric name */
   .mx-tbl .tbl tbody tr.mx-metric-child td:nth-child(5){grid-column:3;grid-row:1;align-self:center}
   /* td[6] kebab — col 4, row 1 */
@@ -2705,9 +2858,13 @@
      row (block left them top-aligned, since vertical-align doesn't apply on cards). */
   .mx-tbl .tbl tbody tr.mx-conn-sub-row td{display:flex;align-items:center;width:100%;border-bottom:none}
 
-  /* Kebab always visible on mobile (no hover to reveal it) */
-  .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn{opacity:1}
-  .ds-conn-tbl .tbl tbody tr .ds-conn-more{opacity:1}
+  /* Kebab always visible on mobile; size = card-stack standard 2.25rem / 16px */
+  .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn{opacity:1;width:2.25rem;height:2.25rem}
+  .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn svg{width:16px;height:16px}
+  .ds-conn-tbl .tbl tbody tr .ds-conn-more{opacity:1;width:2.25rem;height:2.25rem}
+  .ds-conn-tbl .tbl tbody tr .ds-conn-more svg{width:16px;height:16px}
+  .dsf-tbl .chat-row-more{opacity:1;pointer-events:auto;width:2.25rem;height:2.25rem;border-radius:.375rem}
+  .dsf-tbl .chat-row-more svg{width:16px;height:16px}
 
   /* Suppress ALL desktop td-level state backgrounds (hover/active/selected) — on
      cards the td are grid cells, so colouring them paints disconnected boxes.
@@ -2769,8 +2926,8 @@
   }
   /* Collapsed group = a standalone card: round its bottom corners too. */
   .mx-tbl-sections tr.mx-prov-group.is-collapsed > td{
-    border-bottom-left-radius:.5rem;
-    border-bottom-right-radius:.5rem;
+    border-bottom-left-radius:var(--card-stack-radius);
+    border-bottom-right-radius:var(--card-stack-radius);
   }
   /* Card side borders on every body row. */
   .mx-tbl-sections tr.mx-metric-child > td:first-child,
@@ -2814,6 +2971,7 @@
   .ds-conn-list .ds-conn-row .ds-conn-meta{white-space:normal;overflow:visible;text-overflow:clip}
   /* Description: up to 2 lines, tertiary */
   .ds-conn-list .ds-conn-row .ds-conn-desc{color:var(--ink-secondary);white-space:normal;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-  /* Kebab always visible — no hover on narrower viewports */
-  .ds-conn-list .ds-conn-row .ds-conn-more{opacity:1}
+  /* Kebab always visible — no hover on narrower viewports; card-stack standard 2.25rem / 16px */
+  .ds-conn-list .ds-conn-row .ds-conn-more{opacity:1;width:2.25rem;height:2.25rem}
+  .ds-conn-list .ds-conn-row .ds-conn-more svg{width:16px;height:16px}
 }

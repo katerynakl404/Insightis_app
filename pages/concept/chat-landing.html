@@ -307,7 +307,7 @@
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
             <span class="lbl">Metrics</span>
           </button>
-          <button class="sbx-nav-item" type="button" onclick="location.href='data-sources_files-landing.html'">
+          <button class="sbx-nav-item" type="button" onclick="location.href='../approved/data-sources_files-landing.html'">
             <!-- Folder icon — Files glyph (Lucide folder) -->
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
             <span class="lbl">Files</span>
@@ -403,9 +403,9 @@
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
               <span class="sbx-tok-label">Usage</span>
-              <span class="sbx-tok-val">213 / 500</span>
+              <span class="sbx-tok-val">213 / 1,040</span>
             </div>
-            <div class="sbx-tok-bar"><span style="width:42.6%"></span></div>
+            <div class="sbx-tok-bar"><span style="width:20.5%"></span></div>
           </button>
           <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
             <span class="sbx-user-ava">K</span>
@@ -439,27 +439,26 @@
               <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false" onclick="document.documentElement.classList.add('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg></button>
               <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/></svg></button>
             </div>
-            <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>Sign out</button>
+            <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>Log out</button>
           </div>
 
           <!-- Subscription credits popover — opens above the tokens row -->
           <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head">
-              <span class="plan-badge" aria-hidden="true"></span>
               <span class="plan-name">Free</span>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Subscription credits</span></div>
+              <div class="row"><span class="label">Subscription Credits</span></div>
               <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
               <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
+              <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
               <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
             </div>
             <div class="sbx-pop-tok-actions">
-              <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=balance'">Buy Credits</button>
-              <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
+              <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='../approved/user_profile-modal.html?section=balance'">Buy Credits</button>
+              <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='../approved/user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
             </div>
           </div>
         </div>
@@ -666,7 +665,7 @@
     if(!acctItem) return;
     var acctMap = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
     var acctSec = acctMap[acctItem.textContent.trim()];
-    if(acctSec) window.location.href = 'user_profile-modal.html?section=' + acctSec;
+    if(acctSec) window.location.href = '../approved/user_profile-modal.html?section=' + acctSec;
   });
   function clTogglePop(id){
     var pop = document.getElementById(id);
@@ -945,7 +944,7 @@
     'New Chat': 'chat-landing.html',
     'Data Sources':  '../approved/data-sources_connections-landing.html',
     'Metrics':  '../approved/metrics-landing.html',
-    'Files':    'data-sources_files-landing.html'
+    'Files':    '../approved/data-sources_files-landing.html'
   };
   var current = location.pathname.split('/').pop();
   document.querySelectorAll('.sbx-nav .sbx-nav-item').forEach(function(btn){
@@ -969,8 +968,15 @@ document.addEventListener('click', function(e){
   if(!it) return;
   var map = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
   var sec = map[it.textContent.trim()];
-  if(sec) window.location.href = 'user_profile-modal.html?section=' + sec;
+  if(sec) window.location.href = '../approved/user_profile-modal.html?section=' + sec;
 });
+</script>
+<script>
+/* Deep-link from Data Sources → Files "Add to Chat" — ?attach=<filename> pre-fills the composer's file chip. */
+(function(){
+  var name = new URLSearchParams(window.location.search).get('attach');
+  if(name && typeof clPickFile === 'function') clPickFile(name);
+})();
 </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 # DataSourcesFiles — Changes (Current → Expected)
 
-> **Update (Unreleased):** Files is now a **top-level sidebar destination** (see [`Sidebar.md`](Sidebar.md) — nav row order `Sources → Files → Metrics`), not a tab inside Data Sources. The three `Tab bar — …` rows below are kept for historical context but are no longer the Expected state — there is no tab bar; the `Browse Files` action moved into the page header next to the `Files` h1. The `.dsf-tabrow` / `.tabset` markup was removed from [`pages/data-sources_files-landing.html`](../pages/data-sources_files-landing.html) and [`pages/approved/data-sources_connections-landing.html`](../pages/approved/data-sources_connections-landing.html).
+> **Update (Unreleased):** Files is now a **top-level sidebar destination** (see [`Sidebar.md`](Sidebar.md) — nav row order `Sources → Files → Metrics`), not a tab inside Data Sources. The three `Tab bar — …` rows below are kept for historical context but are no longer the Expected state — there is no tab bar; the `Browse Files` action moved into the page header next to the `Files` h1. The `.dsf-tabrow` / `.tabset` markup was removed from [`pages/approved/data-sources_files-landing.html`](../pages/approved/data-sources_files-landing.html) and [`pages/approved/data-sources_connections-landing.html`](../pages/approved/data-sources_connections-landing.html).
 
 | State / Element | Current (prod) | Expected | Specification |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 
 ## Reproduction spec (CSS-accurate — stand-alone)
 
-> **Where this lives:** all `.dsf-*` rules ship **inline in the page `<style>`** of [`pages/concept/data-sources_files-landing.html`](../pages/concept/data-sources_files-landing.html), **not** in `pages/kit-theme.css`, and there is **no `#datasourcesfiles` storybook section**. The component is composed from kit primitives (`.chat-row`, `.chat-list`, `.cbx`, `.meta-row`, `.meta-row-count`, `.meta-row-actions`, `.menu`, `.mi`, `.danger`, `.link`, `.btn.btn-outline.btn-sm`) plus the page-local `.dsf-*` rules below. To rebuild, copy the kit primitives plus every rule in this section.
+> **Where this lives:** all `.dsf-*` rules ship **inline in the page `<style>`** of [`pages/approved/data-sources_files-landing.html`](../pages/approved/data-sources_files-landing.html), **not** in `pages/kit-theme.css`, and there is **no `#datasourcesfiles` storybook section**. The component is composed from kit primitives (`.chat-row`, `.chat-list`, `.cbx`, `.meta-row`, `.meta-row-count`, `.meta-row-actions`, `.menu`, `.mi`, `.danger`, `.link`, `.btn.btn-outline.btn-sm`) plus the page-local `.dsf-*` rules below. To rebuild, copy the kit primitives plus every rule in this section.
 
 ### Layout containers
 

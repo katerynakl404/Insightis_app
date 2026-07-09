@@ -64,6 +64,17 @@ These are locked decisions. Do not change without explicit approval.
 
 > **Note:** Provider card chip rows (`.prov-card .chip-row` — metric preview chips) keep `flex-wrap:wrap` at all widths per the hard requirement.
 
+### C1 toolbar — "Active only" stays right-aligned on responsive (2026-07-09)
+
+| | Was | Now |
+|---|---|---|
+| `.mx-active-toggle` margin (≤ 767 px) | `margin-left:0` — dropped flush after the "Custom" chip on the left | `margin-left:auto` (same as desktop) — stays pinned to the row's right edge; wraps to its own line (still right-aligned) only when the chips genuinely don't fit |
+| `#mx-c3-chips` edge bleed (≤ 767 px) | Shared the `#mx-cat-chips` full-bleed rule (`margin-inline:-.75rem`, no right padding) — meant for that row's nowrap+scroll, not this one's wrap | Removed from the bleed rule — `#mx-c3-chips` wraps (not scrolls), so it keeps normal `.cl-page` padding; without this, the right-aligned toggle would sit flush against the raw viewport edge instead of the page's 12px inset |
+
+Both were pre-existing ≤767px overrides, not documented/intentional divergences from desktop.
+
+
+
 ### Empty state
 
 | | Prod (Current) | Expected |
@@ -129,6 +140,15 @@ Fields shown: Name, Data Source, Alias, Type badge, Definition.
 | CTA copy | "This metric is provided by [name]" | "This metric is designed for [name]" |
 | CTA sub-copy | "Connecting the provider activates…" | "Adding a connection activates…" |
 
+### Sidepanel + overlay coverage (2026-07-09)
+
+| | Was | Now |
+|---|---|---|
+| `#mx-panel` top offset | `top: 40px` (started below the sticky demo topbar) | `top: 0` — spans the full viewport height |
+| `#mx-panel` / `.ov` z-index | `41` / `40` | `61` / `60` — same tier as the modal scrim ([`changes/Overlay.md`](../changes/Overlay.md)) |
+
+Both the sticky demo topbar (`.topbar`) and the ≤1023px sticky page head (`.cl-page-head`, `.mx-page-head`) are `z-index:50` — above the panel's old `41`/`40`, so they rendered undimmed above the scrim while the panel was open. Raising `.ov`/`#mx-panel` to the modal-scrim tier (`60`/`61`) and starting the panel at `top:0` fixes both: the dim now covers the heading, and the panel covers the full viewport. Kit-level fix — see [`changes/Overlay.md`](../changes/Overlay.md).
+
 ## Connect dialog
 
 | | Prod (Current) | Expected |
@@ -171,6 +191,15 @@ At the `< 768 px` breakpoint the metrics table reflows into a vertical card stac
 | Row with open menu | `overflow: visible` inherited | `z-index: 20; overflow: visible` via `:has([data-kbp][aria-expanded="true"])` |
 
 Selector: `.mx-tbl` wraps the `<table class="tbl">` element. Rule lives in `pages/kit-theme.css` shared responsive-tables block.
+
+### Collapsed provider card — mobile parity fix (2026-07-09)
+
+| | Was | Now |
+|---|---|---|
+| `.mx-section-gap` spacer row (≤ 767 px) | No override — fell back to generic `.tbl td` padding (`10px 16px`) + a `1px` divider border, rendering a stray ~21px sliver with a visible hairline between collapsed cards | `display:none` — the row only exists for the desktop sectioned-card layout (native `<tr>` spacer, `kit-theme.css` `@media (min-width:768px)`); mobile cards already get their 16px gap from `tr.mx-prov-group`'s own `margin-top` |
+| Collapsed `.mx-prov-group` corners (≤ 767 px) | Rounded top only (`border-top-left/right-radius`) — bottom stayed square, no `border-bottom`, since there's no metric row left to cap the card | Rounded all four corners + `border-bottom`, mirroring the desktop `.mx-tbl-sections .is-collapsed` rule, so a collapsed card reads as one closed box on every width |
+
+Both were coverage gaps in the ≤767px responsive rules, not documented/intentional values — see `pages/kit-theme.css` inside the `@media (max-width: 767px)` metrics-table block.
 
 ## Filled state — sectioned table (desktop)
 

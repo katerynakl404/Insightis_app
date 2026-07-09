@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Style 3 — Glossy sphere, Green -->
+  <defs>
+    <radialGradient id="s3g-face" cx="0.32" cy="0.26" r="1.05">
+      <stop offset="0"    stop-color="#E3FBF0"/>
+      <stop offset="0.25" stop-color="#6EE7B7"/>
+      <stop offset="0.55" stop-color="#009966"/>
+      <stop offset="0.8"  stop-color="#065F46"/>
+      <stop offset="1"    stop-color="#02231C"/>
+    </radialGradient>
+    <radialGradient id="s3g-gloss" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="s3g-drop" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dy="5"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="s3g-mark-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="0.6" result="b"/>
+      <feOffset in="b" dx="0" dy="1"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#s3g-drop)">
+    <ellipse cx="100" cy="96" rx="82" ry="78" fill="url(#s3g-face)"/>
+    <ellipse cx="80" cy="55" rx="46" ry="30" fill="url(#s3g-gloss)"/>
+    <ellipse cx="100" cy="96" rx="82" ry="78" fill="none" stroke="#02231C" stroke-opacity="0.35" stroke-width="1.5"/>
+  </g>
+
+  <!-- Insightis mark — solid white, single crisp shadow for depth -->
+  <g transform="translate(33 30) scale(5.25 5.05)">
+    <path fill="#000000" fill-opacity="0.3" filter="url(#s3g-mark-shadow)" d="M25.4928 10.4153L21.6736 12.7515L25.4928 15.077L12.7464 22.8373L0 15.077L3.81921 12.7515L0 10.4153L5.73562 6.92364L7.64785 8.08772L3.82392 10.4153L12.7464 15.8475L21.6689 10.4153L17.845 8.08772L19.7572 6.92364L25.4928 10.4153ZM12.7464 18.1757L5.72881 13.9033L3.8234 15.077L12.7464 20.5097L21.6694 15.077L19.7635 13.9033L12.7464 18.1757ZM17.845 10.4212L12.7464 13.5252L7.64785 10.4212L9.56426 9.25445L12.7464 11.1918L15.9286 9.25445L17.845 10.4212ZM17.845 5.75956L12.7464 8.86359L7.64785 5.75956L12.7464 2.65552L17.845 5.75956ZM11.4718 5.75903L12.7464 6.53543L14.0211 5.75903L12.7464 4.98315L11.4718 5.75903Z"/>
+    <path fill="#FFFFFF" d="M25.4928 10.4153L21.6736 12.7515L25.4928 15.077L12.7464 22.8373L0 15.077L3.81921 12.7515L0 10.4153L5.73562 6.92364L7.64785 8.08772L3.82392 10.4153L12.7464 15.8475L21.6689 10.4153L17.845 8.08772L19.7572 6.92364L25.4928 10.4153ZM12.7464 18.1757L5.72881 13.9033L3.8234 15.077L12.7464 20.5097L21.6694 15.077L19.7635 13.9033L12.7464 18.1757ZM17.845 10.4212L12.7464 13.5252L7.64785 10.4212L9.56426 9.25445L12.7464 11.1918L15.9286 9.25445L17.845 10.4212ZM17.845 5.75956L12.7464 8.86359L7.64785 5.75956L12.7464 2.65552L17.845 5.75956ZM11.4718 5.75903L12.7464 6.53543L14.0211 5.75903L12.7464 4.98315L11.4718 5.75903Z"/>
+  </g>
+</svg>

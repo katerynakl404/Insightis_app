@@ -21,7 +21,7 @@ Theme switcher).
 | Surface | full-screen split panel (left nav + right content) | `.sbx-pop.sbx-pop-account.is-open` above footer | `bottom:calc(100%+4px)`, `left:.5rem`, `right:.5rem` |
 | Account items | My Account · Manage Plan · Billing · Balance | same 4 as `.sbx-pop-item` rows | Hover/pressed shifts **bg only** (no content recolour) — matches the rest of the sidebar (nav-items, chat rows). Text stays `--ink-body`, icons stay `--ink-secondary`. Brand-tinted content is reserved for the active state on routed items (nav-items, chat rows). |
 | Support items | Leave Feedback · Resources↗ | same 2 | Resources keeps ext icon |
-| Log Out | bottom of left panel, red icon | **Sign Out** `.sbx-pop-item` (after the theme switcher, outside any `.sbx-pop-sect`), log-out icon, neutral text | no destructive color at row level — kept neutral per Figma |
+| Log Out | bottom of left panel, red icon | **Log out** `.sbx-pop-item` (after the theme switcher, outside any `.sbx-pop-sect`), log-out icon, neutral text | no destructive color at row level — kept neutral per Figma; label reverted to match prod's "Log Out" wording (sentence-cased) after briefly shipping as "Sign out" |
 | Theme switcher | Light / Dark / System in right Settings panel | same 3-option `.sbx-pop-theme` row | reuses existing segmented-control alias. **Light**: slot `var(--chips)` (Slate-50, per the prod baseline in [`../current/SegmentedControl.md`](../current/SegmentedControl.md#the-existing-instance-theme-switcher)) → pill `var(--card)` (white). **Dark**: slot `var(--bg)` (Grey-950, darkest surface) → pill `var(--card2)` (Grey-800, two steps lighter). Both themes walk the canonical surface ladder so the pill always elevates visibly above the slot. See [`SegmentedControl.md`](SegmentedControl.md) for the full recipe. |
 | Settings detail (email, Delete Account, Change password) | right panel | — not in popover; accessible via My Account | out of scope for popover surface |
 | Focus | — | focus enters on open; Escape closes + returns focus to trigger | consumer responsibility |
@@ -29,7 +29,7 @@ Theme switcher).
 ## Item routing (consumer wiring)
 
 Every consuming page wires the popover items to open the account modal
-([`../pages/concept/user_profile-modal.html`](../pages/concept/user_profile-modal.html))
+([`../pages/approved/user_profile-modal.html`](../pages/approved/user_profile-modal.html))
 on the matching tab, via a delegated click handler that maps the item label to a
 `?section=` param:
 
@@ -41,7 +41,7 @@ on the matching tab, via a delegated click handler that maps the item label to a
 | Balance | `?section=balance` |
 | Leave feedback | `?section=leave-feedback` |
 | Resources | external link (`.ext`, opens in new tab) — not routed to the modal |
-| Sign out | sign-out action — not routed to the modal |
+| Log out | sign-out action — not routed to the modal |
 
 The modal reads `?section=` on load and calls `acctSetSection()` for that tab (falling
 back to Balance when the param is absent/unknown). This is page-level wiring — no popover
@@ -70,10 +70,10 @@ div.sbx-pop.sbx-pop-account  [id, role="menu", aria-label="Account"]   (+.is-ope
       button.segctrl-btn.sbx-pop-theme-btn.is-active  [role="tab"]  svg (Light = sun)
       button.segctrl-btn.sbx-pop-theme-btn            svg (Dark = moon)
       button.segctrl-btn.sbx-pop-theme-btn            svg (System = monitor)
-  button.sbx-pop-item        svg.ic + "Sign Out"      (standalone, outside any sect)
+  button.sbx-pop-item        svg.ic + "Log out"       (standalone, outside any sect)
 ```
 
-All icons are 24×24-viewBox Lucide SVGs, `fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"`; glyph paths live in the storybook markup (`#accountpopover` → My Account = user, Manage Plan = blocks/layers, Billing = credit-card, Balance = wallet, Leave Feedback = message-circle-heart, Resources = file-question + arrow `.ext`, theme = sun/moon/monitor-smartphone, Sign Out = log-out).
+All icons are 24×24-viewBox Lucide SVGs, `fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"`; glyph paths live in the storybook markup (`#accountpopover` → My Account = user, Manage Plan = blocks/layers, Billing = credit-card, Balance = wallet, Leave Feedback = message-circle-heart, Resources = file-question + arrow `.ext`, theme = sun/moon/monitor-smartphone, Log out = log-out).
 
 ## Dimensions (reproduction)
 

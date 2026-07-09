@@ -29,7 +29,7 @@ The values above describe the React/Radix/Tailwind prod component. The **shipped
 | Overlay | `.dlg-overlay` | `background:var(--overlay-scrim)` = `rgba(15,23,42,.45)` light / `rgba(2,6,23,.6)` dark (NOT `black/80`) |
 | Shell | `.dlg` | `background:var(--card); border:1px solid var(--border); border-radius:.875rem` (14px); `box-shadow:var(--shadow-modal)` (deepest elevation rung — light `0 20px 40px -8px rgba(0,0,0,.22)`, dark boosted `0 24px 48px -12px rgba(0,0,0,.72), 0 8px 18px -6px rgba(0,0,0,.55), inset 0 1px 0 0 rgba(255,255,255,.05)`); `max-width:calc(100vw - 2rem); display:flex; flex-direction:column` |
 | Header | `.dlg-hdr` | `display:flex; align-items:center; gap:.75rem; padding:.875rem 1.25rem .5rem; flex:none` |
-| Title | `.dlg-title` | `font-size:1.25rem; line-height:1.75rem; font-weight:600; color:var(--ink); margin:0; flex:1; min-width:0` |
+| Title | `.dlg-title` | `font-size:1.25rem; line-height:1.75rem; font-weight:500; color:var(--ink); margin:0; flex:1; min-width:0` |
 | Progress wrapper | `.dlg-progress` | `padding:0 1.25rem .875rem; flex:none; display:flex; flex-direction:column; gap:.375rem` (omit entire block on single-step dialogs) |
 | Progress text | `.dlg-progress-txt` | `font-size:.75rem; color:var(--ink-secondary)` (e.g. "Step 1 of 2") |
 | Progress track | `.dlg-progress-track` | `height:3px; background:var(--border); border-radius:99px; overflow:hidden` |

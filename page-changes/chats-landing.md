@@ -8,7 +8,7 @@ Chats Library list page: Sidebar shell + "Chats Library" heading + search + meta
 
 - Centered **960px** column (`--content-max-width`), padding `0 2rem`; chat rows sit on the page bg (`--bg`) as discrete `--card` items — **no outer card/border wrapper**.
 - Search `.field`: leading magnifier + trailing custom **clear ✕** (shown only when filled), live filter on input. **No favorites toggle.**
-- Meta row (transparent): default = "N conversation(s)" + **Select** link; selection mode = "N selected" + Select all / Deselect all + **Delete** (danger) + **✕** cancel. Hidden when the list is empty.
+- Meta row (transparent): default = "N conversation(s)" + **Select** link; selection mode = "N selected" + Select all / Deselect all + **Delete** (danger) + **✕** cancel. Hidden when the list is empty. While a selection is active it pins `position:sticky;top:40px` below the topbar (`.cl-meta-sticky`, `background:var(--bg)` so scrolling rows can't show through, no border), so it stays reachable while the list scrolls — same treatment as the Data Sources (Files) meta row.
 - Rows (ChatRow): hover/focus reveals checkbox + kebab; inline filled pin marker on pinned rows only; kebab = Pin/Unpin · Select · Rename (inline) · Delete (danger).
 - Empty: **no chats** = bubble icon + "No conversations yet" + secondary "New Chat"; **no match** = magnifier + "No matches" (no CTA).
 - Themes: ships light + dark; background stays flat `--bg` in both (no background change).

@@ -26,11 +26,14 @@
      в‰¤1023px: burger left:2rem + top:2.25rem; .cl-page > :first-child gets padding-left:2.5rem.
      в‰¤767px: cl-page padding squeezed to .75rem; burger resets to left:.75rem. */
   /* Sidebarв†’drawer is kit-owned at в‰¤1023px (kit-theme.css) вЂ” pages must not redeclare it. */
-  /* Chip-row bleed: extend category + C3 filter chips to the cl-page edge on both sides
-     by breaking out of cl-page padding (2rem desktop, 0.75rem mobile).
-     Symmetric: margin-inline bleed + matching padding-inline-start so scroll origin = page edge. */
+  /* Chip-row bleed: extend the category chips to the cl-page edge on both sides by
+     breaking out of cl-page padding (2rem desktop, 0.75rem mobile), so the nowrap+scroll
+     row's scroll origin = page edge. #mx-c3-chips is NOT included here: it wraps
+     (flex-wrap:wrap, .mx-active-toggle's margin-left:auto pins "Active only" to the
+     row's right edge), not scrolls — bleeding it too removed its right-edge padding for
+     no scroll benefit and left "Active only" flush against the raw viewport edge. */
   @media(max-width:767px){
-    #mx-cat-chips,#mx-c3-chips{margin-right:-.75rem;margin-left:-.75rem;padding-left:.75rem;max-width:calc(100% + 1.5rem)}
+    #mx-cat-chips{margin-right:-.75rem;margin-left:-.75rem;padding-left:.75rem;max-width:calc(100% + 1.5rem)}
     .prov-card .chip-row{margin-right:0;margin-left:0;padding-left:0;max-width:100%;-webkit-mask-image:none;mask-image:none}
   }
 
@@ -53,7 +56,9 @@
      so the storybook renders it identically. Page keeps only page-layout glue below. */
 
   /* в”Ђв”Ђ Detail side panel в”Ђв”Ђ */
-  #mx-panel{position:fixed;top:40px;right:0;bottom:0;width:420px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  /* top:0 + z-index:61 (one above .ov's 60) so the panel covers the full viewport, including the
+     sticky demo topbar and the <=1023px sticky page head, instead of stopping 40px short. */
+  #mx-panel{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:61;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
   .ov.is-open #mx-panel{transform:translateX(0)}
   #mx-panel-head{display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex:none}
   #mx-panel-title{flex:1;font-size:1.125rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -88,8 +93,11 @@
   .mx-c3-toolbar .igrp{width:100%;background:var(--card);height:2.5rem}
   @media(max-width:767px){.mx-c3-toolbar .igrp{height:2.25rem}}
   .mx-c3-filter-chips{display:flex;align-items:center;gap:.375rem;flex-wrap:wrap;row-gap:.5rem}
+  /* margin-left:auto pins "Active only" to the right at every width — was reset to 0 on
+     mobile, which dropped it flush after the chips on the left instead of staying fixed
+     to the right like desktop. flex-wrap on the container still lets it wrap to its own
+     line on very narrow screens; auto-margin keeps it right-aligned on that line too. */
   .mx-active-toggle{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8125rem;color:var(--ink-secondary);user-select:none;white-space:nowrap}
-  @media(max-width:767px){.mx-active-toggle{margin-left:0}}
   .mx-c3-toolbar .igrp-add{padding:0 6px 0 10px}
   .mx-c3-toolbar .igrp-add svg{width:16px;height:16px}
   .mx-c3-toolbar .igrp-input{padding-left:4px}
@@ -220,7 +228,7 @@
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
           <span class="lbl">Metrics</span>
         </button>
-        <button class="sbx-nav-item" type="button" onclick="window.location.href='../concept/data-sources_files-landing.html'">
+        <button class="sbx-nav-item" type="button" onclick="window.location.href='data-sources_files-landing.html'">
           <!-- Folder icon вЂ” Files glyph (Lucide folder) -->
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
           <span class="lbl">Files</span>
@@ -250,7 +258,7 @@
         </div>
       </div>
       <div class="sbx-foot">
-        <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')"><div class="sbx-tok-row"><span class="sbx-tok-label">Usage</span><span class="sbx-tok-val">213 / 500</span></div><div class="sbx-tok-bar"><span style="width:42.6%"></span></div></button>
+        <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')"><div class="sbx-tok-row"><span class="sbx-tok-label">Usage</span><span class="sbx-tok-val">213 / 1,040</span></div><div class="sbx-tok-bar"><span style="width:20.5%"></span></div></button>
         <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')"><span class="sbx-user-ava">K</span><span class="sbx-user-info"><span class="sbx-user-name">Kateryna K.</span><span class="sbx-user-meta">Admin В· Professional</span></span><svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></button>
 
         <!-- Account popover вЂ” opens above the user row -->
@@ -276,24 +284,24 @@
             <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false" onclick="document.documentElement.classList.add('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
             <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
           </div>
-          <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign out</button>
+          <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Log out</button>
         </div>
 
         <!-- Subscription credits popover вЂ” opens above the tokens row -->
         <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
-          <div class="sbx-pop-tok-head"><span class="plan-badge" aria-hidden="true"></span><span class="plan-name">Free</span></div>
+          <div class="sbx-pop-tok-head"><span class="plan-name">Free</span></div>
           <div class="sbx-pop-tok-meter">
-            <div class="row"><span class="label">Subscription credits</span></div>
+            <div class="row"><span class="label">Subscription Credits</span></div>
             <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
             <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
           </div>
           <div class="sbx-pop-tok-meter">
-            <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
+            <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
             <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
           </div>
           <div class="sbx-pop-tok-actions">
-            <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='../concept/user_profile-modal.html?section=balance'">Buy Credits</button>
-            <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='../concept/user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
+            <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=balance'">Buy Credits</button>
+            <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
           </div>
         </div>
       </div>
@@ -2444,7 +2452,7 @@ document.addEventListener('click', function(e){
   if(!acctItem) return;
   var acctMap = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
   var acctSec = acctMap[acctItem.textContent.trim()];
-  if(acctSec) window.location.href = '../concept/user_profile-modal.html?section=' + acctSec;
+  if(acctSec) window.location.href = 'user_profile-modal.html?section=' + acctSec;
 });
 function clTogglePop(id){
   var pop = document.getElementById(id);

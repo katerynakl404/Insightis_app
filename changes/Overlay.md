@@ -10,7 +10,7 @@ Reusable full-viewport backdrop utility. Storybook section: [`#overlay`](../insi
 | `position` | — | `fixed` | pins to the viewport regardless of scroll (Tailwind `fixed`) |
 | `inset` | — | `0` | `top/right/bottom/left: 0` → covers full viewport (Tailwind `inset-0`) |
 | `background` | — | `rgba(15,23,42,.45)` (light) / `rgba(2,6,23,.6)` (dark) | scrim token `--overlay-scrim` — see token note below |
-| `z-index` | — | `40` | sits **below** panels (`41+`) and modals (`50+`) — see layering below |
+| `z-index` | — | `60` | same tier as the modal scrim (`.dlg-overlay`) — sits **above** sticky page furniture (`.topbar` / `.cl-page-head`, `50`); its panel sits at `61+` — see layering below |
 | `display` (default) | — | `none` | hidden until opened; no backdrop painted at rest |
 | `display` (`.is-open`) | — | `block` | `.ov.is-open` reveals the backdrop |
 
@@ -24,7 +24,7 @@ Two rules, nothing more:
   position: fixed;          /* Tailwind: fixed                        */
   inset: 0;                 /* Tailwind: inset-0  (top/right/bottom/left:0) */
   background: var(--overlay-scrim); /* light rgba(15,23,42,.45) / dark rgba(2,6,23,.6) */
-  z-index: 40;              /* Tailwind: z-40                         */
+  z-index: 60;              /* Tailwind: z-60 — matches .dlg-overlay's tier */
   display: none;            /* hidden by default — Tailwind: hidden   */
 }
 .ov.is-open{
@@ -43,7 +43,7 @@ Two rules, nothing more:
 
 ## How it composes (z-index layering)
 
-`.ov` is the **floor** of the overlay stack. Place the surface it backs as a DOM child so the backdrop and the dismiss-on-click handler are co-located:
+`.ov` sits at the **same tier as the modal scrim** — high enough to always cover sticky page furniture (the demo `.topbar` and the ≤1023px sticky `.cl-page-head`, both `z-index:50`) rather than leaving them exposed above the dim. Place the surface it backs as a DOM child so the backdrop and the dismiss-on-click handler are co-located:
 
 ```html
 <div id="my-ov" class="ov" onclick="if(event.target===this)closePanel()">
@@ -61,11 +61,10 @@ Layer order (low → high), so a panel/modal always paints **above** the dim:
 | Layer | `z-index` | Token / class |
 |---|---|---|
 | Page content | (auto / 0) | — |
-| **`.ov` backdrop** | **40** | `.ov` |
-| Slide-over panel | `41`+ | consumer panel |
+| Sticky page furniture | `50` | `.topbar`, `.cl-page-head` (≤1023px) |
 | Sidebar drawer backdrop | `55` | `.cl-side-backdrop` |
-| Modal scrim | `60` | `.dlg-overlay` |
-| Modal dialog | `60`+ | `.dlg` |
+| **`.ov` backdrop** / Modal scrim | **60** | `.ov`, `.dlg-overlay` |
+| Slide-over panel / Modal dialog | `61`+ | consumer panel, `.dlg` |
 
 Dismiss-on-click: the `event.target===this` guard fires only when the backdrop itself (not the child panel) is clicked.
 
@@ -81,8 +80,8 @@ Nothing — the component is net-new. No prod markup, no React export, no migrat
 ## Accessibility / consistency self-check
 - **Scrim contrast** — `rgba(15,23,42,.45)` (light) / `rgba(2,6,23,.6)` (dark) sufficiently dims page content to signal an inactive state while keeping it faintly legible; dark theme uses a heavier 60 % because the underlying surface is already dark.
 - **Token discipline ✓** — single `--overlay-scrim` source of truth, theme-adaptive, shared with `.dlg-overlay` + `.cl-side-backdrop`. No inline `rgba()` in the `.ov` rule. **Resolved:** the live `.ov` rule in `pages/kit-theme.css` now reads `background:var(--overlay-scrim)` (was a hard-coded `rgba(15,23,42,.35)`). All overlays unify on the token — `rgba(15,23,42,.45)` light / `rgba(2,6,23,.6)` dark — so `.ov`, `.dlg-overlay`, and `.cl-side-backdrop` share one scrim strength.
-- **Layering ✓** — `z-index:40` keeps the backdrop strictly below every panel (`41+`) and modal (`50/60`), so the dimmed surface never occludes the active surface.
+- **Layering ✓** — `z-index:60` (same tier as the modal scrim) keeps the backdrop above sticky page furniture (`50`) and the sidebar drawer backdrop (`55`), and strictly below its own panel/modal (`61`+), so the dim never occludes the active surface but always covers everything behind it.
 - **Keyboard ✓ (delegated)** — `.ov` adds no keyboard semantics; dismiss-on-`Esc` and focus management are the responsibility of the hosted `role="dialog"` panel.
 - **Reduced motion ✓** — default open/close is an instant `display` toggle, so it is motion-safe; any future fade must honour `prefers-reduced-motion`.
 
-> Summary: net-new CSS-only backdrop. Two rules (`.ov`, `.ov.is-open`), `position:fixed; inset:0; z-index:40; display:none→block`, scrim via `--overlay-scrim`. Resolved: the live `.ov` rule now uses `var(--overlay-scrim)` (`.45` light / `.6` dark) instead of the earlier literal `rgba(15,23,42,.35)` — all overlays unified on the token.
+> Summary: net-new CSS-only backdrop. Two rules (`.ov`, `.ov.is-open`), `position:fixed; inset:0; z-index:60; display:none→block`, scrim via `--overlay-scrim`. Resolved: the live `.ov` rule now uses `var(--overlay-scrim)` (`.45` light / `.6` dark) instead of the earlier literal `rgba(15,23,42,.35)` — all overlays unified on the token. Resolved: `z-index` raised from `40` to `60` (its panel from `41` to `61`) so the backdrop + panel cover sticky page furniture (`.topbar` / `.cl-page-head`) instead of leaving it exposed above the dim.

@@ -42,6 +42,8 @@
   .dsf-preview-meta{font-size:var(--text-12);color:var(--ink-secondary)}
   /* Previewed row highlight — brand-coloured name (both layouts) */
   .chat-row.is-preview .chat-row-name,.dsf-tbl tbody tr.is-preview .dsft-fname{color:var(--brand-primary)}
+  /* Desktop: preview-open row gets same tint as Metrics is-selected (tbl-row-pressed on td) */
+  table.dsf-tbl tbody tr.is-preview td{background:var(--tbl-row-pressed)}
   /* Narrow: the panel overlays full-width instead of splitting the grid */
   @media (max-width:1023px){
     .cl-shell.has-preview,.cl-shell.has-preview:has(.sbx.is-collapsed){grid-template-columns:16rem 1fr}
@@ -80,28 +82,34 @@
   .dsf-file-ic.type-xls{--mark-bg:var(--fb-green)}
   .dsf-file-ic.type-xlsx{--mark-bg:var(--fb-green)}
 
-  /* ===== File list — two layouts toggled by the view control ===== */
+  /* ===== File list — table only ===== */
   .dsf-list{position:relative}
-  /* Cards layout — reuses kit .chat-row (container also carries .chat-list for is-selecting/overflow).
-     Name flows naturally + ellipsizes when long (kit default). Date sits right next to the name
-     (muted, small); the status badge is the sole element anchored to the row's right edge. */
-  .dsf-list.is-cards{display:flex;flex-direction:column;gap:.375rem}
-  .dsf-card-date{flex:none;font-size:var(--text-12);color:var(--ink-secondary);font-weight:400;white-space:nowrap}
-  .dsf-card-status{margin-left:auto;flex:none}
   /* Load-more — centered kit button below the list; collapses out of flow when empty */
   .dsf-more{display:flex;justify-content:center;margin-top:.25rem}
   .dsf-more:empty{display:none}
   .dsf-more-n{font-variant-numeric:tabular-nums;color:var(--ink-inactive);font-weight:500}
   /* Table layout — reuses kit table.tbl */
   .dsf-tbl-wrap{border:1px solid var(--border);border-radius:.5rem;background:var(--card)}
+  .cl-shell.has-preview .dsf-tbl-wrap{overflow-x:auto}
   table.dsf-tbl{margin:0}
   table.dsf-tbl thead th{background:var(--card2)}
   table.dsf-tbl thead th:first-child{border-top-left-radius:.5rem}
   table.dsf-tbl thead th:last-child{border-top-right-radius:.5rem}
   table.dsf-tbl tbody tr:last-child td{border-bottom:none}
+  table.dsf-tbl tbody tr{cursor:pointer}
+  table.dsf-tbl tbody tr td.dsft-cb,table.dsf-tbl tbody tr td.dsft-act{cursor:default}
   .dsft-name-cell{display:flex;align-items:center;gap:.625rem;min-width:0}
+  .dsft-info{min-width:0;flex:1}
+  .dsft-date-inline{display:none}
   .dsft-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;color:var(--ink)}
   td.dsft-size,td.dsft-date{color:var(--ink-secondary);font-variant-numeric:tabular-nums;white-space:nowrap}
+  /* Sortable "Modified" header — button reuses the th's own text styling, small chevron flips per aria-sort */
+  .dsft-sortbtn{display:inline-flex;align-items:center;gap:.25rem;background:transparent;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer}
+  .dsft-sortbtn svg{width:12px;height:12px;flex:none;opacity:.5;transition:opacity var(--motion-fast) var(--motion-ease),transform var(--motion-fast) var(--motion-ease)}
+  th[aria-sort="ascending"] .dsft-sortbtn svg{transform:rotate(180deg);opacity:1}
+  th[aria-sort="descending"] .dsft-sortbtn svg{opacity:1}
+  .dsft-sortbtn:hover svg{opacity:1}
+  .dsft-sortbtn:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset);border-radius:.25rem}
   th.dsft-cb,td.dsft-cb{width:1px;white-space:nowrap}
   th.dsft-act,td.dsft-act{width:1px;white-space:nowrap;position:relative;text-align:right}
   /* Kebab reveals on row hover / menu open (no .chat-row parent here to trigger the kit reveal) */
@@ -109,7 +117,58 @@
   .dsf-tbl tbody tr:hover .chat-row-more,
   .dsf-tbl .chat-row-more[aria-expanded="true"],
   .dsf-tbl .chat-row-more:focus-visible{opacity:1;pointer-events:auto}
-  @media (max-width:600px){th.dsft-size,td.dsft-size,th.dsft-date,td.dsft-date{display:none}}
+  /* Mobile-only meta row controls (sort + select all) — hidden at desktop */
+  .dsf-meta-mobile-only{display:none}
+  .dsf-meta-sort{align-items:center;gap:.25rem;font-size:var(--text-12);color:var(--ink-secondary);background:none;border:none;cursor:pointer;padding:0;margin-left:auto}
+  .dsf-meta-sort svg{transition:transform var(--motion-fast) var(--motion-ease)}
+  /* ── Mobile card layout ≤767px ──────────────────────────────────────────────
+     Card structure: [icon | info-col (name + date)] | [kebab top-right]
+     Date is embedded in .dsft-info (inside name cell), not a separate grid row. */
+  @media (max-width:767px){
+    .dsf-tbl-wrap{overflow:visible;border:none;border-radius:0;background:transparent}
+    table.dsf-tbl{display:block;overflow:visible}
+    table.dsf-tbl thead{display:none}
+    table.dsf-tbl tbody{display:flex;flex-direction:column;gap:var(--card-stack-gap);overflow:visible}
+    /* Card grid: [info 1fr | origin-badge auto | kebab auto], top-aligned */
+    table.dsf-tbl tbody tr{
+      display:grid;grid-template-columns:1fr auto auto;
+      column-gap:.625rem;align-items:center;
+      padding:var(--card-stack-pad-v) var(--card-stack-pad-h);
+      background:var(--card);border:1px solid var(--border);border-radius:var(--card-stack-radius);
+      box-shadow:var(--shadow-rest);cursor:pointer;overflow:visible;
+      transition:box-shadow var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)
+    }
+    table.dsf-tbl tbody tr:hover{box-shadow:var(--shadow-lift-hover);border-color:var(--card-lift-border);transform:translateY(-1px)}
+    table.dsf-tbl tbody tr:active:not(:has(button:active)){transform:scale(.99) translateY(0);box-shadow:var(--shadow-rest)}
+    table.dsf-tbl tbody tr.is-selected{background:var(--tbl-row-pressed);border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)}
+    table.dsf-tbl tbody tr.is-selected:hover{background:color-mix(in srgb,var(--brand-primary) 10%,var(--tbl-row-pressed))}
+    table.dsf-tbl tbody tr.is-preview{background:var(--tbl-row-pressed);border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)}
+    table.dsf-tbl tbody tr:has(.chat-row-more[aria-expanded="true"]){z-index:20;transform:none}
+    /* All tds hidden by default; only name cell, origin badge, and kebab visible */
+    table.dsf-tbl tbody tr td{display:none;padding:0;border:none;height:auto;background:transparent !important}
+    table.dsf-tbl tbody tr td:nth-child(2){display:block;grid-column:1;min-width:0}
+    table.dsf-tbl tbody tr td:nth-child(3){display:block;grid-column:2;align-self:center}
+    table.dsf-tbl tbody tr td.dsft-act{display:block;grid-column:3;position:relative;text-align:right;overflow:visible;width:auto}
+    /* Editing: checkbox slides in (cb | info | origin | kebab) */
+    table.dsf-tbl.is-editing tbody tr{grid-template-columns:2rem 1fr auto auto}
+    table.dsf-tbl.is-editing tbody tr td.dsft-cb{display:block;grid-column:1;align-self:center}
+    table.dsf-tbl.is-editing tbody tr td:nth-child(2){grid-column:2}
+    table.dsf-tbl.is-editing tbody tr td:nth-child(3){display:block;grid-column:3;align-self:center}
+    table.dsf-tbl.is-editing tbody tr td.dsft-act{grid-column:4}
+    table.dsf-tbl tbody tr td.dsft-cb .cbx{opacity:0;transition:opacity var(--motion-fast)}
+    table.dsf-tbl tbody tr.is-selected td.dsft-cb .cbx,
+    table.dsf-tbl.is-editing tbody tr td.dsft-cb .cbx{opacity:1}
+    /* Name cell: icon left, .dsft-info column right */
+    .dsft-name-cell{align-items:center}
+    .dsf-file-ic{flex:none}
+    .dsft-info{display:flex;flex-direction:column;gap:.125rem}
+    .dsft-date-inline{display:block;font-size:var(--text-12);color:var(--ink-secondary)}
+    /* Meta row controls */
+    .dsf-meta-mobile-only{display:inline-flex}
+    #dsf-meta{gap:.5rem}
+    .meta-row-count{font-size:var(--text-12)}
+    .meta-row-selall{font-size:var(--text-12);color:var(--brand-primary);background:none;border:none;cursor:pointer;padding:0}
+  }
 
   /* ===== Meta / bulk action row =====
      Identical structure to the Chats Library meta-row (see chats-landing.html and kit-theme.css).
@@ -139,20 +198,13 @@
   /* Right-anchor the download+delete pair to the row's far right */
   .dsf-bulk-right{margin-left:auto;display:inline-flex;align-items:center;gap:.25rem}
 
-  /* ===== Floating bulk-action bar (Table view) =====
-     Pinned bottom-centre, position:fixed (out of flow) so selecting rows never shifts the table.
-     Slides up + fades in on .is-visible. Reuses the .dsf-meta-dl / .dsf-meta-del / .dsf-meta-iconbtn
-     button styles from the inline bar. */
-  .dsf-floatbar{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%) translateY(.5rem);
-    display:none;align-items:center;gap:.5rem;background:var(--card);border:1px solid var(--border);
-    border-radius:.625rem;box-shadow:var(--shadow-overlay);padding:.375rem .375rem .375rem .875rem;
-    z-index:60;opacity:0;
-    transition:opacity var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)}
-  .dsf-floatbar.is-visible{display:flex;opacity:1;transform:translateX(-50%) translateY(0)}
-  .dsf-floatbar-count{font-size:var(--text-13);font-weight:500;color:var(--ink-body);white-space:nowrap}
-  .dsf-floatbar-sep{width:1px;height:1.25rem;background:var(--border);flex:none}
-  .dsf-floatbar-actions{display:inline-flex;align-items:center;gap:.25rem}
-  @media (prefers-reduced-motion: reduce){ .dsf-floatbar{transition:opacity var(--motion-fast) var(--motion-ease)} }
+  /* ===== Meta row — sticky while selecting =====
+     While a selection is active, the meta row (count + Download/Delete/close) pins to the top of
+     the viewport (below the topbar) so it stays reachable while the list scrolls underneath.
+     Painted with the page bg (--bg, not --card) purely so scrolling content underneath can't show
+     through — no border, no card-like surface added. Toggled on #dsf-meta via JS (dsfRenderMeta).
+     Same treatment as chats-landing.html. */
+  .dsf-meta-sticky{position:sticky;top:40px;z-index:5;background:var(--bg)}
   /* Sidebar→drawer is kit-owned at ≤1023px (kit-theme.css) — pages must not redeclare it. */
 </style>
 </head>
@@ -193,14 +245,9 @@
 <div class="topbar">
   <div style="display:flex;align-items:center;gap:.5rem">
     <span class="ttl">Data Sources (Files)</span>
-    <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
+    <div class="pg-approved-tag" aria-hidden="true">Approved</div>
   </div>
   <div style="display:flex;align-items:center;gap:.625rem">
-    <!-- Concept view toggle — switches the file list between Cards and Table (demo control, lives with the theme toggle) -->
-    <div class="segctrl is-sm ds-view-toggle" role="tablist" aria-label="File list layout" style="width:auto">
-      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-action="set-view" data-view="cards">Cards</button>
-      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-action="set-view" data-view="table">Table</button>
-    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
@@ -228,15 +275,15 @@
           </button>
         </div>
         <div class="sbx-nav">
-          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='chat-landing.html'">
+          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='../concept/chat-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
             <span class="lbl">New Chat</span>
           </button>
-          <button class="sbx-nav-item" type="button" onclick="location.href='../approved/data-sources_connections-landing.html'">
+          <button class="sbx-nav-item" type="button" onclick="location.href='data-sources_connections-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
             <span class="lbl">Data Sources</span>
           </button>
-          <button class="sbx-nav-item" type="button" onclick="location.href='../approved/metrics-landing.html'">
+          <button class="sbx-nav-item" type="button" onclick="location.href='metrics-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
             <span class="lbl">Metrics</span>
           </button>
@@ -258,12 +305,12 @@
                 <span class="sbx-sect-label">Pinned</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
             </div>
           </div>
@@ -273,9 +320,9 @@
                 <span class="sbx-sect-label">Recent</span>
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
+              <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Top movers — weekly</span>
             </div>
           </div>
@@ -284,9 +331,9 @@
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
               <span class="sbx-tok-label">Usage</span>
-              <span class="sbx-tok-val">213 / 500</span>
+              <span class="sbx-tok-val">213 / 1,040</span>
             </div>
-            <div class="sbx-tok-bar"><span style="width:42.6%"></span></div>
+            <div class="sbx-tok-bar"><span style="width:20.5%"></span></div>
           </button>
           <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
             <span class="sbx-user-ava">K</span>
@@ -320,22 +367,21 @@
               <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false" onclick="document.documentElement.classList.add('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
               <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
             </div>
-            <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign out</button>
+            <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Log out</button>
           </div>
 
           <!-- Subscription credits popover — opens above the tokens row -->
           <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head">
-              <span class="plan-badge" aria-hidden="true"></span>
               <span class="plan-name">Free</span>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Subscription credits</span></div>
+              <div class="row"><span class="label">Subscription Credits</span></div>
               <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
               <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Purchased credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
+              <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
               <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
             </div>
             <div class="sbx-pop-tok-actions">
@@ -399,11 +445,6 @@
   <!-- File preview — right split panel (opens on file click, like prod); rendered by dsfRenderPreview() -->
   <aside class="dsf-preview" id="dsf-preview" aria-label="File preview"></aside>
 </div>
-
-<!-- Floating bulk-action bar — Table view only. Pinned bottom-centre, out of flow, so selecting
-     rows never shifts the table. Rendered/toggled by dsfRenderFloatbar(). -->
-<div class="dsf-floatbar" id="dsf-floatbar" role="toolbar" aria-label="Bulk file actions"></div>
-
 
 <script>
   /* Tooltip engine — JS-positioned fixed tooltip, warm-up aware, escapes overflow:hidden. */
@@ -488,12 +529,15 @@
     ['exit-survey.xlsx','xlsx','uploaded','640 KB','6 months ago'],
   ];
   var FILES = FILE_SEED.map(function(r,i){
-    return { id:'f'+(i+1), name:r[0], type:r[1], origin:r[2], size:r[3], date:r[4], selected:false };
+    /* sortIdx = original seed order, which is already newest→oldest (relative-date strings like
+       "3d ago" / "2 months ago" aren't machine-sortable, so this stand-in index drives the
+       Modified-column sort). */
+    return { id:'f'+(i+1), name:r[0], type:r[1], origin:r[2], size:r[3], date:r[4], sortIdx:i, selected:false };
   });
 
   var editMode = false;        /* true = selection mode, checkboxes visible for all rows */
   var currentFilter = 'all';   /* 'all' | 'artifact' | 'uploaded' — source filter chip */
-  var viewMode = 'table';      /* 'cards' | 'table' — list layout, switched by the segmented control (table is the default concept) */
+  var sortDir = 'desc';        /* 'desc' = newest first (default), 'asc' = oldest first — Modified column sort */
   var PAGE_SIZE = 20;          /* rows per page — a "Load more" button reveals the next batch */
   var shownCount = PAGE_SIZE;  /* how many of the filtered rows are currently rendered */
   var previewId = null;        /* id of the file open in the right preview split panel, or null */
@@ -525,6 +569,7 @@
   function dsfRowMenu(id){
     return ''
       + '<div class="menu chat-row-menu" role="menu">'
+      +   '<div class="mi" role="menuitem" data-action="add-to-chat" data-id="' + id + '">Add to Chat</div>'
       +   '<div class="mi" role="menuitem" data-action="download" data-id="' + id + '">Download</div>'
       +   '<div class="mi danger" role="menuitem" data-action="delete" data-id="' + id + '">Delete</div>'
       + '</div>';
@@ -544,16 +589,14 @@
       if (library) library.style.display = 'none';
       list.innerHTML = '';
       if (more) more.innerHTML = '';
-      dsfRenderFloatbar();
       dsfRenderPreview();
       return;
     }
     if (library) library.style.display = '';
 
-    var vis = dsfVisible();
+    var vis = dsfVisible().slice().sort(function(a,b){ return sortDir === 'asc' ? a.sortIdx - b.sortIdx : b.sortIdx - a.sortIdx; });
     var page = vis.slice(0, shownCount);
-    if (viewMode === 'table') dsfRenderTable(list, page);
-    else dsfRenderCards(list, page);
+    dsfRenderTable(list, page);
 
     /* Load-more control — shown only when more filtered rows exist beyond the current page. */
     if (more){
@@ -566,31 +609,7 @@
     }
 
     dsfRenderMeta();
-    dsfRenderFloatbar();
     dsfRenderPreview();
-    dsfPositionFloatbar(); /* after preview so the list has its final (narrowed) width */
-  }
-
-  /* Reposition the floating bar when the layout width changes. */
-  window.addEventListener('resize', dsfPositionFloatbar);
-
-  /* Cards layout — reuses kit .chat-row */
-  function dsfRenderCards(list, page){
-    list.className = 'dsf-list is-cards chat-list';
-    list.setAttribute('role', 'list');
-    list.innerHTML = page.map(function(f){
-      return ''
-        + '<div class="chat-row' + (f.selected ? ' is-selected' : '') + (f.id === previewId ? ' is-preview' : '') + '" role="listitem" data-id="' + f.id + '" tabindex="0">'
-        +   '<span class="cbx' + (f.selected ? ' on' : '') + '" role="checkbox" aria-checked="' + f.selected + '" tabindex="0" data-action="check" data-id="' + f.id + '">' + (f.selected ? CHECK : '') + '</span>'
-        +   '<span class="dsf-file-ic type-' + f.type + '" aria-hidden="true">' + f.type.toUpperCase() + '</span>'
-        +   '<span class="chat-row-name">' + escHtml(f.name) + '</span>'
-        +   '<span class="dsf-card-date">· ' + escHtml(f.date) + '</span>'
-        +   '<span class="dsf-card-status">' + dsfStatusBadge(f.origin) + '</span>'
-        +   dsfKebab(f.id)
-        +   dsfRowMenu(f.id)
-        + '</div>';
-    }).join('');
-    list.classList.toggle('is-selecting', editMode);
   }
 
   /* Table layout — reuses kit table.tbl. Columns: [checkbox] · Name · Type · Size · Modified · [kebab] */
@@ -603,19 +622,22 @@
     var allSel = vis.length > 0 && vis.every(function(f){ return f.selected; });
     var someSel = vis.some(function(f){ return f.selected; });
     var headMark = allSel ? CHECK : (someSel ? DASH : '');
+    var sortAsc = sortDir === 'asc';
+    var SORT_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
     list.innerHTML = ''
       + '<div class="dsf-tbl-wrap"><table class="tbl dsf-tbl">'
       +   '<thead><tr>'
       +     '<th class="dsft-cb"><span class="cbx' + ((allSel || someSel) ? ' on' : '') + '" role="checkbox" aria-checked="' + (allSel ? 'true' : (someSel ? 'mixed' : 'false')) + '" tabindex="0" data-action="select-all-header" aria-label="Select all files">' + headMark + '</span></th>'
       +     '<th>Name</th><th>Type</th>'
-      +     '<th class="dsft-size">Size</th><th class="dsft-date">Modified</th>'
+      +     '<th class="dsft-size">Size</th>'
+      +     '<th class="dsft-date" aria-sort="' + (sortAsc ? 'ascending' : 'descending') + '"><button class="dsft-sortbtn" type="button" data-action="sort-date">Modified' + SORT_IC + '</button></th>'
       +     '<th class="dsft-act" aria-label="Actions"></th>'
       +   '</tr></thead><tbody>'
       +   page.map(function(f){
             return ''
               + '<tr class="' + (f.selected ? 'is-selected' : '') + (f.id === previewId ? ' is-preview' : '') + '" data-id="' + f.id + '">'
               +   '<td class="dsft-cb"><span class="cbx' + (f.selected ? ' on' : '') + '" role="checkbox" aria-checked="' + f.selected + '" tabindex="0" data-action="check" data-id="' + f.id + '">' + (f.selected ? CHECK : '') + '</span></td>'
-              +   '<td><div class="dsft-name-cell"><span class="dsf-file-ic type-' + f.type + '" aria-hidden="true">' + f.type.toUpperCase() + '</span><span class="dsft-fname">' + escHtml(f.name) + '</span></div></td>'
+              +   '<td><div class="dsft-name-cell"><span class="dsf-file-ic type-' + f.type + '" aria-hidden="true">' + f.type.toUpperCase() + '</span><div class="dsft-info"><span class="dsft-fname">' + escHtml(f.name) + '</span><span class="dsft-date-inline">' + escHtml(f.date) + '</span></div></div></td>'
               +   '<td>' + dsfStatusBadge(f.origin) + '</td>'
               +   '<td class="dsft-size">' + escHtml(f.size) + '</td>'
               +   '<td class="dsft-date">' + escHtml(f.date) + '</td>'
@@ -626,9 +648,10 @@
   }
 
   /* ===== Render meta / bulk action bar =====
-     Both views show the file count. Table: count only (its selection actions live in the floating
-     bar, so the table never shifts). Cards: "N files · Select all" at rest, ✕ · N selected ·
-     Select all | Download · Delete while selecting. */
+     Rest: file count only (no "Select all" — the table's header checkbox already owns that).
+     Selecting: ✕ · N selected · Download · Delete. While selecting (editMode), the row also gets
+     .dsf-meta-sticky, pinning it below the topbar so it stays reachable while the list scrolls
+     underneath (same treatment as chats-landing.html). */
   function dsfRenderMeta(){
     var meta = document.getElementById('dsf-meta');
     var vis = dsfVisible();
@@ -636,58 +659,27 @@
     var noun = totalCount === 1 ? 'file' : 'files';
     var countHtml = '<span class="meta-row-count">' + totalCount + ' ' + noun + '</span>';
     meta.style.display = '';
-
-    /* Table: persistent file count only — selection count/actions live in the floating bar. */
-    if (viewMode === 'table'){ meta.innerHTML = countHtml; return; }
+    meta.classList.toggle('dsf-meta-sticky', editMode);
+    var tbl = document.querySelector('table.dsf-tbl');
+    if (tbl) tbl.classList.toggle('is-editing', editMode);
 
     var selectedCount = vis.filter(function(f){ return f.selected; }).length;
 
     if (!editMode){
-      /* Default: file count + "Select all" entry into selection. */
-      meta.innerHTML = countHtml + '<span class="meta-row-actions"><button class="link" type="button" data-action="enter-edit">Select all</button></span>';
+      var sortChevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none' + (sortDir==='asc'?';transform:rotate(180deg)':'') + '" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+      meta.innerHTML = countHtml
+        + '<button class="meta-row-selall dsf-meta-mobile-only" type="button" data-action="enter-edit">Select all</button>'
+        + '<button class="dsf-meta-sort dsf-meta-mobile-only" type="button" data-action="sort-date" aria-label="Sort by date"><span id="dsf-sort-lbl">' + (sortDir==='asc'?'Oldest':'Newest') + '</span>' + sortChevron + '</button>';
       return;
     }
-
-    var allSelected = selectedCount === totalCount;
     meta.innerHTML = ''
-      + '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Clear selection" data-tip="Clear selection">' + CLOSE + '</button>'
+      + '<button class="iconbtn iconbtn-tertiary" style="width:1.75rem;height:1.75rem;flex:none" type="button" data-action="cancel-edit" aria-label="Clear selection" data-tip="Clear selection">' + CLOSE + '</button>'
       + '<span class="meta-row-count">' + selectedCount + ' selected</span>'
-      + '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all">' + (allSelected ? 'Deselect all' : 'Select all') + '</button>'
+      + '<button class="meta-row-selall dsf-meta-mobile-only" type="button" data-action="cancel-edit">Unselect all</button>'
       + '<span class="dsf-bulk-right">'
-      +   '<button class="dsf-meta-dl' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
-      +   '<button class="dsf-meta-del' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
+      +   '<button class="btn btn-sm btn-tertiary' + (selectedCount === 0 ? ' s-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
+      +   '<button class="btn btn-sm btn-outline-destructive' + (selectedCount === 0 ? ' s-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
       + '</span>';
-  }
-
-  /* ===== Floating bulk-action bar (Table view) — overlays, so the table never shifts ===== */
-  function dsfRenderFloatbar(){
-    var fb = document.getElementById('dsf-floatbar');
-    if (!fb) return;
-    var selectedCount = dsfVisible().filter(function(f){ return f.selected; }).length;
-    if (viewMode === 'table' && selectedCount > 0){
-      fb.innerHTML = ''
-        + '<span class="dsf-floatbar-count">' + selectedCount + ' selected</span>'
-        + '<span class="dsf-floatbar-sep"></span>'
-        + '<span class="dsf-floatbar-actions">'
-        +   '<button class="dsf-meta-dl" type="button" data-action="download-selected">' + DOWNLOAD + 'Download</button>'
-        +   '<button class="dsf-meta-del" type="button" data-action="delete-selected">' + TRASH + 'Delete</button>'
-        + '</span>'
-        + '<span class="dsf-floatbar-sep"></span>'
-        + '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Clear selection" data-tip="Clear selection">' + CLOSE + '</button>';
-      fb.classList.add('is-visible');
-    } else {
-      fb.classList.remove('is-visible');
-    }
-  }
-  /* Centre the floating bar over the LIST (not the viewport) — the sidebar + preview panel offset
-     the table, so viewport-centring reads as off-centre. Measures #dsf-list's live centre. */
-  function dsfPositionFloatbar(){
-    var fb = document.getElementById('dsf-floatbar');
-    if (!fb || !fb.classList.contains('is-visible')) return;
-    var ref = document.getElementById('dsf-list');
-    if (!ref) return;
-    var r = ref.getBoundingClientRect();
-    fb.style.left = Math.round(r.left + r.width / 2) + 'px';
   }
 
   /* ===== File preview — right split panel (opens on file-row click, like prod) ===== */
@@ -757,16 +749,8 @@
       if (f){ f.selected = !f.selected; editMode = true; }
       dsfRender(); return;
     }
-    if (action === 'set-view'){
-      var v = e.target.closest('[data-view]').getAttribute('data-view');
-      if (v === viewMode) return;
-      viewMode = v;
-      document.querySelectorAll('.ds-view-toggle .segctrl-btn').forEach(function(b){
-        var on = b.getAttribute('data-view') === v;
-        b.classList.toggle('is-active', on);
-        b.setAttribute('aria-selected', on ? 'true' : 'false');
-      });
-      document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+    if (action === 'sort-date'){
+      sortDir = sortDir === 'asc' ? 'desc' : 'asc';
       dsfRender(); return;
     }
     if (action === 'load-more'){
@@ -826,6 +810,11 @@
     }
     if (action === 'download'){ return; } /* demo no-op */
     if (action === 'download-selected'){ return; } /* demo no-op */
+    if (action === 'add-to-chat' && id){
+      var addF = FILES.find(function(x){ return x.id === id; });
+      if (addF) window.location.href = '../concept/chat-landing.html?attach=' + encodeURIComponent(addF.name);
+      return;
+    }
     if (action === 'close-preview'){ dsfClosePreview(); return; }
 
     /* Row body click (not on the checkbox / kebab / menu) → open the file preview panel. */
@@ -922,9 +911,9 @@
    directory so bare filenames work as relative targets. */
 (function(){
   var navMap = {
-    'New Chat': 'chat-landing.html',
-    'Data Sources':  '../approved/data-sources_connections-landing.html',
-    'Metrics':  '../approved/metrics-landing.html',
+    'New Chat': '../concept/chat-landing.html',
+    'Data Sources':  'data-sources_connections-landing.html',
+    'Metrics':  'metrics-landing.html',
     'Files':    'data-sources_files-landing.html'
   };
   // Mobile/tablet hamburger — opens the sidebar drawer overlay.

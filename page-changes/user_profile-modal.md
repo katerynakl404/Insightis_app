@@ -1,5 +1,17 @@
 # Account modal (Balance + Manage plan) — page-level changes
 
+**Page:** Account / Settings modal
+**Handoff:** [`../pages/approved/user_profile-modal.html`](../pages/approved/user_profile-modal.html)
+**Status:** ✅ Approved (погоджено) — 2026-06-30
+
+## Hard rules — read before editing this page
+
+These are locked decisions. Do not change without explicit approval.
+
+| # | Rule |
+|---|---|
+| 1 | Balance's hero credit number (the `.acct-bal-amount` supporting text in V1's Free/Pro/Exhausted states) reads "left" (e.g. "827 left"), not "credits remaining" or "credits left". Agreed wording — do not add "credits" back. |
+
 The account modal carries a **section-aware concept version toggle** in the topbar. It flips the
 active section between its available versions. **Balance** has three, each a different
 visualization approach: **V1** = single overall bar + text-forward tiles; **V2** = one two-zone
@@ -28,7 +40,7 @@ a page composition (like the existing V1 bar), built from page-layout classes re
 Every page's sidebar account popover routes its items into this modal on the matching tab.
 Each consuming page has a delegated click handler mapping the item label to a `?section=`
 param (`my-account`, `manage-plan`, `billing`, `balance`, `leave-feedback`); Resources
-(external) and Sign out are not routed. On load the modal reads `?section=` and calls
+(external) and Log out are not routed. On load the modal reads `?section=` and calls
 `acctSetSection()` for that tab, falling back to **Balance** when the param is absent/unknown
 (so this file still opens as the standalone Balance concept demo). See
 [changes/AccountPopover.md](../changes/AccountPopover.md#item-routing-consumer-wiring).
@@ -177,13 +189,14 @@ Plan** CTAs that were previously inert (no `onclick`). Wired on every page: Buy 
 `pages/approved/*.html`, prefixed `../concept/`, matching that folder's existing relative-link
 convention). See [changes/Sidebar.md](../changes/Sidebar.md#tokens-popover-cta-routing-consumer-wiring).
 
-### Casing — confirmed intentional, not a bug
+### Casing — "Change Password" trigger is Title Case (user decision)
 
-"Change password" (a `.link`, Sentence case) sitting next to "Delete Account" (a `.btn`, Title Case)
-looks inconsistent at a glance but matches the locked kit rule: **links stay Sentence case, buttons
-are Title Case** (`pages/changes/AccountModal.md` casing rule). Left as-is per the "don't silently
-change an agreed contract" rule — flagged here in case the convention itself should be reconsidered,
-but that's a kit-wide decision, not a page-local fix.
+The "Change Password" trigger in My account is **Title Case**, per direct user instruction ("мав
+бути тайтл кейс") — it's an action trigger (a button styled as a `.link`), so it follows the
+button Title Case rule, not the link Sentence-case rule. **Everything else keeps Sentence case**:
+the modal section titles (`acctSectionTitles`: "My account", "Manage plan", "Buy credits", …, per
+the kit-wide dialog-title convention — "New connection", "Create metric"), left-nav menu items,
+and form labels ("Current password", "New password").
 
 Plan data (both versions): current plan **Free** $0; Starter $9.99 (50% off $19.99); Pro $19.99
 (50% off $39.99), "Most popular"; per user / month for paid; "AI credits / month" 500 / 5,000 /
@@ -193,31 +206,48 @@ Plan data (both versions): current plan **Free** $0; Starter $9.99 (50% off $19.
 features ("AI credits / month"), the usage-table "Spent credits" column. "Tokens" survives only in
 internal identifiers (`.acct-bc-tokens`, `.sbx-pop-tokens`) and design-token prose.
 
-## Buy-credits — 3 credit packs, 3 layout proposals (ride the V1/V2/V3 toggle)
+## Buy-credits — 3 credit packs, 2 layouts (ride the V1/V2/V3 toggle)
 
 Buy credits offers **three credit packs** — Small 5,000 credits $9.99 / Medium 12,500 credits
-$19.99 / Large 20,000 credits $29.99 — and the section has **three layout proposals**, wired to
-the **same topbar V1/V2/V3 concept toggle as the credit bars** (`[data-buyver]` panels inside the
-shared `#acct-buy-block`; `applyConceptVersion` switches them alongside the `[data-ver]` bar
-panels, so Version N shows bar-concept N + buy-layout N):
+$19.99 / Large 20,000 credits $29.99 — with **two layouts** wired to the **same topbar V1/V2/V3
+concept toggle as the credit bars** (`[data-buyver]` panels inside the shared `#acct-buy-block`;
+`applyConceptVersion` switches them alongside the `[data-ver]` bar panels; `data-buyver` holds a
+space-separated list of the versions a panel serves):
 
-- **V1 — pack tiles in a tinted tray** (`.acct-bc-grid` / `.acct-bc-pack`): 3-up cards (1-col on
-  narrow) on a `--surface-accent` tray; per-tile hierarchy: tier title (`.acct-bc-name`,
-  14px/600/`--ink`) → credit count (`.acct-bc-tokens`, 20px/700) → muted price → full-width
-  outline **Buy**. The most prominent treatment. Tiles are static (the button is the action) — no
-  card-hover recipe. This layout is also what the separate buy-credits sub-page shows.
-- **V2 — card rows** (`.acct-bc-rows` / `.acct-bc-row`): one pack per row, **each row a card**
-  (`--card` surface + `--border`, radius `.5rem`, ghost shadow — the same tile recipe as
-  `.acct-bc-pack` laid out horizontally, stacked with a `.5rem` gap) — fixed-width tier name,
-  bold credit amount + muted unit, muted price, compact outline **Buy**. Static informational
-  cards — no card-hover recipe.
-- **V3 — pack picker + one CTA** (`.acct-bc-sel` / `.acct-bc-opt` + `#acct-bc3-cta`): the three
-  packs are **selectable option cards** (`role="radiogroup"`/`role="radio"`, `aria-checked`;
-  Medium preselected) and a **single filled-primary CTA** carries the chosen price ("Buy for
-  $19.99", updated by `acctBuySelect`). Options use the locked card-hover recipe tokens
-  (`--state-hover` / `--card-border-hover` / `--shadow-card-hover`); selected = `--brand-primary`
-  border + `--surface-accent` fill (state also in `aria-checked`, not colour alone). Resolves the
-  many-buttons problem completely — exactly one primary action.
+- **V1 — card rows with a coin** (`.acct-bc-rows` / `.acct-bc-row`): one pack per row, **each row
+  a card** (`--card` surface + `--border`, radius `.5rem`, ghost shadow — the same tile recipe as
+  `.acct-bc-pack` laid out horizontally, stacked with a `.75rem` gap). The row is a **compact
+  single line** (`.5rem` vertical padding, ~46px tall) with **two anchors — what you get and
+  what you pay**: a leading **green credits coin** (`.acct-bc-row-coin`, 24px — the popover's
+  full-size coin, not the 16px `sm` one; `coin-green.svg`, the purchased-pool icon) →
+  fixed-width tier name (`.acct-bc-row-name`, 4.5rem so the numbers column-align across rows;
+  14px/500/**`--ink-secondary`** — colour, not weight, keeps it secondary) → the bold credit
+  count (16px/700/`--ink` + muted unit) → the **bold price** (`.acct-bc-row-price`,
+  16px/600/`--ink`, tabular-nums — the decision driver, as visible as the count) → **`btn-xs`**
+  outline **Buy** (28px, natural width — no stretched button). Static informational cards — no
+  card-hover recipe.
+- **V2 + V3 — pack tiles in a tinted tray** (`.acct-bc-grid` / `.acct-bc-pack`, one shared
+  `data-buyver="v2 v3"` panel): 3-up cards (1-col on narrow) on a `--surface-accent` tray;
+  per-tile hierarchy: tier title (`.acct-bc-name`, 14px/600/`--ink`) → credit count
+  (`.acct-bc-tokens`, 20px/700) → muted price → full-width outline **Buy**. Tiles are static (the
+  button is the action) — no card-hover recipe. This layout is also what the separate buy-credits
+  sub-page shows.
+
+**Medium is the recommended pack** — marked by text/shape, never colour alone, with a layout-fit
+recipe per surface (one visual language doesn't fit both a tall card and a 46px single-line row):
+
+- **Tiles** (`.acct-bc-pack`, V2/V3 + the buy-credits sub-page) — the same `.acct-plan-ribbon`
+  "Most popular" ribbon the Manage-plan cards use (`.acct-bc-pack` is `position:relative` to
+  anchor it).
+- **Card rows** (`.acct-bc-row`, V1) — the ribbon needs vertical clearance the compact
+  single-line row doesn't have (it collided with the row above), so this surface gets its own
+  recipe: a `--brand-primary` **border** (`.acct-bc-row.is-popular`) + a small **star icon**
+  (`.acct-bc-row-star`, 16px, `role="img" aria-label="Most popular"` — the accessible name
+  carries the text, not colour alone) **after** the tier name. The name column widened
+  `4.5rem → 5.5rem` to fit "Medium" + the star without wrapping/clipping (verified:
+  `scrollWidth ≤ clientWidth` on every row). Placing the star **after** the text keeps the left
+  vertical intact — every row's tier-name text starts at the identical x-position (verified) since
+  nothing precedes it; only Medium carries the trailing icon.
 
 Shared anatomy rules (locked, apply to every layout):
 
@@ -229,8 +259,7 @@ Shared anatomy rules (locked, apply to every layout):
   `border-bottom:none`; the default `.acct-section` rule under the packs read as a stray extra
   line ("no need in extra divider under the section").
 - **Multiple peer Buy buttons are outline** — three side-by-side filled primaries over-weight the
-  section; `.btn-primary` is reserved for a lone CTA (V3's single button, the mini-banner, the
-  sidebar popover).
+  section; `.btn-primary` is reserved for a lone CTA (the mini-banner, the sidebar popover).
 
 **Two placement versions, toggled from a topbar `#placement-toggle` (Balance-only, independent of the
 bar-version toggle — the 2nd axis)** via `setBuyPlacement` / `applyBuyPlacement`:
@@ -239,7 +268,7 @@ bar-version toggle — the 2nd axis)** via `setBuyPlacement` / `applyBuyPlacemen
   `[data-ver]` panels so it's shared across V1/V2/V3).
 - **Buy page** — the block is hidden and a compact **mini-banner** (`#acct-buy-banner`, coin icon +
   "Need more credits? → Buy Credits") shows in its place, opening a separate **Buy-credits page**
-  (`data-section="buy-credits"`, always the V1 tile layout). While that page is active the modal
+  (`data-section="buy-credits"`, always the tile layout). While that page is active the modal
   header shows a back chevron (`#acct-hdr-back`) → Balance.
 - **Hero row has no Buy Credits button in either mode** — the hero `.acct-bal-btns` /
   `.acct-bal-btns-mob` now carry only **Upgrade Plan**. The hero-row Buy Credits CTA
