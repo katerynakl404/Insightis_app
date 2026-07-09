@@ -105,6 +105,7 @@
     <a href="#separator">Separator</a>
     <a href="#sheet">Sheet</a>
     <a href="#popover">Popover</a>
+    <a href="pages/concept/tokens-popover-review.html" target="_blank">↗ Credits popover</a>
     <a href="#scrollshadow">ScrollShadow</a>
     <div class="grp">Forms (advanced)</div>
     <a href="#inputgroup">InputGroup</a>
@@ -1092,13 +1093,13 @@
             <thead><tr>
               <th style="width:1px"><span class="cbx is-indeterminate"></span></th>
               <th>Name</th><th>Type</th><th>Size</th>
-              <th><span style="display:inline-flex;align-items:center;gap:.25rem" aria-sort="descending">Modified<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg></span></th>
+              <th aria-sort="descending"><button class="dsft-sortbtn" type="button">Modified<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></th>
               <th style="width:1px"></th>
             </tr></thead>
             <tbody>
               <tr class="is-selected">
                 <td><span class="cbx on"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></td>
-                <td><span style="display:inline-flex;align-items:center;gap:.625rem;min-width:0"><span style="width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;font-size:.5625rem;font-weight:700;letter-spacing:.05em;flex:none;color:var(--content-on-solid);background:var(--fb-green)">XLSX</span><span style="font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">exit-survey.xlsx</span></span></td>
+                <td><span style="display:inline-flex;align-items:center;gap:.625rem;min-width:0"><span class="dsf-file-ic type-xlsx" aria-hidden="true">XLSX</span><span style="font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">exit-survey.xlsx</span></span></td>
                 <td><span class="badge badge-sm badge-secondary">Uploaded</span></td>
                 <td style="color:var(--ink-secondary)">640 KB</td>
                 <td style="color:var(--ink-secondary)">6 months ago</td>
@@ -1106,7 +1107,7 @@
               </tr>
               <tr>
                 <td><span class="cbx"></span></td>
-                <td><span style="display:inline-flex;align-items:center;gap:.625rem;min-width:0"><span style="width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;font-size:.5625rem;font-weight:700;letter-spacing:.05em;flex:none;color:var(--content-on-solid);background:var(--brand-tertiary)">CSV</span><span style="font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">subscription-mrr.csv</span></span></td>
+                <td><span style="display:inline-flex;align-items:center;gap:.625rem;min-width:0"><span class="dsf-file-ic type-csv" aria-hidden="true">CSV</span><span style="font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">subscription-mrr.csv</span></span></td>
                 <td><span class="badge badge-sm badge-primary">Artifact</span></td>
                 <td style="color:var(--ink-secondary)">275 KB</td>
                 <td style="color:var(--ink-secondary)">6 months ago</td>
@@ -1115,7 +1116,7 @@
             </tbody>
           </table>
         </div>
-        <div style="padding:.5rem .7rem"><div class="cspec">Base <code>table.tbl</code> + a checkbox column (<code>.cbx</code>), a file-type square, a source <code>.badge</code>, a sortable <b>Modified</b> header and a kebab. Header checkbox drives select-all; a selected row (first) reads <code>--tbl-row-pressed</code>. The file-type icon (<code>.dsf-file-ic</code>: 2rem square, <code>--fb-green</code> for xls/xlsx, <code>--brand-tertiary</code> for csv) and the sort-header button (<code>.dsft-sortbtn</code>) currently live in the Files page — candidates to lift into the kit. Full spec: <a class="lnk" href="page-changes/data-sources_files-landing.md" style="color:var(--brand-primary)">page-changes/data-sources_files-landing.md</a>.</div></div>
+        <div style="padding:.5rem .7rem"><div class="cspec">Base <code>table.tbl</code> + a checkbox column (<code>.cbx</code>), a file-type square, a source <code>.badge</code>, a sortable <b>Modified</b> header and a kebab. Header checkbox drives select-all; a selected row (first) reads <code>--tbl-row-pressed</code>. The file-type icon (<code>.dsf-file-ic</code>: 2rem square, <code>--fb-green</code> for xls/xlsx, <code>--brand-tertiary</code> for csv, colour via <code>--mark-bg</code>) and the sort-header button (<code>.dsft-sortbtn</code>, chevron flips on <code>th[aria-sort]</code>) now live in <code>kit-theme.css</code> as shared table atoms. Full spec: <a class="lnk" href="page-changes/data-sources_files-landing.md" style="color:var(--brand-primary)">page-changes/data-sources_files-landing.md</a>.</div></div>
       </div></div>
       <div class="block" id="tbl-connections"><div class="block-h">Connections table (.ds-conn-tbl) — Data Sources → Connections</div><div class="block-b" style="padding:0;overflow-x:auto">
         <div class="ds-conn-tbl mx-tbl" style="min-width:640px">
