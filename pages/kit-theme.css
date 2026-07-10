@@ -1644,8 +1644,9 @@
 
   /* Tokens popover — plan header + metered rows + actions.
      Coin artwork sourced from the agreed external SVG icons in the project root
-     (coin-blue.svg, coin-green.svg) — pure-vector, themeable, no raster. No plan-badge icon —
-     the plan name (H5 desktop size) carries the header alone. */
+     (coin-brand-1.svg, coin-green-1.svg — Style 1 "Flat", chosen from the coin concept
+     review, see pages/concept/coin-review.html) — pure-vector, themeable, no raster.
+     No plan-badge icon — the plan name (H5 desktop size) carries the header alone. */
   .sbx-pop-tok-head{display:flex;align-items:center;gap:.5rem;padding:0 .25rem}
   .sbx-pop-tok-head .plan-info{display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;min-width:0}
   /* Name + trial badge sit in one row (not stacked) — the badge reads as a flag on the name, not a second line */
@@ -1656,12 +1657,14 @@
      number is the accent; "of total remaining" stays quiet, short "N/total" beats "N of total". */
   .sbx-pop-tok-head .plan-remaining{font-size:var(--text-12);color:var(--ink-secondary)}
   .sbx-pop-tok-head .plan-remaining strong{color:var(--ink);font-weight:700}
-  /* Increased intra-row gap (label → coin → value: 8px) and inter-meter gap (6px between the row and the bar) so the meter doesn't read as a single dense block */
+  /* Intra-row gap (label → coin → value: 4px, tightened from 8px so the coin sits close to its
+     number) and inter-meter gap (6px between the row and the bar) so the meter doesn't read as a
+     single dense block */
   .sbx-pop-tok-meter{display:flex;flex-direction:column;gap:.375rem;padding:0 .25rem;width:100%}
-  .sbx-pop-tok-meter .row{display:flex;align-items:center;gap:.5rem}
+  .sbx-pop-tok-meter .row{display:flex;align-items:center;gap:.25rem}
   .sbx-pop-tok-meter .label{font-size:var(--text-12);line-height:1;color:var(--ink-secondary);flex:1}
-  .sbx-pop-tok-meter .coin{display:inline-block;width:24px;height:24px;flex:none;background:url("../coin-blue.svg") center/contain no-repeat}
-  .sbx-pop-tok-meter .coin.sm{width:16px;height:16px;background:url("../coin-green.svg") center/contain no-repeat}
+  .sbx-pop-tok-meter .coin{display:inline-block;width:28px;height:28px;flex:none;background:url("../coin-brand-1.svg") center/contain no-repeat}
+  .sbx-pop-tok-meter .coin.sm{width:20px;height:20px;background:url("../coin-green-1.svg") center/contain no-repeat}
   .sbx-pop-tok-meter .val{font-size:var(--text-16);line-height:1.5rem;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
   .sbx-pop-tok-meter .val.sm{font-size:var(--text-12);line-height:1}
   /* Empty meter track — must stay visible against the new --card popover surface (was --card when popover was --bg). --card2 = next layer down in light, next layer up in dark — subtle but perceivable in both themes (~1.05:1 light / ~1.4:1 dark vs the popover). */
