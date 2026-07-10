@@ -1797,6 +1797,13 @@
   th[aria-sort="descending"] .dsft-sortbtn svg{opacity:1}
   .dsft-sortbtn:hover svg{opacity:1}
   .dsft-sortbtn:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset);border-radius:.25rem}
+  /* Compact static data table (account "Usage" breakdown) — shared by user_profile-modal +
+     balance-versions. Moved verbatim from those pages' <style> 2026-07-09 (was duplicated in both).
+     Same th/td recipe as table.tbl but tighter padding and no interaction states (it's read-only). */
+  .acct-usage-table{width:100%;border-collapse:collapse;font-size:var(--text-14)}
+  .acct-usage-table th{text-align:left;font-size:.75rem;font-weight:500;color:var(--ink-secondary);padding:.375rem .5rem;border-bottom:1px solid var(--border)}
+  .acct-usage-table td{padding:.5rem .5rem;border-bottom:1px solid var(--border);color:var(--ink-body)}
+  .acct-usage-table tr:last-child td{border-bottom:none}
 
   /* ===== NEW COMPONENT HELPERS (Card, Collapsible, Datepicker, File, InputGroup, PasswordInput,
                                   Popover, ScrollShadow, Separator, Sheet, Skeleton, Toast,

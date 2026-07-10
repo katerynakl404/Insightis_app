@@ -1,46 +1,19 @@
 <!--
   DataSourceCard skeleton — loading state.
   Mirrors: changes/DataSourceCard.md
-  Base box from: pages/concept/data-sources_connections-landing.html → .ds-card (Style 1 row shell);
-                 shared primitives (.logo-spr sizing) in pages/kit-theme.css
-  Repeats: 3 cards (catalog list)
+  Base box from: pages/kit-theme.css → .ds-app.ds-v3 .ds-card (8rem ~square vertical tile, 2.5rem logo);
+                 grid .ds-app.ds-v3 .ds-grid (8/row). Compose inside .ds-app.ds-v3 so the tiles pick up the layout.
+  Repeats: 8 tiles (one catalog row at 8/row)
 -->
-<div class="sk-skel">
-
-  <!-- card 1 -->
-  <div class="ds-card" aria-hidden="true" style="margin-bottom:.5rem">
-    <span class="ds-logo-wrap">
-      <span class="skel shimmer r-lg" style="display:block;width:3rem;height:3rem"></span>
-    </span>
-    <div class="ds-card-body">
-      <div class="ds-card-head">
-        <span class="skel shimmer r-sm" style="display:block;width:8rem;height:.875rem"></span>
-      </div>
-    </div>
+<div class="sk-skel" aria-hidden="true">
+  <div class="ds-grid">
+    <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:4rem;height:.875rem"></span></div></div></div>
+    <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:5rem;height:.875rem"></span></div></div></div>
+    <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:3.5rem;height:.875rem"></span></div></div></div>
+    <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:4.5rem;height:.875rem"></span></div></div></div>
+    <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:4rem;height:.875rem"></span></div></div></div>
+    <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:5.5rem;height:.875rem"></span></div></div></div>
+    <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:3.5rem;height:.875rem"></span></div></div></div>
+    <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:4.5rem;height:.875rem"></span></div></div></div>
   </div>
-
-  <!-- card 2 -->
-  <div class="ds-card" aria-hidden="true" style="margin-bottom:.5rem">
-    <span class="ds-logo-wrap">
-      <span class="skel shimmer r-lg" style="display:block;width:3rem;height:3rem"></span>
-    </span>
-    <div class="ds-card-body">
-      <div class="ds-card-head">
-        <span class="skel shimmer r-sm" style="display:block;width:10rem;height:.875rem"></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- card 3 -->
-  <div class="ds-card" aria-hidden="true">
-    <span class="ds-logo-wrap">
-      <span class="skel shimmer r-lg" style="display:block;width:3rem;height:3rem"></span>
-    </span>
-    <div class="ds-card-body">
-      <div class="ds-card-head">
-        <span class="skel shimmer r-sm" style="display:block;width:7rem;height:.875rem"></span>
-      </div>
-    </div>
-  </div>
-
 </div>

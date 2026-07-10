@@ -15,14 +15,15 @@ Baseline: [`../current/Table.md`](../current/Table.md).
 | Badge in a row | badge had no border → vanished when a Secondary badge sat on a selected/hover row (fill == `--card2` == row bg) | — | **new** — `table.tbl tbody tr .badge{border-color:color-mix(in srgb,currentColor 25%,transparent)}` | Always-on hairline tinted from the badge's own text colour, so every badge stays defined in every row state. Shared rule with `.chat-row`. |
 | **Preview rendering** *(kit fix)* | only 2 rows rendered in the kit — read as "incomplete" | — | **expanded to 4 rows + 3 columns**; States table now covers header, default, hover, selected, hover-while-selected, pressed, and badge-in-row | Bug-fix to the kit only — no prod-code impact. |
 
-## Shared table cell atoms (kit — lifted from the Files page 2026-07-09)
+## Shared table cell atoms (kit — lifted from pages 2026-07-09)
 
-Two reusable table atoms now live in `kit-theme.css` (were page-local in `data-sources_files-landing.html`). Any table can reuse them; they carry no prod equivalent.
+Reusable table pieces that were page-local now live in `kit-theme.css`. Any table can reuse them; they carry no prod equivalent.
 
 | Atom | Class(es) | Specification |
 |---|---|---|
 | **File-type icon** | `.dsf-file-ic` + `.type-*` | Coloured rounded square with an uppercase extension label. `width/height:2rem` · `border-radius:.375rem` · `font-size:.5625rem;font-weight:700` · `letter-spacing:var(--tracking-label);text-transform:uppercase` · `color:var(--content-on-solid)` · `background:var(--mark-bg,var(--brand-tertiary))`. Colour flows through `--mark-bg`, set by the type modifier — the single source of the type→colour map: `.type-csv` → `--brand-tertiary`, `.type-xls`/`.type-xlsx` → `--fb-green`. Add a new file type by adding one `.type-x{--mark-bg:…}` line. |
 | **Sortable header button** | `.dsft-sortbtn` inside `th[aria-sort]` | Table-agnostic sort trigger that inherits the `th` text styling (`background:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer;display:inline-flex;gap:.25rem`). The 12×12 chevron `svg` sits at `opacity:.5`, lifts to `1` on hover and when the `th` is sorted; `th[aria-sort="ascending"]` rotates it `180°`, `descending` leaves it pointing down. Focus: `:focus-visible` → `--shadow-focus-inset` + `.25rem` radius. Sort direction/behaviour is page JS; this is the visual only. |
+| **Compact static table** | `.acct-usage-table` | Read-only compact data table (account "Usage" breakdown, used by `user_profile-modal` + `balance-versions`). Same `th`/`td` recipe as `table.tbl` (`th`: `--text-12`/500/`--ink-secondary`/bottom-border; `td`: `--ink-body`/bottom-border; `border-collapse:collapse`; `tr:last-child td` drops the border) but tighter padding (`th .375rem .5rem`, `td .5rem .5rem`) and **no** interaction states. Was duplicated verbatim in both pages' `<style>` — moved to the kit unchanged (zero visual delta). |
 
 ## Metrics table molecule — `.mx-tbl` (Expected-only, new)
 

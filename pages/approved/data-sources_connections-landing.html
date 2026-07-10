@@ -143,6 +143,11 @@
       <button class="segctrl-btn is-active" id="ds-seg-empty" type="button" onclick="dsSegState(this,'empty')">Empty</button>
       <button class="segctrl-btn" id="ds-seg-connected" type="button" onclick="dsSegState(this,'connected')">Connected</button>
     </div>
+    <!-- Loaded/Skeleton — in-page initial-load preview (flips html.skel-on). NOT a Current/Expected scope; never wire to .prod. -->
+    <div class="segctrl is-sm" role="group" aria-label="Page state" style="width:auto">
+      <button class="segctrl-btn is-active" type="button" aria-selected="true" onclick="document.documentElement.classList.remove('skel-on');this.classList.add('is-active');this.setAttribute('aria-selected','true');this.nextElementSibling.classList.remove('is-active');this.nextElementSibling.setAttribute('aria-selected','false')">Loaded</button>
+      <button class="segctrl-btn" type="button" aria-selected="false" onclick="document.documentElement.classList.add('skel-on');this.classList.add('is-active');this.setAttribute('aria-selected','true');this.previousElementSibling.classList.remove('is-active');this.previousElementSibling.setAttribute('aria-selected','false')">Skeleton</button>
+    </div>
     <div class="segctrl is-sm" style="width:auto">
       <button class="segctrl-btn is-active" id="ds-seg-light" type="button" onclick="dsSegTheme(this,'light')">Light</button>
       <button class="segctrl-btn" id="ds-seg-dark" type="button" onclick="dsSegTheme(this,'dark')">Dark</button>
@@ -380,8 +385,29 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
           </div>
-          <div class="chip-row" role="tablist" aria-label="Data Source categories" id="ds-cats"></div>
-          <div class="ds-grid" id="ds-grid" aria-label="Available data sources"></div>
+          <div class="chip-row sk-loaded" role="tablist" aria-label="Data Source categories" id="ds-cats"></div>
+          <div class="ds-grid sk-loaded" id="ds-grid" aria-label="Available data sources"></div>
+          <!-- Loading skeleton — shown when html.skel-on (top Loaded/Skeleton toggle); chip row + V3 catalog tiles (8/row) -->
+          <div class="sk-skel" aria-hidden="true">
+            <div class="chip-row" style="margin-top:.75rem">
+              <span class="skel shimmer r-full" style="width:4rem;height:1.75rem"></span>
+              <span class="skel shimmer r-full" style="width:6rem;height:1.75rem"></span>
+              <span class="skel shimmer r-full" style="width:5rem;height:1.75rem"></span>
+              <span class="skel shimmer r-full" style="width:6.5rem;height:1.75rem"></span>
+              <span class="skel shimmer r-full" style="width:5.5rem;height:1.75rem"></span>
+              <span class="skel shimmer r-full" style="width:4.5rem;height:1.75rem"></span>
+            </div>
+            <div class="ds-grid" style="margin-top:.75rem">
+              <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:4rem;height:.875rem"></span></div></div></div>
+              <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:5rem;height:.875rem"></span></div></div></div>
+              <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:3.5rem;height:.875rem"></span></div></div></div>
+              <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:4.5rem;height:.875rem"></span></div></div></div>
+              <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:4rem;height:.875rem"></span></div></div></div>
+              <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:5.5rem;height:.875rem"></span></div></div></div>
+              <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:3.5rem;height:.875rem"></span></div></div></div>
+              <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:4.5rem;height:.875rem"></span></div></div></div>
+            </div>
+          </div>
         </div>
 
         <!-- Panel 2 — My Connections (hidden until first connection) -->
@@ -404,7 +430,13 @@
           </div>
           <!-- Connected list/table — has-connections drives section visibility. -->
           <div class="ds-conn-section">
-            <div id="ds-conn-body"></div>
+            <div id="ds-conn-body" class="sk-loaded"></div>
+            <!-- Loading skeleton for the connected list (shown when html.skel-on) -->
+            <div class="sk-skel" aria-hidden="true">
+              <div style="display:flex;align-items:center;gap:.75rem;padding:.875rem 0;border-bottom:1px solid var(--border)"><span class="skel shimmer r-sm" style="width:1.5rem;height:1.5rem"></span><div style="flex:1;display:flex;flex-direction:column;gap:.375rem"><span class="skel shimmer r-sm" style="width:9rem;height:.875rem"></span><span class="skel shimmer r-sm" style="width:14rem;height:.75rem"></span></div><span class="skel shimmer r-sm" style="width:1.25rem;height:1.25rem"></span></div>
+              <div style="display:flex;align-items:center;gap:.75rem;padding:.875rem 0;border-bottom:1px solid var(--border)"><span class="skel shimmer r-sm" style="width:1.5rem;height:1.5rem"></span><div style="flex:1;display:flex;flex-direction:column;gap:.375rem"><span class="skel shimmer r-sm" style="width:7rem;height:.875rem"></span><span class="skel shimmer r-sm" style="width:12rem;height:.75rem"></span></div><span class="skel shimmer r-sm" style="width:1.25rem;height:1.25rem"></span></div>
+              <div style="display:flex;align-items:center;gap:.75rem;padding:.875rem 0"><span class="skel shimmer r-sm" style="width:1.5rem;height:1.5rem"></span><div style="flex:1;display:flex;flex-direction:column;gap:.375rem"><span class="skel shimmer r-sm" style="width:8rem;height:.875rem"></span><span class="skel shimmer r-sm" style="width:13rem;height:.75rem"></span></div><span class="skel shimmer r-sm" style="width:1.25rem;height:1.25rem"></span></div>
+            </div>
           </div>
         </div>
       </div>

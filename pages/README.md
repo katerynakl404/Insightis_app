@@ -26,7 +26,7 @@ real screens look in the current production design vs the expected (new) design.
 | `chat-landing.html` | Chat landing (empty state / hero) | Sidebar (Expected only), Composer, Suggestion chips |
 | `chat_page-landing.html` | Chat page (active conversation) | Sidebar (Expected only), Thread, Composer |
 | `chats-landing.html` | Chats library | Sidebar (Expected only), ChatRow list, MetaRow, Search |
-| `approved/data-sources_connections-landing.html` ✅ | Data Sources — Connections (sidebar `Sources` active) — **approved** | Sidebar (Expected only), Banner, ConnectorGrid |
+| `approved/data-sources_connections-landing.html` ✅ | Data Sources — Connections (sidebar `Sources` active) — **approved**, in-page Loaded/Skeleton toggle | Sidebar (Expected only), Banner, ConnectorGrid |
 | `approved/data-sources_files-landing.html` ✅ | Files (sidebar `Files` active) — split off from Data Sources into a top-level route — **approved** | Sidebar (Expected only), FileList, drop zone |
 | `approved/metrics-landing.html` ✅ | Metrics dashboard — **approved** | Sidebar (Expected only), KPI cards, SegmentedControl, Chart, Tabs, Table |
 | `approved/user_profile-modal.html` ✅ | Account / Settings modal (Expected only) — **approved** | Sidebar with account popover open; clicking a nav item opens the full AccountModal dialog; left nav reuses `.sbx-pop-*` |

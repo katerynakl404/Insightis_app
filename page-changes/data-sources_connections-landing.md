@@ -2,7 +2,8 @@
 
 **Page:** Data Sources — Connections (`/data-sources`)  
 **Handoff:** [`../pages/approved/data-sources_connections-landing.html`](../pages/approved/data-sources_connections-landing.html)  
-**Status:** ✅ Approved (погоджено) — 2026-06-30
+**Status:** ✅ Approved (погоджено) — 2026-06-30  
+**Loading state:** in-page toggle — top SegmentedControl, Loaded/Skeleton (catalog chips + V3 tile grid; connected list)
 
 ## Hard rules — read before editing this page
 
