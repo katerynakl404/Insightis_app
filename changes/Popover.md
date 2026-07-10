@@ -73,8 +73,8 @@ and a thin progress bar underneath.
 
 | Slot | Prod (never existed) | Expected | Specification |
 |---|---|---|---|
-| Subscription Credits coin (24×24) | — | external SVG `coin-blue.svg` | Teal-family coin (matches `Brand/Tertiary`). Hand-built pure-vector, reeded edge, shadow-only emboss, no ground cast-shadow. |
-| Purchased Credits coin (16×16) | — | external SVG `coin-green.svg` | Green-family coin (matches `Feedback/Green`). Same construction as blue, palette swap only. |
+| Subscription Credits coin (28×28) | — | external SVG `pages/assets/coins/coin-brand-1.svg` | Teal-family coin (matches `Brand/Tertiary`). Hand-built pure-vector flat coin — Style 1 of a 4-style concept set (see `pages/concept/coin-review.html`) — radial-gradient face + soft ambient drop-shadow, no extruded edge or reeded texture. Insightis mark in solid white with a thin dark keyline for contrast. |
+| Purchased Credits coin (20×20) | — | external SVG `pages/assets/coins/coin-green-1.svg` | Green-family coin (matches `Feedback/Green`). Same construction as brand, palette swap only. |
 
 > The plan-badge icon (`.plan-badge`, external `basic.svg`) documented in an earlier iteration of
 > this table was **removed** — see [`Sidebar.md`](Sidebar.md) → "Tokens popover — plan header".
@@ -88,9 +88,9 @@ and a thin progress bar underneath.
 | Plan name row | `.plan-info .plan-name-row` | `display:flex; align-items:center; gap:.5rem` — holds `.plan-name` and (when present) the trial badge in one row, never stacked |
 | Plan trial badge | `.plan-name-row .badge.badge-attention.badge-sm` | reuses [`Badge`](Badge.md) as-is, no overrides — renders only on the `Pro` plan; Free/Starter omit it entirely |
 | Meter | `.sbx-pop-tok-meter` | `display:flex; flex-direction:column; gap:.375rem; padding:0 .25rem; width:100%` — one per pool |
-| Meter label row | `.sbx-pop-tok-meter .row` | `display:flex; align-items:center; gap:.5rem` |
+| Meter label row | `.sbx-pop-tok-meter .row` | `display:flex; align-items:center; gap:.25rem` (tightened from 8px so the coin sits close to its number) |
 | Meter label | `.sbx-pop-tok-meter .label` | `font-size:.75rem; line-height:1; color:var(--ink-secondary); flex:1` |
-| Meter coin | `.sbx-pop-tok-meter .coin` (+ `.sm`) | `24×24` (`16×16` for `.sm`, the Purchased row); `background:url(coin-blue.svg)` / `coin-green.svg` |
+| Meter coin | `.sbx-pop-tok-meter .coin` (+ `.sm`) | `28×28` (`20×20` for `.sm`, the Purchased row); `background:url(assets/coins/coin-brand-1.svg)` / `coin-green-1.svg` |
 | Meter value | `.sbx-pop-tok-meter .val` (+ `.sm`) | `font-size:1rem; line-height:1.5rem; font-weight:500; color:var(--ink); tabular-nums` (`.75rem/1` for `.sm`) |
 | Meter bar | `.sbx-pop-tok-meter .bar` | `width:100%; height:4px; border-radius:9999px; background:var(--card2); overflow:hidden` |
 | Meter fill | `.sbx-pop-tok-meter .bar>span` | `height:100%; border-radius:9999px`; `Brand/Tertiary` (Subscription) / `Feedback/Green` (Purchased) |
