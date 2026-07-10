@@ -295,6 +295,12 @@ A page `<style>` block is for **layout-only classes that exist nowhere else** (`
 
 **Why this matters:** a page-only fix silently diverges the kit from all pages that use the same component. The kit becomes wrong everywhere except the one page you patched.
 
+**Enforcement — run the sweep, don't trust your memory (hard step).** Before claiming any component or family is "unified"/"verified", run:
+```
+bash claude-code/check-kit-overrides.sh
+```
+It lists every page `<style>` rule that touches a kit component's appearance (`table.tbl`/`th`/`td`/`tr` states, `.badge`, `.btn*`, `.chip`, `.chat-row`, `.mi*`, `.mx-*`, `.ds-conn*`, …). Classify each hit: genuine page **layout/state** (grid reflow, preview highlight, muted metadata column, a control using `--state-*` tokens) = OK; a value/recipe **copied from the kit** (header fill, hover/selected bg, a bespoke table re-implementing `table.tbl`, a `.mi-danger` that duplicates `.mi.danger`) = VIOLATION → lift to / source from `kit-theme.css`. Report the sweep result — verifying only the symptom someone named is what let `table.dsf-tbl thead th{background:var(--card2)}` survive three passes.
+
 **Self-check before adding any CSS to a page `<style>` block:**
 - [ ] Does this selector target a kit class? → Move to `kit-theme.css`.
 - [ ] Is this a size/spacing/colour that should be consistent across all uses of the component? → Move to `kit-theme.css`.
