@@ -594,6 +594,21 @@
         </div>
       </div>
 
+      <div class="variant-label">Tertiary — brand <span class="pend" style="font-weight:700">new</span></div>
+      <div class="block">
+        <div class="block-h">Preview — add <code>.is-brand</code> to <code>.btn-tertiary</code></div>
+        <div class="block-b">
+          <div class="stage" style="justify-content:flex-start;gap:.75rem;flex-wrap:wrap">
+            <button class="btn btn-md btn-tertiary is-brand">Test Connection</button>
+            <button class="btn btn-md btn-tertiary is-brand s-hover">Hover</button>
+            <button class="btn btn-md btn-tertiary is-brand s-pressed">Pressed</button>
+            <button class="btn btn-md btn-tertiary is-brand s-focus">Focus</button>
+            <button class="btn btn-md btn-tertiary is-brand" disabled>Disabled</button>
+          </div>
+          <div style="padding:.5rem .7rem"><div class="cspec"><b><code>.btn-tertiary.is-brand</code></b>: label <code>Brand/Primary</code> (hover <code>Brand/Hover</code>, pressed <code>Brand/Press</code>); the hover/pressed pill + focus ring stay the neutral tertiary recipe (<code>State/Hover</code> / <code>State/Pressed</code> / <code>--shadow-focus</code>). For standalone brand text actions such as the connection sidepanel "Test Connection" — the global <code>.btn-tertiary</code> stays neutral.</div></div>
+        </div>
+      </div>
+
       <div class="variant-label">Destructive</div>
       <div class="block">
         <div class="block-h">Preview — interactive</div>
@@ -2198,7 +2213,7 @@
     <!-- ===== BANNER ===== -->
     <section class="comp" id="banner" data-spec-variant-label="Sizes">
       <h2>Banner</h2>
-      <div class="sub">Full-width informational strip with icon, title, description and an optional CTA button. Used to surface onboarding or connection-required notices. Wrap in <code>.banner-wrap</code> for dismiss animation (<code>.is-dismissed</code> collapses it). CSS classes: <code>.banner</code>, <code>.banner-ic</code>, <code>.banner-body</code>, <code>.banner-t</code>, <code>.banner-d</code>, <code>.banner-cta</code>, <code>.banner-wrap</code>.</div>
+      <div class="sub">Full-width informational strip with icon, title, description and an optional CTA button. Used to surface onboarding or connection-required notices. Wrap in <code>.banner-wrap</code> for dismiss animation (<code>.is-dismissed</code> collapses it); add a corner <code>.banner-close</code> button as the dismiss trigger. CSS classes: <code>.banner</code>, <code>.banner-ic</code>, <code>.banner-body</code>, <code>.banner-t</code>, <code>.banner-d</code>, <code>.banner-cta</code>, <code>.banner-close</code>, <code>.banner-wrap</code>.</div>
       <div><a class="chg" href="changes/Banner.md">Changes ↗</a></div>
 
       <div class="variant-label">Sizes</div>
@@ -2237,11 +2252,13 @@
           <tr><td class="stname">Icon</td><td><code>.banner-ic</code></td><td>60×60 rounded container, bg <code>--brand-primary</code>, coloured glow shadow</td></tr>
           <tr><td class="stname">Body</td><td><code>.banner-body</code></td><td>Flex column with <code>.banner-t</code> (title) and <code>.banner-d</code> (description)</td></tr>
           <tr><td class="stname">CTA</td><td><code>.banner-cta</code></td><td>Right-aligned actions; typically a <code>.btn-primary</code></td></tr>
+          <tr><td class="stname">Close</td><td><code>.banner-close</code></td><td>Optional corner ✕ dismiss button; absolute top-right, neutral hover (white overlay on gradient). <code>:has()</code> reserves right padding so it clears the CTA</td></tr>
         </tbody></table>
       </div></div>
 
       <div class="variant-label">Gradient <span class="pend" style="font-weight:700">new</span></div>
-      <div class="block"><div class="block-h">Preview</div><div class="block-b">
+      <div class="block"><div class="block-h">Preview — dismissible (click the corner ✕)</div><div class="block-b">
+        <div class="banner-wrap" id="sb-grad-wrap" style="margin-bottom:.5rem">
         <div class="banner banner-grad" role="note" aria-label="Gradient banner example">
           <div class="banner-ic" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
@@ -2253,7 +2270,12 @@
           <div class="banner-cta">
             <button class="btn btn-secondary btn-sm" type="button">Connect a Source</button>
           </div>
+          <button class="banner-close" type="button" aria-label="Dismiss" onclick="document.getElementById('sb-grad-wrap').classList.add('is-dismissed')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
         </div>
+        </div>
+        <button class="btn btn-outline btn-xs" type="button" onclick="document.getElementById('sb-grad-wrap').classList.remove('is-dismissed')">Reset</button>
       </div></div>
       <div class="block"><div class="block-h">Specification</div><div class="block-b" style="padding:0">
         <table class="stbl"><thead><tr><th>Token / property</th><th>Value</th></tr></thead><tbody>
@@ -3306,7 +3328,7 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
        Token VALUES still resolve live via a probe — only the NAMES come from here. On http this list
        is unused (names read live from the stylesheet). REGENERATE when tokens change:
        grep -oE '\-\-[A-Za-z0-9_-]+[[:space:]]*:' pages/kit-theme.css | sed -E 's/[[:space:]]*:$//' | sort -u */
-    var FALLBACK_TOKEN_NAMES = "--badge-primary-bg,--badge-primary-text,--badge-secondary-bg,--badge-secondary-text,--balance-purchased-track,--balance-subscription-track,--banner-grad-btn-hover,--banner-grad-ic-bg,--banner-grad-ic-border,--banner-grad-ic-shadow,--banner-grad-sub,--banner-grad-text,--bg,--black,--border,--border-hover,--border-width,--border-width-focus,--brand-100,--brand-200,--brand-300,--brand-400,--brand-50,--brand-50-soft,--brand-500,--brand-600,--brand-700,--brand-800,--brand-900,--brand-900-soft,--brand-hover,--brand-press,--brand-primary,--brand-secondary,--brand-tertiary,--btn-outline-bg-hover,--btn-outline-bg-press,--btn-outline-destructive-bg-hover,--btn-outline-destructive-bg-press,--btn-outline-destructive-border,--btn-outline-destructive-border-hover,--btn-primary-bg,--btn-primary-bg-hover,--btn-primary-bg-press,--btn-primary-text,--btn-secondary-bg,--btn-secondary-bg-hover,--btn-secondary-border,--btn-secondary-border-hover,--card,--card-border-hover,--card-border-press,--card-lift-border,--card2,--chat-fade,--chips,--content-max-narrow,--content-max-wide,--content-max-width,--content-on-solid,--dropzone-border,--dropzone-fill,--fb-attention,--fb-attention-text,--fb-green,--fb-red,--fb-red-hover,--fb-red-press,--fb-red-text,--focus-ring,--focus-ring-brand,--grad-noise,--grad-teal-dark,--green-dark-500,--green-light-600,--grey-100,--grey-200,--grey-300,--grey-400,--grey-50,--grey-500,--grey-600,--grey-700,--grey-800,--grey-900,--grey-950,--icon-wrapper-bg,--ink,--ink-body,--ink-highlight,--ink-inactive,--ink-secondary,--input-error,--input-focus,--logo-ink,--logo-mark,--logo-size,--motion-base,--motion-ease,--motion-ease-out,--motion-fast,--motion-slow,--mx-group-band,--mx-prov-indent,--opacity-disabled,--orange-500,--overlay-scrim,--p-accent,--p-grad,--p-gradh,--p-light,--p-primary,--p-secondary,--popular-flame,--progress-track,--radius-2xl,--radius-full,--radius-inner,--radius-lg,--radius-md,--radius-panel,--radius-sm,--radius-xl,--red-100,--red-200,--red-300,--red-400,--red-50,--red-500,--red-600,--red-700,--red-800,--red-850,--red-900,--red-950,--segctrl-btn-hover-bg,--shadow-card-hover,--shadow-focus,--shadow-focus-inset,--shadow-lift-hover,--shadow-modal,--shadow-overlay,--shadow-rest,--shadow-rim-active,--shadow-rim-hover,--slate-100,--slate-150,--slate-200,--slate-300,--slate-400,--slate-450,--slate-50,--slate-500,--slate-550,--slate-600,--slate-700,--slate-800,--slate-900,--slate-950,--state-disabled,--state-hover,--state-pressed,--surface-accent,--surface-neutral-strong,--switch-off-bg,--switch-off-bg-hover,--tbl-row-hover,--tbl-row-pressed,--tertiary-100,--tertiary-200,--tertiary-300,--tertiary-400,--tertiary-50,--tertiary-500,--tertiary-600,--tertiary-700,--tertiary-800,--tertiary-900,--tertiary-950,--text-10,--text-11,--text-12,--text-13,--text-14,--text-16,--text-18,--text-20,--text-24,--text-30,--text-36,--text-48,--toast-bg-error,--toast-bg-info,--toast-bg-success,--toast-bg-warning,--toast-border-error,--toast-border-info,--toast-border-success,--toast-border-warning,--tracking-caps,--tracking-label,--tracking-normal,--tracking-tight,--white".split(',');
+    var FALLBACK_TOKEN_NAMES = "--badge-primary-bg,--badge-primary-text,--badge-secondary-bg,--badge-secondary-text,--balance-purchased-track,--balance-subscription-track,--banner-grad-btn-hover,--banner-grad-ic-bg,--banner-grad-ic-border,--banner-grad-ic-shadow,--banner-grad-sub,--banner-grad-text,--bg,--black,--border,--border-hover,--border-width,--border-width-focus,--brand-100,--brand-200,--brand-300,--brand-400,--brand-50,--brand-50-soft,--brand-500,--brand-600,--brand-700,--brand-800,--brand-900,--brand-900-soft,--brand-hover,--brand-press,--brand-primary,--brand-secondary,--brand-tertiary,--btn-outline-bg-hover,--btn-outline-bg-press,--btn-outline-destructive-bg-hover,--btn-outline-destructive-bg-press,--btn-outline-destructive-border,--btn-outline-destructive-border-hover,--btn-primary-bg,--btn-primary-bg-hover,--btn-primary-bg-press,--btn-primary-text,--btn-secondary-bg,--btn-secondary-bg-hover,--btn-secondary-border,--btn-secondary-border-hover,--card,--card-border-hover,--card-border-press,--card-lift-border,--card-stack-gap,--card-stack-pad-h,--card-stack-pad-v,--card-stack-radius,--card2,--chat-fade,--chips,--content-max-narrow,--content-max-wide,--content-max-width,--content-on-solid,--dropzone-border,--dropzone-fill,--fb-attention,--fb-attention-text,--fb-green,--fb-red,--fb-red-hover,--fb-red-press,--fb-red-text,--focus-ring,--focus-ring-brand,--grad-noise,--grad-teal-dark,--green-dark-500,--green-light-600,--grey-100,--grey-200,--grey-300,--grey-400,--grey-50,--grey-500,--grey-600,--grey-700,--grey-800,--grey-900,--grey-950,--icon-wrapper-bg,--ink,--ink-body,--ink-highlight,--ink-inactive,--ink-secondary,--input-error,--input-focus,--logo-ink,--logo-mark,--logo-size,--mark-bg,--motion-base,--motion-ease,--motion-ease-out,--motion-fast,--motion-slow,--mx-group-band,--mx-prov-indent,--opacity-disabled,--orange-500,--overlay-scrim,--p-accent,--p-grad,--p-gradh,--p-light,--p-primary,--p-secondary,--popular-flame,--progress-track,--radius-2xl,--radius-full,--radius-inner,--radius-lg,--radius-md,--radius-panel,--radius-sm,--radius-xl,--red-100,--red-200,--red-300,--red-400,--red-50,--red-500,--red-600,--red-700,--red-800,--red-850,--red-900,--red-950,--segctrl-btn-hover-bg,--shadow-card-hover,--shadow-focus,--shadow-focus-inset,--shadow-lift-hover,--shadow-modal,--shadow-overlay,--shadow-rest,--shadow-rim-active,--shadow-rim-hover,--slate-100,--slate-150,--slate-200,--slate-300,--slate-400,--slate-450,--slate-50,--slate-500,--slate-550,--slate-600,--slate-700,--slate-800,--slate-900,--slate-950,--state-disabled,--state-hover,--state-pressed,--surface-accent,--surface-neutral-strong,--switch-off-bg,--switch-off-bg-hover,--tbl-row-hover,--tbl-row-pressed,--tertiary-100,--tertiary-200,--tertiary-300,--tertiary-400,--tertiary-50,--tertiary-500,--tertiary-600,--tertiary-700,--tertiary-800,--tertiary-900,--tertiary-950,--text-10,--text-11,--text-12,--text-13,--text-14,--text-16,--text-18,--text-20,--text-24,--text-30,--text-36,--text-48,--toast-bg-error,--toast-bg-info,--toast-bg-success,--toast-bg-warning,--toast-border-error,--toast-border-info,--toast-border-success,--toast-border-warning,--tracking-caps,--tracking-label,--tracking-normal,--tracking-tight,--white".split(',');
     function isPrimitive(n){ return /-\d+$/.test(n) || /^--(white|black)$/.test(n); }
     // Collect --token names. cssRules is blocked on file:// (and cross-origin sheets) — so if no
     // rules are readable, fall back to fetching the linked stylesheet text and parsing names.

@@ -667,6 +667,13 @@
   .btn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
   .btn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
   .btn-tertiary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  /* Brand modifier — brand-coloured tertiary for standalone text actions (e.g. the sidepanel
+     "Test Connection"). Only the label goes brand; the hover/pressed pill + focus ring stay the
+     neutral tertiary recipe so it reads as one family. Global .btn-tertiary stays neutral. */
+  .btn-tertiary.is-brand{color:var(--brand-primary)}
+  .btn-tertiary.is-brand:hover,.s-hover.btn-tertiary.is-brand{background:var(--state-hover);color:var(--brand-hover)}
+  .btn-tertiary.is-brand:active,.s-pressed.btn-tertiary.is-brand{background:var(--state-pressed);color:var(--brand-press)}
+  .btn-tertiary.is-brand:disabled,.s-disabled.btn-tertiary.is-brand{color:var(--ink-inactive);background:transparent}
   .btn-outline:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-destructive:hover{background:var(--fb-red-hover)}
   .btn-destructive:active{background:var(--fb-red-press)}
@@ -930,7 +937,7 @@
      Card surface, standard border + radius. Brand icon in a tinted pill on the
      left; body copy + optional CTA on the right. Collapses via .is-dismissed.
      All three slots are optional — omit .banner-ic or .banner-cta freely. */
-  .banner{display:flex;align-items:center;gap:1.25rem;padding:1.625rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem}
+  .banner{position:relative;display:flex;align-items:center;gap:1.25rem;padding:1.625rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem}
   .banner-ic{width:3.75rem;height:3.75rem;display:flex;align-items:center;justify-content:center;border-radius:.875rem;background:var(--brand-primary);color:var(--btn-primary-text);flex:none;box-shadow:0 6px 16px -4px color-mix(in srgb,var(--brand-primary) 50%,transparent)}
   .banner-ic svg{width:28px;height:28px}
   .banner-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.375rem}
@@ -938,6 +945,14 @@
   .banner-d{font-size:var(--text-14);color:var(--ink-body);line-height:1.5;margin:0;max-width:66ch}
   .banner-d b{color:var(--ink);font-weight:600}
   .banner-cta{flex:none}
+  /* Corner close (dismiss) affordance — add a .banner-close <button> as the last child and wrap
+     the banner in .banner-wrap so toggling .is-dismissed animates the collapse. Absolutely
+     positioned top-right; :has() reserves right padding so it never overlaps the CTA. */
+  .banner-close{position:absolute;top:.625rem;right:.625rem;width:1.75rem;height:1.75rem;display:flex;align-items:center;justify-content:center;border:none;background:transparent;border-radius:.5rem;color:var(--ink-secondary);cursor:pointer;transition:background var(--motion-fast),color var(--motion-fast)}
+  .banner-close svg{width:16px;height:16px}
+  .banner-close:hover{background:var(--state-hover);color:var(--ink-body)}
+  .banner-close:focus-visible{outline:none;box-shadow:var(--focus-ring-brand)}
+  .banner:has(.banner-close){padding-right:2.75rem}
   /* Compact modifier — smaller padding + icon; use on secondary/inline banners */
   .banner-sm{padding:1rem 1.25rem}
   .banner-sm .banner-ic{width:2.5rem;height:2.5rem;border-radius:.5rem}
@@ -949,6 +964,7 @@
      600 px: removes CTA max-width — full-width feels natural on very narrow viewports. */
   @media(max-width:880px){
     .banner{flex-direction:column;align-items:flex-start;gap:.875rem;padding:1.25rem}
+    .banner:has(.banner-close){padding-right:1.25rem}
     .banner-ic{width:2.75rem;height:2.75rem;border-radius:.625rem}
     .banner-ic svg{width:22px;height:22px}
     .banner-cta{width:100%;display:flex}
@@ -956,6 +972,7 @@
   }
   @media(max-width:600px){
     .banner{padding:1rem}
+    .banner:has(.banner-close){padding-right:1rem}
     .banner-cta .btn{max-width:none}
   }
   /* Collapse animation — add .is-dismissed on the wrapper element */
@@ -970,6 +987,9 @@
   .banner-grad .banner-t{color:var(--banner-grad-text)}
   .banner-grad .banner-d{color:var(--banner-grad-sub)}
   .banner-grad .banner-d b{color:var(--banner-grad-text)}
+  /* Close on gradient: white icon, translucent-white hover overlay (reuses the icon-pill token). */
+  .banner-grad .banner-close{color:var(--banner-grad-sub)}
+  .banner-grad .banner-close:hover{background:var(--banner-grad-ic-bg);color:var(--banner-grad-text)}
   /* CTA on gradient — btn-secondary renders naturally (solid white card bg, dark text — high contrast).
      btn-primary flips to white bg + brand text so it doesn't clash with the white body copy.
      Dark theme: card bg is too dark against the gradient; use translucent white instead. */
@@ -1092,12 +1112,57 @@
   /* Empty state — modern pattern: a tinted icon chip, a short title, helper text, then the CTA,
      centered with generous breathing room (replaces the old cramped one-line message + button). */
   .cl-menu-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.25rem;padding:12px}
-  .cl-menu-empty-ic{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9999px;background:var(--icon-wrapper-bg);color:var(--ink-secondary);margin-bottom:.125rem}
+  /* Border added (matches .prov-ic-w / .mx-prov-ic) — --icon-wrapper-bg is only a 5% brand tint
+     over --bg with no .dark override, so without an edge the pill is invisible in dark theme. */
+  .cl-menu-empty-ic{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9999px;background:var(--icon-wrapper-bg);border:1px solid var(--border);color:var(--ink-secondary);margin-bottom:.125rem}
   .cl-menu-empty-ic svg{width:16px;height:16px}
   .cl-menu-empty-title{font-size:var(--text-14);font-weight:500;color:var(--ink)}
   /* text-wrap:balance evens the two lines so a single word never orphans onto its own line. */
   .cl-menu-empty-sub{font-size:var(--text-12);line-height:1.45;color:var(--ink-secondary);max-width:24ch;text-wrap:balance}
   .cl-menu-empty .btn{margin-top:.5rem}
+
+  /* — Metric @-mention — typing "@" in the composer opens this list of available metric aliases.
+     The matched substring is highlighted (.cl-mention-hl) as the user types; picking a row inserts
+     an inline .cl-mention-tag token into the prompt. The popover anchors above the composer input
+     (same upward direction as the tool menus) and hides entirely when nothing matches — there is no
+     empty state. Positioned relative to .cl-composer (page-layout glue sets its position:relative). */
+  /* The window has NO bottom padding — the bottom breathing room lives on the scrolling content
+     (.cl-mention-list padding-bottom) so it travels WITH the rows and the last one is never sliced
+     flush against the edge on scroll. overflow:hidden clips the scroll region + scrollbar to the
+     rounded corners. */
+  .cl-mention-menu{position:absolute;bottom:calc(100% + 8px);left:.5rem;width:20rem;max-width:20rem;z-index:60;padding:4px 4px 0;overflow:hidden;display:none}
+  .cl-mention-menu.is-open{display:block}
+  .cl-mention-list{max-height:min(15rem,44vh);overflow-y:auto;overscroll-behavior:contain;padding-bottom:4px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+  .cl-mention-list::-webkit-scrollbar{width:10px}
+  .cl-mention-list::-webkit-scrollbar-track{background:transparent}
+  .cl-mention-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .cl-mention-list:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+  .cl-mention-item{gap:.625rem;cursor:pointer}
+  /* First row is highlighted on open; arrow-nav / :hover move it. Same neutral surface as .mi:hover. */
+  .cl-mention-item.is-active{background:var(--state-hover)}
+  /* Badge hover card — the title + definition that appear on hover/focus of an inserted
+     .cl-mention-tag. Reuses the .menu surface; JS positions it near the token. */
+  .cl-mention-detail{position:fixed;z-index:70;width:14rem;max-width:14rem;padding:8px 10px;display:none}
+  .cl-mention-detail.is-open{display:block}
+  .cl-mention-detail-name{font-size:var(--text-12);font-weight:600;color:var(--ink);margin-bottom:.125rem}
+  .cl-mention-detail-def{font-size:var(--text-12);line-height:1.45;color:var(--ink-secondary)}
+  /* Row hierarchy: the ALIAS is the primary identifier (search key + what gets inserted); the metric
+     name is secondary supporting info. Alias on top (ink, 13px), name beneath (muted, 12px). */
+  .cl-mention-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:.0625rem}
+  .cl-mention-alias{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--text-13);font-weight:500;color:var(--ink)}
+  .cl-mention-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--text-12);font-weight:500;color:var(--ink-secondary)}
+  /* Matched-substring highlight — same colour as the text, emphasised by extra weight only (heavier
+     than the alias's 500), no fill. */
+  .cl-mention-hl{background:none;color:inherit;font-weight:800}
+  /* Inline metric token in the prompt — its own component: link-coloured text (--ink-highlight) with
+     a small symmetric padding for the hover surface. NO negative margin — that made two adjacent
+     tokens (e.g. "@mrr @churn_rate") pull into each other and overlap; a plain 2px pad keeps them
+     cleanly separated while staying close to normal word spacing. It is NOT clickable (cursor:text) —
+     hovering (or keyboard focus) reveals its details card. A subtle --state-hover surface fades in on
+     hover; focus shows the --shadow-focus ring. box-decoration-break keeps the surface intact on wrap. */
+  .cl-mention-tag{display:inline;color:var(--ink-highlight);font-weight:500;border-radius:.25rem;padding:1px 2px;white-space:nowrap;cursor:text;transition:background .12s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .cl-mention-tag:hover{background:var(--state-hover)}
+  .cl-mention-tag:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
 
   /* — Attach menu — secondary "Choose File" button + plain recent-file list (no icons). Width is
      the fixed M size (18rem), set on the composer-menu rule above. */

@@ -95,11 +95,13 @@
   .cp-composer-area{flex:none;padding:.625rem 1.5rem 1.25rem}
   .cp-composer-inner{max-width:820px;margin:0 auto}
   /* Composer styles (mirrors chat-landing.html's .cl-composer rules) */
-  .cl-composer{width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem;border-radius:1rem;transition:border-color .15s,box-shadow .15s}
+  .cl-composer{position:relative;width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem;border-radius:1rem;transition:border-color .15s,box-shadow .15s}
   .cl-composer:hover{border-color:var(--border-hover)}
   .cl-composer:focus-within{border-color:var(--input-focus);box-shadow:none}
-  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:14px;min-height:32px;max-height:300px;resize:none;overflow-y:auto;color:var(--ink);outline:none;font-family:inherit;line-height:1.5}
-  .cl-prompt::placeholder{color:var(--ink-inactive)}
+  /* Contenteditable prompt — a div (not <textarea>) so inline .cl-mention-tag tokens can flow in
+     the text. Auto-grows with content; caps at 300px then scrolls. */
+  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:14px;min-height:32px;max-height:300px;overflow-y:auto;color:var(--ink);outline:none;font-family:inherit;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+  .cl-prompt:empty:before{content:attr(data-placeholder);color:var(--ink-inactive);pointer-events:none}
   .cl-prompt:hover,.cl-prompt:focus,.cl-prompt:focus-visible{border:none;box-shadow:none}
   .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
   /* Composer tools row — unified with chat-landing.html (.cl-composer-tools + .cl-dropdown set). */
@@ -163,13 +165,6 @@
     <div class="pg-wip-tag" aria-hidden="true">In redesign</div>
   </div>
   <div style="display:flex;align-items:center;gap:.625rem">
-    <div class="tb-concept" role="group" aria-label="Choose File style (concept)" title="Both versions open the Add-file popover (never a direct file picker). They differ only in the Choose File control: version 1 = a brand menu-item row; version 2 = a secondary button.">
-      <span class="tb-concept-lbl">Choose File</span>
-      <div class="segctrl is-sm" role="tablist" aria-label="Choose File style" style="width:auto">
-        <button class="segctrl-btn" type="button" role="tab" aria-selected="true" onclick="clSetBehavior('c1',this)">1 · Row</button>
-        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetBehavior('c2',this)">2 · Button</button>
-      </div>
-    </div>
     <div class="tb-concept" role="group" aria-label="Popover state (concept)" title="Open Connections or Add file in the composer to preview the selected state">
       <span class="tb-concept-lbl">Popover state</span>
       <div class="segctrl is-sm" role="tablist" aria-label="Popover state" style="width:auto">
@@ -201,13 +196,13 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
-          <button class="btn btn-primary btn-sm sbx-cta" type="button" onclick="location.href='chat-landing.html'" data-tip="New Chat">
+          <button class="btn btn-primary btn-sm sbx-cta" type="button" onclick="location.href='../approved/chat-landing.html'" data-tip="New Chat">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             <span>New Chat</span>
           </button>
         </div>
         <div class="sbx-nav">
-          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='chat-landing.html'">
+          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='../approved/chat-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
             <span class="lbl">New Chat</span>
           </button>
@@ -494,7 +489,24 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
-          <textarea class="ta cl-prompt" rows="2" placeholder="Ask anything about your data…" oninput="cpOnInput(this)"></textarea>
+          <!-- Contenteditable prompt — type "@" to open the metric-alias list below. Pre-seeded with
+               one inserted .cl-mention-tag token so the "metric added" style shows on load. -->
+          <div class="cl-prompt" id="cl-prompt" contenteditable="true" role="textbox" aria-multiline="true"
+               aria-label="Ask anything about your data" data-placeholder="Ask anything about your data…  Type @ to reference a metric"
+               oninput="cpOnInput(this)" onkeydown="cpOnKeydown(event)"><span class="cl-mention-tag" contenteditable="false" tabindex="0" aria-label="Metric: Monthly Recurring Revenue" data-name="Monthly Recurring Revenue" data-alias="mrr" data-desc="Normalized recurring subscription revenue for the month, net of discounts and excluding one-off charges.">@mrr</span></div>
+
+          <!-- Metric @-mention popover — anchored above the composer; rows + highlight injected by JS. -->
+          <div class="cl-mention-menu menu" id="cl-mention-menu" role="listbox" aria-label="Metrics" onmousedown="event.preventDefault()">
+            <div class="cl-mention-list" id="cl-mention-list"></div>
+          </div>
+
+          <!-- Hover-reveal detail card (alt "Hover reveal" concept) — title + definition of the
+               hovered/focused compact row; positioned beside the row by JS. -->
+          <div class="cl-mention-detail menu" id="cl-mention-detail" role="tooltip" aria-hidden="true">
+            <div class="cl-mention-detail-name"></div>
+            <div class="cl-mention-detail-def"></div>
+          </div>
+
           <div class="cl-composer-foot">
             <div class="cl-composer-tools">
               <div class="cl-dropdown-wrap">
@@ -640,13 +652,177 @@
     document.addEventListener('mousedown',hide,true);
   })();
 
-  /* Enable Send when textarea has content; disable when empty */
-  function cpOnInput(t){
-    var send = t.closest('.cp-composer-area').querySelector('.cl-send');
-    send.toggleAttribute('disabled', !t.value.trim());
-    t.style.height = 'auto';
-    t.style.height = Math.min(t.scrollHeight, 300) + 'px';
+  /* ── Composer prompt + metric @-mention ─────────────────────────────────────
+     The prompt is a contenteditable div so inline metric tokens (.cl-mention-tag) can flow in the
+     text. Typing "@" opens a list of metric aliases; the matched substring is highlighted as you
+     type; the popover hides when nothing matches; picking a row inserts a token. */
+  var CP_METRICS=[
+    {name:'Monthly Recurring Revenue',alias:'mrr',source:'Stripe',desc:'Normalized recurring subscription revenue for the month, net of discounts and excluding one-off charges.'},
+    {name:'Churn Rate',alias:'churn_rate',source:'Stripe',desc:'Share of active customers who cancelled in the period, divided by customers at the start of the period.'},
+    {name:'Revenue',alias:'revenue',source:'Stripe',desc:'Total recognized revenue in the period across all products and plans.'},
+    {name:'Active Users',alias:'active_users',source:'Product analytics',desc:'Distinct users with at least one qualifying session in the period.'},
+    {name:'Conversion Rate',alias:'conversion_rate',source:'Product analytics',desc:'Share of signups that reach a paid plan within the period.'},
+    {name:'Customer LTV',alias:'ltv',source:'Stripe',desc:'Projected gross revenue from a customer over their expected lifetime.'},
+    {name:'Customer Acquisition Cost',alias:'cac',source:'Marketing Hub',desc:'Total sales & marketing spend divided by new customers acquired in the period.'},
+    {name:'Net Promoter Score',alias:'nps',source:'Surveys',desc:'Percentage of promoters minus percentage of detractors from the latest survey wave.'},
+    {name:'Average Revenue Per User',alias:'arpu',source:'Stripe',desc:'Total revenue in the period divided by the number of active users.'},
+    {name:'Gross Margin',alias:'gross_margin',source:'Finance',desc:'Revenue minus cost of goods sold, expressed as a percentage of revenue.'}
+  ];
+  function cpMetricByAlias(a){ for(var i=0;i<CP_METRICS.length;i++){ if(CP_METRICS[i].alias===a) return CP_METRICS[i]; } return null; }
+  var cpMentionCtx=null;   // {node, start, end, query} of the active "@query" run at the caret
+
+  function cpEsc(s){ return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  // Highlight the first case-insensitive occurrence of the query inside a label.
+  function cpHl(text,q){
+    if(!q) return cpEsc(text);
+    var i=text.toLowerCase().indexOf(q.toLowerCase());
+    if(i<0) return cpEsc(text);
+    return cpEsc(text.slice(0,i))+'<mark class="cl-mention-hl">'+cpEsc(text.slice(i,i+q.length))+'</mark>'+cpEsc(text.slice(i+q.length));
   }
+  // Toggle Send purely on whether the prompt has any text/token content.
+  function cpSyncSend(){
+    var p=document.getElementById('cl-prompt'), send=document.querySelector('.cl-send');
+    if(!p||!send) return;
+    var has=p.textContent.trim().length>0;
+    send.toggleAttribute('disabled', !has);
+  }
+  // Find an "@query" run ending exactly at the caret (query = word chars/_/- , no spaces).
+  function cpGetMentionQuery(){
+    var sel=window.getSelection();
+    if(!sel.rangeCount) return null;
+    var r=sel.getRangeAt(0);
+    if(!r.collapsed) return null;
+    var node=r.startContainer;
+    if(node.nodeType!==3) return null;                 // caret must sit in a text node
+    if(!document.getElementById('cl-prompt').contains(node)) return null;
+    var before=node.textContent.slice(0,r.startOffset);
+    var m=before.match(/(^|\s)@([\w-]*)$/);            // "@" starts a word (line-start or after space)
+    if(!m) return null;
+    return {node:node, start:r.startOffset-m[2].length-1, end:r.startOffset, query:m[2]};
+  }
+  var cpMenu=function(){return document.getElementById('cl-mention-menu');};
+  function cpHideMention(){ var m=cpMenu(); if(m) m.classList.remove('is-open'); cpMentionCtx=null; cpHideMentionDetail(); }
+  function cpRenderMention(q){
+    var box=document.getElementById('cl-mention-list'); if(!box) return;
+    var ql=q.toLowerCase();
+    // Search matches the ALIAS (the primary handle you type + insert); the metric name is secondary.
+    var hits=CP_METRICS.filter(function(m){ return m.alias.toLowerCase().indexOf(ql)>=0; });
+    if(!hits.length){ cpHideMention(); return; }        // nothing matches → hide entirely
+    // Text-only rows (no icon): alias primary (bold+coloured match) + name secondary. The FIRST row
+    // is highlighted (.is-active) on open; arrow-nav / :hover move it from there.
+    box.innerHTML=hits.map(function(m,i){
+      return '<div class="mi cl-mention-item'+(i===0?' is-active':'')+'" role="option" aria-selected="'+(i===0?'true':'false')+'" '+
+        'data-name="'+cpEsc(m.name)+'" data-alias="'+cpEsc(m.alias)+'" '+
+        'onmousedown="event.preventDefault()" onclick="cpInsertMention(this)">'+
+        '<span class="cl-mention-text"><span class="cl-mention-alias">@'+cpHl(m.alias,q)+'</span>'+
+        '<span class="cl-mention-name">'+cpEsc(m.name)+'</span></span></div>';
+    }).join('');
+    var m=cpMenu(); if(m) m.classList.add('is-open');
+  }
+  // Badge hover card — compact title + definition, positioned above (or below) an inserted badge.
+  function cpHideMentionDetail(){ var d=document.getElementById('cl-mention-detail'); if(d) d.classList.remove('is-open'); }
+  function cpShowBadgeCard(tag){
+    var d=document.getElementById('cl-mention-detail'); if(!d||!tag) return;
+    var desc=tag.getAttribute('data-desc');
+    if(!desc){ var mm=cpMetricByAlias(tag.getAttribute('data-alias')); desc=mm?mm.desc:''; }   // fall back to the metric record
+    d.querySelector('.cl-mention-detail-name').textContent=tag.getAttribute('data-name')||'';
+    d.querySelector('.cl-mention-detail-def').textContent=desc||'';
+    d.classList.add('is-open');
+    d.style.visibility='hidden';                         // measure before placing
+    var r=tag.getBoundingClientRect(), dw=d.offsetWidth, dh=d.offsetHeight;
+    var lx=Math.max(8, Math.min(r.left, window.innerWidth-dw-8));
+    var ty=r.top-dh-8; if(ty<8) ty=r.bottom+8;           // above the badge, flip below if tight
+    d.style.left=lx+'px'; d.style.top=ty+'px'; d.style.visibility='';
+  }
+  // The badge is not clickable — it reveals its details card on hover / keyboard focus.
+  document.addEventListener('mouseover', function(e){
+    var tag=e.target.closest && e.target.closest('.cl-mention-tag');
+    if(tag) cpShowBadgeCard(tag);
+  });
+  document.addEventListener('mouseout', function(e){
+    var tag=e.target.closest && e.target.closest('.cl-mention-tag'); if(!tag) return;
+    var to=e.relatedTarget; if(to && to.closest && to.closest('#cl-mention-detail')) return;
+    cpHideMentionDetail();
+  });
+  document.addEventListener('focusin', function(e){
+    var tag=e.target.closest && e.target.closest('.cl-mention-tag'); if(tag) cpShowBadgeCard(tag);
+  });
+  document.addEventListener('focusout', function(e){
+    var tag=e.target.closest && e.target.closest('.cl-mention-tag'); if(tag) cpHideMentionDetail();
+  });
+  // Pointer drives the highlight: hovering a row makes it the sole .is-active, so the first row's
+  // initial highlight never sticks once the mouse moves onto another row (keyboard arrows share the
+  // same .is-active — exactly one row highlighted at a time).
+  document.addEventListener('mouseover', function(e){
+    var row=e.target.closest && e.target.closest('#cl-mention-list .cl-mention-item'); if(!row) return;
+    var rows=document.querySelectorAll('#cl-mention-list .cl-mention-item');
+    for(var i=0;i<rows.length;i++){ var on=rows[i]===row; rows[i].classList.toggle('is-active',on); rows[i].setAttribute('aria-selected',on?'true':'false'); }
+  });
+  function cpOnInput(el){
+    cpSyncSend();
+    var ctx=cpGetMentionQuery();
+    cpMentionCtx=ctx;
+    if(!ctx){ cpHideMention(); return; }
+    cpRenderMention(ctx.query);
+  }
+  // Replace the active "@query" run with an inline token + a trailing space, caret after it.
+  function cpInsertMention(item){
+    var ctx=cpMentionCtx; if(!ctx) return;
+    var node=ctx.node, full=node.textContent;
+    var before=full.slice(0,ctx.start), after=full.slice(ctx.end);
+    var frag=document.createDocumentFragment();
+    if(before) frag.appendChild(document.createTextNode(before));
+    var tag=document.createElement('span');
+    tag.className='cl-mention-tag'; tag.setAttribute('contenteditable','false');
+    tag.setAttribute('tabindex','0'); tag.setAttribute('role','button'); tag.setAttribute('aria-haspopup','dialog');
+    // The token IS the alias — you reference a metric by its alias, not its name. The full name rides
+    // along on data-name (for the details popover + the accessible label).
+    var mName=item.getAttribute('data-name'), mAlias=item.getAttribute('data-alias');
+    var mRec=cpMetricByAlias(mAlias)||{};
+    tag.setAttribute('data-name',mName); tag.setAttribute('data-alias',mAlias);
+    if(mRec.desc) tag.setAttribute('data-desc',mRec.desc);   // for the Concept 2 hover card
+    tag.setAttribute('aria-label','Metric: '+mName);
+    tag.textContent='@'+mAlias;
+    frag.appendChild(tag);
+    var tail=document.createTextNode(' '+after);   // leading nbsp gives the caret a guaranteed landing spot right after the token
+    frag.appendChild(tail);
+    node.parentNode.replaceChild(frag, node);
+    var sel=window.getSelection(), r=document.createRange();
+    r.setStart(tail,1); r.collapse(true); sel.removeAllRanges(); sel.addRange(r);
+    cpHideMention(); cpSyncSend();
+    document.getElementById('cl-prompt').focus();
+  }
+  // Keyboard nav while the mention list is open: ↑/↓ move, Enter/Tab insert, Esc dismiss.
+  function cpOnKeydown(e){
+    var m=cpMenu();
+    if(!m||!m.classList.contains('is-open')) return;
+    var items=Array.prototype.slice.call(m.querySelectorAll('.cl-mention-item'));
+    if(!items.length) return;
+    var cur=items.findIndex(function(it){return it.classList.contains('is-active');});
+    if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+      e.preventDefault();
+      var next = cur<0 ? (e.key==='ArrowDown'?0:items.length-1)
+                       : (e.key==='ArrowDown'?(cur+1)%items.length:(cur-1+items.length)%items.length);
+      items.forEach(function(it,i){ it.classList.toggle('is-active',i===next); it.setAttribute('aria-selected',i===next?'true':'false'); });
+      items[next].scrollIntoView({block:'nearest'});
+    } else if(e.key==='Enter'||e.key==='Tab'){
+      // Nothing is pre-selected, so Enter/Tab only inserts once the user has arrowed into a row;
+      // otherwise it just dismisses the picker (never auto-picks the top match).
+      e.preventDefault();
+      if(cur>=0) cpInsertMention(items[cur]); else cpHideMention();
+    } else if(e.key==='Escape'){
+      e.preventDefault(); cpHideMention();
+    }
+  }
+  // Dismiss the mention popover on any click outside it and the prompt.
+  document.addEventListener('click', function(e){
+    if(e.target.closest && (e.target.closest('#cl-mention-menu')||e.target.closest('#cl-prompt'))) return;
+    cpHideMention();
+  });
+  // Escape dismisses the badge hover card (keyboard).
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') cpHideMentionDetail(); });
+  // Seed the Send state from the pre-inserted token on load.
+  document.addEventListener('DOMContentLoaded', cpSyncSend);
   /* Expected sidebar collapse */
   function clToggleSbxCollapse(){
     if(window.innerWidth<=1023){document.documentElement.classList.remove('side-open');return}
@@ -660,23 +836,7 @@
      File style the Add-file popover uses. Both style versions open the popover — neither adds a file
      directly. */
   var clPopState='filled';   // 'empty' | 'filled' | 'scroll' — current popover-state concept
-  var clBehavior='c1';       // Choose File style (both versions open the popover): 'c1' = brand row (default); 'c2' = secondary button
-  function clSetBehavior(mode, btn){
-    clBehavior=mode;
-    if(btn){ var sibs=btn.parentNode.querySelectorAll('.segctrl-btn');
-      for(var i=0;i<sibs.length;i++) sibs[i].setAttribute('aria-selected','false');
-      btn.setAttribute('aria-selected','true'); }
-    clApplyChooseStyle();
-    clCloseAll();   // close any open popover so the newly selected style is evaluated cleanly
-  }
-  // Choose File style: c1 = brand `.mi` row (with upload icon); c2 = full-width secondary button.
-  // Toggled, not re-rendered, so the button keeps its onclick.
-  function clApplyChooseStyle(){
-    document.querySelectorAll('.cl-attach-choose').forEach(function(el){
-      el.className = (clBehavior==='c2') ? 'btn btn-secondary btn-sm cl-attach-choose' : 'mi cl-attach-choose';
-    });
-  }
-  clApplyChooseStyle();   // apply the default concept (c2) treatment on load
+  // Choose File is a fixed brand `.mi` row (finalized concept — the c2 secondary-button variant + its toggle were removed). Markup is `.mi cl-attach-choose`; no JS restyle.
   function clCloseAll(){
     document.querySelectorAll('.cl-dropdown[aria-expanded="true"]').forEach(function(b){b.setAttribute('aria-expanded','false');});
     var att = document.querySelector('.cl-attach[aria-expanded="true"]');
@@ -904,7 +1064,7 @@
    directory so bare filenames work as relative targets. */
 (function(){
   var navMap = {
-    'New Chat': 'chat-landing.html',
+    'New Chat': '../approved/chat-landing.html',
     'Data Sources':  '../approved/data-sources_connections-landing.html',
     'Metrics':  '../approved/metrics-landing.html',
     'Files':    '../approved/data-sources_files-landing.html'
