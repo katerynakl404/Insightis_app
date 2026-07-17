@@ -2,8 +2,8 @@
   /* Every semantic + component token below references one of these. */
   :root{
     /* Brand (custom teal) + custom desaturated variants for "quietly branded" surfaces */
-    --brand-50:#E8F2F5;--brand-50-soft:#F0F6F8;--brand-100:#C7DDE5;--brand-200:#93C0C8;--brand-300:#5DA0A8;--brand-400:#2FA29B;
-    --brand-500:#148F8D;--brand-600:#07807E;--brand-700:#066867;--brand-800:#142B31;--brand-900:#0A1A1F;--brand-900-soft:#111A1C;
+    --brand-50:#E8F2F5;--brand-100:#C7DDE5;--brand-200:#93C0C8;--brand-300:#5DA0A8;--brand-400:#2FA29B;
+    --brand-500:#148F8D;--brand-600:#07807E;--brand-700:#066867;--brand-800:#142B31;--brand-900:#0A1A1F;
     /* Tertiary (custom cyan-teal) */
     --tertiary-50:#EBF8F8;--tertiary-100:#C6EEED;--tertiary-200:#95E1DF;--tertiary-300:#5ED0CF;--tertiary-400:#2EBEC4;
     --tertiary-500:#14A8AF;--tertiary-600:#0D8E97;--tertiary-700:#0D717A;--tertiary-800:#0E5862;--tertiary-900:#0E464C;--tertiary-950:#052A32;
@@ -51,7 +51,7 @@
        overline tracking); caps = the wider section overlines shared by the sidebar section label and
        the composer menu heading. */
     --tracking-tight:-.01em;--tracking-normal:0;--tracking-label:.05em;--tracking-caps:.08em;
-    --bg:var(--slate-50);--card:var(--white);--card2:var(--slate-100);--chips:var(--slate-50);
+    --bg:var(--slate-50);--card:var(--white);--card2:var(--slate-100);--chips:var(--slate-50);--skel-bg:var(--slate-200);
     /* Section/group-header band — Slate-150 primitive: one step lighter than
        Slate-200 (too heavy as a band) and one step darker than --state-hover
        (Slate-100), so a hovered row never matches a static group header. */
@@ -66,16 +66,13 @@
        grey-800 dark. Neutral, never brand-tinted. Re-resolves per theme via --card2 — no .dark
        override needed (only .prod overrides to its own --state-pressed). */
     --tbl-row-pressed:var(--card2);
-    /* Subtle brand-tinted surface — for accent tiles (e.g. AccountModal credits) that need to
-       feel "branded but quiet". Uses desaturated brand primitives (Brand-50-soft / Brand-900-soft)
-       — same lightness as canonical Brand-50/-900 but reduced teal saturation, so the tile reads
-       as "neutral with a hint of brand" rather than "obviously teal". */
-    --surface-accent:var(--brand-50-soft);
     /* Neutral fill one step stronger than --card2 — for surfaces that need to read as clearly
        distinct from --bg without a border or any brand tint (e.g. chat message bubbles). Defined
        once here as a formula over --card2/--border so it re-resolves correctly in .dark and .prod
        without needing a per-scope override. */
     --surface-neutral-strong:color-mix(in srgb, var(--card2) 50%, var(--border));
+    /* Code syntax highlighting (chat code blocks). Light-theme palette. */
+    --code-keyword:#8250df;--code-string:#0a7c42;--code-comment:var(--ink-inactive);--code-number:#0550ae;--code-fn:#0891b2;
     --brand-primary:var(--brand-600);--brand-secondary:var(--brand-700);--brand-tertiary:var(--tertiary-600);--brand-hover:var(--brand-500);--brand-press:var(--brand-700);
     --ink:var(--slate-900);--ink-body:var(--slate-700);--ink-secondary:var(--slate-550);--ink-inactive:var(--slate-450);
     --border:var(--slate-200);--border-hover:var(--slate-450);
@@ -123,10 +120,9 @@
     --banner-grad-ic-shadow:0 0 0 8px rgba(255,255,255,.07),0 0 24px rgba(255,255,255,.09);
     /* Always-white content on solid surfaces — destructive Button text, Checkbox mark + indeterminate bar, Switch thumb. Theme-independent. */
     --content-on-solid:var(--white);
-    /* Secondary Button / IconButton default bg — exact Card surface so the button shares the card-fill identity. */
+    /* Secondary Button / IconButton default bg — exact Card surface so the button shares the card-fill identity.
+       Hover bg is neutral --state-hover (agreed 2026-07-17 — NOT a brand tint; see changes/Button.md Hover row). */
     --btn-secondary-bg:var(--card);
-    /* Secondary Button / IconButton hover bg — brand-tinted overlay so hover stays distinguishable from any surrounding neutral surface (page bg, Card, modal panel). 8% Brand/Primary mixed over Surface/Card. Re-resolves per-theme via --card and --brand-primary. */
-    --btn-secondary-bg-hover:color-mix(in srgb, var(--brand-primary) 8%, var(--card));
     /* Secondary Button / IconButton borders — one step darker than --border for visibility on
        Card surface. Stepwise hover affordance preserved (default Slate-300 → hover Slate-400). */
     --btn-secondary-border:var(--slate-300);
@@ -331,7 +327,7 @@
 
   /* ===== SEMANTIC TOKENS — dark theme overrides ===== */
   .dark{
-    --bg:var(--grey-950);--card:var(--grey-900);--card2:var(--grey-800);--chips:var(--grey-700);
+    --bg:var(--grey-950);--card:var(--grey-900);--card2:var(--grey-800);--chips:var(--grey-700);--skel-bg:var(--grey-700);
     /* Grey-700 — lighter than --state-hover (grey-800), distinct band on dark. */
     --mx-group-band:var(--grey-700);
     /* Hover — halfway between the row surface (--card grey-900) and the selected/header surface
@@ -340,13 +336,12 @@
        row and slate-100 selected). Selected = --card2 = the thead band (via :root, no override).
        Distinct from --mx-group-band (grey-700). Fixed 2026-07-09. */
     --tbl-row-hover:color-mix(in srgb, var(--card2) 50%, var(--card));
-    /* Dark accent surface — Brand-900-soft (desaturated Brand-900), subtly tinted dark teal
-       that doesn't compete with content. */
-    --surface-accent:var(--brand-900-soft);
     --brand-primary:var(--brand-500);--brand-secondary:var(--brand-400);--brand-tertiary:var(--tertiary-500);--brand-hover:var(--brand-400);--brand-press:var(--brand-600);
     --ink:var(--grey-50);--ink-body:var(--grey-100);--ink-secondary:var(--grey-300);--ink-inactive:var(--slate-400);
     --border:var(--grey-700);--border-hover:var(--slate-600);
     --state-hover:var(--grey-800);--state-pressed:var(--grey-700);--state-disabled:var(--grey-700);
+    /* Code syntax highlighting — dark-theme palette. */
+    --code-keyword:#d2a8ff;--code-string:#7ee787;--code-comment:var(--ink-inactive);--code-number:#79c0ff;--code-fn:#56d4dd;
     --overlay-scrim:rgba(2,6,23,.6);
     --fb-red:var(--red-700);--fb-red-hover:var(--red-800);--fb-red-press:var(--red-850);
     /* Feedback/Red_Text — Red-400 on dark Surface/Card (#17171E) = 5.27:1 AA (comfortable margin).
@@ -434,15 +429,12 @@
   }
   /* ===== PROD (actual code: globals.css + component classes) ===== */
   .prod{
-    --bg:hsl(210 40% 98%);--card:#fff;--card2:hsl(210 20% 96%);--chips:hsl(210 20% 96%);
+    --bg:hsl(210 40% 98%);--card:#fff;--card2:hsl(210 20% 96%);--chips:hsl(210 20% 96%);--skel-bg:var(--chips);
     /* Prod row hover = its own --state-hover (lighter than the card in both prod
        and dark-prod); re-resolves locally, including for the dark-prod element. */
     --tbl-row-hover:var(--state-hover);
     /* Prod pressed/selected = its own --state-pressed (distinct from the band). */
     --tbl-row-pressed:var(--state-pressed);
-    /* Prod has no accent surface — mirror --card2 value so anything that uses --surface-accent
-       in .prod scope falls back to the closest prod equivalent. */
-    --surface-accent:var(--card2);
     --ink:hsl(222 47% 11%);--ink-body:hsl(216 24% 28%);--ink-secondary:hsl(216 17% 47%);--ink-inactive:hsl(213 9% 64%);
     --border:hsl(214 32% 91%);--border-hover:hsl(179 94% 26%);
     --state-hover:hsl(198 67% 96%);--state-pressed:hsl(198 67% 92%);--state-disabled:hsl(213 9% 64%/.4);
@@ -458,8 +450,7 @@
     --switch-off-bg:var(--bg);--switch-off-bg-hover:var(--bg);
   }
   .dark .prod{
-    --bg:hsl(240 14% 4%);--card:hsl(252 10% 10%);--card2:hsl(240 5% 15%);--chips:hsl(240 5% 15%);
-    --surface-accent:var(--card2);
+    --bg:hsl(240 14% 4%);--card:hsl(252 10% 10%);--card2:hsl(240 5% 15%);--chips:hsl(240 5% 15%);--skel-bg:var(--chips);
     --ink:#fff;--ink-body:hsl(0 0% 87%);--ink-secondary:hsl(240 1% 59%);--ink-inactive:hsl(220 4% 32%);
     --border:hsl(255 9% 18%);--state-hover:hsl(193 42% 14%);--state-disabled:hsl(220 4% 32%/.5);
     --fb-red:hsl(358 100% 66%);--fb-red-text:hsl(358 100% 66%);--fb-green:hsl(88 100% 32%);
@@ -1060,7 +1051,10 @@
      × remove), tuned more compact than prod: 18px file glyph, 12/10px meta, and a larger 18px × in a
      1.5rem hit target. Transparent fill, hairline --border, 4px (--radius-inner) corners, 4×8
      padding, max 13rem. */
-  .cl-file-chip{display:inline-flex;align-items:center;gap:.5rem;padding:4px 8px;border:1px solid var(--border);border-radius:var(--radius-inner);background:transparent;max-width:13rem;align-self:flex-start}
+  /* min-width keeps a single-line filename (no size/format line under it) from shrink-wrapping into
+     a cramped little box — floor only, doesn't affect wider two-line composer chips. Taller (not
+     wider) padding — still felt too small/easy to miss next to the message text. */
+  .cl-file-chip{display:inline-flex;align-items:center;gap:.5rem;padding:8px;border:1px solid var(--border);border-radius:var(--radius-inner);background:transparent;min-width:10rem;max-width:13rem;align-self:flex-start}
   /* The class sets display:inline-flex, which beats the UA [hidden]{display:none} — restore it. */
   .cl-file-chip[hidden]{display:none}
   .cl-file-chip .cl-file-chip-ic{flex:none;display:inline-flex;align-items:center;justify-content:center;color:var(--brand-primary)}
@@ -1070,7 +1064,7 @@
   .cl-file-chip .cl-file-chip-size{font-size:var(--text-10);font-weight:500;line-height:1.3;color:var(--ink-secondary)}
   .cl-file-chip .cl-file-chip-x{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;padding:0;border:none;background:transparent;border-radius:var(--radius-inner);color:var(--ink-secondary);cursor:pointer;flex:none}
   .cl-file-chip .cl-file-chip-x:hover{background:var(--state-hover);color:var(--ink-body)}
-  .cl-file-chip .cl-file-chip-x svg{width:18px;height:18px}
+  .cl-file-chip .cl-file-chip-x svg{width:16px;height:16px}
 
   /* Composer menus use the M width (18rem) — roomy, consistent — with the base .menu 4px padding
      (tight, like a standard dropdown). 4px padding also lets .menu-sep span edge-to-edge (its -4px
@@ -2017,7 +2011,7 @@
   .sht.var-bottom .sht-panel{right:0;left:0;top:auto;width:auto;height:55%;box-shadow:0 -4px 10px rgba(0,0,0,.15)}
 
   /* Skeleton */
-  .skel{display:inline-block;background:var(--chips);position:relative;overflow:hidden;border-radius:6px;vertical-align:middle}
+  .skel{display:inline-block;background:var(--skel-bg);position:relative;overflow:hidden;border-radius:6px;vertical-align:middle}
   /* Shimmer is the DEFAULT animation (matches prod) — a bare .skel sweeps. .pulse swaps to an
      opacity loop; .none opts out to a static block (tests / reduced-motion). The legacy .shimmer
      class is kept as an explicit (now-redundant) alias so existing markup stays valid. */
@@ -2114,6 +2108,10 @@
      Optional trailing .chip-n count uses --ink-inactive at rest and a desaturated --btn-primary-text
      when active (kept legible against the brand fill). Container .chip-row owns the wrap + gap. */
   .chip-row{display:flex;flex-wrap:wrap;gap:.375rem}
+  /* Skeleton chip placeholders have no text, so as flex items they'd shrink to width:0 in the
+     ≤767px nowrap scroll row (leaving only the r-full rounded caps). Pin them to their explicit
+     width — real chips don't collapse because their label sets a min-content width. */
+  .chip-row .skel{flex:none}
   /* Responsive — tablet + mobile (≤767px): single-line horizontal scroll instead of wrap.
      .prov-card .chip-row is exempt — higher specificity keeps flex-wrap:wrap there.
      Bleed (margin-inline) applied per-page so it matches each page's cl-page padding. */
@@ -2607,14 +2605,352 @@
      container, not a brand-affordance, so it follows the same neutral-surface rule as .chip/.card2.
      AI turn: whole response sits in one neutral --card surface (.cp-ai-bubble); nested chart/metric
      cards use --bg so they read as cards-on-top-of-the-bubble. */
-  .cp-msg-row{display:flex;flex-direction:column;gap:.375rem}
+  /* Timestamp+actions footer sits close under the bubble it belongs to — not a full message-gap away. */
+  .cp-msg-row{display:flex;flex-direction:column;gap:.25rem;position:relative}
   .cp-msg-row.user{align-items:flex-end}
   .cp-msg-row.ai{align-items:flex-start}
-  .cp-bubble{max-width:72%;padding:.625rem .875rem;font-size:.875rem;line-height:1.55;color:var(--ink);border-radius:1rem}
+  .cp-bubble{max-width:85%;padding:.625rem .875rem;font-size:.875rem;line-height:1.55;color:var(--ink);border-radius:1rem}
   /* card2 alone was too close to --bg (F1F5F9 on F8FAFC); full --border was too dark. Reads
      --surface-neutral-strong, not --border directly — border tokens are for borders, not fills. */
   .cp-bubble.user{background:var(--surface-neutral-strong);border-radius:1rem 1rem .25rem 1rem}
-  .cp-ai-bubble{display:flex;flex-direction:column;gap:.75rem;background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:.875rem 1rem}
+  /* Plain conversational AI answer — NO card (like prod): prose flows directly on the slate-50 page.
+     The white "plate" cards (code block, image, table — below) are what float above the page; plain
+     text does not. */
+  .cp-ai-bubble{display:flex;flex-direction:column;gap:.75rem;background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1rem 1.25rem}
+  /* Proximity grouping inside an answer — related items (a tool call + the text/result it produced)
+     sit tight in one .cp-ai-group; the gap BETWEEN groups is the wider .cp-ai-bubble gap (.75rem).
+     Was 1rem — wider than the "between groups" gap it's supposed to be tighter than. */
+  .cp-ai-group{display:flex;flex-direction:column;gap:.5rem}
+  /* Prose paragraphs + ordered/unordered lists inside an AI answer (e.g. the analysis plan) + inline
+     code chips. Answer body text uses --ink (near-black) so the final response reads clearly — darker
+     than the default --ink-body used for body copy elsewhere. */
+  .cp-ai-prose{font-size:.875rem;line-height:1.55;color:var(--ink);margin:0}
+  .cp-ai-list{margin:.125rem 0 0;padding-left:1.25rem;font-size:.875rem;line-height:1.55;color:var(--ink)}
+  .cp-ai-list li{margin-bottom:.25rem}
+  .cp-ai-list li:last-child{margin-bottom:0}
+  .cp-ai-bubble code{font-family:monospace;font-size:.8125rem;background:var(--card2);padding:1px 5px;border-radius:.25rem;color:var(--ink)}
+  /* Chat turn — one request (user message + its AI answer). Content is centred and width-capped by
+     .cp-turn-inner. Turns carry no background of their own. */
+  .cp-turn{width:100%;display:flex;justify-content:center}
+  /* Content column matches the composer width at the bottom of the chat. gap = tighter space between
+     the user message and its AI answer. */
+  /* Turn vertical padding = half the message gap, so between-turn spacing equals within-turn
+     spacing (uniform distance between all messages; no jump since the timestamp reserves its space). */
+  .cp-turn-inner{max-width:820px;width:100%;padding:.25rem 1.5rem;box-sizing:border-box;display:flex;flex-direction:column;gap:.5rem}
+  /* Floating scroll-to-bottom button — a round, shadowed pill that sits over the thread (absolute,
+     bottom-centred) and jumps the conversation to the latest message. Container needs position. */
+  .cp-scroll-btn{position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);width:2rem;height:2rem;border-radius:9999px;background:var(--card);border:1px solid var(--border);color:var(--ink-secondary);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:color .12s,background .12s;font-family:inherit;z-index:5}
+  .cp-scroll-btn:hover{color:var(--ink-body);background:var(--state-hover)}
+  .cp-scroll-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .cp-scroll-btn svg{width:14px;height:14px}
+  /* Result-card title inside an AI bubble (e.g. "First 5 Jira Issues…") + horizontal scroller for a
+     wide result table (reuses table.tbl). No own margin — spacing above it is the parent
+     .cp-ai-bubble's single .75rem gap, same as every other direct child; a margin here would stack
+     on top of that gap and read as too much air. */
+  .cp-result-title{font-size:var(--text-16);font-weight:600;color:var(--ink);margin:0}
+  /* Result plate — a tool-execution result (files/charts) is presented as a collapsible plate:
+     a head (status icon + title + chevron) over the body (files, tables, prose). Reuses the tool-calls
+     accordion recipe (.tc) + the generic cpAccToggle disclosure. Success = green, error = red via the
+     shared feedback tokens. Applied on top of .cp-ai-bubble, so the plate IS the answer card. */
+  /* Result plate — a WHITE --card that floats on the slate-50 page (matches prod: bg-surface-card +
+     hairline slate-200 border, 16px radius). The layering reads white-card-on-tinted-page, not a grey
+     fill. */
+  .cp-ai-bubble.cp-result{padding:0;gap:0;overflow:hidden;background:var(--card);border:1px solid var(--border);border-radius:1rem}
+  .cp-result-head{display:flex;align-items:center;gap:.5rem;width:100%;padding:.75rem 1rem;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;transition:background .12s}
+  .cp-result-head:hover{background:var(--state-hover)}
+  .cp-result-head:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .cp-result-status{flex:none;display:inline-flex}
+  .cp-result-status svg{width:1.125rem;height:1.125rem}
+  .cp-result.is-ok .cp-result-status{color:var(--fb-green)}
+  .cp-result.is-err .cp-result-status{color:var(--fb-red-text)}
+  .cp-result-chev{flex:none;margin-left:auto;width:1rem;height:1rem;color:var(--ink-secondary);transition:transform .15s}
+  .cp-result-head[aria-expanded="true"] .cp-result-chev{transform:rotate(180deg)}
+  .cp-result-body{display:flex;flex-direction:column;gap:1rem;padding:0 1rem 1rem}
+  .cp-result-head[aria-expanded="false"]+.cp-result-body{display:none}
+  /* Image results — 2-up grid of chart cards (4:3, matches prod); caption below each. Each frame is a
+     clickable card that opens the file preview. */
+  /* Image result — a clickable CARD holding a small chart thumbnail + the filename INSIDE it (matches
+     prod). Cards are compact (capped width), 8:5 thumbnail; the whole card opens the file preview. */
+  .cp-img-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.5rem}
+  /* The chart FILLS the card (full-bleed); the filename overlays the bottom on a translucent frosted
+     backing (like a media thumbnail). Whole card opens the preview. */
+  .cp-img-plate{position:relative;aspect-ratio:8/5;overflow:hidden;min-width:0;border:1px solid var(--border);border-radius:.75rem;background:var(--card);cursor:pointer;transition:border-color .12s,box-shadow .12s}
+  .cp-img-plate:hover{border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent);box-shadow:0 2px 6px -1px rgba(15,23,42,.08)}
+  .cp-img-thumb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .cp-img-thumb .cp-fp-chart{width:100%;height:100%}
+  .cp-img-plate-cap{position:absolute;left:0;right:0;bottom:0;padding:.375rem .625rem;font-size:var(--text-13);font-weight:500;color:var(--ink);background:color-mix(in srgb,var(--card) 80%,transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);border-top:1px solid color-mix(in srgb,var(--border) 55%,transparent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* ── Code block (chat AI turn) — the collapsible "task" accordion that reveals the Python that
+     produced the result. Header: [error icon if failed] + title + chevron. Panel: a language bar
+     (Python + copy) over the line-numbered, syntax-highlighted source. White --card on the slate-50
+     page (matches prod). Toggled by the shared cpAccToggle disclosure. */
+  /* Plain container (NOT a card) — like a tool-call row (.tc-row): the head + the bordered code box sit
+     flush-left with the surrounding answer content (prose, file chips), no outer plate inset. */
+  .cp-code{background:transparent}
+  /* Head mirrors the tool-calls accordion (.tc-head) exactly — same neutral --ink-body label, same
+     hover (tints the text + chevron only, no surface fill), same 14/500 label. Overridden below
+     (Minimal is the only concept now) to point right instead. Flush-left (no side padding) so the
+     error icon starts at the answer's left edge. */
+  /* Padding + matching negative margin gives the hover background room without shifting the
+     flush-left text position (net offset stays 0). */
+  .cp-code-head{display:flex;align-items:center;gap:.5rem;width:calc(100% + 1rem);padding:.5rem;margin:0 -.5rem;border-radius:.5rem;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;color:var(--ink-body);transition:color .12s,background .12s}
+  .cp-code-head:hover{color:var(--ink);background:var(--state-hover)}
+  .cp-code-head:hover .cp-code-chev{color:var(--ink)}
+  .cp-code-head:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .cp-code-title{font-size:var(--text-14);font-weight:500;color:inherit}
+  .cp-code-status{flex:none;display:inline-flex;color:var(--fb-red-text)}
+  .cp-code-status svg{width:1rem;height:1rem}
+  .cp-code-chev{flex:none;margin-left:auto;width:1rem;height:1rem;color:var(--ink-secondary);transition:transform .15s,color .12s}
+  .cp-code-head[aria-expanded="true"] .cp-code-chev{transform:rotate(180deg)}
+  /* Expanded panel: the code sits in its OWN bordered box (.cp-code-box) inset from the accordion card,
+     exactly like a tool-call's Arguments box (.tc-arg) is inset in its row panel. Box = light bar
+     header (title + Python icon + copy) over the shaded --chips code body. */
+  .cp-code-panel{display:none;padding:.5rem 0 0}
+  .cp-code-head[aria-expanded="true"]+.cp-code-panel{display:block}
+  .cp-code-box{border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
+  .cp-code-bar{display:flex;align-items:center;gap:.375rem;padding:.5rem .75rem;border-bottom:1px solid var(--border);font-size:var(--text-13);color:var(--ink);background:var(--card)}
+  .cp-code-lang{display:inline-flex;align-items:center;gap:.375rem;font-weight:500}
+  .cp-code-lang svg{width:14px;height:14px}
+  /* Copy uses the standard tertiary icon-button (hover/press/focus inherited); this only sets a
+     compact size + right-alignment in the code bar. */
+  /* Matches .tc-copy exactly (same "copy" affordance in a code/output header bar) — size, radius,
+     and rest color are pinned here rather than left to the generic .iconbtn-tertiary default. */
+  .cp-code-copy{margin-left:auto;width:1.75rem;height:1.75rem;border-radius:.25rem;color:var(--ink-secondary)}
+  .cp-code-copy svg{width:12px;height:12px}
+  /* --bg (not --chips) — a nested code/output surface must read as recessed relative to the card
+     it sits in, in BOTH themes. --chips happens to equal --bg in light theme (both slate-50) but is
+     a lighter "elevated" tone in dark theme (grey-700, lighter than card's grey-900) — wrong
+     direction for a recessed panel. --bg is always darker than --card in both themes by definition. */
+  .cp-code-pre{margin:0;padding:.625rem 0;overflow:auto;max-height:14rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:var(--text-12);line-height:1.65;scrollbar-width:thin;scrollbar-color:var(--border) transparent;background:var(--bg)}
+  .cp-code-pre::-webkit-scrollbar{width:10px;height:10px}
+  .cp-code-pre::-webkit-scrollbar-track{background:transparent}
+  .cp-code-pre::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .cp-code-pre:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+  .cp-code-pre ol{margin:0;padding:0;list-style:none;counter-reset:ln;min-width:100%;width:max-content}
+  .cp-code-pre li{counter-increment:ln;white-space:pre;padding:0 1rem 0 3.5rem;position:relative;color:var(--ink-body)}
+  .cp-code-pre li::before{content:counter(ln);position:absolute;left:0;width:2.75rem;text-align:right;color:var(--ink-inactive);user-select:none}
+  /* Failed step — a code box can be followed by an Output box carrying the error/traceback, exactly
+     like a tool call's failed Output (.tc-out.is-error): red-tinted body + border, plain (non-numbered)
+     stderr text. The head's .cp-code-status alert icon already flags the failure. */
+  /* Matches the Jira tool-call's Arguments→Output gap (.tc-arg margin-bottom) — same relationship,
+     same spacing. */
+  .cp-code-box + .cp-code-box{margin-top:.75rem}
+  .cp-code-out{margin:0;padding:.5rem .75rem;background:var(--bg);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:var(--text-12);line-height:1.5;color:var(--ink-body);max-height:12rem;overflow:auto;white-space:pre-wrap;word-break:break-word;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+  .cp-code-out::-webkit-scrollbar{width:10px}
+  .cp-code-out::-webkit-scrollbar-track{background:transparent}
+  .cp-code-out::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .cp-code-out:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+  /* Error status lives on the "Error" badge + the tinted background — no special border colour;
+     the box keeps the same neutral border as a success Output. Tinted from --bg (recessed
+     surface), not --card/--toast-bg-error's base. */
+  .cp-code-box.is-error .cp-code-out{background:color-mix(in srgb, var(--fb-red-text) 8%, var(--bg))}
+  .cp-tok-kw{color:var(--code-keyword)}
+  .cp-tok-str{color:var(--code-string)}
+  .cp-tok-com{color:var(--code-comment);font-style:italic}
+  .cp-tok-num{color:var(--code-number)}
+  .cp-tok-fn{color:var(--code-fn)}
+
+  /* Data-result card — a titled white card wrapping a data table (e.g. "Random Bar Chart Data"). */
+  /* Data-result — a heading + a neat bordered table (matches the Jira result table). The wrapper is a
+     plain container; the table itself carries the frame (base .cp-tbl-scroll). */
+  /* Extra breathing room above a data section's title (bigger gap than the default block gap). */
+  .cp-data-card{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem}
+  .cp-data-card-title{font-size:var(--text-16);font-weight:600;color:var(--ink);margin:0}
+
+  /* Result answers (code/images/data) sit in the SAME .cp-ai-bubble plate as every other AI answer
+     (see .cp-ai-bubble in the .cp-msg-row block) — so chat 1 (tool-calls) and chat 2 (code) share one
+     answer surface. The Background concept toggle (Card / None / Minimal) acts on .cp-ai-bubble, so
+     both chats respond to it identically; no result-only plate. */
+  /* Design-system thin scrollbar (same recipe as .cl-menu-scroll) — not the chunky default bar. */
+  /* Clean solid surface (NOT a translucent tint — the 4% wash read as muddy over the dense table). */
+  .cp-tbl-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:.625rem;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--border) transparent;background:var(--card)}
+  /* Body cells always dark ink — crisp against the white surface, no colour bleed on any column. */
+  .cp-tbl-scroll table.tbl tbody td{color:var(--ink-body)}
+  .cp-tbl-scroll::-webkit-scrollbar{height:10px}
+  .cp-tbl-scroll::-webkit-scrollbar-track{background:transparent}
+  .cp-tbl-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .cp-tbl-scroll:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+  .cp-tbl-scroll table.tbl th:first-child,.cp-tbl-scroll table.tbl td:first-child{padding-left:1rem}
+  .cp-tbl-scroll table.tbl tr:last-child td{border-bottom:none}
+  /* Header sits on a subtle background so the table reads as its own surface. */
+  .cp-tbl-scroll table.tbl thead th{background:var(--card2)}
+  /* The data already fits the table — don't squeeze columns. Cells size to their content and stay on
+     one line (so timestamps/keys don't wrap); the table grows past the column and scrolls instead.
+     The free-text Summary column (3rd) is allowed to wrap, with a comfortable min width. */
+  .cp-tbl-scroll table.tbl{width:auto;min-width:100%}
+  .cp-tbl-scroll table.tbl th,.cp-tbl-scroll table.tbl td{white-space:nowrap}
+  .cp-tbl-scroll table.tbl th:nth-child(3),.cp-tbl-scroll table.tbl td:nth-child(3){white-space:normal;min-width:16rem}
+
+  /* ── File preview split panel (chat page) ─────────────────────────────────
+     Clicking a result file chip opens this panel to the right of the chat; the chat column narrows
+     and a drag handle resizes the split (mirrors prod's file preview). csv/xls/xlsx render as a data
+     table (reuses .cp-tbl-scroll/table.tbl); the png charts render an inline SVG from the thread's
+     random data. On narrow viewports the panel becomes a right-edge overlay and the handle hides. */
+  .cp-fp{flex:none;width:var(--cp-fp-w,460px);min-width:20rem;max-width:70%;display:flex;flex-direction:column;background:var(--card);border-left:1px solid var(--border);height:100%;min-height:0}
+  .cp-fp[hidden]{display:none}
+  .cp-fp-head{flex:none;display:flex;align-items:center;gap:.5rem;padding:.5rem .5rem .5rem 1rem;min-height:3rem;box-sizing:border-box;border-bottom:1px solid var(--border)}
+  .cp-fp-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--text-14);font-weight:600;color:var(--ink)}
+  .cp-fp-actions{flex:none;display:flex;align-items:center;gap:.125rem}
+  /* Compact tertiary icon buttons in the preview header (download / close) — smaller + neater. */
+  .cp-fp-actions .iconbtn{width:1.75rem;height:1.75rem}
+  .cp-fp-actions .iconbtn svg{width:16px;height:16px}
+  .cp-fp-body{flex:1;min-height:0;overflow:auto;padding:1rem;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+  .cp-fp-body::-webkit-scrollbar{width:10px}
+  .cp-fp-body::-webkit-scrollbar-track{background:transparent}
+  .cp-fp-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .cp-fp-body:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+  .cp-fp-chart{width:100%;height:auto;display:block}
+  /* Truncated-preview notice (JSON/CSV previews longer than the sample shown) — reuses the shared
+     warning feedback tokens (--toast-bg-warning/--toast-border-warning), not a new colour. A
+     persistent sibling of .cp-fp-body (not injected inside its scrollable/padded innerHTML), so
+     it's a full-bleed strip flush under the header — not an inset/rounded alert card, and immune
+     to the body's own padding or scrollbar width. Link inside uses the standard .link class
+     (kit-theme.css ~line 526), not a one-off colour/weight. */
+  .cp-fp-banner{display:flex;align-items:flex-start;gap:.5rem;flex:none;padding:.625rem 1rem;border:none;border-top:1px solid var(--toast-border-warning);border-bottom:1px solid var(--toast-border-warning);background:var(--toast-bg-warning);font-size:var(--text-13);color:var(--ink-body);line-height:1.45}
+  .cp-fp-banner[hidden]{display:none}
+  .cp-fp-banner svg{flex:none;width:16px;height:16px;margin-top:.0625rem;color:var(--fb-attention)}
+  .cp-fp-json{margin:0;padding:.75rem;background:var(--bg);border:1px solid var(--border);border-radius:.5rem;font-family:monospace;font-size:var(--text-12);line-height:1.6;color:var(--ink-body);white-space:pre-wrap;word-break:break-word}
+  /* Unsupported-format preview (e.g. PDF) — icon + filename + explanation + a real download action,
+     since there's nothing renderable to show inline. */
+  .cp-fp-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;height:100%;padding:2rem 1rem;text-align:center}
+  .cp-fp-empty-ic{width:2.5rem;height:2.5rem;color:var(--ink-inactive)}
+  .cp-fp-empty-name{font-size:var(--text-14);font-weight:600;color:var(--ink)}
+  .cp-fp-empty-desc{margin:0;max-width:16rem;font-size:var(--text-13);color:var(--ink-secondary)}
+  /* Resize divider between chat and panel — a hairline strip with a centred grip. */
+  .cp-fp-resize{flex:none;position:relative;width:1px;background:var(--border);cursor:col-resize;z-index:6}
+  .cp-fp-resize[hidden]{display:none}
+  .cp-fp-grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:.75rem;height:1.75rem;display:flex;align-items:center;justify-content:center;color:var(--ink-secondary);background:var(--card);border:1px solid var(--border);border-radius:.375rem;box-shadow:0 1px 2px 0 rgba(15,23,42,.06)}
+  .cp-fp-grip svg{width:12px;height:12px}
+  .cp-fp-resize:hover .cp-fp-grip,.cp-fp-resize.is-dragging .cp-fp-grip{color:var(--ink-body);border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)}
+  /* Result file chip becomes clickable (opens the preview); its download button stops the bubble. */
+  .cl-file-chip.is-clickable{cursor:pointer}
+  .cl-file-chip.is-clickable:hover{background:var(--state-hover);border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)}
+  @media (max-width:880px){
+    .cp-fp{position:absolute;top:0;right:0;bottom:0;width:min(92%,var(--cp-fp-w,460px));max-width:100%;box-shadow:-4px 0 12px rgba(15,23,42,.14);z-index:30}
+    .cp-fp-resize{display:none}
+  }
+
+  /* ── Tool-calls accordion (chat AI turn) ──────────────────────────────────
+     Reproduces the app's "Tool calls" disclosure. An outer trigger (wrench + label + chevron) whose
+     panel lists tool-call rows; each row is ITSELF a disclosure (status icon + monospace name + a
+     tinted chevron pill) that expands to its Arguments (JSON) + OUTPUT. Success = green, error = red;
+     both reuse the shared feedback tokens (--fb-green / --fb-red-text, --toast-bg-success/error). */
+  /* Plate — the whole tool-calls block is a card (white surface + hairline border, not a grey fill);
+     the step rows are joined inside it. */
+  .tc{border:1px solid var(--border);border-radius:.625rem;background:var(--card);overflow:hidden}
+  .tc-head{display:flex;align-items:center;gap:.5rem;width:100%;padding:.5rem .75rem;background:transparent;border:none;cursor:pointer;font-family:inherit;color:var(--ink-body);transition:color .12s,background .12s}
+  .tc-head:hover{color:var(--ink);background:var(--state-hover)}
+  .tc-head:hover .tc-chev{color:var(--ink)}
+  .tc-head:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .tc-head-ic{width:16px;height:16px;flex:none;color:currentColor}
+  .tc-head-lbl{font-size:var(--text-14);font-weight:500}
+  /* Outer chevron sits at the far end of the "Tool calls" header (overridden below — Minimal always
+     points it right, beside the title, instead). */
+  .tc-chev{width:16px;height:16px;flex:none;margin-left:auto;color:var(--ink-secondary);transition:transform .15s,color .12s}
+  .tc-head[aria-expanded="true"] .tc-chev{transform:rotate(180deg)}
+  .tc-panel{display:none;border-top:1px solid var(--border);position:relative}
+  .tc-head[aria-expanded="true"]+.tc-panel{display:block}
+  /* Step connector — a vertical spine linking the steps (as on prod), each icon's white disc masking
+     it so it reads as a timeline. Owned per-row on .tc-row itself (not .tc-row-head, and not one
+     line spanning the whole panel): .tc-row's own height already includes its row-panel when
+     expanded, so "icon to this row's own bottom edge" automatically reaches all the way to the
+     next row's icon whether this row (or the next, or any row) is collapsed or expanded — no
+     dynamic height math needed. (Anchoring it to .tc-row-head instead had a gap wherever a
+     non-last row expanded, since the row-head's own height never changes; anchoring it to .tc-panel
+     as one long line instead badly overshot past the last icon whenever the last row expanded.)
+     :not(:last-child) means a single tool call — or the true last one — never has anything to
+     connect to below it; no dangling line either way. */
+  .tc-row{position:relative}
+  .tc-row-head{position:relative}
+  /* bottom:-12px (not 0) — stopping exactly at this row's own edge left a visible ~16px gap before
+     reaching the next icon's disc (row-head/panel padding the icon sits inset from the row edge).
+     -12px carries it to just short of the next icon's own 16px disc, closing that gap. */
+  .tc-row:not(:last-child)::after{content:'';position:absolute;left:calc(.75rem + .5rem);top:1.25rem;bottom:-12px;width:1px;margin-left:-.5px;background:color-mix(in srgb,var(--border) 55%,transparent)}
+  /* ── Minimal (the only concept — Card/None and their topbar switcher were removed) ─────────────
+     No plate at all. The accordion is a quiet secondary-colour label with its chevron BESIDE the
+     text (not pushed to the far edge), so the tool log recedes into the answer instead of boxing it. */
+  .tc{background:transparent;border-color:transparent;border-radius:0}
+  .tc-head{color:var(--ink-secondary);padding-left:0}
+  /* The whole head is one colour — chevron inherits the head (currentColor) so label, wrench and
+     chevron always match (at rest and on hover). */
+  .tc-chev{color:currentColor;transform:rotate(-90deg)}
+  .tc-head[aria-expanded="true"] .tc-chev{transform:rotate(0deg)}
+  /* Hover is text/icon colour ONLY — no background fill (there's no plate to fill). */
+  .tc-head:hover{color:var(--ink);background:transparent}
+  .tc-head .tc-chev{margin-left:0}
+  .tc-panel{border-top-color:transparent}
+  /* The head has no left padding, so the step rows lose theirs too — the status icon sits directly
+     UNDER the head's wrench icon (one left line). Spine + expanded content follow. */
+  .tc-row-head{padding-left:0}
+  .tc-row:not(:last-child)::after{left:.5rem}
+  .tc-row-panel{padding-left:1.5rem}
+  /* The code accordion mirrors the tool-calls (.tc) exactly: flat (no plate/border), quiet
+     secondary label, chevron BESIDE the title pointing right (tree-style). The title inherits the
+     head colour, so no separate colour override is needed. */
+  .cp-code-head{color:var(--ink-secondary)}
+  /* Same as .tc-head above — hover darkens text/icons only, no background fill. */
+  .cp-code-head:hover{color:var(--ink);background:transparent}
+  .cp-code-chev{color:currentColor;margin-left:0;transform:rotate(-90deg)}
+  .cp-code-head[aria-expanded="true"] .cp-code-chev{transform:rotate(0deg)}
+  /* Simple list — no per-row dividers; the spine + status icons carry the structure. */
+  .tc-row-head{display:flex;align-items:center;gap:.5rem;width:100%;padding:.5rem .75rem;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;transition:color .12s}
+  .tc-row-head:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  /* Whole row tints to the chevron/head hover colour (no background) — name, op, chevron together. */
+  .tc-row-head:hover .tc-row-name,.tc-row-head:hover .tc-op,.tc-row-head:hover .tc-row-chev{color:var(--ink)}
+  .tc-status{flex:none;display:inline-flex;position:relative;z-index:1;background:var(--card);border-radius:9999px}
+  .tc-status svg{width:1rem;height:1rem}
+  .tc-row.is-ok .tc-status{color:var(--fb-green)}
+  .tc-row.is-error .tc-status{color:var(--fb-red-text)}
+  /* Row name does not grow, so the row chevron sits right beside it (title), not at the far edge. */
+  .tc-row-name{flex:0 1 auto;min-width:0;font-family:monospace;font-size:var(--text-13);color:var(--ink-body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tc-row-name .tc-op{color:var(--ink-secondary)}
+  /* Error step made obvious — red name (matches the red status icon + red OUTPUT). */
+  /* Consistent success/error: both rows use neutral text; only the status ICON carries the colour
+     (green check / red alert), matching the positive/negative treatment. */
+  /* Plain side chevron — no pill/plate; status colour lives on the left .tc-status icon. */
+  /* Negative margin cancels most of the row-head gap so the disclosure hugs the label (reads as
+     part of it, not floating out in the empty space to its right). */
+  .tc-row-chev{flex:none;display:inline-flex;align-items:center;justify-content:center;color:var(--ink-secondary);margin-left:-.25rem}
+  /* Row chevron: points to the side (›) when collapsed, rotates down (⌄) when expanded. */
+  .tc-row-chev svg{width:12px;height:12px;transform:rotate(-90deg);transition:transform .15s}
+  .tc-row-head[aria-expanded="true"] .tc-row-chev svg{transform:rotate(0deg)}
+  .tc-row-panel{display:none;padding:.5rem .75rem .75rem 2.25rem}
+  .tc-row-head[aria-expanded="true"]+.tc-row-panel{display:block}
+  /* Arguments block — header (title + copy) over a line-numbered JSON code area. */
+  /* Arguments + OUTPUT are PEER cards (one hierarchy level): a bordered card with a header row
+     (label + copy/status badge) over its content area. */
+  .tc-arg,.tc-out{border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
+  /* Matches the Python code/output card's gap (.cp-code-box + .cp-code-box) — the two peer cards
+     read as one related unit, not two separate ones. */
+  .tc-arg{margin-bottom:.75rem}
+  /* Same .75rem inset as the Python code/output bar (.cp-code-bar/.cp-code-out) — kept plain, not
+     bumped to chase row-name alignment (that made the text sit too far right). */
+  .tc-arg-head,.tc-out-head{display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;border-bottom:1px solid var(--border)}
+  .tc-arg-head{justify-content:space-between}
+  .tc-arg-title,.tc-out-lbl{font-size:var(--text-13);font-weight:500;color:var(--ink)}
+  .tc-copy{display:inline-flex;align-items:center;justify-content:center;width:1.75rem;height:1.75rem;border:none;background:transparent;border-radius:.25rem;color:var(--ink-secondary);cursor:pointer}
+  .tc-copy:hover{background:var(--state-hover);color:var(--ink-body)}
+  .tc-copy svg{width:12px;height:12px}
+  /* Output's copy button pushes to the far right; label + status badge stay packed together on
+     the left (no justify-content:space-between here — only Arguments needs that, for title+copy). */
+  .tc-out-head .tc-copy{margin-left:auto}
+  /* --bg, not --chips — see the .cp-code-pre comment above; same recessed-surface reasoning. */
+  .tc-code,.tc-out-body{margin:0;padding:.5rem .75rem;background:var(--bg);font-family:monospace;font-size:var(--text-12);color:var(--ink-body)}
+  /* The digit is the leftmost visible glyph, flush with the box's own .75rem inset (same as the
+     Arguments/Output label above it) — code text indents further right, after the digit (standard
+     line-numbered-code layout); it is not what's meant to line up with the header. */
+  .tc-code{line-height:1.65;overflow-x:auto;counter-reset:ln}
+  .tc-code .l{display:block;white-space:pre;position:relative;padding-left:1.25rem}
+  .tc-code .l::before{counter-increment:ln;content:counter(ln);position:absolute;left:0;color:var(--ink-inactive)}
+  .tc-out-body{max-height:12rem;overflow:auto;line-height:1.5;white-space:pre-wrap;word-break:break-word;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+  .tc-out-body::-webkit-scrollbar{width:10px}
+  .tc-out-body::-webkit-scrollbar-track{background:transparent}
+  .tc-out-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .tc-out-body:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+  /* Error status lives on the "Error" badge + the tinted background — no special border colour;
+     the box keeps the same neutral border as a success Output. Tinted from --bg (recessed
+     surface — see the .cp-code-pre comment above), not --card/--toast-bg-error's base. */
+  .tc-row.is-error .tc-out-body{background:color-mix(in srgb, var(--fb-red-text) 8%, var(--bg))}
 
   /* ===================================================================
      METRICS-PAGE COMPONENTS

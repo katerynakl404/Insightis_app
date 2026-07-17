@@ -216,7 +216,7 @@
       </div>
       <div class="sbx-nav">
         <!-- New Chat as nav-row at the TOP. Previously absent on this page; the .sbx-cta pill at the top of the header still triggers new-chat creation. -->
-        <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="window.location.href='../concept/chat-landing.html'">
+        <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="window.location.href='chat-landing.html'">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
           <span class="lbl">New Chat</span>
         </button>
@@ -253,8 +253,8 @@
             <button class="sbx-sect-label-wrap" type="button" aria-expanded="true"><span class="sbx-sect-label">Recent</span><svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
             <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
           </div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'"><span class="sbx-chat-lbl">Issues created by team</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'"><span class="sbx-chat-lbl">Azure DevOps metrics overview</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'"><span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'"><span class="sbx-chat-lbl">Generate two charts using random data</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
         </div>
       </div>
       <div class="sbx-foot">
@@ -1479,6 +1479,7 @@
         </div>
 
         <!-- Connect more вЂ” gradient banner CTA -->
+        <div class="banner-wrap" id="mx-connect-wrap">
         <div class="banner banner-grad banner-noise banner-sm mx-connect-banner" role="note">
           <div class="banner-ic" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-4"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8H6a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2Z"/></svg>
@@ -1490,6 +1491,10 @@
           <div class="banner-cta">
             <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Browse Data Sources</button>
           </div>
+          <button class="banner-close" type="button" aria-label="Dismiss" onclick="document.getElementById('mx-connect-wrap').classList.add('is-dismissed')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
         </div>
 
       </div><!-- /mx-filled -->

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Insightis · Chat page</title>
+<title>Insightis · Chat page (charts)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
@@ -63,8 +63,8 @@
      shared kit component, not page-only styling. .cp-bubble.ai was unused dead code (AI turns use
      .cp-ai-bubble) and was dropped in the move. */
   /* Timestamp */
-  /* Timestamp is hidden by default (space reserved via visibility, so nothing shifts) and revealed
-     when the message row is hovered. */
+  /* Timestamp reveals on row hover. It takes NO layout space when hidden (display:none) so messages
+     sit close together — reserving the line left a large empty gap between every message. */
   /* Timestamp is ALWAYS visible (like prod) — never a hover-reveal. Hovering never reflows/jumps the
      messages, and it's real content, not an empty reserved gap. */
   .cp-ts{font-size:.6875rem;color:var(--ink-secondary);font-variant-numeric:tabular-nums}
@@ -274,15 +274,16 @@
               </button>
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='chats-landing.html'">See all</button>
             </div>
-            <!-- Active item — the chat we're currently viewing -->
-            <div class="sbx-chat s-active" role="button" tabindex="0" aria-current="true">
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-charts-landing.html'">
+            <!-- Active item — the chat we're currently viewing. Position is fixed (second in Recent,
+                 matching chat_page-landing.html); active state must not promote it to the top. -->
+            <div class="sbx-chat s-active" role="button" tabindex="0" aria-current="true">
               <span class="sbx-chat-lbl">Generate two charts using random data</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
@@ -364,7 +365,7 @@
     <!-- Header bar -->
     <header class="cp-header">
       <div class="cp-title-wrap">
-        <h1 class="cp-header-title">Search first 5 Jira issues with AIINS</h1>
+        <h1 class="cp-header-title">Generate two charts using random data</h1>
         <!-- Chevron + its menu share a relative wrapper so the dropdown anchors to the chevron. -->
         <div class="cp-title-menu-wrap">
           <button class="cp-title-btn" type="button" aria-label="Chat options" aria-haspopup="menu" aria-expanded="false"
@@ -384,192 +385,49 @@
     <div class="cp-thread-wrap">
       <div class="cp-thread" id="cp-thread">
 
-          <!-- ===== Thread — reproduces the live "first 5 Jira issues with AIINS" chat ===== -->
-          <!-- One request-turn (user + AI answer) as a background band. -->
-          <div class="cp-turn"><div class="cp-turn-inner">
+                <div class="cp-turn"><div class="cp-turn-inner">
+                  <div class="cp-msg-row user"><div class="cp-bubble user">generate 2 charts with random data</div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:07 PM</span></div></div>
+                  <div class="cp-msg-row ai"><div class="cp-ai-wrap" style="max-width:100%"><div class="cp-ai-bubble" style="max-width:100%"><p class="cp-ai-prose">Could you please specify what kind of charts you want? For example, do you want bar charts, line charts, pie charts, etc.? Any preferred metrics or data characteristics?</p></div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:07 PM</span></div></div></div>
+                </div></div>
 
-            <!-- User -->
-            <div class="cp-msg-row user">
-              <div class="cp-bubble user">give me first 5 jira issues with prefix AIINS, no confirm needed, limit query by 5</div>
-              <div class="cp-msg-foot">
-                <div class="cp-msg-actions">
-                  <button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
-                </div>
-                <span class="cp-ts">Jul 7, 3:14 PM</span>
-              </div>
-            </div>
+                <div class="cp-turn"><div class="cp-turn-inner">
+                  <div class="cp-msg-row user"><div class="cp-bubble user">any data, give bar charts and line charts</div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:07 PM</span></div></div>
+                  <div class="cp-msg-row ai"><div class="cp-ai-wrap" style="max-width:100%"><div class="cp-ai-bubble" style="max-width:100%"><p class="cp-ai-prose">Step 1 is to check data sources for relevant data for charts.</p><p class="cp-ai-prose">In this case, since you want charts with random data, you want me to generate synthetic data locally instead of querying a database source.</p><p class="cp-ai-prose">There are no relevant external data sources needed here because the request is for random data for simple bar and line charts.</p><p class="cp-ai-prose">Confirm that you want me to generate synthetic random data and create the two charts (bar chart and line chart) &mdash; or if you want me to pull actual data from your available sources?</p><p class="cp-ai-prose">Please confirm how you want to proceed! &#129304;</p></div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:07 PM</span></div></div></div>
+                </div></div>
 
-            <!-- AI turn -->
-            <div class="cp-msg-row ai">
-              <div class="cp-ai-wrap" style="max-width:100%">
-                <!-- Whole AI answer on one card surface (kit convention). -->
-                <div class="cp-ai-bubble" style="max-width:100%">
+                <div class="cp-turn"><div class="cp-turn-inner">
+                  <div class="cp-msg-row user"><div class="cp-bubble user">yes</div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:08 PM</span></div></div>
+                  <div class="cp-msg-row ai"><div class="cp-ai-wrap" style="max-width:100%"><div class="cp-ai-bubble" style="max-width:100%"><p class="cp-ai-prose">Step 2: Present Analysis Plan for generating charts with random data.</p><h3 class="cp-result-title">Generate Bar and Line Charts with Random Data</h3><p class="cp-ai-prose"><strong>Objective</strong><br>Create two charts using synthetic random data: one bar chart and one line chart.</p><p class="cp-ai-prose"><strong>Steps</strong></p><ol class="cp-ai-list"><li>Generate a random dataset suitable for a bar chart (e.g., categories with numeric values).</li><li>Generate a random dataset suitable for a line chart (e.g., a series of numeric values over an index).</li><li>Use Python&rsquo;s matplotlib to create a bar chart from the first dataset and a line chart from the second.</li><li>Save charts as PNG files.</li></ol><p class="cp-ai-prose"><strong>Expectations</strong></p><ul class="cp-ai-list"><li>Two image files containing the bar chart and line chart.</li><li>Summary of generated data statistics.</li></ul><p class="cp-ai-prose"><strong>Data Sources</strong><br>Synthetic random data generated within the analysis.</p><p class="cp-ai-prose">Confirm the analysis plan to proceed! &#129304;</p></div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:08 PM</span></div></div></div>
+                </div></div>
 
-                <!-- Group A: first tool call + the text it produced (kept tight together). -->
-                <div class="cp-ai-group">
-                <!-- Tool calls (collapsed) — the initial failed lookup -->
-                <div class="tc">
-                  <button class="tc-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)">
-                    <svg class="tc-head-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                    <span class="tc-head-lbl">Tool calls</span>
-                    <svg class="tc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-                  </button>
-                  <div class="tc-panel">
-                    <div class="tc-row is-error">
-                      <button class="tc-row-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)">
-                        <span class="tc-status" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
-                        <span class="tc-row-name">Jira_Test_Connection <span class="tc-op">Execute</span></span>
-                        <span class="tc-row-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-                      </button>
-                      <div class="tc-row-panel">
-                        <div class="tc-arg">
-                          <div class="tc-arg-head"><span class="tc-arg-title">Arguments</span><button class="tc-copy" type="button" aria-label="Copy arguments" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-code"><span class="l">{</span><span class="l">  "query": "SELECT * FROM jira_issues LIMIT 5"</span><span class="l">}</span></div>
-                        </div>
-                        <div class="tc-out">
-                          <div class="tc-out-head"><span class="tc-out-lbl">Output</span><span class="badge badge-red badge-sm">Error</span><button class="tc-copy" type="button" aria-label="Copy output" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-out-body">Error: table "jira_issues" was not found in the available data sources.</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div class="cp-turn"><div class="cp-turn-inner">
+                  <div class="cp-msg-row user"><div class="cp-bubble user">yes</div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:08 PM</span></div></div>
+                  <div class="cp-msg-row ai"><div class="cp-ai-wrap" style="max-width:100%"><div class="cp-ai-bubble" style="max-width:100%"><div class="cp-ai-group"><div class="cp-code"><button class="cp-code-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)"><span class="cp-code-title">Generate random bar and line charts</span><svg class="cp-code-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div class="cp-code-panel"><div class="cp-code-box"><div class="cp-code-bar"><span class="cp-code-lang"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#3776AB" d="M11.9 0C5.9 0 6.3 2.6 6.3 2.6l.01 2.7h5.7v.8H4.1S.3 5.7.3 11.8s3.3 5.9 3.3 5.9h2V15s-.1-3.3 3.2-3.3h5.6s3.1.05 3.1-3V3S23.3 0 11.9 0zM8.8 1.8c.56 0 1 .45 1 1s-.44 1-1 1-1-.45-1-1 .45-1 1-1z"/><path fill="#FFD43B" d="M12.1 24c6 0 5.6-2.6 5.6-2.6l-.01-2.7h-5.7v-.8h7.9s3.8.4 3.8-5.7-3.3-5.9-3.3-5.9h-2V9s.1 3.3-3.2 3.3H9.6s-3.1-.05-3.1 3v5.6S6 24 12.1 24zm3.1-1.8c-.56 0-1-.45-1-1s.44-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>Python</span><button class="iconbtn iconbtn-tertiary cp-code-copy" type="button" aria-label="Copy code" data-tip="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><div class="cp-code-pre" id="cp-code-charts"></div></div><div class="cp-code-box"><div class="cp-code-bar"><span class="cp-code-lang">Output</span><span class="badge badge-green badge-sm">Done</span><button class="iconbtn iconbtn-tertiary cp-code-copy" type="button" aria-label="Copy output" data-tip="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><div class="cp-code-out">Saved random_bar_chart.png
+Saved random_line_chart.png</div></div></div></div><div class="cp-img-row"><div class="cp-img-plate" role="button" tabindex="0" data-file="random_bar_chart.png"><div class="cp-img-thumb" id="cp-plate-bar"></div><div class="cp-img-plate-cap">random_bar_chart.png</div></div><div class="cp-img-plate" role="button" tabindex="0" data-file="random_line_chart.png"><div class="cp-img-thumb" id="cp-plate-line"></div><div class="cp-img-plate-cap">random_line_chart.png</div></div></div><div class="cp-data-card"><div class="cp-data-card-title">Random Bar Chart Data</div><div class="cp-tbl-scroll"><table class="tbl"><thead><tr><th>Category</th><th>Value</th></tr></thead><tbody><tr><td>A</td><td>61</td></tr><tr><td>B</td><td>24</td></tr><tr><td>C</td><td>81</td></tr><tr><td>D</td><td>70</td></tr><tr><td>E</td><td>30</td></tr></tbody></table></div></div><div class="cp-data-card"><div class="cp-data-card-title">Random Line Chart Data</div><div class="cp-tbl-scroll"><table class="tbl"><thead><tr><th>Index</th><th>Cumulative Value</th></tr></thead><tbody><tr><td>1</td><td>-0.234</td></tr><tr><td>2</td><td>-0.468</td></tr><tr><td>3</td><td>1.111</td></tr><tr><td>4</td><td>1.878</td></tr><tr><td>5</td><td>1.409</td></tr><tr><td>6</td><td>1.951</td></tr><tr><td>7</td><td>1.488</td></tr><tr><td>8</td><td>1.022</td></tr><tr><td>9</td><td>1.264</td></tr><tr><td>10</td><td>-0.649</td></tr></tbody></table></div></div><p class="cp-ai-prose">Two charts with random data have been generated: a bar chart (random_bar_chart.png) and a line chart (random_line_chart.png). Let me know if you want to proceed with anything else.</p></div></div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:08 PM</span></div></div></div>
+                </div></div>
+
+                <div class="cp-turn"><div class="cp-turn-inner">
+                  <div class="cp-msg-row user"><div class="cp-bubble user">generate 3 types of file: csv, xls and xlsx &mdash; they should be with random data, no confirmation</div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:08 PM</span></div></div>
+                  <div class="cp-msg-row ai"><div class="cp-ai-wrap" style="max-width:100%"><div class="cp-ai-bubble" style="max-width:100%"><div class="cp-ai-group"><div class="cp-code"><button class="cp-code-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)"><span class="cp-code-status" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span><span class="cp-code-title">Generate CSV, XLS, XLSX with random data</span><svg class="cp-code-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div class="cp-code-panel"><div class="cp-code-box"><div class="cp-code-bar"><span class="cp-code-lang"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#3776AB" d="M11.9 0C5.9 0 6.3 2.6 6.3 2.6l.01 2.7h5.7v.8H4.1S.3 5.7.3 11.8s3.3 5.9 3.3 5.9h2V15s-.1-3.3 3.2-3.3h5.6s3.1.05 3.1-3V3S23.3 0 11.9 0zM8.8 1.8c.56 0 1 .45 1 1s-.44 1-1 1-1-.45-1-1 .45-1 1-1z"/><path fill="#FFD43B" d="M12.1 24c6 0 5.6-2.6 5.6-2.6l-.01-2.7h-5.7v-.8h7.9s3.8.4 3.8-5.7-3.3-5.9-3.3-5.9h-2V9s.1 3.3-3.2 3.3H9.6s-3.1-.05-3.1 3v5.6S6 24 12.1 24zm3.1-1.8c-.56 0-1-.45-1-1s.44-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>Python</span><button class="iconbtn iconbtn-tertiary cp-code-copy" type="button" aria-label="Copy code" data-tip="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><div class="cp-code-pre" id="cp-code-csv"></div></div><div class="cp-code-box is-error"><div class="cp-code-bar"><span class="cp-code-lang">Output</span><span class="badge badge-red badge-sm">Error</span><button class="iconbtn iconbtn-tertiary cp-code-copy" type="button" aria-label="Copy output" data-tip="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><div class="cp-code-out">ImportError: Missing optional dependency 'xlwt'. Install xlwt &gt;= 1.3.0 for Excel support.</div></div></div></div><div style="display:flex;flex-wrap:wrap;gap:.5rem"><div class="cl-file-chip" style="max-width:none"><span class="cl-file-chip-ic" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg></span><span class="cl-file-chip-meta"><span class="cl-file-chip-name">random_data.csv</span></span></div></div><p class="cp-ai-prose">The attempt to generate an XLS file failed due to missing <code>xlwt</code> engine support in the environment.</p><p class="cp-ai-prose">However, I have successfully created a CSV file (random_data.csv) and an XLSX file (random_data.xlsx). If you want, I can retry generating the XLS file with another method, or just provide the two files above. Please advise.</p></div></div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:08 PM</span></div></div></div>
+                </div></div>
+
+                <div class="cp-turn"><div class="cp-turn-inner">
+                  <div class="cp-msg-row user"><div class="cp-bubble user">retry to create XLSX and XLS files</div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:09 PM</span></div></div>
+                  <div class="cp-msg-row ai"><div class="cp-ai-wrap" style="max-width:100%"><div class="cp-ai-bubble" style="max-width:100%"><div class="cp-ai-group"><div class="cp-code"><button class="cp-code-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)"><span class="cp-code-title">Generate XLS and XLSX with random data</span><svg class="cp-code-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div class="cp-code-panel"><div class="cp-code-box"><div class="cp-code-bar"><span class="cp-code-lang"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#3776AB" d="M11.9 0C5.9 0 6.3 2.6 6.3 2.6l.01 2.7h5.7v.8H4.1S.3 5.7.3 11.8s3.3 5.9 3.3 5.9h2V15s-.1-3.3 3.2-3.3h5.6s3.1.05 3.1-3V3S23.3 0 11.9 0zM8.8 1.8c.56 0 1 .45 1 1s-.44 1-1 1-1-.45-1-1 .45-1 1-1z"/><path fill="#FFD43B" d="M12.1 24c6 0 5.6-2.6 5.6-2.6l-.01-2.7h-5.7v-.8h7.9s3.8.4 3.8-5.7-3.3-5.9-3.3-5.9h-2V9s.1 3.3-3.2 3.3H9.6s-3.1-.05-3.1 3v5.6S6 24 12.1 24zm3.1-1.8c-.56 0-1-.45-1-1s.44-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>Python</span><button class="iconbtn iconbtn-tertiary cp-code-copy" type="button" aria-label="Copy code" data-tip="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><div class="cp-code-pre" id="cp-code-xlsx"></div></div><div class="cp-code-box"><div class="cp-code-bar"><span class="cp-code-lang">Output</span><span class="badge badge-green badge-sm">Done</span><button class="iconbtn iconbtn-tertiary cp-code-copy" type="button" aria-label="Copy output" data-tip="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><div class="cp-code-out">XLS file: random_data.xls
+XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex-wrap:wrap;gap:.5rem"><div class="cl-file-chip" style="max-width:none"><span class="cl-file-chip-ic" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg></span><span class="cl-file-chip-meta"><span class="cl-file-chip-name">random_data.xlsx</span></span></div><div class="cl-file-chip" style="max-width:none"><span class="cl-file-chip-ic" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg></span><span class="cl-file-chip-meta"><span class="cl-file-chip-name">random_data.xls</span></span></div></div><p class="cp-ai-prose">Two files with random data have been generated: an XLS file (random_data.xls) and an XLSX file (random_data.xlsx). These files contain random IDs, values, and scores.</p><p class="cp-ai-prose">If you want, I can also generate the CSV file again or assist with anything else.</p></div></div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:09 PM</span></div></div></div>
+                </div></div>
+
+                <div class="cp-turn"><div class="cp-turn-inner">
+                  <div class="cp-msg-row user"><div class="cp-bubble user">Convert CSV file to JSON</div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 5:14 PM</span></div></div>
+                  <div class="cp-msg-row ai"><div class="cp-ai-wrap" style="max-width:100%"><div class="cp-ai-bubble" style="max-width:100%"><div style="display:flex;flex-wrap:wrap;gap:.5rem"><div class="cl-file-chip" style="max-width:none"><span class="cl-file-chip-ic" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg></span><span class="cl-file-chip-meta"><span class="cl-file-chip-name">test_sales_1.json</span></span></div></div><p class="cp-ai-prose">A JSON file with the data from test_sales_1.csv has been generated. It contains 10 records.</p><p class="cp-ai-prose">The file was saved as test_sales_1.json.</p><p class="cp-ai-prose">Let me know if you need anything else!</p></div></div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 5:14 PM</span></div></div></div>
                 </div>
 
-                <p class="cp-ai-prose">I could not find a table named "jira_issues" in the available data sources. Let me first check which Jira-related data sources are available to locate the issue data with the AIINS prefix.</p>
-                </div><!-- /cp-ai-group A -->
-
-                <!-- Group B: second tool call + its result table (kept tight together). -->
-                <div class="cp-ai-group">
-                <!-- Tool calls (expanded) — the discovery + query pass -->
-                <div class="tc">
-                  <button class="tc-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)">
-                    <svg class="tc-head-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                    <span class="tc-head-lbl">Tool calls</span>
-                    <svg class="tc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-                  </button>
-                  <div class="tc-panel">
-
-                    <!-- Row 1 — expanded (shows Arguments + Output) -->
-                    <div class="tc-row is-ok">
-                      <button class="tc-row-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)">
-                        <span class="tc-status" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span>
-                        <span class="tc-row-name">Jira_Test_Connection <span class="tc-op">Objects</span></span>
-                        <span class="tc-row-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-                      </button>
-                      <div class="tc-row-panel">
-                        <div class="tc-arg">
-                          <div class="tc-arg-head"><span class="tc-arg-title">Arguments</span><button class="tc-copy" type="button" aria-label="Copy arguments" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-code"><span class="l">{</span><span class="l">  "responseFormat": "Markdown"</span><span class="l">}</span></div>
-                        </div>
-                        <div class="tc-out">
-                          <div class="tc-out-head"><span class="tc-out-lbl">Output</span><span class="badge badge-green badge-sm">Done</span><button class="tc-copy" type="button" aria-label="Copy output" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-out-body">| fullName | name | queryable |
-| --- | --- | --- |
-| AdvancedSettings | AdvancedSettings | true |
-| Althera_Code_Autotest_Design._Issues | Althera_Code_Autotest_Design._Issues | true |
-| Althera_Code_Bug._Issues | Althera_Code_Bug._Issues | true |
-| Althera_Code_Epic_Issues | Althera_Code_Epic_Issues | true |
-| Althera_Code_Feature_Issues | Althera_Code_Feature_Issues | true |
-| AIINS_Issues | AIINS_Issues | true |</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Row 2 — error, collapsed -->
-                    <div class="tc-row is-error">
-                      <button class="tc-row-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)">
-                        <span class="tc-status" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
-                        <span class="tc-row-name">Jira_Test_Connection <span class="tc-op">Execute</span></span>
-                        <span class="tc-row-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-                      </button>
-                      <div class="tc-row-panel">
-                        <div class="tc-arg">
-                          <div class="tc-arg-head"><span class="tc-arg-title">Arguments</span><button class="tc-copy" type="button" aria-label="Copy arguments" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-code"><span class="l">{</span><span class="l">  "query": "SELECT * FROM AIINS_Issues LIMIT 5"</span><span class="l">}</span></div>
-                        </div>
-                        <div class="tc-out">
-                          <div class="tc-out-head"><span class="tc-out-lbl">Output</span><span class="badge badge-red badge-sm">Error</span><button class="tc-copy" type="button" aria-label="Copy output" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-out-body">Error: unknown column selection — retry with the resolved object name.</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Row 3 — ok, collapsed -->
-                    <div class="tc-row is-ok">
-                      <button class="tc-row-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)">
-                        <span class="tc-status" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span>
-                        <span class="tc-row-name">Jira_Test_Connection <span class="tc-op">ObjectInfo</span></span>
-                        <span class="tc-row-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-                      </button>
-                      <div class="tc-row-panel">
-                        <div class="tc-arg">
-                          <div class="tc-arg-head"><span class="tc-arg-title">Arguments</span><button class="tc-copy" type="button" aria-label="Copy arguments" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-code"><span class="l">{</span><span class="l">  "objectName": "AIINS_Issues"</span><span class="l">}</span></div>
-                        </div>
-                        <div class="tc-out">
-                          <div class="tc-out-head"><span class="tc-out-lbl">Output</span><span class="badge badge-green badge-sm">Done</span><button class="tc-copy" type="button" aria-label="Copy output" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-out-body">| column | type |
-| --- | --- |
-| Id | number |
-| Key | string |
-| Summary | string |
-| Status_Name | string |
-| Priority_Name | string |</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Row 4 — ok, collapsed -->
-                    <div class="tc-row is-ok">
-                      <button class="tc-row-head" type="button" aria-expanded="false" onclick="cpAccToggle(this)">
-                        <span class="tc-status" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span>
-                        <span class="tc-row-name">Jira_Test_Connection <span class="tc-op">Execute</span></span>
-                        <span class="tc-row-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-                      </button>
-                      <div class="tc-row-panel">
-                        <div class="tc-arg">
-                          <div class="tc-arg-head"><span class="tc-arg-title">Arguments</span><button class="tc-copy" type="button" aria-label="Copy arguments" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-code"><span class="l">{</span><span class="l">  "query": "SELECT Id, Key, Summary FROM AIINS_Issues ORDER BY Id DESC LIMIT 5"</span><span class="l">}</span></div>
-                        </div>
-                        <div class="tc-out">
-                          <div class="tc-out-head"><span class="tc-out-lbl">Output</span><span class="badge badge-green badge-sm">Done</span><button class="tc-copy" type="button" aria-label="Copy output" data-tip="Copy" onclick="cpCopyArgs(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div>
-                          <div class="tc-out-body">Returned 5 rows.</div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
+                <div class="cp-turn"><div class="cp-turn-inner">
+                  <div class="cp-msg-row user"><div class="cp-bubble user">Generate PDF with full data table from CSV</div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 5:15 PM</span></div></div>
+                  <div class="cp-msg-row ai"><div class="cp-ai-wrap" style="max-width:100%"><div class="cp-ai-bubble" style="max-width:100%"><div style="display:flex;flex-wrap:wrap;gap:.5rem"><div class="cl-file-chip" style="max-width:none"><span class="cl-file-chip-ic" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg></span><span class="cl-file-chip-meta"><span class="cl-file-chip-name">test_sales_1_table.pdf</span></span></div></div><p class="cp-ai-prose">A PDF file with the full tabular version of the data from the CSV has been generated.</p><p class="cp-ai-prose">The file was saved as test_sales_1_table.pdf.</p><p class="cp-ai-prose">If there's anything else, let me know!</p></div></div><div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 5:15 PM</span></div></div></div>
                 </div>
 
-                <!-- Result table (sits directly inside the answer card) -->
-                <h3 class="cp-result-title">First 5 Jira Issues with Prefix AIINS</h3>
-                <div class="cp-tbl-scroll">
-                    <table class="tbl">
-                      <thead>
-                        <tr><th>Id</th><th>Key</th><th>Summary</th><th>Status_Name</th><th>Priority_Name</th><th>CreatedDate</th><th>UpdatedDate</th></tr>
-                      </thead>
-                      <tbody>
-                        <tr><td>285876</td><td>AIINS-1085</td><td>Testing - Показывать пользователю причину не загрузки файла</td><td>Reopened</td><td>Medium</td><td>2026-07-07T07:29:20Z</td><td>2026-07-07T11:26:24Z</td></tr>
-                        <tr><td>285871</td><td>AIINS-1084</td><td>Testing - Нет превью у файлов xls и xlsx</td><td>Closed (done)</td><td>Medium</td><td>2026-07-07T07:06:37Z</td><td>2026-07-07T07:26:17Z</td></tr>
-                        <tr><td>285869</td><td>AIINS-1083</td><td>Прикрепление файла на Mac</td><td>Closed (Won't fix)</td><td>Medium</td><td>2026-07-07T06:55:09Z</td><td>2026-07-07T08:39:51Z</td></tr>
-                        <tr><td>285714</td><td>AIINS-1082</td><td>Testing - Баги по Resource pages</td><td>Reopened</td><td>Medium</td><td>2026-07-06T13:10:09Z</td><td>2026-07-06T14:26:26Z</td></tr>
-                        <tr><td>285713</td><td>AIINS-1081</td><td>Testing - При переходе по попап меню с помощью клавиатуры не видно куда перешли</td><td>Closed (done)</td><td>Medium</td><td>2026-07-06T12:58:37Z</td><td>2026-07-06T13:26:26Z</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                <p class="cp-ai-prose">These are the first 5 issues with the prefix "AIINS" from the available Jira issues dataset. Let me know if you need further details or analysis!</p>
-                </div><!-- /cp-ai-group B -->
-                </div><!-- /cp-ai-bubble -->
-
-                <div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:15 PM</span></div>
-              </div>
-            </div>
-
-
-          </div></div><!-- /cp-turn-inner /cp-turn -->
-
-      </div><!-- /cp-thread -->
+              </div><!-- /cp-thread -->
 
       <!-- Scroll-to-bottom indicator -->
       <button class="cp-scroll-btn" type="button" aria-label="Scroll to bottom" onclick="var t=document.getElementById('cp-thread');t.scrollTop=t.scrollHeight">
@@ -597,7 +455,7 @@
                one inserted .cl-mention-tag token so the "metric added" style shows on load. -->
           <div class="cl-prompt" id="cl-prompt" contenteditable="true" role="textbox" aria-multiline="true"
                aria-label="Ask anything about your data" data-placeholder="Ask anything about your data, or type @ to reference a metric…"
-               oninput="cpOnInput(this)" onkeydown="cpOnKeydown(event)"><span class="cl-mention-tag" contenteditable="false" tabindex="0" aria-label="Metric: Monthly Recurring Revenue" data-name="Monthly Recurring Revenue" data-alias="mrr" data-desc="Normalized recurring subscription revenue for the month, net of discounts and excluding one-off charges.">@mrr</span></div>
+               oninput="cpOnInput(this)" onkeydown="cpOnKeydown(event)"></div>
 
           <!-- Metric @-mention popover — anchored above the composer; rows + highlight injected by JS. -->
           <div class="cl-mention-menu menu" id="cl-mention-menu" role="listbox" aria-label="Metrics" onmousedown="event.preventDefault()">
@@ -694,6 +552,28 @@
     </div>
 
   </main>
+
+  <!-- ── File preview split panel — opens when a result file chip is clicked (JS-wired below). ── -->
+  <div class="cp-fp-resize" id="cp-fp-resize" role="separator" aria-orientation="vertical" aria-label="Resize preview" hidden>
+    <span class="cp-fp-grip" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>
+    </span>
+  </div>
+  <aside class="cp-fp" id="cp-fp" aria-label="File preview" aria-hidden="true" hidden>
+    <div class="cp-fp-head">
+      <span class="cp-fp-title" id="cp-fp-title"></span>
+      <div class="cp-fp-actions">
+        <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Download file" data-tip="Download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+        <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close preview" data-tip="Close" onclick="cpClosePreview()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="cp-fp-banner" id="cp-fp-banner" hidden></div>
+    <div class="cp-fp-body" id="cp-fp-body"></div>
+  </aside>
 </div>
 
 
@@ -792,8 +672,7 @@
   }
   // Generic disclosure toggle — used by the tool-calls accordion (.tc-head) and its rows (.tc-row-head).
   function cpAccToggle(btn){ btn.setAttribute('aria-expanded', btn.getAttribute('aria-expanded')==='true' ? 'false' : 'true'); }
-  // Copy `text`, then give the button a brief "copied" reaction (check icon + tooltip), then revert.
-  // Shared by the AI-answer copy buttons (.tc-copy) and the user-message copy action (.cp-msg-action).
+  // Copy `text`, then flash a "copied" check on the button (shared by message copy actions).
   function cpCopyBtn(btn, text){
     if(btn.getAttribute('data-copied')==='1') return;
     if(text&&navigator.clipboard){ try{ navigator.clipboard.writeText(text.trim()); }catch(e){} }
@@ -802,7 +681,6 @@
     btn.setAttribute('data-tip','Copied'); btn.setAttribute('data-copied','1');
     setTimeout(function(){ btn.innerHTML=orig; btn.setAttribute('data-tip',tip); btn.removeAttribute('data-copied'); }, 1400);
   }
-  function cpCopyArgs(btn){ var card=btn.closest('.tc-arg')||btn.closest('.tc-out'); var body=card&&card.querySelector('.tc-code,.tc-out-body'); cpCopyBtn(btn, body?body.textContent:''); }
   function cpCopyMsg(btn){ var row=btn.closest('.cp-msg-row'); var b=row&&row.querySelector('.cp-bubble, .cp-ai-bubble'); cpCopyBtn(btn, b?b.textContent:''); }
   // Find an "@query" run ending exactly at the caret (query = word chars/_/- , no spaces).
   function cpGetMentionQuery(){
@@ -1226,6 +1104,163 @@ document.addEventListener('click', function(e){
   var sec = map[it.textContent.trim()];
   if(sec) window.location.href = '../approved/user_profile-modal.html?section=' + sec;
 });
+</script>
+<script>
+/* ── File preview split panel ──────────────────────────────────────────────
+   Wires every result file chip in the thread to open the right-side preview panel. csv/xls/xlsx
+   render as a data table; the two chart PNGs render an inline SVG built from the random data already
+   shown in the thread. A drag handle resizes the split; Close / Esc hide it. */
+(function(){
+  var panel=document.getElementById('cp-fp'), resize=document.getElementById('cp-fp-resize'),
+      titleEl=document.getElementById('cp-fp-title'), bodyEl=document.getElementById('cp-fp-body'),
+      bannerEl=document.getElementById('cp-fp-banner'),
+      shell=document.querySelector('.cl-shell');
+  if(!panel||!shell) return;
+
+  // Random data already presented in the thread: ID/Value/Score for the data files, A–E bars and the
+  // 10-point line for the two charts.
+  var TABLE=[[1,166,39.21],[2,192,34.32],[3,198,72.9],[4,117,43.86],[5,183,5.97],[6,157,39.8],[7,186,73.8],[8,197,18.25],[9,196,17.55],[10,147,53.16]];
+  var BARS=[['A',61],['B',24],['C',81],['D',70],['E',30]];
+  var LINE=[-0.234,-0.468,1.111,1.878,1.409,1.951,1.488,1.022,1.264,-0.649];
+
+  function tableHTML(){
+    var r='<div class="cp-tbl-scroll"><table class="tbl"><thead><tr><th>ID</th><th>Value</th><th>Score</th></tr></thead><tbody>';
+    for(var i=0;i<TABLE.length;i++){ r+='<tr><td>'+TABLE[i][0]+'</td><td>'+TABLE[i][1]+'</td><td>'+TABLE[i][2]+'</td></tr>'; }
+    return r+'</tbody></table></div>';
+  }
+  // matplotlib-style charts (skyblue bars / coral line, axes + ticks + title), mirroring prod's PNGs.
+  var CHART_FONT='DejaVu Sans, Verdana, Arial, sans-serif';
+  function barHTML(){
+    var W=400,H=250,L=46,R=386,T=34,B=206,pw=R-L,ph=B-T;
+    var max=100,ticks=[0,20,40,60,80,100],n=BARS.length,step=pw/n,bw=step*0.55;
+    function y(v){return B-(v/max)*ph;}
+    var s='<svg class="cp-fp-chart" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Random bar chart" font-family="'+CHART_FONT+'">';
+    s+='<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="#ffffff"/>';
+    s+='<text x="'+((L+R)/2)+'" y="20" text-anchor="middle" font-size="13.5" fill="#1a1a1a">Random Bar Chart</text>';
+    ticks.forEach(function(t){var yy=y(t).toFixed(1);s+='<line x1="'+(L-4)+'" y1="'+yy+'" x2="'+L+'" y2="'+yy+'" stroke="#333" stroke-width="0.8"/><text x="'+(L-7)+'" y="'+(y(t)+3.4).toFixed(1)+'" text-anchor="end" font-size="10" fill="#333">'+t+'</text>';});
+    for(var i=0;i<n;i++){var v=BARS[i][1],bx=L+step*i+(step-bw)/2,by=y(v);s+='<rect x="'+bx.toFixed(1)+'" y="'+by.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+(B-by).toFixed(1)+'" fill="#87ceeb"/><text x="'+(bx+bw/2).toFixed(1)+'" y="'+(B+15)+'" text-anchor="middle" font-size="10.5" fill="#333">'+BARS[i][0]+'</text>';}
+    s+='<rect x="'+L+'" y="'+T+'" width="'+pw+'" height="'+ph+'" fill="none" stroke="#333" stroke-width="0.9"/>';
+    s+='<text x="'+((L+R)/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="11" fill="#333">Category</text>';
+    s+='<text x="13" y="'+((T+B)/2)+'" text-anchor="middle" font-size="11" fill="#333" transform="rotate(-90 13 '+((T+B)/2)+')">Value</text>';
+    return s+'</svg>';
+  }
+  function lineHTML(){
+    var W=400,H=250,L=54,R=386,T=34,B=200,pw=R-L,ph=B-T;
+    var min=-0.75,max=2.1,yt=[-0.5,0,0.5,1,1.5,2],xt=[2,4,6,8,10];
+    function x(i){return L+((i-1)/9)*pw;}function y(v){return B-((v-min)/(max-min))*ph;}
+    var s='<svg class="cp-fp-chart" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Random line chart" font-family="'+CHART_FONT+'">';
+    s+='<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="#ffffff"/>';
+    s+='<text x="'+((L+R)/2)+'" y="20" text-anchor="middle" font-size="13.5" fill="#1a1a1a">Random Line Chart</text>';
+    yt.forEach(function(t){var yy=y(t).toFixed(1);s+='<line x1="'+L+'" y1="'+yy+'" x2="'+R+'" y2="'+yy+'" stroke="#d9d9d9" stroke-width="0.7"/><line x1="'+(L-4)+'" y1="'+yy+'" x2="'+L+'" y2="'+yy+'" stroke="#333" stroke-width="0.8"/><text x="'+(L-7)+'" y="'+(y(t)+3.4).toFixed(1)+'" text-anchor="end" font-size="10" fill="#333">'+t.toFixed(1)+'</text>';});
+    xt.forEach(function(t){var xx=x(t).toFixed(1);s+='<line x1="'+xx+'" y1="'+T+'" x2="'+xx+'" y2="'+B+'" stroke="#d9d9d9" stroke-width="0.7"/><line x1="'+xx+'" y1="'+B+'" x2="'+xx+'" y2="'+(B+4)+'" stroke="#333" stroke-width="0.8"/><text x="'+xx+'" y="'+(B+15)+'" text-anchor="middle" font-size="10.5" fill="#333">'+t+'</text>';});
+    var pts=LINE.map(function(v,i){return {x:x(i+1),y:y(v)};});
+    s+='<path d="'+pts.map(function(p,i){return (i?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1);}).join(' ')+'" fill="none" stroke="#ff7f50" stroke-width="1.5" stroke-linejoin="round"/>';
+    pts.forEach(function(p){s+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="2.6" fill="#ff7f50"/>';});
+    s+='<rect x="'+L+'" y="'+T+'" width="'+pw+'" height="'+ph+'" fill="none" stroke="#333" stroke-width="0.9"/>';
+    s+='<text x="'+((L+R)/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="11" fill="#333">Index</text>';
+    s+='<text x="13" y="'+((T+B)/2)+'" text-anchor="middle" font-size="11" fill="#333" transform="rotate(-90 13 '+((T+B)/2)+')">Cumulative Value</text>';
+    return s+'</svg>';
+  }
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  // Truncated-preview banner — a persistent sibling of .cp-fp-body (see #cp-fp-banner in the
+  // markup), populated/hidden per file type rather than injected into the scrollable body.
+  function bannerFor(name){
+    if(/\.json$/i.test(name)) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Preview truncated. <button class="link" type="button" onclick="event.preventDefault()">Download</button> to see the full file.</span>';
+    return null;
+  }
+  // Truncated JSON preview — same random records as tableHTML(), just JSON-shaped.
+  function jsonHTML(){
+    var rows=TABLE.map(function(r){ return '  {"id": '+r[0]+', "value": '+r[1]+', "score": '+r[2]+'}'; });
+    var json='[\n'+rows.join(',\n')+'\n]';
+    return '<pre class="cp-fp-json">'+esc(json)+'</pre>';
+  }
+  // Formats with nothing renderable inline (PDF, …) — icon + filename + why + a real download action.
+  function unsupportedHTML(name){
+    return '<div class="cp-fp-empty">'
+      +'<svg class="cp-fp-empty-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>'
+      +'<span class="cp-fp-empty-name">'+esc(name)+'</span>'
+      +'<p class="cp-fp-empty-desc">Unfortunately, there’s no preview available for this file type.</p>'
+      +'<button class="btn btn-secondary btn-sm" type="button">Download</button>'
+      +'</div>';
+  }
+  function contentFor(name){
+    if(/\.png$/i.test(name)) return /line/i.test(name)?lineHTML():barHTML();
+    if(/\.json$/i.test(name)) return jsonHTML();
+    if(/\.pdf$/i.test(name)) return unsupportedHTML(name);
+    return tableHTML();
+  }
+  function open(name){
+    titleEl.textContent=name;
+    var banner=bannerFor(name);
+    if(banner){ bannerEl.innerHTML=banner; bannerEl.hidden=false; }
+    else { bannerEl.innerHTML=''; bannerEl.hidden=true; }
+    bodyEl.innerHTML=contentFor(name);
+    bodyEl.scrollTop=0;
+    panel.hidden=false; resize.hidden=false; panel.setAttribute('aria-hidden','false');
+  }
+  function close(){ panel.hidden=true; resize.hidden=true; panel.setAttribute('aria-hidden','true'); }
+  window.cpClosePreview=close;
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !panel.hidden) close(); });
+
+  // Wire every result file chip in the thread (not the composer's attached-file chip).
+  document.querySelectorAll('#cp-thread .cl-file-chip').forEach(function(chip){
+    var nameEl=chip.querySelector('.cl-file-chip-name'); if(!nameEl) return;
+    var name=nameEl.textContent.trim();
+    chip.classList.add('is-clickable');
+    chip.setAttribute('role','button'); chip.setAttribute('tabindex','0');
+    chip.addEventListener('click', function(){ open(name); });
+    chip.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(name); } });
+  });
+
+  // Inline chart image plates (the turn that generated the two charts) — rendered from the same data.
+  var pb=document.getElementById('cp-plate-bar'); if(pb) pb.innerHTML=barHTML();
+  var pl=document.getElementById('cp-plate-line'); if(pl) pl.innerHTML=lineHTML();
+
+  // Image chart frames are clickable → open the same preview panel (like the file chips).
+  document.querySelectorAll('#cp-thread .cp-img-plate[data-file]').forEach(function(f){
+    f.addEventListener('click', function(){ open(f.getAttribute('data-file')); });
+    f.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(f.getAttribute('data-file')); } });
+  });
+
+  // Drag-to-resize the split (adjusts --cp-fp-w on the shell).
+  var dragging=false;
+  resize.addEventListener('pointerdown', function(e){ dragging=true; resize.classList.add('is-dragging'); resize.setPointerCapture(e.pointerId); e.preventDefault(); });
+  resize.addEventListener('pointermove', function(e){ if(!dragging) return; var r=shell.getBoundingClientRect(); var w=Math.max(320, Math.min(r.right-e.clientX, r.width*0.7)); shell.style.setProperty('--cp-fp-w', w+'px'); });
+  function endDrag(e){ if(!dragging) return; dragging=false; resize.classList.remove('is-dragging'); try{resize.releasePointerCapture(e.pointerId);}catch(_){}}
+  resize.addEventListener('pointerup', endDrag); resize.addEventListener('pointercancel', endDrag);
+})();
+</script>
+<script>
+/* ── Code-block accordions — real Python from prod, filled + lightly syntax-highlighted here so the
+   markup stays small. Each result turn's collapsible reveals the code that produced its output. */
+(function(){
+  var CODE={
+    'cp-code-charts':"import matplotlib.pyplot as plt\nimport numpy as np\n\nnp.random.seed(42)\n\n# Generate random data for bar chart\ncategories = ['A', 'B', 'C', 'D', 'E']\nvalues = np.random.randint(10, 100, size=len(categories))\n\n# Plot bar chart\nplt.figure(figsize=(8, 5))\nplt.bar(categories, values, color='skyblue')\nplt.title('Random Bar Chart')\nplt.xlabel('Category')\nplt.ylabel('Value')\nplt.savefig('random_bar_chart.png')\nplt.close()\n\n# Generate random data for line chart\nx = np.arange(1, 11)\ny = np.random.randn(10).cumsum()\n\n# Plot line chart\nplt.figure(figsize=(8, 5))\nplt.plot(x, y, marker='o', linestyle='-', color='coral')\nplt.title('Random Line Chart')\nplt.xlabel('Index')\nplt.ylabel('Cumulative Value')\nplt.grid(True)\nplt.savefig('random_line_chart.png')\nplt.close()",
+    'cp-code-csv':"import pandas as pd\nimport numpy as np\n\nnp.random.seed(123)\n\n# Generate random dataframe\ndata = {\n    'ID': np.arange(1, 11),\n    'Value': np.random.randint(100, 200, size=10),\n    'Score': np.round(np.random.rand(10)*100, 2)\n}\ndf = pd.DataFrame(data)\n\n# Save CSV\ncsv_filename = 'random_data.csv'\ndf.to_csv(csv_filename, index=False)\n\n# Save XLS\nxls_filename = 'random_data.xls'\ndf.to_excel(xls_filename, index=False, engine='xlwt')\n\n# Save XLSX\nxlsx_filename = 'random_data.xlsx'\ndf.to_excel(xlsx_filename, index=False, engine='openpyxl')\n\nprint('CSV File:', csv_filename)\nprint('XLS File:', xls_filename)\nprint('XLSX File:', xlsx_filename)",
+    'cp-code-xlsx':"import pandas as pd\nimport numpy as np\n\nnp.random.seed(123)\n\ndata = {\n    'ID': np.arange(1, 11),\n    'Value': np.random.randint(100, 200, size=10),\n    'Score': np.round(np.random.rand(10)*100, 2)\n}\ndf = pd.DataFrame(data)\n\nxls_filename = 'random_data.xls'\nxlsx_filename = 'random_data.xlsx'\n\ndf.to_excel(xlsx_filename, index=False, engine='openpyxl')\ndf.to_excel(xls_filename, index=False, engine='openpyxl')\n\nprint('XLS file:', xls_filename)\nprint('XLSX file:', xlsx_filename)"
+  };
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var TOKRE=/('[^']*'|"[^"]*")|(#[^\n]*)|(\b\d+\.?\d*\b)|\b(import|as|from|def|return|for|in|if|elif|else|while|with|print|True|False|None|and|or|not|lambda|class)\b/g;
+  function hl(line){
+    return esc(line).replace(TOKRE,function(m,str,com,num,kw){
+      if(str) return '<span class="cp-tok-str">'+str+'</span>';
+      if(com) return '<span class="cp-tok-com">'+com+'</span>';
+      if(num) return '<span class="cp-tok-num">'+num+'</span>';
+      if(kw) return '<span class="cp-tok-kw">'+kw+'</span>';
+      return m;
+    });
+  }
+  Object.keys(CODE).forEach(function(id){
+    var el=document.getElementById(id); if(!el) return;
+    el.innerHTML='<ol>'+CODE[id].split('\n').map(function(l){return '<li>'+(hl(l)||' ')+'</li>';}).join('')+'</ol>';
+  });
+  document.querySelectorAll('.cp-code-copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var pre=btn.closest('.cp-code-box').querySelector('.cp-code-pre, .cp-code-out');
+      cpCopyBtn(btn, pre?pre.textContent.replace(/^\s*\d+/gm,''):'');
+    });
+  });
+})();
 </script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <title>Insightis · Chats library</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../kit-theme.css" />
 <style>
   /* ===== Page-only layout (no component restyling) =====
@@ -168,7 +168,7 @@
         </div>
         <div class="sbx-nav">
           <!-- New Chat as nav-row (kit-theme.css hides .sbx-cta + shows this in Expected scope). -->
-          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='chat-landing.html'">
+          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='../approved/chat-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
             <span class="lbl">New Chat</span>
           </button>
@@ -256,7 +256,18 @@
               </div>
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Top movers — weekly</span>
+              <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+                <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
+              </button>
+              <div class="menu sbx-chat-menu">
+                <div class="mi">Pin</div>
+                <div class="mi">Rename</div>
+                <div class="mi danger">Delete</div>
+              </div>
+            </div>
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-charts-landing.html'">
+              <span class="sbx-chat-lbl">Generate two charts using random data</span>
               <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
@@ -790,7 +801,7 @@
    directory so bare filenames work as relative targets. */
 (function(){
   var navMap = {
-    'New Chat': 'chat-landing.html',
+    'New Chat': '../approved/chat-landing.html',
     'Data Sources':  '../approved/data-sources_connections-landing.html',
     'Metrics':  '../approved/metrics-landing.html',
     'Files':    '../approved/data-sources_files-landing.html'

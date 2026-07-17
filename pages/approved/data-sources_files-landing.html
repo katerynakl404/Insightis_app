@@ -6,7 +6,7 @@
 <title>Insightis · Data Sources (Files)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../kit-theme.css" />
 <style>
   /* ===== Page-only layout (NO component restyling) =====
@@ -262,7 +262,7 @@
           </button>
         </div>
         <div class="sbx-nav">
-          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='../concept/chat-landing.html'">
+          <button class="sbx-nav-item sbx-nav-newchat" type="button" aria-label="New Chat" onclick="location.href='chat-landing.html'">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
             <span class="lbl">New Chat</span>
           </button>
@@ -310,7 +310,10 @@
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Top movers — weekly</span>
+              <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
+            </div>
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'">
+              <span class="sbx-chat-lbl">Generate two charts using random data</span>
             </div>
           </div>
         </div>
@@ -804,7 +807,7 @@
     if (action === 'download-selected'){ return; } /* demo no-op */
     if (action === 'add-to-chat' && id){
       var addF = FILES.find(function(x){ return x.id === id; });
-      if (addF) window.location.href = '../concept/chat-landing.html?attach=' + encodeURIComponent(addF.name);
+      if (addF) window.location.href = 'chat-landing.html?attach=' + encodeURIComponent(addF.name);
       return;
     }
     if (action === 'close-preview'){ dsfClosePreview(); return; }
@@ -903,7 +906,7 @@
    directory so bare filenames work as relative targets. */
 (function(){
   var navMap = {
-    'New Chat': '../concept/chat-landing.html',
+    'New Chat': 'chat-landing.html',
     'Data Sources':  'data-sources_connections-landing.html',
     'Metrics':  'metrics-landing.html',
     'Files':    'data-sources_files-landing.html'
