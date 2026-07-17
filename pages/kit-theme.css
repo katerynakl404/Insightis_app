@@ -2879,11 +2879,9 @@
   .tc-head:hover{color:var(--ink);background:transparent}
   .tc-head .tc-chev{margin-left:0}
   .tc-panel{border-top-color:transparent}
-  /* The head has no left padding, so the step rows lose theirs too — the status icon sits directly
-     UNDER the head's wrench icon (one left line). Spine + expanded content follow. */
-  .tc-row-head{padding-left:0}
+  /* The status icon sits directly UNDER the head's wrench icon (one left line) — see
+     .tc-row-head's own padding-left:0 and .tc-row-panel's padding-left:1.5rem below. */
   .tc-row:not(:last-child)::after{left:.5rem}
-  .tc-row-panel{padding-left:1.5rem}
   /* The code accordion mirrors the tool-calls (.tc) exactly: flat (no plate/border), quiet
      secondary label, chevron BESIDE the title pointing right (tree-style). The title inherits the
      head colour, so no separate colour override is needed. */
@@ -2893,7 +2891,9 @@
   .cp-code-chev{color:currentColor;margin-left:0;transform:rotate(-90deg)}
   .cp-code-head[aria-expanded="true"] .cp-code-chev{transform:rotate(0deg)}
   /* Simple list — no per-row dividers; the spine + status icons carry the structure. */
-  .tc-row-head{display:flex;align-items:center;gap:.5rem;width:100%;padding:.5rem .75rem;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;transition:color .12s}
+  /* padding-left:0 (not .75rem) — status icon sits directly under the head's own wrench icon,
+     one shared left line (Minimal is the only concept now). */
+  .tc-row-head{display:flex;align-items:center;gap:.5rem;width:100%;padding:.5rem .75rem .5rem 0;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;transition:color .12s}
   .tc-row-head:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* Whole row tints to the chevron/head hover colour (no background) — name, op, chevron together. */
   .tc-row-head:hover .tc-row-name,.tc-row-head:hover .tc-op,.tc-row-head:hover .tc-row-chev{color:var(--ink)}
@@ -2914,7 +2914,9 @@
   /* Row chevron: points to the side (›) when collapsed, rotates down (⌄) when expanded. */
   .tc-row-chev svg{width:12px;height:12px;transform:rotate(-90deg);transition:transform .15s}
   .tc-row-head[aria-expanded="true"] .tc-row-chev svg{transform:rotate(0deg)}
-  .tc-row-panel{display:none;padding:.5rem .75rem .75rem 2.25rem}
+  /* padding-left:1.5rem (not 2.25rem) — Minimal is the only concept now, so Arguments/Output boxes
+     always sit at the tighter Minimal inset. */
+  .tc-row-panel{display:none;padding:.5rem .75rem .75rem 1.5rem}
   .tc-row-head[aria-expanded="true"]+.tc-row-panel{display:block}
   /* Arguments block — header (title + copy) over a line-numbered JSON code area. */
   /* Arguments + OUTPUT are PEER cards (one hierarchy level): a bordered card with a header row
