@@ -6,7 +6,7 @@
 <title>Insightis · Tokens popover — variation review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../kit-theme.css" />
 <style>
   /* Review-only scratch page — not a product screen, no page-changes/*.md companion.
@@ -19,7 +19,7 @@
   .rev-group{margin-bottom:2rem}
   .rev-ver{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem}
   .rev-ver-num{font-size:var(--text-24);font-weight:700;color:var(--ink);line-height:1}
-  .rev-ver-tag{font-size:var(--text-11);font-weight:600;padding:.2rem .5rem;border-radius:.25rem;letter-spacing:.03em;text-transform:uppercase}
+  .rev-ver-tag{font-size:var(--text-11);font-weight:600;padding:.25rem .5rem;border-radius:.25rem;letter-spacing:.03em;text-transform:uppercase}
   .rev-ver-tag.is-shipped{background:color-mix(in srgb,var(--fb-green) 14%,transparent);color:var(--fb-green)}
   .rev-ver-tag.is-parked{background:color-mix(in srgb,var(--ink-secondary) 12%,transparent);color:var(--ink-secondary)}
   .rev-group-title{font-size:var(--text-13);color:var(--ink-secondary);margin-bottom:.75rem}
@@ -112,7 +112,7 @@
     <span class="rev-ver-num">Iteration 2</span>
     <span class="rev-ver-tag is-parked">Parked</span>
   </div>
-  <div class="rev-group-title">Combined bar. Single bar; legend breaks down by pool.</div>
+  <div class="rev-group-title">Combined bar. Single bar; legend breaks down by pool. Hero number = credits left, matching Balance; bottom-right = total credits (not "N left").</div>
   <div class="rev-row">
 
       <!-- Iteration 2 — Free -->
@@ -121,7 +121,7 @@
         <div class="rev-stack">
           <div class="sbx-pop sbx-pop-tokens is-open" style="position:static;width:100%" role="dialog" aria-label="Subscription credits">
             <div class="sbx-pop-tok-head"><span class="plan-name">Free</span></div>
-            <div class="sbx-pop-tok-usage"><strong>213</strong><span class="sbx-pop-tok-usage-of">/1,040 used</span></div>
+            <div class="sbx-pop-tok-usage"><strong>827</strong><span class="sbx-pop-tok-usage-of"> left</span></div>
             <div class="sbx-pop-tok-legend">
               <span class="sbx-pop-tok-leg"><span class="sbx-pop-tok-dot is-subscription" aria-hidden="true"></span>Subscription <strong>213&nbsp;of&nbsp;500</strong></span>
               <span class="sbx-pop-tok-leg"><span class="sbx-pop-tok-dot is-purchased" aria-hidden="true"></span>Purchased <strong>0&nbsp;of&nbsp;540</strong></span>
@@ -131,7 +131,7 @@
                 <div class="sbx-pop-tok-zone is-subscription"><div class="sbx-pop-tok-fill2 is-subscription" style="width:42.6%"></div></div>
                 <div class="sbx-pop-tok-zone is-purchased"><div class="sbx-pop-tok-fill2 is-purchased" style="width:0%"></div></div>
               </div>
-              <div class="sbx-pop-tok-summary"><span>20% used</span><span>827 left</span></div>
+              <div class="sbx-pop-tok-summary"><span>20% used</span><span>1,040 total</span></div>
             </div>
             <div class="sbx-pop-tok-actions">
               <button class="btn btn-primary sbx-pop-cta" type="button">Buy Credits</button>
@@ -155,7 +155,7 @@
                 </div>
               </div>
             </div>
-            <div class="sbx-pop-tok-usage"><strong>3,200</strong><span class="sbx-pop-tok-usage-of">/10,000 used</span></div>
+            <div class="sbx-pop-tok-usage"><strong>6,800</strong><span class="sbx-pop-tok-usage-of"> left</span></div>
             <div class="sbx-pop-tok-legend">
               <span class="sbx-pop-tok-leg"><span class="sbx-pop-tok-dot is-subscription" aria-hidden="true"></span>Subscription <strong>3,200&nbsp;of&nbsp;10,000</strong></span>
               <span class="sbx-pop-tok-leg"><span class="sbx-pop-tok-dot is-purchased" aria-hidden="true"></span>Purchased <strong>0&nbsp;of&nbsp;0</strong></span>
@@ -164,7 +164,7 @@
               <div class="sbx-pop-tok-bar2" role="img" aria-label="3,200 of 10,000 credits used, all subscription, no purchased pool">
                 <div class="sbx-pop-tok-zone is-subscription" style="flex-basis:100%"><div class="sbx-pop-tok-fill2 is-subscription" style="width:32%"></div></div>
               </div>
-              <div class="sbx-pop-tok-summary"><span>32% used</span><span>6,800 left</span></div>
+              <div class="sbx-pop-tok-summary"><span>32% used</span><span>10,000 total</span></div>
             </div>
             <div class="sbx-pop-tok-actions">
               <button class="btn btn-primary sbx-pop-cta" type="button">Buy Credits</button>

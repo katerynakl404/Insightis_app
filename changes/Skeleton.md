@@ -2,7 +2,7 @@
 
 Source: `@insightis/ui` `Skeleton/index.tsx`. Baseline: [`../current/Skeleton.md`](../current/Skeleton.md).
 
-**Change this iteration:** the kit is **aligned to prod** — shimmer is promoted to the **default animation on a bare `.skel`** (previously the kit gated it behind an explicit `.shimmer` class, so a bare `.skel` rendered static — diverging from prod where `shimmer` is the default). A `.none` modifier is added for the static variant. The only token shift remains the `Surface/Chips` hex (documented in [`colors`](colors.md)).
+**Change this iteration:** the kit is **aligned to prod** — shimmer is promoted to the **default animation on a bare `.skel`** (previously the kit gated it behind an explicit `.shimmer` class, so a bare `.skel` rendered static — diverging from prod where `shimmer` is the default). A `.none` modifier is added for the static variant. **Skel surface token:** `.skel` now fills with a dedicated **`--skel-bg`** (`--slate-200` light / `--grey-700` dark) instead of `--chips`. Reason: in light, `--chips` equalled `--bg` (both `--slate-50` = `#F8FAFC`), so a skeleton placed directly on the page background was invisible (only the shimmer band showed). `--skel-bg` contrasts on **both** the card surface and the page background.
 
 | State | Current (prod) · was | Expected · became |
 |---|---|---|
@@ -11,7 +11,7 @@ Source: `@insightis/ui` `Skeleton/index.tsx`. Baseline: [`../current/Skeleton.md
 
 ## Variants — full per-option spec (reproduce any from this alone)
 
-Base `.skel` → `display:inline-block; background:var(--chips); position:relative; overflow:hidden; border-radius:6px; vertical-align:middle`. The base radius (`6px`) **is** the `md` default; `rounded` and `animation` are applied as modifier classes.
+Base `.skel` → `display:inline-block; background:var(--skel-bg); position:relative; overflow:hidden; border-radius:6px; vertical-align:middle`. The base radius (`6px`) **is** the `md` default; `rounded` and `animation` are applied as modifier classes.
 
 ### `rounded` options (each → a `border-radius`)
 
@@ -32,13 +32,15 @@ Base `.skel` → `display:inline-block; background:var(--chips); position:relati
 |---|---|---|
 | shimmer (default) | `.skel` (base — no class needed) | `.skel::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg, transparent 0, color-mix(in srgb, var(--card) 80%, transparent) 50%, transparent 100%); animation:skel-shim 1.4s linear infinite}` where `@keyframes skel-shim{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}`. ⚠ There is **no `.shimmer` CSS rule** — the legacy `.shimmer` class seen in some storybook markup is an inert no-op (the sweep comes from the base `.skel::after`); it stays valid only because it matches nothing. |
 | pulse | `.skel.pulse` | `.skel.pulse{animation:skel-pulse 1.4s ease-in-out infinite}` with `@keyframes skel-pulse{0%,100%{opacity:1}50%{opacity:.5}}`; suppresses the default sweep via `.skel.pulse::after{content:none}` |
-| none | `.skel.none` | static `--chips` block; suppresses the default sweep via `.skel.none::after{content:none}` |
+| none | `.skel.none` | static `--skel-bg` block; suppresses the default sweep via `.skel.none::after{content:none}` |
 
 > Note: the sweep-suppressors are authored as one shared rule — `.skel.pulse::after,.skel.none::after{content:none}`.
 
 ## Markup & loading-state toggle (reproduce the kit demo plumbing)
 
 A skeleton element is any inline element carrying `.skel` (plus optional radius / animation modifiers); **dimensions are set inline** per use (`style="width:…;height:…"`) — the base class fixes no width/height. Example: `<span class="skel" style="width:120px;height:14px"></span>`.
+
+> **Chip-row placeholders** — a `.skel` inside a `.chip-row` gets `flex:none` (`kit-theme.css`, next to `.chip-row`). Without it, the empty (text-less) pills are flex items with `flex-shrink:1` and collapse to `width:0` in the ≤767px `nowrap` scroll row — only the `r-full` rounded caps show. Real chips don't collapse because their label sets a min-content width.
 
 The kit demonstrates loading state via a global toggle (driven by the topbar SegmentedControl that flips `html.skel-on`). Each swappable region carries two siblings — `.sk-loaded` (the real content) and `.sk-skel` (its `.skel` placeholder):
 

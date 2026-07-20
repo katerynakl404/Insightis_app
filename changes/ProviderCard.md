@@ -62,7 +62,7 @@ This card uses the repo's **locked card-hover recipe** (shared lift family with 
 | Part | Class | Spec |
 |---|---|---|
 | Name | `.prov-card-name` | `font-weight:600; font-size:.875rem` (14px); `color:var(--ink)` (Text/Body); `line-height:1.25`; `margin:0 0 .125rem`; truncated (`white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%`) |
-| Status row | `.prov-card-status` | `display:inline-flex; align-items:center; gap:.3125rem` (5px) |
+| Status row | `.prov-card-status` | `display:inline-flex; align-items:center; gap:.25rem` (4px) |
 | Status dot | `.prov-card-dot` | `.4375rem × .4375rem` (7px); `border-radius:9999px`; `background:var(--ink-inactive)`; `flex:none; display:inline-block`. (Storybook overrides bg inline per status; default = inactive grey.) |
 | Status text | `.prov-card-status-text` | `font-size:.75rem` (12px); `color:var(--ink-secondary)` (Text/Secondary) |
 
@@ -83,7 +83,7 @@ The divider and metrics label are **intentionally hidden** in the current card d
 ---
 
 ## Metrics chips — `.chip-meta` (reused Chip variant)
-See **Composition** — `chip-meta` is the [Chip](Chip.md) component's metric variant; not re-documented here. Layout wrapper inside the card: `.prov-card .chip-row` → `gap:.3125rem` (5px); `flex-wrap:wrap; overflow:visible; align-items:center` (all chips always visible, wrap freely). Each chip carries a trailing `.chip-meta-arrow` (10×10, `color:var(--brand-primary)`).
+See **Composition** — `chip-meta` is the [Chip](Chip.md) component's metric variant; not re-documented here. Layout wrapper inside the card: `.prov-card .chip-row` → `gap:.25rem` (4px); `flex-wrap:wrap; overflow:visible; align-items:center` (all chips always visible, wrap freely). Each chip carries a trailing `.chip-meta-arrow` (10×10, `color:var(--brand-primary)`).
 
 ---
 

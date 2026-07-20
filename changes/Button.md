@@ -46,6 +46,17 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 
 > Tertiary is Outlined minus the border — same brand-tinted hover/press overlays. Use for lowest-emphasis actions where Outlined is too prominent. No new tokens — every value reuses what Outlined already uses.
 
+## Tertiary — brand  *(`.is-brand` modifier — brand-coloured label for standalone text actions)*
+| State | Expected | Specification |
+|---|---|---|
+| Default | label `Brand/Primary`, bg transparent, no border | Brand text; reads as a link-style action without the mass of an Outlined button |
+| Hover | label `Brand/Hover`, bg `State/Hover` | Neutral pill (same as base Tertiary); only the label darkens one brand stop |
+| Pressed | label `Brand/Press`, bg `State/Pressed` | Neutral pressed pill |
+| Focus | ring `--shadow-focus` | Same ring as base Tertiary |
+| Disabled | text `Text/Inactive`, bg transparent | Neutral disabled |
+
+> `.btn-tertiary.is-brand` changes only the **label** to brand; the hover/pressed pill and focus ring stay the neutral base-Tertiary recipe, so it reads as one family. The global `.btn-tertiary` stays neutral (`Text/Body`) — this modifier is opt-in. No new tokens (reuses `Brand/Primary`, `Brand/Hover`, `Brand/Press`, `State/Hover`, `State/Pressed`). First consumer: the Data Sources connection sidepanel "Test Connection" action.
+
 ## Destructive  *(full state coverage added; semantic Feedback tokens, theme-independent for AA contrast)*
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
@@ -96,8 +107,6 @@ Same red Feedback tokens as Destructive, applied to the Outlined stroke style.
 | `--btn-secondary-border-hover` *(new)* | **theme-aware** | light `var(--slate-400)` · dark `var(--grey-500)` | Hover/press border for Secondary — one stop darker than `--btn-secondary-border` in each theme. |
 
 Existing tokens reused: `--btn-primary-bg` (`var(--brand-600)`), `--btn-primary-bg-hover` (`var(--brand-700)`), `--btn-primary-text` (`var(--white)`), `--focus-ring-brand` (`var(--brand-600)`), `--btn-secondary-bg` (`var(--card)`), `--state-hover` / `--state-pressed` / `--state-disabled` (neutral), `--ink-body` / `--ink-inactive`, `--brand-secondary` (Outlined default border), `--brand-hover` (Outlined hover/press border), `--btn-outline-bg-hover` (`color-mix(--brand-primary 6%, transparent)`), `--btn-outline-bg-press` (`color-mix(--brand-primary 8%, transparent)`), `--content-on-solid` (`var(--white)`, Destructive label), `--focus-ring` (focus-ring colour role — aliases `--focus-ring-brand` → brand `#07807E`; consumed by `--shadow-focus` for every variant incl. Destructive).
-
-> Note: a `--btn-secondary-bg-hover` token (`color-mix(--brand-primary 8%, var(--card))`) is defined in `kit-theme.css` but is **not** wired to any `.btn-secondary` rule — Secondary hover uses neutral `--state-hover`. Do not confuse the two.
 
 ## Loading state — design rationale
 

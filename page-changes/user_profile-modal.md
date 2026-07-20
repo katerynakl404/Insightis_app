@@ -227,7 +227,7 @@ space-separated list of the versions a panel serves):
   outline **Buy** (28px, natural width — no stretched button). Static informational cards — no
   card-hover recipe.
 - **V2 + V3 — pack tiles in a tinted tray** (`.acct-bc-grid` / `.acct-bc-pack`, one shared
-  `data-buyver="v2 v3"` panel): 3-up cards (1-col on narrow) on a `--surface-accent` tray;
+  `data-buyver="v2 v3"` panel): 3-up cards (1-col on narrow) on a neutral `--bg` tray;
   per-tile hierarchy: tier title (`.acct-bc-name`, 14px/600/`--ink`) → credit count
   (`.acct-bc-tokens`, 20px/700) → muted price → full-width outline **Buy**. Tiles are static (the
   button is the action) — no card-hover recipe. This layout is also what the separate buy-credits

@@ -1,6 +1,7 @@
 # chat-landing — Current vs Expected
 
-Page: `pages/chat-landing.html` · Reference: `/chat` (captured live, signed-in — light only; dark is part of the expected delivery)
+Page: `pages/approved/chat-landing.html` · Reference: `/chat` (captured live, signed-in — light only; dark is part of the expected delivery)  
+**Status:** ✅ Approved (погоджено) — 2026-07-10
 
 Chat landing hero: Sidebar shell + centered title + prompt composer (textarea, attach, Connections, Insightis Ultra, Send) + suggestion pills. The composer/pills/dropdowns layout mirrors prod; the deltas are title emphasis, background, the top-right cluster, the three designed composer dropdowns, and the component token migration.
 
@@ -40,14 +41,11 @@ The composer popovers have four states — **loading · empty · filled · scrol
 
 The switcher is a concept control (design-review only, not product UI); the live popovers ship in the **filled** state.
 
-### Choose File style — two concepts
+### Choose File style — finalized: Row
 
-The Add-file icon **always opens the popover** — it never opens a file picker directly (no "add file without the window"). A **second topbar switcher** (`.tb-concept`, label "Choose File", `SegmentedControl is-sm`) toggles only the **style of the Choose File control inside the popover**:
+The Add-file icon **always opens the popover** — it never opens a file picker directly (no "add file without the window"). Choose File inside the popover is the **brand `.mi` row** (`.mi cl-attach-choose`, upload icon + `--ink-highlight`), sharing the file-row left edge. Opening: empty → centered empty-state card; filled/scrolling → recent-files list. `clAttachToggle` opens the popover.
 
-- **Version 1 · Row** *(current / default)* — Choose File is the **brand `.mi` row** (upload icon + `--ink-highlight`), sharing the file-row left edge.
-- **Version 2 · Button** — Choose File is a **full-width secondary button** (`.btn.btn-secondary.btn-sm`, with the upload icon), with a **uniform 8px inset** on all sides (its distance to the edges matches its distance to the divider below).
-
-Both versions behave identically otherwise (open the popover; empty → centered empty-state card; filled/scrolling → recent-files list). Wiring (page JS): `clBehavior` (`'c1'`/`'c2'`, default `c1`) selects the style; `clApplyChooseStyle()` swaps the Choose File element between the `.mi` brand row (c1) and the `.btn.btn-secondary` form (c2). `clAttachToggle` always opens the popover for both. Both switchers live on `chat-landing.html` and `chat_page-landing.html`. Design-review only — production ships **Version 1 (Row)**.
+> **Resolved — Version 1 (Row) is the sole style.** An earlier exploration added a Version 2 · Button (full-width `.btn.btn-secondary.btn-sm`) toggled by a topbar `.tb-concept` switcher. Both the Button variant and the switcher are **removed** from `chat-landing.html` + `chat_page-landing.html` (page JS `clBehavior` / `clSetBehavior` / `clApplyChooseStyle` deleted). Row is the only, production style.
 
 The composer popovers no longer carry the `.menu-wip` "In redesign" stub — it was removed so the popover design reads clean and can be evaluated. (The page-level "In redesign" topbar tag stays.)
 

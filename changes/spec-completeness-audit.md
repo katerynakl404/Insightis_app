@@ -23,7 +23,7 @@ These are the most dangerous: the doc/storybook states a value the live CSS disp
 
 | Component | Contradiction |
 |---|---|
-| **Button** | Secondary **hover bg**: change doc says `--btn-secondary-bg-hover` (brand 5% tint); storybook + live CSS say `--state-hover` (neutral). Two authoritative docs disagree. **blocker** |
+| **Button** | ~~Secondary **hover bg**: change doc says `--btn-secondary-bg-hover` (brand 5% tint); storybook + live CSS say `--state-hover` (neutral). Two authoritative docs disagree.~~ **✅ resolved 2026-07-17** — neutral `--state-hover` confirmed as the contract; orphan `--btn-secondary-bg-hover` token deleted, `colors.md` + `IconButton.md` realigned. |
 | **Table** (`.mx-tbl`) | Provider-group band: spec says `var(--bg)`; live CSS uses dedicated `--mx-group-band` (slate-150/grey-700). Also no row height (2.875rem), no `--mx-prov-indent` system, `.mx-prov-ic` "bare" claim is false (it has bg+border). **3 blockers** |
 | **PasswordInput** | Toggle size stated 3 ways (36 / 28 / 24px); shell height 32 (doc) vs 36 (storybook); error bg "red/5" vs live `transparent`. **2 blockers** |
 | **DataSourceCard** | Name `font-weight` — doc + CSS say `400`, **every** storybook demo renders `600`. |

@@ -49,7 +49,7 @@ Rows are wrapped in a `.chat-list` container (no base styling of its own; carrie
 
 - Container `max-width: 960px`, centred, padding `0 2rem`. Rows sit on the page background (`--bg`) — no card, no border, no panel wrapper.
 - MetaRow is fully transparent (no bg, no border).
-- Sidebar is **not** duplicated — `pages/chats-landing.html` loads it from `pages/chat-landing.html` via `fetch()` at page load and injects the `<aside class="cl-side">` inner HTML. Single source of truth.
+- Sidebar is **not** duplicated — `pages/chats-landing.html` loads it from `pages/approved/chat-landing.html` via `fetch()` at page load and injects the `<aside class="cl-side">` inner HTML. Single source of truth.
 
 ## No change (—)
 

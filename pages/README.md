@@ -23,8 +23,8 @@ real screens look in the current production design vs the expected (new) design.
 
 | File | Screen | Key components |
 |---|---|---|
-| `chat-landing.html` | Chat landing (empty state / hero) | Sidebar (Expected only), Composer, Suggestion chips |
-| `chat_page-landing.html` | Chat page (active conversation) | Sidebar (Expected only), Thread, Composer |
+| `approved/chat-landing.html` ✅ | Chat landing (empty state / hero) — **approved** | Sidebar (Expected only), Composer, Suggestion chips |
+| `approved/chat_page-landing.html` ✅ | Chat page (active conversation) — **approved** | Sidebar (Expected only), Thread, Composer |
 | `chats-landing.html` | Chats library | Sidebar (Expected only), ChatRow list, MetaRow, Search |
 | `approved/data-sources_connections-landing.html` ✅ | Data Sources — Connections (sidebar `Sources` active) — **approved**, in-page Loaded/Skeleton toggle | Sidebar (Expected only), Banner, ConnectorGrid |
 | `approved/data-sources_files-landing.html` ✅ | Files (sidebar `Files` active) — split off from Data Sources into a top-level route — **approved** | Sidebar (Expected only), FileList, drop zone |
@@ -59,7 +59,7 @@ Pages are responsive in two stages:
 - **< 640 px**: main column tightens — title font-size, composer padding, and hero gap all shrink for narrow phones. Composer footer rows are allowed to wrap (`flex-wrap:wrap`) so the Send button can drop to its own row if the dropdown labels don't fit.
 - **< 480 px**: composer dropdown labels (`.cl-dropdown-lbl` — "Connections", "Insightis Ultra") and the Send button label (`.cl-send-lbl`) collapse to **icon-only**. Glyphs + `aria-label` carry the meaning. Suggestion pills also tighten (h32, smaller padding + 12px font). Same icon-only-on-mobile pattern OpenAI's chat composer uses.
 
-The implementation uses one root class (`html.side-open`) + the topbar's `<button class="cl-burger">` + a `<div class="cl-side-backdrop">` element. Toggle via an inline `onclick` plus a small auto-apply IIFE that drops `.side-open` whenever the viewport crosses back to desktop. See `chat-landing.html` for the working example; full contract documented in `../changes/Sidebar.md` → *Responsive behaviour*.
+The implementation uses one root class (`html.side-open`) + the topbar's `<button class="cl-burger">` + a `<div class="cl-side-backdrop">` element. Toggle via an inline `onclick` plus a small auto-apply IIFE that drops `.side-open` whenever the viewport crosses back to desktop. See `approved/chat-landing.html` for the working example; full contract documented in `../changes/Sidebar.md` → *Responsive behaviour*.
 
 ## Topbar / page chrome
 

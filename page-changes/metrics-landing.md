@@ -88,6 +88,7 @@ Both were pre-existing ≤767px overrides, not documented/intentional divergence
 | Banner title | — | "Connect more data sources" |
 | Banner body | — | "50+ data sources available — add connections to unlock more built-in metrics" |
 | Banner CTA | — | "Browse Data Sources" |
+| Banner dismiss | — | Dismissible — wrapped in `.banner-wrap` (`#mx-connect-wrap`) with a corner `.banner-close` ✕ that collapses it via `.is-dismissed`. New kit slot — see [`../changes/Banner.md`](../changes/Banner.md) |
 
 ### Mental model clarified
 

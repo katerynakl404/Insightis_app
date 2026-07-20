@@ -15,7 +15,7 @@ Source: `@insightis/ui` `Button/index.tsx` (cva) + `globals.css`.
 | Cursor | `pointer` (`not-allowed` when `:disabled`) | Set on base; disabled variants override to `not-allowed`. |
 | Font | `font-family:inherit` | No own type tokens — icon-only, no text. |
 | Transition | `all .12s` | Matches Button. |
-| Icon glyph | ≤18px typical (consumer-set) | **Icon size is flexible / consumer-set by design — not enforced by `.iconbtn`.** `.iconbtn` sizes only the button box; the glyph size comes from the consumer's inline SVG `width`/`height`. 18px is the typical/default, but it may be smaller per-instance (e.g. `.mx-tbl-actions .iconbtn svg{width:12px;height:12px}` in table action rows). Intentional — no base `.iconbtn svg{...}` rule, so each context picks its own glyph size. |
+| Icon glyph | ≤18px typical (consumer-set) | **Icon size is flexible / consumer-set by design — not enforced by `.iconbtn`.** `.iconbtn` sizes only the button box; the glyph size comes from the consumer's inline SVG `width`/`height`. 18px is the typical/default, but it may be smaller per-instance (e.g. `.mx-tbl-actions .iconbtn svg{width:14px;height:14px}` in table action rows). Intentional — no base `.iconbtn svg{...}` rule, so each context picks its own glyph size. |
 
 ### DOM / markup contract
 
@@ -50,7 +50,7 @@ Single size (36×36) — variants differ in colour only, all reusing Button toke
 | State | Tokens (resolves per variant) |
 |---|---|
 | Default | variant defaults (see table above) |
-| Hover | `--btn-primary-bg-hover` (Primary) / `--btn-secondary-bg-hover` = `Brand/Primary @ 5%` over `Surface/Card` + border `--btn-secondary-border-hover` (Secondary — see [`colors.md`](colors.md) for why a brand tint replaced the earlier `State/Hover`) / `var(--btn-outline-bg-hover)` (Outlined + Tertiary, + `Brand/Primary_Hover` border on Outlined) |
+| Hover | `--btn-primary-bg-hover` (Primary) / bg `--state-hover` (neutral — **not** a brand tint; agreed 2026-07-17) + border `--btn-secondary-border-hover` (Secondary) / `var(--btn-outline-bg-hover)` (Outlined + Tertiary, + `Brand/Primary_Hover` border on Outlined) |
 | Pressed | `--btn-primary-bg-press` / `State/Pressed` / `Brand/Primary @8%` — bg-shift only, no transform or shadow (Outline also keeps the `Brand/Primary_Hover` border from hover) |
 | Focus | every variant (incl. Destructive Outlined) uses the single `--shadow-focus` ring — 2px + 2px `Surface/Card` gap, brand-teal halo via `--focus-ring`. Destructive carries its red identity on the border, not the ring; the teal ring already avoids red-on-red |
 | Disabled | bg `State/Disabled` (Primary/Secondary) or icon `Text/Inactive` (Outlined/Tertiary, bg transparent) |
@@ -69,7 +69,7 @@ Prod ships a single IconButton style (≈ Secondary's new look — neutral borde
 | Property | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
 | Border default | `border` `#F0F5FA` | `Stroke/Border` `#E2E8F0` (Slate-200) | `--btn-secondary-border` (Slate-300 light / Grey-600 dark — see [Button](Button.md)) | Aligns with Button Secondary border token; slightly darker than Slate-200 for improved contrast |
-| Hover icon | `accent` `#07827F` | unchanged (icon stays `Text/Body`); bg shifts to `--btn-secondary-bg-hover` | — (no change from v1.0) | Icon colour itself unchanged; bg affordance carries the hover |
+| Hover icon | `accent` `#07827F` | unchanged (icon stays `Text/Body`); bg shifts on hover | bg `--state-hover` (neutral — the v1.0 brand-tint hover was reverted; agreed 2026-07-17) | Icon colour itself unchanged; bg affordance carries the hover |
 | Hover border | `Stroke/Border_Hover` | `Stroke/Border_Hover` (kept) | `--btn-secondary-border-hover` | Token-aligned; resolves to same value as `Stroke/Border_Hover` |
 | Disabled | `border-gradient-inner-border`, icon `content-light` | bg `State/Disabled`, icon `Text/Inactive` | — (no change from v1.0) | Mirrors Button Secondary disabled recipe |
 
@@ -92,7 +92,7 @@ The base `.iconbtn` is always 36×36; specific layouts shrink it via a scoping c
 
 | Context | Selector | Override |
 |---|---|---|
-| Table row actions | `.mx-tbl-actions .iconbtn` | `width/height 1.625rem` (26px), `opacity:0` at rest, `transition:opacity .12s`; revealed on `tr:hover` (`opacity:1`). Glyph: `.mx-tbl-actions .iconbtn svg{width:12px;height:12px}`. Hover `background:var(--state-pressed)`, active `background:color-mix(in srgb,var(--brand-primary) 12%,transparent)`, both `color:var(--ink)`. Child-metric rows force `opacity:1`. |
+| Table row actions | `.mx-tbl-actions .iconbtn` | `width/height 1.5rem` (24px), `opacity:0` at rest, `transition:opacity var(--motion-fast)`; revealed on `tr:hover` (`opacity:1`). Glyph: `.mx-tbl-actions .iconbtn svg{width:14px;height:14px}`. Hover `background:var(--state-pressed)`, active `background:color-mix(in srgb,var(--brand-primary) 12%,transparent)`, both `color:var(--ink)`. Child-metric rows force `opacity:1`. |
 | Autocomplete clear | `.acpl .acpl-end .iconbtn-mini` | Separate `.iconbtn-mini` (not `.iconbtn`): 24×24, transparent, borderless, `color:var(--ink-secondary)`, radius 4px; hover `color:var(--brand-primary)`. |
 | Data-source card | `.ds-card .iconbtn` | `background:var(--bg)` (matches card surface). |
 | Sidebar collapse / chat-more | `.sbx-collapse`, `.sbx-chat-more` | Use `.iconbtn iconbtn-tertiary` + scoping class; inherit colour/hover/pressed/focus from `.iconbtn-tertiary`, override only size + (for chat-more) absolute positioning / opacity-reveal. |
