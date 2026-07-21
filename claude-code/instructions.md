@@ -338,12 +338,12 @@ Use the CSS `:first-child` / `:last-child` exceptions to suppress redundant padd
 |---|---|---|
 | **Primitives** | `:root` block at top of `pages/kit-theme.css` (the only place raw hex is allowed) | `--brand-600:#07807E` · `--red-700:#B91C1C` |
 | **Semantic** | `:root` / `.dark` — maps a primitive to a role; theme-aware where needed | `--brand-primary:var(--brand-600)` · `--ink-body:var(--slate-700)` · `--fb-red:var(--red-700)` |
-| **Component-scoped** | `:root` / `.dark` — composes semantics into a component recipe; single source of truth for repeated mixes | `--btn-primary-bg:var(--brand-primary)` · `--btn-outline-destructive-bg-hover:color-mix(in srgb, var(--fb-red) 6%, transparent)` |
+| **Component-scoped** | `:root` / `.dark` — composes semantics into a component recipe; single source of truth for repeated mixes | `--btn-primary-bg:var(--brand-primary)` · `--btn-outline-destructive-bg-hover:color-mix(in srgb, var(--fb-red) var(--tint-6), transparent)` |
 
 **Hard rules:**
 
-1. **No raw colour values in component rules.** Hex codes, `rgb()`, and inline `color-mix(...)` expressions live ONLY in the token layer. A component rule that contains `color-mix(in srgb, var(--fb-red) 6%, transparent)` is wrong — lift it to a `--*-bg-hover` token first.
-2. **Tokenise any repeated mix.** If the same `color-mix(...)` (or any other colour expression) appears in more than one rule, lift it to a CSS variable. The percentage / source / overlay must live in exactly one place — a future tune is one edit, not N.
+1. **No raw colour values in component rules.** Hex codes, `rgb()`, and inline `color-mix(...)` expressions with literal percentages live ONLY in the token layer. **One sanctioned exception — the tint-scale wash recipe:** `color-mix(in srgb, var(--<semantic base>) var(--tint-N), transparent)` may sit directly in a rule or component token, because both halves are already tokens (a semantic base + a `--tint-N` strength step from the TINT SCALE block in `kit-theme.css`). A literal `%`, a primitive base, or a mix over anything other than `transparent` is still wrong — lift those to a token.
+2. **Tokenise any repeated mix.** If the same colour expression appears in more than one rule, lift it to a CSS variable — for transparent washes that means the *strength* flows through a shared `--tint-N` step (add a step when a new strength earns a second consumer). The percentage / source / overlay must live in exactly one place — a future tune is one edit, not N.
 3. **Reuse before inventing.** Before adding `--btn-*-bg-hover` / `--*-overlay-*` / similar, scan the existing semantic + component layer. If three variants need the same `brand @ 6%` overlay, ONE shared token is correct; three parallel tokens are drift.
 4. **Variant-pattern symmetry.** A new variant in an existing family must reuse the same colour-token recipe as its siblings. E.g. all Outlined-family variants follow "coloured border + neutral `Text/Body` label" — diverging for one variant breaks the contract. If divergence is intentional, state the rationale in the change file.
 5. **rgba(0,0,0,α) exception.** Allowed inside `box-shadow:` declarations only — universal shadow convention, not a colour token. Anywhere else, route through a token.
@@ -352,11 +352,11 @@ Use the CSS `:first-child` / `:last-child` exceptions to suppress redundant padd
 **Self-review checklist — run before completing any colour-touching task:**
 
 - [ ] Did I paste a hex outside the Primitives block? → Lift to a primitive.
-- [ ] Is the same `color-mix(...)` / overlay expression now in 2+ rules? → Lift to a component-scoped token.
+- [ ] Is the same `color-mix(...)` / overlay expression now in 2+ rules? → Lift to a component-scoped token (transparent washes: ensure the strength is a shared `--tint-N` step, not a literal %).
 - [ ] Does my new component-scoped token duplicate an existing one's value? → Reuse the existing token.
 - [ ] Does my new variant diverge from its sibling-family recipe (label colour, border colour, focus ring style, hover overlay strength)? → Align to the family OR document the divergence rationale.
 - [ ] Did I reference a primitive directly inside a component rule? → Replace with the matching semantic token.
-- [ ] Are all overlay percentages (`6%`, `8%`, `12%` …) inside `:root` token definitions, never inside component selectors? → If not, fix.
+- [ ] Are all overlay percentages (`6%`, `8%`, `12%` …) expressed as `--tint-N` steps (defined once in the TINT SCALE block), never as literal `%` inside component selectors or component tokens? → If not, fix.
 
 This rule blocks merge — any colour-touching change must pass the checklist, and the report at the end of the task must explicitly confirm "Colour-token discipline: PASS" or note the WARN(s).
 

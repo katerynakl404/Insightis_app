@@ -741,13 +741,24 @@
   var PAGE_SIZE = 18;
   var _dsObserver = null;
 
+  /* Connectors matched by the current search query only (category ignored) — the pool the
+     category counters count within, so the chip row narrows live with the query. */
+  function dsSearchMatched(){
+    if(!STATE.q) return CONNECTORS;
+    return CONNECTORS.filter(function(c){ return c.name.toLowerCase().indexOf(STATE.q) !== -1; });
+  }
   function dsCount(cat){
-    if (cat === 'All') return CONNECTORS.length;
-    return CONNECTORS.filter(function(c){return (c.cats || [c.cat]).indexOf(cat) !== -1;}).length;
+    var pool = dsSearchMatched();
+    if (cat === 'All') return pool.length;
+    return pool.filter(function(c){return (c.cats || [c.cat]).indexOf(cat) !== -1;}).length;
   }
 
   function dsRenderCats(){
     var host = document.getElementById('ds-cats');
+    /* If the active category has no matches under the current query, fall back to All so the
+       remaining matches aren't hidden by a stale filter. All chips stay visible (0-count included)
+       — the row must not reflow/jump while the user types. */
+    if (STATE.cat !== 'All' && dsCount(STATE.cat) === 0) STATE.cat = 'All';
     var active = STATE.cat;
     host.innerHTML = CATEGORIES.map(function(cat){
       var n = dsCount(cat);
@@ -814,6 +825,7 @@
   function dsFilterSearch(q){
     STATE.q = q.trim().toLowerCase();
     STATE.page = 1;
+    dsRenderCats(); /* counters follow the query; empty categories drop out (may reset cat to All) */
     dsRenderGrid();
   }
   function dsClearSearch(){
@@ -821,6 +833,7 @@
     if(inp){ inp.value = ''; }
     STATE.q = '';
     STATE.page = 1;
+    dsRenderCats(); /* restore the full chip row + baseline counters */
     dsRenderGrid();
   }
 
@@ -873,7 +886,7 @@
       + '<div class="empty-state" role="status">'
       + '<svg class="es-illu" viewBox="0 0 150 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g><rect class="es-card es-card-top" x="9" y="4" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="11" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="14" width="80" height="6" rx="3"/></g><g opacity="0.55"><rect class="es-card" x="9" y="38" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="45" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="48" width="64" height="6" rx="3"/></g><g opacity="0.28"><rect class="es-card" x="9" y="72" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="79" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="82" width="72" height="6" rx="3"/></g></svg>'
       + '<p class="empty-title">No matches found</p>'
-      + '<p class="empty-msg">No data sources match your search or filters. Try a different term or clear the filters.</p>'
+      + '<p class="empty-msg">No data sources match your search or filters — try a different term or clear them</p>'
       + '</div></div>';
     var wrapFn = function(c){ return dsCardHtml(c); };
     var prevCount = (STATE.page - 1) * PAGE_SIZE;

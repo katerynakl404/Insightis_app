@@ -235,6 +235,15 @@
     <div class="pg-approved-tag" aria-hidden="true">Approved</div>
   </div>
   <div style="display:flex;align-items:center;gap:.625rem">
+    <div class="segctrl is-sm" role="group" aria-label="Data state" style="width:auto">
+      <button class="segctrl-btn is-active" type="button" onclick="dsfSegData(this,'filled')">Filled</button>
+      <button class="segctrl-btn" type="button" onclick="dsfSegData(this,'empty')">Empty</button>
+    </div>
+    <!-- Loaded/Skeleton — in-page initial-load preview (flips html.skel-on). NOT a Current/Expected scope; never wire to .prod. -->
+    <div class="segctrl is-sm" role="group" aria-label="Page state" style="width:auto">
+      <button class="segctrl-btn is-active" type="button" aria-selected="true" onclick="document.documentElement.classList.remove('skel-on');this.classList.add('is-active');this.setAttribute('aria-selected','true');this.nextElementSibling.classList.remove('is-active');this.nextElementSibling.setAttribute('aria-selected','false')">Loaded</button>
+      <button class="segctrl-btn" type="button" aria-selected="false" onclick="document.documentElement.classList.add('skel-on');this.classList.add('is-active');this.setAttribute('aria-selected','true');this.previousElementSibling.classList.remove('is-active');this.previousElementSibling.setAttribute('aria-selected','false')">Skeleton</button>
+    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
@@ -294,15 +303,12 @@
               </button>
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
-            </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Onboarding cohort summary</span>
-            </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Churn deep-dive</span>
-            </div>
+            <!-- Unified sidebar chat rows (same as metrics/chats pages): hover reveals the
+                 .sbx-chat-more kebab; menu = Unpin/Pin · Rename · Delete. Navigation is delegated
+                 (data-href), so kebab/menu clicks never navigate. -->
+            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Q1 revenue commentary draft</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Onboarding cohort summary</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Churn deep-dive</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
           </div>
           <div class="sbx-sect">
             <div class="sbx-sect-head">
@@ -312,12 +318,8 @@
               </button>
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
-            </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'">
-              <span class="sbx-chat-lbl">Generate two charts using random data</span>
-            </div>
+            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+            <div class="sbx-chat" role="button" tabindex="0" data-href="../concept/chat_page-charts-landing.html"><span class="sbx-chat-lbl">Generate two charts using random data</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
           </div>
         </div>
         <div class="sbx-foot">
@@ -415,8 +417,9 @@
           <button class="btn btn-outline btn-sm" type="button" onclick="event.stopPropagation();dsfBrowseFiles()">Browse Files</button>
         </div>
 
-        <!-- Library block — filter chips, then the actions/meta row, then the list (flat; matches Chats Library) -->
-        <div class="dsf-library" id="dsf-library">
+        <!-- Library block — filter chips, then the actions/meta row, then the list (flat; matches Chats Library).
+             .sk-loaded pairs with the .sk-skel sibling below (html.skel-on swaps them). -->
+        <div class="dsf-library sk-loaded" id="dsf-library">
           <!-- Source filter — All / Artifacts / Uploaded -->
           <div class="dsf-filter" id="dsf-filter" role="group" aria-label="Filter files by source">
             <button class="chip is-active" type="button" aria-pressed="true" data-action="filter" data-filter="all">All</button>
@@ -431,12 +434,135 @@
           <div class="dsf-more" id="dsf-more"></div>
         </div>
 
+        <!-- First-run empty state — kit .empty-state (changes/StatusView.md) with the shared
+             .es-illu "fading result cards" illustration (mirrors the file list it replaces, same as
+             prod's /files empty). No CTA — the always-visible drop zone above is the page's upload
+             CTA. Shown by dsfRender() only when no files exist at all — the library block hides
+             (hard rule 4). -->
+        <div class="sk-loaded" id="dsf-empty" hidden>
+          <div class="empty-state" role="status">
+            <svg class="es-illu" viewBox="0 0 150 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g><rect class="es-card es-card-top" x="9" y="4" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="11" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="14" width="80" height="6" rx="3"/></g><g opacity="0.55"><rect class="es-card" x="9" y="38" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="45" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="48" width="64" height="6" rx="3"/></g><g opacity="0.28"><rect class="es-card" x="9" y="72" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="79" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="82" width="72" height="6" rx="3"/></g></svg>
+            <p class="empty-title">No files yet</p>
+            <p class="empty-msg">Files you upload or create in chats will appear here</p>
+          </div>
+        </div>
+
+        <!-- Loading skeleton — shown when html.skel-on (top Loaded/Skeleton toggle). Mirrors the
+             library block: filter chips + count line + the 6-column file table (5 ghost rows).
+             The drop zone above stays real — it is static page chrome, not loaded data. -->
+        <div class="sk-skel" aria-hidden="true">
+          <div class="dsf-library">
+            <div class="dsf-filter">
+              <span class="skel shimmer r-full" style="width:3rem;height:1.75rem"></span>
+              <span class="skel shimmer r-full" style="width:4.5rem;height:1.75rem"></span>
+              <span class="skel shimmer r-full" style="width:4.75rem;height:1.75rem"></span>
+            </div>
+            <div class="meta-row"><span class="skel shimmer r-sm" style="width:3.5rem;height:.875rem"></span></div>
+            <div class="dsf-tbl-wrap">
+              <table class="tbl dsf-tbl">
+                <thead><tr>
+                  <th class="dsft-cb"><span class="skel shimmer r-sm" style="display:block;width:1.125rem;height:1.125rem"></span></th>
+                  <th>Name</th><th>Type</th>
+                  <th class="dsft-size">Size</th>
+                  <th class="dsft-date">Modified</th>
+                  <th class="dsft-act"></th>
+                </tr></thead>
+                <tbody>
+                  <tr>
+                    <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:10rem;height:.875rem"></span></div></td>
+                    <td><span class="skel shimmer r-full" style="display:block;width:3.5rem;height:1.125rem"></span></td>
+                    <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:3rem;height:.8125rem"></span></td>
+                    <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:4.5rem;height:.8125rem"></span></td>
+                    <td class="dsft-act"><span class="skel shimmer r-sm" style="display:block;width:1.25rem;height:1.25rem;margin-left:auto"></span></td>
+                  </tr>
+                  <tr>
+                    <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:8rem;height:.875rem"></span></div></td>
+                    <td><span class="skel shimmer r-full" style="display:block;width:4.25rem;height:1.125rem"></span></td>
+                    <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:3.5rem;height:.8125rem"></span></td>
+                    <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:4rem;height:.8125rem"></span></td>
+                    <td class="dsft-act"><span class="skel shimmer r-sm" style="display:block;width:1.25rem;height:1.25rem;margin-left:auto"></span></td>
+                  </tr>
+                  <tr>
+                    <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:11rem;height:.875rem"></span></div></td>
+                    <td><span class="skel shimmer r-full" style="display:block;width:3.5rem;height:1.125rem"></span></td>
+                    <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:2.75rem;height:.8125rem"></span></td>
+                    <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:5rem;height:.8125rem"></span></td>
+                    <td class="dsft-act"><span class="skel shimmer r-sm" style="display:block;width:1.25rem;height:1.25rem;margin-left:auto"></span></td>
+                  </tr>
+                  <tr>
+                    <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:7.5rem;height:.875rem"></span></div></td>
+                    <td><span class="skel shimmer r-full" style="display:block;width:4.25rem;height:1.125rem"></span></td>
+                    <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:3.25rem;height:.8125rem"></span></td>
+                    <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:4.5rem;height:.8125rem"></span></td>
+                    <td class="dsft-act"><span class="skel shimmer r-sm" style="display:block;width:1.25rem;height:1.25rem;margin-left:auto"></span></td>
+                  </tr>
+                  <tr>
+                    <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:9rem;height:.875rem"></span></div></td>
+                    <td><span class="skel shimmer r-full" style="display:block;width:3.5rem;height:1.125rem"></span></td>
+                    <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:3rem;height:.8125rem"></span></td>
+                    <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:4.25rem;height:.8125rem"></span></td>
+                    <td class="dsft-act"><span class="skel shimmer r-sm" style="display:block;width:1.25rem;height:1.25rem;margin-left:auto"></span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </main>
 
   <!-- File preview — right split panel (opens on file click, like prod); rendered by dsfRenderPreview() -->
   <aside class="dsf-preview" id="dsf-preview" aria-label="File preview"></aside>
+</div>
+
+<!-- ===== Rename File dialog — kit .dlg shell (same recipe as the Connections "Edit connection"
+     dialog); opened from the file row kebab's Rename item, prefilled with the current name. -->
+<div id="dsf-ren-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsfCloseRename()">
+  <div class="dlg" style="width:30rem" role="dialog" aria-modal="true" aria-labelledby="dsf-ren-title">
+    <div class="dlg-hdr">
+      <h2 id="dsf-ren-title" class="dlg-title">Rename file</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsfCloseRename()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:1rem">
+      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your file a recognizable name</p>
+      <div class="field" style="max-width:none"><input id="dsf-ren-input" type="text" placeholder="File name" autocomplete="off" aria-label="File name" onkeydown="if(event.key==='Enter')dsfSaveRename()"></div>
+    </div>
+    <input type="hidden" id="dsf-ren-id">
+    <div class="dlg-ftr">
+      <button class="btn btn-secondary btn-sm" type="button" onclick="dsfCloseRename()">Cancel</button>
+      <button class="btn btn-primary btn-sm" type="button" onclick="dsfSaveRename()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Delete confirm dialog — kit .dlg shell (same recipe as the Connections "Disconnect?"
+     dialog / prod's "Delete chat?" modal). Guards both the row kebab's Delete and the bulk
+     Delete in the meta row; title + body adapt to the pending single/bulk target. -->
+<div id="dsf-del-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsfCloseDelete()">
+  <div class="dlg" style="width:24rem" role="dialog" aria-modal="true" aria-labelledby="dsf-del-title">
+    <div class="dlg-hdr">
+      <h2 id="dsf-del-title" class="dlg-title">Delete file?</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsfCloseDelete()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="padding:0 1.25rem 1.25rem">
+      <p id="dsf-del-msg" style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">This action can't be undone. The file will be permanently removed.</p>
+    </div>
+    <div class="dlg-ftr">
+      <button class="btn btn-secondary btn-sm" type="button" onclick="dsfCloseDelete()">Cancel</button>
+      <button class="btn btn-destructive btn-sm" id="dsf-del-confirm" type="button" onclick="dsfConfirmDelete()">Delete</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -563,6 +689,7 @@
     return ''
       + '<div class="menu chat-row-menu" role="menu">'
       +   '<div class="mi" role="menuitem" data-action="add-to-chat" data-id="' + id + '">Add to Chat</div>'
+      +   '<div class="mi" role="menuitem" data-action="rename" data-id="' + id + '">Rename</div>'
       +   '<div class="mi" role="menuitem" data-action="download" data-id="' + id + '">Download</div>'
       +   '<div class="mi danger" role="menuitem" data-action="delete" data-id="' + id + '">Delete</div>'
       + '</div>';
@@ -571,23 +698,51 @@
     return '<button class="chat-row-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more" data-id="' + id + '">' + KEBAB + '</button>';
   }
 
+  /* Shared kit "fading result cards" illustration — filter/search no-match empty state (same SVG
+     as chats-landing.html / data-sources_connections-landing.html; see changes/StatusView.md). */
+  var EMPTY_SEARCH_IC = '<svg class="es-illu" viewBox="0 0 150 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g><rect class="es-card es-card-top" x="9" y="4" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="11" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="14" width="80" height="6" rx="3"/></g><g opacity="0.55"><rect class="es-card" x="9" y="38" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="45" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="48" width="64" height="6" rx="3"/></g><g opacity="0.28"><rect class="es-card" x="9" y="72" width="132" height="26" rx="8"/><rect class="es-ph es-ph-ic" x="18" y="79" width="12" height="12" rx="4"/><rect class="es-ph" x="36" y="82" width="72" height="6" rx="3"/></g></svg>';
+
   /* ===== Render file list — dispatches to the active layout, paginated to PAGE_SIZE ===== */
   function dsfRender(){
     var list = document.getElementById('dsf-list');
     var library = document.getElementById('dsf-library');
     var more = document.getElementById('dsf-more');
+    var emptyEl = document.getElementById('dsf-empty');
 
-    /* Hide the whole library block when there are no files at all — only the drop zone remains. */
+    /* Hide the whole library block when there are no files at all — only the drop zone and the
+       first-run empty state (#dsf-empty, kit .empty-state) remain. */
     if (FILES.length === 0){
       if (library) library.style.display = 'none';
+      if (emptyEl) emptyEl.hidden = false;
       list.innerHTML = '';
       if (more) more.innerHTML = '';
       dsfRenderPreview();
       return;
     }
     if (library) library.style.display = '';
+    if (emptyEl) emptyEl.hidden = true;
 
-    var vis = dsfVisible().slice().sort(function(a,b){ return sortDir === 'asc' ? a.sortIdx - b.sortIdx : b.sortIdx - a.sortIdx; });
+    /* sortIdx 0 = newest (seed is newest→oldest): desc (newest first) sorts ascending by idx,
+       asc (oldest first) descending. */
+    var vis = dsfVisible().slice().sort(function(a,b){ return sortDir === 'asc' ? b.sortIdx - a.sortIdx : a.sortIdx - b.sortIdx; });
+
+    /* Filter returned nothing (e.g. every Uploaded file was deleted while that chip is active) —
+       shared filter/search no-match empty state; the chips stay so the user can switch back, the
+       meta row hides (nothing to count or select). */
+    if (vis.length === 0){
+      list.className = 'dsf-list';
+      list.removeAttribute('role');
+      list.innerHTML = '<div class="empty-state" role="status">'
+        + EMPTY_SEARCH_IC
+        + '<p class="empty-title">No matches found</p>'
+        + '<p class="empty-msg">No files match this filter — switch back to All to see every file</p>'
+        + '</div>';
+      if (more) more.innerHTML = '';
+      dsfRenderMeta();
+      dsfRenderPreview();
+      return;
+    }
+
     var page = vis.slice(0, shownCount);
     dsfRenderTable(list, page);
 
@@ -651,6 +806,8 @@
     var totalCount = vis.length;
     var noun = totalCount === 1 ? 'file' : 'files';
     var countHtml = '<span class="meta-row-count">' + totalCount + ' ' + noun + '</span>';
+    /* Filter no-match — the list shows the empty state; "0 files · sort" is noise, hide the row. */
+    if (totalCount === 0 && !editMode){ meta.style.display = 'none'; meta.innerHTML = ''; return; }
     meta.style.display = '';
     meta.classList.toggle('dsf-meta-sticky', editMode);
     var tbl = document.querySelector('table.dsf-tbl');
@@ -700,6 +857,9 @@
       +   PREVIEW_DOC
       +   '<div class="dsf-preview-name">' + escHtml(f.name) + '</div>'
       +   '<div class="dsf-preview-meta">' + escHtml(f.size) + ' · ' + (f.origin === 'artifact' ? 'Artifact' : 'Uploaded') + ' · ' + escHtml(f.date) + '</div>'
+      /* No inline preview for this format — offer a real Download action in the body, same
+         treatment as the chat file panel's unsupported-format state (.cp-fp-empty). */
+      +   '<button class="btn btn-secondary btn-sm" type="button" data-action="download" data-id="' + f.id + '" style="margin-top:.25rem">Download</button>'
       + '</div>';
   }
   /* Resizable preview — drag the left-edge grip; the panel hugs the right edge, so its width is
@@ -722,6 +882,72 @@
   })();
   function dsfOpenPreview(id){ previewId = id; dsfRender(); }
   function dsfClosePreview(){ if (previewId === null) return; previewId = null; dsfRender(); }
+
+  /* ===== Rename File dialog — kit .dlg shell; prefilled with the current name, saves on
+     Enter / Save, closes on Cancel / ✕ / Escape / backdrop click. */
+  function dsfOpenRename(id){
+    var f = FILES.find(function(x){ return x.id === id; });
+    if (!f) return;
+    var dlg = document.getElementById('dsf-ren-dlg');
+    var inp = document.getElementById('dsf-ren-input');
+    document.getElementById('dsf-ren-id').value = id;
+    inp.value = f.name;
+    dlg.style.display = ''; /* .dlg-overlay's own display:flex takes over */
+    dlg.setAttribute('aria-hidden','false');
+    /* Preselect the basename (keep the extension out of the selection) so typing replaces
+       the meaningful part without clobbering ".csv"/".xlsx". */
+    var dot = f.name.lastIndexOf('.');
+    inp.focus();
+    inp.setSelectionRange(0, dot > 0 ? dot : f.name.length);
+  }
+  function dsfCloseRename(){
+    var dlg = document.getElementById('dsf-ren-dlg');
+    dlg.style.display = 'none';
+    dlg.setAttribute('aria-hidden','true');
+  }
+  function dsfSaveRename(){
+    var id = document.getElementById('dsf-ren-id').value;
+    var name = document.getElementById('dsf-ren-input').value.trim();
+    var f = FILES.find(function(x){ return x.id === id; });
+    if (f && name) f.name = name;
+    dsfCloseRename();
+    dsfRender();
+  }
+
+  /* ===== Delete confirm dialog — guards the row kebab's Delete and the bulk Delete.
+     pending: a file id, or 'selected' for the bulk action. */
+  var dsfDelPending = null;
+  function dsfOpenDelete(target){
+    dsfDelPending = target;
+    var n = target === 'selected' ? dsfVisible().filter(function(f){ return f.selected; }).length : 1;
+    document.getElementById('dsf-del-title').textContent = n > 1 ? 'Delete ' + n + ' files?' : 'Delete file?';
+    document.getElementById('dsf-del-msg').textContent = n > 1
+      ? "This action can't be undone. The selected files will be permanently removed."
+      : "This action can't be undone. The file will be permanently removed.";
+    var dlg = document.getElementById('dsf-del-dlg');
+    dlg.style.display = ''; /* .dlg-overlay's own display:flex takes over */
+    dlg.setAttribute('aria-hidden','false');
+    setTimeout(function(){ document.getElementById('dsf-del-confirm').focus(); }, 50);
+  }
+  function dsfCloseDelete(){
+    dsfDelPending = null;
+    var dlg = document.getElementById('dsf-del-dlg');
+    dlg.style.display = 'none';
+    dlg.setAttribute('aria-hidden','true');
+  }
+  function dsfConfirmDelete(){
+    if (dsfDelPending === 'selected'){
+      FILES = FILES.filter(function(f){ return !f.selected; });
+      editMode = false;
+    } else if (dsfDelPending){
+      var delId = dsfDelPending;
+      if (previewId === delId) previewId = null;
+      FILES = FILES.filter(function(f){ return f.id !== delId; });
+      if (FILES.filter(function(f){ return f.selected; }).length === 0) editMode = false;
+    }
+    dsfCloseDelete();
+    dsfRender();
+  }
 
   /* ===== Click delegation — handles all interactive elements in the expected section ===== */
   document.addEventListener('click', function(e){
@@ -797,14 +1023,15 @@
     }
     if (action === 'delete' && id){
       document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-      FILES = FILES.filter(function(f){ return f.id !== id; });
-      if (FILES.filter(function(f){ return f.selected; }).length === 0) editMode = false;
-      dsfRender(); return;
+      dsfOpenDelete(id); return;
     }
     if (action === 'delete-selected'){
-      FILES = FILES.filter(function(f){ return !f.selected; });
-      editMode = false;
-      dsfRender(); return;
+      dsfOpenDelete('selected'); return;
+    }
+    if (action === 'rename' && id){
+      document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      dsfOpenRename(id);
+      return;
     }
     if (action === 'download'){ return; } /* demo no-op */
     if (action === 'download-selected'){ return; } /* demo no-op */
@@ -826,6 +1053,11 @@
 
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape'){
+      /* Priority: delete/rename dialog → open kebab menu → preview panel. */
+      var del = document.getElementById('dsf-del-dlg');
+      if (del && del.getAttribute('aria-hidden') === 'false'){ dsfCloseDelete(); return; }
+      var ren = document.getElementById('dsf-ren-dlg');
+      if (ren && ren.getAttribute('aria-hidden') === 'false'){ dsfCloseRename(); return; }
       var hadMenu = document.querySelector('.chat-row-more[aria-expanded="true"]');
       document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
       if (!hadMenu) dsfClosePreview();
@@ -833,6 +1065,9 @@
   });
 
   /* ===== Drop zone + browse ===== */
+  /* New uploads sort above the seed under newest-first: sortIdx 0 = newest seed row, so each new
+     file takes the next more-negative index. */
+  var dsfNextSortIdx = -1;
   function dsfBrowseFiles(){
     /* Demo: simulate adding a new file */
     var names = ['q2-report.csv','new-customers.xlsx','budget-2026.xls','pipeline.csv'];
@@ -840,7 +1075,7 @@
     var sizes = ['3.1 MB','1.2 MB','456 KB','780 KB'];
     var idx = FILES.length % names.length;
     var newId = 'f' + (FILES.length + 10);
-    FILES.push({ id:newId, name:names[idx], type:types[idx], origin:'uploaded', size:sizes[idx], date:'just now', selected:false });
+    FILES.push({ id:newId, name:names[idx], type:types[idx], origin:'uploaded', size:sizes[idx], date:'just now', sortIdx:dsfNextSortIdx--, selected:false });
     dsfRender();
   }
 
@@ -852,10 +1087,31 @@
       var ext = (fname.split('.').pop() || '').toLowerCase();
       var type = ['csv','xls','xlsx'].indexOf(ext) !== -1 ? ext : 'other';
       var size = dropped[i].size ? (dropped[i].size / 1024 / 1024).toFixed(1) + ' MB' : '—';
-      FILES.push({ id:'fd' + i, name:fname, type:type, origin:'uploaded', size:size, date:'just now', selected:false });
+      FILES.push({ id:'fd' + i, name:fname, type:type, origin:'uploaded', size:size, date:'just now', sortIdx:dsfNextSortIdx--, selected:false });
     }
     dsfRender();
   }
+
+  /* ===== Topbar Filled/Empty demo toggle — swaps the seed out/in to preview the first-run
+     empty state (same demo-control pattern as the Connections page's Empty/Connected segctrl). */
+  var FILES_BACKUP = null;
+  function dsfSegData(btn, state){
+    btn.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){ b.classList.toggle('is-active', b === btn); });
+    if (state === 'empty' && FILES.length){ FILES_BACKUP = FILES; FILES = []; }
+    if (state === 'filled' && FILES_BACKUP){ FILES = FILES_BACKUP; FILES_BACKUP = null; }
+    editMode = false; previewId = null; shownCount = PAGE_SIZE;
+    FILES.forEach(function(f){ f.selected = false; });
+    dsfRender();
+  }
+
+  /* sbx-chat navigation — delegated (same as metrics-landing) so kebab/menu clicks never
+     navigate; each row carries its target in data-href. */
+  document.addEventListener('click', function(e){
+    var chat = e.target.closest('.sbx-chat');
+    if (chat && !e.target.closest('.sbx-chat-more') && !e.target.closest('.sbx-chat-menu')){
+      window.location.href = chat.getAttribute('data-href') || 'chat_page-landing.html';
+    }
+  });
 
   /* ===== Sidebar collapse ===== */
   function dsfToggleSbxCollapse(){

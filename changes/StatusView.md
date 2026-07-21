@@ -12,7 +12,7 @@ It is the shared single source of truth for chats, connections, and metrics empt
 | Illustration | tinted circle `size-10/14`, bg `brand/green/red @10%`, glyph in the variant colour | `.es-illu` — a 150px "fading result cards" SVG: a crisp top row card fading into two ghosts (`opacity .55` / `.28`). Mirrors the shape of the list/grid it replaces | cards `fill:var(--card)` + `stroke:var(--border)`; placeholders `fill:var(--ink-inactive)` (`.es-ph` @ .35, `.es-ph-ic` @ .55); only `.es-card-top` carries a drop-shadow. **No literal magnifier** — the title carries the "search" meaning |
 | First-run glyph | — | first-run empty (e.g. chats "no conversations yet") keeps a simple 48px line glyph via `.empty-ic` (`--ink-inactive`) | distinct from the search-empty illustration; pairs with the `.btn` CTA |
 | Title | `.vt` — 14/500, `Text/Primary` | `.empty-title` — 16/600, `Text/Primary` (`--ink`), `line-height:1.5rem` | short ("No matches", "No conversations yet") |
-| Message | `.vd` — 12, `Text/Secondary` | `.empty-msg` — 14, `Text/Secondary` (`--ink-secondary`), `max-width:32ch`, `line-height:1.25rem` | one-line guidance ("Try a different term or clear the filters.") |
+| Message | `.vd` — 12, `Text/Secondary` | `.empty-msg` — 14, `Text/Secondary` (`--ink-secondary`), `max-width:32ch`, `line-height:1.25rem`, `text-wrap:balance` | one-line guidance; no trailing period, balance keeps a single word from wrapping alone |
 | CTA | — | optional trailing `.btn` with `margin-top:.75rem` | first-run only (e.g. chats "New Chat"); omitted for search-no-match |
 | Variants | info / success / error / neutral | — | the minimalist variant is single-tone (neutral); status colour belongs to the card `.statv` |
 
@@ -71,6 +71,7 @@ a generic stock magnifier glyph.
 - **Chats** (`pages/concept/chats-landing.html`) — search-empty (fading result cards) + first-run empty (chat-bubble `.empty-ic` + "New Chat" CTA). Migrated from the page-local `.chat-list-empty` recipe to the shared kit class.
 - **Connections** (`pages/approved/data-sources_connections-landing.html`) — replaces the prior plain inline-text "No connectors match your filters." with the illustration empty-state, grid-spanning via a neutral wrapper.
 - **Metrics** (`pages/approved/metrics-landing.html`) — "All metrics" table search/filter now swaps the table for the empty-state when nothing matches (previously left a blank region).
+- **Files** (`pages/approved/data-sources_files-landing.html`) — first-run empty uses the `.es-illu` illustration ("No files yet", no CTA — the drop zone above is the upload CTA; the illustration mirrors the file list it replaces, matching prod's `/files` empty, with kit typography and no-trailing-period copy) + filter no-match (`.es-illu` + "No matches found"). First-run here deviates from the chats glyph recipe deliberately — user decision 2026-07-21.
 
 ## Accessibility self-check
 

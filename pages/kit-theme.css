@@ -80,6 +80,11 @@
     /* Modal / drawer / sheet backdrop scrim — one source of truth (was hand-written rgba everywhere). */
     --overlay-scrim:rgba(15,23,42,.45);
     --progress-track:var(--card2);
+    /* Meter track while its parent control is in a state (pressed/hover) surface. Translucent ink
+       instead of a solid grey: --state-pressed equals --chips in dark (grey-700), so a --chips track
+       vanishes exactly on press. Ink-mix stays perceivable on any state surface and re-resolves per
+       theme with no .dark override. */
+    --progress-track-on-state:color-mix(in srgb, var(--ink) var(--tint-12), transparent);
     /* Balance two-zone credit bar — soft "available" tracks per pool. Mixed over the theme-aware
        --progress-track so both re-resolve per theme (no .dark override needed). Colours match the
        credits popover coding: subscription = --brand-tertiary (blue), purchased = --fb-green; the
@@ -130,11 +135,11 @@
     /* Outlined Button / IconButton hover + press bg — soft Brand/Primary overlays over transparent.
        Theme-static (same recipe in both themes — Brand-Primary is bright enough at 500 in dark that
        6% still registers). Single source of truth for the .btn-outline + .iconbtn-outline family. */
-    --btn-outline-bg-hover:color-mix(in srgb, var(--brand-primary) 6%, transparent);
-    --btn-outline-bg-press:color-mix(in srgb, var(--brand-primary) 8%, transparent);
+    --btn-outline-bg-hover:color-mix(in srgb, var(--brand-primary) var(--tint-6), transparent);
+    --btn-outline-bg-press:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent);
     /* Destructive Outlined Button / IconButton hover + press bg — soft Feedback/Red overlays over transparent. Theme-aware: red's lower luminance gets absorbed by dark surfaces, so dark theme overrides these with stronger percentages for parity of perceived prominence (see .dark block). Single source of truth for the overlay strength. */
-    --btn-outline-destructive-bg-hover:color-mix(in srgb, var(--fb-red) 6%, transparent);
-    --btn-outline-destructive-bg-press:color-mix(in srgb, var(--fb-red) 8%, transparent);
+    --btn-outline-destructive-bg-hover:color-mix(in srgb, var(--fb-red) var(--tint-6), transparent);
+    --btn-outline-destructive-bg-press:color-mix(in srgb, var(--fb-red) var(--tint-8), transparent);
     /* Destructive Outlined default border — theme-aware. Light uses full Feedback/Red (Red-700) on
        white for the recognisable danger affordance. Dark dims to Red-800 (see .dark block) because
        Red-700 on a near-black surface reads as too saturated/shouty. */
@@ -168,8 +173,8 @@
        --border-hover (which stays neutral for form controls). Used by .card-c, .sbx-chat,
        .cl-composer in chat-landing, any future card-style component. Re-resolves per-theme
        via cascaded --brand-primary. */
-    --card-border-hover:color-mix(in srgb, var(--brand-primary) 25%, transparent);
-    --card-border-press:color-mix(in srgb, var(--brand-primary) 40%, transparent);
+    --card-border-hover:color-mix(in srgb, var(--brand-primary) var(--tint-25), transparent);
+    --card-border-press:color-mix(in srgb, var(--brand-primary) var(--tint-40), transparent);
     /* Lift-family card hover border — 22% brand tint OVER --border (vs --card-border-hover's 25%
        over transparent for the flat row family). Used by .hov-card / .prov-card / .prov-c2-card. */
     --card-lift-border:color-mix(in srgb, var(--brand-primary) 22%, var(--border));
@@ -282,6 +287,30 @@
     --radius-xl:12px;      /* .75rem — large feature panels */
     --radius-2xl:14px;     /* .875rem — modal dialog (.dlg) */
     --radius-full:9999px;  /* pills & circles (.swt, .chip, avatar, .b-dot, .spinner) */
+  }
+
+  /* =========================================================================
+     TINT SCALE — alpha-strength steps for translucent washes.
+     Canonical wash recipe (the ONLY sanctioned inline color-mix in a rule):
+       color-mix(in srgb, var(--<semantic base>) var(--tint-N), transparent)
+     - Base = a semantic token (--brand-primary, --fb-*, --ink, --border,
+       --card) or currentColor; strength = a --tint-N step — NEVER a literal %.
+       Tuning a strength stays a one-line edit here.
+     - Steps are strength-only (no pre-mixed family×strength combos): the same
+       strength is hover on one component and press on another, so state intent
+       lives at the component layer; and composing at the use site lets the mix
+       resolve against the USING element's cascaded bases — nested scopes
+       (.prod containers, currentColor) re-resolve for free, no per-scope
+       token re-declaration needed.
+     - Steps exist only for strengths in use; add a step when a new strength
+       earns a second consumer. Dark-theme strength deviations (destructive
+       outline 14/22%) stay literal on their component token in the .dark block.
+     - Scope: washes over transparent only. Mixes over a surface (--toast-bg-*,
+       --card-lift-border, .pg-*-tag backgrounds) stay component-scoped.
+     ========================================================================= */
+  :root{
+    --tint-5:5%;--tint-6:6%;--tint-8:8%;--tint-10:10%;--tint-12:12%;--tint-15:15%;
+    --tint-20:20%;--tint-25:25%;--tint-40:40%;--tint-55:55%;--tint-80:80%;
   }
 
   /* =========================================================================
@@ -749,21 +778,21 @@
   /* Secondary — text bumped from --ink-secondary → --ink-body so contrast aligns with Body / Red / Green / Attention chips */
   .badge-secondary{background:var(--badge-secondary-bg);color:var(--badge-secondary-text)}
   .badge-body{background:var(--chips);color:var(--ink-body)}
-  .badge-red{background:color-mix(in srgb,var(--fb-red) 15%,transparent);color:var(--fb-red-text)}
-  .badge-green{background:color-mix(in srgb,var(--fb-green) 15%,transparent);color:var(--fb-green)}
-  .badge-attention{background:color-mix(in srgb,var(--fb-attention) 15%,transparent);color:var(--fb-attention)}
+  .badge-red{background:color-mix(in srgb, var(--fb-red) var(--tint-15), transparent);color:var(--fb-red-text)}
+  .badge-green{background:color-mix(in srgb, var(--fb-green) var(--tint-15), transparent);color:var(--fb-green)}
+  .badge-attention{background:color-mix(in srgb, var(--fb-attention) var(--tint-15), transparent);color:var(--fb-attention)}
   /* Badge slots — leading icon, status dot, removable close. All inherit currentColor so they auto-pick up each variant's text token. */
   .badge .b-ic{width:14px;height:14px;flex:none}
   .badge .b-dot{width:6px;height:6px;border-radius:9999px;background:currentColor;flex:none}
   .badge .b-x{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-left:2px;font-size:var(--text-14);line-height:1;color:currentColor;opacity:.7;cursor:pointer;border-radius:2px;border:none;background:transparent;font-family:inherit;padding:0;flex:none}
-  .badge .b-x:hover{opacity:1;background:color-mix(in srgb,currentColor 12%,transparent)}
+  .badge .b-x:hover{opacity:1;background:color-mix(in srgb, currentColor var(--tint-12), transparent)}
   .badge .b-x:focus-visible{outline:none;opacity:1;box-shadow:var(--shadow-focus)}
   /* State-stacking: a badge inside a list/table row can share the row's bg when that row hovers/
      selects (Badge/Secondary fill == --card2 == row hover/selected; Badge/Primary fill == --brand-50
      == Card selected). Give the pill a subtle, ALWAYS-ON outline tinted from its OWN colour
      (currentColor = the variant's text token) so it stays defined in every state and the border
      reads as part of each badge — not a uniform grey that appears on interaction. */
-  .chat-row .badge,table.tbl tbody tr .badge{border-color:color-mix(in srgb,currentColor 25%,transparent)}
+  .chat-row .badge,table.tbl tbody tr .badge{border-color:color-mix(in srgb, currentColor var(--tint-25), transparent)}
 
   /* Form-control system — shared by Input (.field) and TextArea (.ta) */
   .field{display:flex;align-items:center;height:2.25rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:0 .5rem;gap:.375rem;width:100%;max-width:240px;transition:border-color .12s, box-shadow .12s}
@@ -1004,10 +1033,10 @@
   .menu-wip{display:flex;align-items:center;gap:6px;padding:4px 10px 6px;border-bottom:1px solid var(--border);margin-bottom:4px;font-size:var(--text-11);font-weight:500;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 8%,var(--card));border-radius:4px 4px 0 0}
   .menu-wip svg{flex-shrink:0;width:12px;height:12px}
   /* Page-level WIP indicator — fixed right-edge vertical pill for pages not yet finalised */
-  .pg-wip-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-attention) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
+  .pg-wip-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fb-attention-text);background:color-mix(in srgb,var(--fb-attention) 10%,var(--card));border:1px solid color-mix(in srgb, var(--fb-attention) var(--tint-25), transparent);border-radius:.25rem;white-space:nowrap;flex:none}
   /* Page-level Approved indicator — green sibling of .pg-wip-tag (same recipe, --fb-green family).
      Set by /approve-page when a page moves concept → approved; replaces the In redesign tag. */
-  .pg-approved-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fb-green);background:color-mix(in srgb,var(--fb-green) 10%,var(--card));border:1px solid color-mix(in srgb,var(--fb-green) 25%,transparent);border-radius:.25rem;white-space:nowrap;flex:none}
+  .pg-approved-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--text-10);font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fb-green);background:color-mix(in srgb,var(--fb-green) 10%,var(--card));border:1px solid color-mix(in srgb, var(--fb-green) var(--tint-25), transparent);border-radius:.25rem;white-space:nowrap;flex:none}
   .mi .mi-ic{width:16px;height:16px;flex:none;color:currentColor}
   /* Menu separator — thin rule used to group related items inside a .menu. Negative horizontal
      margin lets the rule span edge-to-edge across the menu's 4 px padding. */
@@ -1352,7 +1381,7 @@
   .sbx-nav-item.active,.sbx-nav-item.s-active{background:var(--state-pressed);color:var(--ink-body)}
   .sbx-nav-item:focus-visible,.sbx-nav-item.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   .sbx-nav-item.s-disabled,.sbx-nav-item:disabled{opacity:var(--opacity-disabled);pointer-events:none;color:var(--ink-inactive)}
-  .sbx-nav-item .nav-badge{margin-left:auto;background:color-mix(in srgb,var(--brand-primary) 15%,transparent);color:var(--brand-primary);font-size:var(--text-10);font-weight:600;padding:1px 6px;border-radius:9999px;line-height:1.4;font-variant-numeric:tabular-nums}
+  .sbx-nav-item .nav-badge{margin-left:auto;background:color-mix(in srgb, var(--brand-primary) var(--tint-15), transparent);color:var(--brand-primary);font-size:var(--text-10);font-weight:600;padding:1px 6px;border-radius:9999px;line-height:1.4;font-variant-numeric:tabular-nums}
 
   /* Chat sections — scroll area, scrollbar visually hidden. Tight intra-section (1px between chat rows
      via .sbx-sect gap), generous inter-section (12px between Pinned and Recent groups). */
@@ -1530,14 +1559,14 @@
      (not drift): the parent .sbx-chat hovers to --state-hover, so a neutral --state-hover on this
      child kebab would make child === parent and the button would visually disappear into the row's
      hover bg. The 8/12% brand mix gives the kebab a contrasting surface ON TOP of the row's hover. */
-  .sbx-chat-more:hover{background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
-  .sbx-chat-more:active{background:color-mix(in srgb,var(--brand-primary) 12%,transparent);color:var(--ink-body)}
+  .sbx-chat-more:hover{background:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent);color:var(--ink-body)}
+  .sbx-chat-more:active{background:color-mix(in srgb, var(--brand-primary) var(--tint-12), transparent);color:var(--ink-body)}
   /* Focus uses the canonical --shadow-focus outset halo (same as every other interactive element). The :has() rule below flips the row + chats column + sidebar to overflow:visible while the kebab is focused so the outer halo isn't clipped by the row's gradient mask. */
   .sbx-chat-more:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .sbx-chats:has(.sbx-chat-more:focus-visible),.sbx-chat:has(.sbx-chat-more:focus-visible),.sbx:has(.sbx-chat-more:focus-visible){overflow:visible}
   /* Preserve translateY centering on :active / :hover / .s-pressed — without this, the iconbtn-tertiary's scale transform would replace the translateY and the kebab would jump down */
   .sbx-chat-more:hover,.sbx-chat-more:active,.sbx-chat-more.s-pressed,.sbx-chat-more[aria-expanded="true"]{transform:translateY(-50%)}
-  .sbx-chat-more[aria-expanded="true"]{background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
+  .sbx-chat-more[aria-expanded="true"]{background:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent);color:var(--ink-body)}
   /* Per-row dropdown — shows when the kebab is aria-expanded="true" (via inline-script toggle). Reuses .menu / .mi / .mi.danger styles. */
   /* Width inherits from .menu (140 min / 320 max / max-content). Only position + shadow override here. */
   .sbx-chat-menu{position:absolute;top:calc(100% + 4px);right:.5rem;display:none;z-index:5;box-shadow:var(--shadow-overlay)}
@@ -1769,6 +1798,8 @@
   .sbx-tok{border:none;background:transparent;cursor:pointer;font-family:inherit;text-align:left;width:100%;padding:.25rem .375rem;border-radius:.375rem;transition:background .12s,color .12s}
   .sbx-tok:hover{background:var(--state-hover)}
   .sbx-tok:active{background:var(--state-pressed)}
+  /* Pressed surface = --chips in dark — swap the track to the ink-mix token so it never vanishes. */
+  .sbx-tok:active .sbx-tok-bar{background:var(--progress-track-on-state)}
   .sbx-tok:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
 
   /* Mini variants for States cells (ministage previews) */
@@ -1783,9 +1814,9 @@
   .acc-b{padding:0 12px 12px;font-size:var(--text-14);color:var(--ink-body)}
   .statv{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:24px;border:1px solid var(--border);border-radius:.5rem;background:var(--card);width:220px}
   .statv .vic{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:9999px}
-  .statv-info .vic{background:color-mix(in srgb,var(--brand-primary) 10%,transparent);color:var(--brand-primary)}
-  .statv-success .vic{background:color-mix(in srgb,var(--fb-green) 10%,transparent);color:var(--fb-green)}
-  .statv-error .vic{background:color-mix(in srgb,var(--fb-red) 10%,transparent);color:var(--fb-red-text)}
+  .statv-info .vic{background:color-mix(in srgb, var(--brand-primary) var(--tint-10), transparent);color:var(--brand-primary)}
+  .statv-success .vic{background:color-mix(in srgb, var(--fb-green) var(--tint-10), transparent);color:var(--fb-green)}
+  .statv-error .vic{background:color-mix(in srgb, var(--fb-red) var(--tint-10), transparent);color:var(--fb-red-text)}
   .statv-neutral .vic{background:var(--state-hover);color:var(--ink-secondary)}
   .statv .vt{font-size:var(--text-14);font-weight:500;color:var(--ink)} .statv .vd{font-size:var(--text-12);color:var(--ink-secondary)}
   /* Size modifiers — base .statv is the md default (vic 40px, gap 12px, pad 24px). sm/lg follow prod's relative gap/padding scale. */
@@ -1807,7 +1838,7 @@
   .empty-state .es-ph{fill:var(--ink-inactive);fill-opacity:.35}
   .empty-state .es-ph-ic{fill-opacity:.55}
   .empty-state .empty-title{font-size:var(--text-16);font-weight:600;color:var(--ink);margin:0;line-height:1.5rem}
-  .empty-state .empty-msg{font-size:var(--text-14);color:var(--ink-secondary);margin:0;max-width:32ch;line-height:1.25rem}
+  .empty-state .empty-msg{font-size:var(--text-14);color:var(--ink-secondary);margin:0;max-width:32ch;line-height:1.25rem;text-wrap:balance}
   .empty-state .btn{margin-top:.75rem}
   .rsz{display:flex;width:240px;height:60px;border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
   .rsz .p{flex:1;display:flex;align-items:center;justify-content:center;background:var(--card2);font-size:var(--text-12);color:var(--ink-secondary)}
@@ -1816,7 +1847,7 @@
   .step{display:flex;align-items:center;gap:8px}
   .step .dot{width:24px;height:24px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:var(--text-12);font-weight:600}
   .step .dot.done,.step .dot.active{background:var(--brand-primary);color:var(--content-on-solid)}
-  .step .dot.active{box-shadow:0 0 0 3px color-mix(in srgb,var(--brand-primary) 25%,transparent)}
+  .step .dot.active{box-shadow:0 0 0 3px color-mix(in srgb, var(--brand-primary) var(--tint-25), transparent)}
   .step .dot.todo{background:var(--chips);color:var(--ink-secondary)}
   .step .ln{width:24px;height:2px;background:var(--border)}
 
@@ -1923,7 +1954,7 @@
   .file .file-name{font-size:var(--text-14);font-weight:500;color:var(--ink-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .file .file-size{font-size:var(--text-12);color:var(--ink-secondary)}
   .file .file-r{display:flex;align-items:center;gap:4px;color:var(--ink-secondary)}
-  .file.s-error{border-color:color-mix(in srgb,var(--fb-red) 20%,transparent);background:color-mix(in srgb,var(--fb-red) 5%,transparent)}
+  .file.s-error{border-color:color-mix(in srgb, var(--fb-red) var(--tint-20), transparent);background:color-mix(in srgb, var(--fb-red) var(--tint-5), transparent)}
   .file.s-error .file-ic,.file.s-error .file-r svg{color:color-mix(in srgb,var(--fb-red-text) 75%,transparent)}
   .file.s-loading{pointer-events:none}
   .file.s-loading .file-r .spinner{display:inline-block}
@@ -2015,7 +2046,7 @@
   /* Shimmer is the DEFAULT animation (matches prod) — a bare .skel sweeps. .pulse swaps to an
      opacity loop; .none opts out to a static block (tests / reduced-motion). The legacy .shimmer
      class is kept as an explicit (now-redundant) alias so existing markup stays valid. */
-  .skel::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0,color-mix(in srgb,var(--card) 80%,transparent) 50%,transparent 100%);animation:skel-shim 1.4s linear infinite}
+  .skel::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0,color-mix(in srgb, var(--card) var(--tint-80), transparent) 50%,transparent 100%);animation:skel-shim 1.4s linear infinite}
   .skel.pulse::after,.skel.none::after{content:none}
   .skel.pulse{animation:skel-pulse 1.4s ease-in-out infinite}
   .skel.r-none{border-radius:0} .skel.r-sm{border-radius:2px} .skel.r-lg{border-radius:8px} .skel.r-xl{border-radius:12px} .skel.r-full{border-radius:9999px}
@@ -2378,7 +2409,7 @@
   .prov-card-info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
   .prov-card-name{font-weight:600;font-size:var(--text-14);color:var(--ink);line-height:1.25;margin:0 0 .125rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
   .prov-card-status{display:inline-flex;align-items:center;gap:.25rem}
-  .prov-card-dot{width:.4375rem;height:.4375rem;border-radius:9999px;background:var(--ink-inactive);flex:none;display:inline-block}
+  .prov-card-dot{width:.375rem;height:.375rem;border-radius:9999px;background:var(--ink-inactive);flex:none;display:inline-block}
   .prov-card-status-text{font-size:var(--text-12);color:var(--ink-secondary)}
   .prov-card-divider{display:none}
   .prov-card-metrics-label{display:none}
@@ -2455,7 +2486,7 @@
   /* Hover = .hov-card lift recipe. .card-stack-item owns hover/press/selected canonical rules. */
   .ds-conn-row{display:flex;align-items:center;gap:.75rem;padding:var(--card-stack-pad-v) var(--card-stack-pad-h);border:1px solid var(--border);border-radius:var(--card-stack-radius);background:var(--card);box-shadow:var(--shadow-rest);position:relative;transition:box-shadow var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)}
   /* Selected state — brand-tinted border + pressed bg (was missing) */
-  .ds-conn-row.is-selected{background:var(--tbl-row-pressed);border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)}
+  .ds-conn-row.is-selected{background:var(--tbl-row-pressed);border-color:color-mix(in srgb, var(--brand-primary) var(--tint-25), transparent)}
   .ds-conn-row.is-selected:hover{background:color-mix(in srgb,var(--brand-primary) 10%,var(--tbl-row-pressed))}
 
   .ds-card .iconbtn{background:var(--bg)}
@@ -2578,7 +2609,7 @@
   .chat-row-pin{height:1.25rem;width:1.25rem;border-radius:.25rem;flex:none;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--brand-primary);padding:0;font-family:inherit;transition:color .12s, background-color .12s;margin-left:-.125rem}
   .chat-row-pin svg{width:14px;height:14px;fill:currentColor;stroke:currentColor;transform:rotate(30deg);transform-origin:center;transition:transform var(--motion-base) var(--motion-ease)}
   /* Brand-mix is deliberate (not drift): .chat-row-pin sits inside .chat-row which hovers to --state-hover. A neutral hover here would make the pin invisible against the row's hover bg. */
-  .chat-row-pin:hover{background:color-mix(in srgb,var(--brand-primary) 8%,transparent)}
+  .chat-row-pin:hover{background:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent)}
   .chat-row-pin:hover svg,.chat-row-pin:focus-visible svg{transform:rotate(0deg)}
   /* Respect reduced-motion: hold the tilt without animating. */
   @media (prefers-reduced-motion: reduce){
@@ -2590,9 +2621,9 @@
   .chat-row-more{height:1.5rem;width:1.5rem;border-radius:.25rem;flex:none;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--ink-secondary);padding:0;font-family:inherit;opacity:0;pointer-events:none;transition:opacity .12s, color .12s, background-color .12s}
   .chat-row-more svg{width:14px;height:14px}
   /* Brand-mix is deliberate (not drift): .chat-row-more sits inside .chat-row which hovers to --state-hover. A neutral hover would make the kebab disappear into the row's hover bg. The 6/8% brand mix keeps the kebab visible as a distinct surface on top of the hovered row. */
-  .chat-row-more:hover{color:var(--ink-body);background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
+  .chat-row-more:hover{color:var(--ink-body);background:color-mix(in srgb, var(--brand-primary) var(--tint-6), transparent)}
   .chat-row-more:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
-  .chat-row-more[aria-expanded="true"]{background:color-mix(in srgb,var(--brand-primary) 8%,transparent);color:var(--ink-body)}
+  .chat-row-more[aria-expanded="true"]{background:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent);color:var(--ink-body)}
   .chat-row:hover .chat-row-more,.chat-row.s-hover .chat-row-more,.chat-row:focus-within .chat-row-more,.chat-row-more:focus-visible,.chat-row-more[aria-expanded="true"]{opacity:1;pointer-events:auto}
   /* Context menu — anchored bottom-right of the kebab, reuses kit's .menu / .mi shell + .mi.danger token. */
   .chat-row-menu{position:absolute;top:calc(100% - .25rem);right:.25rem;display:none;z-index:30}
@@ -2675,10 +2706,10 @@
   /* The chart FILLS the card (full-bleed); the filename overlays the bottom on a translucent frosted
      backing (like a media thumbnail). Whole card opens the preview. */
   .cp-img-plate{position:relative;aspect-ratio:8/5;overflow:hidden;min-width:0;border:1px solid var(--border);border-radius:.75rem;background:var(--card);cursor:pointer;transition:border-color .12s,box-shadow .12s}
-  .cp-img-plate:hover{border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent);box-shadow:0 2px 6px -1px rgba(15,23,42,.08)}
+  .cp-img-plate:hover{border-color:color-mix(in srgb, var(--brand-primary) var(--tint-25), transparent);box-shadow:0 2px 6px -1px rgba(15,23,42,.08)}
   .cp-img-thumb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
   .cp-img-thumb .cp-fp-chart{width:100%;height:100%}
-  .cp-img-plate-cap{position:absolute;left:0;right:0;bottom:0;padding:.375rem .625rem;font-size:var(--text-13);font-weight:500;color:var(--ink);background:color-mix(in srgb,var(--card) 80%,transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);border-top:1px solid color-mix(in srgb,var(--border) 55%,transparent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cp-img-plate-cap{position:absolute;left:0;right:0;bottom:0;padding:.375rem .625rem;font-size:var(--text-13);font-weight:500;color:var(--ink);background:color-mix(in srgb, var(--card) var(--tint-80), transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);border-top:1px solid color-mix(in srgb, var(--border) var(--tint-55), transparent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
   /* ── Code block (chat AI turn) — the collapsible "task" accordion that reveals the Python that
      produced the result. Header: [error icon if failed] + title + chevron. Panel: a language bar
@@ -2821,10 +2852,10 @@
   .cp-fp-resize[hidden]{display:none}
   .cp-fp-grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:.75rem;height:1.75rem;display:flex;align-items:center;justify-content:center;color:var(--ink-secondary);background:var(--card);border:1px solid var(--border);border-radius:.375rem;box-shadow:0 1px 2px 0 rgba(15,23,42,.06)}
   .cp-fp-grip svg{width:12px;height:12px}
-  .cp-fp-resize:hover .cp-fp-grip,.cp-fp-resize.is-dragging .cp-fp-grip{color:var(--ink-body);border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)}
+  .cp-fp-resize:hover .cp-fp-grip,.cp-fp-resize.is-dragging .cp-fp-grip{color:var(--ink-body);border-color:color-mix(in srgb, var(--brand-primary) var(--tint-25), transparent)}
   /* Result file chip becomes clickable (opens the preview); its download button stops the bubble. */
   .cl-file-chip.is-clickable{cursor:pointer}
-  .cl-file-chip.is-clickable:hover{background:var(--state-hover);border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)}
+  .cl-file-chip.is-clickable:hover{background:var(--state-hover);border-color:color-mix(in srgb, var(--brand-primary) var(--tint-25), transparent)}
   @media (max-width:880px){
     .cp-fp{position:absolute;top:0;right:0;bottom:0;width:min(92%,var(--cp-fp-w,460px));max-width:100%;box-shadow:-4px 0 12px rgba(15,23,42,.14);z-index:30}
     .cp-fp-resize{display:none}
@@ -2865,7 +2896,7 @@
   /* bottom:-12px (not 0) — stopping exactly at this row's own edge left a visible ~16px gap before
      reaching the next icon's disc (row-head/panel padding the icon sits inset from the row edge).
      -12px carries it to just short of the next icon's own 16px disc, closing that gap. */
-  .tc-row:not(:last-child)::after{content:'';position:absolute;left:calc(.75rem + .5rem);top:1.25rem;bottom:-12px;width:1px;margin-left:-.5px;background:color-mix(in srgb,var(--border) 55%,transparent)}
+  .tc-row:not(:last-child)::after{content:'';position:absolute;left:calc(.75rem + .5rem);top:1.25rem;bottom:-12px;width:1px;margin-left:-.5px;background:color-mix(in srgb, var(--border) var(--tint-55), transparent)}
   /* ── Minimal (the only concept — Card/None and their topbar switcher were removed) ─────────────
      No plate at all. The accordion is a quiet secondary-colour label with its chevron BESIDE the
      text (not pushed to the far edge), so the tool log recedes into the answer instead of boxing it. */
@@ -3038,7 +3069,7 @@
   tr:hover .mx-tbl-actions .iconbtn{opacity:1}
   /* On a hovered row the td bg is --state-hover; use --state-pressed so the button hover is visible */
   tr:hover .mx-tbl-actions .iconbtn:hover{background:var(--state-pressed);color:var(--ink)}
-  tr:hover .mx-tbl-actions .iconbtn:active{background:color-mix(in srgb,var(--brand-primary) 12%,transparent);color:var(--ink)}
+  tr:hover .mx-tbl-actions .iconbtn:active{background:color-mix(in srgb, var(--brand-primary) var(--tint-12), transparent);color:var(--ink)}
   /* ── Unified kebab component — works for both .mx-tbl and .mx-tbl (ds-conn) ── */
   [data-kbp]{opacity:1}
   [data-kbp][aria-expanded="true"]{background:var(--state-pressed);color:var(--ink)}
@@ -3145,7 +3176,7 @@
 /* Selected state — brand-tinted border + tbl-row-pressed bg (theme-aware) */
 .card-stack-item.is-selected{
   background:var(--tbl-row-pressed);
-  border-color:color-mix(in srgb,var(--brand-primary) 25%,transparent)
+  border-color:color-mix(in srgb, var(--brand-primary) var(--tint-25), transparent)
 }
 .card-stack-item.is-selected:hover{
   background:color-mix(in srgb,var(--brand-primary) 10%,var(--tbl-row-pressed))

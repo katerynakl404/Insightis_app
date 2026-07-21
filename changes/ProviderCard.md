@@ -63,7 +63,7 @@ This card uses the repo's **locked card-hover recipe** (shared lift family with 
 |---|---|---|
 | Name | `.prov-card-name` | `font-weight:600; font-size:.875rem` (14px); `color:var(--ink)` (Text/Body); `line-height:1.25`; `margin:0 0 .125rem`; truncated (`white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%`) |
 | Status row | `.prov-card-status` | `display:inline-flex; align-items:center; gap:.25rem` (4px) |
-| Status dot | `.prov-card-dot` | `.4375rem × .4375rem` (7px); `border-radius:9999px`; `background:var(--ink-inactive)`; `flex:none; display:inline-block`. (Storybook overrides bg inline per status; default = inactive grey.) |
+| Status dot | `.prov-card-dot` | `.375rem × .375rem` (6px); `border-radius:9999px`; `background:var(--ink-inactive)`; `flex:none; display:inline-block`. (Storybook overrides bg inline per status; default = inactive grey.) |
 | Status text | `.prov-card-status-text` | `font-size:.75rem` (12px); `color:var(--ink-secondary)` (Text/Secondary) |
 
 ---

@@ -488,7 +488,7 @@
         list.innerHTML = '<div class="empty-state" role="status">'
           + EMPTY_SEARCH_IC
           + '<p class="empty-title">No matches found</p>'
-          + '<p class="empty-msg">No conversations match "' + escapeHtml(q) + '". Try a different search.</p>'
+          + '<p class="empty-msg">No conversations match "' + escapeHtml(q) + '" — try a different search</p>'
           + '</div>';
       } else {
         /* Truly empty — no chats exist. Hide search (nothing to search) AND meta row (nothing to
@@ -499,7 +499,7 @@
         list.innerHTML = '<div class="empty-state" role="status">'
           + EMPTY_CHAT_IC
           + '<p class="empty-title">No conversations yet</p>'
-          + '<p class="empty-msg">Start a new chat to explore your data and surface insights.</p>'
+          + '<p class="empty-msg">Start a new chat to explore your data and surface insights</p>'
           + '<button class="btn btn-secondary btn-md" type="button" data-action="new-chat">' + PLUS_IC + 'New Chat</button>'
           + '</div>';
       }

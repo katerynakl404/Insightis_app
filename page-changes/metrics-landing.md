@@ -107,7 +107,7 @@ Both were pre-existing ≤767px overrides, not documented/intentional divergence
 | Provider name | Multi-line wrap allowed | `white-space:nowrap` + ellipsis — single line, vertically centred against logo |
 | Connection status | Plain "Not connected" text | Gray status dot (`--ink-inactive`, `7px`) + "Not connected" label |
 | Metric chips | `--bg` fill + `--border` border (both at full strength) | Soft fill (`--state-hover`), no border; hover brings brand-tinted fill + border |
-| Chip chevron | Brand-teal (`--brand-primary`) | Muted gray (`--ink-inactive`) with `0.125rem` extra gap — quiet affordance cue |
+| Chip chevron | Brand-teal (`--brand-primary`) | Brand-teal (`--brand-primary`) — unchanged. (2026-07-20: confirmed brand; the muted-gray swap documented in this pass was not kept — kit CSS `.chip-meta-arrow{color:var(--brand-primary)}` is the contract) |
 | Footer count | "X metrics available" label | Removed — footer is Connect button only |
 | Connect button | `btn-secondary` | `btn-secondary` — unchanged |
 | Card hover | `shadow-lift-hover` + teal ring (`Brand @ 22%` tinted border) | `shadow-lift-hover` + `translateY(-2px)` + neutral `--border-hover` — no colored ring (reserved for focus-visible/selected) |
