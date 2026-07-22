@@ -301,9 +301,8 @@
         </div>
         <div class="sbx-foot">
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
-            <div class="sbx-tok-row"><span class="sbx-tok-label">Usage</span><span class="sbx-tok-val">213 / 1,040</span></div>
-            <div class="sbx-tok-bar"><span style="width:20.5%"></span></div>
-          </button>
+            <div class="sbx-tok-row"><span class="sbx-tok-label">Balance</span><span class="sbx-tok-val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>287 left</span></div>
+                      </button>
           <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
             <span class="sbx-user-ava">K</span>
             <span class="sbx-user-info">
@@ -350,8 +349,7 @@
               <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
-              <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
+              <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">540 left</span></div>
             </div>
             <div class="sbx-pop-tok-actions">
               <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='../approved/user_profile-modal.html?section=balance'">Buy Credits</button>
@@ -380,7 +378,9 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="menu cp-title-menu" role="menu">
-            <div class="mi" role="menuitem">Unpin</div>
+            <!-- This chat sits in the sidebar's Recent (unpinned) section — the first item must
+                 read "Pin"; sbcTogglePin / the header handler keep it in sync afterwards. -->
+            <div class="mi" role="menuitem">Pin</div>
             <div class="mi" role="menuitem">Rename</div>
             <div class="mi mi-danger" role="menuitem">Delete</div>
           </div>
@@ -1267,6 +1267,175 @@ document.addEventListener('click', function(e){
       cpCopyBtn(btn, pre?pre.textContent.replace(/^\s*\d+/gm,''):'');
     });
   });
+})();
+</script>
+<!-- ===== Sidebar chat menus — shared dialogs + behavior (verbatim across sidebar-bearing pages;
+     contract: page-changes/data-sources_files-landing.md rule 31 / changes/Sidebar.md).
+     Rename -> "Rename chat" dialog; Delete -> "Delete chat?" confirm; Pin/Unpin moves the row
+     between the Pinned and Recent sections. Only one row menu may be open at a time. -->
+<div id="sbc-ren-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)sbcCloseRename()">
+  <div class="dlg" style="width:30rem" role="dialog" aria-modal="true" aria-labelledby="sbc-ren-title">
+    <div class="dlg-hdr">
+      <h2 id="sbc-ren-title" class="dlg-title">Rename chat</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseRename()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:1rem">
+      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
+      <div class="field" style="max-width:none"><input id="sbc-ren-input" type="text" placeholder="Chat name" autocomplete="off" aria-label="Chat name" onkeydown="if(event.key==='Enter')sbcSaveRename()"></div>
+    </div>
+    <div class="dlg-ftr">
+      <button class="btn btn-secondary btn-sm" type="button" onclick="sbcCloseRename()">Cancel</button>
+      <button class="btn btn-primary btn-sm" type="button" onclick="sbcSaveRename()">Save</button>
+    </div>
+  </div>
+</div>
+<div id="sbc-del-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)sbcCloseDelete()">
+  <div class="dlg" style="width:24rem" role="dialog" aria-modal="true" aria-labelledby="sbc-del-title">
+    <div class="dlg-hdr">
+      <h2 id="sbc-del-title" class="dlg-title">Delete chat?</h2>
+      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseDelete()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="padding:0 1.25rem 1.25rem">
+      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
+    </div>
+    <div class="dlg-ftr">
+      <button class="btn btn-secondary btn-sm" type="button" onclick="sbcCloseDelete()">Cancel</button>
+      <button class="btn btn-destructive btn-sm" id="sbc-del-confirm" type="button" onclick="sbcConfirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+<script>
+/* Sidebar chat menus — one open at a time, outside-click/Escape dismiss, working actions. */
+(function(){
+  /* Capture phase: any click first closes every OTHER open row menu (a lingering menu from the
+     row above otherwise floats over the next section and reads as the wrong row's menu). */
+  document.addEventListener('click', function(e){
+    var more = e.target.closest('.sbx-chat-more');
+    document.querySelectorAll('.sbx-chat-more[aria-expanded="true"]').forEach(function(b){
+      if (b !== more) b.setAttribute('aria-expanded','false');
+    });
+  }, true);
+  var renRow = null, delRow = null;
+  window.sbcOpenRename = function(row){
+    renRow = row;
+    var inp = document.getElementById('sbc-ren-input');
+    inp.value = row.querySelector('.sbx-chat-lbl').textContent.trim();
+    var dlg = document.getElementById('sbc-ren-dlg');
+    dlg.style.display = ''; dlg.setAttribute('aria-hidden','false');
+    inp.focus(); inp.setSelectionRange(0, inp.value.length);
+  };
+  window.sbcCloseRename = function(){ renRow = null; var d = document.getElementById('sbc-ren-dlg'); d.style.display = 'none'; d.setAttribute('aria-hidden','true'); };
+  window.sbcSaveRename = function(){
+    var name = document.getElementById('sbc-ren-input').value.trim();
+    if (renRow && name){
+      renRow.querySelector('.sbx-chat-lbl').textContent = name;
+      if (window.sbcOnRenamed) window.sbcOnRenamed(renRow, name);
+    }
+    sbcCloseRename();
+  };
+  window.sbcOpenDelete = function(row){
+    delRow = row;
+    var dlg = document.getElementById('sbc-del-dlg');
+    dlg.style.display = ''; dlg.setAttribute('aria-hidden','false');
+    setTimeout(function(){ document.getElementById('sbc-del-confirm').focus(); }, 50);
+  };
+  window.sbcCloseDelete = function(){ delRow = null; var d = document.getElementById('sbc-del-dlg'); d.style.display = 'none'; d.setAttribute('aria-hidden','true'); };
+  window.sbcConfirmDelete = function(){
+    var row = delRow;
+    sbcCloseDelete();
+    if (!row) return;
+    row.remove();
+    if (window.sbcOnDeleted) window.sbcOnDeleted(row);
+  };
+  window.sbcTogglePin = function(row, mi){
+    var sects = document.querySelectorAll('.sbx-chats .sbx-sect');
+    if (sects.length < 2) return;
+    var toPinned = mi.textContent.trim() === 'Pin';
+    (toPinned ? sects[0] : sects[1]).appendChild(row);
+    mi.textContent = toPinned ? 'Unpin' : 'Pin';
+    if (window.sbcOnPinToggled) window.sbcOnPinToggled(row, toPinned);
+  };
+  /* Menu-item actions. Capture + stopPropagation: the menu sits inside a row that navigates on
+     click (inline onclick) — without this, choosing "Rename" would also open the chat. */
+  document.addEventListener('click', function(e){
+    var mi = e.target.closest('.sbx-chat-menu .mi');
+    if (!mi) return;
+    e.stopPropagation();
+    var row = mi.closest('.sbx-chat');
+    var btn = row.querySelector('.sbx-chat-more');
+    if (btn) btn.setAttribute('aria-expanded','false');
+    var label = mi.textContent.trim();
+    if (label === 'Rename') sbcOpenRename(row);
+    else if (label === 'Delete') sbcOpenDelete(row);
+    else if (label === 'Pin' || label === 'Unpin') sbcTogglePin(row, mi);
+  }, true);
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Escape') return;
+    var del = document.getElementById('sbc-del-dlg');
+    if (del && del.getAttribute('aria-hidden') === 'false'){ sbcCloseDelete(); return; }
+    var ren = document.getElementById('sbc-ren-dlg');
+    if (ren && ren.getAttribute('aria-hidden') === 'false'){ sbcCloseRename(); return; }
+    document.querySelectorAll('.sbx-chat-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+  });
+})();
+</script>
+<script>
+/* Current-chat header menu (.cp-title-menu) — mirrors the open chat's sidebar row: same Rename /
+   Delete dialogs, Pin/Unpin kept in sync in both directions. Deleting the open chat leaves the
+   page (the chat no longer exists). */
+(function(){
+  var h1 = document.querySelector('.cp-header-title');
+  if (!h1) return;
+  var title = h1.textContent.trim();
+  /* Resolved once at load — the sidebar row representing the open chat. */
+  var cpRow = null;
+  document.querySelectorAll('.sbx-chat').forEach(function(r){
+    var l = r.querySelector('.sbx-chat-lbl');
+    if (!cpRow && l && l.textContent.trim() === title) cpRow = r;
+  });
+  var NAV_AFTER_DELETE = location.pathname.indexOf('/concept/') !== -1 ? '../approved/chat-landing.html' : 'chat-landing.html';
+  function headerPinMi(){
+    var found = null;
+    document.querySelectorAll('.cp-title-menu .mi').forEach(function(m){
+      var t = m.textContent.trim();
+      if (!found && (t === 'Pin' || t === 'Unpin')) found = m;
+    });
+    return found;
+  }
+  /* Sidebar-side actions on the open chat reflect into the header. */
+  window.sbcOnRenamed = function(row, name){ if (row === cpRow) h1.textContent = name; };
+  window.sbcOnDeleted = function(row){ if (row === cpRow) window.location.href = NAV_AFTER_DELETE; };
+  window.sbcOnPinToggled = function(row, pinned){
+    var m = headerPinMi();
+    if (row === cpRow && m) m.textContent = pinned ? 'Unpin' : 'Pin';
+  };
+  /* Header menu actions route to the same shared flows. */
+  document.addEventListener('click', function(e){
+    var mi = e.target.closest('.cp-title-menu .mi');
+    if (!mi) return;
+    var btn = document.querySelector('.cp-title-btn');
+    if (btn) btn.setAttribute('aria-expanded','false');
+    var label = mi.textContent.trim();
+    if (label === 'Rename' && cpRow) sbcOpenRename(cpRow);
+    else if (label === 'Delete' && cpRow) sbcOpenDelete(cpRow);
+    else if ((label === 'Pin' || label === 'Unpin') && cpRow){
+      var rowMi = null;
+      cpRow.querySelectorAll('.sbx-chat-menu .mi').forEach(function(m){
+        var t = m.textContent.trim();
+        if (!rowMi && (t === 'Pin' || t === 'Unpin')) rowMi = m;
+      });
+      if (rowMi) sbcTogglePin(cpRow, rowMi); /* sbcOnPinToggled flips the header label */
+    }
+  });
+  /* Outside click dismisses the header menu (it previously stayed open until re-click). */
+  document.addEventListener('click', function(e){
+    var btn = document.querySelector('.cp-title-btn');
+    if (btn && !e.target.closest('.cp-title-menu-wrap')) btn.setAttribute('aria-expanded','false');
+  }, true);
 })();
 </script>
 </body>

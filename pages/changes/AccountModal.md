@@ -118,17 +118,17 @@ Redesigned from a single "current plan" summary row into a **3-plan pricing comp
 
 ### Balance
 
+*(Updated 2026-07-21 — purchased usage isn't trackable (bought total unknown, only the remaining
+count is reported), so combined totals and any Purchased "used of total"/bar are gone. See
+[`page-changes/user_profile-modal.md`](../../page-changes/user_profile-modal.md) hard rule 2.)*
+
 | Element | Expected |
 |---|---|
-| Hero row | `.acct-bal-circle` (36px coin) + `.acct-bal-amount` "213 / 1,040 used" — icon kept, paired with the "Upgrade Plan" CTA |
-| Progress bar | Below hero row. `height:4px`, `border-radius:9999px`, track `var(--progress-track)`, fill `var(--brand-primary)` |
-| Progress context | Below bar. Two spans: "20% of total credits used" + "827 remaining" — `font-size:.75rem; color:var(--ink-secondary)`. Mobile: short variants "20% used" / "827 left" via `.acct-show-mobile` |
-| CTAs row | Below progress. `.acct-bal-btns` — `justify-content:flex-end` on desktop; `width:100%; .btn{flex:1}` on mobile (equal-width split) |
-| Stats tiles | Two flex tiles side-by-side (`gap:.5rem`), `background:var(--bg)`, `border-radius:.375rem`, `padding:.5rem .75rem` |
-| Stats tile label | `.acct-field-label` (`font-size:.625rem` = 10px) — "Subscription credits" / "Purchased credits" (matches the sidebar credits popover naming) |
-| Stats tile value | `.acct-sect-title` (`font-size:.9375rem; font-weight:600`) — 500 / 540 |
+| Hero row | `.acct-bal-amount` "827 left" (total remaining = subscription remaining + purchased remaining — both known), paired with the "Upgrade Plan" CTA. **No coin icon** — the figure stands alone (removed 2026-07-22); only the exhausted state shows a leading icon (`.acct-bal-alert-ic`, red warning) |
+| Subscription progress (the only bar) | `.acct-bal3-grp` — head: pool name + "**287** left"; track `.acct-bal3-track` (8px, `--progress-track`) with `--brand-tertiary` fill (42.6%); foot: "213 of 500 used" (Exhausted state adds "Resets Aug 1, 2026" right-aligned and flags "0 left" red via `.is-exhausted`) |
+| Purchased row | Head-only `.acct-bal3-grp-head` — pool name + "**540** left". **No bar, no fraction** (usage % unknowable) |
+| CTAs row | `.acct-bal-btns` — `justify-content:flex-end` on desktop; mobile `.acct-bal-btns-mob` `width:100%; .btn{flex:1}` (equal-width split). Upgrade Plan only |
 | Credit usage | `.acct-usage-table` — Date / Request type / Spent credits columns; `border-collapse:collapse` |
-| CTAs | `btn btn-secondary btn-sm` "Update Plan" + `btn btn-primary btn-sm` "Buy Credits" — placed **in content** (not header). `acctSectionActions = {}` |
 
 **Token:** `--progress-track: var(--card2)` — new semantic token added to `:root` in `kit-theme.css` (Slate-100 light / Grey-800 dark). Separates "progress track" intent from `--state-hover` which is reserved for interactive hover surfaces.
 
@@ -205,7 +205,7 @@ Hidden on desktop (`display:none`). Shown at ≤767px as `display:flex`.
 
 **Mobile:** `.acct-mobile-hdr`, `.acct-mobile-btn`, `.acct-mobile-title`, `.acct-nav-chev`, `.acct-hide-mobile`, `.acct-show-mobile`, `.segctrl-lbl`
 
-**Balance:** `.acct-bal-circle`, `.acct-bal-amount`, `.acct-usage-table`
+**Balance:** `.acct-bal-amount`, `.acct-bal-alert-ic`, `.acct-usage-table`
 
 **Feedback:** `.acct-fb-bottom`
 

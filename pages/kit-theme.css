@@ -80,11 +80,13 @@
     /* Modal / drawer / sheet backdrop scrim — one source of truth (was hand-written rgba everywhere). */
     --overlay-scrim:rgba(15,23,42,.45);
     --progress-track:var(--card2);
-    /* Meter track while its parent control is in a state (pressed/hover) surface. Translucent ink
-       instead of a solid grey: --state-pressed equals --chips in dark (grey-700), so a --chips track
-       vanishes exactly on press. Ink-mix stays perceivable on any state surface and re-resolves per
+    /* Meter track while its parent control is in a state (pressed/hover) surface. The rest track is
+       --chips, but --state-pressed equals --chips in dark (grey-700), so a --chips track vanishes
+       exactly on press. Reuse the meter-track token (--card2, same as the credits-popover bars): in
+       light it stays a light slate (no dark wash on the empty part), in dark it's one step darker than
+       the grey-700 pressed surface so the empty part stays a subtle visible groove. Re-resolves per
        theme with no .dark override. */
-    --progress-track-on-state:color-mix(in srgb, var(--ink) var(--tint-12), transparent);
+    --progress-track-on-state:var(--progress-track);
     /* Balance two-zone credit bar — soft "available" tracks per pool. Mixed over the theme-aware
        --progress-track so both re-resolve per theme (no .dark override needed). Colours match the
        credits popover coding: subscription = --brand-tertiary (blue), purchased = --fb-green; the
@@ -1589,9 +1591,11 @@
   .sbx-tok{display:flex;flex-direction:column;gap:.25rem}
   .sbx-tok-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
   .sbx-tok-label{font-size:var(--text-11);font-weight:500;color:var(--ink-secondary)}
-  .sbx-tok-val{font-size:var(--text-11);color:var(--ink-secondary);font-variant-numeric:tabular-nums}
-  .sbx-tok-bar{width:100%;height:3px;border-radius:9999px;background:var(--chips);overflow:hidden}
-  .sbx-tok-bar>span{display:block;height:100%;border-radius:9999px;background:var(--brand-primary)}
+  .sbx-tok-val{display:inline-flex;align-items:center;gap:.375rem;font-size:var(--text-11);color:var(--ink);font-variant-numeric:tabular-nums}
+  /* Wallet on a subtle round badge — mirrors the modal balance hero (.acct-bal-total-ic: --state-hover
+     fill) but the glyph stays dark (--ink, not brand). content-box so padding forms the badge ring
+     around the .75rem glyph. */
+  .sbx-tok-val svg{width:.75rem;height:.75rem;flex:none;box-sizing:content-box;padding:.1875rem;border-radius:9999px;background:var(--state-hover);color:var(--ink)}
   .sbx-user{display:flex;align-items:center;gap:.5rem;background:transparent;border:none;cursor:pointer;padding:.25rem;border-radius:.375rem;text-align:left;font-family:inherit;width:100%}
   .sbx-user:hover{background:var(--state-hover)}
   .sbx-user:active{background:var(--state-pressed)}
@@ -1761,13 +1765,14 @@
   .sbx-pop-tok-actions{display:flex;flex-direction:column;gap:.625rem;width:100%;margin-top:.125rem}
   .sbx-pop-cta{width:100%;height:2rem;border-radius:9999px;justify-content:center;font-size:var(--text-13);font-weight:500}
 
-  /* Tokens popover — Balance-aligned concept (alternative to the coin-meter rows above, not
-     shipped). Mirrors the Manage-account Balance page's default V2 two-zone bar: dot-legend →
-     one combined bar (zone width = pool share of the total, fill = used share of the pool) →
-     used/remaining summary. Reuses the same tokens as Balance V2 (--balance-*-track,
-     --brand-tertiary, --fb-green) so the two surfaces would read identically if ever unified. */
-  /* Usage hero — big "used/total credits" figure under the plan name, mirrors Balance's own
-     .acct-bal-amount hero row (213/1,040 credits) at a size that fits the popover. */
+  /* Tokens popover — Balance-aligned concept (parked, not shipped; the Balance V2 two-zone view
+     it mirrored is itself retired — purchased usage isn't trackable, see
+     pages/concept/balance-versions-v2-v3.html): dot-legend → one combined bar (zone width = pool
+     share of the total, fill = used share of the pool) → used/remaining summary. Reuses the
+     --balance-*-track, --brand-tertiary, --fb-green tokens; rendered only by
+     pages/concept/tokens-popover-review.html (Iteration 2). */
+  /* Usage hero — big credits figure under the plan name (same parked concept); the shipped
+     Balance hero reads remaining-only ("827 left"). */
   .sbx-pop-tok-usage{font-size:var(--text-20);font-weight:600;color:var(--ink);line-height:1.1;padding:0 .25rem}
   .sbx-pop-tok-usage-of{font-size:var(--text-12);font-weight:400;color:var(--ink-secondary)}
   .sbx-pop-tok-legend{display:flex;flex-direction:column;gap:.25rem;padding:0 .25rem}
@@ -1798,8 +1803,6 @@
   .sbx-tok{border:none;background:transparent;cursor:pointer;font-family:inherit;text-align:left;width:100%;padding:.25rem .375rem;border-radius:.375rem;transition:background .12s,color .12s}
   .sbx-tok:hover{background:var(--state-hover)}
   .sbx-tok:active{background:var(--state-pressed)}
-  /* Pressed surface = --chips in dark — swap the track to the ink-mix token so it never vanishes. */
-  .sbx-tok:active .sbx-tok-bar{background:var(--progress-track-on-state)}
   .sbx-tok:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
 
   /* Mini variants for States cells (ministage previews) */

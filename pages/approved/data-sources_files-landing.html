@@ -325,11 +325,10 @@
         <div class="sbx-foot">
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
-              <span class="sbx-tok-label">Usage</span>
-              <span class="sbx-tok-val">213 / 1,040</span>
+              <span class="sbx-tok-label">Balance</span>
+              <span class="sbx-tok-val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>287 left</span>
             </div>
-            <div class="sbx-tok-bar"><span style="width:20.5%"></span></div>
-          </button>
+                      </button>
           <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
             <span class="sbx-user-ava">K</span>
             <span class="sbx-user-info">
@@ -376,8 +375,7 @@
               <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
             </div>
             <div class="sbx-pop-tok-meter">
-              <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">0 of 540</span></div>
-              <div class="bar"><span style="width:0%;background:var(--fb-green)"></span></div>
+              <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">540 left</span></div>
             </div>
             <div class="sbx-pop-tok-actions">
               <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=balance'">Buy Credits</button>
@@ -533,7 +531,7 @@
       </button>
     </div>
     <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:1rem">
-      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your file a recognizable name</p>
+      <p id="dsf-ren-help" style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your file a recognizable name</p>
       <div class="field" style="max-width:none"><input id="dsf-ren-input" type="text" placeholder="File name" autocomplete="off" aria-label="File name" onkeydown="if(event.key==='Enter')dsfSaveRename()"></div>
     </div>
     <input type="hidden" id="dsf-ren-id">
@@ -883,51 +881,80 @@
   function dsfOpenPreview(id){ previewId = id; dsfRender(); }
   function dsfClosePreview(){ if (previewId === null) return; previewId = null; dsfRender(); }
 
-  /* ===== Rename File dialog — kit .dlg shell; prefilled with the current name, saves on
+  /* ===== Rename dialog — kit .dlg shell shared by two flows: file rows (default wording) and
+     sidebar chat rows ("Rename chat" / prod copy). Prefilled with the current name, saves on
      Enter / Save, closes on Cancel / ✕ / Escape / backdrop click. */
+  var dsfRenTarget = null; /* {type:'file', id} | {type:'chat', row} */
+  function dsfShowRenameDlg(title, help, value, selEnd){
+    document.getElementById('dsf-ren-title').textContent = title;
+    document.getElementById('dsf-ren-help').textContent = help;
+    var dlg = document.getElementById('dsf-ren-dlg');
+    var inp = document.getElementById('dsf-ren-input');
+    inp.value = value;
+    dlg.style.display = ''; /* .dlg-overlay's own display:flex takes over */
+    dlg.setAttribute('aria-hidden','false');
+    inp.focus();
+    inp.setSelectionRange(0, selEnd);
+  }
   function dsfOpenRename(id){
     var f = FILES.find(function(x){ return x.id === id; });
     if (!f) return;
-    var dlg = document.getElementById('dsf-ren-dlg');
-    var inp = document.getElementById('dsf-ren-input');
-    document.getElementById('dsf-ren-id').value = id;
-    inp.value = f.name;
-    dlg.style.display = ''; /* .dlg-overlay's own display:flex takes over */
-    dlg.setAttribute('aria-hidden','false');
+    dsfRenTarget = { type:'file', id:id };
     /* Preselect the basename (keep the extension out of the selection) so typing replaces
        the meaningful part without clobbering ".csv"/".xlsx". */
     var dot = f.name.lastIndexOf('.');
-    inp.focus();
-    inp.setSelectionRange(0, dot > 0 ? dot : f.name.length);
+    dsfShowRenameDlg('Rename file', 'Give your file a recognizable name', f.name, dot > 0 ? dot : f.name.length);
+  }
+  function dsfOpenChatRename(row){
+    var lbl = row.querySelector('.sbx-chat-lbl');
+    if (!lbl) return;
+    dsfRenTarget = { type:'chat', row:row };
+    var name = lbl.textContent.trim();
+    dsfShowRenameDlg('Rename chat', 'Give your chat a special name', name, name.length);
   }
   function dsfCloseRename(){
+    dsfRenTarget = null;
     var dlg = document.getElementById('dsf-ren-dlg');
     dlg.style.display = 'none';
     dlg.setAttribute('aria-hidden','true');
   }
   function dsfSaveRename(){
-    var id = document.getElementById('dsf-ren-id').value;
     var name = document.getElementById('dsf-ren-input').value.trim();
-    var f = FILES.find(function(x){ return x.id === id; });
-    if (f && name) f.name = name;
+    var t = dsfRenTarget;
+    if (t && name){
+      if (t.type === 'file'){
+        var f = FILES.find(function(x){ return x.id === t.id; });
+        if (f) f.name = name;
+      } else if (t.type === 'chat'){
+        t.row.querySelector('.sbx-chat-lbl').textContent = name;
+      }
+    }
     dsfCloseRename();
-    dsfRender();
+    if (!t || t.type === 'file') dsfRender();
   }
 
-  /* ===== Delete confirm dialog — guards the row kebab's Delete and the bulk Delete.
-     pending: a file id, or 'selected' for the bulk action. */
+  /* ===== Delete confirm dialog — guards the file row kebab's Delete, the bulk Delete, and the
+     sidebar chat rows' Delete. pending: a file id, 'selected' (bulk), or {chat: rowEl}. */
   var dsfDelPending = null;
-  function dsfOpenDelete(target){
-    dsfDelPending = target;
-    var n = target === 'selected' ? dsfVisible().filter(function(f){ return f.selected; }).length : 1;
-    document.getElementById('dsf-del-title').textContent = n > 1 ? 'Delete ' + n + ' files?' : 'Delete file?';
-    document.getElementById('dsf-del-msg').textContent = n > 1
-      ? "This action can't be undone. The selected files will be permanently removed."
-      : "This action can't be undone. The file will be permanently removed.";
+  function dsfShowDeleteDlg(title, msg){
+    document.getElementById('dsf-del-title').textContent = title;
+    document.getElementById('dsf-del-msg').textContent = msg;
     var dlg = document.getElementById('dsf-del-dlg');
     dlg.style.display = ''; /* .dlg-overlay's own display:flex takes over */
     dlg.setAttribute('aria-hidden','false');
     setTimeout(function(){ document.getElementById('dsf-del-confirm').focus(); }, 50);
+  }
+  function dsfOpenDelete(target){
+    dsfDelPending = target;
+    var n = target === 'selected' ? dsfVisible().filter(function(f){ return f.selected; }).length : 1;
+    dsfShowDeleteDlg(
+      n > 1 ? 'Delete ' + n + ' files?' : 'Delete file?',
+      n > 1 ? "This action can't be undone. The selected files will be permanently removed."
+            : "This action can't be undone. The file will be permanently removed.");
+  }
+  function dsfOpenChatDelete(row){
+    dsfDelPending = { chat: row };
+    dsfShowDeleteDlg('Delete chat?', "This action can't be undone. The chat will be permanently removed.");
   }
   function dsfCloseDelete(){
     dsfDelPending = null;
@@ -936,6 +963,11 @@
     dlg.setAttribute('aria-hidden','true');
   }
   function dsfConfirmDelete(){
+    if (dsfDelPending && dsfDelPending.chat){
+      dsfDelPending.chat.remove();
+      dsfCloseDelete();
+      return; /* sidebar-only change — the file list doesn't need a re-render */
+    }
     if (dsfDelPending === 'selected'){
       FILES = FILES.filter(function(f){ return !f.selected; });
       editMode = false;
@@ -1058,8 +1090,8 @@
       if (del && del.getAttribute('aria-hidden') === 'false'){ dsfCloseDelete(); return; }
       var ren = document.getElementById('dsf-ren-dlg');
       if (ren && ren.getAttribute('aria-hidden') === 'false'){ dsfCloseRename(); return; }
-      var hadMenu = document.querySelector('.chat-row-more[aria-expanded="true"]');
-      document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      var hadMenu = document.querySelector('.chat-row-more[aria-expanded="true"],.sbx-chat-more[aria-expanded="true"]');
+      document.querySelectorAll('.chat-row-more[aria-expanded="true"],.sbx-chat-more[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
       if (!hadMenu) dsfClosePreview();
     }
   });
@@ -1110,6 +1142,38 @@
     var chat = e.target.closest('.sbx-chat');
     if (chat && !e.target.closest('.sbx-chat-more') && !e.target.closest('.sbx-chat-menu')){
       window.location.href = chat.getAttribute('data-href') || 'chat_page-landing.html';
+    }
+  });
+
+  /* Only one sidebar chat menu open at a time + outside-click dismiss. Capture phase, so it runs
+     BEFORE the kebab's inline toggle: any click first closes every other open menu (a lingering
+     menu from the row above otherwise floats over the next section and reads as the wrong row's
+     menu — e.g. "Unpin" seemingly on an unpinned chat). */
+  document.addEventListener('click', function(e){
+    var more = e.target.closest('.sbx-chat-more');
+    document.querySelectorAll('.sbx-chat-more[aria-expanded="true"]').forEach(function(b){
+      if (b !== more) b.setAttribute('aria-expanded','false');
+    });
+  }, true);
+
+  /* Sidebar chat menu actions — Rename / Delete route through the shared dialogs; Pin / Unpin
+     moves the row between the Pinned and Recent sections and flips its own label. */
+  document.addEventListener('click', function(e){
+    var mi = e.target.closest('.sbx-chat-menu .mi');
+    if (!mi) return;
+    var row = mi.closest('.sbx-chat');
+    var btn = row.querySelector('.sbx-chat-more');
+    if (btn) btn.setAttribute('aria-expanded','false');
+    var label = mi.textContent.trim();
+    if (label === 'Rename'){ dsfOpenChatRename(row); return; }
+    if (label === 'Delete'){ dsfOpenChatDelete(row); return; }
+    if (label === 'Pin' || label === 'Unpin'){
+      var sects = document.querySelectorAll('.sbx-chats .sbx-sect');
+      var toPinned = label === 'Pin';
+      if (sects.length >= 2){
+        (toPinned ? sects[0] : sects[1]).appendChild(row);
+        mi.textContent = toPinned ? 'Unpin' : 'Pin';
+      }
     }
   });
 

@@ -78,8 +78,8 @@
   .acct-danger-warn{font-size:var(--text-12);color:var(--ink-secondary);line-height:1.4;margin-top:.25rem}
 
   /* Balance */
-  .acct-bal-circle{width:2.25rem;height:2.25rem;background:url('../assets/coins/coin-brand-1.svg') center/contain no-repeat;flex:none}
-  /* Exhausted-state alert icon — replaces the coin in the hero row. Reuses the existing
+  /* Exhausted-state alert icon — the only icon in the hero row (the balance total otherwise shows
+     the figure alone, no coin). Reuses the existing
      StatusView error recipe (.statv-error .vic: tinted red circle + red icon) instead of a raw
      colour hack on the coin SVG, since no red coin asset exists. */
   .acct-bal-alert-ic{width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;flex:none;background:color-mix(in srgb,var(--fb-red) 10%,transparent);color:var(--fb-red-text)}
@@ -127,6 +127,19 @@
   .acct-bal3-track-fill.is-subscription{background:var(--brand-tertiary)}
   .acct-bal3-track-fill.is-purchased{background:var(--fb-green)}
   .acct-bal3-grp-foot{display:flex;justify-content:space-between;gap:.5rem;font-size:.75rem;color:var(--ink-secondary)}
+
+  /* ── Version B — flat "wallet + allowance" tile rows (coin marks the remaining figure). Ships in
+        pages/approved/user_profile-modal.html; mirrored here for the retired-concepts comparison. ── */
+  .acct-balb{display:flex;flex-direction:column;gap:1rem}
+  .acct-balb-pool{display:flex;flex-direction:column;gap:.375rem}
+  .acct-balb-top{display:flex;align-items:center;gap:.5rem}
+  .acct-balb-coin{width:1.25rem;height:1.25rem;background-position:center;background-repeat:no-repeat;background-size:contain;flex:none;order:3;margin-left:auto}
+  .acct-balb-coin.is-subscription{background-image:url('../assets/coins/coin-brand-1.svg')}
+  .acct-balb-coin.is-purchased{background-image:url('../assets/coins/coin-green-1.svg')}
+  .acct-balb-name{font-size:var(--text-13);font-weight:600;color:var(--ink)}
+  .acct-balb-amt{order:4;font-size:var(--text-13);font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+  .acct-balb-note{font-size:var(--text-12);color:var(--ink-secondary)}
+  .acct-balb-foot{display:flex;justify-content:space-between;gap:.5rem;font-size:var(--text-12);color:var(--ink-secondary)}
 
   /* Feedback */
   .acct-fb-bottom{display:flex;align-items:center;justify-content:flex-end;gap:.5rem}
@@ -358,6 +371,7 @@
     <div class="segctrl is-sm" id="concept-toggle" role="tablist" aria-label="Concept version" style="width:auto">
       <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-ver-btn="v2" onclick="setConceptVersion('v2')">Version 2</button>
       <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-ver-btn="v3" onclick="setConceptVersion('v3')">Version 3</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-ver-btn="vb" onclick="setConceptVersion('vb')">Version B</button>
     </div>
     <!-- Plan state toggle — Balance-only demo control, mirrors the sidebar tokens popover's states
          plus a third exhausted-limit state. Hidden on tabs that don't expose [data-plan] panels. -->
@@ -640,7 +654,6 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-circle" aria-hidden="true"></div>
                       <div class="acct-bal-amount" style="flex:1">213<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 1,040 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
@@ -674,7 +687,6 @@
                       <span class="badge badge-attention badge-sm">Trial ends in 14 days</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-circle" aria-hidden="true"></div>
                       <div class="acct-bal-amount" style="flex:1">3,200<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 10,000 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
@@ -742,7 +754,6 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-circle" aria-hidden="true"></div>
                       <div class="acct-bal-amount" style="flex:1">213<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 1,040 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
@@ -781,7 +792,6 @@
                       <span class="badge badge-attention badge-sm">Trial ends in 14 days</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-circle" aria-hidden="true"></div>
                       <div class="acct-bal-amount" style="flex:1">3,200<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 10,000 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
@@ -853,6 +863,128 @@
 
                 </div>
               </div><!-- /balver v3 -->
+
+              <!-- ═══ Version B — flat "wallet + allowance" tile rows: coin marks the remaining figure,
+                   metered Subscription pool carries a used-bar + "used / renews" foot, Purchased is a
+                   bar-less wallet row. This is the layout that shipped in
+                   pages/approved/user_profile-modal.html; kept here beside the retired V2/V3. ═══ -->
+              <div data-ver="vb" style="display:none">
+                <div class="acct-section" style="gap:.75rem;border-bottom:none;padding-bottom:.75rem">
+
+                  <div data-plan="free">
+                    <div style="display:flex;align-items:center;gap:.5rem">
+                      <div class="acct-sect-title">Your credit balance</div>
+                      <span class="badge badge-primary badge-sm">Free plan</span>
+                    </div>
+                    <div class="acct-bal-hero-row" style="margin-top:.75rem">
+                      <div class="acct-bal-amount" style="flex:1">827<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-btns">
+                        <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                      </div>
+                    </div>
+                    <div class="acct-balb" style="margin-top:.75rem">
+                      <div class="acct-balb-pool">
+                        <div class="acct-balb-top">
+                          <span class="acct-balb-coin is-subscription" aria-hidden="true"></span>
+                          <span class="acct-balb-name">Subscription</span>
+                          <span class="acct-balb-amt">287 left</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Subscription: 213 of 500 credits used, 287 left">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:42.6%"></div>
+                        </div>
+                        <div class="acct-balb-foot"><span>213 of 500 used</span><span>Renews Aug 1, 2026</span></div>
+                      </div>
+                      <div class="acct-balb-pool">
+                        <div class="acct-balb-top">
+                          <span class="acct-balb-coin is-purchased" aria-hidden="true"></span>
+                          <span class="acct-balb-name">Purchased</span>
+                          <span class="acct-balb-amt">540 left</span>
+                        </div>
+                        <div class="acct-balb-note">Never expire · used after plan credits</div>
+                      </div>
+                    </div>
+                    <div class="acct-bal-btns-mob">
+                      <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                    </div>
+                  </div>
+
+                  <div data-plan="pro" style="display:none">
+                    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+                      <div class="acct-sect-title">Your credit balance</div>
+                      <span class="badge badge-primary badge-sm">Pro plan</span>
+                      <span class="badge badge-attention badge-sm">Trial ends in 14 days</span>
+                    </div>
+                    <div class="acct-bal-hero-row" style="margin-top:.75rem">
+                      <div class="acct-bal-amount" style="flex:1">6,800<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-btns">
+                        <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                      </div>
+                    </div>
+                    <div class="acct-balb" style="margin-top:.75rem">
+                      <div class="acct-balb-pool">
+                        <div class="acct-balb-top">
+                          <span class="acct-balb-coin is-subscription" aria-hidden="true"></span>
+                          <span class="acct-balb-name">Subscription</span>
+                          <span class="acct-balb-amt">6,800 left</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Subscription: 3,200 of 10,000 credits used, 6,800 left">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:32%"></div>
+                        </div>
+                        <div class="acct-balb-foot"><span>3,200 of 10,000 used</span><span>Renews Aug 1, 2026</span></div>
+                      </div>
+                      <div class="acct-balb-pool">
+                        <div class="acct-balb-top">
+                          <span class="acct-balb-coin is-purchased" aria-hidden="true"></span>
+                          <span class="acct-balb-name">Purchased</span>
+                          <span class="acct-balb-amt">0 left</span>
+                        </div>
+                        <div class="acct-balb-note">Never expire · used after plan credits</div>
+                      </div>
+                    </div>
+                    <div class="acct-bal-btns-mob">
+                      <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                    </div>
+                  </div>
+
+                  <div data-plan="exhausted" style="display:none">
+                    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+                      <div class="acct-sect-title">Your credit balance</div>
+                      <span class="badge badge-primary badge-sm">Free plan</span>
+                    </div>
+                    <div class="acct-bal-hero-row" style="margin-top:.75rem">
+                      <div class="acct-bal-amount" style="flex:1">0<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-btns">
+                        <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                      </div>
+                    </div>
+                    <div class="acct-balb" style="margin-top:.75rem">
+                      <div class="acct-balb-pool">
+                        <div class="acct-balb-top">
+                          <span class="acct-balb-coin is-subscription" aria-hidden="true"></span>
+                          <span class="acct-balb-name">Subscription</span>
+                          <span class="acct-balb-amt">0 left</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Subscription: 500 of 500 credits used, 0 left, resets Aug 1, 2026">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:100%"></div>
+                        </div>
+                        <div class="acct-balb-foot"><span>500 of 500 used</span><span>Resets Aug 1, 2026</span></div>
+                      </div>
+                      <div class="acct-balb-pool">
+                        <div class="acct-balb-top">
+                          <span class="acct-balb-coin is-purchased" aria-hidden="true"></span>
+                          <span class="acct-balb-name">Purchased</span>
+                          <span class="acct-balb-amt">0 left</span>
+                        </div>
+                        <div class="acct-balb-note">Never expire · used after plan credits</div>
+                      </div>
+                    </div>
+                    <div class="acct-bal-btns-mob">
+                      <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div><!-- /balver vb -->
 
               <!-- ═══ Buy credits — inline block (was a separate sub-page; now lives on Balance
                    directly). Sits outside [data-ver] so the placement toggle owns its visibility;

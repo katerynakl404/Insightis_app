@@ -64,12 +64,15 @@ Default `align="center"`, `sideOffset={4}`, animation set, portalling, transform
 | Variant | Where it's used | Note |
 |---|---|---|
 | **Account menu** *(documented this iteration)* | Sidebar footer — `<button class="sb-user">` opens it | Shell = the `.sbx-pop` reproduction above (bg `Surface/Card`, 1 px `Stroke/Border`, **radius 8 px, padding 16 px 12 px, inter-section gap 14 px**, `drop-shadow-lg`). Two labelled sections (`Account`, `Support`): section label 12 px/500 `--ink-secondary`; rows `.sbx-pop-item` **gap 10 px, padding 6 px 8 px, radius 6 px, 14 px label + 16 px icon**. Theme switcher = SegmentedControl `is-sm` (**20 px height, icon-only, 12 px icons**), markup `.segctrl.is-sm.sbx-pop-theme` with `.segctrl-btn.sbx-pop-theme-btn` children. Surface ladder (mirrors `.segctrl` recipe with `.sbx-pop-theme` overrides): **light** slot `var(--chips)` → active pill `var(--card)`; **dark** slot `var(--card2)` (`.dark .sbx-pop-theme`) → active pill `var(--chips)` (`.dark .sbx-pop-theme-btn.is-active`). Btn hover (non-active) `background:var(--segctrl-btn-hover-bg); color:var(--ink); box-shadow:var(--shadow-rim-hover)`; active `box-shadow:var(--shadow-rim-active)`; focus `var(--shadow-focus)`; `transition:background .12s,color .12s,box-shadow .12s`. Plain `Log out` row. Relocated from Stepper to the Popover section. |
-| **Subscription credits** *(re-shipped this iteration)* | Sidebar footer — tokens-meter button opens it | **Container 260 px wide**, same `.sbx-pop` shell as the Account variant. Plan header (`.sbx-pop-tok-head`, **gap 8 px**): no icon — 18 px `font-semibold` plan name (`H5` desktop size); on `Pro` the name shares a row with a `badge-attention badge-sm` reading "Trial ends in N days". Per-pool coin meter (see the dedicated section below) — two `.sbx-pop-tok-meter` rows (Subscription / Purchased), each a label + coin icon + value + thin progress bar. Actions (`.sbx-pop-tok-actions`, vertical, **gap 10 px**): two full-width `rounded-full` CTAs at **h32** — `Button primary` Buy Credits + `Button secondary` Upgrade Plan (`--card` bg, neutral `--border`, `--ink-body` text). Relocated from Stepper to the Popover section. |
+| **Subscription credits** *(re-shipped this iteration)* | Sidebar footer — tokens-meter button opens it | **Container 260 px wide**, same `.sbx-pop` shell as the Account variant. Plan header (`.sbx-pop-tok-head`, **gap 8 px**): no icon — 18 px `font-semibold` plan name (`H5` desktop size); on `Pro` the name shares a row with a `badge-attention badge-sm` reading "Trial ends in N days". Per-pool coin meter (see the dedicated section below) — two `.sbx-pop-tok-meter` rows: Subscription = label + coin + "used of total" value + thin progress bar; Purchased = a single compact row, remaining-only value ("N left"), **no bar** (purchased usage isn't trackable). Actions (`.sbx-pop-tok-actions`, vertical, **gap 10 px**): two full-width `rounded-full` CTAs at **h32** — `Button primary` Buy Credits + `Button secondary` Upgrade Plan (`--card` bg, neutral `--border`, `--ink-body` text). Relocated from Stepper to the Popover section. |
 
 ## Subscription credits — kit reproduction (shipped)
 
-Two coin-icon meter rows — Subscription and Purchased — each a label, a coin icon + tabular value,
-and a thin progress bar underneath.
+Two coin-icon meter rows. **Subscription** — label, coin icon + tabular "used of total" value, and
+a thin progress bar underneath. **Purchased** — a single compact row (label + `.sm` coin +
+`.val.sm` value) showing the **remaining count only** ("540 left"), with **no progress bar**:
+purchased usage can't be counted (the bought total is unknown — the backend only reports what's
+left), so a "used of total" fraction or fill % is impossible for this pool (decision 2026-07-21).
 
 | Slot | Prod (never existed) | Expected | Specification |
 |---|---|---|---|
@@ -91,9 +94,9 @@ and a thin progress bar underneath.
 | Meter label row | `.sbx-pop-tok-meter .row` | `display:flex; align-items:center; gap:.25rem` (tightened from 8px so the coin sits close to its number) |
 | Meter label | `.sbx-pop-tok-meter .label` | `font-size:.75rem; line-height:1; color:var(--ink-secondary); flex:1` |
 | Meter coin | `.sbx-pop-tok-meter .coin` (+ `.sm`) | `28×28` (`20×20` for `.sm`, the Purchased row); `background:url(assets/coins/coin-brand-1.svg)` / `coin-green-1.svg` |
-| Meter value | `.sbx-pop-tok-meter .val` (+ `.sm`) | `font-size:1rem; line-height:1.5rem; font-weight:500; color:var(--ink); tabular-nums` (`.75rem/1` for `.sm`) |
-| Meter bar | `.sbx-pop-tok-meter .bar` | `width:100%; height:4px; border-radius:9999px; background:var(--card2); overflow:hidden` |
-| Meter fill | `.sbx-pop-tok-meter .bar>span` | `height:100%; border-radius:9999px`; `Brand/Tertiary` (Subscription) / `Feedback/Green` (Purchased) |
+| Meter value | `.sbx-pop-tok-meter .val` (+ `.sm`) | `font-size:1rem; line-height:1.5rem; font-weight:500; color:var(--ink); tabular-nums` (`.75rem/1` for `.sm`). Content: Subscription = "used of total" (`213 of 500`); Purchased = remaining only (`540 left`) |
+| Meter bar | `.sbx-pop-tok-meter .bar` | **Subscription row only** — `width:100%; height:4px; border-radius:9999px; background:var(--card2); overflow:hidden`. The Purchased row renders no `.bar` (usage % unknowable) |
+| Meter fill | `.sbx-pop-tok-meter .bar>span` | `height:100%; border-radius:9999px`; `Brand/Tertiary` (Subscription — the only pool with a bar) |
 | Actions group | `.sbx-pop-tok-actions` | `display:flex; flex-direction:column; gap:.625rem` (10px); `width:100%; margin-top:.125rem` (2px) |
 | CTA button | `.sbx-pop-cta` | `width:100%; height:2rem` (h32); `border-radius:9999px; justify-content:center; font-size:.8125rem; font-weight:500` (composed onto `.btn` primary/secondary) |
 

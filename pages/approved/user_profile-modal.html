@@ -81,55 +81,39 @@
   .acct-danger-warn{font-size:var(--text-12);color:var(--ink-secondary);line-height:1.4;margin-top:.25rem}
 
   /* Balance */
-  .acct-bal-circle{width:2.25rem;height:2.25rem;background:url('../assets/coins/coin-brand-1.svg') center/contain no-repeat;flex:none}
-  /* Exhausted-state alert icon — replaces the coin in the hero row. Reuses the existing
-     StatusView error recipe (.statv-error .vic: tinted red circle + red icon) instead of a raw
-     colour hack on the coin SVG, since no red coin asset exists. */
-  .acct-bal-alert-ic{width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;flex:none;background:color-mix(in srgb,var(--fb-red) 10%,transparent);color:var(--fb-red-text)}
+  /* Balance-total icon — wallet badge in the hero row (all states, incl. 0 left), reusing the Lucide
+     "wallet" glyph from the Balance menu item (kit sidebar tokens popover). Neutral grey badge
+     (--state-hover) so the combined total reads distinct from the two colour-coded pools
+     (teal Subscription / green Purchased). Exhaustion is conveyed by the "0 left" figure + the
+     "Resets …" caption, not by a warning icon or red numerals. */
+  .acct-bal-total-ic{width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;flex:none;background:var(--state-hover);color:var(--ink-secondary)}
   .acct-bal-amount{font-size:var(--text-24);font-weight:600;color:var(--ink);line-height:1.1}
   /* .acct-usage-table now lives in kit-theme.css — shared compact static table. */
 
-  /* ── Balance V2 two-zone credit bar (page-layout only; colours from tokens).
-        The V1/V2 concept switch is a .segctrl in the topbar, next to the theme toggle. ── */
-
-  /* V2 two-zone credit bar. Bar = total pool (1,040). Two zones sized by flex-basis:
-     subscription 48.08% (500/1,040), purchased 51.92% (540/1,040). Each zone is a soft
-     "available" track holding a solid "used" fill. A 2px card-coloured gap between zones marks
-     the subscription-limit break. Colours match the credits popover (subscription = blue
-     --brand-tertiary, purchased = green --fb-green); read from tokens only. */
-  .acct-bal2-legend{display:flex;flex-wrap:wrap;row-gap:.25rem;margin-bottom:.5rem}
-  .acct-bal2-legend .acct-bal2-leg:last-child{margin-left:.75rem;padding-left:.75rem;border-left:1px solid var(--border)}
-  .acct-bal2-leg{display:inline-flex;align-items:center;gap:.375rem;font-size:.75rem;color:var(--ink-secondary);align-self:flex-start}
-  .acct-bal2-dot{width:.5rem;height:.5rem;border-radius:9999px;flex:none}
-  .acct-bal2-dot.is-subscription{background:var(--brand-tertiary)}
-  .acct-bal2-dot.is-purchased{background:var(--fb-green)}
-  .acct-bal2-leg strong{color:var(--ink-body);font-weight:600}
-
-  .acct-bal2-bar{display:flex;gap:2px;height:8px;border-radius:9999px;overflow:hidden}
-  .acct-bal2-zone{position:relative;height:100%;overflow:hidden}
-  .acct-bal2-zone:first-child{border-radius:9999px 0 0 9999px}
-  .acct-bal2-zone:last-child{border-radius:0 9999px 9999px 0}
-  .acct-bal2-zone.is-subscription{flex:0 0 48.08%;background:var(--balance-subscription-track)}
-  .acct-bal2-zone.is-purchased{flex:0 0 51.92%;background:var(--balance-purchased-track)}
-  .acct-bal2-fill{position:absolute;inset:0 auto 0 0;height:100%;border-radius:inherit}
-  .acct-bal2-fill.is-subscription{background:var(--brand-tertiary)}
-  .acct-bal2-fill.is-purchased{background:var(--fb-green)}
-
-  /* ── Balance V3 — separate per-pool bars (page-layout only; tokens for colour). Each pool has its
-        own full-scale bar (subscription blue / purchased green), read independently. ── */
+  /* ── Balance pools (page-layout only; tokens for colour). Purchased usage isn't trackable
+        (the bought total is unknown), so only the Subscription pool gets a progress bar —
+        Purchased is a head-only row showing the remaining number. ── */
   .acct-bal3-seg{display:flex;flex-direction:column;gap:1rem}
   .acct-bal3-grp{display:flex;flex-direction:column;gap:.375rem}
-  .acct-bal3-grp-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-size:var(--text-12)}
+  /* Name + remaining sit as one left cluster (.5rem gap) — space-between pushed the count to the
+     far edge of the wide modal, breaking the label↔value read. The secondary used-fraction rides
+     the same line right-aligned (.acct-bal3-grp-meta) instead of its own foot line under the bar,
+     so the group stays two lines tall (head + bar). */
+  .acct-bal3-grp-head{display:flex;align-items:center;gap:.5rem;font-size:var(--text-12)}
+  .acct-bal3-grp-meta{margin-left:auto;color:var(--ink-secondary)}
   .acct-bal3-grp-name{display:inline-flex;align-items:center;gap:.375rem;font-weight:600;color:var(--ink)}
-  .acct-bal3-grp-left{color:var(--ink-secondary)}
-  .acct-bal3-grp-left strong{color:var(--ink-body);font-weight:600}
-  /* Exhausted pool (0 left) — flagged in red instead of the neutral ink ladder */
-  .acct-bal3-grp-left.is-exhausted,.acct-bal3-grp-left.is-exhausted strong{color:var(--fb-red-text)}
+  /* Pool coin marker (version A / list) — same coin assets as the tile, sized to the 12px head row.
+     Sits just before the "N left" value; margin-right pulls the value to a .25rem gap (matching the
+     tokens popover's coin↔value spacing, .sbx-pop-tok-meter .row) instead of the head's .5rem. */
+  .acct-bal3-coin{width:1rem;height:1rem;background-position:center;background-repeat:no-repeat;background-size:contain;flex:none;margin-right:-.25rem}
+  .acct-bal3-coin.is-subscription{background-image:url('../assets/coins/coin-brand-1.svg')}
+  .acct-bal3-coin.is-purchased{background-image:url('../assets/coins/coin-green-1.svg')}
+  /* Value written popover-style — one font for the whole "N left" string (12px/500/--ink,
+     tabular-nums, matching .sbx-pop-tok-meter .val), not a bold number + light word mix. */
+  .acct-bal3-grp-left{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
   .acct-bal3-track{height:8px;border-radius:9999px;background:var(--progress-track);overflow:hidden}
   .acct-bal3-track-fill{height:100%;border-radius:9999px}
   .acct-bal3-track-fill.is-subscription{background:var(--brand-tertiary)}
-  .acct-bal3-track-fill.is-purchased{background:var(--fb-green)}
-  .acct-bal3-grp-foot{display:flex;justify-content:space-between;gap:.5rem;font-size:.75rem;color:var(--ink-secondary)}
 
   /* Feedback */
   .acct-fb-bottom{display:flex;align-items:center;justify-content:flex-end;gap:.5rem}
@@ -153,11 +137,6 @@
   .acct-mobile-btn:hover{color:var(--ink-body);background:var(--state-hover)}
   .acct-mobile-btn svg{width:16px;height:16px}
   .acct-mobile-title{font-size:1.25rem;font-weight:600;color:var(--ink);line-height:1.25}
-
-  /* Short/full text toggle — desktop default shows the long variant; the ≤767px media query
-     below flips this (must stay declared BEFORE that block, or being unconditional it would
-     win the cascade tie and hide the short variant on mobile too — see the bug this fixed). */
-  .acct-show-mobile{display:none}
 
   /* ── Responsive ── */
   /* ≤767px: modal becomes a full-height bottom sheet.
@@ -215,15 +194,9 @@
     .acct-modal[data-mobile-state="section"] .acct-modal-nav{display:none}
     .acct-content{padding:1rem}
     /* .acct-bal-amount no longer needs a mobile override — desktop is already 24px (var(--text-24)) */
-    /* Balance CTAs: desktop row hidden, mobile row shown below stats */
-    .acct-bal-btns{display:none}
-    .acct-bal-btns-mob{display:flex;width:100%;gap:.5rem;margin-top:.75rem}
-    .acct-bal-btns-mob .btn{flex:1;justify-content:center}
+    /* Balance CTA row is the same on every width now (see base rules) — no mobile override needed. */
     /* Segctrl: icon-only on mobile (hide text labels) */
     .segctrl-lbl{display:none}
-    /* Short/full text toggle */
-    .acct-hide-mobile{display:none}
-    .acct-show-mobile{display:inline}
   }
 
   /* ===== Change-password section (inside right panel, not a sub-dialog) ===== */
@@ -639,24 +612,29 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-circle" aria-hidden="true"></div>
+                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
                       <div class="acct-bal-amount" style="flex:1">827<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
-                    <div style="margin-top:.75rem">
-                      <div class="acct-bal2-legend">
-                        <span class="acct-bal2-leg"><span class="acct-bal2-dot is-subscription" aria-hidden="true"></span>Subscription <span><strong>213&nbsp;of&nbsp;500</strong><span style="margin-left:.25rem">used</span></span></span>
-                        <span class="acct-bal2-leg"><span class="acct-bal2-dot is-purchased" aria-hidden="true"></span>Purchased <span><strong>0&nbsp;of&nbsp;540</strong><span style="margin-left:.25rem">used</span></span></span>
+                    <div class="acct-bal3-seg" style="margin-top:.75rem">
+                      <div class="acct-bal3-grp">
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Subscription</span>
+                          <span class="acct-bal3-coin is-subscription" aria-hidden="true"></span>
+                          <span class="acct-bal3-grp-left">287 left</span>
+                          <span class="acct-bal3-grp-meta">213 of 500 used</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Subscription: 213 of 500 credits used, 287 left">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:42.6%"></div>
+                        </div>
                       </div>
-                      <div class="acct-bal2-bar" role="img"
-                           aria-label="213 of 1,040 credits used: 213 of 500 subscription credits and 0 of 540 purchased credits">
-                        <div class="acct-bal2-zone is-subscription"><div class="acct-bal2-fill is-subscription" style="width:42.6%"></div></div>
-                        <div class="acct-bal2-zone is-purchased"><div class="acct-bal2-fill is-purchased" style="width:0%"></div></div>
-                      </div>
-                      <div style="display:flex;justify-content:space-between;margin-top:.5rem">
-                        <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">20% of total credits used</span><span class="acct-show-mobile">20% used</span></span>
-                        <span style="font-size:.75rem;color:var(--ink-secondary)">1,040 total</span>
+                      <div class="acct-bal3-grp">
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Purchased</span>
+                          <span class="acct-bal3-coin is-purchased" aria-hidden="true"></span>
+                          <span class="acct-bal3-grp-left">540 left</span>
+                        </div>
                       </div>
                     </div>
                     <div class="acct-bal-btns-mob">
@@ -670,23 +648,29 @@
                       <span class="badge badge-attention badge-sm">Trial ends in 14 days</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-circle" aria-hidden="true"></div>
+                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 1 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
                       <div class="acct-bal-amount" style="flex:1">6,800<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
-                    <div style="margin-top:.75rem">
-                      <div class="acct-bal2-legend">
-                        <span class="acct-bal2-leg"><span class="acct-bal2-dot is-subscription" aria-hidden="true"></span>Subscription <span><strong>3,200&nbsp;of&nbsp;10,000</strong><span style="margin-left:.25rem">used</span></span></span>
-                        <span class="acct-bal2-leg"><span class="acct-bal2-dot is-purchased" aria-hidden="true"></span>Purchased <span><strong>0&nbsp;of&nbsp;0</strong><span style="margin-left:.25rem">used</span></span></span>
+                    <div class="acct-bal3-seg" style="margin-top:.75rem">
+                      <div class="acct-bal3-grp">
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Subscription</span>
+                          <span class="acct-bal3-coin is-subscription" aria-hidden="true"></span>
+                          <span class="acct-bal3-grp-left">6,800 left</span>
+                          <span class="acct-bal3-grp-meta">3,200 of 10,000 used</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Subscription: 3,200 of 10,000 credits used, 6,800 left">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:32%"></div>
+                        </div>
                       </div>
-                      <div class="acct-bal2-bar" role="img"
-                           aria-label="3,200 of 10,000 credits used, all subscription, no purchased pool">
-                        <div class="acct-bal2-zone is-subscription" style="flex-basis:100%"><div class="acct-bal2-fill is-subscription" style="width:32%"></div></div>
-                      </div>
-                      <div style="display:flex;justify-content:space-between;margin-top:.5rem">
-                        <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">32% of total credits used</span><span class="acct-show-mobile">32% used</span></span>
-                        <span style="font-size:.75rem;color:var(--ink-secondary)">10,000 total</span>
+                      <div class="acct-bal3-grp">
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Purchased</span>
+                          <span class="acct-bal3-coin is-purchased" aria-hidden="true"></span>
+                          <span class="acct-bal3-grp-left">0 left</span>
+                        </div>
                       </div>
                     </div>
                     <div class="acct-bal-btns-mob">
@@ -698,24 +682,29 @@
                       <div class="acct-sect-title">Your credit balance</div>
                       <span class="badge badge-primary badge-sm">Free plan</span>                    </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-alert-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></div>
+                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
                       <div class="acct-bal-amount" style="flex:1">0<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
-                    <div style="margin-top:.75rem">
-                      <div class="acct-bal2-legend">
-                        <span class="acct-bal2-leg"><span class="acct-bal2-dot is-subscription" aria-hidden="true"></span>Subscription <span><strong>500&nbsp;of&nbsp;500</strong><span style="margin-left:.25rem">used</span></span> <span style="color:var(--ink-secondary)">(resets Aug 1, 2026)</span></span>
-                        <span class="acct-bal2-leg"><span class="acct-bal2-dot is-purchased" aria-hidden="true"></span>Purchased <span><strong>540&nbsp;of&nbsp;540</strong><span style="margin-left:.25rem">used</span></span></span>
+                    <div class="acct-bal3-seg" style="margin-top:.75rem">
+                      <div class="acct-bal3-grp">
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Subscription</span>
+                          <span class="acct-bal3-coin is-subscription" aria-hidden="true"></span>
+                          <span class="acct-bal3-grp-left">0 left</span>
+                          <span class="acct-bal3-grp-meta">500 of 500 used · Resets Aug 1, 2026</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Subscription: 500 of 500 credits used, 0 left, resets Aug 1, 2026">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:100%"></div>
+                        </div>
                       </div>
-                      <div class="acct-bal2-bar" role="img"
-                           aria-label="1,040 of 1,040 credits used: subscription and purchased pools both fully used">
-                        <div class="acct-bal2-zone is-subscription"><div class="acct-bal2-fill is-subscription" style="width:100%"></div></div>
-                        <div class="acct-bal2-zone is-purchased"><div class="acct-bal2-fill is-purchased" style="width:100%"></div></div>
-                      </div>
-                      <div style="display:flex;justify-content:space-between;margin-top:.5rem">
-                        <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">100% of total credits used</span><span class="acct-show-mobile">100% used</span></span>
-                        <span style="font-size:.75rem;color:var(--ink-secondary)">1,040 total</span>
+                      <div class="acct-bal3-grp">
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Purchased</span>
+                          <span class="acct-bal3-coin is-purchased" aria-hidden="true"></span>
+                          <span class="acct-bal3-grp-left">0 left</span>
+                        </div>
                       </div>
                     </div>
                     <div class="acct-bal-btns-mob">
@@ -942,7 +931,7 @@
       var show = panel.dataset.section === sectionId;
       panel.style.display = show ? (panel.dataset.display || '') : 'none';
     });
-    /* Apply the plan state to the newly-active section (buttons + fallback) */
+    /* Apply the plan state + Purchased-view concept to the newly-active section */
     applyPlanState();
     /* On mobile: switch to section state (updates mobile title too) */
     if(acctIsMobile()) acctSetMobileState('section');
@@ -995,6 +984,7 @@
       btn.setAttribute('aria-selected', on ? 'true' : 'false');
     });
   }
+
 
   /* Open on the tab named in ?section= (set by the account popover on every page);
      fall back to Balance — this window is also the standalone Balance concept demo. */

@@ -11,6 +11,7 @@ These are locked decisions. Do not change without explicit approval.
 | # | Rule |
 |---|---|
 | 1 | Balance's hero credit number (the `.acct-bal-amount` supporting text in V1's Free/Pro/Exhausted states) reads "left" (e.g. "827 left"), not "credits remaining" or "credits left". Agreed wording — do not add "credits" back. |
+| 2 | **Purchased-pool usage is NOT trackable** (2026-07-21): the backend can't count how many credits were bought — only the remaining number is known. Never render a "used of total" fraction, a progress bar, or a combined subscription+purchased total for the Purchased pool, anywhere (Balance, sidebar popover, sidebar trigger). Purchased always shows the remaining count only ("N left"). Balance keeps exactly **one** progress bar — the Subscription pool's, with its usage info. |
 
 The account modal carries a **section-aware concept version toggle** in the topbar. It flips the
 active section between its available versions. **Balance** has three, each a different
@@ -51,6 +52,31 @@ which threw earlier at load — so the `addEventListener` never registered and c
 did nothing. The handler was moved into its own **standalone `<script>` block before `</body>`**, so
 it registers independently of any earlier script error. Verified: clicking Manage plan / Billing
 navigates to `user_profile-modal.html?section=…` and the modal opens on that tab.
+
+## 2026-07-21 — Balance shows a single Subscription progress; Purchased = remaining only (shipped)
+
+Purchased usage turned out untrackable (hard rule 2), so the combined two-zone bar (V2) was
+retired from the shipped page — it needed the purchased pool's total. The shipped Balance layout
+in every plan state (Free / Pro-trial / Exhausted) is now:
+
+- **Hero unchanged** — coin + total remaining ("827 left" = 287 subscription + 540 purchased;
+  both remaining values are known) + Upgrade Plan.
+- **One progress bar — Subscription** (`.acct-bal3-grp`): head = pool name + "**287** left";
+  8 px `--progress-track` bar with `--brand-tertiary` fill (42.6 %); foot = "213 of 500 used"
+  (Exhausted adds "Resets Aug 1, 2026" on the foot's right side and flags "0 left" via
+  `.is-exhausted` red).
+- **Purchased — head-only row**, no bar, no foot: pool name + "**540** left" (Pro/Exhausted: "0
+  left"). Reuses the same `.acct-bal3-grp-head` recipe so the two pools align as one list inside
+  `.acct-bal3-seg`.
+- The `.acct-bal2-*` CSS + markup and the `.acct-hide-mobile`/`.acct-show-mobile` short-text
+  toggle (only the bar summary used it) were removed from the page; the V2/V3 explorations stay
+  verbatim in `pages/concept/balance-versions-v2-v3.html`. The `--balance-*-track` tokens stay in
+  `kit-theme.css` (still consumed by the parked Iteration-2 popover recipe).
+- Same pass, popover + trigger: sidebar popover Purchased row = "540 left", no bar; sidebar
+  trigger = `213 / 500` @ 42.6 % (subscription pool only). See
+  [changes/Popover.md](../changes/Popover.md) / [changes/Sidebar.md](../changes/Sidebar.md).
+
+The V1/V2/V3 narrative below is **historical** (concept-iteration record; V2/V3 retired).
 
 ## Layout / composition changes (Balance section)
 
@@ -104,10 +130,10 @@ ambiguity:
 ### Demo-account data — the account is on the Free plan everywhere
 
 One fictional account across all surfaces: **Free plan** → Subscription pool = 500 credits /
-month (213 used, 287 left, 42.6 %), Purchased pool = 540 (0 used) → total 1,040, 213 used
-(20 %), 827 remaining. The same numbers drive the modal's Balance (all three bar versions), the
-sidebar footer usage row (`213 / 500`, 42.6 % bar) and tokens popover (plan name **Free**,
-Subscription `213 of 500`, Purchased `0 of 540`) on all six pages, the storybook's Expected
+month (213 used, 287 left, 42.6 %), Purchased pool = **540 remaining** (bought total unknown —
+hard rule 2) → 827 left overall. The same numbers drive the modal's Balance, the sidebar footer
+usage row (`213 / 500`, 42.6 % bar) and tokens popover (plan name **Free**, Subscription
+`213 of 500`, Purchased `540 left`) on all consuming pages, the storybook's Expected
 sidebar/popover demos, and the user row meta (`Admin · Free`).
 
 ## Layout / composition changes (Manage plan section)
