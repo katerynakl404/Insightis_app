@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Illustration styles | Insightis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../kit-theme.css" />
+  <link rel="stylesheet" href="auth-concept.css" />
+  <style>
+    .au-illu-page{ align-items:flex-start; }
+    .il-wrap{ width:100%; max-width:60rem; margin:0 auto; }
+    .il-intro{ text-align:center; margin-bottom:.5rem; }
+    .il-intro h1{ margin:0 0 .5rem; font-size:1.5rem; font-weight:500; color:var(--ink); }
+    .il-intro p{ margin:0 auto; max-width:44rem; font-size:.875rem; color:var(--ink-secondary); }
+    .il-pack{ margin-top:2rem; }
+    .il-pack-h{ display:flex; align-items:baseline; gap:.625rem; margin:0 0 1rem; }
+    .il-pack-h h2{ margin:0; font-size:1rem; font-weight:600; color:var(--ink); }
+    .il-pack-h span{ font-size:.8125rem; color:var(--ink-secondary); }
+    .il-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:1rem; }
+    .il-fig{ margin:0; display:flex; flex-direction:column; align-items:center; gap:.75rem; padding:1.25rem;
+      border:1px solid var(--border); border-radius:.75rem; background:var(--card); }
+    .il-fig figcaption{ font-size:.75rem; color:var(--ink-secondary); text-align:center; }
+  </style>
+</head>
+<body>
+  <header class="au-topnav">
+    <a class="au-topnav-brand" href="login.html"><span class="au-brand"></span></a>
+    <label class="au-switch">Screen
+      <select class="au-switch-sel" data-au-switch aria-label="Switch screen"></select>
+    </label>
+  </header>
+  <main class="au-page au-illu-page">
+    <div class="il-wrap">
+      <div class="il-intro">
+        <h1>Illustration styles</h1>
+        <p>The refined glyph set used across every status screen, in the <strong class="au-strong">Halo</strong> style used by the flow.</p>
+      </div>
+      <div id="il-styles"></div>
+    </div>
+  </main>
+  <script src="auth-concept.js"></script>
+  <script>
+    var IL_ITEMS = [
+      ['triangle-alert','error','Error (generic)'],
+      ['mail-x','error','Email link error'],
+      ['shield-alert','error','Reset link error'],
+      ['mail','info','Check your email'],
+      ['mail-check','info','Confirm email'],
+      ['circle-check','success','Email confirmed'],
+      ['shield-check','success','Password updated']
+    ];
+    var IL_STYLES = [ ['halo','Halo','soft tinted disc + icon'] ];
+    var host = document.getElementById('il-styles');
+    IL_STYLES.forEach(function (stl) {
+      var sec = document.createElement('section');
+      sec.className = 'il-pack';
+      var h = '<div class="il-pack-h"><h2>' + stl[1] + '</h2><span>· ' + stl[2] + '</span></div><div class="il-grid">';
+      IL_ITEMS.forEach(function (it) {
+        h += '<figure class="il-fig">' + window.auIllu(it[0], it[1], stl[0]) + '<figcaption>' + it[2] + '</figcaption></figure>';
+      });
+      h += '</div>';
+      sec.innerHTML = h;
+      host.appendChild(sec);
+    });
+  </script>
+</body>
+</html>

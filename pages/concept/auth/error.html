@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Error | Insightis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../kit-theme.css" />
+  <link rel="stylesheet" href="auth-concept.css" />
+</head>
+<body>
+  <header class="au-topnav">
+    <a class="au-topnav-brand" href="login.html"><span class="au-brand"></span></a>
+    <label class="au-switch">Screen
+      <select class="au-switch-sel" data-au-switch aria-label="Switch screen"></select>
+    </label>
+  </header>
+  <main class="au-page">
+    <div class="au-card">
+      <div class="au-brand"></div>
+      <div class="au-status is-error" data-illu="triangle-alert">
+        <svg class="au-illu" viewBox="0 0 140 118" fill="none" aria-hidden="true">
+          <ellipse class="il-shadow" cx="68" cy="110" rx="38" ry="5"/>
+          <path class="il-body" d="M40 16h38l22 22v58a4 4 0 0 1-4 4H40a4 4 0 0 1-4-4V20a4 4 0 0 1 4-4Z"/>
+          <path class="il-line" d="M78 16v22h22"/>
+          <circle class="il-face" cx="58" cy="66" r="3"/>
+          <circle class="il-face" cx="80" cy="66" r="3"/>
+          <path class="il-mouth" d="M56 86 q13 -10 26 0"/>
+          <circle class="il-badge" cx="100" cy="92" r="14"/>
+          <path class="il-badge-x" d="M94 86l12 12M106 86l-12 12"/>
+        </svg>
+        <h1 class="au-status-title">Error</h1>
+      </div>
+      <div class="au-alert">Sorry, there was an error: <code>invalid_request_uri</code></div>
+      <p class="au-reqid">Request Id: <code>0HNN9F7LRFMBP:00000001</code></p>
+      <div class="au-actions"><a class="btn btn-primary btn-lg" href="login.html">Back to sign in</a></div>
+    </div>
+  </main>
+  <script src="auth-concept.js"></script>
+</body>
+</html>

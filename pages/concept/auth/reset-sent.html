@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Check your email | Insightis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../kit-theme.css" />
+  <link rel="stylesheet" href="auth-concept.css" />
+</head>
+<body>
+  <header class="au-topnav">
+    <a class="au-topnav-brand" href="login.html"><span class="au-brand"></span></a>
+    <label class="au-switch">Screen
+      <select class="au-switch-sel" data-au-switch aria-label="Switch screen"></select>
+    </label>
+  </header>
+  <main class="au-page">
+    <div class="au-card">
+      <div class="au-brand"></div>
+      <div class="au-status is-info" data-illu="mail">
+        <div class="au-status-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+        <h1 class="au-status-title">Check your email</h1>
+        <p class="au-status-body">We sent a reset link to <strong class="au-strong">you@example.com</strong>. Open it to choose a new password.</p>
+      </div>
+      <div class="au-actions">
+        <button type="button" class="btn btn-primary btn-lg" data-au-resend data-au-resend-secs="45">Resend Reset Link</button>
+      </div>
+      <div class="au-links-row"><a class="link" href="login.html">Back to sign in</a></div>
+    </div>
+  </main>
+  <script src="auth-concept.js"></script>
+</body>
+</html>

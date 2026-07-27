@@ -1,0 +1,173 @@
+/* ===== Auth flow (concept) — PAGE LAYOUT ONLY, on the Insightis kit =====
+   Dark-theme-only reproduction of the sign-up + password-creation flow, one screen per page.
+   Controls are kit components (.btn / .igrp / .cbx); the .au-* classes are page-layout
+   composition (a pre-auth centred-card surface that exists nowhere else in the kit).
+   All colours flow through kit tokens. */
+
+*,*::before,*::after{ box-sizing:border-box; }
+body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink); background:var(--bg); }
+
+/* ---- Header: brand + screen switcher (present on every page) ---- */
+.au-topnav{ position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
+  gap:1rem; padding:.625rem 1rem; background:var(--card); border-bottom:1px solid var(--border); }
+.au-topnav-brand{ display:inline-flex; align-items:center; text-decoration:none; }
+/* "Concept" marker — flags this whole bar as preview scaffolding that does NOT ship in the product.
+   margin-right:auto keeps it grouped with the brand on the left, pushing the switcher to the right. */
+.au-concept-tag{ display:inline-flex; align-items:center; gap:.375rem; margin-right:auto;
+  padding:.125rem .5rem; border-radius:var(--radius-full);
+  border:1px solid color-mix(in srgb, var(--brand-primary) 40%, transparent);
+  background:color-mix(in srgb, var(--brand-primary) var(--tint-15), transparent);
+  color:var(--brand-primary); font-size:var(--text-12); font-weight:700;
+  letter-spacing:var(--tracking-label); text-transform:uppercase; white-space:nowrap; }
+.au-concept-tag::before{ content:""; width:.375rem; height:.375rem; border-radius:var(--radius-full);
+  background:currentColor; }
+.au-topnav .au-brand .au-logo{ display:block; height:1.25rem; width:auto; color:var(--logo-ink,var(--ink)); }
+.au-topnav .au-brand .au-logo .au-logo-mark{ fill:var(--logo-mark); }
+.au-switch{ display:inline-flex; align-items:center; gap:.5rem; font-size:var(--text-12); color:var(--ink-secondary); }
+.au-switch-sel{ height:2rem; max-width:15rem; padding:0 1.75rem 0 .625rem; border:1px solid var(--border); border-radius:var(--radius-md,6px);
+  background:var(--card2); color:var(--ink); font-family:inherit; font-size:var(--text-13); cursor:pointer;
+  appearance:none; -webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right .375rem center; }
+.au-switch-sel:focus-visible{ outline:none; box-shadow:var(--shadow-focus); border-color:var(--brand-primary); }
+
+/* ---- Pre-auth shell: centred card on a restrained brand wash ---- */
+.au-page{ min-height:calc(100vh - 49px); padding:2.5rem 1.5rem 4rem; display:flex; align-items:center; justify-content:center;
+  background-image:linear-gradient(155deg,
+    var(--bg) 0%,
+    color-mix(in srgb, var(--brand-primary) var(--tint-15), transparent) 45%,
+    color-mix(in srgb, var(--brand-secondary) var(--tint-10), transparent) 72%,
+    var(--bg) 100%); }
+
+.au-card{ width:100%; max-width:27rem; border:1px solid var(--border); background:var(--card); border-radius:.75rem;
+  padding:1.5rem; box-shadow:var(--shadow-overlay); display:flex; flex-direction:column; gap:1rem; }
+
+.au-brand{ display:flex; justify-content:center; margin-bottom:.25rem; }
+.au-card .au-brand .au-logo{ display:block; height:1.5rem; width:auto; color:var(--logo-ink,var(--ink)); }
+.au-card .au-brand .au-logo .au-logo-mark{ fill:var(--logo-mark); }
+
+.au-head{ text-align:center; display:flex; flex-direction:column; gap:.5rem; }
+.au-title{ margin:0; font-size:1.25rem; font-weight:500; line-height:1.75rem; color:var(--ink); text-wrap:balance; }
+/* Subtitle — kept to ~2 balanced lines across screens; min-height reserves both lines so the card
+   header doesn't jump in height when switching between screens (forgot ↔ reset). */
+.au-sub{ margin:0; min-height:2.5rem; font-size:.875rem; line-height:1.25rem; color:var(--ink-secondary); text-wrap:balance; }
+
+.au-form{ display:flex; flex-direction:column; gap:1rem; }
+.au-field{ display:flex; flex-direction:column; gap:.375rem; min-width:0; position:relative; }
+/* Field error helper — mirrors the kit .err-help recipe (semantic --input-error, not the raw
+   --fb-red primitive; tight .25rem gap under the field). display:block so it sits under the input;
+   margin shorthand resets the UA <p> margin that pushed the message too far from the input. */
+.au-field-msg{ display:block; margin:.25rem 0 0; color:var(--input-error);
+  font-size:var(--text-11); font-weight:500; line-height:1.3; }
+.au-field-msg:empty{ display:none; }
+
+/* Show/hide password toggle — one icon at a time (kit has no built-in eye). */
+.au-eye{ display:inline-flex; align-items:center; justify-content:center; width:1.75rem; height:1.75rem; margin-right:.375rem;
+  flex:none; padding:0; border:none; border-radius:.25rem; background:transparent; color:var(--ink-secondary); cursor:pointer;
+  transition:color .12s,background-color .12s; font-family:inherit; }
+.au-eye:hover{ color:var(--ink-body); background:color-mix(in srgb,var(--brand-primary) var(--tint-6),transparent); }
+.au-eye:focus-visible{ outline:none; box-shadow:var(--shadow-focus); }
+.au-eye svg{ width:1.125rem; height:1.125rem; }
+.au-eye .au-eye-off{ display:none; }
+.au-eye[aria-pressed="true"] .au-eye-on{ display:none; }
+.au-eye[aria-pressed="true"] .au-eye-off{ display:block; }
+
+/* Password strength hint — floats to the SIDE of the field (never below, so it can't cover the
+   next field or block typing there). A strength bar + a checklist that reads as ticked-off items,
+   not radios. Shown only while the field is focused/filled (JS toggles .is-open). */
+.au-req{ position:absolute; top:0; left:calc(100% + .625rem); width:15rem; z-index:30; pointer-events:none;
+  display:none; flex-direction:column; gap:.625rem; margin:0; padding:.875rem;
+  background:var(--card2); border:1px solid var(--border-hover); border-radius:.625rem; box-shadow:var(--shadow-overlay); }
+.au-req.is-open{ display:flex; }
+.au-req-top{ display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+.au-req-title{ font-size:.75rem; font-weight:500; color:var(--ink-secondary); }
+.au-req-level{ font-size:.75rem; font-weight:600; color:var(--ink-inactive); }
+.au-req-bar{ height:.375rem; border-radius:9999px; background:var(--skel-bg); overflow:hidden; }
+.au-req-bar-fill{ display:block; height:100%; width:0; border-radius:inherit; background:var(--ink-inactive); transition:width .2s ease, background-color .2s ease; }
+.au-req-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.375rem; }
+.au-req-list li{ display:flex; align-items:center; gap:.5rem; font-size:.875rem; line-height:1.2; color:var(--ink-secondary); }
+.au-req-list li::before{ content:"\2713"; flex:none; width:1rem; text-align:center; font-weight:700; color:var(--ink-inactive); }
+.au-req-list li.is-met{ color:var(--ink-body); }
+.au-req-list li.is-met::before{ color:var(--fb-green); }
+/* Strength colour via [data-level] (JS). Bar fill = solid level colour; the level LABEL is text,
+   so it takes the text-grade feedback tokens — the kit comment notes --fb-red (red-700) fails AA
+   as text on a dark surface, --fb-red-text (red-400 in dark) is the readable red. */
+.au-req[data-level="weak"] .au-req-bar-fill{ background:var(--fb-red-text); }
+.au-req[data-level="fair"] .au-req-bar-fill{ background:var(--fb-attention); }
+.au-req[data-level="strong"] .au-req-bar-fill{ background:var(--fb-green); }
+.au-req[data-level="weak"] .au-req-level{ color:var(--fb-red-text); }
+.au-req[data-level="fair"] .au-req-level{ color:var(--fb-attention-text); }
+.au-req[data-level="strong"] .au-req-level{ color:var(--fb-green); }
+/* Narrow viewports: no room beside the centred card — float the hint ABOVE the field (it's
+   pointer-events:none, so it can overlay the field above without blocking input, and it leaves
+   the terms/submit below the field visible). */
+@media (max-width:960px){ .au-req{ top:auto; bottom:calc(100% + .375rem); left:0; right:0; width:auto; } }
+
+/* Terms row — kit .cbx + inline link. */
+/* Terms row (register) and Forgot-password row (login) share this min-height so the CTA below
+   sits at the same Y on both screens — switching login↔register doesn't jump. */
+.au-terms{ display:flex; align-items:center; gap:.5rem; min-height:1.75rem; font-size:.875rem; line-height:1.25rem; color:var(--ink-body); }
+.au-terms .cbx{ margin-top:.0625rem; }
+
+.au-row-between{ display:flex; align-items:center; justify-content:flex-start; min-height:1.75rem; font-size:.875rem; }
+.au-actions{ display:flex; flex-direction:column; gap:.75rem; }
+/* Full-width stacked CTAs — height comes from the kit size class (.btn-lg = 40px), not a patch here. */
+.au-actions .btn{ width:100%; }
+/* Extra breathing room before a form's primary CTA: 16px form gap + 8px = 24px field→button. */
+.au-form .au-actions{ margin-top:.5rem; }
+
+.au-or{ display:flex; align-items:center; gap:.75rem; }
+.au-or-line{ flex:1 1 auto; height:1px; background:var(--border); }
+.au-or-text{ flex:none; font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-secondary); }
+
+.au-google{ gap:.5rem; }
+.au-google svg{ width:1.25rem; height:1.25rem; flex:none; }
+
+.au-foot{ margin:0; text-align:center; font-size:.875rem; line-height:1.25rem; color:var(--ink-secondary); }
+/* Text links use the kit .link component (see kit-theme.css) — no local link recipe. */
+.au-links-row{ display:flex; align-items:center; justify-content:center; gap:.5rem; flex-wrap:wrap; font-size:.875rem; color:var(--ink-secondary); }
+
+/* Professional status illustrations — one shared refined glyph set rendered in three styles
+   (halo / flat / line). Accent flows through --acc (per state) + kit tint tokens; the flat
+   style's on-fill glyph uses white (content on a solid accent tile). */
+.au-illu2{ width:104px; height:104px; display:block; margin:0 auto .25rem; }
+.au-illu2.is-error{ --acc:var(--fb-red); }
+.au-illu2.is-info{ --acc:var(--brand-primary); }
+.au-illu2.is-success{ --acc:var(--fb-green); }
+.au-illu2 .ill-glyph{ fill:none; stroke:var(--acc); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.au-illu2 .ill-glyph *{ vector-effect:non-scaling-stroke; }
+.au-illu2.style-halo .ill-h1{ fill:color-mix(in srgb,var(--acc) var(--tint-6),transparent); }
+.au-illu2.style-halo .ill-h2{ fill:color-mix(in srgb,var(--acc) var(--tint-12),transparent); }
+
+/* Error alert box + request id (identity-server Error page). */
+/* Subdued container — the red warning illustration above already signals the error state, so the
+   box itself stays neutral; only the error code is tinted. */
+.au-alert{ border-radius:.5rem; padding:.75rem 1rem; text-align:center; font-size:.875rem; line-height:1.4;
+  color:var(--ink-secondary); text-wrap:balance;
+  border:1px solid var(--border);
+  background:var(--card2); }
+.au-alert code{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-weight:600; color:var(--fb-red-text); }
+/* Error variant — a form-level (general) error banner, e.g. "email already registered". Uses the
+   kit error-surface tokens; left-aligned as it sits at the top of a form, not centred like the
+   authorize alert. */
+.au-alert.is-error{ text-align:left; color:var(--ink-body); background:var(--toast-bg-error); border-color:var(--toast-border-error); }
+.au-reqid{ margin:0; text-align:center; font-size:.75rem; color:var(--ink-inactive); }
+.au-reqid code{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:var(--ink-secondary); }
+
+/* Status screens (check-email / confirmed / errors) — StatusView icon-circle recipe. */
+.au-status{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:.75rem; }
+.au-status-ic{ display:flex; align-items:center; justify-content:center; width:3rem; height:3rem; border-radius:9999px; }
+.au-status-ic svg{ width:1.5rem; height:1.5rem; }
+.au-status.is-info .au-status-ic{ background:color-mix(in srgb,var(--brand-primary) var(--tint-10),transparent); color:var(--brand-primary); }
+.au-status.is-success .au-status-ic{ background:color-mix(in srgb,var(--fb-green) var(--tint-10),transparent); color:var(--fb-green); }
+.au-status.is-error .au-status-ic{ background:color-mix(in srgb,var(--fb-red) var(--tint-10),transparent); color:var(--fb-red); }
+.au-status-title{ margin:.25rem 0 0; font-size:1.125rem; font-weight:500; color:var(--ink); text-wrap:balance; }
+.au-status-body{ margin:0; font-size:.875rem; line-height:1.4; color:var(--ink-secondary); text-wrap:balance; }
+/* Recipient address echoed back in the body — heavier + full-ink so it stands out of the secondary copy. */
+.au-strong{ color:var(--ink); font-weight:600; }
+
+@media (max-width:600px){
+  .au-card{ padding:1.25rem; }
+  .au-topnav{ flex-wrap:wrap; }
+}
