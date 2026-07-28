@@ -1972,6 +1972,11 @@
   .igrp .igrp-add svg{width:20px;height:20px}
   .igrp .igrp-input{flex:1;height:100%;background:transparent;border:none;outline:none;font-size:var(--text-14);color:var(--ink);font-family:inherit;padding:0 8px;min-width:0}
   .igrp .igrp-input::placeholder{color:var(--ink-inactive)}
+  /* Autofill — Chrome/WebKit hard-code a light bg on autofilled fields, which whites-out the control
+     on dark theme. Repaint via an inset shadow matching the control surface (default = --bg, Outlined
+     = --card); the 9999s transition defeats the fade-back to the browser yellow on re-focus. */
+  .igrp .igrp-input:-webkit-autofill,.igrp .igrp-input:-webkit-autofill:hover,.igrp .igrp-input:-webkit-autofill:focus,.igrp .igrp-input:-webkit-autofill:active{-webkit-text-fill-color:var(--ink);caret-color:var(--ink);-webkit-box-shadow:0 0 0 100px var(--bg) inset;transition:background-color 9999s ease-out 0s}
+  .igrp.var-outline .igrp-input:-webkit-autofill,.igrp.var-outline .igrp-input:-webkit-autofill:hover,.igrp.var-outline .igrp-input:-webkit-autofill:focus,.igrp.var-outline .igrp-input:-webkit-autofill:active{-webkit-box-shadow:0 0 0 100px var(--card) inset}
   .igrp:hover,.igrp.s-hover{border-color:var(--border-hover)}
   .igrp:focus-within,.igrp.s-focus{border-color:var(--input-focus);box-shadow:none}
   /* Press feedback — same recipe as .field; border-only swap so the click acknowledges without
@@ -1984,10 +1989,15 @@
   /* Trailing kbd slot in Outline variant — chip on the input surface, not a Card-on-Card hairline. */
   .igrp .igrp-kbd-slot{padding:0 8px 0 4px;gap:8px}
   .igrp .igrp-kbd{font-size:var(--text-11);font-family:inherit;border:var(--border-width) solid var(--border);border-radius:4px;padding:1px 6px;background:var(--card2);color:var(--ink-body);line-height:1.4}
+  /* Error = red border only; placeholder + icon stay neutral (a placeholder is a hint, not an
+     error; the border + helper text carry the error). Mirrors .field.s-error. */
   .igrp.s-error{border-color:var(--input-error);background:transparent}
-  .igrp.s-error svg,.igrp.s-error .igrp-input::placeholder{color:var(--input-error)}
   .igrp.s-disabled{opacity:var(--opacity-disabled);pointer-events:none}
   .igrp.is-xs{height:28px} .igrp.is-sm{height:32px} .igrp.is-lg{height:40px} .igrp.is-xl{height:44px}
+  /* At XL, the 20px icon reads as oversized and its slot pushes the text too far right —
+     scale the glyph to 18px and tighten the icon→text gap (2px slot pad + 8px input pad = 10px). */
+  .igrp.is-xl .igrp-add{padding:0 2px 0 14px}
+  .igrp.is-xl .igrp-add svg{width:18px;height:18px}
 
   /* Selector — custom single-select trigger. Field-like shell at rest; --input-focus border when open (same active signal as Input / InputGroup). */
   .sel-wrap{display:flex;flex-direction:column;gap:4px;width:240px;position:relative}

@@ -126,7 +126,7 @@ body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,
 
 .au-foot{ margin:0; text-align:center; font-size:.875rem; line-height:1.25rem; color:var(--ink-secondary); }
 /* Text links use the kit .link component (see kit-theme.css) — no local link recipe. */
-.au-links-row{ display:flex; align-items:center; justify-content:center; gap:.5rem; flex-wrap:wrap; font-size:.875rem; color:var(--ink-secondary); }
+.au-links-row{ display:flex; flex-direction:column; align-items:center; gap:.75rem; font-size:.875rem; color:var(--ink-secondary); }
 
 /* Professional status illustrations — one shared refined glyph set rendered in three styles
    (halo / flat / line). Accent flows through --acc (per state) + kit tint tokens; the flat
@@ -148,10 +148,12 @@ body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,
   border:1px solid var(--border);
   background:var(--card2); }
 .au-alert code{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-weight:600; color:var(--fb-red-text); }
-/* Error variant — a form-level (general) error banner, e.g. "email already registered". Uses the
-   kit error-surface tokens; left-aligned as it sits at the top of a form, not centred like the
-   authorize alert. */
-.au-alert.is-error{ text-align:left; color:var(--ink-body); background:var(--toast-bg-error); border-color:var(--toast-border-error); }
+/* Error variant — a form-level (general) error banner, e.g. "email already registered". Kit
+   error-surface tokens + a leading alert icon and red text so it unmistakably reads as an error
+   (a bare tinted box read as neutral). Left-aligned, icon-beside-text row. */
+.au-alert.is-error{ display:flex; align-items:flex-start; gap:.5rem; text-align:left;
+  color:var(--fb-red-text); background:var(--toast-bg-error); border-color:var(--toast-border-error); }
+.au-alert.is-error .au-alert-ic{ flex:none; width:1.125rem; height:1.125rem; margin-top:.0625rem; color:var(--fb-red-text); }
 .au-reqid{ margin:0; text-align:center; font-size:.75rem; color:var(--ink-inactive); }
 .au-reqid code{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:var(--ink-secondary); }
 

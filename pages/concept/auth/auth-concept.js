@@ -27,7 +27,6 @@ var AU_SCREENS = [
     ['check-email.html', '2 · Check your email'],
     ['confirm-email.html', '3 · Confirm your email'],
     ['confirmed.html', '✓ Email confirmed'],
-    ['confirmed-name.html', '✓ Email confirmed (add name)'],
     ['confirm-error.html', '✕ Could not confirm'],
     ['login.html', '4 · Sign in']
   ]},
