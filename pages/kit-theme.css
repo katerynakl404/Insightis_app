@@ -1162,9 +1162,12 @@
   .cl-mention-list::-webkit-scrollbar-track{background:transparent}
   .cl-mention-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
   .cl-mention-list:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
-  .cl-mention-item{gap:.625rem;cursor:pointer}
+  /* Each row leads with the source connector logo (32px) in its own left column; trimmed left padding
+     (.mi's 12px → 6px) + a tight .375rem gap keep the logo close to both the row edge and the label. */
+  .cl-mention-item{gap:.375rem;padding-left:6px;cursor:pointer}
   /* First row is highlighted on open; arrow-nav / :hover move it. Same neutral surface as .mi:hover. */
   .cl-mention-item.is-active{background:var(--state-hover)}
+  .logo-spr.cl-mention-logo{--logo-size:32px}
   /* Badge hover card — the title + definition that appear on hover/focus of an inserted
      .cl-mention-tag. Reuses the .menu surface; JS positions it near the token. */
   .cl-mention-detail{position:fixed;z-index:70;width:14rem;max-width:14rem;padding:8px 10px;display:none}

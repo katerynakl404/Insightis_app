@@ -771,16 +771,18 @@
     {name:'Monthly Recurring Revenue',alias:'mrr',source:'Stripe',desc:'Normalized recurring subscription revenue for the month, net of discounts and excluding one-off charges.'},
     {name:'Churn Rate',alias:'churn_rate',source:'Stripe',desc:'Share of active customers who cancelled in the period, divided by customers at the start of the period.'},
     {name:'Revenue',alias:'revenue',source:'Stripe',desc:'Total recognized revenue in the period across all products and plans.'},
-    {name:'Active Users',alias:'active_users',source:'Product analytics',desc:'Distinct users with at least one qualifying session in the period.'},
-    {name:'Conversion Rate',alias:'conversion_rate',source:'Product analytics',desc:'Share of signups that reach a paid plan within the period.'},
+    {name:'Active Users',alias:'active_users',source:'Amplitude',desc:'Distinct users with at least one qualifying session in the period.'},
+    {name:'Conversion Rate',alias:'conversion_rate',source:'Amplitude',desc:'Share of signups that reach a paid plan within the period.'},
     {name:'Customer LTV',alias:'ltv',source:'Stripe',desc:'Projected gross revenue from a customer over their expected lifetime.'},
-    {name:'Customer Acquisition Cost',alias:'cac',source:'Marketing Hub',desc:'Total sales & marketing spend divided by new customers acquired in the period.'},
-    {name:'Net Promoter Score',alias:'nps',source:'Surveys',desc:'Percentage of promoters minus percentage of detractors from the latest survey wave.'},
+    {name:'Customer Acquisition Cost',alias:'cac',source:'HubSpot',desc:'Total sales & marketing spend divided by new customers acquired in the period.'},
+    {name:'Net Promoter Score',alias:'nps',source:'SurveyMonkey',desc:'Percentage of promoters minus percentage of detractors from the latest survey wave.'},
     {name:'Average Revenue Per User',alias:'arpu',source:'Stripe',desc:'Total revenue in the period divided by the number of active users.'},
-    {name:'Gross Margin',alias:'gross_margin',source:'Finance',desc:'Revenue minus cost of goods sold, expressed as a percentage of revenue.'}
+    {name:'Gross Margin',alias:'gross_margin',source:'QuickBooks',desc:'Revenue minus cost of goods sold, expressed as a percentage of revenue.'}
   ];
   function cpMetricByAlias(a){ for(var i=0;i<CP_METRICS.length;i++){ if(CP_METRICS[i].alias===a) return CP_METRICS[i]; } return null; }
   var cpMentionCtx=null;   // {node, start, end, query} of the active "@query" run at the caret
+  // Source product → its real connector logo sprite class (see .logo-spr.* in kit-theme.css).
+  var CP_SOURCE_LOGO={'Stripe':'stripe','Amplitude':'amplitude','HubSpot':'hubspot','SurveyMonkey':'surveymonkey','QuickBooks':'quickbooks'};
 
   function cpEsc(s){ return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
   // Highlight the first case-insensitive occurrence of the query inside a label.
@@ -833,12 +835,15 @@
     // Search matches the ALIAS (the primary handle you type + insert); the metric name is secondary.
     var hits=CP_METRICS.filter(function(m){ return m.alias.toLowerCase().indexOf(ql)>=0; });
     if(!hits.length){ cpHideMention(); return; }        // nothing matches → hide entirely
-    // Text-only rows (no icon): alias primary (bold+coloured match) + name secondary. The FIRST row
+    // Each row: source logo + alias primary (bold+coloured match) + name secondary. The FIRST row
     // is highlighted (.is-active) on open; arrow-nav / :hover move it from there.
     box.innerHTML=hits.map(function(m,i){
+      // Each row leads with the connector logo of the metric's source (32px, own left column).
+      var cls=CP_SOURCE_LOGO[m.source]||'database';
       return '<div class="mi cl-mention-item'+(i===0?' is-active':'')+'" role="option" aria-selected="'+(i===0?'true':'false')+'" '+
         'data-name="'+cpEsc(m.name)+'" data-alias="'+cpEsc(m.alias)+'" '+
         'onmousedown="event.preventDefault()" onclick="cpInsertMention(this)">'+
+        '<span class="logo-spr '+cls+' cl-mention-logo" role="img" aria-label="'+cpEsc(m.source)+' logo"></span>'+
         '<span class="cl-mention-text"><span class="cl-mention-alias">@'+cpHl(m.alias,q)+'</span>'+
         '<span class="cl-mention-name">'+cpEsc(m.name)+'</span></span></div>';
     }).join('');
