@@ -21,10 +21,8 @@ a11y/
 # Never referenced by live pages or kit components — see archive/README.md.
 archive/
 
-# design-sync (claude.ai/design) — local-only tooling, NEVER published with the handoff artifact:
-# converter scripts, build output, machine state, the ds-react wrapper package, and all sync inputs
-.ds-sync/
-ds-bundle/
-.design-sync/
-ds-react/
-claude-design-prompt.md
+# Claude Design (claude.ai/design) sync tooling — local-only, NEVER published with the handoff
+# artifact. All of it lives under one folder now: converter scripts (.ds-sync/), build output
+# (ds-bundle/), machine state (.design-sync/), the ds-react wrapper package, and the sync prompt.
+# See .claude-design/README.md. The driver MUST be run with cwd = .claude-design/.
+.claude-design/
