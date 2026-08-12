@@ -445,29 +445,32 @@
           <!-- Connected list/table — has-connections drives section visibility. -->
           <div class="ds-conn-section">
             <div id="ds-conn-body" class="sk-loaded"></div>
-            <!-- Loading skeleton — mirrors the .ds-conn-tbl 4-column table (Connection name / Data Source / Description / Actions) -->
+            <!-- Loading skeleton — mirrors the .ds-conn-tbl 5-column table (Connection name / Data Source / Description / Last sync / Actions) -->
             <div class="sk-skel" aria-hidden="true">
               <div class="ds-conn-tbl mx-tbl">
                 <table class="tbl" style="table-layout:fixed;width:100%">
-                  <colgroup><col style="width:28%"><col style="width:22%"><col style="width:40%"><col style="width:10%"></colgroup>
-                  <thead><tr><th>Connection name</th><th>Data Source</th><th>Description</th><th>Actions</th></tr></thead>
+                  <colgroup><col style="width:22%"><col style="width:18%"><col style="width:30%"><col style="width:22%"><col style="width:8%"></colgroup>
+                  <thead><tr><th>Connection name</th><th>Data Source</th><th>Description</th><th>Last check</th><th>Actions</th></tr></thead>
                   <tbody>
                     <tr>
                       <td><span class="skel shimmer r-sm" style="display:block;width:8rem;height:.875rem"></span></td>
                       <td><div style="display:flex;align-items:center;gap:.5rem"><span class="skel shimmer r-sm" style="width:1.5rem;height:1.5rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:5rem;height:.8125rem"></span></div></td>
                       <td><span class="skel shimmer r-sm" style="display:block;width:85%;height:.8125rem"></span></td>
+                      <td><div style="display:flex;align-items:center;gap:.5rem"><span class="skel shimmer r-sm" style="width:4.5rem;height:.8125rem"></span><span class="skel shimmer r-full" style="width:1.25rem;height:1.25rem;flex:none"></span></div></td>
                       <td><span class="skel shimmer r-sm" style="display:block;width:1.25rem;height:1.25rem;margin-left:auto"></span></td>
                     </tr>
                     <tr>
                       <td><span class="skel shimmer r-sm" style="display:block;width:6.5rem;height:.875rem"></span></td>
                       <td><div style="display:flex;align-items:center;gap:.5rem"><span class="skel shimmer r-sm" style="width:1.5rem;height:1.5rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:6rem;height:.8125rem"></span></div></td>
                       <td><span class="skel shimmer r-sm" style="display:block;width:70%;height:.8125rem"></span></td>
+                      <td><div style="display:flex;align-items:center;gap:.5rem"><span class="skel shimmer r-sm" style="width:4rem;height:.8125rem"></span><span class="skel shimmer r-full" style="width:1.25rem;height:1.25rem;flex:none"></span></div></td>
                       <td><span class="skel shimmer r-sm" style="display:block;width:1.25rem;height:1.25rem;margin-left:auto"></span></td>
                     </tr>
                     <tr>
                       <td><span class="skel shimmer r-sm" style="display:block;width:7.5rem;height:.875rem"></span></td>
                       <td><div style="display:flex;align-items:center;gap:.5rem"><span class="skel shimmer r-sm" style="width:1.5rem;height:1.5rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:4.5rem;height:.8125rem"></span></div></td>
                       <td><span class="skel shimmer r-sm" style="display:block;width:78%;height:.8125rem"></span></td>
+                      <td><div style="display:flex;align-items:center;gap:.5rem"><span class="skel shimmer r-sm" style="width:5rem;height:.8125rem"></span><span class="skel shimmer r-full" style="width:1.25rem;height:1.25rem;flex:none"></span></div></td>
                       <td><span class="skel shimmer r-sm" style="display:block;width:1.25rem;height:1.25rem;margin-left:auto"></span></td>
                     </tr>
                   </tbody>
@@ -717,12 +720,18 @@
     { name:'GraphQL',             cat:'Other',                   cats:['Other'],                                      popular:false, slug:'graphql' },
     { name:'OData',               cat:'Other',                   cats:['Other'],                                      popular:false, slug:'odata' },
   ];
-  /* Connected (State 2): subset by name + per-source status (active / error). */
+  /* Connected (State 2): subset by name + per-source status (active / error).
+     lastSync = timestamp of the last successful/attempted sync; defaults to the moment the
+     connection was created, then updates whenever Test Connection runs (dsTestConnection).
+     error  = concise reason shown on the info-icon hover + the failure toast.
+     willFail = demo-only: makes the deterministic test path resolve to an error so the failed
+     state (badge + info-hover + retry) stays reproducible for the handoff mockup. */
+  var _dsNow = Date.now();
   var CONNECTED = [
-    { name:'PostgreSQL', label:'Production DB',   status:'active', desc:'Main analytics warehouse, syncs every 6 h' },
-    { name:'Salesforce', label:'Main CRM',        status:'active', desc:'Deals, contacts & pipeline metrics' },
-    { name:'Stripe',     label:'Stripe Payments', status:'error',  desc:'Revenue and subscription data' },
-    { name:'HubSpot',    label:'Marketing Hub',   status:'active', desc:'Campaign performance & lead scoring' },
+    { name:'PostgreSQL', label:'Production DB',   status:'active', desc:'Main analytics warehouse, syncs every 6 h', lastSync:_dsNow - 2*3600e3 },
+    { name:'Salesforce', label:'Main CRM',        status:'active', desc:'Deals, contacts & pipeline metrics',         lastSync:_dsNow - 32*60e3 },
+    { name:'Stripe',     label:'Stripe Payments', status:'error',  desc:'Revenue and subscription data',              lastSync:_dsNow - 26*3600e3, willFail:true, error:'API key expired or revoked (HTTP 401)' },
+    { name:'HubSpot',    label:'Marketing Hub',   status:'active', desc:'Campaign performance & lead scoring',         lastSync:_dsNow - 5*3600e3 },
   ];
   var DS_VIEW = 'table'; /* always table for My Connections */
   var DS_CARD_STYLE = 0;
@@ -732,6 +741,71 @@
   function dsLogo(slug, name, sizeRem){
     return '<span class="logo-spr ' + slug + '" role="img" aria-label="' + name + ' logo"'
       + (sizeRem ? ' style="--logo-size:' + sizeRem + '"' : '') + '></span>';
+  }
+
+  /* ===== Sync status ===== */
+  var _DS_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  /* Escape for safe insertion into an HTML attribute (error text → data-tip). */
+  function dsEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  /* Relative "time ago" for the last-sync line. */
+  function dsRelTime(ts){
+    var s = Math.max(0, Math.floor((Date.now() - ts) / 1000));
+    if(s < 60)  return 'just now';
+    var m = Math.floor(s / 60);
+    if(m < 60)  return m + ' min ago';
+    var h = Math.floor(m / 60);
+    if(h < 24)  return h + (h === 1 ? ' hour ago' : ' hours ago');
+    var d = Math.floor(h / 24);
+    if(d < 7)   return d + (d === 1 ? ' day ago' : ' days ago');
+    var dt = new Date(ts);
+    return _DS_MONTHS[dt.getMonth()] + ' ' + dt.getDate();
+  }
+  /* Absolute timestamp for the tooltip on the last-sync line. */
+  function dsAbsTime(ts){
+    var dt = new Date(ts), hh = dt.getHours(), mm = dt.getMinutes();
+    var ap = hh >= 12 ? 'PM' : 'AM', h12 = hh % 12 || 12;
+    return _DS_MONTHS[dt.getMonth()] + ' ' + dt.getDate() + ', ' + h12 + ':' + (mm < 10 ? '0' + mm : mm) + ' ' + ap;
+  }
+  /* Failure detail — reason + the exact date/time of the failed attempt (shown in the hover
+     tooltip and the error toast, so the error never drops the timestamp the success state shows). */
+  function dsFailReason(c){ return (c.error || 'Unknown error') + ' · ' + dsAbsTime(c.lastSync); }
+  var _DS_IC_RETRY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.36 2.64L3 8"/><path d="M3 3v5h5"/></svg>';
+  var _DS_IC_ALERT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
+  var _DS_IC_SPIN  = '<svg class="spin ds-sync-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>';
+  /* Shared "Last sync" block — table cell, mobile card, and panel. A listed connection is connected
+     by definition, so there is NO connected/synced badge. Time-forward: the relative time is the
+     anchor; success is quiet, only a FAILED run is loud (single affordance — no separate ⚠ + ⓘ).
+     Re-test reveals on row hover (.ds-sync-retry). Two concepts toggled from the topbar:
+       C1 (toast-driven): cell shows time only; a single toast carries the loader→result — no cell
+         spinner. Failure = red "Failed · time" that opens the error toast.
+       C2 (quiet inline): failure = one red ⚠ (hover/click = details); progress = inline spinner in
+         the status slot (reserved min-width → no layout jump).
+     opts.retry — render the inline hover re-test icon (table/card = true; panel uses its own button). */
+  function dsRetryBtn(n, busy){
+    return '<button type="button" class="iconbtn iconbtn-tertiary ds-sync-ic ds-sync-retry" aria-label="Test connection" data-tip="Test connection"'
+      + (busy ? ' disabled' : '') + ' onclick="event.stopPropagation();dsTestConnection(\'' + n + '\')">' + _DS_IC_RETRY + '</button>';
+  }
+  function dsSyncHtml(c, opts){
+    opts = opts || {};
+    var n = c.name.replace(/'/g, "\\'");
+    var tip = ' data-tip="' + dsAbsTime(c.lastSync) + '"';
+    var time = dsRelTime(c.lastSync);
+    /* In progress — a loading PILL (same height/shape as the resting pill → the row can't jump). */
+    if(c._busy){
+      return '<div class="ds-sync"><span class="ds-sync-status"><span class="ds-sync-chip is-load">' + _DS_IC_SPIN + 'Testing…</span></span></div>';
+    }
+    /* Relative time as a small pill — neutral when healthy, red (+ ⚠, opens the error toast) on failure. */
+    var status = (c.status === 'error')
+      ? '<span class="ds-sync-status"><button type="button" class="ds-sync-chip is-fail" aria-label="Last check failed ' + time + ' — view details" data-tip="Check failed: ' + dsEsc(dsFailReason(c)) + '" onclick="event.stopPropagation();dsErrToast(\'' + n + '\')"><span class="ds-chip-ic" aria-hidden="true">' + _DS_IC_ALERT + '</span>' + time + '</button></span>'
+      : '<span class="ds-sync-status"><span class="ds-sync-chip"' + tip + '>' + time + '</span></span>';
+    var actions = opts.retry ? '<span class="ds-sync-actions">' + dsRetryBtn(n, c._busy) + '</span>' : '';
+    return '<div class="ds-sync">' + status + actions + '</div>';
+  }
+  /* Error details as a toast — opened from the failed marker/label (hover shows the same reason). */
+  function dsErrToast(name){
+    var c = CONNECTED.find(function(x){ return x.name === name; });
+    if(!c) return;
+    dsShowToast('Last check failed — <strong>' + (c.label || c.name) + '</strong>', 'Check failed: ' + dsFailReason(c), 'error', name);
   }
 
   /* Unified filter state — single chip row/grid, no per-state split. */
@@ -925,7 +999,7 @@
     var statusLabel = c.status === 'error' ? 'Error · last sync failed' : 'Active · syncing';
     var menuHtml = '<div class="menu ds-conn-menu kbp-menu" role="menu">'
       + '<div class="mi" role="menuitem" onclick="dsOpenEdit(\'' + n + '\')">Edit</div>'
-      + '<div class="mi" role="menuitem">Test Connection</div>'
+      + '<div class="mi" role="menuitem" onclick="dsTestConnection(\'' + n + '\')">Test Connection</div>'
       + '<div class="mi danger" role="menuitem" onclick="dsConfirmDisconnect(\'' + n + '\')">Disconnect</div>'
       + '</div>';
     var kebab = '<button class="iconbtn iconbtn-tertiary ds-conn-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1">'
@@ -939,6 +1013,7 @@
         +   '<span style="color:var(--ink-secondary);font-size:.8125rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">' + c.name + '</span>'
         + '</div></td>'
         + '<td class="ds-conn-cell-desc">' + (c.desc || '') + '</td>'
+        + '<td class="ds-conn-cell-sync">' + dsSyncHtml(c, {retry:true}) + '</td>'
         + '<td class="mx-tbl-actions ds-conn-cell-act"><div class="ds-conn-more-wrap">' + kebab + menuHtml + '</div></td>'
         + '</tr>';
     }
@@ -950,6 +1025,7 @@
       +     '<span class="ds-conn-meta ds-conn-src-row"><span class="logo-spr ds-conn-src-mark ' + src.slug + '" role="img" aria-label="' + c.name + ' logo"></span>' + c.name + '</span>'
       +   '</div>'
       + (c.desc ? '<span class="ds-conn-desc">' + c.desc + '</span>' : '')
+      + '<div class="ds-conn-sync-wrap">' + dsSyncHtml(c, {retry:true}) + '</div>'
       + '</div>'
       + '<div class="ds-conn-more-wrap">' + kebab + menuHtml + '</div>'
       + '</div>';
@@ -967,9 +1043,9 @@
     if(renderMode === 'table'){
       host.innerHTML = '<div class="ds-conn-tbl mx-tbl">'
         + '<table class="tbl" aria-label="Connected data sources" style="table-layout:fixed;width:100%"><colgroup>'
-        + '<col style="width:28%"><col style="width:22%"><col style="width:40%"><col style="width:10%">'
+        + '<col style="width:22%"><col style="width:18%"><col style="width:30%"><col style="width:22%"><col style="width:8%">'
         + '</colgroup><thead><tr>'
-        + '<th>Connection name</th><th>Data Source</th><th>Description</th><th>Actions</th>'
+        + '<th>Connection name</th><th>Data Source</th><th>Description</th><th>Last check</th><th>Actions</th>'
         + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
     } else {
       host.innerHTML = '<div class="ds-conn-list' + (DS_CARD_STYLE === 1 ? ' is-single' : '') + '" role="list">' + rows + '</div>';
@@ -981,6 +1057,11 @@
     if(tip){
       if(n === 0) tip.setAttribute('data-tip', 'Connect a data source first');
       else tip.removeAttribute('data-tip');
+    }
+    /* Re-apply the selected highlight — innerHTML replace above drops it while the panel stays open. */
+    if(_dsPanelName){
+      var selRow = document.querySelector('#ds-conn-body [data-name="'+ _dsPanelName +'"]');
+      if(selRow) selRow.classList.add('is-selected');
     }
   }
 
@@ -1163,6 +1244,8 @@
 
   document.body.classList.add('no-init-transition');
   dsRender();
+  /* Open directly on My Connections so a shared link lands on the connected list, not the Catalog. */
+  dsSwitchTab('connections', document.getElementById('ds-tab-connections'));
   setTimeout(function(){ document.body.classList.remove('no-init-transition'); }, 0);
 
   /* Account popover items open the user-profile modal on the matching tab */
@@ -1200,6 +1283,27 @@
   });
 
   /* ===== Data Source sidepanel ===== */
+  var _dsPanelName = null; /* the connection whose detail panel is open (null = closed) */
+
+  /* Panel body markup — extracted so dsPanelRefresh can rebuild it in place after a test.
+     The Last sync field reuses the SAME .ds-sync block (incl. the re-test icon) as the table,
+     so the panel and table share one affordance. */
+  function dsPanelBody(c, src){
+    var markHtml = src.slug ? dsLogo(src.slug, c.name, '2rem') : '';
+    return ''
+      + '<div class="dp-fields">'
+      + '<div class="dp-field"><span class="dp-label">Name</span>'
+      + '<span class="dp-value-name">'+ (c.label || c.name) +'</span></div>'
+      + '<div class="dp-field"><span class="dp-label">Data source</span>'
+      + '<div class="dp-value">'+ markHtml +'<span>'+ c.name +'</span></div></div>'
+      + '<div class="dp-field"><span class="dp-label">Last check</span>'
+      + dsSyncHtml(c, {retry:true})
+      + '</div>'
+      + (c.desc ? '<div class="dp-field"><span class="dp-label">Description</span>'
+      + '<p class="dp-value-body">'+ c.desc +'</p></div>' : '')
+      + '</div>';
+  }
+
   function dsPanelOpen(name) {
     var c = CONNECTED.find(function(x){ return x.name === name; });
     if (!c) return;
@@ -1208,39 +1312,63 @@
     var panelBody  = document.getElementById('ds-panel-body');
     var editBtn    = document.getElementById('ds-panel-edit-btn');
     var deleteBtn  = document.getElementById('ds-panel-delete-btn');
+    _dsPanelName = name;
     if (panelTitle) panelTitle.textContent = 'Connection Details';
-    var markHtml  = src.slug ? dsLogo(src.slug, c.name, '2rem') : '';
-    if (panelBody) panelBody.innerHTML = ''
-      + '<div class="dp-fields">'
-      + '<div class="dp-field"><span class="dp-label">Name</span>'
-      + '<span class="dp-value-name">'+ (c.label || c.name) +'</span></div>'
-      + '<div class="dp-field"><span class="dp-label">Data source</span>'
-      + '<div style="display:flex;flex-direction:column;gap:.625rem;align-items:flex-start">'
-      + '<div style="display:flex;align-items:center;gap:.625rem">'
-      + markHtml
-      + '<span style="font-size:.875rem;font-weight:500;color:var(--ink);line-height:1.4">'+ c.name +'</span>'
-      + '</div>'
-      + '<button type="button" class="btn btn-tertiary is-brand btn-sm" style="width:fit-content;margin-left:-.75rem" onclick="alert(\'Testing connection…\')">Test Connection</button>'
-      + '</div></div>'
-      + (c.desc ? '<div class="dp-field"><span class="dp-label">Description</span>'
-      + '<p class="dp-value-body">'+ c.desc +'</p></div>' : '')
-      + '</div>';
+    if (panelBody) panelBody.innerHTML = dsPanelBody(c, src);
     if (editBtn)   editBtn.onclick   = function(){ dsPanelClose(); dsOpenEdit(name); };
     if (deleteBtn) deleteBtn.onclick = function(){ dsPanelClose(); dsConfirmDisconnect(name); };
     var ov = document.getElementById('ds-ov');
     var panel = document.getElementById('ds-panel');
     if (ov) { ov.style.pointerEvents = 'auto'; ov.style.background = 'rgba(15,23,42,.35)'; ov.setAttribute('aria-hidden','false'); }
     if (panel) panel.style.transform = 'translateX(0)';
-    document.querySelectorAll('#ds-conn-body tr').forEach(function(r){ r.classList.remove('is-selected'); });
-    var sel = document.querySelector('#ds-conn-body tr[data-name="'+ name +'"]');
+    document.querySelectorAll('#ds-conn-body [data-name].is-selected').forEach(function(r){ r.classList.remove('is-selected'); });
+    var sel = document.querySelector('#ds-conn-body [data-name="'+ name +'"]');
     if (sel) sel.classList.add('is-selected');
   }
+  /* Rebuild the open panel's body in place (after a test resolves) — no-op if closed. */
+  function dsPanelRefresh() {
+    if (!_dsPanelName) return;
+    var c = CONNECTED.find(function(x){ return x.name === _dsPanelName; });
+    if (!c) { dsPanelClose(); return; }
+    var src = CONNECTORS.find(function(x){ return x.name === _dsPanelName; }) || {};
+    var panelBody = document.getElementById('ds-panel-body');
+    if (panelBody) panelBody.innerHTML = dsPanelBody(c, src);
+  }
   function dsPanelClose() {
+    _dsPanelName = null;
     var ov = document.getElementById('ds-ov');
     var panel = document.getElementById('ds-panel');
     if (ov) { ov.style.pointerEvents = 'none'; ov.style.background = 'transparent'; ov.setAttribute('aria-hidden','true'); }
     if (panel) panel.style.transform = 'translateX(100%)';
-    document.querySelectorAll('#ds-conn-body tr.is-selected').forEach(function(r){ r.classList.remove('is-selected'); });
+    document.querySelectorAll('#ds-conn-body [data-name].is-selected').forEach(function(r){ r.classList.remove('is-selected'); });
+  }
+
+  /* ===== Test / Retry connection — one combined action.
+     Sets a transient busy flag (spinner everywhere it's shown), then resolves after a beat to
+     success or failure, stamps lastSync, and surfaces the outcome as a toast. Deterministic per
+     connection (willFail) so the mockup reliably demonstrates both the synced and failed states. */
+  var _dsTestTimers = {};
+  function dsTestConnection(name){
+    var c = CONNECTED.find(function(x){ return x.name === name; });
+    if (!c || c._busy) return;
+    dsKebabClose();
+    c._busy = true;
+    var label = c.label || c.name;
+    /* Progress is the inline loading pill in the row/panel; the toast carries only the result. */
+    dsRenderConnectedList();
+    dsPanelRefresh();
+    if (_dsTestTimers[name]) clearTimeout(_dsTestTimers[name]);
+    _dsTestTimers[name] = setTimeout(function(){
+      c._busy = false;
+      var ok = !c.willFail;
+      c.status = ok ? 'active' : 'error';
+      c.lastSync = Date.now();
+      if (!ok && !c.error) c.error = 'Connection test failed — check credentials and try again';
+      dsRenderConnectedList();
+      dsPanelRefresh();
+      if (ok) dsShowToast('<strong>'+ label +'</strong> checked successfully', 'Last check just now', 'success', name);
+      else    dsShowToast('Check failed for <strong>'+ label +'</strong>', 'Check failed: '+ dsFailReason(c), 'error', name);
+    }, 1500);
   }
 
 /* ===== Disconnect confirm ===== */
@@ -1290,36 +1418,61 @@ document.addEventListener('keydown', function(e){
   window.addEventListener('resize', apply); apply();
 })();
 </script>
-<div id="ds-toast-wrap" role="status" aria-live="polite" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:60;pointer-events:none;opacity:0;transform:translateY(.5rem);transition:opacity .2s,transform .2s">
-  <div class="toast var-success">
-    <div class="toast-row">
-      <svg class="toast-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-      <div class="toast-body"><span class="toast-msg" id="ds-toast-msg"></span></div>
-      <button class="iconbtn iconbtn-tertiary toast-x" type="button" aria-label="Close" onclick="dsHideToast()" data-tip="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    </div>
-    <div class="toast-prog"><span id="ds-toast-prog"></span></div>
-  </div>
-</div>
+<!-- Toast stack — top-right; concurrent tests append independent toasts that stack vertically. -->
+<div id="ds-toast-stack" role="status" aria-live="polite" style="position:fixed;top:1.5rem;right:1.5rem;z-index:60;display:flex;flex-direction:column;gap:.625rem;align-items:flex-end;pointer-events:none;width:min(360px,calc(100vw - 3rem))"></div>
 <script>
-var _dsToastTimer = null;
-function dsShowToast(msg, linkHtml){
-  var wrap = document.getElementById('ds-toast-wrap');
-  var msgEl = document.getElementById('ds-toast-msg');
-  var prog = document.getElementById('ds-toast-prog');
-  if(!wrap || !msgEl) return;
-  msgEl.innerHTML = msg + (linkHtml ? ' ' + linkHtml : '');
-  wrap.style.pointerEvents = 'auto';
-  wrap.style.opacity = '1'; wrap.style.transform = 'translateY(0)';
-  prog.style.transition = 'none'; prog.style.width = '100%';
-  requestAnimationFrame(function(){
-    prog.style.transition = 'width 5s linear'; prog.style.width = '0';
-  });
-  clearTimeout(_dsToastTimer);
-  _dsToastTimer = setTimeout(dsHideToast, 5000);
+var _DS_TOAST_ICONS = {
+  success:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+  error:'<circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/>',
+  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  loading:'<path d="M21 12a9 9 0 1 1-6.219-8.56"/>'
+};
+function _dsToastEl(id){
+  var el = document.createElement('div');
+  el.className = 'toast';
+  el.style.pointerEvents = 'auto'; el.style.width = '100%'; el.style.opacity = '0'; el.style.transform = 'translateY(-.5rem)';
+  if(id) el.setAttribute('data-toast-id', id);
+  el.innerHTML = '<div class="toast-row">'
+    + '<svg class="toast-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"></svg>'
+    + '<div class="toast-body"><span class="toast-msg"></span><span class="toast-desc" style="display:none"></span></div>'
+    + '<button class="iconbtn iconbtn-tertiary toast-x" type="button" aria-label="Close" data-tip="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>'
+    + '</div><div class="toast-prog"><span></span></div>';
+  el.querySelector('.toast-x').onclick = function(){ dsDismissToast(el); };
+  return el;
 }
-function dsHideToast(){
-  var wrap = document.getElementById('ds-toast-wrap');
-  if(wrap){ wrap.style.opacity = '0'; wrap.style.transform = 'translateY(.5rem)'; wrap.style.pointerEvents = 'none'; }
+/* dsShowToast(msg, desc, variant, id) — appends a toast to the top-right stack; concurrent toasts
+   stack. Passing the same id later morphs that toast in place, so one connection's test toast is
+   reused rather than duplicated. */
+function dsShowToast(msg, desc, variant, id){
+  variant = variant || 'success';
+  var loading = variant === 'loading';
+  var stack = document.getElementById('ds-toast-stack');
+  if(!stack) return;
+  var el = id ? stack.querySelector('[data-toast-id="' + id + '"]') : null;
+  var isNew = !el;
+  if(isNew){ el = _dsToastEl(id); stack.appendChild(el); }
+  el.classList.remove('var-success','var-error','var-info','var-warning');
+  el.classList.add('var-' + (loading ? 'info' : variant));
+  var ic = el.querySelector('.toast-ic');
+  ic.innerHTML = _DS_TOAST_ICONS[variant] || _DS_TOAST_ICONS.success;
+  ic.classList.toggle('spin', loading);
+  el.querySelector('.toast-msg').innerHTML = msg;
+  var d = el.querySelector('.toast-desc'); d.innerHTML = desc || ''; d.style.display = desc ? '' : 'none';
+  if(isNew) requestAnimationFrame(function(){ el.style.transition = 'opacity .2s, transform .2s'; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; });
+  var prog = el.querySelector('.toast-prog > span');
+  clearTimeout(el._t);
+  if(loading){ prog.style.transition = 'none'; prog.style.width = '0'; }
+  else {
+    prog.style.transition = 'none'; prog.style.width = '100%';
+    requestAnimationFrame(function(){ prog.style.transition = 'width 5s linear'; prog.style.width = '0'; });
+    el._t = setTimeout(function(){ dsDismissToast(el); }, 5000);
+  }
+  return el;
+}
+function dsDismissToast(el){
+  if(!el) return; clearTimeout(el._t);
+  el.style.transition = 'opacity .2s, transform .2s'; el.style.opacity = '0'; el.style.transform = 'translateY(-.5rem)';
+  setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 220);
 }
 </script>
 <script>

@@ -2531,6 +2531,40 @@
   .ds-conn-body:has([data-kbp][aria-expanded="true"]){overflow:visible}
   .cl-main:has([data-kbp][aria-expanded="true"]){overflow-x:visible}
 
+  /* ===== "Last sync" block (shared: table cell + mobile card + detail panel) =====
+     No connected/synced badge — a listed connection is connected. The relative time renders as a
+     small neat pill; failure = red pill (+ ⚠, opens the error toast); in progress the pill is
+     replaced in place by a spinner + "Testing…" (same height → no row jump). The re-test icon
+     (always visible in the table) matches the row kebab.
+     min-height = the re-test icon's 1.5rem, so when the icon drops out during a test the block
+     doesn't shrink — no vertical jump in the panel (or anywhere the icon is the tallest child). */
+  .ds-sync{display:flex;align-items:center;gap:.5rem;min-width:0;min-height:1.5rem}
+  .ds-sync-status{display:flex;align-items:center;gap:.375rem;min-width:0}
+  /* Small neat time pill (deliberately lighter + smaller than a .badge: 20px, 12px, subtle).
+     A currentColor-tinted border (same recipe as kit badges in tables) keeps the pill's edge visible
+     when the row hovers — its grey fill would otherwise merge into the neutral row-hover background. */
+  .ds-sync-chip{display:inline-flex;align-items:center;gap:.25rem;height:1.25rem;padding:0 .5rem;border-radius:var(--radius-full);font-family:inherit;font-size:var(--text-12);line-height:1;white-space:nowrap;background:var(--chips);color:var(--ink-secondary);border:1px solid color-mix(in srgb, currentColor var(--tint-25), transparent)}
+  button.ds-sync-chip{cursor:pointer}
+  button.ds-sync-chip:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .ds-sync-chip.is-fail{color:var(--fb-red-text);background:color-mix(in srgb, var(--fb-red) var(--tint-8), transparent)}
+  .ds-chip-ic{display:inline-flex;flex:none;width:12px;height:12px}
+  .ds-chip-ic svg{width:12px;height:12px}
+  /* C2 in-progress — a loading PILL (identical height/shape to the resting pill), so pressing
+     test morphs the pill in place and the row can't jump. */
+  .ds-sync-chip.is-load{color:var(--ink-secondary)}
+  .ds-sync-chip .ds-sync-spin{width:.75rem;height:.75rem;color:var(--brand-primary);flex:none}
+  .ds-sync-spin{width:1rem;height:1rem;color:var(--brand-primary);flex:none}
+  .ds-sync-actions{display:flex;align-items:center;flex:none}
+  /* Re-test icon — matched to the row kebab (.mx-tbl-actions .iconbtn): 24px, 14px glyph, and the
+     SAME brand-tinted hover (--state-pressed) / active (brand wash), not the neutral tertiary hover
+     — so it reads identically. Unlike the kebab it stays visible (the column's core action). */
+  .ds-sync-ic{width:1.5rem;height:1.5rem;padding:0;flex:none;color:var(--ink-secondary)}
+  .ds-sync-ic svg{width:14px;height:14px}
+  .ds-sync-retry:hover{background:var(--state-pressed);color:var(--ink)}
+  .ds-sync-retry:active{background:color-mix(in srgb, var(--brand-primary) var(--tint-12), transparent);color:var(--ink)}
+  .ds-conn-cell-sync{vertical-align:middle}
+  .ds-conn-sync-wrap{margin-top:.125rem}
+
   /* ===== Connect / Remove animations ===== */
   @keyframes ds-card-out{
     0%  {opacity:1;transform:scale(1) translateY(0)}

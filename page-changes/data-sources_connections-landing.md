@@ -16,7 +16,7 @@ These are locked decisions. Do not change without explicit approval.
 | 3 | Category chip list in the Catalog (excluding "All") must match the Metrics page chip list exactly — same 10 categories, same order. If categories change, both pages must be updated simultaneously. |
 | 4 | Search bar lives inside the Catalog tab panel (above `#ds-cats`), not at page level. Do not move it to the page header or outside the tab panel. |
 | 5 | "Create Connection" button is hidden while the Catalog tab is active and visible only on the My Connections tab. Do not show it on both tabs simultaneously. **Its click switches to the Catalog tab** (`dsSwitchTab('catalog', …)`) so the user browses connectors and connects from a catalog card — it must NOT open a from-scratch `dsConnect(null)` dialog. |
-| 6 | **No active/enable toggle in My Connections** (removed 2026-06-25). Connection rows (table + card view) and the detail sidepanel must NOT show a `.swt` active/inactive switch. A connection's only state indicator is the status dot/badge (active / error). Do not re-add the `dsToggleEnabled` / `dsPanelToggle` / `dsSetEnabled` functions, the `enabled` flag, or the "Active" table column — the table is 4 columns (Connection name / Data Source / Description / Actions, 28% / 22% / 40% / 10%). |
+| 6 | **No active/enable toggle AND no connection-status badge in My Connections.** A listed connection is connected by definition, so there is NO `.swt` switch and NO persistent "Connected/Synced" status badge (that would be redundant, and a one-off test result goes stale — it can't reflect live health). The **Last check** column shows *when the connection was last checked* as a time pill (red pill on failure → error toast). Do not re-add `dsToggleEnabled` / `dsPanelToggle` / `dsSetEnabled`, the `enabled` flag, an "Active" column, or a success/connected badge. Table is **5 columns** (Connection name / Data Source / Description / Last check / Actions, 22% / 18% / 30% / 22% / 8% — Last check added 2026-08-11). |
 | 7 | **Category counters follow the search query live** (2026-07-21). While a query is active, each chip's `chip-n` counts only connectors matched by the query (`dsSearchMatched()`). **All chips stay visible** — 0-count categories included, so the row never reflows/jumps while typing (user revert 2026-07-21 of the earlier hide-empty behaviour). If the **active** category drops to 0 the selection falls back to **All** (matches are never hidden behind a stale filter). Clearing the search restores baseline counters. |
 
 ---
@@ -66,9 +66,10 @@ These are locked decisions. Do not change without explicit approval.
 | | Prod (Current) | Expected |
 |---|---|---|
 | Column: header col 1 | Provider | Data Source |
-| Column: Status | Present | Removed |
-| Column: Description | Narrower, may wrap | Expanded to fill former Status column space; single-line truncated |
-| Column widths | — | 28% / 22% / 40% / 10% |
+| Column: Status | Present (standalone) | Removed — no connected/synced badge (connection is connected by definition) |
+| Column: Description | Narrower, may wrap | Single-line truncated |
+| Column: Last check | — | Added (2026-08-11) — relative-time pill (neutral healthy / red on failure → error toast with reason + exact time); always-on re-test icon matched to the kebab; testing = a same-size loading pill (no row jump) |
+| Column widths | — | 22% / 18% / 30% / 22% / 8% |
 
 ## Connection row sidepanel
 
@@ -85,9 +86,27 @@ Clicking a connection row opens a new sidepanel on the right side. Fields are re
 Fields shown:
 - Connection name (`.dp-value-name`)
 - Data Source (logo + name)
-- Status badge
+- **Last check** — the same `.ds-sync` block as the table/card (time pill + re-test icon); no separate button
 - Description
-- Edit / Disconnect actions
+- Edit / Disconnect actions (footer)
+
+## Last check + Test connection (added 2026-08-11) — locked design
+
+**Model (locked).** A listed connection is connected, so the column carries NO persistent connected/synced status badge — a one-off test result is only true in the moment and would go stale. The column is labelled **Last check** and shows *when the connection was last checked*. Re-test is always one click away on **every** row (not gated behind the error state, not buried in the kebab).
+
+The relative time renders as a small **pill** (`.ds-sync-chip`) — a deliberately light/small tag (20px, `--text-12`, `--radius-full`, `--chips` fill, `currentColor`-tinted border so it doesn't merge into the row-hover). Behaviour:
+
+| State | Cell (table / card / panel) |
+|---|---|
+| Healthy | neutral time pill (e.g. "2 hours ago") + re-test icon |
+| Failed | red pill (`.is-fail`, `--fb-red-text` + `--fb-red` wash) with ⚠ + time; click/hover → error toast/tooltip carrying the reason **and exact date/time** (`dsFailReason`) |
+| Testing | a same-size **loading pill** (`.spin` + "Testing…") replaces the pill in place → **no row jump**; the re-test result arrives as a toast |
+
+The re-test icon (`.ds-sync-retry`) is sized + hovered to match the row kebab (24px, `--state-pressed` hover). `.ds-sync` carries `min-height:1.5rem` (the icon height) so the block can't shrink when the icon drops out mid-test.
+
+**Test** is one combined `dsTestConnection` — inline re-test icon (every row + panel) and the row kebab. Result toasts stack at **top-right** and are keyed by connection (concurrent checks stack; re-checking the same one reuses its toast). `lastSync` defaults to the connection's creation time and updates on every check.
+
+Existing kit atoms/tokens only — `.spin`, `.iconbtn-tertiary`, `.toast`, `--chips`, `--radius-full`, `--tint-8/25`, `--fb-red(-text)`, `--state-pressed`. Shared molecule CSS lives in `kit-theme.css` (`.ds-sync*`); storybook demo in `#tbl-connections`.
 
 ## Copy changes
 
