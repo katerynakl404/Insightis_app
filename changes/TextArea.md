@@ -9,10 +9,10 @@ TextArea reuses the **form-control system** documented on [Input](Input.md) — 
 A single element — no wrapper (unlike Input's flex `.field` shell): `<textarea class="ta" rows="2" placeholder="…"></textarea>`. Default demo uses `rows="2"`. State/size modifiers are added directly on the textarea: `.is-xs` `.is-sm` `.is-md` `.is-lg` `.is-xl` (size), `.s-hover` `.s-focus` `.s-error` `.is-disabled` (state, or use native `:hover` / `:focus` / `disabled`). Error helper text is a sibling element directly below: `<div class="err-help">message</div>` (wrap textarea + helper in a `flex-direction:column` container).
 
 **Base `.ta` (= `md` size) — full rule:**
-`width:100%`; `max-width:260px`; `border:1px solid var(--border)`; `border-radius:.375rem` (6px); `background:var(--card)`; `padding:.5rem` (8px all sides); `font-size:.875rem` (text-sm); `color:var(--ink)`; `outline:none`; `resize:none`; `font-family:inherit`; `transition:border-color .12s, box-shadow .12s`. Placeholder: `color:var(--ink-inactive)`.
+`width:100%`; `max-width:260px`; `border:1px solid var(--border)`; `border-radius:.375rem` (6px); `background:var(--card)`; `padding:.5rem .75rem` (8px vertical / 12px horizontal); `font-size:.875rem` (text-sm); `color:var(--ink)`; `outline:none`; `resize:none`; `font-family:inherit`; `transition:border-color .12s, box-shadow .12s`. Placeholder: `color:var(--ink-inactive)`.
 
 **TextArea-only deviations vs Input (`.ta`):**
-- **Padding** `.5rem` (8px) on **all** sides at `md` (vs Input's `0 .5rem` / `0 8px` horizontal-only), since the multiline content needs vertical breathing room. Other sizes set their own padding (see size table).
+- **Padding** `.5rem .75rem` (8px vertical / **12px horizontal — the same rail as Input, Selector and InputGroup**) at `md`, since the multiline content needs vertical breathing room. Other sizes set their own padding (see size table).
 - **`resize:none`** — the textarea does not show the native resize grip; size is controlled by the size variant.
 
 **Size variants** (`min-height` so rows can grow; `max-width:260px` on all):

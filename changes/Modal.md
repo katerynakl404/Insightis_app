@@ -51,7 +51,44 @@ Decision (same rule as [`Popover.md`](Popover.md)): a React/Tailwind value is ke
 | Padding | 16px (uniform) | header **`.875rem 1.25rem .5rem`**; step **`1.25rem`** |
 
 ## Sizing
-There are **no** size-variant classes (sm/md/lg) in the CSS. Dimensions are set inline on the `.dlg` element: `style="width:480px;height:580px"` (storybook skeleton). The shell caps at `max-width:calc(100vw - 2rem)` so it never overflows the viewport on narrow screens.
+## Sizes — S and M
+
+Two sizes, named to match the existing `.menu.is-sm/.is-md/.is-lg` family so every floating surface
+shares one size vocabulary.
+
+| Size | Class | Cap | For |
+|---|---|---|---|
+| **S** | `.dlg.is-sm` | `max-width: 360px` (`22.5rem`) | **Informational** popups — a confirm the user only has to read and answer: *Delete file?* · *Delete chat?* · *Delete N files?* · *Disconnect X?*. One sentence of body, two footer buttons. |
+| **M** | `.dlg.is-md` | `max-width: 480px` (`30rem`) | **The default.** Anything the user has to fill in or step through: Rename file / Rename chat, Edit connection, Create metric, and both multi-step connection wizards. |
+
+**Why S is narrower.** A one-sentence question in a 480px box reads as an under-filled form — the
+eye expects fields that are not there. Dropping the cap to 360px makes the confirm read as a
+question, and makes the two dialog roles (read-and-answer vs fill-in) distinguishable before the
+user reads a word.
+
+**Both are max widths, not fixed widths.** `width:100%` lets the dialog take the width it is
+entitled to and the cap stops it there, so it shrinks to fit a narrow viewport instead of
+overflowing it. Each cap is `min(…, var(--dlg-max-viewport))`: a size variant sets its own
+`max-width`, which overrides the base `.dlg` rule, so it has to re-assert the viewport gutter or a
+320px screen would render the dialog edge-to-edge. `--dlg-max-viewport` (`calc(100vw - 2rem)`) is a
+token precisely because all three rules need it.
+
+**No `.is-lg`** — a variant with no consumer is drift. The next step gets added when a dialog needs
+it. **Height** stays inline on the two wizards that pin it (`height:580px`); one dialog shape does
+not earn a variant.
+
+**Every dialog in the artifact now uses this shell.** Five of them previously re-implemented it in
+markup — `.dlg-overlay`'s position/inset/z-index/centring/scrim *and* `.dlg`'s
+background/border/radius/width/flex, plus a raw `box-shadow: 0 20px 40px -8px rgba(0,0,0,.22)`
+instead of `--shadow-modal` (so they carried a light-theme shadow in dark). Converted to
+`.dlg-overlay` + `.dlg.is-sm|.is-md`: New connection (Connections), Disconnect confirm, Edit
+connection, Connect source (Metrics), Create metric. Their open/close JS was untouched —
+`style.display = 'flex'` and the `#mx-add-dlg.is-open` toggle both still win over the class.
+
+| Assignment | Dialogs |
+|---|---|
+| **S** | `sbc-del-dlg` (×5 pages) · `dsf-del-dlg` · `ds-disc-dlg` |
+| **M** | `sbc-ren-dlg` (×5 pages) · `dsf-ren-dlg` · `ds-edit-dlg` · `mx-add-dlg` · `ds-conn-dlg` + `mx-conn-dlg` (wizards, + inline `height:580px`) |
 
 ## Scrollable body pattern
 Each `.dlg-step` is `overflow-y:auto` inside the `flex:1; overflow:hidden` body, so long content scrolls within the step while header, progress and footer stay pinned (`flex:none` on each). No extra classes needed.

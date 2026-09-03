@@ -22,7 +22,7 @@ Shares the **form-control system** with [Input](Input.md) and [TextArea](TextAre
 - **`.igrp-lbl`** — `font-size:.75rem; font-weight:500; color:var(--ink-secondary)`.
 - **`.igrp`** — `display:flex; align-items:center; padding-right:0; color:var(--ink-secondary); transition:border-color .15s, box-shadow .15s, color .15s`.
 - **`.igrp-add`** — `display:inline-flex; align-items:center; justify-content:center; height:100%; padding:0 10px; gap:8px; color:var(--ink-secondary)`. Addon `svg` is **fixed `20px × 20px`** (NOT size-dependent — there is no per-size icon scaling).
-- **`.igrp-input`** — `flex:1; height:100%; background:transparent; border:none; outline:none; min-width:0; padding:0 8px; font-size:.875rem; font-family:inherit; color:var(--ink)`. Placeholder: `color:var(--ink-inactive)`.
+- **`.igrp-input`** — `flex:1; height:100%; background:transparent; border:none; outline:none; min-width:0; padding:0 12px; font-size:.875rem; font-family:inherit; color:var(--ink)`. Placeholder: `color:var(--ink-inactive)`.
 
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
@@ -35,7 +35,7 @@ Shares the **form-control system** with [Input](Input.md) and [TextArea](TextAre
 
 ## Sizes (per-size spec — heights line up with Button `.btn-xs … .btn-xl`)
 
-Base `.igrp`: `border-radius:6px`, `border:1px solid var(--border)`, `font-size:.875rem`; input padding `0 8px`, addon padding `0 10px`, gap `8px`. Only height differs per size (md is the unmodified base).
+Base `.igrp`: `border-radius:6px`, `border:1px solid var(--border)`, `font-size:.875rem`; input padding `0 12px`, addon padding `0 10px 0 12px`, gap `8px`. Only height differs per size (md is the unmodified base).
 
 | Size | Class | Height |
 |---|---|---|

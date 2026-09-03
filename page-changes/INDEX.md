@@ -10,7 +10,7 @@ changed on that screen and links to the relevant `changes/` files.
 | Metrics + Account Modal | [metrics-landing.md](metrics-landing.md) | AccountModal (new), Sidebar, Colors (hex-only) |
 | Data Sources (Connections) | [data-sources_connections-landing.md](data-sources_connections-landing.md) | Tabs, Banner |
 | Data Sources (Files) | [data-sources_files-landing.md](data-sources_files-landing.md) | Table (sortable Modified column), Chip (filter), Badge (status) |
-| Account modal (Balance + Manage plan + Buy credits) | [user_profile-modal.md](user_profile-modal.md) | AccountModal (Balance V2/V3, Manage plan V1 cards / V2 comparison table — current plan Free, 50% OFF on paid plans, Buy-credits packs), SegmentedControl (version toggle), Switch, Table |
+| Account modal (Balance + Manage plan + Buy credits) | [user_profile-modal.md](user_profile-modal.md) | AccountModal (Balance V2/V3, Manage plan V1 cards / V2 comparison table — current plan Starter, 50% OFF ribbons on paid plans, plan-change dialogs, Buy-credits packs), SegmentedControl (version toggle), Switch, Table |
 | Auth flow (sign-up &amp; password) | [auth-flow-landing.md](auth-flow-landing.md) | Multi-page click-through in `pages/concept/auth/` — kit components, dark-only, header screen-switcher, current sidebar logo; no kit deltas |
 
 ## No floating stickers on pages

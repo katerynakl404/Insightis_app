@@ -38,8 +38,7 @@ A developer can rebuild the bubble from these values alone — no need to open `
 | State | Selector | Behaviour |
 |---|---|---|
 | Rest (hidden) | `[data-tip]::after` | `opacity:0`, slid `translateY(3px)`; `transition:opacity .1s,transform .1s` (the **100ms leave**) |
-| Cold enter | `[data-tip]:hover::after`, `[data-tip]:focus-visible::after` | `opacity:1`; `transform:…translateY(0)`; `transition:opacity .12s .3s,transform .12s .3s` — **300ms delay + 120ms** fade |
-| Warm enter | `.tt-warm [data-tip]:hover::after` / `:focus-visible::after` | same target, `transition:opacity .12s,transform .12s` — **0ms delay + 120ms** fade (within the warm-up window after a recent tooltip) |
+| Enter | `[data-tip]:hover::after`, `[data-tip]:focus-visible::after` | `opacity:1`; `transform:…translateY(0)`; `transition:opacity .12s .3s,transform .12s .3s` — **300ms delay + 120ms** fade, on every hover (no warm-up path) |
 | JS active | `html.tt-js [data-tip]::after` (+ hover/side variants) | `display:none` — CSS fallback suppressed so the JS engine owns positioning |
 
 ### Placement variants (`data-tip-side`)

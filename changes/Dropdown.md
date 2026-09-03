@@ -22,6 +22,9 @@ All dimensions below apply to **every** menu in the system — base text menu (E
 | **Item hover/pressed** | `primary/10` (brand-mix — collided with `--state-pressed` perceptually) | — | `.mi:hover` → `var(--state-hover)` (neutral); `.mi:active` → `var(--state-pressed)`. `.mi.danger:hover` → `color-mix(in srgb,var(--fb-red) 8%,var(--card))`; `.mi.danger:active` → `color-mix(in srgb,var(--fb-red) 14%,var(--card))` | Unified with `.sbx-nav-item`, `.sbx-pop-item`, `.btn-tertiary`, `.cl-dd` |
 | **Item disabled (`.mi.is-disabled`)** | did not exist | — | `color:var(--ink-inactive); cursor:not-allowed; pointer-events:none` (no bg change; pointer-events removal blocks hover/click) | Implemented in CSS — already shipped, not a future state |
 | **Item transition** | — | — | none — `.mi` declares no `transition`; hover/press bg swap is instant | Matches the rest of the menu family |
+| **Leading icon on action items** | text only — no glyph on any action item | — | **every action item carries a leading `.mi-ic`** (16 px Lucide, `stroke-width="1.75"`, `currentColor`). Dictionary: Add to Chat `message-square-plus` · Rename `pencil` · Edit `square-pen` · Duplicate `copy` · Download `download` · Pin / Unpin `pin` / `pin-off` · Select / Deselect `square-check` / `square` · Test Connection `plug-zap` · Delete `trash-2` · Disconnect `unplug` | A text-only menu forces the user to read every label to find one action. The glyph gives each row a pre-attentive shape, and because it inherits `currentColor`, `.mi.danger` tints label and icon together with no extra rule — the CSS was already there (`.mi{gap:8px}`, `.mi .mi-ic{16px;currentColor}`); only the markup was missing. **Selection lists are excluded** (see row below). |
+| **Selection-list items** (`role="option"` / `menuitemradio`) | leading connector logo / check / file glyph | — | **unchanged — no action glyph added** | Source picker, model picker, @-metric mentions and the composer file list already have a leading element, and they express a *choice*, not a command. A second glyph there would read as a competing affordance. |
+| **Opening direction** | always downward — a trigger near the viewport bottom clipped the menu, putting Delete out of reach | — | `.menu.is-up{top:auto; bottom:calc(100% + var(--menu-gap, 4px))}` — applied on open by the shared placement helper | Each anchored variant declares its trigger gap once as `--menu-gap` (`.chat-row-menu` `-.25rem`, `.sbx-chat-menu` `4px`, `.kbp-menu` `2px`); both directions read that one token, so adding an anchored variant is one declaration rather than two mirrored offsets. |
 | **Item focus / selected / checked** | did not exist | — | not yet defined — no `.mi:focus-visible`, `.mi.is-selected`, or checked rule exists in the CSS | Open state, genuinely undecided (see storybook States) |
 
 ## DOM / markup
@@ -40,6 +43,34 @@ All dimensions below apply to **every** menu in the system — base text menu (E
 ```
 
 Items are `<div class="mi">` (the kit ships them as `div`s; `.mi` carries `border:none;background:transparent;text-align:left;width:100%` so a `<button>` works identically). `.menu` defaults to `width:max-content` clamped 140–320 px (variants `.sbx-chat-menu`, `.chat-row-menu`, `.ds-conn-menu` inherit). **Menu size system (opt-in fixed widths):** `.menu.is-sm` = 14rem · `.menu.is-md` = 18rem · `.menu.is-lg` = 22rem — for menus that should read as a roomy, consistent popover rather than hug their content (the composer Attach/Connections/Models menus use a fixed **16rem** — one width across all states — at the default 4px padding). Optional WIP stub `.menu-wip` prepends inside any not-yet-redesigned menu.
+
+### Leading-icon source dictionary
+
+Path data is never pasted into a menu item. Each document defines the glyph set **once** as a
+`<symbol>` sprite (same convention as the brand-logo symbols already copied into every page), and
+items reference it:
+
+```html
+<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename
+```
+
+Symbol ids: `mi-add-chat` `mi-rename` `mi-edit` `mi-duplicate` `mi-download` `mi-pin`
+`mi-unpin` `mi-select` `mi-deselect` `mi-test-conn` `mi-delete` `mi-disconnect`. Stroke width,
+line caps and `fill:none` live on the `<symbol>`, so the referencing `<svg>` needs only `class`,
+`viewBox` and `aria-hidden`. When JS rewrites an item's label (e.g. Pin ⇄ Unpin) it must rewrite
+the icon with it — `textContent = …` would wipe the glyph.
+
+### Opening direction — `.menu.is-up`
+
+Anchored menus open downward by default and flip up when the trigger sits too low for the menu to
+fit below. The decision is made on open by the shared helper in
+[`pages/kit-kit.js`](../pages/kit-kit.js) — **one implementation for every menu on every page**, not
+a per-page copy. It watches `aria-expanded` across the document (the CSS shows menus via
+`[aria-expanded="true"] ~ .menu`, so the menu is measurable the moment the attribute flips, and
+JS-rendered menus are covered automatically), measures the trigger against `window.innerHeight`,
+and adds `.is-up` only when downward genuinely doesn't fit **and** upward fits better — never
+trading a clipped bottom for a clipped top. Open menus re-decide on scroll and resize.
+`.is-up` is never hard-coded in markup.
 
 ### `.menu-sep` (group divider)
 `height:1px; margin:4px -4px; background:var(--border); border:0` — the negative `-4px` horizontal margin lets the 1px rule span edge-to-edge across the menu's 4 px padding. Adjacent `.cl-menu-label` collapses the top margin to 0.

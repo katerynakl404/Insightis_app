@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../kit-theme.css" />
+<script src="../kit-kit.js" defer></script>
 <style>
   /* ===== Page-only layout (NO component restyling) =====
      Mirrors data-sources_connections-landing.html chrome + sidebar so both Sources screens share
@@ -34,12 +35,12 @@
   .dsf-preview-grip{position:absolute;left:0;top:0;bottom:0;width:9px;transform:translateX(-50%);cursor:col-resize;z-index:3;touch-action:none}
   .dsf-preview-grip::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);background:transparent;transition:background var(--motion-fast) var(--motion-ease)}
   .dsf-preview-grip:hover::before,.cl-shell.is-resizing .dsf-preview-grip::before{background:var(--brand-primary)}
-  .dsf-preview-head{display:flex;align-items:center;gap:.5rem;padding:.625rem .625rem .625rem 1rem;border-bottom:1px solid var(--border);flex:none}
-  .dsf-preview-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--text-14);font-weight:600;color:var(--ink)}
-  .dsf-preview-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.625rem;padding:1.5rem;text-align:center;overflow:auto}
-  .dsf-preview-ic{width:3.5rem;height:3.5rem;color:var(--ink-inactive);flex:none}
-  .dsf-preview-name{font-size:var(--text-14);font-weight:600;color:var(--ink);word-break:break-word;max-width:28ch}
-  .dsf-preview-meta{font-size:var(--text-12);color:var(--ink-secondary)}
+  /* Panel chrome + content are the kit .cp-fp-* family (head / title / actions / body / banner /
+     json / empty) — the same components the chat page's file panel uses, so the product has ONE
+     file-preview behaviour instead of two. Page glue here is only the grid column + resize grip. */
+  .dsf-preview .cp-fp-body{display:flex;flex-direction:column;gap:.625rem}
+  /* size · source · date line under the content, muted. */
+  .dsf-preview-meta{flex:none;font-size:var(--text-12);color:var(--ink-secondary);padding:0 .25rem}
   /* Previewed row highlight — brand-coloured name (both layouts) */
   .chat-row.is-preview .chat-row-name,.dsf-tbl tbody tr.is-preview .dsft-fname{color:var(--brand-primary)}
   /* Desktop: preview-open row gets same tint as Metrics is-selected (tbl-row-pressed on td) */
@@ -153,37 +154,12 @@
     /* Meta row controls */
     .dsf-meta-mobile-only{display:inline-flex}
     #dsf-meta{gap:.5rem}
-    .meta-row-count{font-size:var(--text-12)}
-    .meta-row-selall{font-size:var(--text-12);color:var(--brand-primary);background:none;border:none;cursor:pointer;padding:0}
   }
 
   /* ===== Meta / bulk action row =====
-     Identical structure to the Chats Library meta-row (see chats-landing.html and kit-theme.css).
-     We define only the two new button variants here (download + delete). The delete button
-     is a local copy of chats-landing's .meta-row-delete (not in kit-theme.css). */
-  .dsf-meta-iconbtn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;
-    border-radius:.25rem;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;
-    padding:0;font-family:inherit;flex:none;
-    transition:color var(--motion-fast,80ms) var(--motion-ease,ease),
-               background-color var(--motion-fast,80ms) var(--motion-ease,ease)}
-  .dsf-meta-iconbtn:hover{color:var(--ink-body);background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
-  .dsf-meta-iconbtn:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
-  .dsf-meta-iconbtn svg{width:14px;height:14px}
-  /* Download button — neutral destructive-style button without red (mirrors .meta-row-delete shape) */
-  .dsf-meta-dl,.dsf-meta-del{margin-left:0;display:inline-flex;align-items:center;gap:.375rem;
-    font-size:.8125rem;font-weight:500;background:transparent;border:none;cursor:pointer;
-    padding:.25rem .5rem;border-radius:.25rem;font-family:inherit;
-    transition:background-color var(--motion-fast,80ms) var(--motion-ease,ease)}
-  .dsf-meta-dl{color:var(--ink-body)}
-  .dsf-meta-del{color:var(--fb-red-text)}
-  .dsf-meta-dl svg,.dsf-meta-del svg{width:14px;height:14px;flex:none}
-  .dsf-meta-dl:hover{background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
-  .dsf-meta-del:hover{background:color-mix(in srgb,var(--fb-red) 8%,transparent)}
-  .dsf-meta-dl:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--focus-ring)}
-  .dsf-meta-del:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px color-mix(in srgb,var(--fb-red) 60%,transparent)}
-  .dsf-meta-dl.is-disabled,.dsf-meta-del.is-disabled{color:var(--ink-inactive);cursor:not-allowed;pointer-events:none}
-  /* Right-anchor the download+delete pair to the row's far right */
-  .dsf-bulk-right{margin-left:auto;display:inline-flex;align-items:center;gap:.25rem}
+     Identical structure to the Chats Library meta-row — every control is a kit component:
+     .meta-row-btn (Download), .meta-row-btn.danger (Delete), .meta-row-iconbtn (✕ / preview
+     header buttons), .meta-row-end (right-edge cluster). See kit-theme.css → MetaRow. */
 
   /* ===== Meta row — sticky while selecting =====
      While a selection is active, the meta row (count + Download/Delete/close) pins to the top of
@@ -192,10 +168,36 @@
      through — no border, no card-like surface added. Toggled on #dsf-meta via JS (dsfRenderMeta).
      Same treatment as chats-landing.html. */
   .dsf-meta-sticky{position:sticky;top:40px;z-index:5;background:var(--bg)}
+
+  /* ===== Upload tray dock — page-layout glue only =====
+     The tray itself is a kit component (.upl-* in kit-theme.css, storybook #uploadtray); it is
+     deliberately positioning-neutral so it can also live in a drawer or panel. This page docks it
+     bottom-right of the content column, above the list, matching where prod raises it. Sits below
+     the dialog overlay (z-index 60) so a Delete confirm still covers it. */
+  .dsf-upl-dock{position:fixed;right:1.25rem;bottom:1.25rem;z-index:40;width:min(26rem, calc(100vw - 2.5rem))}
+  @media (max-width:600px){ .dsf-upl-dock{left:1rem;right:1rem;bottom:1rem;width:auto} }
   /* Sidebar→drawer is kit-owned at ≤1023px (kit-theme.css) — pages must not redeclare it. */
 </style>
 </head>
 <body>
+<!-- Action-menu item icons — the single SVG source dictionary for every .mi-ic in this page.
+     Lucide 24×24 outlines; menu items reference them with <use href="#mi-*"/>, never inline paths.
+     Keep in sync with the same block in insightis-preview-kit.html. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="mi-add-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v6"/><path d="M9 10h6"/></symbol>
+  <symbol id="mi-rename" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+  <symbol id="mi-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></symbol>
+  <symbol id="mi-duplicate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="mi-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+  <symbol id="mi-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol>
+  <symbol id="mi-unpin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M15 9.34V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H7.89"/><path d="m2 2 20 20"/><path d="M9 9v1.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h11"/></symbol>
+  <symbol id="mi-select" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="mi-deselect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/></symbol>
+  <symbol id="mi-test-conn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="m2 22 3-3"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m18 3-4 4h6l-4 4"/></symbol>
+  <symbol id="mi-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
+  <symbol id="mi-disconnect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="M12 6l6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></symbol>
+</svg>
+
 
 <!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -261,7 +263,7 @@
               <svg class="sbx-brand-logo" aria-label="Insightis"><use href="#lg"/></svg>
               <svg class="sbx-brand-mark" aria-hidden="true"><use href="#lg-mark"/></svg>
             </div>
-            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Toggle Sidebar" type="button" onclick="dsfToggleSbxCollapse()" data-tip="Collapse">
+            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Collapse sidebar" type="button" onclick="dsfToggleSbxCollapse()" data-tip="Collapse">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
@@ -306,9 +308,9 @@
             <!-- Unified sidebar chat rows (same as metrics/chats pages): hover reveals the
                  .sbx-chat-more kebab; menu = Unpin/Pin · Rename · Delete. Navigation is delegated
                  (data-href), so kebab/menu clicks never navigate. -->
-            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Q1 revenue commentary draft</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
-            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Onboarding cohort summary</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
-            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Churn deep-dive</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Unpin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Q1 revenue commentary draft</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Onboarding cohort summary</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Churn deep-dive</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
           </div>
           <div class="sbx-sect">
             <div class="sbx-sect-head">
@@ -318,8 +320,8 @@
               </button>
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
-            <div class="sbx-chat" role="button" tabindex="0" data-href="../concept/chat_page-charts-landing.html"><span class="sbx-chat-lbl">Generate two charts using random data</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi">Pin</div><div class="mi">Rename</div><div class="mi danger">Delete</div></div></div>
+            <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+            <div class="sbx-chat" role="button" tabindex="0" data-href="../concept/chat_page-charts-landing.html"><span class="sbx-chat-lbl">Generate two charts using random data</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
           </div>
         </div>
         <div class="sbx-foot">
@@ -357,9 +359,9 @@
               </div>
             </div>
             <div class="sbx-pop-theme" role="tablist" aria-label="Theme">
-              <button class="sbx-pop-theme-btn is-active" type="button" role="tab" aria-label="Light" aria-selected="true" onclick="document.documentElement.classList.remove('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
-              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false" onclick="document.documentElement.classList.add('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
-              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
+              <button class="sbx-pop-theme-btn is-active" type="button" role="tab" aria-label="Light" aria-selected="true" onclick="document.documentElement.classList.remove('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')" data-tip="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
+              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false" onclick="document.documentElement.classList.add('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')" data-tip="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false" data-tip="System"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
             </div>
             <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Log out</button>
           </div>
@@ -393,7 +395,7 @@
 
       <!-- Page title — Files is now a top-level sidebar destination, no longer a tab inside Data Sources -->
       <div class="cl-page-head ds-page-head">
-        <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
+        <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()" data-tip="Open sidebar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
         <h1 class="cl-page-title scroll-m-20 font-medium text-2xl md:text-3xl text-content-primary text-left">Files</h1>
@@ -426,6 +428,8 @@
           </div>
           <!-- Actions / bulk-action bar — sits between the chips and the list -->
           <div class="meta-row" id="dsf-meta" role="toolbar" aria-label="File actions"></div>
+          <!-- Upload tray dock — filled by dsfRenderUpl(); the tray is the kit .upl-tray component. -->
+          <div class="dsf-upl-dock" id="dsf-upl-dock" style="display:none"></div>
           <!-- File list — Cards (.chat-row) or Table (table.tbl); rendered by dsfRender() -->
           <div class="dsf-list is-table" id="dsf-list" aria-label="Uploaded files"></div>
           <!-- Load more — appears when the filtered set exceeds the current page (rendered by dsfRender) -->
@@ -523,7 +527,7 @@
 <!-- ===== Rename File dialog — kit .dlg shell (same recipe as the Connections "Edit connection"
      dialog); opened from the file row kebab's Rename item, prefilled with the current name. -->
 <div id="dsf-ren-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsfCloseRename()">
-  <div class="dlg" style="width:30rem" role="dialog" aria-modal="true" aria-labelledby="dsf-ren-title">
+  <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="dsf-ren-title">
     <div class="dlg-hdr">
       <h2 id="dsf-ren-title" class="dlg-title">Rename file</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsfCloseRename()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
@@ -546,7 +550,7 @@
      dialog / prod's "Delete chat?" modal). Guards both the row kebab's Delete and the bulk
      Delete in the meta row; title + body adapt to the pending single/bulk target. -->
 <div id="dsf-del-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsfCloseDelete()">
-  <div class="dlg" style="width:24rem" role="dialog" aria-modal="true" aria-labelledby="dsf-del-title">
+  <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="dsf-del-title">
     <div class="dlg-hdr">
       <h2 id="dsf-del-title" class="dlg-title">Delete file?</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsfCloseDelete()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
@@ -564,58 +568,8 @@
 </div>
 
 <script>
-  /* Tooltip engine — JS-positioned fixed tooltip, warm-up aware, escapes overflow:hidden. */
-  (function(){
-    document.documentElement.classList.add('tt-js');
-    var ft,showTimer,TIP_DELAY=300;
-    function getFt(){
-      if(!ft){ft=document.createElement('div');ft.setAttribute('aria-hidden','true');
-        ft.style.cssText='position:fixed;z-index:9999;background:var(--ink);color:var(--card);font-size:.75rem;border-radius:6px;padding:4px 8px;pointer-events:none;white-space:nowrap;font-family:inherit;line-height:1.35;opacity:0;transition:opacity .1s;display:none';
-        document.body.appendChild(ft);}return ft;
-    }
-    function show(el){
-      var text=el.getAttribute('data-tip');
-      /* Collapsed sidebar rail: nav items carry no data-tip — derive the label from the (hidden)
-         .lbl or aria-label so each icon tips on hover with the standard delay. When the sidebar is
-         expanded the .lbl is visible → skip, so the tooltip never duplicates a visible label. */
-      if(!text && (el.classList.contains('sbx-nav-item')||el.classList.contains('sbx-chats-icon'))){
-        if(!el.closest('.sbx.is-collapsed')) return;
-        var sbLbl=el.querySelector('.lbl');
-        text=(sbLbl?sbLbl.textContent:(el.getAttribute('aria-label')||'')).trim();
-      }
-      if(!text)return;
-      var f=getFt(),r=el.getBoundingClientRect();
-      f.textContent=text;f.style.display='inline-flex';f.style.opacity='0';
-      var tw=f.offsetWidth,th=f.offsetHeight;
-      var lx,ty;
-      if(el.closest('.sbx.is-collapsed')){
-        /* Collapsed sidebar rail → tooltip to the RIGHT of the icon, vertically centred
-           (flips to the left edge if the viewport can't fit it on the right). */
-        lx=r.right+8; if(lx+tw>window.innerWidth-4) lx=r.left-tw-8;
-        ty=Math.max(4,Math.min(r.top+r.height/2-th/2,window.innerHeight-th-4));
-      } else {
-        lx=Math.max(4,Math.min(r.left+r.width/2-tw/2,window.innerWidth-tw-4));
-        ty=r.top-th-5;if(ty<4)ty=r.bottom+5;
-      }
-      f.style.left=lx+'px';f.style.top=ty+'px';
-      f.style.transition='opacity .12s';f.style.opacity='1';
-    }
-    function hide(){if(ft){ft.style.transition='opacity .1s';ft.style.opacity='0';}clearTimeout(showTimer);}
-    /* Always wait TIP_DELAY before showing — no warm-up "instant re-show", so every tooltip has the
-       same hover delay (the warm-up made rapid hovers appear instantly, reading as "no delay"). */
-    document.addEventListener('mouseover',function(e){
-      var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
-      clearTimeout(showTimer);showTimer=setTimeout(function(){show(el);},TIP_DELAY);
-    },true);
-    document.addEventListener('mouseout',function(e){
-      var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
-      var to=e.relatedTarget;if(to&&to.closest&&to.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon'))return;
-      hide();
-    },true);
-    /* Clicking a tip target (e.g. the ✕ clear-selection button) re-renders / removes it while it's
-       still hovered, so no mouseout fires and the tooltip would linger. Hide it on any pointer-down. */
-    document.addEventListener('mousedown',function(){hide();},true);
-  })();
+  /* Tooltip engine + menu placement live in the shared kit behaviour layer (pages/kit-kit.js,
+     loaded in <head>). Pages must not re-implement either — see kit-kit.js header. */
 
   /* ===== File data — single source of truth driving the file list, count, and meta row.
      Seeded with 24 rows (> one page) so the "Load more" pagination is demonstrable. ===== */
@@ -686,14 +640,14 @@
   function dsfRowMenu(id){
     return ''
       + '<div class="menu chat-row-menu" role="menu">'
-      +   '<div class="mi" role="menuitem" data-action="add-to-chat" data-id="' + id + '">Add to Chat</div>'
-      +   '<div class="mi" role="menuitem" data-action="rename" data-id="' + id + '">Rename</div>'
-      +   '<div class="mi" role="menuitem" data-action="download" data-id="' + id + '">Download</div>'
-      +   '<div class="mi danger" role="menuitem" data-action="delete" data-id="' + id + '">Delete</div>'
+      +   '<div class="mi" role="menuitem" data-action="add-to-chat" data-id="' + id + '"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-add-chat"/></svg>Add to Chat</div>'
+      +   '<div class="mi" role="menuitem" data-action="rename" data-id="' + id + '"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div>'
+      +   '<div class="mi" role="menuitem" data-action="download" data-id="' + id + '"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-download"/></svg>Download</div>'
+      +   '<div class="mi danger" role="menuitem" data-action="delete" data-id="' + id + '"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>'
       + '</div>';
   }
   function dsfKebab(id){
-    return '<button class="chat-row-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more" data-id="' + id + '">' + KEBAB + '</button>';
+    return '<button class="chat-row-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more" data-id="' + id + '" data-tip="More actions">' + KEBAB + '</button>';
   }
 
   /* Shared kit "fading result cards" illustration — filter/search no-match empty state (same SVG
@@ -762,8 +716,9 @@
   function dsfRenderTable(list, page){
     list.className = 'dsf-list is-table';
     list.setAttribute('role', 'region');
-    /* Shared header checkbox — the table's select-all / bulk-selection control (replaces the
-       redundant "Select all" link in the meta row). Reflects all / some / none of the visible set. */
+    /* Shared header checkbox — the table's select-all / bulk-selection control. Works alongside
+       the meta row's "Select all" link (both are agreed entry points — page spec rule 15).
+       Reflects all / some / none of the visible set. */
     var vis = dsfVisible();
     var allSel = vis.length > 0 && vis.every(function(f){ return f.selected; });
     var someSel = vis.some(function(f){ return f.selected; });
@@ -816,27 +771,73 @@
     if (!editMode){
       var sortChevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none' + (sortDir==='asc'?';transform:rotate(180deg)':'') + '" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
       meta.innerHTML = countHtml
-        + '<button class="meta-row-selall dsf-meta-mobile-only" type="button" data-action="enter-edit">Select all</button>'
-        + '<button class="dsf-meta-sort dsf-meta-mobile-only" type="button" data-action="sort-date" aria-label="Sort by date"><span id="dsf-sort-lbl">' + (sortDir==='asc'?'Oldest':'Newest') + '</span>' + sortChevron + '</button>';
+        + '<button class="link dsf-meta-mobile-only" type="button" data-action="enter-edit">Select all</button>'
+        + '<button class="dsf-meta-sort dsf-meta-mobile-only" type="button" data-action="sort-date" aria-label="Sort by date" data-tip="Sort by date"><span id="dsf-sort-lbl">' + (sortDir==='asc'?'Oldest':'Newest') + '</span>' + sortChevron + '</button>';
       return;
     }
     /* Edit mode — same proximity-grouped toolbar as chats-landing.html:
          LEFT  : [N selected] [Select all]   ← related selection controls
-         RIGHT : [Download] [🗑 Delete] [×]  ← actions + exit, anchored via .dsf-bulk-right
+         RIGHT : [Download] [🗑 Delete] [×]  ← actions + exit, anchored via kit .meta-row-end
        Only Select all carries brand colour; only Delete carries red. Cancel is a neutral icon. */
     var allSelected = totalCount > 0 && selectedCount === totalCount;
     meta.innerHTML = ''
       + '<span class="meta-row-count">' + selectedCount + ' selected</span>'
       + '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all"' + (totalCount === 0 ? ' aria-disabled="true"' : '') + '>' + (allSelected ? 'Deselect all' : 'Select all') + '</button>'
-      + '<span class="dsf-bulk-right">'
-      +   '<button class="dsf-meta-dl' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
-      +   '<button class="dsf-meta-del' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
-      +   '<button class="dsf-meta-iconbtn" type="button" data-action="cancel-edit" aria-label="Exit selection" data-tip="Exit selection">' + CLOSE + '</button>'
+      + '<span class="meta-row-end">'
+      +   '<button class="meta-row-btn' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
+      +   '<button class="meta-row-btn danger' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
+      +   '<button class="meta-row-iconbtn" type="button" data-action="cancel-edit" aria-label="Exit selection" data-tip="Exit selection">' + CLOSE + '</button>'
       + '</span>';
   }
 
-  /* ===== File preview — right split panel (opens on file-row click, like prod) ===== */
-  var PREVIEW_DOC = '<svg class="dsf-preview-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+  /* ===== File preview — right split panel (opens on file-row click, like prod) =====
+     Reuses the kit's file-preview family rather than a second, weaker panel: .cp-fp-head/-title/
+     -actions for the chrome, .cp-fp-banner for the truncation notice, .cp-fp-body for the scroll
+     region, and inside it either a rendered table (.cp-tbl-scroll + table.tbl), a mono
+     .cp-fp-json sample, or .cp-fp-empty when the format has nothing renderable inline. */
+  var PREVIEW_DOC = '<svg class="cp-fp-empty-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+  var PREVIEW_WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+
+  /* Sample rows for the tabular preview — the panel shows the head of the file, not all of it. */
+  var PREVIEW_ROWS = [
+    ['2026-07-01','EMEA','12,480','+4.2%'], ['2026-07-01','AMER','31,905','+1.8%'],
+    ['2026-07-01','APAC','8,220','-0.6%'],  ['2026-06-01','EMEA','11,970','+2.1%'],
+    ['2026-06-01','AMER','31,340','+3.0%'], ['2026-06-01','APAC','8,270','+1.1%'],
+    ['2026-05-01','EMEA','11,720','-1.4%'], ['2026-05-01','AMER','30,420','+0.9%']
+  ];
+  /* Types the panel can render inline. Spreadsheets/CSV → a table (same treatment as the chat
+     panel: the user reads columns, not raw text). Text-shaped files → a mono sample. Anything
+     else has nothing honest to show inline and falls through to .cp-fp-empty. */
+  function dsfPreviewKind(name){
+    var ext = (String(name).split('.').pop() || '').toLowerCase();
+    if (['csv','xls','xlsx'].indexOf(ext) !== -1) return 'table';
+    if (['json','txt','md'].indexOf(ext) !== -1) return 'text';
+    return 'none';
+  }
+  /* Truncation is real whenever the panel shows a sample of a file bigger than the sample —
+     driven off the file's own size so the banner can't appear on a file that fits. */
+  function dsfPreviewTruncated(f){
+    return dsfPreviewKind(f.name) !== 'none' && /MB$/i.test(f.size || '');
+  }
+  function dsfPreviewTable(){
+    var r = '<div class="cp-tbl-scroll"><table class="tbl"><thead><tr><th>Date</th><th>Region</th><th>Revenue</th><th>Change</th></tr></thead><tbody>';
+    for (var i = 0; i < PREVIEW_ROWS.length; i++){
+      r += '<tr><td>' + PREVIEW_ROWS[i][0] + '</td><td>' + PREVIEW_ROWS[i][1] + '</td><td>' + PREVIEW_ROWS[i][2] + '</td><td>' + PREVIEW_ROWS[i][3] + '</td></tr>';
+    }
+    return r + '</tbody></table></div>';
+  }
+  function dsfPreviewText(){
+    var lines = PREVIEW_ROWS.map(function(r){ return '  {"date": "' + r[0] + '", "region": "' + r[1] + '", "revenue": ' + r[2].replace(/,/g,'') + '}'; });
+    return '<pre class="cp-fp-json">' + escHtml('[\n' + lines.join(',\n') + '\n]') + '</pre>';
+  }
+  function dsfPreviewEmpty(f){
+    return '<div class="cp-fp-empty">'
+      + PREVIEW_DOC
+      + '<span class="cp-fp-empty-name">' + escHtml(f.name) + '</span>'
+      + '<p class="cp-fp-empty-desc">There is no preview available for this file type</p>'
+      + '<button class="btn btn-secondary btn-sm" type="button" data-action="download" data-id="' + f.id + '">Download</button>'
+      + '</div>';
+  }
   function dsfRenderPreview(){
     var panel = document.getElementById('dsf-preview');
     var shell = document.querySelector('.cl-shell');
@@ -844,20 +845,25 @@
     var f = previewId ? FILES.find(function(x){ return x.id === previewId; }) : null;
     if (!f){ shell.classList.remove('has-preview'); panel.style.width = ''; panel.innerHTML = ''; return; }
     shell.classList.add('has-preview');
+    var kind = dsfPreviewKind(f.name);
+    var content = kind === 'table' ? dsfPreviewTable() : kind === 'text' ? dsfPreviewText() : dsfPreviewEmpty(f);
     panel.innerHTML = ''
       + '<div class="dsf-preview-grip" aria-hidden="true"></div>'
-      + '<div class="dsf-preview-head">'
-      +   '<span class="dsf-preview-title">' + escHtml(f.name) + '</span>'
-      +   '<button class="dsf-meta-iconbtn" type="button" data-action="download" data-id="' + f.id + '" aria-label="Download" data-tip="Download">' + DOWNLOAD + '</button>'
-      +   '<button class="dsf-meta-iconbtn" type="button" data-action="close-preview" aria-label="Close preview" data-tip="Close">' + CLOSE + '</button>'
+      + '<div class="cp-fp-head">'
+      +   '<span class="cp-fp-title">' + escHtml(f.name) + '</span>'
+      +   '<button class="meta-row-iconbtn" type="button" data-action="download" data-id="' + f.id + '" aria-label="Download" data-tip="Download">' + DOWNLOAD + '</button>'
+      +   '<button class="meta-row-iconbtn" type="button" data-action="close-preview" aria-label="Close preview" data-tip="Close">' + CLOSE + '</button>'
       + '</div>'
-      + '<div class="dsf-preview-body">'
-      +   PREVIEW_DOC
-      +   '<div class="dsf-preview-name">' + escHtml(f.name) + '</div>'
+      /* Truncation notice — a persistent SIBLING of the scroll region (never injected inside it),
+         so it stays a full-bleed strip flush under the header, immune to the body's padding and
+         scrollbar. Download inside the sentence is the kit .link, not a bare word. */
+      + '<div class="cp-fp-banner"' + (dsfPreviewTruncated(f) ? '' : ' hidden') + '>'
+      +   PREVIEW_WARN
+      +   '<span>Preview truncated. <button class="link" type="button" data-action="download" data-id="' + f.id + '">Download</button> to see the full file.</span>'
+      + '</div>'
+      + '<div class="cp-fp-body">'
+      +   content
       +   '<div class="dsf-preview-meta">' + escHtml(f.size) + ' · ' + (f.origin === 'artifact' ? 'Artifact' : 'Uploaded') + ' · ' + escHtml(f.date) + '</div>'
-      /* No inline preview for this format — offer a real Download action in the body, same
-         treatment as the chat file panel's unsupported-format state (.cp-fp-empty). */
-      +   '<button class="btn btn-secondary btn-sm" type="button" data-action="download" data-id="' + f.id + '" style="margin-top:.25rem">Download</button>'
       + '</div>';
   }
   /* Resizable preview — drag the left-edge grip; the panel hugs the right edge, so its width is
@@ -1096,6 +1102,113 @@
     }
   });
 
+  /* ═══ Upload tray — kit .upl-tray, driven by one UPLOADS array ═════════════════════════════
+     Demo model: each queued file ticks up to 100% (or to a seeded failure), the summary bar
+     re-derives from the batch, and the finished file is only added to FILES once its own upload
+     completes — so the list never shows a row that is still uploading. */
+  var UPL = [];              /* {name, pct, state:'uploading'|'done'|'failed', err, file} */
+  var uplOpen = false;       /* expanded? collapsed is the resting state, as on prod */
+  var uplTimer = null;
+
+  var UPL_SPIN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>';
+  var UPL_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>';
+  var UPL_ALERT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  var UPL_CHEV  = '<svg class="upl-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+  var UPL_DOC   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+
+  function dsfRenderUpl(){
+    var dock = document.getElementById('dsf-upl-dock');
+    if (!dock) return;
+    if (!UPL.length){ dock.style.display = 'none'; dock.innerHTML = ''; return; }
+    dock.style.display = '';
+
+    var uploading = UPL.filter(function(u){ return u.state === 'uploading'; }).length;
+    var failed    = UPL.filter(function(u){ return u.state === 'failed'; }).length;
+
+    /* The summary text states the batch outcome in words — the icon colour only reinforces it. */
+    var cls, ic, title;
+    if (uploading){ cls = 'is-uploading'; ic = UPL_SPIN;  title = uploading + (uploading === 1 ? ' file uploading' : ' files uploading'); }
+    else if (failed){ cls = 'has-failed'; ic = UPL_ALERT; title = failed + ' of ' + UPL.length + (UPL.length === 1 ? ' upload failed' : ' uploads failed'); }
+    else { cls = 'is-complete'; ic = UPL_CHECK; title = UPL.length + (UPL.length === 1 ? ' upload complete' : ' uploads complete'); }
+
+    var rows = UPL.map(function(u){
+      var name = escHtml(u.name);
+      if (u.state === 'uploading'){
+        return '<div class="upl-item is-uploading"><span class="upl-item-ic" aria-hidden="true">' + UPL_DOC + '</span>'
+          + '<span class="upl-item-body"><span class="upl-item-name">' + name + '</span>'
+          + '<span class="progress" role="progressbar" aria-valuenow="' + u.pct + '" aria-valuemin="0" aria-valuemax="100" aria-label="Uploading ' + name + '"><span style="width:' + u.pct + '%"></span></span></span>'
+          + '<span class="upl-item-meta">' + u.pct + '%</span></div>';
+      }
+      if (u.state === 'failed'){
+        return '<div class="upl-item is-failed"><span class="upl-item-ic" aria-hidden="true">' + UPL_ALERT + '</span>'
+          + '<span class="upl-item-body"><span class="upl-item-name">' + name + '</span>'
+          + '<span class="upl-item-err">' + escHtml(u.err) + '</span></span>'
+          + '<span class="upl-item-act"><button class="link" type="button" data-action="upl-retry" data-name="' + name + '">Retry</button></span></div>';
+      }
+      return '<div class="upl-item is-done"><span class="upl-item-ic" aria-hidden="true">' + UPL_CHECK + '</span>'
+        + '<span class="upl-item-body"><span class="upl-item-name">' + name + '</span></span>'
+        + '<span class="upl-item-meta">Done</span></div>';
+    }).join('');
+
+    /* The whole bar except the ✕ is the expand target: .upl-head is the button, ✕ is its sibling. */
+    dock.innerHTML = '<div class="upl-tray ' + cls + '" role="region" aria-label="File uploads">'
+      + '<div class="upl-bar">'
+      +   '<button class="upl-head" type="button" aria-expanded="' + (uplOpen ? 'true' : 'false') + '" aria-controls="dsf-upl-list" data-action="upl-toggle">'
+      +     '<span class="upl-head-ic" aria-hidden="true">' + ic + '</span>'
+      +     '<span class="upl-head-title">' + title + '</span>' + UPL_CHEV
+      +   '</button>'
+      +   '<button class="upl-x" type="button" data-action="upl-dismiss" aria-label="Dismiss uploads" data-tip="Dismiss">' + CLOSE + '</button>'
+      + '</div>'
+      + '<div class="upl-list" id="dsf-upl-list"' + (uplOpen ? '' : ' hidden') + '>' + rows + '</div>'
+      + '</div>';
+  }
+
+  /* Queue files and start ticking. Seeded failure: anything that isn't a spreadsheet/CSV, so the
+     failed row and its per-file reason are reachable in the demo. */
+  function dsfQueueUploads(items){
+    items.forEach(function(it){
+      var ext = (it.name.split('.').pop() || '').toLowerCase();
+      var ok = ['csv','xls','xlsx'].indexOf(ext) !== -1;
+      UPL.push({ name:it.name, pct:0, state:'uploading', err: ok ? '' : 'Unsupported format — upload a .csv, .xls or .xlsx file', file:it, ok:ok });
+    });
+    dsfRenderUpl();
+    if (!uplTimer) uplTimer = setInterval(dsfTickUpl, 300);
+  }
+
+  function dsfTickUpl(){
+    var live = UPL.filter(function(u){ return u.state === 'uploading'; });
+    if (!live.length){ clearInterval(uplTimer); uplTimer = null; return; }
+    live.forEach(function(u){
+      u.pct = Math.min(100, u.pct + 12 + Math.floor(u.name.length % 7));
+      if (u.pct < 100) return;
+      if (!u.ok){ u.state = 'failed'; return; }
+      u.state = 'done';
+      /* Only now does the file exist in the library. */
+      FILES.push({ id:u.file.id, name:u.file.name, type:u.file.type, origin:'uploaded',
+                   size:u.file.size, date:'just now', sortIdx:dsfNextSortIdx--, selected:false });
+      dsfRender();
+    });
+    dsfRenderUpl();
+  }
+
+  function dsfUplToggle(){ uplOpen = !uplOpen; dsfRenderUpl(); }
+  function dsfUplDismiss(){ UPL = []; uplOpen = false; if (uplTimer){ clearInterval(uplTimer); uplTimer = null; } dsfRenderUpl(); }
+  function dsfUplRetry(name){
+    UPL.forEach(function(u){ if (u.name === name){ u.state = 'uploading'; u.pct = 0; u.ok = true; u.err = ''; } });
+    dsfRenderUpl();
+    if (!uplTimer) uplTimer = setInterval(dsfTickUpl, 300);
+  }
+
+  /* Tray actions — delegated, same pattern as the row/meta actions above. */
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-action="upl-toggle"],[data-action="upl-dismiss"],[data-action="upl-retry"]');
+    if (!t) return;
+    var a = t.getAttribute('data-action');
+    if (a === 'upl-toggle') dsfUplToggle();
+    else if (a === 'upl-dismiss') dsfUplDismiss();
+    else dsfUplRetry(t.getAttribute('data-name'));
+  });
+
   /* ===== Drop zone + browse ===== */
   /* New uploads sort above the seed under newest-first: sortIdx 0 = newest seed row, so each new
      file takes the next more-negative index. */
@@ -1107,21 +1220,22 @@
     var sizes = ['3.1 MB','1.2 MB','456 KB','780 KB'];
     var idx = FILES.length % names.length;
     var newId = 'f' + (FILES.length + 10);
-    FILES.push({ id:newId, name:names[idx], type:types[idx], origin:'uploaded', size:sizes[idx], date:'just now', sortIdx:dsfNextSortIdx--, selected:false });
-    dsfRender();
+    /* Goes through the upload tray — the row only joins the library when its upload finishes. */
+    dsfQueueUploads([{ id:newId, name:names[idx], type:types[idx], size:sizes[idx] }]);
   }
 
   function dsfHandleDrop(e){
     /* Demo: add each dropped filename as a new row */
     var dropped = e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files : [];
+    var queued = [];
     for (var i = 0; i < dropped.length; i++){
       var fname = dropped[i].name;
       var ext = (fname.split('.').pop() || '').toLowerCase();
       var type = ['csv','xls','xlsx'].indexOf(ext) !== -1 ? ext : 'other';
       var size = dropped[i].size ? (dropped[i].size / 1024 / 1024).toFixed(1) + ' MB' : '—';
-      FILES.push({ id:'fd' + i, name:fname, type:type, origin:'uploaded', size:size, date:'just now', sortIdx:dsfNextSortIdx--, selected:false });
+      queued.push({ id:'fd' + Date.now() + '-' + i, name:fname, type:type, size:size });
     }
-    dsfRender();
+    if (queued.length) dsfQueueUploads(queued);
   }
 
   /* ===== Topbar Filled/Empty demo toggle — swaps the seed out/in to preview the first-run
@@ -1172,7 +1286,7 @@
       var toPinned = label === 'Pin';
       if (sects.length >= 2){
         (toPinned ? sects[0] : sects[1]).appendChild(row);
-        mi.textContent = toPinned ? 'Unpin' : 'Pin';
+        mi.innerHTML = '<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#' + (toPinned ? 'mi-unpin' : 'mi-pin') + '"/></svg>' + (toPinned ? 'Unpin' : 'Pin');
       }
     }
   });
@@ -1183,7 +1297,10 @@
     var sbx = document.querySelector('.cl-side .sbx');
     if (sbx) sbx.classList.toggle('is-collapsed');
     var btn = document.querySelector('.sbx-collapse');
-    if(btn) btn.setAttribute('data-tip', sbx && sbx.classList.contains('is-collapsed') ? 'Expand' : 'Collapse');
+    if(btn){ var coll = sbx && sbx.classList.contains('is-collapsed');
+      /* Tooltip stays short; aria-label carries the fuller phrase — both track the state. */
+      btn.setAttribute('data-tip', coll ? 'Expand' : 'Collapse');
+      btn.setAttribute('aria-label', coll ? 'Expand sidebar' : 'Collapse sidebar'); }
   }
 
   /* Initial render */

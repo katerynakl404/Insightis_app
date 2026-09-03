@@ -130,6 +130,18 @@ count is reported), so combined totals and any Purchased "used of total"/bar are
 | CTAs row | `.acct-bal-btns` — `justify-content:flex-end` on desktop; mobile `.acct-bal-btns-mob` `width:100%; .btn{flex:1}` (equal-width split). Upgrade Plan only |
 | Credit usage | `.acct-usage-table` — Date / Request type / Spent credits columns; `border-collapse:collapse` |
 
+**Plan states** (demo `#plan-toggle` segctrl; panels are `[data-plan]` blocks): **Free** · **Trial** · **Pro (trial)** · **Limit reached**. `data-plan` accepts a space-separated list so one block can serve several states — the Buy-credits pack tray is `data-plan="free pro exhausted"`.
+
+| Trial state | Expected |
+|---|---|
+| Badges | `.badge.badge-primary.badge-sm` "Trial" + `.badge.badge-attention.badge-sm` "Trial ends in 14 days" — the countdown is attention-toned, the plan name is not |
+| Balance | full allowance intact ("14,999.9 left"), Subscription bar at ~0%, Purchased "0 left" (nothing bought yet) |
+| Buy credits | **no packs on sale** → the tinted tray (`.acct-bc-grid.is-empty`, one full-width child) carries the kit `.empty-state`. The Small / Medium / Large tiles are untouched — they are the *available* state and stay exactly as specified |
+
+**The no-packs empty state is deliberately low-contrast.** It is a single `.empty-msg` (Body 14/20, `--ink-secondary`) with **no** `.empty-title` — unlike the full-region empty states (chats / files / metrics), which lead with a 16/600 `--ink` title. Reason: this is an *availability notice* inside a tray the user was never required to act in, not a dead end that needs a headline. Copy carries no trailing period, per the description-copy rule.
+
+**Tray height:** the tray renders ~208px tall because kit `.empty-state` is a full-region component (`padding:3rem 1.5rem`). A compact size variant would be needed to shorten it; `.cl-menu-empty` is an existing, composer-scoped copy of exactly that pattern. Not implemented.
+
 **Token:** `--progress-track: var(--card2)` — new semantic token added to `:root` in `kit-theme.css` (Slate-100 light / Grey-800 dark). Separates "progress track" intent from `--state-hover` which is reserved for interactive hover surfaces.
 
 ### Leave feedback (shown as "Feedback")
@@ -202,6 +214,8 @@ Hidden on desktop (`display:none`). Shown at ≤767px as `display:flex`.
 ## New page-scope CSS (`<style>` in `user_profile-modal.html`)
 
 **Layout:** `.acct-overlay`, `.acct-modal`, `.acct-modal-nav`, `.acct-modal-body`, `.acct-header`, `.acct-header-actions`, `.acct-title` (20px/500, matches `.dlg-title`), `.acct-content`, `.acct-section`, `.acct-sect-title`, `.acct-field-row`, `.acct-field-label`, `.acct-field-val`, `.acct-danger-warn`, `.acct-nav-foot`. (Close button uses kit `.iconbtn.iconbtn-tertiary` — no page-scope close class.)
+
+**Secondary lines share one type level.** Every line that sits under an `.acct-sect-title` — the email value, current plan, payment method, next charge, and the delete-account warning — renders at `--text-14` / 20px (Body), differing only in colour (`--ink-body` for values, `--ink-secondary` for the warning). The warning used to sit at `--text-12`, so two rows of the same slot appeared at different sizes; size is not what distinguishes a value from a caution line here, colour is.
 
 **Mobile:** `.acct-mobile-hdr`, `.acct-mobile-btn`, `.acct-mobile-title`, `.acct-nav-chev`, `.acct-hide-mobile`, `.acct-show-mobile`, `.segctrl-lbl`
 

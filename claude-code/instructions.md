@@ -10,6 +10,7 @@ designs the expected state, edits the kit, and keeps the change files in sync.
 |---|---|
 | `insightis-preview-kit.html` | The visual kit. Per component: **Preview** (Current vs Expected) + **States** table (each state: Current, Expected, Specification). Markup + the inline `<script>` block only — **no inline CSS**. |
 | **`pages/kit-theme.css`** | **All of the kit's CSS** (tokens in `:root` / `.dark` / `.prod` + every component selector + state classes). Linked from `insightis-preview-kit.html` via `<link rel="stylesheet">`. **Edit CSS here, never in the HTML.** |
+| **`pages/kit-kit.js`** | **The kit's shared behaviour layer** — behaviour that belongs to a component's contract rather than to a page: the tooltip engine (every `[data-tip]`) and menu placement (`.menu.is-up` flip). Loaded in `<head>` by every page and by the storybook. **No page may re-implement anything in it** — different behaviour = a contract change made here, once, for all consumers. Page flows (render functions, seed data, dialogs) stay in the page's inline `<script>`. |
 | `current/` | **Source of truth for what is LIVE on prod.** One file per component/property. Mirrors the real `@insightis/ui` code (`globals.css` + component classes). |
 | `changes/` | One file per component/property. Each documents the diff **`current/` → Expected**. Relative links from the kit point here. |
 | `token-diff-report.md` | Authoritative color-token migration reference (prod tokens → new system). |

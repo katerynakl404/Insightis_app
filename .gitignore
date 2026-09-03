@@ -26,3 +26,6 @@ archive/
 # (ds-bundle/), machine state (.design-sync/), the ds-react wrapper package, and the sync prompt.
 # See .claude-design/README.md. The driver MUST be run with cwd = .claude-design/.
 .claude-design/
+
+# Knowledge-sharing deck (internal onboarding material — local-only, not part of the artifact)
+knowledge-sharing/

@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../kit-theme.css" />
+<script src="../kit-kit.js" defer></script>
 <style>
   /* ===== Page-only layout (NO component restyling) ===== */
   .topbar{padding:.375rem 1rem}
@@ -97,6 +98,24 @@
 </style>
 </head>
 <body>
+<!-- Action-menu item icons — the single SVG source dictionary for every .mi-ic in this page.
+     Lucide 24×24 outlines; menu items reference them with <use href="#mi-*"/>, never inline paths.
+     Keep in sync with the same block in insightis-preview-kit.html. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="mi-add-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v6"/><path d="M9 10h6"/></symbol>
+  <symbol id="mi-rename" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+  <symbol id="mi-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></symbol>
+  <symbol id="mi-duplicate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="mi-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+  <symbol id="mi-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol>
+  <symbol id="mi-unpin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M15 9.34V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H7.89"/><path d="m2 2 20 20"/><path d="M9 9v1.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h11"/></symbol>
+  <symbol id="mi-select" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="mi-deselect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/></symbol>
+  <symbol id="mi-test-conn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="m2 22 3-3"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m18 3-4 4h6l-4 4"/></symbol>
+  <symbol id="mi-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
+  <symbol id="mi-disconnect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="M12 6l6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></symbol>
+</svg>
+
 
 <!-- Brand symbols — copied verbatim so <use href="#lg"/> works -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -168,7 +187,7 @@
               <svg class="sbx-brand-logo" aria-label="Insightis"><use href="#lg"/></svg>
               <svg class="sbx-brand-mark" aria-hidden="true"><use href="#lg-mark"/></svg>
             </div>
-            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Toggle Sidebar" type="button" onclick="dsToggleSbxCollapse()" data-tip="Collapse">
+            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Collapse sidebar" type="button" onclick="dsToggleSbxCollapse()" data-tip="Collapse">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
@@ -214,35 +233,35 @@
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only. -->
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
-                <div class="mi">Unpin</div>
-                <div class="mi">Rename</div>
-                <div class="mi danger">Delete</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div>
+                <div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
               </div>
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
-                <div class="mi">Unpin</div>
-                <div class="mi">Rename</div>
-                <div class="mi danger">Delete</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div>
+                <div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
               </div>
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Churn deep-dive</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
-                <div class="mi">Unpin</div>
-                <div class="mi">Rename</div>
-                <div class="mi danger">Delete</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div>
+                <div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
               </div>
             </div>
           </div>
@@ -256,24 +275,24 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
-                <div class="mi">Pin</div>
-                <div class="mi">Rename</div>
-                <div class="mi danger">Delete</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div>
+                <div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
               </div>
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'">
               <span class="sbx-chat-lbl">Generate two charts using random data</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)">
+              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
-                <div class="mi">Pin</div>
-                <div class="mi">Rename</div>
-                <div class="mi danger">Delete</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div>
+                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div>
+                <div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
               </div>
             </div>
           </div>
@@ -313,9 +332,9 @@
               </div>
             </div>
             <div class="sbx-pop-theme" role="tablist" aria-label="Theme">
-              <button class="sbx-pop-theme-btn is-active" type="button" role="tab" aria-label="Light" aria-selected="true" onclick="document.documentElement.classList.remove('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
-              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false" onclick="document.documentElement.classList.add('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
-              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
+              <button class="sbx-pop-theme-btn is-active" type="button" role="tab" aria-label="Light" aria-selected="true" onclick="document.documentElement.classList.remove('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')" data-tip="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
+              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="Dark" aria-selected="false" onclick="document.documentElement.classList.add('dark');this.parentElement.querySelectorAll('.sbx-pop-theme-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')" data-tip="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+              <button class="sbx-pop-theme-btn" type="button" role="tab" aria-label="System" aria-selected="false" data-tip="System"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg></button>
             </div>
             <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Log out</button>
           </div>
@@ -348,7 +367,7 @@
       <!-- Page head — title + primary CTA. At ≤ 1023 px the burger is inline here so the whole
            row can be position:sticky and remain accessible during scroll. -->
       <div class="cl-page-head ds-page-head">
-        <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()">
+        <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()" data-tip="Open sidebar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
         <h1 class="cl-page-title scroll-m-20 font-medium text-2xl md:text-3xl text-content-primary text-left">Data Sources</h1>
@@ -379,7 +398,7 @@
           <div class="field ds-search">
             <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
             <input id="ds-search-input" type="search" placeholder="Search data sources…" aria-label="Search data sources" oninput="dsFilterSearch(this.value)">
-            <button class="ds-search-clear" type="button" aria-label="Clear search" onclick="dsClearSearch()">
+            <button class="ds-search-clear" type="button" aria-label="Clear search" onclick="dsClearSearch()" data-tip="Clear search">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
           </div>
@@ -487,8 +506,8 @@
 
 <!-- ===== Edit connection dialog ===== -->
 <!-- ===== New Connection dialog ===== -->
-<div id="ds-conn-dlg" style="display:none;position:fixed;inset:0;z-index:60;align-items:center;justify-content:center;background:var(--overlay-scrim)" aria-hidden="true" onclick="if(event.target===this)dsCloseConnDlg()">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:30rem;max-width:calc(100vw - 2rem);height:580px;display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-conn-dlg-title">
+<div id="ds-conn-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsCloseConnDlg()">
+  <div class="dlg is-md" style="height:580px" role="dialog" aria-modal="true" aria-labelledby="ds-conn-dlg-title">
     <!-- Shared header -->
     <div class="dlg-hdr">
       <h2 id="ds-conn-dlg-title" class="dlg-title">New connection</h2>
@@ -560,8 +579,8 @@
 </div>
 
 <!-- ===== Disconnect confirm dialog ===== -->
-<div id="ds-disc-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:var(--overlay-scrim)" aria-hidden="true" onclick="if(event.target===this)dsCloseDisc()">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:24rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-disc-title">
+<div id="ds-disc-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsCloseDisc()">
+  <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="ds-disc-title">
     <div class="dlg-hdr">
       <h2 id="ds-disc-title" class="dlg-title">Disconnect <span id="ds-disc-name" style="color:var(--ink)"></span>?</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsCloseDisc()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
@@ -579,8 +598,8 @@
   </div>
 </div>
 
-<div id="ds-edit-dlg" style="display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:var(--overlay-scrim)" aria-hidden="true" onclick="if(event.target===this)dsCloseEdit()">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:.875rem;width:30rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:0 20px 40px -8px rgba(0,0,0,.22)" role="dialog" aria-modal="true" aria-labelledby="ds-edit-title">
+<div id="ds-edit-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsCloseEdit()">
+  <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="ds-edit-title">
     <div class="dlg-hdr">
       <h2 id="ds-edit-title" class="dlg-title">Edit connection</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsCloseEdit()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
@@ -998,9 +1017,9 @@
     var dotClass = c.status === 'error' ? 'is-error' : 'is-active';
     var statusLabel = c.status === 'error' ? 'Error · last sync failed' : 'Active · syncing';
     var menuHtml = '<div class="menu ds-conn-menu kbp-menu" role="menu">'
-      + '<div class="mi" role="menuitem" onclick="dsOpenEdit(\'' + n + '\')">Edit</div>'
-      + '<div class="mi" role="menuitem" onclick="dsTestConnection(\'' + n + '\')">Test Connection</div>'
-      + '<div class="mi danger" role="menuitem" onclick="dsConfirmDisconnect(\'' + n + '\')">Disconnect</div>'
+      + '<div class="mi" role="menuitem" onclick="dsOpenEdit(\'' + n + '\')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-edit"/></svg>Edit</div>'
+      + '<div class="mi" role="menuitem" onclick="dsTestConnection(\'' + n + '\')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-test-conn"/></svg>Test Connection</div>'
+      + '<div class="mi danger" role="menuitem" onclick="dsConfirmDisconnect(\'' + n + '\')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-disconnect"/></svg>Disconnect</div>'
       + '</div>';
     var kebab = '<button class="iconbtn iconbtn-tertiary ds-conn-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1">'
       + '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>'
@@ -1113,7 +1132,10 @@
     var sbx = document.querySelector('.cl-side .sbx');
     if(sbx) sbx.classList.toggle('is-collapsed');
     var btn = document.querySelector('.sbx-collapse');
-    if(btn) btn.setAttribute('data-tip', sbx && sbx.classList.contains('is-collapsed') ? 'Expand' : 'Collapse');
+    if(btn){ var coll = sbx && sbx.classList.contains('is-collapsed');
+      /* Tooltip stays short; aria-label carries the fuller phrase — both track the state. */
+      btn.setAttribute('data-tip', coll ? 'Expand' : 'Collapse');
+      btn.setAttribute('aria-label', coll ? 'Expand sidebar' : 'Collapse sidebar'); }
   }
 
   /* ===== Connect — animate card out, add row, auto-switch to My Connections. ===== */
@@ -1476,57 +1498,8 @@ function dsDismissToast(el){
 }
 </script>
 <script>
-/* Tooltip engine — JS-positioned fixed tooltip, warm-up aware, escapes overflow:hidden. */
-(function(){
-  document.documentElement.classList.add('tt-js');
-  var ft,warmTimer,showTimer,isWarm=false;
-  function getFt(){
-    if(!ft){ft=document.createElement('div');ft.setAttribute('aria-hidden','true');
-      ft.style.cssText='position:fixed;z-index:9999;background:var(--ink);color:var(--card);font-size:.75rem;border-radius:6px;padding:4px 8px;pointer-events:none;white-space:nowrap;font-family:inherit;line-height:1.35;opacity:0;transition:opacity .1s;display:none';
-      document.body.appendChild(ft);}return ft;
-  }
-  function show(el){
-    var text=el.getAttribute('data-tip');
-    /* Collapsed sidebar rail: nav items carry no data-tip — derive the label from the (hidden)
-       .lbl or aria-label so each icon tips on hover with the standard delay. When the sidebar is
-       expanded the .lbl is visible → skip, so the tooltip never duplicates a visible label. */
-    if(!text && (el.classList.contains('sbx-nav-item')||el.classList.contains('sbx-chats-icon'))){
-      if(!el.closest('.sbx.is-collapsed')) return;
-      var sbLbl=el.querySelector('.lbl');
-      text=(sbLbl?sbLbl.textContent:(el.getAttribute('aria-label')||'')).trim();
-    }
-    if(!text)return;
-    var f=getFt(),r=el.getBoundingClientRect();
-    f.textContent=text;f.style.display='inline-flex';f.style.opacity='0';
-    var tw=f.offsetWidth,th=f.offsetHeight;
-    var lx,ty;
-    if(el.closest('.sbx.is-collapsed')){
-      /* Collapsed sidebar rail → tooltip to the RIGHT of the icon, vertically centred
-         (flips to the left edge if the viewport can't fit it on the right). */
-      lx=r.right+8; if(lx+tw>window.innerWidth-4) lx=r.left-tw-8;
-      ty=Math.max(4,Math.min(r.top+r.height/2-th/2,window.innerHeight-th-4));
-    } else {
-      lx=Math.max(4,Math.min(r.left+r.width/2-tw/2,window.innerWidth-tw-4));
-      ty=r.top-th-5;if(ty<4)ty=r.bottom+5;
-    }
-    f.style.left=lx+'px';f.style.top=ty+'px';
-    f.style.transition='opacity .12s';f.style.opacity='1';
-  }
-  function hide(){if(ft){ft.style.transition='opacity .1s';ft.style.opacity='0';}clearTimeout(showTimer);}
-  document.addEventListener('mouseover',function(e){
-    var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
-    clearTimeout(showTimer);showTimer=setTimeout(function(){show(el);},isWarm?0:300);
-  },true);
-  document.addEventListener('mouseout',function(e){
-    var el=e.target.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon');if(!el)return;
-    var to=e.relatedTarget;if(to&&to.closest&&to.closest('[data-tip],.sbx-nav-item,.sbx-chats-icon'))return;
-    /* Warm-up only counts if a tooltip was actually visible — merely passing the cursor over a
-       tip target (no tooltip shown) must NOT pre-warm, else the next hover skips its 300ms delay. */
-    var wasShown=ft&&ft.style.opacity==='1';
-    hide();
-    if(wasShown){clearTimeout(warmTimer);isWarm=true;warmTimer=setTimeout(function(){isWarm=false;},600);}
-  },true);
-})();
+  /* Tooltip engine + menu placement live in the shared kit behaviour layer (pages/kit-kit.js,
+     loaded in <head>). Pages must not re-implement either — see kit-kit.js header. */
 </script>
 <script>
 /* Chip-row edge fade — set data-chip-scroll so the CSS mask shows the fade ONLY while the row
@@ -1553,7 +1526,7 @@ function dsDismissToast(el){
      Rename -> "Rename chat" dialog; Delete -> "Delete chat?" confirm; Pin/Unpin moves the row
      between the Pinned and Recent sections. Only one row menu may be open at a time. -->
 <div id="sbc-ren-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)sbcCloseRename()">
-  <div class="dlg" style="width:30rem" role="dialog" aria-modal="true" aria-labelledby="sbc-ren-title">
+  <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="sbc-ren-title">
     <div class="dlg-hdr">
       <h2 id="sbc-ren-title" class="dlg-title">Rename chat</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseRename()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
@@ -1571,7 +1544,7 @@ function dsDismissToast(el){
   </div>
 </div>
 <div id="sbc-del-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)sbcCloseDelete()">
-  <div class="dlg" style="width:24rem" role="dialog" aria-modal="true" aria-labelledby="sbc-del-title">
+  <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="sbc-del-title">
     <div class="dlg-hdr">
       <h2 id="sbc-del-title" class="dlg-title">Delete chat?</h2>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseDelete()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
@@ -1635,7 +1608,7 @@ function dsDismissToast(el){
     if (sects.length < 2) return;
     var toPinned = mi.textContent.trim() === 'Pin';
     (toPinned ? sects[0] : sects[1]).appendChild(row);
-    mi.textContent = toPinned ? 'Unpin' : 'Pin';
+    mi.innerHTML = '<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#' + (toPinned ? 'mi-unpin' : 'mi-pin') + '"/></svg>' + (toPinned ? 'Unpin' : 'Pin');
     if (window.sbcOnPinToggled) window.sbcOnPinToggled(row, toPinned);
   };
   /* Menu-item actions. Capture + stopPropagation: the menu sits inside a row that navigates on

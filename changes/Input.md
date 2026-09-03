@@ -58,7 +58,7 @@ Heights line up with Button (`.btn-xs … .btn-xl`) so an Input + Button row rea
 
 ## No change (—)
 
-Height 36 px, radius `md 6 px`, padding-x 8 px, gap 6 px, `max-width:240px`, text-sm (14px), `transition:border-color .12s, box-shadow .12s` property list. (Placeholder token is **remapped** — `content-secondary` → `Text/Inactive` (`--ink-inactive`) — not a no-change; see States · Default and [colors](colors.md).)
+Height 36 px, radius `md 6 px`, padding-x 12 px, gap 6 px, `max-width:240px`, text-sm (14px), `transition:border-color .12s, box-shadow .12s` property list. (Placeholder token is **remapped** — `content-secondary` → `Text/Inactive` (`--ink-inactive`) — not a no-change; see States · Default and [colors](colors.md).)
 
 ## Token map used
 

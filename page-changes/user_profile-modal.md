@@ -12,6 +12,8 @@ These are locked decisions. Do not change without explicit approval.
 |---|---|
 | 1 | Balance's hero credit number (the `.acct-bal-amount` supporting text in V1's Free/Pro/Exhausted states) reads "left" (e.g. "827 left"), not "credits remaining" or "credits left". Agreed wording — do not add "credits" back. |
 | 2 | **Purchased-pool usage is NOT trackable** (2026-07-21): the backend can't count how many credits were bought — only the remaining number is known. Never render a "used of total" fraction, a progress bar, or a combined subscription+purchased total for the Purchased pool, anywhere (Balance, sidebar popover, sidebar trigger). Purchased always shows the remaining count only ("N left"). Balance keeps exactly **one** progress bar — the Subscription pool's, with its usage info. |
+| 3 | **Manage plan: the recommended tier DOES carry an accent border** (2026-09-02, from `Account-Modal.dc.html`). This **supersedes** the earlier "recommended plan carries no accent border / text markers only" rule. Pro now uses `.acct-plan-card.is-featured` — accent border + brand wash + brand-tinted lift. The "Most popular" ribbon stays, so the status is still never colour-alone. |
+| 4 | **Manage plan / Billing: the demo account is on the Starter plan** (2026-09-02, from `Account-Modal.dc.html`). This **supersedes** "the account is on the Free plan everywhere" *for the plan-subscription surfaces* (Manage plan, Billing's "Current plan" row). Balance's credit-pool figures are driven by a separate concept control and still read Free. |
 
 The account modal carries a **section-aware concept version toggle** in the topbar. It flips the
 active section between its available versions. **Balance** has three, each a different
@@ -127,7 +129,13 @@ ambiguity:
   used". (Renewal / expiry notes were removed at the user's request — same as the V1-tiles revert.)
   No new tokens.
 
-### Demo-account data — the account is on the Free plan everywhere
+### Demo-account data — credit pools read Free
+
+The **subscription** surfaces (Manage plan, Billing) show the account on **Starter**; the
+**credit-pool** figures below describe a Free account (500 / month). The two are driven by separate
+concept controls, and the source design carries the same split.
+
+
 
 One fictional account across all surfaces: **Free plan** → Subscription pool = 500 credits /
 month (213 used, 287 left, 42.6 %), Purchased pool = **540 remaining** (bought total unknown —
@@ -140,33 +148,64 @@ sidebar/popover demos, and the user row meta (`Admin · Free`).
 
 ### Current plan + contextual CTAs
 
-The account's current plan is **Free**, mirrored consistently across both Manage-plan versions
-and the **Billing** tab ("Current plan: Free · $0 / month" — no renewal line, a free plan has no
-next charge; past Starter invoices stay in Billing history). CTAs are **contextual to the
-current plan** — the pattern used by Linear, Vercel, and Notion's own billing settings
+The account's current plan is **Starter (monthly)**, mirrored in the **Billing** tab's
+"Current plan" row. CTAs are **contextual to the current plan** — the pattern used by Linear,
+Vercel, and Notion's own billing settings
 ([Linear billing docs](https://linear.app/docs/billing-and-plans),
 [Notion billing help](https://www.notion.com/help/upgrade-or-downgrade-your-plan)) — current-plan
-management surfaces label the active plan and offer upgrades, never re-run the acquisition flow:
+management surfaces label the active plan and offer upgrades, never re-run the acquisition flow.
+With Starter active, each card's CTA states its *direction of travel*, so the grid never leaves the
+user guessing which way a click moves them:
 
-| Plan | CTA | State |
-|---|---|---|
-| **Free** | **"Current Plan"** | **disabled**, outline, `badge-secondary` "Current Plan" tag next to the name |
-| Starter | "Upgrade to Starter" | enabled, outline |
-| Pro | "Upgrade to Pro" | enabled, filled |
+| Plan | CTA | State | Opens |
+|---|---|---|---|
+| Free | "Switch to Free" | enabled, outline | Downgrade confirm |
+| **Starter** | **"Current Plan"** | **disabled**, outline | — |
+| Pro | "Upgrade to Pro" | enabled, filled | (checkout — out of scope) |
 
-Both paid plans carry the pricing page's **50% OFF promo** — a `badge-green` "50% OFF" tag next to
-the name + a struck-through was-price wired to the billing-period toggle (Starter $9.99 ~~$19.99~~,
-yearly $5.99 ~~$11.99~~; Pro $19.99 ~~$39.99~~, yearly $11.99 ~~$23.99~~) — mirroring the live
-pricing page. The discount never shows on the current plan itself (Free has no promo).
+**Status first, then the choice.** A **current-plan strip** (`.acct-plan-current`) sits above
+"Choose a plan": eyebrow label → plan name + billing period → expiry date, with **Cancel Plan**
+on the right. It renders on paid tiers only — a Free account has no expiry and nothing to cancel —
+so the plan grid below reads as a *decision*, not as a status readout.
 
-**The recommended plan carries no accent border** — neither on the Pro card (all three cards keep
-the neutral `--border`) nor on the table column. "Most popular" is signalled by text markers only:
-the V1 "POPULAR" badge / V2 card ribbon, plus the table-header tag.
+**Yearly is not self-service.** An active monthly subscription can't be flipped to yearly in-app,
+so on the Yearly period the current tier's CTA becomes **"Request Yearly Billing"** (enabled) and
+opens a support-request dialog rather than a checkout. This is the one CTA whose label depends on
+the period toggle, not on the tier ordering.
+
+Both paid plans carry the pricing page's **50% OFF promo** — now a **ribbon on the card's top
+border** (`.acct-plan-ribbon.is-accent`) rather than an inline `badge-green` in the name row, so
+the name row stays a single clean line and the promo reads at the card's edge. The struck-through
+was-price is wired to the billing-period toggle. **Yearly prices are annual totals**, not
+per-month equivalents. The plan **name carries the period** ("Starter Monthly" / "Pro Yearly") so a
+card is unambiguous when read on its own, and the price unit line is **"excl. VAT"** on every card
+(an invisible placeholder on Free keeps the CTA row aligned across the grid).
+
+**The recommended tier carries an accent border** (`.acct-plan-card.is-featured`) — accent border
++ a short brand wash fading into the card surface + a brand-tinted lift. "Most popular" keeps its
+ribbon, so the recommendation is never conveyed by colour alone. Pro therefore shows **two ribbons
+in one row** (`.acct-plan-ribbon-row`): brand "Most popular" + accent "50% OFF". The tier the
+account is already on gets the recessed `.is-current` fill.
 
 **Card row order: tagline sits between the name and the price** (name row → tagline → price row →
-CTA → features), in both versions — the audience line ("For getting started" / "For small teams" /
+CTA → features) — the audience line ("For getting started" / "For small teams" /
 "For growing teams") qualifies the plan name, not the price, so it reads directly under the name
 (6px, the card gap) with slightly more air before the price (12px).
+
+### Plan-change dialogs
+
+Three dialogs, all on the kit `.dlg` family, stacked above the account modal so the plan grid stays
+visible behind them. Escape closes the top dialog only — one press never dismisses both surfaces.
+
+| Dialog | Trigger | Size | Anatomy |
+|---|---|---|---|
+| **Cancel plan** | Cancel Plan in the current-plan strip | `.dlg.is-sm` | Warning glyph + title, "stays active until <date>, then moves to Free", the list of features lost, footer `Keep Starter` / `Cancel Plan` (destructive) |
+| **Downgrade** | "Switch to Free" card CTA | `.dlg.is-sm` | Same anatomy; the loss lands at the end of the current billing period. Footer `Keep Current Plan` / `Switch to Free` |
+| **Yearly billing** | "Request Yearly Billing" (Yearly period) | `.dlg.is-md` | Two states in one shell: request form (copy + optional note `textarea`) → sent acknowledgement ("Request sent", single `Done`). Wider because it is the only one the user fills in |
+
+Both confirms list what the user gives up via `.acct-plan-lost` — the same list anatomy as
+`.acct-plan-feats` with the brand tick swapped for a destructive cross. The loss is named in the
+copy as well, so the red marker is reinforcement, not the sole signal.
 
 ### V1 — plain in-app cards
 
@@ -327,7 +366,25 @@ tool; page carries the `pg-wip-tag`).
 - `--balance-purchased-track` = `color-mix(--fb-green 18%, --progress-track)`
 
 Both mix over the theme-aware `--progress-track`, so they re-resolve per theme with no `.dark`
-override. `FALLBACK_TOKEN_NAMES` in `insightis-preview-kit.html` was regenerated to include them.
+override.
+
+Plan-card recipes (2026-09-02) — every colour the Manage-plan grid needs, so no component rule
+carries an inline `color-mix`:
+
+| Token | Role |
+|---|---|
+| `--plan-ribbon-brand-bg` / `-border` / `-ink` | "Most popular" ribbon |
+| `--plan-ribbon-accent-bg` / `-border` / `-ink` | "50% OFF" ribbon |
+| `--plan-card-current-bg` | fill of the tier the account is on |
+| `--plan-card-featured-border` / `-bg` / `-shadow` | recommended-tier accent, wash and lift |
+
+Both ribbon families use the same three ratios over their own semantic base (`--brand-primary` /
+`--fb-green`), so the two markers read as one family. Ribbon fills mix over `--card`, **not** over
+`transparent`: the ribbon straddles the card's top border, and a translucent fill would show the
+border line running through it. Only `--plan-card-featured-bg` needs a `.dark` override — the wash
+that lifts off a white card is invisible over the dark one.
+
+`FALLBACK_TOKEN_NAMES` in `insightis-preview-kit.html` was regenerated for all of the above.
 
 ## Out of scope
 
@@ -350,7 +407,8 @@ override. `FALLBACK_TOKEN_NAMES` in `insightis-preview-kit.html` was regenerated
 - [x] Not colour-alone (1.4.1): each pool is labelled — V1 tile label, V2 legend dot + text, V3 the
       per-bar head/foot text; the V2 zones and each V3 bar expose an `aria-label` with the breakdown.
 - [x] Segctrl: `role="tablist"` + `aria-selected`; `.segctrl-btn` focus-visible ring already defined.
-      Version labels are plain text (not `.segctrl-lbl`) so they stay visible at ≤767 px.
+      Version labels are plain text (not `.segctrl-lbl`) so they stay visible at ≤767 px; the
+      billing-period toggle keeps its labels via a scoped exception (see below).
 - [x] Field-label consistency: every section's label-over-value rows use `.acct-sect-title` (bold
       heading) — Billing's "Current plan" / "Payment method" were aligned from the muted
       `.acct-field-label` to match "Your email" (My account) and "Billing history".
@@ -367,13 +425,27 @@ override. `FALLBACK_TOKEN_NAMES` in `insightis-preview-kit.html` was regenerated
       and purchased `--fb-green` (`#009966` light) each clear the 3:1 UI-graphic target (1.4.11) on
       the white card — an improvement over the previous amber `--fb-attention` (2.89:1). Both are
       canonical kit tokens reused from the popover, not new values.
-- [x] Manage plan (both versions): CTA state matches the account's actual plan — Free shows
-      disabled "Current Plan" with a `badge-secondary` text label (never colour/border alone);
-      Starter and Pro get real, actionable CTAs. Verified via computed `disabled`/`textContent`
-      in-browser.
-- [x] Manage plan: the recommended plan is signalled by **text markers** — the V1 "POPULAR"
-      badge / V2 card ribbon ("Most popular") and the tag in the table header — never colour or
-      border alone (no card/column accent border, no column fill).
-- [x] Discount is not colour-alone: the green "50% OFF" `badge-green` tag carries the promo as
-      text, and the struck-through was-price (`--ink-inactive`, `line-through`) restates it in
-      the price row.
+- [x] Manage plan: CTA state matches the account's actual plan — Starter shows the disabled
+      "Current Plan" marker, Free and Pro get real, actionable CTAs naming their direction
+      ("Switch to Free" / "Upgrade to Pro"). Verified via computed `disabled`/`textContent`
+      in-browser, in both billing periods.
+- [x] Manage plan: the recommended tier now carries an accent border **in addition to** its
+      "Most popular" ribbon. The ribbon text is what conveys the status, so 1.4.1 still holds; the
+      border is reinforcement. Measured against the neutral card it is ~2:1 — below the 3:1 of
+      1.4.11, which is acceptable **only** because it carries no meaning on its own.
+- [x] The recessed `.is-current` fill is likewise decorative (~1.05:1 against the base card) — the
+      disabled "Current Plan" CTA is what identifies the active tier.
+- [x] Discount is not colour-alone: the "50% OFF" ribbon carries the promo as text, and the
+      struck-through was-price (`--ink-inactive`, `line-through`) restates it in the price row.
+- [x] Plan-change dialogs: each confirm names the loss in prose before the list, so the red cross
+      markers are reinforcement. Escape closes the top dialog only; every dialog has a labelled
+      close button and `aria-labelledby` on its title.
+- [x] Billing-period segctrl: the two calendar glyphs differ by a few dots, so the page's
+      mobile "icon-only segctrl" rule is **overridden for this toggle** — its labels stay visible
+      at ≤767 px. Buttons also carry `aria-label` mirroring the visible label.
+- [ ] ⚠️ **Ribbon label contrast is below AA.** The ribbon ink recipe (`--plan-ribbon-*-ink`,
+      85% of the semantic base + 15% `--ink`) on the 22% fill measures **3.54:1 (accent, light)**,
+      **4.35:1 (brand, light)** and **4.31:1 (brand, dark)** — all under the **4.5:1** required for
+      11px 600-weight text (too small to qualify as large text). Only accent-on-dark passes at
+      5.16:1. Carried over verbatim from `Account-Modal.dc.html`. Remedy: shift the ink mix further
+      from the base toward `--ink` (darker label in light theme, lighter in dark).

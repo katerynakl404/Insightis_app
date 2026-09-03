@@ -80,7 +80,7 @@ It also documents the **interaction patterns composed around a table** (not part
 | Pattern | Kit atoms | Authoritative spec |
 |---|---|---|
 | **Filtering** — single-select chip row above the table | `.chip` + `.chip-n`, active = `.is-active` + `aria-pressed` | [page-changes/data-sources_files-landing.md](../page-changes/data-sources_files-landing.md) (rule 9) |
-| **Bulk actions** — header checkbox select-all (none/indeterminate/all) → `.meta-row` swaps count for ✕ · N selected · Download · Delete (sticky) | `.cbx` (tri-state), `.meta-row` / `.meta-row-count` / `.meta-row-actions` | page-changes rules 15, 19 |
+| **Bulk actions** — header checkbox select-all (none/indeterminate/all) → `.meta-row` swaps count for ✕ · N selected · Download · Delete (sticky) | `.cbx` (tri-state), `.meta-row` / `.meta-row-count` / `.meta-row-end` / `.meta-row-btn` / `.meta-row-btn.danger` / `.meta-row-iconbtn` | page-changes rules 15, 19 |
 | **Sorting** — column-header button toggles `aria-sort`, chevron flips | page-level `.dsft-sortbtn` (Files) | page-changes rule 25 |
 
 ## No change (—)

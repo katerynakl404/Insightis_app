@@ -61,12 +61,14 @@ No arrow — proximity + slide-in are the only visual cues by design.
 `[data-tip]:hover::after, [data-tip]:focus-visible::after`:
 - `opacity:1`
 - `transform:translateX(-50%) translateY(0)` (settles up into place)
-- `transition:opacity .12s .3s, transform .12s .3s` — **cold enter**: 300ms delay before show; 100ms leave (from the resting `.1s` transition above).
+- `transition:opacity .12s .3s, transform .12s .3s` — 300ms delay before show; 100ms leave (from the resting `.1s` transition above).
 
-### Warm-up — `.tt-warm`
+### Enter delay is unconditional — there is no warm-up
 
-When `.tt-warm` is present on an ancestor (set after a recent tooltip, 600ms window):
-`.tt-warm [data-tip]:hover::after, .tt-warm [data-tip]:focus-visible::after{transition:opacity .12s, transform .12s}` — **warm enter**: 0ms delay (no `.3s` delay).
+**Every** hover waits the same ~300ms. The former `.tt-warm` "instant re-show within 600ms" path is gone
+(CSS rules deleted, JS state removed): a warm-up made rapid successive hovers appear with no delay at all,
+which reads as *the delay is broken* rather than as a convenience. One delay, always. Locked — see
+[page-changes/data-sources_files-landing.md](../page-changes/data-sources_files-landing.md) rule 23.
 
 ### Side variants — `data-tip-side`
 
@@ -78,15 +80,23 @@ Default placement (no attribute) = **top**. Override with `data-tip-side="right|
 | `bottom` | `bottom:auto; top:calc(100% + 5px); left:50%` | `translateX(-50%) translateY(-3px)` | `translateX(-50%) translateY(0)` |
 | `left` | (no dedicated CSS rule — falls back to default top resting until JS positions it) | — | — |
 
-`right`/`bottom` reuse the same cold (`.12s .3s` delay) / warm (`.12s`) enter timing as the default.
+`right`/`bottom` reuse the same `.12s .3s` enter timing as the default.
 
-### JS engine — `html.tt-js` (`insightis-preview-kit.html` script)
+### JS engine — `html.tt-js` (`pages/kit-kit.js`)
 
-On load the page script adds `html.tt-js`, which **suppresses the CSS `::after` fallback** (`html.tt-js [data-tip]::after{display:none}` — incl. hover/focus and right/bottom variants). The JS then renders a single shared **fixed-position** node so the tooltip escapes `overflow:hidden` containers and viewport edges:
+**One engine, shared by every consumer.** It lives in the kit's behaviour layer
+[`pages/kit-kit.js`](../pages/kit-kit.js), which every page and the storybook load in `<head>`. No page
+may re-implement it — the delay, the placement and the `mousedown` hide are part of the component
+contract, and per-page copies are exactly how this drifted before (7 pages kept a warm-up variant and
+one page shipped a second, delay-free `#mx-tip` engine of its own).
+
+On load the engine adds `html.tt-js`, which **suppresses the CSS `::after` fallback** (`html.tt-js [data-tip]::after{display:none}` — incl. hover/focus and right/bottom variants). The JS then renders a single shared **fixed-position** node so the tooltip escapes `overflow:hidden` containers and viewport edges:
 
 - One reused `<div aria-hidden="true">` appended to `<body>`; same recipe (`position:fixed; z-index:9999; background:var(--ink); color:var(--card); font-size:.75rem; border-radius:6px; padding:4px 8px; pointer-events:none; white-space:nowrap; font-family:inherit; line-height:1.35; transition:opacity .1s`).
 - Positioning: centred over the trigger above it (`top = rect.top − bubbleHeight − 5`); flips **below** (`rect.bottom + 5`) when it would clip the top (`ty < 4`); horizontally clamped to `4px` from each viewport edge.
-- Delay: `mouseover` shows after **300ms** cold, **0ms** warm; `mouseout` hides immediately and opens a **600ms** warm window during which subsequent tooltips appear instantly.
+- Delay: `mouseover` always shows after **300ms**; `mouseout` hides immediately. No warm-up window.
+- Also hides on `mousedown`: a clicked control often re-renders or removes itself while still hovered, so no `mouseout` ever fires and the bubble would linger over whatever replaced it.
+- Sidebar rail: `.sbx-nav-item` / `.sbx-chats-icon` carry no `data-tip`; the engine derives their text from the hidden `.lbl` (or `aria-label`) **only while `.sbx.is-collapsed`**, so an expanded rail never tips a label the user can already read. Collapsed-rail tooltips render to the right of the icon, vertically centred, flipping left at the viewport edge.
 - Reveal transition `opacity .12s`; hide transition `opacity .1s`.
 
 ### Per-context suppression

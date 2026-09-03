@@ -74,14 +74,32 @@ All hover / `.is-selected` / checkbox-reveal / `.chat-row-more` opacity-fade / k
 
 `role="toolbar"`. Hidden via inline `display:none` when `FILES.length === 0`; otherwise `display:''`.
 
-- **Default state (`editMode` false):** `<span class="meta-row-count">{N} file|files</span>` + `<span class="meta-row-actions"><button class="link" data-action="enter-edit">Select all</button></span>`.
-- **Selection state (`editMode` true):** clear-icon button + `meta-row-count` "{N} selected" + `.link` ("Select all"/"Deselect all", `.is-disabled` when total 0) + `.dsf-bulk-right` group (Download + Delete).
+- **Default state (`editMode` false):** `<span class="meta-row-count">{N} file|files</span>`. At ≤767px it also carries a `.link` "Select all" and the `.dsf-meta-sort` control (both `.dsf-meta-mobile-only`) — at desktop the table header checkbox owns select-all and the Modified header owns sorting (rules 15 / 25).
+- **Selection state (`editMode` true):** `meta-row-count` "{N} selected" + `.link` ("Select all"/"Deselect all", `.is-disabled` when total 0) + `.meta-row-end` cluster (Download + Delete + exit ✕).
 
-**`.dsf-meta-iconbtn`** (clear-selection ✕): `inline-flex` centred, `width:1.5rem; height:1.5rem; border-radius:.25rem; background:transparent; border:none; color:var(--ink-secondary); cursor:pointer; padding:0; flex:none`. Transition `color`/`background-color` `var(--motion-fast,80ms) var(--motion-ease,ease)`. `:hover` → `color:var(--ink-body); background:color-mix(in srgb,var(--brand-primary) 6%,transparent)`. `:focus-visible` → `box-shadow:inset 0 0 0 2px var(--focus-ring)`. svg `14×14`.
+Every control in the row is a **kit component** — `.meta-row-btn` (Download), `.meta-row-btn.danger` (Delete), `.meta-row-iconbtn` (exit ✕ and the preview header's Download / Close), `.meta-row-end` (right-edge cluster). The page-local `.dsf-meta-dl` / `.dsf-meta-del` / `.dsf-meta-iconbtn` / `.dsf-bulk-right` copies are gone; values live in [MetaRow.md](MetaRow.md).
 
-**`.dsf-meta-dl` / `.dsf-meta-del`** (shared base): `inline-flex; align-items:center; gap:.375rem; margin-left:0; font-size:.8125rem; font-weight:500; background:transparent; border:none; cursor:pointer; padding:.25rem .5rem; border-radius:.25rem`. Transition `background-color var(--motion-fast,80ms) var(--motion-ease,ease)`. svg `14×14 flex:none`.
-- `.dsf-meta-dl` (Download): `color:var(--ink-body)`; `:hover` `background:color-mix(in srgb,var(--brand-primary) 6%,transparent)`; `:focus-visible` `box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--focus-ring)`.
-- `.dsf-meta-del` (Delete): `color:var(--fb-red-text)`; `:hover` `background:color-mix(in srgb,var(--fb-red) 8%,transparent)`; `:focus-visible` `box-shadow:0 0 0 2px var(--bg),0 0 0 4px color-mix(in srgb,var(--fb-red) 60%,transparent)`.
-- `.is-disabled` (both): `color:var(--ink-inactive); cursor:not-allowed; pointer-events:none` (applied when 0 selected; also sets `aria-disabled`).
+### File preview panel `.dsf-preview`
 
-**`.dsf-bulk-right`**: `margin-left:auto; display:inline-flex; align-items:center; gap:.25rem` (right-anchors the Download+Delete pair).
+Page glue only: the grid column (3rd `.cl-shell` track via `.has-preview`) and the resize grip
+(`.dsf-preview-grip`, 320–720px, width cleared on close). Everything inside is the **kit
+file-preview family** — the same components the chat page's file panel uses, so the product no
+longer has two file previews behaving differently:
+
+- `.cp-fp-head` + `.cp-fp-title` + two `.meta-row-iconbtn` (Download · Close ✕)
+- `.cp-fp-banner` — truncation notice, a persistent **sibling** of the scroll region (never
+  injected inside it) so it renders as a full-bleed strip flush under the header, immune to the
+  body's padding and scrollbar width. `Download` inside the sentence is the kit `.link`.
+- `.cp-fp-body` — the scroll region. Content by type: `.csv` / `.xls` / `.xlsx` → rendered table
+  (`.cp-tbl-scroll` + `table.tbl`); `.json` / `.txt` / `.md` → `.cp-fp-json` mono sample;
+  everything else → `.cp-fp-empty` (icon + filename + reason + a real Download button).
+- `.dsf-preview-meta` — the `size · source · date` line under the content.
+
+**Why the change:** the panel previously rendered no content at all, so it had nowhere to put a
+truncation warning and no "showing part of the file" state — while the kit already shipped every
+piece needed for the chat panel. Adopting the family removed the page-local `.dsf-preview-head` /
+`-title` / `-body` / `-ic` / `-name` copies (cascading delete).
+
+**Truncation trigger:** only when a sample is actually shown *and* the file is bigger than the
+sample, derived from the file's own size — so the banner can never appear over a file that fits,
+or over `.cp-fp-empty` (nothing shown ⇒ nothing truncated).

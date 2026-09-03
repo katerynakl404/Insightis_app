@@ -93,6 +93,27 @@
        solid fills reuse those same tokens directly. */
     --balance-subscription-track:color-mix(in srgb, var(--brand-tertiary) 18%, var(--progress-track));
     --balance-purchased-track:color-mix(in srgb, var(--fb-green) 18%, var(--progress-track));
+    /* Plan card (Manage plan pricing grid) — component-scoped recipes.
+       Ribbon fills mix over --card rather than over transparent: the ribbon straddles the card's
+       top border, so a translucent fill would show the border line running through it. Both the
+       brand ("Most popular") and accent ("50% OFF") ribbons use the same three ratios — 22% fill,
+       40% hairline, 85% ink — so the two markers read as one family. */
+    --plan-ribbon-brand-bg:color-mix(in srgb, var(--brand-primary) 22%, var(--card));
+    --plan-ribbon-brand-border:color-mix(in srgb, var(--brand-primary) 40%, transparent);
+    --plan-ribbon-brand-ink:color-mix(in srgb, var(--brand-primary) 85%, var(--ink));
+    --plan-ribbon-accent-bg:color-mix(in srgb, var(--fb-green) 22%, var(--card));
+    --plan-ribbon-accent-border:color-mix(in srgb, var(--fb-green) 40%, transparent);
+    --plan-ribbon-accent-ink:color-mix(in srgb, var(--fb-green) 85%, var(--ink));
+    /* The tier the account is already on — a recessed fill so it reads as "you are here" without
+       competing with the recommended card's accent. --card2 mixed back toward --card so the step
+       stays subtle and re-resolves per theme. */
+    --plan-card-current-bg:color-mix(in srgb, var(--card2) 55%, var(--card));
+    /* Recommended (featured) card — accent border + a short brand wash fading into the card
+       surface + a brand-tinted lift. The gradient needs a stronger mix in .dark (below) or it
+       reads as flat against the dark card. */
+    --plan-card-featured-border:color-mix(in srgb, var(--brand-primary) 40%, var(--border));
+    --plan-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 8%, var(--card)) 0%, var(--card) 40%);
+    --plan-card-featured-shadow:0 6px 16px -8px color-mix(in srgb, var(--brand-primary) 45%, transparent);
     --fb-red:var(--red-700);--fb-red-hover:var(--red-800);--fb-red-press:var(--red-850);
     /* Feedback/Red_Text — theme-adaptive destructive text/icon colour. Red-700 on white card = 8.39:1 AA.
        --fb-red (red-700) would fail AA 2.76:1 against dark Surface/Card, so a brighter red is used in .dark below.
@@ -203,6 +224,14 @@
        needs a different focus tone overrides --focus-ring locally rather than swapping the shadow.
        Used by every interactive element with an outset focus ring. */
     --shadow-focus:0 0 0 var(--border-width-focus) var(--card),0 0 0 calc(var(--border-width-focus) * 2) var(--focus-ring);
+    /* Surface-matched variant: same ring with the inner gap painted in --bg instead of --card, for
+       controls that sit directly on the page background (.chat-row, the MetaRow button family).
+       Was written inline on .chat-row; tokenised once it had a second consumer. */
+    --shadow-focus-bg:0 0 0 var(--border-width-focus) var(--bg),0 0 0 calc(var(--border-width-focus) * 2) var(--focus-ring);
+    /* Widest a dialog may ever be: the viewport minus a 1rem gutter on each side. Lives in a token
+       because every size variant has to re-assert it — a variant that sets its own max-width
+       overrides the base rule and would otherwise lose the gutter on a narrow screen. */
+    --dlg-max-viewport:calc(100vw - 2rem);
     /* Inset focus ring — for interactive children nested inside a hovering/scrolling parent (the
        chat-row kebab + pin buttons) where an outset halo would be clipped by the row's mask. A single
        2px ring drawn inward instead of the outset gap+halo; same --focus-ring colour seam. */
@@ -384,6 +413,9 @@
        in dark without adding a new primitive. */
     --ink-highlight:var(--tertiary-400);
     --fb-attention:var(--orange-500);--fb-attention-text:#fb923c;--fb-green:var(--green-dark-500);
+    /* Featured plan card — the 8% wash that lifts off white is invisible over the dark card, so
+       the top stop nearly doubles. Fade length stays 40% so the accent still clears the name row. */
+    --plan-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 14%, var(--card)) 0%, var(--card) 40%);
     --focus-ring:var(--focus-ring-brand);
     --logo-ink:var(--brand-50);
     /* --logo-mark must lighten in dark mode: Brand-600 (#07807E) on Surface/Card (#17171E) fails AA at 3.74:1.
@@ -797,7 +829,7 @@
   .chat-row .badge,table.tbl tbody tr .badge{border-color:color-mix(in srgb, currentColor var(--tint-25), transparent)}
 
   /* Form-control system — shared by Input (.field) and TextArea (.ta) */
-  .field{display:flex;align-items:center;height:2.25rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:0 .5rem;gap:.375rem;width:100%;max-width:240px;transition:border-color .12s, box-shadow .12s}
+  .field{display:flex;align-items:center;height:2.25rem;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:0 .75rem;gap:.375rem;width:100%;max-width:240px;transition:border-color .12s, box-shadow .12s}
   .field input{height:100%;width:100%;background:transparent;border:none;outline:none;font-size:var(--text-14);color:var(--ink);font-family:inherit}
   .field input::placeholder{color:var(--ink-inactive)}
   .field:hover,.field.s-hover{border-color:var(--border-hover)}
@@ -812,22 +844,22 @@
   /* Size variants — line up with Button heights (.btn-xs … .btn-xl) so Input + Button rows
      read as one row at any density. Mirrors .igrp.is-xs/sm/lg/xl below. md is the existing
      default (2.25rem) and is kept as a class for explicitness when authoring. */
-  .field.is-xs{height:1.75rem;padding:0 .375rem;gap:.25rem}
+  .field.is-xs{height:1.75rem;padding:0 .75rem;gap:.25rem}
   .field.is-xs input{font-size:var(--text-12)}
   .field.is-xs .field-icon{width:14px;height:14px}
-  .field.is-sm{height:2rem;padding:0 .5rem;gap:.25rem}
+  .field.is-sm{height:2rem;padding:0 .75rem;gap:.25rem}
   .field.is-sm input{font-size:var(--text-13)}
   .field.is-md{height:2.25rem}
-  .field.is-lg{height:2.5rem;padding:0 .5rem}
-  .field.is-xl{height:2.75rem;padding:0 .625rem}
+  .field.is-lg{height:2.5rem;padding:0 .75rem}
+  .field.is-xl{height:2.75rem;padding:0 .75rem}
   /* TextArea size variants — height becomes a min-height so the resize handle still works.
      Padding scales with the visual weight; font size matches .field at the same step. */
-  .ta.is-xs{min-height:1.75rem;padding:.25rem .375rem;font-size:var(--text-12)}
-  .ta.is-sm{min-height:2rem;padding:.375rem .5rem;font-size:var(--text-13)}
+  .ta.is-xs{min-height:1.75rem;padding:.25rem .75rem;font-size:var(--text-12)}
+  .ta.is-sm{min-height:2rem;padding:.375rem .75rem;font-size:var(--text-13)}
   .ta.is-md{min-height:2.25rem}
-  .ta.is-lg{min-height:2.5rem;padding:.5rem .5rem}
-  .ta.is-xl{min-height:2.75rem;padding:.625rem .625rem}
-  .ta{width:100%;max-width:260px;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:.5rem;font-size:var(--text-14);color:var(--ink);outline:none;resize:none;font-family:inherit;transition:border-color .12s, box-shadow .12s}
+  .ta.is-lg{min-height:2.5rem;padding:.5rem .75rem}
+  .ta.is-xl{min-height:2.75rem;padding:.625rem .75rem}
+  .ta{width:100%;max-width:260px;border:1px solid var(--border);border-radius:.375rem;background:var(--card);padding:.5rem .75rem;font-size:var(--text-14);color:var(--ink);outline:none;resize:none;font-family:inherit;transition:border-color .12s, box-shadow .12s}
   .ta::placeholder{color:var(--ink-inactive)}
   .ta:hover,.ta.s-hover{border-color:var(--border-hover)}
   .ta:focus,.ta.s-focus{border-color:var(--input-focus);box-shadow:none;outline:none}
@@ -925,23 +957,27 @@
     transform:translateX(-50%) translateY(0);
     transition:opacity .12s .3s,transform .12s .3s;
   }
-  /* Warm enter: 0ms delay when .tt-warm is active (within warm-up window after a recent tooltip). */
-  .tt-warm [data-tip]:hover::after,.tt-warm [data-tip]:focus-visible::after{
     transition:opacity .12s,transform .12s;
   }
   /* Side variants — data-tip-side="right|bottom|left" */
   [data-tip][data-tip-side="right"]::after{bottom:auto;top:50%;left:calc(100% + 5px);transform:translateY(-50%) translateX(-3px)}
   [data-tip][data-tip-side="right"]:hover::after,[data-tip][data-tip-side="right"]:focus-visible::after{transform:translateY(-50%) translateX(0);transition:opacity .12s .3s,transform .12s .3s}
-  .tt-warm [data-tip][data-tip-side="right"]:hover::after,.tt-warm [data-tip][data-tip-side="right"]:focus-visible::after{transition:opacity .12s,transform .12s}
   [data-tip][data-tip-side="bottom"]::after{bottom:auto;top:calc(100% + 5px);left:50%;transform:translateX(-50%) translateY(-3px)}
   [data-tip][data-tip-side="bottom"]:hover::after,[data-tip][data-tip-side="bottom"]:focus-visible::after{transform:translateX(-50%) translateY(0);transition:opacity .12s .3s,transform .12s .3s}
-  .tt-warm [data-tip][data-tip-side="bottom"]:hover::after,.tt-warm [data-tip][data-tip-side="bottom"]:focus-visible::after{transition:opacity .12s,transform .12s}
 
   /* Dropdown surface + menu item — renewed values throughout (px units to match the rest of the kit's layout system: .iconbtn 32×32, .sb-item 32/8/8, etc.). Prod's cramped 2/6/6/4 dimensions live in the .prod .mi override above; this is the renewed Expected pass. */
   /* Context-menu sizing — fluid: `width:max-content` hugs the longest item, clamped between min 140 / max 320. Labels longer than 320 px wrap; menus never collapse below 140 px. Every .menu instance (.sbx-chat-menu, .chat-row-menu, .ds-conn-menu, etc.) inherits this via the base rule — variants no longer override `width`. */
   .menu{min-width:140px;max-width:320px;width:max-content;border-radius:8px;border:1px solid var(--border);background:var(--card);padding:4px;box-shadow:var(--shadow-overlay)}
   /* Menu width sizes — opt-in fixed widths (default menus stay fluid `max-content`). S/M/L give a
      roomy, consistent popover instead of a too-narrow content-hug. Reusable across any .menu. */
+  /* ── Opening direction ───────────────────────────────────────────────────────────────────
+     Every trigger-anchored .menu variant opens DOWNWARD by default and flips UPWARD with
+     .is-up when the trigger sits too low in the viewport for the menu to fit below (a row near
+     the bottom edge otherwise clips its own Delete item out of reach). Each variant declares
+     its trigger gap ONCE as --menu-gap; both directions read that token, so a new anchored
+     variant is one declaration instead of two mirrored offsets. The class is set by the shared
+     menu-placement helper on open — never hard-coded in markup. */
+  .menu.is-up{top:auto;bottom:calc(100% + var(--menu-gap, 4px))}
   .menu.is-sm{width:14rem;max-width:14rem}
   .menu.is-md{width:18rem;max-width:18rem}
   .menu.is-lg{width:22rem;max-width:22rem}
@@ -1089,7 +1125,10 @@
   /* The class sets display:inline-flex, which beats the UA [hidden]{display:none} — restore it. */
   .cl-file-chip[hidden]{display:none}
   .cl-file-chip .cl-file-chip-ic{flex:none;display:inline-flex;align-items:center;justify-content:center;color:var(--brand-primary)}
-  .cl-file-chip .cl-file-chip-ic svg{width:18px;height:18px}
+  /* 20×20 (user directive 2026-09-02, up from 18): the chip stacks a 12/1.3 name over a 10/1.3
+     size line ≈ 29px of text, so the glyph is free to grow to 20 without driving the chip height —
+     the box stays at padding 8px + the two text lines. */
+  .cl-file-chip .cl-file-chip-ic svg{width:20px;height:20px}
   .cl-file-chip .cl-file-chip-meta{flex:1;min-width:0;display:flex;flex-direction:column}
   .cl-file-chip .cl-file-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--text-12);font-weight:500;line-height:1.3;color:var(--ink)}
   .cl-file-chip .cl-file-chip-size{font-size:var(--text-10);font-weight:500;line-height:1.3;color:var(--ink-secondary)}
@@ -1251,7 +1290,26 @@
 
   /* Dialog / Modal — reusable multi-step shell */
   .dlg-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--overlay-scrim)}
-  .dlg{background:var(--card);border:1px solid var(--border);border-radius:.875rem;max-width:calc(100vw - 2rem);display:flex;flex-direction:column;box-shadow:var(--shadow-modal)}
+  .dlg{background:var(--card);border:1px solid var(--border);border-radius:.875rem;max-width:var(--dlg-max-viewport);display:flex;flex-direction:column;box-shadow:var(--shadow-modal)}
+  /* ── Size variants: S and M ────────────────────────────────────────────────────────────────
+     Two sizes, same naming as .menu.is-sm/.is-md/.is-lg so one size vocabulary covers every
+     floating surface.
+
+       .is-sm  360px  — INFORMATIONAL popups: a confirm the user only has to read and answer
+                        (Delete file? · Delete chat? · Disconnect X?). One sentence of body, two
+                        footer buttons. Narrower on purpose: a short question in a 480px box reads
+                        as an under-filled form.
+       .is-md  480px  — the default. Anything the user has to FILL IN or step through: rename,
+                        Edit connection, Create metric, the multi-step wizard.
+
+     Both are MAX widths, not fixed widths: width:100% makes the dialog take the size it is
+     entitled to, and the cap stops it there, so it shrinks to fit a narrow viewport instead of
+     overflowing it. min(…, --dlg-max-viewport) re-asserts the 1rem gutter that these rules would
+     otherwise override away from the base .dlg rule.
+
+     No .is-lg — a variant with no consumer is drift. Add the next step when a dialog needs it. */
+  .dlg.is-sm{width:100%;max-width:min(22.5rem, var(--dlg-max-viewport))}
+  .dlg.is-md{width:100%;max-width:min(30rem, var(--dlg-max-viewport))}
   .dlg-hdr{display:flex;align-items:center;gap:.75rem;padding:.875rem 1.25rem .5rem;flex:none}
   .dlg-title{font-size:var(--text-20);line-height:1.75rem;font-weight:500;color:var(--ink);margin:0;flex:1;min-width:0}
   .dlg-progress{padding:0 1.25rem .875rem;flex:none;display:flex;flex-direction:column;gap:.375rem}
@@ -1574,7 +1632,7 @@
   .sbx-chat-more[aria-expanded="true"]{background:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent);color:var(--ink-body)}
   /* Per-row dropdown — shows when the kebab is aria-expanded="true" (via inline-script toggle). Reuses .menu / .mi / .mi.danger styles. */
   /* Width inherits from .menu (140 min / 320 max / max-content). Only position + shadow override here. */
-  .sbx-chat-menu{position:absolute;top:calc(100% + 4px);right:.5rem;display:none;z-index:5;box-shadow:var(--shadow-overlay)}
+  .sbx-chat-menu{position:absolute;--menu-gap:4px;top:calc(100% + var(--menu-gap));right:.5rem;display:none;z-index:5;box-shadow:var(--shadow-overlay)}
   /* When a menu is open, allow the dropdown to overflow its containing block — both the chat row itself (which has overflow:hidden for the gradient/label) and the chats container */
   .sbx-chats:has(.sbx-chat-more[aria-expanded="true"]){overflow:visible}
   .sbx-chat:has(.sbx-chat-more[aria-expanded="true"]){overflow:visible}
@@ -1971,9 +2029,9 @@
   .igrp-lbl{font-size:var(--text-12);font-weight:500;color:var(--ink-secondary)}
   .igrp{display:flex;align-items:center;height:36px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--ink-secondary);transition:border-color .15s,box-shadow .15s,color .15s;font-size:var(--text-14);padding-right:0}
   .igrp.var-outline{background:var(--card)}
-  .igrp .igrp-add{display:inline-flex;align-items:center;justify-content:center;height:100%;padding:0 10px;color:var(--ink-secondary);gap:8px}
+  .igrp .igrp-add{display:inline-flex;align-items:center;justify-content:center;height:100%;padding:0 10px 0 12px;color:var(--ink-secondary);gap:8px}
   .igrp .igrp-add svg{width:20px;height:20px}
-  .igrp .igrp-input{flex:1;height:100%;background:transparent;border:none;outline:none;font-size:var(--text-14);color:var(--ink);font-family:inherit;padding:0 8px;min-width:0}
+  .igrp .igrp-input{flex:1;height:100%;background:transparent;border:none;outline:none;font-size:var(--text-14);color:var(--ink);font-family:inherit;padding:0 12px;min-width:0}
   .igrp .igrp-input::placeholder{color:var(--ink-inactive)}
   /* Autofill — Chrome/WebKit hard-code a light bg on autofilled fields, which whites-out the control
      on dark theme. Repaint via an inset shadow matching the control surface (default = --bg, Outlined
@@ -2588,22 +2646,118 @@
   .ds-conn-row.is-entering{animation:ds-row-in .5s cubic-bezier(.15,0,.1,1) both}
   .ds-conn-row.is-leaving {animation:ds-row-out .2s cubic-bezier(.4,0,1,1) both;pointer-events:none}
 
+  /* ===== UploadTray — the progress plate shown during and after a file upload ==================
+     Reproduces the plate prod raises after an upload: a summary bar ("5 uploads complete") that
+     expands into the per-file list, plus a dismiss ✕.
+
+     Two hard bits of the contract:
+     1. The WHOLE bar except the ✕ is the expand target. .upl-head is a real <button> with
+        flex:1, so it fills the plate; the ✕ is its SIBLING (never nested — a button inside a
+        button is invalid and unreachable by keyboard). The chevron is a state indicator only,
+        not the click target.
+     2. The plate is positioning-neutral. The consuming page docks it (same division of labour as
+        MetaRow's sticky behaviour) so the kit component stays reusable in a drawer, a panel, or
+        the page bottom.
+
+     States are class-driven on the tray (.is-uploading / .is-complete / .has-failed) and per row
+     (.upl-item.is-uploading / .is-done / .is-failed). Progress reuses the kit .progress atom. */
+  .upl-tray{width:100%;max-width:26rem;background:var(--card);border:1px solid var(--border);border-radius:.625rem;box-shadow:var(--shadow-overlay);overflow:hidden}
+  .upl-bar{display:flex;align-items:stretch;gap:0}
+  /* The expand target. Inherits nothing from .btn on purpose: this is a full-width bar, not a
+     control — it only needs a hover surface, a focus ring and a pointer. */
+  .upl-head{flex:1;min-width:0;display:flex;align-items:center;gap:.625rem;padding:.625rem .75rem;background:transparent;border:none;cursor:pointer;font-family:inherit;font-size:var(--text-14);line-height:1.25rem;font-weight:500;color:var(--ink);text-align:left;transition:background-color var(--motion-fast) var(--motion-ease)}
+  .upl-head:hover,.upl-head.s-hover{background:var(--state-hover)}
+  .upl-head:active,.upl-head.s-pressed{background:var(--state-pressed)}
+  .upl-head:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
+  .upl-head-ic{width:1rem;height:1rem;flex:none;display:inline-flex;align-items:center;justify-content:center}
+  .upl-head-ic svg{width:16px;height:16px}
+  .upl-head-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Chevron points down while collapsed and flips when the list is open — driven by the head's
+     own aria-expanded so the visual can never disagree with the announced state. */
+  .upl-chev{width:16px;height:16px;flex:none;color:var(--ink-secondary);transition:transform var(--motion-base) var(--motion-ease)}
+  .upl-head[aria-expanded="true"] .upl-chev{transform:rotate(180deg)}
+  /* Dismiss — sibling of .upl-head, on the tray's static surface, so the neutral --state-* recipe
+     is correct here (it is not nested inside a surface that itself hovers). */
+  .upl-x{width:2rem;flex:none;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;border-left:1px solid var(--border);cursor:pointer;color:var(--ink-secondary);font-family:inherit;transition:color var(--motion-fast) var(--motion-ease),background-color var(--motion-fast) var(--motion-ease)}
+  .upl-x svg{width:14px;height:14px}
+  .upl-x:hover,.upl-x.s-hover{background:var(--state-hover);color:var(--ink-body)}
+  .upl-x:active{background:var(--state-pressed)}
+  .upl-x:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
+  /* Summary icon colour carries the batch outcome — never the only cue: the title text states it
+     too ("3 uploading" / "5 uploads complete" / "1 of 5 uploads failed"), per 1.4.1. */
+  .upl-tray.is-uploading .upl-head-ic{color:var(--brand-primary)}
+  .upl-tray.is-complete .upl-head-ic{color:var(--fb-green)}
+  .upl-tray.has-failed .upl-head-ic{color:var(--fb-red-text)}
+  .upl-tray.is-uploading .upl-head-ic svg{animation:btn-spin .7s linear infinite}
+  @media (prefers-reduced-motion: reduce){
+    .upl-tray.is-uploading .upl-head-ic svg{animation:none}
+  }
+  /* Per-file list — divider above so the bar reads as a header once expanded. */
+  .upl-list{border-top:1px solid var(--border);max-height:14rem;overflow-y:auto;padding:.25rem}
+  .upl-list[hidden]{display:none}
+  .upl-item{display:flex;align-items:flex-start;gap:.625rem;padding:.5rem;border-radius:.375rem}
+  .upl-item-ic{width:1rem;height:1rem;flex:none;margin-top:.125rem;color:var(--ink-secondary)}
+  .upl-item-ic svg{width:16px;height:16px}
+  .upl-item-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+  .upl-item-name{font-size:var(--text-14);line-height:1.25rem;color:var(--ink-body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* The row's progress bar is the kit .progress atom, widened to the row. */
+  .upl-item .progress{width:100%;height:.25rem}
+  .upl-item-meta{font-size:var(--text-12);line-height:1.25rem;color:var(--ink-secondary);flex:none;font-variant-numeric:tabular-nums}
+  /* Per-file failure — paired with the red alert glyph AND this sentence, so the failure is never
+     colour-only. No trailing period, per the description-copy rule. */
+  .upl-item-err{font-size:var(--text-12);line-height:1.25rem;color:var(--fb-red-text);text-wrap:balance}
+  .upl-item.is-done .upl-item-ic{color:var(--fb-green)}
+  .upl-item.is-failed .upl-item-ic{color:var(--fb-red-text)}
+  .upl-item.is-failed{background:color-mix(in srgb, var(--fb-red) var(--tint-5), transparent)}
+  /* Retry sits at the row's end as the kit .link so it reads as the one action on a failed row. */
+  .upl-item-act{flex:none;display:inline-flex;align-items:center;font-size:var(--text-12);line-height:1.25rem}
+
   /* ===== MetaRow — count + actions, fully transparent (no background, no border, no card wrapper).
      Used above any list view (Chats library, search results, table headers without a Card).
-     Typography & color delegate to existing tokens (--ink-secondary, font-size .8125rem) so the row
-     stays consistent with every other meta/caption line in the kit. Inline action slot reuses .link. */
+     Typography & color delegate to existing tokens (--ink-secondary + the --text-14 / 20px Body
+     level) so the whole row — count, .link, action buttons — reads as ONE typographic group.
+     Inline action slot reuses .link; the row's own buttons are .meta-row-btn / .meta-row-iconbtn. */
   /* Default: cluster count + actions on the left so the link sits next to the count it relates to
      (reads as "10 conversations · Select", not as two separate row-end anchors). Opt into the
      original split layout with .var-split when the action belongs on the opposite edge.
      font-size lives on the row itself so every child — count, .link, action buttons — inherits the
-     caption size. Without this, .link uses `font-size: inherit` and falls back to body 16 px which
+     one Body size. Without this, .link uses `font-size: inherit` and falls back to body 16 px which
      made it visibly bigger than the count next to it.
      min-height is set so the row matches the tallest possible child (the 1.5rem iconbtn used by
      this page in edit mode) — keeps the row vertically stable when the action set changes. */
-  .meta-row{display:flex;align-items:center;gap:.75rem;padding:.375rem 0;min-height:2.25rem;background:transparent;border:none;font-size:var(--text-13);line-height:1.4}
+  .meta-row{display:flex;align-items:center;gap:.75rem;padding:.375rem 0;min-height:2.25rem;background:transparent;border:none;font-size:var(--text-14);line-height:1.25rem}
   .meta-row.var-split{justify-content:space-between}
   .meta-row-count{color:var(--ink-secondary);font-weight:400}
   .meta-row-actions{display:inline-flex;align-items:center;gap:.5rem}
+  /* Right-edge cluster — anchors the action group (Download / Delete / exit ✕) to the far right
+     while the count + Select-all link keep their left position, so switching in and out of
+     selection mode never shifts the left cluster horizontally. */
+  .meta-row-end{margin-left:auto;display:inline-flex;align-items:center;gap:.25rem}
+  /* Text action button (icon + label) — the row's own compact button family. Deliberately NOT
+     .btn-tertiary: that family is a 36px form control, while these sit inline in a 20px-line text
+     row and must read as part of the same typographic group as the count and the .link beside
+     them. font-size/line-height therefore inherit from .meta-row — one size for the whole group.
+     Neutral by default; add .danger for the destructive action (same modifier name as .mi.danger).
+     Brand-tinted hover is this family's shipped recipe (see changes/MetaRow.md). */
+  .meta-row-btn{display:inline-flex;align-items:center;gap:.375rem;padding:.25rem .5rem;border-radius:.25rem;background:transparent;border:none;cursor:pointer;font-family:inherit;font-size:inherit;line-height:inherit;font-weight:500;color:var(--ink-body);transition:color var(--motion-fast) var(--motion-ease),background-color var(--motion-fast) var(--motion-ease)}
+  .meta-row-btn svg{width:14px;height:14px;flex:none}
+  .meta-row-btn:hover,.meta-row-btn.s-hover{background:color-mix(in srgb, var(--brand-primary) var(--tint-6), transparent)}
+  .meta-row-btn:active{background:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent)}
+  /* Surface-matched: the row is transparent, so the ring gap must be the page bg, not --card. */
+  .meta-row-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus-bg)}
+  .meta-row-btn.danger{color:var(--fb-red-text)}
+  .meta-row-btn.danger:hover,.meta-row-btn.danger.s-hover{background:color-mix(in srgb, var(--fb-red) var(--tint-8), transparent)}
+  .meta-row-btn.danger:active{background:color-mix(in srgb, var(--fb-red) var(--tint-12), transparent)}
+  .meta-row-btn.is-disabled,.meta-row-btn[disabled]{color:var(--ink-inactive);cursor:not-allowed;pointer-events:none}
+  /* Icon-only 24×24 slot (exit selection ✕; per-file Download / Close in the Files preview header).
+     Same size + brand-tinted hover + INSET focus ring as every other 24px icon button in the app
+     (.chat-row-more, .sbx-chat-more) — an outset ring reads as "out of system" at this size. */
+  .meta-row-iconbtn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.25rem;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;padding:0;font-family:inherit;font-size:inherit;line-height:inherit;flex:none;transition:color var(--motion-fast) var(--motion-ease),background-color var(--motion-fast) var(--motion-ease)}
+  .meta-row-iconbtn svg{width:14px;height:14px}
+  .meta-row-iconbtn:hover,.meta-row-iconbtn.s-hover{color:var(--ink-body);background:color-mix(in srgb, var(--brand-primary) var(--tint-6), transparent)}
+  .meta-row-iconbtn:active{background:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent)}
+  .meta-row-iconbtn:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
+  .meta-row-iconbtn.is-disabled,.meta-row-iconbtn[disabled]{color:var(--ink-inactive);cursor:not-allowed;pointer-events:none}
 
   /* ===== ChatRow — list row used on the Chats library page (checkbox + name + timestamp + pin + kebab).
      Each row sits on its own --card surface against the page --bg. Visual outline is softened: the
@@ -2632,7 +2786,7 @@
     .chat-row{transition:background-color var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast), box-shadow var(--motion-fast)}
     .chat-row:active:not(:has(button:active)):not(:has(.cbx:active)){transform:none;box-shadow:var(--shadow-rest)}
   }
-  .chat-row:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--focus-ring)}
+  .chat-row:focus-visible{outline:none;box-shadow:var(--shadow-focus-bg)}
   /* Checkbox slot — completely removed from layout by default so the title sits flush against the
      row's left padding. Becomes visible (and takes space) only when the list has .is-selecting
      (explicit edit mode driven by the page). Avoids the hover-reveal pattern entirely so there's
@@ -2676,7 +2830,7 @@
   .chat-row-more[aria-expanded="true"]{background:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent);color:var(--ink-body)}
   .chat-row:hover .chat-row-more,.chat-row.s-hover .chat-row-more,.chat-row:focus-within .chat-row-more,.chat-row-more:focus-visible,.chat-row-more[aria-expanded="true"]{opacity:1;pointer-events:auto}
   /* Context menu — anchored bottom-right of the kebab, reuses kit's .menu / .mi shell + .mi.danger token. */
-  .chat-row-menu{position:absolute;top:calc(100% - .25rem);right:.25rem;display:none;z-index:30}
+  .chat-row-menu{position:absolute;--menu-gap:-.25rem;top:calc(100% + var(--menu-gap));right:.25rem;display:none;z-index:30}
   .chat-row-more[aria-expanded="true"] ~ .chat-row-menu{display:block}
   /* Allow the absolutely-positioned menu to escape its row when open. */
   .chat-list:has(.chat-row-more[aria-expanded="true"]){overflow:visible}
@@ -3123,7 +3277,7 @@
   /* ── Unified kebab component — works for both .mx-tbl and .mx-tbl (ds-conn) ── */
   [data-kbp]{opacity:1}
   [data-kbp][aria-expanded="true"]{background:var(--state-pressed);color:var(--ink)}
-  .kbp-menu{position:absolute;top:calc(100% + 2px);right:0;left:auto;display:none;z-index:30}
+  .kbp-menu{position:absolute;--menu-gap:2px;top:calc(100% + var(--menu-gap));right:0;left:auto;display:none;z-index:30}
   [data-kbp][aria-expanded="true"] ~ .kbp-menu{display:block}
   /* Prevent table overflow from clipping the dropdown */
   .mx-tbl:has([data-kbp][aria-expanded="true"]){overflow:visible}

@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../kit-theme.css" />
+<script src="../kit-kit.js" defer></script>
 <style>
   /* ===== Page-only layout ===== */
   .topbar{padding:.375rem 1rem;height:40px;box-sizing:border-box;flex:none}
@@ -73,9 +74,13 @@
   .acct-sect-title{font-size:var(--text-14);font-weight:600;color:var(--ink)}
   .acct-field-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.625rem}
   .acct-field-label{font-size:var(--text-14);color:var(--ink-secondary)}
-  .acct-field-val{font-size:.875rem;color:var(--ink-body);margin-top:.25rem}
+  /* Secondary line under an .acct-sect-title — ONE type level for every instance
+     (email value, plan, payment method, the danger-zone warning): --text-14 / 20px Body.
+     The warning previously sat at --text-12, so two rows of the same slot rendered at
+     different sizes. */
+  .acct-field-val{font-size:var(--text-14);line-height:1.25rem;color:var(--ink-body);margin-top:.25rem}
   .acct-danger-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.625rem}
-  .acct-danger-warn{font-size:var(--text-12);color:var(--ink-secondary);line-height:1.4;margin-top:.25rem}
+  .acct-danger-warn{font-size:var(--text-14);line-height:1.25rem;color:var(--ink-secondary);margin-top:.25rem}
 
   /* Balance */
   /* Exhausted-state alert icon — the only icon in the hero row (the balance total otherwise shows
@@ -399,7 +404,7 @@
              section state → goes back to menu -->
         <div class="acct-mobile-hdr">
           <button class="acct-mobile-btn is-back" type="button" aria-label="Back"
-                  onclick="acctMobileBack();this.blur()">
+                  onclick="acctMobileBack();this.blur()" data-tip="Back">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="m15 18-6-6 6-6"/>
@@ -1083,7 +1088,7 @@
                     </span>
                     <input id="chpw-current" type="password" placeholder="Enter current password" autocomplete="current-password" />
                     <button class="chpw-eye" type="button" aria-label="Show current password"
-                            onclick="chpwToggle('chpw-current',this);this.blur()">
+                            onclick="chpwToggle('chpw-current',this);this.blur()" data-tip="Show password">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
                     </button>
                   </div>
@@ -1096,7 +1101,7 @@
                     </span>
                     <input id="chpw-new" type="password" placeholder="Enter new password" autocomplete="new-password" />
                     <button class="chpw-eye" type="button" aria-label="Show new password"
-                            onclick="chpwToggle('chpw-new',this);this.blur()">
+                            onclick="chpwToggle('chpw-new',this);this.blur()" data-tip="Show password">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
                     </button>
                   </div>
