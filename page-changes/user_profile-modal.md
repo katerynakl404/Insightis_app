@@ -185,7 +185,8 @@ card is unambiguous when read on its own, and the price unit line is **"excl. VA
 + a short brand wash fading into the card surface + a brand-tinted lift. "Most popular" keeps its
 ribbon, so the recommendation is never conveyed by colour alone. Pro therefore shows **two ribbons
 in one row** (`.acct-plan-ribbon-row`): brand "Most popular" + accent "50% OFF". The tier the
-account is already on gets the recessed `.is-current` fill.
+account is already on is **not** tinted — it keeps the plain card surface and is identified by its
+disabled "Current Plan" CTA alone.
 
 **Card row order: tagline sits between the name and the price** (name row → tagline → price row →
 CTA → features) — the audience line ("For getting started" / "For small teams" /
@@ -375,7 +376,6 @@ carries an inline `color-mix`:
 |---|---|
 | `--plan-ribbon-brand-bg` / `-border` / `-ink` | "Most popular" ribbon |
 | `--plan-ribbon-accent-bg` / `-border` / `-ink` | "50% OFF" ribbon |
-| `--plan-card-current-bg` | fill of the tier the account is on |
 | `--plan-card-featured-border` / `-bg` / `-shadow` | recommended-tier accent, wash and lift |
 
 Both ribbon families use the same three ratios over their own semantic base (`--brand-primary` /
@@ -433,8 +433,8 @@ that lifts off a white card is invisible over the dark one.
       "Most popular" ribbon. The ribbon text is what conveys the status, so 1.4.1 still holds; the
       border is reinforcement. Measured against the neutral card it is ~2:1 — below the 3:1 of
       1.4.11, which is acceptable **only** because it carries no meaning on its own.
-- [x] The recessed `.is-current` fill is likewise decorative (~1.05:1 against the base card) — the
-      disabled "Current Plan" CTA is what identifies the active tier.
+- [x] The active tier carries no fill of its own — the disabled "Current Plan" CTA is the single,
+      textual signal, so nothing about "you are here" rests on colour.
 - [x] Discount is not colour-alone: the "50% OFF" ribbon carries the promo as text, and the
       struck-through was-price (`--ink-inactive`, `line-through`) restates it in the price row.
 - [x] Plan-change dialogs: each confirm names the loss in prose before the list, so the red cross

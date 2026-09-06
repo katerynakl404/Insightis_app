@@ -21,8 +21,10 @@ Shares the **form-control system** with [Input](Input.md) and [TextArea](TextAre
 - **`.igrp-wrap`** — `display:flex; flex-direction:column; gap:4px; width:240px`.
 - **`.igrp-lbl`** — `font-size:.75rem; font-weight:500; color:var(--ink-secondary)`.
 - **`.igrp`** — `display:flex; align-items:center; padding-right:0; color:var(--ink-secondary); transition:border-color .15s, box-shadow .15s, color .15s`.
-- **`.igrp-add`** — `display:inline-flex; align-items:center; justify-content:center; height:100%; padding:0 10px; gap:8px; color:var(--ink-secondary)`. Addon `svg` is **fixed `20px × 20px`** (NOT size-dependent — there is no per-size icon scaling).
-- **`.igrp-input`** — `flex:1; height:100%; background:transparent; border:none; outline:none; min-width:0; padding:0 12px; font-size:.875rem; font-family:inherit; color:var(--ink)`. Placeholder: `color:var(--ink-inactive)`.
+- **`.igrp-add`** — `display:inline-flex; align-items:center; justify-content:center; height:100%; padding:0 0 0 12px; gap:8px; color:var(--ink-secondary)`. **No right padding** — the gap to the input text belongs to the input, so it is stated once. Addon `svg` is **fixed `20px × 20px`** (NOT size-dependent — there is no per-size icon scaling).
+- **`.igrp-input`** — `flex:1; height:100%; background:transparent; border:none; outline:none; min-width:0; padding:0 12px 0 4px; font-size:.875rem; font-family:inherit; color:var(--ink)`. Placeholder: `color:var(--ink-inactive)`.
+
+**Prefix-to-text gap is 4px** (directive 2026-09-04). It was 22px — 10px of right padding on the prefix plus 12px of left padding on the input, each looking reasonable alone. The Metrics toolbar carried a page-scoped patch to work around it; the patch is gone and the base is right.
 
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|

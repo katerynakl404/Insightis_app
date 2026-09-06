@@ -29,13 +29,16 @@ Heights line up with Button (`.btn-xs … .btn-xl`) so an Input + Button row rea
 
 | Class | Height | Padding-x | Gap | Input font-size |
 |---|---|---|---|---|
-| `.is-xs` | `1.75rem` (28px) | `.375rem` (6px) | `.25rem` (4px) | `.75rem` (12px) — icon pinned 14×14 |
-| `.is-sm` | `2rem` (32px) | `.4375rem` (7px) | `.3125rem` (5px) | `.8125rem` (13px) |
-| `.is-md` (default) | `2.25rem` (36px) | `.5rem` (8px) | `.375rem` (6px) | `.875rem` (14px) |
-| `.is-lg` | `2.5rem` (40px) | `.5625rem` (9px) | `.375rem` (6px) | `.875rem` (14px) |
-| `.is-xl` | `2.75rem` (44px) | `.625rem` (10px) | `.375rem` (6px) | `.875rem` (14px) |
+| `.is-xs` | `1.75rem` (28px) | `.5rem` (8px) | `.25rem` (4px) | `--ts-body-s-*` — icon pinned 14×14 |
+| `.is-sm` | `2rem` (32px) | `.75rem` (12px) | `.5rem` (8px) | `--ts-body-m-*` |
+| `.is-md` (default) | `2.25rem` (36px) | `.75rem` (12px) | `.5rem` (8px) | `--ts-body-m-*` |
+| `.is-lg` | `2.5rem` (40px) | `1rem` (16px) | `.5rem` (8px) | `--ts-body-m-*` |
+| `.is-xl` | `2.75rem` (44px) | `1.25rem` (20px) | `.5rem` (8px) | `--ts-body-m-*` |
 
-(Only `.is-xs`/`.is-sm` override gap and input font-size; `lg`/`xl` keep the default gap and 14px font and only grow height + padding.)
+Padding-x climbs the 4px step with height — **8 · 12 · 12 · 16 · 20** — the same ladder Button, TextArea and Selector use, so a field and a button of the same size share one edge. 12px holds across `sm` and `md` because that is where the product lives; only the rare large sizes open up. `xs` drops to 8: a 28px control reads cramped at 12 (directive 2026-09-03).
+
+**Leading icon:** `.field .field-icon` is 16×16, `.field.is-xs .field-icon` 14×14 — the same one-step
+ladder Button uses, and for the same reason: the input font steps only at `xs`. Gap is overridden by `.is-xs`/`.is-sm`; the input font is overridden by `.is-xs` alone — `sm`/`lg`/`xl` all sit on `--ts-body-m-*`.
 
 ## States
 

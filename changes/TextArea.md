@@ -19,13 +19,13 @@ A single element — no wrapper (unlike Input's flex `.field` shell): `<textarea
 
 | Size | min-height | padding | font-size |
 |---|---|---|---|
-| `.is-xs` | 1.75rem (28px) | `.25rem .375rem` (4×6px) | `.75rem` (12px) |
-| `.is-sm` | 2rem (32px) | `.375rem .4375rem` (6×7px) | `.8125rem` (13px) |
-| `.is-md` (base) | 2.25rem (36px) | `.5rem` (8px) | `.875rem` (14px) |
-| `.is-lg` | 2.5rem (40px) | `.5625rem` (9px) | `.875rem` (14px) |
-| `.is-xl` | 2.75rem (44px) | `.625rem` (10px) | `.875rem` (14px) |
+| `.is-xs` | 1.75rem (28px) | `.25rem .5rem` (4 × 8px) | `--ts-body-s-*` |
+| `.is-sm` | 2rem (32px) | `.375rem .75rem` (6 × 12px) | `--ts-body-m-*` |
+| `.is-md` (base) | 2.25rem (36px) | `.5rem .75rem` (8 × 12px) | `--ts-body-m-*` |
+| `.is-lg` | 2.5rem (40px) | `.5rem 1rem` (8 × 16px) | `--ts-body-m-*` |
+| `.is-xl` | 2.75rem (44px) | `.625rem 1.25rem` (10 × 20px) | `--ts-body-m-*` |
 
-`md` inherits base `.ta` padding/font; `lg`/`xl` override padding only (font stays text-sm); `xs`/`sm` override both.
+Horizontal padding climbs the **same 4px ladder** as Button, Input and Selector — 8 · 12 · 12 · 16 · 20 (directive 2026-09-03). Vertical padding still scales with height. `md` inherits the base `.ta` rule; only `.is-xs` overrides the font — `sm`/`lg`/`xl` sit on `--ts-body-m-*`.
 
 **Error helper text `.err-help`** (shared with Input, theme-adaptive): `color:var(--input-error)`; `font-size:.6875rem` (11px / text-xs); `font-weight:500`; `margin-top:.25rem` (4px); `line-height:1.3`.
 

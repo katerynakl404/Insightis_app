@@ -57,6 +57,24 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 
 > `.btn-tertiary.is-brand` changes only the **label** to brand; the hover/pressed pill and focus ring stay the neutral base-Tertiary recipe, so it reads as one family. The global `.btn-tertiary` stays neutral (`Text/Body`) — this modifier is opt-in. No new tokens (reuses `Brand/Primary`, `Brand/Hover`, `Brand/Press`, `State/Hover`, `State/Pressed`). First consumer: the Data Sources connection sidepanel "Test Connection" action.
 
+## Tertiary — destructive  *(`.is-danger` modifier — red label for a destructive text action)*
+| State | Expected | Specification |
+|---|---|---|
+| Default | label `Feedback/Red text`, bg transparent, no border | The destructive counterpart of `.is-brand` |
+| Hover | label **unchanged**, bg = red tint wash | The label holds; only the pill appears |
+| Pressed | label **unchanged**, bg = red tint wash, one step up | Same |
+| Focus | ring `--shadow-focus` | Same brand ring as every other variant — the Destructive-Outlined rationale applies (teal ≠ red avoids red-on-red) |
+| Disabled | text `Text/Inactive`, bg transparent | Neutral disabled |
+
+> The family had a filled Destructive and an outlined one, but no **text-only** destructive — so
+> surfaces that needed a low-emphasis Delete hand-rolled one (the MetaRow's private button family
+> was the last of those). `.is-danger` mirrors `.is-brand`'s structure with one deliberate
+> difference: `.is-brand` darkens its label on hover/press, and the red equivalents (`--fb-red-hover`
+> / `--fb-red-press`) cannot do that job — those are **fill** reds with no dark-theme flip, so as
+> text on a dark surface they fail AA. `--fb-red-text` is the AA-corrected, theme-aware token, so it
+> holds across every state and only the wash moves. No new tokens. First consumer: the bulk-action
+> Delete in `.meta-row` (Files landing, Chats library).
+
 ## Destructive  *(full state coverage added; semantic Feedback tokens, theme-independent for AA contrast)*
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
@@ -83,6 +101,17 @@ Same red Feedback tokens as Destructive, applied to the Outlined stroke style.
 | Loading | — | — | spinner inherits Feedback/Red via `currentColor`, `aria-busy`, `--opacity-disabled` | Red preserved at .65 opacity |
 
 > Mirrors the Outlined variant 1:1 — **coloured border + neutral `Text/Body` label**. The label stays `--ink-body` to keep consistency with Outlined. `--btn-outline-destructive-bg-hover` / `--btn-outline-destructive-bg-press` are component-scoped tokens so the mix percentages live in exactly one place.
+
+## `.is-disabled` — the aria-disabled form
+
+`.link` and `.mi` have always supported `.is-disabled`: the control keeps `aria-disabled="true"`
+instead of the `disabled` attribute, so it stays focusable and a screen reader can announce *why*
+it is unavailable. Button only had `:disabled` (real attribute) + the `.s-disabled` demo mirror, so
+a consumer that needed the focusable form had no kit route to it. Added on the Tertiary family
+(`.btn-tertiary.is-disabled`, `.btn-tertiary.is-danger.is-disabled`) — `Text/Inactive`, transparent,
+`pointer-events:none`, plus the global `cursor:not-allowed`. Other variants get it when a consumer
+needs one; their disabled recipes differ per background, so it is not a single shared rule.
+First consumer: the MetaRow bulk actions with nothing selected.
 
 ## Token architecture (this iteration — hard rule)
 
@@ -122,13 +151,30 @@ Shared across every variant. Base `.btn`: `display:inline-flex`, `align-items:ce
 
 | Size | Class | Height | Padding-x | Font-size | Radius | Gap |
 |---|---|---|---|---|---|---|
-| xs | `.btn-xs` | `1.75rem` (28px) | `.625rem` (10px) | `.75rem` (12px) | `.375rem` (6px) | `.375rem` (6px) |
-| sm | `.btn-sm` | `2rem` (32px) | `.625rem` (10px) | `.875rem` (14px) | `.375rem` (6px) | `.375rem` (6px) |
-| md | `.btn-md` | `2.25rem` (36px) | `.625rem` (10px) | `.875rem` (14px) | `.375rem` (6px) | `.375rem` (6px) |
-| lg | `.btn-lg` | `2.5rem` (40px) | `.75rem` (12px) | `.875rem` (14px) | `.375rem` (6px) | `.375rem` (6px) |
-| xl | `.btn-xl` | `2.75rem` (44px) | `.875rem` (14px) | `.875rem` (14px) | `.375rem` (6px) | `.375rem` (6px) |
+| xs | `.btn-xs` | `1.75rem` (28px) | `.5rem` (8px) | `--ts-body-s-*` | `.375rem` (6px) | `.25rem` (4px) |
+| sm | `.btn-sm` | `2rem` (32px) | `.75rem` (12px) | `--ts-body-m-*` | `.375rem` (6px) | `.5rem` (8px) |
+| md | `.btn-md` | `2.25rem` (36px) | `.75rem` (12px) | `--ts-body-m-*` | `.375rem` (6px) | `.5rem` (8px) |
+| lg | `.btn-lg` | `2.5rem` (40px) | `1rem` (16px) | `--ts-body-m-*` | `.375rem` (6px) | `.5rem` (8px) |
+| xl | `.btn-xl` | `2.75rem` (44px) | `1.25rem` (20px) | `--ts-body-m-*` | `.375rem` (6px) | `.5rem` (8px) |
 
-> Padding-x grows on `lg`/`xl` (`.75rem`/`.875rem`) while `xs`–`md` share `.625rem`; font-size steps only from `.75rem` (xs) to `.875rem` (sm and up). Size affects geometry only — colour comes entirely from the variant class.
+Padding-x climbs the 4px step with height — **8 · 12 · 12 · 16 · 20** — and Input, TextArea and
+Selector climb the identical ladder, so a button and a field of the same size share one edge.
+
+The product lives at `sm` and `md`: 157 and 80 uses against 3 for `lg` and 1 for `xl`. That is why
+**12px holds across both middle steps** rather than stepping between them — the two sizes people
+actually see stay on one rail, and only the rare large sizes open up. `xs` drops to 8: a 28px
+control reads cramped at 12. (Directive 2026-09-03.)
+
+The **icon-to-label gap** sits on the same 4px step — `.25rem` (4px) at `xs`, `.5rem` (8px) at every
+larger size. It was `.375rem` (6px) across the board, which is the 2px sub-step, not the 4px one
+(directive 2026-09-04). Radius stays 6px: that is a corner, not spacing.
+
+**Icon size follows the label, not the box.** The button text steps exactly once — at `xs` — so the
+icon does too: `.btn svg` is 16×16, `.btn-xs svg` is 14×14, both with `flex:none`. Set in the kit so
+markup never hand-sizes an icon; four inline `style="width:16px…"` were removed when the rule landed.
+`.sbx-cta svg` keeps its own 14px and still wins, being later in the file at equal specificity.
+
+> Size affects geometry only — colour comes entirely from the variant class. Font steps once, at xs: `--ts-body-s-*` there, `--ts-body-m-*` on every larger size.
 
 ## DOM / markup contract
 

@@ -16,17 +16,15 @@
   body{display:flex;flex-direction:column}
   .topbar{padding:.375rem 1rem;height:40px;box-sizing:border-box;flex:none}
   .cl-shell{display:grid;grid-template-columns:16rem 1fr;flex:1 1 0;min-height:0;background:var(--bg);transition:grid-template-columns .2s ease;overflow:hidden}
-  .cl-shell:has(.sbx.is-collapsed){grid-template-columns:3.563rem 1fr}
+  .cl-shell:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr}
   .cl-side{background:var(--card);border-right:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;height:100%}
   .cl-side .sbx{width:100%;flex:1 1 0;min-height:0;border:none;border-radius:0}
   .cl-main{position:relative;display:flex;flex-direction:column;width:100%;padding:2.25rem 0 4rem;overflow-y:auto;min-height:0}
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
-  .cl-page-title{font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0}
-  @media(min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
   /* Burger alignment handled globally in kit-theme.css:
      в‰¤1023px: burger left:2rem + top:2.25rem; .cl-page > :first-child gets padding-left:2.5rem.
      в‰¤767px: cl-page padding squeezed to .75rem; burger resets to left:.75rem. */
-  /* Sidebarв†’drawer is kit-owned at в‰¤1023px (kit-theme.css) вЂ” pages must not redeclare it. */
+  /* Sidebarв†’drawer is kit-owned at в‰¤1023px (kit-theme.css) — pages must not redeclare it. */
   /* Chip-row bleed: extend the category chips to the cl-page edge on both sides by
      breaking out of cl-page padding (2rem desktop, 0.75rem mobile), so the nowrap+scroll
      row's scroll origin = page edge. #mx-c3-chips is NOT included here: it wraps
@@ -45,7 +43,7 @@
     .mx-head-actions{margin-left:auto}
   }
 
-  /* в”Ђв”Ђ State visibility вЂ” default = empty (no class); filled = is-filled в”Ђв”Ђ */
+  /* в”Ђв”Ђ State visibility — default = empty (no class); filled = is-filled в”Ђв”Ђ */
   .mx-empty{display:flex;flex-direction:column;gap:.75rem}
   .mx-filled{display:none;flex-direction:column;gap:.75rem}
   #mx-root.is-filled .mx-empty{display:none}
@@ -62,17 +60,17 @@
   #mx-panel{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:90vw;background:var(--card);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:61;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
   .ov.is-open #mx-panel{transform:translateX(0)}
   #mx-panel-head{display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex:none}
-  #mx-panel-title{flex:1;font-size:1.125rem;line-height:1.75rem;font-weight:600;color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #mx-panel-title{flex:1;font-size:var(--ts-title-20-size);line-height:var(--ts-title-20-lh);font-weight:var(--ts-title-20-weight);color:var(--ink);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #mx-panel-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem}
   .mx-panel-sect{display:flex;flex-direction:column;gap:1rem;padding:1rem;border:1px solid var(--border);border-radius:.625rem;background:var(--card)}
-  .mx-panel-sect-title{font-size:.75rem;font-weight:600;color:var(--ink-secondary);letter-spacing:var(--tracking-normal);padding-bottom:.5rem;border-bottom:1px solid var(--border);margin:0}
+  .mx-panel-sect-title{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-secondary);letter-spacing:var(--tracking-normal);padding-bottom:.5rem;border-bottom:1px solid var(--border);margin:0}
 
   #mx-panel-cta{padding:1.5rem;border-top:1px solid var(--border);flex:none}
   /* Reusable detail-panel footer (documented in components/DetailPanel.html). Metrics' own panel
      uses #mx-panel-cta; .mx-panel-foot is kept for the documented reuse pattern. */
   .mx-panel-foot{padding:1rem 1.5rem;border-top:1px solid var(--border);flex:none;display:flex;gap:.5rem;justify-content:flex-end}
 
-  /* Suppress native browser clear button on search inputs вЂ” kit .igrp-clear handles this */
+  /* Suppress native browser clear button on search inputs — kit .igrp-clear handles this */
   .igrp input[type="search"]::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
 
   /* в”Ђв”Ђ Add custom metric dialog в”Ђв”Ђ */
@@ -81,15 +79,14 @@
   #mx-add-dlg.is-open{display:flex}
   #mx-add-dlg .field,#mx-add-dlg .ta,#mx-add-dlg select.field{max-width:100%;width:100%}
   #mx-add-dlg .igrp{background:var(--card);max-width:100%;width:100%}
-  #mx-add-dlg select.field{appearance:auto;padding:0 .5rem;font-size:.875rem;color:var(--ink);font-family:inherit;cursor:pointer;height:2.25rem}
 
   /* в”Ђв”Ђ Category filter header (empty state) в”Ђв”Ђ */
   .mx-cat-header{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;margin-top:1.25rem}
-  .mx-cat-label{font-size:1.125rem;font-weight:600;color:var(--ink);white-space:nowrap;flex:none;line-height:1.75rem}
+  .mx-cat-label{font-size:var(--ts-title-20-size);font-weight:var(--ts-title-20-weight);color:var(--ink);white-space:nowrap;flex:none;line-height:var(--ts-title-20-lh)}
   .mx-cat-chips{display:flex;flex-wrap:wrap;gap:.375rem}
   .prov-card-grid{margin-top:0}
 
-  /* в”Ђв”Ђ C3 filled toolbar вЂ” 2-row layout в”Ђв”Ђ */
+  /* в”Ђв”Ђ C3 filled toolbar — 2-row layout в”Ђв”Ђ */
   .mx-c3-toolbar{display:none;flex-direction:column;gap:1rem}
   #mx-root.is-filled .mx-c3-toolbar{display:flex}
   .mx-c3-toolbar .igrp{width:100%;background:var(--card);height:2.5rem}
@@ -99,55 +96,44 @@
      mobile, which dropped it flush after the chips on the left instead of staying fixed
      to the right like desktop. flex-wrap on the container still lets it wrap to its own
      line on very narrow screens; auto-margin keeps it right-aligned on that line too. */
-  .mx-active-toggle{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8125rem;color:var(--ink-secondary);user-select:none;white-space:nowrap}
   .mx-c3-toolbar .igrp-add{padding:0 6px 0 10px}
   .mx-c3-toolbar .igrp-add svg{width:16px;height:16px}
   .mx-c3-toolbar .igrp-input{padding-left:4px}
 
-  /* Tooltip rendered via JS as position:fixed вЂ” no clipping */
+  /* Tooltip rendered via JS as position:fixed — no clipping */
 
   /* Provider-card grid columns are content-aware (auto-fill/minmax in kit-theme.css),
-     so it reflows on available width regardless of the sidebar вЂ” no viewport
+     so it reflows on available width regardless of the sidebar — no viewport
      breakpoints needed here. */
 
   /* Pre-init: render only the first 5 data-source cards (the default "All" top-5) so the
-     initial paint matches the JS-filtered state вЂ” without this the full ~30-card grid paints
+     initial paint matches the JS-filtered state — without this the full ~30-card grid paints
      then mxCatFilter() collapses it to 5, jumping the content below. The .is-browse "Explore
      more" card always stays. mxCatFilter() removes .mx-preinit after the first run so category
      switches (which reveal cards beyond the 5th via inline display) work normally. */
   #mx-card-grid.mx-preinit .prov-card:nth-child(n+6):not(.is-browse){display:none}
 
-  /* "Connect more data sources" banner вЂ” gap above it tightens on responsive. */
+  /* "Connect more data sources" banner — gap above it tightens on responsive. */
   .mx-connect-banner{margin-top:2.25rem}
   @media (max-width:767px){.mx-connect-banner{margin-top:1.5rem}}
 
 
 
-  /* C1 icon tile вЂ” no brand tint, no shadow (concept override) */
+  /* C1 icon tile — no brand tint, no shadow (concept override) */
   .prov-ic-w{background:var(--card);box-shadow:none}
 
   /* broken image placeholder */
   .prov-ic-w.is-broken img{display:none}
   .prov-ic-w.is-broken{border-style:dashed;background:var(--bg)}
-  .prov-ic-w.is-broken::after{content:attr(data-initials);font-size:.4375rem;font-weight:700;letter-spacing:var(--tracking-label);color:var(--ink-secondary);line-height:1}
 
-  /* в”Ђв”Ђ New connection dialog вЂ” integration form mock в”Ђв”Ђ */
-  .ds-intg-frame{border-radius:.375rem;overflow:hidden;background:var(--white);border:1px solid var(--border)}
-  .ds-intg-row{padding:.75rem 1rem;display:flex;flex-direction:column;gap:.375rem}
-  .ds-intg-lbl{font-size:.875rem;font-weight:700;color:var(--ink)}
-  .ds-intg-field{height:2.5rem;border:1px solid var(--brand-primary);border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;font-size:.875rem;color:var(--ink-secondary);background:var(--white);width:100%}
-  .ds-intg-check{display:flex;align-items:center;gap:.625rem;padding:.5rem 1rem}
-  .ds-intg-check-ico{width:1.125rem;height:1.125rem;border-radius:.25rem;background:var(--brand-primary);display:flex;align-items:center;justify-content:center;flex:none}
-  .ds-intg-check-lbl{font-size:.875rem;color:var(--ink)}
-  .ds-intg-select{height:2.5rem;border:1px solid var(--brand-primary);border-radius:.375rem;padding:0 .75rem;display:flex;align-items:center;justify-content:space-between;font-size:.875rem;color:var(--ink);background:var(--white);width:100%}
+  /* Integration frame + source header are kit components (.ds-intg-* in kit-theme.css) — the
+     "New connection" wizard is shared with Connections, so its CSS lives in one place.
+     The page-local copy here had drifted onto OUR tokens, which re-themed a third-party form in
+     dark and repainted the provider's blue in our teal. */
 
   /* .banner-grad button styling + .banner-noise grain now live in kit-theme.css (single source). */
-  /* Banner button вЂ” semi-transparent white, for use on gradient banners */
-  .btn-banner{display:inline-flex;align-items:center;justify-content:center;gap:.375rem;padding:0 .875rem;height:2rem;font-size:.8125rem;font-weight:500;line-height:1;border-radius:.375rem;border:1px solid color-mix(in srgb,var(--white) 40%,transparent);background:color-mix(in srgb,var(--white) 14%,transparent);color:var(--white);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
-  .btn-banner:hover{background:color-mix(in srgb,var(--white) 24%,transparent);border-color:color-mix(in srgb,var(--white) 55%,transparent)}
-  .btn-banner:active{background:color-mix(in srgb,var(--white) 10%,transparent)}
   /* Toast */
-  .mx-toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(.75rem);background:var(--card);border:1px solid var(--border);border-radius:.5rem;box-shadow:0 8px 24px rgba(15,23,42,.14);padding:.625rem 1rem;display:flex;align-items:center;gap:.5rem;font-size:.875rem;color:var(--ink);white-space:nowrap;opacity:0;transition:opacity .2s,transform .2s;z-index:80;pointer-events:none}
+  .mx-toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(.75rem);background:var(--card);border:1px solid var(--border);border-radius:.5rem;box-shadow:0 8px 24px rgba(15,23,42,.14);padding:.625rem 1rem;display:flex;align-items:center;gap:.5rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink);white-space:nowrap;opacity:0;transition:opacity .2s,transform .2s;z-index:80;pointer-events:none}
   .mx-toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
 
 </style>
@@ -200,7 +186,7 @@
     <div class="pg-approved-tag" aria-hidden="true">Approved</div>
   </div>
   <div style="display:flex;align-items:flex-start;gap:.75rem">
-    <!-- State toggle вЂ” kit SegmentedControl (.segctrl.is-sm). Labels stay short ("Empty" / "Filled"); the topbar context makes "State:" prefix unnecessary. mxSetState() still drives the body class toggle. -->
+    <!-- State toggle — kit SegmentedControl (.segctrl.is-sm). Labels stay short ("Empty" / "Filled"); the topbar context makes "State:" prefix unnecessary. mxSetState() still drives the body class toggle. -->
     <div class="segctrl is-sm" id="mx-state-seg" role="tablist" aria-label="Demo state" style="width:auto;flex:none">
       <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" data-state="empty" style="padding:0 .5rem" onclick="mxSetState('empty');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Empty</button>
       <button class="segctrl-btn" role="tab" type="button" aria-selected="false" data-state="filled" style="padding:0 .5rem" onclick="mxSetState('filled');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Filled</button>
@@ -212,7 +198,7 @@
 </div>
 
 <div class="cl-shell" id="mx-root">
-  <!-- Mobile backdrop вЂ” overlays the main column while the off-canvas sidebar drawer is open. -->
+  <!-- Mobile backdrop — overlays the main column while the off-canvas sidebar drawer is open. -->
   <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')"></div>
 
   <!-- ===== SIDEBAR ===== -->
@@ -224,7 +210,7 @@
             <svg class="sbx-brand-logo" aria-label="Insightis"><use href="#lg"/></svg>
             <svg class="sbx-brand-mark" aria-hidden="true"><use href="#lg-mark"/></svg>
           </div>
-          <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Collapse sidebar" type="button" data-tip="Collapse" onclick="if(window.innerWidth<=1023){document.documentElement.classList.remove('side-open')}else{var sbx=this.closest('.sbx');sbx.classList.toggle('is-collapsed');var coll=sbx.classList.contains('is-collapsed');this.setAttribute('data-tip',coll?'Expand':'Collapse');this.setAttribute('aria-label',coll?'Expand sidebar':'Collapse sidebar')}">
+          <button class="iconbtn iconbtn-tertiary iconbtn-xs sbx-collapse" aria-label="Collapse sidebar" type="button" data-tip="Collapse" onclick="if(window.innerWidth<=1023){document.documentElement.classList.remove('side-open')}else{var sbx=this.closest('.sbx');sbx.classList.toggle('is-collapsed');var coll=sbx.classList.contains('is-collapsed');this.setAttribute('data-tip',coll?'Expand':'Collapse');this.setAttribute('aria-label',coll?'Expand sidebar':'Collapse sidebar')}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
           </button>
         </div>
@@ -248,7 +234,7 @@
           <span class="lbl">Metrics</span>
         </button>
         <button class="sbx-nav-item" type="button" onclick="window.location.href='data-sources_files-landing.html'">
-          <!-- Folder icon вЂ” Files glyph (Lucide folder) -->
+          <!-- Folder icon — Files glyph (Lucide folder) -->
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
           <span class="lbl">Files</span>
         </button>
@@ -281,7 +267,7 @@
         <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')"><div class="sbx-tok-row"><span class="sbx-tok-label">Balance</span><span class="sbx-tok-val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>287 left</span></div></button>
         <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')"><span class="sbx-user-ava">K</span><span class="sbx-user-info"><span class="sbx-user-name">Kateryna K.</span><span class="sbx-user-meta">Admin В· Professional</span></span><svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></button>
 
-        <!-- Account popover вЂ” opens above the user row -->
+        <!-- Account popover — opens above the user row -->
         <div class="sbx-pop sbx-pop-account" id="sbx-pop-account" role="menu" aria-label="Account">
           <div class="sbx-pop-sect">
             <span class="sbx-pop-label">Account</span>
@@ -307,7 +293,7 @@
           <button class="sbx-pop-item" type="button" role="menuitem"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Log out</button>
         </div>
 
-        <!-- Subscription credits popover вЂ” opens above the tokens row -->
+        <!-- Subscription credits popover — opens above the tokens row -->
         <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
           <div class="sbx-pop-tok-head"><span class="plan-name">Free</span></div>
           <div class="sbx-pop-tok-meter">
@@ -331,7 +317,7 @@
   <main class="cl-main">
     <div class="cl-page">
 
-      <!-- Page heading вЂ” burger lives here so .cl-page-head sticky bar includes it at mobile. -->
+      <!-- Page heading — burger lives here so .cl-page-head sticky bar includes it at mobile. -->
       <div class="cl-page-head mx-page-head">
         <button class="cl-burger" type="button" aria-label="Open sidebar" aria-controls="cl-side" onclick="clOpenSidebar()" data-tip="Open sidebar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -357,7 +343,7 @@
           <div class="banner-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
           <div class="banner-body">
             <p class="banner-t">Explore your metrics library</p>
-            <p class="banner-d">50+ built-in metrics across popular data sources. Browse below to explore definitions вЂ” connect a source to activate any metric.</p>
+            <p class="banner-d">50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.</p>
           </div>
           <div class="banner-cta">
             <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Create Connection</button>
@@ -384,7 +370,7 @@
         <!-- Provider card grid -->
         <div class="prov-card-grid mx-preinit" id="mx-card-grid">
 
-          <!-- Jira Software Cloud вЂ” IT Operations / Productivity -->
+          <!-- Jira Software Cloud — IT Operations / Productivity -->
           <div class="prov-card" style="display:none" data-category="IT Operations|Productivity">
             <div class="prov-card-head">
               <span class="logo-spr jira" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -409,7 +395,7 @@
             </div>
           </div>
 
-          <!-- GitLab вЂ” IT Operations -->
+          <!-- GitLab — IT Operations -->
           <div class="prov-card" style="display:none" data-category="IT Operations">
             <div class="prov-card-head">
               <span class="logo-spr gitlab" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -434,7 +420,7 @@
             </div>
           </div>
 
-          <!-- GitHub вЂ” IT Operations -->
+          <!-- GitHub — IT Operations -->
           <div class="prov-card" style="display:none" data-category="IT Operations">
             <div class="prov-card-head">
               <span class="logo-spr github" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -459,7 +445,7 @@
             </div>
           </div>
 
-          <!-- Bitbucket вЂ” IT Operations -->
+          <!-- Bitbucket — IT Operations -->
           <div class="prov-card" style="display:none" data-category="IT Operations|Productivity">
             <div class="prov-card-head">
               <span class="logo-spr bitbucket" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -483,7 +469,7 @@
             </div>
           </div>
 
-          <!-- Elasticsearch вЂ” IT Operations -->
+          <!-- Elasticsearch — IT Operations -->
           <div class="prov-card" style="display:none" data-category="IT Operations">
             <div class="prov-card-head">
               <span class="logo-spr elasticsearch" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -933,7 +919,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Looker Studio вЂ” Business Intelligence -->
+          <!-- Looker Studio — Business Intelligence -->
           <div class="prov-card" style="display:none" data-category="Business Intelligence">
             <div class="prov-card-head">
               <span class="logo-spr looker-studio" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -948,7 +934,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Slack вЂ” Communication -->
+          <!-- Slack — Communication -->
           <div class="prov-card" style="display:none" data-category="Communication">
             <div class="prov-card-head">
               <span class="logo-spr slack" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -963,7 +949,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Zoom вЂ” Communication -->
+          <!-- Zoom — Communication -->
           <div class="prov-card" style="display:none" data-category="Communication">
             <div class="prov-card-head">
               <span class="logo-spr zoom" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -978,7 +964,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Intercom вЂ” Communication / Support -->
+          <!-- Intercom — Communication / Support -->
           <div class="prov-card" style="display:none" data-category="Communication|Support">
             <div class="prov-card-head">
               <span class="logo-spr intercom" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -993,7 +979,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- SendPulse вЂ” Marketing -->
+          <!-- SendPulse — Marketing -->
           <div class="prov-card" style="display:none" data-category="Marketing|Communication">
             <div class="prov-card-head">
               <span class="logo-spr sendpulse" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1008,7 +994,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Dropbox вЂ” Storage & Files -->
+          <!-- Dropbox — Storage & Files -->
           <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr dropbox" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1023,7 +1009,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Google Drive вЂ” Storage & Files -->
+          <!-- Google Drive — Storage & Files -->
           <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr googledrive" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1038,7 +1024,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- OneDrive вЂ” Storage & Files -->
+          <!-- OneDrive — Storage & Files -->
           <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr onedrive" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1053,7 +1039,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Box вЂ” Storage & Files -->
+          <!-- Box — Storage & Files -->
           <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr box" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1068,7 +1054,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- SharePoint вЂ” Storage & Files -->
+          <!-- SharePoint — Storage & Files -->
           <div class="prov-card" style="display:none" data-category="Storage & Files">
             <div class="prov-card-head">
               <span class="logo-spr sharepointfiles" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1083,7 +1069,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Zendesk вЂ” Support -->
+          <!-- Zendesk — Support -->
           <div class="prov-card" style="display:none" data-category="Support">
             <div class="prov-card-head">
               <span class="logo-spr zendesk" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1098,7 +1084,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Freshdesk вЂ” Support -->
+          <!-- Freshdesk — Support -->
           <div class="prov-card" style="display:none" data-category="Support">
             <div class="prov-card-head">
               <span class="logo-spr freshdesk" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1113,7 +1099,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- ServiceNow вЂ” Support -->
+          <!-- ServiceNow — Support -->
           <div class="prov-card" style="display:none" data-category="Support">
             <div class="prov-card-head">
               <span class="logo-spr servicenow" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1128,7 +1114,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Freshcaller вЂ” Support -->
+          <!-- Freshcaller — Support -->
           <div class="prov-card" style="display:none" data-category="Support">
             <div class="prov-card-head">
               <span class="logo-spr freshcaller" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1143,7 +1129,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Notion вЂ” Other -->
+          <!-- Notion — Other -->
           <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr notion" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1158,7 +1144,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Asana вЂ” Other -->
+          <!-- Asana — Other -->
           <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr asana" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1173,7 +1159,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Monday.com вЂ” Other -->
+          <!-- Monday.com — Other -->
           <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr mondaycom" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1188,7 +1174,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- REST API вЂ” Other -->
+          <!-- REST API — Other -->
           <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr rest" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1203,7 +1189,7 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- Airtable вЂ” Other -->
+          <!-- Airtable — Other -->
           <div class="prov-card" style="display:none" data-category="Other">
             <div class="prov-card-head">
               <span class="logo-spr airtable" aria-hidden="true" style="--logo-size:2.5rem"></span>
@@ -1218,10 +1204,10 @@
             <div class="prov-card-footer"><button class="btn btn-sm btn-secondary" type="button" onclick="mxOpenConnDlg(this.closest('.prov-card').querySelector('.prov-card-name').textContent)">Connect</button></div>
           </div>
 
-          <!-- View more вЂ” dynamic category -->
+          <!-- View more — dynamic category -->
           <div class="prov-card is-browse" role="button" tabindex="0" onclick="mxGoCatalog()" onkeydown="if(event.key==='Enter'||event.key===' ')mxGoCatalog()">
             <div class="prov-card-browse-ic" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
             </div>
             <div>
               <p class="prov-card-browse-label" id="mx-browse-label">Explore more data sources</p>
@@ -1292,7 +1278,7 @@
               </tr>
               <!-- Custom metrics first -->
               <tr class="mx-metric-child" data-prov="jira" data-name="MRR growth" data-alias="@mrr_growth" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Custom formula" data-desc="Month-over-month growth rate of MRR derived from Jira billing data. Calculated as (MRR this month в€’ MRR last month) Г· MRR last month Г— 100. Positive values indicate revenue expansion; negative values signal churn or contraction." data-custom="true" data-active="true" data-row-id="custom-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="MRR growth вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="MRR growth — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">MRR growth</td>
                 <td class="mx-tbl-alias">@mrr_growth</td>
                 <td class="mx-tbl-desc">Month-over-month growth rate of MRR derived from Jira billing data.</td>
@@ -1308,7 +1294,7 @@
               </tr>
               <!-- Built-in metrics -->
               <tr class="mx-metric-child" data-prov="jira" data-name="Issues created" data-alias="@issues_created" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues created in the selected period. Includes all issue types: bugs, tasks, stories, and epics. Does not filter by status or assignee." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues created вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues created — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues created</td>
                 <td class="mx-tbl-alias">@issues_created</td>
                 <td class="mx-tbl-desc">Number of issues created in the selected period.</td>
@@ -1321,7 +1307,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Issues resolved" data-alias="@issues_resolved" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues resolved (closed) in the selected period. An issue counts as resolved when its status transitions to Done or a custom closed state. Reopened issues are not subtracted from the total." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues resolved вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues resolved — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues resolved</td>
                 <td class="mx-tbl-alias">@issues_resolved</td>
                 <td class="mx-tbl-desc">Number of issues resolved (closed) in the selected period.</td>
@@ -1334,7 +1320,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Sprint velocity" data-alias="@sprint_velocity" data-provider="Jira Software Cloud" data-type="Average" data-desc="Average number of story points completed per sprint. Calculated across all sprints that ended within the selected period. Only counts points from issues in Done status at sprint close." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Sprint velocity вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Sprint velocity — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Sprint velocity</td>
                 <td class="mx-tbl-alias">@sprint_velocity</td>
                 <td class="mx-tbl-desc">Average number of story points completed per sprint.</td>
@@ -1347,7 +1333,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Bug count" data-alias="@bug_count" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of open bugs at the end of the selected period. Counts issues with issue type Bug that have not been resolved. Provides a snapshot of backlog health at the period boundary." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Bug count вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Bug count — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Bug count</td>
                 <td class="mx-tbl-alias">@bug_count</td>
                 <td class="mx-tbl-desc">Number of open bugs at the end of the selected period.</td>
@@ -1360,7 +1346,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Story points completed" data-alias="@story_pts_completed" data-provider="Jira Software Cloud" data-type="Sum" data-desc="Total story points completed across all sprints in the selected period. Counts only issues in Done status at sprint close. Use alongside Sprint velocity to compare team throughput over time." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Story points completed вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Story points completed — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Story points completed</td>
                 <td class="mx-tbl-alias">@story_pts_completed</td>
                 <td class="mx-tbl-desc">Total story points completed across all sprints in the selected period.</td>
@@ -1381,7 +1367,7 @@
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-conn="Skyvia Jira" data-name="Jira ticket sync lag" data-alias="@jira_sync_lag" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Average" data-desc="Average delay (in minutes) between a Jira issue update and its appearance in Insightis. Measured via Skyvia Jira connector sync timestamps. Spikes indicate connector throttling or API rate-limit events." data-custom="true" data-active="true" data-row-id="custom-skyvia-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Jira ticket sync lag вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Jira ticket sync lag — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Jira ticket sync lag</td>
                 <td class="mx-tbl-alias">@jira_sync_lag</td>
                 <td class="mx-tbl-desc">Average delay between a Jira issue update and its appearance in Insightis.</td>
@@ -1426,7 +1412,7 @@
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests opened вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests opened — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Pull requests opened</td>
                 <td class="mx-tbl-alias">@prs_opened</td>
                 <td class="mx-tbl-desc">Number of pull requests opened in the selected period.</td>
@@ -1437,7 +1423,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Pull requests merged" data-alias="@prs_merged" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests merged into the main branch in the selected period. Only counts merges into the repository's default branch. PRs closed without merging are not included." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests merged вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests merged — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Pull requests merged</td>
                 <td class="mx-tbl-alias">@prs_merged</td>
                 <td class="mx-tbl-desc">Number of pull requests merged into the main branch in the selected period.</td>
@@ -1448,7 +1434,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Commits per day" data-alias="@commits_per_day" data-provider="GitHub" data-type="Average" data-desc="Average number of commits pushed per calendar day in the selected period. Counts commits across all branches; merge commits are included. Weekends and holidays are not excluded from the daily average." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Commits per day вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Commits per day — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Commits per day</td>
                 <td class="mx-tbl-alias">@commits_per_day</td>
                 <td class="mx-tbl-desc">Average number of commits pushed per calendar day in the selected period.</td>
@@ -1459,7 +1445,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Code review time" data-alias="@code_review_time" data-provider="GitHub" data-type="Duration" data-desc="Average time from pull request creation to first review comment. Measured in hours across all PRs that received at least one review in the selected period. PRs with no review comments are excluded from the calculation." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Code review time вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Code review time — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Code review time</td>
                 <td class="mx-tbl-alias">@code_review_time</td>
                 <td class="mx-tbl-desc">Average time from pull request creation to first review comment.</td>
@@ -1470,7 +1456,7 @@
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Issues closed" data-alias="@issues_closed" data-provider="GitHub" data-type="Count" data-desc="Number of GitHub issues closed in the selected period. Counts issues whose state changed to closed, including those auto-closed by a linked pull request. Issues that were reopened and closed again within the same period are counted once." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
-                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Issues closed вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
+                <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Issues closed — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues closed</td>
                 <td class="mx-tbl-alias">@issues_closed</td>
                 <td class="mx-tbl-desc">Number of GitHub issues closed in the selected period.</td>
@@ -1485,7 +1471,7 @@
           </table>
         </div>
 
-        <!-- Search / filter empty state вЂ” shared kit .empty-state (kit-theme.css, #statusview).
+        <!-- Search / filter empty state — shared kit .empty-state (kit-theme.css, #statusview).
              Toggled by mxC3Filter() when no metric rows match the query/filters. -->
         <div class="empty-state" id="mx-c3-empty" role="status" style="display:none">
           <svg class="es-illu" viewBox="0 0 150 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1497,7 +1483,7 @@
           <p class="empty-msg">No metrics match your search or filters — try a different term or clear them</p>
         </div>
 
-        <!-- Connect more вЂ” gradient banner CTA -->
+        <!-- Connect more — gradient banner CTA -->
         <div class="banner-wrap" id="mx-connect-wrap">
         <div class="banner banner-grad banner-noise banner-sm mx-connect-banner" role="note">
           <div class="banner-ic" aria-hidden="true">
@@ -1505,7 +1491,7 @@
           </div>
           <div class="banner-body">
             <p class="banner-t">Connect more data sources</p>
-            <p class="banner-d">50+ data sources available вЂ” add connections to unlock more built-in metrics for your library.</p>
+            <p class="banner-d">50+ data sources available — add connections to unlock more built-in metrics for your library.</p>
           </div>
           <div class="banner-cta">
             <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Browse Data Sources</button>
@@ -1530,7 +1516,7 @@
       <h2 id="mx-panel-title">Metric Details</h2>
       <div id="mx-panel-head-toggle" style="display:none;align-items:center;gap:.375rem;flex:none">
         <div class="mx-swt-wrap"><button class="swt" id="mx-panel-swt" type="button" role="switch" aria-checked="false" aria-label="Toggle active" onclick="mxPanelToggle(this)"></button></div>
-        <span id="mx-panel-active-lbl" style="font-size:.8125rem;color:var(--ink-secondary)">Inactive</span>
+        <span id="mx-panel-active-lbl" style="font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-secondary)">Inactive</span>
       </div>
       <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close panel" onclick="mxCloseDetail()" style="width:1.75rem;height:1.75rem" data-tip="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1543,11 +1529,11 @@
 
 <!-- ===== Connect-source dialog ===== -->
 <div id="mx-conn-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)mxCloseConnDlg()">
-  <div class="dlg is-md" style="height:580px" role="dialog" aria-modal="true" aria-labelledby="mx-conn-title">
+  <div class="dlg is-lg var-wizard" role="dialog" aria-modal="true" aria-labelledby="mx-conn-title">
     <div class="dlg-hdr">
       <h2 id="mx-conn-title" class="dlg-title">New connection</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="mxCloseConnDlg()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="mxCloseConnDlg()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <div class="dlg-progress">
@@ -1556,9 +1542,9 @@
     </div>
     <div class="dlg-body">
       <div id="mx-conn-s1" class="dlg-step">
-        <div style="display:flex;align-items:flex-start;gap:.75rem">
-          <span id="mx-conn-logo" style="width:2.25rem;height:2.25rem;border-radius:.5rem;border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);font-size:.75rem;font-weight:600;color:var(--ink-secondary)"></span>
-          <span id="mx-conn-subtitle" style="font-size:.875rem;font-weight:500;color:var(--ink)"></span>
+        <div class="ds-intg-src">
+          <span id="mx-conn-logo" style="width:2.25rem;height:2.25rem;border-radius:.5rem;border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--card);font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-secondary)"></span>
+          <span id="mx-conn-subtitle" style="font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink)"></span>
         </div>
         <div class="ds-intg-frame">
           <div class="ds-intg-row">
@@ -1567,7 +1553,7 @@
           </div>
           <div class="ds-intg-row">
             <div class="ds-intg-lbl">API Key</div>
-            <div class="ds-intg-field">вЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂўвЂў</div>
+            <div class="ds-intg-field">••••••••••</div>
           </div>
           <div class="ds-intg-check">
             <span class="ds-intg-check-ico"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:9px;height:9px"><polyline points="2 6 5 9 10 3"/></svg></span>
@@ -1581,11 +1567,8 @@
             <div class="ds-intg-lbl">Metadata Cache</div>
             <div class="ds-intg-select">
               <span>Infinite</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;color:var(--ink-secondary)"><polyline points="6 9 12 15 18 9"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;color:var(--intg-ink-muted)"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
-          </div>
-          <div class="ds-intg-row" style="align-items:flex-end;flex-direction:row;justify-content:flex-end;padding:.75rem .875rem">
-            <button id="mx-conn-s1-btn" type="button" style="background:var(--brand-primary);color:var(--white);border:none;border-radius:.375rem;padding:.5rem 1rem;font-size:.875rem;font-weight:500;cursor:pointer;line-height:1.25" onclick="mxConnStep1()">Save</button>
           </div>
         </div>
       </div>
@@ -1600,6 +1583,10 @@
         </div>
       </div>
     </div>
+    <!-- Footer — one per step, same slot; the confirming action is always a kit primary .btn-sm -->
+    <div id="mx-conn-ftr-s1" class="dlg-ftr">
+      <button id="mx-conn-s1-btn" class="btn btn-primary btn-sm" type="button" onclick="mxConnStep1()">Save</button>
+    </div>
     <div id="mx-conn-ftr-s2" class="dlg-ftr" style="display:none">
       <button class="btn btn-primary btn-sm" type="button" onclick="mxConnCreate()">Save Connection</button>
     </div>
@@ -1613,11 +1600,11 @@
     <!-- Header -->
     <div class="dlg-hdr">
       <h2 id="mx-add-title" class="dlg-title">Create metric</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="mxCloseAddDlg()" style="width:2rem;height:2rem;flex:none" data-tip="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="mxCloseAddDlg()" data-tip="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
 
     <!-- Fields -->
-    <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:.875rem">
+    <div class="dlg-content is-stack">
       <!-- Name -->
       <div>
         <label class="mx-form-label" for="mx-name-inp">Name</label>
@@ -1636,11 +1623,11 @@
       <!-- Definition -->
       <div>
         <label class="mx-form-label" for="mx-def-inp">Definition</label>
-        <textarea class="ta" id="mx-def-inp" rows="4" maxlength="1500" placeholder="Describe how to compute this metricвЂ¦" style="max-width:100%;min-height:5.5rem" oninput="var c=document.getElementById('mx-def-count');c.textContent=this.value.length+' / 1500'"></textarea>
-        <div style="text-align:right;font-size:.6875rem;color:var(--ink-inactive);margin-top:.25rem" aria-live="polite"><span id="mx-def-count">0 / 1500</span></div>
+        <textarea class="ta" id="mx-def-inp" rows="4" maxlength="1500" placeholder="Describe how to compute this metric…" style="max-width:100%;min-height:5.5rem" oninput="var c=document.getElementById('mx-def-count');c.textContent=this.value.length+' / 1500'"></textarea>
+        <div style="text-align:right;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-inactive);margin-top:.25rem" aria-live="polite"><span id="mx-def-count">0 / 1500</span></div>
       </div>
 
-      <!-- Link to вЂ” Connector | Provider segctrl -->
+      <!-- Link to — Connector | Provider segctrl -->
       <div>
         <span class="mx-form-label">Link to</span>
         <div class="segctrl is-md" id="mx-link-type-ctrl" style="width:100%">
@@ -1654,7 +1641,7 @@
         <label class="mx-form-label" id="mx-connector-lbl" for="mx-connector-trig">Data source</label>
         <div class="sel-wrap" style="width:100%;max-width:none">
           <button class="sel-trig is-lg" type="button" id="mx-connector-trig" aria-haspopup="listbox" aria-expanded="false" onclick="mxSelToggle(this)">
-            <span id="mx-connector-ph" class="sel-ph">Select a data sourceвЂ¦</span>
+            <span id="mx-connector-ph" class="sel-ph">Select a data source…</span>
             <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="sel-menu menu" role="listbox">
@@ -1672,7 +1659,7 @@
   </div>
 </div>
 
-<!-- Sticker removed вЂ” "Changed in Expected" links are in ../page-changes/metrics-landing.md. -->
+<!-- Sticker removed — "Changed in Expected" links are in ../page-changes/metrics-landing.md. -->
 
 <script>
   /* Tooltip engine + menu placement live in the shared kit behaviour layer (pages/kit-kit.js,
@@ -1752,10 +1739,10 @@ function mxSetLinkType(type, btn) {
   var lbl = document.getElementById('mx-connector-lbl');
   var ph = document.getElementById('mx-connector-ph');
   if (lbl) lbl.textContent = type === 'connection' ? 'Connection' : 'Data Source';
-  if (ph && !ph.classList.contains('sel-val')) ph.textContent = type === 'connection' ? 'Select a connectionвЂ¦' : 'Select a data sourceвЂ¦';
+  if (ph && !ph.classList.contains('sel-val')) ph.textContent = type === 'connection' ? 'Select a connection…' : 'Select a data source…';
 }
 
-// initialize: default to empty state (no is-filled class needed вЂ” it's the default)
+// initialize: default to empty state (no is-filled class needed — it's the default)
 ;(function(){
   var defaultChip=document.querySelector('#mx-cat-chips .chip.is-active');
   if(defaultChip)mxCatFilter(defaultChip);
@@ -1767,7 +1754,7 @@ function mxSetLinkType(type, btn) {
 
 
 /* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
-   STATE TOGGLE вЂ” Empty / Filled
+   STATE TOGGLE — Empty / Filled
 в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
 function mxSetState(v) {
   mxRoot.classList.toggle('is-filled', v === 'filled');
@@ -1811,11 +1798,11 @@ var MX_PROV_META = {
 };
 
 function mxProvIcon(provKey) {
-  if (!provKey || provKey === 'вЂ”') return '';
+  if (!provKey || provKey === '—') return '';
   var m = MX_PROV_META[provKey];
   // Comprehensive fallback: the logo sprite (assets/logos/<slug>.svg) covers every data source
-  // вЂ” only jira/azure/github use the simpleicons CDN path via MX_PROV_META. Without this,
-  // every other provider (gitlab, bitbucket, zoho, zohoanalytics, elasticsearch, вЂ¦) showed no
+  // — only jira/azure/github use the simpleicons CDN path via MX_PROV_META. Without this,
+  // every other provider (gitlab, bitbucket, zoho, zohoanalytics, elasticsearch, …) showed no
   // logo in the detail panel's "Data source" / "Linked to" rows.
   if (!m) return '<span class="logo-spr ' + provKey + '" style="--logo-size:1.25rem;vertical-align:middle" aria-hidden="true"></span>';
   var fb = 'onerror="var s=this.parentElement;s.style.background=this.dataset.color;s.style.border=\'none\';s.style.color=\'#fff\';s.style.fontSize=\'.5625rem\';s.style.fontWeight=\'700\';s.textContent=this.dataset.fb"';
@@ -1828,8 +1815,8 @@ function mxOpenDetail(row) {
   row.classList.add('is-selected');
 
   var name      = row.getAttribute('data-name') || '';
-  var alias     = row.getAttribute('data-alias') || 'вЂ”';
-  var provider  = row.getAttribute('data-provider') || 'вЂ”';
+  var alias     = row.getAttribute('data-alias') || '—';
+  var provider  = row.getAttribute('data-provider') || '—';
   var connector = row.getAttribute('data-connector') || '';
   var type      = row.getAttribute('data-type') || '';
   var desc      = row.getAttribute('data-desc') || '';
@@ -1859,7 +1846,7 @@ function mxOpenDetail(row) {
       if (panelSwt) {
         panelSwt.className = 'swt' + (swtOn ? ' on' : '');
         panelSwt.setAttribute('aria-checked', swtChecked);
-        panelSwt.setAttribute('aria-label', mxEsc(name) + ' вЂ” toggle active');
+        panelSwt.setAttribute('aria-label', mxEsc(name) + ' — toggle active');
         var wrap = panelSwt.closest('.mx-swt-wrap');
         if (wrap) wrap.className = 'mx-swt-wrap' + (wrapOn ? ' is-on' : '');
       }
@@ -1885,15 +1872,15 @@ function mxOpenDetail(row) {
 
   // System metric notice for built-in connected metrics
 
-  // Edit form (custom metrics) вЂ” hidden until Edit in footer is clicked
+  // Edit form (custom metrics) — hidden until Edit in footer is clicked
   if (custom) {
     html += '<div class="mx-panel-sect" id="mx-panel-edit-form" style="display:none;flex-direction:column;gap:.75rem;margin-top:.75rem">'
          +  '<p class="mx-panel-sect-title">Edit metric</p>'
          +  '<div style="display:flex;flex-direction:column;gap:.75rem">'
-         +  '<div><label style="display:block;margin-bottom:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink)">Name</label>'
+         +  '<div><label style="display:block;margin-bottom:.375rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink)">Name</label>'
          +  '<div class="field"><input type="text" id="mx-edit-name" value="'+ mxEsc(name) +'" /></div></div>'
-         +  '<div><label style="display:block;margin-bottom:.375rem;font-size:.8125rem;font-weight:500;color:var(--ink)">Alias</label>'
-         +  '<div class="field igrp"><span class="igrp-pre" style="font-size:.875rem;padding:0 .5rem 0 .75rem;color:var(--ink-secondary)">@</span>'
+         +  '<div><label style="display:block;margin-bottom:.375rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink)">Alias</label>'
+         +  '<div class="field igrp"><span class="igrp-pre" style="font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);padding:0 .5rem 0 .75rem;color:var(--ink-secondary)">@</span>'
          +  '<input type="text" id="mx-edit-alias" value="'+ alias.replace(/^@/,'') +'" /></div></div>'
          +  '</div>'
          +  '<div style="display:flex;gap:.5rem;margin-top:.25rem;justify-content:flex-end">'
@@ -1918,9 +1905,9 @@ function mxOpenDetail(row) {
     ctaHtml += '<div style="background:var(--toast-bg-info);border:1px solid var(--toast-border-info);border-radius:.5rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem">'
             +  '<div style="display:flex;align-items:flex-start;gap:.625rem">'
             +  '<svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex:none;margin-top:.125rem" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>'
-            +  '<p style="font-size:.8125rem;color:var(--ink-body);line-height:1.5;margin:0;flex:1;min-width:0">'
+            +  '<p style="font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-body);line-height:1.5;margin:0;flex:1;min-width:0">'
             +  'This metric is designed for <strong style="color:var(--ink);font-weight:600">'+ mxEsc(provider) +'</strong>. '
-            +  'Adding a connection activates all its metrics at once вЂ” no manual setup needed.'
+            +  'Adding a connection activates all its metrics at once — no manual setup needed.'
             +  '</p></div>'
             +  '<button class="btn btn-primary btn-md" style="width:100%" type="button" onclick="mxCloseDetail();mxOpenConnDlg(\''+ mxEsc(prov) +'\',this)">Connect '+ mxEsc(provider) +'</button>'
             +  '</div>';
@@ -1929,8 +1916,8 @@ function mxOpenDetail(row) {
   if (!predef && !custom) {
     ctaHtml += '<div style="display:flex;align-items:flex-start;gap:.75rem">'
             +  '<div style="flex:1;min-width:0">'
-            +  '<p style="font-size:.8125rem;font-weight:500;color:var(--ink);margin:0 0 .125rem">Duplicate &amp; Customize</p>'
-            +  '<p style="font-size:.75rem;color:var(--ink-secondary);margin:0;line-height:1.5">Create your own version with a custom formula.</p>'
+            +  '<p style="font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink);margin:0 0 .125rem">Duplicate &amp; Customize</p>'
+            +  '<p style="font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);margin:0;line-height:1.5">Create your own version with a custom formula.</p>'
             +  '</div>'
             +  '<button class="btn btn-secondary btn-sm" style="flex:none" type="button" '
             +  'data-dup-name="'+ mxEsc(name) +'" data-dup-alias="'+ mxEsc(alias.replace(/^@/,'')) +'" data-dup-prov="'+ mxEsc(prov) +'" '
@@ -2009,7 +1996,7 @@ function mxKebabClose() {
   });
 }
 
-/* Unified kebab delegation вЂ” no stopPropagation needed */
+/* Unified kebab delegation — no stopPropagation needed */
 document.addEventListener('click', function(e){
   var kbp = e.target.closest('[data-kbp]');
   if(kbp){
@@ -2052,6 +2039,7 @@ function mxOpenConnDlg(btnOrName, _unused) {
   document.getElementById('mx-conn-desc').value = '';
   document.getElementById('mx-conn-s1').classList.remove('is-hidden');
   document.getElementById('mx-conn-s2').classList.add('is-hidden');
+  document.getElementById('mx-conn-ftr-s1').style.display = 'flex';
   document.getElementById('mx-conn-ftr-s2').style.display = 'none';
   document.getElementById('mx-conn-prog-txt').textContent = 'Step 1 of 2';
   document.getElementById('mx-conn-prog-fill').style.width = '50%';
@@ -2068,10 +2056,11 @@ function mxCloseConnDlg() {
 
 function mxConnStep1() {
   var btn = document.getElementById('mx-conn-s1-btn');
-  btn.textContent = 'SavingвЂ¦'; btn.disabled = true;
+  btn.textContent = 'Saving…'; btn.disabled = true;
   setTimeout(function() {
     document.getElementById('mx-conn-s1').classList.add('is-hidden');
     document.getElementById('mx-conn-s2').classList.remove('is-hidden');
+    document.getElementById('mx-conn-ftr-s1').style.display = 'none';
     document.getElementById('mx-conn-ftr-s2').style.display = 'flex';
     document.getElementById('mx-conn-prog-txt').textContent = 'Step 2 of 2';
     document.getElementById('mx-conn-prog-fill').style.width = '100%';
@@ -2135,7 +2124,7 @@ function mxOpenDlgWithData(opts) {
     var connPh  = document.getElementById('mx-connector-ph');
     var connTrig = document.getElementById('mx-connector-trig');
     if (connInp) connInp.value = '';
-    if (connPh)  { connPh.textContent = 'Select a data sourceвЂ¦'; connPh.className = 'sel-ph'; }
+    if (connPh)  { connPh.textContent = 'Select a data source…'; connPh.className = 'sel-ph'; }
     if (connTrig) connTrig.setAttribute('aria-expanded','false');
   }
   // Reset link-type segctrl to Data Source
@@ -2144,6 +2133,7 @@ function mxOpenDlgWithData(opts) {
   var lbl = document.getElementById('mx-connector-lbl');
   if (lbl) lbl.textContent = 'Data Source';
   mxEditingRowId = opts.editRowId || null;
+  mxClearDupErrors();
   mxAddDlg.classList.add('is-open');
   mxAddDlg.setAttribute('aria-hidden','false');
   setTimeout(function(){ if (nameInp) nameInp.focus(); }, 50);
@@ -2164,6 +2154,9 @@ function mxAddPredefined(row) {
 function mxCloseAddDlg() {
   mxAddDlg.classList.remove('is-open');
   mxAddDlg.setAttribute('aria-hidden','true');
+  mxClearDupErrors();
+  /* The duplicate toast points at a field in this dialog — it must not outlive it. */
+  kitToastDismiss(document.querySelector('[data-toast-id="mx-dup"]'));
 }
 // Ensure we're in filled state after confirming add
 function mxEnsureFilled() {
@@ -2175,6 +2168,63 @@ function mxDeleteCustom(rowId) {
   document.querySelectorAll('[data-row-id="'+rowId+'"]').forEach(function(row){ row.remove(); });
 }
 
+
+/* ── Duplicate name / alias — validation + reporting ──────────────────────────────────────────
+   Prod answers a name/alias collision with one sentence pinned at the bottom of the form
+   ("A metric with this name or alias already exists"), far from both fields it talks about and
+   ambiguous about which of the two is the duplicate. Expected splits the message from the target:
+     • the MESSAGE goes to an error toast (kitToast), naming the exact value that collides;
+     • the TARGET is the field itself — .s-error border + aria-invalid + focus.
+   Only the user's own metrics (#mx-filled-body rows) are checked; in edit mode the row being
+   edited is skipped so re-saving it unchanged is not a collision with itself. */
+function mxNorm(v) { return (v || '').trim().toLowerCase(); }
+function mxNormAlias(v) { return mxNorm(v).replace(/^@/, ''); }
+function mxEsc(v) { var d = document.createElement('span'); d.textContent = v || ''; return d.innerHTML; }
+
+/* Marks / unmarks the control wrapper (.field for Name, .field.igrp for Alias). */
+function mxSetFieldError(inp, on) {
+  if (!inp) return;
+  var wrap = inp.closest('.field, .ta');
+  if (wrap) wrap.classList.toggle('s-error', !!on);
+  if (on) inp.setAttribute('aria-invalid', 'true'); else inp.removeAttribute('aria-invalid');
+}
+function mxClearDupErrors() {
+  mxSetFieldError(document.getElementById('mx-name-inp'), false);
+  mxSetFieldError(document.getElementById('mx-alias-inp'), false);
+}
+/* The error is about the value, so it survives only until the value changes. */
+['mx-name-inp', 'mx-alias-inp'].forEach(function (id) {
+  var inp = document.getElementById(id);
+  if (inp) inp.addEventListener('input', function () { mxSetFieldError(inp, false); });
+});
+
+function mxFindDuplicates(name, alias) {
+  var hit = { name: null, alias: null };
+  var n = mxNorm(name), a = mxNormAlias(alias);
+  document.querySelectorAll('#mx-filled-body tr.mx-metric-child').forEach(function (row) {
+    if (mxEditingRowId && row.getAttribute('data-row-id') === mxEditingRowId) return;
+    if (n && mxNorm(row.getAttribute('data-name')) === n) hit.name = row.getAttribute('data-name');
+    if (a && mxNormAlias(row.getAttribute('data-alias')) === a) hit.alias = row.getAttribute('data-alias');
+  });
+  return hit;
+}
+
+function mxReportDuplicate(hit) {
+  var nameInp  = document.getElementById('mx-name-inp');
+  var aliasInp = document.getElementById('mx-alias-inp');
+  if (hit.name)  mxSetFieldError(nameInp, true);
+  if (hit.alias) mxSetFieldError(aliasInp, true);
+  var desc;
+  if (hit.name && hit.alias) desc = 'The name <strong>' + mxEsc(hit.name) + '</strong> and the alias <strong>' + mxEsc(hit.alias) + '</strong> both belong to another metric — change the highlighted fields';
+  else if (hit.name)         desc = 'The name <strong>' + mxEsc(hit.name) + '</strong> already belongs to another metric — change the highlighted field';
+  else                       desc = 'The alias <strong>' + mxEsc(hit.alias) + '</strong> already belongs to another metric — change the highlighted field';
+  /* One id, so re-pressing Save morphs the same toast instead of stacking copies. */
+  kitToast('Metric not saved', desc, 'error', 'mx-dup');
+  /* Focus is the second half of the pointer: the toast says what, the caret says where. */
+  var first = hit.name ? nameInp : aliasInp;
+  if (first) { first.focus(); first.select(); }
+}
+
 var mxRowCounter = 2;
 function mxConfirmAdd() {
   var name = (document.getElementById('mx-name-inp').value || '').trim();
@@ -2182,9 +2232,15 @@ function mxConfirmAdd() {
   var connector = (document.getElementById('mx-connector-inp').value || '').trim();
   var def = (document.getElementById('mx-def-inp').value || '').trim();
   if (!name) { document.getElementById('mx-name-inp').focus(); return; }
+
+  /* Duplicate name / alias — reported through a toast + the offending field, never as a
+     sentence parked at the bottom of the form. See mxReportDuplicate. */
+  mxClearDupErrors();
+  var dup = mxFindDuplicates(name, alias);
+  if (dup.name || dup.alias) { mxReportDuplicate(dup); return; }
   var aliasVal = alias ? ('@' + alias.replace(/^@/,'')) : '';
 
-  // Edit mode вЂ” update the existing row in place
+  // Edit mode — update the existing row in place
   if (mxEditingRowId) {
     var existing = document.querySelector('[data-row-id="' + mxEditingRowId + '"]');
     if (existing) {
@@ -2203,7 +2259,7 @@ function mxConfirmAdd() {
   }
   var rowId = 'custom-' + (mxRowCounter++);
   var kebabSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>';
-  var swtHtml = '<div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="'+mxEsc(name)+' вЂ” toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div>';
+  var swtHtml = '<div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="'+mxEsc(name)+' — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div>';
 
   /* New 7-col flat table row */
   var tr = document.createElement('tr');
@@ -2382,9 +2438,9 @@ document.addEventListener('click', function(e) {
   });
 });
 
-// Sticker drag IIFE removed вЂ” sticker no longer rendered (info in ../page-changes/metrics-landing.md).
+// Sticker drag IIFE removed — sticker no longer rendered (info in ../page-changes/metrics-landing.md).
 
-/* Sidebar footer popovers вЂ” same recipe shared across all sidebar-bearing pages. */
+/* Sidebar footer popovers — same recipe shared across all sidebar-bearing pages. */
 /* Account popover items open the user-profile modal on the matching tab */
 document.addEventListener('click', function(e){
   var acctItem = e.target.closest('#sbx-pop-account .sbx-pop-item');
@@ -2417,7 +2473,7 @@ document.addEventListener('click', function(e){
   });
 });
 
-/* broken image placeholder вЂ” shows provider initials */
+/* broken image placeholder — shows provider initials */
 document.addEventListener('error', function(e) {
   if (e.target.tagName === 'IMG') {
     var ic = e.target.closest('.prov-ic-w');
@@ -2441,7 +2497,7 @@ document.addEventListener('error', function(e) {
   });
 })();
 
-/* sbx-chat navigation вЂ” delegated so it survives dynamic re-renders */
+/* sbx-chat navigation — delegated so it survives dynamic re-renders */
 document.addEventListener('click', function(e) {
   var chat = e.target.closest('.sbx-chat');
   if (chat && !e.target.closest('.sbx-chat-more') && !e.target.closest('.sbx-chat-menu')) {
@@ -2451,7 +2507,7 @@ document.addEventListener('click', function(e) {
 
 </script>
 <script>
-/* Mobile/tablet hamburger вЂ” opens the sidebar drawer overlay. Cross-page consistent. */
+/* Mobile/tablet hamburger — opens the sidebar drawer overlay. Cross-page consistent. */
 window.clOpenSidebar = function(){
   document.documentElement.classList.add('side-open');
   var sbx = document.querySelector('.cl-side .sbx');
@@ -2468,7 +2524,7 @@ document.addEventListener('keydown', function(e){
 })();
 </script>
 <script>
-/* Chip-row edge fade вЂ” set data-chip-scroll so the CSS mask shows the fade ONLY while the row
+/* Chip-row edge fade — set data-chip-scroll so the CSS mask shows the fade ONLY while the row
    actually overflows: none (fits в†’ no fade), start (right fade), middle (both), end (left fade).
    Recomputed on scroll, on content change (chips render dynamically), and on resize. */
 (function(){
@@ -2505,12 +2561,12 @@ document.addEventListener('keydown', function(e){
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="sbc-ren-title">
     <div class="dlg-hdr">
       <h2 id="sbc-ren-title" class="dlg-title">Rename chat</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseRename()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="sbcCloseRename()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:1rem">
-      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
+    <div class="dlg-content is-stack">
+      <p style="margin:0;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
       <div class="field" style="max-width:none"><input id="sbc-ren-input" type="text" placeholder="Chat name" autocomplete="off" aria-label="Chat name" onkeydown="if(event.key==='Enter')sbcSaveRename()"></div>
     </div>
     <div class="dlg-ftr">
@@ -2523,12 +2579,12 @@ document.addEventListener('keydown', function(e){
   <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="sbc-del-title">
     <div class="dlg-hdr">
       <h2 id="sbc-del-title" class="dlg-title">Delete chat?</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseDelete()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="sbcCloseDelete()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div style="padding:0 1.25rem 1.25rem">
-      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
+    <div class="dlg-content">
+      <p style="margin:0;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
     </div>
     <div class="dlg-ftr">
       <button class="btn btn-secondary btn-sm" type="button" onclick="sbcCloseDelete()">Cancel</button>

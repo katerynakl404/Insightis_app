@@ -51,7 +51,7 @@
     color:var(--fb-red-text)
   }
   .sbx-pop-item.danger:hover,.acct-modal-nav .sbx-pop-item.danger:hover{
-    background:color-mix(in srgb,var(--fb-red-text) 8%,transparent)
+    background:color-mix(in srgb, var(--fb-red-text) var(--tint-8), transparent)
   }
   /* Footer separator before Log out */
   .acct-nav-foot{margin-top:auto;padding-top:.5rem;border-top:1px solid var(--border)}
@@ -65,8 +65,7 @@
     display:flex;align-items:center;gap:.5rem;
     padding:.875rem 1.25rem;border-bottom:1px solid var(--border);flex:none
   }
-  /* Title matches .dlg-title (kit dialog) — 20px/600, the modal's nearest popup analogue. */
-  .acct-title{flex:1;margin:0;font-size:var(--text-20);line-height:1.75rem;font-weight:500;color:var(--ink)}
+  /* Title matches .dlg-title (kit dialog) — 20px/600, the modal's nearest popup analogue.
   .acct-header-actions{display:flex;gap:.375rem;align-items:center}
   /* Close button reuses the kit .iconbtn.iconbtn-tertiary component (same as the .dlg dialog
      close) — no bespoke .acct-close class. Size (2rem) + glyph (16px) set inline on the button. */
@@ -74,16 +73,12 @@
   .acct-section{display:flex;flex-direction:column;gap:.75rem;padding-top:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
   .acct-section:first-child{padding-top:0}
   .acct-section:last-child{border-bottom:none;padding-bottom:0}
-  .acct-sect-title{font-size:var(--text-14);font-weight:600;color:var(--ink)}
   .acct-field-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.625rem}
-  .acct-field-label{font-size:var(--text-14);color:var(--ink-secondary)}
   /* Secondary line under an .acct-sect-title — ONE type level for every instance
      (email value, plan, payment method, the danger-zone warning): --text-14 / 20px Body.
      The warning previously sat at --text-12, so two rows of the same slot rendered at
-     different sizes. */
-  .acct-field-val{font-size:var(--text-14);line-height:1.25rem;color:var(--ink-body);margin-top:.25rem}
+     different sizes.
   .acct-danger-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.625rem}
-  .acct-danger-warn{font-size:var(--text-14);line-height:1.25rem;color:var(--ink-secondary);margin-top:.25rem}
 
   /* Balance */
   /* Balance-total icon — wallet badge in the hero row (all states, incl. 0 left), reusing the Lucide
@@ -92,7 +87,6 @@
      (teal Subscription / green Purchased). Exhaustion is conveyed by the "0 left" figure + the
      "Resets …" caption, not by a warning icon or red numerals. */
   .acct-bal-total-ic{width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;flex:none;background:var(--state-hover);color:var(--ink-secondary)}
-  .acct-bal-amount{font-size:var(--text-24);font-weight:600;color:var(--ink);line-height:1.1}
   /* .acct-usage-table now lives in kit-theme.css — shared compact static table. */
 
   /* ── Balance pools (page-layout only; tokens for colour). Purchased usage isn't trackable
@@ -104,7 +98,7 @@
      far edge of the wide modal, breaking the label↔value read. The secondary used-fraction rides
      the same line right-aligned (.acct-bal3-grp-meta) instead of its own foot line under the bar,
      so the group stays two lines tall (head + bar). */
-  .acct-bal3-grp-head{display:flex;align-items:center;gap:.5rem;font-size:var(--text-12)}
+  .acct-bal3-grp-head{display:flex;align-items:center;gap:.5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh)}
   .acct-bal3-grp-meta{margin-left:auto;color:var(--ink-secondary)}
   .acct-bal3-grp-name{display:inline-flex;align-items:center;gap:.375rem;font-weight:600;color:var(--ink)}
   /* Pool coin marker (version A / list) — same coin assets as the tile, sized to the 12px head row.
@@ -141,7 +135,6 @@
   .acct-mobile-btn{display:none;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;border-radius:.25rem;padding:0;flex:none;transition:color .12s,background .12s}
   .acct-mobile-btn:hover{color:var(--ink-body);background:var(--state-hover)}
   .acct-mobile-btn svg{width:16px;height:16px}
-  .acct-mobile-title{font-size:1.25rem;font-weight:600;color:var(--ink);line-height:1.25}
 
   /* ── Responsive ── */
   /* ≤767px: modal becomes a full-height bottom sheet.
@@ -182,9 +175,6 @@
     .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item.active .ic{color:var(--brand-primary)}
     .acct-modal[data-mobile-state="menu"] .acct-nav-chev{display:block}
     /* Section label */
-    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-label{
-      font-size:.75rem;font-weight:500;padding:0 .25rem;margin-bottom:.25rem
-    }
     /* Log Out — own bordered card at bottom, sticky */
     .acct-modal[data-mobile-state="menu"] .acct-nav-foot{
       margin-top:0;padding-top:0;border-top:none;
@@ -213,17 +203,8 @@
 
   /* ===== Change-password section (inside right panel, not a sub-dialog) ===== */
   .chpw-field{display:flex;flex-direction:column;gap:.375rem}
-  .chpw-igrp{
-    display:flex;align-items:center;height:2.375rem;
-    border-radius:.375rem;border:1px solid var(--border);
-    background:var(--card);transition:border-color .12s;width:100%
-  }
-  .chpw-igrp:hover{border-color:var(--border-hover)}
-  .chpw-igrp:focus-within{border-color:var(--input-focus)}
   .chpw-igrp-icon{display:inline-flex;align-items:center;justify-content:center;width:2.375rem;flex:none;color:var(--ink-secondary)}
   .chpw-igrp-icon svg{width:16px;height:16px}
-  .chpw-igrp input{flex:1;height:100%;border:none;outline:none;background:transparent;font-size:.875rem;color:var(--ink);font-family:inherit;padding:0;min-width:0}
-  .chpw-igrp input::placeholder{color:var(--ink-inactive)}
   .chpw-eye{
     display:inline-flex;align-items:center;justify-content:center;
     width:2.375rem;flex:none;height:100%;
@@ -236,22 +217,20 @@
   /* ===== Manage plan — pricing cards (page-layout composition) ===== */
   /* Header row: "All Plans" title (grows) + compact billing-period toggle (right). */
   .acct-plan-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;min-height:2.25rem}
-  .acct-plan-head .acct-sect-title{flex:1}
   /* Title column — grows, and keeps a gutter so the heading never butts the period toggle. */
   .acct-plan-head-main{flex:1;min-width:0;padding-right:1rem}
   /* "Choose a plan" is the section's own H-level heading, a step up from the 14px .acct-sect-title
-     used for field labels elsewhere in the modal. */
-  .acct-plan-head-main .acct-sect-title{font-size:var(--text-18);line-height:1.5rem;font-weight:500;letter-spacing:var(--tracking-tight)}
+     used for field labels elsewhere in the modal.
 
   /* Current-plan strip — states which tier the account is on, when it expires, and offers the
      cancel path. Sits above the grid so the cards below are a choice, not a status readout.
      Paid tiers only: a Free account has nothing to expire and nothing to cancel. */
   .acct-plan-current{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.875rem 1rem;margin-bottom:1.25rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem}
   .acct-plan-current-main{display:flex;flex-direction:column;gap:.25rem;flex:1;min-width:0}
-  .acct-plan-current-lbl{font-size:var(--text-11);font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--ink-secondary)}
+  .acct-plan-current-lbl{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--ink-secondary)}
   .acct-plan-current-val{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}
-  .acct-plan-current-name{font-size:var(--text-16);font-weight:600;color:var(--ink)}
-  .acct-plan-current-meta{font-size:var(--text-12);color:var(--ink-secondary)}
+  .acct-plan-current-name{font-size:var(--ts-title-16-size);line-height:var(--ts-title-16-lh);font-weight:var(--ts-title-16-weight);color:var(--ink)}
+  .acct-plan-current-meta{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
   .acct-plan-current .btn{flex:none}
   /* Toggle shrinks to its content instead of the segctrl's default full width — same
      page-local segctrl adjustment pattern as .segctrl-lbl below. */
@@ -262,57 +241,58 @@
      instead of jumping all three to 1-column at a single fixed breakpoint. */
   /* 3-across by default; reflows only at the explicit breakpoint below, not fluidly per-card. */
   .acct-plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  /* Extra air below the header: the section gap alone leaves the grid crowded, because the
+     "Most popular" / "50% OFF" ribbons overhang the cards' top edge by .5rem and eat into it.
+     .75rem on top of the section's 1rem gap restores the header-to-card distance. */
+  .acct-plan-head + .acct-plan-grid{margin-top:.75rem}
   /* Static pricing panel — NOT the interactive card-hover recipe (these are informational,
      not clickable). --card surface + --border in the base state; the recommended plan adds the
-     accent border + brand wash via .is-featured, and the tier the account is already on gets the
-     recessed .is-current fill. */
+     accent border + brand wash via .is-featured. The tier the account is on is NOT tinted — it is
+     identified by its disabled "Current Plan" CTA alone. */
   /* Tight header cluster (name/price/tagline share the .375rem base gap); the tagline's
      margin-bottom + the feature list's margin-top open a clear .75rem band around the CTA,
      giving the card a 3-tier rhythm instead of one flat evenly-spaced stack. */
   .acct-plan-card{position:relative;display:flex;flex-direction:column;gap:.375rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem}
-  /* The tier the account is on — recessed fill, neutral border kept. */
-  .acct-plan-card.is-current{background:var(--plan-card-current-bg)}
   /* Recommended tier — accent border + brand wash + brand-tinted lift. */
   .acct-plan-card.is-featured{border-color:var(--plan-card-featured-border);background:var(--plan-card-featured-bg);box-shadow:var(--plan-card-featured-shadow)}
   /* min-height keeps the name row a constant height whether or not a card carries badges, so the
      price / tagline / CTA below all line up across the three cards. */
   .acct-plan-name-row{display:flex;align-items:center;flex-wrap:wrap;gap:.375rem;min-height:1.75rem}
-  .acct-plan-name{font-size:var(--text-18);font-weight:600;color:var(--ink)}
   .acct-plan-price-row{display:flex;align-items:baseline;flex-wrap:wrap;row-gap:.125rem}
   /* tabular-nums fixes digit width so the price + "/ month" don't shift horizontally when the
-     Monthly ↔ Yearly toggle swaps the numbers. */
-  .acct-plan-price{font-size:var(--text-30);font-weight:600;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+     Monthly ↔ Yearly toggle swaps the numbers.
   /* Fixed 8px margin (not a reserved min-width box) — every toggle pair (data-monthly/data-yearly)
      is the same character length, so tabular-nums alone already prevents any width jump; a
-     min-width box here just left slack that made the price→was-price gap look different per card. */
-  .acct-plan-price-was{font-size:var(--text-14);color:var(--ink-inactive);text-decoration:line-through;font-variant-numeric:tabular-nums;margin-left:.5rem}
+     min-width box here just left slack that made the price→was-price gap look different per card.
   /* Force the per-unit ("/ month", "/ user / month") onto its own line for every card, so the
      price row is always exactly two lines → the tagline + CTA below line up across all three
-     cards (Free's short "/ month" no longer sits inline while Starter/Pro's longer unit wraps). */
-  .acct-plan-per{font-size:var(--text-12);color:var(--ink-secondary);flex-basis:100%;margin-bottom:.75rem}
-  .acct-plan-tagline{font-size:var(--text-12);color:var(--ink-secondary);margin-bottom:.75rem}
+     cards (Free's short "/ month" no longer sits inline while Starter/Pro's longer unit wraps).
   /* Full-width CTA (layout sizing only — visual variant + height come from .btn-primary/.btn-outline + .btn-md). */
   .acct-plan-card .btn.acct-plan-cta{width:100%;justify-content:center}
-  .acct-plan-feats{list-style:none;margin:1rem 0 0;padding:0;display:flex;flex-direction:column;gap:.5rem}
-  .acct-plan-feats li{display:flex;align-items:flex-start;gap:.5rem;font-size:var(--text-12);color:var(--ink-body);line-height:1.45}
-  /* Check marker — brand-tinted tick via CSS mask (clean markup, colour flows from --brand-primary). */
-  .acct-plan-feats li::before{content:"";width:14px;height:14px;flex:none;margin-top:.125rem;background:var(--brand-primary);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat}
+  /* Check marker — brand-tinted tick via CSS mask (clean markup, colour flows from --brand-primary).
   /* ── Manage-plan dialogs (cancel / downgrade / yearly request) ── */
   /* .25rem top: .dlg-hdr already pays .5rem below the title, so a full 1.25rem here would
      double-space the copy away from the heading. */
-  .acct-dlg-body{padding:.25rem 1.25rem 1.25rem;display:flex;flex-direction:column;gap:.75rem}
-  .acct-dlg-txt{font-size:var(--text-14);color:var(--ink-body);line-height:1.5}
+  /* Composes .dlg-content.is-stack (kit owns the shrink + scroll contract so the footer can never
+     leave the card); only these two spacing deviations are the page's own. */
+  .dlg-content.acct-dlg-body{padding-top:.25rem;gap:.75rem}
+  .acct-dlg-txt{font-size:var(--ts-body-m-size);color:var(--ink-body);line-height:var(--ts-body-m-lh)}
   /* Features the user gives up. Same list anatomy as .acct-plan-feats, with the brand tick
      swapped for a destructive cross — the marker carries the meaning, not just the colour
      (the surrounding copy names it as a loss too). */
   .acct-plan-lost{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.375rem}
-  .acct-plan-lost li{display:flex;align-items:flex-start;gap:.5rem;font-size:var(--text-13);color:var(--ink-body);line-height:1.45}
+  .acct-plan-lost li{display:flex;align-items:flex-start;gap:.5rem;font-size:var(--ts-body-m-size);color:var(--ink-body);line-height:var(--ts-body-m-lh)}
   .acct-plan-lost li::before{content:"";width:14px;height:14px;flex:none;margin-top:.1875rem;background:var(--fb-red-text);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat}
   /* Warning glyph in the confirm dialogs' header, ahead of the title. */
   .acct-dlg-warn{width:1.25rem;height:1.25rem;flex:none;color:var(--fb-attention-text)}
   /* Support-request field group. */
+  /* State wrappers (#acct-yearly-pending / -sent) only toggle visibility — they must not become a
+     flex level of their own, or the body + footer stop being .dlg's flex children and the footer
+     can be pushed out of the card. display:contents removes the level; the JS display:none /
+     display:'' toggle still works because '' falls back to this rule. */
+  #acct-yearly-pending,#acct-yearly-sent{display:contents}
   .acct-dlg-field{display:flex;flex-direction:column;gap:.375rem}
-  .acct-dlg-field-lbl{font-size:var(--text-13);font-weight:500;color:var(--ink-body)}
+  .acct-dlg-field-lbl{font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-body)}
   .acct-dlg-field .ta{max-width:none;resize:vertical}
 
   /* ── Manage plan / Buy-credits shared extras (page-layout only; colours from tokens) ── */
@@ -338,25 +318,17 @@
      competes with it. */
   .acct-bc-head{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}
   /* Clear hierarchy: credit count is the hero (biggest, boldest — it's the thing being bought);
-     name is a small label; price is readable and dark but stays a step below the hero. */
-  .acct-bc-name{font-size:var(--text-12);font-weight:600;color:var(--ink-secondary)}
-  .acct-bc-tokens{font-size:var(--text-18);font-weight:600;color:var(--ink);line-height:1.2}
-  .acct-bc-tokens span{font-size:var(--text-12);font-weight:400;color:var(--ink-secondary)}
-  .acct-bc-price{font-size:var(--text-14);font-weight:600;color:var(--ink-body)}
+     name is a small label; price is readable and dark but stays a step below the hero.
   .acct-bc-pack .acct-bc-buy{width:100%;justify-content:center;margin-top:.75rem}
 
   /* Recommended ribbon on a pricing card (offset onto the card's top border; the card is
      position:relative). Used by V2's Pro card, mirroring the site's ribbon treatment. */
   /* Marker straddling a card's top border. Base = solid brand fill (the Buy-credits Medium pack's
-     "Most popular"); the plan cards use the tinted .is-brand / .is-accent variants below. */
-  .acct-plan-ribbon{position:absolute;top:-.5rem;left:1rem;font-size:var(--text-11);font-weight:600;padding:.125rem .5rem;border-radius:.375rem;background:var(--brand-primary);color:var(--content-on-solid);white-space:nowrap}
+     "Most popular"); the plan cards use the tinted .is-brand / .is-accent variants be
   /* Tinted variants — fill mixes over --card (never over transparent), so the card border does
-     not show through the ribbon it overlaps. */
-  .acct-plan-ribbon.is-brand{background:var(--plan-ribbon-brand-bg);border:1px solid var(--plan-ribbon-brand-border);color:var(--plan-ribbon-brand-ink)}
-  .acct-plan-ribbon.is-accent{background:var(--plan-ribbon-accent-bg);border:1px solid var(--plan-ribbon-accent-border);color:var(--plan-ribbon-accent-ink)}
+     not show through the ribbon it overlaps.
   /* Two markers on one card: the row takes over the absolute placement and the ribbons go static. */
   .acct-plan-ribbon-row{position:absolute;top:-.5rem;left:1rem;display:flex;align-items:center;gap:.5rem}
-  .acct-plan-ribbon-row .acct-plan-ribbon{position:static;top:auto;left:auto}
 
   /* Reflow to a single column below 768px; between 768–1024px the modal's content column is too
      narrow for 3 cards without cramming (each card needs ~220px), so it goes 2-over-1 instead —
@@ -498,8 +470,8 @@
             <h2 class="acct-title" id="acct-modal-title">My account</h2>
             <div class="acct-header-actions" id="acct-header-actions"></div>
             <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close account settings"
-                    data-tip="Close" data-tip-side="bottom" onclick="acctCloseModal()" style="width:2rem;height:2rem;flex:none">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    data-tip="Close" data-tip-side="bottom" onclick="acctCloseModal()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
           <div class="acct-content" id="acct-content">
@@ -512,7 +484,7 @@
                     <div class="acct-sect-title">Your email</div>
                     <div class="acct-field-val">andriil@devart.com</div>
                   </div>
-                  <button class="link" type="button" style="font-size:.875rem"
+                  <button class="link" type="button" style="font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)"
                           onclick="acctSetSection('change-password')">Change Password</button>
                 </div>
               </div>
@@ -607,10 +579,10 @@
                       <li>Community support</li>
                     </ul>
                   </div>
-                  <!-- Starter — the current tier: recessed .is-current fill, disabled CTA. The
+                  <!-- Starter — the current tier: same surface as the others, disabled CTA. The
                        50% OFF promo is a ribbon on the card's top border, mirrored from the live
                        pricing page. -->
-                  <div class="acct-plan-card is-current">
+                  <div class="acct-plan-card">
                     <div class="acct-plan-ribbon is-accent">50% OFF</div>
                     <div class="acct-plan-name-row"><span class="acct-plan-name">Starter <span data-monthly="Monthly" data-yearly="Yearly">Monthly</span></span></div>
                     <div class="acct-plan-tagline">For small teams</div>
@@ -716,7 +688,7 @@
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
                       <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
-                      <div class="acct-bal-amount" style="flex:1">827<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-amount" style="flex:1">827<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
@@ -755,7 +727,7 @@
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
                       <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
-                      <div class="acct-bal-amount" style="flex:1">14,999.9<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-amount" style="flex:1">14,999.9<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
                       </div>
@@ -793,7 +765,7 @@
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
                       <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 1 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
-                      <div class="acct-bal-amount" style="flex:1">6,800<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-amount" style="flex:1">6,800<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
@@ -827,7 +799,7 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>                    </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
                       <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
-                      <div class="acct-bal-amount" style="flex:1">0<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-amount" style="flex:1">0<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
@@ -1010,11 +982,11 @@
     <div class="dlg-hdr">
       <svg class="acct-dlg-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
       <h2 id="acct-cancel-title" class="dlg-title">Cancel Starter plan?</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="acctCloseCancelPlan()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="acctCloseCancelPlan()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div class="acct-dlg-body">
+    <div class="dlg-content is-stack acct-dlg-body">
       <span class="acct-dlg-txt">Your plan stays active until Sep 30, 2026, then moves to Free. You will lose access to these:</span>
       <ul class="acct-plan-lost">
         <li>Up to 5 users</li>
@@ -1038,11 +1010,11 @@
     <div class="dlg-hdr">
       <svg class="acct-dlg-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
       <h2 id="acct-downgrade-title" class="dlg-title">Switch to <span id="acct-downgrade-name">Free</span>?</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="acctCloseDowngrade()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="acctCloseDowngrade()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div class="acct-dlg-body">
+    <div class="dlg-content is-stack acct-dlg-body">
       <span class="acct-dlg-txt">You will lose access to these at the end of the current billing period:</span>
       <ul class="acct-plan-lost">
         <li>Up to 5 users</li>
@@ -1066,13 +1038,13 @@
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="acct-yearly-title">
     <div class="dlg-hdr">
       <h2 id="acct-yearly-title" class="dlg-title">Switch to yearly billing</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="acctCloseYearlyReq()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="acctCloseYearlyReq()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <!-- Pending state -->
     <div id="acct-yearly-pending">
-      <div class="acct-dlg-body" style="gap:.875rem">
+      <div class="dlg-content is-stack acct-dlg-body" style="gap:.875rem">
         <span class="acct-dlg-txt">Monthly plans can't switch to yearly automatically. Send a request and support will apply it to your Starter plan.</span>
         <label class="acct-dlg-field">
           <span class="acct-dlg-field-lbl">Note for support (optional)</span>
@@ -1086,7 +1058,7 @@
     </div>
     <!-- Sent state -->
     <div id="acct-yearly-sent" style="display:none">
-      <div class="acct-dlg-body" style="gap:.5rem">
+      <div class="dlg-content is-stack acct-dlg-body" style="gap:.5rem">
         <span class="acct-dlg-txt">Support will contact you within one business day to move your Starter subscription to yearly billing. Your current plan stays active in the meantime.</span>
       </div>
       <div class="dlg-ftr">

@@ -15,7 +15,7 @@
      same surrounding system on both screens. All component styling lives in kit-theme.css. */
   .topbar{padding:.375rem 1rem}
   .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--bg);transition:grid-template-columns .2s ease}
-  .cl-shell:has(.sbx.is-collapsed){grid-template-columns:3.563rem 1fr}
+  .cl-shell:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr}
   .cl-side{background:var(--card);border-right:1px solid var(--border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
   .cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
 
@@ -33,9 +33,7 @@
        text-content-primary    → color: var(--ink)  (Text/Primary in this kit)
        text-left               → text-align: left
      Same tokens as the source app so the heading renders identically. */
-  .cl-page-title{scroll-margin:5rem;font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0 0 .25rem}
   @media (min-width:768px){
-    .cl-page-title{font-size:1.875rem;line-height:2.25rem}
   }
   /* Burger alignment handled globally in kit-theme.css — no per-page rules needed. */
   @media(max-width:1023px){.cl-main{padding-top:0}}
@@ -50,11 +48,11 @@
   .cl-search input[type="search"]::-webkit-search-cancel-button,
   .cl-search input[type="search"]::-webkit-search-decoration{-webkit-appearance:none;appearance:none}
   /* Custom clear button — visibility glue only; the 24×24 appearance comes from the kit's
-     .meta-row-iconbtn (brand-tinted hover, inset focus). Visible whenever the input has content
+     .iconbtn.iconbtn-tertiary at the 24px .is-row step. Visible whenever the input has content
      (driven by :has(:not(:placeholder-shown))), hidden when empty so the icon doesn't compete
      with the placeholder. */
-  .cl-search .meta-row-iconbtn{display:none}
-  .cl-search:has(input:not(:placeholder-shown)) .meta-row-iconbtn{display:inline-flex}
+  .cl-search .iconbtn{display:none}
+  .cl-search:has(input:not(:placeholder-shown)) .iconbtn{display:inline-flex}
 
   /* Chat list — the LIST has no card wrapper (sits on the page background); the rows themselves
      each have a --card surface so they read as distinct list items. 6 px gap separates them.
@@ -69,8 +67,8 @@
      --card) purely so scrolling rows underneath can't show through — no border added. */
   .cl-meta-sticky{position:sticky;top:40px;z-index:5;background:var(--bg)}
 
-  /* Edit-mode meta-row controls are kit components — .meta-row-btn.danger (Delete) inside
-     .meta-row-end (right anchor) + .meta-row-iconbtn (✕). See kit-theme.css → MetaRow. */
+  /* Edit-mode meta-row controls are plain kit Buttons — .btn.btn-tertiary.is-danger.btn-sm
+     (Delete) inside .meta-row-end (right anchor) + .iconbtn.iconbtn-tertiary.iconbtn-sm (✕). */
 
   /* Empty state — uses the shared kit .empty-state component (kit-theme.css, #statusview).
      Two variants driven by JS: true-empty (icon + title + message + "New Chat" CTA) and
@@ -159,7 +157,7 @@
               <svg class="sbx-brand-logo" aria-label="Insightis"><use href="#lg"/></svg>
               <svg class="sbx-brand-mark" aria-hidden="true"><use href="#lg-mark"/></svg>
             </div>
-            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Collapse sidebar" type="button" onclick="clToggleSbxCollapse()" data-tip="Collapse">
+            <button class="iconbtn iconbtn-tertiary iconbtn-xs sbx-collapse" aria-label="Collapse sidebar" type="button" onclick="clToggleSbxCollapse()" data-tip="Collapse">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
@@ -353,7 +351,7 @@
       <div class="field cl-search">
         <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
         <input id="chats-search" type="search" placeholder="Search conversations…" aria-label="Search conversations" oninput="clFilterChats(this.value)">
-        <button class="meta-row-iconbtn" type="button" aria-label="Clear search" data-tip="Clear search" onclick="clClearSearch()">
+        <button class="iconbtn iconbtn-tertiary is-row" type="button" aria-label="Clear search" data-tip="Clear search" onclick="clClearSearch()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
@@ -475,7 +473,7 @@
         + '<div class="chat-row' + (c.selected ? ' is-selected' : '') + '" role="listitem" data-id="' + c.id + '" tabindex="0">'
         +   '<span class="cbx' + (c.selected ? ' on' : '') + '" role="checkbox" aria-checked="' + c.selected + '" tabindex="0" data-action="check" data-id="' + c.id + '">' + (c.selected ? CHECK : '') + '</span>'
         +   '<span class="chat-row-name">' + escapeHtml(c.name) + '</span>'
-        +   (c.pinned ? '<button class="chat-row-pin" type="button" aria-label="Unpin" aria-pressed="true" data-action="unpin" data-id="' + c.id + '">' + PIN_FILLED + '</button>' : '')
+        +   (c.pinned ? '<button class="chat-row-pin" type="button" aria-label="Unpin" data-tip="Unpin" aria-pressed="true" data-action="unpin" data-id="' + c.id + '">' + PIN_FILLED + '</button>' : '')
         +   '<span class="chat-row-time">' + escapeHtml(c.time) + '</span>'
         +   '<button class="chat-row-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more" data-id="' + c.id + '" data-tip="More actions">' + KEBAB + '</button>'
         +   '<div class="menu chat-row-menu" role="menu">'
@@ -521,8 +519,8 @@
       + '<span class="meta-row-count">' + selectedCount + ' selected</span>'
       + '<button class="link' + (visible.length === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all"' + (visible.length === 0 ? ' aria-disabled="true"' : '') + '>' + (allVisibleSelected ? 'Deselect all' : 'Select all') + '</button>'
       + '<span class="meta-row-end">'
-      +   '<button class="meta-row-btn danger' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH_IC + 'Delete</button>'
-      +   '<button class="meta-row-iconbtn" type="button" data-action="cancel-edit" aria-label="Exit selection" data-tip="Exit selection">' + CLOSE_IC + '</button>'
+      +   '<button class="btn btn-tertiary is-danger btn-sm' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH_IC + 'Delete</button>'
+      +   '<button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" data-action="cancel-edit" aria-label="Exit selection" data-tip="Exit selection">' + CLOSE_IC + '</button>'
       + '</span>';
   }
 
@@ -811,11 +809,11 @@ document.addEventListener('click', function(e){
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="sbc-ren-title">
     <div class="dlg-hdr">
       <h2 id="sbc-ren-title" class="dlg-title">Rename chat</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseRename()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="sbcCloseRename()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:1rem">
+    <div class="dlg-content is-stack">
       <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
       <div class="field" style="max-width:none"><input id="sbc-ren-input" type="text" placeholder="Chat name" autocomplete="off" aria-label="Chat name" onkeydown="if(event.key==='Enter')sbcSaveRename()"></div>
     </div>
@@ -829,11 +827,11 @@ document.addEventListener('click', function(e){
   <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="sbc-del-title">
     <div class="dlg-hdr">
       <h2 id="sbc-del-title" class="dlg-title">Delete chat?</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseDelete()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="sbcCloseDelete()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div style="padding:0 1.25rem 1.25rem">
+    <div class="dlg-content">
       <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
     </div>
     <div class="dlg-ftr">

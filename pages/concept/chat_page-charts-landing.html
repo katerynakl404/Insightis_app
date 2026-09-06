@@ -18,7 +18,7 @@
 
   /* Sidebar column */
   .cl-side{width:16rem;flex:none;background:var(--card);border-right:1px solid var(--border);height:100%;overflow:hidden;display:flex;flex-direction:column;transition:width .2s ease}
-  .cl-shell:has(.sbx.is-collapsed) .cl-side{width:3.563rem}
+  .cl-shell:has(.sbx.is-collapsed) .cl-side{width:var(--sbx-collapsed-w)}
   .cl-side .sbx{width:100%;height:auto;border:none;border-radius:0;flex:1 1 0;min-height:0}
   .cl-side .sbx-head{padding-top:8px}
 
@@ -38,7 +38,6 @@
        burger must clear it: 2.5rem topbar + (3rem header - 2rem burger)/2 = 3rem to centre it. */
     .cl-burger{top:3rem;left:.75rem}
   }
-  .cp-header-title{font-size:.875rem;line-height:1.25rem;font-weight:600;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0}
   /* Title + chevron dropdown */
   .cp-title-wrap{display:flex;align-items:center;gap:.25rem;flex:1;min-width:0;position:relative}
   .cp-title-btn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.375rem;border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;flex:none;font-family:inherit;transition:color .12s,background .12s}
@@ -66,8 +65,7 @@
   /* Timestamp reveals on row hover. It takes NO layout space when hidden (display:none) so messages
      sit close together — reserving the line left a large empty gap between every message. */
   /* Timestamp is ALWAYS visible (like prod) — never a hover-reveal. Hovering never reflows/jumps the
-     messages, and it's real content, not an empty reserved gap. */
-  .cp-ts{font-size:.6875rem;color:var(--ink-secondary);font-variant-numeric:tabular-nums}
+     messages, and it's real content, not an empty res
 
   /* Scroll-to-bottom btn — absolute within thread-wrap */
   /* .cp-scroll-btn (floating scroll-to-bottom button) now lives in pages/kit-theme.css — shared kit component. */
@@ -75,21 +73,15 @@
   /* ── Expected — rich AI content blocks ── */
   /* Messages span the full chat column (like the live chat), not a narrow inset. */
   .cp-ai-wrap{display:flex;flex-direction:column;gap:.5rem;max-width:100%;width:100%;position:relative}
-  .cp-ai-label{font-size:.75rem;color:var(--ink-secondary);font-weight:500;padding-left:.125rem}
   /* .cp-ai-bubble now lives in pages/kit-theme.css — see .cp-msg-row block. */
   /* .cp-ai-prose now lives in pages/kit-theme.css (#chat-message) — darker --ink answer text. */
   /* Metric grid */
   .cp-metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;min-width:360px}
   .cp-metric-card{display:flex;flex-direction:column;gap:.25rem;padding:.75rem;border-radius:.5rem;border:1px solid var(--border);background:var(--bg)}
-  .cp-metric-label{font-size:.75rem;color:var(--ink-secondary)}
-  .cp-metric-val{font-size:1.125rem;font-weight:700;color:var(--ink);letter-spacing:var(--tracking-tight)}
-  .cp-metric-val.neg{color:var(--fb-red-text)}
   /* Chart */
   .cp-chart-wrap{padding:.875rem 1rem;display:flex;flex-direction:column;gap:.5rem;background:var(--bg);border:1px solid var(--border);border-radius:.5rem}
-  .cp-chart-title{font-size:.8125rem;font-weight:600;color:var(--ink-body)}
   .cp-chart-svg{width:100%;aspect-ratio:560/100;overflow:visible;display:block}
-  /* Data source note */
-  .cp-src{font-size:.75rem;color:var(--ink-secondary);line-height:1.4;margin:0}
+  /* Data source note
   /* Action buttons */
   .cp-actions{display:flex;gap:.5rem;flex-wrap:wrap}
   /* User message footer: timestamp + action icons on the same row */
@@ -115,7 +107,7 @@
   .cl-composer:focus-within{border-color:var(--input-focus);box-shadow:none}
   /* Contenteditable prompt — a div (not <textarea>) so inline .cl-mention-tag tokens can flow in
      the text. Auto-grows with content; caps at 300px then scrolls. */
-  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:14px;min-height:32px;max-height:300px;overflow-y:auto;color:var(--ink);outline:none;font-family:inherit;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:var(--ts-body-m-size);min-height:32px;max-height:300px;overflow-y:auto;color:var(--ink);outline:none;font-family:inherit;line-height:var(--ts-body-m-lh);white-space:pre-wrap;word-break:break-word}
   .cl-prompt:empty:before{content:attr(data-placeholder);color:var(--ink-inactive);pointer-events:none}
   .cl-prompt:hover,.cl-prompt:focus,.cl-prompt:focus-visible{border:none;box-shadow:none}
   .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
@@ -125,7 +117,7 @@
      .cl-dropdown-menu) and the attached-file chip (.cl-file-chip) now live in the single source
      pages/kit-theme.css (storybook #composer-menus). Page <style> keeps only layout glue below. */
   /* Radius is concentric with the composer: outer 1rem − .5rem padding = .5rem inner. */
-  .cl-send{height:2rem;padding:0 .75rem;gap:.375rem;font-size:.8125rem;border-radius:.5rem}
+  .cl-send{height:2rem;padding:0 .75rem;gap:.375rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);border-radius:.5rem}
   .cl-send svg{width:14px;height:14px}
   /* Send button — always shows active styling even with disabled attr (visual continuity) */
   .cl-send[disabled]{background:var(--brand-primary);color:var(--content-on-solid);border-color:transparent;opacity:1;pointer-events:none}
@@ -134,7 +126,6 @@
   /* Concept control (design-review only) — lives in the page topbar (top of page, never in content);
      switches the composer popovers between states. The switcher itself is the kit SegmentedControl. */
   .tb-concept{display:flex;align-items:center;gap:.375rem}
-  .tb-concept-lbl{font-size:var(--text-11);color:var(--ink-secondary);white-space:nowrap}
   /* Sidebar→drawer is kit-owned at ≤1023px (kit-theme.css) — pages must not redeclare it. */
 </style>
 </head>
@@ -226,7 +217,7 @@
               <svg class="sbx-brand-logo" aria-label="Insightis"><use href="#lg"/></svg>
               <svg class="sbx-brand-mark" aria-hidden="true"><use href="#lg-mark"/></svg>
             </div>
-            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Collapse sidebar" type="button" onclick="clToggleSbxCollapse()" data-tip="Collapse">
+            <button class="iconbtn iconbtn-tertiary iconbtn-xs sbx-collapse" aria-label="Collapse sidebar" type="button" onclick="clToggleSbxCollapse()" data-tip="Collapse">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
@@ -548,21 +539,39 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
               <div class="cl-dropdown-wrap">
                 <button class="cl-dropdown" type="button" aria-haspopup="menu" aria-expanded="false" onclick="clDdToggle(this)">
                   <svg class="cl-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></svg>
-                  <span class="cl-dropdown-lbl">Insightis Light</span>
+                  <span class="cl-dropdown-lbl">Insightis Light <span class="cl-dropdown-val">(Low)</span></span>
                   <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
                 <div class="cl-dropdown-menu menu cl-model-menu" role="menu">
                   <div id="cl-model-list">
-                  <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="true" onclick="clModelSelect(this,'Insightis Light')">
-                    <svg class="cl-model-logo" aria-hidden="true"><use href="#lg-mark"/></svg>
-                    <span class="cl-model-text"><span class="cl-model-name">Insightis Light</span><span class="cl-model-desc">Fast, everyday answers</span></span>
-                    <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  </button>
-                  <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="false" onclick="clModelSelect(this,'Insightis Ultra')">
-                    <svg class="cl-model-logo" aria-hidden="true"><use href="#lg-mark"/></svg>
-                    <span class="cl-model-text"><span class="cl-model-name">Insightis Ultra</span><span class="cl-model-desc">Deepest reasoning &amp; analysis</span></span>
-                    <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  </button>
+                    <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="true" onclick="clModelSelect(this,'Insightis Light')">
+                      <span class="cl-model-text"><span class="cl-model-name">Insightis Light</span></span>
+                      <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                    <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="false" onclick="clModelSelect(this,'Insightis Medium')">
+                      <span class="cl-model-text"><span class="cl-model-name">Insightis Medium</span></span>
+                      <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                    <button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="false" onclick="clModelSelect(this,'Insightis Pro')">
+                      <span class="cl-model-text"><span class="cl-model-name">Insightis Pro</span></span>
+                      <svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                  <hr class="menu-sep" />
+                  <div class="cl-model-opt">
+                    <span class="cl-model-opt-lbl">Thinking</span>
+                    <span class="cl-opt-info" role="img" data-tip="Turn on to receive smarter answers. Higher effort means more thorough answers but higher credit usage." aria-label="Turn on to receive smarter answers. Higher effort means more thorough answers but higher credit usage."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
+                    <span class="cl-model-opt-ctl"><button class="swt is-sm on" type="button" role="switch" aria-checked="true" aria-label="Thinking" onclick="clThinkingToggle(this)"></button></span>
+                  </div>
+                  <div class="cl-model-opt" id="cl-effort-row">
+                    <span class="cl-model-opt-lbl">Effort <span class="cl-model-opt-val" id="cl-effort-val">(Low)</span></span>
+                    <span class="cl-model-opt-ctl">
+                      <div class="stps is-sm" role="radiogroup" aria-label="Effort" aria-disabled="false">
+                        <button class="stps-step" type="button" role="radio" aria-checked="true" data-tip="Low" aria-label="Low effort" onclick="clEffortSet(this)"><span class="stps-dot" aria-hidden="true"></span></button>
+                        <button class="stps-step" type="button" role="radio" aria-checked="false" data-tip="Medium" aria-label="Medium effort" onclick="clEffortSet(this)"><span class="stps-dot" aria-hidden="true"></span></button>
+                        <button class="stps-step" type="button" role="radio" aria-checked="false" data-tip="High" aria-label="High effort" onclick="clEffortSet(this)"><span class="stps-dot" aria-hidden="true"></span></button>
+                      </div>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -588,10 +597,10 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
     <div class="cp-fp-head">
       <span class="cp-fp-title" id="cp-fp-title"></span>
       <div class="cp-fp-actions">
-        <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Download file" data-tip="Download">
+        <button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Download file" data-tip="Download">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </button>
-        <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close preview" data-tip="Close" onclick="cpClosePreview()">
+        <button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Close preview" data-tip="Close" onclick="cpClosePreview()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
@@ -839,10 +848,49 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
     if(!wrap) return;
     clModelSel = label;   // remembered so a loading→loaded re-render keeps the selection
     wrap.querySelectorAll('.cl-model-item').forEach(function(m){m.setAttribute('aria-checked', m === item ? 'true' : 'false');});
-    var lbl = wrap.querySelector('.cl-dropdown-lbl');
-    if(lbl) lbl.textContent = label;
+    clSyncModelLabel();   // trigger reads "<model> (<effort>)"
     var btn = wrap.querySelector('.cl-dropdown');
     if(btn) btn.setAttribute('aria-expanded','false');
+  }
+  /* Thinking / Effort — the model popover's settings block. Effort only has meaning while thinking
+     is on, so the Effort row is disabled in place whenever the switch is off and the trigger label
+     drops the level with it. Order in the popover is Thinking → Effort for the same reason. */
+  var clThinking = true, clEffort = 'Low';
+  function clSyncModelLabel(){
+    var wrap = document.querySelector('.cl-model-menu');
+    wrap = wrap && wrap.closest('.cl-dropdown-wrap');
+    var lbl = wrap && wrap.querySelector('.cl-dropdown-lbl');
+    if(!lbl) return;
+    // The level is supporting text, not part of the model name -> its own secondary-tone span.
+    lbl.innerHTML = clModelSel + (clThinking ? ' <span class="cl-dropdown-val">(' + clEffort + ')</span>' : '');
+  }
+  /* Thinking gates Effort. The Effort row is DISABLED IN PLACE, never removed: pulling it out of
+     flow resized the popover on every toggle, which read as the menu jumping. While gated the
+     StepSlider group tips why it is off. */
+  function clThinkingToggle(sw){
+    clThinking = !sw.classList.contains('on');
+    sw.classList.toggle('on', clThinking);
+    sw.setAttribute('aria-checked', clThinking ? 'true' : 'false');
+    var row = document.getElementById('cl-effort-row');
+    if(row){
+      row.classList.toggle('is-disabled', !clThinking);
+      var grp = row.querySelector('.stps');
+      if(grp){
+        grp.setAttribute('aria-disabled', clThinking ? 'false' : 'true');
+        if(clThinking) grp.removeAttribute('data-tip');
+        else grp.setAttribute('data-tip','Turn on Thinking to set effort');
+      }
+    }
+    clSyncModelLabel();
+  }
+  // StepSlider: the clicked step becomes aria-checked, the rest fall back to dots.
+  function clEffortSet(step){
+    clEffort = step.getAttribute('data-tip');
+    var steps = step.parentNode.querySelectorAll('.stps-step');
+    for(var i=0;i<steps.length;i++) steps[i].setAttribute('aria-checked', steps[i] === step ? 'true' : 'false');
+    var val = document.getElementById('cl-effort-val');
+    if(val) val.textContent = '(' + clEffort + ')';
+    clSyncModelLabel();
   }
   // Connected sources — flip the row's toggle (kit Switch) on/off; the menu stays open so several
   // can be switched in one pass. A click anywhere on the row (incl. the switch, which bubbles)
@@ -907,7 +955,7 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
     {logo:'postgresql',name:'User Directory',on:false}
   ];
   var CL_FILES=['Q3-revenue.csv','customers-export.xlsx','churn-analysis.pdf','ad-spend-2024.xlsx','cohort-retention.csv','nps-survey-q3.pdf','pipeline-q4.xlsx','refunds-2024.csv','sessions-raw.csv','ltv-model.xlsx','campaign-utm.csv','forecast-2025.pdf'];
-  var CL_MODELS=[{name:'Insightis Light',desc:'Fast, everyday answers'},{name:'Insightis Ultra',desc:'Deepest reasoning & analysis'}];
+  var CL_MODELS=['Insightis Light','Insightis Medium','Insightis Pro'];
   var clModelSel='Insightis Light';
   /* Skeleton rows — reuse the SAME .mi.<row> classes as the loaded rows so padding, font and
      line-height (and therefore row height) match exactly; the popover must not resize when the real
@@ -915,10 +963,10 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
      keeps the placeholder non-interactive. Loading keeps all chrome (Choose File / heading / divider
      / Manage) visible — only the async row region swaps — so loading→loaded is a pure content swap. */
   function clSkelConnRow(){ return '<div class="mi cl-conn-item" aria-hidden="true" style="pointer-events:none"><span class="skel r-full" style="width:24px;height:24px"></span><span class="cl-conn-text"><span class="cl-conn-name"><span class="skel" style="display:inline-block;width:8rem;height:.625rem"></span></span></span><span class="skel r-full" style="width:1.75rem;height:1rem"></span></div>'; }
-  function clSkelFileRow(){ return '<div class="mi cl-file-item" aria-hidden="true" style="pointer-events:none"><span class="skel r-sm" style="width:16px;height:16px"></span><span class="cl-file-name"><span class="skel" style="display:inline-block;width:9rem;height:.625rem"></span></span></div>'; }
-  function clModelRow(m,checked){ return '<button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="'+(checked?'true':'false')+'" onclick="clModelSelect(this,\''+m.name+'\')"><svg class="cl-model-logo" aria-hidden="true"><use href="#lg-mark"/></svg><span class="cl-model-text"><span class="cl-model-name">'+m.name+'</span><span class="cl-model-desc">'+m.desc+'</span></span><svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>'; }
-  // Models are known client-side (Insightis Light / Ultra) — no async fetch, so no skeleton: always render the real rows.
-  function clRenderModels(){ var box=document.getElementById('cl-model-list'); if(!box) return; box.innerHTML=CL_MODELS.map(function(m){return clModelRow(m,m.name===clModelSel);}).join(''); }
+  function clSkelFileRow(){ return '<div class="mi cl-file-item" aria-hidden="true" style="pointer-events:none"><span class="skel r-sm"></span><span class="cl-file-name"><span class="skel" style="display:inline-block;width:9rem;height:.625rem"></span></span></div>'; }
+  function clModelRow(name,checked){ return '<button class="mi cl-model-item" type="button" role="menuitemradio" aria-checked="'+(checked?'true':'false')+'" onclick="clModelSelect(this,\''+name+'\')"><span class="cl-model-text"><span class="cl-model-name">'+name+'</span></span><svg class="cl-model-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>'; }
+  // Models are known client-side (Light / Medium / Pro) — no async fetch, so no skeleton: always render the real rows.
+  function clRenderModels(){ var box=document.getElementById('cl-model-list'); if(!box) return; box.innerHTML=CL_MODELS.map(function(n){return clModelRow(n,n===clModelSel);}).join(''); }
   function clConnRow(c){
     return '<div class="mi cl-conn-item" onclick="clConnToggle(this)">'+
       '<span class="logo-spr '+c.logo+' cl-conn-logo" role="img" aria-label="'+c.name+' logo"></span>'+
@@ -1243,12 +1291,12 @@ document.addEventListener('click', function(e){
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="sbc-ren-title">
     <div class="dlg-hdr">
       <h2 id="sbc-ren-title" class="dlg-title">Rename chat</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseRename()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="sbcCloseRename()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:1rem">
-      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
+    <div class="dlg-content is-stack">
+      <p style="margin:0;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
       <div class="field" style="max-width:none"><input id="sbc-ren-input" type="text" placeholder="Chat name" autocomplete="off" aria-label="Chat name" onkeydown="if(event.key==='Enter')sbcSaveRename()"></div>
     </div>
     <div class="dlg-ftr">
@@ -1261,12 +1309,12 @@ document.addEventListener('click', function(e){
   <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="sbc-del-title">
     <div class="dlg-hdr">
       <h2 id="sbc-del-title" class="dlg-title">Delete chat?</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="sbcCloseDelete()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="sbcCloseDelete()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div style="padding:0 1.25rem 1.25rem">
-      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
+    <div class="dlg-content">
+      <p style="margin:0;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
     </div>
     <div class="dlg-ftr">
       <button class="btn btn-secondary btn-sm" type="button" onclick="sbcCloseDelete()">Cancel</button>

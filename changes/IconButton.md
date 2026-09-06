@@ -4,36 +4,79 @@ Source: `@insightis/ui` `Button/index.tsx` (cva) + `globals.css`.
 
 **IconButton mirrors the full Button variant set — Primary / Secondary / Outlined / Tertiary / Destructive Outlined** — each reusing the corresponding Button tokens 1:1. No IconButton-specific colour tokens are introduced. The CSS base (`.iconbtn`) is stripped down to shape/size only; colour comes from the variant class.
 
-## Base geometry (`.iconbtn` — shape/size only, one size)
+## Base geometry (`.iconbtn` — shape/size only)
 
 | Property | Value | Notes |
 |---|---|---|
 | Display / layout | `display:inline-flex; align-items:center; justify-content:center` | Centers the glyph in the square box. |
-| Width × Height | `2.25rem` × `2.25rem` (36 × 36px) | Single size — no xs/sm/lg/xl scale (unlike Button). Square footprint. |
+| Width × Height | `2.25rem` × `2.25rem` (36 × 36px) | Base = the `md` step. Square footprint. A size class picks another step — see **Sizes** below. |
 | Radius | `.375rem` (6px) | Matches Button `md`. |
 | Border | `1px solid transparent` | Variant class supplies the visible colour. |
 | Cursor | `pointer` (`not-allowed` when `:disabled`) | Set on base; disabled variants override to `not-allowed`. |
+| Flex | `flex:none` | **Added** — the box is a fixed-size square and must never be squashed by the flex row it sits in (`.dlg-hdr`, `.meta-row-end`, `.cp-fp-head`). 29 consumers across 9 pages were hand-adding this inline alongside an inline size; both are now the base plus a ladder class. |
 | Font | `font-family:inherit` | No own type tokens — icon-only, no text. |
 | Transition | `all .12s` | Matches Button. |
-| Icon glyph | ≤18px typical (consumer-set) | **Icon size is flexible / consumer-set by design — not enforced by `.iconbtn`.** `.iconbtn` sizes only the button box; the glyph size comes from the consumer's inline SVG `width`/`height`. 18px is the typical/default, but it may be smaller per-instance (e.g. `.mx-tbl-actions .iconbtn svg{width:14px;height:14px}` in table action rows). Intentional — no base `.iconbtn svg{...}` rule, so each context picks its own glyph size. |
+| Icon glyph | `16px` (`14px` on the two smallest steps) | **Changed** — see the Sizes section for why the "consumer-set glyph" contract had to go. |
 
 ### DOM / markup contract
 
 ```html
-<button class="iconbtn iconbtn-{variant}" aria-label="Add" data-tip="Add">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+<button class="iconbtn iconbtn-{variant} [iconbtn-{size}]" aria-label="Add" data-tip="Add">
+  <svg viewBox="0 0 24 24" fill="none"
        stroke="currentColor" stroke-width="2"><path d="…"/></svg>
 </button>
 ```
 
 - Root element: `<button>` (or `<span class="iconbtn …">` when nested inside another button, e.g. `.sbx-chat-more` inside a chat row). Always carries `class="iconbtn iconbtn-{variant}"` — base class + exactly one variant class.
 - **`aria-label` is required** — icon-only control has no text. Add `data-tip` for the hover tooltip (see Tooltip section); typically mirrors the `aria-label`.
-- Icon is an **inline `<svg>`** with explicit `width`/`height`, `viewBox="0 0 24 24"`, and `stroke="currentColor"` (or `fill="currentColor"` for solid glyphs) so the glyph inherits the variant's `color`. No `<img>` / icon-font.
+- Icon is an **inline `<svg>`** with `viewBox="0 0 24 24"` and `stroke="currentColor"` (the box sizes the glyph — do not put `width`/`height` on the SVG) (or `fill="currentColor"` for solid glyphs) so the glyph inherits the variant's `color`. No `<img>` / icon-font.
 - Loading: add `s-loading` (forced-state demo) / `aria-busy="true"` and replace the glyph with `<span class="spinner"></span>`.
+
+## Sizes  *(new — the ladder `.iconbtn` did not have)*
+
+| Class | Box | Glyph | Mirrors |
+|---|---|---|---|
+| `.iconbtn.is-row` | 24 × 24 | 14px | — (one step **below** Button) |
+| `.iconbtn-xs` | 28 × 28 | 14px | `.btn-xs` |
+| `.iconbtn-sm` | 32 × 32 | 16px | `.btn-sm` |
+| `.iconbtn-md` | 36 × 36 | 16px | `.btn-md` — same as the base, explicit for symmetry |
+| `.iconbtn-lg` | 40 × 40 | 16px | `.btn-lg` |
+| `.iconbtn-xl` | 44 × 44 | 16px | `.btn-xl` |
+
+Radius tightens to `.25rem` on the two smallest steps so a 24px box does not read as a pill.
+
+> **Why the ladder.** Button shipped five sizes and IconButton shipped one, so every surface that
+> needed a smaller icon button wrote its own size rule — `.cp-fp-actions .iconbtn` at 28px, and a
+> `.mx-tbl-actions .iconbtn` 24px branch that turned out to be **dead** (every row carrying those
+> buttons is a `.mx-metric-child`, which re-overrode it back to 36px, so four size declarations
+> existed only to cancel each other out), plus the molecules (`.cl-attach` 32, `.sbx-collapse` 28,
+> `.chat-row-more` / `.sbx-chat-more` / `.toast-x` / `.sht-x` / `.igrp-clear` at 24) each carrying
+> its own box **and** its own glyph size. The
+> steps now match Button step for step, so an icon-only control lines up with a text button of the
+> same size class. `.is-row` is deliberately outside that ladder: 24px is under the 28px minimum a
+> text button needs to stay tappable, but an icon-only control gets there on the padded box around
+> a 14px glyph, and 24px is the size eight row-action controls already use.
+
+> **Why the base glyph rule.** This doc used to state that glyph size was *"flexible /
+> consumer-set by design — no base `.iconbtn svg{...}` rule"*. Measured in the live storybook, that
+> contract was not holding, in two separate ways. `.btn` has always had `.btn svg{16px; flex:none}`
+> and `.iconbtn` had no counterpart, so:
+>
+> 1. **Icons with no size at all stretched.** The glyph is a replaced element with a 1:1 `viewBox`
+>    and no intrinsic size, so it took whatever the box left over — the same bare `.iconbtn`
+>    rendered **22×22, 18×18, 16×16 and 14×14** in different demos.
+> 2. **Icons with a correct size got shrunk below it.** The missing half was `flex:none`: the svg is
+>    a flex item inside an `inline-flex` box, so `.sbx-chat-more`, `.toast-x`, `.sht-x` and
+>    `.igrp-clear` all rendered **non-square 10×14** even though each declared a clean `14px × 14px`.
+>    Their rules were never wrong — flex-shrink was overriding them.
+>
+> `.iconbtn svg{16px; flex:none}` now mirrors `.btn svg`, with 14px on `.is-row` / `.iconbtn-xs` the
+> way `.btn-xs svg` does. Consumers that genuinely need a different glyph still override the size;
+> what they can no longer do is leave it unspecified, or have a correct value silently compressed.
 
 ## Variants
 
-Single size (36×36) — variants differ in colour only, all reusing Button tokens 1:1. **No per-variant geometry deviation.** The only token-level deviation across the set is the **focus-ring exception** on Destructive Outlined (see States table).
+Variants differ in colour only, all reusing Button tokens 1:1. **No per-variant geometry deviation** — size is a separate axis (see Sizes). The only token-level deviation across the set is the **focus-ring exception** on Destructive Outlined (see States table).
 
 | Variant | Class | Default tokens | Mirrors Button | Deviation from Button |
 |---|---|---|---|---|
@@ -56,7 +99,7 @@ Single size (36×36) — variants differ in colour only, all reusing Button toke
 | Disabled | bg `State/Disabled` (Primary/Secondary) or icon `Text/Inactive` (Outlined/Tertiary, bg transparent) |
 | Loading | spinner (`.spinner`) uses `currentColor`, `aria-busy="true"`, `pointer-events:none`, `opacity:var(--opacity-disabled)` — variant colour preserved. `.s-loading.iconbtn{pointer-events:none;opacity:var(--opacity-disabled)}` |
 
-**Spinner geometry** (shared with Button — `.iconbtn .spinner`): `width/height .85em`, `border-radius:9999px`, `border:2px solid currentColor` with `border-right-color:transparent`, `display:inline-block`, `animation:btn-spin .7s linear infinite`, `vertical-align:-.1em`.
+**Spinner geometry** (shared with Button — `.iconbtn .spinner`): **`16px`, and `14px` on `.is-row` / `.iconbtn-xs`** — the spinner replaces the glyph, so it is the glyph size, on the same two steps as `.btn svg`. It was `.85em`, which measured from a font-size an icon button does not have: the UA form-control default (13.33px in Chrome), giving a frozen ~11.3px. Even where the em resolved, `.85` could not land on the scale — 11.9px and 13.6px. Now both spinner and glyph step together, `border-radius:9999px`, `border:2px solid currentColor` with `border-right-color:transparent`, `display:inline-block`, `animation:btn-spin .7s linear infinite`, `vertical-align:-.1em`.
 
 **Forced-state vs real-interactive** — every state above is implemented twice and the two MUST agree: the `.s-{state}` forced classes (storybook demos) and the live pseudo-classes `:hover` / `:active` / `:focus-visible` / `:disabled`. `:focus-visible` also sets `outline:none` before the ring box-shadow.
 
@@ -84,7 +127,7 @@ Prod ships a single IconButton style (≈ Secondary's new look — neutral borde
 | Accessible name | — | `aria-label` **and** `data-tip`, both required | An icon-only button must label itself for pointer users (tip) and assistive tech (label). Where the two differ, the tip stays short and the `aria-label` carries the fuller, disambiguating phrase (e.g. tip "Copy" / label "Copy arguments"); state-flipping controls update both together |
 
 ## No change (—)
-Size 36×36, radius `md 6px`, icon ≤18px typical (consumer-set / flexible by design — no base CSS rule; see Base geometry table), transition .12s.
+Size 36×36, radius `md 6px`, transition `.12s`. (Glyph sizing is **no longer** in this list — it changed; see Base geometry and the Sizes section.)
 
 ## Contextual size overrides (consumer-scoped, not part of the base)
 

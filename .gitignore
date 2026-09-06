@@ -29,3 +29,10 @@ archive/
 
 # Knowledge-sharing deck (internal onboarding material — local-only, not part of the artifact)
 knowledge-sharing/
+
+# Working files for the QA/audit iteration — drafts, task lists for parallel sessions, raw
+# measurement dumps. Only the dated final report in reports/ is published. See working/README.md.
+working/
+
+# Old standalone web iteration — not part of the handoff kit.
+Insightis web/

@@ -62,8 +62,7 @@
     display:flex;align-items:center;gap:.5rem;
     padding:.5rem 1.25rem;border-bottom:1px solid var(--border);flex:none
   }
-  /* Title matches .dlg-title (kit dialog) — 20px/600, the modal's nearest popup analogue. */
-  .acct-title{flex:1;font-size:var(--text-20);line-height:1.75rem;font-weight:500;color:var(--ink)}
+  /* Title matches .dlg-title (kit dialog) — 20px/600, the modal's nearest popup analogue.
   .acct-header-actions{display:flex;gap:.375rem;align-items:center}
   /* Close button reuses the kit .iconbtn.iconbtn-tertiary component (same as the .dlg dialog
      close) — no bespoke .acct-close class. Size (2rem) + glyph (16px) set inline on the button. */
@@ -71,16 +70,12 @@
   .acct-section{display:flex;flex-direction:column;gap:.75rem;padding-top:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
   .acct-section:first-child{padding-top:0}
   .acct-section:last-child{border-bottom:none;padding-bottom:0}
-  .acct-sect-title{font-size:var(--text-14);font-weight:600;color:var(--ink)}
   .acct-field-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.625rem}
-  .acct-field-label{font-size:var(--text-14);color:var(--ink-secondary)}
   /* Secondary line under an .acct-sect-title — ONE type level for every instance
      (email value, plan, payment method, the danger-zone warning): --text-14 / 20px Body.
      The warning previously sat at --text-12, so two rows of the same slot rendered at
-     different sizes. */
-  .acct-field-val{font-size:var(--text-14);line-height:1.25rem;color:var(--ink-body);margin-top:.25rem}
+     different sizes.
   .acct-danger-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.625rem}
-  .acct-danger-warn{font-size:var(--text-14);line-height:1.25rem;color:var(--ink-secondary);margin-top:.25rem}
 
   /* Balance */
   /* Exhausted-state alert icon — the only icon in the hero row (the balance total otherwise shows
@@ -88,7 +83,6 @@
      StatusView error recipe (.statv-error .vic: tinted red circle + red icon) instead of a raw
      colour hack on the coin SVG, since no red coin asset exists. */
   .acct-bal-alert-ic{width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;flex:none;background:color-mix(in srgb,var(--fb-red) 10%,transparent);color:var(--fb-red-text)}
-  .acct-bal-amount{font-size:var(--text-24);font-weight:600;color:var(--ink);line-height:1.1}
   /* .acct-usage-table now lives in kit-theme.css — shared compact static table. */
 
   /* ── Balance V2 two-zone credit bar (page-layout only; colours from tokens).
@@ -101,7 +95,7 @@
      --brand-tertiary, purchased = green --fb-green); read from tokens only. */
   .acct-bal2-legend{display:flex;flex-wrap:wrap;row-gap:.25rem;margin-bottom:.5rem}
   .acct-bal2-legend .acct-bal2-leg:last-child{margin-left:.75rem;padding-left:.75rem;border-left:1px solid var(--border)}
-  .acct-bal2-leg{display:inline-flex;align-items:center;gap:.375rem;font-size:.75rem;color:var(--ink-secondary);align-self:flex-start}
+  .acct-bal2-leg{display:inline-flex;align-items:center;gap:.375rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);align-self:flex-start}
   .acct-bal2-dot{width:.5rem;height:.5rem;border-radius:9999px;flex:none}
   .acct-bal2-dot.is-subscription{background:var(--brand-tertiary)}
   .acct-bal2-dot.is-purchased{background:var(--fb-green)}
@@ -121,7 +115,7 @@
         own full-scale bar (subscription blue / purchased green), read independently. ── */
   .acct-bal3-seg{display:flex;flex-direction:column;gap:1rem}
   .acct-bal3-grp{display:flex;flex-direction:column;gap:.375rem}
-  .acct-bal3-grp-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-size:var(--text-12)}
+  .acct-bal3-grp-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh)}
   .acct-bal3-grp-name{display:inline-flex;align-items:center;gap:.375rem;font-weight:600;color:var(--ink)}
   .acct-bal3-grp-left{color:var(--ink-secondary)}
   .acct-bal3-grp-left strong{color:var(--ink-body);font-weight:600}
@@ -131,7 +125,7 @@
   .acct-bal3-track-fill{height:100%;border-radius:9999px}
   .acct-bal3-track-fill.is-subscription{background:var(--brand-tertiary)}
   .acct-bal3-track-fill.is-purchased{background:var(--fb-green)}
-  .acct-bal3-grp-foot{display:flex;justify-content:space-between;gap:.5rem;font-size:.75rem;color:var(--ink-secondary)}
+  .acct-bal3-grp-foot{display:flex;justify-content:space-between;gap:.5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
 
   /* ── Version B — flat "wallet + allowance" tile rows (coin marks the remaining figure). Ships in
         pages/approved/user_profile-modal.html; mirrored here for the retired-concepts comparison. ── */
@@ -141,10 +135,10 @@
   .acct-balb-coin{width:1.25rem;height:1.25rem;background-position:center;background-repeat:no-repeat;background-size:contain;flex:none;order:3;margin-left:auto}
   .acct-balb-coin.is-subscription{background-image:url('../assets/coins/coin-brand-1.svg')}
   .acct-balb-coin.is-purchased{background-image:url('../assets/coins/coin-green-1.svg')}
-  .acct-balb-name{font-size:var(--text-13);font-weight:600;color:var(--ink)}
-  .acct-balb-amt{order:4;font-size:var(--text-13);font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
-  .acct-balb-note{font-size:var(--text-12);color:var(--ink-secondary)}
-  .acct-balb-foot{display:flex;justify-content:space-between;gap:.5rem;font-size:var(--text-12);color:var(--ink-secondary)}
+  .acct-balb-name{font-size:var(--ts-title-14-size);line-height:var(--ts-title-14-lh);font-weight:var(--ts-title-14-weight);color:var(--ink)}
+  .acct-balb-amt{order:4;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink);font-variant-numeric:tabular-nums}
+  .acct-balb-note{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  .acct-balb-foot{display:flex;justify-content:space-between;gap:.5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
 
   /* Feedback */
   .acct-fb-bottom{display:flex;align-items:center;justify-content:flex-end;gap:.5rem}
@@ -167,7 +161,6 @@
   .acct-mobile-btn{display:none;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;border-radius:.25rem;padding:0;flex:none;transition:color .12s,background .12s}
   .acct-mobile-btn:hover{color:var(--ink-body);background:var(--state-hover)}
   .acct-mobile-btn svg{width:16px;height:16px}
-  .acct-mobile-title{font-size:1.25rem;font-weight:600;color:var(--ink);line-height:1.25}
 
   /* ── Responsive ── */
   /* ≤767px: modal becomes a full-height bottom sheet.
@@ -208,9 +201,6 @@
     .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item.active .ic{color:var(--brand-primary)}
     .acct-modal[data-mobile-state="menu"] .acct-nav-chev{display:block}
     /* Section label */
-    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-label{
-      font-size:.75rem;font-weight:500;padding:0 .25rem;margin-bottom:.25rem
-    }
     /* Log Out — own bordered card at bottom, sticky */
     .acct-modal[data-mobile-state="menu"] .acct-nav-foot{
       margin-top:0;padding-top:0;border-top:none;
@@ -241,17 +231,8 @@
 
   /* ===== Change-password section (inside right panel, not a sub-dialog) ===== */
   .chpw-field{display:flex;flex-direction:column;gap:.375rem}
-  .chpw-igrp{
-    display:flex;align-items:center;height:2.375rem;
-    border-radius:.375rem;border:1px solid var(--border);
-    background:var(--card);transition:border-color .12s;width:100%
-  }
-  .chpw-igrp:hover{border-color:var(--border-hover)}
-  .chpw-igrp:focus-within{border-color:var(--input-focus)}
   .chpw-igrp-icon{display:inline-flex;align-items:center;justify-content:center;width:2.375rem;flex:none;color:var(--ink-secondary)}
   .chpw-igrp-icon svg{width:16px;height:16px}
-  .chpw-igrp input{flex:1;height:100%;border:none;outline:none;background:transparent;font-size:.875rem;color:var(--ink);font-family:inherit;padding:0;min-width:0}
-  .chpw-igrp input::placeholder{color:var(--ink-inactive)}
   .chpw-eye{
     display:inline-flex;align-items:center;justify-content:center;
     width:2.375rem;flex:none;height:100%;
@@ -264,7 +245,6 @@
   /* ===== Manage plan — pricing cards (page-layout composition) ===== */
   /* Header row: "All Plans" title (grows) + compact billing-period toggle (right). */
   .acct-plan-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
-  .acct-plan-head .acct-sect-title{flex:1}
   /* Toggle shrinks to its content instead of the segctrl's default full width — same
      page-local segctrl adjustment pattern as .segctrl-lbl below. */
   .acct-plan-toggle{flex:none}
@@ -284,26 +264,18 @@
   /* min-height keeps the name row a constant height whether or not a card carries badges, so the
      price / tagline / CTA below all line up across the three cards. */
   .acct-plan-name-row{display:flex;align-items:center;flex-wrap:wrap;gap:.375rem;min-height:1.75rem}
-  .acct-plan-name{font-size:var(--text-18);font-weight:600;color:var(--ink)}
   .acct-plan-price-row{display:flex;align-items:baseline;flex-wrap:wrap;row-gap:.125rem}
   /* tabular-nums fixes digit width so the price + "/ month" don't shift horizontally when the
-     Monthly ↔ Yearly toggle swaps the numbers. */
-  .acct-plan-price{font-size:var(--text-30);font-weight:600;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+     Monthly ↔ Yearly toggle swaps the numbers.
   /* Fixed 8px margin (not a reserved min-width box) — every toggle pair (data-monthly/data-yearly)
      is the same character length, so tabular-nums alone already prevents any width jump; a
-     min-width box here just left slack that made the price→was-price gap look different per card. */
-  .acct-plan-price-was{font-size:var(--text-14);color:var(--ink-inactive);text-decoration:line-through;font-variant-numeric:tabular-nums;margin-left:.5rem}
+     min-width box here just left slack that made the price→was-price gap look different per card.
   /* Force the per-unit ("/ month", "/ user / month") onto its own line for every card, so the
      price row is always exactly two lines → the tagline + CTA below line up across all three
-     cards (Free's short "/ month" no longer sits inline while Starter/Pro's longer unit wraps). */
-  .acct-plan-per{font-size:var(--text-12);color:var(--ink-secondary);flex-basis:100%;margin-bottom:.75rem}
-  .acct-plan-tagline{font-size:var(--text-12);color:var(--ink-secondary);margin-bottom:.75rem}
+     cards (Free's short "/ month" no longer sits inline while Starter/Pro's longer unit wraps).
   /* Full-width CTA (layout sizing only — visual variant + height come from .btn-primary/.btn-outline + .btn-md). */
   .acct-plan-card .btn.acct-plan-cta{width:100%;justify-content:center}
-  .acct-plan-feats{list-style:none;margin:1rem 0 0;padding:0;display:flex;flex-direction:column;gap:.5rem}
-  .acct-plan-feats li{display:flex;align-items:flex-start;gap:.5rem;font-size:var(--text-12);color:var(--ink-body);line-height:1.45}
-  /* Check marker — brand-tinted tick via CSS mask (clean markup, colour flows from --brand-primary). */
-  .acct-plan-feats li::before{content:"";width:14px;height:14px;flex:none;margin-top:.125rem;background:var(--brand-primary);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat}
+  /* Check marker — brand-tinted tick via CSS mask (clean markup, colour flows from --brand-primary).
   /* ── Manage plan / Buy-credits shared extras (page-layout only; colours from tokens) ── */
   /* Buy-credits token packs — compact tiles; the token count is the headline, price is secondary. */
   /* Tinted tray sets the Buy-credits offer apart as its own prominent block (white cards contrast
@@ -321,16 +293,11 @@
      competes with it. */
   .acct-bc-head{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}
   /* Clear hierarchy: credit count is the hero (biggest, boldest — it's the thing being bought);
-     name is a small label; price is readable and dark but stays a step below the hero. */
-  .acct-bc-name{font-size:var(--text-12);font-weight:600;color:var(--ink-secondary)}
-  .acct-bc-tokens{font-size:var(--text-18);font-weight:600;color:var(--ink);line-height:1.2}
-  .acct-bc-tokens span{font-size:var(--text-12);font-weight:400;color:var(--ink-secondary)}
-  .acct-bc-price{font-size:var(--text-14);font-weight:600;color:var(--ink-body)}
+     name is a small label; price is readable and dark but stays a step below the hero.
   .acct-bc-pack .acct-bc-buy{width:100%;justify-content:center;margin-top:.75rem}
 
   /* Recommended ribbon on a pricing card (offset onto the card's top border; the card is
-     position:relative). Used by V2's Pro card, mirroring the site's ribbon treatment. */
-  .acct-plan-ribbon{position:absolute;top:-.5rem;left:1rem;font-size:var(--text-11);font-weight:600;padding:.125rem .5rem;border-radius:.375rem;background:var(--brand-primary);color:var(--content-on-solid)}
+     position:relative). Used by V2's Pro card, mirroring the site's ribbon treatment
 
   /* Reflow to a single column only at this breakpoint — 3-across is the default at every wider
      width, not a fluid per-card wrap. */
@@ -475,8 +442,8 @@
             <h2 class="acct-title" id="acct-modal-title">My account</h2>
             <div class="acct-header-actions" id="acct-header-actions"></div>
             <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close account settings"
-                    data-tip="Close" data-tip-side="bottom" onclick="acctCloseModal()" style="width:2rem;height:2rem;flex:none">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    data-tip="Close" data-tip-side="bottom" onclick="acctCloseModal()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
           <div class="acct-content" id="acct-content">
@@ -489,7 +456,7 @@
                     <div class="acct-sect-title">Your email</div>
                     <div class="acct-field-val">andriil@devart.com</div>
                   </div>
-                  <button class="link" type="button" style="font-size:.875rem"
+                  <button class="link" type="button" style="font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)"
                           onclick="acctSetSection('change-password')">Change Password</button>
                 </div>
               </div>
@@ -659,7 +626,7 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-amount" style="flex:1">213<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 1,040 used</span></div>
+                      <div class="acct-bal-amount" style="flex:1">213<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> / 1,040 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
@@ -674,8 +641,8 @@
                         <div class="acct-bal2-zone is-purchased"><div class="acct-bal2-fill is-purchased" style="width:0%"></div></div>
                       </div>
                       <div style="display:flex;justify-content:space-between;margin-top:.5rem">
-                        <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">20% of total credits used</span><span class="acct-show-mobile">20% used</span></span>
-                        <span style="font-size:.75rem;color:var(--ink-secondary)">827 left</span>
+                        <span style="font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)"><span class="acct-hide-mobile">20% of total credits used</span><span class="acct-show-mobile">20% used</span></span>
+                        <span style="font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)">827 left</span>
                       </div>
                     </div>
                     <!-- Mobile-only CTA row — shown below the bar on ≤767px -->
@@ -692,7 +659,7 @@
                       <span class="badge badge-attention badge-sm">Trial ends in 14 days</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-amount" style="flex:1">3,200<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 10,000 used</span></div>
+                      <div class="acct-bal-amount" style="flex:1">3,200<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> / 10,000 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
@@ -706,8 +673,8 @@
                         <div class="acct-bal2-zone is-subscription" style="flex-basis:100%"><div class="acct-bal2-fill is-subscription" style="width:32%"></div></div>
                       </div>
                       <div style="display:flex;justify-content:space-between;margin-top:.5rem">
-                        <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">32% of total credits used</span><span class="acct-show-mobile">32% used</span></span>
-                        <span style="font-size:.75rem;color:var(--ink-secondary)">6,800 left</span>
+                        <span style="font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)"><span class="acct-hide-mobile">32% of total credits used</span><span class="acct-show-mobile">32% used</span></span>
+                        <span style="font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)">6,800 left</span>
                       </div>
                     </div>
                     <div class="acct-bal-btns-mob">
@@ -722,7 +689,7 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>                    </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
                       <div class="acct-bal-alert-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></div>
-                      <div class="acct-bal-amount" style="flex:1">1,040<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 1,040 used</span></div>
+                      <div class="acct-bal-amount" style="flex:1">1,040<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> / 1,040 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
@@ -737,8 +704,8 @@
                         <div class="acct-bal2-zone is-purchased"><div class="acct-bal2-fill is-purchased" style="width:100%;background:var(--fb-red-text)"></div></div>
                       </div>
                       <div style="display:flex;justify-content:space-between;margin-top:.5rem">
-                        <span style="font-size:.75rem;color:var(--ink-secondary)"><span class="acct-hide-mobile">100% of total credits used</span><span class="acct-show-mobile">100% used</span></span>
-                        <span style="font-size:.75rem;color:var(--ink-secondary)">0 left</span>
+                        <span style="font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)"><span class="acct-hide-mobile">100% of total credits used</span><span class="acct-show-mobile">100% used</span></span>
+                        <span style="font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)">0 left</span>
                       </div>
                     </div>
                     <div class="acct-bal-btns-mob">
@@ -759,7 +726,7 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-amount" style="flex:1">213<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 1,040 used</span></div>
+                      <div class="acct-bal-amount" style="flex:1">213<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> / 1,040 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
@@ -797,7 +764,7 @@
                       <span class="badge badge-attention badge-sm">Trial ends in 14 days</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-amount" style="flex:1">3,200<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 10,000 used</span></div>
+                      <div class="acct-bal-amount" style="flex:1">3,200<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> / 10,000 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
@@ -834,7 +801,7 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>                    </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
                       <div class="acct-bal-alert-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></div>
-                      <div class="acct-bal-amount" style="flex:1">1,040<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> / 1,040 used</span></div>
+                      <div class="acct-bal-amount" style="flex:1">1,040<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> / 1,040 used</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
                     </div>
@@ -882,7 +849,7 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-amount" style="flex:1">827<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-amount" style="flex:1">827<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
                       </div>
@@ -920,7 +887,7 @@
                       <span class="badge badge-attention badge-sm">Trial ends in 14 days</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-amount" style="flex:1">6,800<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-amount" style="flex:1">6,800<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
                       </div>
@@ -957,7 +924,7 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-amount" style="flex:1">0<span style="font-size:1.125rem;font-weight:400;color:var(--ink-secondary)"> left</span></div>
+                      <div class="acct-bal-amount" style="flex:1">0<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
                       </div>

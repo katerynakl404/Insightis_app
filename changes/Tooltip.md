@@ -6,6 +6,7 @@ Baseline: [`../current/Tooltip.md`](../current/Tooltip.md).
 |---|---|---|---|
 | Default — light mode | bg `chip` / Text-Primary, text hardcoded `#FFF` | bg `--ink`, text `--card` (= `#FFFFFF`) | hex shift only ([colors](colors.md)) — visual result unchanged in light |
 | Default — dark mode | ⚠ broken — bg lightens to `--ink` `#F9FAFB` but text stays hardcoded `#FFF` → invisible | **fixed** — bg `--ink` `#F9FAFB`, text `--card` `#17171E` (dark Card surface) | Root cause: hardcoded `color:#fff`, not a missing token. Replaced with `var(--card)` — the same theme-aware token used everywhere else as a surface, used here as text on the inverted ink chip. |
+| Max width | `white-space:nowrap`, no cap — the bubble grew to whatever a single line needed | **capped** — `max-width: var(--tip-max-w)` (**18rem / 288px**) + `width: max-content` + `white-space: normal` | See "Max width" below. |
 | Inline style → class | every Tooltip occurrence inlined `background:var(--ink);color:#fff;font-size:.75rem;border-radius:6px;padding:4px 8px` | **new** — shared `.tt` class in `pages/kit-theme.css` | Single source of truth — eliminates the chance of the bug recurring in TruncatedTitleTooltip or any future tooltip surface. |
 
 ## Concrete dimensions (`.tt`, `pages/kit-theme.css:738`)
@@ -21,9 +22,40 @@ Baseline: [`../current/Tooltip.md`](../current/Tooltip.md).
 | Text | `--card` (Surface/Card, theme-aware) |
 | Layout | `inline-flex`, vertically centred · no fixed width/height (hugs content) |
 
-No min-width, max-width, or fixed height — the bubble sizes to its label.
+No min-width or fixed height — the bubble sizes to its label, up to `--tip-max-w`.
 
 The static `.tt` chip is the **swatch only** (used in storybook previews to show the surface). The real tooltip rendered on a trigger is the `[data-tip]` engine below — they share the same visual recipe (bg `--ink`, text `--card`, `.75rem`, radius 6px, padding 4/8px).
+
+## Max width
+
+The bubble was `white-space: nowrap` with no cap, so its width was whatever one line of the label
+needed. That held while every tip was two or three words. It broke the first time a tip carried a
+full sentence — the Thinking row's *"Turn on to receive smarter answers. Higher effort means more
+thorough answers but higher credit usage."* rendered ~550px wide and ran off a phone viewport.
+
+The JS positioner already clamps the bubble to the viewport, but it clamps **position**, not width:
+with an un-cappable width there is nothing for it to clamp back into.
+
+**`--tip-max-w: 18rem` (288px)** — the same width as `.menu.is-md`, so the kit states one
+comfortable popover width rather than inventing a second. It sits between the common caps in
+shipped systems (Bootstrap 200 · Polaris ~200 · **Carbon 288** · Material/MUI 300 · Atlassian 300).
+
+Three declarations carry it, and all three matter:
+
+| Declaration | Why |
+|---|---|
+| `max-width: var(--tip-max-w)` | the ceiling |
+| `width: max-content` | a short tip still hugs its text instead of stretching to the ceiling |
+| `white-space: normal` | long copy wraps rather than being clipped |
+
+It is a **token, not a literal**, because the bubble has two renderers that must agree: the
+JS engine node (`pages/kit-kit.js`) and the CSS `[data-tip]::after` fallback. `.tt`, the static
+swatch, carries **all three** too — with only `max-width` it collapsed into a narrow column, because a
+flex item sizes to fit-content, not max-content, unless told otherwise.
+
+**Blast radius:** of the 48 distinct `data-tip` strings in the kit, **6** are long enough to wrap —
+four storybook token-map tips (selector lists), the Connections failure reason, and the Thinking
+tip. The other 42 render identically to before.
 
 ## Live tooltip engine — `[data-tip]` (`pages/kit-theme.css:743–788`)
 

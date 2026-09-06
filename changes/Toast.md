@@ -23,7 +23,7 @@ Source: `@insightis/ui` `Toast/` (Toaster, ToastMessage, `toast()`). Baseline: [
 | Description | `.toast .toast-desc` | `font-size:.75rem; font-weight:400; color:var(--ink-secondary); line-height:1.4` |
 | Close button | `.toast .toast-x` | `width:24px; height:24px; flex:none; border-radius:4px` (colour/hover/pressed/focus inherit from `.iconbtn.iconbtn-tertiary`) |
 | Close icon | `.toast .toast-x svg` | `width:14px; height:14px` |
-| Progress bar | `.toast .toast-prog` | `position:absolute; left:0; right:0; bottom:0; height:3px; background:transparent` |
+| Progress bar | `.toast .toast-prog` | `position:absolute; left:0; right:0; bottom:0; height:4px; background:transparent` — 4px is the grid step; shared with `.dlg-progress-track` and `.upl-item .progress` so every thin progress strip is one height |
 | Progress fill | `.toast .toast-prog>span` | `display:block; height:100%` (variant sets the colour + `width:60%`) |
 
 Note: the doc table above labels this surface "ToastMessage container"; in the shipped kit those container values live on `.toast` (width / bg / border per the table at the top of this doc).
@@ -50,7 +50,7 @@ Every variant sets four things off one source colour. Resolved selectors from `p
 | **warning** | `--fb-attention` | `var(--toast-bg-warning)` = `color-mix(--fb-attention 5%, --card)` light / `8%` dark | `var(--toast-border-warning)` = `color-mix(--fb-attention 30%, transparent)` | `color:var(--fb-attention)` · progress `background:var(--fb-attention); width:60%` |
 | **error** | `--fb-red-text` | `var(--toast-bg-error)` = `color-mix(--fb-red-text 5%, --card)` light / `8%` dark | `var(--toast-border-error)` = `color-mix(--fb-red-text 30%, transparent)` | `color:var(--fb-red-text)` · progress `background:var(--fb-red-text); width:60%` |
 
-All four variants share the identical container box model (radius 8px, padding 16px, gap 12px, icon 20px, close 24px, progress 3px — see Reproduction values above); only the source colour and resolved bg/border/icon/progress differ.
+All four variants share the identical container box model (radius 8px, padding 16px, gap 12px, icon 20px, close 24px, progress 4px — see Reproduction values above); only the source colour and resolved bg/border/icon/progress differ.
 
 ## Text structure
 
@@ -103,6 +103,22 @@ The optional action button reuses `.btn.btn-xs.btn-outline` (see [Button.md](But
 | `--toast-border-warning` | `color-mix(in srgb, var(--fb-attention) 30%, transparent)` | Component-scoped |
 | `--toast-border-error` | `color-mix(in srgb, var(--fb-red-text) 30%, transparent)` | Component-scoped |
 
+## Toaster host — the stack
+
+Prod has no shared host: each surface positioned its own toast, so duration, icon set and stacking order were per-page decisions. Expected defines one host for the whole product.
+
+| Part | Expected | Why |
+|---|---|---|
+| Stack | `.toast-stack` — one per document, top-right, column, `gap:.625rem`, newest appended last | A single region means toasts from different features queue instead of overlapping |
+| Stacking rung | Above the dialog rung (`.dlg-overlay`) | A toast raised by a form *inside* a dialog must be visible; below the dialog it would be hidden by the scrim |
+| Pointer events | The stack is click-through; each `.toast` re-enables its own | A fixed region across the top-right corner must not swallow clicks on the page under it |
+| ARIA | `role="status"` + `aria-live="polite"` on the stack | Polite for every variant — a toast never interrupts. An error toast that names a field to fix is paired with focus moving to that field, which announces it |
+| Identity | Optional `id`; passing the same `id` again morphs that toast in place | One operation owns one toast for its whole life (pending → success / error) instead of stacking copies |
+| Behaviour owner | `window.kitToast(msg, desc, variant, id)` / `kitToastDismiss(el)` in [`../pages/kit-kit.js`](../pages/kit-kit.js) — the stack is created on first use | Two hand-written copies had already drifted (one shipped a bare-cross error glyph instead of `XCircle`). Pages call it; no page builds its own |
+
+**Pairing with a form error** (see [`../page-changes/metrics-landing.md`](../page-changes/metrics-landing.md) → Create Metric popup): the toast carries the *message*, the control carries the *target* — `.s-error` + `aria-invalid` + focus. Neither half is used alone for a submit-time validation failure.
+
+
 ## Accessibility self-check
 
 | Check | Result |
@@ -117,5 +133,4 @@ The optional action button reuses `.btn.btn-xs.btn-outline` (see [Button.md](But
 
 - **Hover** — pause progress bar countdown.
 - **Focus-visible** — `--shadow-focus` around container when keyboard-focused.
-- **`role="status"` / `role="alert"`** — success/info → `status` (polite); error/warning → `alert` (assertive). Verify Toaster wiring.
-- **Stacking** — focus order when multiple toasts stack (Toaster's responsibility; document).
+- **Focus order inside a stack** — tab order when several toasts are open at once.

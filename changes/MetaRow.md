@@ -13,8 +13,8 @@ A transparent caption row above a list view. Left slot: a count (e.g. *"12 conve
 - Outer `<div class="meta-row">` (add `var-split` for the space-between layout). Consuming pages give it `role="toolbar"` + `aria-label` when it carries actions.
 - Count = `<span class="meta-row-count">N conversation(s)</span>` — swaps to `N selected` in selection mode.
 - Inline link action = `<button class="link" type="button">` (optionally inside `<span class="meta-row-actions">`). Disabled: `is-disabled` + `aria-disabled="true"`.
-- Right-edge cluster = `<span class="meta-row-end">` wrapping, in order, the neutral text buttons (`<button class="meta-row-btn">`), the destructive one (`<button class="meta-row-btn danger">`), then the icon-only exit (`<button class="meta-row-iconbtn" aria-label="Exit selection" data-tip="Exit selection">`).
-- Text buttons carry a leading 14px `currentColor` SVG + a visible label. Icon-only buttons carry **both** `aria-label` and a matching `data-tip`.
+- Right-edge cluster = `<span class="meta-row-end">` wrapping, in order, the neutral text buttons (`<button class="btn btn-tertiary btn-sm">`), the destructive one (`<button class="btn btn-tertiary is-danger btn-sm">`), then the icon-only exit (`<button class="iconbtn iconbtn-tertiary iconbtn-sm" aria-label="Exit selection" data-tip="Exit selection">`).
+- Text buttons carry a leading `currentColor` SVG + a visible label. Icon-only buttons carry **both** `aria-label` and a matching `data-tip`.
 - Bulk actions with nothing selected take `is-disabled` + `aria-disabled="true"`; the exit ✕ never disables — leaving selection mode must always be possible.
 
 | State | Current (prod) | Expected | Specification |
@@ -25,6 +25,7 @@ A transparent caption row above a list view. Left slot: a count (e.g. *"12 conve
 | Empty list | ⚠ pending | action → `.link.is-disabled` (Text/Inactive, no underline, `pointer-events:none`) | reuses existing `.link.is-disabled` recipe — no new tokens |
 | **Row typography** | ⚠ pending | **was** `--text-13` / `line-height:1.4` (the `.t-meta` 13/400 level) → **became** `--text-14` / `line-height:1.25rem` (the `.t-body` 14/20 level) | The row is not a caption — it is a control group (count + link + bulk-action buttons). At 13 the row sat one step below the `.link` and the buttons that live inside it, so a single group rendered at two scale steps. Moving the row to Body puts every child on one level and matches the 14/20 the list rows beneath it already use. `.t-meta` stays the level for datepicker / secondary annotation. |
 | **Bulk-action buttons** | ⚠ pending | **was** page-local copies on two pages (`.dsf-meta-dl` / `.dsf-meta-del` / `.dsf-meta-iconbtn` on Files, `.meta-row-delete` / `.meta-row-iconbtn` on Chats Library) → **became** one kit family: `.meta-row-btn`, `.meta-row-btn.danger`, `.meta-row-iconbtn`, anchored by `.meta-row-end` | Two near-identical copies of one recipe is drift waiting to happen — and both hard-coded `font-size:.8125rem`, so promoting them was the only way to make the row's single-type-level rule actually hold. The copies also carried literal overlay percentages (`6%` / `8%` / `60%`); the kit family expresses every overlay as a `--tint-*` step. |
+| **Bulk-action buttons — round 2** | ⚠ pending | **was** the kit's own `.meta-row-btn` / `.meta-row-btn.danger` / `.meta-row-iconbtn` family → **became** plain kit Buttons: `.btn.btn-tertiary.btn-sm`, the same `+ .is-danger`, and `.iconbtn.iconbtn-tertiary.iconbtn-sm` | Promoting the page copies into the kit (row above) removed the duplication but left a *fourth* button family in the design system whose whole justification was that Button had no small-enough step. Closing that gap in Button itself (a `.btn-tertiary.is-danger` variant, an `.iconbtn` size ladder, `.is-disabled` on Tertiary) makes the private family redundant — the row now composes the same Button every other surface uses. Trade-offs taken deliberately: the controls grow 28→32px (the sm step for Body M text), which takes the row's selection height from 40→44px where the buttons are its tallest child — measured: Chats library goes 36px at rest → 44px in selection mode (it was 36→40 before, so this deepens a pre-existing shift rather than introducing one), while on Files landing the row already sits at 52px from its other content and does not move at all; their leading glyph goes 14→16px, hover moves from the brand tint to Button's neutral `--state-hover`, the ✕ goes 24→32px so it lines up with the text buttons beside it, and the ✕ rest colour goes `--ink-secondary`→`--ink-body` (Tertiary's). |
 | **Destructive focus ring** | ⚠ pending | **was** a red halo on the page-local Delete (`0 0 0 4px color-mix(--fb-red 60%, transparent)`) → **became** the kit's one focus ring, in its surface-matched form `--shadow-focus-bg` | The kit has exactly one focus **colour** seam (`--focus-ring`, brand) and the Destructive-Outlined family already documents why: teal ≠ red, so a brand ring on a red control avoids red-on-red and keeps every focus ring in the app identical. The page-local red ring was a divergence from that contract, plus a literal `60%`. The gap colour still follows the surface (`--shadow-focus-bg` here, since the row is transparent over the page bg). |
 
 ## Reproduction values (`pages/kit-theme.css` → MetaRow block)
@@ -37,20 +38,18 @@ A transparent caption row above a list view. Left slot: a count (e.g. *"12 conve
 | `.meta-row-actions` | `display:inline-flex; align-items:center; gap:.5rem` |
 | `.meta-row-end` | `margin-left:auto; display:inline-flex; align-items:center; gap:.25rem` — right-edge cluster; keeps the left cluster from shifting when selection mode toggles |
 
-### Action button family
+### Action buttons
 
-| Selector | Values |
-|---|---|
-| `.meta-row-btn` | `display:inline-flex; align-items:center; gap:.375rem; padding:.25rem .5rem; border-radius:.25rem; background:transparent; border:none; cursor:pointer; font-family:inherit; font-size:inherit; line-height:inherit; font-weight:500; color:var(--ink-body); transition:color var(--motion-fast) var(--motion-ease), background-color var(--motion-fast) var(--motion-ease)` |
-| `.meta-row-btn svg` | `width:14px; height:14px; flex:none` (`currentColor`, so `.danger` tints its own icon) |
-| `.meta-row-btn:hover` | `background:color-mix(in srgb, var(--brand-primary) var(--tint-6), transparent)` |
-| `.meta-row-btn:active` | `background:color-mix(in srgb, var(--brand-primary) var(--tint-8), transparent)` |
-| `.meta-row-btn:focus-visible` | `outline:none; box-shadow:var(--shadow-focus-bg)` — the **surface-matched** ring: the row is transparent, so the ring gap must be painted in `--bg`, not `--card`. Written inline on `.chat-row` before; tokenised once the button family became its second consumer |
-| `.meta-row-btn.danger` | `color:var(--fb-red-text)`; hover `color-mix(--fb-red var(--tint-8))`, active `color-mix(--fb-red var(--tint-12))` — one tint step above the neutral button at each state, so the destructive action still reads as the odd one out |
-| `.meta-row-btn.is-disabled, .meta-row-btn[disabled]` | `color:var(--ink-inactive); cursor:not-allowed; pointer-events:none` |
-| `.meta-row-iconbtn` | `1.5rem × 1.5rem; border-radius:.25rem; inline-flex centred; background:transparent; border:none; color:var(--ink-secondary); flex:none`; 14px SVG; hover `color:var(--ink-body)` + `color-mix(--brand-primary var(--tint-6))`; active `var(--tint-8)`; `focus-visible` `var(--shadow-focus-inset)`; disabled = `--ink-inactive`, no pointer events |
+The row owns **no button CSS**. Text actions are `.btn.btn-tertiary.btn-sm` (`+ .is-danger` for the
+destructive one), the exit ✕ is `.iconbtn.iconbtn-tertiary.iconbtn-sm` — see [Button.md](Button.md)
+and [IconButton.md](IconButton.md) for their values. Nothing selected → `.is-disabled` +
+`aria-disabled="true"` (the control stays focusable so a screen reader can announce it); the exit ✕
+never disables, because leaving selection mode must always be possible.
 
-Why not `.btn-tertiary` / `.iconbtn-tertiary`: those are 36px form controls with a neutral `--state-hover` wash. These sit inline in a 20px text row and must inherit the row's type level, and their brand-tinted hover is the shipped recipe for this family. The `.danger` modifier name matches `.mi.danger` rather than inventing a third destructive naming.
+The row keeps exactly one button-related rule of its own: it repaints the focus-ring **gap** with
+`--shadow-focus-bg`. `.btn` / `.iconbtn` assume they sit on a `--card`; the MetaRow is transparent
+over the page `--bg`, and the gap has to match the surface underneath it. Same reason `.chat-row`
+uses that token.
 
 `.s-hover` mirrors of each hover rule exist for storybook state demos only.
 

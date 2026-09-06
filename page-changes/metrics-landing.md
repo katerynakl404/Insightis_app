@@ -163,6 +163,12 @@ Both the sticky demo topbar (`.topbar`) and the ≤1023px sticky page head (`.cl
 |---|---|---|
 | Segctrl labels | "Connector | Provider" | "Data Source | Connection" |
 | Default/first tab | Connector | Data Source |
+| Duplicate name / alias — where the message goes | One red sentence pinned under the last field ("A metric with this name or alias already exists") — far from both fields it refers to, and below the Data source select, which has nothing to do with it | An **error Toast** (`kitToast`, `var-error`), top-right: title "Metric not saved", description naming the value that collided |
+| Duplicate name / alias — which field is at fault | Not indicated — "name **or** alias" leaves the user to guess which of the two to change | The offending control is marked: `.field.s-error` (Name) / `.field.igrp.s-error` (Alias), `aria-invalid="true"`, and keyboard focus moves into it with its text selected. Both are marked when both collide, and the toast says so |
+| Duplicate check scope | — | The user's own metrics only (`#mx-filled-body tr.mx-metric-child`); case- and whitespace-insensitive, `@` ignored on the alias. In edit mode the row being edited is skipped, so re-saving it unchanged is not a collision with itself |
+| Clearing the error | — | Per field, on its next `input` — the error is about the value, so it lives exactly as long as the value. The toast is dismissed with the dialog (it points at a field that is no longer on screen) |
+
+**Why a toast and not inline helper text:** the message is about the *submission*, not about a single field — it can name one field, the other, or both, and it appears only in response to pressing Save. Inline text at the foot of a form has to be scrolled to and identifies nothing; a toast is read where the eye already is after a failed action, and the field mark carries the "which one" that the sentence cannot.
 
 ## Hard requirements — provider card chip area (DO NOT REGRESS)
 

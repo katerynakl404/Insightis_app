@@ -77,7 +77,7 @@ All hover / `.is-selected` / checkbox-reveal / `.chat-row-more` opacity-fade / k
 - **Default state (`editMode` false):** `<span class="meta-row-count">{N} file|files</span>`. At ≤767px it also carries a `.link` "Select all" and the `.dsf-meta-sort` control (both `.dsf-meta-mobile-only`) — at desktop the table header checkbox owns select-all and the Modified header owns sorting (rules 15 / 25).
 - **Selection state (`editMode` true):** `meta-row-count` "{N} selected" + `.link` ("Select all"/"Deselect all", `.is-disabled` when total 0) + `.meta-row-end` cluster (Download + Delete + exit ✕).
 
-Every control in the row is a **kit component** — `.meta-row-btn` (Download), `.meta-row-btn.danger` (Delete), `.meta-row-iconbtn` (exit ✕ and the preview header's Download / Close), `.meta-row-end` (right-edge cluster). The page-local `.dsf-meta-dl` / `.dsf-meta-del` / `.dsf-meta-iconbtn` / `.dsf-bulk-right` copies are gone; values live in [MetaRow.md](MetaRow.md).
+Every control in the row is a **kit component** — `.btn.btn-tertiary.btn-sm` (Download), the same `+ .is-danger` (Delete), `.iconbtn.iconbtn-tertiary.iconbtn-sm` (exit ✕), `.iconbtn.iconbtn-tertiary.iconbtn-xs` (the preview header’s Download / Close, matching the same panel on the chat page), `.meta-row-end` (right-edge cluster). The page-local `.dsf-meta-dl` / `.dsf-meta-del` / `.dsf-meta-iconbtn` / `.dsf-bulk-right` copies are gone, and so is the kit’s interim `.meta-row-btn` family; values live in [Button.md](Button.md) / [IconButton.md](IconButton.md).
 
 ### File preview panel `.dsf-preview`
 
@@ -86,7 +86,7 @@ Page glue only: the grid column (3rd `.cl-shell` track via `.has-preview`) and t
 file-preview family** — the same components the chat page's file panel uses, so the product no
 longer has two file previews behaving differently:
 
-- `.cp-fp-head` + `.cp-fp-title` + two `.meta-row-iconbtn` (Download · Close ✕)
+- `.cp-fp-head` + `.cp-fp-title` + two `.iconbtn.iconbtn-tertiary.iconbtn-xs` (Download · Close ✕)
 - `.cp-fp-banner` — truncation notice, a persistent **sibling** of the scroll region (never
   injected inside it) so it renders as a full-bleed strip flush under the header, immune to the
   body's padding and scrollbar width. `Download` inside the sentence is the kit `.link`.

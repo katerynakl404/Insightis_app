@@ -31,6 +31,7 @@ Open `../insightis-preview-kit.html` for the visual side-by-side; each component
 - [ChatRow](ChatRow.md) — new component; ⚠ Current column pending prod DOM capture
 - [MetaRow](MetaRow.md) — new component; ⚠ Current column pending prod DOM capture
 - [SegmentedControl](SegmentedControl.md) — new component (no pending change)
+- [StepSlider](StepSlider.md) — new component (discrete level picker; composer Effort row)
 - [DataSourcesFiles](DataSourcesFiles.md)
 - typography — no change (—)
 - Spinner — no change (—)

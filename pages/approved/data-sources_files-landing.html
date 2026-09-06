@@ -15,7 +15,7 @@
      the same surrounding system. All component styling lives in kit-theme.css. */
   .topbar{padding:.375rem 1rem}
   .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--bg);transition:grid-template-columns .2s ease}
-  .cl-shell:has(.sbx.is-collapsed){grid-template-columns:3.563rem 1fr}
+  .cl-shell:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr}
   .cl-side{background:var(--card);border-right:1px solid var(--border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
   .cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
 
@@ -26,7 +26,7 @@
      (not the grid track). Width isn't transitioned, so the drag applies cleanly (transitioning the
      grid track between 2↔3 tracks was unreliable). Default width ~28rem (prod-like). */
   .cl-shell.has-preview{grid-template-columns:16rem 1fr auto}
-  .cl-shell.has-preview:has(.sbx.is-collapsed){grid-template-columns:3.563rem 1fr auto}
+  .cl-shell.has-preview:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr auto}
   .cl-shell.is-resizing{user-select:none;cursor:col-resize}
   .dsf-preview{display:none;flex-direction:column;background:var(--card);border-left:1px solid var(--border);
     position:sticky;top:40px;min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden}
@@ -40,7 +40,7 @@
      file-preview behaviour instead of two. Page glue here is only the grid column + resize grip. */
   .dsf-preview .cp-fp-body{display:flex;flex-direction:column;gap:.625rem}
   /* size · source · date line under the content, muted. */
-  .dsf-preview-meta{flex:none;font-size:var(--text-12);color:var(--ink-secondary);padding:0 .25rem}
+  .dsf-preview-meta{flex:none;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);padding:0 .25rem}
   /* Previewed row highlight — brand-coloured name (both layouts) */
   .chat-row.is-preview .chat-row-name,.dsf-tbl tbody tr.is-preview .dsft-fname{color:var(--brand-primary)}
   /* Desktop: preview-open row gets same tint as Metrics is-selected (tbl-row-pressed on td) */
@@ -55,8 +55,6 @@
   /* Main column — max-width and alignment identical to Chats Library / Connections pages. */
   .cl-main{position:relative;display:flex;flex-direction:column;width:100%;min-width:0;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px)}
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
-  .cl-page-title{scroll-margin:5rem;font-weight:500;font-size:1.5rem;line-height:2rem;color:var(--ink);text-align:left;margin:0 0 .25rem}
-  @media (min-width:768px){.cl-page-title{font-size:1.875rem;line-height:2.25rem}}
   /* Burger alignment handled globally in kit-theme.css — no per-page rules needed. */
 
   /* Page head — title only (the Cards/Table view toggle is a demo control in the topbar, not content) */
@@ -108,7 +106,7 @@
   .dsf-tbl .chat-row-more:focus-visible{opacity:1;pointer-events:auto}
   /* Mobile-only meta row controls (sort + select all) — hidden at desktop */
   .dsf-meta-mobile-only{display:none}
-  .dsf-meta-sort{align-items:center;gap:.25rem;font-size:var(--text-12);color:var(--ink-secondary);background:none;border:none;cursor:pointer;padding:0;margin-left:auto}
+  .dsf-meta-sort{align-items:center;gap:.25rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);background:none;border:none;cursor:pointer;padding:0;margin-left:auto}
   .dsf-meta-sort svg{transition:transform var(--motion-fast) var(--motion-ease)}
   /* ── Mobile card layout ≤767px ──────────────────────────────────────────────
      Card structure: [icon | info-col (name + date)] | [kebab top-right]
@@ -150,7 +148,7 @@
     /* Name cell: icon left, .dsft-info column right */
     .dsft-name-cell{align-items:center}
     .dsft-info{display:flex;flex-direction:column;gap:.125rem}
-    .dsft-date-inline{display:block;font-size:var(--text-12);color:var(--ink-secondary)}
+    .dsft-date-inline{display:block;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
     /* Meta row controls */
     .dsf-meta-mobile-only{display:inline-flex}
     #dsf-meta{gap:.5rem}
@@ -158,7 +156,7 @@
 
   /* ===== Meta / bulk action row =====
      Identical structure to the Chats Library meta-row — every control is a kit component:
-     .meta-row-btn (Download), .meta-row-btn.danger (Delete), .meta-row-iconbtn (✕ / preview
+     .btn.btn-tertiary.btn-sm (Download), + .is-danger (Delete), .iconbtn.iconbtn-tertiary (✕ / preview
      header buttons), .meta-row-end (right-edge cluster). See kit-theme.css → MetaRow. */
 
   /* ===== Meta row — sticky while selecting =====
@@ -263,7 +261,7 @@
               <svg class="sbx-brand-logo" aria-label="Insightis"><use href="#lg"/></svg>
               <svg class="sbx-brand-mark" aria-hidden="true"><use href="#lg-mark"/></svg>
             </div>
-            <button class="iconbtn iconbtn-tertiary sbx-collapse" aria-label="Collapse sidebar" type="button" onclick="dsfToggleSbxCollapse()" data-tip="Collapse">
+            <button class="iconbtn iconbtn-tertiary iconbtn-xs sbx-collapse" aria-label="Collapse sidebar" type="button" onclick="dsfToggleSbxCollapse()" data-tip="Collapse">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
             </button>
           </div>
@@ -472,7 +470,7 @@
                 <tbody>
                   <tr>
                     <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
-                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:10rem;height:.875rem"></span></div></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer"></span><span class="skel shimmer r-sm" style="display:block;width:10rem;height:.875rem"></span></div></td>
                     <td><span class="skel shimmer r-full" style="display:block;width:3.5rem;height:1.125rem"></span></td>
                     <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:3rem;height:.8125rem"></span></td>
                     <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:4.5rem;height:.8125rem"></span></td>
@@ -480,7 +478,7 @@
                   </tr>
                   <tr>
                     <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
-                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:8rem;height:.875rem"></span></div></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer"></span><span class="skel shimmer r-sm" style="display:block;width:8rem;height:.875rem"></span></div></td>
                     <td><span class="skel shimmer r-full" style="display:block;width:4.25rem;height:1.125rem"></span></td>
                     <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:3.5rem;height:.8125rem"></span></td>
                     <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:4rem;height:.8125rem"></span></td>
@@ -488,7 +486,7 @@
                   </tr>
                   <tr>
                     <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
-                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:11rem;height:.875rem"></span></div></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer"></span><span class="skel shimmer r-sm" style="display:block;width:11rem;height:.875rem"></span></div></td>
                     <td><span class="skel shimmer r-full" style="display:block;width:3.5rem;height:1.125rem"></span></td>
                     <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:2.75rem;height:.8125rem"></span></td>
                     <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:5rem;height:.8125rem"></span></td>
@@ -496,7 +494,7 @@
                   </tr>
                   <tr>
                     <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
-                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:7.5rem;height:.875rem"></span></div></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer"></span><span class="skel shimmer r-sm" style="display:block;width:7.5rem;height:.875rem"></span></div></td>
                     <td><span class="skel shimmer r-full" style="display:block;width:4.25rem;height:1.125rem"></span></td>
                     <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:3.25rem;height:.8125rem"></span></td>
                     <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:4.5rem;height:.8125rem"></span></td>
@@ -504,7 +502,7 @@
                   </tr>
                   <tr>
                     <td class="dsft-cb"><span class="skel shimmer" style="display:block;width:1.125rem;height:1.125rem"></span></td>
-                    <td><div class="dsft-name-cell"><span class="skel shimmer" style="width:2rem;height:2rem;flex:none"></span><span class="skel shimmer r-sm" style="display:block;width:9rem;height:.875rem"></span></div></td>
+                    <td><div class="dsft-name-cell"><span class="skel shimmer"></span><span class="skel shimmer r-sm" style="display:block;width:9rem;height:.875rem"></span></div></td>
                     <td><span class="skel shimmer r-full" style="display:block;width:3.5rem;height:1.125rem"></span></td>
                     <td class="dsft-size"><span class="skel shimmer r-sm" style="display:block;width:3rem;height:.8125rem"></span></td>
                     <td class="dsft-date"><span class="skel shimmer r-sm" style="display:block;width:4.25rem;height:.8125rem"></span></td>
@@ -530,11 +528,11 @@
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="dsf-ren-title">
     <div class="dlg-hdr">
       <h2 id="dsf-ren-title" class="dlg-title">Rename file</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsfCloseRename()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="dsfCloseRename()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div style="padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:1rem">
+    <div class="dlg-content is-stack">
       <p id="dsf-ren-help" style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your file a recognizable name</p>
       <div class="field" style="max-width:none"><input id="dsf-ren-input" type="text" placeholder="File name" autocomplete="off" aria-label="File name" onkeydown="if(event.key==='Enter')dsfSaveRename()"></div>
     </div>
@@ -553,11 +551,11 @@
   <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="dsf-del-title">
     <div class="dlg-hdr">
       <h2 id="dsf-del-title" class="dlg-title">Delete file?</h2>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close" onclick="dsfCloseDelete()" style="width:2rem;height:2rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="dsfCloseDelete()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div style="padding:0 1.25rem 1.25rem">
+    <div class="dlg-content">
       <p id="dsf-del-msg" style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">This action can't be undone. The file will be permanently removed.</p>
     </div>
     <div class="dlg-ftr">
@@ -784,9 +782,9 @@
       + '<span class="meta-row-count">' + selectedCount + ' selected</span>'
       + '<button class="link' + (totalCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="select-all"' + (totalCount === 0 ? ' aria-disabled="true"' : '') + '>' + (allSelected ? 'Deselect all' : 'Select all') + '</button>'
       + '<span class="meta-row-end">'
-      +   '<button class="meta-row-btn' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
-      +   '<button class="meta-row-btn danger' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
-      +   '<button class="meta-row-iconbtn" type="button" data-action="cancel-edit" aria-label="Exit selection" data-tip="Exit selection">' + CLOSE + '</button>'
+      +   '<button class="btn btn-tertiary btn-sm' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="download-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + DOWNLOAD + 'Download</button>'
+      +   '<button class="btn btn-tertiary is-danger btn-sm' + (selectedCount === 0 ? ' is-disabled' : '') + '" type="button" data-action="delete-selected"' + (selectedCount === 0 ? ' aria-disabled="true"' : '') + '>' + TRASH + 'Delete</button>'
+      +   '<button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" data-action="cancel-edit" aria-label="Exit selection" data-tip="Exit selection">' + CLOSE + '</button>'
       + '</span>';
   }
 
@@ -851,8 +849,8 @@
       + '<div class="dsf-preview-grip" aria-hidden="true"></div>'
       + '<div class="cp-fp-head">'
       +   '<span class="cp-fp-title">' + escHtml(f.name) + '</span>'
-      +   '<button class="meta-row-iconbtn" type="button" data-action="download" data-id="' + f.id + '" aria-label="Download" data-tip="Download">' + DOWNLOAD + '</button>'
-      +   '<button class="meta-row-iconbtn" type="button" data-action="close-preview" aria-label="Close preview" data-tip="Close">' + CLOSE + '</button>'
+      +   '<button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" data-action="download" data-id="' + f.id + '" aria-label="Download" data-tip="Download">' + DOWNLOAD + '</button>'
+      +   '<button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" data-action="close-preview" aria-label="Close preview" data-tip="Close">' + CLOSE + '</button>'
       + '</div>'
       /* Truncation notice — a persistent SIBLING of the scroll region (never injected inside it),
          so it stays a full-bleed strip flush under the header, immune to the body's padding and
