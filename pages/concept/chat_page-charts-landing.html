@@ -539,7 +539,7 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
               <div class="cl-dropdown-wrap">
                 <button class="cl-dropdown" type="button" aria-haspopup="menu" aria-expanded="false" onclick="clDdToggle(this)">
                   <svg class="cl-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></svg>
-                  <span class="cl-dropdown-lbl">Insightis Light <span class="cl-dropdown-val">(Low)</span></span>
+                  <span class="cl-dropdown-lbl">Insightis Light <span class="cl-dropdown-val">(Medium)</span></span>
                   <svg class="cl-ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
                 <div class="cl-dropdown-menu menu cl-model-menu" role="menu">
@@ -560,15 +560,15 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
                   <hr class="menu-sep" />
                   <div class="cl-model-opt">
                     <span class="cl-model-opt-lbl">Thinking</span>
-                    <span class="cl-opt-info" role="img" data-tip="Turn on to receive smarter answers. Higher effort means more thorough answers but higher credit usage." aria-label="Turn on to receive smarter answers. Higher effort means more thorough answers but higher credit usage."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
+                    <span class="cl-opt-info" role="img" data-tip="Turn on to receive smarter answers. Higher effort means more thorough answers but higher credit usage" aria-label="Turn on to receive smarter answers. Higher effort means more thorough answers but higher credit usage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
                     <span class="cl-model-opt-ctl"><button class="swt is-sm on" type="button" role="switch" aria-checked="true" aria-label="Thinking" onclick="clThinkingToggle(this)"></button></span>
                   </div>
                   <div class="cl-model-opt" id="cl-effort-row">
-                    <span class="cl-model-opt-lbl">Effort <span class="cl-model-opt-val" id="cl-effort-val">(Low)</span></span>
+                    <span class="cl-model-opt-lbl">Effort <span class="cl-model-opt-val" id="cl-effort-val">(Medium)</span></span>
                     <span class="cl-model-opt-ctl">
                       <div class="stps is-sm" role="radiogroup" aria-label="Effort" aria-disabled="false">
-                        <button class="stps-step" type="button" role="radio" aria-checked="true" data-tip="Low" aria-label="Low effort" onclick="clEffortSet(this)"><span class="stps-dot" aria-hidden="true"></span></button>
-                        <button class="stps-step" type="button" role="radio" aria-checked="false" data-tip="Medium" aria-label="Medium effort" onclick="clEffortSet(this)"><span class="stps-dot" aria-hidden="true"></span></button>
+                        <button class="stps-step" type="button" role="radio" aria-checked="false" data-tip="Low" aria-label="Low effort" onclick="clEffortSet(this)"><span class="stps-dot" aria-hidden="true"></span></button>
+                        <button class="stps-step" type="button" role="radio" aria-checked="true" data-tip="Medium" aria-label="Medium effort" onclick="clEffortSet(this)"><span class="stps-dot" aria-hidden="true"></span></button>
                         <button class="stps-step" type="button" role="radio" aria-checked="false" data-tip="High" aria-label="High effort" onclick="clEffortSet(this)"><span class="stps-dot" aria-hidden="true"></span></button>
                       </div>
                     </span>
@@ -855,7 +855,7 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
   /* Thinking / Effort — the model popover's settings block. Effort only has meaning while thinking
      is on, so the Effort row is disabled in place whenever the switch is off and the trigger label
      drops the level with it. Order in the popover is Thinking → Effort for the same reason. */
-  var clThinking = true, clEffort = 'Low';
+  var clThinking = true, clEffort = 'Medium';
   function clSyncModelLabel(){
     var wrap = document.querySelector('.cl-model-menu');
     wrap = wrap && wrap.closest('.cl-dropdown-wrap');
@@ -874,12 +874,13 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
     var row = document.getElementById('cl-effort-row');
     if(row){
       row.classList.toggle('is-disabled', !clThinking);
+      // The tooltip lives on the ROW, not on the rail: the whole row is what is unavailable, so
+      // hovering its label must explain it too. Steps are pointer-events:none while gated, so the
+      // hover bubbles up to the row either way.
+      if(clThinking) row.removeAttribute('data-tip');
+      else row.setAttribute('data-tip','Turn on Thinking to set effort');
       var grp = row.querySelector('.stps');
-      if(grp){
-        grp.setAttribute('aria-disabled', clThinking ? 'false' : 'true');
-        if(clThinking) grp.removeAttribute('data-tip');
-        else grp.setAttribute('data-tip','Turn on Thinking to set effort');
-      }
+      if(grp) grp.setAttribute('aria-disabled', clThinking ? 'false' : 'true');
     }
     clSyncModelLabel();
   }

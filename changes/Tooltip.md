@@ -31,7 +31,7 @@ The static `.tt` chip is the **swatch only** (used in storybook previews to show
 The bubble was `white-space: nowrap` with no cap, so its width was whatever one line of the label
 needed. That held while every tip was two or three words. It broke the first time a tip carried a
 full sentence — the Thinking row's *"Turn on to receive smarter answers. Higher effort means more
-thorough answers but higher credit usage."* rendered ~550px wide and ran off a phone viewport.
+thorough answers but higher credit usage"* rendered ~550px wide and ran off a phone viewport.
 
 The JS positioner already clamps the bubble to the viewport, but it clamps **position**, not width:
 with an un-cappable width there is nothing for it to clamp back into.

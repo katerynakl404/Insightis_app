@@ -38,6 +38,7 @@ the same names** — because a size is only right relative to the Switch it sits
 | Total StepSlider width | 68 px | 64 px |
 | Track fill — Switch | `--switch-off-bg` | `--switch-off-bg` |
 | Track fill — StepSlider | `--card2` | `--card2` |
+| Unselected dot fill | `--ink-inactive` | `--ink-inactive` |
 
 **The composer uses `.is-sm`**, because its Thinking row is a `.swt.is-sm` (28 × 16 track, 12 × 12
 thumb) — the same small switch the Connections rows use. Getting this wrong is the whole reason the
@@ -46,10 +47,28 @@ size table exists: the first implementation copied the **default** Switch geomet
 toggle directly above it and the pair stopped reading as a pair. Pick the size of the Switch beside
 it, always.
 
-The **one** divergence from Switch at either size is the track fill, and it is forced: StepSlider's
-unselected marks are `--switch-off-bg` dots, so it cannot also fill its track with that grey.
-`--card2` sits one notch recessed from the popover's `Surface/Card`, which leaves the dots legible
-on it in both themes.
+Two things diverge from Switch, and both are forced by the dots — the marks Switch simply doesn't
+have.
+
+**The track fill.** `--card2`, one notch recessed from the popover's `Surface/Card`, rather than
+Switch's `--switch-off-bg`: the dots need a track they can be seen against, and Switch's off-track
+grey is too close to them.
+
+**The dot fill: `--ink-inactive`, not `--switch-off-bg`.** Reusing Switch's resting grey looked
+like the obvious family choice and was the second mistake in this component's history. Measured:
+
+| | dot vs track — was (`--switch-off-bg`) | now (`--ink-inactive`) |
+|---|---|---|
+| Light | **1.34:1** | **3.13:1** |
+| Dark | **1.10:1** | **4.65:1** |
+
+The dots are not decoration. They are the **other steps** — the only thing telling a user the control
+has three positions and where they sit — so WCAG 1.4.11's 3:1 applies to them. At 1.34:1 they were
+effectively invisible. Switch's own off-track is exempt from that bar because it is a *background*,
+not a state indicator; the dots are the indicator.
+
+Hover moves one step along the ink ramp to `--ink-secondary`, which darkens away from the track in
+light and lightens away from it in dark — the right direction in both themes.
 
 ### Why the knob is the Switch thumb, not a rim
 
@@ -88,13 +107,21 @@ the whole hover feedback.
 | Form | Behaviour | Use |
 |---|---|---|
 | `.stps.s-disabled` | group fades, `pointer-events:none` on the whole thing | nothing to explain |
-| `.stps[aria-disabled="true"]` | group fades, only the **steps** go inert — the group stays hoverable so a `[data-tip]` on `.stps` can say **why** | a **gated** control |
+| `.stps[aria-disabled="true"]` | group fades, only the **steps** go inert, so a hover reaches whatever `[data-tip]` is above it and can say **why** | a **gated** control |
 
 The gated form exists because of the composer. Effort is meaningless while Thinking is off, and the
 first implementation simply removed the row — which resized the popover on every toggle of the
-switch and read as the menu jumping under the cursor. The row now stays in place, disabled, and tips
-*"Turn on Thinking to set effort"*, so the dependency is stated rather than inferred and the
-popover keeps one footprint (verified: Δ height = 0 px on toggle).
+switch and read as the menu jumping under the cursor. The row now stays in place, disabled — its **label** on the `.mi.is-disabled` colour recipe
+(`--ink-inactive`), its **control** on the opacity recipe every other kit control uses, so the two
+never compound — and tips *"Turn on Thinking to set effort"*, so the dependency is stated rather
+than inferred and the popover keeps one footprint (verified: Δ height = 0 px on toggle).
+
+**The tip belongs on the row, not on the rail.** The first pass put `[data-tip]` on `.stps`, so the
+explanation only appeared when the pointer found the 64 px rail — hovering the label it belongs to
+gave nothing, even though the label is the larger target and the thing that reads as unavailable. A
+consumer with a labelled row puts the tip on the **row**; because the steps are `pointer-events:none`
+while gated, the hover reaches the row from the rail too, so both halves explain themselves. A bare
+StepSlider with no row keeps the tip on `.stps` itself.
 
 ## Token map
 
@@ -102,8 +129,8 @@ popover keeps one footprint (verified: Δ height = 0 px on toggle).
 |---|---|
 | Track fill | `--card2` |
 | Track / dot / knob radius | `--radius-full` |
-| Dot fill (unselected) | `--switch-off-bg` |
-| Dot fill — hover | `--switch-off-bg-hover` |
+| Dot fill (unselected) | `--ink-inactive` |
+| Dot fill — hover | `--ink-secondary` |
 | Knob fill (selected) | `--content-on-solid` |
 | Knob lift | `--shadow-thumb` |
 | Transition | `--motion-fast` |
@@ -130,7 +157,10 @@ literal shadow became `var(--shadow-thumb)` at the same value.
   full white thumb), not hue. There is no colour-only state in the component.
 - **1.4.11 Non-text contrast** — the knob is `Content/On_Solid` on a `--card2` track with
   `--shadow-thumb`'s 0.5 px hairline giving it a perceivable edge, the same treatment that carries
-  Switch's thumb. Unselected dots are `--switch-off-bg`, one step above the track in both themes.
+  Switch's thumb — a white circle on a light track is a low ratio on its own (1.10:1 in light), and
+  as on Switch it is the `--shadow-thumb` drop-shadow plus its 0.5 px hairline that supplies the
+  boundary. **Unselected dots are `--ink-inactive`: 3.13:1 light / 4.65:1 dark against the track**,
+  clearing the 3:1 bar — they identify the control's other positions, so the bar applies to them.
 - **2.5.5 / 2.5.8 Target size** — the mark sits in a slot expanded to a **24 × 24 px** hit area at
   **both** sizes: `.stps-step::before {inset:-4px}` on the `1rem` slot, `{inset:-6px}` on the
   `.75rem` one. Clears the 24 × 24 AA minimum on both axes without changing layout. Each size's gap
@@ -144,4 +174,4 @@ literal shadow became `var(--shadow-thumb)` at the same value.
 
 | Where | Row |
 |---|---|
-| Chat composer → model popover | `.stps.is-sm` — `Effort (Low)`, gated by the Thinking switch (`.swt.is-sm`) — see [`../page-changes/chat-landing.md`](../page-changes/chat-landing.md) |
+| Chat composer → model popover | `.stps.is-sm` — `Effort (Medium)` by default, gated by the Thinking switch (`.swt.is-sm`) — see [`../page-changes/chat-landing.md`](../page-changes/chat-landing.md) |

@@ -1040,9 +1040,14 @@
      at the remaining ones. That is deliberate, not decorative — the composer model popover stacks
      this control directly under a Thinking Switch, so the two share the 1.25rem track height, the
      1rem thumb, --radius-full and --shadow-thumb, and read as one pair of settings rather than two
-     unrelated widgets. The track is --card2 (one notch recessed from the popover surface) so the
-     --switch-off-bg dots stay legible on it in both themes; Switch itself fills its off-track with
-     --switch-off-bg, which is why the two tracks differ.
+     unrelated widgets. The track is --card2, one notch recessed from the popover surface; Switch
+     instead fills its off-track with --switch-off-bg, which is why the two tracks differ.
+     DOT COLOUR IS --ink-inactive, NOT --switch-off-bg. Sharing Switch's off-track grey read as the
+     obvious "family" choice and was wrong: Slate-300 on a Slate-100 track is 1.34:1, and in dark
+     Grey-700 on Grey-800 is 1.10:1 — the dots were nearly invisible. They are not decoration, they
+     are the OTHER STEPS: the only thing telling you the control has three positions and where they
+     are, so WCAG 1.4.11 (3:1) applies to them. --ink-inactive clears it in both themes. Switch's
+     off-track is exempt from the same bar because it is a background, not a state indicator.
      It READS as a slider but BEHAVES as a radiogroup: every step is its own button, so there is no
      drag to fake, no pointer capture, and keyboard support is the native radio one. Each step is a
      constant 1rem slot — only the mark inside it resizes — so changing step never reflows the row.
@@ -1056,8 +1061,8 @@
   /* The mark is a real child, not a pseudo: every step carries [data-tip], and the CSS-only
      tooltip fallback owns ::after on [data-tip] (and html.tt-js display:none's it), so a pseudo
      mark would vanish the moment the JS tooltip engine loads. */
-  .stps-dot{width:6px;height:6px;border-radius:var(--radius-full);background:var(--switch-off-bg);flex:none;transition:width var(--motion-fast),height var(--motion-fast),background-color var(--motion-fast),box-shadow var(--motion-fast)}
-  .stps-step:hover .stps-dot,.stps-step.s-hover .stps-dot{background:var(--switch-off-bg-hover)}
+  .stps-dot{width:6px;height:6px;border-radius:var(--radius-full);background:var(--ink-inactive);flex:none;transition:width var(--motion-fast),height var(--motion-fast),background-color var(--motion-fast),box-shadow var(--motion-fast)}
+  .stps-step:hover .stps-dot,.stps-step.s-hover .stps-dot{background:var(--ink-secondary)}
   /* Selected step — the dot grows into the Switch thumb: 1rem, --content-on-solid, --shadow-thumb.
      Declared after the hover rule so the knob wins while hovered; on the selected step the tooltip
      is the only hover feedback (the knob is already the strongest mark in the group). */
