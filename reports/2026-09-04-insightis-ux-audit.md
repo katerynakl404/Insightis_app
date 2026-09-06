@@ -355,10 +355,10 @@ already has and the code does not reach for.
 - **Fix:** the name goes in the description, not a tooltip — *"Delete **Q1 revenue commentary**? This cannot be undone."*
 
 ---
-### #33 · Account · The delete-account description is smaller than a description should be
-- **Problem:** under **Delete my account**, the line *"The datasets and chat sessions will also be permanently cleared"* renders below the body size. It is the sentence that tells the user the deletion also takes their data — the one line in the modal that must be read.
+### #33 · Account · The delete-account description renders at 12 instead of 14
+- **Problem:** under **Delete my account**, the line *"The datasets and chat sessions will also be permanently cleared"* renders at **12px**. It should be 14. It is the sentence that tells the user the deletion also takes their data — the one line in the modal that must be read.
 - **Expected:** **Body 14** — 14 / 400 / 20, `--ink-secondary`. That is what the design specifies (`.acct-danger-warn`) and what every other description in the product uses.
-- **Fix:** set it to Body 14. Check the other descriptions in the account modal in the same pass — a size that drifted here is unlikely to be the only one.
+- **Fix:** 12 → **Body 14**, `text-sm font-normal leading-5`. Check the other descriptions in the account modal in the same pass — a size that drifted here is unlikely to be the only one.
 
 
 # Part 4 · Component kit
