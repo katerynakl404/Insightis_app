@@ -125,7 +125,8 @@ count is reported), so combined totals and any Purchased "used of total"/bar are
 | Element | Expected |
 |---|---|
 | Hero row | `.acct-bal-amount` "827 left" (total remaining = subscription remaining + purchased remaining — both known), paired with the "Upgrade Plan" CTA. **No coin icon** — the figure stands alone (removed 2026-07-22); only the exhausted state shows a leading icon (`.acct-bal-alert-ic`, red warning) |
-| Subscription progress (the only bar) | `.acct-bal3-grp` — head: pool name + "**287** left"; track `.acct-bal3-track` (8px, `--progress-track`) with `--brand-tertiary` fill (42.6%); foot: "213 of 500 used" (Exhausted state adds "Resets Aug 1, 2026" right-aligned and flags "0 left" red via `.is-exhausted`) |
+| Subscription progress (monthly) | `.acct-bal3-grp` — head: pool name + "**287** left"; track `.acct-bal3-track` (8px, `--progress-track`) with `--brand-tertiary` fill (42.6%); foot: "213 of 500 used" (Exhausted state adds "Resets Aug 1, 2026" right-aligned and flags "0 left" red via `.is-exhausted`) |
+| Daily-limit progress | `.acct-bal3-grp` — second bar on the **same** pool: head = "Daily limit" + "**18** left" + right-aligned "32 of 50 used"; own full-scale `.acct-bal3-track` with the Subscription fill `--brand-tertiary`. **No coin** — coins mark wallets, and this is a rate cap. Exhausted state appends "· Resets at 12:00 AM". *Why a separate track:* a day and a month are different scales; a shared bar or a tick marker on the monthly track reads as a month threshold, not a daily cap (2026-09-09) |
 | Purchased row | Head-only `.acct-bal3-grp-head` — pool name + "**540** left". **No bar, no fraction** (usage % unknowable) |
 | CTAs row | `.acct-bal-btns` — `justify-content:flex-end` on desktop; mobile `.acct-bal-btns-mob` `width:100%; .btn{flex:1}` (equal-width split). Upgrade Plan only |
 | Credit usage | `.acct-usage-table` — Date / Request type / Spent credits columns; `border-collapse:collapse` |

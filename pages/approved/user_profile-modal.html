@@ -380,6 +380,14 @@
       <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-plan-btn="pro" onclick="setPlanState('pro')">Pro (trial)</button>
       <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-plan-btn="exhausted" onclick="setPlanState('exhausted')">Limit reached</button>
     </div>
+    <!-- Daily-limit toggle — concept control for reviewing Balance with and without the
+         per-day bar. Balance-only (it drives [data-daily] groups, which only exist there), so it
+         auto-hides on every other tab exactly like #plan-toggle. Same .segctrl is-sm as its
+         sibling, per the "match the sibling control's size" rule. -->
+    <div class="segctrl is-sm" id="daily-toggle" role="tablist" aria-label="Daily limit bar" style="width:auto">
+      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-daily-btn="on" onclick="setDailyLimit(true)">Daily on</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-daily-btn="off" onclick="setDailyLimit(false)">Daily off</button>
+    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
@@ -704,6 +712,19 @@
                           <div class="acct-bal3-track-fill is-subscription" style="width:42.6%"></div>
                         </div>
                       </div>
+                      <!-- Daily limit — a per-day cap on the SAME subscription pool, so it reuses that pool's
+                           blue fill and carries no coin (a rate limit, not a wallet). Own full-scale track: the
+                           day and the month are different scales and must not share one bar. -->
+                      <div class="acct-bal3-grp" data-daily>
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Daily limit</span>
+                          <span class="acct-bal3-grp-left">18 left</span>
+                          <span class="acct-bal3-grp-meta">32 of 50 used</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Daily limit: 32 of 50 credits used, 18 left">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:64%"></div>
+                        </div>
+                      </div>
                       <div class="acct-bal3-grp">
                         <div class="acct-bal3-grp-head">
                           <span class="acct-bal3-grp-name">Purchased</span>
@@ -744,6 +765,19 @@
                           <div class="acct-bal3-track-fill is-subscription" style="width:0.15%"></div>
                         </div>
                       </div>
+                      <!-- Daily limit — a per-day cap on the SAME subscription pool, so it reuses that pool's
+                           blue fill and carries no coin (a rate limit, not a wallet). Own full-scale track: the
+                           day and the month are different scales and must not share one bar. -->
+                      <div class="acct-bal3-grp" data-daily>
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Daily limit</span>
+                          <span class="acct-bal3-grp-left">1,499.9 left</span>
+                          <span class="acct-bal3-grp-meta">0.023 of 1,500 used</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Daily limit: 0.023 of 1,500 credits used, 1,499.9 left">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:0.15%"></div>
+                        </div>
+                      </div>
                       <div class="acct-bal3-grp">
                         <div class="acct-bal3-grp-head">
                           <span class="acct-bal3-grp-name">Purchased</span>
@@ -781,6 +815,19 @@
                           <div class="acct-bal3-track-fill is-subscription" style="width:32%"></div>
                         </div>
                       </div>
+                      <!-- Daily limit — a per-day cap on the SAME subscription pool, so it reuses that pool's
+                           blue fill and carries no coin (a rate limit, not a wallet). Own full-scale track: the
+                           day and the month are different scales and must not share one bar. -->
+                      <div class="acct-bal3-grp" data-daily>
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Daily limit</span>
+                          <span class="acct-bal3-grp-left">580 left</span>
+                          <span class="acct-bal3-grp-meta">420 of 1,000 used</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Daily limit: 420 of 1,000 credits used, 580 left">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:42%"></div>
+                        </div>
+                      </div>
                       <div class="acct-bal3-grp">
                         <div class="acct-bal3-grp-head">
                           <span class="acct-bal3-grp-name">Purchased</span>
@@ -812,6 +859,19 @@
                           <span class="acct-bal3-grp-meta">500 of 500 used · Resets Aug 1, 2026</span>
                         </div>
                         <div class="acct-bal3-track" role="img" aria-label="Subscription: 500 of 500 credits used, 0 left, resets Aug 1, 2026">
+                          <div class="acct-bal3-track-fill is-subscription" style="width:100%"></div>
+                        </div>
+                      </div>
+                      <!-- Daily limit — a per-day cap on the SAME subscription pool, so it reuses that pool's
+                           blue fill and carries no coin (a rate limit, not a wallet). Own full-scale track: the
+                           day and the month are different scales and must not share one bar. -->
+                      <div class="acct-bal3-grp" data-daily>
+                        <div class="acct-bal3-grp-head">
+                          <span class="acct-bal3-grp-name">Daily limit</span>
+                          <span class="acct-bal3-grp-left">0 left</span>
+                          <span class="acct-bal3-grp-meta">50 of 50 used · Resets at 12:00 AM</span>
+                        </div>
+                        <div class="acct-bal3-track" role="img" aria-label="Daily limit: 50 of 50 credits used, 0 left, resets at 12:00 AM">
                           <div class="acct-bal3-track-fill is-subscription" style="width:100%"></div>
                         </div>
                       </div>
@@ -876,7 +936,7 @@
                      rather than the 16/600 Text/Primary title the full-region empty states use. -->
                 <div data-plan="trial" style="display:none">
                   <div class="acct-bc-grid is-empty">
-                    <div class="empty-state">
+                    <div class="empty-state is-sm">
                       <svg class="empty-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>
                       <p class="empty-msg">No credit packs are available right now</p>
                     </div>
@@ -1269,7 +1329,9 @@
     var sec = document.querySelector('#acct-content [data-section="'+acctCurrentSection+'"]');
     var toggle = document.getElementById('plan-toggle');
     var panels = sec ? sec.querySelectorAll('[data-plan]') : [];
-    if(!panels.length){ if(toggle) toggle.style.display = 'none'; return; }
+    /* No [data-plan] panels on this tab: hide both concept controls. applyDailyLimit() must
+       still run so #daily-toggle hides too, instead of lingering from the previous tab. */
+    if(!panels.length){ if(toggle) toggle.style.display = 'none'; applyDailyLimit(); return; }
     if(toggle) toggle.style.display = '';
     /* data-plan may list several states (space-separated) for blocks shared by more than one —
        e.g. the Buy-credits pack tray shows for every state except Trial, which has no packs. */
@@ -1281,8 +1343,31 @@
       btn.classList.toggle('is-active', on);
       btn.setAttribute('aria-selected', on ? 'true' : 'false');
     });
+
+    /* The plan flip re-showed every [data-plan] panel, so re-assert the daily-bar choice. */
+    applyDailyLimit();
   }
 
+
+  /* Daily-limit bar toggle — concept control. The per-day cap is a second bar on the same
+     Subscription pool; this flips it off so Balance can be reviewed with one bar per pool.
+     [data-daily] groups live only inside Balance, so the control auto-hides elsewhere — same
+     contract as applyPlanState(). Called from applyPlanState() so a section change re-runs it. */
+  var acctDailyOn = true;
+  function setDailyLimit(on){ acctDailyOn = on; applyDailyLimit(); }
+  function applyDailyLimit(){
+    var sec = document.querySelector('#acct-content [data-section="'+acctCurrentSection+'"]');
+    var toggle = document.getElementById('daily-toggle');
+    var groups = sec ? sec.querySelectorAll('[data-daily]') : [];
+    if(!groups.length){ if(toggle) toggle.style.display = 'none'; return; }
+    if(toggle) toggle.style.display = '';
+    groups.forEach(function(g){ g.style.display = acctDailyOn ? '' : 'none'; });
+    document.querySelectorAll('#daily-toggle [data-daily-btn]').forEach(function(btn){
+      var on = (btn.dataset.dailyBtn === 'on') === acctDailyOn;
+      btn.classList.toggle('is-active', on);
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
 
   /* Open on the tab named in ?section= (set by the account popover on every page);
      fall back to Balance — this window is also the standalone Balance concept demo. */

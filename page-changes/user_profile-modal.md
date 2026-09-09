@@ -11,8 +11,9 @@ These are locked decisions. Do not change without explicit approval.
 | # | Rule |
 |---|---|
 | 1 | Balance's hero credit number (the `.acct-bal-amount` supporting text in V1's Free/Pro/Exhausted states) reads "left" (e.g. "827 left"), not "credits remaining" or "credits left". Agreed wording — do not add "credits" back. |
-| 2 | **Purchased-pool usage is NOT trackable** (2026-07-21): the backend can't count how many credits were bought — only the remaining number is known. Never render a "used of total" fraction, a progress bar, or a combined subscription+purchased total for the Purchased pool, anywhere (Balance, sidebar popover, sidebar trigger). Purchased always shows the remaining count only ("N left"). Balance keeps exactly **one** progress bar — the Subscription pool's, with its usage info. |
+| 2 | **Purchased-pool usage is NOT trackable** (2026-07-21): the backend can't count how many credits were bought — only the remaining number is known. Never render a "used of total" fraction, a progress bar, or a combined subscription+purchased total for the Purchased pool, anywhere (Balance, sidebar popover, sidebar trigger). Purchased always shows the remaining count only ("N left"). ~~Balance keeps exactly **one** progress bar~~ — **amended 2026-09-09 (rule 5): Balance carries two bars, both metering the Subscription pool (monthly allowance + daily limit). The *Purchased* half of this rule is unchanged and still absolute — Purchased never gets a bar.** |
 | 3 | **Manage plan: the recommended tier DOES carry an accent border** (2026-09-02, from `Account-Modal.dc.html`). This **supersedes** the earlier "recommended plan carries no accent border / text markers only" rule. Pro now uses `.acct-plan-card.is-featured` — accent border + brand wash + brand-tinted lift. The "Most popular" ribbon stays, so the status is still never colour-alone. |
+| 5 | **Daily limit is a second bar on the Subscription pool** (2026-09-09). It is a *rate* cap, not a third wallet: it reuses the Subscription fill (`--brand-tertiary`), carries **no coin** (coins mark wallets), and gets its **own full-scale track** — the day and the month are different scales and must never share one bar or one tick-marked track. Order is always monthly → daily → Purchased, on both Balance and the sidebar popover. The hero total (`.acct-bal-amount`) is unaffected: it still sums the two *remaining* wallet figures. |
 | 4 | **Manage plan / Billing: the demo account is on the Starter plan** (2026-09-02, from `Account-Modal.dc.html`). This **supersedes** "the account is on the Free plan everywhere" *for the plan-subscription surfaces* (Manage plan, Billing's "Current plan" row). Balance's credit-pool figures are driven by a separate concept control and still read Free. |
 
 The account modal carries a **section-aware concept version toggle** in the topbar. It flips the
@@ -54,6 +55,50 @@ which threw earlier at load — so the `addEventListener` never registered and c
 did nothing. The handler was moved into its own **standalone `<script>` block before `</body>`**, so
 it registers independently of any earlier script error. Verified: clicking Manage plan / Billing
 navigates to `user_profile-modal.html?section=…` and the modal opens on that tab.
+
+## 2026-09-09 — Daily limit: a second Subscription bar on Balance + the sidebar popover (shipped)
+
+The Subscription pool is capped twice — a monthly allowance *and* a per-day limit — so both
+credit surfaces now carry two bars. **Zero new CSS and zero new tokens**: the daily bar reuses the
+existing `.acct-bal3-grp` / `.sbx-pop-tok-meter` recipes and the Subscription fill verbatim.
+
+- **Balance** (all four plan states) — a `.acct-bal3-grp` inserted between Subscription and
+  Purchased: head = "Daily limit" + "N left" + right-aligned "X of Y used"; own
+  `.acct-bal3-track` with the `--brand-tertiary` fill. No coin (hard rule 5).
+- **Sidebar credits popover** — a third `.sbx-pop-tok-meter` between the two existing ones,
+  built on the *Purchased* row anatomy (one compact `label` + `.val.sm`) plus a `.bar`, so the
+  popover grows by one `.875rem` gap + ~22 px rather than a full 3-row meter.
+- Same pass: all five approved pages, both concept pages that embed the sidebar, and the
+  storybook's three Popover demos + its Spec prose.
+
+**Out of scope (unchanged, flagged deliberately):** the collapsed **sidebar trigger**
+(`213 / 500`, 42.6 %) still shows the monthly pool only — it is a one-line readout, not a
+"window", and the ask named the popover and the Balance window. The parked
+`pages/concept/tokens-popover-review.html` (four historical popover iterations) was **not**
+retrofitted — it is a frozen comparison record.
+
+**Concept control — `#daily-toggle`** (`.segctrl is-sm`, "Daily on / Daily off") sits in the
+**topbar** beside `#plan-toggle`, matching that sibling's size. It shows/hides every
+`[data-daily]` group, so Balance can be reviewed with and without the second bar. Balance-only:
+`[data-daily]` groups exist nowhere else, so `applyDailyLimit()` auto-hides the control on other
+tabs — including from `applyPlanState()`'s early return, so it never lingers after a tab change.
+`applyPlanState()` calls it at the tail too, because a plan flip re-shows every `[data-plan]`
+panel and would otherwise resurrect a hidden daily bar. Default is **on**.
+
+**Buy-credits empty tray → `.empty-state.is-sm`** (same pass). The Trial state's "No credit packs
+are available right now" notice used the default full-region `.empty-state` (48px glyph, `3rem`
+block padding) inside the small pack tray, running roughly twice the height of the filled tray it
+replaces. Fixed at the root — a compact size was added to the **kit** component
+([changes/StatusView.md](../changes/StatusView.md)), not patched from this page's `<style>`.
+
+Demo figures — daily limit = **10 % of the monthly allowance**, kept consistent across surfaces:
+
+| Plan state | Monthly | Daily limit | Daily used / left |
+|---|---|---|---|
+| Free | 500 / mo | 50 / day | 32 used · 18 left (64 %) |
+| Trial | 15,000 / mo | 1,500 / day | 0.023 used · 1,499.9 left |
+| Pro (trial) | 10,000 / mo | 1,000 / day | 420 used · 580 left (42 %) |
+| Limit reached | 500 / mo | 50 / day | 50 used · 0 left (100 %) · "Resets at 12:00 AM" |
 
 ## 2026-07-21 — Balance shows a single Subscription progress; Purchased = remaining only (shipped)
 
@@ -139,7 +184,8 @@ concept controls, and the source design carries the same split.
 
 One fictional account across all surfaces: **Free plan** → Subscription pool = 500 credits /
 month (213 used, 287 left, 42.6 %), Purchased pool = **540 remaining** (bought total unknown —
-hard rule 2) → 827 left overall. The same numbers drive the modal's Balance, the sidebar footer
+hard rule 2) → 827 left overall. **Daily limit = 50 / day, 32 used, 18 left** (10 % of the
+monthly allowance). The same numbers drive the modal's Balance, the sidebar footer
 usage row (`213 / 500`, 42.6 % bar) and tokens popover (plan name **Free**, Subscription
 `213 of 500`, Purchased `540 left`) on all consuming pages, the storybook's Expected
 sidebar/popover demos, and the user row meta (`Admin · Free`).

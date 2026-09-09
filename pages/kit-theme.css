@@ -2169,6 +2169,14 @@
   .empty-state .empty-title{font-size:var(--ts-title-16-size);font-weight:var(--ts-title-16-weight);color:var(--ink);margin:0;line-height:var(--ts-title-16-lh)}
   .empty-state .empty-msg{font-size:var(--ts-body-m-size);color:var(--ink-secondary);margin:0;max-width:32ch;line-height:var(--ts-body-m-lh);text-wrap:balance}
   .empty-state .btn{margin-top:.75rem}
+  /* Compact size (`is-sm`) — for an inline availability notice inside a small tray or card
+     (e.g. the Buy-credits pack tray), where the default 48px glyph + 48px block padding is far
+     taller than the content it stands in for. Same anatomy, one step down the ladder: 24px block
+     padding, 32px glyph. Follows the sibling StatusView size modifiers (`.statv.is-lg`). */
+  .empty-state.is-sm{padding:1.5rem 1rem;gap:.375rem}
+  .empty-state.is-sm .empty-ic{width:32px;height:32px;margin-bottom:0}
+  .empty-state.is-sm .es-illu{width:104px;margin-bottom:0}
+  .empty-state.is-sm .btn{margin-top:.5rem}
   .rsz{display:flex;width:240px;height:60px;border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
   .rsz .p{flex:1;display:flex;align-items:center;justify-content:center;background:var(--card2);font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
   .rsz .hd{width:6px;background:var(--border);cursor:col-resize}

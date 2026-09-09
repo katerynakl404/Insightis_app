@@ -15,6 +15,7 @@ It is the shared single source of truth for chats, connections, and metrics empt
 | Message | `.vd` — 12, `Text/Secondary` | `.empty-msg` — 14, `Text/Secondary` (`--ink-secondary`), `max-width:32ch`, `line-height:1.25rem`, `text-wrap:balance` | one-line guidance; no trailing period, balance keeps a single word from wrapping alone |
 | CTA | — | optional trailing `.btn` with `margin-top:.75rem` | first-run only (e.g. chats "New Chat"); omitted for search-no-match |
 | Variants | info / success / error / neutral | — | the minimalist variant is single-tone (neutral); status colour belongs to the card `.statv` |
+| Sizes | `.statv` has `is-sm` / default / `is-lg` | default + **`.is-sm`** (added 2026-09-09) | `.is-sm` is for an **inline notice inside a small tray or card**, where the full-region block is taller than the content it stands in for. One step down the ladder: block padding `1.5rem 1rem`, glyph 32px, gap `.375rem`, `.es-illu` 104px, trailing `.btn` margin `.5rem`. The message keeps the `Body/M` rail in both sizes — it is the only content, so shrinking it would leave nothing to read. Follows the sibling `.statv.is-sm`/`.is-lg` naming |
 
 ## Card StatusView (`.statv`) — full per-variant + per-size spec
 
@@ -71,6 +72,7 @@ a generic stock magnifier glyph.
 - **Chats** (`pages/concept/chats-landing.html`) — search-empty (fading result cards) + first-run empty (chat-bubble `.empty-ic` + "New Chat" CTA). Migrated from the page-local `.chat-list-empty` recipe to the shared kit class.
 - **Connections** (`pages/approved/data-sources_connections-landing.html`) — replaces the prior plain inline-text "No connectors match your filters." with the illustration empty-state, grid-spanning via a neutral wrapper.
 - **Metrics** (`pages/approved/metrics-landing.html`) — "All metrics" table search/filter now swaps the table for the empty-state when nothing matches (previously left a blank region).
+- **Account modal / Balance** (`pages/approved/user_profile-modal.html`) — the Buy-credits pack tray in the Trial state (no packs on sale) uses `.empty-state.is-sm`: a single `.empty-msg` availability notice, no `.empty-title` and no CTA. Sized down 2026-09-09 — the default block ran roughly twice the height of the filled pack tray it replaces.
 - **Files** (`pages/approved/data-sources_files-landing.html`) — first-run empty uses the `.es-illu` illustration ("No files yet", no CTA — the drop zone above is the upload CTA; the illustration mirrors the file list it replaces, matching prod's `/files` empty, with kit typography and no-trailing-period copy) + filter no-match (`.es-illu` + "No matches found"). First-run here deviates from the chats glyph recipe deliberately — user decision 2026-07-21.
 
 ## Accessibility self-check
