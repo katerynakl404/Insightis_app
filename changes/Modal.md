@@ -12,7 +12,7 @@ Modal's shell tokens stay close to prod; the changes are mostly inherited from t
 
 ## Component reuse note
 
-The Modal kit demo previously rendered its Expected column under the `.prod` scope, so the inner Cancel/Delete buttons resolved against prod tokens — masking the fact that both Button variants have changed. The Expected column now uses the default token scope:
+Both Button variants inside the dialog have changed, so the footer buttons are:
 
 - Cancel `<button class="btn btn-sm btn-secondary">` (was `btn-outline`)
 - Delete `<button class="btn btn-sm btn-destructive">` (unchanged classname; new tokens under the hood)

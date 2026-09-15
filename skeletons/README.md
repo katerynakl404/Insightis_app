@@ -66,7 +66,6 @@ These have no fragment on purpose — adding one would be meaningless:
 | `Skeleton` | it **is** the loading primitive — no skeleton-of-a-skeleton |
 | `Overlay`, `ScrollShadow` | pure backdrop / edge-fade — no content box to placeholder |
 | `Radius`, `colors`, `typography` | design tokens, not components |
-| `prod-gap-report` | a report doc, not a component |
 
 When a brand-new component is added to the kit, create its skeleton here too (unless it falls in
 the excluded set above).

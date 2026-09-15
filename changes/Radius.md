@@ -27,15 +27,15 @@ Five steps in active use. Each maps to the nearest **Tailwind v3** `rounded-*` u
 
 | Step | px | rem equivalents seen in CSS | Tailwind v3 nearest | Role / components |
 |---|---|---|---|---|
-| **sm** | **2px** | — | `rounded-sm` (2px) | Smallest accent corners: tiny dismiss/close affordances (`.b-x`, `.sht-x` in `.prod`), the active-nav indicator bar (`.sb-item::before` is `9999px`, but the 2px sliver corners on `.sw` tab edges), `4px 4px 0 0` tab tops round down toward this end. Mostly micro-controls. |
-| **md** | **6px** | — | `rounded-md` (6px) | The workhorse interactive radius — **buttons (`.btn`), icon-buttons (`.iconbtn`), inputs (`.field`, `.ta`), `.menu` in `.prod` scope**. Note: in the *expected* kit these same controls are authored as `.375rem` (see "6px ≡ .375rem" note below). Storybook labels this `md 6px`. |
+| **sm** | **2px** | — | `rounded-sm` (2px) | Smallest accent corners: tiny dismiss/close affordances (`.b-x`, `.sht-x`), the active-nav indicator bar (`.sb-item::before` is `9999px`, but the 2px sliver corners on `.sw` tab edges), `4px 4px 0 0` tab tops round down toward this end. Mostly micro-controls. |
+| **md** | **6px** | — | `rounded-md` (6px) | The workhorse interactive radius — **buttons (`.btn`), icon-buttons (`.iconbtn`), inputs (`.field`, `.ta`), `.menu`**. Note: in the kit these same controls are authored as `.375rem` (see "6px ≡ .375rem" note below). Storybook labels this `md 6px`. |
 | **lg** | **8px** | `.5rem` (8px) | `rounded-lg` (8px) | Container shells one level up from controls: **dropdown/menu shell (`.menu`)**, **cards (`.card-c`)**, **toasts (`.toast`)**, and `.5rem`-authored surfaces (`.lead`, `.ce-cell`, `.spec`, `.card-panel` uses `.625rem`). The shell that *holds* md controls. |
 | **xl** | **12px / 14px** | `.75rem` (12px) · `.875rem` (14px) | `rounded-xl` (12px) → `rounded-2xl` (16px) | Largest rounded surfaces: **modal dialog (`.dlg`) = `.875rem` = 14px**, plus `.75rem` (12px) on a few large feature panels. Storybook shows a representative `12px` swatch; the modal is the 14px outlier. |
 | **full** | **9999px** | `99px` / `999px` (equivalent intents) | `rounded-full` | Pills & circles: **switch track + thumb (`.swt`, `.swt::after`), chips (`.chip`), avatars, status dots (`.b-dot`), spinners (`.spinner`), progress tracks/fills (`.dlg-progress-*`), the active-nav indicator bar**. `99px` / `999px` appear in a couple of rules and resolve to the same fully-rounded intent as `9999px`. |
 
 ### The 6px ≡ `.375rem` thing (read this)
 
-The storybook swatch and `.prod` rules use the literal **`6px`** for buttons/inputs/menu, but the **expected** kit authors the *same* controls as **`.375rem`** (`.btn`, `.iconbtn`, `.field`, `.ta`, `.badge`, etc.). At the kit's `16px` root, `.375rem` = **6px** — they're the same rendered corner. The mix is historical (prod shipped px; the redesign authored rem). Both are "the md step." When you see `.375rem` on a control, that **is** md/6px.
+The storybook swatch uses the literal **`6px`** for buttons/inputs/menu, but the kit authors the *same* controls as **`.375rem`** (`.btn`, `.iconbtn`, `.field`, `.ta`, `.badge`, etc.). At the kit's `16px` root, `.375rem` = **6px** — they're the same rendered corner. The mix is historical (prod shipped px; the redesign authored rem). Both are "the md step." When you see `.375rem` on a control, that **is** md/6px.
 
 ### Intermediate rem values that appear (not separate "steps")
 

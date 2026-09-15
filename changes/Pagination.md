@@ -67,7 +67,7 @@ No Pagination-specific dark rules. Dark theme only re-points the shared tokens: 
 
 ## Component reuse note
 
-The Pagination kit demo previously rendered its Expected column under the `.prod` scope, which meant the inner buttons resolved against prod tokens. That was wrong — Pagination's components have changed (new Primary fill, new Secondary variant, new IconButton variants), so the demo now uses the default token scope and the correct variant classes:
+Pagination's inner components have changed (new Primary fill, new Secondary variant, new IconButton variants), so the demo uses these variant classes:
 
 - Prev/Next `<button class="iconbtn iconbtn-secondary">`
 - Active page `<button class="btn btn-sm btn-primary">`

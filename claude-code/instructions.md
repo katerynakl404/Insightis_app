@@ -8,8 +8,8 @@ designs the expected state, edits the kit, and keeps the change files in sync.
 
 | Path | Purpose |
 |---|---|
-| `insightis-preview-kit.html` | The visual kit. Per component: **Preview** (Current vs Expected) + **States** table (each state: Current, Expected, Specification). Markup + the inline `<script>` block only — **no inline CSS**. |
-| **`pages/kit-theme.css`** | **All of the kit's CSS** (tokens in `:root` / `.dark` / `.prod` + every component selector + state classes). Linked from `insightis-preview-kit.html` via `<link rel="stylesheet">`. **Edit CSS here, never in the HTML.** |
+| `insightis-preview-kit.html` | The visual kit — **Expected design only**. Per component: **Preview** (live demo + spec) + **States** table (each state: demo, spec). No "Current (prod)" column and no `.prod` scope (removed 2026-09-14 → `archive/2026-09-14-kit-current-prod-column/`). Markup + the inline `<script>` block only — **no inline CSS**. |
+| **`pages/kit-theme.css`** | **All of the kit's CSS** (tokens in `:root` / `.dark` + every component selector + state classes). Linked from `insightis-preview-kit.html` via `<link rel="stylesheet">`. **Edit CSS here, never in the HTML.** |
 | **`pages/kit-kit.js`** | **The kit's shared behaviour layer** — behaviour that belongs to a component's contract rather than to a page: the tooltip engine (every `[data-tip]`) and menu placement (`.menu.is-up` flip). Loaded in `<head>` by every page and by the storybook. **No page may re-implement anything in it** — different behaviour = a contract change made here, once, for all consumers. Page flows (render functions, seed data, dialogs) stay in the page's inline `<script>`. |
 | `current/` | **Source of truth for what is LIVE on prod.** One file per component/property. Mirrors the real `@insightis/ui` code (`globals.css` + component classes). |
 | `changes/` | One file per component/property. Each documents the diff **`current/` → Expected**. Relative links from the kit point here. |
@@ -32,8 +32,8 @@ matching change file must be re-derived against the new `current/`.
 1. Read `current/<Component>.md` → this is the live baseline.
 2. Design the **Expected** state using `token-diff-report.md` tokens + UX best practices.
 3. Edit `insightis-preview-kit.html`:
-   - Update that component's **Expected** cells (Preview + States).
-   - Fill any empty "Best-practice states — to fill" rows you are now defining (give them real Current/Expected/Spec).
+   - Update that component's demo cells (Preview + States) — the kit renders the Expected design only.
+   - Fill any empty "Best-practice states — to fill" rows you are now defining (give them a real demo + spec).
 4. Write/update `changes/<Component>.md`:
    - Table: `State | Current (prod) | Expected | Specification`.
    - Diff strictly against `current/<Component>.md`.
@@ -44,8 +44,7 @@ matching change file must be re-derived against the new `current/`.
 
 1. Re-read the real code for the component (the `ui` package / platform repo).
 2. Update `current/<Component>.md` to the new live state.
-3. Update the kit's `.prod` tokens / `.prod <selector>` overrides so the **Current** column matches the new prod.
-4. Re-derive every affected `changes/<Component>.md` against the **new** `current/`.
+3. Re-derive every affected `changes/<Component>.md` against the **new** `current/`. The kit itself renders Expected only — it needs a change only if the new prod state moves the Expected target.
 
 ## Workflow C — per-screen change page (md)
 
@@ -61,12 +60,11 @@ Full-screen work (a `pages/*.html` mockup) gets a live markdown change page in *
   1. `grep -n "<selector>" pages/kit-theme.css` to confirm the live location.
   2. Make the edit in `pages/kit-theme.css`, never in the HTML.
   3. If you find yourself adding `<style>…</style>` to the HTML, stop — you're about to ship a no-op. Failure mode to watch for: kit suddenly renders raw / unstyled / SVG icons huge → the new rule landed in the HTML and is being ignored.
-- **Current column:** driven by `.prod` scope (token values + structural overrides) — see the `.prod{…}` and `.prod .selector{…}` blocks in `pages/kit-theme.css`.
-- **Expected column:** uses the default `:root` / `.dark` tokens (the new design system).
-- **Theme:** Light/Dark toggle re-themes both columns.
+- **The kit renders Expected only:** every demo uses the default `:root` / `.dark` tokens (the new design system). There is no `.prod` scope — do not reintroduce one.
+- **Theme:** the Light/Dark toggle re-themes every demo.
 - **No-change marker:** `—`. Components with no change show a muted “No change —” link and need no `changes/` file.
 - **Links:** relative (`changes/<X>.md`) so a fresh `git clone` works with nothing broken.
-- **No empty / placeholder-only "States — was → became" tables.** If every row in a component's states table would be `— no change` or a `⚠ needed` placeholder, drop the entire `<div class="block">…</div>` containing it. The kit shows real diffs only.
+- **No empty / placeholder-only "States" tables.** If every row in a component's states table would be `— no change` or a `⚠ needed` placeholder, drop the entire `<div class="block">…</div>` containing it. The kit shows real diffs only.
 - **No iteration-history language in `current/` or `changes/`.** Files describe **Current → Expected**, full stop. Don't narrate the design process — phrases like *"Previous single token …"*, *"X was tried first"*, *"Iteration history:"*, *"Previous attempts:"*, *"Carried over from previous iteration"*, *"was 'too dark' / 'too green' / 'too clinical'"* belong in commit messages, not in the artifact. State the resolved value + its rationale, nothing about paths-not-taken.
 - **No "nothing changed" filler prose in `changes/*.md`.** Don't write sentences like *"The component itself is unchanged from prod"*, *"Same behaviour, same visuals, same defaults"*, *"No change in this iteration"* as an intro paragraph. If nothing about the component changed, use the **`No change (—)` marker** (one line) per the prior rule. If only one aspect changed (e.g. consumer wiring, not the component itself), let the relevant section heading + table say it — don't preface with "the component itself didn't change" because the absence of a "Component" section already conveys that. Reader can see what's listed; saying "and the rest didn't change" is value-less verbosity. Failure-to-learn-from example: TruncatedTitleTooltip.md replaced a clean `No change (—)` marker with *"The component itself is unchanged from prod — same behaviour wrapper, same visuals, same right-side default"* — the same information in 5× the words. Caught by user feedback: *"для чого ти додаєш коменти що нічого не змінилось?"*.
 

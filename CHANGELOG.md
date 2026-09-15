@@ -10,6 +10,27 @@
 
 ## [Unreleased]
 
+### Connections table — row kebab sized to its documented 24px
+
+- **`.ds-conn-more` had no size class**, so it fell back to the base `.iconbtn` 2.25rem. Being the tallest child in the row (every other cell content is 1.5rem — `.ds-sync-retry`, `.ds-sync-chip`, the connector logo, the name label), it inflated every My Connections row from 44px to 57px — while sitting at `opacity:0` until row hover, so the Actions column read as empty and still paid the height. `pages/kit-theme.css` now sizes it to **1.5rem**, matching its sibling `.ds-sync-retry` exactly as `page-changes/data-sources_connections-landing.md` already specified. Measured: row 56.8px → 45.4px, kebab 36px → 24px. Mobile (≤767px) keeps 2.25rem for the touch target. The `#tbl-connections` storybook demo uses the same classes, so it follows without a markup edit.
+- Files table untouched — its 52.8px rows come from the 32px file-type tile, not the kebab.
+
+### Kit is Expected-only — the "Current (prod)" column is gone
+
+- **`insightis-preview-kit.html` no longer renders prod.** Every `Current (prod)` Preview cell (61) and the `Current (prod) · was` column in all 36 States tables were removed; each Preview that was left with one cell drops its now-meaningless `Expected` tag and runs full width (`.ce.ce-1`). Diff wording went with it — 157 `<b>became:</b>` labels, `States — was → became` headings → `States`, `<th>Expected · became</th>` → `<th>Expected</th>`.
+- **`.prod` scope deleted from `pages/kit-theme.css`** — the `.prod{…}` / `.dark .prod{…}` token blocks (incl. the prod-only primitives `--p-primary`, `--p-secondary`, `--p-accent`, `--p-light`, `--p-grad`, `--p-gradh`) and every `.prod <selector>` override. `FALLBACK_TOKEN_NAMES` regenerated (324 → 317). The `.sbx:not(.prod)` / `html:not(.prod)` sidebar swaps were flattened to plain rules with identical rendering. `.ce-tag.prodt` renamed **`.ce-tag.alt`** — the Modal before/after pair still needs a muted tag.
+- **28 "no change" cells were merged, not deleted.** Where the only demo lived in the prod cell and the Expected side said just "— no change", the demo was kept (de-scoped) and the note dropped — those components render identically either way.
+- **Dead storybook JS removed:** `stripNewProdColumns()`, `collapseNoChange()`, and the `.stage.prod` guard in the Spec-panel fallback builder.
+- Docs updated in the same pass: `CLAUDE.md`, `claude-code/instructions.md`, `pages/README.md`, `current/README.md`. Full before-state + restore recipe preserved in `archive/2026-09-14-kit-current-prod-column/`.
+- The prod → Expected story is unchanged and still lives in `changes/*.md` against the `current/*.md` baseline.
+
+#### Follow-on cleanup — everything the retired scope was keeping alive
+
+- **`.sbx-cta` New Chat pill removed** (`archive/2026-09-14-sbx-cta-pill/`). It was prod's header entry point, permanently `display:none` since `.sbx-nav-newchat` replaced it, so with the `.prod` scope gone it could never render: **10 buttons** (3 kit demos, 5 `pages/approved/`, 2 `pages/concept/`) + every `.sbx-cta` rule in `pages/kit-theme.css` (base pill, `svg` size, collapsed 28×28 form, label fade, tooltip suppressor). Spec rows in `changes/Sidebar.md` (the `CTA` row → **New Chat**, the new-classes list) and `changes/Button.md` updated with it.
+- **`changes/*.md` prose de-`.prod`-ed** — Badge, Checkbox, colors, Dropdown, Modal, Pagination, ProgressBar, Radius, Sheet, Switch, Table no longer describe token scopes, override rules or kit demos that do not exist. `Sheet.md`'s "⚠ the prod-scope rule still lingers" note and `ProgressBar.md`'s `.prod .progress` row are gone. The "no Current (prod) column" disclaimers on DataSourceCard / DropZone / StepSlider / UploadTray are redundant now that no component has one.
+- **Five docs archived whole** (`archive/2026-09-14-prod-mechanism-docs/`) — `changes/prod-gap-report.md` (an audit of `.prod` overrides whose every "Fix" names a deleted selector) and the four `claude-code/task-*.md` briefs that instruct the reader to build Current/Expected off `.prod`. Also dropped its row from `skeletons/README.md`.
+- `knowledge-sharing/README.md` Workflow B and the `page-changes/` table headers no longer name `.prod`.
+
 ### Shadow tokens — consolidated repeated recipes into the `--shadow-*` family
 
 - **Rim shadows generalised + renamed.** `--segctrl-active-shadow` / `--segctrl-hover-shadow` → **`--shadow-rim-active` / `--shadow-rim-hover`** (intent-named "inset 1px rim + drop", not component-named). The recipe is shared by `.segctrl-btn`, the account-popover theme toggle `.sbx-pop-theme-btn`, and — in prod — Switch + SidebarMenuButton, so the `segctrl-*` name was too narrow. Values unchanged (theme-aware light/dark). Propagated to `insightis-preview-kit.html`, `changes/SegmentedControl.md`, `changes/AccountPopover.md`, `changes/Popover.md`.

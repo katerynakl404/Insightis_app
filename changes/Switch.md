@@ -74,7 +74,7 @@ Track 36 × 20 px (visual), thumb 16 × 16 px, radius `full`, thumb travel 16 px
 
 ## Token map used
 
-`--brand-primary` (Brand/Primary, on track) · `--brand-hover` (Brand/Primary_Hover, on-track hover) · `--switch-off-bg` *(new — Layer 3, component-scoped)* (Slate-300 light / Grey-700 dark / page-bg in `.prod` scope) · `--switch-off-bg-hover` *(new — Layer 3)* (Slate-400 light / Grey-600 dark) · `--content-on-solid` (white thumb) · `--focus-ring` (focus-ring colour — aliases `--focus-ring-brand` → brand; outer ring via `--shadow-focus`, unified brand kit-wide) · `--card` (focus-ring gap) · `--opacity-disabled`. The on-state track and the focus ring are both brand (focus rings unified to brand across the kit). The previously-considered `--ink-secondary` / `--ink-body` stroke approach is dropped — see preamble above.
+`--brand-primary` (Brand/Primary, on track) · `--brand-hover` (Brand/Primary_Hover, on-track hover) · `--switch-off-bg` *(new — Layer 3, component-scoped)* (Slate-300 light / Grey-700 dark) · `--switch-off-bg-hover` *(new — Layer 3)* (Slate-400 light / Grey-600 dark) · `--content-on-solid` (white thumb) · `--focus-ring` (focus-ring colour — aliases `--focus-ring-brand` → brand; outer ring via `--shadow-focus`, unified brand kit-wide) · `--card` (focus-ring gap) · `--opacity-disabled`. The on-state track and the focus ring are both brand (focus rings unified to brand across the kit). The previously-considered `--ink-secondary` / `--ink-body` stroke approach is dropped — see preamble above.
 
 ## Accessibility & consistency self-check
 ```

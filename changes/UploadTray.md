@@ -5,8 +5,8 @@ complete" plate at the bottom with a chevron and a ✕) but our kit and the File
 component for it at all** — meaning we had never described what the product shows while files are
 uploading, or what happens when one fails. This closes that gap.
 
-**New component — no Current (prod) column.** Prod's plate is the behavioural reference we
-reproduced, not a design baseline to diff against: it has no spec on our side to compare with.
+**New component.** Prod's plate is the behavioural reference we reproduced, not a design baseline to
+diff against: it has no spec on our side to compare with.
 
 Storybook: [`#uploadtray`](../insightis-preview-kit.html#uploadtray) · CSS: `pages/kit-theme.css` →
 UploadTray block · Live consumer: [Data Sources → Files](../pages/approved/data-sources_files-landing.html).

@@ -2,8 +2,7 @@
 
 **No prod baseline** — there is no `current/StepSlider.md`: `@insightis/ui` ships no discrete-level
 control, so nothing in the DS package to diff against. Prod does render this control inside the chat
-composer's model popover (the Effort rail); this component is the design system's version of it, so
-the storybook States table has **no Current (prod) column**.
+composer's model popover (the Effort rail); this component is the design system's version of it.
 
 Live demo + derived values: storybook [`#stepslider`](../insightis-preview-kit.html#stepslider).
 Implementation: `pages/kit-theme.css` → the `.stps` block.

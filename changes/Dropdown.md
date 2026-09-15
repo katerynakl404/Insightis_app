@@ -9,7 +9,7 @@ All dimensions below apply to **every** menu in the system — base text menu (E
 | Surface radius | `rounded-md` (6 px) | — | `rounded-lg` (8 px) — `.menu{border-radius:8px}` | One step rounder; matches modal shell update |
 | Surface padding | `p-1` (4 px) | — | `4 px` (`.menu{padding:4px}`, unchanged) | — |
 | Surface elevation | `shadow-md` (Tailwind: `0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1)`) | — | `--shadow-overlay` — light `0 10px 15px -3px rgba(0,0,0,.12), 0 4px 6px -4px rgba(0,0,0,.08)`, theme-aware dark `0 16px 32px -8px rgba(0,0,0,.65), 0 6px 14px -4px rgba(0,0,0,.5), inset 0 1px 0 0 rgba(255,255,255,.04)` | Same elevation feel, softer outer edge; the single floating-surface rung (also `.sbx-chat-menu`, `.pop`, `.acpl-list`, `.sbx-pop`, `.toast`) |
-| **Item padding** | `py-0.5 px-1.5` (`2 / 6 px`) — prod's actual `.prod .mi` values per DevTools | — | `6 / 12 px` | Roomier hit target; clears WCAG 2.5.8 (≥ 24 px) |
+| **Item padding** | `py-0.5 px-1.5` (`2 / 6 px`) — prod's actual values per DevTools | — | `6 / 12 px` | Roomier hit target; clears WCAG 2.5.8 (≥ 24 px) |
 | **Item gap (icon ↔ label)** | `gap-1.5` (`6 px`) | — | `8 px` | Modest breathing room from the label |
 | **Item radius** | `rounded` (`4 px`, Tailwind default) | — | `4 px` | `.mi` keeps the 4 px item radius (the `.menu` shell steps md → lg to 8 px; items stay 4 px) |
 | **Item height** | `~24 px` (cramped) | — | `~32 px` | Bigger hit target without overshooting |

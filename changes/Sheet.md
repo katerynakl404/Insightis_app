@@ -44,8 +44,6 @@ Source: `@insightis/ui` `Sheet/index.tsx`. Baseline: [`../current/Sheet.md`](../
 | Description | `.sht .sht-d` | font **.75rem** | colour `--ink-secondary` |
 | Close button | `.sht .sht-x` | **24×24px**, positioned `top:6px; right:6px` · **reuses IconButton tertiary** (see Close-button row above) | inner `svg` **14×14px** |
 
-(⚠ The legacy `.prod .sht .sht-x` rule at `kit-theme.css:415` declares a **20×20px** bespoke close button — `display:inline-flex` / `align-items:center` / `justify-content:center`, `border:none`, `background:transparent`, `color:var(--ink)`, `opacity:.7`, `cursor:pointer`, `border-radius:2px`, positioned `top:8px; right:8px`, with `:hover{opacity:1}` (line 416) — superseded by the 24×24 IconButton-tertiary version at line 1652; the prod-scope rule still lingers.)
-
 ## ⚠ Best-practice states — to define
 - **Surface harmonization** — settle Sheet vs Popover vs Modal on either `bg-card` or `bg-background`, not both.
 - **`role="dialog"` description** — `SheetDescription` should be referenced via `aria-describedby` (Radix does this; verify in consumers).

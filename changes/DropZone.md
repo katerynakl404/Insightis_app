@@ -31,4 +31,4 @@ File-upload target: drag-and-drop **and** click-to-browse. Centered dashed zone 
 
 ## No change (—)
 
-Brand-new component, so there is no prod → Expected diff and no Current column (per the new-component convention).
+Brand-new component, so there is no prod → Expected diff — every row below is the Expected spec.

@@ -1,7 +1,8 @@
-# pages/ — full-page examples (Current vs Expected)
+# pages/ — full-page examples (Expected only)
 
 Full-screen mockups **composed from the existing kit components**, so a developer sees how the
-real screens look in the current production design vs the expected (new) design.
+real screens look in the expected (new) design. Prod already exists on the live product; these
+files are the target, not a comparison.
 
 ## Rules
 
@@ -9,11 +10,8 @@ real screens look in the current production design vs the expected (new) design.
   `../insightis-preview-kit.html` — do not redefine component styling per page. The shared theme +
   component CSS lives in **`kit-theme.css`** (extracted from the kit). Both the kit and every page
   link this one file, so components never drift.
-- **Current vs Expected = the same `.prod` mechanism as the kit:**
-  - Wrap the page root in `.prod` → renders with **current (prod)** component styles.
-  - No `.prod` → renders with **expected** component styles.
-  - Each page has a **Current / Expected** toggle (and the **Light / Dark** toggle), so one file
-    shows both states of the same screen.
+- **Expected state only** — like the kit, pages carry no `.prod` / `.sb-cur` scoping and no
+  Current / Expected toggle. The only page-level toggle is **Light / Dark**.
 - Pure CSS, English, relative links, renders by double-click (no build / no external scripts).
 
 ## Files
@@ -35,20 +33,20 @@ real screens look in the current production design vs the expected (new) design.
 
 Example (conceptual): a chat screen = `Sidebar` (header brand + CTA, nav rows, Pinned/Recent chat
 sections, footer tokens-meter + user row) + main `Table`/`Card` content + `Modal`/`Toast` overlays.
-The Current view (`.prod`) shows the prod sidebar/components; the Expected view shows the redesigned
-sidebar (per `../changes/Sidebar.md`) and expected component states — all from the same class set.
+The page shows the redesigned sidebar (per `../changes/Sidebar.md`) and the expected component
+states — all from the same class set.
 
 ## Expected-differences sticker
 
 Each page carries a small movable **note sticker** anchored bottom-right that lists,
-as bullet points, the **names of every component changed in Expected** vs Current.
+as bullet points, the **names of every component changed in Expected** vs prod.
 Each bullet is a `.link` to the matching `../changes/<Component>.md`. No prose, no
 visual deltas — the changes file is the source of truth, the sticker is just the
 quick index.
 
 The sticker must be draggable with the mouse (inline `mousedown / mousemove / mouseup`
 script — no libraries) and themed via the same kit tokens so it follows Light / Dark
-/ `.prod` automatically.
+automatically.
 
 ## Responsive behaviour
 

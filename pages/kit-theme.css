@@ -134,12 +134,12 @@
     /* Pressed/selected row — exactly --card2 (the table-header band surface), so a selected row
        and the thead band are identical BY CONSTRUCTION in every theme: slate-100 light /
        grey-800 dark. Neutral, never brand-tinted. Re-resolves per theme via --card2 — no .dark
-       override needed (only .prod overrides to its own --state-pressed). */
+       override needed. */
     --tbl-row-pressed:var(--card2);
     /* Neutral fill one step stronger than --card2 — for surfaces that need to read as clearly
        distinct from --bg without a border or any brand tint (e.g. chat message bubbles). Defined
-       once here as a formula over --card2/--border so it re-resolves correctly in .dark and .prod
-       without needing a per-scope override. */
+       once here as a formula over --card2/--border so it re-resolves correctly in .dark without
+       needing a per-scope override. */
     --surface-neutral-strong:color-mix(in srgb, var(--card2) 50%, var(--border));
     /* Code syntax highlighting (chat code blocks). Light-theme palette. */
     --code-keyword:#8250df;--code-string:#0a7c42;--code-comment:var(--ink-inactive);--code-number:#0550ae;--code-fn:#0891b2;
@@ -436,7 +436,7 @@
        strength is hover on one component and press on another, so state intent
        lives at the component layer; and composing at the use site lets the mix
        resolve against the USING element's cascaded bases — nested scopes
-       (.prod containers, currentColor) re-resolve for free, no per-scope
+       (.dark containers, currentColor) re-resolve for free, no per-scope
        token re-declaration needed.
      - Steps exist only for strengths in use; add a step when a new strength
        earns a second consumer. Dark-theme strength deviations (destructive
@@ -595,85 +595,6 @@
     --banner-grad-ic-border:rgba(255,255,255,.18);
     --banner-grad-ic-shadow:0 0 0 6px rgba(255,255,255,.04),0 0 16px rgba(255,255,255,.05);
   }
-  /* ===== PROD (actual code: globals.css + component classes) ===== */
-  .prod{
-    --bg:hsl(210 40% 98%);--card:#fff;--card2:hsl(210 20% 96%);--chips:hsl(210 20% 96%);--skel-bg:var(--chips);
-    /* Prod row hover = its own --state-hover (lighter than the card in both prod
-       and dark-prod); re-resolves locally, including for the dark-prod element. */
-    --tbl-row-hover:var(--state-hover);
-    /* Prod pressed/selected = its own --state-pressed (distinct from the band). */
-    --tbl-row-pressed:var(--state-pressed);
-    --ink:hsl(222 47% 11%);--ink-body:hsl(216 24% 28%);--ink-secondary:hsl(216 17% 47%);--ink-inactive:hsl(213 9% 64%);
-    --border:hsl(214 32% 91%);--border-hover:hsl(179 94% 26%);
-    --state-hover:hsl(198 67% 96%);--state-pressed:hsl(198 67% 92%);--state-disabled:hsl(213 9% 64%/.4);
-    --fb-red:hsl(357 100% 38%);--fb-red-text:hsl(357 100% 38%);--fb-green:hsl(160 100% 30%);--fb-attention:hsl(24 100% 50%);
-    --p-primary:hsl(192 89% 21%);--p-secondary:hsl(193 85% 35%);--p-accent:hsl(179 94% 26%);--p-light:hsl(213 9% 64%);
-    --p-grad:linear-gradient(90deg,hsl(192 89% 21%) 50%,hsl(193 85% 35%) 120%);
-    --p-gradh:linear-gradient(227deg,hsl(192 89% 21%) 15%,hsl(193 85% 35%) 102%);
-    /* Badge Primary — prod's alpha-mix recipe (what the visual "Current (prod)" column should show) */
-    --badge-primary-bg:color-mix(in srgb,var(--p-primary) 20%,transparent);--badge-primary-text:var(--p-primary);
-    /* Badge Secondary — prod ships a `chip` surface (Slate-50) + content-secondary text. Mirror so the Current column reflects what prod really renders, even though it's nearly invisible against the page bg. */
-    --badge-secondary-bg:var(--chips);--badge-secondary-text:var(--ink-secondary);
-    /* Switch off-track — prod uses --bg (Slate-50) which is the page bg itself, hence the original 1.10:1 contrast. Mirror this so the Current column shows what prod really renders. */
-    --switch-off-bg:var(--bg);--switch-off-bg-hover:var(--bg);
-  }
-  .dark .prod{
-    --bg:hsl(240 14% 4%);--card:hsl(252 10% 10%);--card2:hsl(240 5% 15%);--chips:hsl(240 5% 15%);--skel-bg:var(--chips);
-    --ink:#fff;--ink-body:hsl(0 0% 87%);--ink-secondary:hsl(240 1% 59%);--ink-inactive:hsl(220 4% 32%);
-    --border:hsl(255 9% 18%);--state-hover:hsl(193 42% 14%);--state-disabled:hsl(220 4% 32%/.5);
-    --fb-red:hsl(358 100% 66%);--fb-red-text:hsl(358 100% 66%);--fb-green:hsl(88 100% 32%);
-    --p-primary:hsl(191 97% 12%);--p-secondary:hsl(193 81% 40%);--p-accent:hsl(178 94% 30%);
-  }
-  /* prod component overrides — structural differences from the new design */
-  .prod .btn-primary{background:var(--p-accent);color:var(--bg)}
-  .prod .btn-primary.s-hover,.prod .btn-primary:hover{background:var(--p-gradh)}
-  .prod .btn-primary.s-pressed,.prod .btn-primary:active{background:var(--p-gradh);box-shadow:0 0 3.7px 0 rgba(0,0,0,.59) inset}
-  .prod .btn-primary.s-disabled,.prod .btn-primary:disabled{background:transparent;border:1px solid var(--p-light);color:var(--p-light)}
-  .prod .btn-secondary{border-color:var(--p-secondary)}
-  .prod .btn-secondary.s-hover,.prod .btn-secondary:hover{border-color:var(--p-accent);background:color-mix(in srgb,var(--p-primary) 5%,transparent);color:var(--p-accent)}
-  .prod .btn-outline.s-hover,.prod .btn-outline:hover{color:var(--p-accent);border-color:var(--border)}
-  /* badge-primary in .prod scope is now handled via the --badge-primary-bg / --badge-primary-text overrides in the .prod token block above */
-  .prod .cbx{width:1.25rem;height:1.25rem;border-radius:.375rem;border:1px solid var(--border);background:var(--card)} .prod .cbx.on{background:var(--p-accent);border-color:var(--p-accent)}
-  .prod .cbx:hover,.prod .cbx.s-hover{border-color:var(--border)} .prod .cbx.on:hover,.prod .cbx.on.s-hover{background:var(--p-accent);border-color:var(--p-accent)}
-  .prod .cbx:focus-visible,.prod .cbx.s-focus{box-shadow:none}
-  .prod .cbx.s-disabled{opacity:.5;background:var(--card);border-color:var(--border);color:#fff} .prod .cbx.s-disabled.on{background:var(--p-accent);border-color:var(--p-accent)}
-  /* Prod adds a 1px border (the new system has no border) + a grey thumb (--p-light); off-bg now flows from the prod-scoped --switch-off-bg token = --bg. No expanded hit target. */
-  .prod .swt{border:1px solid var(--border)} .prod .swt.on{background:var(--p-accent);border-color:var(--p-accent)}
-  .prod .swt::after{background:var(--p-light);box-shadow:0 1px 2px rgba(0,0,0,.18)} .prod .swt.on::after{background:var(--card)}
-  .prod .swt::before{display:none}
-  .prod .swt.on:hover,.prod .swt.on.s-hover{background:var(--p-accent)}
-  .prod .swt:focus-visible,.prod .swt.s-focus{box-shadow:none}
-  .prod .swt.s-disabled{opacity:.5}
-  .prod .field:hover,.prod .field.s-hover{border-color:var(--border)}
-  .prod .field.s-focus,.prod .field:focus-within{border-color:var(--ink);box-shadow:none}
-  .prod .field.s-error{border-color:color-mix(in srgb,var(--fb-red) 30%,transparent);box-shadow:none;background:color-mix(in srgb,var(--fb-red) 5%,transparent)}
-  .prod .chip.is-active,.prod .chip[aria-pressed="true"]{background:color-mix(in srgb,var(--p-primary) 20%,transparent);color:var(--p-primary);border-color:var(--p-primary)}
-  .prod .field.is-disabled{background:color-mix(in srgb,var(--state-disabled) 100%,transparent);border-color:var(--border);cursor:default}
-  .prod .field.is-disabled input{color:var(--ink-inactive)}
-  .prod .ta:hover,.prod .ta.s-hover{border-color:var(--border)}
-  .prod .ta:focus,.prod .ta.s-focus{border-color:var(--p-accent);box-shadow:none}
-  .prod .ta.s-error{border-color:color-mix(in srgb,var(--fb-red) 30%,transparent);box-shadow:none;background:color-mix(in srgb,var(--fb-red) 5%,transparent)}
-  .prod .ta.is-disabled{background:transparent;color:var(--ink-body);opacity:.5}
-  .prod .progress{height:4px;background:var(--bg)} .prod .progress>span{background:var(--p-grad)}
-  .prod .ava-init{background:var(--bg);color:var(--ink-body)}
-  /* Toast — restore prod appearance: fixed 240px width, solid bg-card, neutral border for all variants */
-  .prod .toast{width:240px;max-width:none;min-width:0}
-  .prod .toast.var-success,.prod .toast.var-info,.prod .toast.var-warning,.prod .toast.var-error{background:var(--card);border-color:var(--border)}
-  /* Sheet close: prod-style bare ✕ button (opacity 0.7 → 1, no bg) */
-  .prod .sht .sht-x{display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--ink);opacity:.7;cursor:pointer;border-radius:2px;width:20px;height:20px;top:8px;right:8px}
-  .prod .sht .sht-x:hover{opacity:1}
-  .prod .tab{border-bottom:2px solid transparent} .prod .tab::after{display:none}
-  .prod .tab.is-active{color:var(--p-accent);border-bottom-color:var(--p-accent)}
-  /* Dropdown menu — prod renders at rounded-md (6 px) per current/Dropdown.md; the new system uses rounded-lg (8 px). Override radius in .prod scope so Current visually mirrors what prod ships and the radius diff is tracked. */
-  .prod .menu{background:var(--bg);border-radius:6px} .prod .mi:hover{background:color-mix(in srgb,var(--p-primary) 10%,transparent)}
-  /* Prod menu-item dimensions — straight from the live DevTools inspection: `gap-1.5 rounded px-1.5 py-0.5` (gap 6 px, radius 4 px, padding 2 / 6 px). Tight by today's standards; the renewed base `.mi` (below) is substantially roomier across all three. */
-  .prod .mi{padding:2px 6px;gap:6px;border-radius:4px}
-  /* Prod sidebar active row: faint accent-tinted bg + teal icon & text + a prominent left-edge
-     accent rail that runs nearly the full row height. The rail is the dominant active cue. */
-  .prod .sb-item.active,.prod .sb-item.s-active{position:relative;background:color-mix(in srgb,var(--p-accent) 8%,transparent);color:var(--p-accent)}
-  .prod .sb-item.active::before,.prod .sb-item.s-active::before{content:"";position:absolute;left:2px;top:4px;bottom:4px;width:3px;background:var(--p-accent);border-radius:9999px}
-  .prod .sb-item.active .ic,.prod .sb-item.s-active .ic{color:var(--p-accent)}
-  .prod .sb-item.active .sb-chev,.prod .sb-item.s-active .sb-chev{color:var(--p-accent)}
 
   *{box-sizing:border-box}
   body{margin:0;font-family:"DM Sans",ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--ink-body);-webkit-font-smoothing:antialiased}
@@ -725,12 +646,15 @@
   .block-h{font-size:var(--text-10);font-weight:700;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--ink-inactive);padding:.5rem .75rem;border-bottom:1px solid var(--border);background:var(--card2)}
   .block-b{padding:.875rem}
   .ce{display:grid;grid-template-columns:1fr 1fr;gap:.625rem}
+  /* Single-demo preview — one full-width cell rather than half a two-up grid. */
+  .ce.ce-1{grid-template-columns:1fr}
   @media (max-width:600px){.ce{grid-template-columns:1fr}}
   .ce-cell{border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
   .ce-tag{font-size:var(--text-10);font-weight:600;padding:.25rem .5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.375rem}
   /* 6px dot — on the 2px sub-step (was an off-grid 7px); 8px reads heavy next to 10px caps. */
   .ce-tag::before{content:"";width:6px;height:6px;border-radius:9999px}
-  .ce-tag.prodt{color:var(--ink-inactive)} .ce-tag.prodt::before{background:var(--ink-inactive)}
+  /* Muted tag — the "before" side of a do/don't comparison. */
+  .ce-tag.alt{color:var(--ink-inactive)} .ce-tag.alt::before{background:var(--ink-inactive)}
   .ce-tag.expt{color:var(--brand-primary)} .ce-tag.expt::before{background:var(--brand-primary)}
   .stage{display:flex;align-items:center;justify-content:center;gap:.625rem;flex-wrap:wrap;min-height:72px;padding:.875rem;background:var(--bg)}
   .spec{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-body);margin-top:.75rem;background:var(--card2);border:1px solid var(--border);border-radius:.5rem;padding:.625rem .75rem}
@@ -741,7 +665,7 @@
   .spec code,.stbl code{background:var(--card);border:1px solid var(--border);border-radius:.3rem;padding:.125rem .375rem;font-size:.92em;color:var(--ink);white-space:normal;overflow-wrap:break-word;word-break:break-word}
   .stbl td{line-height:1.7}
   .cspec{font-size:var(--text-10);color:var(--ink-secondary);margin-top:.375rem;line-height:1.45}
-  .cspec code,.cspec b{color:var(--ink)} .cspec .was{color:var(--ink-inactive)}
+  .cspec code,.cspec b{color:var(--ink)}
 
   /* states table */
   .stbl{width:100%;border-collapse:collapse;font-size:var(--text-12)}
@@ -777,7 +701,7 @@
   .btn-lg{height:2.5rem;padding:0 1rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   .btn-xl{height:2.75rem;padding:0 1.25rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   /* Icon sizing follows the label: the button text steps once, at xs, so the icon does too. Set here
-     so markup never hand-sizes an icon — .sbx-cta overrides to 14px later in the file and still wins. */
+     so markup never hand-sizes an icon. */
   .btn svg{width:16px;height:16px;flex:none}
   .btn-xs svg{width:14px;height:14px}
   .btn-primary{background:var(--btn-primary-bg);color:var(--btn-primary-text)}
@@ -956,7 +880,7 @@
   .badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid transparent;font-weight:var(--ts-label-m-weight);border-radius:.375rem;height:1.75rem;padding:0 .625rem;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh)}
   .badge-sm{height:1.25rem;padding:0 .375rem;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);border-radius:.25rem}
   .rf{border-radius:9999px}
-  /* Primary — component-scoped tokens so light/dark/prod scopes each set their own values cleanly (avoids .dark vs .prod cascade collision). Text uses Brand-700 light / Brand-400 dark so AA holds in both themes (~5.8:1) — --brand-primary on Brand-50 would be only 4.21:1. */
+  /* Primary — component-scoped tokens so the light and dark scopes each set their own values cleanly. Text uses Brand-700 light / Brand-400 dark so AA holds in both themes (~5.8:1) — --brand-primary on Brand-50 would be only 4.21:1. */
   .badge-primary{background:var(--badge-primary-bg);color:var(--badge-primary-text)}
   /* Secondary — text bumped from --ink-secondary → --ink-body so contrast aligns with Body / Red / Green / Attention chips */
   .badge-secondary{background:var(--badge-secondary-bg);color:var(--badge-secondary-text)}
@@ -1147,7 +1071,7 @@
   [data-tip][data-tip-side="bottom"]::after{bottom:auto;top:calc(100% + 5px);left:50%;transform:translateX(-50%) translateY(-3px)}
   [data-tip][data-tip-side="bottom"]:hover::after,[data-tip][data-tip-side="bottom"]:focus-visible::after{transform:translateX(-50%) translateY(0);transition:opacity .12s .3s,transform .12s .3s}
 
-  /* Dropdown surface + menu item — renewed values throughout (px units to match the rest of the kit's layout system: .iconbtn 32×32, .sb-item 32/8/8, etc.). Prod's cramped 2/6/6/4 dimensions live in the .prod .mi override above; this is the renewed Expected pass. */
+  /* Dropdown surface + menu item — renewed values throughout (px units to match the rest of the kit's layout system: .iconbtn 32×32, .sb-item 32/8/8, etc.). */
   /* Context-menu sizing — fluid: `width:max-content` hugs the longest item, clamped between min 140 / max 320. Labels longer than 320 px wrap; menus never collapse below 140 px. Every .menu instance (.sbx-chat-menu, .chat-row-menu, .ds-conn-menu, etc.) inherits this via the base rule — variants no longer override `width`. */
   .menu{min-width:140px;max-width:320px;width:max-content;border-radius:8px;border:1px solid var(--border);background:var(--card);padding:4px;box-shadow:var(--shadow-overlay)}
   /* Menu width sizes — opt-in fixed widths (default menus stay fluid `max-content`). S/M/L give a
@@ -1646,7 +1570,7 @@
   .spin{animation:spin 1s linear infinite} @keyframes spin{to{transform:rotate(360deg)}}
 
   /* ===== Sidebar — EXPECTED redesign (compact, brand row + CTA, Pinned/Recent chat sections, refined footer) =====
-     Uses default semantic tokens (no `.prod` scope) so Light/Dark toggle re-themes it. */
+     Uses default semantic tokens so the Light/Dark toggle re-themes it. */
   /* 16rem = the deployed page sidebar width (.cl-shell grid column; pages override to width:100%
      to fill it). The standalone storybook preview card matches that real width. */
   .sbx{width:16rem;height:700px;background:var(--card);border:1px solid var(--border);border-radius:.625rem;display:flex;flex-direction:column;font-family:inherit;overflow:hidden}
@@ -1657,7 +1581,8 @@
      (logo 16px L, collapse 8px R, CTA 16px L/R).
      Vertical rhythm: 12px above the logo → 8px between logo and CTA (tighter) →
      8px between CTA and the first nav row (still closer to Sources than to the logo). */
-  .sbx-head{display:flex;flex-direction:column;gap:8px;padding:12px 0 8px}
+  /* gap:0 — only the brand row remains in the head, so it sits flush against the nav list. */
+  .sbx-head{display:flex;flex-direction:column;gap:0;padding:12px 0 8px}
   /* Brand row — logo 16px from sidebar left, collapse trigger 8px from right; no padding-bottom
      (brand row height alone defines the row — keeps the logo→CTA distance compact). */
   .sbx-brand{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 8px 0 16px;min-width:0;height:32px}
@@ -1674,22 +1599,8 @@
   /* Use with class="iconbtn iconbtn-tertiary iconbtn-xs sbx-collapse" — size and glyph come from
      the ladder step; this rule only stops the button shrinking inside .sbx-brand's flex row. */
   .sbx-collapse{flex:none}
-  /* New Chat CTA — composes with .btn .btn-primary .btn-sm. Used in the Current (prod) scope
-     where the live UI shows a filled-pill primary button below the brand row. Hidden in the
-     Expected scope; the .sbx-nav-newchat row below takes its place (the new design integrates
-     "New Chat" with the menu items rather than separating it as a hero pill). */
-  .sbx-cta{margin:0 16px;align-self:stretch;border-radius:9999px;justify-content:center;gap:8px;padding:0 12px}
-  .sbx-cta svg{width:14px;height:14px}
-  /* Expected-scope swap: hide the filled CTA, surface New Chat as a regular nav-item.
-     Selector :where(.sbx):not(.prod .sbx) keeps the cost-zero specificity but excludes any .sbx
-     that lives inside a .prod ancestor (kit's Current preview ministages) or has .prod itself.
-     For pages that toggle html.prod, this hides .sbx-cta only in Expected — Current keeps the pill. */
-  .sbx:not(.prod) .sbx-cta,html:not(.prod) .sbx-cta{display:none}
-  .sbx:not(.prod) .sbx-nav-newchat,html:not(.prod) .sbx-nav-newchat{display:flex}
-  /* Drop the head's bottom padding + gap when only the brand row remains, so the brand sits flush against the nav list */
-  .sbx:not(.prod) .sbx-head,html:not(.prod) .sbx-head{padding-bottom:.5rem;gap:0}
-  /* Hidden in Current (prod) scope — the .sbx-cta pill above is the live UI's new-chat entry */
-  .sbx-nav-newchat{display:none}
+  /* New Chat is a regular nav row, first in the list. */
+  .sbx-nav-newchat{display:flex}
   .sbx-nav-newchat .ic{width:18px;height:18px}
 
   /* Nav menu — two compact rows. Tight intra-group (2px between rows), generous inter-group
@@ -1935,7 +1846,7 @@
   /* Collapsed (icon-only) variant — width var(--sbx-collapsed-w); labels, CTA text, chat sections, footer meta hidden;
      full logo swaps for the brand mark. */
   /* Tooltip only needed when label is hidden (collapsed); suppress in expanded state */
-  .sbx:not(.is-collapsed) .sbx-nav-item[data-tip]::after,.sbx:not(.is-collapsed) .sbx-cta[data-tip]::after{display:none}
+  .sbx:not(.is-collapsed) .sbx-nav-item[data-tip]::after{display:none}
   .sbx-chats-icon{display:none}
   .sbx-chats-icon svg{width:14px;height:14px}
   /* Collapsed icon-rail mode applies ONLY at desktop widths (≥ 1024 px). Below that the sidebar is
@@ -1950,7 +1861,6 @@
     .sbx.is-collapsed .sbx-brand{justify-content:center;padding:0;position:relative;width:28px;height:28px}
     .sbx.is-collapsed .sbx-brand-id{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .12s}
     .sbx.is-collapsed .sbx-brand-logo,
-    .sbx.is-collapsed .sbx-cta span,
     .sbx.is-collapsed .sbx-nav-item .lbl,
     .sbx.is-collapsed .sbx-sect,
     .sbx.is-collapsed .sbx-sect-head,
@@ -1965,8 +1875,6 @@
     .sbx.is-collapsed .sbx-collapse:hover{background:var(--state-hover)}
     .sbx.is-collapsed .sbx-brand:hover .sbx-brand-id{opacity:0}
     /* Tighter, equal-sized icon buttons — 28×28 for a calmer hierarchy along the 57 px sidebar */
-    .sbx.is-collapsed .sbx-cta{padding:0;width:28px;height:28px;align-self:center}
-    .sbx.is-collapsed .sbx-cta svg{width:14px;height:14px}
     .sbx.is-collapsed .sbx-nav{padding:2px 0;align-items:center;gap:1px}
     .sbx.is-collapsed .sbx-nav-item{width:28px;height:28px;justify-content:center;padding:0}
     .sbx.is-collapsed .sbx-nav-item .ic{width:14px;height:14px}
@@ -2402,7 +2310,7 @@
   /* Skeleton-state toggle — approved pages preview their initial-load state in place via a
      topbar SegmentedControl that flips html.skel-on. Each swappable region carries two siblings:
      .sk-loaded (real content) and .sk-skel (its .skel placeholder). This is a loading-state
-     preview, NOT a Current/Expected scope — do not confuse with the banned .prod/.sb-cur toggle.
+     preview, NOT a Current/Expected scope — the kit ships the Expected design only.
      .sk-skel containers are block-level; put any flex/grid layout on an inner wrapper. */
   .sk-skel{display:none}
   html.skel-on .sk-loaded{display:none}
@@ -2864,6 +2772,12 @@
   .ds-conn-more-wrap{position:relative;flex:none}
   /* Card mode — pin the kebab to the top-right corner instead of vertically centering it. */
   .ds-conn-row .ds-conn-more-wrap{align-self:flex-start}
+  /* Row kebab — 1.5rem, matching its sibling .ds-sync-retry in the Last check column
+     (page-changes/data-sources_connections-landing.md: re-test icon "sized to match the row
+     kebab (24px)"). Without this it falls back to the base .iconbtn 2.25rem and, being the
+     tallest child in the row, inflates every table row from 44px to 57px. Mobile keeps
+     2.25rem (touch target) via the .ds-conn-tbl .tbl tbody tr .ds-conn-more override below. */
+  .ds-conn-tbl .ds-conn-more{width:1.5rem;height:1.5rem;padding:0}
   .ds-conn-more svg{width:14px;height:14px}
   .ds-conn-row:has([data-kbp][aria-expanded="true"]){z-index:20}
   .ds-conn-body:has([data-kbp][aria-expanded="true"]){overflow:visible}

@@ -172,7 +172,6 @@ larger size. It was `.375rem` (6px) across the board, which is the 2px sub-step,
 **Icon size follows the label, not the box.** The button text steps exactly once — at `xs` — so the
 icon does too: `.btn svg` is 16×16, `.btn-xs svg` is 14×14, both with `flex:none`. Set in the kit so
 markup never hand-sizes an icon; four inline `style="width:16px…"` were removed when the rule landed.
-`.sbx-cta svg` keeps its own 14px and still wins, being later in the file at equal specificity.
 
 > Size affects geometry only — colour comes entirely from the variant class. Font steps once, at xs: `--ts-body-s-*` there, `--ts-body-m-*` on every larger size.
 

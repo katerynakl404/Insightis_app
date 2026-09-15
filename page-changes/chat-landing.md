@@ -16,7 +16,7 @@ Chat landing hero: Sidebar shell + centered title + prompt composer (textarea, a
 
 ## Current → Expected delta
 
-| Area | Current (.prod) | Expected | Component ref |
+| Area | Current (prod) | Expected | Component ref |
 |---|---|---|---|
 | **Hero title** | "What insight / are you looking for?" in one flat `Text/Primary` colour | Keywords **"insight"** and **"looking for"** wrapped in `.cl-kw`, coloured `--ink-highlight`, weight 600; rest stays weight 500 | — |
 | **Background** | Flat `--bg`; opaque sidebar + composer | Radial brand-tertiary glow on `.cl-shell` + blurred `::before` pool (static); frosted-glass sidebar/composer (`--card` 78%/72% + `backdrop-filter` blur 14/10px). **Light:** glow 2% → ::before 8%. **Dark:** 4% → 18%, blur 70px | — |

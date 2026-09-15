@@ -15,7 +15,7 @@ Chats Library list page: Sidebar shell + "Chats Library" heading + search + meta
 
 ## Current → Expected delta
 
-| Area | Current (.prod) | Expected | Component ref |
+| Area | Current (prod) | Expected | Component ref |
 |---|---|---|---|
 | **Container / layout** | Meta row and list each wrapped in their own bordered, rounded card; content fills the full main width | No cards/borders; centered 960px column; rows on the page bg, 6px gap | [ChatRow.md](../changes/ChatRow.md) *(page composition)* |
 | **Page title** | "Chats Library" as a large display heading | Same text on the `.cl-page-title` scale: weight 500, `1.5rem` → `1.875rem` (≥768px), `Text/Primary`, left | — |
