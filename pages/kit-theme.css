@@ -2772,12 +2772,9 @@
   .ds-conn-more-wrap{position:relative;flex:none}
   /* Card mode — pin the kebab to the top-right corner instead of vertically centering it. */
   .ds-conn-row .ds-conn-more-wrap{align-self:flex-start}
-  /* Row kebab — 1.5rem, matching its sibling .ds-sync-retry in the Last check column
-     (page-changes/data-sources_connections-landing.md: re-test icon "sized to match the row
-     kebab (24px)"). Without this it falls back to the base .iconbtn 2.25rem and, being the
-     tallest child in the row, inflates every table row from 44px to 57px. Mobile keeps
-     2.25rem (touch target) via the .ds-conn-tbl .tbl tbody tr .ds-conn-more override below. */
-  .ds-conn-tbl .ds-conn-more{width:1.5rem;height:1.5rem;padding:0}
+  /* Row-kebab size is NOT set here — it comes from the shared `.mx-tbl-actions .iconbtn` rule,
+     which both this table and the Metrics table route through. Card mode keeps its own 14px
+     glyph below (no .mx-tbl-actions td around it). */
   .ds-conn-more svg{width:14px;height:14px}
   .ds-conn-row:has([data-kbp][aria-expanded="true"]){z-index:20}
   .ds-conn-body:has([data-kbp][aria-expanded="true"]){overflow:visible}
@@ -3445,7 +3442,18 @@
 
   /* ── Actions column + kebab ── */
   .mx-tbl-actions{width:3rem;padding-right:.5rem;position:relative;text-align:right;vertical-align:middle;white-space:nowrap}
-  .mx-tbl-actions .iconbtn{opacity:0;transition:opacity var(--motion-fast)}
+  /* Size lives here, not on each kebab: BOTH row kebabs route through this cell — Metrics
+     (.mx-kebab-btn) and Connections (.ds-conn-more) — and neither carries a ladder size class,
+     so without this they fall back to the base .iconbtn 2.25rem. At 36px the kebab is the
+     tallest child in a row whose every other cell tops out at 20px (switch, badge, text line,
+     connector logo, .ds-sync pill + .ds-sync-retry), so it alone inflated both tables from
+     ~44px rows to 57px — while sitting at opacity:0 until row hover, i.e. an Actions column
+     that reads as empty and still pays the height. 1.5rem is the row-action step the eight
+     sibling molecules already use (.chat-row-more, .sbx-chat-more, .ds-sync-retry, .toast-x,
+     .sht-x, .igrp-clear, …; see the .iconbtn.is-row note on the ladder), with its 14px glyph.
+     Mobile restores 2.25rem per table in the ≤767px block — cards have no hover to reveal on. */
+  .mx-tbl-actions .iconbtn{opacity:0;transition:opacity var(--motion-fast);width:1.5rem;height:1.5rem;border-radius:.25rem;padding:0}
+  .mx-tbl-actions .iconbtn svg{width:14px;height:14px}
   tr:hover .mx-tbl-actions .iconbtn{opacity:1}
   /* On a hovered row the td bg is --state-hover; use --state-pressed so the button hover is visible */
   tr:hover .mx-tbl-actions .iconbtn:hover{background:var(--state-pressed);color:var(--ink)}
@@ -3700,8 +3708,9 @@
   .mx-tbl .tbl tbody tr.mx-conn-sub-row td{display:flex;align-items:center;width:100%;border-bottom:none}
 
   /* Kebab always visible on mobile; size = card-stack standard 2.25rem / 16px */
-  .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn{opacity:1}
-  .ds-conn-tbl .tbl tbody tr .ds-conn-more{opacity:1;width:2.25rem;height:2.25rem}
+  .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn{opacity:1;width:2.25rem;height:2.25rem;border-radius:.375rem}
+  .mx-tbl .tbl tbody tr.mx-metric-child .mx-tbl-actions .iconbtn svg{width:16px;height:16px}
+  .ds-conn-tbl .tbl tbody tr .ds-conn-more{opacity:1;width:2.25rem;height:2.25rem;border-radius:.375rem}
   .ds-conn-tbl .tbl tbody tr .ds-conn-more svg{width:16px;height:16px}
   .dsf-tbl .chat-row-more{opacity:1;pointer-events:auto;width:2.25rem;height:2.25rem;border-radius:.375rem}
   .dsf-tbl .chat-row-more svg{width:16px;height:16px}

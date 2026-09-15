@@ -10,10 +10,13 @@
 
 ## [Unreleased]
 
-### Connections table — row kebab sized to its documented 24px
+### Row kebab sized to the row-action step — fixes inflated rows in Metrics *and* Connections
 
-- **`.ds-conn-more` had no size class**, so it fell back to the base `.iconbtn` 2.25rem. Being the tallest child in the row (every other cell content is 1.5rem — `.ds-sync-retry`, `.ds-sync-chip`, the connector logo, the name label), it inflated every My Connections row from 44px to 57px — while sitting at `opacity:0` until row hover, so the Actions column read as empty and still paid the height. `pages/kit-theme.css` now sizes it to **1.5rem**, matching its sibling `.ds-sync-retry` exactly as `page-changes/data-sources_connections-landing.md` already specified. Measured: row 56.8px → 45.4px, kebab 36px → 24px. Mobile (≤767px) keeps 2.25rem for the touch target. The `#tbl-connections` storybook demo uses the same classes, so it follows without a markup edit.
-- Files table untouched — its 52.8px rows come from the 32px file-type tile, not the kebab.
+- **Neither row kebab carried a ladder size class**, so both fell back to the base `.iconbtn` 2.25rem: `.mx-kebab-btn` (Metrics) — which has no CSS rule of its own anywhere — and `.ds-conn-more` (Connections). At 36px the kebab was the tallest child in a row whose every other cell tops out at 20px (the switch, the badge, a text line, the connector logo, the `.ds-sync` pill and its `.ds-sync-retry`), so it alone inflated both tables to 57px rows — while sitting at `opacity:0` until row hover, i.e. an Actions column that reads as empty and still pays the height.
+- Fixed once on the shared **`.mx-tbl-actions .iconbtn`** rule, which both tables route through, rather than per kebab: **1.5rem box, 14px glyph** — the row-action step the eight sibling molecules already use (`.chat-row-more`, `.sbx-chat-more`, `.ds-sync-retry`, `.toast-x`, `.sht-x`, `.igrp-clear`, …). On Connections that is also exactly what `page-changes/data-sources_connections-landing.md` already specified for the kebab's sibling re-test icon.
+- Measured, desktop: Metrics rows 56.8px → **46px**, Connections 56.8px → **45.4px**, kebab 36px → **24px**, glyph 16px → **14px** — uniform across every row. Mobile (≤767px) restores 2.25rem / 16px per table for the touch target, since cards have no hover to reveal on; the Metrics rule now sets that size alongside the `opacity:1` it already had.
+- `insightis-preview-kit.html` and `components/MetricsTable.html` use the same classes, so both follow with no markup edit — verified in the storybook at 24 / 14 / 45–46px.
+- Files table untouched (asked): its 52.8px rows come from the 32px file-type tile, not the kebab.
 
 ### Kit is Expected-only — the "Current (prod)" column is gone
 
