@@ -20,7 +20,7 @@
 
 ## How to read this
 
-**42 items in four parts.** Numbering runs straight through — #1 to #42 — so an item can be cited by
+**43 items in four parts.** Numbering runs straight through — #1 to #43 — so an item can be cited by
 number alone.
 
 | Part | What | Items | Found by |
@@ -28,7 +28,7 @@ number alone.
 | **1 · Screens — behaviour** | what a user hits on prod | #1–#20 | using the product |
 | **2 · Design system** | rules the system has and the code bypasses | #21–#27 | walking all 20 routes |
 | **3 · Screens — detail** | per-screen findings | #28–#33 | measuring the rendered pages |
-| **4 · Component kit** | the kit as built | #34–#42 | reading the kit source |
+| **4 · Component kit** | the kit as built | #34–#43 | reading the kit source |
 
 Severity within each part: 🟠 **Important** (behaviour, states, accessibility) ·
 🟡 **Minor** (visual consistency).
@@ -432,3 +432,9 @@ be used where a literal is written instead.**
 ### #42 · Kit · One variant still disables itself with the old token names
 - Everything greys with `bg-state-disabled` + `text-ink-inactive` (9 and 35 uses). `accent` alone uses `bg-chip` + `text-content-light` — three declarations on two adjacent lines, the last survivors of an earlier naming round.
 
+### #43 · Kit · Autocomplete — selected and highlighted are the same fill
+- `Autocomplete/OptionItem` paints both states with State/Hover: `data-[highlighted=true]:bg-state-hover` and `aria-selected:bg-state-hover`, one line apart.
+- They are different states. Highlighted follows the pointer and the arrow keys; selected is the current value. With one fill for both, the moment the pointer enters the list you can no longer tell which option is selected — and two adjacent rows read as if both were chosen.
+- The system already has the step for *chosen*: State/Pressed plus Text/Highlight, which is what `Toggle` uses for `data-[state=on]` and `.chip.is-active` for a picked filter.
+- **Fix:** `aria-selected:bg-state-pressed` + `aria-selected:text-ink-highlight` (and weight 500), leaving `data-[highlighted]` on State/Hover. Selected then stays legible while another option is highlighted, and goes one step deeper when it is the highlighted one.
+- `DropdownMenu`'s checkbox and radio items are **not** affected — they carry a check or a dot, so selection never rides on the fill.

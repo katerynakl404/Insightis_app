@@ -36,3 +36,6 @@ working/
 
 # Old standalone web iteration — not part of the handoff kit.
 Insightis web/
+
+# Local editor backups — never committed.
+*.bak
