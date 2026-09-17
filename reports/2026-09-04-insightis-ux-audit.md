@@ -87,7 +87,7 @@ Row 1 is one component rendered on **every page that has the sidebar** — Chat,
 | Download | `download` |
 | Pin / Unpin | `pin` / `pin-off` |
 | Select / Deselect | `list-checks` / `list-x` |
-| Test Connection | `plug-zap` |
+| Test Connection | `rotate-ccw` — **the same glyph as the inline re-test control beside the status badge**; one action, one icon |
 | Delete | `trash-2` |
 | Disconnect | `unplug` |
 
