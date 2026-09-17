@@ -2254,6 +2254,11 @@
   .sel-chev{width:16px;height:16px;color:var(--ink-secondary);flex:none;transition:transform .15s}
   .sel-trig[aria-expanded="true"] .sel-chev,.sel-trig.s-open .sel-chev{transform:rotate(180deg)}
   .sel-menu{position:absolute;top:calc(100% + 2px);left:0;right:0;width:100%;min-width:unset;max-width:unset;z-index:50;display:none}
+  /* The chosen option carries the system chosen recipe — State/Pressed fill + Text/Highlight + 500 —
+     the same one .side a.active uses. Hover keeps the fill, so hovering the current value never makes
+     it read as unchosen. Without this, reopening the menu showed no trace of what was picked. */
+  .sel-menu .mi[aria-selected="true"]{background:var(--state-pressed);color:var(--ink-highlight);font-weight:500}
+  .sel-menu .mi[aria-selected="true"]:hover{background:var(--state-pressed)}
   .sel-trig[aria-expanded="true"]+.sel-menu{display:block}
   .sel-trig.is-sm{height:2rem} .sel-trig.is-lg{height:2.5rem;padding:0 1rem} .sel-trig.is-xl{height:2.75rem;padding:0 1.25rem}
 

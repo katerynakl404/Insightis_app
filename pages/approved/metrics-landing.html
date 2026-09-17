@@ -1279,7 +1279,7 @@
                 </div></td>
               </tr>
               <!-- Custom metrics first -->
-              <tr class="mx-metric-child" data-prov="jira" data-name="MRR growth" data-alias="@mrr_growth" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Custom formula" data-desc="Month-over-month growth rate of MRR derived from Jira billing data. Calculated as (MRR this month в€’ MRR last month) Г· MRR last month Г— 100. Positive values indicate revenue expansion; negative values signal churn or contraction." data-custom="true" data-active="true" data-row-id="custom-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-prov="jira" data-name="MRR growth" data-alias="@mrr_growth" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Custom formula" data-desc="Month-over-month growth rate of MRR derived from Jira billing data. Calculated as (MRR this month − MRR last month) ÷ MRR last month × 100. Positive values indicate revenue expansion; negative values signal churn or contraction." data-custom="true" data-active="true" data-row-id="custom-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="MRR growth — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">MRR growth</td>
                 <td class="mx-tbl-alias">@mrr_growth</td>
@@ -1647,7 +1647,7 @@
             <svg class="sel-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="sel-menu menu" role="listbox">
-            <div class="mi" role="option" onclick="mxSelSelect('Skyvia Jira','Skyvia Jira (Jira Software Cloud)')">Skyvia Jira (Jira Software Cloud)</div>
+            <div class="mi" role="option" aria-selected="false" data-value="Skyvia Jira" onclick="mxSelSelect(this,&apos;Skyvia Jira&apos;,&apos;Skyvia Jira (Jira Software Cloud)&apos;)">Skyvia Jira (Jira Software Cloud)</div>
           </div>
         </div>
         <input type="hidden" id="mx-connector-inp" value="">
@@ -1717,13 +1717,22 @@ function mxSelToggle(btn){
   var willOpen = btn.getAttribute('aria-expanded') !== 'true';
   btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
 }
-function mxSelSelect(value, label){
+function mxSelSelect(opt, value, label){
   var inp = document.getElementById('mx-connector-inp');
   if (inp) inp.value = value;
   var ph = document.getElementById('mx-connector-ph');
   if (ph) { ph.textContent = label; ph.className = value ? 'sel-val' : 'sel-ph'; }
   var trig = document.getElementById('mx-connector-trig');
-  if (trig) trig.setAttribute('aria-expanded','false');
+  if (trig) trig.setAttribute("aria-expanded","false");
+  /* Mark the chosen option so reopening the menu shows what is current. Works both ways: a click
+     passes the element, a programmatic prefill passes null and is matched on data-value. */
+  if (trig && trig.parentNode) {
+    var opts = trig.parentNode.querySelectorAll(".sel-menu [role=option]");
+    for (var i = 0; i < opts.length; i++) {
+      var on = opt ? (opts[i] === opt) : (opts[i].getAttribute("data-value") === value);
+      opts[i].setAttribute("aria-selected", on ? "true" : "false");
+    }
+  }
 }
 document.addEventListener('click', function(e){
   if (!e.target.closest('.sel-wrap')) {
@@ -2120,7 +2129,7 @@ function mxOpenDlgWithData(opts) {
     if (cnt) cnt.textContent = defInp.value.length + ' / 1500';
   }
   if (opts.connector) {
-    mxSelSelect(opts.connector, opts.connector);
+    mxSelSelect(null, opts.connector, opts.connector);
   } else {
     var connInp = document.getElementById('mx-connector-inp');
     var connPh  = document.getElementById('mx-connector-ph');
