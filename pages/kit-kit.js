@@ -46,7 +46,7 @@
       /* max-width caps the bubble at --tip-max-w and lets long copy wrap; width:max-content keeps a
          short tip hugging its text instead of stretching to the cap. Without the cap the bubble was
          nowrap-infinite and could out-run the viewport — tipShow() clamps POSITION, not width. */
-      ft.style.cssText = 'position:fixed;z-index:9999;background:var(--ink);color:var(--card);font-size:.75rem;border-radius:6px;padding:4px 8px;pointer-events:none;max-width:var(--tip-max-w);width:max-content;white-space:normal;text-align:left;font-family:inherit;line-height:1.35;opacity:0;transition:opacity .1s;display:none';
+      ft.style.cssText = 'position:fixed;z-index:9999;background:var(--ink-primary);color:var(--surface-card);font-size:.75rem;border-radius:6px;padding:4px 8px;pointer-events:none;max-width:var(--tip-max-w);width:max-content;white-space:normal;text-align:left;font-family:inherit;line-height:1.35;opacity:0;transition:opacity .1s;display:none';
       document.body.appendChild(ft);
     }
     return ft;

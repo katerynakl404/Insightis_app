@@ -82,19 +82,19 @@ document.getElementById('dl').addEventListener('click',function(e){
       <td><span class="impact-med">середня</span> — трохи темніший + синій відтінок</td>
     </tr>
     <tr class="diff-row">
-      <td><code>--card</code> <span class="tag tag-surface">surface</span></td>
+      <td><code>--surface-card</code> <span class="tag tag-surface">surface</span></td>
       <td><span class="swatch" style="background:#181726"></span><code>hsl(252 10% 10%)</code><br><span class="note">#181726 — фіолетовий відтінок</span></td>
       <td><span class="swatch" style="background:#17171E"></span><code>var(--grey-900)</code><br><span class="note">#17171E — нейтральний</span></td>
       <td><span class="impact-high">висока</span> — всі card-поверхні мають фіолетовий cast</td>
     </tr>
     <tr class="diff-row">
-      <td><code>--card2</code> <span class="tag tag-surface">surface</span><span class="tag tag-new">naming</span></td>
+      <td><code>--surface-card2</code> <span class="tag tag-surface">surface</span><span class="tag tag-new">naming</span></td>
       <td><span class="swatch" style="background:#232327"></span><code>hsl(240 5% 15%)</code><br><span class="note">задається через <code>--chip</code></span></td>
       <td><span class="swatch" style="background:#21212C"></span><code>var(--grey-800)</code><br><span class="note">#21212C</span></td>
       <td><span class="impact-med">середня</span> — синюватий vs нейтральний</td>
     </tr>
     <tr>
-      <td><code>--chips</code> / <code>--surface-chips</code> <span class="tag tag-surface">surface</span><span class="tag tag-new">naming</span></td>
+      <td><code>--surface-chips</code> / <code>--surface-chips</code> <span class="tag tag-surface">surface</span><span class="tag tag-new">naming</span></td>
       <td><span class="swatch" style="background:#232327"></span><code>hsl(240 5% 15%)</code><br><span class="note">prod: <code>--chip</code></span></td>
       <td><span class="swatch" style="background:#2A2834"></span><code>var(--grey-700)</code><br><span class="note">#2A2834</span></td>
       <td><span class="impact-med">середня</span></td>
@@ -107,7 +107,7 @@ document.getElementById('dl').addEventListener('click',function(e){
   <thead><tr><th>Токен</th><th>Поточно (prod .dark)</th><th>Очікувано (kit .dark)</th><th>Різниця</th></tr></thead>
   <tbody>
     <tr>
-      <td><code>--ink</code> / <code>--text-primary</code> <span class="tag tag-text">text</span></td>
+      <td><code>--ink-primary</code> / <code>--text-primary</code> <span class="tag tag-text">text</span></td>
       <td><span class="swatch" style="background:#ffffff;border:1px solid #ccc"></span><code>#fff</code><br><span class="note">чистий білий</span></td>
       <td><span class="swatch" style="background:#F9FAFB;border:1px solid #ccc"></span><code>var(--grey-50)</code><br><span class="note">#F9FAFB — майже білий</span></td>
       <td><span class="impact-med">мінімальна</span> — 1 ступінь</td>
@@ -138,13 +138,13 @@ document.getElementById('dl').addEventListener('click',function(e){
   <thead><tr><th>Токен</th><th>Поточно (prod .dark)</th><th>Очікувано (kit .dark)</th><th>Різниця</th></tr></thead>
   <tbody>
     <tr class="diff-row">
-      <td><code>--border</code> / <code>--stroke-border</code> <span class="tag tag-border">border</span><span class="tag tag-new">naming</span></td>
+      <td><code>--stroke-border</code> / <code>--stroke-border</code> <span class="tag tag-border">border</span><span class="tag tag-new">naming</span></td>
       <td><span class="swatch" style="background:#2B2A35"></span><code>hsl(255 9% 18%)</code><br><span class="note">#2B2A35 — фіолетовий відтінок</span></td>
       <td><span class="swatch" style="background:#2A2834"></span><code>var(--grey-700)</code><br><span class="note">#2A2834</span></td>
       <td><span class="impact-med">середня</span> — фіолетовий cast</td>
     </tr>
     <tr>
-      <td><code>--border-hover</code> / <code>--stroke-border-hover</code> <span class="tag tag-border">border</span><span class="tag tag-new">naming</span></td>
+      <td><code>--field-border-hover</code> / <code>--stroke-border-hover</code> <span class="tag tag-border">border</span><span class="tag tag-new">naming</span></td>
       <td><span class="note">задається в <code>.dark</code> як <code>var(--slate-700)</code> ✓</span></td>
       <td><code>var(--slate-700)</code></td>
       <td>—</td>
@@ -182,12 +182,12 @@ document.getElementById('dl').addEventListener('click',function(e){
 <table>
   <thead><tr><th>Kit (очікуване ім'я)</th><th>Prod (поточне ім'я)</th><th>Значення в .dark</th></tr></thead>
   <tbody>
-    <tr><td><code>--ink</code></td><td><code>--ink-primary</code></td><td><code>var(--grey-50)</code> ✓</td></tr>
-    <tr><td><code>--card</code></td><td><code>--surface-card</code></td><td><code>var(--grey-900)</code> ✓</td></tr>
-    <tr><td><code>--card2</code></td><td><code>--surface-card2</code></td><td><code>var(--grey-800)</code> ✓</td></tr>
-    <tr><td><code>--chips</code></td><td><code>--surface-chips</code></td><td><code>var(--grey-700)</code> ✓</td></tr>
-    <tr><td><code>--border</code></td><td><code>--stroke-border</code></td><td><code>var(--grey-700)</code> ✓</td></tr>
-    <tr><td><code>--border-hover</code></td><td><code>--stroke-border-hover</code></td><td><code>var(--slate-700)</code> ✓</td></tr>
+    <tr><td><code>--ink-primary</code></td><td><code>--ink-primary</code></td><td><code>var(--grey-50)</code> ✓</td></tr>
+    <tr><td><code>--surface-card</code></td><td><code>--surface-card</code></td><td><code>var(--grey-900)</code> ✓</td></tr>
+    <tr><td><code>--surface-card2</code></td><td><code>--surface-card2</code></td><td><code>var(--grey-800)</code> ✓</td></tr>
+    <tr><td><code>--surface-chips</code></td><td><code>--surface-chips</code></td><td><code>var(--grey-700)</code> ✓</td></tr>
+    <tr><td><code>--stroke-border</code></td><td><code>--stroke-border</code></td><td><code>var(--grey-700)</code> ✓</td></tr>
+    <tr><td><code>--field-border-hover</code></td><td><code>--stroke-border-hover</code></td><td><code>var(--slate-700)</code> ✓</td></tr>
     <tr><td><code>--focus-ring</code></td><td><code>--state-focus-ring</code></td><td><code>var(--slate-100)</code> ✓</td></tr>
     <tr><td><code>--fb-red-hover</code></td><td><code>--fb-error-hover</code></td><td><code>var(--red-800)</code> ✓</td></tr>
     <tr><td><code>--fb-red-press</code></td><td><code>--fb-error-press</code></td><td><code>var(--red-850)</code> ✓</td></tr>
@@ -198,9 +198,9 @@ document.getElementById('dl').addEventListener('click',function(e){
 <table>
   <thead><tr><th>Токен</th><th>Потрібне значення в .dark</th><th>Наслідок відсутності</th></tr></thead>
   <tbody>
-    <tr><td><code>--bg</code></td><td><code>var(--grey-950)</code></td><td>Компоненти що читають <code>--bg</code> отримують Slate-50 (світлий)</td></tr>
+    <tr><td><code>--surface-page</code></td><td><code>var(--grey-950)</code></td><td>Компоненти що читають <code>--surface-page</code> отримують Slate-50 (світлий)</td></tr>
     <tr><td><code>--badge-primary-text</code></td><td><code>var(--brand-secondary)</code> = Brand-400</td><td>Текст бейджа не адаптується до dark</td></tr>
-    <tr><td><code>--btn-secondary-bg</code></td><td><code>var(--card)</code> (auto-resolves ✓)</td><td>Ок — через cascade</td></tr>
+    <tr><td><code>--btn-secondary-bg</code></td><td><code>var(--surface-card)</code> (auto-resolves ✓)</td><td>Ок — через cascade</td></tr>
   </tbody>
 </table>
 
@@ -211,9 +211,9 @@ document.getElementById('dl').addEventListener('click',function(e){
     <tr><td><span class="impact-high">P1</span></td><td><code>--ink-secondary</code> / <code>--text-secondary</code></td><td>59% vs 84% — текстова ієрархія ламається, UI нечитаємий</td></tr>
     <tr><td><span class="impact-high">P1</span></td><td><code>--ink-inactive</code> / <code>--text-light</code></td><td>32% vs 64% — inactive-елементи майже невидимі</td></tr>
     <tr><td><span class="impact-high">P1</span></td><td><code>--state-hover</code> / <code>--hover</code></td><td>teal hover замість нейтрального — усі hover-стани виглядають брендово</td></tr>
-    <tr><td><span class="impact-high">P1</span></td><td><code>--card</code></td><td>фіолетовий cast на всіх card-поверхнях</td></tr>
-    <tr><td><span class="impact-med">P2</span></td><td><code>--background</code> / <code>--bg</code></td><td>неправильний page-bg</td></tr>
-    <tr><td><span class="impact-med">P2</span></td><td><code>--border</code> / <code>--stroke-border</code></td><td>фіолетовий cast + naming alignment</td></tr>
+    <tr><td><span class="impact-high">P1</span></td><td><code>--surface-card</code></td><td>фіолетовий cast на всіх card-поверхнях</td></tr>
+    <tr><td><span class="impact-med">P2</span></td><td><code>--background</code> / <code>--surface-page</code></td><td>неправильний page-bg</td></tr>
+    <tr><td><span class="impact-med">P2</span></td><td><code>--stroke-border</code> / <code>--stroke-border</code></td><td>фіолетовий cast + naming alignment</td></tr>
     <tr><td><span class="impact-med">P2</span></td><td>Всі naming-аліаси</td><td>Компоненти на old-token-API отримують light-theme значення</td></tr>
     <tr><td style="color:#888">P3</td><td><code>--ink-body</code> / <code>--text-body</code></td><td>невелика різниця яскравості</td></tr>
   </tbody>

@@ -21,8 +21,8 @@
      grid + sticky + min-height was producing. */
   html,body{height:100%;overflow:hidden}
   body{display:flex;flex-direction:column}
-  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--bg);transition:width .2s ease}
-  .cl-side{width:16rem;flex:none;background:var(--card);border-right:1px solid var(--border);height:100%;overflow:hidden;display:flex;flex-direction:column;align-items:stretch;transition:width .2s ease}
+  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--surface-page);transition:width .2s ease}
+  .cl-side{width:16rem;flex:none;background:var(--surface-card);border-right:1px solid var(--stroke-border);height:100%;overflow:hidden;display:flex;flex-direction:column;align-items:stretch;transition:width .2s ease}
   /* When the Expected sidebar is collapsed, narrow the side to match .sbx.is-collapsed exactly */
   .cl-shell:has(.sbx.is-collapsed) .cl-side{width:var(--sbx-collapsed-w)}
   .cl-main{flex:1;min-width:0;height:100%;overflow:auto}
@@ -42,7 +42,7 @@
        → font-weight:500, font-size 1.875rem (text-3xl) / 2.25rem at ≥768px (text-4xl),
          line-height 2.25rem (text-3xl) / 2.5rem (text-4xl), max-width 20.688rem.
      The max-width is what forces the natural wrap at "What insight" / "are you looking for?". */
-  .cl-title{font-size:var(--ts-heading-m-size);line-height:var(--ts-heading-m-lh);font-weight:var(--ts-heading-m-weight);color:var(--ink);margin:0;text-align:center;max-width:20.75rem;scroll-margin-top:5rem;letter-spacing:var(--ts-heading-m-track)}
+  .cl-title{font-size:var(--ts-heading-m-size);line-height:var(--ts-heading-m-lh);font-weight:var(--ts-heading-m-weight);color:var(--ink-primary);margin:0;text-align:center;max-width:20.75rem;scroll-margin-top:5rem;letter-spacing:var(--ts-heading-m-track)}
   @media (min-width:768px){
     .cl-title{font-size:var(--ts-heading-l-size);line-height:var(--ts-heading-l-lh);letter-spacing:var(--ts-heading-l-track)}
   }
@@ -52,15 +52,15 @@
      border lift on hover and the input-focus border on focus-within). */
   /* Composer card — 8px top/right/bottom, 4px left (per design). Asymmetric left padding tucks the prompt text close to the visible inner edge while the footer controls keep balanced right margin. */
   .cl-composer{width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem;border-radius:1rem;transition:border-color .15s,box-shadow .15s}
-  /* Hover uses the kit's form-control --border-hover token — same as inputs / textarea /
+  /* Hover uses the kit's form-control --field-border-hover token — same as inputs / textarea /
      InputGroup. Both tokens were softened kit-wide so the affordance reads gently. */
-  .cl-composer:hover{border-color:var(--border-hover)}
+  .cl-composer:hover{border-color:var(--field-border-hover)}
   /* Active (focus-within) uses the kit's form-control --input-focus token — same as
-     inputs / textarea / InputGroup. Both --border-hover and --input-focus were softened
+     inputs / textarea / InputGroup. Both --field-border-hover and --input-focus were softened
      kit-wide so the default → hover → focus progression stays subtle. */
   .cl-composer:focus-within{border-color:var(--input-focus);box-shadow:none}
   /* Prompt textarea — padding 4px 8px per design spec. Filled text uses the kit's .field input font scale (14px, ink) for consistency with any Input across the system. */
-  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:var(--ts-body-m-size);min-height:32px;resize:none;color:var(--ink);outline:none;font-family:inherit;line-height:var(--ts-body-m-lh)}
+  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:var(--ts-body-m-size);min-height:32px;resize:none;color:var(--ink-primary);outline:none;font-family:inherit;line-height:var(--ts-body-m-lh)}
   .cl-prompt::placeholder{color:var(--ink-inactive)}
   /* Suppress the kit's .ta default hover/focus border swap — the parent composer carries the state instead */
   .cl-prompt:hover,.cl-prompt:focus,.cl-prompt:focus-visible{border:none;box-shadow:none}
@@ -160,10 +160,10 @@
      reads as a soft halo, not a hard ramp.
      ============================================================================ */
   .cl-shell{position:relative;overflow:hidden;background:
-    radial-gradient(at 50% 0%,color-mix(in srgb,var(--brand-tertiary) 2%,var(--bg)),var(--bg) 55%)}
+    radial-gradient(at 50% 0%,color-mix(in srgb,var(--brand-tertiary) 2%,var(--surface-page)),var(--surface-page) 55%)}
   .cl-shell::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 55vw 45vh at 60% 50%,color-mix(in srgb,var(--brand-tertiary) 8%,transparent),transparent 65%);filter:blur(60px)}
   .dark .cl-shell{background:
-    radial-gradient(at 50% 0%,color-mix(in srgb,var(--brand-tertiary) 4%,var(--bg)),var(--bg) 55%)}
+    radial-gradient(at 50% 0%,color-mix(in srgb,var(--brand-tertiary) 4%,var(--surface-page)),var(--surface-page) 55%)}
   .dark .cl-shell::before{background:radial-gradient(ellipse 55vw 45vh at 60% 50%,color-mix(in srgb,var(--brand-tertiary) 18%,transparent),transparent 65%);filter:blur(70px)}
 
   /* Keep the layout content above the background layers. */
@@ -172,8 +172,8 @@
      the sidebar and composer only. The suggestion pills stay on the kit's .btn-secondary
      recipe (default / hover / pressed) so their interaction states match the rest of the
      system rather than using a custom brand-tinted glass treatment. */
-  .cl-side{background:color-mix(in srgb,var(--card) 78%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-  .cl-composer{background:color-mix(in srgb,var(--card) 72%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .cl-side{background:color-mix(in srgb,var(--surface-card) 78%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .cl-composer{background:color-mix(in srgb,var(--surface-card) 72%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 
   /* New-Chat swap moved to pages/kit-theme.css so every page picks it up uniformly. See the `.sbx-nav-newchat` rule there. */
 

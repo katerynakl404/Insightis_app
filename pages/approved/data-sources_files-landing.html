@@ -14,9 +14,9 @@
      Mirrors data-sources_connections-landing.html chrome + sidebar so both Sources screens share
      the same surrounding system. All component styling lives in kit-theme.css. */
   .topbar{padding:.375rem 1rem}
-  .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--bg);transition:grid-template-columns .2s ease}
+  .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--surface-page);transition:grid-template-columns .2s ease}
   .cl-shell:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr}
-  .cl-side{background:var(--card);border-right:1px solid var(--border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
+  .cl-side{background:var(--surface-card);border-right:1px solid var(--stroke-border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
   .cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
 
   /* ===== File preview — right split panel (opens on file click, like prod) =====
@@ -28,7 +28,7 @@
   .cl-shell.has-preview{grid-template-columns:16rem 1fr auto}
   .cl-shell.has-preview:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr auto}
   .cl-shell.is-resizing{user-select:none;cursor:col-resize}
-  .dsf-preview{display:none;flex-direction:column;background:var(--card);border-left:1px solid var(--border);
+  .dsf-preview{display:none;flex-direction:column;background:var(--surface-card);border-left:1px solid var(--stroke-border);
     position:sticky;top:40px;min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden}
   .cl-shell.has-preview .dsf-preview{display:flex;width:28rem}
   /* Left-edge resize grip — straddles the panel border; widens the hit area, subtle brand line on hover/drag */
@@ -82,7 +82,7 @@
   .dsf-more:empty{display:none}
   .dsf-more-n{font-variant-numeric:tabular-nums;color:var(--ink-inactive);font-weight:500}
   /* Table layout — reuses kit table.tbl */
-  .dsf-tbl-wrap{border:1px solid var(--border);border-radius:.5rem;background:var(--card)}
+  .dsf-tbl-wrap{border:1px solid var(--stroke-border);border-radius:.5rem;background:var(--surface-card)}
   .cl-shell.has-preview .dsf-tbl-wrap{overflow-x:auto}
   table.dsf-tbl{margin:0}
   /* Header stays plain (no fill) — kit convention shared with Connections & Metrics; the wrap provides the card + radius. */
@@ -94,7 +94,7 @@
   .dsft-name-cell{display:flex;align-items:center;gap:.625rem;min-width:0}
   .dsft-info{min-width:0;flex:1}
   .dsft-date-inline{display:none}
-  .dsft-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;color:var(--ink)}
+  .dsft-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;color:var(--ink-primary)}
   td.dsft-size,td.dsft-date{color:var(--ink-secondary);font-variant-numeric:tabular-nums;white-space:nowrap}
   /* Sortable "Modified" header (.dsft-sortbtn + th[aria-sort] chevron) now lives in kit-theme.css — shared table atom. */
   th.dsft-cb,td.dsft-cb{width:1px;white-space:nowrap}
@@ -121,7 +121,7 @@
       display:grid;grid-template-columns:1fr auto auto;
       column-gap:.625rem;align-items:center;
       padding:var(--card-stack-pad-v) var(--card-stack-pad-h);
-      background:var(--card);border:1px solid var(--border);border-radius:var(--card-stack-radius);
+      background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:var(--card-stack-radius);
       box-shadow:var(--shadow-rest);cursor:pointer;overflow:visible;
       transition:box-shadow var(--motion-base) var(--motion-ease),border-color var(--motion-base) var(--motion-ease),transform var(--motion-base) var(--motion-ease)
     }
@@ -162,10 +162,10 @@
   /* ===== Meta row — sticky while selecting =====
      While a selection is active, the meta row (count + Download/Delete/close) pins to the top of
      the viewport (below the topbar) so it stays reachable while the list scrolls underneath.
-     Painted with the page bg (--bg, not --card) purely so scrolling content underneath can't show
+     Painted with the page bg (--surface-page, not --surface-card) purely so scrolling content underneath can't show
      through — no border, no card-like surface added. Toggled on #dsf-meta via JS (dsfRenderMeta).
      Same treatment as chats-landing.html. */
-  .dsf-meta-sticky{position:sticky;top:40px;z-index:5;background:var(--bg)}
+  .dsf-meta-sticky{position:sticky;top:40px;z-index:5;background:var(--surface-page)}
 
   /* ===== Upload tray dock — page-layout glue only =====
      The tray itself is a kit component (.upl-* in kit-theme.css, storybook #uploadtray); it is

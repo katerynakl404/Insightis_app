@@ -14,9 +14,9 @@
      Mirrors chat-landing.html's chrome strip + sidebar shell so a developer sees the
      same surrounding system on both screens. All component styling lives in kit-theme.css. */
   .topbar{padding:.375rem 1rem}
-  .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--bg);transition:grid-template-columns .2s ease}
+  .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--surface-page);transition:grid-template-columns .2s ease}
   .cl-shell:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr}
-  .cl-side{background:var(--card);border-right:1px solid var(--border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
+  .cl-side{background:var(--surface-card);border-right:1px solid var(--stroke-border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
   .cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
 
   /* Main column — top-aligned. Uses --content-max-width (960 px alias to --content-max-wide) so
@@ -30,7 +30,7 @@
        scroll-m-20             → scroll-margin: 5rem
        font-medium             → font-weight: 500
        text-2xl  / md:text-3xl → font-size 1.5rem (lh 2rem) → 1.875rem (lh 2.25rem) at ≥768px
-       text-content-primary    → color: var(--ink)  (Text/Primary in this kit)
+       text-content-primary    → color: var(--ink-primary)  (Text/Primary in this kit)
        text-left               → text-align: left
      Same tokens as the source app so the heading renders identically. */
   @media (min-width:768px){
@@ -39,7 +39,7 @@
   @media(max-width:1023px){.cl-main{padding-top:0}}
 
   /* Search input — expanded to fill the container (kit's default .field max-width 240 is for inline use) */
-  .cl-search.field{max-width:none;height:2.5rem;background:var(--card)}
+  .cl-search.field{max-width:none;height:2.5rem;background:var(--surface-card)}
   @media(max-width:767px){.cl-search.field{height:2.25rem}}
   .cl-search .field-icon{width:16px;height:16px;color:var(--ink-secondary);flex:none}
   /* Suppress Chrome/Safari's native <input type="search"> clear button — it doesn't match the
@@ -55,7 +55,7 @@
   .cl-search:has(input:not(:placeholder-shown)) .iconbtn{display:inline-flex}
 
   /* Chat list — the LIST has no card wrapper (sits on the page background); the rows themselves
-     each have a --card surface so they read as distinct list items. 6 px gap separates them.
+     each have a --surface-card surface so they read as distinct list items. 6 px gap separates them.
      No margin-top: the meta-row already provides breathing room above (.cl-page gap controls
      the distance between meta-row and the first chat-row). */
   .chat-list{display:flex;flex-direction:column;gap:.375rem;position:relative;background:transparent}
@@ -63,9 +63,9 @@
      between title / search / meta (distinct sections), but the meta→list relationship is a single
      component (action toolbar over its own list), so it should read as one unit: 2px gap only. */
   .cl-page .meta-row + .chat-list{margin-top:calc(-.75rem + 2px)}
-  /* Selection toolbar pins below the topbar while scrolling; painted with the page bg (--bg, not
-     --card) purely so scrolling rows underneath can't show through — no border added. */
-  .cl-meta-sticky{position:sticky;top:40px;z-index:5;background:var(--bg)}
+  /* Selection toolbar pins below the topbar while scrolling; painted with the page bg (--surface-page, not
+     --surface-card) purely so scrolling rows underneath can't show through — no border added. */
+  .cl-meta-sticky{position:sticky;top:40px;z-index:5;background:var(--surface-page)}
 
   /* Edit-mode meta-row controls are plain kit Buttons — .btn.btn-tertiary.is-danger.btn-sm
      (Delete) inside .meta-row-end (right anchor) + .iconbtn.iconbtn-tertiary.iconbtn-sm (✕). */
@@ -639,7 +639,7 @@
         var nameEl = row.querySelector('.chat-row-name');
         var input = document.createElement('input');
         input.type='text'; input.value=item.name; input.className='ta';
-        input.style.cssText='font:inherit;font-size:.875rem;color:var(--ink);background:var(--card);border:1px solid var(--input-focus);border-radius:.25rem;padding:0 .375rem;height:1.5rem;width:100%;outline:none';
+        input.style.cssText='font:inherit;font-size:.875rem;color:var(--ink-primary);background:var(--surface-card);border:1px solid var(--input-focus);border-radius:.25rem;padding:0 .375rem;height:1.5rem;width:100%;outline:none';
         nameEl.textContent=''; nameEl.appendChild(input); input.focus(); input.select();
         function commit(){ item.name = (input.value.trim() || item.name); clRenderChats(); }
         input.addEventListener('keydown', function(ev){ if (ev.key==='Enter') commit(); else if (ev.key==='Escape') clRenderChats(); });

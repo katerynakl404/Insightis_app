@@ -14,9 +14,9 @@
   .topbar{padding:.375rem 1rem;height:40px;box-sizing:border-box;flex:none}
   html,body{height:100%;overflow:hidden}
   body{display:flex;flex-direction:column}
-  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--bg)}
+  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--surface-page)}
 
-  .cl-main{flex:1;min-width:0;background:var(--bg);position:relative}
+  .cl-main{flex:1;min-width:0;background:var(--surface-page);position:relative}
 
   /* ===== Account modal overlay ===== */
   .acct-overlay{
@@ -27,7 +27,7 @@
   }
   .acct-modal{
     display:flex;width:100%;max-width:960px;height:90dvh;max-height:40rem;
-    background:var(--card);border:1px solid var(--border);border-radius:.75rem;
+    background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.75rem;
     box-shadow:0 20px 40px -8px rgba(15,23,42,.2),0 8px 16px -4px rgba(15,23,42,.12);
     overflow:hidden
   }
@@ -35,7 +35,7 @@
   /* ── Modal left nav — reuses .sbx-pop-* component classes ── */
   .acct-modal-nav{
     width:11rem;flex:none;
-    border-right:1px solid var(--border);
+    border-right:1px solid var(--stroke-border);
     padding:1rem .75rem;
     overflow-y:auto;
     display:flex;flex-direction:column;gap:.875rem
@@ -54,7 +54,7 @@
     background:color-mix(in srgb, var(--fb-red-text) var(--tint-8), transparent)
   }
   /* Footer separator before Log out */
-  .acct-nav-foot{margin-top:auto;padding-top:.5rem;border-top:1px solid var(--border)}
+  .acct-nav-foot{margin-top:auto;padding-top:.5rem;border-top:1px solid var(--stroke-border)}
 
   /* ── Modal right panel ── */
   .acct-modal-body{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
@@ -63,14 +63,14 @@
        so this modal's header reads the same height as every other popup — was .5rem 1.25rem
        (8px), visibly shorter than .dlg's 14px-top header. */
     display:flex;align-items:center;gap:.5rem;
-    padding:.875rem 1.25rem;border-bottom:1px solid var(--border);flex:none
+    padding:.875rem 1.25rem;border-bottom:1px solid var(--stroke-border);flex:none
   }
   /* Title matches .dlg-title (kit dialog) — 20px/600, the modal's nearest popup analogue.
   .acct-header-actions{display:flex;gap:.375rem;align-items:center}
   /* Close button reuses the kit .iconbtn.iconbtn-tertiary component (same as the .dlg dialog
      close) — no bespoke .acct-close class. Size (2rem) + glyph (16px) set inline on the button. */
   .acct-content{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem}
-  .acct-section{display:flex;flex-direction:column;gap:.75rem;padding-top:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+  .acct-section{display:flex;flex-direction:column;gap:.75rem;padding-top:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--stroke-border)}
   .acct-section:first-child{padding-top:0}
   .acct-section:last-child{border-bottom:none;padding-bottom:0}
   .acct-field-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.625rem}
@@ -100,16 +100,16 @@
      so the group stays two lines tall (head + bar). */
   .acct-bal3-grp-head{display:flex;align-items:center;gap:.5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh)}
   .acct-bal3-grp-meta{margin-left:auto;color:var(--ink-secondary)}
-  .acct-bal3-grp-name{display:inline-flex;align-items:center;gap:.375rem;font-weight:600;color:var(--ink)}
+  .acct-bal3-grp-name{display:inline-flex;align-items:center;gap:.375rem;font-weight:600;color:var(--ink-primary)}
   /* Pool coin marker (version A / list) — same coin assets as the tile, sized to the 12px head row.
      Sits just before the "N left" value; margin-right pulls the value to a .25rem gap (matching the
      tokens popover's coin↔value spacing, .sbx-pop-tok-meter .row) instead of the head's .5rem. */
   .acct-bal3-coin{width:1rem;height:1rem;background-position:center;background-repeat:no-repeat;background-size:contain;flex:none;margin-right:-.25rem}
   .acct-bal3-coin.is-subscription{background-image:url('../assets/coins/coin-brand-1.svg')}
   .acct-bal3-coin.is-purchased{background-image:url('../assets/coins/coin-green-1.svg')}
-  /* Value written popover-style — one font for the whole "N left" string (12px/500/--ink,
+  /* Value written popover-style — one font for the whole "N left" string (12px/500/--ink-primary,
      tabular-nums, matching .sbx-pop-tok-meter .val), not a bold number + light word mix. */
-  .acct-bal3-grp-left{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+  .acct-bal3-grp-left{color:var(--ink-primary);font-weight:500;font-variant-numeric:tabular-nums}
   .acct-bal3-track{height:8px;border-radius:9999px;background:var(--progress-track);overflow:hidden}
   .acct-bal3-track-fill{height:100%;border-radius:9999px}
   .acct-bal3-track-fill.is-subscription{background:var(--brand-tertiary)}
@@ -131,7 +131,7 @@
      Two buttons live side-by-side — data-mobile-state on the modal controls which is visible:
        menu  state → close (×) visible, back (←) hidden
        section state → back (←) visible, close (×) hidden */
-  .acct-mobile-hdr{display:none;align-items:center;gap:.25rem;padding:.375rem .75rem;flex:none;border-bottom:1px solid var(--border)}
+  .acct-mobile-hdr{display:none;align-items:center;gap:.25rem;padding:.375rem .75rem;flex:none;border-bottom:1px solid var(--stroke-border)}
   .acct-mobile-btn{display:none;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;border-radius:.25rem;padding:0;flex:none;transition:color .12s,background .12s}
   .acct-mobile-btn:hover{color:var(--ink-body);background:var(--state-hover)}
   .acct-mobile-btn svg{width:16px;height:16px}
@@ -147,7 +147,7 @@
     .acct-overlay{padding:0;background:transparent}
     .acct-modal{width:100%;max-width:none;height:100%;max-height:none;
                 border-radius:0;box-shadow:none;border:none;
-                border-top:1px solid var(--border);flex-direction:column}
+                border-top:1px solid var(--stroke-border);flex-direction:column}
     .acct-header{display:none}
     .acct-mobile-hdr{display:flex}
 
@@ -160,12 +160,12 @@
     }
     /* Section groups: bordered rounded container, flat items inside */
     .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-list{
-      border:1px solid var(--border);border-radius:.5rem;overflow:hidden;gap:0
+      border:1px solid var(--stroke-border);border-radius:.5rem;overflow:hidden;gap:0
     }
     /* Card rows */
     .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item{
       height:2.75rem;padding:.5rem .875rem;border-radius:0;
-      border-bottom:1px solid var(--border);background:var(--card)
+      border-bottom:1px solid var(--stroke-border);background:var(--surface-card)
     }
     .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item:last-child{border-bottom:none}
     /* Active item — brand tint matches prod highlight */
@@ -180,7 +180,7 @@
       margin-top:0;padding-top:0;border-top:none;
     }
     .acct-modal[data-mobile-state="menu"] .acct-nav-foot .sbx-pop-item{
-      border:1px solid var(--border);border-radius:.5rem;background:var(--card);
+      border:1px solid var(--stroke-border);border-radius:.5rem;background:var(--surface-card);
       height:2.75rem;padding:.5rem .875rem
     }
     .acct-modal[data-mobile-state="menu"] .acct-modal-body{display:none}
@@ -225,11 +225,11 @@
   /* Current-plan strip — states which tier the account is on, when it expires, and offers the
      cancel path. Sits above the grid so the cards below are a choice, not a status readout.
      Paid tiers only: a Free account has nothing to expire and nothing to cancel. */
-  .acct-plan-current{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.875rem 1rem;margin-bottom:1.25rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem}
+  .acct-plan-current{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.875rem 1rem;margin-bottom:1.25rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.75rem}
   .acct-plan-current-main{display:flex;flex-direction:column;gap:.25rem;flex:1;min-width:0}
   .acct-plan-current-lbl{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--ink-secondary)}
   .acct-plan-current-val{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}
-  .acct-plan-current-name{font-size:var(--ts-title-16-size);line-height:var(--ts-title-16-lh);font-weight:var(--ts-title-16-weight);color:var(--ink)}
+  .acct-plan-current-name{font-size:var(--ts-title-16-size);line-height:var(--ts-title-16-lh);font-weight:var(--ts-title-16-weight);color:var(--ink-primary)}
   .acct-plan-current-meta{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
   .acct-plan-current .btn{flex:none}
   /* Toggle shrinks to its content instead of the segctrl's default full width — same
@@ -246,13 +246,13 @@
      .75rem on top of the section's 1rem gap restores the header-to-card distance. */
   .acct-plan-head + .acct-plan-grid{margin-top:.75rem}
   /* Static pricing panel — NOT the interactive card-hover recipe (these are informational,
-     not clickable). --card surface + --border in the base state; the recommended plan adds the
+     not clickable). --surface-card surface + --stroke-border in the base state; the recommended plan adds the
      accent border + brand wash via .is-featured. The tier the account is on is NOT tinted — it is
      identified by its disabled "Current Plan" CTA alone. */
   /* Tight header cluster (name/price/tagline share the .375rem base gap); the tagline's
      margin-bottom + the feature list's margin-top open a clear .75rem band around the CTA,
      giving the card a 3-tier rhythm instead of one flat evenly-spaced stack. */
-  .acct-plan-card{position:relative;display:flex;flex-direction:column;gap:.375rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem}
+  .acct-plan-card{position:relative;display:flex;flex-direction:column;gap:.375rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.75rem;padding:1.25rem}
   /* Recommended tier — accent border + brand wash + brand-tinted lift. */
   .acct-plan-card.is-featured{border-color:var(--plan-card-featured-border);background:var(--plan-card-featured-bg);box-shadow:var(--plan-card-featured-shadow)}
   /* min-height keeps the name row a constant height whether or not a card carries badges, so the
@@ -298,12 +298,12 @@
   /* ── Manage plan / Buy-credits shared extras (page-layout only; colours from tokens) ── */
   /* Buy-credits token packs — compact tiles; the token count is the headline, price is secondary. */
   /* Tinted tray sets the Buy-credits offer apart as its own prominent block — the tray must read as
-     a recessed well BEHIND the cards in both themes. --bg (not --progress-track/--card2) is the
-     right token here: --card2 is lighter than --card in dark theme (it's built for chip/track fills
+     a recessed well BEHIND the cards in both themes. --surface-page (not --progress-track/--surface-card2) is the
+     right token here: --surface-card2 is lighter than --surface-card in dark theme (it's built for chip/track fills
      that sit ON TOP of a card, not a page-level backdrop), so using it inverted the contrast in dark
-     mode (tray looked lighter than the pack tiles). --bg is reliably darker/more recessed than
-     --card in both themes. */
-  .acct-bc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;background:var(--bg);border-radius:.75rem;padding:1rem}
+     mode (tray looked lighter than the pack tiles). --surface-page is reliably darker/more recessed than
+     --surface-card in both themes. */
+  .acct-bc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;background:var(--surface-page);border-radius:.75rem;padding:1rem}
   /* Same tray, one full-width child, when the tray carries the no-packs empty state. */
   .acct-bc-grid.is-empty{grid-template-columns:1fr}
   @media (max-width:600px){ .acct-bc-grid{grid-template-columns:1fr} }
@@ -312,7 +312,7 @@
      clickable), so no card-hover recipe — a ghost shadow gives a light modern lift. */
   /* position:relative anchors the reused .acct-plan-ribbon "Most popular" marker on the Medium
      pack (text marker, no accent border — same rule as the plan cards). */
-  .acct-bc-pack{position:relative;display:flex;flex-direction:column;gap:.25rem;background:var(--card);border:1px solid var(--border);border-radius:.5rem;padding:1rem;box-shadow:0 1px 2px 0 rgba(15,23,42,.03)}
+  .acct-bc-pack{position:relative;display:flex;flex-direction:column;gap:.25rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.5rem;padding:1rem;box-shadow:0 1px 2px 0 rgba(15,23,42,.03)}
   /* Name + price share one row (shortens the card by a full text line) instead of stacking as
      three separate rows. Token count stays the standalone headline — one bold line, nothing
      competes with it. */
@@ -325,7 +325,7 @@
      position:relative). Used by V2's Pro card, mirroring the site's ribbon treatment. */
   /* Marker straddling a card's top border. Base = solid brand fill (the Buy-credits Medium pack's
      "Most popular"); the plan cards use the tinted .is-brand / .is-accent variants be
-  /* Tinted variants — fill mixes over --card (never over transparent), so the card border does
+  /* Tinted variants — fill mixes over --surface-card (never over transparent), so the card border does
      not show through the ribbon it overlaps.
   /* Two markers on one card: the row takes over the absolute placement and the ribbons go static. */
   .acct-plan-ribbon-row{position:absolute;top:-.5rem;left:1rem;display:flex;align-items:center;gap:.5rem}
@@ -642,7 +642,7 @@
                 <div class="acct-field-row">
                   <div>
                     <div class="acct-sect-title">Current plan</div>
-                    <div class="acct-field-val"><strong style="color:var(--ink);font-weight:600">Starter</strong> · $7.99 / user / month</div>
+                    <div class="acct-field-val"><strong style="color:var(--ink-primary);font-weight:600">Starter</strong> · $7.99 / user / month</div>
                   </div>
                   <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Change Plan</button>
                 </div>
@@ -666,7 +666,7 @@
                   <!-- Every figure here is derived, not invented: the amount is the Starter card's
                        promo price, the date is the current-plan strip's renewal date, and past
                        invoices step back a month from it on the same billing day. -->
-                  <div class="acct-field-val" style="margin-top:0">Next charge <strong style="color:var(--ink);font-weight:600">$7.99</strong> · Sep 30, 2026</div>
+                  <div class="acct-field-val" style="margin-top:0">Next charge <strong style="color:var(--ink-primary);font-weight:600">$7.99</strong> · Sep 30, 2026</div>
                 </div>
                 <table class="acct-usage-table">
                   <thead><tr>

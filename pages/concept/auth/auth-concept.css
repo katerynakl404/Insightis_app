@@ -6,11 +6,11 @@
 
 *,*::before,*::after{ box-sizing:border-box; }
 body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  color:var(--ink); background:var(--bg); }
+  color:var(--ink-primary); background:var(--surface-page); }
 
 /* ---- Header: brand + screen switcher (present on every page) ---- */
 .au-topnav{ position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
-  gap:1rem; padding:.625rem 1rem; background:var(--card); border-bottom:1px solid var(--border); }
+  gap:1rem; padding:.625rem 1rem; background:var(--surface-card); border-bottom:1px solid var(--stroke-border); }
 .au-topnav-brand{ display:inline-flex; align-items:center; text-decoration:none; }
 /* "Concept" marker — flags this whole bar as preview scaffolding that does NOT ship in the product.
    margin-right:auto keeps it grouped with the brand on the left, pushing the switcher to the right. */
@@ -22,11 +22,11 @@ body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,
   letter-spacing:var(--tracking-label); text-transform:uppercase; white-space:nowrap; }
 .au-concept-tag::before{ content:""; width:.375rem; height:.375rem; border-radius:var(--radius-full);
   background:currentColor; }
-.au-topnav .au-brand .au-logo{ display:block; height:1.25rem; width:auto; color:var(--logo-ink,var(--ink)); }
+.au-topnav .au-brand .au-logo{ display:block; height:1.25rem; width:auto; color:var(--logo-ink,var(--ink-primary)); }
 .au-topnav .au-brand .au-logo .au-logo-mark{ fill:var(--logo-mark); }
 .au-switch{ display:inline-flex; align-items:center; gap:.5rem; font-size:var(--text-12); color:var(--ink-secondary); }
-.au-switch-sel{ height:2rem; max-width:15rem; padding:0 1.75rem 0 .625rem; border:1px solid var(--border); border-radius:var(--radius-md,6px);
-  background:var(--card2); color:var(--ink); font-family:inherit; font-size:var(--text-13); cursor:pointer;
+.au-switch-sel{ height:2rem; max-width:15rem; padding:0 1.75rem 0 .625rem; border:1px solid var(--stroke-border); border-radius:var(--radius-md,6px);
+  background:var(--surface-card2); color:var(--ink-primary); font-family:inherit; font-size:var(--text-13); cursor:pointer;
   appearance:none; -webkit-appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat:no-repeat; background-position:right .375rem center; }
@@ -35,20 +35,20 @@ body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,
 /* ---- Pre-auth shell: centred card on a restrained brand wash ---- */
 .au-page{ min-height:calc(100vh - 49px); padding:2.5rem 1.5rem 4rem; display:flex; align-items:center; justify-content:center;
   background-image:linear-gradient(155deg,
-    var(--bg) 0%,
+    var(--surface-page) 0%,
     color-mix(in srgb, var(--brand-primary) var(--tint-15), transparent) 45%,
     color-mix(in srgb, var(--brand-secondary) var(--tint-10), transparent) 72%,
-    var(--bg) 100%); }
+    var(--surface-page) 100%); }
 
-.au-card{ width:100%; max-width:27rem; border:1px solid var(--border); background:var(--card); border-radius:.75rem;
+.au-card{ width:100%; max-width:27rem; border:1px solid var(--stroke-border); background:var(--surface-card); border-radius:.75rem;
   padding:1.5rem; box-shadow:var(--shadow-overlay); display:flex; flex-direction:column; gap:1rem; }
 
 .au-brand{ display:flex; justify-content:center; margin-bottom:.25rem; }
-.au-card .au-brand .au-logo{ display:block; height:1.5rem; width:auto; color:var(--logo-ink,var(--ink)); }
+.au-card .au-brand .au-logo{ display:block; height:1.5rem; width:auto; color:var(--logo-ink,var(--ink-primary)); }
 .au-card .au-brand .au-logo .au-logo-mark{ fill:var(--logo-mark); }
 
 .au-head{ text-align:center; display:flex; flex-direction:column; gap:.5rem; }
-.au-title{ margin:0; font-size:1.25rem; font-weight:500; line-height:1.75rem; color:var(--ink); text-wrap:balance; }
+.au-title{ margin:0; font-size:1.25rem; font-weight:500; line-height:1.75rem; color:var(--ink-primary); text-wrap:balance; }
 /* Subtitle — kept to ~2 balanced lines across screens; min-height reserves both lines so the card
    header doesn't jump in height when switching between screens (forgot ↔ reset). */
 .au-sub{ margin:0; min-height:2.5rem; font-size:.875rem; line-height:1.25rem; color:var(--ink-secondary); text-wrap:balance; }
@@ -78,7 +78,7 @@ body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,
    not radios. Shown only while the field is focused/filled (JS toggles .is-open). */
 .au-req{ position:absolute; top:0; left:calc(100% + .625rem); width:15rem; z-index:30; pointer-events:none;
   display:none; flex-direction:column; gap:.625rem; margin:0; padding:.875rem;
-  background:var(--card2); border:1px solid var(--border-hover); border-radius:.625rem; box-shadow:var(--shadow-overlay); }
+  background:var(--surface-card2); border:1px solid var(--field-border-hover); border-radius:.625rem; box-shadow:var(--shadow-overlay); }
 .au-req.is-open{ display:flex; }
 .au-req-top{ display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
 .au-req-title{ font-size:.75rem; font-weight:500; color:var(--ink-secondary); }
@@ -118,7 +118,7 @@ body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,
 .au-form .au-actions{ margin-top:.5rem; }
 
 .au-or{ display:flex; align-items:center; gap:.75rem; }
-.au-or-line{ flex:1 1 auto; height:1px; background:var(--border); }
+.au-or-line{ flex:1 1 auto; height:1px; background:var(--stroke-border); }
 .au-or-text{ flex:none; font-size:.75rem; font-weight:500; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-secondary); }
 
 .au-google{ gap:.5rem; }
@@ -145,8 +145,8 @@ body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,
    box itself stays neutral; only the error code is tinted. */
 .au-alert{ border-radius:.5rem; padding:.75rem 1rem; text-align:center; font-size:.875rem; line-height:1.4;
   color:var(--ink-secondary); text-wrap:balance;
-  border:1px solid var(--border);
-  background:var(--card2); }
+  border:1px solid var(--stroke-border);
+  background:var(--surface-card2); }
 .au-alert code{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-weight:600; color:var(--fb-red-text); }
 /* Error variant — a form-level (general) error banner, e.g. "email already registered". Kit
    error-surface tokens + a leading alert icon and red text so it unmistakably reads as an error
@@ -164,10 +164,10 @@ body{ margin:0; font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,
 .au-status.is-info .au-status-ic{ background:color-mix(in srgb,var(--brand-primary) var(--tint-10),transparent); color:var(--brand-primary); }
 .au-status.is-success .au-status-ic{ background:color-mix(in srgb,var(--fb-green) var(--tint-10),transparent); color:var(--fb-green); }
 .au-status.is-error .au-status-ic{ background:color-mix(in srgb,var(--fb-red) var(--tint-10),transparent); color:var(--fb-red); }
-.au-status-title{ margin:.25rem 0 0; font-size:1.125rem; font-weight:500; color:var(--ink); text-wrap:balance; }
+.au-status-title{ margin:.25rem 0 0; font-size:1.125rem; font-weight:500; color:var(--ink-primary); text-wrap:balance; }
 .au-status-body{ margin:0; font-size:.875rem; line-height:1.4; color:var(--ink-secondary); text-wrap:balance; }
 /* Recipient address echoed back in the body — heavier + full-ink so it stands out of the secondary copy. */
-.au-strong{ color:var(--ink); font-weight:600; }
+.au-strong{ color:var(--ink-primary); font-weight:600; }
 
 @media (max-width:600px){
   .au-card{ padding:1.25rem; }
