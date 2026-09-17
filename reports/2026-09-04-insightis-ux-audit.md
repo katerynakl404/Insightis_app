@@ -81,8 +81,7 @@ Row 1 is one component rendered on **every page that has the sidebar** — Chat,
 | Action | Icon |
 |---|---|
 | Add to Chat | `message-square-plus` |
-| Rename | `pencil` |
-| Edit | `square-pen` |
+| Rename · Edit | `pencil` — **one glyph for both**; the two actions are not distinguished |
 | Duplicate | `copy` |
 | Download | `download` |
 | Pin / Unpin | `pin` / `pin-off` |
