@@ -4,6 +4,8 @@ Source: `@insightis/ui` `Autocomplete/index.tsx` + `hooks/use-autocomplete`. Bas
 
 **Autocomplete is a composition** of [`InputGroup`](InputGroup.md) (outline variant) + [`DropdownMenu`](Dropdown.md) + (multi-select) [`Badge`](Badge.md) + [`IconButton`](IconButton.md). It has **no own visual tokens** beyond a few padding spacers.
 
+**Chosen option — 2026-09-18.** `[aria-selected="true"]` carries `--state-pressed` + `--ink-highlight` + weight 500; hover keeps the fill. Highlighted and chosen are different states — highlighted follows the pointer and the arrow keys, chosen is the current value — and both painting `--state-hover` meant entering the list erased which one was picked.
+
 ## Concrete dimensions — kit demo (`.acpl*`, kit-theme.css ~1692)
 
 | Element | Selector | Exact size / padding / radius |

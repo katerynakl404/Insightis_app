@@ -4,6 +4,8 @@ Source: `@insightis/ui` `Button/index.tsx` (cva) + `globals.css`.
 
 All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertiary 50–950 · Slate 50–950 · Grey 50–950 · Red 50–950). Black-with-alpha (`rgba(0,0,0,α)`) is the universal shadow convention.
 
+**Destructive Outlined label — 2026-09-18.** The label is `--fb-red-text` in every state, not `--ink-body`. An outlined destructive button carries its intent in the border *and* the text; a neutral label made it read as a plain outline button that happened to be red-edged.
+
 ## Primary
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|

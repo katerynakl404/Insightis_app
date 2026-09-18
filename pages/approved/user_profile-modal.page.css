@@ -1,0 +1,332 @@
+
+  /* ===== Page-only layout ===== */
+  .topbar{padding:.375rem 1rem;height:40px;box-sizing:border-box;flex:none}
+  html,body{height:100%;overflow:hidden}
+  body{display:flex;flex-direction:column}
+  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--surface-page)}
+
+  .cl-main{flex:1;min-width:0;background:var(--surface-page);position:relative}
+
+  /* ===== Account modal overlay ===== */
+  .acct-overlay{
+    position:absolute;inset:0;
+    background:var(--overlay-scrim);
+    display:flex;align-items:center;justify-content:center;
+    z-index:40;padding:1.5rem
+  }
+  .acct-modal{
+    display:flex;width:100%;max-width:960px;height:90dvh;max-height:40rem;
+    background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.75rem;
+    box-shadow:0 20px 40px -8px rgba(15,23,42,.2),0 8px 16px -4px rgba(15,23,42,.12);
+    overflow:hidden
+  }
+
+  /* ── Modal left nav — reuses .sbx-pop-* component classes ── */
+  .acct-modal-nav{
+    width:11rem;flex:none;
+    border-right:1px solid var(--stroke-border);
+    padding:1rem .75rem;
+    overflow-y:auto;
+    display:flex;flex-direction:column;gap:.875rem
+  }
+  /* Active state for the modal nav is defined centrally on .sbx-pop-item.active in kit-theme.css
+     (same persistent bg --state-pressed recipe used by every routed pop-item list, so this rule
+     auto-syncs with main-sidebar active-state changes — no per-modal override needed). */
+  /* Danger (Log Out) */
+  .sbx-pop-item.danger,.acct-modal-nav .sbx-pop-item.danger{
+    color:var(--fb-red-text)
+  }
+  .sbx-pop-item.danger .ic,.acct-modal-nav .sbx-pop-item.danger .ic{
+    color:var(--fb-red-text)
+  }
+  .sbx-pop-item.danger:hover,.acct-modal-nav .sbx-pop-item.danger:hover{
+    background:color-mix(in srgb, var(--fb-red-text) var(--tint-8), transparent)
+  }
+  /* Footer separator before Log out */
+  .acct-nav-foot{margin-top:auto;padding-top:.5rem;border-top:1px solid var(--stroke-border)}
+
+  /* ── Modal right panel ── */
+  .acct-modal-body{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+  .acct-header{
+    /* Padding matches the kit dialog header (.dlg-hdr: .875rem 1.25rem .5rem, see changes/Modal.md)
+       so this modal's header reads the same height as every other popup — was .5rem 1.25rem
+       (8px), visibly shorter than .dlg's 14px-top header. */
+    display:flex;align-items:center;gap:.5rem;
+    padding:.875rem 1.25rem;border-bottom:1px solid var(--stroke-border);flex:none
+  }
+  /* Title matches .dlg-title (kit dialog) — 20px/600, the modal's nearest popup analogue.
+  .acct-header-actions{display:flex;gap:.375rem;align-items:center}
+  /* Close button reuses the kit .iconbtn.iconbtn-tertiary component (same as the .dlg dialog
+     close) — no bespoke .acct-close class. Size (2rem) + glyph (16px) set inline on the button. */
+  .acct-content{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem}
+  .acct-section{display:flex;flex-direction:column;gap:.75rem;padding-top:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--stroke-border)}
+  .acct-section:first-child{padding-top:0}
+  .acct-section:last-child{border-bottom:none;padding-bottom:0}
+  .acct-field-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.625rem}
+  /* Secondary line under an .acct-sect-title — ONE type level for every instance
+     (email value, plan, payment method, the danger-zone warning): --text-14 / 20px Body.
+     The warning previously sat at --text-12, so two rows of the same slot rendered at
+     different sizes.
+  .acct-danger-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.625rem}
+
+  /* Balance */
+  /* Balance-total icon — wallet badge in the hero row (all states, incl. 0 left), reusing the Lucide
+     "wallet" glyph from the Balance menu item (kit sidebar tokens popover). Neutral grey badge
+     (--state-hover) so the combined total reads distinct from the two colour-coded pools
+     (teal Subscription / green Purchased). Exhaustion is conveyed by the "0 left" figure + the
+     "Resets …" caption, not by a warning icon or red numerals. */
+  .acct-bal-total-ic{width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;flex:none;background:var(--state-hover);color:var(--ink-secondary)}
+  /* .acct-usage-table now lives in kit-theme.css — shared compact static table. */
+
+  /* ── Balance pools (page-layout only; tokens for colour). Purchased usage isn't trackable
+        (the bought total is unknown), so only the Subscription pool gets a progress bar —
+        Purchased is a head-only row showing the remaining number. ── */
+  .acct-bal3-seg{display:flex;flex-direction:column;gap:1rem}
+  .acct-bal3-grp{display:flex;flex-direction:column;gap:.375rem}
+  /* Name + remaining sit as one left cluster (.5rem gap) — space-between pushed the count to the
+     far edge of the wide modal, breaking the label↔value read. The secondary used-fraction rides
+     the same line right-aligned (.acct-bal3-grp-meta) instead of its own foot line under the bar,
+     so the group stays two lines tall (head + bar). */
+  .acct-bal3-grp-head{display:flex;align-items:center;gap:.5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh)}
+  .acct-bal3-grp-meta{margin-left:auto;color:var(--ink-secondary)}
+  .acct-bal3-grp-name{display:inline-flex;align-items:center;gap:.375rem;font-weight:600;color:var(--ink-primary)}
+  /* Pool coin marker (version A / list) — same coin assets as the tile, sized to the 12px head row.
+     Sits just before the "N left" value; margin-right pulls the value to a .25rem gap (matching the
+     tokens popover's coin↔value spacing, .sbx-pop-tok-meter .row) instead of the head's .5rem. */
+  .acct-bal3-coin{width:1rem;height:1rem;background-position:center;background-repeat:no-repeat;background-size:contain;flex:none;margin-right:-.25rem}
+  .acct-bal3-coin.is-subscription{background-image:url('../assets/coins/coin-brand-1.svg')}
+  .acct-bal3-coin.is-purchased{background-image:url('../assets/coins/coin-green-1.svg')}
+  /* Value written popover-style — one font for the whole "N left" string (12px/500/--ink-primary,
+     tabular-nums, matching .sbx-pop-tok-meter .val), not a bold number + light word mix. */
+  .acct-bal3-grp-left{color:var(--ink-primary);font-weight:500;font-variant-numeric:tabular-nums}
+  .acct-bal3-track{height:8px;border-radius:9999px;background:var(--progress-track);overflow:hidden}
+  .acct-bal3-track-fill{height:100%;border-radius:9999px}
+  .acct-bal3-track-fill.is-subscription{background:var(--brand-tertiary)}
+
+  /* Feedback */
+  .acct-fb-bottom{display:flex;align-items:center;justify-content:flex-end;gap:.5rem}
+
+  /* Balance hero row — wraps on narrow viewports */
+  .acct-bal-hero-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+  .acct-bal-btns{display:flex;gap:.5rem;flex:none;justify-content:flex-end}
+  /* Mobile-only button row after stats tiles */
+  .acct-bal-btns-mob{display:none}
+
+  /* Mobile nav chevron — hidden on desktop, shown in mobile menu state */
+  .acct-nav-chev{display:none;width:14px;height:14px;color:var(--ink-secondary);flex:none;margin-left:auto}
+
+  /* ── Mobile header (≤767px) — replaces left nav + desktop header ── */
+  /* Hidden on desktop; shown only when the modal becomes a full-height bottom sheet.
+     Two buttons live side-by-side — data-mobile-state on the modal controls which is visible:
+       menu  state → close (×) visible, back (←) hidden
+       section state → back (←) visible, close (×) hidden */
+  .acct-mobile-hdr{display:none;align-items:center;gap:.25rem;padding:.375rem .75rem;flex:none;border-bottom:1px solid var(--stroke-border)}
+  .acct-mobile-btn{display:none;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;border-radius:.25rem;padding:0;flex:none;transition:color .12s,background .12s}
+  .acct-mobile-btn:hover{color:var(--ink-body);background:var(--state-hover)}
+  .acct-mobile-btn svg{width:16px;height:16px}
+
+  /* ── Responsive ── */
+  /* ≤767px: modal becomes a full-height bottom sheet.
+     Two states driven by [data-mobile-state] on .acct-modal:
+       menu    → nav list visible (full-width column, 40px items), body hidden
+       section → nav hidden, body visible + back button shown
+     Mirrors prod: user_profile=menu vs user_profile=balance. */
+  @media (max-width:767px){
+    /* Sheet base */
+    .acct-overlay{padding:0;background:transparent}
+    .acct-modal{width:100%;max-width:none;height:100%;max-height:none;
+                border-radius:0;box-shadow:none;border:none;
+                border-top:1px solid var(--stroke-border);flex-direction:column}
+    .acct-header{display:none}
+    .acct-mobile-hdr{display:flex}
+
+    /* ── menu state ── */
+    /* Single < button always shown in .acct-mobile-hdr (is-back) */
+    .acct-mobile-hdr .acct-mobile-btn.is-back{display:inline-flex}
+    .acct-modal[data-mobile-state="menu"] .acct-modal-nav{
+      display:flex;flex-direction:column;width:100%;
+      border-right:none;flex:1;overflow-y:auto;gap:1rem;padding:1rem 1rem 1.5rem
+    }
+    /* Section groups: bordered rounded container, flat items inside */
+    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-list{
+      border:1px solid var(--stroke-border);border-radius:.5rem;overflow:hidden;gap:0
+    }
+    /* Card rows */
+    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item{
+      height:2.75rem;padding:.5rem .875rem;border-radius:0;
+      border-bottom:1px solid var(--stroke-border);background:var(--surface-card)
+    }
+    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item:last-child{border-bottom:none}
+    /* Active item — brand tint matches prod highlight */
+    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item.active{
+      background:var(--state-pressed);color:var(--brand-primary)
+    }
+    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item.active .ic{color:var(--brand-primary)}
+    .acct-modal[data-mobile-state="menu"] .acct-nav-chev{display:block}
+    /* Section label */
+    /* Log Out — own bordered card at bottom, sticky */
+    .acct-modal[data-mobile-state="menu"] .acct-nav-foot{
+      margin-top:0;padding-top:0;border-top:none;
+    }
+    .acct-modal[data-mobile-state="menu"] .acct-nav-foot .sbx-pop-item{
+      border:1px solid var(--stroke-border);border-radius:.5rem;background:var(--surface-card);
+      height:2.75rem;padding:.5rem .875rem
+    }
+    .acct-modal[data-mobile-state="menu"] .acct-modal-body{display:none}
+
+    /* ── section state ── */
+    .acct-modal[data-mobile-state="section"] .acct-modal-nav{display:none}
+    .acct-content{padding:1rem}
+    /* .acct-bal-amount no longer needs a mobile override — desktop is already 24px (var(--text-24)) */
+    /* Balance CTA row is the same on every width now (see base rules) — no mobile override needed. */
+    /* Segctrl: icon-only on mobile (hide text labels) — works for Theme, whose three glyphs are
+       visually distinct. */
+    .segctrl-lbl{display:none}
+    /* Exception: Monthly vs Yearly are two calendar glyphs that differ by a few dots, so
+       icon-only would be unreadable. The billing-period toggle keeps its labels. */
+    .acct-plan-toggle .segctrl-lbl{display:inline}
+    /* Current-plan strip: plan name and expiry stack, so the inline separator goes away. */
+    .acct-plan-current-val{flex-direction:column;align-items:flex-start;gap:.125rem}
+    .acct-plan-current-sep{display:none}
+  }
+
+  /* ===== Change-password section (inside right panel, not a sub-dialog) ===== */
+  .chpw-field{display:flex;flex-direction:column;gap:.375rem}
+  .chpw-igrp-icon{display:inline-flex;align-items:center;justify-content:center;width:2.375rem;flex:none;color:var(--ink-secondary)}
+  .chpw-igrp-icon svg{width:16px;height:16px}
+  .chpw-eye{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:2.375rem;flex:none;height:100%;
+    border:none;background:transparent;color:var(--ink-secondary);
+    cursor:pointer;border-radius:0 .375rem .375rem 0;transition:color var(--motion-fast)
+  }
+  .chpw-eye:hover{color:var(--ink-body)}
+  .chpw-eye svg{width:16px;height:16px}
+
+  /* ===== Manage plan — pricing cards (page-layout composition) ===== */
+  /* Header row: "All Plans" title (grows) + compact billing-period toggle (right). */
+  .acct-plan-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;min-height:2.25rem}
+  /* Title column — grows, and keeps a gutter so the heading never butts the period toggle. */
+  .acct-plan-head-main{flex:1;min-width:0;padding-right:1rem}
+  /* "Choose a plan" is the section's own H-level heading, a step up from the 14px .acct-sect-title
+     used for field labels elsewhere in the modal.
+
+  /* Current-plan strip — states which tier the account is on, when it expires, and offers the
+     cancel path. Sits above the grid so the cards below are a choice, not a status readout.
+     Paid tiers only: a Free account has nothing to expire and nothing to cancel. */
+  .acct-plan-current{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.875rem 1rem;margin-bottom:1.25rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.75rem}
+  .acct-plan-current-main{display:flex;flex-direction:column;gap:.25rem;flex:1;min-width:0}
+  .acct-plan-current-lbl{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--ink-secondary)}
+  .acct-plan-current-val{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}
+  .acct-plan-current-name{font-size:var(--ts-title-16-size);line-height:var(--ts-title-16-lh);font-weight:var(--ts-title-16-weight);color:var(--ink-primary)}
+  .acct-plan-current-meta{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  .acct-plan-current .btn{flex:none}
+  /* Toggle shrinks to its content instead of the segctrl's default full width — same
+     page-local segctrl adjustment pattern as .segctrl-lbl below. */
+  .acct-plan-toggle{flex:none}
+  .acct-plan-toggle .segctrl{width:auto}
+  /* 3-across pricing grid; reflows to 1 column in the mobile sheet (≤767px, below). */
+  /* Fluid wrap — each card reflows onto its own row once the row can't fit 240px per card,
+     instead of jumping all three to 1-column at a single fixed breakpoint. */
+  /* 3-across by default; reflows only at the explicit breakpoint below, not fluidly per-card. */
+  .acct-plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  /* Extra air below the header: the section gap alone leaves the grid crowded, because the
+     "Most popular" / "50% OFF" ribbons overhang the cards' top edge by .5rem and eat into it.
+     .75rem on top of the section's 1rem gap restores the header-to-card distance. */
+  .acct-plan-head + .acct-plan-grid{margin-top:.75rem}
+  /* Static pricing panel — NOT the interactive card-hover recipe (these are informational,
+     not clickable). --surface-card surface + --stroke-border in the base state; the recommended plan adds the
+     accent border + brand wash via .is-featured. The tier the account is on is NOT tinted — it is
+     identified by its disabled "Current Plan" CTA alone. */
+  /* Tight header cluster (name/price/tagline share the .375rem base gap); the tagline's
+     margin-bottom + the feature list's margin-top open a clear .75rem band around the CTA,
+     giving the card a 3-tier rhythm instead of one flat evenly-spaced stack. */
+  .acct-plan-card{position:relative;display:flex;flex-direction:column;gap:.375rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.75rem;padding:1.25rem}
+  /* Recommended tier — accent border + brand wash + brand-tinted lift. */
+  .acct-plan-card.is-featured{border-color:var(--plan-card-featured-border);background:var(--plan-card-featured-bg);box-shadow:var(--plan-card-featured-shadow)}
+  /* min-height keeps the name row a constant height whether or not a card carries badges, so the
+     price / tagline / CTA below all line up across the three cards. */
+  .acct-plan-name-row{display:flex;align-items:center;flex-wrap:wrap;gap:.375rem;min-height:1.75rem}
+  .acct-plan-price-row{display:flex;align-items:baseline;flex-wrap:wrap;row-gap:.125rem}
+  /* tabular-nums fixes digit width so the price + "/ month" don't shift horizontally when the
+     Monthly ↔ Yearly toggle swaps the numbers.
+  /* Fixed 8px margin (not a reserved min-width box) — every toggle pair (data-monthly/data-yearly)
+     is the same character length, so tabular-nums alone already prevents any width jump; a
+     min-width box here just left slack that made the price→was-price gap look different per card.
+  /* Force the per-unit ("/ month", "/ user / month") onto its own line for every card, so the
+     price row is always exactly two lines → the tagline + CTA below line up across all three
+     cards (Free's short "/ month" no longer sits inline while Starter/Pro's longer unit wraps).
+  /* Full-width CTA (layout sizing only — visual variant + height come from .btn-primary/.btn-outline + .btn-md). */
+  .acct-plan-card .btn.acct-plan-cta{width:100%;justify-content:center}
+  /* Check marker — brand-tinted tick via CSS mask (clean markup, colour flows from --brand-primary).
+  /* ── Manage-plan dialogs (cancel / downgrade / yearly request) ── */
+  /* .25rem top: .dlg-hdr already pays .5rem below the title, so a full 1.25rem here would
+     double-space the copy away from the heading. */
+  /* Composes .dlg-content.is-stack (kit owns the shrink + scroll contract so the footer can never
+     leave the card); only these two spacing deviations are the page's own. */
+  .dlg-content.acct-dlg-body{padding-top:.25rem;gap:.75rem}
+  .acct-dlg-txt{font-size:var(--ts-body-m-size);color:var(--ink-body);line-height:var(--ts-body-m-lh)}
+  /* Features the user gives up. Same list anatomy as .acct-plan-feats, with the brand tick
+     swapped for a destructive cross — the marker carries the meaning, not just the colour
+     (the surrounding copy names it as a loss too). */
+  .acct-plan-lost{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.375rem}
+  .acct-plan-lost li{display:flex;align-items:flex-start;gap:.5rem;font-size:var(--ts-body-m-size);color:var(--ink-body);line-height:var(--ts-body-m-lh)}
+  .acct-plan-lost li::before{content:"";width:14px;height:14px;flex:none;margin-top:.1875rem;background:var(--fb-red-text);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat}
+  /* Warning glyph in the confirm dialogs' header, ahead of the title. */
+  .acct-dlg-warn{width:1.25rem;height:1.25rem;flex:none;color:var(--fb-attention-text)}
+  /* Support-request field group. */
+  /* State wrappers (#acct-yearly-pending / -sent) only toggle visibility — they must not become a
+     flex level of their own, or the body + footer stop being .dlg's flex children and the footer
+     can be pushed out of the card. display:contents removes the level; the JS display:none /
+     display:'' toggle still works because '' falls back to this rule. */
+  #acct-yearly-pending,#acct-yearly-sent{display:contents}
+  .acct-dlg-field{display:flex;flex-direction:column;gap:.375rem}
+  .acct-dlg-field-lbl{font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-body)}
+  .acct-dlg-field .ta{max-width:none;resize:vertical}
+
+  /* ── Manage plan / Buy-credits shared extras (page-layout only; colours from tokens) ── */
+  /* Buy-credits token packs — compact tiles; the token count is the headline, price is secondary. */
+  /* Tinted tray sets the Buy-credits offer apart as its own prominent block — the tray must read as
+     a recessed well BEHIND the cards in both themes. --surface-page (not --progress-track/--surface-card2) is the
+     right token here: --surface-card2 is lighter than --surface-card in dark theme (it's built for chip/track fills
+     that sit ON TOP of a card, not a page-level backdrop), so using it inverted the contrast in dark
+     mode (tray looked lighter than the pack tiles). --surface-page is reliably darker/more recessed than
+     --surface-card in both themes. */
+  .acct-bc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;background:var(--surface-page);border-radius:.75rem;padding:1rem}
+  /* Same tray, one full-width child, when the tray carries the no-packs empty state. */
+  .acct-bc-grid.is-empty{grid-template-columns:1fr}
+  @media (max-width:600px){ .acct-bc-grid{grid-template-columns:1fr} }
+  /* Credit pack — modern tile with a clear hierarchy: tier name (title) → tokens (hero value) →
+     price → CTA. Static informational card (the Buy button is the action; the card itself isn't
+     clickable), so no card-hover recipe — a ghost shadow gives a light modern lift. */
+  /* position:relative anchors the reused .acct-plan-ribbon "Most popular" marker on the Medium
+     pack (text marker, no accent border — same rule as the plan cards). */
+  .acct-bc-pack{position:relative;display:flex;flex-direction:column;gap:.25rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.5rem;padding:1rem;box-shadow:0 1px 2px 0 rgba(15,23,42,.03)}
+  /* Name + price share one row (shortens the card by a full text line) instead of stacking as
+     three separate rows. Token count stays the standalone headline — one bold line, nothing
+     competes with it. */
+  .acct-bc-head{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}
+  /* Clear hierarchy: credit count is the hero (biggest, boldest — it's the thing being bought);
+     name is a small label; price is readable and dark but stays a step below the hero.
+  .acct-bc-pack .acct-bc-buy{width:100%;justify-content:center;margin-top:.75rem}
+
+  /* Recommended ribbon on a pricing card (offset onto the card's top border; the card is
+     position:relative). Used by V2's Pro card, mirroring the site's ribbon treatment. */
+  /* Marker straddling a card's top border. Base = solid brand fill (the Buy-credits Medium pack's
+     "Most popular"); the plan cards use the tinted .is-brand / .is-accent variants be
+  /* Tinted variants — fill mixes over --surface-card (never over transparent), so the card border does
+     not show through the ribbon it overlaps.
+  /* Two markers on one card: the row takes over the absolute placement and the ribbons go static. */
+  .acct-plan-ribbon-row{position:absolute;top:-.5rem;left:1rem;display:flex;align-items:center;gap:.5rem}
+
+  /* Reflow to a single column below 768px; between 768–1024px the modal's content column is too
+     narrow for 3 cards without cramming (each card needs ~220px), so it goes 2-over-1 instead —
+     3-across stays the default only above 1024px. */
+  @media (max-width:1024px) and (min-width:768px){
+    .acct-plan-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:767px){
+    .acct-plan-grid{grid-template-columns:1fr}
+  }
+
+  /* Sticker removed — no in-page handoff note. */

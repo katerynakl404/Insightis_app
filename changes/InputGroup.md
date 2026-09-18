@@ -2,6 +2,8 @@
 
 Source: `@insightis/ui` `InputGroup/index.tsx` + `InputGroupAddon`, `InputGroupInput`. Baseline: [`../current/InputGroup.md`](../current/InputGroup.md).
 
+**Label colour — 2026-09-18.** `--ink-body`, matching Selector and TextArea.
+
 ## Shell — primary variant
 
 Shares the **form-control system** with [Input](Input.md) and [TextArea](TextArea.md): same hover / focus / error tokens, no outer ring (replaces the earlier proposal to use the Button-style `--shadow-focus`).

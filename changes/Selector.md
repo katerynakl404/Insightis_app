@@ -3,6 +3,8 @@
 Replaces the native OS `<select>` with a branded custom trigger + `.menu`/`.mi` dropdown surface.
 Shell inherits the same border/radius/bg/focus tokens as `Input` so it sits flush in any form layout.
 
+**Label colour — 2026-09-18.** `--ink-body`, not `--ink-secondary`. A field label names the control; it is not secondary to it.
+
 ## DOM / markup structure
 
 ```html

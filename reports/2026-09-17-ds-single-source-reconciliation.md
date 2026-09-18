@@ -341,9 +341,13 @@ The inversion noted in 3.2 is gone with it: hover now sits *above* selected in
 lightness, so returning to `--tbl-row-pressed` on press is a step toward more
 contrast, not away from it.
 
-**Caveat on the word "prod".** The `.prod` scope in `_ds_bundle.css` (L436-441) is a
-reference snapshot of older product code and is teal-tinted
-(`--state-hover: hsl(198 67% 96%)`). The alignment above targets the **approved kit
-page**, `pages/approved/data-sources_files-landing.html`, not that snapshot. If the
-shipped app matches the `.prod` snapshot rather than the approved page, this needs
-revisiting — still blocked on signing in to `insightis-app.devart.info`.
+**On the word "prod" — an earlier caveat here was wrong and is withdrawn.** The `.prod`
+scope is *not* part of the kit. It was removed from `pages/kit-theme.css` on 2026-09-14 and
+archived in `archive/2026-09-14-kit-current-prod-column/`, where the README states what it
+was: the "Current (prod)" column of a Current-vs-Expected comparison — a snapshot of the
+**old** product the redesign replaces. It survives only in generated mirrors
+(`.claude-design/ds-bundle/_ds_bundle.css`, `.claude-design/ds-react/dist/kit.css`) and in
+agent worktrees, which is precisely why those must not be read as sources.
+
+So there is no ambiguity to resolve: the approved kit page is the target, and the package
+now matches it.

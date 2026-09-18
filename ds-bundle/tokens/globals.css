@@ -1,0 +1,748 @@
+:root {
+  /* ===== Geometry, elevation and typography (theme-independent) ===== */
+  --radius-sm: 0.125rem;
+  --radius: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 0.875rem;
+  /* Dialog widths — a dialog is sized by what it holds, not one width for
+     all. S: a confirm the user only reads and answers. M (the default):
+     anything the user fills in. L: the multi-step wizard. */
+  --modal-w-sm: 22.5rem;
+  --modal-w-md: 30rem;
+  --modal-w-lg: 36rem;
+  --sidebar-width: 16rem;
+  --sidebar-width-icon: 3.563rem;
+  --sidebar-width-mobile: 18rem;
+  --shadow-thumb: 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+  --shadow-thumb-hover:
+    0 1px 3px rgba(0, 0, 0, 0.28), 0 0 0 0.5px rgba(0, 0, 0, 0.1);
+  --font-sans: "DM Sans";
+  --opacity-disabled: 0.65;
+
+  /* Tint scale — the overlay strengths a wash may use. A tint is a colour laid
+     over `transparent`; its strength is one of these steps and never a literal
+     percentage, so changing how strong every wash reads is one edit here.
+     Blends (a colour mixed over another *opaque* colour) are a different thing
+     and keep their literal ratio — so do shadow alphas and gradient stops. */
+  --tint-5: 5%;
+  --tint-6: 6%;
+  --tint-8: 8%;
+  --tint-10: 10%;
+  --tint-12: 12%;
+  --tint-15: 15%;
+  --tint-20: 20%;
+  --tint-25: 25%;
+  --tint-30: 30%;
+  --tint-40: 40%;
+  --tint-55: 55%;
+  --tint-80: 80%;
+
+  /* Scrim behind modal surfaces. Declared here as well as in .dark so the
+     token is reachable in BOTH themes - it was dark-only, which is why the
+     overlays hardcoded bg-black/80 instead of using it. */
+  --overlay-scrim: rgb(2 6 23 / 60%);
+
+  /* Type scale — sizes and paired line-heights mirror Tailwind's own defaults.
+     xxs and compact are this system's own steps and carry no paired
+     line-height, so they inherit it from their ancestor. */
+  --font-size-xxs: 0.625rem;
+  --font-size-xs: 0.75rem;
+  --line-height-xs: 1rem;
+  --font-size-compact: 0.8125rem;
+  --line-height-compact: 1.25rem;
+  --font-size-sm: 0.875rem;
+  --line-height-sm: 1.25rem;
+  --font-size-base: 1rem;
+  --line-height-base: 1.5rem;
+  --font-size-lg: 1.125rem;
+  --line-height-lg: 1.75rem;
+  --font-size-xl: 1.25rem;
+  --line-height-xl: 1.75rem;
+  --font-size-2xl: 1.5rem;
+  --line-height-2xl: 2rem;
+  --font-size-3xl: 1.875rem;
+  --line-height-3xl: 2.25rem;
+  --font-size-4xl: 2.25rem;
+  --line-height-4xl: 2.5rem;
+
+  /* Weights — the seven steps in use; thin and extralight are unused and stay
+     at Tailwind's stock values through theme.extend's per-key merge. */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Display — fluid 88->132px, for standalone numerals that are the page
+     (the 404 code). Its own step: it fits no rung of the 8-size scale. */
+  --font-size-display: clamp(5.5rem, 8vw, 8.25rem);
+  --line-height-display: 1;
+
+  /* Tracking scale. NOTE the naming trap: Tailwind's stock `tracking-tight`
+     is -0.025em; this system's is -0.01em. Always use the tokens. */
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0em;
+  --tracking-caps: 0.08em;
+  --tracking-display: -0.045em;
+
+  /* Motion tokens */
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+  --motion-slow: 240ms;
+
+  /* ===== Layer 1: Primitives (theme-independent) ===== */
+  --brand-50: 193.8 39.4% 93.5%; /* #E8F2F5 */
+  --brand-100: 196 37% 84%; /* #C7DDE5 */
+  --brand-200: 189.1 32.5% 68%; /* #93C0C8 */
+  --brand-300: 186 30% 51%; /* #5DA0A8 */
+  --brand-400: 176.3 55% 41%; /* #2FA29B */
+  --brand-500: 179 75% 32%; /* #148F8D */
+  --brand-600: 179 89.6% 26.5%; /* #07807E */
+  --brand-700: 179.4 89.1% 21.6%; /* #066867 */
+  --brand-800: 192.4 42% 13.5%; /* #142B31 */
+  --brand-900: 194 51% 8%; /* #0A1A1F */
+  --brand-50-soft: 195 36.4% 95.7%; /* #F0F6F8 */
+  --brand-900-soft: 191 24.4% 8.8%; /* #111A1C */
+  --tertiary-50: 180 48.1% 94.7%; /* #EBF8F8 */
+  --tertiary-100: 178.5 54.1% 85.5%; /* #C6EEED */
+  --tertiary-200: 178.4 55.9% 73.3%; /* #95E1DF */
+  --tertiary-300: 179.5 54.8% 59.2%; /* #5ED0CF */
+  --tertiary-400: 182.4 62% 47.5%; /* #2EBEC4 */
+  --tertiary-500: 182.7 79.5% 38.2%; /* #14A8AF */
+  --tertiary-600: 183.9 84.1% 32.2%; /* #0D8E97 */
+  --tertiary-700: 185 80.7% 26.5%; /* #0D717A */
+  --tertiary-800: 187 75% 22%; /* #0E5862 */
+  --tertiary-900: 185.8 68.9% 17.6%; /* #0E464C */
+  --tertiary-950: 190.7 81.8% 10.8%; /* #052A32 */
+  --slate-50: 210 40% 98%; /* #F8FAFC */
+  --slate-100: 210 40% 96%; /* #F1F5F9 */
+  --slate-150: 212.7 35.5% 93.9%; /* #EAEFF5 */
+  --slate-200: 214.3 31.8% 91.4%; /* #E2E8F0 */
+  --slate-300: 213 27% 84%; /* #CBD5E1 */
+  --slate-400: 215 20% 65%; /* #94A3B8 */
+  --slate-450: 215 17% 56%; /* #7C8CA2 */
+  --slate-500: 215.4 16.3% 46.9%; /* #64748B */
+  --slate-550: 214.7 17.4% 42.7%; /* #5A6A80 */
+  --slate-600: 215.3 19.3% 34.5%; /* #475569 */
+  --slate-700: 215.3 25% 26.7%; /* #334155 */
+  --slate-800: 217.2 32.6% 17.5%; /* #1E293B */
+  --slate-900: 222.2 47.4% 11.2%; /* #0F172A */
+  --slate-950: 229 84% 5%; /* #020617 */
+  --grey-50: 210 20% 98%; /* #F9FAFB */
+  --grey-100: 240 5% 96%; /* #F4F4F5 */
+  --grey-200: 220 13% 91%; /* #E5E7EB */
+  --grey-300: 216 12% 84%; /* #D1D5DB */
+  --grey-400: 217.9 10.6% 64.9%; /* #9CA3AF */
+  --grey-500: 220 9% 46%; /* #6B7280 */
+  --grey-600: 240 4% 33%; /* #525258 */
+  --grey-700: 250 13% 18%; /* #2A2834 */
+  --grey-800: 240 14% 15%; /* #21212C */
+  --grey-900: 240 13.2% 10.4%; /* #17171E */
+  --grey-950: 250 17.6% 6.7%; /* #0F0E14 */
+  --red-50: 0 85.7% 97.3%; /* #FEF2F2 */
+  --red-100: 0 93.3% 94.1%; /* #FEE2E2 */
+  --red-200: 0 96.3% 89.4%; /* #FECACA */
+  --red-300: 0 93.5% 81.8%; /* #FCA5A5 */
+  --red-400: 0 85.8% 64.1%; /* #F25555 */
+  --red-500: 0 84.2% 60.2%; /* #EF4444 */
+  --red-600: 0 72.2% 50.6%; /* #DC2626 */
+  --red-700: 0 73.7% 41.8%; /* #B91C1C */
+  --red-800: 0 70% 35.3%; /* #991B1B */
+  --red-850: 0 62.8% 30.6%; /* #7F1D1D */
+  --red-900: 0 74.7% 15.5%; /* #450A0A */
+  --red-950: 0 44.8% 11.4%; /* #2A1010 */
+  --orange-500: 24.7 100% 50%; /* #FF6900 */
+  --green-light-600: 160 100% 30%; /* #009966 */
+  --green-dark-500: 160.1 96.6% 34.9%; /* #03AF76 */
+  --chart-teal-600: 173 82.2% 30.8%; /* #0E8F80 */
+  --chart-teal-500: 175.6 80.7% 36.7%; /* #12A99E */
+  --chart-orange-700: 27 95% 39%; /* #C25A05 */
+  --chart-orange-600: 26.3 100% 42.5%; /* #D95F00 */
+  --chart-violet-600: 254.2 52.2% 55.7%; /* #6F53C9 */
+  --chart-violet-500: 254.6 61.5% 63.3%; /* #8468DB */
+  --chart-blue-600: 213.5 60.7% 46.9%; /* #2F6FC0 */
+  --chart-blue-500: 214.4 63.6% 55.9%; /* #4784D6 */
+  --white: 0 0% 100%; /* #FFFFFF */
+  --black: 0 0% 0%; /* #000000 */
+
+  /* ===== Layer 2: Semantic tokens ===== */
+  /* Unused by the default table, whose header is unbanded. Kept for a
+     banded variant; see Table/TableHeader.tsx. */
+  --tbl-header-bg: var(--slate-150); /* #EAEFF5 */
+  --mx-group-band: var(--slate-150); /* #EAEFF5 */
+  --brand-primary: var(--brand-600); /* #07807E */
+  --brand-secondary: var(--brand-700); /* #066867 */
+  --brand-tertiary: var(--tertiary-600); /* #0D8E97 */
+  --brand-hover: var(--brand-500); /* #148F8D — Brand/Primary_Hover */
+  --brand-press: var(--brand-700); /* #066867 */
+  --ink-primary: var(--slate-900); /* #0F172A */
+  --ink-body: var(--slate-700); /* #334155 */
+  --ink-secondary: var(--slate-550); /* #5A6A80 */
+  --ink-inactive: var(--slate-450); /* #7C8CA2 */
+  --ink-highlight: var(--brand-primary); /* #07807E */
+  --surface-card: var(--white); /* #FFFFFF */
+  --surface-card2: var(--slate-100); /* #F1F5F9 */
+  --surface-chips: var(--slate-50); /* #F8FAFC */
+  --surface-page: var(--slate-50); /* #F8FAFC — page background */
+  --surface-accent: var(--brand-50-soft); /* #F0F6F8 */
+  /* Chat landing shell — radial tint + ambient glow (kit .cl-shell) */
+  --chat-shell-bg: radial-gradient(
+    at 50% 0%,
+    color-mix(in srgb, hsl(var(--brand-tertiary)) 2%, hsl(var(--surface-page))),
+    hsl(var(--surface-page)) 55%
+  );
+  --chat-glow-fill: color-mix(
+    in srgb,
+    hsl(var(--brand-tertiary)) var(--tint-8),
+    transparent
+  );
+  --stroke-border: var(--slate-200); /* #E2E8F0 */
+  --stroke-border-hover: var(--slate-300); /* #CBD5E1 */
+  --state-hover: var(--slate-100); /* #F1F5F9 */
+  --state-pressed: var(--brand-50); /* #E8F2F5 */
+  --state-disabled: var(--slate-200); /* #E2E8F0 */
+  --state-focus-ring: var(--slate-900); /* #0F172A */
+  --fb-red: var(--red-700); /* #B91C1C */
+  --fb-red-text: var(--red-700); /* #B91C1C */
+  --fb-error-hover: var(--red-800); /* #991B1B */
+  --fb-error-press: var(--red-850); /* #7F1D1D */
+  --fb-attention: var(--orange-500); /* #FF6900 */
+  --fb-green: var(--green-light-600); /* #009966 */
+  --logo-ink: var(--slate-900); /* #0F172A */
+  --logo-mark: var(--brand-600); /* #07807E */
+
+  /* Chart tokens */
+  --chart-axis-title: var(--ink-primary);
+  --chart-axis-label: var(--ink-secondary);
+  --chart-grid: var(--stroke-border);
+  --chart-surface: var(--surface-card);
+  --chart-series-1: var(--chart-teal-600);
+  --chart-series-2: var(--chart-orange-700);
+  --chart-series-3: var(--chart-violet-600);
+  --chart-series-4: var(--green-light-600);
+  --chart-series-5: var(--chart-blue-600);
+  --chart-series-6: var(--red-700);
+
+  /* ===== Layer 3: Component-scoped tokens ===== */
+  --btn-primary-bg: var(--brand-600); /* #07807E */
+  --btn-primary-bg-hover: var(--brand-700); /* #066867 */
+  --btn-primary-bg-press: var(--tertiary-800); /* #0E5862 */
+  --btn-primary-text: var(--white); /* #FFFFFF */
+  --btn-secondary-bg: var(--surface-card);
+  --btn-secondary-bg-hover: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 5%,
+    hsl(var(--surface-card))
+  ); /* ~5% brand over card */
+  --btn-secondary-border: var(--slate-300); /* #CBD5E1 */
+  --btn-secondary-border-hover: var(--slate-400); /* #94A3B8 */
+  --btn-outline-bg-hover: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) var(--tint-6),
+    transparent
+  );
+  --btn-outline-bg-press: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) var(--tint-8),
+    transparent
+  );
+  --btn-outline-destructive-border: var(--red-700); /* #B91C1C */
+  --btn-outline-destructive-border-hover: var(--red-800); /* #991B1B */
+  --btn-outline-destructive-bg-hover: color-mix(
+    in srgb,
+    hsl(var(--fb-red)) var(--tint-6),
+    transparent
+  ); /* Red @6% over surface */
+  --btn-outline-destructive-bg-press: color-mix(
+    in srgb,
+    hsl(var(--fb-red)) var(--tint-8),
+    transparent
+  ); /* Red @8% over surface */
+  /* Destructive TERTIARY fill. Identical to the outline sibling on light —
+     measured at a 4.01 dL* step against the neutral --state-hover's 3.65, and
+     5.35 against --state-pressed's 5.15. The variants diverge only on dark:
+     see the .dark block. */
+  --btn-destructive-tertiary-bg-hover: var(--btn-outline-destructive-bg-hover);
+  --btn-destructive-tertiary-bg-press: var(--btn-outline-destructive-bg-press);
+  /* Avatar fill. Pinned to brand-600 rather than following --brand-primary,
+     because the initials ON it are TEXT: on dark, --brand-primary lifts to
+     brand-500 and white drops to 3.94:1, under the 4.5 body-text floor.
+     brand-600 holds 4.77:1 in both themes. The Banner icon well and the
+     Checkbox tick keep --brand-primary - they are glyphs, judged at 3:1. */
+  --avatar-bg: var(--brand-primary); /* #07807E */
+  --content-on-solid: var(--white); /* #FFFFFF */
+  --focus-ring-brand: var(--brand-600); /* #07807E */
+  --input-focus: var(--slate-600); /* #475569 (light) — kit s-focus */
+  --field-border-hover: var(
+    --slate-450
+  ); /* #7C8CA2 (light) — form hover border */
+  --input-error: var(
+    --red-700
+  ); /* #B91C1C (light) — theme-adaptive error border */
+
+  /* Card tokens */
+  --card-border-hover: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) var(--tint-25),
+    transparent
+  ); /* ~25% brand */
+  --card-border-press: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) var(--tint-40),
+    transparent
+  ); /* ~40% brand */
+  --card-lift-border: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 22%,
+    hsl(var(--stroke-border))
+  );
+  --icon-wrapper-bg: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 5%,
+    hsl(var(--surface-page))
+  );
+
+  /* Dropzone tokens */
+  --dropzone-border: var(--slate-300); /* #CBD5E1 */
+  --dropzone-border-active: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 45%,
+    hsl(var(--dropzone-border))
+  ); /* ~45% brand */
+  --dropzone-bg-active: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 4%,
+    hsl(var(--surface-card2))
+  ); /* ~4% brand */
+
+  /* Badge tokens */
+  --badge-primary-bg: var(--brand-50); /* #E8F2F5 (light) */
+  --badge-primary-text: var(--brand-secondary); /* #066867 */
+  --badge-secondary-bg: var(--surface-card2); /* #F1F5F9 */
+  --badge-secondary-text: var(--ink-body); /* #334155 */
+  --badge-chip-bg: var(--surface-chips); /* #F8FAFC */
+  --badge-chip-text: var(--ink-body); /* #334155 */
+  /* Opaque tints — these badges overlap a card border, so an alpha fill
+     would let the border show through */
+  --badge-brand-bg: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 22%,
+    hsl(var(--surface-card))
+  );
+  --badge-brand-border: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) var(--tint-40),
+    transparent
+  );
+  --badge-brand-text: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 85%,
+    hsl(var(--ink-primary))
+  );
+  --badge-green-bg: color-mix(
+    in srgb,
+    hsl(var(--fb-green)) 22%,
+    hsl(var(--surface-card))
+  );
+  --badge-green-border: color-mix(
+    in srgb,
+    hsl(var(--fb-green)) var(--tint-40),
+    transparent
+  );
+  --badge-green-text: color-mix(
+    in srgb,
+    hsl(var(--fb-green)) 85%,
+    hsl(var(--ink-primary))
+  );
+
+  /* Switch tokens */
+  --switch-off-bg: var(--slate-300); /* #CBD5E1 (light) */
+  --switch-off-bg-hover: var(--slate-400); /* #94A3B8 (light) */
+
+  /* Toast tokens */
+  --toast-bg-success: color-mix(
+    in srgb,
+    hsl(var(--fb-green)) 5%,
+    hsl(var(--surface-card))
+  );
+  --toast-bg-info: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 5%,
+    hsl(var(--surface-card))
+  );
+  --toast-bg-warning: color-mix(
+    in srgb,
+    hsl(var(--fb-attention)) 5%,
+    hsl(var(--surface-card))
+  );
+  --toast-bg-error: color-mix(
+    in srgb,
+    hsl(var(--fb-red-text)) 5%,
+    hsl(var(--surface-card))
+  );
+  --toast-border-success: color-mix(
+    in srgb,
+    hsl(var(--fb-green)) var(--tint-30),
+    transparent
+  );
+  --toast-border-info: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) var(--tint-30),
+    transparent
+  );
+  --toast-border-warning: color-mix(
+    in srgb,
+    hsl(var(--fb-attention)) var(--tint-30),
+    transparent
+  );
+  --toast-border-error: color-mix(
+    in srgb,
+    hsl(var(--fb-red-text)) var(--tint-30),
+    transparent
+  );
+
+  /* Shadow tokens */
+  --shadow-modal: 0 20px 40px -8px rgb(0 0 0 / 22%);
+  --shadow-rest: 0 1px 2px 0 rgba(15, 23, 42, 0.03); /* flat-card rest elevation */
+  --shadow-card-hover:
+    0 2px 6px -1px rgba(15, 23, 42, 0.08), 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-lift-hover:
+    0 6px 16px -3px rgb(15 23 42 / 9%), 0 2px 4px -1px rgb(15 23 42 / 5%);
+  --shadow-overlay-soft:
+    0 10px 15px -3px rgb(0 0 0 / 12%), 0 4px 6px -4px rgb(0 0 0 / 8%);
+  --shadow-menu:
+    0 6px 16px -4px rgb(0 0 0 / 12%), 0 2px 4px -2px rgb(0 0 0 / 6%);
+  /* Dropdown / menu surface elevation */
+  --shadow-dropdown:
+    0 6px 16px -4px rgba(0, 0, 0, 0.12), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+
+  /* Segmented control tokens */
+  --segctrl-btn-hover-bg: color-mix(
+    in srgb,
+    hsl(var(--surface-card)) 50%,
+    hsl(var(--surface-card2))
+  ); /* half-step lift between slot and pill */
+  --segctrl-hover-shadow: inset 0 0 0 1px
+    color-mix(in srgb, hsl(var(--stroke-border)) 50%, transparent);
+  --segctrl-active-shadow:
+    inset 0 0 0 1px hsl(var(--stroke-border)), 0 1px 2px rgba(0, 0, 0, 0.06);
+
+  /* Table — canonical row state bgs (light) */
+  /* Row states are ported verbatim from the Insightis kit (pages/kit-theme.css),
+     which is what ships to users — the package had drifted a step darker on both
+     tokens and had picked up a brand tint the kit explicitly forbids.
+
+     The kit's two rules, in its own words:
+
+     1. Hover is a SMALLER step off the row than selected — it has to read as LESS
+        contrast, not more. Slate-50 sits about halfway between the white row and
+        slate-100, so hover stays below selected instead of overtaking it.
+     2. Selected/pressed IS --surface-card2, the table-header band surface. So a
+        selected row and the thead band are identical BY CONSTRUCTION in every
+        theme (slate-100 light / grey-800 dark) — and it needs no .dark override,
+        because --surface-card2 already re-resolves.
+
+     Neutral in every state, never brand-tinted. */
+  --tbl-row-hover: var(--slate-50); /* #F8FAFC */
+  --tbl-row-pressed: var(--surface-card2); /* #F1F5F9 light · #21212C dark */
+  /* Hover while selected — a step BEYOND selected, not between hover and it.
+     Blending the two row tokens put this state halfway back toward hover, so
+     pointing at a selected row made it paler: the row read as less selected
+     the moment you touched it. Mixing --ink-inactive moves away from the
+     surface in both themes (darker on light, lighter on dark) and carries no
+     brand hue, keeping the ladder neutral and monotonic: 1.86 / 3.73 / 5.6 on
+     light, 2.53 / 5.09 / 8.2 on dark.
+
+     5% is a blend ratio between two opaque colours, so it stays a literal —
+     the --tint-* scale is for washes over transparency (see SPEC). */
+  --tbl-row-selected-hover: color-mix(
+    in srgb,
+    hsl(var(--ink-inactive)) 5%,
+    hsl(var(--tbl-row-pressed))
+  );
+
+  /* Plan card (Manage plan) — current / featured surfaces and top-border badges */
+  --plan-card-featured-border: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 40%,
+    hsl(var(--stroke-border))
+  );
+  --plan-card-featured-bg: linear-gradient(
+    180deg,
+    color-mix(in srgb, hsl(var(--brand-primary)) 8%, hsl(var(--surface-card)))
+      0%,
+    hsl(var(--surface-card)) 40%
+  );
+  --plan-card-featured-shadow: 0 6px 16px -8px
+    color-mix(in srgb, hsl(var(--brand-primary)) 45%, transparent);
+
+  /* Banner — gradient recipes + on-gradient tokens (light) */
+  --banner-grad-text: var(--white); /* #FFFFFF */
+  --banner-grad-btn-text: var(--slate-900); /* #0F172A */
+  --banner-grad-sub: color-mix(
+    in srgb,
+    hsl(var(--white)) var(--tint-80),
+    transparent
+  );
+  --banner-grad-ic-bg: color-mix(
+    in srgb,
+    hsl(var(--white)) var(--tint-20),
+    transparent
+  );
+  --banner-grad-ic-border: color-mix(
+    in srgb,
+    hsl(var(--white)) var(--tint-40),
+    transparent
+  );
+  --banner-grad-ic-shadow:
+    0 0 0 6px rgba(255, 255, 255, 0.04), 0 0 16px rgba(255, 255, 255, 0.05);
+  --banner-ic-shadow: 0 6px 16px -4px
+    color-mix(in srgb, hsl(var(--brand-primary)) 50%, transparent);
+  --banner-grad-horizontal-wide: linear-gradient(
+    90deg,
+    hsl(var(--brand-700)) 0%,
+    hsl(var(--brand-200)) 100%
+  );
+  --banner-grad-diagonal-airy: linear-gradient(
+    135deg,
+    hsl(var(--brand-700)) 0%,
+    hsl(var(--brand-100)) 100%
+  );
+  --banner-grad-diagonal-fade: linear-gradient(
+    135deg,
+    hsl(var(--brand-700)) 0%,
+    hsl(var(--brand-700)) 55%,
+    color-mix(in srgb, hsl(var(--brand-700)) 20%, transparent) 100%
+  );
+  --banner-grad-horizontal-slab: linear-gradient(
+    90deg,
+    hsl(var(--brand-700)) 0%,
+    hsl(var(--brand-700)) 45%,
+    color-mix(in srgb, hsl(var(--brand-700)) 0%, transparent) 100%
+  );
+}
+
+.dark {
+  --avatar-bg: var(--brand-600); /* #07807E - held, not lifted */
+  /* ===== Layer 2: Semantic tokens (dark) ===== */
+  --tbl-header-bg: var(--grey-700); /* #2A2834 */
+  --mx-group-band: var(--grey-700); /* #2A2834 */
+  --brand-primary: var(--brand-500); /* #148F8D */
+  --brand-secondary: var(--brand-400); /* #2FA29B */
+  --brand-tertiary: var(--tertiary-500); /* #14A8AF */
+  --brand-hover: var(--brand-400); /* #2FA29B — Brand/Primary_Hover */
+  --brand-press: var(--brand-600); /* #07807E */
+  --ink-primary: var(--grey-50); /* #F9FAFB */
+  --ink-body: var(--grey-100); /* #F4F4F5 */
+  --ink-secondary: var(--grey-300); /* #D1D5DB */
+  --ink-inactive: var(--slate-400); /* #94A3B8 */
+  --ink-highlight: var(--tertiary-400); /* #2EBEC4 */
+  --surface-card: var(--grey-900); /* #17171E */
+  --surface-card2: var(--grey-800); /* #21212C */
+  --surface-chips: var(--grey-700); /* #2A2834 */
+  --surface-page: var(--grey-950); /* #0F0E14 — page background */
+  --surface-accent: var(--brand-900-soft); /* #111A1C */
+  /* Scrim behind modals and sheets — declared on dark only */
+  --overlay-scrim: rgb(2 6 23 / 60%);
+  /* Chat landing shell — stronger tint/glow on dark (kit .cl-shell .dark) */
+  --chat-shell-bg: radial-gradient(
+    at 50% 0%,
+    color-mix(in srgb, hsl(var(--brand-tertiary)) 4%, hsl(var(--surface-page))),
+    hsl(var(--surface-page)) 55%
+  );
+  --chat-glow-fill: color-mix(
+    in srgb,
+    hsl(var(--brand-tertiary)) var(--tint-20),
+    transparent
+  );
+  --stroke-border: var(--grey-700); /* #2A2834 */
+  --stroke-border-hover: var(--slate-700); /* #334155 */
+  --state-hover: var(--grey-800); /* #21212C */
+  --state-pressed: var(--grey-700); /* #2A2834 */
+  --state-disabled: var(--grey-700); /* #2A2834 */
+  --state-focus-ring: var(--slate-100); /* #F1F5F9 */
+  --fb-red: var(--red-700); /* #B91C1C */
+  --fb-red-text: var(--red-400); /* #F25555 */
+  --fb-red-hover: var(--red-800); /* #991B1B — declared on dark only */
+  --fb-red-press: var(--red-850); /* #7F1D1D — declared on dark only */
+  --fb-error-hover: var(--red-800); /* #991B1B */
+  --fb-error-press: var(--red-850); /* #7F1D1D */
+  --fb-attention: var(--orange-500); /* #FF6900 */
+  --fb-green: var(--green-dark-500); /* #03AF76 */
+  --logo-ink: var(--brand-50); /* #E8F2F5 */
+  --logo-mark: var(--brand-500); /* #148F8D */
+
+  /* Chart tokens */
+  --chart-series-1: var(--chart-teal-500);
+  --chart-series-2: var(--chart-orange-600);
+  --chart-series-3: var(--chart-violet-500);
+  --chart-series-4: var(--green-dark-500);
+  --chart-series-5: var(--chart-blue-500);
+  --chart-series-6: var(--red-400);
+
+  /* ===== Layer 3: Component-scoped tokens (dark) ===== */
+  --btn-secondary-border: var(--grey-600); /* #525258 */
+  --btn-secondary-border-hover: var(--grey-500); /* #6B7280 */
+  /* Dark inherits nothing from light here: the ramp has to run the other way.
+     Border matches the label (--fb-red-text = Red-400 on dark), exactly as light
+     has both on Red-700, and hover steps LIGHTER — the same direction as
+     --btn-secondary-border on dark (Grey-600 -> Grey-500). The previous values
+     were the light ones copied across: hover DROPPED contrast 2.76 -> 2.15 on
+     Card #17171E, the only place in the kit where hover made a control less
+     visible. */
+  /* Both steps move down the ramp rather than up: red-300 is a pale pink that
+     loses the red identity, and it lifted contrast x1.79 where light lifts
+     x1.22 — the hover read as washed out, not as emphasis. red-500 -> red-400
+     keeps both steps a saturated red and still rises, which is what a hover on
+     a near-black card has to do. */
+  --btn-outline-destructive-border: var(--red-500); /* #EF4444 — CR 4.74 */
+  --btn-outline-destructive-border-hover: var(--red-400); /* #F25555 — CR 5.27 */
+  --btn-outline-destructive-bg-hover: color-mix(
+    in srgb,
+    hsl(var(--fb-red)) var(--tint-15),
+    transparent
+  ); /* Red @14% over surface #991B1B */
+  --btn-outline-destructive-bg-press: color-mix(
+    in srgb,
+    hsl(var(--fb-red)) var(--tint-20),
+    transparent
+  ); /* Red @22% over surface #7F1D1D */
+  /* Tertiary carries no border, so the fill is the whole signal — on a
+     near-black card the outline sibling's 14%/22% lands 35% short of the
+     neutral step it has to match (3.29 against --state-hover's 5.16). Measured
+     against the live tokens: 20% and 32% put it at 5.05 and 8.76. */
+  --btn-destructive-tertiary-bg-hover: color-mix(
+    in srgb,
+    hsl(var(--fb-red)) var(--tint-20),
+    transparent
+  ); /* Red @20% over surface */
+  --btn-destructive-tertiary-bg-press: color-mix(
+    in srgb,
+    hsl(var(--fb-red)) var(--tint-30),
+    transparent
+  ); /* Red @32% over surface */
+  --input-focus: var(--slate-500); /* #64748B (dark) — kit s-focus */
+  --field-border-hover: var(
+    --slate-600
+  ); /* #475569 (dark) — form hover border */
+  --input-error: var(
+    --red-500
+  ); /* #EF4444 (dark) — brighter red for AA on dark */
+
+  /* Dropzone tokens */
+  --dropzone-border: var(--grey-600); /* #525258 */
+
+  /* Badge tokens */
+  --badge-primary-bg: var(
+    --brand-800
+  ); /* #142B31 (dark analogue of Brand-50) */
+
+  /* Switch tokens */
+  --switch-off-bg: var(--grey-700); /* #2A2834 */
+  --switch-off-bg-hover: var(--grey-600); /* #525258 */
+
+  /* Toast tokens */
+  --toast-bg-success: color-mix(
+    in srgb,
+    hsl(var(--fb-green)) 8%,
+    hsl(var(--surface-card))
+  );
+  --toast-bg-info: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 8%,
+    hsl(var(--surface-card))
+  );
+  --toast-bg-warning: color-mix(
+    in srgb,
+    hsl(var(--fb-attention)) 8%,
+    hsl(var(--surface-card))
+  );
+  --toast-bg-error: color-mix(
+    in srgb,
+    hsl(var(--fb-red-text)) 8%,
+    hsl(var(--surface-card))
+  );
+
+  /* Floating-surface shadow (—shadow-overlay, dark): the light value is
+     invisible on dark surfaces — cards/panels need a deeper drop + hairline top. */
+  --shadow-modal:
+    0 24px 48px -12px rgb(0 0 0 / 72%), 0 8px 18px -6px rgb(0 0 0 / 55%),
+    inset 0 1px 0 0 rgb(255 255 255 / 5%);
+  --shadow-overlay-soft:
+    0 16px 32px -8px color-mix(in srgb, hsl(var(--black)) 65%, transparent),
+    0 6px 14px -4px color-mix(in srgb, hsl(var(--black)) 50%, transparent),
+    inset 0 1px 0 0 color-mix(in srgb, hsl(var(--white)) 4%, transparent);
+
+  /* Segmented control tokens */
+  --segctrl-btn-hover-bg: color-mix(
+    in srgb,
+    hsl(var(--surface-chips)) 50%,
+    hsl(var(--surface-card2))
+  ); /* half-step lift between slot and pill (dark) */
+  --segctrl-hover-shadow: inset 0 0 0 1px
+    color-mix(in srgb, hsl(var(--white)) 3%, transparent);
+  --segctrl-active-shadow:
+    inset 0 0 0 1px color-mix(in srgb, hsl(var(--white)) 6%, transparent),
+    0 1px 2px rgba(0, 0, 0, 0.3);
+
+  /* Table — canonical row state bgs (dark) */
+  /* Dark hover — the kit's formula is color-mix(--surface-card2 50%, --surface-card),
+     i.e. halfway between the band and the row, keeping hover a smaller step than
+     selected exactly as on light. Written here as the resulting triplet because
+     the token is consumed through hsl(var(…)) in constants.ts: a color-mix would
+     land in the stylesheet as an invalid background-color and paint nothing —
+     the very bug that made light-theme hover disappear. #1C1C25 is that mix.
+
+     No --tbl-row-pressed here on purpose: it is --surface-card2, which already
+     resolves to grey-800 in this block. */
+  --tbl-row-hover: 240 14% 12.7%; /* #1C1C25 = mix(grey-800 50%, grey-900) */
+
+  /* Plan card — dark needs a stronger mix and a longer fade or the gradient reads flat */
+  --plan-card-featured-bg: linear-gradient(
+    180deg,
+    color-mix(in srgb, hsl(var(--brand-primary)) 28%, hsl(var(--surface-card)))
+      0%,
+    hsl(var(--surface-card)) 55%
+  );
+
+  /* Banner — dark gradient recipes */
+  --banner-grad-btn-text: var(--slate-900); /* #0F172A */
+  --banner-grad-ic-bg: color-mix(
+    in srgb,
+    hsl(var(--white)) var(--tint-12),
+    transparent
+  );
+  --banner-grad-ic-border: color-mix(
+    in srgb,
+    hsl(var(--white)) var(--tint-20),
+    transparent
+  );
+  --banner-grad-ic-shadow:
+    0 0 0 6px rgb(255 255 255 / 4%), 0 0 16px rgb(255 255 255 / 5%);
+  --banner-grad-horizontal-wide: linear-gradient(
+    90deg,
+    hsl(var(--brand-900)) 0%,
+    hsl(var(--brand-700)) 100%
+  );
+  --banner-grad-diagonal-airy: linear-gradient(
+    135deg,
+    hsl(var(--brand-600)) 0%,
+    hsl(var(--brand-900)) 100%
+  );
+  --banner-grad-diagonal-fade: linear-gradient(
+    135deg,
+    hsl(var(--brand-600)) 0%,
+    hsl(var(--brand-600)) 55%,
+    color-mix(in srgb, hsl(var(--brand-600)) 20%, transparent) 100%
+  );
+  --banner-grad-horizontal-slab: linear-gradient(
+    90deg,
+    hsl(var(--brand-800)) 0%,
+    hsl(var(--brand-800)) 45%,
+    color-mix(in srgb, hsl(var(--brand-800)) 0%, transparent) 100%
+  );
+}

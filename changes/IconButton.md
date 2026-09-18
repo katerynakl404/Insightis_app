@@ -4,6 +4,8 @@ Source: `@insightis/ui` `Button/index.tsx` (cva) + `globals.css`.
 
 **IconButton mirrors the full Button variant set — Primary / Secondary / Outlined / Tertiary / Destructive Outlined** — each reusing the corresponding Button tokens 1:1. No IconButton-specific colour tokens are introduced. The CSS base (`.iconbtn`) is stripped down to shape/size only; colour comes from the variant class.
 
+**Destructive Outlined glyph — 2026-09-18.** `--fb-red-text` in every state, mirroring Button.
+
 ## Base geometry (`.iconbtn` — shape/size only)
 
 | Property | Value | Notes |

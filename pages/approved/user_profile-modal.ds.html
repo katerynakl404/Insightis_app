@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Account modal — built on @devart/ui-react</title>
+
+<!-- The design system itself: tokens, fonts and every component, from ds-bundle.
+     No npm, no build step — _ds_bundle.js puts the real components on window.DevartUI. -->
+<link rel="stylesheet" href="../../ds-bundle/styles.css">
+
+<!-- What stays page-owned: the two-pane account-modal layout. Every colour, size and
+     type step in here reads a DS token, so this file declares layout and nothing else. -->
+<link rel="stylesheet" href="./user_profile-modal.page.css">
+
+<style>
+  /* Page shell — the chrome the modal sits on. Layout only. */
+  body{margin:0;background:hsl(var(--surface-page));color:hsl(var(--ink-primary));
+       font-family:var(--font-sans),system-ui,sans-serif}
+  .topbar{display:flex;align-items:center;gap:.75rem;padding:.5rem .875rem;
+          border-bottom:1px solid hsl(var(--stroke-border));background:hsl(var(--surface-card));
+          font-size:var(--font-size-xs);color:hsl(var(--ink-secondary))}
+  .topbar-right{margin-left:auto;display:flex;align-items:center;gap:.75rem}
+  /* The shell the modal is positioned against — .acct-overlay is position:absolute. */
+  .pg-shell{position:relative;height:calc(100vh - 41px)}
+  /* .acct-overlay, .acct-modal, .acct-modal-nav, .acct-header, .acct-content and
+     .acct-modal-body are NOT redeclared here — user_profile-modal.page.css already
+     owns them (modal 960px, nav 11rem). Page layout stays page-owned. */
+  .nav-sect{font-size:var(--font-size-xxs);text-transform:uppercase;letter-spacing:var(--tracking-caps);
+            font-weight:var(--font-weight-semibold);color:hsl(var(--ink-secondary));padding:0 .5rem .25rem}
+  .acct-nav-foot{margin-top:auto;padding-top:.5rem;border-top:1px solid hsl(var(--stroke-border))}
+  /* Balance pools */
+  .bal-hero{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+  .bal-amount{font-size:var(--font-size-3xl);font-weight:var(--font-weight-semibold);
+              font-variant-numeric:tabular-nums;line-height:1}
+  .bal-ic{width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;
+          justify-content:center;flex:none;background:hsl(var(--state-hover));color:hsl(var(--ink-secondary))}
+  .pool{display:flex;flex-direction:column;gap:.375rem}
+  .pool-head{display:flex;align-items:center;gap:.5rem;font-size:var(--font-size-xs);line-height:1rem}
+  .pool-name{font-weight:var(--font-weight-semibold);color:hsl(var(--ink-primary))}
+  .pool-left{color:hsl(var(--ink-primary));font-weight:var(--font-weight-medium);font-variant-numeric:tabular-nums}
+  .pool-meta{margin-left:auto;color:hsl(var(--ink-secondary))}
+  .packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.75rem}
+  .pack{position:relative;display:flex;flex-direction:column;gap:.5rem;padding:.875rem;
+        border:1px solid hsl(var(--stroke-border));border-radius:var(--radius-lg);background:hsl(var(--surface-card))}
+  .pack-top{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}
+  .pack-name{font-size:var(--font-size-xs);color:hsl(var(--ink-secondary))}
+  .pack-price{font-weight:var(--font-weight-semibold)}
+  .pack-credits{font-size:var(--font-size-lg);font-weight:var(--font-weight-semibold);font-variant-numeric:tabular-nums}
+  .pack-credits span{font-size:var(--font-size-xs);font-weight:var(--font-weight-normal);
+                     color:hsl(var(--ink-secondary));margin-left:.25rem}
+  .pack-ribbon{position:absolute;top:-.625rem;left:50%;transform:translateX(-50%)}
+  .sect{display:flex;flex-direction:column;gap:.75rem;padding:1.25rem 0;
+        border-bottom:1px solid hsl(var(--stroke-border))}
+  .sect:first-child{padding-top:0}
+  .sect:last-child{border-bottom:none;padding-bottom:0}
+  .sect-title{font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold)}
+  .sect-sub{font-size:var(--font-size-xs);color:hsl(var(--ink-secondary))}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="../../ds-bundle/_vendor/react.js"></script>
+<script src="../../ds-bundle/_ds_bundle.js"></script>
+<script>
+(function () {
+  var R = window.React, RD = window.ReactDOM, D = window.DevartUI;
+  var h = R.createElement;
+
+  // ── inline glyphs (lucide paths; the bundle ships the components, not the icon set)
+  function svg(d, size) {
+    return h('svg', { width: size || 16, height: size || 16, viewBox: '0 0 24 24', fill: 'none',
+      stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' },
+      d.map(function (p, i) { return h('path', { key: i, d: p }); }));
+  }
+  var IC = {
+    close: ['M18 6 6 18', 'm6 6 12 12'],
+    wallet: ['M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1',
+             'M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4'],
+    user: ['M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2', 'M12 7a4 4 0 1 0 0 .01'],
+    plan: ['M3 3v18h18', 'm19 9-5 5-4-4-3 3'],
+    bill: ['M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z', 'M14 2v6h6'],
+    coin: ['M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20', 'M12 6v12', 'M15 9H10.5a1.5 1.5 0 0 0 0 3h3a1.5 1.5 0 0 1 0 3H9'],
+    msg:  ['M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'],
+    book: ['M4 19.5A2.5 2.5 0 0 1 6.5 17H20', 'M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2'],
+    out:  ['M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4', 'm16 17 5-5-5-5', 'M21 12H9']
+  };
+
+  var NAV = [
+    { group: 'Account', items: [
+      { id: 'my-account',  label: 'My account',    icon: IC.user },
+      { id: 'manage-plan', label: 'Manage plan',   icon: IC.plan },
+      { id: 'billing',     label: 'Billing',       icon: IC.bill },
+      { id: 'balance',     label: 'Balance',       icon: IC.coin } ] },
+    { group: 'Support', items: [
+      { id: 'feedback',  label: 'Leave feedback', icon: IC.msg },
+      { id: 'resources', label: 'Resources',      icon: IC.book } ] }
+  ];
+
+  var PACKS = [
+    { name: 'Small',  price: '$9.99',  credits: '5,000' },
+    { name: 'Medium', price: '$19.99', credits: '12,500', popular: true },
+    { name: 'Large',  price: '$29.99', credits: '20,000' }
+  ];
+
+  var USAGE = [
+    ['Jan 29, 2026', 'Chat',    '15'], ['Jan 29, 2026', 'Report',  '20'],
+    ['Jan 5, 2026',  'Chat',    '3'],  ['Dec 5, 2025',  'Report',  '5'],
+    ['Nov 5, 2025',  'Chat',    '16'], ['Oct 5, 2025',  'Insight', '4'],
+    ['Sep 5, 2025',  'Insight', '50']
+  ];
+
+  // ── a credit pool: name, remaining, and (when measurable) a real ProgressBar
+  function Pool(p) {
+    return h('div', { className: 'pool' },
+      h('div', { className: 'pool-head' },
+        h('span', { className: 'pool-name' }, p.name),
+        h('span', { className: 'pool-left' }, p.left),
+        p.meta ? h('span', { className: 'pool-meta' }, p.meta) : null),
+      p.value == null ? null : h(D.ProgressBar, { value: p.value, 'aria-label': p.name }));
+  }
+
+  function Pack(p) {
+    return h('div', { className: 'pack', key: p.name },
+      p.popular ? h('div', { className: 'pack-ribbon' },
+        h(D.Badge, { variant: 'brand', size: 'xs' }, 'Most popular')) : null,
+      h('div', { className: 'pack-top' },
+        h('span', { className: 'pack-name' }, p.name),
+        h('span', { className: 'pack-price' }, p.price)),
+      h('div', { className: 'pack-credits' }, p.credits, h('span', null, 'credits')),
+      h(D.Button, { variant: 'secondary', size: 'sm', style: { width: '100%' } }, 'Buy'));
+  }
+
+  function Balance() {
+    return h(R.Fragment, null,
+      // hero
+      h('div', { className: 'sect' },
+        h('div', { style: { display: 'flex', alignItems: 'center', gap: '.5rem' } },
+          h('span', { className: 'sect-title' }, 'Your credit balance'),
+          h(D.Badge, { variant: 'secondary', size: 'xs' }, 'Free plan')),
+        h('div', { className: 'bal-hero' },
+          h('span', { className: 'bal-ic' }, svg(IC.wallet, 18)),
+          h('span', { className: 'bal-amount' }, '827'),
+          h('span', { className: 'sect-sub' }, 'left'),
+          h('div', { style: { marginLeft: 'auto' } },
+            h(D.Button, { variant: 'secondary', size: 'sm' }, 'Upgrade Plan'))),
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '.5rem' } },
+          h(Pool, { name: 'Subscription', left: '287 left', meta: '213 of 500 used', value: 42.6 }),
+          h(Pool, { name: 'Daily limit',  left: '18 left',  meta: '32 of 50 used',   value: 64 }),
+          h(Pool, { name: 'Purchased',    left: '540 left' }))),
+
+      // packs
+      h('div', { className: 'sect' },
+        h('span', { className: 'sect-title' }, 'Buy credits'),
+        h('span', { className: 'sect-sub' },
+          "Purchased credits never expire — they're used only after your monthly credits run out."),
+        h('div', { className: 'packs' }, PACKS.map(Pack))),
+
+      // usage — a real DS Table
+      h('div', { className: 'sect' },
+        h('span', { className: 'sect-title' }, 'Credit usage'),
+        h(D.Table, null,
+          h(D.TableHeader, null,
+            h(D.TableRow, null,
+              h(D.TableHead, null, 'Date'),
+              h(D.TableHead, null, 'Request type'),
+              h(D.TableHead, null, 'Spent credits'))),
+          h(D.TableBody, null,
+            USAGE.map(function (r, i) {
+              return h(D.TableRow, { key: i },
+                h(D.TableCell, null, r[0]),
+                h(D.TableCell, null, r[1]),
+                h(D.TableCell, null, r[2]));
+            })))));
+  }
+
+  function App() {
+    var s = R.useState('balance'), section = s[0], setSection = s[1];
+    var t = R.useState('free'), plan = t[0], setPlan = t[1];
+
+    return h(R.Fragment, null,
+      // page chrome
+      h('div', { className: 'topbar' },
+        h('span', null, 'Metrics'), h('span', null, '·'),
+        h('span', { style: { color: 'hsl(var(--ink-primary))', fontWeight: 500 } }, 'Account modal'),
+        h(D.Badge, { variant: 'success', size: 'xs' }, 'APPROVED'),
+        h('div', { className: 'topbar-right' },
+          h(D.SegmentedControl, { value: plan, onValueChange: setPlan, size: 'sm' },
+            h(D.SegmentedControlList, null,
+              ['free', 'trial', 'pro', 'limit'].map(function (v) {
+                return h(D.SegmentedControlTrigger, { key: v, value: v },
+                  { free: 'Free', trial: 'Trial', pro: 'Pro (trial)', limit: 'Limit reached' }[v]);
+              }))))),
+
+      h('div', { className: 'pg-shell' }),
+
+      // the account modal
+      h('div', { className: 'acct-overlay', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Account' },
+        h('div', { className: 'acct-modal' },
+
+          // SidebarMenuButton is the DS's own nav row (isActive paints --state-pressed),
+          // and it reads useSidebar — so the nav is wrapped in a SidebarProvider whose
+          // full-height/full-width shell is neutralised; only the menu semantics are wanted.
+          h(D.SidebarProvider, { style: { minHeight: 0, display: 'block', width: 'auto' } },
+            h('nav', { className: 'acct-modal-nav' },
+              NAV.map(function (g) {
+                return h(R.Fragment, { key: g.group },
+                  h('div', { className: 'nav-sect' }, g.group),
+                  h(D.SidebarMenu, null,
+                    g.items.map(function (it) {
+                      return h(D.SidebarMenuItem, { key: it.id },
+                        h(D.SidebarMenuButton, {
+                          isActive: section === it.id,
+                          onClick: function () { setSection(it.id); }
+                        }, svg(it.icon, 16), h('span', null, it.label)));
+                    })));
+              }),
+              h('div', { className: 'acct-nav-foot' },
+                h(D.SidebarMenu, null,
+                  h(D.SidebarMenuItem, null,
+                    h(D.SidebarMenuButton, { style: { color: 'hsl(var(--fb-red-text))' } },
+                      svg(IC.out, 16), h('span', null, 'Log out'))))))),
+
+          h('div', { className: 'acct-modal-body' },
+            h('div', { className: 'acct-header' },
+              h(D.Typography, { textStyle: 'title20', element: 'h2', style: { flex: 1 } },
+                { balance: 'Balance', 'my-account': 'My account', 'manage-plan': 'Manage plan',
+                  billing: 'Billing', feedback: 'Leave feedback', resources: 'Resources' }[section]),
+              h(D.IconButton, { variant: 'tertiary', size: 'sm', 'aria-label': 'Close' }, svg(IC.close, 16))),
+
+            h('div', { className: 'acct-content' },
+              section === 'balance'
+                ? h(Balance)
+                : h(D.StatusView, {
+                    title: 'Not in this slice',
+                    description: 'This section still lives in the original page. Balance is the section rebuilt on @devart/ui-react.'
+                  })))))
+    );
+  }
+
+  RD.createRoot(document.getElementById('root')).render(h(App));
+})();
+</script>
+</body>
+</html>
