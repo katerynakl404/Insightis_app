@@ -1625,7 +1625,7 @@
       <div>
         <label class="mx-form-label" for="mx-def-inp">Definition</label>
         <textarea class="ta" id="mx-def-inp" rows="4" maxlength="1500" placeholder="Describe how to compute this metric…" style="max-width:100%;min-height:5.5rem" oninput="var c=document.getElementById('mx-def-count');c.textContent=this.value.length+' / 1500'"></textarea>
-        <div style="text-align:right;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-inactive);margin-top:.25rem" aria-live="polite"><span id="mx-def-count">0 / 1500</span></div>
+        <div class="ta-count" aria-live="polite"><span id="mx-def-count">0 / 1500</span></div>
       </div>
 
       <!-- Link to — Connector | Provider segctrl -->

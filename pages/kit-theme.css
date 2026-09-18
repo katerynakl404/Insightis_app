@@ -933,6 +933,10 @@
   .ta.is-md{min-height:2.25rem}
   .ta.is-lg{min-height:2.5rem;padding:.5rem 1rem}
   .ta.is-xl{min-height:2.75rem;padding:.625rem 1.25rem}
+  /* Character counter — opt-in, rendered after the field. Just the two numbers: how many used of
+     how many allowed. aria-live="polite" so a screen reader hears the count change without being
+     interrupted mid-typing. Was an inline-styled div on Metrics; the treatment lives here now. */
+  .ta-count{display:block;text-align:right;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-inactive);margin-top:.25rem}
   .ta{width:100%;max-width:260px;border:1px solid var(--stroke-border);border-radius:.375rem;background:var(--surface-card);padding:.5rem .75rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary);outline:none;resize:none;font-family:inherit;transition:border-color .12s, box-shadow .12s}
   .ta::placeholder{color:var(--ink-inactive)}
   .ta:hover,.ta.s-hover{border-color:var(--field-border-hover)}

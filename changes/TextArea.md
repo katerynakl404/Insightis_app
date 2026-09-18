@@ -4,6 +4,8 @@ Baseline: [`../current/TextArea.md`](../current/TextArea.md). Diff strictly agai
 
 TextArea reuses the **form-control system** documented on [Input](Input.md) — same border / hover / focus / error / disabled tokens and the same colour values (`--border`, `--border-hover`, `--input-focus`, `--input-error`, `--state-disabled`). See Input for the full token table; only TextArea's own deviations are documented below.
 
+**Counter — 2026-09-18.** Opt-in, `.ta-count` after the field: Body 12 in `--ink-inactive`, right-aligned, 4px above, `aria-live="polite"`. The content is **just the two numbers** — how many used of how many allowed — with no unit word. It existed only as an inline-styled div on Metrics, so nothing else could reuse it and nothing recorded what it should look like.
+
 ## DOM / markup
 
 A single element — no wrapper (unlike Input's flex `.field` shell): `<textarea class="ta" rows="2" placeholder="…"></textarea>`. Default demo uses `rows="2"`. State/size modifiers are added directly on the textarea: `.is-xs` `.is-sm` `.is-md` `.is-lg` `.is-xl` (size), `.s-hover` `.s-focus` `.s-error` `.is-disabled` (state, or use native `:hover` / `:focus` / `disabled`). Error helper text is a sibling element directly below: `<div class="err-help">message</div>` (wrap textarea + helper in a `flex-direction:column` container).
