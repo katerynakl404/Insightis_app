@@ -40,10 +40,6 @@
   }
   /* Title + chevron dropdown */
   .cp-title-wrap{display:flex;align-items:center;gap:.25rem;flex:1;min-width:0;position:relative}
-  .cp-title-btn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.375rem;border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;flex:none;font-family:inherit;transition:color .12s,background .12s}
-  .cp-title-btn:hover{color:var(--ink-body);background:var(--state-hover)}
-  .cp-title-btn:active,.cp-title-btn[aria-expanded="true"]{color:var(--ink-body);background:var(--state-pressed)}
-  .cp-title-btn svg{width:var(--icon-xs);height:var(--icon-xs)}
   /* Menu anchors to the chevron (its relative wrapper), not the title start. */
   .cp-title-menu-wrap{position:relative;display:inline-flex;flex:none}
   .cp-title-menu{position:absolute;top:calc(100% + .25rem);left:0;min-width:10rem;display:none;z-index:20;box-shadow:var(--shadow-overlay-soft)}
@@ -54,7 +50,7 @@
   .cp-thread{height:100%;overflow-y:auto;display:flex;flex-direction:column;align-items:stretch;padding-bottom:2rem;scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
   .cp-thread::-webkit-scrollbar{width:10px}
   .cp-thread::-webkit-scrollbar-track{background:transparent}
-  .cp-thread::-webkit-scrollbar-thumb{background:var(--stroke-border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .cp-thread::-webkit-scrollbar-thumb{background:var(--stroke-border);border-radius:var(--radius-full);border:3px solid transparent;background-clip:padding-box}
   .cp-thread:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
   .cp-inner{max-width:960px;width:100%;padding:0 1.5rem;box-sizing:border-box;display:flex;flex-direction:column;gap:1.25rem}
 
@@ -94,9 +90,6 @@
   /* AI answers have no copy/actions — only the timestamp (copy stays on user messages). */
   .cp-msg-row.ai .cp-msg-actions{display:none}
   .cp-msg-row.ai .cp-msg-foot{justify-content:flex-start}
-  .cp-msg-action{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.25rem;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;font-family:inherit;transition:color .12s,background .12s}
-  .cp-msg-action:hover{color:var(--ink-body);background:var(--state-hover)}
-  .cp-msg-action svg{width:var(--icon-xs);height:var(--icon-xs)}
 
   /* ── Composer area ── */
   .cp-composer-area{flex:none;padding:.625rem 1.5rem 1.25rem}
@@ -109,7 +102,6 @@
      the text. Auto-grows with content; caps at 300px then scrolls. */
   .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:var(--ts-body-m-size);min-height:32px;max-height:300px;overflow-y:auto;color:var(--ink-primary);outline:none;font-family:inherit;line-height:var(--ts-body-m-lh);white-space:pre-wrap;word-break:break-word}
   .cl-prompt:empty:before{content:attr(data-placeholder);color:var(--ink-inactive);pointer-events:none}
-  .cl-prompt:hover,.cl-prompt:focus,.cl-prompt:focus-visible{border:none;box-shadow:none}
   .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
   /* Composer tools row — unified with chat-landing.html (.cl-composer-tools + .cl-dropdown set). */
   .cl-composer-tools{display:flex;align-items:center;gap:.25rem}
@@ -382,7 +374,7 @@
         <h1 class="cp-header-title">Search first 5 Jira issues with AIINS</h1>
         <!-- Chevron + its menu share a relative wrapper so the dropdown anchors to the chevron. -->
         <div class="cp-title-menu-wrap">
-          <button class="cp-title-btn" type="button" aria-label="Chat options" aria-haspopup="menu" aria-expanded="false"
+          <button class="iconbtn iconbtn-tertiary iconbtn-2xs cp-title-btn" type="button" aria-label="Chat options" aria-haspopup="menu" aria-expanded="false"
             onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="Chat options">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
@@ -410,7 +402,7 @@
               <div class="cp-bubble user">give me first 5 jira issues with prefix AIINS, no confirm needed, limit query by 5</div>
               <div class="cp-msg-foot">
                 <div class="cp-msg-actions">
-                  <button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+                  <button class="iconbtn iconbtn-tertiary iconbtn-2xs cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
                 </div>
                 <span class="cp-ts">Jul 7, 3:14 PM</span>
               </div>
@@ -579,7 +571,7 @@
                 </div><!-- /cp-ai-group B -->
                 </div><!-- /cp-ai-bubble -->
 
-                <div class="cp-msg-foot"><div class="cp-msg-actions"><button class="cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:15 PM</span></div>
+                <div class="cp-msg-foot"><div class="cp-msg-actions"><button class="iconbtn iconbtn-tertiary iconbtn-2xs cp-msg-action" type="button" aria-label="Copy" data-tip="Copy" onclick="cpCopyMsg(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></div><span class="cp-ts">Jul 7, 3:15 PM</span></div>
               </div>
             </div>
 

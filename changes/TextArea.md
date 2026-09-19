@@ -48,6 +48,10 @@ Horizontal padding climbs the **same 4px ladder** as Button, Input and Selector 
 | Error | ⚠ undefined | — | **new** — 1 px solid `--input-error` border (theme-adaptive: light `red-700 #B91C1C` / dark `red-500 #EF4444`), red helper text below; no bg tint | matches [Input](Input.md) error; theme-adaptive so dark-mode text reaches AA (4.5 : 1). Pairs colour with text → WCAG 1.4.1 |
 | Disabled | opacity 50% | — | bg `State/Disabled`, text `Text/Inactive`, `cursor:not-allowed` | replaces opacity with a real disabled fill — matches [Input](Input.md) |
 
+## Not a TextArea
+
+The chat composer prompt is **not** an instance of this component. It is chromeless — the `.cl-composer` card around it owns the border, the surface and the hover/focus affordance — so it carries `.cl-prompt` alone. It used to carry `class="ta cl-prompt"` and then switch off every declaration it had just inherited, including a rule to suppress this component's hover and focus borders (removed 2026-09-19). The other two composer pages already ran it as a plain `contenteditable` div.
+
 ## No change (—)
 
 Radius `md 6 px`, padding 8 px, multiline, `resize:none`, auto-grow.

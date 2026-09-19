@@ -629,7 +629,7 @@
         var nameEl = row.querySelector('.chat-row-name');
         var input = document.createElement('input');
         input.type='text'; input.value=item.name; input.className='ta';
-        input.style.cssText='font:inherit;font-size:.875rem;color:var(--ink-primary);background:var(--surface-card);border:1px solid var(--input-focus);border-radius:.25rem;padding:0 .375rem;height:1.5rem;width:100%;outline:none';
+        input.style.cssText='font:inherit;font-size:var(--ts-body-m-size);color:var(--ink-primary);background:var(--surface-card);border:1px solid var(--input-focus);border-radius:.25rem;padding:0 .375rem;height:1.5rem;width:100%;outline:none';
         nameEl.textContent=''; nameEl.appendChild(input); input.focus(); input.select();
         function commit(){ item.name = (input.value.trim() || item.name); clRenderChats(); }
         input.addEventListener('keydown', function(ev){ if (ev.key==='Enter') commit(); else if (ev.key==='Escape') clRenderChats(); });
@@ -806,7 +806,7 @@ document.addEventListener('click', function(e){
       </button>
     </div>
     <div class="dlg-content is-stack">
-      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
+      <p style="margin:0;font-size:var(--ts-body-m-size);color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
       <div class="field" style="max-width:none"><input id="sbc-ren-input" type="text" placeholder="Chat name" autocomplete="off" aria-label="Chat name" onkeydown="if(event.key==='Enter')sbcSaveRename()"></div>
     </div>
     <div class="dlg-ftr">
@@ -824,7 +824,7 @@ document.addEventListener('click', function(e){
       </button>
     </div>
     <div class="dlg-content">
-      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
+      <p style="margin:0;font-size:var(--ts-body-m-size);color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
     </div>
     <div class="dlg-ftr">
       <button class="btn btn-secondary btn-sm" type="button" onclick="sbcCloseDelete()">Cancel</button>

@@ -515,7 +515,7 @@
          and the label is 14px on sm through xl. 16 next to 14px text keeps the weight on the words;
          18 there would make the glyph outweigh its own label on md — the most-used step in the
          product. Reviewed and accepted 2026-09-19 with the alternative (md → 18) on the table. */
-    --icon-xs:14px; --icon-sm:16px; --icon-md:16px; --icon-lg:20px; --icon-xl:24px;
+    --icon-xs:14px; --icon-sm:16px; --icon-md:16px; --icon-lg:20px; --icon-xl:20px;
   }
 
   /* =========================================================================
@@ -806,7 +806,7 @@
   .btn-sm{height:2rem;padding:0 .75rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh)}
   .btn-md{height:2.25rem;padding:0 .75rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh)}
   .btn-lg{height:2.5rem;padding:0 .75rem;font-size:var(--ts-label-xl-size);line-height:var(--ts-label-xl-lh)}
-  .btn-xl{height:2.75rem;padding:0 .75rem;font-size:var(--ts-label-2xl-size);line-height:var(--ts-label-2xl-lh)}
+  .btn-xl{height:2.75rem;padding:0 .75rem;font-size:var(--ts-label-xl-size);line-height:var(--ts-label-xl-lh)}
   /* Icon sizing — the shared ICON SCALE, so markup never hand-sizes an icon and a button lines up
      with a field of the same size. */
   .btn svg{width:var(--icon-md);height:var(--icon-md);flex:none}
@@ -1073,14 +1073,14 @@
   .field.is-lg{height:2.5rem}
   .field.is-lg input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
   .field.is-xl{height:2.75rem}
-  .field.is-xl input{font-size:var(--ts-body-xl-size);line-height:var(--ts-body-xl-lh)}
+  .field.is-xl input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
   /* TextArea size variants — height becomes a min-height so the resize handle still works.
      Padding scales with the visual weight; font size matches .field at the same step. */
   .ta.is-xs{min-height:1.75rem;padding:.25rem .5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh)}
   .ta.is-sm{min-height:2rem;padding:.375rem .75rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   .ta.is-md{min-height:2.25rem}
   .ta.is-lg{min-height:2.5rem;padding:.5rem .75rem;font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
-  .ta.is-xl{min-height:2.75rem;padding:.625rem .75rem;font-size:var(--ts-body-xl-size);line-height:var(--ts-body-xl-lh)}
+  .ta.is-xl{min-height:2.75rem;padding:.625rem .75rem;font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
   /* Character counter — opt-in, rendered after the field. Just the two numbers: how many used of
      how many allowed. aria-live="polite" so a screen reader hears the count change without being
      interrupted mid-typing. Was an inline-styled div on Metrics; the treatment lives here now. */
@@ -2482,7 +2482,7 @@
      plateau. sm·md still share 14 — that plateau is the deliberate one. */
   .igrp.is-xs .igrp-input{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);padding-left:4px}
   .igrp.is-lg .igrp-input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
-  .igrp.is-xl .igrp-input{font-size:var(--ts-body-xl-size);line-height:var(--ts-body-xl-lh)}
+  .igrp.is-xl .igrp-input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
   .igrp.is-xs .igrp-add{padding:0 0 0 8px}
   .igrp.is-lg .igrp-add,.igrp.is-xl .igrp-add{padding:0 0 0 12px}
   .igrp.is-xs .igrp-add svg,.igrp.is-xs .igrp-act svg{width:var(--icon-xs);height:var(--icon-xs)}
@@ -3234,6 +3234,10 @@
      --brand-primary stays Brand-500 on dark and read as a flat green against the row. */
   .chat-row.is-preview .chat-row-name,.dsf-tbl tbody tr.is-preview .dsft-fname{color:var(--ink-highlight)}
   table.dsf-tbl tbody tr.is-preview td{background:var(--tbl-row-pressed)}
+  /* The card the files table sits in. Lifted out of data-sources_files-landing.html (2026-09-19)
+     together with its own mobile override below — the class was split across two files, so the
+     storybook rendered the table without its card. Base must stay above the @media block. */
+  .dsf-tbl-wrap{border:1px solid var(--stroke-border);border-radius:.5rem;background:var(--surface-card)}
   /* Active/press — subtle 1% inward scale + we also calm the hover shadow back to its rest value
      so press doesn't stack depth on top of hover (the combination read as "too contrasted"). The
      bg/border stay at their hover values — single source of feedback there; press contributes
@@ -3302,6 +3306,13 @@
      container, not a brand-affordance, so it follows the same neutral-surface rule as .chip/.card2.
      AI turn: whole response sits in one neutral --surface-card surface (.cp-ai-bubble); nested chart/metric
      cards use --surface-page so they read as cards-on-top-of-the-bubble. */
+  /* Chat-title kebab — a kit IconButton (.iconbtn.iconbtn-tertiary.iconbtn-2xs) outright; size,
+     rest/hover/press and the glyph box all come from there. Only the held-open state is left to
+     declare, because the generic [data-kbp] kebab contract cannot be reused here: it starts at
+     opacity:0 and reveals on row hover, and this trigger sits in a page title, not a row.
+     Same recipe as that contract, so every open menu trigger in the kit holds one surface.
+     Both chat pages stopped re-declaring a 24px button of their own here (2026-09-19). */
+  .cp-title-btn[aria-expanded="true"]{background:var(--state-pressed);color:var(--ink-primary)}
   /* Timestamp+actions footer sits close under the bubble it belongs to — not a full message-gap away. */
   .cp-msg-row{display:flex;flex-direction:column;gap:.25rem;position:relative}
   .cp-msg-row.user{align-items:flex-end}

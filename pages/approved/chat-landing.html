@@ -62,8 +62,6 @@
   /* Prompt textarea — padding 4px 8px per design spec. Filled text uses the kit's .field input font scale (14px, ink) for consistency with any Input across the system. */
   .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:var(--ts-body-m-size);min-height:32px;resize:none;color:var(--ink-primary);outline:none;font-family:inherit;line-height:var(--ts-body-m-lh)}
   .cl-prompt::placeholder{color:var(--ink-inactive)}
-  /* Suppress the kit's .ta default hover/focus border swap — the parent composer carries the state instead */
-  .cl-prompt:hover,.cl-prompt:focus,.cl-prompt:focus-visible{border:none;box-shadow:none}
   .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
   .cl-composer-tools{display:flex;align-items:center;gap:.25rem}
   /* Composer trigger buttons (.cl-attach / .cl-dropdown), menu anchoring (.cl-dropdown-wrap /
@@ -497,7 +495,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
-        <textarea class="ta cl-prompt" rows="2" placeholder="Ask anything about your data…" oninput="clOnInput(this)"></textarea>
+        <textarea class="cl-prompt" rows="2" placeholder="Ask anything about your data…" oninput="clOnInput(this)"></textarea>
         <div class="cl-composer-foot">
           <div class="cl-composer-tools">
             <div class="cl-dropdown-wrap">
@@ -990,7 +988,7 @@ document.addEventListener('click', function(e){
       </button>
     </div>
     <div class="dlg-content is-stack">
-      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
+      <p style="margin:0;font-size:var(--ts-body-m-size);color:var(--ink-secondary);line-height:1.55">Give your chat a special name</p>
       <div class="field" style="max-width:none"><input id="sbc-ren-input" type="text" placeholder="Chat name" autocomplete="off" aria-label="Chat name" onkeydown="if(event.key==='Enter')sbcSaveRename()"></div>
     </div>
     <div class="dlg-ftr">
@@ -1008,7 +1006,7 @@ document.addEventListener('click', function(e){
       </button>
     </div>
     <div class="dlg-content">
-      <p style="margin:0;font-size:.875rem;color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
+      <p style="margin:0;font-size:var(--ts-body-m-size);color:var(--ink-secondary);line-height:1.55">This action can't be undone. The chat will be permanently removed.</p>
     </div>
     <div class="dlg-ftr">
       <button class="btn btn-secondary btn-sm" type="button" onclick="sbcCloseDelete()">Cancel</button>
