@@ -2299,6 +2299,21 @@
   table.tbl{width:100%;border-collapse:collapse;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   table.tbl th{text-align:left;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);color:var(--ink-secondary);padding:.625rem 1rem;border-bottom:1px solid var(--stroke-border)}
   table.tbl td{padding:.625rem 1rem;border-bottom:1px solid var(--stroke-border);color:var(--ink-body)}
+  /* Nested row — a row that BELONGS to the row above it (a metric under its
+     provider, a schema under its connection). 8px instead of 10px, and that is
+     the only difference: a child row set at the same height as its parent
+     reads as its sibling, and the tighter rhythm is what says it is not.
+     Anything louder — a tint, a smaller type size — makes a child look like a
+     different KIND of object rather than the same object one level down.
+
+     This lived as a local override on the metrics table (.mx-metric-child),
+     which meant every other place that nests rows either invented its own
+     number or did not tighten at all. It is a rule of the table.
+     Horizontal padding does not change; the first cell's indent stays with
+     whoever owns the parent row, because how far in a child sits depends on
+     what is in the parent's first cell. Mirrors the TableRow "nested" prop in
+     @devart/ui-react. */
+  table.tbl tbody tr[data-nested] td{padding:.5rem 1rem}
   /* Row hover — --tbl-row-hover, the smallest step on the overlay ladder (3%), so it stays below the selected row in contrast in both themes. .s-hover mirrors :hover for storybook simulation */
   table.tbl tbody tr:hover td,table.tbl tbody tr.s-hover td{background:var(--tbl-row-hover)}
   /* A row whose own kebab menu is open holds the SAME hover step — the pointer is down in the
@@ -2331,10 +2346,16 @@
   table.tbl tbody tr{transition:background .1s}
 
   /* ===== Shared table cell atoms (lifted from the Files page 2026-07-09 so any table can reuse them) ===== */
-  /* File-type icon — coloured rounded square + uppercase extension label. Colour flows through
+  /* File-type icon — coloured rounded mark + uppercase extension label. Colour flows through
      --mark-bg (per file type); keep the .type-* map as the single source. NOTE: prefix kept as
-     .dsf-file-ic during the lift to avoid a consumer rename; it is now a shared kit atom. */
-  .dsf-file-ic{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;font-size:var(--ts-overline-size);line-height:var(--ts-overline-lh);font-weight:var(--ts-overline-weight);flex:none;letter-spacing:var(--ts-overline-track);text-transform:uppercase;color:var(--content-on-solid);background:var(--mark-bg,var(--brand-tertiary))}
+     .dsf-file-ic during the lift to avoid a consumer rename; it is now a shared kit atom.
+     Height is 24px — the same step the Connections table gives its connector logo
+     (.ds-conn-cell-name .logo-spr), so both tables land on one 45px row instead of 45 and 53.
+     It was a 32px square, which made it the tallest thing in the row and set the row height
+     by itself (2026-09-20). Width tracks the label rather than the height: at the 10px overline
+     step a four-letter extension needs ~28px, so a 24px square would clip XLSX — min-width keeps
+     the three-letter marks reading as squares. */
+  .dsf-file-ic{min-width:1.5rem;height:1.5rem;padding:0 .125rem;box-sizing:border-box;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;font-size:var(--ts-overline-size);line-height:var(--ts-overline-lh);font-weight:var(--ts-overline-weight);flex:none;letter-spacing:var(--ts-overline-track);text-transform:uppercase;color:var(--content-on-solid);background:var(--mark-bg,var(--brand-tertiary))}
   .dsf-file-ic.type-csv{--mark-bg:var(--brand-tertiary)}
   .dsf-file-ic.type-xls{--mark-bg:var(--fb-green)}
   .dsf-file-ic.type-xlsx{--mark-bg:var(--fb-green)}
@@ -3721,9 +3742,11 @@
   tr.mx-prov-group.is-collapsed .mx-prov-collapse-btn svg{transform:rotate(-90deg)}
 
   /* ── Metric child rows ── */
-  /* Fixed row height so every metric row is identical regardless of content
-     (vertical-align:middle on the cells centres the contents). */
-  .mx-metric-child td{padding:.5rem 1rem;height:2.875rem;box-sizing:border-box}
+  /* The 8px comes from tr[data-nested] above, not from here — these rows carry
+     the attribute. What stays local is the fixed row height, so every metric
+     row is identical regardless of content (vertical-align:middle on the cells
+     centres the contents). */
+  .mx-metric-child td{height:2.875rem;box-sizing:border-box}
   /* Indent the toggle so its left edge lines up with the shared --mx-prov-indent
      line. The first colgroup col is widened to 4.25rem to hold the shifted toggle. */
   .mx-metric-child td:first-child{padding-left:var(--mx-prov-indent)}

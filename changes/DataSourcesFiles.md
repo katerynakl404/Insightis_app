@@ -23,7 +23,7 @@
 | **File rows — kebab button** | Not present | The shared **row kebab** — see [IconButton](IconButton.md) and the "Row kebab — ONE component" block in `kit-theme.css`. Hidden at rest, revealed on row hover / keyboard focus / open menu; one open at a time. **Changed 2026-09-19:** was `.chat-row-more` plus a page `<style>` copy of the reveal, which made this kebab a different size and hover colour from the Metrics and Connections ones. | identical to every other row kebab — nothing page-local left |
 | **Table card (`.dsf-tbl-wrap`)** | Table sits flat on the page | The table sits in a card — border, radius, `--surface-card` fill. **Changed 2026-09-19:** the class was split across two files (base in the page `<style>`, mobile override already in `kit-theme.css`), so the storybook rendered the table without its card and faked one with inline styles. Base moved to `kit-theme.css` beside its own mobile block; the page keeps only `.cl-shell.has-preview .dsf-tbl-wrap{overflow-x:auto}`, which is shell layout, not the component. | one owner |
 | **Context menu** | Not present | `.menu.kbp-menu` anchored to kebab button: Download (with download icon) · Delete (with trash icon, `.danger` class → `--fb-red-text`) | Reuses `.menu`/`.mi`/`.danger` from kit-theme.css |
-| **File type icon** | Colored square + extension text | `.dsf-file-ic` colored square: `.type-csv` → `--brand-tertiary`; `.type-xls`/`.type-xlsx` → `--fb-green`; all via `--mark-bg` custom property | Token-based; follows the connector-mark pattern from the Connections tab |
+| **File type icon** | Colored square + extension text | `.dsf-file-ic` coloured mark: `.type-csv` → `--brand-tertiary`; `.type-xls`/`.type-xlsx` → `--fb-green`; all via `--mark-bg` custom property. **Changed 2026-09-20:** it was a 32px square, which made it the tallest thing in the row and set the row height by itself — Files rows stood 53px against Connections' 45px. Height now matches the step the Connections table gives its connector logo, so the two tables share one row height. Width follows the label instead of the height: at the 10px overline step a four-letter extension does not fit a 24px square, so `XLS` stays square and `XLSX` runs a little wide. | Token-based; follows the connector-mark pattern from the Connections tab, now at its size too |
 | **Typography** | Ad-hoc sizes | All text via existing type-scale classes and tokens (`--ink`, `--ink-secondary`) at fixed sizes `1rem`/`.8125rem`/`.5625rem` (see reproduction spec for exact per-element sizes) | Token-enforced colours, fixed type-scale sizes |
 
 ---
@@ -55,8 +55,8 @@
 
 ### File type icon `.dsf-file-ic`
 
-- `width:2rem; height:2rem; border-radius:.375rem; display:inline-flex; align-items:center; justify-content:center`.
-- `font-size:.5625rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; flex:none`.
+- `min-width:1.5rem; height:1.5rem; padding:0 .125rem; box-sizing:border-box; border-radius:.375rem; display:inline-flex; align-items:center; justify-content:center`.
+- `font-size:var(--ts-overline-size); line-height:var(--ts-overline-lh); font-weight:var(--ts-overline-weight); letter-spacing:var(--ts-overline-track); text-transform:uppercase; flex:none`.
 - `color:var(--content-on-solid); background:var(--mark-bg, var(--brand-tertiary))`.
 - Type modifiers set `--mark-bg`: `.type-csv → var(--brand-tertiary)`; `.type-xls` and `.type-xlsx → var(--fb-green)`.
 - Content is the uppercased extension text (e.g. `CSV`), `aria-hidden="true"`.

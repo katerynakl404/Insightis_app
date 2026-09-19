@@ -1267,7 +1267,7 @@
             </tbody>
           </table>
         </div>
-        <div style="padding:.5rem .7rem"><div class="cspec">Base <code>table.tbl</code> + a checkbox column (<code>.cbx</code>), a file-type square, a source <code>.badge</code>, a sortable <b>Modified</b> header and a kebab. Header checkbox drives select-all; a selected row (first) reads <code>--tbl-row-pressed</code>. The file-type icon (<code>.dsf-file-ic</code>: 2rem square, <code>--fb-green</code> for xls/xlsx, <code>--brand-tertiary</code> for csv, colour via <code>--mark-bg</code>) and the sort-header button (<code>.dsft-sortbtn</code>, chevron flips on <code>th[aria-sort]</code>) now live in <code>kit-theme.css</code> as shared table atoms. Full spec: <a class="lnk" href="page-changes/data-sources_files-landing.md" style="color:var(--brand-primary)">page-changes/data-sources_files-landing.md</a>.</div></div>
+        <div style="padding:.5rem .7rem"><div class="cspec">Base <code>table.tbl</code> + a checkbox column (<code>.cbx</code>), a file-type mark, a source <code>.badge</code>, a sortable <b>Modified</b> header and a kebab. Header checkbox drives select-all; a selected row (first) reads <code>--tbl-row-pressed</code>. The file-type icon (<code>.dsf-file-ic</code>: 2rem square, <code>--fb-green</code> for xls/xlsx, <code>--brand-tertiary</code> for csv, colour via <code>--mark-bg</code>) and the sort-header button (<code>.dsft-sortbtn</code>, chevron flips on <code>th[aria-sort]</code>) now live in <code>kit-theme.css</code> as shared table atoms. Full spec: <a class="lnk" href="page-changes/data-sources_files-landing.md" style="color:var(--brand-primary)">page-changes/data-sources_files-landing.md</a>.</div></div>
       </div></div>
       <div class="block" id="tbl-connections"><div class="block-h">Connections table (.ds-conn-tbl) — Data Sources → Connections</div><div class="block-b" style="padding:0;overflow-x:auto">
         <div class="ds-conn-tbl mx-tbl" style="min-width:680px">
@@ -1312,7 +1312,7 @@
                 </div></td>
               </tr>
               <!-- Custom metric (rest) -->
-              <tr class="mx-metric-child">
+              <tr class="mx-metric-child" data-nested>
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="MRR growth active"></button></div></td>
                 <td class="mx-tbl-name">MRR growth</td>
                 <td class="mx-tbl-alias">@mrr_growth</td>
@@ -1321,7 +1321,7 @@
                 <td class="mx-tbl-actions"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button></td>
               </tr>
               <!-- Built-in metric (rest) -->
-              <tr class="mx-metric-child">
+              <tr class="mx-metric-child" data-nested>
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues created active"></button></div></td>
                 <td class="mx-tbl-name">Issues created</td>
                 <td class="mx-tbl-alias">@issues_created</td>
@@ -1330,7 +1330,7 @@
                 <td class="mx-tbl-actions"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button></td>
               </tr>
               <!-- Built-in metric — inactive toggle -->
-              <tr class="mx-metric-child">
+              <tr class="mx-metric-child" data-nested>
                 <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Issues resolved inactive"></button></div></td>
                 <td class="mx-tbl-name">Issues resolved</td>
                 <td class="mx-tbl-alias">@issues_resolved</td>
@@ -1406,7 +1406,7 @@
                   <span class="mx-conn-sub-label-text">Skyvia Jira</span>
                 </div></td>
               </tr>
-              <tr class="mx-metric-child">
+              <tr class="mx-metric-child" data-nested>
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Jira ticket sync lag active"></button></div></td>
                 <td class="mx-tbl-name">Jira ticket sync lag</td>
                 <td class="mx-tbl-alias">@jira_sync_lag</td>

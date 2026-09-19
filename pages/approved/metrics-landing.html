@@ -1263,7 +1263,7 @@
                 </div></td>
               </tr>
               <!-- Custom metrics first -->
-              <tr class="mx-metric-child" data-prov="jira" data-name="MRR growth" data-alias="@mrr_growth" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Custom formula" data-desc="Month-over-month growth rate of MRR derived from Jira billing data. Calculated as (MRR this month − MRR last month) ÷ MRR last month × 100. Positive values indicate revenue expansion; negative values signal churn or contraction." data-custom="true" data-active="true" data-row-id="custom-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="jira" data-name="MRR growth" data-alias="@mrr_growth" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Custom formula" data-desc="Month-over-month growth rate of MRR derived from Jira billing data. Calculated as (MRR this month − MRR last month) ÷ MRR last month × 100. Positive values indicate revenue expansion; negative values signal churn or contraction." data-custom="true" data-active="true" data-row-id="custom-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="MRR growth — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">MRR growth</td>
                 <td class="mx-tbl-alias">@mrr_growth</td>
@@ -1279,7 +1279,7 @@
                 </td>
               </tr>
               <!-- Built-in metrics -->
-              <tr class="mx-metric-child" data-prov="jira" data-name="Issues created" data-alias="@issues_created" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues created in the selected period. Includes all issue types: bugs, tasks, stories, and epics. Does not filter by status or assignee." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="jira" data-name="Issues created" data-alias="@issues_created" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues created in the selected period. Includes all issue types: bugs, tasks, stories, and epics. Does not filter by status or assignee." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues created — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues created</td>
                 <td class="mx-tbl-alias">@issues_created</td>
@@ -1292,7 +1292,7 @@
                   </div></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="jira" data-name="Issues resolved" data-alias="@issues_resolved" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues resolved (closed) in the selected period. An issue counts as resolved when its status transitions to Done or a custom closed state. Reopened issues are not subtracted from the total." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="jira" data-name="Issues resolved" data-alias="@issues_resolved" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues resolved (closed) in the selected period. An issue counts as resolved when its status transitions to Done or a custom closed state. Reopened issues are not subtracted from the total." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Issues resolved — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues resolved</td>
                 <td class="mx-tbl-alias">@issues_resolved</td>
@@ -1305,7 +1305,7 @@
                   </div></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="jira" data-name="Sprint velocity" data-alias="@sprint_velocity" data-provider="Jira Software Cloud" data-type="Average" data-desc="Average number of story points completed per sprint. Calculated across all sprints that ended within the selected period. Only counts points from issues in Done status at sprint close." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="jira" data-name="Sprint velocity" data-alias="@sprint_velocity" data-provider="Jira Software Cloud" data-type="Average" data-desc="Average number of story points completed per sprint. Calculated across all sprints that ended within the selected period. Only counts points from issues in Done status at sprint close." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Sprint velocity — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Sprint velocity</td>
                 <td class="mx-tbl-alias">@sprint_velocity</td>
@@ -1318,7 +1318,7 @@
                   </div></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="jira" data-name="Bug count" data-alias="@bug_count" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of open bugs at the end of the selected period. Counts issues with issue type Bug that have not been resolved. Provides a snapshot of backlog health at the period boundary." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="jira" data-name="Bug count" data-alias="@bug_count" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of open bugs at the end of the selected period. Counts issues with issue type Bug that have not been resolved. Provides a snapshot of backlog health at the period boundary." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Bug count — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Bug count</td>
                 <td class="mx-tbl-alias">@bug_count</td>
@@ -1331,7 +1331,7 @@
                   </div></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="jira" data-name="Story points completed" data-alias="@story_pts_completed" data-provider="Jira Software Cloud" data-type="Sum" data-desc="Total story points completed across all sprints in the selected period. Counts only issues in Done status at sprint close. Use alongside Sprint velocity to compare team throughput over time." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="jira" data-name="Story points completed" data-alias="@story_pts_completed" data-provider="Jira Software Cloud" data-type="Sum" data-desc="Total story points completed across all sprints in the selected period. Counts only issues in Done status at sprint close. Use alongside Sprint velocity to compare team throughput over time." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Story points completed — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Story points completed</td>
                 <td class="mx-tbl-alias">@story_pts_completed</td>
@@ -1352,7 +1352,7 @@
                   <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
-              <tr class="mx-metric-child" data-prov="jira" data-conn="Skyvia Jira" data-name="Jira ticket sync lag" data-alias="@jira_sync_lag" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Average" data-desc="Average delay (in minutes) between a Jira issue update and its appearance in Insightis. Measured via Skyvia Jira connector sync timestamps. Spikes indicate connector throttling or API rate-limit events." data-custom="true" data-active="true" data-row-id="custom-skyvia-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="jira" data-conn="Skyvia Jira" data-name="Jira ticket sync lag" data-alias="@jira_sync_lag" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Average" data-desc="Average delay (in minutes) between a Jira issue update and its appearance in Insightis. Measured via Skyvia Jira connector sync timestamps. Spikes indicate connector throttling or API rate-limit events." data-custom="true" data-active="true" data-row-id="custom-skyvia-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Jira ticket sync lag — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Jira ticket sync lag</td>
                 <td class="mx-tbl-alias">@jira_sync_lag</td>
@@ -1397,7 +1397,7 @@
                   <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="github" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests opened — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Pull requests opened</td>
                 <td class="mx-tbl-alias">@prs_opened</td>
@@ -1408,7 +1408,7 @@
                   <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Pull requests merged" data-alias="@prs_merged" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests merged into the main branch in the selected period. Only counts merges into the repository's default branch. PRs closed without merging are not included." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="github" data-name="Pull requests merged" data-alias="@prs_merged" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests merged into the main branch in the selected period. Only counts merges into the repository's default branch. PRs closed without merging are not included." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Pull requests merged — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Pull requests merged</td>
                 <td class="mx-tbl-alias">@prs_merged</td>
@@ -1419,7 +1419,7 @@
                   <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Commits per day" data-alias="@commits_per_day" data-provider="GitHub" data-type="Average" data-desc="Average number of commits pushed per calendar day in the selected period. Counts commits across all branches; merge commits are included. Weekends and holidays are not excluded from the daily average." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="github" data-name="Commits per day" data-alias="@commits_per_day" data-provider="GitHub" data-type="Average" data-desc="Average number of commits pushed per calendar day in the selected period. Counts commits across all branches; merge commits are included. Weekends and holidays are not excluded from the daily average." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Commits per day — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Commits per day</td>
                 <td class="mx-tbl-alias">@commits_per_day</td>
@@ -1430,7 +1430,7 @@
                   <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Code review time" data-alias="@code_review_time" data-provider="GitHub" data-type="Duration" data-desc="Average time from pull request creation to first review comment. Measured in hours across all PRs that received at least one review in the selected period. PRs with no review comments are excluded from the calculation." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="github" data-name="Code review time" data-alias="@code_review_time" data-provider="GitHub" data-type="Duration" data-desc="Average time from pull request creation to first review comment. Measured in hours across all PRs that received at least one review in the selected period. PRs with no review comments are excluded from the calculation." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap is-on"><button class="swt on" type="button" role="switch" aria-checked="true" aria-label="Code review time — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Code review time</td>
                 <td class="mx-tbl-alias">@code_review_time</td>
@@ -1441,7 +1441,7 @@
                   <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div></div>
                 </td>
               </tr>
-              <tr class="mx-metric-child" data-prov="github" data-name="Issues closed" data-alias="@issues_closed" data-provider="GitHub" data-type="Count" data-desc="Number of GitHub issues closed in the selected period. Counts issues whose state changed to closed, including those auto-closed by a linked pull request. Issues that were reopened and closed again within the same period are counted once." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
+              <tr class="mx-metric-child" data-nested data-prov="github" data-name="Issues closed" data-alias="@issues_closed" data-provider="GitHub" data-type="Count" data-desc="Number of GitHub issues closed in the selected period. Counts issues whose state changed to closed, including those auto-closed by a linked pull request. Issues that were reopened and closed again within the same period are counted once." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
                 <td><div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="Issues closed — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div></td>
                 <td class="mx-tbl-name">Issues closed</td>
                 <td class="mx-tbl-alias">@issues_closed</td>
@@ -2246,6 +2246,8 @@ function mxConfirmAdd() {
   /* New 7-col flat table row */
   var tr = document.createElement('tr');
   tr.className = 'mx-metric-child';
+  /* The 8px nested-row padding comes from tr[data-nested] in kit-theme.css. */
+  tr.setAttribute('data-nested', '');
   tr.setAttribute('data-name', name);
   tr.setAttribute('data-alias', aliasVal || '');
   tr.setAttribute('data-provider', connector || 'Custom');
@@ -2306,6 +2308,8 @@ function mxMakeDuplicateRow(sourceRow) {
   var swtHtml   = '<div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="'+mxEsc(name)+' — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div>';
   var tr = document.createElement('tr');
   tr.className = 'mx-metric-child';
+  /* The 8px nested-row padding comes from tr[data-nested] in kit-theme.css. */
+  tr.setAttribute('data-nested', '');
   tr.setAttribute('data-name', name);
   tr.setAttribute('data-alias', aliasVal);
   tr.setAttribute('data-provider', provider);
