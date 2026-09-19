@@ -37,3 +37,9 @@ Item padding 8/12 px, text-sm, active underline height 2 px, underline border-ra
 ## Token map used
 
 `--ink-highlight` (active text + underline — resolves to `--brand-primary` light / `--tertiary-400` dark) · `--ink-secondary` (default text) · `--ink-body` (hover text) · `--state-hover` (hover bg) · `--focus-ring` (focus ring) · `--card` (focus-ring gap colour) · `--opacity-disabled` (disabled opacity). All resolve correctly in both themes via existing semantic aliases. No new tokens introduced.
+
+## `.tabset.var-flush` — flush variation (added 2026-09-19)
+
+`.tabset` draws its own bottom hairline. When the tabset shares a row with other controls (DS Connections: tabs left, filters right) the row draws that hairline for the whole width, and the two rules stacked into a visible 2px edge. The page was cancelling it with `.dsf-tabrow .tabset{border-bottom:none}` — a page restyling a kit component. `.var-flush` makes that an explicit component variation instead: same tabset, no bottom rule, opted in from markup. Page CSS keeps only `flex:1`.
+
+**Why a variation, not a page rule:** the next page that lays tabs beside controls hits the identical 2px edge. One class, declared once, and the storybook shows the case.

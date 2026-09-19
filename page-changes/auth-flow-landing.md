@@ -10,7 +10,7 @@ password-creation flow.
 ## Build
 
 - **`../../kit-theme.css`** — the kit is the design system (dark tokens via `<html class="dark">`).
-  Controls are kit components: `.btn .btn-primary` / `.btn .btn-outline`, `.igrp .var-outline .is-xl`
+  Controls are kit components: `.btn .btn-primary` / `.btn .btn-outline`, `.igrp .is-xl` (card surface is the default)
   (icon inputs), `.cbx` (Terms). No `kit-theme.css` changes — everything composes.
 - **`auth-concept.css`** — page-layout only (`.au-*`): the pre-auth card/shell, header switcher,
   password-requirements list, status blocks (StatusView icon-circle recipe). Restyles no kit component.

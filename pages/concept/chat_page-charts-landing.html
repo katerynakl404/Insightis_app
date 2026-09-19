@@ -19,7 +19,7 @@
   /* Sidebar column */
   .cl-side{width:16rem;flex:none;background:var(--surface-card);border-right:1px solid var(--stroke-border);height:100%;overflow:hidden;display:flex;flex-direction:column;transition:width .2s ease}
   .cl-shell:has(.sbx.is-collapsed) .cl-side{width:var(--sbx-collapsed-w)}
-  .cl-side .sbx{width:100%;height:auto;border:none;border-radius:0;flex:1 1 0;min-height:0}
+  .cl-side .sbx{height:auto;flex:1 1 0;min-height:0}
   .cl-side .sbx-head{padding-top:8px}
 
   /* Current/Expected swap removed — only Expected remains. */
@@ -43,10 +43,10 @@
   .cp-title-btn{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.375rem;border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;flex:none;font-family:inherit;transition:color .12s,background .12s}
   .cp-title-btn:hover{color:var(--ink-body);background:var(--state-hover)}
   .cp-title-btn:active,.cp-title-btn[aria-expanded="true"]{color:var(--ink-body);background:var(--state-pressed)}
-  .cp-title-btn svg{width:14px;height:14px}
+  .cp-title-btn svg{width:var(--icon-xs);height:var(--icon-xs)}
   /* Menu anchors to the chevron (its relative wrapper), not the title start. */
   .cp-title-menu-wrap{position:relative;display:inline-flex;flex:none}
-  .cp-title-menu{position:absolute;top:calc(100% + .25rem);left:0;min-width:10rem;display:none;z-index:20;box-shadow:0 8px 16px -4px rgba(15,23,42,.12),0 2px 4px 0 rgba(15,23,42,.06)}
+  .cp-title-menu{position:absolute;top:calc(100% + .25rem);left:0;min-width:10rem;display:none;z-index:20;box-shadow:var(--shadow-overlay-soft)}
   .cp-title-wrap:has([aria-expanded="true"]) .cp-title-menu{display:block}
 
   /* ── Thread ── */
@@ -96,7 +96,7 @@
   .cp-msg-row.ai .cp-msg-foot{justify-content:flex-start}
   .cp-msg-action{display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.25rem;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;font-family:inherit;transition:color .12s,background .12s}
   .cp-msg-action:hover{color:var(--ink-body);background:var(--state-hover)}
-  .cp-msg-action svg{width:14px;height:14px}
+  .cp-msg-action svg{width:var(--icon-xs);height:var(--icon-xs)}
 
   /* ── Composer area ── */
   .cp-composer-area{flex:none;padding:.625rem 1.5rem 1.25rem}
@@ -118,7 +118,7 @@
      pages/kit-theme.css (storybook #composer-menus). Page <style> keeps only layout glue below. */
   /* Radius is concentric with the composer: outer 1rem − .5rem padding = .5rem inner. */
   .cl-send{height:2rem;padding:0 .75rem;gap:.375rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);border-radius:.5rem}
-  .cl-send svg{width:14px;height:14px}
+  .cl-send svg{width:var(--icon-xs);height:var(--icon-xs)}
   /* Send button — always shows active styling even with disabled attr (visual continuity) */
   .cl-send[disabled]{background:var(--brand-primary);color:var(--content-on-solid);border-color:transparent;opacity:1;pointer-events:none}
 
@@ -210,7 +210,7 @@
   <!-- ===== SIDEBAR — verbatim from chat-landing.html; active chat updated for this screen ===== -->
   <aside class="cl-side">
 
-    <div class="sbx">
+    <div class="sbx var-embedded">
         <div class="sbx-head">
           <div class="sbx-brand">
             <div class="sbx-brand-id">
@@ -258,21 +258,21 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../approved/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div>
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../approved/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div>
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../approved/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Churn deep-dive</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div>
@@ -288,7 +288,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../approved/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div>
@@ -297,7 +297,7 @@
                  matching chat_page-landing.html); active state must not promote it to the top. -->
             <div class="sbx-chat s-active" role="button" tabindex="0" aria-current="true">
               <span class="sbx-chat-lbl">Generate two charts using random data</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div>

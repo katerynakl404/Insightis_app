@@ -38,7 +38,7 @@ Source: `@insightis/ui` `Button/index.tsx` (cva) + `globals.css`.
 
 | Class | Box | Glyph | Mirrors |
 |---|---|---|---|
-| `.iconbtn.is-row` | 24 × 24 | 14px | — (one step **below** Button) |
+| `.iconbtn-2xs` | 24 × 24 | 14px | — (no Button counterpart) |
 | `.iconbtn-xs` | 28 × 28 | 14px | `.btn-xs` |
 | `.iconbtn-sm` | 32 × 32 | 16px | `.btn-sm` |
 | `.iconbtn-md` | 36 × 36 | 16px | `.btn-md` — same as the base, explicit for symmetry |
@@ -52,12 +52,15 @@ Radius tightens to `.25rem` on the two smallest steps so a 24px box does not rea
 > `.mx-tbl-actions .iconbtn` 24px branch that turned out to be **dead** (every row carrying those
 > buttons is a `.mx-metric-child`, which re-overrode it back to 36px, so four size declarations
 > existed only to cancel each other out), plus the molecules (`.cl-attach` 32, `.sbx-collapse` 28,
-> `.chat-row-more` / `.sbx-chat-more` / `.toast-x` / `.sht-x` / `.igrp-clear` at 24) each carrying
+> the row kebab `[data-kbp]` / `.sbx-chat-more` / `.toast-x` / `.sht-x` / `.igrp-clear` at 24) each carrying
 > its own box **and** its own glyph size. The
 > steps now match Button step for step, so an icon-only control lines up with a text button of the
-> same size class. `.is-row` is deliberately outside that ladder: 24px is under the 28px minimum a
-> text button needs to stay tappable, but an icon-only control gets there on the padded box around
-> a 14px glyph, and 24px is the size eight row-action controls already use.
+> same size class. `.iconbtn-2xs` is the one rung with no Button counterpart: 24px is under the 28px minimum a
+> text button needs to stay tappable, while an icon-only control gets there on the padded box around
+> a 14px glyph. It is still a normal rung, named by size like every other. **Renamed 2026-09-19**
+> from `.is-row` — a role name, which is why five separate rules ended up hard-coding 24px instead of
+> composing it; the row kebab, the toast ✕ and the sheet ✕ now all take this step. 24 × 24 is the
+> WCAG 2.2 Target Size (Minimum) floor, so nothing may go below this rung.
 
 > **Why the base glyph rule.** This doc used to state that glyph size was *"flexible /
 > consumer-set by design — no base `.iconbtn svg{...}` rule"*. Measured in the live storybook, that
@@ -72,7 +75,7 @@ Radius tightens to `.25rem` on the two smallest steps so a 24px box does not rea
 >    `.igrp-clear` all rendered **non-square 10×14** even though each declared a clean `14px × 14px`.
 >    Their rules were never wrong — flex-shrink was overriding them.
 >
-> `.iconbtn svg{16px; flex:none}` now mirrors `.btn svg`, with 14px on `.is-row` / `.iconbtn-xs` the
+> `.iconbtn svg{16px; flex:none}` now mirrors `.btn svg`, with 14px on `.iconbtn-2xs` / `.iconbtn-xs` the
 > way `.btn-xs svg` does. Consumers that genuinely need a different glyph still override the size;
 > what they can no longer do is leave it unspecified, or have a correct value silently compressed.
 
@@ -101,7 +104,7 @@ Variants differ in colour only, all reusing Button tokens 1:1. **No per-variant 
 | Disabled | bg `State/Disabled` (Primary/Secondary) or icon `Text/Inactive` (Outlined/Tertiary, bg transparent) |
 | Loading | spinner (`.spinner`) uses `currentColor`, `aria-busy="true"`, `pointer-events:none`, `opacity:var(--opacity-disabled)` — variant colour preserved. `.s-loading.iconbtn{pointer-events:none;opacity:var(--opacity-disabled)}` |
 
-**Spinner geometry** (shared with Button — `.iconbtn .spinner`): **`16px`, and `14px` on `.is-row` / `.iconbtn-xs`** — the spinner replaces the glyph, so it is the glyph size, on the same two steps as `.btn svg`. It was `.85em`, which measured from a font-size an icon button does not have: the UA form-control default (13.33px in Chrome), giving a frozen ~11.3px. Even where the em resolved, `.85` could not land on the scale — 11.9px and 13.6px. Now both spinner and glyph step together, `border-radius:9999px`, `border:2px solid currentColor` with `border-right-color:transparent`, `display:inline-block`, `animation:btn-spin .7s linear infinite`, `vertical-align:-.1em`.
+**Spinner geometry** (shared with Button — `.iconbtn .spinner`): **`16px`, and `14px` on `.iconbtn-2xs` / `.iconbtn-xs`** — the spinner replaces the glyph, so it is the glyph size, on the same two steps as `.btn svg`. It was `.85em`, which measured from a font-size an icon button does not have: the UA form-control default (13.33px in Chrome), giving a frozen ~11.3px. Even where the em resolved, `.85` could not land on the scale — 11.9px and 13.6px. Now both spinner and glyph step together, `border-radius:9999px`, `border:2px solid currentColor` with `border-right-color:transparent`, `display:inline-block`, `animation:btn-spin .7s linear infinite`, `vertical-align:-.1em`.
 
 **Forced-state vs real-interactive** — every state above is implemented twice and the two MUST agree: the `.s-{state}` forced classes (storybook demos) and the live pseudo-classes `:hover` / `:active` / `:focus-visible` / `:disabled`. `:focus-visible` also sets `outline:none` before the ring box-shadow.
 
@@ -137,7 +140,7 @@ The base `.iconbtn` is always 36×36; specific layouts shrink it via a scoping c
 
 | Context | Selector | Override |
 |---|---|---|
-| Table row actions | `.mx-tbl-actions .iconbtn` | `width/height 1.5rem` (24px), `opacity:0` at rest, `transition:opacity var(--motion-fast)`; revealed on `tr:hover` (`opacity:1`). Glyph: `.mx-tbl-actions .iconbtn svg{width:14px;height:14px}`. Hover `background:var(--state-pressed)`, active `background:color-mix(in srgb,var(--brand-primary) 12%,transparent)`, both `color:var(--ink)`. Child-metric rows force `opacity:1`. |
+| Row kebab | `.iconbtn.iconbtn-tertiary.iconbtn-2xs` + `data-kbp` | Hidden at rest; revealed by row hover, by `:focus-visible`, and by its own `aria-expanded="true"`. **Declares no appearance of its own** — box, radius, glyph, colour, hover, pressed and focus all come from the variant and the `2xs` step. Press and open share `--state-pressed`, so pressing the trigger deepens hover → pressed and stays there when the menu opens. **Changed 2026-09-19:** the press used to be a bespoke `color-mix(--brand-primary 12%)`, which blinked a different HUE for the duration of the press and then handed off to the neutral open state. |
 | Autocomplete clear | `.acpl .acpl-end .iconbtn-mini` | Separate `.iconbtn-mini` (not `.iconbtn`): 24×24, transparent, borderless, `color:var(--ink-secondary)`, radius 4px; hover `color:var(--brand-primary)`. |
 | Data-source card | `.ds-card .iconbtn` | `background:var(--bg)` (matches card surface). |
 | Sidebar collapse / chat-more | `.sbx-collapse`, `.sbx-chat-more` | Use `.iconbtn iconbtn-tertiary` + scoping class; inherit colour/hover/pressed/focus from `.iconbtn-tertiary`, override only size + (for chat-more) absolute positioning / opacity-reveal. |

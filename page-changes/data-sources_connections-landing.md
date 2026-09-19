@@ -94,15 +94,17 @@ Fields shown:
 
 **Model (locked).** A listed connection is connected, so the column carries NO persistent connected/synced status badge — a one-off test result is only true in the moment and would go stale. The column is labelled **Last check** and shows *when the connection was last checked*. Re-test is always one click away on **every** row (not gated behind the error state, not buried in the kebab).
 
-The relative time renders as a small **pill** (`.ds-sync-chip`) — a deliberately light/small tag (20px, `--text-12`, `--radius-full`, `--chips` fill, `currentColor`-tinted border so it doesn't merge into the row-hover). Behaviour:
+The relative time renders as the **kit Badge**, no page-local variant: `.badge .badge-sm .rf` — the same small step the Metrics table's Custom / Built-in badges use, with the pill radius. It used to be a bespoke `.ds-sync-chip` that re-implemented Badge at a slightly different weight, radius and fail-wash; that class is gone (2026-09-19). Behaviour:
 
 | State | Cell (table / card / panel) |
 |---|---|
-| Healthy | neutral time pill (e.g. "2 hours ago") + re-test icon |
-| Failed | red pill (`.is-fail`, `--fb-red-text` + `--fb-red` wash) with ⚠ + time; click/hover → error toast/tooltip carrying the reason **and exact date/time** (`dsFailReason`) |
-| Testing | a same-size **loading pill** (`.spin` + "Testing…") replaces the pill in place → **no row jump**; the re-test result arrives as a toast |
+| Healthy | `.badge-body` time badge (e.g. "2 hours ago") + re-test icon |
+| Failed | `.badge-red` rendered as a `<button>` with a `.b-ic` ⚠ + time; click/hover → error toast/tooltip carrying the reason **and exact date/time** (`dsFailReason`) |
+| Testing | the same badge with a spinner ("Testing…") replaces it in place → **no row jump**; the re-test result arrives as a toast |
 
-The re-test icon (`.ds-sync-retry`) is sized + hovered to match the row kebab (24px, `--state-pressed` hover). `.ds-sync` carries `min-height:1.5rem` (the icon height) so the block can't shrink when the icon drops out mid-test.
+The `currentColor`-tinted edge that keeps the badge readable on a hovered row needs no page rule: Badge ships bordered by default (`--badge-border`), in a table, a card and the panel alike.
+
+The re-test icon is a plain kit IconButton — `.iconbtn.iconbtn-tertiary.iconbtn-2xs` (the 24px row-action step, same one the kebab now carries), with the standard tertiary states. `.ds-sync` keeps `min-height:1.5rem` (the icon height) so the block can't shrink when the icon drops out mid-test.
 
 **Test** is one combined `dsTestConnection` — inline re-test icon (every row + panel) and the row kebab. Result toasts stack at **top-right** and are keyed by connection (concurrent checks stack; re-checking the same one reuses its toast). `lastSync` defaults to the connection's creation time and updates on every check.
 

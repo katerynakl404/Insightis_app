@@ -42,7 +42,7 @@ Source: `@insightis/ui` `Sheet/index.tsx`. Baseline: [`../current/Sheet.md`](../
 | Panel — bottom | `.sht.var-bottom .sht-panel` | full width, **height 55%**, anchored bottom | shadow `0 -4px 10px …` |
 | Title | `.sht .sht-t` | font **1rem / 600** | colour `--ink` |
 | Description | `.sht .sht-d` | font **.75rem** | colour `--ink-secondary` |
-| Close button | `.sht .sht-x` | **24×24px**, positioned `top:6px; right:6px` · **reuses IconButton tertiary** (see Close-button row above) | inner `svg` **14×14px** |
+| Close button | `.sht .sht-x` | `.iconbtn.iconbtn-tertiary.iconbtn-2xs`; the `.sht-x` rule declares **positioning only** (`top:6px; right:6px`). **Changed 2026-09-19:** it used to hard-code its own 24px box, which left it on the base `.iconbtn` 6px radius while every other 24px control sat at 4px — it now takes the rung's 4px. |
 
 ## ⚠ Best-practice states — to define
 - **Surface harmonization** — settle Sheet vs Popover vs Modal on either `bg-card` or `bg-background`, not both.

@@ -8,12 +8,37 @@ Baseline: [`../current/Table.md`](../current/Table.md).
 | Header fill | — | — | **none** — `th` carries no background | Kit convention across **all** tables (Files · Connections · Metrics): the header is plain (bottom border + `Text/Secondary` label only), never a filled band. Files' page-local `thead th{background:var(--card2)}` tint was removed 2026-07-09 for consistency. |
 | Body text | `content-body` `#314158` | — | `Text/Body` `#334155` | hex shift only |
 | Row border | `Stroke/Border` `#F0F5FA` | — | `--border` `#E2E8F0` (light) / `#2A2834` (dark) | hex shift only |
-| Row hover | `State/Hover` `#F0F8FB` | — | `--tbl-row-hover` — halfway between the row surface and `--card2`: `--slate-50` light / `color-mix(--card2 50%, --card)` dark | Hover is a **smaller step off the row than selected → less contrast than the selected/pressed state**, the same in both themes (light: white row → slate-50 hover → slate-100 selected; dark: grey-900 row → half-step hover → grey-800 selected). Rule: `tbody tr:hover td{background:var(--tbl-row-hover)}`. Token is shared with all kit tables — reuse, don't reinvent. |
-| Row selected | — did not exist | — | **new** — `tr.is-selected td{background:var(--tbl-row-pressed)}` | `--tbl-row-pressed` = `--card2` — a selected row is **identical to the thead band by construction** in every theme (slate-100 light / grey-800 dark). Neutral, never brand-tinted. |
-| Hover while selected | — did not exist | — | **new** — `tr.is-selected:hover td{background:color-mix(in srgb,var(--tbl-row-hover) 50%,var(--tbl-row-pressed))}` | Neutral blend of the two row tokens — a selected row still gives hover feedback with no brand hue. A distinct third surface (≠ plain hover, ≠ plain selected). `.is-selected.s-hover` mirrors it for storybook. |
+| Row hover | `State/Hover` `#F0F8FB` | — | `--tbl-row-hover` — the smallest step on the overlay ladder (`--tint-3`) | Hover is a **smaller step off the row than selected → less contrast than the selected/pressed state**, the same ladder in both themes. Rule: `tbody tr:hover td{background:var(--tbl-row-hover)}`. Token is shared with all kit tables — reuse, don't reinvent. |
+| Row selected | — did not exist | — | **new** — `tr.is-selected td{background:var(--tbl-row-pressed)}` | `--tbl-row-pressed` — the `--tint-6` step of the state ladder (brand-tinted on light, neutral on dark). Same strength as a control's hover, so a control on a selected row stacks a visible step above it instead of matching it. |
+| Hover while selected | — did not exist | — | **no separate surface** — `table.tbl tbody tr.is-selected td` outranks the hover rule | The selected overlay with the hover step stacked in (`--tint-12`), written as one value: blending two *translucent* tokens 50/50 would land lighter than selected alone. A distinct third surface (≠ plain hover, ≠ plain selected). `.is-selected.s-hover` mirrors it for storybook. |
 | Row pressed (transient) | — did not exist | — | **new** — `tr:active td{background:var(--tbl-row-pressed)}` | Bg-shift-only press feedback. Same token as selected state so the two collapse visually — transient press is indistinguishable from selection, which is intentional (they share the same surface). `.s-pressed` mirrors it for storybook. |
-| Badge in a row | badge had no border → vanished when a Secondary badge sat on a selected/hover row (fill == `--card2` == row bg) | — | **new** — `table.tbl tbody tr .badge{border-color:color-mix(in srgb,currentColor 25%,transparent)}` | Always-on hairline tinted from the badge's own text colour, so every badge stays defined in every row state. Shared rule with `.chat-row`. |
+| Badge in a row | badge had no border → vanished when a Secondary badge sat on a selected/hover row (fill == `--card2` == row bg) | — | **no table-specific rule** — the kit Badge is bordered by default (`--badge-border`), so every badge stays defined in every row state | The hairline is tinted from the badge's own text colour and belongs to the Badge, not the table: same markup, same rendering in a row, a card or a page. See [Badge](Badge.md) → *Border variations*. |
 | **Preview rendering** *(kit fix)* | only 2 rows rendered in the kit — read as "incomplete" | — | **expanded to 4 rows + 3 columns**; States table now covers header, default, hover, selected, hover-while-selected, pressed, and badge-in-row | Bug-fix to the kit only — no prod-code impact. |
+
+## Row state resolution — developer handoff
+
+Every row state is a **translucent overlay**, so states composite instead of replacing each other: a control inside a row always lands one step deeper than the row it sits on. Strength comes from the shared `--tint-N` scale; the hue is per theme (`--brand-primary` on light, `--ink-primary` on dark) and is already baked into the token — consumers only ever write `var(--token)`.
+
+| # | State | Selector (exactly as shipped) | Token | Overlay |
+|---|---|---|---|---|
+| 1 | Rest | `table.tbl tbody tr td` | — | transparent |
+| 2 | Hover | `table.tbl tbody tr:hover td` | `--tbl-row-hover` | `--tint-4` |
+| 3 | Pressed (transient) | `table.tbl tbody tr:active td`, guarded — see below | `--tbl-row-pressed` | `--tint-8` |
+| 4 | Selected | `table.tbl tbody tr.is-selected td` | `--tbl-row-pressed` | `--tint-8` |
+| 5 | Selected + hover | — no rule of its own | stays at #4 | `--tint-8` |
+| 6 | Selected + pressed | — no rule of its own | stays at #4 | `--tint-8` |
+| 7 | Control hover inside any row | `.iconbtn:hover` etc. | `--state-hover` | `--tint-8` **on top of** the row's own overlay |
+| 8 | Control pressed inside any row | `.iconbtn:active` etc. | `--state-pressed` | `--tint-12` **on top of** the row's own overlay — and the row itself stays at step 2, not step 3 |
+
+Storybook mirrors (`.s-hover` / `.s-pressed` / `.is-selected`) sit on the same rules so a static demo renders exactly what a real pointer produces.
+
+### Precedence — the part that bites
+
+A row is **always hovered while it is pressed**, so #2 and #3 match at the same time and specificity decides. `table.tbl tbody tr:hover td` scores (0,2,4); writing the press rule as `table.tbl tr:active td` scores (0,2,3) — one element short — so **hover won and the pressed state was unreachable** (the storybook's `.s-pressed` demo still looked right, because that selector did carry `tbody`, which is why the gap survived review). The press rule must carry `tbody` too: equal specificity, later in the file, press wins. Fixed 2026-09-19.
+
+#6 is deliberate, not the same bug: `tr.is-selected:hover td` (0,3,3) outranks the press rule by a class, so pressing an already-selected row gives no extra feedback — selection and press share one surface by design (see the *Row pressed (transient)* row above).
+
+**Rule of thumb for any new row state:** match the element count of the rules you need to beat (`table.tbl tbody tr … td`), and rely on source order rather than adding classes. Never re-declare these colours per page — the tokens already resolve per theme.
 
 ## Shared table cell atoms (kit — lifted from pages 2026-07-09)
 
@@ -89,13 +114,46 @@ Body text-sm, header text-xs, cell padding 12/16 px, wrapper radius `md`, wrappe
 
 ## Token map used
 
-`--ink-secondary` (header text · alias/desc/sub cells · chevron) · `--ink-body` (cell body text · name cell) · `--ink` (group name · open-kebab text) · `--ink-tertiary` (responsive alias) · `--border` (row + shell border) · `--tbl-row-hover` (row hover bg — canonical for all kit tables; also blended 50% into hover-while-selected) · `--tbl-row-pressed` (row selected + transient pressed bg — canonical for all kit tables) · `--brand-primary` (12% mix for actions `:active` only — row hover/selected states are brand-free) · `--mx-group-band` (provider-group band fill — `--slate-150` light / `--grey-700` dark) · `--icon-wrapper-bg` (`.mx-prov-ic` background — 5% brand tint over `--bg`) · `--card` (`.mx-tbl` shell + section-card surfaces) · `--state-pressed` (actions-button hover · open-kebab bg) · `--fb-red-text` (`.mx-del-btn`). Layout token: `--mx-prov-indent` = `calc(1rem + 12px + .5rem)`.
+`--ink-secondary` (header text · alias/desc/sub cells · chevron) · `--ink-body` (cell body text · name cell) · `--ink` (group name · open-kebab text) · `--ink-tertiary` (responsive alias) · `--border` (row + shell border) · `--tbl-row-hover` (row hover bg — canonical for all kit tables) · `--tbl-row-pressed` (row selected + transient pressed bg — canonical for all kit tables) · `--brand-primary` (12% mix for actions `:active` only — row hover/selected states are brand-free) · `--mx-group-band` (provider-group band fill — `--slate-150` light / `--grey-700` dark) · `--icon-wrapper-bg` (`.mx-prov-ic` background — 5% brand tint over `--bg`) · `--card` (`.mx-tbl` shell + section-card surfaces) · `--state-hover` (actions-button hover — stacks on the row's own hover overlay) · `--state-pressed` (open-kebab bg) · `--fb-red-text` (`.mx-del-btn`). Layout token: `--mx-prov-indent` = `calc(1rem + 12px + .5rem)`.
 
 ### Token definitions
 
 | Token | Light | Dark | Prod |
 |---|---|---|---|
-| `--tbl-row-hover` | `--slate-50` `#F8FAFC` | `color-mix(--card2 50%, --card)` (half-step over grey-900) | `--state-hover` (teal-tinted) |
-| `--tbl-row-pressed` | `--card2` (`--slate-100` `#F1F5F9`) | `--card2` (`--grey-800` `#21212C`) — same `:root` definition, re-resolves per theme | `--state-pressed` |
+| `--tbl-row-hover` | `--tint-4` of `--state-overlay` → `#F8FBFC` | `--tint-4` of `--state-overlay` → `#1C1D24` | `--state-hover` (teal-tinted) |
+| `--tbl-row-pressed` | `--tint-8` of `--state-overlay` → `#F0F8F9` | `--tint-8` of `--state-overlay` → `#21222A` | `--state-pressed` |
 
-`--tbl-row-hover` is defined in `:root` and overridden in `.dark`. `--tbl-row-pressed` = `var(--card2)` in `:root` and re-resolves per theme with no `.dark` override, which is exactly why a selected row always equals the thead band. Use `var(--tbl-row-hover)` and `var(--tbl-row-pressed)` on any new table — do not reach for `--state-hover`/`--state-pressed` in table row contexts.
+Same ladder and the same strengths in both themes; only `--state-overlay` differs (`--brand-300` `#46A6B9` light / `--slate-400` dark). See [colors](colors.md) → *Interaction states are a stacking ladder*. Use `var(--tbl-row-hover)` / `var(--tbl-row-pressed)` / `var(--tbl-row-selected-hover)` on any new table — do not reach for `--state-hover`/`--state-pressed` in table row contexts: those are the deeper *control* steps, and a control inside a row is meant to stack on top of the row's own overlay. See [colors](colors.md) → *Interaction states are a stacking ladder*.
+
+## Files table responsive form moved into the kit (2026-09-19)
+
+`table.dsf-tbl`'s ≤767px card form — header dropped, each row a `--card-stack-*` card laid out as `[info | origin badge | kebab]`, with the editing-mode checkbox column and the hover / press / selected / preview states — lived in `data-sources_files-landing.html`'s `<style>`. It is the component's own responsive contract, so it is now in `kit-theme.css`; the page keeps only its toolbar glue (`.dsf-meta-mobile-only`, `#dsf-meta`).
+
+Consequence: the storybook's Files-table block now renders the real card form at phone width instead of a desktop table that no page ships.
+
+### A press on a control is not a press on the row (2026-09-19)
+
+`:active` fires on every ancestor, so pressing a row kebab, a checkbox or a link used to drag the
+whole row into `--tbl-row-pressed` as well — two press surfaces at once for one press, and the
+control lost its own contrast against the row behind it. The row now opts out:
+
+```css
+table.tbl tbody tr:active:not(:where(:has(button:active),:has(a:active),:has([role="checkbox"]:active))) td
+```
+
+The guard sits inside `:where()` so it contributes **no specificity** — the rule keeps the exact
+weight it had. Selected sits below and carries the same surface anyway, so nothing is being ranked. The
+metrics table and the Files card layout already carried their own copies of this guard; the plain
+`table.tbl` row was the one place without it, which is why pressing the ⋮ tinted the row behind it.
+
+While a row's own kebab menu is **open** the row holds step 2 (`--tbl-row-hover`), never step 3 —
+an open menu is a held press on the *control*, not on the row.
+That rule is declared next to the hover rule and wrapped in `:where()`, so press and selected still
+win over it without anything opting out.
+
+### Pressed and selected are one surface, not two
+
+The row does not tell them apart and must not be made to: **the checkbox is what communicates
+selection.** Both resolve to `--tbl-row-pressed`. There is no hover-while-selected colour, no
+selected-vs-pressed ladder to keep in sync, and no rule that special-cases `.is-selected` to stop
+the two from fighting — because there is nothing to fight over.

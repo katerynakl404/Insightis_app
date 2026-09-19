@@ -15,37 +15,28 @@
   .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--surface-page);transition:grid-template-columns .2s ease}
   .cl-shell:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr}
   .cl-side{background:var(--surface-card);border-right:1px solid var(--stroke-border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
-  .cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
+  .cl-side .sbx{height:100%;flex:1}
   /* overflow-x:clip (not hidden) so cl-main doesn't become a scroll container —
      position:sticky on ds-page-head needs the window as its scroll ancestor. */
   .cl-main{position:relative;display:flex;flex-direction:column;width:100%;min-width:0;padding:2.25rem 0 4rem;min-height:calc(100vh - 40px);overflow-x:clip}
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   .cl-page-title{margin:0 0 .25rem}
   /* Burger alignment handled globally in kit-theme.css — no per-page rules needed. */
-
-  /* Search — same pattern as chats-landing */
-  .ds-search.field{max-width:none;height:2.5rem;background:var(--surface-card)}
-  @media(max-width:767px){.ds-search.field{height:2.25rem}}
-  .ds-search .field-icon{width:16px;height:16px;color:var(--ink-secondary);flex:none}
-  .ds-search input[type="search"]::-webkit-search-cancel-button,
-  .ds-search input[type="search"]::-webkit-search-decoration{-webkit-appearance:none;appearance:none}
-  .ds-search-clear{display:none;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border-radius:.25rem;background:transparent;border:none;color:var(--ink-secondary);cursor:pointer;padding:0;font-family:inherit;flex:none;transition:color var(--motion-fast) var(--motion-ease),background-color var(--motion-fast) var(--motion-ease)}
-  .ds-search-clear svg{width:14px;height:14px}
-  .ds-search-clear:hover{color:var(--ink-body);background:color-mix(in srgb,var(--brand-primary) 6%,transparent)}
-  .ds-search-clear:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
-  .ds-search:has(input:not(:placeholder-shown)) .ds-search-clear{display:inline-flex}
+  /* Search — width glue only. Everything else is the kit InputGroup: .is-lg height, .igrp-add
+     leading glyph, .igrp-act.igrp-clear trailing clear (the kit also owns its show/hide). */
+  .ds-search.igrp{max-width:none;width:100%}
 
   /* Page head — title left, CTA right. */
   .ds-page-body{display:flex;flex-direction:column;gap:.75rem}
   .ds-page-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
   .ds-page-head .cl-page-title{margin:0}
-  .ds-page-head .ds-addnew{flex:none;border-radius:9999px}
+  .ds-page-head .ds-addnew{flex:none}
   /* Create Connection only relevant on My Connections tab; + buttons on cards handle Catalog. */
   .ds-app.ds-tab-catalog .ds-addnew{display:none}
 
   /* Tab row — single border-bottom shared with tabset. */
   .dsf-tabrow{display:flex;align-items:flex-end;gap:.75rem;border-bottom:1px solid var(--stroke-border)}
-  .dsf-tabrow .tabset{flex:1;border-bottom:none}
+  .dsf-tabrow .tabset{flex:1}
 
   /* ===== Connected section — emerges via has-connections on .ds-app ===== */
   .ds-conn-section{display:flex;flex-direction:column;overflow:hidden;max-height:0;opacity:0;
@@ -169,7 +160,7 @@
   <!-- ============= Sidebar — kept in sync with chats-landing.html (single source of truth);
        only the active row differs (Sources here, not Chats). ============= -->
   <aside class="cl-side">
-    <div class="sbx">
+    <div class="sbx var-embedded">
         <div class="sbx-head">
           <div class="sbx-brand">
             <div class="sbx-brand-id">
@@ -218,7 +209,7 @@
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only. -->
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -229,7 +220,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -240,7 +231,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Churn deep-dive</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -260,7 +251,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -271,7 +262,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'">
               <span class="sbx-chat-lbl">Generate two charts using random data</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -362,7 +353,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
         <h1 class="cl-page-title scroll-m-20 font-medium text-2xl md:text-3xl text-content-primary text-left">Data Sources</h1>
-        <button class="btn btn-primary btn-sm ds-addnew" type="button" onclick="dsSwitchTab('catalog', document.getElementById('ds-tab-catalog'))">
+        <button class="btn btn-primary btn-sm rf ds-addnew" type="button" onclick="dsSwitchTab('catalog', document.getElementById('ds-tab-catalog'))">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           Create Connection
         </button>
@@ -371,7 +362,7 @@
       <div class="ds-page-body">
         <!-- Tab row: Catalog | My Connections -->
         <div class="dsf-tabrow">
-          <div class="tabset" role="tablist">
+          <div class="tabset var-flush" role="tablist">
             <button class="tab is-active" role="tab" aria-selected="true"
                     aria-controls="ds-panel-catalog" id="ds-tab-catalog"
                     onclick="dsSwitchTab('catalog',this)">Catalog</button>
@@ -386,10 +377,10 @@
 
         <!-- Panel 1 — Catalog -->
         <div id="ds-panel-catalog">
-          <div class="field ds-search">
-            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-            <input id="ds-search-input" type="search" placeholder="Search data sources…" aria-label="Search data sources" oninput="dsFilterSearch(this.value)">
-            <button class="ds-search-clear" type="button" aria-label="Clear search" onclick="dsClearSearch()" data-tip="Clear search">
+          <div class="igrp is-lg var-outline ds-search" role="search">
+            <span class="igrp-add" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+            <input class="igrp-input" id="ds-search-input" type="search" placeholder="Search data sources…" aria-label="Search data sources" oninput="dsFilterSearch(this.value)">
+            <button class="igrp-act igrp-clear" type="button" aria-label="Clear search" onclick="dsClearSearch()" data-tip="Clear search">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
           </div>
@@ -524,7 +515,7 @@
         <div class="ds-intg-frame">
           <div class="ds-intg-row">
             <div class="ds-intg-lbl">Account</div>
-            <div class="ds-intg-field" style="color:transparent">placeholder</div>
+            <div class="ds-intg-field is-empty">placeholder</div>
           </div>
           <div class="ds-intg-row">
             <div class="ds-intg-lbl">API Key</div>
@@ -618,12 +609,12 @@
 <!-- ===== Data Source detail side panel ===== -->
 <div id="ds-ov" style="position:fixed;inset:0;z-index:40;pointer-events:none;background:transparent;transition:background .2s" aria-hidden="true" onclick="if(event.target===this)dsPanelClose()">
   <div id="ds-panel" role="dialog" aria-modal="true" aria-labelledby="ds-panel-title"
-       style="position:fixed;top:40px;right:0;bottom:0;width:360px;max-width:90vw;background:var(--surface-card);border-left:1px solid var(--stroke-border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);pointer-events:auto">
+       style="position:fixed;top:40px;right:0;bottom:0;width:360px;max-width:90vw;background:var(--surface-card);border-left:1px solid var(--stroke-border);box-shadow:var(--shadow-modal);display:flex;flex-direction:column;z-index:41;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);pointer-events:auto">
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--stroke-border);flex:none">
       <h2 id="ds-panel-title" style="flex:1;font-size:var(--ts-title-20-size);line-height:var(--ts-title-20-lh);line-height:1.75rem;font-weight:var(--ts-title-20-weight);color:var(--ink-primary);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Connection Details</h2>
-      <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="dsPanelClose()" style="width:1.75rem;height:1.75rem;flex:none" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Close" onclick="dsPanelClose()" style="flex:none" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <!-- Body -->
@@ -781,19 +772,20 @@
      tooltip and the error toast, so the error never drops the timestamp the success state shows). */
   function dsFailReason(c){ return (c.error || 'Unknown error') + ' · ' + dsAbsTime(c.lastSync); }
   var _DS_IC_RETRY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.36 2.64L3 8"/><path d="M3 3v5h5"/></svg>';
-  var _DS_IC_ALERT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
+  var _DS_IC_ALERT = '<svg class="b-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
   var _DS_IC_SPIN  = '<svg class="spin ds-sync-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>';
   /* Shared "Last sync" block — table cell, mobile card, and panel. A listed connection is connected
      by definition, so there is NO connected/synced badge. Time-forward: the relative time is the
      anchor; success is quiet, only a FAILED run is loud (single affordance — no separate ⚠ + ⓘ).
-     Re-test reveals on row hover (.ds-sync-retry). Two concepts toggled from the topbar:
+     The pill is the kit Badge (.badge.badge-sm.rf) and the re-test is a plain kit IconButton
+     (.iconbtn.iconbtn-tertiary.iconbtn-2xs) — no page-local variants. Two concepts toggled from the topbar:
        C1 (toast-driven): cell shows time only; a single toast carries the loader→result — no cell
          spinner. Failure = red "Failed · time" that opens the error toast.
        C2 (quiet inline): failure = one red ⚠ (hover/click = details); progress = inline spinner in
          the status slot (reserved min-width → no layout jump).
      opts.retry — render the inline hover re-test icon (table/card = true; panel uses its own button). */
   function dsRetryBtn(n, busy){
-    return '<button type="button" class="iconbtn iconbtn-tertiary ds-sync-ic ds-sync-retry" aria-label="Test connection" data-tip="Test connection"'
+    return '<button type="button" class="iconbtn iconbtn-tertiary iconbtn-2xs" aria-label="Test connection" data-tip="Test connection"'
       + (busy ? ' disabled' : '') + ' onclick="event.stopPropagation();dsTestConnection(\'' + n + '\')">' + _DS_IC_RETRY + '</button>';
   }
   function dsSyncHtml(c, opts){
@@ -803,12 +795,12 @@
     var time = dsRelTime(c.lastSync);
     /* In progress — a loading PILL (same height/shape as the resting pill → the row can't jump). */
     if(c._busy){
-      return '<div class="ds-sync"><span class="ds-sync-status"><span class="ds-sync-chip is-load">' + _DS_IC_SPIN + 'Testing…</span></span></div>';
+      return '<div class="ds-sync"><span class="ds-sync-status"><span class="badge badge-body badge-sm rf">' + _DS_IC_SPIN + 'Testing…</span></span></div>';
     }
     /* Relative time as a small pill — neutral when healthy, red (+ ⚠, opens the error toast) on failure. */
     var status = (c.status === 'error')
-      ? '<span class="ds-sync-status"><button type="button" class="ds-sync-chip is-fail" aria-label="Last check failed ' + time + ' — view details" data-tip="Check failed: ' + dsEsc(dsFailReason(c)) + '" onclick="event.stopPropagation();dsErrToast(\'' + n + '\')"><span class="ds-chip-ic" aria-hidden="true">' + _DS_IC_ALERT + '</span>' + time + '</button></span>'
-      : '<span class="ds-sync-status"><span class="ds-sync-chip"' + tip + '>' + time + '</span></span>';
+      ? '<span class="ds-sync-status"><button type="button" class="badge badge-red badge-sm rf" aria-label="Last check failed ' + time + ' — view details" data-tip="Check failed: ' + dsEsc(dsFailReason(c)) + '" onclick="event.stopPropagation();dsErrToast(\'' + n + '\')">' + _DS_IC_ALERT + time + '</button></span>'
+      : '<span class="ds-sync-status"><span class="badge badge-body badge-sm rf"' + tip + '>' + time + '</span></span>';
     var actions = opts.retry ? '<span class="ds-sync-actions">' + dsRetryBtn(n, c._busy) + '</span>' : '';
     return '<div class="ds-sync">' + status + actions + '</div>';
   }
@@ -868,8 +860,8 @@
       + '</span>';
   }
 
-  var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px;flex:none"><polyline points="20 6 9 17 4 12"/></svg>';
-  var PLUS_SVG_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px;flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
+  var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:var(--icon-md);height:var(--icon-md);flex:none"><polyline points="20 6 9 17 4 12"/></svg>';
+  var PLUS_SVG_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:var(--icon-md);height:var(--icon-md);flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
 
   function dsCardHtml(c){
     var n = c.name.replace(/'/g, "\\'");
@@ -1013,7 +1005,7 @@
       + '<div class="mi" role="menuitem" onclick="dsTestConnection(\'' + n + '\')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-test-conn"/></svg>Test Connection</div>'
       + '<div class="mi danger" role="menuitem" onclick="dsConfirmDisconnect(\'' + n + '\')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-disconnect"/></svg>Disconnect</div>'
       + '</div>';
-    var kebab = '<button class="iconbtn iconbtn-tertiary ds-conn-more" type="button" aria-label="More actions" data-tip="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1">'
+    var kebab = '<button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" data-tip="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1">'
       + '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>'
       + '</button>';
     if(mode === 'table'){
@@ -1025,7 +1017,7 @@
         + '</div></td>'
         + '<td class="ds-conn-cell-desc">' + (c.desc || '') + '</td>'
         + '<td class="ds-conn-cell-sync">' + dsSyncHtml(c, {retry:true}) + '</td>'
-        + '<td class="mx-tbl-actions ds-conn-cell-act"><div class="ds-conn-more-wrap">' + kebab + menuHtml + '</div></td>'
+        + '<td class="mx-tbl-actions ds-conn-cell-act"><div class="kbp-wrap">' + kebab + menuHtml + '</div></td>'
         + '</tr>';
     }
     return '<div class="ds-conn-row hov-card" role="listitem" data-name="' + c.name + '" style="cursor:pointer" onclick="if(!event.target.closest(\'[data-kbp],.kbp-menu\'))dsPanelOpen(\'' + n + '\')">'
@@ -1038,7 +1030,7 @@
       + (c.desc ? '<span class="ds-conn-desc">' + c.desc + '</span>' : '')
       + '<div class="ds-conn-sync-wrap">' + dsSyncHtml(c, {retry:true}) + '</div>'
       + '</div>'
-      + '<div class="ds-conn-more-wrap">' + kebab + menuHtml + '</div>'
+      + '<div class="kbp-wrap">' + kebab + menuHtml + '</div>'
       + '</div>';
   }
 
@@ -1335,7 +1327,7 @@
     if (deleteBtn) deleteBtn.onclick = function(){ dsPanelClose(); dsConfirmDisconnect(name); };
     var ov = document.getElementById('ds-ov');
     var panel = document.getElementById('ds-panel');
-    if (ov) { ov.style.pointerEvents = 'auto'; ov.style.background = 'rgba(15,23,42,.35)'; ov.setAttribute('aria-hidden','false'); }
+    if (ov) { ov.style.pointerEvents = 'auto'; ov.style.background = 'var(--overlay-scrim)'; ov.setAttribute('aria-hidden','false'); }
     if (panel) panel.style.transform = 'translateX(0)';
     document.querySelectorAll('#ds-conn-body [data-name].is-selected').forEach(function(r){ r.classList.remove('is-selected'); });
     var sel = document.querySelector('#ds-conn-body [data-name="'+ name +'"]');

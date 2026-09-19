@@ -20,8 +20,8 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
 | Default | border `secondary` (teal), text `content-body`, bg transparent | bg `Surface/Card`, border `Stroke/Border` (Slate-200), text `Text/Body` | bg `Surface/Card`, border `--btn-secondary-border` (Slate-300 light / Grey-600 dark), text `Text/Body` | Border stepped up one stop from Stroke/Border (Slate-200) so the card-fill reads distinct from a borderless surface |
-| Hover | border `accent`, bg `primary/5`, icon `accent` | bg `--btn-secondary-bg-hover` = `Brand/Primary @ 5%` over `Surface/Card`, border `Stroke/Border_Hover`, text `Text/Body` | bg `--state-hover` (neutral State/Hover — **not** a brand tint), border `--btn-secondary-border-hover` (Slate-400 light / Grey-500 dark), text `--ink-body` (icon inherits same colour, does not shift to brand) | Neutral hover surface unified with `.sbx-nav-item` low-emphasis rows; border hover lifted one stop to match the bolder default border |
-| Pressed | bg `primary/5` + inset | — | bg `--state-pressed`, border `--btn-secondary-border` (reverts to default border), text `--ink-body` | Neutral pressed surface; border drops back to default stop |
+| Hover | border `accent`, bg `primary/5`, icon `accent` | bg `--btn-secondary-bg-hover` = `Brand/Primary @ 5%` over `Surface/Card`, border `Stroke/Border_Hover`, text `Text/Body` | bg `--state-hover` (the shared State/Hover wash — brand-tinted on light, neutral on dark), border `--btn-secondary-border-hover` (Slate-400 light / Grey-500 dark), text `--ink-body` (icon inherits same colour, does not shift to brand) | Neutral hover surface unified with `.sbx-nav-item` low-emphasis rows; border hover lifted one stop to match the bolder default border |
+| Pressed | bg `primary/5` + inset | — | bg `--state-pressed`, border `--btn-secondary-border` (reverts to default border), text `--ink-body` | Shared pressed surface, one step deeper than hover; border drops back to default stop |
 | Focus | global ring (slate / off-white) | — | ring `--shadow-focus` 2px + 2px `Surface/Card` gap | Brand-tinted ring |
 | Disabled | border + text `content-light` | — | bg `--state-disabled`, text `--ink-inactive`, border `--btn-secondary-border`, `cursor:not-allowed` | Inherits the same border token as default |
 
@@ -52,8 +52,8 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 | State | Expected | Specification |
 |---|---|---|
 | Default | label `Brand/Primary`, bg transparent, no border | Brand text; reads as a link-style action without the mass of an Outlined button |
-| Hover | label `Brand/Hover`, bg `State/Hover` | Neutral pill (same as base Tertiary); only the label darkens one brand stop |
-| Pressed | label `Brand/Press`, bg `State/Pressed` | Neutral pressed pill |
+| Hover | label `Brand/Hover`, bg `State/Hover` | Same pill as base Tertiary; only the label darkens one brand stop |
+| Pressed | label `Brand/Press`, bg `State/Pressed` | Same pressed pill as base Tertiary |
 | Focus | ring `--shadow-focus` | Same ring as base Tertiary |
 | Disabled | text `Text/Inactive`, bg transparent | Neutral disabled |
 
@@ -128,7 +128,7 @@ First consumer: the MetaRow bulk actions with nothing selected.
 | `--fb-red-hover` *(new)* | both themes | `var(--red-800)` | Semantic `Feedback/Error_Hover`. |
 | `--fb-red-press` *(updated)* | both themes | `var(--red-850)` | Semantic `Feedback/Error_Press`. Now theme-independent. |
 | ~~`--press-scale`~~ | — (retired) | — | Removed `transform: scale(.98)` on pressed — visible text-position shift felt wrong. bg-shift-only press feedback instead. |
-| `--border` light | light only | `var(--slate-200)` | Was `var(--slate-100)` — bumped for visibility. Dark unchanged at `var(--grey-700)`. |
+| `--stroke-border` light | light only | `var(--slate-200)` | Was `var(--slate-100)` — bumped for visibility. Dark unchanged at `var(--grey-700)`. |
 | `--opacity-disabled` *(new)* | both themes | `.65` | **Reusable opacity token** for disabled / loading treatments. |
 | `--btn-outline-destructive-bg-hover` *(new)* | **theme-aware** | light `color-mix(--fb-red 6%, transparent)` · dark `color-mix(--fb-red 14%, transparent)` | Component-scoped overlay. Bumped on dark because @6% red over a near-black Card barely registers. |
 | `--btn-outline-destructive-bg-press` *(new)* | **theme-aware** | light `color-mix(--fb-red 8%, transparent)` · dark `color-mix(--fb-red 22%, transparent)` | Pressed counterpart. |
@@ -137,7 +137,7 @@ First consumer: the MetaRow bulk actions with nothing selected.
 | `--btn-secondary-border` *(new)* | **theme-aware** | light `var(--slate-300)` · dark `var(--grey-600)` | Default border for Secondary — was `--border` (Slate-200 light / Grey-700 dark). Stepped up one stop so the card-fill Secondary reads distinct from a borderless surface. |
 | `--btn-secondary-border-hover` *(new)* | **theme-aware** | light `var(--slate-400)` · dark `var(--grey-500)` | Hover/press border for Secondary — one stop darker than `--btn-secondary-border` in each theme. |
 
-Existing tokens reused: `--btn-primary-bg` (`var(--brand-600)`), `--btn-primary-bg-hover` (`var(--brand-700)`), `--btn-primary-text` (`var(--white)`), `--focus-ring-brand` (`var(--brand-600)`), `--btn-secondary-bg` (`var(--card)`), `--state-hover` / `--state-pressed` / `--state-disabled` (neutral), `--ink-body` / `--ink-inactive`, `--brand-secondary` (Outlined default border), `--brand-hover` (Outlined hover/press border), `--btn-outline-bg-hover` (`color-mix(--brand-primary 6%, transparent)`), `--btn-outline-bg-press` (`color-mix(--brand-primary 8%, transparent)`), `--content-on-solid` (`var(--white)`, Destructive label), `--focus-ring` (focus-ring colour role — aliases `--focus-ring-brand` → brand `#07807E`; consumed by `--shadow-focus` for every variant incl. Destructive).
+Existing tokens reused: `--btn-primary-bg` (`var(--brand-600)`), `--btn-primary-bg-hover` (`var(--brand-700)`), `--btn-primary-text` (`var(--white)`), `--focus-ring-brand` (`var(--brand-600)`), `--btn-secondary-bg` (`var(--surface-card)`), `--state-hover` / `--state-pressed` / `--state-disabled`, `--ink-body` / `--ink-inactive`, `--brand-secondary` (Outlined default border), `--brand-hover` (Outlined hover/press border), `--btn-outline-bg-hover` (`color-mix(--brand-primary 6%, transparent)`), `--btn-outline-bg-press` (`color-mix(--brand-primary 8%, transparent)`), `--content-on-solid` (`var(--white)`, Destructive label), `--focus-ring` (focus-ring colour role — aliases `--focus-ring-brand` → brand `#07807E`; consumed by `--shadow-focus` for every variant incl. Destructive).
 
 ## Loading state — design rationale
 
@@ -149,15 +149,18 @@ Reference image showed the Loading button keeping its variant colour with a slig
 
 ## Sizes (per-size spec — unchanged from prod, listed for reproducibility)
 
-Shared across every variant. Base `.btn`: `display:inline-flex`, `align-items:center`, `justify-content:center`, `gap:.375rem` (6px), `white-space:nowrap`, `font-weight:500`, `font-family:inherit`, `border-radius:.375rem` (6px), `border:1px solid transparent`, `transition:all .12s`, `cursor:pointer`. Only height / padding-x / font-size differ per size. Line-height inherits (no explicit value — buttons are single-line). No explicit `letter-spacing`.
+Shared across every variant; the live **Spec (live)** panel in `#button` reads the base `.btn` rule, so the values are not restated here. Height, padding-x, font-size and icon gap differ per size; line-height inherits (buttons are single-line) and there is no explicit `letter-spacing`.
 
 | Size | Class | Height | Padding-x | Font-size | Radius | Gap |
 |---|---|---|---|---|---|---|
-| xs | `.btn-xs` | `1.75rem` (28px) | `.5rem` (8px) | `--ts-body-s-*` | `.375rem` (6px) | `.25rem` (4px) |
-| sm | `.btn-sm` | `2rem` (32px) | `.75rem` (12px) | `--ts-body-m-*` | `.375rem` (6px) | `.5rem` (8px) |
-| md | `.btn-md` | `2.25rem` (36px) | `.75rem` (12px) | `--ts-body-m-*` | `.375rem` (6px) | `.5rem` (8px) |
-| lg | `.btn-lg` | `2.5rem` (40px) | `1rem` (16px) | `--ts-body-m-*` | `.375rem` (6px) | `.5rem` (8px) |
-| xl | `.btn-xl` | `2.75rem` (44px) | `1.25rem` (20px) | `--ts-body-m-*` | `.375rem` (6px) | `.5rem` (8px) |
+| xs | `.btn-xs` | `1.75rem` (28px) | `.5rem` (8px) | `--ts-label-m-*` | `.375rem` (6px) | `.25rem` (4px) |
+| sm | `.btn-sm` | `2rem` (32px) | `.75rem` (12px) | `--ts-label-l-*` | `.375rem` (6px) | `.5rem` (8px) |
+| md | `.btn-md` | `2.25rem` (36px) | `.75rem` (12px) | `--ts-label-l-*` | `.375rem` (6px) | `.5rem` (8px) |
+| lg | `.btn-lg` | `2.5rem` (40px) | `.75rem` (12px) | `--ts-label-xl-*` | `.375rem` (6px) | `.5rem` (8px) |
+| xl | `.btn-xl` | `2.75rem` (44px) | `.75rem` (12px) | `--ts-label-2xl-*` | `.375rem` (6px) | `.5rem` (8px) |
+
+> **Side padding stops at `md` (2026-09-19).** It used to climb with the height — 16px at `lg`, 20px at `xl` — and the field read as if the text had been pushed away from its own edges; the wider the control, the more the label floated in the middle. Height, type level and icon size still climb; only the horizontal padding is capped at the `md` value (12px). `xs` keeps its smaller 8px, so the ladder is 8 · 12 · 12 · 12 · 12. Applied across every control family in the same pass — Input, Button, TextArea, Select trigger and InputGroup — so a Button and a field of the same size still line up.
+
 
 Padding-x climbs the 4px step with height — **8 · 12 · 12 · 16 · 20** — and Input, TextArea and
 Selector climb the identical ladder, so a button and a field of the same size share one edge.
@@ -171,11 +174,13 @@ The **icon-to-label gap** sits on the same 4px step — `.25rem` (4px) at `xs`, 
 larger size. It was `.375rem` (6px) across the board, which is the 2px sub-step, not the 4px one
 (directive 2026-09-04). Radius stays 6px: that is a corner, not spacing.
 
-**Icon size follows the label, not the box.** The button text steps exactly once — at `xs` — so the
-icon does too: `.btn svg` is 16×16, `.btn-xs svg` is 14×14, both with `flex:none`. Set in the kit so
+**Icon size follows the control, not the label** (2026-09-19). `.btn svg` reads the shared **ICON
+SCALE** (`--icon-xs … --icon-xl`) — one ladder for every sized control, so a button and a field of
+the same size carry the same glyph. It replaces the earlier "follows the label" rule, under which
+the glyph stepped only at `xs` and a 16px icon sat adrift in a 40 or 44px button. Set in the kit so
 markup never hand-sizes an icon; four inline `style="width:16px…"` were removed when the rule landed.
 
-> Size affects geometry only — colour comes entirely from the variant class. Font steps once, at xs: `--ts-body-s-*` there, `--ts-body-m-*` on every larger size.
+> Size affects geometry **and type level** — colour still comes entirely from the variant class. Type runs on the **label** family (500), never body (400): `label-m` at xs, `label-l` at sm·md, `label-xl` at lg, `label-2xl` at xl. Both 16px and 18px rungs were added with this change — the family stopped at 14, so the two largest buttons shared one size and a 16px label had to be stitched from `body-l` plus a hand-written `font-weight:500`. A button label is a label; it does not borrow `heading 16`, which has the same metrics but a heading’s role.
 
 ## DOM / markup contract
 
@@ -183,9 +188,10 @@ markup never hand-sizes an icon; four inline `style="width:16px…"` were remove
 <!-- variant + size are required; size defaults to md in usage -->
 <button class="btn btn-md btn-primary">Label</button>
 
-<!-- with leading icon: inline SVG sits before the text label, gap .375rem -->
+<!-- with leading icon: inline SVG before the label. NO width/height on the svg —
+     the kit sizes it from the ICON SCALE for the button's size class. -->
 <button class="btn btn-md btn-secondary">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+  <svg viewBox="0 0 24 24" fill="none"
        stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
   Label
 </button>
@@ -197,9 +203,9 @@ markup never hand-sizes an icon; four inline `style="width:16px…"` were remove
 ```
 
 - Element: `<button>` (single class set `btn` + one `btn-<size>` + one `btn-<variant>`).
-- **Icon**: inline Lucide-style `<svg>`, `stroke="currentColor"` so it inherits the label colour in every state (it does **not** shift to brand on hover). Typical icon box `18×18`. Icon precedes the label text node; `gap:.375rem` separates them.
+- **Icon**: inline Lucide-style `<svg>`, `stroke="currentColor"` so it inherits the label colour in every state (it does **not** shift to brand on hover). Icon precedes the label text node; the size class supplies both the glyph size (ICON SCALE) and the gap. **Markup carries no `width`/`height` on the svg** — hand-sizing an icon per instance is what the kit rule exists to prevent.
 - **Static-state utility classes** (storybook / forced demo only): `.s-hover`, `.s-pressed`, `.s-focus`, `.s-disabled`, `.s-loading` mirror the live `:hover` / `:active` / `:focus-visible` / `:disabled` selectors so each state can be shown without interaction. Live usage relies on the real pseudo-classes; `:disabled` (and `.s-disabled`) also gets the global `cursor:not-allowed`. **All six variants define a real `:disabled` rule** (Primary, Secondary, Outline, Tertiary, Destructive, Outline-destructive) matching their `.s-disabled` values — so a `disabled` attribute dims the button, not only the forced demo class.
-- **Spinner** (`.btn .spinner`): `width/height:.85em`, `border-radius:9999px`, `border:2px solid currentColor` with `border-right-color:transparent`, `display:inline-block`, `vertical-align:-.1em`, `animation:btn-spin .7s linear infinite` (`@keyframes btn-spin{to{transform:rotate(360deg)}}`). `.s-loading.btn`: `pointer-events:none; opacity:var(--opacity-disabled)` (.65).
+- **Spinner** (`.btn .spinner`, shared with `.iconbtn`): a `currentColor` ring — `border:2px solid currentColor` with `border-right-color:transparent`, `--radius-full`, `animation:btn-spin .7s linear infinite`. It **replaces the glyph, so it is sized as the glyph**, stepping with the control like any icon. `.s-loading.btn`: `pointer-events:none; opacity:var(--opacity-disabled)`.
 - **Focus ring** (every variant, incl. Destructive + Destructive-Outlined): `outline:none; box-shadow:var(--shadow-focus)` — the single focus-ring token (2px `Surface/Card` gap + 2px halo). Halo colour flows through `--focus-ring` (brand by default), so Destructive gets the same brand-teal ring — teal ≠ red, so red-on-red is avoided without a separate neutral token.
 
 ## Responsive / dark mode
@@ -208,4 +214,6 @@ markup never hand-sizes an icon; four inline `style="width:16px…"` were remove
 - **Dark mode**: handled entirely through theme-aware tokens (`--btn-secondary-border`, `--btn-secondary-border-hover`, `--btn-outline-destructive-*`, `--fb-red*` pinned theme-independent, `--state-*`, `--ink-*`, `--card`, `--focus-ring*`). There are **no** `.dark .btn-*` selector overrides — every theme shift is absorbed at the token layer.
 
 ## No change (—)
-Sizes (xs 28 / sm 32 / md 36 / lg 40 / xl 44px — see Sizes table above for full per-size geometry), radius `md 6px`, gap 6px, font-medium 500.
+Sizes (xs 28 / sm 32 / md 36 / lg 40 / xl 44px — see Sizes table above for full per-size geometry), radius `md 6px`, font-medium 500.
+
+*(The icon gap is no longer listed here — it moved 6px → the 4px step in the 2026-09-04 directive, so it is a change, not a no-change. Icon size likewise: see the ICON SCALE note above.)*

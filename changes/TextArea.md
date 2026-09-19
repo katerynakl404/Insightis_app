@@ -19,13 +19,20 @@ A single element — no wrapper (unlike Input's flex `.field` shell): `<textarea
 
 **Size variants** (`min-height` so rows can grow; `max-width:260px` on all):
 
+Type steps with the control, on the **body** family (a typed value is content, weight 400 — the weight is stated once on `.ta` and never per size). `lg` and `xl` used to declare no `font-size` at all, so both fell back to the base 14px and a 44px textarea read exactly like a 36px one; they now take the `body-l` / `body-xl` rungs, matching [Input](Input.md) and [InputGroup](InputGroup.md) step for step (2026-09-19).
+
 | Size | min-height | padding | font-size |
 |---|---|---|---|
 | `.is-xs` | 1.75rem (28px) | `.25rem .5rem` (4 × 8px) | `--ts-body-s-*` |
 | `.is-sm` | 2rem (32px) | `.375rem .75rem` (6 × 12px) | `--ts-body-m-*` |
 | `.is-md` (base) | 2.25rem (36px) | `.5rem .75rem` (8 × 12px) | `--ts-body-m-*` |
-| `.is-lg` | 2.5rem (40px) | `.5rem 1rem` (8 × 16px) | `--ts-body-m-*` |
-| `.is-xl` | 2.75rem (44px) | `.625rem 1.25rem` (10 × 20px) | `--ts-body-m-*` |
+| `.is-lg` | 2.5rem (40px) | `.5rem .75rem` (8 × 12px) | `--ts-body-l-*` |
+| `.is-xl` | 2.75rem (44px) | `.625rem .75rem` (10 × 12px) | `--ts-body-xl-*` |
+
+> **Side padding stops at `md` (2026-09-19).** It used to climb with the height — 16px at `lg`, 20px at `xl` — and the field read as if the text had been pushed away from its own edges; the wider the control, the more the label floated in the middle. Height, type level and icon size still climb; only the horizontal padding is capped at the `md` value (12px). `xs` keeps its smaller 8px, so the ladder is 8 · 12 · 12 · 12 · 12. Applied across every control family in the same pass — Input, Button, TextArea, Select trigger and InputGroup — so a Button and a field of the same size still line up.
+
+> Vertical padding still climbs — it scales with the height and keeps the first text line centred. Only the horizontal value is capped.
+
 
 Horizontal padding climbs the **same 4px ladder** as Button, Input and Selector — 8 · 12 · 12 · 16 · 20 (directive 2026-09-03). Vertical padding still scales with height. `md` inherits the base `.ta` rule; only `.is-xs` overrides the font — `sm`/`lg`/`xl` sit on `--ts-body-m-*`.
 

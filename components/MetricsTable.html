@@ -100,19 +100,19 @@
         <td class="mx-tbl-badge"><span class="badge badge-secondary badge-sm">Built-in</span></td>
         <td class="mx-tbl-alias">@issues_closed</td>
         <td class="mx-tbl-actions" style="position:relative">
-          <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button"
-                  aria-label="More options" aria-expanded="false"
-                  onclick="event.stopPropagation();mxToggleKebab(this)" data-tip="More options">
-            <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px">
-              <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
+          <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button"
+                  aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1"
+                  onclick="event.stopPropagation();mxToggleKebab(this)" data-tip="More actions">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/>
             </svg>
           </button>
-          <div class="menu" role="menu">
+          <div class="menu kbp-menu" role="menu">
             <button class="mi" role="menuitem" type="button"
                     onclick="event.stopPropagation();mxKebabClose();mxDuplicateFromRow(this.closest('tr'))">
               Duplicate
             </button>
-          </div>
+          </div></div>
         </td>
       </tr>
 
@@ -132,18 +132,18 @@
         <td class="mx-tbl-badge"><span class="badge badge-primary badge-sm">Custom</span></td>
         <td class="mx-tbl-alias">@mrr_growth</td>
         <td class="mx-tbl-actions" style="position:relative">
-          <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button"
-                  aria-label="More options" aria-expanded="false"
-                  onclick="event.stopPropagation();mxToggleKebab(this)" data-tip="More options">
-            <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px">
-              <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
+          <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button"
+                  aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1"
+                  onclick="event.stopPropagation();mxToggleKebab(this)" data-tip="More actions">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/>
             </svg>
           </button>
-          <div class="menu" role="menu">
+          <div class="menu kbp-menu" role="menu">
             <button class="mi" role="menuitem" onclick="mxKebabClose();mxOpenDetail(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-edit"/></svg>Edit</button>
             <button class="mi" role="menuitem" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button>
             <button class="mi danger" role="menuitem" onclick="mxDeleteCustom('custom-1')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</button>
-          </div>
+          </div></div>
         </td>
       </tr>
 

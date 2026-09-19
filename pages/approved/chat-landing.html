@@ -28,7 +28,7 @@
   .cl-main{flex:1;min-width:0;height:100%;overflow:auto}
   /* When the sidebar lives inside the page (not the kit stage) it spans the column,
      no kit-default 14.75rem width / 700px height / rounded border. */
-  .cl-side .sbx{width:100%;height:auto;border:none;border-radius:0;flex:1 1 0;min-height:0}
+  .cl-side .sbx{height:auto;flex:1 1 0;min-height:0}
 
   /* Sidebar wrapper inherits cl-side's flex height directly — no Current/Expected swap any more
      (Current state was removed; only Expected remains). */
@@ -70,7 +70,7 @@
      .cl-dropdown-menu) and the attached-file chip (.cl-file-chip) now live in the single source
      pages/kit-theme.css (storybook #composer-menus). Page <style> keeps only layout glue below. */
   .cl-send{height:2rem;padding:0 .75rem;gap:.375rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);border-radius:.375rem;white-space:nowrap;flex:none}
-  .cl-send svg{width:14px;height:14px}
+  .cl-send svg{width:var(--icon-xs);height:var(--icon-xs)}
 
   /* Negative margin-top pulls the chips up to shrink the visual gap from the composer
      (hero's gap is 28px; with -4px here the composer-to-chips gap reads as 24px, while
@@ -79,8 +79,8 @@
   /* Concept control (design-review only) — lives in the page topbar (top of page, never in content);
      switches the composer popovers between states. The switcher itself is the kit SegmentedControl. */
   .tb-concept{display:flex;align-items:center;gap:.375rem}
-  .cl-pill{height:2.125rem;padding:0 .875rem;gap:.375rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);border-radius:9999px}
-  .cl-pill svg{width:14px;height:14px;color:var(--ink-secondary);flex:none}
+  .cl-pill{height:2.125rem;padding:0 .875rem;gap:.375rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);border-radius:var(--radius-full)}
+  .cl-pill svg{width:var(--icon-xs);height:var(--icon-xs);color:var(--ink-secondary);flex:none}
 
   /* Sticker removed — "what changes in Expected" info documented in
      ../page-changes/chat-landing.md. */
@@ -124,7 +124,7 @@
       display:flex;
       position:fixed;top:0;left:0;bottom:0;
       width:min(18rem,86vw);height:100%;z-index:60;
-      box-shadow:0 10px 30px rgba(2,6,23,.32);
+      box-shadow:var(--shadow-modal);
       animation:clSideSlide .22s ease both;
     }
     @keyframes clSideSlide{from{transform:translateX(-100%)}to{transform:translateX(0)}}
@@ -160,11 +160,11 @@
      reads as a soft halo, not a hard ramp.
      ============================================================================ */
   .cl-shell{position:relative;overflow:hidden;background:
-    radial-gradient(at 50% 0%,color-mix(in srgb,var(--brand-tertiary) 2%,var(--surface-page)),var(--surface-page) 55%)}
-  .cl-shell::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 55vw 45vh at 60% 50%,color-mix(in srgb,var(--brand-tertiary) 8%,transparent),transparent 65%);filter:blur(60px)}
+    radial-gradient(at 50% 0%,color-mix(in srgb,var(--brand-tertiary) var(--tint-2),var(--surface-page)),var(--surface-page) 55%)}
+  .cl-shell::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 55vw 45vh at 60% 50%,color-mix(in srgb,var(--brand-tertiary) var(--tint-8),transparent),transparent 65%);filter:blur(60px)}
   .dark .cl-shell{background:
-    radial-gradient(at 50% 0%,color-mix(in srgb,var(--brand-tertiary) 4%,var(--surface-page)),var(--surface-page) 55%)}
-  .dark .cl-shell::before{background:radial-gradient(ellipse 55vw 45vh at 60% 50%,color-mix(in srgb,var(--brand-tertiary) 18%,transparent),transparent 65%);filter:blur(70px)}
+    radial-gradient(at 50% 0%,color-mix(in srgb,var(--brand-tertiary) var(--tint-4),var(--surface-page)),var(--surface-page) 55%)}
+  .dark .cl-shell::before{background:radial-gradient(ellipse 55vw 45vh at 60% 50%,color-mix(in srgb,var(--brand-tertiary) var(--tint-18),transparent),transparent 65%);filter:blur(70px)}
 
   /* Keep the layout content above the background layers. */
   .cl-side,.cl-main{position:relative;z-index:1}
@@ -172,8 +172,8 @@
      the sidebar and composer only. The suggestion pills stay on the kit's .btn-secondary
      recipe (default / hover / pressed) so their interaction states match the rest of the
      system rather than using a custom brand-tinted glass treatment. */
-  .cl-side{background:color-mix(in srgb,var(--surface-card) 78%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-  .cl-composer{background:color-mix(in srgb,var(--surface-card) 72%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .cl-side{background:color-mix(in srgb,var(--surface-card) var(--tint-78),transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .cl-composer{background:color-mix(in srgb,var(--surface-card) var(--tint-72),transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 
   /* New-Chat swap moved to pages/kit-theme.css so every page picks it up uniformly. See the `.sbx-nav-newchat` rule there. */
 
@@ -279,7 +279,7 @@
        open. Click closes the drawer. Hidden ≥ 768 px via CSS. -->
   <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')"></div>
   <aside id="cl-side" class="cl-side">
-      <div class="sbx">
+      <div class="sbx var-embedded">
         <div class="sbx-head">
           <div class="sbx-brand">
             <button class="sbx-brand-id" type="button" aria-label="New Chat" data-tip="New Chat">
@@ -336,7 +336,7 @@
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only; reorder via Move up/down was removed (replaced with drag-to-reorder if/when pinned-set ordering ships). -->
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -347,7 +347,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -358,7 +358,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Churn deep-dive</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -381,7 +381,7 @@
               <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
               <span class="sbx-chat-status is-new" aria-hidden="true"></span>
               <span class="sbx-sr">New activity</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -392,7 +392,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'">
               <span class="sbx-chat-lbl">Generate two charts using random data</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">

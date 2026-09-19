@@ -21,8 +21,7 @@ Source: `@insightis/ui` `Toast/` (Toaster, ToastMessage, `toast()`). Baseline: [
 | Body | `.toast .toast-body` | `flex:1; display:flex; flex-direction:column; gap:2px` |
 | Title | `.toast .toast-msg` | `font-size:.875rem; font-weight:500; color:var(--ink); line-height:1.4` |
 | Description | `.toast .toast-desc` | `font-size:.75rem; font-weight:400; color:var(--ink-secondary); line-height:1.4` |
-| Close button | `.toast .toast-x` | `width:24px; height:24px; flex:none; border-radius:4px` (colour/hover/pressed/focus inherit from `.iconbtn.iconbtn-tertiary`) |
-| Close icon | `.toast .toast-x svg` | `width:14px; height:14px` |
+| Close button | `.toast .toast-x` | `.iconbtn.iconbtn-tertiary.iconbtn-2xs` outright — box, radius, glyph, colour, hover, pressed and focus all come from [IconButton](IconButton.md). **Changed 2026-09-19:** the rule used to re-declare the same 24px box and 4px radius by hand; it now declares nothing, and `.toast-x` survives only as a name. |
 | Progress bar | `.toast .toast-prog` | `position:absolute; left:0; right:0; bottom:0; height:4px; background:transparent` — 4px is the grid step; shared with `.dlg-progress-track` and `.upl-item .progress` so every thin progress strip is one height |
 | Progress fill | `.toast .toast-prog>span` | `display:block; height:100%` (variant sets the colour + `width:60%`) |
 
@@ -73,7 +72,7 @@ The container `.toast` is a `display:flex; flex-direction:column; gap:12px` colu
       <span class="toast-msg">Title text</span>
       <span class="toast-desc">Optional description</span>  <!-- omit if unused -->
     </div>
-    <button class="iconbtn iconbtn-tertiary toast-x" aria-label="Close">
+    <button class="iconbtn iconbtn-tertiary iconbtn-2xs toast-x" aria-label="Close">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
   </div>

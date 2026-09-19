@@ -21,7 +21,7 @@ File-upload target: drag-and-drop **and** click-to-browse. Centered dashed zone 
 ## Colour tokens
 
 - Rest reads `--card2` fill + **`--dropzone-border`** (Slate-300 light / Grey-600 dark) — one notch stronger than `--border`, because the page bg (Slate-50) is near-white so surface fills give almost no contrast; the dashed outline must carry the edge. Drag-over reads `--state-hover` + `--brand-primary`.
-- Hover/focus overlay uses an inline `color-mix(in srgb, var(--brand-primary) …)` — single-use overlay following the sibling `.chip-meta` / `.chat-row-more` hover convention (not lifted to a token, consistent with the kit's other hover-border states).
+- Hover/focus overlay uses an inline `color-mix(in srgb, var(--brand-primary) …)` — single-use overlay following the sibling `.chip-meta` hover convention (not lifted to a token, consistent with the kit's other hover-border states).
 
 ## A11y
 

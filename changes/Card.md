@@ -15,7 +15,7 @@ Source: `@insightis/ui` `Card/index.tsx` + sub-parts. Baseline: [`../current/Car
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
 | Default | bg `card`, border `border`, text inherits | — | — no change | `.card-c.var-secondary`: bg `var(--card)`, border `1px solid var(--border)` |
-| Group-hover | bg `hover` (`#E5F2F5` / dark `#142B31`), text `content-secondary` | — | `--state-hover` (`#E8F2F5` light / `#21212C` dark), text `--ink-secondary` | `.card-c.var-secondary.s-hover`: bg `var(--state-hover)`, text `var(--ink-secondary)` |
+| Group-hover | bg `hover` (`#E5F2F5` / dark `#142B31`), text `content-secondary` | — | `--state-hover` (a `--tint-6` `--ink-primary` overlay — see [colors](colors.md)), text `--ink-secondary` | `.card-c.var-secondary.s-hover`: bg `var(--state-hover)`, text `var(--ink-secondary)` |
 | Self-hover | ⚠ does not exist (only `group/card` parent) | ⚠ — to define | ⚠ — to define | useful when card itself is interactive — match `State/Hover` |
 | Focus / Pressed / Disabled | ⚠ none | ⚠ — to define | ⚠ — to define | same gap as Outline |
 

@@ -2,16 +2,14 @@
 
 Source: `@insightis/ui` `PasswordInput/index.tsx`. Baseline: [`../current/PasswordInput.md`](../current/PasswordInput.md).
 
-**PasswordInput has no own visual tokens** — it composes [`InputGroup`](InputGroup.md), the `Lock` icon, an `InputGroupInput`, and a trailing toggle button. Every visual state is delegated to `.igrp` (see the State table below for the exact tokens, reproduced here so the component rebuilds stand-alone).
+**PasswordInput has no own visual tokens** — it composes [`InputGroup`](InputGroup.md), the `Lock` icon, an `InputGroupInput`, and the trailing-action sub-part `.igrp-act` as the Eye / EyeOff toggle. Every visual state is delegated to `.igrp` (see the State table below for the exact tokens, reproduced here so the component rebuilds stand-alone).
 
 ### DOM / markup (reproduce verbatim)
 ```html
 <div class="igrp">
   <span class="igrp-add"><!-- Lock svg, 20×20, viewBox 0 0 24 24, stroke currentColor, stroke-width 2 --></span>
   <input class="igrp-input" type="password" value="…">
-  <button class="iconbtn" type="button"
-          style="height:24px;width:24px;background:transparent;border:none;color:var(--ink-secondary);margin-right:6px"
-          aria-label="Show password">
+  <button class="igrp-act" type="button" aria-label="Show password">
     <!-- Eye svg, 16×16, viewBox 0 0 24 24; swaps to EyeOff when visible -->
   </button>
 </div>
@@ -29,7 +27,7 @@ The shipped kit demo composes the **default-size** InputGroup (`.igrp`, no `is-*
 | Shell | [`InputGroup`](InputGroup.md) default size (`.igrp`, no size modifier) | **height 36px** (`.igrp{height:36px}`, line 1582; `is-xs`=28 / `is-sm`=32 / `is-lg`=40 / `is-xl`=44, line 1603 — none applied here); radius **6px**; border **1px** `var(--border)`; bg `var(--bg)`; color `var(--ink-secondary)`; font-size **.875rem (14px)**; `padding-right:0`; transition `border-color .15s, box-shadow .15s, color .15s` |
 | Text input | `InputGroupInput` (`.igrp-input`) | `flex:1`; fills shell height (`height:100%`); bg `transparent`; border none; outline none; padding **0 8px**; `min-width:0`; font-size **.875rem (14px)**; color `var(--ink)`; `font-family:inherit`; placeholder `var(--ink-inactive)` (lines 1586–1587) |
 | Leading icon | `Lock` inside addon `.igrp-add` | `display:inline-flex`, centred; `height:100%`; addon padding **0 10px**, gap **8px**; color `var(--ink-secondary)`; svg **20px × 20px** (`.igrp-add svg`, line 1585) |
-| Trailing toggle | bare `.iconbtn` toggle (Eye / EyeOff), inline-styled | **24px × 24px**, `background:transparent`, `border:none`, `color:var(--ink-secondary)`, `margin-right:6px`; svg **16px × 16px**; `aria-label` swaps "Show password" ↔ "Hide password". (Prod's React uses an IconButton `size="sm"`; the shipped kit demo renders a 24px bare button — reproduce the 24px button.) |
+| Trailing toggle | `InputGroup`'s trailing-action sub-part (`.igrp-act`) | No own styling and **no inline styles** — box, glyph step, colour and the colour-only hover come from `.igrp-act` (see [InputGroup](InputGroup.md)). It is a sub-part of the field, **not** an IconButton: a control docked in a field has no surface of its own. `aria-label` swaps "Show password" ↔ "Hide password", and the glyph swaps Eye ↔ EyeOff. **Changed 2026-09-19** — was a bare `.iconbtn` with its box, colour and inset written inline. |
 
 > Reference line — InputGroup default: **h 36px · radius 6px · border 1px `--border` · bg `--bg` · input padding 0 8px · 14px text · addon padding 0 10px, svg 20×20**. Toggle: **24×24 bare `.iconbtn`, transparent, svg 16×16, margin-right 6px**. Full specs: [`InputGroup`](InputGroup.md), [`IconButton`](IconButton.md).
 

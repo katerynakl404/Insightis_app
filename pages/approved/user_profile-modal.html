@@ -28,7 +28,7 @@
   .acct-modal{
     display:flex;width:100%;max-width:960px;height:90dvh;max-height:40rem;
     background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.75rem;
-    box-shadow:0 20px 40px -8px rgba(15,23,42,.2),0 8px 16px -4px rgba(15,23,42,.12);
+    box-shadow:var(--shadow-modal);
     overflow:hidden
   }
 
@@ -43,16 +43,6 @@
   /* Active state for the modal nav is defined centrally on .sbx-pop-item.active in kit-theme.css
      (same persistent bg --state-pressed recipe used by every routed pop-item list, so this rule
      auto-syncs with main-sidebar active-state changes — no per-modal override needed). */
-  /* Danger (Log Out) */
-  .sbx-pop-item.danger,.acct-modal-nav .sbx-pop-item.danger{
-    color:var(--fb-red-text)
-  }
-  .sbx-pop-item.danger .ic,.acct-modal-nav .sbx-pop-item.danger .ic{
-    color:var(--fb-red-text)
-  }
-  .sbx-pop-item.danger:hover,.acct-modal-nav .sbx-pop-item.danger:hover{
-    background:color-mix(in srgb, var(--fb-red-text) var(--tint-8), transparent)
-  }
   /* Footer separator before Log out */
   .acct-nav-foot{margin-top:auto;padding-top:.5rem;border-top:1px solid var(--stroke-border)}
 
@@ -86,7 +76,7 @@
      (--state-hover) so the combined total reads distinct from the two colour-coded pools
      (teal Subscription / green Purchased). Exhaustion is conveyed by the "0 left" figure + the
      "Resets …" caption, not by a warning icon or red numerals. */
-  .acct-bal-total-ic{width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;flex:none;background:var(--state-hover);color:var(--ink-secondary)}
+  .acct-bal-total-ic{width:2.25rem;height:2.25rem;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;flex:none;background:var(--state-hover);color:var(--ink-secondary)}
   /* .acct-usage-table now lives in kit-theme.css — shared compact static table. */
 
   /* ── Balance pools (page-layout only; tokens for colour). Purchased usage isn't trackable
@@ -110,8 +100,8 @@
   /* Value written popover-style — one font for the whole "N left" string (12px/500/--ink-primary,
      tabular-nums, matching .sbx-pop-tok-meter .val), not a bold number + light word mix. */
   .acct-bal3-grp-left{color:var(--ink-primary);font-weight:500;font-variant-numeric:tabular-nums}
-  .acct-bal3-track{height:8px;border-radius:9999px;background:var(--progress-track);overflow:hidden}
-  .acct-bal3-track-fill{height:100%;border-radius:9999px}
+  .acct-bal3-track{height:8px;border-radius:var(--radius-full);background:var(--progress-track);overflow:hidden}
+  .acct-bal3-track-fill{height:100%;border-radius:var(--radius-full)}
   .acct-bal3-track-fill.is-subscription{background:var(--brand-tertiary)}
 
   /* Feedback */
@@ -124,7 +114,7 @@
   .acct-bal-btns-mob{display:none}
 
   /* Mobile nav chevron — hidden on desktop, shown in mobile menu state */
-  .acct-nav-chev{display:none;width:14px;height:14px;color:var(--ink-secondary);flex:none;margin-left:auto}
+  .acct-nav-chev{display:none;width:var(--icon-xs);height:var(--icon-xs);color:var(--ink-secondary);flex:none;margin-left:auto}
 
   /* ── Mobile header (≤767px) — replaces left nav + desktop header ── */
   /* Hidden on desktop; shown only when the modal becomes a full-height bottom sheet.
@@ -134,7 +124,7 @@
   .acct-mobile-hdr{display:none;align-items:center;gap:.25rem;padding:.375rem .75rem;flex:none;border-bottom:1px solid var(--stroke-border)}
   .acct-mobile-btn{display:none;align-items:center;justify-content:center;width:1.5rem;height:1.5rem;border:none;background:transparent;color:var(--ink-secondary);cursor:pointer;border-radius:.25rem;padding:0;flex:none;transition:color .12s,background .12s}
   .acct-mobile-btn:hover{color:var(--ink-body);background:var(--state-hover)}
-  .acct-mobile-btn svg{width:16px;height:16px}
+  .acct-mobile-btn svg{width:var(--icon-md);height:var(--icon-md)}
 
   /* ── Responsive ── */
   /* ≤767px: modal becomes a full-height bottom sheet.
@@ -158,30 +148,11 @@
       display:flex;flex-direction:column;width:100%;
       border-right:none;flex:1;overflow-y:auto;gap:1rem;padding:1rem 1rem 1.5rem
     }
-    /* Section groups: bordered rounded container, flat items inside */
-    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-list{
-      border:1px solid var(--stroke-border);border-radius:.5rem;overflow:hidden;gap:0
-    }
-    /* Card rows */
-    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item{
-      height:2.75rem;padding:.5rem .875rem;border-radius:0;
-      border-bottom:1px solid var(--stroke-border);background:var(--surface-card)
-    }
-    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item:last-child{border-bottom:none}
-    /* Active item — brand tint matches prod highlight */
-    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item.active{
-      background:var(--state-pressed);color:var(--brand-primary)
-    }
-    .acct-modal[data-mobile-state="menu"] .acct-modal-nav .sbx-pop-item.active .ic{color:var(--brand-primary)}
     .acct-modal[data-mobile-state="menu"] .acct-nav-chev{display:block}
     /* Section label */
     /* Log Out — own bordered card at bottom, sticky */
     .acct-modal[data-mobile-state="menu"] .acct-nav-foot{
       margin-top:0;padding-top:0;border-top:none;
-    }
-    .acct-modal[data-mobile-state="menu"] .acct-nav-foot .sbx-pop-item{
-      border:1px solid var(--stroke-border);border-radius:.5rem;background:var(--surface-card);
-      height:2.75rem;padding:.5rem .875rem
     }
     .acct-modal[data-mobile-state="menu"] .acct-modal-body{display:none}
 
@@ -192,10 +163,10 @@
     /* Balance CTA row is the same on every width now (see base rules) — no mobile override needed. */
     /* Segctrl: icon-only on mobile (hide text labels) — works for Theme, whose three glyphs are
        visually distinct. */
-    .segctrl-lbl{display:none}
+    .acct-modal .segctrl-lbl{display:none}
     /* Exception: Monthly vs Yearly are two calendar glyphs that differ by a few dots, so
        icon-only would be unreadable. The billing-period toggle keeps its labels. */
-    .acct-plan-toggle .segctrl-lbl{display:inline}
+    .acct-modal .acct-plan-toggle .segctrl-lbl{display:inline}
     /* Current-plan strip: plan name and expiry stack, so the inline separator goes away. */
     .acct-plan-current-val{flex-direction:column;align-items:flex-start;gap:.125rem}
     .acct-plan-current-sep{display:none}
@@ -203,16 +174,11 @@
 
   /* ===== Change-password section (inside right panel, not a sub-dialog) ===== */
   .chpw-field{display:flex;flex-direction:column;gap:.375rem}
-  .chpw-igrp-icon{display:inline-flex;align-items:center;justify-content:center;width:2.375rem;flex:none;color:var(--ink-secondary)}
-  .chpw-igrp-icon svg{width:16px;height:16px}
-  .chpw-eye{
-    display:inline-flex;align-items:center;justify-content:center;
-    width:2.375rem;flex:none;height:100%;
-    border:none;background:transparent;color:var(--ink-secondary);
-    cursor:pointer;border-radius:0 .375rem .375rem 0;transition:color var(--motion-fast)
-  }
-  .chpw-eye:hover{color:var(--ink-body)}
-  .chpw-eye svg{width:16px;height:16px}
+  /* Label + control stack only. The control itself is the kit InputGroup — `.igrp` + `.igrp-add`
+     (leading lock) + `.igrp-input` + `.igrp-act` (eye toggle). Nothing about the field is styled
+     here. Until 2026-09-19 this block carried a page-local copy of the whole field: `.chpw-igrp-icon`
+     duplicated `.igrp-add`, and `.chpw-eye` was a full-height end cap that re-implemented the
+     trailing control. Both are gone — pages compose kit classes, they do not rebuild them. */
 
   /* ===== Manage plan — pricing cards (page-layout composition) ===== */
   /* Header row: "All Plans" title (grows) + compact billing-period toggle (right). */
@@ -282,7 +248,7 @@
      (the surrounding copy names it as a loss too). */
   .acct-plan-lost{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.375rem}
   .acct-plan-lost li{display:flex;align-items:flex-start;gap:.5rem;font-size:var(--ts-body-m-size);color:var(--ink-body);line-height:var(--ts-body-m-lh)}
-  .acct-plan-lost li::before{content:"";width:14px;height:14px;flex:none;margin-top:.1875rem;background:var(--fb-red-text);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat}
+  .acct-plan-lost li::before{content:"";width:var(--icon-xs);height:var(--icon-xs);flex:none;margin-top:.1875rem;background:var(--fb-red-text);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat}
   /* Warning glyph in the confirm dialogs' header, ahead of the title. */
   .acct-dlg-warn{width:1.25rem;height:1.25rem;flex:none;color:var(--fb-attention-text)}
   /* Support-request field group. */
@@ -312,7 +278,7 @@
      clickable), so no card-hover recipe — a ghost shadow gives a light modern lift. */
   /* position:relative anchors the reused .acct-plan-ribbon "Most popular" marker on the Medium
      pack (text marker, no accent border — same rule as the plan cards). */
-  .acct-bc-pack{position:relative;display:flex;flex-direction:column;gap:.25rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.5rem;padding:1rem;box-shadow:0 1px 2px 0 rgba(15,23,42,.03)}
+  .acct-bc-pack{position:relative;display:flex;flex-direction:column;gap:.25rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.5rem;padding:1rem;box-shadow:var(--shadow-rest)}
   /* Name + price share one row (shortens the card by a full text line) instead of stacking as
      three separate rows. Token count stays the standalone headline — one bold line, nothing
      competes with it. */
@@ -420,7 +386,7 @@
         <div class="acct-modal-nav" role="navigation" aria-label="Account sections">
           <div class="sbx-pop-sect">
             <span class="sbx-pop-label" id="modal-lbl-acct">Account</span>
-            <div class="sbx-pop-list" role="group" aria-labelledby="modal-lbl-acct">
+            <div class="sbx-pop-list var-rows" role="group" aria-labelledby="modal-lbl-acct">
               <button class="sbx-pop-item" type="button" id="modal-nav-my-account"
                       data-section="my-account" onclick="acctSetSection('my-account')">
                 <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
@@ -449,7 +415,7 @@
           </div>
           <div class="sbx-pop-sect">
             <span class="sbx-pop-label" id="modal-lbl-sup">Support</span>
-            <div class="sbx-pop-list" role="group" aria-labelledby="modal-lbl-sup">
+            <div class="sbx-pop-list var-rows" role="group" aria-labelledby="modal-lbl-sup">
               <button class="sbx-pop-item" type="button" data-section="leave-feedback"
                       onclick="acctSetSection('leave-feedback')">
                 <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M7.5 9.5c0 .687.265 1.383.697 1.844l3.009 3.264a1.14 1.14 0 0 0 .407.314 1 1 0 0 0 .783-.004 1.14 1.14 0 0 0 .398-.31l3.008-3.264A2.77 2.77 0 0 0 16.5 9.5 2.5 2.5 0 0 0 12 8a2.5 2.5 0 0 0-4.5 1.5"/></svg>
@@ -464,11 +430,12 @@
               </a>
             </div>
           </div>
-          <div class="acct-nav-foot">
+          <div class="acct-nav-foot"><div class="sbx-pop-list var-rows">
             <button class="sbx-pop-item danger" type="button">
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
               Log out
             </button>
+            </div>
           </div>
         </div><!-- /acct-modal-nav -->
 
@@ -988,12 +955,12 @@
               <div class="acct-section" style="border-bottom:none;padding-bottom:0">
                 <div class="chpw-field">
                   <label class="acct-field-label" for="chpw-current">Current password</label>
-                  <div class="chpw-igrp">
-                    <span class="chpw-igrp-icon" aria-hidden="true">
+                  <div class="igrp">
+                    <span class="igrp-add" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     </span>
-                    <input id="chpw-current" type="password" placeholder="Enter current password" autocomplete="current-password" />
-                    <button class="chpw-eye" type="button" aria-label="Show current password"
+                    <input id="chpw-current" class="igrp-input" type="password" placeholder="Enter current password" autocomplete="current-password" />
+                    <button class="igrp-act" type="button" aria-label="Show current password"
                             onclick="chpwToggle('chpw-current',this);this.blur()" data-tip="Show password">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
                     </button>
@@ -1001,12 +968,12 @@
                 </div>
                 <div class="chpw-field">
                   <label class="acct-field-label" for="chpw-new">New password</label>
-                  <div class="chpw-igrp">
-                    <span class="chpw-igrp-icon" aria-hidden="true">
+                  <div class="igrp">
+                    <span class="igrp-add" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     </span>
-                    <input id="chpw-new" type="password" placeholder="Enter new password" autocomplete="new-password" />
-                    <button class="chpw-eye" type="button" aria-label="Show new password"
+                    <input id="chpw-new" class="igrp-input" type="password" placeholder="Enter new password" autocomplete="new-password" />
+                    <button class="igrp-act" type="button" aria-label="Show new password"
                             onclick="chpwToggle('chpw-new',this);this.blur()" data-tip="Show password">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
                     </button>

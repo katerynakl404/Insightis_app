@@ -150,3 +150,11 @@ Ghost-dashed "explore more" card. Differences from the default card:
 - **Truncation**: `.prov-card-name` ellipsis-truncates; ensure a `title` attribute is added at point-of-use so the full provider name stays available to AT. ⚠ point-of-use
 - **Composition over raw**: chips and CTA are kit components (`chip-meta`, `btn-primary btn-sm`), never bare elements. ✔
 - **Contrast**: secondary/inactive text on `--card` / `--bg` inherits the kit's AA-verified neutral ramp (Text/Secondary, Text/Inactive). ✔
+
+## Icon wrapper is flat by default (2026-09-19)
+
+`.prov-ic-w` used to default to a brand-tinted fill (`--icon-wrapper-bg`) plus a raw `0 1px 3px rgba(15,23,42,.08)` shadow — while its **only** consumer (Metrics) cancelled both in its own `<style>` (`background:var(--surface-card);box-shadow:none`, commented "concept override"). The kit default now IS the shipped design and the page override is gone.
+
+**Why flat:** the tile frames a *third-party* logo. A tint of ours recolours someone else's brand, and a lift competes with the card the tile already sits inside. Fill `--surface-card`, hairline `--stroke-border`, radius `--radius-panel`, no shadow.
+
+`.prov-ic-w.is-broken` (dashed empty frame when the logo fails to load) moved here from the same page block.

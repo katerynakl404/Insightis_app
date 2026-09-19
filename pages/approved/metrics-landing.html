@@ -18,7 +18,7 @@
   .cl-shell{display:grid;grid-template-columns:16rem 1fr;flex:1 1 0;min-height:0;background:var(--surface-page);transition:grid-template-columns .2s ease;overflow:hidden}
   .cl-shell:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr}
   .cl-side{background:var(--surface-card);border-right:1px solid var(--stroke-border);overflow:hidden;display:flex;flex-direction:column;height:100%}
-  .cl-side .sbx{width:100%;flex:1 1 0;min-height:0;border:none;border-radius:0}
+  .cl-side .sbx{flex:1 1 0;min-height:0}
   .cl-main{position:relative;display:flex;flex-direction:column;width:100%;padding:2.25rem 0 4rem;overflow-y:auto;min-height:0}
   .cl-page{width:100%;max-width:var(--content-max-width);margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;gap:.75rem}
   /* Burger alignment handled globally in kit-theme.css:
@@ -33,7 +33,6 @@
      no scroll benefit and left "Active only" flush against the raw viewport edge. */
   @media(max-width:767px){
     #mx-cat-chips{margin-right:-.75rem;margin-left:-.75rem;padding-left:.75rem;max-width:calc(100% + 1.5rem)}
-    .prov-card .chip-row{margin-right:0;margin-left:0;padding-left:0;max-width:100%;-webkit-mask-image:none;mask-image:none}
   }
 
   /* в”Ђв”Ђ Page header row в”Ђв”Ђ */
@@ -57,12 +56,12 @@
   /* в”Ђв”Ђ Detail side panel в”Ђв”Ђ */
   /* top:0 + z-index:61 (one above .ov's 60) so the panel covers the full viewport, including the
      sticky demo topbar and the <=1023px sticky page head, instead of stopping 40px short. */
-  #mx-panel{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:90vw;background:var(--surface-card);border-left:1px solid var(--stroke-border);box-shadow:-6px 0 24px rgba(15,23,42,.1);display:flex;flex-direction:column;z-index:61;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  #mx-panel{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:90vw;background:var(--surface-card);border-left:1px solid var(--stroke-border);box-shadow:var(--shadow-modal);display:flex;flex-direction:column;z-index:61;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
   .ov.is-open #mx-panel{transform:translateX(0)}
   #mx-panel-head{display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--stroke-border);flex:none}
   #mx-panel-title{flex:1;font-size:var(--ts-title-20-size);line-height:var(--ts-title-20-lh);font-weight:var(--ts-title-20-weight);color:var(--ink-primary);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #mx-panel-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem}
-  .mx-panel-sect{display:flex;flex-direction:column;gap:1rem;padding:1rem;border:1px solid var(--stroke-border);border-radius:.625rem;background:var(--surface-card)}
+  .mx-panel-sect{display:flex;flex-direction:column;gap:1rem;padding:1rem;border:1px solid var(--stroke-border);border-radius:var(--radius-panel);background:var(--surface-card)}
   .mx-panel-sect-title{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-secondary);letter-spacing:var(--tracking-normal);padding-bottom:.5rem;border-bottom:1px solid var(--stroke-border);margin:0}
 
   #mx-panel-cta{padding:1.5rem;border-top:1px solid var(--stroke-border);flex:none}
@@ -78,7 +77,7 @@
   #mx-add-dlg{display:none}
   #mx-add-dlg.is-open{display:flex}
   #mx-add-dlg .field,#mx-add-dlg .ta,#mx-add-dlg select.field{max-width:100%;width:100%}
-  #mx-add-dlg .igrp{background:var(--surface-card);max-width:100%;width:100%}
+  #mx-add-dlg .igrp{max-width:100%;width:100%}
 
   /* в”Ђв”Ђ Category filter header (empty state) в”Ђв”Ђ */
   .mx-cat-header{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;margin-top:1.25rem}
@@ -89,16 +88,12 @@
   /* в”Ђв”Ђ C3 filled toolbar — 2-row layout в”Ђв”Ђ */
   .mx-c3-toolbar{display:none;flex-direction:column;gap:1rem}
   #mx-root.is-filled .mx-c3-toolbar{display:flex}
-  .mx-c3-toolbar .igrp{width:100%;background:var(--surface-card);height:2.5rem}
-  @media(max-width:767px){.mx-c3-toolbar .igrp{height:2.25rem}}
+  .mx-c3-toolbar .igrp{width:100%}
   .mx-c3-filter-chips{display:flex;align-items:center;gap:.375rem;flex-wrap:wrap;row-gap:.5rem}
   /* margin-left:auto pins "Active only" to the right at every width — was reset to 0 on
      mobile, which dropped it flush after the chips on the left instead of staying fixed
      to the right like desktop. flex-wrap on the container still lets it wrap to its own
      line on very narrow screens; auto-margin keeps it right-aligned on that line too. */
-  .mx-c3-toolbar .igrp-add{padding:0 6px 0 10px}
-  .mx-c3-toolbar .igrp-add svg{width:16px;height:16px}
-  .mx-c3-toolbar .igrp-input{padding-left:4px}
 
   /* Tooltip rendered via JS as position:fixed — no clipping */
 
@@ -119,12 +114,7 @@
 
 
 
-  /* C1 icon tile — no brand tint, no shadow (concept override) */
-  .prov-ic-w{background:var(--surface-card);box-shadow:none}
 
-  /* broken image placeholder */
-  .prov-ic-w.is-broken img{display:none}
-  .prov-ic-w.is-broken{border-style:dashed;background:var(--surface-page)}
 
   /* Integration frame + source header are kit components (.ds-intg-* in kit-theme.css) — the
      "New connection" wizard is shared with Connections, so its CSS lives in one place.
@@ -132,9 +122,6 @@
      dark and repainted the provider's blue in our teal. */
 
   /* .banner-grad button styling + .banner-noise grain now live in kit-theme.css (single source). */
-  /* Toast */
-  .mx-toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(.75rem);background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.5rem;box-shadow:0 8px 24px rgba(15,23,42,.14);padding:.625rem 1rem;display:flex;align-items:center;gap:.5rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary);white-space:nowrap;opacity:0;transition:opacity .2s,transform .2s;z-index:80;pointer-events:none}
-  .mx-toast.is-visible{opacity:1;transform:translateX(-50%) translateY(0)}
 
 </style>
 </head>
@@ -202,7 +189,7 @@
 
   <!-- ===== SIDEBAR ===== -->
   <aside class="cl-side">
-    <div class="sbx">
+    <div class="sbx var-embedded">
       <div class="sbx-head">
         <div class="sbx-brand">
           <div class="sbx-brand-id">
@@ -245,17 +232,17 @@
             <button class="sbx-sect-label-wrap" type="button" aria-expanded="true"><span class="sbx-sect-label">Pinned</span><svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
             <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
           </div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Q1 revenue commentary draft</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Onboarding cohort summary</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Churn deep-dive</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Q1 revenue commentary draft</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Onboarding cohort summary</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Churn deep-dive</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
         </div>
         <div class="sbx-sect">
           <div class="sbx-sect-head">
             <button class="sbx-sect-label-wrap" type="button" aria-expanded="true"><span class="sbx-sect-label">Recent</span><svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
             <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
           </div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'"><span class="sbx-chat-lbl">Generate two charts using random data</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'"><span class="sbx-chat-lbl">Generate two charts using random data</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
         </div>
       </div>
       <div class="sbx-foot">
@@ -325,12 +312,12 @@
         </button>
         <h1 class="cl-page-title">Metrics</h1>
         <div class="mx-head-actions" style="display:flex;align-items:center;gap:.5rem">
-          <button class="btn btn-secondary btn-sm mx-add-btn" type="button" id="mx-newconn-btn" onclick="window.location.href='data-sources_connections-landing.html'" style="border-radius:9999px">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <button class="btn btn-secondary btn-sm rf mx-add-btn" type="button" id="mx-newconn-btn" onclick="window.location.href='data-sources_connections-landing.html'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             New Connection
           </button>
-          <button class="btn btn-primary btn-sm mx-add-btn" type="button" id="mx-add-custom-btn" onclick="mxOpenAddDlg()" style="border-radius:9999px">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          <button class="btn btn-primary btn-sm rf mx-add-btn" type="button" id="mx-add-custom-btn" onclick="mxOpenAddDlg()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Create Metric
           </button>
         </div>
@@ -1225,12 +1212,12 @@
 
         <!-- Toolbar: search row + filter chips row -->
         <div class="mx-c3-toolbar" id="mx-c3-toolbar">
-          <div class="igrp" role="search">
+          <div class="igrp is-lg" role="search">
             <span class="igrp-add" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             </span>
             <input class="igrp-input" id="mx-c3-search" type="search" placeholder="Search metrics..." oninput="mxC3Filter()" />
-            <button class="igrp-clear iconbtn iconbtn-tertiary" type="button" aria-label="Clear search" onclick="document.getElementById('mx-c3-search').value='';mxC3Filter()" data-tip="Clear search">
+            <button class="igrp-act igrp-clear" type="button" aria-label="Clear search" onclick="document.getElementById('mx-c3-search').value='';mxC3Filter()" data-tip="Clear search">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
@@ -1285,12 +1272,12 @@
                 <td class="mx-tbl-desc">Month-over-month growth rate of MRR derived from Jira billing data.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-primary">Custom</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
                   <div class="menu kbp-menu" role="menu">
                     <button class="mi" role="menuitem" type="button" onclick="mxEditFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Edit</button>
                     <button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button>
                     <button class="mi danger" role="menuitem" type="button" onclick="mxKebabClose();mxDeleteCustom('custom-1')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</button>
-                  </div>
+                  </div></div>
                 </td>
               </tr>
               <!-- Built-in metrics -->
@@ -1301,10 +1288,10 @@
                 <td class="mx-tbl-desc">Number of issues created in the selected period.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
                   <div class="menu kbp-menu" role="menu">
                     <button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button>
-                  </div>
+                  </div></div>
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Issues resolved" data-alias="@issues_resolved" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of issues resolved (closed) in the selected period. An issue counts as resolved when its status transitions to Done or a custom closed state. Reopened issues are not subtracted from the total." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1314,10 +1301,10 @@
                 <td class="mx-tbl-desc">Number of issues resolved (closed) in the selected period.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
                   <div class="menu kbp-menu" role="menu">
                     <button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button>
-                  </div>
+                  </div></div>
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Sprint velocity" data-alias="@sprint_velocity" data-provider="Jira Software Cloud" data-type="Average" data-desc="Average number of story points completed per sprint. Calculated across all sprints that ended within the selected period. Only counts points from issues in Done status at sprint close." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1327,10 +1314,10 @@
                 <td class="mx-tbl-desc">Average number of story points completed per sprint.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
                   <div class="menu kbp-menu" role="menu">
                     <button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button>
-                  </div>
+                  </div></div>
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Bug count" data-alias="@bug_count" data-provider="Jira Software Cloud" data-type="Count" data-desc="Number of open bugs at the end of the selected period. Counts issues with issue type Bug that have not been resolved. Provides a snapshot of backlog health at the period boundary." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1340,10 +1327,10 @@
                 <td class="mx-tbl-desc">Number of open bugs at the end of the selected period.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
                   <div class="menu kbp-menu" role="menu">
                     <button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button>
-                  </div>
+                  </div></div>
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="jira" data-name="Story points completed" data-alias="@story_pts_completed" data-provider="Jira Software Cloud" data-type="Sum" data-desc="Total story points completed across all sprints in the selected period. Counts only issues in Done status at sprint close. Use alongside Sprint velocity to compare team throughput over time." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1353,10 +1340,10 @@
                 <td class="mx-tbl-desc">Total story points completed across all sprints in the selected period.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
                   <div class="menu kbp-menu" role="menu">
                     <button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button>
-                  </div>
+                  </div></div>
                 </td>
               </tr>
               <!-- Connector sub-header: Skyvia Jira -->
@@ -1374,12 +1361,12 @@
                 <td class="mx-tbl-desc">Average delay between a Jira issue update and its appearance in Insightis.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-primary">Custom</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
                   <div class="menu kbp-menu" role="menu">
                     <button class="mi" role="menuitem" type="button" onclick="mxEditFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Edit</button>
                     <button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button>
                     <button class="mi danger" role="menuitem" type="button" onclick="mxKebabClose();mxDeleteCustom('custom-skyvia-1')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</button>
-                  </div>
+                  </div></div>
                 </td>
               </tr>
 
@@ -1396,7 +1383,7 @@
               <tr class="mx-no-builtin-row" data-prov="azure">
                 <td colspan="6">
                   <div class="mx-no-builtin-msg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex:none"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:var(--icon-xs);height:var(--icon-xs);flex:none"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                     <span>No built-in metrics for Azure DevOps. <button class="link" type="button" onclick="event.stopPropagation();mxOpenAddDlg()">Create a custom metric →</button></span>
                   </div>
                 </td>
@@ -1419,8 +1406,8 @@
                 <td class="mx-tbl-desc">Number of pull requests opened in the selected period.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
-                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
+                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div></div>
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Pull requests merged" data-alias="@prs_merged" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests merged into the main branch in the selected period. Only counts merges into the repository's default branch. PRs closed without merging are not included." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1430,8 +1417,8 @@
                 <td class="mx-tbl-desc">Number of pull requests merged into the main branch in the selected period.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
-                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
+                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div></div>
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Commits per day" data-alias="@commits_per_day" data-provider="GitHub" data-type="Average" data-desc="Average number of commits pushed per calendar day in the selected period. Counts commits across all branches; merge commits are included. Weekends and holidays are not excluded from the daily average." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1441,8 +1428,8 @@
                 <td class="mx-tbl-desc">Average number of commits pushed per calendar day in the selected period.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
-                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
+                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div></div>
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Code review time" data-alias="@code_review_time" data-provider="GitHub" data-type="Duration" data-desc="Average time from pull request creation to first review comment. Measured in hours across all PRs that received at least one review in the selected period. PRs with no review comments are excluded from the calculation." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1452,8 +1439,8 @@
                 <td class="mx-tbl-desc">Average time from pull request creation to first review comment.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
-                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
+                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div></div>
                 </td>
               </tr>
               <tr class="mx-metric-child" data-prov="github" data-name="Issues closed" data-alias="@issues_closed" data-provider="GitHub" data-type="Count" data-desc="Number of GitHub issues closed in the selected period. Counts issues whose state changed to closed, including those auto-closed by a linked pull request. Issues that were reopened and closed again within the same period are counted once." data-custom="false" data-active="false" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1463,8 +1450,8 @@
                 <td class="mx-tbl-desc">Number of GitHub issues closed in the selected period.</td>
                 <td class="mx-tbl-badge"><span class="badge badge-sm badge-secondary">Built-in</span></td>
                 <td class="mx-tbl-actions">
-                  <button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
-                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div>
+                  <div class="kbp-wrap"><button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button>
+                  <div class="menu kbp-menu" role="menu"><button class="mi" role="menuitem" type="button" onclick="mxKebabClose();mxDuplicateFromRow(this.closest('tr'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-duplicate"/></svg>Duplicate</button></div></div>
                 </td>
               </tr>
 
@@ -1519,8 +1506,8 @@
         <div class="mx-swt-wrap"><button class="swt" id="mx-panel-swt" type="button" role="switch" aria-checked="false" aria-label="Toggle active" onclick="mxPanelToggle(this)"></button></div>
         <span id="mx-panel-active-lbl" style="font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-secondary)">Inactive</span>
       </div>
-      <button class="iconbtn iconbtn-tertiary" type="button" aria-label="Close panel" onclick="mxCloseDetail()" style="width:1.75rem;height:1.75rem" data-tip="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Close panel" onclick="mxCloseDetail()" data-tip="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <div id="mx-panel-body"></div>
@@ -1550,7 +1537,7 @@
         <div class="ds-intg-frame">
           <div class="ds-intg-row">
             <div class="ds-intg-lbl">Account</div>
-            <div class="ds-intg-field" style="color:transparent">placeholder</div>
+            <div class="ds-intg-field is-empty">placeholder</div>
           </div>
           <div class="ds-intg-row">
             <div class="ds-intg-lbl">API Key</div>
@@ -1616,7 +1603,7 @@
       <div>
         <label class="mx-form-label" for="mx-alias-inp">Alias</label>
         <div class="field igrp">
-          <span class="igrp-pre" aria-hidden="true">@</span>
+          <span class="igrp-add" aria-hidden="true">@</span>
           <input type="text" id="mx-alias-inp" placeholder="net_revenue" />
         </div>
       </div>
@@ -1890,7 +1877,7 @@ function mxOpenDetail(row) {
          +  '<div><label style="display:block;margin-bottom:.375rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-primary)">Name</label>'
          +  '<div class="field"><input type="text" id="mx-edit-name" value="'+ mxEsc(name) +'" /></div></div>'
          +  '<div><label style="display:block;margin-bottom:.375rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-primary)">Alias</label>'
-         +  '<div class="field igrp"><span class="igrp-pre" style="font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);padding:0 .5rem 0 .75rem;color:var(--ink-secondary)">@</span>'
+         +  '<div class="field igrp"><span class="igrp-add" aria-hidden="true">@</span>'
          +  '<input type="text" id="mx-edit-alias" value="'+ alias.replace(/^@/,'') +'" /></div></div>'
          +  '</div>'
          +  '<div style="display:flex;gap:.5rem;margin-top:.25rem;justify-content:flex-end">'
@@ -1906,7 +1893,7 @@ function mxOpenDetail(row) {
     var rowId = row ? row.getAttribute('data-row-id') : '';
     // Delete (low priority, left) | Edit (primary action, right)
     ctaHtml += '<div style="display:flex;gap:.5rem;width:100%">'
-            +  '<button class="btn btn-outline btn-sm" type="button" style="color:var(--fb-red-text);border-color:var(--fb-red-text);margin-right:auto" onclick="mxDeleteCustom(\''+ rowId +'\');mxCloseDetail()">Delete</button>'
+            +  '<button class="btn btn-outline-destructive btn-sm" type="button" style="margin-right:auto" onclick="mxDeleteCustom(\''+ rowId +'\');mxCloseDetail()">Delete</button>'
             +  '<button class="btn btn-primary btn-sm" id="mx-edit-toggle" type="button" onclick="mxEditFromRow(mxActiveRow)">Edit</button>'
             +  '</div>';
   }
@@ -1914,7 +1901,7 @@ function mxOpenDetail(row) {
   if (predef) {
     ctaHtml += '<div style="background:var(--toast-bg-info);border:1px solid var(--toast-border-info);border-radius:.5rem;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.75rem">'
             +  '<div style="display:flex;align-items:flex-start;gap:.625rem">'
-            +  '<svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex:none;margin-top:.125rem" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>'
+            +  '<svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:var(--icon-md);height:var(--icon-md);flex:none;margin-top:.125rem" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>'
             +  '<p style="font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-body);line-height:1.5;margin:0;flex:1;min-width:0">'
             +  'This metric is designed for <strong style="color:var(--ink-primary);font-weight:600">'+ mxEsc(provider) +'</strong>. '
             +  'Adding a connection activates all its metrics at once — no manual setup needed.'
@@ -2081,25 +2068,12 @@ function mxConnStep1() {
 function mxConnCreate() {
   var label = (document.getElementById('mx-conn-dispname').value.trim()) || _mxConnName || 'Connection';
   mxCloseConnDlg();
-  mxShowToast(label + ' connected successfully');
+  kitToast('<strong>' + mxEsc(label) + '</strong> connected successfully', '', 'success', 'mx-conn');
   mxRoot.classList.add('is-filled');
   var sel = document.getElementById('mx-state-sel');
   if (sel) sel.value = 'filled';
 }
 
-function mxShowToast(msg) {
-  var t = document.createElement('div');
-  t.className = 'mx-toast';
-  t.setAttribute('role', 'status');
-  t.setAttribute('aria-live', 'polite');
-  t.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--fb-green);flex:none" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>' + mxEsc(msg) + '</span>';
-  document.body.appendChild(t);
-  setTimeout(function(){ t.classList.add('is-visible'); }, 16);
-  setTimeout(function(){
-    t.classList.remove('is-visible');
-    setTimeout(function(){ if (t.parentNode) t.parentNode.removeChild(t); }, 300);
-  }, 3500);
-}
 
 function mxConnectProv(item) {
   mxCloseConnDlg();
@@ -2268,7 +2242,7 @@ function mxConfirmAdd() {
     return;
   }
   var rowId = 'custom-' + (mxRowCounter++);
-  var kebabSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>';
+  var kebabSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>';
   var swtHtml = '<div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="'+mxEsc(name)+' — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div>';
 
   /* New 7-col flat table row */
@@ -2291,12 +2265,12 @@ function mxConfirmAdd() {
     + '<td class="mx-tbl-alias">'+mxEsc(aliasVal)+'</td>'
     + '<td class="mx-tbl-desc">'+mxEsc(def)+'</td>'
     + '<td class="mx-tbl-badge"><span class="badge badge-sm badge-primary">Custom</span></td>'
-    + '<td class="mx-tbl-actions">'
-    + '<button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options">'+kebabSvg+'</button>'
+    + '<td class="mx-tbl-actions"><div class="kbp-wrap">'
+    + '<button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions">'+kebabSvg+'</button>'
     + '<div class="menu kbp-menu" role="menu">'
     + '<button class="mi" role="menuitem" type="button" onclick="mxEditFromRow(this.closest(\'tr\'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Edit</button>'
     + '<button class="mi danger" role="menuitem" type="button" onclick="event.stopPropagation();mxDeleteCustom(\''+rowId+'\')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</button>'
-    + '</div></td>';
+    + '</div></div></td>';
 
   var tbody = document.getElementById('mx-filled-body');
   if (tbody) tbody.appendChild(tr);
@@ -2330,7 +2304,7 @@ function mxMakeDuplicateRow(sourceRow) {
   var connector = sourceRow.getAttribute('data-connector') || provider;
   var rowId     = 'custom-' + (mxRowCounter++);
   var aliasVal  = alias ? ('@' + alias) : '';
-  var kebabSvg  = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>';
+  var kebabSvg  = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>';
   var swtHtml   = '<div class="mx-swt-wrap"><button class="swt" type="button" role="switch" aria-checked="false" aria-label="'+mxEsc(name)+' — toggle active" onclick="event.stopPropagation();mxToggleSwt(this)"></button></div>';
   var tr = document.createElement('tr');
   tr.className = 'mx-metric-child';
@@ -2351,12 +2325,12 @@ function mxMakeDuplicateRow(sourceRow) {
     + '<td class="mx-tbl-alias">'+mxEsc(aliasVal)+'</td>'
     + '<td class="mx-tbl-desc">'+mxEsc(desc)+'</td>'
     + '<td class="mx-tbl-badge"><span class="badge badge-sm badge-primary">Custom</span></td>'
-    + '<td class="mx-tbl-actions">'
-    + '<button class="iconbtn iconbtn-tertiary mx-kebab-btn" type="button" aria-label="More options" aria-expanded="false" data-kbp="1" data-tip="More options">'+kebabSvg+'</button>'
+    + '<td class="mx-tbl-actions"><div class="kbp-wrap">'
+    + '<button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-kbp="1" data-tip="More actions">'+kebabSvg+'</button>'
     + '<div class="menu kbp-menu" role="menu">'
     + '<button class="mi" role="menuitem" type="button" onclick="mxEditFromRow(this.closest(\'tr\'))"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Edit</button>'
     + '<button class="mi danger" role="menuitem" type="button" onclick="event.stopPropagation();mxDeleteCustom(\''+rowId+'\')"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</button>'
-    + '</div></td>';
+    + '</div></div></td>';
   return tr;
 }
 function mxDuplicateFromRow(tr) {

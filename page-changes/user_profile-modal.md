@@ -495,3 +495,18 @@ that lifts off a white card is invisible over the dark one.
       11px 600-weight text (too small to qualify as large text). Only accent-on-dark passes at
       5.16:1. Carried over verbatim from `Account-Modal.dc.html`. Remedy: shift the ink mix further
       from the base toward `--ink` (darker label in light theme, lighter in dark).
+
+### Change-password fields are the kit InputGroup — no page copy (locked 2026-09-19)
+
+Both password fields compose the kit outright: `.igrp` + `.igrp-add` (leading lock) + `.igrp-input`
++ `.igrp-act` (Eye / EyeOff toggle). The page `<style>` styles **nothing** about the field — the
+`.chpw-field` rule is a label+control stack and that is all it may ever be.
+
+No surface class is needed: `.igrp` defaults to `--surface-card`, which matches `.field`, `.ta` and
+the modal body. If a field here ever needs the grey recess that is `.igrp.var-filled` — never a page
+override. (The default was inverted on 2026-09-19; see [InputGroup](../changes/InputGroup.md).)
+
+Until 2026-09-19 this page carried its own field: `.chpw-igrp` (no CSS at all, so the field had no
+border), `.chpw-igrp-icon` duplicating `.igrp-add`, and `.chpw-eye` — a full-height end cap that
+re-implemented the trailing control. Never rebuild them. A control docked inside a field is a
+sub-part of the field, not a button, and has no surface of its own.

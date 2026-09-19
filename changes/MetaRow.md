@@ -70,6 +70,21 @@ The inline link action reuses the global `.link` style verbatim — no MetaRow-s
 
 While a selection is active, the consuming page pins the row below the topbar (`position:sticky; top:40px; background:var(--bg)`, no border) via its own glue class — `.cl-meta-sticky` (Chats Library) / `.dsf-meta-sticky` (Files). The component itself declares no positioning.
 
+## Responsive — the row wraps, it never squeezes (fixed 2026-09-19)
+
+`.meta-row` shipped as a plain `display:flex` with no `flex-wrap` and no `white-space` control on its text parts. Flex's default `min-width:auto` shrinking then pushed each text item below its content width as soon as the row ran out of room, and the labels broke **mid-phrase** — "3 / selected", "Select / all". A count and a link are atomic phrases; that is the one thing they must never do.
+
+The row now wraps instead:
+
+| Part | Rule | Why |
+|---|---|---|
+| `.meta-row` | `flex-wrap:wrap` + `row-gap:.5rem` | when the content no longer fits, the end cluster drops to its own line — a legible second row instead of three crushed columns |
+| `.meta-row-count` | `flex:none;white-space:nowrap` | the count is one phrase |
+| `.meta-row > .link` / `.lnk` | `flex:none;white-space:nowrap` | so is the Select-all link |
+| `.meta-row-actions`, `.meta-row-end` | `flex:none` | the button clusters keep their intrinsic size; `.meta-row-end` stays right-aligned on its own line via its existing `margin-left:auto` |
+
+It affected real phone widths on Chats Library and Files, not only the storybook demo where it was spotted.
+
 ## No change (—)
 
 `.meta-row-count`, `.meta-row-actions`, `.meta-row.var-split`, and the `.link` action recipe.

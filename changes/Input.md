@@ -32,8 +32,11 @@ Heights line up with Button (`.btn-xs … .btn-xl`) so an Input + Button row rea
 | `.is-xs` | `1.75rem` (28px) | `.5rem` (8px) | `.25rem` (4px) | `--ts-body-s-*` — icon pinned 14×14 |
 | `.is-sm` | `2rem` (32px) | `.75rem` (12px) | `.5rem` (8px) | `--ts-body-m-*` |
 | `.is-md` (default) | `2.25rem` (36px) | `.75rem` (12px) | `.5rem` (8px) | `--ts-body-m-*` |
-| `.is-lg` | `2.5rem` (40px) | `1rem` (16px) | `.5rem` (8px) | `--ts-body-m-*` |
-| `.is-xl` | `2.75rem` (44px) | `1.25rem` (20px) | `.5rem` (8px) | `--ts-body-m-*` |
+| `.is-lg` | `2.5rem` (40px) | `.75rem` (12px) | `.5rem` (8px) | `--ts-body-m-*` |
+| `.is-xl` | `2.75rem` (44px) | `.75rem` (12px) | `.5rem` (8px) | `--ts-body-m-*` |
+
+> **Side padding stops at `md` (2026-09-19).** It used to climb with the height — 16px at `lg`, 20px at `xl` — and the field read as if the text had been pushed away from its own edges; the wider the control, the more the label floated in the middle. Height, type level and icon size still climb; only the horizontal padding is capped at the `md` value (12px). `xs` keeps its smaller 8px, so the ladder is 8 · 12 · 12 · 12 · 12. Applied across every control family in the same pass — Input, Button, TextArea, Select trigger and InputGroup — so a Button and a field of the same size still line up.
+
 
 Padding-x climbs the 4px step with height — **8 · 12 · 12 · 16 · 20** — the same ladder Button, TextArea and Selector use, so a field and a button of the same size share one edge. 12px holds across `sm` and `md` because that is where the product lives; only the rare large sizes open up. `xs` drops to 8: a 28px control reads cramped at 12 (directive 2026-09-03).
 

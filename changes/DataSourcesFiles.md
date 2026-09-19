@@ -17,11 +17,11 @@
 | **File count row — selection state** | — | `.meta-row` switches to bulk action bar: ✕ icon-button + N selected count + Select all link (left) · Download button + Delete button/destructive (right) | Full Chats Library bulk-action pattern; Download uses `dsf-meta-dl` (neutral); Delete uses `dsf-meta-del` (`--fb-red-text`) |
 | **File count row — hidden** | N/A | Row hidden (`display:none`) when `FILES.length === 0` | Nothing to show when empty |
 | **File rows — checkbox** | Not present | `.cbx` hidden by default; appears on row hover or when `editMode` is true — identical behavior to Chats Library | Checkbox hidden by default per spec |
-| **File rows — structure** | File icon + name + size | `.chat-row` shell: `.cbx` + `.dsf-file-ic` + `.chat-row-name` + `.chat-row-time` (size · date) + `.chat-row-more` kebab | Reuses chat-row component from kit-theme.css; no new row CSS |
+| **File rows — structure** | File icon + name + size | `.chat-row` shell: `.cbx` + `.dsf-file-ic` + `.chat-row-name` + `.chat-row-time` (size · date) + the shared row kebab under a visible `Actions` column header (`.iconbtn.iconbtn-tertiary.iconbtn-2xs` + `data-kbp`) | Reuses chat-row component from kit-theme.css; no new row CSS |
 | **File rows — hover state** | `--state-hover` bg | Same `--state-hover` bg + border-color lift (inherits from `.chat-row:hover`) | Identical to Chats Library row hover |
 | **File rows — selected state** | — | `.is-selected` → `--state-pressed` bg + `--brand-primary` border (inherits from `.chat-row.is-selected`) | Identical to Chats Library row selected |
-| **File rows — kebab button** | Not present | `.chat-row-more` hidden by default (`opacity:0`); fades in on row hover; one open at a time | Identical behavior to Chats Library kebab |
-| **Context menu** | Not present | `.menu.chat-row-menu` anchored to kebab button: Download (with download icon) · Delete (with trash icon, `.danger` class → `--fb-red-text`) | Reuses `.menu`/`.mi`/`.danger` from kit-theme.css |
+| **File rows — kebab button** | Not present | The shared **row kebab** — see [IconButton](IconButton.md) and the "Row kebab — ONE component" block in `kit-theme.css`. Hidden at rest, revealed on row hover / keyboard focus / open menu; one open at a time. **Changed 2026-09-19:** was `.chat-row-more` plus a page `<style>` copy of the reveal, which made this kebab a different size and hover colour from the Metrics and Connections ones. | identical to every other row kebab — nothing page-local left |
+| **Context menu** | Not present | `.menu.kbp-menu` anchored to kebab button: Download (with download icon) · Delete (with trash icon, `.danger` class → `--fb-red-text`) | Reuses `.menu`/`.mi`/`.danger` from kit-theme.css |
 | **File type icon** | Colored square + extension text | `.dsf-file-ic` colored square: `.type-csv` → `--brand-tertiary`; `.type-xls`/`.type-xlsx` → `--fb-green`; all via `--mark-bg` custom property | Token-based; follows the connector-mark pattern from the Connections tab |
 | **Typography** | Ad-hoc sizes | All text via existing type-scale classes and tokens (`--ink`, `--ink-secondary`) at fixed sizes `1rem`/`.8125rem`/`.5625rem` (see reproduction spec for exact per-element sizes) | Token-enforced colours, fixed type-scale sizes |
 
@@ -63,10 +63,10 @@
 ### File row (reuses `.chat-row`)
 
 DOM: `<div class="chat-row [is-selected]" role="listitem" data-id tabindex="0">` containing in order:
-`<span class="cbx [on]" role="checkbox">` (CHECK svg when on) · `<span class="dsf-file-ic type-…">` · `<span class="chat-row-name">` · `<span class="chat-row-time">{size} · {date}</span>` · `<button class="chat-row-more" aria-haspopup="menu">` (KEBAB svg) · `<div class="menu chat-row-menu" role="menu">`.
-All hover / `.is-selected` / checkbox-reveal / `.chat-row-more` opacity-fade / kebab-open behaviour is inherited verbatim from `.chat-row` in kit-theme.css — no local overrides. List toggles `.is-selecting` when `editMode` is true.
+`<span class="cbx [on]" role="checkbox">` (CHECK svg when on) · `<span class="dsf-file-ic type-…">` · `<span class="chat-row-name">` · `<span class="chat-row-time">{size} · {date}</span>` · `<button class="iconbtn iconbtn-tertiary iconbtn-2xs" data-kbp="1" aria-haspopup="menu">` (KEBAB svg) · `<div class="menu kbp-menu" role="menu">`.
+All hover / `.is-selected` / checkbox-reveal / row-kebab reveal / kebab-open behaviour is inherited verbatim from `.chat-row` in kit-theme.css — no local overrides. List toggles `.is-selecting` when `editMode` is true.
 
-**Context menu** `.menu.chat-row-menu` items (both `.mi`, `role="menuitem"`, 14×14 svg, `flex:none`):
+**Context menu** `.menu.kbp-menu` items (both `.mi`, `role="menuitem"`, 14×14 svg, `flex:none`):
 - Download — download-glyph svg + "Download".
 - Delete — `.mi.danger` (→ `--fb-red-text`) — trash-glyph svg + "Delete".
 

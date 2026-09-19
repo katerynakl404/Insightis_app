@@ -17,7 +17,7 @@
   .cl-shell{display:grid;grid-template-columns:16rem 1fr;min-height:calc(100vh - 40px);background:var(--surface-page);transition:grid-template-columns .2s ease}
   .cl-shell:has(.sbx.is-collapsed){grid-template-columns:var(--sbx-collapsed-w) 1fr}
   .cl-side{background:var(--surface-card);border-right:1px solid var(--stroke-border);min-height:calc(100vh - 40px);max-height:calc(100vh - 40px);overflow:hidden;position:sticky;top:40px;display:flex}
-  .cl-side .sbx{width:100%;height:100%;border:none;border-radius:0;flex:1}
+  .cl-side .sbx{height:100%;flex:1}
 
   /* Main column — top-aligned. Uses --content-max-width (960 px alias to --content-max-wide) so
      this page shares the same wide container as the rest of the dashboard surfaces; every block
@@ -38,21 +38,9 @@
   /* Burger alignment handled globally in kit-theme.css — no per-page rules needed. */
   @media(max-width:1023px){.cl-main{padding-top:0}}
 
-  /* Search input — expanded to fill the container (kit's default .field max-width 240 is for inline use) */
-  .cl-search.field{max-width:none;height:2.5rem;background:var(--surface-card)}
-  @media(max-width:767px){.cl-search.field{height:2.25rem}}
-  .cl-search .field-icon{width:16px;height:16px;color:var(--ink-secondary);flex:none}
-  /* Suppress Chrome/Safari's native <input type="search"> clear button — it doesn't match the
-     kit's design language and renders as a plain greyscale X. We use a custom kit-styled clear
-     button below instead. */
-  .cl-search input[type="search"]::-webkit-search-cancel-button,
-  .cl-search input[type="search"]::-webkit-search-decoration{-webkit-appearance:none;appearance:none}
-  /* Custom clear button — visibility glue only; the 24×24 appearance comes from the kit's
-     .iconbtn.iconbtn-tertiary at the 24px .is-row step. Visible whenever the input has content
-     (driven by :has(:not(:placeholder-shown))), hidden when empty so the icon doesn't compete
-     with the placeholder. */
-  .cl-search .iconbtn{display:none}
-  .cl-search:has(input:not(:placeholder-shown)) .iconbtn{display:inline-flex}
+  /* Search — width glue only. Everything else is the kit InputGroup: .is-lg height, .igrp-add
+     leading glyph, .igrp-act.igrp-clear trailing clear (the kit also owns its show/hide). */
+  .cl-search.igrp{max-width:none;width:100%}
 
   /* Chat list — the LIST has no card wrapper (sits on the page background); the rows themselves
      each have a --surface-card surface so they read as distinct list items. 6 px gap separates them.
@@ -150,7 +138,7 @@
        because it silently fails on file:// double-click; an inline copy renders unconditionally.
        When chat-landing's sidebar changes, copy the new markup over. -->
   <aside class="cl-side">
-      <div class="sbx">
+      <div class="sbx var-embedded">
         <div class="sbx-head">
           <div class="sbx-brand">
             <div class="sbx-brand-id">
@@ -200,7 +188,7 @@
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only; Move up/down removed. -->
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../approved/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -211,7 +199,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../approved/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Onboarding cohort summary</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -222,7 +210,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../approved/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Churn deep-dive</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -242,7 +230,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../approved/chat_page-landing.html'">
               <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -253,7 +241,7 @@
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-charts-landing.html'">
               <span class="sbx-chat-lbl">Generate two charts using random data</span>
-              <button class="iconbtn iconbtn-tertiary sbx-chat-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
+              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
               <div class="menu sbx-chat-menu">
@@ -350,10 +338,10 @@
       <!-- Search input — kit's .field shell with leading search icon + trailing custom clear
            button (visible when the input has content). Native Chrome/Safari clear pseudo is
            suppressed via CSS above. -->
-      <div class="field cl-search">
-        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input id="chats-search" type="search" placeholder="Search conversations…" aria-label="Search conversations" oninput="clFilterChats(this.value)">
-        <button class="iconbtn iconbtn-tertiary is-row" type="button" aria-label="Clear search" data-tip="Clear search" onclick="clClearSearch()">
+      <div class="igrp is-lg var-outline cl-search" role="search">
+        <span class="igrp-add" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+        <input class="igrp-input" id="chats-search" type="search" placeholder="Search conversations…" aria-label="Search conversations" oninput="clFilterChats(this.value)">
+        <button class="igrp-act igrp-clear" type="button" aria-label="Clear search" data-tip="Clear search" onclick="clClearSearch()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
@@ -361,7 +349,7 @@
       <!-- Meta Row — re-rendered by clUpdateMeta() based on editMode + selection count. -->
       <div class="meta-row" id="chats-meta"></div>
 
-      <!-- Chat list — rows built from kit .chat-row + .cbx + .chat-row-pin + .chat-row-more + .menu/.mi -->
+      <!-- Chat list — rows built from kit .chat-row + .cbx + .chat-row-pin + [data-kbp] kebab + .menu/.mi -->
       <div class="chat-list" id="chats-list" role="list">
         <!-- Rows injected by clRenderChats() so search filtering and select-all work off a single source. -->
       </div>
@@ -477,13 +465,15 @@
         +   '<span class="chat-row-name">' + escapeHtml(c.name) + '</span>'
         +   (c.pinned ? '<button class="chat-row-pin" type="button" aria-label="Unpin" data-tip="Unpin" aria-pressed="true" data-action="unpin" data-id="' + c.id + '">' + PIN_FILLED + '</button>' : '')
         +   '<span class="chat-row-time">' + escapeHtml(c.time) + '</span>'
-        +   '<button class="chat-row-more" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more" data-id="' + c.id + '" data-tip="More actions">' + KEBAB + '</button>'
-        +   '<div class="menu chat-row-menu" role="menu">'
+        +   '<div class="kbp-wrap">'
+        +   '<button class="iconbtn iconbtn-tertiary iconbtn-2xs" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" data-action="more" data-id="' + c.id + '" data-tip="More actions">' + KEBAB + '</button>'
+        +   '<div class="menu kbp-menu" role="menu">'
         +     '<div class="mi" role="menuitem" data-action="' + (c.pinned ? 'unpin' : 'pin') + '" data-id="' + c.id + '">' + (c.pinned ? '<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin' : '<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin') + '</div>'
         +     '<hr class="menu-sep" role="separator" aria-orientation="horizontal">'
         +     '<div class="mi" role="menuitem" data-action="select-row" data-id="' + c.id + '">' + (c.selected ? '<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-deselect"/></svg>Deselect' : '<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-select"/></svg>Select') + '</div>'
         +     '<div class="mi" role="menuitem" data-action="rename" data-id="' + c.id + '"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div>'
         +     '<div class="mi danger" role="menuitem" data-action="delete" data-id="' + c.id + '"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>'
+        +   '</div>'
         +   '</div>'
         + '</div>';
     }).join('');
@@ -660,7 +650,7 @@
                    (meta-row "Select" link, kebab → Select item).
        Edit mode → toggle the row's selection. */
     var row = e.target.closest('.chat-row');
-    if (row && !e.target.closest('[data-action]') && !e.target.closest('.chat-row-menu')){
+    if (row && !e.target.closest('[data-action]') && !e.target.closest('.kbp-menu')){
       var rid = row.getAttribute('data-id');
       var ritem = CHATS.find(function(c){return c.id===rid;});
       if (!ritem) return;
@@ -675,13 +665,13 @@
       return;
     }
     /* Outside click → close any open menu */
-    if (!e.target.closest('.chat-row-menu') && !e.target.closest('[data-action="more"]')){
+    if (!e.target.closest('.kbp-menu') && !e.target.closest('[data-action="more"]')){
       clCloseAllMenus();
     }
   });
 
   function clCloseAllMenus(){
-    document.querySelectorAll('.chat-row-more[aria-expanded="true"]').forEach(function(b){
+    document.querySelectorAll('[data-kbp][aria-expanded="true"]').forEach(function(b){
       b.setAttribute('aria-expanded','false');
     });
   }
