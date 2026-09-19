@@ -2351,11 +2351,14 @@
      .dsf-file-ic during the lift to avoid a consumer rename; it is now a shared kit atom.
      Height is 24px — the same step the Connections table gives its connector logo
      (.ds-conn-cell-name .logo-spr), so both tables land on one 45px row instead of 45 and 53.
-     It was a 32px square, which made it the tallest thing in the row and set the row height
-     by itself (2026-09-20). Width tracks the label rather than the height: at the 10px overline
-     step a four-letter extension needs ~28px, so a 24px square would clip XLSX — min-width keeps
-     the three-letter marks reading as squares. */
-  .dsf-file-ic{min-width:1.5rem;height:1.5rem;padding:0 .125rem;box-sizing:border-box;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;font-size:var(--ts-overline-size);line-height:var(--ts-overline-lh);font-weight:var(--ts-overline-weight);flex:none;letter-spacing:var(--ts-overline-track);text-transform:uppercase;color:var(--content-on-solid);background:var(--mark-bg,var(--brand-tertiary))}
+     LOCKED — the mark is SQUARE. It is 32px here, which makes it the tallest thing in the row, so
+     the Files table stands at 53px while Connections stands at 45px. That is accepted: a mark of
+     this kind is never allowed to stretch to fit its label. This was briefly 24px tall with a
+     width that tracked the label, to bring the two tables onto one row height, and it was reverted
+     the same day (2026-09-20) — a four-letter extension does not fit a 24px square at the 10px
+     overline step, and the shape wins over the row-height match. Shrinking it again means changing
+     what the label says (per-type map, `xlsx → XLS`), never the aspect ratio. */
+  .dsf-file-ic{width:2rem;height:2rem;border-radius:.375rem;display:inline-flex;align-items:center;justify-content:center;font-size:var(--ts-overline-size);line-height:var(--ts-overline-lh);font-weight:var(--ts-overline-weight);flex:none;letter-spacing:var(--ts-overline-track);text-transform:uppercase;color:var(--content-on-solid);background:var(--mark-bg,var(--brand-tertiary))}
   .dsf-file-ic.type-csv{--mark-bg:var(--brand-tertiary)}
   .dsf-file-ic.type-xls{--mark-bg:var(--fb-green)}
   .dsf-file-ic.type-xlsx{--mark-bg:var(--fb-green)}
