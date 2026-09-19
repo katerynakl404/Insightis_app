@@ -77,22 +77,11 @@
   .dsf-more{display:flex;justify-content:center;margin-top:.25rem}
   .dsf-more:empty{display:none}
   .dsf-more-n{font-variant-numeric:tabular-nums;color:var(--ink-inactive);font-weight:500}
-  /* Table layout — reuses kit table.tbl; .dsf-tbl-wrap itself lives in kit-theme.css */
+  /* The files table (.dsf-tbl-wrap + table.dsf-tbl + every .dsft-* cell) lives in kit-theme.css.
+     What is left here is shell glue: the table scrolls sideways only when the preview pane is open. */
   .cl-shell.has-preview .dsf-tbl-wrap{overflow-x:auto}
-  table.dsf-tbl{margin:0}
   /* Header stays plain (no fill) — kit convention shared with Connections & Metrics; the wrap provides the card + radius. */
-  table.dsf-tbl thead th:first-child{border-top-left-radius:.5rem}
-  table.dsf-tbl thead th:last-child{border-top-right-radius:.5rem}
-  table.dsf-tbl tbody tr:last-child td{border-bottom:none}
-  table.dsf-tbl tbody tr{cursor:pointer}
-  table.dsf-tbl tbody tr td.dsft-cb,table.dsf-tbl tbody tr td.dsft-act{cursor:default}
-  .dsft-name-cell{display:flex;align-items:center;gap:.625rem;min-width:0}
-  .dsft-info{min-width:0;flex:1}
-  .dsft-date-inline{display:none}
-  .dsft-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;color:var(--ink-primary)}
-  td.dsft-size,td.dsft-date{color:var(--ink-secondary);font-variant-numeric:tabular-nums;white-space:nowrap}
   /* Sortable "Modified" header (.dsft-sortbtn + th[aria-sort] chevron) now lives in kit-theme.css — shared table atom. */
-  th.dsft-cb,td.dsft-cb{width:1px;white-space:nowrap}
   /* Actions cell = kit `.mx-tbl-actions` (width, padding-right, position, alignment) — the same
      cell Metrics and Connections use. `.dsft-act` survives ONLY as the hook the mobile card grid
      needs (see the ≤767px block); nothing desktop-side is declared here any more. */

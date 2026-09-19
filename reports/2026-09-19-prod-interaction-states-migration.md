@@ -352,6 +352,67 @@ Vertical padding still climbs in Expected, just on a lower ramp — it scales wi
 
 Verify: `getComputedStyle(el).paddingLeft` reads 12px on every `sm`–`xl` control across Button, Input, InputGroup, Select trigger and TextArea, and 8px on `xs`.
 
+## Also in this batch — a nested row is 8px, everywhere
+
+A row that belongs to the row above it — a metric under its provider, a schema
+under its connection — takes **8px** of vertical padding against a top-level
+row's 10px.
+
+That number already existed. It existed **once**, as a local override on one
+table:
+
+```css
+.mx-metric-child td{padding:.5rem 1rem;height:2.875rem;box-sizing:border-box}
+```
+
+Which is the problem. A number that lives on `.mx-metric-child` is a fact
+about the metrics table, so every other place that nests rows has to either
+invent its own value or not tighten at all — and the contract had already
+drifted off it: `changes/Table.md` documented the same cell as `.4375rem`
+(7px) while the CSS said `.5rem`. Two sources, two answers, no way to tell
+which was intended.
+
+**Why 8 and not 10.** A child row set at the same height as its parent reads as
+its *sibling*. The tighter rhythm is the thing that says it is one level down,
+and it is deliberately the only difference: no tint, no smaller type, no
+separate border treatment. Those would make a child look like a different
+**kind** of object rather than the same object nested.
+
+**What is not in the rule.** Horizontal padding does not change. The first
+cell's indent stays with whoever owns the parent row, because how far in a
+child sits depends on what is in the parent's first cell — a chevron, a logo,
+or both — which the table itself cannot know. In the metrics table that is
+still `--mx-prov-indent`, and the fixed `height:2.875rem` also stays local,
+since "every metric row is identical regardless of content" is a decision about
+that table, not about nesting.
+
+### The change, in three places
+
+| Where | File | Change |
+|---|---|---|
+| Kit | `pages/kit-theme.css` | new `table.tbl tbody tr[data-nested] td{padding:.5rem 1rem}` beside `table.tbl td`; `.mx-metric-child td` keeps only `height` |
+| Kit markup | `components/MetricsTable.html`, `insightis-preview-kit.html`, `skeletons/MetricsTable.html`, `pages/approved/metrics-landing.html` | `data-nested` on every `tr.mx-metric-child`, including the two rows built in JS |
+| Contract | `changes/Table.md` | a **Nested row** entry in the shared-atoms table; the metric-child entry stops restating the padding (and stops being wrong about it) |
+
+The design system carries the same rule as a prop rather than a class, since it
+has no stylesheet to put it in:
+
+```jsx
+<TableRow nested>   // → data-nested → TableCell's group-data-[nested]/row:py-2
+```
+
+`@devart/ui-react`, `src/components/Table/TableRow.tsx` +
+`TableCell.tsx`. Recorded there as §66.
+
+**Zero visual delta on prod.** The only rows that carry `data-nested` today
+are the ones that already had `.5rem` from the override. This is a move of
+where the number lives, not a change to it — which is also why it can ship in
+this batch without its own verification pass.
+
+Verify: `getComputedStyle(document.querySelector('tr.mx-metric-child td')).paddingTop`
+reads `8px`, and removing `.mx-metric-child` from the element still reads
+`8px` as long as `data-nested` is present.
+
 ## Rollback
 
 **Steps 1–7 are a single revertable commit:** the tint scale, `--state-overlay`, the four token definitions, the Tailwind mapping, five class strings. No component markup changes, no renames — every consumer keeps reading the same token names.

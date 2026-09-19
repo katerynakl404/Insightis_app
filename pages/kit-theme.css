@@ -3266,6 +3266,24 @@
      together with its own mobile override below — the class was split across two files, so the
      storybook rendered the table without its card. Base must stay above the @media block. */
   .dsf-tbl-wrap{border:1px solid var(--stroke-border);border-radius:.5rem;background:var(--surface-card)}
+  /* The rest of the files table's desktop form, moved out of the page <style> in the same pass
+     (2026-09-20) for the same reason: the storybook could not render the real table while half
+     its rules lived on the page, so the demo hand-built a lookalike and drifted from it. */
+  table.dsf-tbl{margin:0}
+  /* The wrap owns the card; the head corners follow it so the fill does not square them off. */
+  table.dsf-tbl thead th:first-child{border-top-left-radius:.5rem}
+  table.dsf-tbl thead th:last-child{border-top-right-radius:.5rem}
+  table.dsf-tbl tbody tr:last-child td{border-bottom:none}
+  /* The row opens the file preview; the checkbox and kebab cells are their own targets. */
+  table.dsf-tbl tbody tr{cursor:pointer}
+  table.dsf-tbl tbody tr td.dsft-cb,table.dsf-tbl tbody tr td.dsft-act{cursor:default}
+  .dsft-name-cell{display:flex;align-items:center;gap:.625rem;min-width:0}
+  .dsft-info{min-width:0;flex:1}
+  /* Desktop keeps the date in its own column; the card form below un-hides this inline copy. */
+  .dsft-date-inline{display:none}
+  .dsft-fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;color:var(--ink-primary)}
+  td.dsft-size,td.dsft-date{color:var(--ink-secondary);font-variant-numeric:tabular-nums;white-space:nowrap}
+  th.dsft-cb,td.dsft-cb{width:1px;white-space:nowrap}
   /* Active/press — subtle 1% inward scale + we also calm the hover shadow back to its rest value
      so press doesn't stack depth on top of hover (the combination read as "too contrasted"). The
      bg/border stay at their hover values — single source of feedback there; press contributes
