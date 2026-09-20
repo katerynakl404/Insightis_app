@@ -95,14 +95,14 @@ Same red Feedback tokens as Destructive, applied to the Outlined stroke style.
 
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
-| Default | — (did not exist) | — | border `--btn-outline-destructive-border` (light `Feedback/Red` Red-700 / **dark Red-800**), bg transparent, text `Text/Body` | Dark dims one step — Red-700 reads too saturated against near-black Card |
-| Hover | — | — | border `--btn-outline-destructive-border-hover` (light Red-800 / **dark Red-500**), bg `--btn-outline-destructive-bg-hover` (light `Feedback/Red @6%` / **dark @14%**), text `Text/Body` | Dark flips direction (Red-500 = lighter) + bumps overlay to 14% for parity of perceived prominence |
-| Pressed | — | — | border `--btn-outline-destructive-border-hover`, bg `--btn-outline-destructive-bg-press` (light `Feedback/Red @8%` / **dark @22%**), text `Text/Body` | Same theme-asymmetry rationale as hover |
+| Default | — (did not exist) | — | border `--btn-outline-destructive-border` (light `Feedback/Red` Red-700 / **dark Red-800**), bg transparent, label `--fb-red-text` | Dark dims one step — Red-700 reads too saturated against near-black Card |
+| Hover | — | — | border `--btn-outline-destructive-border-hover` (light Red-800 / **dark Red-500**), bg `--btn-outline-destructive-bg-hover` (light `Feedback/Red @6%` / **dark @14%**), label `--fb-red-text` | Dark flips direction (Red-500 = lighter) + bumps overlay to 14% for parity of perceived prominence |
+| Pressed | — | — | border `--btn-outline-destructive-border-hover`, bg `--btn-outline-destructive-bg-press` (light `Feedback/Red @8%` / **dark @22%**), label `--fb-red-text` | Same theme-asymmetry rationale as hover |
 | Focus | — | — | ring `--shadow-focus` (brand-teal, unified kit-wide) — teal ≠ red, so red-on-red is avoided | Unified brand ring (same `--shadow-focus` as every variant) |
 | Disabled | — | — | border + text `Text/Inactive`, bg transparent | No red tint on disabled |
 | Loading | — | — | spinner inherits Feedback/Red via `currentColor`, `aria-busy`, `--opacity-disabled` | Red preserved at .65 opacity |
 
-> Mirrors the Outlined variant 1:1 — **coloured border + neutral `Text/Body` label**. The label stays `--ink-body` to keep consistency with Outlined. `--btn-outline-destructive-bg-hover` / `--btn-outline-destructive-bg-press` are component-scoped tokens so the mix percentages live in exactly one place.
+> Mirrors the Outlined variant in shape — coloured border, transparent fill — but **not** in label colour: this is the one Outlined variant whose label is its accent, `--fb-red-text`, in every state (see the 2026-09-18 note at the top of this file). A neutral label made it read as a plain outline button that happened to be red-edged. The rule was applied to the rest state and the storybook State mirrors but missed the live `:hover` / `:active`, so the interactive demo alone turned the label neutral under the pointer while the States table stayed red — fixed 2026-09-20 on both Button and IconButton. `--btn-outline-destructive-bg-hover` / `--btn-outline-destructive-bg-press` are component-scoped tokens so the mix percentages live in exactly one place.
 
 ## `.is-disabled` — the aria-disabled form
 

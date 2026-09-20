@@ -111,7 +111,6 @@
        `label 2xl`: the body family stopped at 16, so xl and lg had to share it and a 44px control
        read exactly like a 40px one. 18 is the scale's one unused --text-* rung; the 28px leading is
        the pairing `.text-lg` already established for it. */
-    --ts-body-xl-size:var(--text-18);--ts-body-xl-weight:400;--ts-body-xl-lh:28px;--ts-body-xl-track:var(--tracking-normal);
     /* body l — 16/24 · 400 — intro paragraphs */
     --ts-body-l-size:var(--text-16);--ts-body-l-weight:400;--ts-body-l-lh:24px;--ts-body-l-track:var(--tracking-normal);
     /* body m — 14/20 · 400 — main text */
@@ -121,7 +120,6 @@
     /* label 2xl — 18/28 · 500 — the xl button label, the top of the control ladder. Without it xl
        and lg shared 16 and the two biggest buttons were typographically identical, which is the
        plateau this whole pass set out to remove. */
-    --ts-label-2xl-size:var(--text-18);--ts-label-2xl-weight:500;--ts-label-2xl-lh:28px;--ts-label-2xl-track:var(--tracking-normal);
     /* label xl — 16/24 · 500 — the lg control label. Added 2026-09-19: the label family stopped
        at 14, so a 16px control label had nowhere to go and the large Button sizes were stitching one
        out of `body-l` (400) plus a hand-written `font-weight:500`. A button label is a LABEL — it
@@ -262,6 +260,13 @@
        token used by .link, .cl-kw, and any other "emphasised text" so every highlight stays
        consistent across the system. */
     --ink-highlight:var(--brand-primary);
+    /* A standalone interactive icon — one with no box of its own, so there is
+       nothing to fill on hover and the glyph colour is the only thing that can
+       answer the pointer. A control WITH a box (an icon button) does not use
+       these: it has --state-hover for that. Both alias existing ink roles, so
+       the dark theme re-resolves them without its own pair. */
+    --ink-icon:var(--ink-secondary);
+    --ink-icon-hover:var(--ink-primary);
     --fb-attention:var(--orange-500);--fb-attention-text:#b45309;--fb-green:var(--green-light-600);
     /* Popular-connector flame badge (DataSourceCard) — decorative red flame, not a logo, so it
        flows through a token. Red-500 reads as a warm "trending" accent on the white badge ring. */
@@ -627,6 +632,14 @@
        Brighter than Brand-Primary's Brand-500 mapping so links and highlighted text "pop"
        in dark without adding a new primitive. */
     --ink-highlight:var(--tertiary-400);
+    /* Repeated here, not inherited: a custom property is substituted on the
+       element that declares it, so a pair written only in the light block
+       resolves there — with light values — and a `.dark` further down the tree
+       inherits that finished result. The expressions are identical, so a
+       document-level dark is unchanged; this is what makes a dark SECTION
+       (a preview panel, a forced-dark page) paint the glyphs correctly. */
+    --ink-icon:var(--ink-secondary);
+    --ink-icon-hover:var(--ink-primary);
     --fb-attention:var(--orange-500);--fb-attention-text:#fb923c;--fb-green:var(--green-dark-500);
     /* Featured plan card — the 8% wash that lifts off white is invisible over the dark card, so
        the top stop nearly doubles. Fade length stays 40% so the accent still clears the name row. */
@@ -899,8 +912,8 @@
   .btn-destructive:active{background:var(--fb-error-press)}
   .btn-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-destructive:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
-  .btn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
-  .btn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
+  .btn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
+  .btn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--fb-red-text)}
   .btn-outline-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
   /* Real :disabled parity for the remaining variants — mirror their .s-disabled forced-class
@@ -999,8 +1012,8 @@
   .iconbtn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
   .iconbtn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
   .iconbtn-tertiary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .iconbtn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--ink-body)}
-  .iconbtn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--ink-body)}
+  .iconbtn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
+  .iconbtn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--fb-red-text)}
   .iconbtn-outline-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
 
@@ -2239,6 +2252,22 @@
   .acc-item{border-bottom:1px solid var(--stroke-border)} .acc-item:last-child{border-bottom:none}
   .acc-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-primary);cursor:pointer}
   .acc-b{padding:0 12px 12px;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-body)}
+  /* The panel animates open and shut rather than snapping. Prod snapped, which
+     is what the kit used to describe; @devart/ui-react has always animated, and
+     the animation is the agreed behaviour — so the kit moves to it rather than
+     the package moving back.
+
+     grid-template-rows 0fr -> 1fr is the one technique that animates to the
+     content's OWN height without measuring it in JS, which is why the panel
+     needs the inner wrapper: a grid item cannot be the thing that collapses and
+     the thing that holds the padding at the same time. */
+  .acc-item > .acc-b{display:grid;grid-template-rows:1fr;transition:grid-template-rows var(--motion-base,.2s) ease}
+  .acc-item > .acc-b > *{min-height:0;overflow:hidden}
+  .acc-item[aria-expanded="false"] > .acc-b,
+  .acc-item.is-collapsed > .acc-b{grid-template-rows:0fr;padding-bottom:0}
+  @media (prefers-reduced-motion:reduce){
+    .acc-item > .acc-b{transition:none}
+  }
   .statv{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:24px;border:1px solid var(--stroke-border);border-radius:.5rem;background:var(--surface-card);width:220px}
   .statv .vic{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:var(--radius-full)}
   .statv-info .vic{background:color-mix(in srgb, var(--brand-primary) var(--tint-10), transparent);color:var(--brand-primary)}
@@ -2478,9 +2507,16 @@
      shifts the glyph COLOUR only. Focus still rings — that is accessibility, not decoration.
      It takes the FIELD's glyph step (ICON SCALE), so the leading and trailing icons of one input
      read as a pair, and the box is glyph + 8 so the inset side-pad − 4 lands both on one rail. */
-  .igrp .igrp-act{display:inline-flex;align-items:center;justify-content:center;width:calc(var(--icon-md) + 8px);height:calc(var(--icon-md) + 8px);flex:none;margin-right:8px;padding:0;background:none;border:none;cursor:pointer;font-family:inherit;color:var(--ink-secondary);transition:color var(--motion-fast) var(--motion-ease)}
+  /* Colour comes from the --ink-icon pair, not from the ink ladder directly:
+     this glyph has no box of its own — no fill, no border, no hover pill,
+     because the field already owns hover, focus and press — so colour is the
+     only thing that can answer the pointer, and that is what the pair is for.
+     The values are the same steps as before (Secondary → Primary on hover);
+     what changes is that retuning every boxless interactive glyph is now one
+     edit instead of a hunt through component rules. */
+  .igrp .igrp-act{display:inline-flex;align-items:center;justify-content:center;width:calc(var(--icon-md) + 8px);height:calc(var(--icon-md) + 8px);flex:none;margin-right:8px;padding:0;background:none;border:none;cursor:pointer;font-family:inherit;color:var(--ink-icon);transition:color var(--motion-fast) var(--motion-ease)}
   .igrp .igrp-act svg{width:var(--icon-md);height:var(--icon-md);flex:none}
-  .igrp .igrp-act:hover{color:var(--ink-body)}
+  .igrp .igrp-act:hover{color:var(--ink-icon-hover)}
   .igrp .igrp-act:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* Clearable X for search-style InputGroups — pure CSS reveal via :has(:not(:placeholder-shown)) so the X appears only when the input has content. JS wires the click → clear behaviour. Placed AFTER the trailing-action rules so its display:none wins at rest. */
   /* Native WebKit clear &times; on <input type="search"> — greyscale, unstyleable, and it duplicates
@@ -2555,7 +2591,12 @@
   .sel-trig[aria-expanded="true"]+.sel-menu{display:block}
   .sel-trig.is-sm{height:2rem} .sel-trig.is-lg{height:2.5rem} .sel-trig.is-xl{height:2.75rem}
   .sel-trig.is-lg{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
-  .sel-trig.is-xl{font-size:var(--ts-body-xl-size);line-height:var(--ts-body-xl-lh)}
+  /* 16px, the same as .is-lg. The 18px styles these two rungs used to share were
+     made for inputs and then dropped — the decision is to stay at 16 — so an XL
+     control is TALLER than an lg one (2.75rem against 2.5rem), not larger-typed.
+     This rule was the last consumer of --ts-body-xl-*, which is why that style
+     could go. */
+  .sel-trig.is-xl{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
 
   /* Popover */
   .pop{width:200px;border:1px solid var(--stroke-border);background:var(--surface-page);color:var(--ink-primary);border-radius:6px;padding:16px;box-shadow:var(--shadow-overlay-soft);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
