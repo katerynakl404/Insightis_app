@@ -239,16 +239,18 @@ The wizard is a **host dialog of ours wrapping an integrated third-party connect
   | Size | Height | Side padding | Tailwind | Icon gap |
   |---|---|---|---|---|
   | xs | 28px | **8px** | `px-2` | `gap-1` (4px) |
-  | sm | 32px | **12px** | `px-3` | `gap-2` (8px) |
+  | sm | 32px | **12px** | `px-3` | `gap-1.5` (6px) |
   | md | 36px | **12px** | `px-3` | `gap-2` (8px) |
-  | lg | 40px | **12px** | `px-3` | `gap-2` (8px) |
-  | xl | 44px | **12px** | `px-3` | `gap-2` (8px) |
+  | lg | 40px | **16px** | `px-4` | `gap-2` (8px) |
+  | xl | 44px | **20px** | `px-5` | `gap-2` (8px) |
 
-- **12px is the inset from `sm` upward, not a step on a climbing ladder.** A bigger control grows its *label* and its *glyph*, not its air: 14 → 16 on the type, 16 → 20 on the icon. Growing the padding instead produces a wider control that is no more prominent — a 44px button holding a 14px label is an oversized `md`.
+- **12px repeats at `sm` and `md` on purpose** — those are the two sizes the product actually uses (157 and 80 instances against 3 and 1 for `lg`/`xl`). The sizes people see stay on one rail; only the rare large ones open up. The label steps with it at `lg` (14 → 16), so a large control is larger in both axes rather than just wider.
 
-  > **Corrected 2026-09-20.** This table first read 16px at `lg` and 20px at `xl`, and that is what the package implemented. Measured against `kit-theme.css` afterwards: `.btn-sm`, `.btn-md`, `.btn-lg` and `.btn-xl` all carry `padding: 0 .75rem`, and the kit grows the type instead. The package now matches — see DESIGN-SYSTEM-CHANGES.md §49.
-- **Applies to:** button · single-line input · textarea (horizontal only — vertical padding still scales with height) · input group — the rail lands on the prefix, and the prefix sits **8px** from the text (4px at `xs`), not 22px · select / dropdown trigger.
-- **Icon size follows the label, not the box** — one scale, **14 / 16 / 16 / 20 / 20**, repeating at both ends the way the type does (12 / 14 / 14 / 16 / 16). Set it in the component, never per instance. The kit’s `--icon-xl` is 24px and is deliberately not used on a control: on a 44px box a 24px glyph outgrows its control and dwarfs the label beside it.
+  > **2026-09-20.** `kit-theme.css` did not have this: `.btn-sm` through `.btn-xl` all carried `padding: 0 .75rem`, so `lg` and `xl` sat at 12px there. The kit has been brought to this table, not the other way round — the ladder here is the spec.
+- **Applies to:** button · single-line input · textarea (horizontal only — vertical padding still scales with height) · input group — the rail lands on the prefix, and the prefix sits **8px** from the text (6px at `sm`, 4px at `xs`), not 22px · select / dropdown trigger.
+- **Icon size follows the label, not the box** — one scale, **14 / 16 / 16 / 20 / 20**, repeating at both ends the way the type does (12 / 14 / 14 / 16 / 16). Set it in the component, never per instance. 24px — the kit's `--icon-xl` — is used by nothing: on a 44px box a glyph that size outgrows its control and dwarfs the label.
+
+  > **Superseded 2026-09-20.** This line first read "16 × 16, and 14 × 14 at `xs`". The glyph grows with the control instead: a 16px icon in a 40px or 44px box is adrift in it.
 - **Fix:** one pass across the shared control CSS, not per form. Afterwards check every screen with a form — Metrics, the connection wizard, rename dialogs, Files filters.
 ### #16 · All pages · Dropdown trigger icons are oversized
 - **Problem:** the icons inside a dropdown trigger — the clear ✕ and the chevron — are drawn larger than the design. In a 36px-tall control they crowd the right edge and pull attention away from the selected value, which is the only thing that should read strongly in that row.
@@ -390,14 +392,12 @@ be used where a literal is written instead.**
 | Size | Height | Now | Should be | Gap |
 |---|---|---|---|---|
 | xs | 28px | 10px | **8px** | 4px |
-| sm | 32px | 10px | **12px** | 8px |
+| sm | 32px | 10px | **12px** | 6px |
 | md | 36px | 10px | **12px** | 8px |
-| lg | 40px | 10px | **12px** | 8px |
-| xl | 44px | 10px | **12px** | 8px |
+| lg | 40px | 10px | **16px** | 8px |
+| xl | 44px | 10px | **20px** | 8px |
 
-- Input, TextArea and Selector take the identical ladder, so a button and a field of the same size share one edge. 12px holds from `sm` upward: above `md` it is the label (14 → 16) and the glyph (16 → 20) that grow, not the inset.
-
-  > **Corrected 2026-09-20** — see #15.
+- Input, TextArea and Selector take the identical ladder, so a button and a field of the same size share one edge. 12px repeats at `sm` and `md` deliberately — those are the two sizes the product actually uses (157 and 80 uses against 3 and 1).
 - The `transparent` variant carries `!p-0` to escape this; once padding lives in one place that override goes.
 
 ### #37 · Kit · Every icon-only button with a trailing slot has a doubled gap

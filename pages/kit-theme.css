@@ -513,20 +513,17 @@
     --radius-full:9999px;  /* pills & circles (.swt, .chip, avatar, .b-dot, .spinner) */
     /* ICON SCALE — glyph size per size step, shared by EVERY sized control (Button, IconButton,
        Input, InputGroup, Selector), so a button and a field of the same size carry the same glyph.
-       The glyph grows WITH the control (2026-09-19). This supersedes audit #15's "icon size follows
-       the label, not the box": the label only steps at xs, which left a 16px glyph adrift in a 40px
-       or 44px control.
-       The top of the ladder is the canonical icon scale 16 · 20 · 24. lg/xl were first set to 18/20
-       and read visibly undersized in a 40px and 44px field (reviewed on the rendered component,
-       2026-09-19) — a large control wants a large glyph, not the middle one nudged. The small end
-       keeps the 2px sub-step because 14 is fixed there; the large end moves on the full 4px step.
-       TWO PLATEAUS, both deliberate — do NOT "fix" either into a strictly monotonic ladder:
+       THREE PLATEAUS, all deliberate — do NOT "fix" any of them into a strictly monotonic ladder:
        · 2xs·xs share 14 because the 24px row-action rung is locked at 14 (audit #11 — "a deliberate
          value on our icon scale, do not round it to 12 or 16"), and nothing may sit above its box.
-       · sm·md share 16 because an icon answers to the LABEL it sits beside as well as to the box,
-         and the label is 14px on sm through xl. 16 next to 14px text keeps the weight on the words;
-         18 there would make the glyph outweigh its own label on md — the most-used step in the
-         product. Reviewed and accepted 2026-09-19 with the alternative (md → 18) on the table. */
+       · sm·md share 16 because an icon answers to the LABEL it sits beside as well as to the
+         box, and the label is 14px there. 16 next to 14px text keeps the weight on the words; 18
+         would make the glyph outweigh its own label on md, the most-used step in the product.
+         Reviewed and accepted 2026-09-19 with the alternative (md → 18) on the table. lg·xl then
+         take the full 4px step to 20: a large control wants a large glyph, not the middle one
+         nudged. (16 at lg was tried on 2026-09-20 and reverted the same day.)
+       · the top stops at 20. The canonical scale ends 16 · 20 · 24, but 24 in a 44px control is an
+         icon that outgrew its box, so xl takes 20 and nothing takes 24. */
     --icon-xs:14px; --icon-sm:16px; --icon-md:16px; --icon-lg:20px; --icon-xl:20px;
   }
 
@@ -823,10 +820,17 @@
      (the label family's 16px rung, added with this change — a button label is a label, not a heading). */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;white-space:nowrap;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);border-radius:.375rem;transition:all .12s;cursor:pointer;border:1px solid transparent;font-family:inherit}
   .btn-xs{height:1.75rem;padding:0 .5rem;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);gap:.25rem}
-  .btn-sm{height:2rem;padding:0 .75rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh)}
+  /* gap .375rem: the icon-to-label ladder is 4 / 6 / 8 / 8 / 8, not one value with an xs
+     exception. 8px reads loose at 32px against a 14px label, and sm is the step the product
+     uses most. .btn keeps 8 for md and up; .btn-xs keeps 4. */
+  .btn-sm{height:2rem;padding:0 .75rem;gap:.375rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh)}
   .btn-md{height:2.25rem;padding:0 .75rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh)}
-  .btn-lg{height:2.5rem;padding:0 .75rem;font-size:var(--ts-label-xl-size);line-height:var(--ts-label-xl-lh)}
-  .btn-xl{height:2.75rem;padding:0 .75rem;font-size:var(--ts-label-xl-size);line-height:var(--ts-label-xl-lh)}
+  /* Padding ladder 8 / 12 / 12 / 16 / 20 — UX audit #15 and #36. lg and xl sat at 12px here
+     until 2026-09-20, which made a 44px control as tight as a 36px one; the report is the spec
+     and this file was the copy that had not caught up. Input, TextArea and Selector take the
+     identical ladder, so a button and a field of the same size share one edge. */
+  .btn-lg{height:2.5rem;padding:0 1rem;font-size:var(--ts-label-xl-size);line-height:var(--ts-label-xl-lh)}
+  .btn-xl{height:2.75rem;padding:0 1.25rem;font-size:var(--ts-label-xl-size);line-height:var(--ts-label-xl-lh)}
   /* Icon sizing — the shared ICON SCALE, so markup never hand-sizes an icon and a button lines up
      with a field of the same size. */
   .btn svg{width:var(--icon-md);height:var(--icon-md);flex:none}
@@ -1087,12 +1091,12 @@
   .field.is-sm .field-icon{width:var(--icon-sm);height:var(--icon-sm)}
   .field.is-lg .field-icon{width:var(--icon-lg);height:var(--icon-lg)}
   .field.is-xl .field-icon{width:var(--icon-xl);height:var(--icon-xl)}
-  .field.is-sm{height:2rem;padding:0 .75rem;gap:.5rem}
+  .field.is-sm{height:2rem;padding:0 .75rem;gap:.375rem}
   .field.is-sm input{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   .field.is-md{height:2.25rem}
-  .field.is-lg{height:2.5rem}
+  .field.is-lg{height:2.5rem;padding:0 1rem}
   .field.is-lg input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
-  .field.is-xl{height:2.75rem}
+  .field.is-xl{height:2.75rem;padding:0 1.25rem}
   .field.is-xl input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
   /* TextArea size variants — height becomes a min-height so the resize handle still works.
      Padding scales with the visual weight; font size matches .field at the same step. */
@@ -2550,8 +2554,13 @@
   .igrp.is-xs .igrp-input{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);padding-left:4px}
   .igrp.is-lg .igrp-input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
   .igrp.is-xl .igrp-input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
-  .igrp.is-xs .igrp-add{padding:0 0 0 8px}
-  .igrp.is-lg .igrp-add,.igrp.is-xl .igrp-add{padding:0 0 0 12px}
+  .igrp.is-sm .igrp-input{padding-left:6px}
+  .igrp.is-sm .igrp-add{gap:6px}
+  .igrp.is-xs .igrp-add{padding:0 0 0 8px;gap:4px}
+  .igrp.is-lg .igrp-add{padding:0 0 0 16px}
+  .igrp.is-xl .igrp-add{padding:0 0 0 20px}
+  .igrp.is-lg .igrp-input{padding-right:16px}
+  .igrp.is-xl .igrp-input{padding-right:20px}
   .igrp.is-xs .igrp-add svg,.igrp.is-xs .igrp-act svg{width:var(--icon-xs);height:var(--icon-xs)}
   .igrp.is-sm .igrp-add svg,.igrp.is-sm .igrp-act svg{width:var(--icon-sm);height:var(--icon-sm)}
   .igrp.is-lg .igrp-add svg,.igrp.is-lg .igrp-act svg{width:var(--icon-lg);height:var(--icon-lg)}
