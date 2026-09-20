@@ -3062,7 +3062,9 @@
 
   /* Shared catalog-tile bits. */
   .ds-card-hover{display:none}
-  .ds-card-connect span{margin-left:.25rem}
+  /* No extra label margin: the gap between a button's glyph and its label is
+     .btn{gap:.5rem} and nothing else. The .25rem that used to sit here made
+     this one button 12px where every other is 8. */
 
   /* ===== Catalog tile — APPROVED layout (was "Variant 3"): compact ~square vertical tile — small
      logo on top, name below; Connect revealed over a translucent scrim on hover (desktop) and on
