@@ -67,8 +67,12 @@
   /* Composer trigger buttons (.cl-attach / .cl-dropdown), menu anchoring (.cl-dropdown-wrap /
      .cl-dropdown-menu) and the attached-file chip (.cl-file-chip) now live in the single source
      pages/kit-theme.css (storybook #composer-menus). Page <style> keeps only layout glue below. */
-  .cl-send{height:2rem;padding:0 .75rem;gap:.375rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);border-radius:.375rem;white-space:nowrap;flex:none}
-  .cl-send svg{width:var(--icon-xs);height:var(--icon-xs)}
+  /* The composer send button IS the system button — .btn.btn-primary.btn-sm. What stays
+     here is only what the page owns: it must not flex, and below the composer breakpoint it
+     collapses to an icon-only square. Size, padding, gap, type, radius and icon size all come
+     from .btn-sm now; hand-restating them is how this button ended up with a 6px gap where
+     the ladder says 8 and a 14px glyph where a 32px control takes 16. */
+  .cl-send{white-space:nowrap;flex:none}
 
   /* Negative margin-top pulls the chips up to shrink the visual gap from the composer
      (hero's gap is 28px; with -4px here the composer-to-chips gap reads as 24px, while
@@ -587,7 +591,7 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-primary cl-send" type="button" disabled aria-label="Send message" onclick="location.href='chat_page-landing.html'">
+          <button class="btn btn-primary btn-sm cl-send" type="button" disabled aria-label="Send message" onclick="location.href='chat_page-landing.html'">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             <span class="cl-send-lbl">Send</span>
           </button>

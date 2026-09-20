@@ -109,8 +109,12 @@
      .cl-dropdown-menu) and the attached-file chip (.cl-file-chip) now live in the single source
      pages/kit-theme.css (storybook #composer-menus). Page <style> keeps only layout glue below. */
   /* Radius is concentric with the composer: outer 1rem − .5rem padding = .5rem inner. */
-  .cl-send{height:2rem;padding:0 .75rem;gap:.375rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);border-radius:.5rem}
-  .cl-send svg{width:var(--icon-xs);height:var(--icon-xs)}
+  /* The composer send button IS the system button — .btn.btn-primary.btn-sm. What stays
+     here is only what the page owns: it must not flex, and below the composer breakpoint it
+     collapses to an icon-only square. Size, padding, gap, type, radius and icon size all come
+     from .btn-sm now; hand-restating them is how this button ended up with a 6px gap where
+     the ladder says 8 and a 14px glyph where a 32px control takes 16. */
+  .cl-send{white-space:nowrap;flex:none}
   /* Send button — always shows active styling even with disabled attr (visual continuity) */
   .cl-send[disabled]{background:var(--brand-primary);color:var(--content-on-solid);border-color:transparent;opacity:1;pointer-events:none}
 
@@ -570,7 +574,7 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
                 </div>
               </div>
             </div>
-            <button class="btn btn-primary cl-send" type="button" disabled aria-label="Send message">
+            <button class="btn btn-primary btn-sm cl-send" type="button" disabled aria-label="Send message">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
               Send
             </button>
