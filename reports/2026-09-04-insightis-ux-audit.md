@@ -234,15 +234,15 @@ The wizard is a **host dialog of ours wrapping an integrated third-party connect
 
 ### #15 · All pages · Side padding is inconsistent across controls
 - **Problem:** side padding differs between control types and does not scale with size, so text does not start on the same vertical line down a form, and a large control is as tight as a small one. Measured on prod ("Create metric"): single-line inputs, the textarea, the alias input group and the select trigger each use a different value; buttons use one value — `px-2.5` — on all five sizes.
-- **Expected — one ladder, climbing the 4px step with height:**
+- **Expected — the canonical ladder. Four sources carry this table and they must agree:** this report, [the prod-migration report](2026-09-19-prod-interaction-states-migration.md), `pages/kit-theme.css` and `devart.ui.react`.
 
-  | Size | Height | Side padding | Tailwind | Icon gap |
-  |---|---|---|---|---|
-  | xs | 28px | **8px** | `px-2` | `gap-1` (4px) |
-  | sm | 32px | **12px** | `px-3` | `gap-1.5` (6px) |
-  | md | 36px | **12px** | `px-3` | `gap-2` (8px) |
-  | lg | 40px | **16px** | `px-4` | `gap-2` (8px) |
-  | xl | 44px | **20px** | `px-5` | `gap-2` (8px) |
+  | step | height | button padding | field padding | gap | label | glyph |
+  |---|---|---|---|---|---|---|
+  | xs | 28 | 8 | 8 | 4 | 12 | 14 |
+  | sm | 32 | 12 | 12 | 6 | 14 | 16 |
+  | md | 36 | 12 | 12 | 8 | 14 | 16 |
+  | lg | 40 | **16** | 12 | 8 | 16 | 20 |
+  | xl | 44 | **20** | 12 | 8 | 16 | 20 |
 
 - **12px repeats at `sm` and `md` on purpose** — those are the two sizes the product actually uses (157 and 80 instances against 3 and 1 for `lg`/`xl`). The sizes people see stay on one rail; only the rare large ones open up. The label steps with it at `lg` (14 → 16), so a large control is larger in both axes rather than just wider.
 

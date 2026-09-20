@@ -309,7 +309,22 @@ Measure with a **real pointer**, not by toggling a simulation class — a synthe
 
 Measured in the development Storybook (`devart-ui-react`, the `components-*--sizes` stories) against the Expected kit. Unrelated to the states above, but shipping together.
 
-Development already does the important part: side padding does **not** grow with the control height. What differs is the value, and that it is not the same number across the families. Expected settles all of them on **12px from `sm` up**, with `xs` one step smaller at **8px**, so a Button, a field and a TextArea of the same size line up on one rail.
+Development already does the important part: side padding does **not** grow with the control height *inside a family*. What differs is the value, and that it is not the same number across the families.
+
+**The canonical ladder — this table is the one all four sources carry** (this report, the [UX audit](2026-09-04-insightis-ux-audit.md) #15/#36, `Insightis/pages/kit-theme.css`, and `devart.ui.react`):
+
+| step | height | button padding | field padding | gap | label | glyph |
+|---|---|---|---|---|---|---|
+| xs | 28 | 8 | 8 | 4 | 12 | 14 |
+| sm | 32 | 12 | 12 | 6 | 14 | 16 |
+| md | 36 | 12 | 12 | 8 | 14 | 16 |
+| lg | 40 | **16** | 12 | 8 | 16 | 20 |
+| xl | 44 | **20** | 12 | 8 | 16 | 20 |
+
+Two things in it are easy to get wrong:
+
+- **The button opens out at `lg` and `xl`; the field does not.** The two share an edge at `xs`, `sm` and `md` — every step the product actually uses — and part company above them. A button's inset is what makes its label read as a target; a field is a place to put text and reads tighter the nearer its value starts to the edge. (This report first settled every family on a flat 12px from `sm` up; amended 2026-09-20.)
+- **The gap has three steps, not two.** 8px reads loose at 32px against a 14px label, and `sm` is the step the product uses most — which is why the published package's flat 6px was right *there* and wrong everywhere else.
 
 ### Button — `components-button--sizes`
 
@@ -318,8 +333,8 @@ Development already does the important part: side padding does **not** grow with
 | xs | 28px | `px-2.5` 10px | **`px-2` 8px** |
 | sm | 32px | `px-2.5` 10px | **`px-3` 12px** |
 | md | 36px | `px-2.5` 10px | **`px-3` 12px** |
-| lg | 40px | `px-2.5` 10px | **`px-3` 12px** |
-| xl | 44px | `px-2.5` 10px | **`px-3` 12px** |
+| lg | 40px | `px-2.5` 10px | **`px-4` 16px** |
+| xl | 44px | `px-2.5` 10px | **`px-5` 20px** |
 
 Height and type level already match Expected — nothing there changes.
 
