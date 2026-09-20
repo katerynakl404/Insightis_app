@@ -417,7 +417,7 @@ has no stylesheet to put it in:
 ```
 
 `@devart/ui-react`, `src/components/Table/TableRow.tsx` +
-`TableCell.tsx`. Recorded there as §66.
+`TableCell.tsx`. Recorded there as §63.
 
 **Zero visual delta on prod.** The only rows that carry `data-nested` today
 are the ones that already had `.5rem` from the override. This is a move of
