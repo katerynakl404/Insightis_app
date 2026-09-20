@@ -826,9 +826,12 @@
   .btn-sm{height:2rem;padding:0 .75rem;gap:.375rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh)}
   .btn-md{height:2.25rem;padding:0 .75rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh)}
   /* Padding ladder 8 / 12 / 12 / 16 / 20 — UX audit #15 and #36. lg and xl sat at 12px here
-     until 2026-09-20, which made a 44px control as tight as a 36px one; the report is the spec
-     and this file was the copy that had not caught up. Input, TextArea and Selector take the
-     identical ladder, so a button and a field of the same size share one edge. */
+     until 2026-09-20, which made a 44px button as tight as a 36px one; the report is the spec
+     and this file was the copy that had not caught up.
+     THE FIELD FAMILY DOES NOT FOLLOW IT PAST md: .field, .igrp and .ta hold 12px at lg and xl.
+     A button and a field share an edge at xs/sm/md — the three steps the product uses — and
+     part company above them, because a button's inset is what makes its label read as a
+     target while a field is a place to put text. */
   .btn-lg{height:2.5rem;padding:0 1rem;font-size:var(--ts-label-xl-size);line-height:var(--ts-label-xl-lh)}
   .btn-xl{height:2.75rem;padding:0 1.25rem;font-size:var(--ts-label-xl-size);line-height:var(--ts-label-xl-lh)}
   /* Icon sizing — the shared ICON SCALE, so markup never hand-sizes an icon and a button lines up
@@ -1094,9 +1097,9 @@
   .field.is-sm{height:2rem;padding:0 .75rem;gap:.375rem}
   .field.is-sm input{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   .field.is-md{height:2.25rem}
-  .field.is-lg{height:2.5rem;padding:0 1rem}
+  .field.is-lg{height:2.5rem}
   .field.is-lg input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
-  .field.is-xl{height:2.75rem;padding:0 1.25rem}
+  .field.is-xl{height:2.75rem}
   .field.is-xl input{font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
   /* TextArea size variants — height becomes a min-height so the resize handle still works.
      Padding scales with the visual weight; font size matches .field at the same step. */
@@ -2557,10 +2560,7 @@
   .igrp.is-sm .igrp-input{padding-left:6px}
   .igrp.is-sm .igrp-add{gap:6px}
   .igrp.is-xs .igrp-add{padding:0 0 0 8px;gap:4px}
-  .igrp.is-lg .igrp-add{padding:0 0 0 16px}
-  .igrp.is-xl .igrp-add{padding:0 0 0 20px}
-  .igrp.is-lg .igrp-input{padding-right:16px}
-  .igrp.is-xl .igrp-input{padding-right:20px}
+  .igrp.is-lg .igrp-add,.igrp.is-xl .igrp-add{padding:0 0 0 12px}
   .igrp.is-xs .igrp-add svg,.igrp.is-xs .igrp-act svg{width:var(--icon-xs);height:var(--icon-xs)}
   .igrp.is-sm .igrp-add svg,.igrp.is-sm .igrp-act svg{width:var(--icon-sm);height:var(--icon-sm)}
   .igrp.is-lg .igrp-add svg,.igrp.is-lg .igrp-act svg{width:var(--icon-lg);height:var(--icon-lg)}

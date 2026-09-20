@@ -234,7 +234,7 @@ The wizard is a **host dialog of ours wrapping an integrated third-party connect
 
 ### #15 · All pages · Side padding is inconsistent across controls
 - **Problem:** side padding differs between control types and does not scale with size, so text does not start on the same vertical line down a form, and a large control is as tight as a small one. Measured on prod ("Create metric"): single-line inputs, the textarea, the alias input group and the select trigger each use a different value; buttons use one value — `px-2.5` — on all five sizes.
-- **Expected — one ladder, climbing the 4px step with height. Buttons and text controls take the identical ladder, so a button and a field of the same size share one edge:**
+- **Expected — one ladder, climbing the 4px step with height:**
 
   | Size | Height | Side padding | Tailwind | Icon gap |
   |---|---|---|---|---|
@@ -246,7 +246,7 @@ The wizard is a **host dialog of ours wrapping an integrated third-party connect
 
 - **12px repeats at `sm` and `md` on purpose** — those are the two sizes the product actually uses (157 and 80 instances against 3 and 1 for `lg`/`xl`). The sizes people see stay on one rail; only the rare large ones open up. The label steps with it at `lg` (14 → 16), so a large control is larger in both axes rather than just wider.
 
-  > **2026-09-20.** `kit-theme.css` did not have this: `.btn-sm` through `.btn-xl` all carried `padding: 0 .75rem`, so `lg` and `xl` sat at 12px there. The kit has been brought to this table, not the other way round — the ladder here is the spec.
+  > **2026-09-20 — two amendments.** (1) `kit-theme.css` did not have this ladder: `.btn-sm` through `.btn-xl` all carried `padding: 0 .75rem`, so `lg` and `xl` sat at 12px there. The kit has been brought to this table, not the other way round — the ladder here is the spec. (2) **The table is the button's.** The field family — `Input`, `InputGroup`, `Autocomplete`, `TextArea` — keeps 12px at `lg` and `xl` rather than opening to 16 and 20. A button and a field still share an edge at `xs`, `sm` and `md`, which is every step the product actually uses.
 - **Applies to:** button · single-line input · textarea (horizontal only — vertical padding still scales with height) · input group — the rail lands on the prefix, and the prefix sits **8px** from the text (6px at `sm`, 4px at `xs`), not 22px · select / dropdown trigger.
 - **Icon size follows the label, not the box** — one scale, **14 / 16 / 16 / 20 / 20**, repeating at both ends the way the type does (12 / 14 / 14 / 16 / 16). Set it in the component, never per instance. 24px — the kit's `--icon-xl` — is used by nothing: on a 44px box a glyph that size outgrows its control and dwarfs the label.
 
@@ -397,7 +397,7 @@ be used where a literal is written instead.**
 | lg | 40px | 10px | **16px** | 8px |
 | xl | 44px | 10px | **20px** | 8px |
 
-- Input, TextArea and Selector take the identical ladder, so a button and a field of the same size share one edge. 12px repeats at `sm` and `md` deliberately — those are the two sizes the product actually uses (157 and 80 uses against 3 and 1).
+- Input, TextArea and Selector take the identical ladder up to `md` and then hold at 12px — see the amendment under #15. 12px repeats at `sm` and `md` deliberately: those are the two sizes the product actually uses (157 and 80 uses against 3 and 1).
 - The `transparent` variant carries `!p-0` to escape this; once padding lives in one place that override goes.
 
 ### #37 · Kit · Every icon-only button with a trailing slot has a doubled gap
