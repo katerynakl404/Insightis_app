@@ -98,8 +98,8 @@ Variants differ in colour only, all reusing Button tokens 1:1. **No per-variant 
 | State | Tokens (resolves per variant) |
 |---|---|
 | Default | variant defaults (see table above) |
-| Hover | `--btn-primary-bg-hover` (Primary) / bg `--state-hover` (neutral — **not** a brand tint; agreed 2026-07-17) + border `--btn-secondary-border-hover` (Secondary) / `var(--btn-outline-bg-hover)` (Outlined + Tertiary, + `Brand/Primary_Hover` border on Outlined) |
-| Pressed | `--btn-primary-bg-press` / `State/Pressed` / `Brand/Primary @8%` — bg-shift only, no transform or shadow (Outline also keeps the `Brand/Primary_Hover` border from hover) |
+| Hover | `--btn-primary-bg-hover` (Primary) / bg `--btn-secondary-bg-hover` + border `--btn-secondary-border-hover` (Secondary — the same pre-composited, opaque wash the text Button uses; neutral, **not** a brand tint) / `var(--btn-outline-bg-hover)` (Outlined + Tertiary, + `Brand/Primary_Hover` border on Outlined) |
+| Pressed | `--btn-primary-bg-press` / `--btn-secondary-bg-press` / `Brand/Primary @8%` — bg-shift only, no transform or shadow (Outline also keeps the `Brand/Primary_Hover` border from hover) |
 | Focus | every variant (incl. Destructive Outlined) uses the single `--shadow-focus` ring — 2px + 2px `Surface/Card` gap, brand-teal halo via `--focus-ring`. Destructive carries its red identity on the border, not the ring; the teal ring already avoids red-on-red |
 | Disabled | bg `State/Disabled` (Primary/Secondary) or icon `Text/Inactive` (Outlined/Tertiary, bg transparent) |
 | Loading | spinner (`.spinner`) uses `currentColor`, `aria-busy="true"`, `pointer-events:none`, `opacity:var(--opacity-disabled)` — variant colour preserved. `.s-loading.iconbtn{pointer-events:none;opacity:var(--opacity-disabled)}` |
@@ -117,7 +117,7 @@ Prod ships a single IconButton style (≈ Secondary's new look — neutral borde
 | Property | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
 | Border default | `border` `#F0F5FA` | `Stroke/Border` `#E2E8F0` (Slate-200) | `--btn-secondary-border` (Slate-300 light / Grey-600 dark — see [Button](Button.md)) | Aligns with Button Secondary border token; slightly darker than Slate-200 for improved contrast |
-| Hover icon | `accent` `#07827F` | unchanged (icon stays `Text/Body`); bg shifts on hover | bg `--state-hover` (neutral — the v1.0 brand-tint hover was reverted; agreed 2026-07-17) | Icon colour itself unchanged; bg affordance carries the hover |
+| Hover icon | `accent` `#07827F` | unchanged (icon stays `Text/Body`); bg shifts on hover | bg `--btn-secondary-bg-hover` (neutral — the v1.0 brand-tint hover was reverted; agreed 2026-07-17) | Icon colour itself unchanged; bg affordance carries the hover. Secondary reads the same opaque surface tokens as the text Button: it rests on a card fill, so a translucent wash would strip that fill and let whatever sits behind the button show through |
 | Hover border | `Stroke/Border_Hover` | `Stroke/Border_Hover` (kept) | `--btn-secondary-border-hover` | Token-aligned; resolves to same value as `Stroke/Border_Hover` |
 | Disabled | `border-gradient-inner-border`, icon `content-light` | bg `State/Disabled`, icon `Text/Inactive` | — (no change from v1.0) | Mirrors Button Secondary disabled recipe |
 

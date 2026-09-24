@@ -75,6 +75,9 @@ trading a clipped bottom for a clipped top. Open menus re-decide on scroll and r
 ### `.menu-sep` (group divider)
 `height:1px; margin:4px -4px; background:var(--border); border:0` — the negative `-4px` horizontal margin lets the 1px rule span edge-to-edge across the menu's 4 px padding. Adjacent `.cl-menu-label` collapses the top margin to 0.
 
+### Menu-row Button — `.mi-btn`
+A menu action that has to be a **real Button** — a footer CTA (*Manage Connections*) or the primary action row of a popover (*Choose File*) — composes `.btn.btn-sm.<variant>.mi-btn`, never a recoloured `.mi`. `.btn-sm` already **is** the `.mi` box (same height, same side padding, same 14px/500 label), so `.mi-btn` adds layout only: block-level, full width, label left-aligned, the menu's 4px corner so its wash matches the rows above, and the `.mi` **8px** icon rail instead of the Button ladder's 6px so the label starts on the sibling rows' left edge. Colour, hover/press, focus and disabled stay the Button variant's. Pair with [Button](Button.md) `.btn-tertiary.is-brand` for the brand-label form — that is what the composer's two menu CTAs use.
+
 ## ⚠️ A11y note — destructive item contrast on dark
 
 The previous expected used the single `Feedback/Red` token (Red-700 `#B91C1C`) for destructive

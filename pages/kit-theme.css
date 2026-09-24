@@ -859,7 +859,7 @@
   /* Secondary + Tertiary hover/pressed unified with .sbx-nav-item — State/Hover + State/Pressed, whatever those resolve to per theme (brand-tinted wash on light, neutral on dark). Visual cohesion across nav rows and low-emphasis buttons. */
   .s-hover.btn-secondary{background:var(--btn-secondary-bg-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .s-pressed.btn-secondary{background:var(--btn-secondary-bg-press);color:var(--ink-body);border-color:var(--btn-secondary-border)}
-  .s-disabled.btn-secondary{color:var(--ink-inactive);border-color:var(--btn-secondary-border)}
+  .s-disabled.btn-secondary{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border)}
   .s-focus.btn-secondary{box-shadow:var(--shadow-focus)}
   .s-hover.btn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
   .s-pressed.btn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
@@ -879,48 +879,66 @@
   .s-disabled.btn-outline-destructive{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
   .s-focus.btn-outline-destructive{box-shadow:var(--shadow-focus)}
   .s-focus{box-shadow:var(--shadow-focus)}
-  /* real interactive states (live preview) */
-  .btn-primary:hover{background:var(--btn-primary-bg-hover)}
-  .btn-primary:active{background:var(--btn-primary-bg-press)}
+  /* real interactive states (live preview).
+     Every :hover / :active in the Button + IconButton families carries
+     :where(:not(:disabled,.s-disabled,.is-disabled)) — a disabled control never changes its
+     SURFACE under the pointer. It still answers the pointer: cursor:not-allowed (the global rule
+     below) is the disabled affordance, and an .is-disabled control still raises the tooltip that
+     says why it is off. The guard covers all three forms — the real [disabled] attribute, the
+     aria-disabled .is-disabled form, and the storybook .s-disabled demo chip (a live <button>,
+     which without the guard lit up under the cursor). It is :where(), so it adds no specificity
+     and nothing else in the cascade shifts.
+     This is why the Button family does NOT use pointer-events:none to kill its hover: that would
+     take the not-allowed cursor and the tooltip with it. */
+  .btn-primary:hover:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--btn-primary-bg-hover)}
+  .btn-primary:active:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--btn-primary-bg-press)}
   .btn-primary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-primary:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
-  .btn-secondary:hover{background:var(--btn-secondary-bg-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
-  .btn-secondary:active{background:var(--btn-secondary-bg-press);color:var(--ink-body)}
+  .btn-secondary:hover:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--btn-secondary-bg-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
+  .btn-secondary:active:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--btn-secondary-bg-press);color:var(--ink-body);border-color:var(--btn-secondary-border)}
   .btn-secondary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .btn-outline:hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
-  .btn-outline:active{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
-  .btn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
-  .btn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
+  .btn-outline:hover:where(:not(:disabled,.s-disabled,.is-disabled)){border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
+  .btn-outline:active:where(:not(:disabled,.s-disabled,.is-disabled)){border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
+  .btn-tertiary:hover:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--state-hover);color:var(--ink-body)}
+  .btn-tertiary:active:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--state-pressed);color:var(--ink-body)}
   .btn-tertiary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  /* Brand modifier — brand-coloured tertiary for standalone text actions (e.g. the sidepanel
-     "Test Connection"). Only the label goes brand; the hover/pressed pill + focus ring stay the
-     neutral tertiary recipe so it reads as one family. Global .btn-tertiary stays neutral. */
-  .btn-tertiary.is-brand{color:var(--brand-primary)}
-  .btn-tertiary.is-brand:hover,.s-hover.btn-tertiary.is-brand{background:var(--state-hover);color:var(--brand-hover)}
-  .btn-tertiary.is-brand:active,.s-pressed.btn-tertiary.is-brand{background:var(--state-pressed);color:var(--brand-press)}
+  /* Brand modifier — the brand-coloured Tertiary, for a standalone text action (the connection
+     sidepanel "Test Connection"), a menu/popover CTA, or any text action sitting among .link copy:
+     one emphasis colour across all of them. Only the label goes brand; the hover/pressed pill +
+     focus ring stay the neutral tertiary recipe so it reads as one family, and the global
+     .btn-tertiary stays neutral.
+     The label reads --ink-highlight, NOT --brand-primary: highlight is the brand's emphasised-TEXT
+     role and flips per theme (Brand-600 light / Tertiary-400 dark), while --brand-primary is the
+     SURFACE role and stays Brand-500 on dark, where it reads flat green and loses AA as text. Same
+     reason .link and .chat-row.is-preview read highlight.
+     Like .is-danger (and .link), the label does NOT shift with state — the highlight role has no
+     hover/press step — so only the wash moves. */
+  .btn-tertiary.is-brand{color:var(--ink-highlight)}
+  .btn-tertiary.is-brand:hover:where(:not(:disabled,.s-disabled,.is-disabled)),.s-hover.btn-tertiary.is-brand{background:var(--state-hover);color:var(--ink-highlight)}
+  .btn-tertiary.is-brand:active:where(:not(:disabled,.s-disabled,.is-disabled)),.s-pressed.btn-tertiary.is-brand{background:var(--state-pressed);color:var(--ink-highlight)}
   .btn-tertiary.is-brand:disabled,.s-disabled.btn-tertiary.is-brand{color:var(--ink-inactive);background:transparent}
   /* Tertiary Destructive — the text-only red button the family lacked (there was only filled
      .btn-destructive and outlined .btn-outline-destructive), so pages hand-rolled red text buttons.
-     Mirrors .is-brand's structure with ONE deliberate difference: .is-brand shifts its LABEL colour
-     on hover/press, but the red counterparts (--fb-error-hover/--fb-error-press = red-800/red-850) are
+     Mirrors .is-brand's structure: label-only, wash from the neutral recipe. The red
+     counterparts (--fb-error-hover/--fb-error-press = red-800/red-850) are
      FILL reds with no dark-theme flip and would fail AA as text on a dark surface. --fb-red-text is
      the AA-corrected, theme-aware token, so the label holds and only the wash moves. */
   .btn-tertiary.is-danger{color:var(--fb-red-text)}
-  .btn-tertiary.is-danger:hover,.s-hover.btn-tertiary.is-danger{background:color-mix(in srgb, var(--fb-red) var(--tint-8), transparent);color:var(--fb-red-text)}
-  .btn-tertiary.is-danger:active,.s-pressed.btn-tertiary.is-danger{background:color-mix(in srgb, var(--fb-red) var(--tint-12), transparent);color:var(--fb-red-text)}
+  .btn-tertiary.is-danger:hover:where(:not(:disabled,.s-disabled,.is-disabled)),.s-hover.btn-tertiary.is-danger{background:color-mix(in srgb, var(--fb-red) var(--tint-8), transparent);color:var(--fb-red-text)}
+  .btn-tertiary.is-danger:active:where(:not(:disabled,.s-disabled,.is-disabled)),.s-pressed.btn-tertiary.is-danger{background:color-mix(in srgb, var(--fb-red) var(--tint-12), transparent);color:var(--fb-red-text)}
   .btn-tertiary.is-danger:disabled,.s-disabled.btn-tertiary.is-danger{color:var(--ink-inactive);background:transparent}
   /* aria-disabled form — .link (line 674) and .mi (1178) already carried .is-disabled; .btn only had
      :disabled + the .s-disabled demo mirror. Consumers that must keep the control focusable use
      aria-disabled + .is-disabled, so the Tertiary family needs it. Other variants get it when a
      consumer needs one (their disabled recipes differ per background). */
-  .btn-tertiary.is-disabled,.btn-tertiary.is-danger.is-disabled{color:var(--ink-inactive);background:transparent;pointer-events:none}
+  .btn-tertiary.is-disabled,.btn-tertiary.is-danger.is-disabled,.btn-tertiary.is-brand.is-disabled{color:var(--ink-inactive);background:transparent}
   .btn-outline:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .btn-destructive:hover{background:var(--fb-error-hover)}
-  .btn-destructive:active{background:var(--fb-error-press)}
+  .btn-destructive:hover:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--fb-error-hover)}
+  .btn-destructive:active:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--fb-error-press)}
   .btn-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-destructive:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
-  .btn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
-  .btn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--fb-red-text)}
+  .btn-outline-destructive:hover:where(:not(:disabled,.s-disabled,.is-disabled)){border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
+  .btn-outline-destructive:active:where(:not(:disabled,.s-disabled,.is-disabled)){border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--fb-red-text)}
   .btn-outline-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
   /* Real :disabled parity for the remaining variants — mirror their .s-disabled forced-class
@@ -928,7 +946,7 @@
      Outline-destructive had a real :disabled rule; Outline / Secondary / Tertiary only dimmed via
      the storybook .s-disabled class). */
   .btn-outline:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
-  .btn-secondary:disabled{color:var(--ink-inactive);border-color:var(--btn-secondary-border);cursor:not-allowed}
+  .btn-secondary:disabled{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border);cursor:not-allowed}
   .btn-tertiary:disabled{color:var(--ink-inactive);background:transparent;cursor:not-allowed}
   .btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* loading state (works on any Button/IconButton variant via currentColor; opacity-based — no disabled-colour swap) */
@@ -936,7 +954,10 @@
   /* The spinner replaces the glyph, so it is the glyph size — the same two steps as .btn svg. */
   .btn-xs .spinner,.iconbtn-xs .spinner,.iconbtn-2xs .spinner{width:var(--icon-xs);height:var(--icon-xs)}
   .s-loading.btn,.s-loading.iconbtn{pointer-events:none;opacity:var(--opacity-disabled)}
-  /* Global disabled-cursor rule — applies to all s-disabled / :disabled / is-disabled elements; components that use pointer-events:none still inherit this harmlessly */
+  /* Global disabled-cursor rule — the pointer affordance for every disabled form. It only lands
+     where pointer-events are still live, so a component that kills them (.swt, .cbx, .chip, .mi,
+     .link, .tab, .sel-trig …) shows the default arrow instead; the Button + IconButton families
+     deliberately keep pointer-events so this cursor — and their tooltips — work. */
   .s-disabled,.is-disabled,[disabled]{cursor:not-allowed}
   @keyframes btn-spin{to{transform:rotate(360deg)}}
 
@@ -989,8 +1010,14 @@
   .s-pressed.iconbtn-primary{background:var(--btn-primary-bg-press)}
   .s-disabled.iconbtn-primary{background:var(--state-disabled);color:var(--ink-inactive)}
   .s-focus.iconbtn-primary{box-shadow:var(--shadow-focus)}
-  .s-hover.iconbtn-secondary{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
-  .s-pressed.iconbtn-secondary{background:var(--state-pressed);color:var(--ink-body);border-color:var(--btn-secondary-border)}
+  /* Secondary IconButton shares the text Button's surface tokens end to end — rest, hover and
+     press all read the --btn-secondary-bg* family. It rests on an opaque card fill like its text
+     sibling, so a translucent --state-* wash would strip that fill and let whatever sits behind
+     the button show through; the pre-composited tokens keep one button looking the same on every
+     surface. (Hover/press read --state-hover / --state-pressed until 2026-09-22 — that is how the
+     two halves of one family drifted apart.) */
+  .s-hover.iconbtn-secondary{background:var(--btn-secondary-bg-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
+  .s-pressed.iconbtn-secondary{background:var(--btn-secondary-bg-press);color:var(--ink-body);border-color:var(--btn-secondary-border)}
   .s-disabled.iconbtn-secondary{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border)}
   .s-focus.iconbtn-secondary{box-shadow:var(--shadow-focus)}
   .s-hover.iconbtn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
@@ -1006,21 +1033,21 @@
   .s-disabled.iconbtn-outline-destructive{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
   .s-focus.iconbtn-outline-destructive{box-shadow:var(--shadow-focus)}
   /* real interactive states */
-  .iconbtn-primary:hover{background:var(--btn-primary-bg-hover)}
-  .iconbtn-primary:active{background:var(--btn-primary-bg-press)}
+  .iconbtn-primary:hover:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--btn-primary-bg-hover)}
+  .iconbtn-primary:active:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--btn-primary-bg-press)}
   .iconbtn-primary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-primary:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
-  .iconbtn-secondary:hover{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
-  .iconbtn-secondary:active{background:var(--state-pressed);color:var(--ink-body);border-color:var(--btn-secondary-border)}
+  .iconbtn-secondary:hover:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--btn-secondary-bg-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
+  .iconbtn-secondary:active:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--btn-secondary-bg-press);color:var(--ink-body);border-color:var(--btn-secondary-border)}
   .iconbtn-secondary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .iconbtn-outline:hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
-  .iconbtn-outline:active{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
+  .iconbtn-outline:hover:where(:not(:disabled,.s-disabled,.is-disabled)){border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
+  .iconbtn-outline:active:where(:not(:disabled,.s-disabled,.is-disabled)){border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
   .iconbtn-outline:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .iconbtn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
-  .iconbtn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
+  .iconbtn-tertiary:hover:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--state-hover);color:var(--ink-body)}
+  .iconbtn-tertiary:active:where(:not(:disabled,.s-disabled,.is-disabled)){background:var(--state-pressed);color:var(--ink-body)}
   .iconbtn-tertiary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .iconbtn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
-  .iconbtn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--fb-red-text)}
+  .iconbtn-outline-destructive:hover:where(:not(:disabled,.s-disabled,.is-disabled)){border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
+  .iconbtn-outline-destructive:active:where(:not(:disabled,.s-disabled,.is-disabled)){border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--fb-red-text)}
   .iconbtn-outline-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
 
@@ -1114,7 +1141,8 @@
   .ta-count{display:block;text-align:right;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-inactive);margin-top:.25rem}
   .ta{width:100%;max-width:260px;border:1px solid var(--stroke-border);border-radius:.375rem;background:var(--surface-card);padding:.5rem .75rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary);outline:none;resize:none;font-family:inherit;transition:border-color .12s, box-shadow .12s}
   .ta::placeholder{color:var(--ink-inactive)}
-  .ta:hover,.ta.s-hover{border-color:var(--field-border-hover)}
+  /* Same disabled guard as the Button family: a disabled TextArea keeps its border under the pointer. (.field and .igrp are already covered — .field.is-disabled re-declares the border after the hover rule, .igrp.s-disabled drops pointer-events.) */
+  .ta:hover:where(:not(.is-disabled,.s-disabled,:disabled)),.ta.s-hover{border-color:var(--field-border-hover)}
   .ta:focus,.ta.s-focus{border-color:var(--input-focus);box-shadow:none;outline:none}
   .ta.s-error{border-color:var(--input-error);box-shadow:none}
   .ta.is-disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
@@ -1165,7 +1193,8 @@
      tooltip fallback owns ::after on [data-tip] (and html.tt-js display:none's it), so a pseudo
      mark would vanish the moment the JS tooltip engine loads. */
   .stps-dot{width:6px;height:6px;border-radius:var(--radius-full);background:var(--ink-inactive);flex:none;transition:width var(--motion-fast),height var(--motion-fast),background-color var(--motion-fast),box-shadow var(--motion-fast)}
-  .stps-step:hover .stps-dot,.stps-step.s-hover .stps-dot{background:var(--ink-secondary)}
+  /* The aria-disabled form keeps pointer-events (it has to raise the "Turn on Thinking to set effort" tooltip), so the dot hover needs the same disabled guard the Button family carries. */
+  :where(.stps:not([aria-disabled="true"],.s-disabled)) .stps-step:hover .stps-dot,.stps-step.s-hover .stps-dot{background:var(--ink-secondary)}
   /* Selected step — the dot grows into the Switch thumb: 1rem, --content-on-solid, --shadow-thumb.
      Declared after the hover rule so the knob wins while hovered; on the selected step the tooltip
      is the only hover feedback (the knob is already the strongest mark in the group). */
@@ -1375,6 +1404,18 @@
      Set by /approve-page when a page moves concept → approved; replaces the In redesign tag. */
   .pg-approved-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--ts-overline-size);line-height:var(--ts-overline-lh);font-weight:var(--ts-overline-weight);letter-spacing:var(--ts-overline-track);text-transform:uppercase;color:var(--fb-green);background:color-mix(in srgb,var(--fb-green) var(--tint-10),var(--surface-card));border:1px solid color-mix(in srgb, var(--fb-green) var(--tint-25), transparent);border-radius:.25rem;white-space:nowrap;flex:none}
   .mi .mi-ic{width:var(--icon-md);height:var(--icon-md);flex:none;color:currentColor}
+  /* A real kit Button used as a menu row. `.btn.btn-sm` already IS the .mi box — 32px tall,
+     12px side padding, a 14px/500 label — so an action row that must be a Button (a menu footer
+     CTA, a popover's "Manage …") needs only the row layout, never a re-styled menu item:
+     block-level (a .mi is block-level too, so the row never picks up an inline baseline gap),
+     full width, label left-aligned, and the menu's own 4px corner so its wash matches the rows
+     above it. Layout only — colour, hover/press, focus and disabled stay the Button variant's.
+     Pair with `.btn-tertiary.is-brand` for the brand-label form.
+     The 8px gap is the .mi rail, not the Button ladder's 6px: a footer CTA sits under sibling rows
+     and its label has to start on their left edge, so the row wins over the button ladder here.
+     Same reason for the padding: a Button carries a 1px transparent border a .mi does not, so the
+     inline padding gives that border width back and both rails land on the same pixel. */
+  .mi-btn{display:flex;width:100%;justify-content:flex-start;gap:8px;padding-inline:calc(.75rem - var(--border-width));border-radius:4px}
   /* Menu separator — thin rule used to group related items inside a .menu. Negative horizontal
      margin lets the rule span edge-to-edge across the menu's 4 px padding. */
   .menu-sep{height:1px;margin:4px -4px;background:var(--stroke-border);border:0}
@@ -1536,19 +1577,11 @@
 
   /* — Attach menu — secondary "Choose File" button + plain recent-file list (no icons). Width is
      the fixed M size (18rem), set on the composer-menu rule above. */
-  /* CTA — Concept 1 (Direct) renders it as a plain menu-item row (`.mi` + upload `.mi-ic`): no
-     border to double-up with the divider, same padding as every row; the leading icon + brand
-     colour make it scan as the primary action, icon column aligned with the file rows below.
-     Concept 2 (Menu, default) renders it as a full-width secondary button (`.btn.btn-secondary`) —
-     the class swap is driven by clApplyChooseStyle() in the page JS. The brand-colour cue is scoped
-     to the `.mi` form so it doesn't fight the secondary button's neutral label. */
-  .mi.cl-attach-choose{color:var(--ink-highlight);font-weight:500}
-  /* Concept-2 secondary-button form: block-level flex so it fills the menu width minus its own
-     margin (no width:100% overflow). margin:4px on top of the menu's 4px padding + the divider's 4px
-     top margin gives a uniform 8px of breathing room on all four sides (button↔edges == button↔
-     divider). Keeps its leading upload icon (.mi-ic), sized here since .mi .mi-ic doesn't apply. */
-  .cl-attach-choose.btn{display:flex;box-sizing:border-box;width:calc(100% - 8px);margin:4px 4px 8px}
-  .cl-attach-choose.btn .mi-ic{width:var(--icon-md);height:var(--icon-md);flex:none}
+  /* CTA — a real kit Button in menu-row form: `.btn.btn-sm.btn-tertiary.is-brand.mi-btn`
+     (see #button → Tertiary — brand). No border to double up with the divider, the same box
+     and left rail as every row, and the leading icon + highlight label make it scan as the
+     primary action with its icon column aligned to the file rows below. Nothing to declare here —
+     the class is the JS hook only. */
   /* Recent files — each row carries a file glyph (`.mi-ic`) so the list reads unmistakably as files
      and its icon column aligns with the Choose File CTA above. Name is regular weight (one step
      below the CTA), --ink-primary (darker, legible), single-line ellipsis via the inner .cl-file-name span. */
@@ -1605,8 +1638,9 @@
   .cl-opt-info{display:inline-flex;align-items:center;flex:none;color:var(--ink-inactive);cursor:default;transition:color var(--motion-fast)}
   .cl-opt-info:hover{color:var(--ink-body)}
   .cl-opt-info svg{width:var(--icon-xs);height:var(--icon-xs)}
-  /* Manage link — full-width row, brand label + leading icon. */
-  .cl-conn-manage{color:var(--ink-highlight);font-weight:500;text-decoration:none}
+  /* Manage action — the menu footer is a real kit Button:
+     `.btn.btn-sm.btn-tertiary.is-brand.mi-btn` (see #button → Tertiary — brand). Nothing
+     here restyles it. */
   /* Gear sits in the same 24px leading column as the connector logos so every row's text shares
      one left edge (glyph stays 16px, centred in the 24px box). */
   .cl-conn-manage .mi-ic{width:24px;height:24px;padding:4px;color:currentColor}

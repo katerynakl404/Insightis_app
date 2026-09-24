@@ -17,6 +17,7 @@
    1. Tooltip engine  — every [data-tip] in the product (Files spec rules 18 + 23).
    2. Menu placement  — flips anchored .menu variants to .menu.is-up when there is no room below.
    3. Toast host      — the single top-right stack + window.kitToast / window.kitToastDismiss.
+   4. Disabled guard  — a disabled control never activates, while keeping its cursor + tooltip.
    ============================================================================================ */
 (function () {
   if (window.__kitKitLoaded) return;
@@ -299,4 +300,27 @@
 
   window.kitToast = showToast;
   window.kitToastDismiss = dismissToast;
+
+/* ============================================================================================
+   4. Disabled activation guard — a disabled control answers the pointer with cursor:not-allowed
+      and (where it has one) its tooltip, but it must never ACTIVATE.
+
+      The Button / IconButton families deliberately do NOT use pointer-events:none for this:
+      killing pointer events also kills the disabled cursor and the tooltip that says why the
+      control is off. The surface is held by the CSS hover guard
+      (`:where(:not(:disabled,.s-disabled,.is-disabled))`); this listener holds the behaviour.
+
+      Capture phase + stopPropagation, so it also swallows the delegated handlers pages attach to
+      document / a container (the bulk-action rows key off `data-action`). Keyboard activation
+      raises a click event too, so Enter / Space on a focused aria-disabled control is covered.
+   ============================================================================================ */
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var dead = t.closest('[aria-disabled="true"], .is-disabled, .s-disabled, [disabled]');
+    if (!dead) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+  }, true);
 })();

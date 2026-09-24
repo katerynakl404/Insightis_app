@@ -20,8 +20,8 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 | State | Current (prod) | v1.0 | Expected | Specification |
 |---|---|---|---|---|
 | Default | border `secondary` (teal), text `content-body`, bg transparent | bg `Surface/Card`, border `Stroke/Border` (Slate-200), text `Text/Body` | bg `Surface/Card`, border `--btn-secondary-border` (Slate-300 light / Grey-600 dark), text `Text/Body` | Border stepped up one stop from Stroke/Border (Slate-200) so the card-fill reads distinct from a borderless surface |
-| Hover | border `accent`, bg `primary/5`, icon `accent` | bg `--btn-secondary-bg-hover` = `Brand/Primary @ 5%` over `Surface/Card`, border `Stroke/Border_Hover`, text `Text/Body` | bg `--state-hover` (the shared State/Hover wash — brand-tinted on light, neutral on dark), border `--btn-secondary-border-hover` (Slate-400 light / Grey-500 dark), text `--ink-body` (icon inherits same colour, does not shift to brand) | Neutral hover surface unified with `.sbx-nav-item` low-emphasis rows; border hover lifted one stop to match the bolder default border |
-| Pressed | bg `primary/5` + inset | — | bg `--state-pressed`, border `--btn-secondary-border` (reverts to default border), text `--ink-body` | Shared pressed surface, one step deeper than hover; border drops back to default stop |
+| Hover | border `accent`, bg `primary/5`, icon `accent` | bg `--btn-secondary-bg-hover` = `Brand/Primary @ 5%` over `Surface/Card`, border `Stroke/Border_Hover`, text `Text/Body` | bg `--btn-secondary-bg-hover`, border `--btn-secondary-border-hover` (Slate-400 light / Grey-500 dark), text `--ink-body` (icon inherits same colour, does not shift to brand) | Same wash as the shared `State/Hover`, but **pre-composited over `Surface/Card` and opaque**: this button carries its own fill, and a translucent overlay would strip it and let whatever sits behind show through, so one button would look different per surface. Border hover lifted one stop to match the bolder default border |
+| Pressed | bg `primary/5` + inset | — | bg `--btn-secondary-bg-press`, border `--btn-secondary-border` (reverts to default border), text `--ink-body` | Same recipe as hover, one step deeper; border drops back to default stop |
 | Focus | global ring (slate / off-white) | — | ring `--shadow-focus` 2px + 2px `Surface/Card` gap | Brand-tinted ring |
 | Disabled | border + text `content-light` | — | bg `--state-disabled`, text `--ink-inactive`, border `--btn-secondary-border`, `cursor:not-allowed` | Inherits the same border token as default |
 
@@ -48,16 +48,28 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 
 > Tertiary is Outlined minus the border — same brand-tinted hover/press overlays. Use for lowest-emphasis actions where Outlined is too prominent. No new tokens — every value reuses what Outlined already uses.
 
-## Tertiary — brand  *(`.is-brand` modifier — brand-coloured label for standalone text actions)*
+## Tertiary — brand  *(`.is-brand` modifier — brand-coloured label for a text action)*
 | State | Expected | Specification |
 |---|---|---|
-| Default | label `Brand/Primary`, bg transparent, no border | Brand text; reads as a link-style action without the mass of an Outlined button |
-| Hover | label `Brand/Hover`, bg `State/Hover` | Same pill as base Tertiary; only the label darkens one brand stop |
-| Pressed | label `Brand/Press`, bg `State/Pressed` | Same pressed pill as base Tertiary |
+| Default | label `Text/Highlight`, bg transparent, no border | Emphasised text action — reads as a link-style action without the mass of an Outlined button, in the same colour as the `.link` copy around it |
+| Hover | label **unchanged**, bg `State/Hover` | Same pill as base Tertiary |
+| Pressed | label **unchanged**, bg `State/Pressed` | Same pressed pill as base Tertiary |
 | Focus | ring `--shadow-focus` | Same ring as base Tertiary |
-| Disabled | text `Text/Inactive`, bg transparent | Neutral disabled |
+| Disabled | text `Text/Inactive`, bg transparent | Neutral disabled; both forms — `disabled` and `.is-disabled` + `aria-disabled` |
 
-> `.btn-tertiary.is-brand` changes only the **label** to brand; the hover/pressed pill and focus ring stay the neutral base-Tertiary recipe, so it reads as one family. The global `.btn-tertiary` stays neutral (`Text/Body`) — this modifier is opt-in. No new tokens (reuses `Brand/Primary`, `Brand/Hover`, `Brand/Press`, `State/Hover`, `State/Pressed`). First consumer: the Data Sources connection sidepanel "Test Connection" action.
+> Only the **label** goes brand; the hover/pressed pill and focus ring stay the neutral
+> base-Tertiary recipe, so it reads as one family. The global `.btn-tertiary` stays neutral
+> (`Text/Body`) — the modifier is opt-in. The label reads **`Text/Highlight`, not
+> `Brand/Primary`**: highlight is the brand's emphasised-*text* role and flips per theme
+> (Brand-600 light / Tertiary-400 dark), while `Brand/Primary` is the *surface* role and stays
+> Brand-500 on dark, where it reads flat green and loses AA as text — the same reason `.link` and
+> `.chat-row.is-preview` read `Text/Highlight`. Because that role has no hover/press step, the
+> label holds across every state and only the wash moves (as in `.is-danger`). No new tokens.
+> One modifier covers both jobs: a **standalone text action** (the Data Sources connection
+> sidepanel *Test Connection*) and a **menu/popover CTA** — the composer **Connections** popover
+> (*Manage Connections*) and **Add file** menu (*Choose File*), both hand-rolled
+> highlight-coloured `.mi` rows before. In a menu it composes with
+> [Dropdown](Dropdown.md) `.mi-btn`.
 
 ## Tertiary — destructive  *(`.is-danger` modifier — red label for a destructive text action)*
 | State | Expected | Specification |
@@ -70,11 +82,11 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 
 > The family had a filled Destructive and an outlined one, but no **text-only** destructive — so
 > surfaces that needed a low-emphasis Delete hand-rolled one (the MetaRow's private button family
-> was the last of those). `.is-danger` mirrors `.is-brand`'s structure with one deliberate
-> difference: `.is-brand` darkens its label on hover/press, and the red equivalents (`--fb-red-hover`
-> / `--fb-red-press`) cannot do that job — those are **fill** reds with no dark-theme flip, so as
-> text on a dark surface they fail AA. `--fb-red-text` is the AA-corrected, theme-aware token, so it
-> holds across every state and only the wash moves. No new tokens. First consumer: the bulk-action
+> was the last of those). `.is-danger` mirrors `.is-brand`'s structure — label-only, wash
+> from the neutral recipe — with the red equivalents ruled out for the label: `--fb-red-hover` /
+> `--fb-red-press` are **fill** reds with no dark-theme flip, so as text on a dark surface they
+> fail AA. `--fb-red-text` is the AA-corrected, theme-aware token, so it holds across every state
+> and only the wash moves. No new tokens. First consumer: the bulk-action
 > Delete in `.meta-row` (Files landing, Chats library).
 
 ## Destructive  *(full state coverage added; semantic Feedback tokens, theme-independent for AA contrast)*
@@ -110,10 +122,22 @@ Same red Feedback tokens as Destructive, applied to the Outlined stroke style.
 instead of the `disabled` attribute, so it stays focusable and a screen reader can announce *why*
 it is unavailable. Button only had `:disabled` (real attribute) + the `.s-disabled` demo mirror, so
 a consumer that needed the focusable form had no kit route to it. Added on the Tertiary family
-(`.btn-tertiary.is-disabled`, `.btn-tertiary.is-danger.is-disabled`) — `Text/Inactive`, transparent,
-`pointer-events:none`, plus the global `cursor:not-allowed`. Other variants get it when a consumer
+(`.btn-tertiary.is-disabled`, `.btn-tertiary.is-danger.is-disabled`, `.btn-tertiary.is-brand.is-disabled`) — `Text/Inactive`, transparent,
+plus the global `cursor:not-allowed`. It carries **no `pointer-events:none`**: the hover guard
+above already suppresses the surface, and killing pointer events would also kill the disabled
+cursor and the tooltip this form exists to expose. Other variants get it when a consumer
 needs one; their disabled recipes differ per background, so it is not a single shared rule.
 First consumer: the MetaRow bulk actions with nothing selected.
+
+**Disabled never changes its surface under the pointer — it answers with the disabled cursor.**
+Every `:hover` / `:active` in the Button and IconButton families is guarded with
+`:where(:not(:disabled,.s-disabled,.is-disabled))`, so all three disabled forms — the real
+`disabled` attribute, the focusable `aria-disabled` + `.is-disabled` form, and the storybook's
+`.s-disabled` demo chip (a live `<button>`, which used to light up under the cursor) — hold their
+disabled surface. The guard is `:where()`, so it adds no specificity and nothing else in the
+cascade moves. The pointer affordance is `cursor:not-allowed`, which is why the family does **not**
+reach for `pointer-events:none` to suppress the hover: that would take the disabled cursor with it,
+and with it the tooltip an `.is-disabled` control has to raise to say why it is unavailable.
 
 ## Token architecture (this iteration — hard rule)
 
