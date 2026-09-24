@@ -1206,9 +1206,14 @@
   .cbx.s-error{border-color:var(--input-error)}
   .cbx.on.s-error{background:var(--input-error);border-color:var(--input-error)}
   .cbx.is-indeterminate{background:var(--brand-primary);border-color:var(--brand-primary);color:var(--content-on-solid)}
-  /* 1.5px, not 2: the tick is a 12px glyph at stroke-width 3, which renders at 1.5px, and two
-     marks for the same control cannot be two weights. */
-  .cbx.is-indeterminate::before{content:"";display:block;width:.625rem;height:1.5px;border-radius:1px;background:var(--content-on-solid)}
+  /* The bar is drawn like the tick, not as a box: same 12px viewBox, same stroke-width 3,
+     same round cap. A 1.5px rectangle and a 1.5px stroke are the same number and not the same
+     weight — the diagonal antialiases across more pixels and reads heavier, so a rectangle at
+     equal height looks thinner. M2 12h20 is 10px long, the width this bar has always had. */
+  .cbx.is-indeterminate::before{content:"";display:block;width:12px;height:12px;background:none;
+    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27black%27 stroke-width=%273%27 stroke-linecap=%27round%27><path d=%27M2 12h20%27/></svg>") center/contain no-repeat;
+    mask:url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27black%27 stroke-width=%273%27 stroke-linecap=%27round%27><path d=%27M2 12h20%27/></svg>") center/contain no-repeat;
+    background-color:var(--content-on-solid)}
   /* Round caps and joins on the mark. The inline SVGs carry no linecap/linejoin,
      so they fell through to the SVG defaults (butt/miter) and drew a thinner,
      sharper tick than the product does — @devart/ui-react renders the same path
