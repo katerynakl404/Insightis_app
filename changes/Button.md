@@ -23,7 +23,7 @@ All Expected values resolve to **kit primitives only** (Brand 50–900 · Tertia
 | Hover | border `accent`, bg `primary/5`, icon `accent` | bg `--btn-secondary-bg-hover` = `Brand/Primary @ 5%` over `Surface/Card`, border `Stroke/Border_Hover`, text `Text/Body` | bg `--btn-secondary-bg-hover`, border `--btn-secondary-border-hover` (Slate-400 light / Grey-500 dark), text `--ink-body` (icon inherits same colour, does not shift to brand) | Same wash as the shared `State/Hover`, but **pre-composited over `Surface/Card` and opaque**: this button carries its own fill, and a translucent overlay would strip it and let whatever sits behind show through, so one button would look different per surface. Border hover lifted one stop to match the bolder default border |
 | Pressed | bg `primary/5` + inset | — | bg `--btn-secondary-bg-press`, border `--btn-secondary-border` (reverts to default border), text `--ink-body` | Same recipe as hover, one step deeper; border drops back to default stop |
 | Focus | global ring (slate / off-white) | — | ring `--shadow-focus` 2px + 2px `Surface/Card` gap | Brand-tinted ring |
-| Disabled | border + text `content-light` | — | bg `--state-disabled`, text `--ink-inactive`, border `--btn-secondary-border`, `cursor:not-allowed` | Inherits the same border token as default |
+| Disabled | border + text `content-light` | — | **bg transparent** (2026-09-25), text `--ink-inactive`, border `--btn-secondary-border`, `cursor:not-allowed` | Inherits the same border token as default |
 
 > Emphasis shifts from a teal-coloured stroke to a card-tone fill — Secondary becomes a lower-emphasis filled action while still reading distinct from the page surface.
 

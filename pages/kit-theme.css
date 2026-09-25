@@ -859,7 +859,7 @@
   /* Secondary + Tertiary hover/pressed unified with .sbx-nav-item — State/Hover + State/Pressed, whatever those resolve to per theme (brand-tinted wash on light, neutral on dark). Visual cohesion across nav rows and low-emphasis buttons. */
   .s-hover.btn-secondary{background:var(--btn-secondary-bg-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .s-pressed.btn-secondary{background:var(--btn-secondary-bg-press);color:var(--ink-body);border-color:var(--btn-secondary-border)}
-  .s-disabled.btn-secondary{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border)}
+  .s-disabled.btn-secondary{background:transparent;color:var(--ink-inactive);border-color:var(--btn-secondary-border)}
   .s-focus.btn-secondary{box-shadow:var(--shadow-focus)}
   .s-hover.btn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
   .s-pressed.btn-outline{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
@@ -946,7 +946,7 @@
      Outline-destructive had a real :disabled rule; Outline / Secondary / Tertiary only dimmed via
      the storybook .s-disabled class). */
   .btn-outline:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
-  .btn-secondary:disabled{background:var(--state-disabled);color:var(--ink-inactive);border-color:var(--btn-secondary-border);cursor:not-allowed}
+  .btn-secondary:disabled{background:transparent;color:var(--ink-inactive);border-color:var(--btn-secondary-border);cursor:not-allowed}
   .btn-tertiary:disabled{color:var(--ink-inactive);background:transparent;cursor:not-allowed}
   .btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* loading state (works on any Button/IconButton variant via currentColor; opacity-based — no disabled-colour swap) */

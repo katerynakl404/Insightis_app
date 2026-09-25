@@ -68,7 +68,7 @@ These are locked decisions. Do not change without explicit approval.
 | Column: header col 1 | Provider | Data Source |
 | Column: Status | Present (standalone) | Removed — no connected/synced badge (connection is connected by definition) |
 | Column: Description | Narrower, may wrap | Single-line truncated |
-| Column: Last check | — | Added (2026-08-11) — relative-time pill (neutral healthy / red on failure, marked with `circle-alert` — a failed check is an error, not a warning; the triangle is reserved for destructive confirms and warning toasts → error toast with reason + exact time); always-on re-test icon matched to the kebab; testing = a same-size loading pill (no row jump) |
+| Column: Last check | — | Added (2026-08-11) — relative-time pill (neutral healthy / red on failure, marked with `circle-x` — a failed check is an error, not a warning; the triangle is reserved for destructive confirms and warning toasts → error toast with reason + exact time); always-on re-test icon matched to the kebab; testing = a same-size loading pill (no row jump) |
 | Column widths | — | 22% / 18% / 30% / 22% / 8% |
 
 ## Connection row sidepanel
