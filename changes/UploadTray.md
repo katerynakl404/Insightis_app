@@ -5,8 +5,22 @@ complete" plate at the bottom with a chevron and a ✕) but our kit and the File
 component for it at all** — meaning we had never described what the product shows while files are
 uploading, or what happens when one fails. This closes that gap.
 
-**New component.** Prod's plate is the behavioural reference we reproduced, not a design baseline to
-diff against: it has no spec on our side to compare with.
+**New component.** Prod's plate is the starting point, **not a design we reproduced** — measured against
+its Storybook (`components-uploadtray`), ours carries more:
+
+| | Prod | Expected |
+|---|---|---|
+| File row | icon + name + **size** (`1.2 MB`) | icon + name + **progress / outcome** |
+| Per-file progress bar | — | `.upl-item .progress`, 4px |
+| Per-file state | — | `.is-uploading` / `.is-done` / `.is-failed` |
+| Failure | — | `.upl-item-err` with the reason and a Retry |
+| Where state lives | the summary line only | summary **and** each row |
+
+Geometry and type already agree — row `gap:10px`, `padding:8px`, `radius:6px`; title 14/500;
+meta 12/400 in `--ink-secondary` with tabular numerals. What differs is the **model**: prod keeps
+the outcome in one sentence at the top and lists static files beneath it, so a batch where one file
+failed cannot say which. Carrying state per row is the addition, and it is the reason the component
+exists.
 
 Storybook: [`#uploadtray`](../insightis-preview-kit.html#uploadtray) · CSS: `pages/kit-theme.css` →
 UploadTray block · Live consumer: [Data Sources → Files](../pages/approved/data-sources_files-landing.html).
@@ -53,7 +67,7 @@ not lost. Per-file failure pairs a red alert glyph with a reason sentence.
 | Focus | `.upl-head:focus-visible`, `.upl-x:focus-visible` | `--shadow-focus-inset`. Inset, not outset: the plate has no outside margin to draw a halo into, and this matches every other flush-edge control in the kit. |
 | Dismiss | `.upl-x` | 32px wide, separated by a `border-left` hairline so it reads as its own target. `aria-label` **and** matching `data-tip` ("Dismiss"). |
 | Long batch | `.upl-list` | `max-height:14rem` + `overflow-y:auto`, so a 20-file batch can never push the dismiss ✕ off-screen. |
-| Narrow (≤600px) | — | `width:100%; max-width:26rem` on the tray; names ellipsize, the reason sentence wraps with `text-wrap:balance`. The page's dock switches to a full-width inset. |
+| Narrow column | — | The tray has **no breakpoint of its own** — `width:100%; max-width:26rem` is its **base** rule, so it fills whatever column holds it and stops at 26rem. Names ellipsize; the reason sentence wraps with `text-wrap:balance`. What changes at ≤600px is the page's dock (`.dsf-upl-dock` → full-width inset), not the component. |
 
 ## DOM / markup contract
 
