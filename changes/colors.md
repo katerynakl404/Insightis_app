@@ -14,7 +14,10 @@ Theme-independent CSS variables defined once in `:root`.
 | **Slate** | 50 `#F8FAFC` · 100 `#F1F5F9` · 200 `#E2E8F0` · 300 `#CBD5E1` · 400 `#94A3B8` · **450 `#7C8CA2`** · 500 `#64748B` · 600 `#475569` · 700 `#334155` · 800 `#1E293B` · 900 `#0F172A` · 950 `#020617` | Tailwind + custom 450 |
 | **Grey** | 50 `#F9FAFB` · 100 `#F4F4F5` · 200 `#E5E7EB` · 300 `#D1D5DB` · 400 `#9CA3AF` · 500 `#6B7280` · **600 `#525258`** · **700 `#2A2834`** · **800 `#21212C`** · **900 `#17171E`** · **950 `#0F0E14`** | Custom dark end (600/700/800/900/950) for dark-mode surfaces |
 | **Red** | 50 `#FEF2F2` · 100 `#FEE2E2` · 200 `#FECACA` · 300 `#FCA5A5` · **400 `#F25555`** · 500 `#EF4444` · 600 `#DC2626` · 700 `#B91C1C` · 800 `#991B1B` · **850 `#7F1D1D`** · **900 `#450A0A`** · **950 `#2A1010`** | Custom 400/850/900/950 |
-| **Single-purpose** | `--orange-500: #FF6900` · `--green-light-600: #009966` · `--green-dark-500: #03AF76` | For Feedback/Attention and Feedback/Green which don't sit in a full scale |
+| **Orange** | 50 `#FFF7ED` · 100 `#FFEDD5` · 200 `#FED7AA` · 300 `#FDBA74` · 400 `#FB923C` · 500 `#F97316` · 600 `#EA580C` · 700 `#C2410C` · 800 `#9A3412` · 900 `#7C2D12` · 950 `#431407` | Tailwind, no overrides. The 500 used to be a custom `#FF6900` that did not belong to the ramp it was named after, which is what made every neighbouring step unusable. |
+| **Amber** | 50 `#FFFBEB` · 100 `#FEF3C7` · 200 `#FDE68A` · 300 `#FCD34D` · 400 `#FBBF24` · 500 `#F59E0B` · 600 `#D97706` · 700 `#B45309` · 800 `#92400E` · 900 `#78350F` · 950 `#451A03` | Tailwind. Consumed by Feedback/Attention_Text on light, which used to hold a raw `#b45309` in the semantic layer. |
+| **Blue** | 50 `#EFF6FF` · 100 `#DBEAFE` · 200 `#BFDBFE` · 300 `#93C5FD` · 400 `#60A5FA` · 500 `#3B82F6` · 600 `#2563EB` · 700 `#1D4ED8` · 800 `#1E40AF` · 900 `#1E3A8A` · 950 `#172554` | Tailwind. The palette had no blue: Brand and Tertiary are both teal, so an informational surface had no colour to be that was not also the product's own voice. Consumed by Feedback/Info. |
+| **Green** (emerald) | 50 `#ECFDF5` · 100 `#D1FAE5` · 200 `#A7F3D0` · 300 `#6EE7B7` · 400 `#34D399` · 500 `#10B981` · 600 `#059669` · 700 `#047857` · 800 `#065F46` · 900 `#064E3B` · 950 `#022C22` | Tailwind emerald, no overrides. Was two loose steps named `--green-light-600` / `--green-dark-500` — a primitive that knew which theme it was for. The choosing moved to the semantic layer and the values moved onto the ramp. |
 | **Achromatic** | `--white: #FFFFFF` · `--black: #000000` | — |
 
 ## Layer 2 — Semantic tokens (light & dark)
@@ -69,9 +72,13 @@ All semantic tokens are aliases — they resolve through `var(--<primitive>)`. V
 | **Feedback/Red_Text** *(new)* | Dark | — | `#F25555` | `var(--red-400)` — 5.27:1 vs Surface/Card `#17171E`. **Theme-adaptive** destructive text / icon colour with comfortable AA headroom in dark. Applied to: `.mi.danger` (Dropdown destructive item), `.badge-red` text, `.statv-error` icon, `.file.s-error` icon, `.toast.var-error` icon + progress bar. |
 | **Feedback/Error_Hover** *(new)* | Light + Dark | — | `#991B1B` | `var(--red-800)` — same in both themes; AA 8.39:1 vs white |
 | **Feedback/Error_Press** *(new)* | Light + Dark | — | `#7F1D1D` | `var(--red-850)` — same in both themes; AAA 10.34:1 vs white |
-| Feedback/Attention | Light + Dark | `#FF6900` | `#FF6900` | `var(--orange-500)` |
-| Feedback/Green | Light | `#009966` | `#009966` | `var(--green-light-600)` |
-| Feedback/Green | Dark | `#03AF76` | `#03AF76` | `var(--green-dark-500)` |
+| Feedback/Attention | Light + Dark | `#FF6900` | `#F97316` ⚠️ **changed** | `var(--orange-500)` — the primitive was pulled onto its own Tailwind scale, so Attention moved with it. Affects: `.badge-attention`, `.menu-wip`, `.pg-wip-tag`, `.toast.var-warning`, `.spec-drift-note`, `.cp-fp-banner` glyph, `.alert-warn` wash. |
+| Feedback/Green | Light | `#009966` | `#059669` ⚠️ **changed** | `var(--green-600)` — pulled onto the Tailwind emerald scale, as Attention was onto orange. |
+| Feedback/Green | Dark | `#03AF76` | `#10B981` ⚠️ **changed** | `var(--green-500)` |
+| **Feedback/Attention_Text** | Light | `#B45309` | `#B45309` | `var(--amber-700)` — was a raw hex in the semantic layer; value unchanged, only the path through the layers. |
+| **Feedback/Attention_Text** | Dark | `#FB923C` | `#FB923C` | `var(--orange-400)` — same: raw hex replaced by the primitive it already equalled. |
+| **Feedback/Info** *(new)* | Light | — | `#2563EB` | `var(--blue-600)` — 5.17:1 vs Surface/Card `#FFFFFF`. The fourth feedback colour, beside Red, Attention and Green. |
+| **Feedback/Info** *(new)* | Dark | — | `#60A5FA` | `var(--blue-400)` — 6.4:1 vs Surface/Card `#17171E`. Blue-600 falls to 2.9:1 there, the same lift `Feedback/Red_Text` makes. |
 | Logo/Ink (wordmark) | Light | `#111827` | `#0F172A` | `var(--slate-900)` — pre-existing typo `#111827` fixed to closest primitive |
 | Logo/Ink (wordmark) | Dark | — | `#E8F2F5` | `var(--brand-50)` — very light teal on dark Card, high-contrast wordmark |
 | **Logo/Mark** (icon) | Light | `#07807D` | `#07807E` | `var(--brand-600)` — pre-existing typo `#07807D` fixed to Brand-600. 5.07:1 vs white. |

@@ -34,7 +34,11 @@ Open `../insightis-preview-kit.html` for the visual side-by-side; each component
 - [StepSlider](StepSlider.md) — new component (discrete level picker; composer Effort row)
 - [QueueBand](QueueBand.md) — new component; AI Chat message queue (AIINS-1808), nothing on prod to diff
 - [QueueItem](QueueItem.md) — new component; same feature
-- [QueuePause](QueuePause.md) — new component; same feature
+- [Alert](Alert.md) — new component; the generic inline notice the queue needed (supersedes the queue-private QueuePause)
+- [Radio](Radio.md) — new component; Checkbox’s one-of-N sibling, the kit had none
+- [ConfirmationCard](ConfirmationCard.md) — exists on prod; options became a real radio group
+- [SortableList](SortableList.md) — new kit BEHAVIOUR (kit-kit.js § 4); drag + Alt+↑/↓ reorder
+- [ThinkingIndicator](ThinkingIndicator.md) — exists on prod; the skeleton went, the label carries the wait
 - [DataSourcesFiles](DataSourcesFiles.md)
 - typography — no change (—)
 - Spinner — no change (—)

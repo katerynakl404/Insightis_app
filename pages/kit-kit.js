@@ -16,7 +16,9 @@
    Contents:
    1. Tooltip engine  — every [data-tip] in the product (Files spec rules 18 + 23).
    2. Menu placement  — flips anchored .menu variants to .menu.is-up when there is no room below.
+   1b. Scroll-to-bottom — .cp-scroll-btn hides itself while the thread is already at the end.
    3. Toast host      — the single top-right stack + window.kitToast / window.kitToastDismiss.
+   4. Sortable list   — drag-to-reorder + Alt+↑/↓ for any [data-sortable]; emits kit:sorted.
    ============================================================================================ */
 (function () {
   if (window.__kitKitLoaded) return;
@@ -32,12 +34,17 @@
        makes rapid hovers appear instantly, which reads as "the delay is broken".
      - hides on `mousedown`, because a clicked button often re-renders or removes itself while
        still hovered, so no `mouseout` ever fires and the tooltip would linger over the new UI.
+     - hides when the anchored trigger LEAVES THE DOM, which the mousedown guard above misses
+       whenever the re-render is driven by something other than a click. The composer's action
+       slot swaps Stop → Send as soon as the person TYPES: no mousedown, no mouseout, element
+       replaced under the cursor — and "Stop the reply" hung over the Send that replaced it.
+       Delay and no-warm-up semantics are untouched; this only closes that leak.
      ========================================================================================== */
   var TIP_DELAY = 300;
   /* Elements that get a tooltip. Sidebar rail items carry no data-tip (their label is visible
      when expanded) — the engine derives their text only while the rail is collapsed. */
   var TIP_SEL = '[data-tip],.sbx-nav-item,.sbx-chats-icon';
-  var ft, showTimer;
+  var ft, showTimer, tipAnchor;
 
   function tipEl() {
     if (!ft) {
@@ -69,6 +76,7 @@
   function tipShow(el) {
     var text = tipText(el);
     if (!text) return;
+    tipAnchor = el;
     var f = tipEl(), r = el.getBoundingClientRect();
     f.textContent = text;
     f.style.display = 'inline-flex';
@@ -94,6 +102,17 @@
   function tipHide() {
     if (ft) { ft.style.transition = 'opacity .1s'; ft.style.opacity = '0'; }
     clearTimeout(showTimer);
+    tipAnchor = null;
+  }
+
+  /* The trigger can be torn out of the DOM by a re-render that involves no pointer event at all
+     (typing, a timer, a state change elsewhere). Watch for the anchor going away and hide, so a
+     tooltip is never left floating over whatever took its place. Cheap: the callback only runs on
+     DOM mutations, and only does work while a tooltip is actually anchored. */
+  if (typeof MutationObserver === 'function') {
+    new MutationObserver(function () {
+      if (tipAnchor && !tipAnchor.isConnected) tipHide();
+    }).observe(document.documentElement, { childList: true, subtree: true });
   }
 
   document.documentElement.classList.add('tt-js');
@@ -112,6 +131,56 @@
   }, true);
   document.addEventListener('mousedown', function () { tipHide(); }, true);
   window.kitTipHide = tipHide;
+
+  /* ==========================================================================================
+     1b. SCROLL-TO-BOTTOM BUTTON — only exists when there is somewhere to scroll
+
+     `.cp-scroll-btn` floats over the thread and jumps to the newest message. Sitting there while
+     the thread is ALREADY at the bottom makes it a permanent ornament that does nothing, and it
+     covers content. It now hides whenever its scroller is within a line of the end, on scroll and
+     on resize. Behaviour belongs to the component, so every chat page gets it without page code.
+     ========================================================================================== */
+  function scrollHost(btn) {
+    var p = btn.parentElement;
+    if (!p) return null;
+    return p.querySelector('.cp-thread') || p.querySelector('[data-scroll-host]') || null;
+  }
+  function syncScrollBtn(btn) {
+    var host = scrollHost(btn);
+    if (!host) return;
+    var atEnd = host.scrollHeight - host.scrollTop - host.clientHeight < 24;
+    btn.classList.toggle('is-hidden', atEnd);
+  }
+  function bindScrollBtns() {
+    document.querySelectorAll('.cp-scroll-btn').forEach(function (btn) {
+      if (btn.__kitBound) return;
+      var host = scrollHost(btn);
+      if (!host) return;
+      btn.__kitBound = 1;
+      host.addEventListener('scroll', function () { syncScrollBtn(btn); }, { passive: true });
+      /* Scrolling is only half of it: the thread also grows while a reply streams, which changes
+         "am I at the bottom?" without firing a single scroll event. Watch the scroller AND its
+         content box, or the button keeps whatever state it happened to be in when it was bound. */
+      if (typeof ResizeObserver === 'function') {
+        var ro = new ResizeObserver(function () { syncScrollBtn(btn); });
+        ro.observe(host);
+        if (host.firstElementChild) ro.observe(host.firstElementChild);
+        btn.__kitRO = ro;
+      }
+      syncScrollBtn(btn);
+    });
+  }
+  window.kitSyncScrollBtns = bindScrollBtns;
+  window.addEventListener('resize', bindScrollBtns);
+  /* Threads are filled by page scripts after load, so re-check as the DOM settles. */
+  if (typeof MutationObserver === 'function') {
+    new MutationObserver(function () {
+      document.querySelectorAll('.cp-scroll-btn').forEach(syncScrollBtn);
+      bindScrollBtns();
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindScrollBtns);
+  else bindScrollBtns();
 
   /* ==========================================================================================
      2. MENU PLACEMENT — down by default, .menu.is-up when the trigger sits too low
@@ -299,4 +368,117 @@
 
   window.kitToast = showToast;
   window.kitToastDismiss = dismissToast;
+
+  /* ==========================================================================================
+     4. SORTABLE LIST — drag-to-reorder, pointer + keyboard
+
+     Generic, not queue-specific: any list that lets people reorder its rows opts in with three
+     attributes and gets dragging, a drop placeholder, keyboard reordering and a single event.
+
+       <ul data-sortable>
+         <li data-sort-item tabindex="0">
+           <button data-sort-handle aria-label="Drag to reorder">…</button>
+           …
+         </li>
+       </ul>
+
+     The list receives `kit:sorted` with { from, to } once an item lands; the consumer reorders its
+     own data and re-renders. Nothing here mutates anyone's model, and the DOM move is reverted by
+     that re-render — so a list that re-renders and a list that doesn't both behave.
+
+     Pointer drag uses Pointer Events, so mouse, pen and touch are one code path (`touch-action:
+     none` on the handle keeps a touch drag from scrolling the page instead). Keyboard is Alt+↑/↓
+     on the focused row — the same operation, reachable without a pointer, which is what makes
+     drag-to-reorder an accessible pattern rather than a mouse-only flourish.
+     ========================================================================================== */
+  var SORT = null;   /* active drag: { item, list, ph, dy, startY, h } */
+
+  function sortItems(list) {
+    return [].filter.call(list.children, function (n) { return n.nodeType === 1 && n.hasAttribute('data-sort-item'); });
+  }
+  function sortIndex(item) {
+    return sortItems(item.parentElement).indexOf(item);
+  }
+  function sortEmit(list, from, to) {
+    if (from === to) return;
+    list.dispatchEvent(new CustomEvent('kit:sorted', { bubbles: true, detail: { from: from, to: to } }));
+  }
+
+  document.addEventListener('pointerdown', function (e) {
+    var handle = e.target.closest && e.target.closest('[data-sort-handle]');
+    if (!handle || e.button) return;
+    var item = handle.closest('[data-sort-item]');
+    var list = item && item.closest('[data-sortable]');
+    if (!item || !list) return;
+
+    e.preventDefault();
+    var r = item.getBoundingClientRect();
+    var ph = document.createElement('li');
+    ph.className = 'sort-ph';
+    ph.style.height = r.height + 'px';
+
+    SORT = { item: item, list: list, ph: ph, from: sortIndex(item), startY: e.clientY, h: r.height, w: r.width, left: r.left, top: r.top };
+
+    item.classList.add('is-dragging');
+    item.style.width = r.width + 'px';
+    item.style.position = 'fixed';
+    item.style.left = r.left + 'px';
+    item.style.top = r.top + 'px';
+    item.style.zIndex = '50';
+    item.style.pointerEvents = 'none';
+    list.insertBefore(ph, item.nextSibling);
+    try { handle.setPointerCapture(e.pointerId); } catch (err) {}
+  }, true);
+
+  document.addEventListener('pointermove', function (e) {
+    if (!SORT) return;
+    var dy = e.clientY - SORT.startY;
+    SORT.item.style.top = (SORT.top + dy) + 'px';
+
+    /* Place the gap next to whichever sibling the pointer is currently over. Comparing against
+       each sibling's midpoint is what makes the swap happen once, at the halfway line, instead of
+       flickering while the cursor sits on a boundary. */
+    var mid = e.clientY;
+    /* Only rows that are actually ON SCREEN take part. A list that clamps itself (the queue shows
+       three rows and a "+N more") keeps the rest in the DOM but unrendered, and an unrendered row
+       reports a zero-size rect at the document origin — so every midpoint test against it fails,
+       the loop falls through, and the row lands at the very END of the list instead of where it
+       was dropped. Dropping below the last visible midpoint therefore anchors after that row,
+       not after a tail nobody can see. */
+    var sibs = sortItems(SORT.list).filter(function (n) {
+      return n !== SORT.item && n.getBoundingClientRect().height > 0;
+    });
+    if (!sibs.length) return;
+    for (var i = 0; i < sibs.length; i++) {
+      var b = sibs[i].getBoundingClientRect();
+      if (mid < b.top + b.height / 2) { SORT.list.insertBefore(SORT.ph, sibs[i]); return; }
+    }
+    SORT.list.insertBefore(SORT.ph, sibs[sibs.length - 1].nextSibling);
+  }, true);
+
+  function sortEnd() {
+    if (!SORT) return;
+    var s = SORT; SORT = null;
+    s.list.insertBefore(s.item, s.ph);
+    s.ph.remove();
+    s.item.classList.remove('is-dragging');
+    s.item.removeAttribute('style');
+    var to = sortIndex(s.item);
+    s.item.focus && s.item.focus();
+    sortEmit(s.list, s.from, to);
+  }
+  document.addEventListener('pointerup', sortEnd, true);
+  document.addEventListener('pointercancel', sortEnd, true);
+
+  /* Keyboard equivalent — Alt+↑/↓ on the focused row. Same event, same result. */
+  document.addEventListener('keydown', function (e) {
+    if (!e.altKey || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return;
+    var item = e.target.closest && e.target.closest('[data-sort-item]');
+    var list = item && item.closest('[data-sortable]');
+    if (!item || !list) return;
+    var items = sortItems(list), from = items.indexOf(item), to = from + (e.key === 'ArrowUp' ? -1 : 1);
+    if (to < 0 || to >= items.length) return;
+    e.preventDefault();
+    sortEmit(list, from, to);
+  });
 })();

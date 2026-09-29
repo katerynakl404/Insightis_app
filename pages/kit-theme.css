@@ -16,8 +16,33 @@
     /* Red (Tailwind + custom 400/850/900/950) */
     --red-50:#FEF2F2;--red-100:#FEE2E2;--red-200:#FECACA;--red-300:#FCA5A5;--red-400:#F25555;
     --red-500:#EF4444;--red-600:#DC2626;--red-700:#B91C1C;--red-800:#991B1B;--red-850:#7F1D1D;--red-900:#450A0A;--red-950:#2A1010;
-    /* Feedback colours that don't sit in a full scale — single-purpose primitives */
-    --orange-500:#FF6900;--green-light-600:#009966;--green-dark-500:#03AF76;
+    /* Orange (Tailwind, no overrides). Was a lone --orange-500 holding a custom #FF6900, which
+       made it a semantic wearing a primitive's name: the attention family had nowhere in the
+       primitives to reach for its text tone and kept a raw #fb923c in the semantic layer instead.
+       The 500 is now the scale's own #F97316 — the custom value sat off its own curve, and a step
+       that does not belong to the ramp it is named after is the thing that made every neighbour
+       unusable. This DID move Feedback/Attention: #FF6900 → #F97316. */
+    --orange-50:#FFF7ED;--orange-100:#FFEDD5;--orange-200:#FED7AA;--orange-300:#FDBA74;--orange-400:#FB923C;
+    --orange-500:#F97316;--orange-600:#EA580C;--orange-700:#C2410C;--orange-800:#9A3412;--orange-900:#7C2D12;--orange-950:#431407;
+    /* Amber (Tailwind). Here for one step: --fb-attention-text is amber-700, which was living in
+       the semantic layer as a raw #b45309. A scale, because a one-step primitive is how the
+       orange above ended up as a semantic in disguise. */
+    --amber-50:#FFFBEB;--amber-100:#FEF3C7;--amber-200:#FDE68A;--amber-300:#FCD34D;--amber-400:#FBBF24;
+    --amber-500:#F59E0B;--amber-600:#D97706;--amber-700:#B45309;--amber-800:#92400E;--amber-900:#78350F;--amber-950:#451A03;
+    /* Blue (Tailwind). The palette had no blue PRIMITIVE: Brand and Tertiary are both teal, so an
+       informational surface had nothing to be that was not also the product's own voice. --fb-info
+       takes 600 on light and 400 on dark. */
+    --blue-50:#EFF6FF;--blue-100:#DBEAFE;--blue-200:#BFDBFE;--blue-300:#93C5FD;--blue-400:#60A5FA;
+    --blue-500:#3B82F6;--blue-600:#2563EB;--blue-700:#1D4ED8;--blue-800:#1E40AF;--blue-900:#1E3A8A;--blue-950:#172554;
+    /* Green (Tailwind emerald, no overrides). The old names were "green-light-600" and
+       "green-dark-500" — a primitive that knew which THEME it was for, which is the whole defect:
+       choosing per theme is the semantic layer's job, and with the choice baked into the name there
+       was nowhere for a scale to exist. --fb-green now picks 600 on light and 500 on dark. The two
+       shipped values were kept as overridden steps for one pass and then dropped, the same way
+       orange's was — a step that does not belong to the ramp it is named after is what makes every
+       neighbour unusable. This DID move Feedback/Green: #009966 → #059669 light, #03AF76 → #10B981 dark. */
+    --green-50:#ECFDF5;--green-100:#D1FAE5;--green-200:#A7F3D0;--green-300:#6EE7B7;--green-400:#34D399;
+    --green-500:#10B981;--green-600:#059669;--green-700:#047857;--green-800:#065F46;--green-900:#064E3B;--green-950:#022C22;
     /* Achromatic */
     --white:#FFFFFF;--black:#000000;
   }
@@ -255,6 +280,9 @@
        --fb-red (red-700) would fail AA 2.76:1 against dark Surface/Card, so a brighter red is used in .dark below.
        --fb-red itself stays theme-independent to preserve AA on the white-text destructive Button background. */
     --fb-red-text:var(--red-700);
+    /* Feedback/Info — the fourth feedback colour, beside Red, Attention and Green. Blue-600
+       #2563EB on white Surface/Card = 5.17:1, AA for text and well past the 3:1 a glyph needs. */
+    --fb-info:var(--blue-600);
     /* Highlighted text + link colour. Maps to --brand-primary — Brand-600 #07807E on white
        card = 4.77:1 (passes AA Normal at 4.5:1, comfortably passes AA Large at 3:1). Same
        token used by .link, .cl-kw, and any other "emphasised text" so every highlight stays
@@ -267,7 +295,7 @@
        the dark theme re-resolves them without its own pair. */
     --ink-icon:var(--ink-secondary);
     --ink-icon-hover:var(--ink-primary);
-    --fb-attention:var(--orange-500);--fb-attention-text:#b45309;--fb-green:var(--green-light-600);
+    --fb-attention:var(--orange-500);--fb-attention-text:var(--amber-700);--fb-green:var(--green-600);
     /* Popular-connector flame badge (DataSourceCard) — decorative red flame, not a logo, so it
        flows through a token. Red-500 reads as a warm "trending" accent on the white badge ring. */
     --popular-flame:var(--red-500);
@@ -432,6 +460,10 @@
     /* Toast variant backgrounds + borders — 8% colour tint over Card surface, tinted border at 30%.
        Uses theme-aware sub-tokens (--surface-card, --fb-*, --brand-primary) so both themes resolve correctly
        without explicit .dark overrides. */
+    /* Alert and Toast are the same feedback family and now say so in one number: the wash strength.
+       Toast spells 5%/8% into four tokens per theme; Alert needs one, because its accent is already
+       a variable. */
+    --alert-wash:var(--tint-5);
     --toast-bg-success:color-mix(in srgb, var(--fb-green) 5%, var(--surface-card));
     --toast-bg-info:color-mix(in srgb, var(--brand-primary) 5%, var(--surface-card));
     --toast-bg-warning:color-mix(in srgb, var(--fb-attention) 5%, var(--surface-card));
@@ -624,6 +656,9 @@
     /* Feedback/Red_Text — Red-400 on dark Surface/Card (#17171E) = 5.27:1 AA (comfortable margin).
        Red-500 was tried first at 4.74:1 but read as too muted; Red-700 fails at 2.76:1. */
     --fb-red-text:var(--red-400);
+    /* Blue-600 falls to 2.9:1 on dark Surface/Card, so the dark theme steps two up: Blue-400
+       #60A5FA = 6.4:1, the same move --fb-red-text makes. */
+    --fb-info:var(--blue-400);
     /* Highlighted text + link colour — bright cyan-teal Tertiary-400 #2EBEC4. Reads
        vividly on the dark Card #17171E (~8:1 — comfortably AAA in both Normal and Large).
        Brighter than Brand-Primary's Brand-500 mapping so links and highlighted text "pop"
@@ -637,7 +672,7 @@
        (a preview panel, a forced-dark page) paint the glyphs correctly. */
     --ink-icon:var(--ink-secondary);
     --ink-icon-hover:var(--ink-primary);
-    --fb-attention:var(--orange-500);--fb-attention-text:#fb923c;--fb-green:var(--green-dark-500);
+    --fb-attention:var(--orange-500);--fb-attention-text:var(--orange-400);--fb-green:var(--green-500);
     /* Featured plan card — the 8% wash that lifts off white is invisible over the dark card, so
        the top stop nearly doubles. Fade length stays 40% so the accent still clears the name row. */
     --plan-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 14%, var(--surface-card)) 0%, var(--surface-card) 40%);
@@ -707,6 +742,7 @@
     --grad-teal-dark:linear-gradient(135deg,var(--brand-600) 0%,var(--brand-900) 100%);
     --grad-noise:linear-gradient(135deg,var(--slate-900) 0%,var(--brand-800) 48%,var(--brand-700) 100%);
     /* Toast bg — restore 8% tint on dark (light uses 4% for a more transparent feel on white) */
+    --alert-wash:var(--tint-8);
     --toast-bg-success:color-mix(in srgb, var(--fb-green) 8%, var(--surface-card));
     --toast-bg-info:color-mix(in srgb, var(--brand-primary) 8%, var(--surface-card));
     --toast-bg-warning:color-mix(in srgb, var(--fb-attention) 8%, var(--surface-card));
@@ -880,23 +916,26 @@
   .s-focus.btn-outline-destructive{box-shadow:var(--shadow-focus)}
   .s-focus{box-shadow:var(--shadow-focus)}
   /* real interactive states (live preview) */
-  .btn-primary:hover{background:var(--btn-primary-bg-hover)}
+  /* Every variant's :hover is guarded against the disabled states. It was not: a disabled Button
+     still lit up under the cursor, which says "press me" about a control that cannot be pressed.
+     Applies to .btn and .iconbtn alike, real [disabled] and the storybook's .s-disabled mirror. */
+  .btn-primary:not([disabled]):not(.s-disabled):hover{background:var(--btn-primary-bg-hover)}
   .btn-primary:active{background:var(--btn-primary-bg-press)}
   .btn-primary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-primary:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
-  .btn-secondary:hover{background:var(--btn-secondary-bg-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
+  .btn-secondary:not([disabled]):not(.s-disabled):hover{background:var(--btn-secondary-bg-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .btn-secondary:active{background:var(--btn-secondary-bg-press);color:var(--ink-body)}
   .btn-secondary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .btn-outline:hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
+  .btn-outline:not([disabled]):not(.s-disabled):hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
   .btn-outline:active{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
-  .btn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
+  .btn-tertiary:not([disabled]):not(.s-disabled):hover{background:var(--state-hover);color:var(--ink-body)}
   .btn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
   .btn-tertiary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* Brand modifier — brand-coloured tertiary for standalone text actions (e.g. the sidepanel
      "Test Connection"). Only the label goes brand; the hover/pressed pill + focus ring stay the
      neutral tertiary recipe so it reads as one family. Global .btn-tertiary stays neutral. */
   .btn-tertiary.is-brand{color:var(--brand-primary)}
-  .btn-tertiary.is-brand:hover,.s-hover.btn-tertiary.is-brand{background:var(--state-hover);color:var(--brand-hover)}
+  .btn-tertiary.is-brand:not([disabled]):not(.s-disabled):hover,.s-hover.btn-tertiary.is-brand{background:var(--state-hover);color:var(--brand-hover)}
   .btn-tertiary.is-brand:active,.s-pressed.btn-tertiary.is-brand{background:var(--state-pressed);color:var(--brand-press)}
   .btn-tertiary.is-brand:disabled,.s-disabled.btn-tertiary.is-brand{color:var(--ink-inactive);background:transparent}
   /* Tertiary Destructive — the text-only red button the family lacked (there was only filled
@@ -906,7 +945,7 @@
      FILL reds with no dark-theme flip and would fail AA as text on a dark surface. --fb-red-text is
      the AA-corrected, theme-aware token, so the label holds and only the wash moves. */
   .btn-tertiary.is-danger{color:var(--fb-red-text)}
-  .btn-tertiary.is-danger:hover,.s-hover.btn-tertiary.is-danger{background:color-mix(in srgb, var(--fb-red) var(--tint-8), transparent);color:var(--fb-red-text)}
+  .btn-tertiary.is-danger:not([disabled]):not(.s-disabled):hover,.s-hover.btn-tertiary.is-danger{background:color-mix(in srgb, var(--fb-red) var(--tint-8), transparent);color:var(--fb-red-text)}
   .btn-tertiary.is-danger:active,.s-pressed.btn-tertiary.is-danger{background:color-mix(in srgb, var(--fb-red) var(--tint-12), transparent);color:var(--fb-red-text)}
   .btn-tertiary.is-danger:disabled,.s-disabled.btn-tertiary.is-danger{color:var(--ink-inactive);background:transparent}
   /* aria-disabled form — .link (line 674) and .mi (1178) already carried .is-disabled; .btn only had
@@ -915,11 +954,11 @@
      consumer needs one (their disabled recipes differ per background). */
   .btn-tertiary.is-disabled,.btn-tertiary.is-danger.is-disabled{color:var(--ink-inactive);background:transparent;pointer-events:none}
   .btn-outline:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .btn-destructive:hover{background:var(--fb-error-hover)}
+  .btn-destructive:not([disabled]):not(.s-disabled):hover{background:var(--fb-error-hover)}
   .btn-destructive:active{background:var(--fb-error-press)}
   .btn-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-destructive:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
-  .btn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
+  .btn-outline-destructive:not([disabled]):not(.s-disabled):hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
   .btn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--fb-red-text)}
   .btn-outline-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .btn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
@@ -1006,20 +1045,20 @@
   .s-disabled.iconbtn-outline-destructive{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent}
   .s-focus.iconbtn-outline-destructive{box-shadow:var(--shadow-focus)}
   /* real interactive states */
-  .iconbtn-primary:hover{background:var(--btn-primary-bg-hover)}
+  .iconbtn-primary:not([disabled]):not(.s-disabled):hover{background:var(--btn-primary-bg-hover)}
   .iconbtn-primary:active{background:var(--btn-primary-bg-press)}
   .iconbtn-primary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-primary:disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
-  .iconbtn-secondary:hover{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
+  .iconbtn-secondary:not([disabled]):not(.s-disabled):hover{background:var(--state-hover);color:var(--ink-body);border-color:var(--btn-secondary-border-hover)}
   .iconbtn-secondary:active{background:var(--state-pressed);color:var(--ink-body);border-color:var(--btn-secondary-border)}
   .iconbtn-secondary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .iconbtn-outline:hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
+  .iconbtn-outline:not([disabled]):not(.s-disabled):hover{border-color:var(--brand-hover);background:var(--btn-outline-bg-hover);color:var(--ink-body)}
   .iconbtn-outline:active{border-color:var(--brand-hover);background:var(--btn-outline-bg-press);color:var(--ink-body)}
   .iconbtn-outline:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .iconbtn-tertiary:hover{background:var(--state-hover);color:var(--ink-body)}
+  .iconbtn-tertiary:not([disabled]):not(.s-disabled):hover{background:var(--state-hover);color:var(--ink-body)}
   .iconbtn-tertiary:active{background:var(--state-pressed);color:var(--ink-body)}
   .iconbtn-tertiary:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .iconbtn-outline-destructive:hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
+  .iconbtn-outline-destructive:not([disabled]):not(.s-disabled):hover{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-hover);color:var(--fb-red-text)}
   .iconbtn-outline-destructive:active{border-color:var(--btn-outline-destructive-border-hover);background:var(--btn-outline-destructive-bg-press);color:var(--fb-red-text)}
   .iconbtn-outline-destructive:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .iconbtn-outline-destructive:disabled{border-color:var(--ink-inactive);color:var(--ink-inactive);background:transparent;cursor:not-allowed}
@@ -1202,6 +1241,29 @@
      via currentColor / ::before) and are muted purely by the opacity — no separate colour drop, so
      the mark always reads white, never grey. 1.4.3 exempts disabled from AA. */
   .cbx.s-disabled,.cbx:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
+  /* Radio (.rdo) — Checkbox's one-of-N sibling, and the same control in every respect except the
+     two that carry the meaning: the box is a circle and the mark is a dot. Size, border weight,
+     colours, hover, focus and disabled are the checkbox's, deliberately — a radio that differed in
+     any of those would read as a different family rather than as "pick exactly one".
+       <label class="cfc-opt"><input type="radio" class="rdo-in" name="g"><span class="rdo"></span>…</label>
+     The real <input> stays in the DOM (visually hidden, never display:none) so the group keeps its
+     arrow-key behaviour, its name/value and its screen-reader role for free; .rdo is only the skin,
+     and :checked / :focus-visible on the input drive it. */
+  .rdo{width:1.125rem;height:1.125rem;border-radius:var(--radius-full);border:1.5px solid var(--field-border-hover);background:var(--surface-card);display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:pointer;transition:background-color .12s, border-color .12s, box-shadow .12s;vertical-align:middle}
+  /* The dot is drawn on top, not punched out of the fill: a ring with a transparent centre would
+     take the colour of whatever surface it sits on, and these sit inside cards. */
+  .rdo::after{content:"";width:.5rem;height:.5rem;border-radius:var(--radius-full);background:var(--content-on-solid);transform:scale(0);transition:transform .12s var(--motion-ease)}
+  .rdo-in{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+  .rdo-in:checked + .rdo,.rdo.on{background:var(--brand-primary);border-color:var(--brand-primary)}
+  .rdo-in:checked + .rdo::after,.rdo.on::after{transform:scale(1)}
+  .rdo:hover,.rdo.s-hover{border-color:var(--ink-secondary)}
+  .rdo-in:checked + .rdo:hover,.rdo.on:hover,.rdo.on.s-hover{background:var(--brand-hover);border-color:var(--brand-hover)}
+  .rdo-in:focus-visible + .rdo,.rdo:focus-visible,.rdo.s-focus{outline:none;box-shadow:var(--shadow-focus)}
+  .rdo-in:disabled + .rdo,.rdo.s-disabled,.rdo:disabled{opacity:var(--opacity-disabled);pointer-events:none;cursor:not-allowed}
+  .rdo.s-error{border-color:var(--input-error)}
+  .rdo-in:checked + .rdo.s-error,.rdo.on.s-error{background:var(--input-error);border-color:var(--input-error)}
+  @media (prefers-reduced-motion: reduce){ .rdo::after{transition:none} }
+
   /* Error — mirrors Input .s-error: border colour swap, no bg change for unchecked; checked fills with the error colour */
   .cbx.s-error{border-color:var(--input-error)}
   .cbx.on.s-error{background:var(--input-error);border-color:var(--input-error)}
@@ -1818,7 +1880,13 @@
   .sbx-nav-item.active,.sbx-nav-item.s-active{background:var(--state-pressed);color:var(--ink-body)}
   .sbx-nav-item:focus-visible,.sbx-nav-item.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   .sbx-nav-item.s-disabled,.sbx-nav-item:disabled{opacity:var(--opacity-disabled);pointer-events:none;color:var(--ink-inactive)}
-  .sbx-nav-item .nav-badge{margin-left:auto;background:color-mix(in srgb, var(--brand-primary) var(--tint-15), transparent);color:var(--brand-primary);font-size:var(--ts-label-s-size);font-weight:var(--ts-label-s-weight);padding:1px 6px;border-radius:var(--radius-full);line-height:var(--ts-label-s-lh);font-variant-numeric:tabular-nums;letter-spacing:var(--ts-label-s-track)}
+  /* The chat row gets the SAME counter recipe as a nav item — it had none at all, and a generic
+     .badge dropped in there reads as a foreign chip on a 28px row. It sits above the truncation
+     fade (z-index) so the number is never the thing the gradient eats, and the label's ellipsis
+     stops before it rather than running under it. */
+  .sbx-chat .nav-badge{position:relative;z-index:1;flex:none}
+  .sbx-chat:has(.nav-badge)::after{display:none}
+  .sbx-nav-item .nav-badge,.sbx-chat .nav-badge{margin-left:auto;background:color-mix(in srgb, var(--brand-primary) var(--tint-15), transparent);color:var(--brand-primary);font-size:var(--ts-label-s-size);font-weight:var(--ts-label-s-weight);padding:1px 6px;border-radius:var(--radius-full);line-height:var(--ts-label-s-lh);font-variant-numeric:tabular-nums;letter-spacing:var(--ts-label-s-track)}
 
   /* Chat sections — scroll area, scrollbar visually hidden. Tight intra-section (1px between chat rows
      via .sbx-sect gap), generous inter-section (12px between Pinned and Recent groups). */
@@ -3209,32 +3277,28 @@
      States are class-driven on the tray (.is-uploading / .is-complete / .has-failed) and per row
      (.upl-item.is-uploading / .is-done / .is-failed). Progress reuses the kit .progress atom. */
   .upl-tray{width:100%;max-width:26rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.625rem;box-shadow:var(--shadow-overlay-soft);overflow:hidden}
-  .upl-bar{display:flex;align-items:stretch;gap:0}
+  .upl-bar{display:flex;align-items:center;gap:.25rem;padding:.375rem .5rem}
   /* The expand target. Inherits nothing from .btn on purpose: this is a full-width bar, not a
-     control — it only needs a hover surface, a focus ring and a pointer. */
-  .upl-head{flex:1;min-width:0;display:flex;align-items:center;gap:.625rem;padding:.625rem .75rem;background:transparent;border:none;cursor:pointer;font-family:inherit;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-primary);text-align:left;transition:background-color var(--motion-fast) var(--motion-ease)}
-  .upl-head:hover,.upl-head.s-hover{background:var(--state-hover)}
-  .upl-head:active,.upl-head.s-pressed{background:var(--state-pressed)}
+     control. It carries no hover surface — the chevron button beside it is the affordance, and a
+     wash under the title would make the bar read as one big button and swallow the two real ones. */
+  .upl-head{flex:1;min-width:0;display:flex;align-items:center;gap:.625rem;padding:.25rem;border-radius:var(--radius-md);background:transparent;border:none;cursor:pointer;font-family:inherit;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-primary);text-align:left}
   .upl-head:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
-  .upl-head-ic{width:1rem;height:1rem;flex:none;display:inline-flex;align-items:center;justify-content:center}
+  .upl-head-ic{width:1rem;height:1rem;flex:none;display:inline-flex;align-items:center;justify-content:center;color:var(--ink-secondary)}
   .upl-head-ic svg{width:var(--icon-md);height:var(--icon-md)}
   .upl-head-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  /* Chevron points down while collapsed and flips when the list is open — driven by the head's
-     own aria-expanded so the visual can never disagree with the announced state. */
-  .upl-chev{width:var(--icon-md);height:var(--icon-md);flex:none;color:var(--ink-secondary);transition:transform var(--motion-base) var(--motion-ease)}
-  .upl-head[aria-expanded="true"] .upl-chev{transform:rotate(180deg)}
-  /* Dismiss — sibling of .upl-head, on the tray's static surface, so the neutral --state-* recipe
-     is correct here (it is not nested inside a surface that itself hovers). */
-  .upl-x{width:2rem;flex:none;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;border-left:1px solid var(--stroke-border);cursor:pointer;color:var(--ink-secondary);font-family:inherit;transition:color var(--motion-fast) var(--motion-ease),background-color var(--motion-fast) var(--motion-ease)}
-  .upl-x svg{width:var(--icon-xs);height:var(--icon-xs)}
-  .upl-x:hover,.upl-x.s-hover{background:var(--state-hover);color:var(--ink-body)}
-  .upl-x:active{background:var(--state-pressed)}
-  .upl-x:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
-  /* Summary icon colour carries the batch outcome — never the only cue: the title text states it
-     too ("3 uploading" / "5 uploads complete" / "1 of 5 uploads failed"), per 1.4.1. */
-  .upl-tray.is-uploading .upl-head-ic{color:var(--brand-primary)}
-  .upl-tray.is-complete .upl-head-ic{color:var(--fb-green)}
-  .upl-tray.has-failed .upl-head-ic{color:var(--fb-red-text)}
+  /* The chevron sits in its OWN kit icon button (.iconbtn.iconbtn-xs.iconbtn-tertiary), beside the
+     head rather than inside it — .upl-chevbtn is a selector hook only and carries no appearance.
+     The tray docks at the bottom, so the list opens UPWARD: collapsed the chevron points up,
+     expanded it points down. Driven off the head's own aria-expanded, so the glyph direction can
+     never disagree with what assistive tech announces. */
+  .upl-chev{transition:transform var(--motion-base) var(--motion-ease)}
+  .upl-head[aria-expanded="false"] ~ .upl-chevbtn .upl-chev{transform:rotate(180deg)}
+  /* Dismiss and the chevron are both the kit icon button at .iconbtn-xs — 28px box, 14px glyph,
+     --ink-body, the tertiary transparent recipe. The tray adds NO styling of its own for them, and
+     there is no hairline between them: they are two controls on the bar, not two cells. */
+  /* The summary glyph stays --ink-secondary in EVERY status. The outcome is carried by the
+     glyph's shape (spinner / circle-check / circle-alert) and spelled out in the title text, so
+     it is never colour-only (1.4.1) without painting the bar. Matches prod. */
   .upl-tray.is-uploading .upl-head-ic svg{animation:btn-spin .7s linear infinite}
   @media (prefers-reduced-motion: reduce){
     .upl-tray.is-uploading .upl-head-ic svg{animation:none}
@@ -3250,12 +3314,16 @@
   /* The row's progress bar is the kit .progress atom, widened to the row. */
   .upl-item .progress{width:100%;height:.25rem}
   .upl-item-meta{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);flex:none;font-variant-numeric:tabular-nums}
+  /* The row's outcome sits at the END of the row — the leading mark always stays the neutral file
+     glyph, so a column of rows reads as one column of files rather than a column of statuses.
+     Shape carries the state (circle-check vs circle-alert); colour only reinforces it (1.4.1). */
+  .upl-item-stat{width:1rem;height:1rem;flex:none;margin-top:.125rem;display:inline-flex;align-items:center;justify-content:center}
+  .upl-item-stat svg{width:var(--icon-md);height:var(--icon-md)}
+  .upl-item.is-done .upl-item-stat{color:var(--fb-green)}
+  .upl-item.is-failed .upl-item-stat{color:var(--fb-red-text)}
   /* Per-file failure — paired with the red alert glyph AND this sentence, so the failure is never
      colour-only. No trailing period, per the description-copy rule. */
   .upl-item-err{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--fb-red-text);text-wrap:balance}
-  .upl-item.is-done .upl-item-ic{color:var(--fb-green)}
-  .upl-item.is-failed .upl-item-ic{color:var(--fb-red-text)}
-  .upl-item.is-failed{background:color-mix(in srgb, var(--fb-red) var(--tint-5), transparent)}
   /* Retry sits at the row's end as the kit .link so it reads as the one action on a failed row. */
   .upl-item-act{flex:none;display:inline-flex;align-items:center;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh)}
 
@@ -3451,10 +3519,21 @@
      spacing (uniform distance between all messages; no jump since the timestamp reserves its space). */
   .cp-turn-inner{max-width:820px;width:100%;padding:.25rem 1.5rem;box-sizing:border-box;display:flex;flex-direction:column;gap:.5rem}
   /* Floating scroll-to-bottom button — a round, shadowed pill that sits over the thread (absolute,
-     bottom-centred) and jumps the conversation to the latest message. Container needs position. */
-  .cp-scroll-btn{position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);width:2rem;height:2rem;border-radius:var(--radius-full);background:var(--surface-card);border:1px solid var(--stroke-border);color:var(--ink-secondary);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:color .12s,background .12s;font-family:inherit;z-index:5}
-  .cp-scroll-btn:hover{color:var(--ink-body);background:var(--state-hover)}
+     bottom-centred) and jumps the conversation to the latest message. Container needs position.
+     Colour comes from the SECONDARY Button tokens, not a private near-copy of them: this is the
+     same outlined-on-card control, so --btn-secondary-* is what it must read (2026-09-29). It was
+     --stroke-border + --state-hover, which drifted from Secondary on dark. NOTE for consumers:
+     the button must not sit inside a masked element — .cp-thread-wrap fades its bottom 2rem to
+     transparent, and this button lives at bottom:1.25rem, so the mask made it see-through. Mask
+     the SCROLLER (.cp-thread), not the wrapper. */
+  .cp-scroll-btn{position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);width:2rem;height:2rem;border-radius:var(--radius-full);background:var(--btn-secondary-bg);border:var(--border-width) solid var(--btn-secondary-border);color:var(--ink-body);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:color .12s,background .12s;font-family:inherit;z-index:5}
+  .cp-scroll-btn:hover{background:var(--btn-secondary-bg-hover);border-color:var(--btn-secondary-border-hover)}
+  .cp-scroll-btn:active{background:var(--btn-secondary-bg-press)}
   .cp-scroll-btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  /* Hidden while the thread is already at the bottom — a jump-to-newest control with nowhere to
+     jump is an ornament that also covers content. Toggled by kit-kit.js. */
+  .cp-scroll-btn{transition:color var(--motion-fast),background var(--motion-fast),opacity var(--motion-fast),visibility var(--motion-fast)}
+  .cp-scroll-btn.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
   .cp-scroll-btn svg{width:var(--icon-xs);height:var(--icon-xs)}
   /* Result-card title inside an AI bubble (e.g. "First 5 Jira Issues…") + horizontal scroller for a
      wide result table (reuses table.tbl). No own margin — spacing above it is the parent
@@ -4359,7 +4438,7 @@
 }
 
   /* =========================================================================
-     MESSAGE QUEUE — band (.mqb) · item (.mqi) · pause block (.mqp)
+     MESSAGE QUEUE — band (.mqb) · item (.mqi). The pause block is the kit-wide Alert.
      ---------------------------------------------------------------------------
      The strip that sits BETWEEN the conversation thread and the composer while
      the assistant is still answering. It holds the follow-up questions the user
@@ -4387,42 +4466,68 @@
     /* Row box height — shared by .mqi, its drag placeholder and the grip hit
        area, so the list keeps one rhythm when a row swaps into any of them. */
     --mq-item-h:2rem;
-    /* Accent rail thickness — the held row and every pause variant use it. */
-    --mq-rail:2px;
   }
 
   /* ── Band ───────────────────────────────────────────────────────────────── */
-  .mqb{display:flex;flex-direction:column;gap:.25rem;width:100%;box-sizing:border-box;padding:.5rem;border-radius:var(--radius-xl);background:var(--surface-card2)}
+  /* Same surface family as the composer directly below it — --surface-card, a hairline and the
+     composer's own 1rem corner — so band + composer read as one stack instead of a grey slab
+     parked on top of a white card. --surface-card2 measured 1.05:1 against the page: invisible.
+     The rows carry the contrast now (State/Hover on hover), not the tray (2026-09-29). */
+  .mqb{display:flex;flex-direction:column;gap:.25rem;width:100%;box-sizing:border-box;padding:.5rem;border-radius:1rem;background:var(--surface-card);border:var(--border-width) solid var(--stroke-border)}
   /* Header states the count AND when the queue leaves — it never depends on
      whether text is currently streaming (R3: a pause in the text is not a turn
      boundary), so the wording stays put while a tool or Python call runs. */
-  .mqb-head{display:flex;align-items:center;gap:.375rem;padding:.125rem .375rem;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);color:var(--ink-secondary)}
-  .mqb-head-ic{width:var(--icon-xs);height:var(--icon-xs);flex:none;color:var(--ink-inactive)}
+  /* gap + icon box match the row's lead slot, so the header label and every row's text share one
+     left edge instead of sitting 8px apart. */
+  .mqb-head{display:flex;align-items:center;gap:.5rem;padding:.125rem .375rem;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);color:var(--ink-secondary)}
+  /* Square glyph (a 20x14 box stretched it), pushed right so its RIGHT edge lands on the lead
+     column's right edge — the same vertical the digits align on. Text then starts at 20+8 for
+     the header, the note and every row alike. */
+  /* Centred in the same 1.25rem lead column the number circles occupy. */
+  /* 16px glyph + 2px each side == the 20px lead column the number circles occupy. Centring a 14px
+     glyph there needed 3px, which is off the 4px grid (2px sub-step); stepping the glyph up one
+     rung on the icon ladder lands it on the grid instead of nudging it there. */
+  .mqb-head-ic{width:var(--icon-sm);height:var(--icon-sm);margin:0 2px;flex:none;color:var(--ink-inactive)}
   .mqb-head-t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mqb-head-n{flex:none}
   .mqb-head-act{margin-left:auto;flex:none}
+  /* One control, two directions: the chevron turns instead of the label changing word. */
+  .mqb-head-act svg{transition:transform var(--motion-fast) var(--motion-ease)}
+  .mqb-head-act[aria-expanded="true"] svg{transform:rotate(180deg)}
+  @media (prefers-reduced-motion: reduce){ .mqb-head-act svg{transition:none} }
   .mqb-list{display:flex;flex-direction:column;gap:.125rem;list-style:none;margin:0;padding:0}
   /* Collapse — the band sits in the most-used spot in the product, so it never
      grows past a few rows. Desktop shows 3, phones 2 (a clamp count cannot be a
      var() inside nth-child, hence the class pair). .is-clamped-5 is the wider
      alternative kept for the open Q7 comparison on the concept page. */
-  .mqb-list.is-clamped > .mqi:nth-child(n+4){display:none}
-  .mqb-list.is-clamped-5 > .mqi:nth-child(n+6){display:none}
-  /* Inline note under the list — queue-full warning (B3), restore notice (E2). */
-  .mqb-note{display:flex;align-items:flex-start;gap:.375rem;padding:.25rem .375rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
-  .mqb-note-ic{width:var(--icon-xs);height:var(--icon-xs);flex:none;margin-top:1px;color:var(--ink-inactive)}
-  .mqb-note.is-full,.mqb-note.is-full .mqb-note-ic{color:var(--fb-attention-text)}
+  /* "of .mqi" is load-bearing, not decoration: a drag puts a placeholder <li> among the children,
+     and a plain nth-child would count it and hide one row too early — every drop then landed a
+     position short of where it was let go. Counting ROWS only keeps the clamp still while the
+     placeholder moves through it. */
+  .mqb-list.is-clamped > .mqi:nth-child(n+4 of .mqi){display:none}
+  .mqb-list.is-clamped-5 > .mqi:nth-child(n+6 of .mqi){display:none}
+  /* Third answer to Q7: no collapse at all — the list scrolls, capped at three rows, and the
+     consumer keeps it pinned to the END so the message added last is the one on screen. Scrolling
+     keeps every row reachable without a disclosure, at the cost of a scrollbar in the composer's
+     lap; collapsing keeps the band silent but hides rows behind a click. */
+  /* Nothing overflows sideways any more (the optical pulls are gone), so the scroller needs no
+     compensating margin — only room for its own scrollbar. */
+  .mqb-list.is-scroll{padding-right:.25rem;max-height:calc(var(--mq-item-h) * 3 + .5rem);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
+  /* Expanded: the cap rises but the list still scrolls, so a long queue can be read in place
+     without the band ever taking over the screen. */
+  .mqb-list.is-scroll.is-tall{max-height:calc(var(--mq-item-h) * 8 + 1.75rem)}
 
   /* ── Item ───────────────────────────────────────────────────────────────── */
   .mqi{position:relative;display:flex;align-items:center;gap:.5rem;min-height:var(--mq-item-h);box-sizing:border-box;padding:.25rem .375rem;border-radius:var(--radius-md);background:transparent;color:var(--ink-body);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);cursor:default;transition:background-color var(--motion-fast) var(--motion-ease)}
   /* Standalone interactive: the band under the row never changes background, so
      the neutral State/Hover token is correct here (no parent-state collision). */
-  .mqi:hover,.mqi.s-hover,.mqi:focus-within,.mqi:has([data-kbp][aria-expanded="true"]){background:var(--state-hover)}
+  .mqi:hover,.mqi.s-hover,.mqi:focus-within{background:var(--state-hover)}
   .mqi:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
   /* Text/Secondary, not Text/Inactive: the number IS content — it says what gets
      asked next — and Inactive on the band surface measures 3.13:1 on light, under
      the 4.5:1 floor for 12px text. Secondary lands at 5.03:1 and still sits a
      clear step below the message itself (9.45:1). */
-  .mqi-num{flex:none;width:1rem;text-align:right;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);font-variant-numeric:tabular-nums}
+  .mqi-num{flex:none;display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;border-radius:var(--radius-full);background:var(--surface-card2);color:var(--ink-secondary);font-size:var(--ts-label-m-size);line-height:1;font-variant-numeric:tabular-nums;transition:opacity var(--motion-fast) var(--motion-ease)}
   .mqi-text{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   /* Attachment chip = .badge.badge-sm.badge-secondary; this only caps + truncates it. */
   .mqi-file{flex:none;min-width:0;max-width:11rem}
@@ -4432,33 +4537,25 @@
   /* --ink-icon (= Text/Secondary) matches the IconButtons at the other end of the
      row and clears the 3:1 non-text floor with room to spare; Text/Inactive sat at
      3.13:1 against the band and dipped below it once the row hovered. */
-  .mqi-grip{flex:none;display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:var(--mq-item-h);padding:0;border:none;background:transparent;color:var(--ink-icon);cursor:grab;opacity:0;transition:opacity var(--motion-fast) var(--motion-ease)}
+  /* The number is a fixed round box, so the column aligns on BOTH edges and the digit is centred
+     inside it — no arguing with tabular-nums advance widths or a narrow "1". */
+  .mqi-lead{position:relative;flex:none;width:1.25rem;height:var(--mq-item-h);display:flex;align-items:center;justify-content:center}
+  /* The grip shares the number's box instead of claiming a gutter of its own: a 24px column that
+     is empty at rest pushed every row's text in by two steps and made the band read as a slab.
+     On hover the number fades out and the grip takes its place, so the row keeps one left edge. */
+  .mqi-grip{position:absolute;inset:0;display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;padding:0;border:none;background:transparent;color:var(--ink-icon);cursor:grab;opacity:0;transition:opacity var(--motion-fast) var(--motion-ease)}
   .mqi-grip svg{width:var(--icon-xs);height:var(--icon-xs)}
   .mqi-grip:active{cursor:grabbing}
   .mqi-grip:focus-visible{outline:none;opacity:1;box-shadow:var(--shadow-focus-inset)}
+  /* Optically flush right. Two pulls: the row's own padding, plus HALF the icon button's internal
+     inset ((24-14)/2), so the trailing GLYPH lands on the same vertical as the header button's
+     label — not the invisible edge of its 24px hit box, which is what left a stubborn gap. */
   .mqi-acts{flex:none;display:flex;align-items:center;gap:.125rem;opacity:0;pointer-events:none;transition:opacity var(--motion-fast) var(--motion-ease)}
-  .mqi:hover .mqi-grip,.mqi.s-hover .mqi-grip,.mqi:focus-within .mqi-grip,.mqi:has([data-kbp][aria-expanded="true"]) .mqi-grip{opacity:1}
-  .mqi:hover .mqi-acts,.mqi.s-hover .mqi-acts,.mqi:focus-within .mqi-acts,.mqi:has([data-kbp][aria-expanded="true"]) .mqi-acts{opacity:1;pointer-events:auto}
-  /* The row menu is the reserved slot for phase-2 "Send now"; today it carries the
-     touch/keyboard reorder pair + Remove. Let it escape the band box when open. */
-  .mqb:has([data-kbp][aria-expanded="true"]),.mqb-list:has([data-kbp][aria-expanded="true"]){overflow:visible}
+  .mqi:hover .mqi-grip,.mqi.s-hover .mqi-grip,.mqi:focus-within .mqi-grip{opacity:1}
+  .mqi:hover .mqi-num,.mqi.s-hover .mqi-num,.mqi:focus-within .mqi-num{opacity:0}
+  .mqi:hover .mqi-acts,.mqi.s-hover .mqi-acts,.mqi:focus-within .mqi-acts{opacity:1;pointer-events:auto}
 
-  /* Inline edit (C2) — a bordered .ta inside the band reads clearly as "the input
-     is HERE now", against the borderless rows and the composer panel below. */
-  .mqi.is-editing{display:grid;grid-template-columns:1rem 1fr;gap:.375rem .5rem;align-items:start;padding:.5rem .375rem;background:var(--state-hover);cursor:auto}
-  .mqi.is-editing .mqi-num{padding-top:.4375rem}
-  .mqi-edit{grid-column:2;display:flex;flex-direction:column;gap:.5rem;min-width:0}
-  .mqi-edit .ta{max-width:none;min-height:2.5rem}
-  .mqi-edit-foot{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-  .mqi-hint{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);margin-right:auto}
-  /* Held (C5) — the turn ended mid-edit. Calm by design: a brand rail + brand hint,
-     never a red/error treatment and never a blink. The row keeps its place. */
-  .mqi.is-held{box-shadow:inset var(--mq-rail) 0 0 0 var(--brand-primary);padding-left:.625rem}
-  .mqi.is-held .mqi-hint{color:var(--brand-primary)}
 
-  /* Reorder (C3) */
-  .mqi.is-dragging{background:var(--surface-card);box-shadow:var(--shadow-lift-hover);cursor:grabbing}
-  .mqi-drop{height:var(--mq-item-h);border-radius:var(--radius-md);border:1px dashed color-mix(in srgb, var(--brand-primary) var(--tint-45), transparent);background:color-mix(in srgb, var(--brand-primary) var(--tint-5), transparent)}
 
   /* Removed + Undo (C4) — the strip takes the row place for 5s, so the list never
      silently loses a line and no modal is needed for a reversible delete. */
@@ -4475,32 +4572,14 @@
   @keyframes mq-exit{from{opacity:1;transform:none}to{opacity:0;transform:translate3d(0,-.25rem,0)}}
   .mqi.is-entering{animation:mq-enter .15s}
   .mqi.is-sending{animation:mq-exit .15s forwards;pointer-events:none}
-  /* Prod's streaming caret, verbatim (@keyframes caret-blink, 1.25s ease-out infinite). */
+  /* Prod's streaming caret, verbatim. The live app renders
+       <span class="ml-px inline-block h-[1em] w-px translate-y-[0.15em] bg-current
+                    animate-caret-blink motion-reduce:animate-none">
+     so it is a 1px hairline in the TEXT's own colour, one line-height tall — not a coloured
+     block. Read from the live app 2026-09-29. */
   @keyframes mq-caret-blink{0%,70%,100%{opacity:1}20%,50%{opacity:0}}
-  .mq-caret{display:inline-block;width:.5rem;height:1rem;vertical-align:-2px;background:var(--brand-primary);border-radius:1px;animation:mq-caret-blink 1.25s ease-out infinite}
+  .mq-caret{display:inline-block;width:1px;height:1em;margin-left:1px;transform:translateY(.15em);background:currentColor;animation:mq-caret-blink 1.25s ease-out infinite}
 
-  /* ── Pause block (D1–D5, E2) ────────────────────────────────────────────────
-     One shape, four reasons. Everything that differs between them flows through
-     ONE local custom property (--mqp-accent, an alias of an existing semantic
-     token) — icon colour, rail and wash all read it, so the four variants are
-     recognisable apart yet unmistakably one system. The wash is the sanctioned
-     tint recipe: semantic base + --tint-N step, no literal percent. The variants
-     are deliberately NOT separate :root tokens: each would be a pure duplicate of
-     a semantic that already exists. */
-  .mqp{--mqp-accent:var(--ink-secondary);display:flex;align-items:flex-start;gap:.625rem;box-sizing:border-box;padding:.625rem .75rem;border-radius:var(--radius-lg);background:color-mix(in srgb, var(--mqp-accent) var(--tint-5), transparent);box-shadow:inset var(--mq-rail) 0 0 0 var(--mqp-accent)}
-  .mqp-ic{flex:none;width:var(--icon-sm);height:var(--icon-sm);margin-top:.125rem;color:var(--mqp-accent)}
-  .mqp-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
-  .mqp-t{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-primary)}
-  /* R8 — every pause says, in the same place and the same words, that nothing was
-     lost and nothing was charged. */
-  .mqp-d{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
-  .mqp-acts{flex:none;display:flex;align-items:center;gap:.375rem;align-self:center}
-  .mqp.is-confirm{--mqp-accent:var(--brand-primary)}
-  .mqp.is-error{--mqp-accent:var(--fb-red-text)}
-  .mqp.is-credits{--mqp-accent:var(--fb-attention-text)}
-  .mqp.is-stopped{--mqp-accent:var(--ink-secondary)}
-  .mqp.is-resumed{--mqp-accent:var(--brand-primary)}
-  .mqp.is-restored{--mqp-accent:var(--fb-attention-text)}
 
   /* ── Composer action slot — ONE control ─────────────────────────────────────
      The composer keeps a single action button that swaps with state, the way it
@@ -4516,27 +4595,26 @@
      explained by the composer placeholder and the band, not by the button. */
   .cl-comp-acts{display:flex;align-items:center;flex:none}
   .cl-comp-acts .btn{white-space:nowrap;flex:none}
-  /* Keyboard-hint chip inside a button — mixes over currentColor so it works on a
-     solid Primary fill and on an outline alike, in both themes. */
-  .btn-kbd{display:inline-flex;align-items:center;justify-content:center;min-width:1rem;height:1rem;padding:0 .1875rem;border-radius:var(--radius-sm);background:color-mix(in srgb, currentColor var(--tint-22), transparent);font-size:var(--ts-label-s-size);line-height:1;font-weight:var(--ts-label-s-weight)}
-
   /* ── Below lg — actions stay out ────────────────────────────────────────────
      Prod's own rule for message actions is `lg:opacity-0 … group-hover:opacity-100`:
      hover-reveal applies only from 1024px up, and below that the actions are simply
      always visible — which also covers every touch device without a hover query. */
   @media (max-width: 1023px){
-    .mqi-grip,.mqi-acts{opacity:1;pointer-events:auto}
+    /* Actions only. The grip stays hidden: it shares the number's box, and the order number is
+       content that must not disappear — and dragging is not the touch path anyway (Move up /
+       Move down in the row menu is). */
+    .mqi-acts{opacity:1;pointer-events:auto}
   }
 
   /* ── Phone (<768px) ─────────────────────────────────────────────────────── */
   @media (max-width: 767px){
     .mqb{padding:.375rem;border-radius:var(--radius-lg)}
-    .mqb-list.is-clamped > .mqi:nth-child(n+3){display:none}
-    .mqb-list.is-clamped-5 > .mqi:nth-child(n+4){display:none}
+    .mqb-list.is-clamped > .mqi:nth-child(n+3 of .mqi){display:none}
+    .mqb-list.is-clamped-5 > .mqi:nth-child(n+4 of .mqi){display:none}
     /* The composer action collapses to an icon-only 40x40 square — well past the
        24px minimum and at the touch target the spec asks for. Scoped to the slot
        so the two approved chat pages, which use a bare .cl-send, are untouched. */
-    .cl-comp-acts .btn-lbl,.cl-comp-acts .btn-kbd{display:none}
+    .cl-comp-acts .btn-lbl{display:none}
     .cl-comp-acts .btn{width:2.5rem;height:2.5rem;padding:0;gap:0}
   }
 
@@ -4546,3 +4624,196 @@
     .mqi{transition:none}
     .mqi.is-entering,.mqi.is-sending,.mq-caret{animation:none}
   }
+
+  /* =========================================================================
+     SORTABLE LIST — drag-to-reorder (behaviour: kit-kit.js section 4)
+     ---------------------------------------------------------------------------
+     A list opts in with three attributes and gets dragging, a drop placeholder
+     and Alt+↑/↓ reordering:
+
+       <ul data-sortable>
+         <li data-sort-item tabindex="0">
+           <button data-sort-handle aria-label="Drag to reorder">…</button>
+
+     Generic on purpose: the queue band was the first consumer, but nothing here
+     knows about queues. `touch-action:none` on the handle is what lets a touch
+     drag reorder instead of scrolling the page.
+     ========================================================================= */
+  [data-sort-handle]{cursor:grab;touch-action:none}
+  [data-sort-handle]:active{cursor:grabbing}
+  /* The lifted row leaves the list's flow, so it needs its own surface to read as
+     picked up — the same elevation the card family uses for a hover lift. */
+  [data-sort-item].is-dragging{background:var(--surface-card);box-shadow:var(--shadow-lift-hover);cursor:grabbing}
+  /* The gap the row will drop into. Brand-tinted so it reads as "this is where it
+     lands", not as an empty broken row. */
+  .sort-ph{list-style:none;box-sizing:border-box;border-radius:var(--radius-md);border:var(--border-width) dashed color-mix(in srgb, var(--brand-primary) var(--tint-45), transparent);background:color-mix(in srgb, var(--brand-primary) var(--tint-5), transparent)}
+
+  /* =========================================================================
+     THINKING INDICATOR — what the assistant shows before any answer text
+     ---------------------------------------------------------------------------
+     Read from the live app 2026-09-29. Prod renders it inside the ordinary answer
+     card as plain secondary body text, typed out over an invisible sizer:
+
+       <div class="font-normal text-sm text-ink-secondary">
+         <span class="relative inline-block whitespace-pre">
+           <span data-testid="typewriter-sizer" class="invisible">Thinking…</span>
+           …visible typed layer…
+
+     The sizer is the point: it reserves the FINAL width, so the card does not
+     reflow letter by letter while the label types in. Same trick here.
+     ========================================================================= */
+  /* One line, and the wait lives IN it. The earlier version paired the label with a three-line
+     .skel of the reply, which promised a shape the answer then did not have — a placeholder
+     claiming to know the length of something not yet written. The animation moved onto the text it
+     is about: a highlight sweeps the word, so the indicator is as big as the thing that is actually
+     loading, and the card never reserves height it then has to give back. */
+  .cp-thinking{display:flex;align-items:baseline;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);font-weight:var(--ts-body-m-weight);color:var(--ink-secondary);text-align:left}
+  /* The sweep is two inks that already exist: the label's own Text/Secondary with a Text/Primary
+     crest passing through it. Clipped to the glyphs, so it reads as the word lighting up rather
+     than as a bar sliding along behind it. */
+  .cp-thinking-t{background-image:linear-gradient(100deg,var(--ink-secondary) 35%,var(--ink-primary) 50%,var(--ink-secondary) 65%);background-size:300% 100%;background-repeat:repeat;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:cp-shimmer 1.8s linear infinite}
+  @keyframes cp-shimmer{from{background-position:300% 0}to{background-position:0 0}}
+  /* The WORD does not type itself — only the dots move. All three are always rendered and only
+     their opacity cycles, so the label never changes width and nothing reflows beside it. */
+  .cp-thinking-dots{display:inline-flex}
+  .cp-thinking-dots i{font-style:normal;animation:cp-dot 1.4s infinite}
+  .cp-thinking-dots i:nth-child(2){animation-delay:.2s}
+  .cp-thinking-dots i:nth-child(3){animation-delay:.4s}
+  @keyframes cp-dot{0%,60%,100%{opacity:.25}30%{opacity:1}}
+  @media (prefers-reduced-motion: reduce){
+    .cp-thinking-dots i{animation:none;opacity:1}
+    /* No sweep, and the label falls back to a flat ink — a clipped gradient left unanimated would
+       freeze the word at a half-tone instead of showing it in its own colour. */
+    .cp-thinking-t{animation:none;background-image:none;color:var(--ink-secondary);-webkit-text-fill-color:currentColor}
+  }
+
+  /* =========================================================================
+     ALERT — compact inline notice with an accent rail
+     ---------------------------------------------------------------------------
+     The kit's third feedback surface, and the one it was missing. Banner is a
+     large onboarding/marketing card; Toast floats and auto-dismisses; Alert is a
+     quiet block that sits INSIDE a surface, states a condition, and offers the
+     way out of it. First consumer: the message queue's four pause reasons — it
+     was written there as a private `.mqp` family, which is exactly the kind of
+     component-in-a-page the kit rules exist to prevent, so it lives here now.
+
+       <div class="alert alert-warn" role="status">
+         <svg class="alert-ic">…</svg>
+         <div class="alert-body">
+           <div class="alert-t">Title</div>
+           <div class="alert-d">Supporting line</div>
+         </div>
+         <div class="alert-acts">…secondary…, …primary LAST (house rule)…</div>
+       </div>
+
+     Everything a variant changes flows through ONE local custom property,
+     --alert-accent, pointed at a semantic that already exists: the glyph and the
+     wash read it. There is no accent rail — a 2px left border following a 8px radius reads as a
+     thick half-round edge, and the wash plus a distinct glyph already carry the variant. So the variants are recognisable apart and
+     unmistakably one family, and they cost zero new colour tokens. The wash is
+     the sanctioned tint recipe (semantic base + --tint-N step, no literal %).
+     ========================================================================= */
+  .alert{--alert-accent:var(--ink-secondary);display:flex;align-items:flex-start;gap:.625rem;box-sizing:border-box;padding:.625rem .5rem;border-radius:var(--radius-lg);border:var(--border-width) solid color-mix(in srgb, var(--alert-accent) var(--tint-30), transparent);background:color-mix(in srgb, var(--alert-accent) var(--alert-wash), var(--surface-card))}
+  .alert-ic{flex:none;width:var(--icon-sm);height:var(--icon-sm);color:var(--alert-accent)}
+  .alert-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
+  .alert-t{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-primary)}
+  .alert-d{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  .alert-acts{flex:none;display:flex;align-items:center;gap:.375rem;align-self:center}
+  /* The roster and the accents are Toast's, token for token — Alert is the same feedback family
+     standing still instead of floating, and a family that changes colour when it stops moving is
+     two families. The one deliberate difference: Info is Brand/Tertiary where Toast uses
+     Brand/Primary, so an inline notice does not read as the product's own voice (agreed
+     2026-09-29). There is no brand variant: with Info on Tertiary the two would be the same
+     teal a shade apart, and Toast has one brand-family variant, not two. */
+  .alert-success{--alert-accent:var(--fb-green)}
+  .alert-info{--alert-accent:var(--brand-tertiary)}
+  .alert-error{--alert-accent:var(--fb-red-text)}
+  .alert-warn{--alert-accent:var(--fb-attention)}
+  /* Neutral is Alert's own — Toast has no counterpart, because nothing floats over the page to say
+     something colourless. It is the one variant with no colour to wash with, and a 5% grey is not a
+     surface, it is a smudge, so it takes a quiet surface and the ordinary border instead.
+     Surface/Card2, NOT Surface/Chips: on dark, Chips resolves to the same grey as Stroke/Border
+     (#2A2834), so fill and edge collapsed into one bright slab, while on light the two sat clearly
+     apart — the themes stopped agreeing about what the variant looks like. Card2 is one surface
+     step off the card in both, which is what "quiet" means here. */
+  .alert-neutral{--alert-accent:var(--ink-secondary);background:var(--surface-card2);border-color:var(--stroke-border)}
+  @media (max-width: 767px){
+    /* Actions drop under the text rather than squeezing the copy to a column of words. */
+    .alert{flex-wrap:wrap}
+    .alert-acts{align-self:flex-start;width:100%;padding-left:calc(var(--icon-sm) + .625rem)}
+  }
+
+  /* =========================================================================
+     CONFIRMATION CARD — the assistant asking the person to choose
+     ---------------------------------------------------------------------------
+     Rendered inside the answer card when the assistant needs a decision before it
+     can continue. Height follows the content: no min-height, no reserved rows, no
+     padding holding space for options that are not there — N options, N rows.
+
+       <div class="cfc" role="group" aria-label="…">
+         <div class="cfc-top"><p class="cfc-q">…question…</p>
+           <span class="cfc-top-r"><span class="cfc-esc">Esc to cancel</span>
+             <button class="iconbtn iconbtn-tertiary iconbtn-xs" aria-label="Dismiss">✕</button></span></div>
+         <div class="cfc-opts">
+           <button class="cfc-opt"><span class="cfc-opt-t">Net revenue <span class="badge badge-sm badge-primary">Recommended</span></span>
+                                   <span class="cfc-opt-d">…</span></button>
+           <label class="cfc-opt"><input type="radio" class="rdo-in" name="rev"><span class="rdo"></span>
+             <span class="cfc-opt-b"><span class="cfc-opt-t">Other</span></span></label>
+         </div>
+       </div>
+
+     The options are a RADIO GROUP, not a row of buttons: this is one-of-N, the
+     control that says so is a radio, and "Other" is one of the N — an answer to
+     the same question, so it is boxed and marked like the rest. (It was unboxed
+     while it was read as an escape hatch. It is not one.)
+     ========================================================================= */
+  .cfc{display:flex;flex-direction:column;gap:.75rem}
+  /* Question and the dismiss affordance share ONE line: the escape hatch belongs beside what it
+     escapes from, not stacked above it in a row of its own. */
+  .cfc-top{display:flex;align-items:center;gap:.75rem}
+  .cfc-top-r{flex:none;display:flex;align-items:center;gap:.5rem;color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
+  .cfc-esc{white-space:nowrap}
+  .cfc-q{flex:1;min-width:0;margin:0;font-size:var(--ts-title-14-size);line-height:var(--ts-title-14-lh);font-weight:var(--ts-title-14-weight);color:var(--ink-primary)}
+  .cfc-opts{display:flex;flex-direction:column;gap:.5rem}
+  .cfc-opt{position:relative;display:flex;align-items:flex-start;gap:.625rem;width:100%;box-sizing:border-box;text-align:left;padding:.625rem .75rem;border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-lg);background:var(--surface-card);cursor:pointer;font-family:inherit;transition:background-color var(--motion-fast) var(--motion-ease),border-color var(--motion-fast) var(--motion-ease)}
+  /* The radio centres on the TITLE LINE — not on the row (a two-line option would drop it into the
+     middle of the paragraph) and not on the line's top edge either, which is where it sat. The
+     offset is the two boxes: (24px title line − 18px control) / 2. Off the 4px step on purpose, the
+     same way a 1.5px border is: it is an optical centring derived from two grid-legal values, not a
+     spacing decision. */
+  .cfc-opt .rdo{margin-top:.1875rem}
+  .cfc-opt-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
+  .cfc-opt:hover{background:var(--state-hover);border-color:var(--card-border-hover)}
+  /* Focus follows the real input — but only when the KEYBOARD put it there. :focus-within also
+     fires on a mouse click, so choosing an option painted a full focus ring around the row on top
+     of the selected state, and the two together read as an error. And the ring goes on the ROW
+     only: the control inside it would otherwise draw a second one for the same focus. */
+  .cfc-opt:has(.rdo-in:focus-visible){outline:none;box-shadow:var(--shadow-focus)}
+  .cfc-opt .rdo-in:focus-visible + .rdo{box-shadow:none}
+  .cfc-opt:has(.rdo-in:checked){border-color:var(--brand-primary);background:color-mix(in srgb, var(--brand-primary) var(--tint-5), transparent)}
+  /* Text/Body, not Text/Primary: the QUESTION is the primary voice here; an option label that
+     matches it flattens the card into one shouting block. Three steps — question, label,
+     description — and each sits a token apart. */
+  .cfc-opt-t{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--ts-title-16-size);line-height:var(--ts-title-16-lh);font-weight:var(--ts-title-16-weight);color:var(--ink-body)}
+  /* Explicitly Body/L at weight 400 — supporting prose, and it inherits nothing from the button it
+     sits in (a button's own font-weight was making it read as bold). Text/Secondary, not
+     Text/Body: the title is already on the darkest ink, so the only way to make it read as MORE
+     contrasting is to open the gap below it. Body sat one step away and the two flattened. */
+  .cfc-opt-d{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);font-weight:var(--ts-body-m-weight);color:var(--ink-secondary)}
+  /* The escape hatch: same hit area and states, no box. */
+  /* Folded: the band is carrying an Alert and nothing else should compete with it. The list is
+     hidden rather than removed, so expanding it costs no layout jump. */
+  .mqb.is-folded .mqb-list{display:none}
+  /* The toggle's LABEL sits on the same vertical as the ROW TEXT below it, so the band has one
+     text column. It cannot also meet the alert's title: the alert is a bordered block with its own
+     padding, and its title is 4.8px further right than any unboxed text in the band — see
+     changes/QueueBand.md. */
+  .mqb-fold{align-self:flex-start;margin-left:calc(var(--icon-sm) + .625rem - var(--border-width))}
+
+  /* Wrapping rows — the list grows each row to its text instead of cutting it at one line.
+     The lead circle and the actions stay pinned to the FIRST line (align-self:flex-start), so a
+     three-line message does not leave its number floating in the middle of the row. */
+  .mqb-list.is-wrap .mqi{align-items:flex-start}
+  .mqb-list.is-wrap .mqi-text{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+  .mqb-list.is-wrap .mqi-lead{height:var(--mq-item-h);align-self:flex-start}
+  .mqb-list.is-wrap .mqi-acts{align-self:flex-start;height:var(--mq-item-h)}

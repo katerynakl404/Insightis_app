@@ -247,7 +247,7 @@ The two Send faces are deliberately identical. Nothing about the button says the
 | No reply running | Send, disabled until text | — | unchanged |
 | Reply streaming, composer empty | Send is replaced by Stop; Enter does nothing | Stop (Secondary + square glyph); Enter does nothing | same swap prod already does, now with a stated reason: the field is empty, so Stop cannot be in the way of a send |
 | Reply streaming, text entered | — (unreachable: submission blocked) | Send (Primary + `↵`); Enter queues | the affirmative face returns the instant there is something to send |
-| Queue at the limit | — | Send `disabled`; composer keeps its text | the reason is spelled out by the band's `.mqb-note.is-full`, never by a dead button alone |
+| Queue at the limit | — | Send `disabled`; composer keeps its text | the reason is spelled out by the band's `10 / 10 · Full` badge and by a tooltip on the **slot** — a disabled button fires no pointer events, so a tip on the button itself would never show |
 | Phone (< 768px) | collapses to an icon (paper plane / square) | collapses to a 40×40 icon square, `.btn-lbl` + `.btn-kbd` hidden | 40px clears the 24px minimum with room for touch |
 
 **Accessibility:** the icon-only form carries `aria-label`; the two faces differ in fill, glyph shape and label, not only colour (1.4.1); `.btn-kbd` is decorative and hidden from assistive tech; disabled Send keeps its name and its reason is adjacent. The face swap is a change of accessible name in place, so it is announced on focus — it must not move focus.
