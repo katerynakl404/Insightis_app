@@ -5,8 +5,29 @@ complete" plate at the bottom with a chevron and a ✕) but our kit and the File
 component for it at all** — meaning we had never described what the product shows while files are
 uploading, or what happens when one fails. This closes that gap.
 
-**New component.** Prod's plate is the behavioural reference we reproduced, not a design baseline to
-diff against: it has no spec on our side to compare with.
+**Prod has a full spec for this** — `components-uploadtray` in prod's Storybook, with typed props and
+seven stories. The earlier note here said prod's plate was "the behavioural reference we reproduced…
+it has no spec on our side to compare with". Both halves were wrong: prod has a spec, and we did not
+reproduce it. Measured 2026-09-29:
+
+| Prod prop | Contract |
+|---|---|
+| `status` | `uploading` · `complete` · `failed` — chooses the summary glyph |
+| `title` | the summary sentence, in words: "2 uploads complete", "1 of 3 uploads failed" |
+| `open` / `defaultOpen` | controlled, or self-managed — **`defaultOpen: true`** |
+| `spinner` | on by default; **off** for a batch waiting on the *person*, where a spinner would promise progress nothing is making (marked DRAFT) |
+| `autoDismiss` / `autoDismissDelay` | off by default, `4000`ms. Settled rows retire themselves and the plate follows the last one out; **a failed row never retires** — it is the one row still holding a question |
+| `onRowClick` | the whole row is the target: the name stretches over it with `after:absolute after:inset-0`, so the accessible target is the file name, not an unlabelled box |
+| `onDismiss` | renders the ✕ — omit it and the plate cannot be dismissed |
+| labels | `dismissLabel` "Dismiss" · `expandLabel` "Show the files" · `collapseLabel` "Hide the files" |
+
+Prod's row, measured: `gap:10px; padding:8px; radius:6px`, background **transparent in every state**.
+The left glyph is always the neutral `file-text` in `--ink-secondary`; the name is a `<button>` at
+14/400 `--ink-body` that **truncates and never wraps**; the reason is 12/400 `--fb-red-text` with
+`text-balance`. The **right** slot carries the per-row outcome — file size, percent, `circle-check`
+in `--fb-green`, or Retry (12/500 `--brand-primary`) beside `circle-alert` in `--fb-red-text`. The
+summary glyph is `--ink-secondary` in **every** status, and the chevron and ✕ are each their own
+`<button>`.
 
 Storybook: [`#uploadtray`](../insightis-preview-kit.html#uploadtray) · CSS: `pages/kit-theme.css` →
 UploadTray block · Live consumer: [Data Sources → Files](../pages/approved/data-sources_files-landing.html).
