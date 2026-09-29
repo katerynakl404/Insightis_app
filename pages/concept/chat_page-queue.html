@@ -215,6 +215,22 @@
     <span class="badge badge-sm badge-secondary">AIINS-1808</span>
   </div>
   <div style="display:flex;align-items:center;gap:.625rem">
+    <!-- Design-review control — drives the page below into each spec state (A1–E3) plus the two
+         open-question alternatives. Review furniture, so it lives in this strip ABOVE the page,
+         never inside the product's own chat header. Kit Dropdown pattern: a .btn trigger + a
+         .menu of rows. -->
+    <div class="mq-statebar">
+      <span class="mq-statebar-lbl">State</span>
+      <div class="mq-state-wrap">
+        <button class="btn btn-secondary btn-xs mq-state-trig" type="button" aria-haspopup="menu" aria-expanded="false"
+                onclick="event.stopPropagation();this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')!=='true')">
+          <span id="mq-state-lbl">Live — free interaction</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="menu mq-state-menu is-md" role="menu" id="mq-state-menu"></div>
+      </div>
+      <button class="btn btn-tertiary btn-xs" type="button" onclick="mqReset()">Reset</button>
+    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
@@ -411,21 +427,6 @@
             <div class="mi danger" role="menuitem"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
           </div>
         </div>
-      </div>
-      <!-- Design-review control — drives THIS page into each spec state (A1–E3). Not part of the
-           product UI; it is the review affordance this handoff page needs. Kit Dropdown pattern:
-           a .btn trigger + a .menu of .mi rows. -->
-      <div class="mq-statebar">
-        <span class="mq-statebar-lbl">State</span>
-        <div class="mq-state-wrap">
-          <button class="btn btn-secondary btn-sm mq-state-trig" type="button" aria-haspopup="menu" aria-expanded="false"
-                  onclick="event.stopPropagation();this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')!=='true')">
-            <span id="mq-state-lbl">Live — free interaction</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="menu mq-state-menu is-md" role="menu" id="mq-state-menu"></div>
-        </div>
-        <button class="btn btn-tertiary btn-sm" type="button" onclick="mqReset()">Reset</button>
       </div>
     </header>
 
@@ -1488,7 +1489,7 @@ document.addEventListener('click', function(e){
     alert:'<svg class="b-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',
     note:'<svg class="mqb-note-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>',
     send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>',
-    stop:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>'
+    stop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>'
   };
   var PIC = {
     confirm:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.2 2.4c-.5.2-.7.6-.7 1.1v.5"/><path d="M12 17h.01"/>',
