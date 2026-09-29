@@ -32,6 +32,9 @@ Open `../insightis-preview-kit.html` for the visual side-by-side; each component
 - [MetaRow](MetaRow.md) — new component; ⚠ Current column pending prod DOM capture
 - [SegmentedControl](SegmentedControl.md) — new component (no pending change)
 - [StepSlider](StepSlider.md) — new component (discrete level picker; composer Effort row)
+- [QueueBand](QueueBand.md) — new component; AI Chat message queue (AIINS-1808), nothing on prod to diff
+- [QueueItem](QueueItem.md) — new component; same feature
+- [QueuePause](QueuePause.md) — new component; same feature
 - [DataSourcesFiles](DataSourcesFiles.md)
 - typography — no change (—)
 - Spinner — no change (—)

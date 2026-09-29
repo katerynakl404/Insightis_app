@@ -217,3 +217,37 @@ markup never hand-sizes an icon; four inline `style="width:16px…"` were remove
 Sizes (xs 28 / sm 32 / md 36 / lg 40 / xl 44px — see Sizes table above for full per-size geometry), radius `md 6px`, font-medium 500.
 
 *(The icon gap is no longer listed here — it moved 6px → the 4px step in the 2026-09-04 directive, so it is a change, not a no-change. Icon size likewise: see the ICON SCALE note above.)*
+## Composer action slot — one control, three faces  *(new composition rule, not a new variant)*
+
+Storybook: [`#button` → "Composer action"](../insightis-preview-kit.html#button). Feature: AI Chat message queue (AIINS-1808), see [QueueBand](QueueBand.md) · screen [`../pages/concept/chat_page-queue.html`](../pages/concept/chat_page-queue.html).
+
+The composer keeps **one** action button that swaps with state — the way prod already works (`MessageSendButton`) — rather than gaining a second control:
+
+| When | Face | Variant | Glyph | Label |
+|---|---|---|---|---|
+| No reply running | Send | `.btn-primary.btn-sm` + `.cl-send` | paper plane | `Send` (disabled while the field is empty) |
+| Reply running, field empty | Stop | `.btn-secondary.btn-sm` | filled square | `Stop` |
+| Reply running, text typed | Send | `.btn-primary.btn-sm` + `.cl-send` | paper plane | `Send` + `↵` — queues the message |
+
+**This overrides the spec's R4** ("Stop and Queue are separate buttons"), on the design owner's call (2026-09-29). R4 exists to prevent one mis-click: aiming to send a question and stopping the answer instead. The swap rule removes that case by construction — **Stop is only ever shown while the composer is empty**, and that mis-click requires text in the field. With text in the field the slot is always Send, in the same variant, glyph and word as it has when no reply is running.
+
+⚠ **The residual risk goes the other way:** while a draft sits in the composer there is no Stop. Interrupting a reply then means clearing the field first. If that turns out to bite, the answer is a stop affordance on the streaming message in the thread, not a second button in the composer — out of scope here.
+
+The two Send faces are deliberately identical. Nothing about the button says the message will wait; that is said by the composer placeholder (`Ask a follow-up — it will wait its turn`), by the tooltip (`Sends after this reply (Enter)`), and by the [Queue Band](QueueBand.md) appearing above it. The button stays the plain Send people already know.
+
+**New slot classes (both generic, both reusable on any Button):**
+
+- `.btn-lbl` — the label span. Nothing at desktop; it is the hook that lets a consumer collapse a button to icon-only at a breakpoint. `.cl-comp-acts` uses it under 768px, where the control becomes a 40×40 square and `aria-label` takes over the accessible name.
+- `.btn-kbd` — a keyboard-hint chip inside the label row (`↵`). Fill is `color-mix(in srgb, currentColor var(--tint-22), transparent)`, so it works unchanged on a solid Primary fill, on an outline, and in both themes without a single variant-specific token. `aria-hidden` — the shortcut is already in the tooltip and the accessible name.
+
+`.cl-comp-acts` is the slot wrapper; the phone collapse is scoped to it, so the two approved chat pages — which use a bare `.cl-send` — are untouched.
+
+| State | Current (prod) | Expected | Specification |
+|---|---|---|---|
+| No reply running | Send, disabled until text | — | unchanged |
+| Reply streaming, composer empty | Send is replaced by Stop; Enter does nothing | Stop (Secondary + square glyph); Enter does nothing | same swap prod already does, now with a stated reason: the field is empty, so Stop cannot be in the way of a send |
+| Reply streaming, text entered | — (unreachable: submission blocked) | Send (Primary + `↵`); Enter queues | the affirmative face returns the instant there is something to send |
+| Queue at the limit | — | Send `disabled`; composer keeps its text | the reason is spelled out by the band's `.mqb-note.is-full`, never by a dead button alone |
+| Phone (< 768px) | collapses to an icon (paper plane / square) | collapses to a 40×40 icon square, `.btn-lbl` + `.btn-kbd` hidden | 40px clears the 24px minimum with room for touch |
+
+**Accessibility:** the icon-only form carries `aria-label`; the two faces differ in fill, glyph shape and label, not only colour (1.4.1); `.btn-kbd` is decorative and hidden from assistive tech; disabled Send keeps its name and its reason is adjacent. The face swap is a change of accessible name in place, so it is announced on focus — it must not move focus.

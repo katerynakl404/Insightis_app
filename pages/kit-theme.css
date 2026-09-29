@@ -4357,3 +4357,192 @@
   .dsft-info{display:flex;flex-direction:column;gap:.125rem}
   .dsft-date-inline{display:block;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
 }
+
+  /* =========================================================================
+     MESSAGE QUEUE — band (.mqb) · item (.mqi) · pause block (.mqp)
+     ---------------------------------------------------------------------------
+     The strip that sits BETWEEN the conversation thread and the composer while
+     the assistant is still answering. It holds the follow-up questions the user
+     typed early; each one leaves on its own turn boundary.
+     Shipped on pages/concept/chat_page-queue.html · storybook #messagequeue.
+
+     Composition — these three classes are shells; everything inside them is an
+     existing kit component:
+       "Next" marker      → .badge.badge-sm.badge-primary
+       attachment chip    → .badge.badge-sm.badge-secondary (+ .mqi-file truncation)
+       row actions        → .iconbtn.iconbtn-tertiary.iconbtn-2xs (+ data-kbp / .kbp-menu)
+       inline edit field  → .ta
+       every button       → .btn (+ .btn-tertiary / .btn-secondary / .btn-primary)
+
+     Two risks the visual answers directly:
+       (a) A queue row must never read as a second input. Rows are borderless and
+           transparent ON a filled --surface-card2 band; the composer below is a
+           bordered --surface-card panel. A list inside a tray vs. a box.
+       (b) The composer action must not be pressed by mistake. It stays ONE button
+           that swaps with state, as on prod, and its Stop face appears only while
+           the field is empty — so the slot is never Stop when there is something
+           to send. See the composer action slot at the bottom of this block.
+     ========================================================================= */
+  :root{
+    /* Row box height — shared by .mqi, its drag placeholder and the grip hit
+       area, so the list keeps one rhythm when a row swaps into any of them. */
+    --mq-item-h:2rem;
+    /* Accent rail thickness — the held row and every pause variant use it. */
+    --mq-rail:2px;
+  }
+
+  /* ── Band ───────────────────────────────────────────────────────────────── */
+  .mqb{display:flex;flex-direction:column;gap:.25rem;width:100%;box-sizing:border-box;padding:.5rem;border-radius:var(--radius-xl);background:var(--surface-card2)}
+  /* Header states the count AND when the queue leaves — it never depends on
+     whether text is currently streaming (R3: a pause in the text is not a turn
+     boundary), so the wording stays put while a tool or Python call runs. */
+  .mqb-head{display:flex;align-items:center;gap:.375rem;padding:.125rem .375rem;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);color:var(--ink-secondary)}
+  .mqb-head-ic{width:var(--icon-xs);height:var(--icon-xs);flex:none;color:var(--ink-inactive)}
+  .mqb-head-t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mqb-head-act{margin-left:auto;flex:none}
+  .mqb-list{display:flex;flex-direction:column;gap:.125rem;list-style:none;margin:0;padding:0}
+  /* Collapse — the band sits in the most-used spot in the product, so it never
+     grows past a few rows. Desktop shows 3, phones 2 (a clamp count cannot be a
+     var() inside nth-child, hence the class pair). .is-clamped-5 is the wider
+     alternative kept for the open Q7 comparison on the concept page. */
+  .mqb-list.is-clamped > .mqi:nth-child(n+4){display:none}
+  .mqb-list.is-clamped-5 > .mqi:nth-child(n+6){display:none}
+  /* Inline note under the list — queue-full warning (B3), restore notice (E2). */
+  .mqb-note{display:flex;align-items:flex-start;gap:.375rem;padding:.25rem .375rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  .mqb-note-ic{width:var(--icon-xs);height:var(--icon-xs);flex:none;margin-top:1px;color:var(--ink-inactive)}
+  .mqb-note.is-full,.mqb-note.is-full .mqb-note-ic{color:var(--fb-attention-text)}
+
+  /* ── Item ───────────────────────────────────────────────────────────────── */
+  .mqi{position:relative;display:flex;align-items:center;gap:.5rem;min-height:var(--mq-item-h);box-sizing:border-box;padding:.25rem .375rem;border-radius:var(--radius-md);background:transparent;color:var(--ink-body);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);cursor:default;transition:background-color var(--motion-fast) var(--motion-ease)}
+  /* Standalone interactive: the band under the row never changes background, so
+     the neutral State/Hover token is correct here (no parent-state collision). */
+  .mqi:hover,.mqi.s-hover,.mqi:focus-within,.mqi:has([data-kbp][aria-expanded="true"]){background:var(--state-hover)}
+  .mqi:focus-visible{outline:none;box-shadow:var(--shadow-focus-inset)}
+  /* Text/Secondary, not Text/Inactive: the number IS content — it says what gets
+     asked next — and Inactive on the band surface measures 3.13:1 on light, under
+     the 4.5:1 floor for 12px text. Secondary lands at 5.03:1 and still sits a
+     clear step below the message itself (9.45:1). */
+  .mqi-num{flex:none;width:1rem;text-align:right;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);font-variant-numeric:tabular-nums}
+  .mqi-text{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Attachment chip = .badge.badge-sm.badge-secondary; this only caps + truncates it. */
+  .mqi-file{flex:none;min-width:0;max-width:11rem}
+  .mqi-file-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Grip + actions stay quiet until the row is hovered or holds focus; touch has
+     no hover, so they stay visible there (see the hover:none block below). */
+  /* --ink-icon (= Text/Secondary) matches the IconButtons at the other end of the
+     row and clears the 3:1 non-text floor with room to spare; Text/Inactive sat at
+     3.13:1 against the band and dipped below it once the row hovered. */
+  .mqi-grip{flex:none;display:inline-flex;align-items:center;justify-content:center;width:1.5rem;height:var(--mq-item-h);padding:0;border:none;background:transparent;color:var(--ink-icon);cursor:grab;opacity:0;transition:opacity var(--motion-fast) var(--motion-ease)}
+  .mqi-grip svg{width:var(--icon-xs);height:var(--icon-xs)}
+  .mqi-grip:active{cursor:grabbing}
+  .mqi-grip:focus-visible{outline:none;opacity:1;box-shadow:var(--shadow-focus-inset)}
+  .mqi-acts{flex:none;display:flex;align-items:center;gap:.125rem;opacity:0;pointer-events:none;transition:opacity var(--motion-fast) var(--motion-ease)}
+  .mqi:hover .mqi-grip,.mqi.s-hover .mqi-grip,.mqi:focus-within .mqi-grip,.mqi:has([data-kbp][aria-expanded="true"]) .mqi-grip{opacity:1}
+  .mqi:hover .mqi-acts,.mqi.s-hover .mqi-acts,.mqi:focus-within .mqi-acts,.mqi:has([data-kbp][aria-expanded="true"]) .mqi-acts{opacity:1;pointer-events:auto}
+  /* The row menu is the reserved slot for phase-2 "Send now"; today it carries the
+     touch/keyboard reorder pair + Remove. Let it escape the band box when open. */
+  .mqb:has([data-kbp][aria-expanded="true"]),.mqb-list:has([data-kbp][aria-expanded="true"]){overflow:visible}
+
+  /* Inline edit (C2) — a bordered .ta inside the band reads clearly as "the input
+     is HERE now", against the borderless rows and the composer panel below. */
+  .mqi.is-editing{display:grid;grid-template-columns:1rem 1fr;gap:.375rem .5rem;align-items:start;padding:.5rem .375rem;background:var(--state-hover);cursor:auto}
+  .mqi.is-editing .mqi-num{padding-top:.4375rem}
+  .mqi-edit{grid-column:2;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+  .mqi-edit .ta{max-width:none;min-height:2.5rem}
+  .mqi-edit-foot{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+  .mqi-hint{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);margin-right:auto}
+  /* Held (C5) — the turn ended mid-edit. Calm by design: a brand rail + brand hint,
+     never a red/error treatment and never a blink. The row keeps its place. */
+  .mqi.is-held{box-shadow:inset var(--mq-rail) 0 0 0 var(--brand-primary);padding-left:.625rem}
+  .mqi.is-held .mqi-hint{color:var(--brand-primary)}
+
+  /* Reorder (C3) */
+  .mqi.is-dragging{background:var(--surface-card);box-shadow:var(--shadow-lift-hover);cursor:grabbing}
+  .mqi-drop{height:var(--mq-item-h);border-radius:var(--radius-md);border:1px dashed color-mix(in srgb, var(--brand-primary) var(--tint-45), transparent);background:color-mix(in srgb, var(--brand-primary) var(--tint-5), transparent)}
+
+  /* Removed + Undo (C4) — the strip takes the row place for 5s, so the list never
+     silently loses a line and no modal is needed for a reversible delete. */
+  .mqi.is-removed{background:var(--surface-card);border:1px dashed var(--stroke-border);color:var(--ink-secondary)}
+  .mqi.is-removed .mqi-text{font-style:italic}
+
+  /* Enter / send motion — taken from prod, not invented. The app animates every
+     appearance with tailwindcss-animate: `.animate-in` = keyframes `enter` at
+     animation-duration .15s (default easing), `.fade-in-0` = opacity from 0,
+     `.slide-in-from-bottom-1` = --tw-enter-translate-y 0.25rem. Exit is the
+     mirrored `exit` keyframe. So: 4px of travel and 150ms, not a bespoke pair.
+     Read from the live app 2026-09-29 and from ds-bundle/_ds_bundle.css. */
+  @keyframes mq-enter{from{opacity:0;transform:translate3d(0,.25rem,0)}to{opacity:1;transform:none}}
+  @keyframes mq-exit{from{opacity:1;transform:none}to{opacity:0;transform:translate3d(0,-.25rem,0)}}
+  .mqi.is-entering{animation:mq-enter .15s}
+  .mqi.is-sending{animation:mq-exit .15s forwards;pointer-events:none}
+  /* Prod's streaming caret, verbatim (@keyframes caret-blink, 1.25s ease-out infinite). */
+  @keyframes mq-caret-blink{0%,70%,100%{opacity:1}20%,50%{opacity:0}}
+  .mq-caret{display:inline-block;width:.5rem;height:1rem;vertical-align:-2px;background:var(--brand-primary);border-radius:1px;animation:mq-caret-blink 1.25s ease-out infinite}
+
+  /* ── Pause block (D1–D5, E2) ────────────────────────────────────────────────
+     One shape, four reasons. Everything that differs between them flows through
+     ONE local custom property (--mqp-accent, an alias of an existing semantic
+     token) — icon colour, rail and wash all read it, so the four variants are
+     recognisable apart yet unmistakably one system. The wash is the sanctioned
+     tint recipe: semantic base + --tint-N step, no literal percent. The variants
+     are deliberately NOT separate :root tokens: each would be a pure duplicate of
+     a semantic that already exists. */
+  .mqp{--mqp-accent:var(--ink-secondary);display:flex;align-items:flex-start;gap:.625rem;box-sizing:border-box;padding:.625rem .75rem;border-radius:var(--radius-lg);background:color-mix(in srgb, var(--mqp-accent) var(--tint-5), transparent);box-shadow:inset var(--mq-rail) 0 0 0 var(--mqp-accent)}
+  .mqp-ic{flex:none;width:var(--icon-sm);height:var(--icon-sm);margin-top:.125rem;color:var(--mqp-accent)}
+  .mqp-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
+  .mqp-t{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-primary)}
+  /* R8 — every pause says, in the same place and the same words, that nothing was
+     lost and nothing was charged. */
+  .mqp-d{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  .mqp-acts{flex:none;display:flex;align-items:center;gap:.375rem;align-self:center}
+  .mqp.is-confirm{--mqp-accent:var(--brand-primary)}
+  .mqp.is-error{--mqp-accent:var(--fb-red-text)}
+  .mqp.is-credits{--mqp-accent:var(--fb-attention-text)}
+  .mqp.is-stopped{--mqp-accent:var(--ink-secondary)}
+  .mqp.is-resumed{--mqp-accent:var(--brand-primary)}
+  .mqp.is-restored{--mqp-accent:var(--fb-attention-text)}
+
+  /* ── Composer action slot — ONE control ─────────────────────────────────────
+     The composer keeps a single action button that swaps with state, the way it
+     works on prod today (design-owner directive 2026-09-29, overriding the
+     spec's R4 "Stop and Queue are separate buttons" — see changes/Button.md):
+
+       no reply running            → Send   (.btn-primary, disabled while empty)
+       reply running, empty field  → Stop   (.btn-secondary, square glyph)
+       reply running, text typed   → Send   (.btn-primary) — queues the message
+
+     Only the Stop face is a second variant; the two Send faces are identical, so
+     the slot never shows Stop while there is something to send. The queueing is
+     explained by the composer placeholder and the band, not by the button. */
+  .cl-comp-acts{display:flex;align-items:center;flex:none}
+  .cl-comp-acts .btn{white-space:nowrap;flex:none}
+  /* Keyboard-hint chip inside a button — mixes over currentColor so it works on a
+     solid Primary fill and on an outline alike, in both themes. */
+  .btn-kbd{display:inline-flex;align-items:center;justify-content:center;min-width:1rem;height:1rem;padding:0 .1875rem;border-radius:var(--radius-sm);background:color-mix(in srgb, currentColor var(--tint-22), transparent);font-size:var(--ts-label-s-size);line-height:1;font-weight:var(--ts-label-s-weight)}
+
+  /* ── Below lg — actions stay out ────────────────────────────────────────────
+     Prod's own rule for message actions is `lg:opacity-0 … group-hover:opacity-100`:
+     hover-reveal applies only from 1024px up, and below that the actions are simply
+     always visible — which also covers every touch device without a hover query. */
+  @media (max-width: 1023px){
+    .mqi-grip,.mqi-acts{opacity:1;pointer-events:auto}
+  }
+
+  /* ── Phone (<768px) ─────────────────────────────────────────────────────── */
+  @media (max-width: 767px){
+    .mqb{padding:.375rem;border-radius:var(--radius-lg)}
+    .mqb-list.is-clamped > .mqi:nth-child(n+3){display:none}
+    .mqb-list.is-clamped-5 > .mqi:nth-child(n+4){display:none}
+    /* The composer action collapses to an icon-only 40x40 square — well past the
+       24px minimum and at the touch target the spec asks for. Scoped to the slot
+       so the two approved chat pages, which use a bare .cl-send, are untouched. */
+    .cl-comp-acts .btn-lbl,.cl-comp-acts .btn-kbd{display:none}
+    .cl-comp-acts .btn{width:2.5rem;height:2.5rem;padding:0;gap:0}
+  }
+
+  /* Prod's pattern is motion-safe:animate-in / motion-reduce:animate-none — the change
+     still happens, only the travel is dropped. */
+  @media (prefers-reduced-motion: reduce){
+    .mqi{transition:none}
+    .mqi.is-entering,.mqi.is-sending,.mq-caret{animation:none}
+  }
