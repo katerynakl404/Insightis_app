@@ -337,7 +337,7 @@ Library components carry the design language; the agent's own glue (`flex`,
 # DevartUI (@devart/ui-react@1.0.0)
 
 This design system is the published @devart/ui-react React library, bundled as a single
-browser global. All 51 components are the real upstream code.
+browser global. All 58 components are the real upstream code.
 
 ## Where things are
 
@@ -374,20 +374,21 @@ Wrap the tree in the provider — most components read theme/i18n from context:
 
 ## Tokens
 
-340 CSS custom properties from @devart/ui-react. Names are
+359 CSS custom properties from @devart/ui-react. Names are
 preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (this DS ships one compiled stylesheet rather than separate token files).
 
-- **color** (42): `--surface-card`, `--surface-card2`, `--surface-chips`, …
+- **color** (51): `--surface-card`, `--surface-card2`, `--surface-chips`, …
 - **spacing** (3): `--tw-ring-inset`, `--tw-space-x-reverse`, `--tw-space-y-reverse`
 - **typography** (33): `--font-sans`, `--font-size-xxs`, `--font-size-xs`, …
 - **radius** (7): `--radius-sm`, `--radius`, `--radius-md`, …
 - **shadow** (18): `--shadow-thumb`, `--shadow-thumb-hover`, `--shadow-modal`, …
-- **other** (237): `--modal-w-sm`, `--modal-w-md`, `--modal-w-lg`, …
+- **other** (247): `--modal-max-h`, `--modal-w-sm`, `--modal-w-md`, …
 
 ## Components
 
 ### components
 - `Accordion`
+- `Alert`
 - `Autocomplete`
 - `Avatar`
 - `Badge`
@@ -396,14 +397,18 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `Card`
 - `Checkbox`
 - `CircularProgress` — Circular progress indicator that renders an SVG ring around optional children.
+- `CodeBlock` — A block of code with the one control it always needs.
 - `Collapsible` — The root container that manages the open/closed state.
 - `ConnectorLogo` — The brand mark for a data-source connector, at one of four tile sizes.
+- `DataSourceCard` — A catalog tile for a data source that is not connected yet.
 - `DropdownMenu` — The root component that manages the open/closed state of the dropdown.
 - `File`
 - `FilterChips` — The row. value / onValueChange behave like any controlled radio group
 - `IconButton`
 - `Input`
 - `InputGroup` — A composite container that wraps an input and associated addons (icons, text, buttons)
+- `LinkButton` — A text link.
+- `MetaRow` — The line above a list: what it holds, and what can be done to a selection. (compound: `MetaRow.Count`, `MetaRow.End`)
 - `Modal`
 - `PageHeader` — The title row every screen starts with: an optional back control, the page's
 - `Pagination`
@@ -420,6 +425,7 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `SingleDatePicker` — A complete single date picker with calendar, text input, and confirm button.
 - `Skeleton`
 - `Spinner`
+- `StatTile` — One number and what it counts.
 - `StatusView`
 - `Stepper` — Headless stepper that renders the current step's render function,
 - `StepSlider` — Slider constrained to a short list of named stops, drawn as dots on the
@@ -434,9 +440,10 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `Tooltip` — The root component that manages the state and logic for an individual tooltip.
 - `TruncatedTitleTooltip` — Wraps any trigger element with a tooltip that appears only when the target
 - `Typography`
+- `UploadTray`
 
 ### foundations
-- `Colors` — Every semantic and component-scoped colour token, by role. The primitive
+- `Colors` — Every semantic and component-scoped colour token, by role  Layers 2 and 3,
 - `Radius` — The radius scale, each step shown at its real value.
 - `Shadows` — Elevation as roles rather than sizes  pick by what the surface is doing.
-- `Spacing` — The 4px step. The step number is the unit: 4 is 16px.
+- `Spacing` — The 4px step. The step number is the unit: 4 is 16px, so p-4,

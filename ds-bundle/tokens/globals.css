@@ -9,11 +9,22 @@
   /* Dialog widths — a dialog is sized by what it holds, not one width for
      all. S: a confirm the user only reads and answers. M (the default):
      anything the user fills in. L: the multi-step wizard. */
+  /* A dialog never takes the whole window: there has to be page visible
+     around it, or it reads as a screen rather than as something ON a screen.
+     80% leaves that margin at every window height, and the body scrolls
+     inside it — see ModalContent. */
+  --modal-max-h: 80dvh;
   --modal-w-sm: 22.5rem;
   --modal-w-md: 30rem;
   --modal-w-lg: 36rem;
+  /* DRAFT — see ModalContent: a dialog holding a tree or a table, not a form. */
+  --modal-w-xl: 56rem;
   --sidebar-width: 16rem;
-  --sidebar-width-icon: 3.563rem;
+  /* 48px = 8 + 32 + 8: the nav container's own inset on both sides of a 32px
+     collapsed row. At the previous 3.563rem (57px) the row sat 8 from the left
+     and 16 from the right — the rail read as if the icons had drifted. The
+     width follows the row, not the other way round. */
+  --sidebar-width-icon: 3rem;
   --sidebar-width-mobile: 18rem;
   --shadow-thumb: 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
   --shadow-thumb-hover:
@@ -26,6 +37,7 @@
      percentage, so changing how strong every wash reads is one edit here.
      Blends (a colour mixed over another *opaque* colour) are a different thing
      and keep their literal ratio — so do shadow alphas and gradient stops. */
+  --tint-4: 4%;
   --tint-5: 5%;
   --tint-6: 6%;
   --tint-8: 8%;
@@ -42,7 +54,7 @@
   /* Scrim behind modal surfaces. Declared here as well as in .dark so the
      token is reachable in BOTH themes - it was dark-only, which is why the
      overlays hardcoded bg-black/80 instead of using it. */
-  --overlay-scrim: rgb(2 6 23 / 60%);
+  --overlay-scrim: hsl(var(--slate-950) / 60%); /* #020617 @60% */
 
   /* Type scale — sizes and paired line-heights mirror Tailwind's own defaults.
      xxs and compact are this system's own steps and carry no paired
@@ -98,7 +110,7 @@
   --brand-50: 193.8 39.4% 93.5%; /* #E8F2F5 */
   --brand-100: 196 37% 84%; /* #C7DDE5 */
   --brand-200: 189.1 32.5% 68%; /* #93C0C8 */
-  --brand-300: 186 30% 51%; /* #5DA0A8 */
+  --brand-300: 190 45% 50%; /* #46A6B9 — the interaction wash; see --state-overlay */
   --brand-400: 176.3 55% 41%; /* #2FA29B */
   --brand-500: 179 75% 32%; /* #148F8D */
   --brand-600: 179 89.6% 26.5%; /* #07807E */
@@ -155,9 +167,23 @@
   --red-850: 0 62.8% 30.6%; /* #7F1D1D */
   --red-900: 0 74.7% 15.5%; /* #450A0A */
   --red-950: 0 44.8% 11.4%; /* #2A1010 */
-  --orange-500: 24.7 100% 50%; /* #FF6900 */
-  --green-light-600: 160 100% 30%; /* #009966 */
-  --green-dark-500: 160.1 96.6% 34.9%; /* #03AF76 */
+  /* Orange, green and blue here carry Tailwind values but only the steps in use. The point of a
+     Tailwind value is not the scale — it is that each step BELONGS to one, so the neighbours can
+     be dropped in later without the ramp breaking around a stranger. --orange-500 was a custom
+     #FF6900 sitting off its own curve, which is what made every neighbour unusable. This moves
+     --fb-attention, #FF6900 -> #F97316. */
+  --orange-500: 24.6 95% 53.1%; /* #F97316 */
+  /* Blue (Tailwind). The palette had none: Brand and Tertiary are both teal, so an informational
+     surface had no colour to be that was not also the product talking about itself. Two steps,
+     the ones --fb-info uses; the rest of the ramp drops straight in when something needs it. */
+  --blue-400: 213.1 93.9% 67.8%; /* #60A5FA */
+  --blue-600: 221.2 83.2% 53.3%; /* #2563EB */
+  /* Emerald. Renamed off the names green-light-600 / green-dark-500 — a primitive that knew which THEME
+     it was for kept the choosing in the wrong layer and left a scale nowhere to exist. Values are
+     Tailwind now, so 400 or 700 drop in later without a stranger in the ramp — this moves
+     --fb-green, #009966 -> #059669 on light and #03AF76 -> #10B981 on dark. */
+  --green-600: 161.4 93.5% 30.4%; /* #059669 */
+  --green-500: 160.1 84.1% 39.4%; /* #10B981 */
   --chart-teal-600: 173 82.2% 30.8%; /* #0E8F80 */
   --chart-teal-500: 175.6 80.7% 36.7%; /* #12A99E */
   --chart-orange-700: 27 95% 39%; /* #C25A05 */
@@ -184,6 +210,12 @@
   --ink-secondary: var(--slate-550); /* #5A6A80 */
   --ink-inactive: var(--slate-450); /* #7C8CA2 */
   --ink-highlight: var(--brand-primary); /* #07807E */
+  /* A standalone icon — one with no box of its own, so there is nothing to fill
+     on hover and the glyph colour is the only thing that can answer the pointer.
+     An IconButton does not use these: it has a box, and `--state-hover` fills it.
+     Both alias Layer-2 roles, so neither needs a `.dark` counterpart. */
+  --ink-icon: var(--ink-secondary); /* #5A6A80 */
+  --ink-icon-hover: var(--ink-primary); /* #0F172A */
   --surface-card: var(--white); /* #FFFFFF */
   --surface-card2: var(--slate-100); /* #F1F5F9 */
   --surface-chips: var(--slate-50); /* #F8FAFC */
@@ -202,16 +234,38 @@
   );
   --stroke-border: var(--slate-200); /* #E2E8F0 */
   --stroke-border-hover: var(--slate-300); /* #CBD5E1 */
-  --state-hover: var(--slate-100); /* #F1F5F9 */
-  --state-pressed: var(--brand-50); /* #E8F2F5 */
+  /* Interaction states are RELATIVE OVERLAYS, not absolute colours.
+     An absolute colour eventually equals the surface it lands on: --state-hover
+     and --tbl-row-pressed both resolved to #F1F5F9 on light and #21212C on dark,
+     so a control's hover inside a selected row was invisible in both themes.
+     Absolute colours also cannot stack — a control could never be "one step
+     deeper than whatever is under it".
+
+     Each theme declares ONE base and FOUR strengths; the four state tokens are
+     written once, in :root, and read them. Retuning a theme therefore never
+     touches a consumer, and never needs a .dark copy of a state token. */
+  --state-overlay: var(--brand-300); /* #46A6B9 */
+  --state-hover: color-mix(
+    in srgb,
+    hsl(var(--state-overlay)) var(--tint-8),
+    transparent
+  );
+  --state-pressed: color-mix(
+    in srgb,
+    hsl(var(--state-overlay)) var(--tint-12),
+    transparent
+  );
   --state-disabled: var(--slate-200); /* #E2E8F0 */
   --state-focus-ring: var(--slate-900); /* #0F172A */
   --fb-red: var(--red-700); /* #B91C1C */
   --fb-red-text: var(--red-700); /* #B91C1C */
   --fb-error-hover: var(--red-800); /* #991B1B */
   --fb-error-press: var(--red-850); /* #7F1D1D */
-  --fb-attention: var(--orange-500); /* #FF6900 */
-  --fb-green: var(--green-light-600); /* #009966 */
+  --fb-attention: var(--orange-500); /* #F97316 */
+  --fb-green: var(--green-600); /* #059669 */
+  /* Feedback/Info — the fourth feedback colour, beside Red, Attention and Green.
+     Blue-600 on white Surface/Card = 5.17:1, AA for text. */
+  --fb-info: var(--blue-600); /* #2563EB */
   --logo-ink: var(--slate-900); /* #0F172A */
   --logo-mark: var(--brand-600); /* #07807E */
 
@@ -223,7 +277,7 @@
   --chart-series-1: var(--chart-teal-600);
   --chart-series-2: var(--chart-orange-700);
   --chart-series-3: var(--chart-violet-600);
-  --chart-series-4: var(--green-light-600);
+  --chart-series-4: var(--green-600);
   --chart-series-5: var(--chart-blue-600);
   --chart-series-6: var(--red-700);
 
@@ -238,6 +292,20 @@
     hsl(var(--brand-primary)) 5%,
     hsl(var(--surface-card))
   ); /* ~5% brand over card */
+  /* The connector tile's hover sheet. A full-bleed pane of the card surface
+     at 80% — enough ground for the Connect button to sit on, little enough
+     that the mark underneath still reads. Opaque-ish by construction, so it
+     does not inherit the transparency problem the state washes have. */
+  --ds-card-scrim: color-mix(
+    in srgb,
+    hsl(var(--surface-card)) var(--tint-80),
+    transparent
+  );
+  --btn-secondary-bg-press: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) 8%,
+    hsl(var(--surface-card))
+  ); /* ~8% brand over card — one step past hover, still opaque */
   --btn-secondary-border: var(--slate-300); /* #CBD5E1 */
   --btn-secondary-border-hover: var(--slate-400); /* #94A3B8 */
   --btn-outline-bg-hover: color-mix(
@@ -252,16 +320,20 @@
   );
   --btn-outline-destructive-border: var(--red-700); /* #B91C1C */
   --btn-outline-destructive-border-hover: var(--red-800); /* #991B1B */
+  /* Re-stepped with the neutral ladder when interaction states became
+     overlays: neutral hover moved to dL 2.99 and this sat at 4.01, so the
+     destructive control read heavier than its neutral sibling. tint-4 lands at
+     2.67 — the closest step, inside the 0.5 parity tolerance. */
   --btn-outline-destructive-bg-hover: color-mix(
+    in srgb,
+    hsl(var(--fb-red)) var(--tint-4),
+    transparent
+  ); /* Red @4% over surface — dL 2.67 vs neutral 2.99 */
+  --btn-outline-destructive-bg-press: color-mix(
     in srgb,
     hsl(var(--fb-red)) var(--tint-6),
     transparent
-  ); /* Red @6% over surface */
-  --btn-outline-destructive-bg-press: color-mix(
-    in srgb,
-    hsl(var(--fb-red)) var(--tint-8),
-    transparent
-  ); /* Red @8% over surface */
+  ); /* Red @6% over surface — dL 4.01 vs neutral 4.48 */
   /* Destructive TERTIARY fill. Identical to the outline sibling on light —
      measured at a 4.01 dL* step against the neutral --state-hover's 3.65, and
      5.35 against --state-pressed's 5.15. The variants diverge only on dark:
@@ -326,6 +398,12 @@
   --badge-secondary-text: var(--ink-body); /* #334155 */
   --badge-chip-bg: var(--surface-chips); /* #F8FAFC */
   --badge-chip-text: var(--ink-body); /* #334155 */
+  /* The hairline every chip carries. Mixed from `currentColor`, so the border
+     IS the chip — teal on Primary, neutral on Secondary, amber on Attention —
+     and no variant needs a border token of its own. Without it a Secondary
+     badge is filled with --surface-card2, which is also what a hovered or a
+     selected table row lands on, and the chip dissolves into the row. */
+  --badge-border: color-mix(in srgb, currentColor 25%, transparent);
   /* Opaque tints — these badges overlap a card border, so an alpha fill
      would let the border show through */
   --badge-brand-bg: color-mix(
@@ -364,6 +442,51 @@
   --switch-off-bg-hover: var(--slate-400); /* #94A3B8 (light) */
 
   /* Toast tokens */
+  /* Alert is Toast standing still instead of floating: same family, same surfaces, so a
+     condition does not change colour depending on whether it moves. Mixed over the card, not
+     over transparent — an inline block sits INSIDE a surface and must not take its tint from
+     whatever is behind it. Info is the one deliberate difference: Brand/Tertiary, not
+     Brand/Primary, so a notice does not read as the product's own voice. */
+  --alert-bg-success: color-mix(
+    in srgb,
+    hsl(var(--fb-green)) 5%,
+    hsl(var(--surface-card))
+  );
+  --alert-bg-info: color-mix(
+    in srgb,
+    hsl(var(--brand-tertiary)) 5%,
+    hsl(var(--surface-card))
+  );
+  --alert-bg-warning: color-mix(
+    in srgb,
+    hsl(var(--fb-attention)) 5%,
+    hsl(var(--surface-card))
+  );
+  --alert-bg-error: color-mix(
+    in srgb,
+    hsl(var(--fb-red-text)) 5%,
+    hsl(var(--surface-card))
+  );
+  --alert-border-success: color-mix(
+    in srgb,
+    hsl(var(--fb-green)) var(--tint-30),
+    transparent
+  );
+  --alert-border-info: color-mix(
+    in srgb,
+    hsl(var(--brand-tertiary)) var(--tint-30),
+    transparent
+  );
+  --alert-border-warning: color-mix(
+    in srgb,
+    hsl(var(--fb-attention)) var(--tint-30),
+    transparent
+  );
+  --alert-border-error: color-mix(
+    in srgb,
+    hsl(var(--fb-red-text)) var(--tint-30),
+    transparent
+  );
   --toast-bg-success: color-mix(
     in srgb,
     hsl(var(--fb-green)) 5%,
@@ -447,22 +570,19 @@
         because --surface-card2 already re-resolves.
 
      Neutral in every state, never brand-tinted. */
-  --tbl-row-hover: var(--slate-50); /* #F8FAFC */
-  --tbl-row-pressed: var(--surface-card2); /* #F1F5F9 light · #21212C dark */
-  /* Hover while selected — a step BEYOND selected, not between hover and it.
-     Blending the two row tokens put this state halfway back toward hover, so
-     pointing at a selected row made it paler: the row read as less selected
-     the moment you touched it. Mixing --ink-inactive moves away from the
-     surface in both themes (darker on light, lighter on dark) and carries no
-     brand hue, keeping the ladder neutral and monotonic: 1.86 / 3.73 / 5.6 on
-     light, 2.53 / 5.09 / 8.2 on dark.
-
-     5% is a blend ratio between two opaque colours, so it stays a literal —
-     the --tint-* scale is for washes over transparency (see SPEC). */
-  --tbl-row-selected-hover: color-mix(
+  /* Rows are deliberately lighter than controls: a row is wide and sits in a
+     stack, where a heavy wash turns a list into stripes; a control is small and
+     often sits alone. Inside a row the two composite, so a control on a hovered
+     row is always the deeper of the pair — which is the whole point. */
+  --tbl-row-hover: color-mix(
     in srgb,
-    hsl(var(--ink-inactive)) 5%,
-    hsl(var(--tbl-row-pressed))
+    hsl(var(--state-overlay)) var(--tint-4),
+    transparent
+  );
+  --tbl-row-pressed: color-mix(
+    in srgb,
+    hsl(var(--state-overlay)) var(--tint-8),
+    transparent
   );
 
   /* Plan card (Manage plan) — current / featured surfaces and top-border badges */
@@ -546,8 +666,8 @@
   --surface-chips: var(--grey-700); /* #2A2834 */
   --surface-page: var(--grey-950); /* #0F0E14 — page background */
   --surface-accent: var(--brand-900-soft); /* #111A1C */
-  /* Scrim behind modals and sheets — declared on dark only */
-  --overlay-scrim: rgb(2 6 23 / 60%);
+  /* Scrim behind modals and sheets */
+  --overlay-scrim: hsl(var(--slate-950) / 60%); /* #020617 @60% */
   /* Chat landing shell — stronger tint/glow on dark (kit .cl-shell .dark) */
   --chat-shell-bg: radial-gradient(
     at 50% 0%,
@@ -561,8 +681,17 @@
   );
   --stroke-border: var(--grey-700); /* #2A2834 */
   --stroke-border-hover: var(--slate-700); /* #334155 */
-  --state-hover: var(--grey-800); /* #21212C */
-  --state-pressed: var(--grey-700); /* #2A2834 */
+  /* Dark's strengths are larger because its base is darker: it moves ~1.25
+     points per 1% against the card, versus ~1.8 for the light base. The
+     resulting CONTRAST is the same in both themes; only the arithmetic differs.
+
+     A coloured wash over the near-black card reads as a cast rather than a
+     lift, so dark washes with the coldest usable neutral instead of the brand.
+
+     The four state tokens themselves are NOT re-declared here — they are
+     written once in :root and read these. Re-declaring one would pin it to a
+     fixed colour again and re-create the collision this replaced. */
+  --state-overlay: var(--slate-400); /* #94A3B8 */
   --state-disabled: var(--grey-700); /* #2A2834 */
   --state-focus-ring: var(--slate-100); /* #F1F5F9 */
   --fb-red: var(--red-700); /* #B91C1C */
@@ -571,8 +700,11 @@
   --fb-red-press: var(--red-850); /* #7F1D1D — declared on dark only */
   --fb-error-hover: var(--red-800); /* #991B1B */
   --fb-error-press: var(--red-850); /* #7F1D1D */
-  --fb-attention: var(--orange-500); /* #FF6900 */
-  --fb-green: var(--green-dark-500); /* #03AF76 */
+  --fb-attention: var(--orange-500); /* #F97316 */
+  --fb-green: var(--green-500); /* #10B981 */
+  /* Blue-600 falls to 2.9:1 on dark Surface/Card, so dark steps two up: Blue-400 = 6.4:1.
+     The same move --fb-red-text makes. */
+  --fb-info: var(--blue-400); /* #60A5FA */
   --logo-ink: var(--brand-50); /* #E8F2F5 */
   --logo-mark: var(--brand-500); /* #148F8D */
 
@@ -580,7 +712,7 @@
   --chart-series-1: var(--chart-teal-500);
   --chart-series-2: var(--chart-orange-600);
   --chart-series-3: var(--chart-violet-500);
-  --chart-series-4: var(--green-dark-500);
+  --chart-series-4: var(--green-500);
   --chart-series-5: var(--chart-blue-500);
   --chart-series-6: var(--red-400);
 
@@ -619,12 +751,12 @@
     in srgb,
     hsl(var(--fb-red)) var(--tint-20),
     transparent
-  ); /* Red @20% over surface */
+  ); /* Red @20% over surface — dL 5.01 vs neutral 5.48 */
   --btn-destructive-tertiary-bg-press: color-mix(
     in srgb,
     hsl(var(--fb-red)) var(--tint-30),
     transparent
-  ); /* Red @32% over surface */
+  ); /* Red @30% over surface — dL 8.12 vs neutral 8.13 */
   --input-focus: var(--slate-500); /* #64748B (dark) — kit s-focus */
   --field-border-hover: var(
     --slate-600
@@ -646,6 +778,26 @@
   --switch-off-bg-hover: var(--grey-600); /* #525258 */
 
   /* Toast tokens */
+  --alert-bg-success: color-mix(
+    in srgb,
+    hsl(var(--fb-green)) 8%,
+    hsl(var(--surface-card))
+  );
+  --alert-bg-info: color-mix(
+    in srgb,
+    hsl(var(--brand-tertiary)) 8%,
+    hsl(var(--surface-card))
+  );
+  --alert-bg-warning: color-mix(
+    in srgb,
+    hsl(var(--fb-attention)) 8%,
+    hsl(var(--surface-card))
+  );
+  --alert-bg-error: color-mix(
+    in srgb,
+    hsl(var(--fb-red-text)) 8%,
+    hsl(var(--surface-card))
+  );
   --toast-bg-success: color-mix(
     in srgb,
     hsl(var(--fb-green)) 8%,
@@ -699,7 +851,8 @@
 
      No --tbl-row-pressed here on purpose: it is --surface-card2, which already
      resolves to grey-800 in this block. */
-  --tbl-row-hover: 240 14% 12.7%; /* #1C1C25 = mix(grey-800 50%, grey-900) */
+  /* --tbl-row-hover and --tbl-row-pressed are not re-declared here either:
+     :root composes both from --state-overlay and the strengths above. */
 
   /* Plan card — dark needs a stronger mix and a longer fade or the gradient reads flat */
   --plan-card-featured-bg: linear-gradient(
@@ -745,4 +898,54 @@
     hsl(var(--brand-800)) 45%,
     color-mix(in srgb, hsl(var(--brand-800)) 0%, transparent) 100%
   );
+
+  /* ===== Scoped-theme mirrors =====
+     A custom property is substituted on the element that DECLARES it, so a
+     token written only in :root resolves there — with light values — and a
+     `.dark` deeper in the tree inherits that finished value. Every token
+     below reads another token the dark block re-declares, so without a copy
+     here it keeps its light result under a scoped `.dark` (an auth layout,
+     a preview panel, a DarkTheme story). The expressions are identical to
+     :root, so document-level dark is unchanged; this only makes a scoped
+     .dark behave the same way. 40 tokens. */
+  --ink-icon: var(--ink-secondary);
+  --ink-icon-hover: var(--ink-primary);
+  --state-hover: color-mix( in srgb, hsl(var(--state-overlay)) var(--tint-8), transparent );
+  --state-pressed: color-mix( in srgb, hsl(var(--state-overlay)) var(--tint-12), transparent );
+  --chart-axis-title: var(--ink-primary);
+  --chart-axis-label: var(--ink-secondary);
+  --chart-grid: var(--stroke-border);
+  --chart-surface: var(--surface-card);
+  --btn-secondary-bg: var(--surface-card);
+  --btn-secondary-bg-hover: color-mix( in srgb, hsl(var(--brand-primary)) 5%, hsl(var(--surface-card)) );
+  --ds-card-scrim: color-mix( in srgb, hsl(var(--surface-card)) var(--tint-80), transparent );
+  --btn-secondary-bg-press: color-mix( in srgb, hsl(var(--brand-primary)) 8%, hsl(var(--surface-card)) );
+  --btn-outline-bg-hover: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-6), transparent );
+  --btn-outline-bg-press: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-8), transparent );
+  --card-border-hover: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-25), transparent );
+  --card-border-press: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-40), transparent );
+  --card-lift-border: color-mix( in srgb, hsl(var(--brand-primary)) 22%, hsl(var(--stroke-border)) );
+  --icon-wrapper-bg: color-mix( in srgb, hsl(var(--brand-primary)) 5%, hsl(var(--surface-page)) );
+  --dropzone-border-active: color-mix( in srgb, hsl(var(--brand-primary)) 45%, hsl(var(--dropzone-border)) );
+  --dropzone-bg-active: color-mix( in srgb, hsl(var(--brand-primary)) 4%, hsl(var(--surface-card2)) );
+  --badge-primary-text: var(--brand-secondary);
+  --badge-secondary-bg: var(--surface-card2);
+  --badge-secondary-text: var(--ink-body);
+  --badge-chip-bg: var(--surface-chips);
+  --badge-chip-text: var(--ink-body);
+  --badge-brand-bg: color-mix( in srgb, hsl(var(--brand-primary)) 22%, hsl(var(--surface-card)) );
+  --badge-brand-border: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-40), transparent );
+  --badge-brand-text: color-mix( in srgb, hsl(var(--brand-primary)) 85%, hsl(var(--ink-primary)) );
+  --badge-green-bg: color-mix( in srgb, hsl(var(--fb-green)) 22%, hsl(var(--surface-card)) );
+  --badge-green-border: color-mix( in srgb, hsl(var(--fb-green)) var(--tint-40), transparent );
+  --badge-green-text: color-mix( in srgb, hsl(var(--fb-green)) 85%, hsl(var(--ink-primary)) );
+  --toast-border-success: color-mix( in srgb, hsl(var(--fb-green)) var(--tint-30), transparent );
+  --toast-border-info: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-30), transparent );
+  --toast-border-warning: color-mix( in srgb, hsl(var(--fb-attention)) var(--tint-30), transparent );
+  --toast-border-error: color-mix( in srgb, hsl(var(--fb-red-text)) var(--tint-30), transparent );
+  --tbl-row-hover: color-mix( in srgb, hsl(var(--state-overlay)) var(--tint-4), transparent );
+  --tbl-row-pressed: color-mix( in srgb, hsl(var(--state-overlay)) var(--tint-8), transparent );
+  --plan-card-featured-border: color-mix( in srgb, hsl(var(--brand-primary)) 40%, hsl(var(--stroke-border)) );
+  --plan-card-featured-shadow: 0 6px 16px -8px color-mix(in srgb, hsl(var(--brand-primary)) 45%, transparent);
+  --banner-ic-shadow: 0 6px 16px -4px color-mix(in srgb, hsl(var(--brand-primary)) 50%, transparent);
 }

@@ -1,4 +1,4 @@
-/* @ds-bundle: {"namespace":"DevartUI","components":[{"name":"Accordion","sourcePath":"components/components/Accordion/Accordion.jsx"},{"name":"Autocomplete","sourcePath":"components/components/Autocomplete/Autocomplete.jsx"},{"name":"Avatar","sourcePath":"components/components/Avatar/Avatar.jsx"},{"name":"Badge","sourcePath":"components/components/Badge/Badge.jsx"},{"name":"Banner","sourcePath":"components/components/Banner/Banner.jsx"},{"name":"Button","sourcePath":"components/components/Button/Button.jsx"},{"name":"Card","sourcePath":"components/components/Card/Card.jsx"},{"name":"Checkbox","sourcePath":"components/components/Checkbox/Checkbox.jsx"},{"name":"CircularProgress","sourcePath":"components/components/CircularProgress/CircularProgress.jsx"},{"name":"Collapsible","sourcePath":"components/components/Collapsible/Collapsible.jsx"},{"name":"Colors","sourcePath":"components/foundations/Colors/Colors.jsx"},{"name":"ConnectorLogo","sourcePath":"components/components/ConnectorLogo/ConnectorLogo.jsx"},{"name":"DropdownMenu","sourcePath":"components/components/DropdownMenu/DropdownMenu.jsx"},{"name":"File","sourcePath":"components/components/File/File.jsx"},{"name":"FilterChips","sourcePath":"components/components/FilterChips/FilterChips.jsx"},{"name":"IconButton","sourcePath":"components/components/IconButton/IconButton.jsx"},{"name":"Input","sourcePath":"components/components/Input/Input.jsx"},{"name":"InputGroup","sourcePath":"components/components/InputGroup/InputGroup.jsx"},{"name":"Modal","sourcePath":"components/components/Modal/Modal.jsx"},{"name":"PageHeader","sourcePath":"components/components/PageHeader/PageHeader.jsx"},{"name":"Pagination","sourcePath":"components/components/Pagination/Pagination.jsx"},{"name":"PasswordInput","sourcePath":"components/components/PasswordInput/PasswordInput.jsx"},{"name":"Popover","sourcePath":"components/components/Popover/Popover.jsx"},{"name":"ProgressBar","sourcePath":"components/components/ProgressBar/ProgressBar.jsx"},{"name":"RadioButton","sourcePath":"components/components/RadioButton/RadioButton.jsx"},{"name":"Radius","sourcePath":"components/foundations/Radius/Radius.jsx"},{"name":"ResizablePanelGroup","sourcePath":"components/components/ResizablePanelGroup/ResizablePanelGroup.jsx"},{"name":"ScrollShadow","sourcePath":"components/components/ScrollShadow/ScrollShadow.jsx"},{"name":"SegmentedControl","sourcePath":"components/components/SegmentedControl/SegmentedControl.jsx"},{"name":"Separator","sourcePath":"components/components/Separator/Separator.jsx"},{"name":"Shadows","sourcePath":"components/foundations/Shadows/Shadows.jsx"},{"name":"Sheet","sourcePath":"components/components/Sheet/Sheet.jsx"},{"name":"Sidebar","sourcePath":"components/components/Sidebar/Sidebar.jsx"},{"name":"SingleDatePicker","sourcePath":"components/components/SingleDatePicker/SingleDatePicker.jsx"},{"name":"Skeleton","sourcePath":"components/components/Skeleton/Skeleton.jsx"},{"name":"Spacing","sourcePath":"components/foundations/Spacing/Spacing.jsx"},{"name":"Spinner","sourcePath":"components/components/Spinner/Spinner.jsx"},{"name":"StatusView","sourcePath":"components/components/StatusView/StatusView.jsx"},{"name":"Stepper","sourcePath":"components/components/Stepper/Stepper.jsx"},{"name":"StepSlider","sourcePath":"components/components/StepSlider/StepSlider.jsx"},{"name":"Switch","sourcePath":"components/components/Switch/Switch.jsx"},{"name":"Table","sourcePath":"components/components/Table/Table.jsx"},{"name":"Tabs","sourcePath":"components/components/Tabs/Tabs.jsx"},{"name":"TextArea","sourcePath":"components/components/TextArea/TextArea.jsx"},{"name":"Timeline","sourcePath":"components/components/Timeline/Timeline.jsx"},{"name":"ToastMessage","sourcePath":"components/components/ToastMessage/ToastMessage.jsx"},{"name":"Toggle","sourcePath":"components/components/Toggle/Toggle.jsx"},{"name":"ToggleGroup","sourcePath":"components/components/ToggleGroup/ToggleGroup.jsx"},{"name":"Tooltip","sourcePath":"components/components/Tooltip/Tooltip.jsx"},{"name":"TruncatedTitleTooltip","sourcePath":"components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.jsx"},{"name":"Typography","sourcePath":"components/components/Typography/Typography.jsx"}],"sourceHashes":{"components/components/Accordion/Accordion.jsx":"c9109aa7def8","components/components/Accordion/Accordion.d.ts":"7852b0d69453","components/components/Accordion/Accordion.prompt.md":"6bf001f5660d","components/components/Autocomplete/Autocomplete.jsx":"8d37f9e13e6a","components/components/Autocomplete/Autocomplete.d.ts":"02914fe70a94","components/components/Autocomplete/Autocomplete.prompt.md":"07ff268ae066","components/components/Avatar/Avatar.jsx":"d1948df6447c","components/components/Avatar/Avatar.d.ts":"f6b12dc31372","components/components/Avatar/Avatar.prompt.md":"e0cd7898a66f","components/components/Badge/Badge.jsx":"65463f87598c","components/components/Badge/Badge.d.ts":"b92dd62c26c9","components/components/Badge/Badge.prompt.md":"913d3e1e4c0e","components/components/Banner/Banner.jsx":"0eda78f5ca9a","components/components/Banner/Banner.d.ts":"6dc75ed2e4dc","components/components/Banner/Banner.prompt.md":"ed4b5809464b","components/components/Button/Button.jsx":"e35bef339b68","components/components/Button/Button.d.ts":"984e135f805b","components/components/Button/Button.prompt.md":"b81a7aad1818","components/components/Card/Card.jsx":"87f2edb5c191","components/components/Card/Card.d.ts":"39b1eb69ff38","components/components/Card/Card.prompt.md":"86f21a2aadd7","components/components/Checkbox/Checkbox.jsx":"498095f93ec8","components/components/Checkbox/Checkbox.d.ts":"2d2e311f94c7","components/components/Checkbox/Checkbox.prompt.md":"59913189f621","components/components/CircularProgress/CircularProgress.jsx":"bb187cb512b5","components/components/CircularProgress/CircularProgress.d.ts":"884e707eacea","components/components/CircularProgress/CircularProgress.prompt.md":"543a0bf62778","components/components/Collapsible/Collapsible.jsx":"7e78fc30108d","components/components/Collapsible/Collapsible.d.ts":"d966b6cec339","components/components/Collapsible/Collapsible.prompt.md":"dc563ed29f59","components/foundations/Colors/Colors.jsx":"4af9067be804","components/foundations/Colors/Colors.d.ts":"83a3601419db","components/foundations/Colors/Colors.prompt.md":"832f356d66f8","components/components/ConnectorLogo/ConnectorLogo.jsx":"94b621ecfbb8","components/components/ConnectorLogo/ConnectorLogo.d.ts":"450806ce7b7a","components/components/ConnectorLogo/ConnectorLogo.prompt.md":"36b1b6fb1ba5","components/components/DropdownMenu/DropdownMenu.jsx":"7d8295ec70c1","components/components/DropdownMenu/DropdownMenu.d.ts":"deed981915e8","components/components/DropdownMenu/DropdownMenu.prompt.md":"07ad0e70306b","components/components/File/File.jsx":"92209e40e2dc","components/components/File/File.d.ts":"34eae64e8991","components/components/File/File.prompt.md":"08b49db4ea03","components/components/FilterChips/FilterChips.jsx":"234491644555","components/components/FilterChips/FilterChips.d.ts":"03eb00d7b7be","components/components/FilterChips/FilterChips.prompt.md":"44aa849dbfba","components/components/IconButton/IconButton.jsx":"b65c876b793f","components/components/IconButton/IconButton.d.ts":"f34b8fbe0e9b","components/components/IconButton/IconButton.prompt.md":"ed86ccc67181","components/components/Input/Input.jsx":"e044594a998e","components/components/Input/Input.d.ts":"3c6a5a3836ec","components/components/Input/Input.prompt.md":"b868c41c896b","components/components/InputGroup/InputGroup.jsx":"15fb32eadbc9","components/components/InputGroup/InputGroup.d.ts":"03ad4f6d9f31","components/components/InputGroup/InputGroup.prompt.md":"3f16c6f808eb","components/components/Modal/Modal.jsx":"2de65e4a3661","components/components/Modal/Modal.d.ts":"9dd23c8e0811","components/components/Modal/Modal.prompt.md":"f51ad912dbde","components/components/PageHeader/PageHeader.jsx":"e9b5c1ac724f","components/components/PageHeader/PageHeader.d.ts":"55b219fba575","components/components/PageHeader/PageHeader.prompt.md":"c31af3dd145b","components/components/Pagination/Pagination.jsx":"522c693cfb53","components/components/Pagination/Pagination.d.ts":"a4840e0079a3","components/components/Pagination/Pagination.prompt.md":"eb7279a42996","components/components/PasswordInput/PasswordInput.jsx":"90a7e850274a","components/components/PasswordInput/PasswordInput.d.ts":"c021f97749fe","components/components/PasswordInput/PasswordInput.prompt.md":"686bbd8bcd56","components/components/Popover/Popover.jsx":"7915914f31b4","components/components/Popover/Popover.d.ts":"5f7cb49f018e","components/components/Popover/Popover.prompt.md":"7fbbbc299b16","components/components/ProgressBar/ProgressBar.jsx":"c9a1730f6be5","components/components/ProgressBar/ProgressBar.d.ts":"1dd52cabece5","components/components/ProgressBar/ProgressBar.prompt.md":"e5862565b556","components/components/RadioButton/RadioButton.jsx":"ff20b5e1fc5f","components/components/RadioButton/RadioButton.d.ts":"afe428f4abc3","components/components/RadioButton/RadioButton.prompt.md":"4348eacf3a71","components/foundations/Radius/Radius.jsx":"6baa55c2edc4","components/foundations/Radius/Radius.d.ts":"090e9c459e42","components/foundations/Radius/Radius.prompt.md":"e00f87cefe4b","components/components/ResizablePanelGroup/ResizablePanelGroup.jsx":"ca14e2f50909","components/components/ResizablePanelGroup/ResizablePanelGroup.d.ts":"7869b5b95387","components/components/ResizablePanelGroup/ResizablePanelGroup.prompt.md":"716b890cd6a7","components/components/ScrollShadow/ScrollShadow.jsx":"fae5e1036115","components/components/ScrollShadow/ScrollShadow.d.ts":"decb7f65432f","components/components/ScrollShadow/ScrollShadow.prompt.md":"98e7448af9ef","components/components/SegmentedControl/SegmentedControl.jsx":"9e2072f2143e","components/components/SegmentedControl/SegmentedControl.d.ts":"c71699a60deb","components/components/SegmentedControl/SegmentedControl.prompt.md":"7d5a6a47590e","components/components/Separator/Separator.jsx":"3ac499df52fb","components/components/Separator/Separator.d.ts":"84d7e4ba48dc","components/components/Separator/Separator.prompt.md":"72ac3965e8af","components/foundations/Shadows/Shadows.jsx":"dd44c2f4f342","components/foundations/Shadows/Shadows.d.ts":"6627419e442c","components/foundations/Shadows/Shadows.prompt.md":"e98e8ac33ac9","components/components/Sheet/Sheet.jsx":"dcc8488e3b4c","components/components/Sheet/Sheet.d.ts":"9365feac06c9","components/components/Sheet/Sheet.prompt.md":"12be228d5880","components/components/Sidebar/Sidebar.jsx":"47bcfdb3a699","components/components/Sidebar/Sidebar.d.ts":"1efe961dd44b","components/components/Sidebar/Sidebar.prompt.md":"8fa3a3c4f235","components/components/SingleDatePicker/SingleDatePicker.jsx":"48ba06984d3f","components/components/SingleDatePicker/SingleDatePicker.d.ts":"b4530e4f4a31","components/components/SingleDatePicker/SingleDatePicker.prompt.md":"fc37022beb31","components/components/Skeleton/Skeleton.jsx":"b1406a947586","components/components/Skeleton/Skeleton.d.ts":"5c1203b51a27","components/components/Skeleton/Skeleton.prompt.md":"2f0fca96cba2","components/foundations/Spacing/Spacing.jsx":"bf1d5fd66be1","components/foundations/Spacing/Spacing.d.ts":"1a53d4499309","components/foundations/Spacing/Spacing.prompt.md":"e05b59cb1e36","components/components/Spinner/Spinner.jsx":"af0fdac6e245","components/components/Spinner/Spinner.d.ts":"8e3a981bde8c","components/components/Spinner/Spinner.prompt.md":"83219dd4e6e7","components/components/StatusView/StatusView.jsx":"8a44ae4cdaf7","components/components/StatusView/StatusView.d.ts":"bc91f11da2fa","components/components/StatusView/StatusView.prompt.md":"8a392893d559","components/components/Stepper/Stepper.jsx":"2d27743584f9","components/components/Stepper/Stepper.d.ts":"66dac2d07734","components/components/Stepper/Stepper.prompt.md":"c8f670d156db","components/components/StepSlider/StepSlider.jsx":"a3139bcbc434","components/components/StepSlider/StepSlider.d.ts":"4ed71ed92ef9","components/components/StepSlider/StepSlider.prompt.md":"7b104606a100","components/components/Switch/Switch.jsx":"ecf4b284ff82","components/components/Switch/Switch.d.ts":"379c4d8d1108","components/components/Switch/Switch.prompt.md":"859c5836e01a","components/components/Table/Table.jsx":"d6f520022091","components/components/Table/Table.d.ts":"05644bf4d839","components/components/Table/Table.prompt.md":"ae3c4e481d4b","components/components/Tabs/Tabs.jsx":"fd0814586e41","components/components/Tabs/Tabs.d.ts":"a11e7f34a93f","components/components/Tabs/Tabs.prompt.md":"3b53d6fb2d95","components/components/TextArea/TextArea.jsx":"f04443d00503","components/components/TextArea/TextArea.d.ts":"fdf5fa5a14de","components/components/TextArea/TextArea.prompt.md":"bb0c873d98aa","components/components/Timeline/Timeline.jsx":"3edc724e94a5","components/components/Timeline/Timeline.d.ts":"bd4715087884","components/components/Timeline/Timeline.prompt.md":"91f9b1c10ffd","components/components/ToastMessage/ToastMessage.jsx":"fcd0cff73a0b","components/components/ToastMessage/ToastMessage.d.ts":"1397f8ddd071","components/components/ToastMessage/ToastMessage.prompt.md":"47013dc86fde","components/components/Toggle/Toggle.jsx":"356282788f0a","components/components/Toggle/Toggle.d.ts":"3d323f9a77b4","components/components/Toggle/Toggle.prompt.md":"255ea84861e1","components/components/ToggleGroup/ToggleGroup.jsx":"8557f0da2a5f","components/components/ToggleGroup/ToggleGroup.d.ts":"358c9b5a2589","components/components/ToggleGroup/ToggleGroup.prompt.md":"fd6c83582578","components/components/Tooltip/Tooltip.jsx":"7831d988b558","components/components/Tooltip/Tooltip.d.ts":"11ac3babb516","components/components/Tooltip/Tooltip.prompt.md":"8db9548cc14e","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.jsx":"f3ff79d6b89d","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.d.ts":"0ebc0f279be6","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.prompt.md":"59792ca3ceac","components/components/Typography/Typography.jsx":"08d9210ac679","components/components/Typography/Typography.d.ts":"4b7173062502","components/components/Typography/Typography.prompt.md":"3e756ecbc904"},"inlinedExternals":[".pnpm"],"builtBy":"cc-design-sync"} */
+/* @ds-bundle: {"namespace":"DevartUI","components":[{"name":"Accordion","sourcePath":"components/components/Accordion/Accordion.jsx"},{"name":"Alert","sourcePath":"components/components/Alert/Alert.jsx"},{"name":"Autocomplete","sourcePath":"components/components/Autocomplete/Autocomplete.jsx"},{"name":"Avatar","sourcePath":"components/components/Avatar/Avatar.jsx"},{"name":"Badge","sourcePath":"components/components/Badge/Badge.jsx"},{"name":"Banner","sourcePath":"components/components/Banner/Banner.jsx"},{"name":"Button","sourcePath":"components/components/Button/Button.jsx"},{"name":"Card","sourcePath":"components/components/Card/Card.jsx"},{"name":"Checkbox","sourcePath":"components/components/Checkbox/Checkbox.jsx"},{"name":"CircularProgress","sourcePath":"components/components/CircularProgress/CircularProgress.jsx"},{"name":"CodeBlock","sourcePath":"components/components/CodeBlock/CodeBlock.jsx"},{"name":"Collapsible","sourcePath":"components/components/Collapsible/Collapsible.jsx"},{"name":"Colors","sourcePath":"components/foundations/Colors/Colors.jsx"},{"name":"ConnectorLogo","sourcePath":"components/components/ConnectorLogo/ConnectorLogo.jsx"},{"name":"DataSourceCard","sourcePath":"components/components/DataSourceCard/DataSourceCard.jsx"},{"name":"DropdownMenu","sourcePath":"components/components/DropdownMenu/DropdownMenu.jsx"},{"name":"File","sourcePath":"components/components/File/File.jsx"},{"name":"FilterChips","sourcePath":"components/components/FilterChips/FilterChips.jsx"},{"name":"IconButton","sourcePath":"components/components/IconButton/IconButton.jsx"},{"name":"Input","sourcePath":"components/components/Input/Input.jsx"},{"name":"InputGroup","sourcePath":"components/components/InputGroup/InputGroup.jsx"},{"name":"LinkButton","sourcePath":"components/components/LinkButton/LinkButton.jsx"},{"name":"MetaRow","sourcePath":"components/components/MetaRow/MetaRow.jsx"},{"name":"Modal","sourcePath":"components/components/Modal/Modal.jsx"},{"name":"PageHeader","sourcePath":"components/components/PageHeader/PageHeader.jsx"},{"name":"Pagination","sourcePath":"components/components/Pagination/Pagination.jsx"},{"name":"PasswordInput","sourcePath":"components/components/PasswordInput/PasswordInput.jsx"},{"name":"Popover","sourcePath":"components/components/Popover/Popover.jsx"},{"name":"ProgressBar","sourcePath":"components/components/ProgressBar/ProgressBar.jsx"},{"name":"RadioButton","sourcePath":"components/components/RadioButton/RadioButton.jsx"},{"name":"Radius","sourcePath":"components/foundations/Radius/Radius.jsx"},{"name":"ResizablePanelGroup","sourcePath":"components/components/ResizablePanelGroup/ResizablePanelGroup.jsx"},{"name":"ScrollShadow","sourcePath":"components/components/ScrollShadow/ScrollShadow.jsx"},{"name":"SegmentedControl","sourcePath":"components/components/SegmentedControl/SegmentedControl.jsx"},{"name":"Separator","sourcePath":"components/components/Separator/Separator.jsx"},{"name":"Shadows","sourcePath":"components/foundations/Shadows/Shadows.jsx"},{"name":"Sheet","sourcePath":"components/components/Sheet/Sheet.jsx"},{"name":"Sidebar","sourcePath":"components/components/Sidebar/Sidebar.jsx"},{"name":"SingleDatePicker","sourcePath":"components/components/SingleDatePicker/SingleDatePicker.jsx"},{"name":"Skeleton","sourcePath":"components/components/Skeleton/Skeleton.jsx"},{"name":"Spacing","sourcePath":"components/foundations/Spacing/Spacing.jsx"},{"name":"Spinner","sourcePath":"components/components/Spinner/Spinner.jsx"},{"name":"StatTile","sourcePath":"components/components/StatTile/StatTile.jsx"},{"name":"StatusView","sourcePath":"components/components/StatusView/StatusView.jsx"},{"name":"Stepper","sourcePath":"components/components/Stepper/Stepper.jsx"},{"name":"StepSlider","sourcePath":"components/components/StepSlider/StepSlider.jsx"},{"name":"Switch","sourcePath":"components/components/Switch/Switch.jsx"},{"name":"Table","sourcePath":"components/components/Table/Table.jsx"},{"name":"Tabs","sourcePath":"components/components/Tabs/Tabs.jsx"},{"name":"TextArea","sourcePath":"components/components/TextArea/TextArea.jsx"},{"name":"Timeline","sourcePath":"components/components/Timeline/Timeline.jsx"},{"name":"ToastMessage","sourcePath":"components/components/ToastMessage/ToastMessage.jsx"},{"name":"Toggle","sourcePath":"components/components/Toggle/Toggle.jsx"},{"name":"ToggleGroup","sourcePath":"components/components/ToggleGroup/ToggleGroup.jsx"},{"name":"Tooltip","sourcePath":"components/components/Tooltip/Tooltip.jsx"},{"name":"TruncatedTitleTooltip","sourcePath":"components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.jsx"},{"name":"Typography","sourcePath":"components/components/Typography/Typography.jsx"},{"name":"UploadTray","sourcePath":"components/components/UploadTray/UploadTray.jsx"}],"sourceHashes":{"components/components/Accordion/Accordion.jsx":"c9109aa7def8","components/components/Accordion/Accordion.d.ts":"7852b0d69453","components/components/Accordion/Accordion.prompt.md":"6875c58493da","components/components/Alert/Alert.jsx":"a72f58c3018c","components/components/Alert/Alert.d.ts":"6e0a8b40f090","components/components/Alert/Alert.prompt.md":"39ea815dbe41","components/components/Autocomplete/Autocomplete.jsx":"8d37f9e13e6a","components/components/Autocomplete/Autocomplete.d.ts":"d2bd98615dd5","components/components/Autocomplete/Autocomplete.prompt.md":"8d08c7efc116","components/components/Avatar/Avatar.jsx":"d1948df6447c","components/components/Avatar/Avatar.d.ts":"f6b12dc31372","components/components/Avatar/Avatar.prompt.md":"9db045aae5fd","components/components/Badge/Badge.jsx":"65463f87598c","components/components/Badge/Badge.d.ts":"4ffdb46114bf","components/components/Badge/Badge.prompt.md":"429d1f5847ab","components/components/Banner/Banner.jsx":"0eda78f5ca9a","components/components/Banner/Banner.d.ts":"991689fb890e","components/components/Banner/Banner.prompt.md":"2dfd4465d2b8","components/components/Button/Button.jsx":"e35bef339b68","components/components/Button/Button.d.ts":"4b2db331445b","components/components/Button/Button.prompt.md":"3ea6f1e77df3","components/components/Card/Card.jsx":"87f2edb5c191","components/components/Card/Card.d.ts":"31be656ea1f4","components/components/Card/Card.prompt.md":"43b97430f707","components/components/Checkbox/Checkbox.jsx":"498095f93ec8","components/components/Checkbox/Checkbox.d.ts":"f2d2a697bca1","components/components/Checkbox/Checkbox.prompt.md":"9895c3d87dbc","components/components/CircularProgress/CircularProgress.jsx":"bb187cb512b5","components/components/CircularProgress/CircularProgress.d.ts":"884e707eacea","components/components/CircularProgress/CircularProgress.prompt.md":"d0da6c42a2fa","components/components/CodeBlock/CodeBlock.jsx":"50d77c6e6712","components/components/CodeBlock/CodeBlock.d.ts":"98b9a8b82c23","components/components/CodeBlock/CodeBlock.prompt.md":"891cd85363cd","components/components/Collapsible/Collapsible.jsx":"7e78fc30108d","components/components/Collapsible/Collapsible.d.ts":"d966b6cec339","components/components/Collapsible/Collapsible.prompt.md":"82af7a826ee0","components/foundations/Colors/Colors.jsx":"4af9067be804","components/foundations/Colors/Colors.d.ts":"83a3601419db","components/foundations/Colors/Colors.prompt.md":"3d19095dc922","components/components/ConnectorLogo/ConnectorLogo.jsx":"94b621ecfbb8","components/components/ConnectorLogo/ConnectorLogo.d.ts":"450806ce7b7a","components/components/ConnectorLogo/ConnectorLogo.prompt.md":"ebf3ab11dd75","components/components/DataSourceCard/DataSourceCard.jsx":"b64cb746d5b6","components/components/DataSourceCard/DataSourceCard.d.ts":"11b8b43aae17","components/components/DataSourceCard/DataSourceCard.prompt.md":"19e704d14025","components/components/DropdownMenu/DropdownMenu.jsx":"7d8295ec70c1","components/components/DropdownMenu/DropdownMenu.d.ts":"deed981915e8","components/components/DropdownMenu/DropdownMenu.prompt.md":"2f3e9f7db225","components/components/File/File.jsx":"92209e40e2dc","components/components/File/File.d.ts":"8c5c0b52dec9","components/components/File/File.prompt.md":"3bcab9b34606","components/components/FilterChips/FilterChips.jsx":"234491644555","components/components/FilterChips/FilterChips.d.ts":"03eb00d7b7be","components/components/FilterChips/FilterChips.prompt.md":"44aa849dbfba","components/components/IconButton/IconButton.jsx":"b65c876b793f","components/components/IconButton/IconButton.d.ts":"da6757d47d63","components/components/IconButton/IconButton.prompt.md":"d0ad027a95f1","components/components/Input/Input.jsx":"e044594a998e","components/components/Input/Input.d.ts":"3c6a5a3836ec","components/components/Input/Input.prompt.md":"75b835afa372","components/components/InputGroup/InputGroup.jsx":"15fb32eadbc9","components/components/InputGroup/InputGroup.d.ts":"70092534a247","components/components/InputGroup/InputGroup.prompt.md":"825ba193ec3a","components/components/LinkButton/LinkButton.jsx":"37ab6f6de220","components/components/LinkButton/LinkButton.d.ts":"9997ffb0fbef","components/components/LinkButton/LinkButton.prompt.md":"7cd70b9a34a9","components/components/MetaRow/MetaRow.jsx":"61af274c74d1","components/components/MetaRow/MetaRow.d.ts":"2b90986d3f1e","components/components/MetaRow/MetaRow.prompt.md":"3513566a8661","components/components/Modal/Modal.jsx":"2de65e4a3661","components/components/Modal/Modal.d.ts":"9dd23c8e0811","components/components/Modal/Modal.prompt.md":"f51ad912dbde","components/components/PageHeader/PageHeader.jsx":"e9b5c1ac724f","components/components/PageHeader/PageHeader.d.ts":"47672ce8120f","components/components/PageHeader/PageHeader.prompt.md":"c6b7d9a24cc0","components/components/Pagination/Pagination.jsx":"522c693cfb53","components/components/Pagination/Pagination.d.ts":"aea5e1c2f7fb","components/components/Pagination/Pagination.prompt.md":"c359c17bf1ba","components/components/PasswordInput/PasswordInput.jsx":"90a7e850274a","components/components/PasswordInput/PasswordInput.d.ts":"c021f97749fe","components/components/PasswordInput/PasswordInput.prompt.md":"517e382b4b36","components/components/Popover/Popover.jsx":"7915914f31b4","components/components/Popover/Popover.d.ts":"5f7cb49f018e","components/components/Popover/Popover.prompt.md":"e31a3ea5df86","components/components/ProgressBar/ProgressBar.jsx":"c9a1730f6be5","components/components/ProgressBar/ProgressBar.d.ts":"df540b65eab7","components/components/ProgressBar/ProgressBar.prompt.md":"bd0801165930","components/components/RadioButton/RadioButton.jsx":"ff20b5e1fc5f","components/components/RadioButton/RadioButton.d.ts":"7b9ef560c834","components/components/RadioButton/RadioButton.prompt.md":"40e71d3aa79b","components/foundations/Radius/Radius.jsx":"6baa55c2edc4","components/foundations/Radius/Radius.d.ts":"090e9c459e42","components/foundations/Radius/Radius.prompt.md":"e00f87cefe4b","components/components/ResizablePanelGroup/ResizablePanelGroup.jsx":"ca14e2f50909","components/components/ResizablePanelGroup/ResizablePanelGroup.d.ts":"7869b5b95387","components/components/ResizablePanelGroup/ResizablePanelGroup.prompt.md":"5f4143c0224b","components/components/ScrollShadow/ScrollShadow.jsx":"fae5e1036115","components/components/ScrollShadow/ScrollShadow.d.ts":"a7ea46492a2c","components/components/ScrollShadow/ScrollShadow.prompt.md":"ba3625bda6d8","components/components/SegmentedControl/SegmentedControl.jsx":"9e2072f2143e","components/components/SegmentedControl/SegmentedControl.d.ts":"c71699a60deb","components/components/SegmentedControl/SegmentedControl.prompt.md":"7d5a6a47590e","components/components/Separator/Separator.jsx":"3ac499df52fb","components/components/Separator/Separator.d.ts":"84d7e4ba48dc","components/components/Separator/Separator.prompt.md":"5e306c5704ef","components/foundations/Shadows/Shadows.jsx":"dd44c2f4f342","components/foundations/Shadows/Shadows.d.ts":"6627419e442c","components/foundations/Shadows/Shadows.prompt.md":"e98e8ac33ac9","components/components/Sheet/Sheet.jsx":"dcc8488e3b4c","components/components/Sheet/Sheet.d.ts":"9365feac06c9","components/components/Sheet/Sheet.prompt.md":"454009a319c4","components/components/Sidebar/Sidebar.jsx":"47bcfdb3a699","components/components/Sidebar/Sidebar.d.ts":"1efe961dd44b","components/components/Sidebar/Sidebar.prompt.md":"4e05f1ef70a7","components/components/SingleDatePicker/SingleDatePicker.jsx":"48ba06984d3f","components/components/SingleDatePicker/SingleDatePicker.d.ts":"b4530e4f4a31","components/components/SingleDatePicker/SingleDatePicker.prompt.md":"ec185ba08f61","components/components/Skeleton/Skeleton.jsx":"b1406a947586","components/components/Skeleton/Skeleton.d.ts":"5c1203b51a27","components/components/Skeleton/Skeleton.prompt.md":"211027c6c087","components/foundations/Spacing/Spacing.jsx":"bf1d5fd66be1","components/foundations/Spacing/Spacing.d.ts":"1a53d4499309","components/foundations/Spacing/Spacing.prompt.md":"e05b59cb1e36","components/components/Spinner/Spinner.jsx":"af0fdac6e245","components/components/Spinner/Spinner.d.ts":"16d3ddb7fbdb","components/components/Spinner/Spinner.prompt.md":"f6cdbe285eae","components/components/StatTile/StatTile.jsx":"d143f019a8f9","components/components/StatTile/StatTile.d.ts":"45c65c9a789c","components/components/StatTile/StatTile.prompt.md":"99266ae7a6ab","components/components/StatusView/StatusView.jsx":"8a44ae4cdaf7","components/components/StatusView/StatusView.d.ts":"76f6eeb54e48","components/components/StatusView/StatusView.prompt.md":"0ccf3239d0db","components/components/Stepper/Stepper.jsx":"2d27743584f9","components/components/Stepper/Stepper.d.ts":"66dac2d07734","components/components/Stepper/Stepper.prompt.md":"62c0e3f653a8","components/components/StepSlider/StepSlider.jsx":"a3139bcbc434","components/components/StepSlider/StepSlider.d.ts":"4ed71ed92ef9","components/components/StepSlider/StepSlider.prompt.md":"d2a552854630","components/components/Switch/Switch.jsx":"ecf4b284ff82","components/components/Switch/Switch.d.ts":"5c6e2376485b","components/components/Switch/Switch.prompt.md":"2a3ea6b485ec","components/components/Table/Table.jsx":"d6f520022091","components/components/Table/Table.d.ts":"4d6ab6ee927a","components/components/Table/Table.prompt.md":"99545c043a2b","components/components/Tabs/Tabs.jsx":"fd0814586e41","components/components/Tabs/Tabs.d.ts":"a11e7f34a93f","components/components/Tabs/Tabs.prompt.md":"3b53d6fb2d95","components/components/TextArea/TextArea.jsx":"f04443d00503","components/components/TextArea/TextArea.d.ts":"9aca357becf8","components/components/TextArea/TextArea.prompt.md":"907ef4644bc2","components/components/Timeline/Timeline.jsx":"3edc724e94a5","components/components/Timeline/Timeline.d.ts":"bd4715087884","components/components/Timeline/Timeline.prompt.md":"1802e9f50dd9","components/components/ToastMessage/ToastMessage.jsx":"fcd0cff73a0b","components/components/ToastMessage/ToastMessage.d.ts":"a0f6ebd9a39a","components/components/ToastMessage/ToastMessage.prompt.md":"f0aa9d30ae51","components/components/Toggle/Toggle.jsx":"356282788f0a","components/components/Toggle/Toggle.d.ts":"56835184ee54","components/components/Toggle/Toggle.prompt.md":"e84dcda3064e","components/components/ToggleGroup/ToggleGroup.jsx":"8557f0da2a5f","components/components/ToggleGroup/ToggleGroup.d.ts":"9661813699b4","components/components/ToggleGroup/ToggleGroup.prompt.md":"73eae306c974","components/components/Tooltip/Tooltip.jsx":"7831d988b558","components/components/Tooltip/Tooltip.d.ts":"11ac3babb516","components/components/Tooltip/Tooltip.prompt.md":"bf550a0da747","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.jsx":"f3ff79d6b89d","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.d.ts":"77100c639c53","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.prompt.md":"1e144ae52963","components/components/Typography/Typography.jsx":"08d9210ac679","components/components/Typography/Typography.d.ts":"947153270961","components/components/Typography/Typography.prompt.md":"48687cfa05fb","components/components/UploadTray/UploadTray.jsx":"bbe33963766b","components/components/UploadTray/UploadTray.d.ts":"d72876e348f7","components/components/UploadTray/UploadTray.prompt.md":"c112c00e513a"},"inlinedExternals":[".pnpm"],"builtBy":"cc-design-sync"} */
 "use strict";
 var DevartUI = (() => {
   var __create = Object.create;
@@ -103,6 +103,7 @@ var DevartUI = (() => {
     AccordionContent: () => AccordionContent3,
     AccordionItem: () => AccordionItem3,
     AccordionTrigger: () => AccordionTrigger3,
+    Alert: () => Alert,
     Autocomplete: () => Autocomplete,
     Avatar: () => Avatar3,
     AvatarFallback: () => AvatarFallback3,
@@ -126,11 +127,13 @@ var DevartUI = (() => {
     Checkbox: () => Checkbox3,
     CheckboxGroup: () => CheckboxGroup,
     CircularProgress: () => CircularProgress,
+    CodeBlock: () => CodeBlock,
     Collapsible: () => Collapsible3,
     CollapsibleContent: () => CollapsibleContent3,
     CollapsibleTrigger: () => CollapsibleTrigger3,
     Colors: () => Colors,
     ConnectorLogo: () => ConnectorLogo,
+    DataSourceCard: () => DataSourceCard,
     DateRangePicker: () => DateRangePicker,
     DialogTitleFallback: () => DialogTitleFallback,
     DropdownMenu: () => DropdownMenu2,
@@ -142,11 +145,14 @@ var DevartUI = (() => {
     DropdownMenuPortal: () => DropdownMenuPortal2,
     DropdownMenuRadioGroup: () => DropdownMenuRadioGroup3,
     DropdownMenuRadioItem: () => DropdownMenuRadioItem3,
+    DropdownMenuRow: () => DropdownMenuRow,
     DropdownMenuSeparator: () => DropdownMenuSeparator,
     DropdownMenuShortcut: () => DropdownMenuShortcut,
     DropdownMenuSub: () => DropdownMenuSub2,
     DropdownMenuSubContent: () => DropdownMenuSubContent3,
     DropdownMenuTrigger: () => DropdownMenuTrigger3,
+    EmptySearchIllustration: () => EmptySearchIllustration,
+    EmptyStateIllustration: () => EmptyStateIllustration,
     File: () => File2,
     FileSkeleton: () => FileSkeleton,
     FilterChip: () => FilterChip,
@@ -154,8 +160,13 @@ var DevartUI = (() => {
     IconButton: () => IconButton,
     Input: () => Input,
     InputGroup: () => InputGroup,
+    InputGroupAction: () => InputGroupAction,
     InputGroupAddon: () => InputGroupAddon,
     InputGroupInput: () => InputGroupInput,
+    LinkButton: () => LinkButton,
+    MetaRow: () => MetaRow,
+    MetaRowCount: () => MetaRowCount,
+    MetaRowEnd: () => MetaRowEnd,
     Modal: () => Modal,
     ModalBody: () => ModalBody,
     ModalClose: () => ModalClose,
@@ -175,6 +186,7 @@ var DevartUI = (() => {
     PopoverTrigger: () => PopoverTrigger3,
     PortalContainerContext: () => PortalContainerContext,
     PortalContainerProvider: () => PortalContainerProvider,
+    Primitives: () => Primitives,
     ProgressBar: () => ProgressBar,
     RadioButton: () => RadioButton,
     RadioGroup: () => RadioGroup4,
@@ -221,9 +233,11 @@ var DevartUI = (() => {
     Skeleton: () => Skeleton,
     Spacing: () => Spacing,
     Spinner: () => Spinner,
+    StatTile: () => StatTile,
     StatusView: () => StatusView,
     StepSlider: () => StepSlider,
     Stepper: () => Stepper,
+    StepperIndicator: () => StepperIndicator,
     Switch: () => Switch3,
     Table: () => Table,
     TableActionsCell: () => TableActionsCell,
@@ -255,6 +269,9 @@ var DevartUI = (() => {
     TooltipTrigger: () => TooltipTrigger3,
     TruncatedTitleTooltip: () => TruncatedTitleTooltip,
     Typography: () => Typography,
+    UploadTray: () => UploadTray,
+    UploadTrayItem: () => UploadTrayItem,
+    alertVariants: () => alertVariants,
     avatarVariants: () => avatarVariants,
     badgeVariants: () => badgeVariants,
     bannerCloseVariants: () => bannerCloseVariants,
@@ -266,15 +283,22 @@ var DevartUI = (() => {
     cardVariants: () => cardVariants,
     checkboxVariants: () => checkboxVariants,
     cn: () => cn,
+    codeBlockVariants: () => codeBlockVariants,
     connectorLogoVariants: () => connectorLogoVariants,
     containerVariants: () => containerVariants,
+    dataSourceCardVariants: () => dataSourceCardVariants,
     fileVariants: () => fileVariants,
     filterChipVariants: () => filterChipVariants,
     focusRing: () => focusRing,
     formFocusRing: () => formFocusRing,
+    glyphStroke: () => glyphStroke,
     inputGroupVariants: () => inputGroupVariants,
     isNavigationGroup: () => isNavigationGroup,
     isNavigationItem: () => isNavigationItem,
+    itemVariants: () => itemVariants,
+    liftOnHover: () => liftOnHover,
+    linkButtonVariants: () => linkButtonVariants,
+    metaRowVariants: () => metaRowVariants,
     modalContentVariants: () => modalContentVariants,
     radioVariants: () => radioVariants,
     segmentedControlContentVariants: () => segmentedControlContentVariants,
@@ -283,12 +307,14 @@ var DevartUI = (() => {
     sidebarMenuButtonVariants: () => sidebarMenuButtonVariants,
     skeletonVariants: () => skeletonVariants,
     spinnerVariants: () => spinnerVariants,
+    statTileVariants: () => statTileVariants,
     switchVariants: () => switchVariants,
     tabsTriggerVariants: () => tabsTriggerVariants,
     textAreaVariants: () => textAreaVariants,
     toast: () => toast2,
     toggleGroup_toggleVariants: () => toggleVariants,
     toggleVariants: () => toggleVariants,
+    uploadTrayVariants: () => uploadTrayVariants,
     useIsMobile: () => useIsMobile,
     useMaxWidth: () => useMaxWidth,
     usePortalContainer: () => usePortalContainer,
@@ -5386,7 +5412,9 @@ var DevartUI = (() => {
     return twMerge(clsx(inputs));
   }
   var focusRing = cn("focus-visible:outline-none", "focus-visible:ring-2 focus-visible:ring-offset-2", "focus-visible:ring-offset-surface-card", "focus-visible:ring-focus-ring-brand");
+  var glyphStroke = "[&_svg]:stroke-[1.75]";
   var formFocusRing = cn("focus-visible:outline-none", "focus-visible:ring-2 focus-visible:ring-offset-2", "focus-visible:ring-offset-surface-card", "focus-visible:ring-state-focus-ring");
+  var liftOnHover = (distance = 1) => cn("transition-[box-shadow,border-color,transform] duration-base", distance === 1 ? "hover:-translate-y-px" : "hover:-translate-y-0.5", "hover:border-card-lift-border hover:shadow-lift-hover");
 
   // dist/components/Accordion/Accordion.js
   function Accordion3({ className, ...props }) {
@@ -5403,8 +5431,68 @@ var DevartUI = (() => {
   // dist/components/Accordion/AccordionItem.js
   init_define_import_meta_env();
   var import_jsx_runtime10 = __toESM(require_react_shim(), 1);
-  var AccordionItem3 = ({ className, ...props }) => {
-    return (0, import_jsx_runtime10.jsx)(Item, { "data-slot": "accordion-item", className: cn("not-last:border-stroke not-last:border-b", className), ...props });
+
+  // node_modules/.pnpm/class-variance-authority@0.7.1/node_modules/class-variance-authority/dist/index.mjs
+  init_define_import_meta_env();
+  var falsyToString = (value) => typeof value === "boolean" ? `${value}` : value === 0 ? "0" : value;
+  var cx = clsx;
+  var cva = (base, config) => (props) => {
+    var _config_compoundVariants;
+    if ((config === null || config === void 0 ? void 0 : config.variants) == null) return cx(base, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
+    const { variants, defaultVariants } = config;
+    const getVariantClassNames = Object.keys(variants).map((variant) => {
+      const variantProp = props === null || props === void 0 ? void 0 : props[variant];
+      const defaultVariantProp = defaultVariants === null || defaultVariants === void 0 ? void 0 : defaultVariants[variant];
+      if (variantProp === null) return null;
+      const variantKey = falsyToString(variantProp) || falsyToString(defaultVariantProp);
+      return variants[variant][variantKey];
+    });
+    const propsWithoutUndefined = props && Object.entries(props).reduce((acc, param) => {
+      let [key, value] = param;
+      if (value === void 0) {
+        return acc;
+      }
+      acc[key] = value;
+      return acc;
+    }, {});
+    const getCompoundVariantClassNames = config === null || config === void 0 ? void 0 : (_config_compoundVariants = config.compoundVariants) === null || _config_compoundVariants === void 0 ? void 0 : _config_compoundVariants.reduce((acc, param) => {
+      let { class: cvClass, className: cvClassName, ...compoundVariantOptions } = param;
+      return Object.entries(compoundVariantOptions).every((param2) => {
+        let [key, value] = param2;
+        return Array.isArray(value) ? value.includes({
+          ...defaultVariants,
+          ...propsWithoutUndefined
+        }[key]) : {
+          ...defaultVariants,
+          ...propsWithoutUndefined
+        }[key] === value;
+      }) ? [
+        ...acc,
+        cvClass,
+        cvClassName
+      ] : acc;
+    }, []);
+    return cx(base, getVariantClassNames, getCompoundVariantClassNames, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
+  };
+
+  // dist/components/Accordion/AccordionItem.js
+  var accordionItemVariants = cva("", {
+    variants: {
+      variant: {
+        /** Items stacked inside one surface, separated by a hairline. */
+        divided: "not-last:border-stroke not-last:border-b",
+        /**
+         * The item IS the surface — one `Card` per section, spaced by the
+         * accordion's own gap. No divider: the card edges already separate them,
+         * and a rule inside the last-but-one card reads as a defect.
+         */
+        standalone: ""
+      }
+    },
+    defaultVariants: { variant: "divided" }
+  });
+  var AccordionItem3 = ({ className, variant, ...props }) => {
+    return (0, import_jsx_runtime10.jsx)(Item, { "data-slot": "accordion-item", className: cn(accordionItemVariants({ variant }), className), ...props });
   };
   AccordionItem3.displayName = "AccordionItem";
 
@@ -5591,18 +5679,26 @@ var DevartUI = (() => {
   var __iconNode12 = [["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]];
   var Circle = createLucideIcon("circle", __iconNode12);
 
-  // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/ellipsis.js
+  // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/copy.js
   init_define_import_meta_env();
   var __iconNode13 = [
+    ["rect", { width: "14", height: "14", x: "8", y: "8", rx: "2", ry: "2", key: "17jyea" }],
+    ["path", { d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2", key: "zix9uf" }]
+  ];
+  var Copy = createLucideIcon("copy", __iconNode13);
+
+  // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/ellipsis.js
+  init_define_import_meta_env();
+  var __iconNode14 = [
     ["circle", { cx: "12", cy: "12", r: "1", key: "41hilf" }],
     ["circle", { cx: "19", cy: "12", r: "1", key: "1wjl8i" }],
     ["circle", { cx: "5", cy: "12", r: "1", key: "1pcz8c" }]
   ];
-  var Ellipsis = createLucideIcon("ellipsis", __iconNode13);
+  var Ellipsis = createLucideIcon("ellipsis", __iconNode14);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/eye-off.js
   init_define_import_meta_env();
-  var __iconNode14 = [
+  var __iconNode15 = [
     [
       "path",
       {
@@ -5620,11 +5716,11 @@ var DevartUI = (() => {
     ],
     ["path", { d: "m2 2 20 20", key: "1ooewy" }]
   ];
-  var EyeOff = createLucideIcon("eye-off", __iconNode14);
+  var EyeOff = createLucideIcon("eye-off", __iconNode15);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/eye.js
   init_define_import_meta_env();
-  var __iconNode15 = [
+  var __iconNode16 = [
     [
       "path",
       {
@@ -5634,11 +5730,11 @@ var DevartUI = (() => {
     ],
     ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
   ];
-  var Eye = createLucideIcon("eye", __iconNode15);
+  var Eye = createLucideIcon("eye", __iconNode16);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/file.js
   init_define_import_meta_env();
-  var __iconNode16 = [
+  var __iconNode17 = [
     [
       "path",
       {
@@ -5648,11 +5744,11 @@ var DevartUI = (() => {
     ],
     ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }]
   ];
-  var File = createLucideIcon("file", __iconNode16);
+  var File = createLucideIcon("file", __iconNode17);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/grip-vertical.js
   init_define_import_meta_env();
-  var __iconNode17 = [
+  var __iconNode18 = [
     ["circle", { cx: "9", cy: "12", r: "1", key: "1vctgf" }],
     ["circle", { cx: "9", cy: "5", r: "1", key: "hp0tcf" }],
     ["circle", { cx: "9", cy: "19", r: "1", key: "fkjjf6" }],
@@ -5660,11 +5756,11 @@ var DevartUI = (() => {
     ["circle", { cx: "15", cy: "5", r: "1", key: "19l28e" }],
     ["circle", { cx: "15", cy: "19", r: "1", key: "f4zoj3" }]
   ];
-  var GripVertical = createLucideIcon("grip-vertical", __iconNode17);
+  var GripVertical = createLucideIcon("grip-vertical", __iconNode18);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/inbox.js
   init_define_import_meta_env();
-  var __iconNode18 = [
+  var __iconNode19 = [
     ["polyline", { points: "22 12 16 12 14 15 10 15 8 12 2 12", key: "o97t9d" }],
     [
       "path",
@@ -5674,61 +5770,69 @@ var DevartUI = (() => {
       }
     ]
   ];
-  var Inbox = createLucideIcon("inbox", __iconNode18);
+  var Inbox = createLucideIcon("inbox", __iconNode19);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/info.js
   init_define_import_meta_env();
-  var __iconNode19 = [
+  var __iconNode20 = [
     ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
     ["path", { d: "M12 16v-4", key: "1dtifu" }],
     ["path", { d: "M12 8h.01", key: "e9boi3" }]
   ];
-  var Info = createLucideIcon("info", __iconNode19);
+  var Info = createLucideIcon("info", __iconNode20);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/loader-circle.js
   init_define_import_meta_env();
-  var __iconNode20 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
-  var LoaderCircle = createLucideIcon("loader-circle", __iconNode20);
+  var __iconNode21 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
+  var LoaderCircle = createLucideIcon("loader-circle", __iconNode21);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/lock.js
   init_define_import_meta_env();
-  var __iconNode21 = [
+  var __iconNode22 = [
     ["rect", { width: "18", height: "11", x: "3", y: "11", rx: "2", ry: "2", key: "1w4ew1" }],
     ["path", { d: "M7 11V7a5 5 0 0 1 10 0v4", key: "fwvmzm" }]
   ];
-  var Lock = createLucideIcon("lock", __iconNode21);
+  var Lock = createLucideIcon("lock", __iconNode22);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/panel-left.js
   init_define_import_meta_env();
-  var __iconNode22 = [
+  var __iconNode23 = [
     ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }],
     ["path", { d: "M9 3v18", key: "fh3hqa" }]
   ];
-  var PanelLeft = createLucideIcon("panel-left", __iconNode22);
+  var PanelLeft = createLucideIcon("panel-left", __iconNode23);
+
+  // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/plus.js
+  init_define_import_meta_env();
+  var __iconNode24 = [
+    ["path", { d: "M5 12h14", key: "1ays0h" }],
+    ["path", { d: "M12 5v14", key: "s699le" }]
+  ];
+  var Plus = createLucideIcon("plus", __iconNode24);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/refresh-ccw.js
   init_define_import_meta_env();
-  var __iconNode23 = [
+  var __iconNode25 = [
     ["path", { d: "M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "14sxne" }],
     ["path", { d: "M3 3v5h5", key: "1xhq8a" }],
     ["path", { d: "M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16", key: "1hlbsb" }],
     ["path", { d: "M16 16h5v5", key: "ccwih5" }]
   ];
-  var RefreshCcw = createLucideIcon("refresh-ccw", __iconNode23);
+  var RefreshCcw = createLucideIcon("refresh-ccw", __iconNode25);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/refresh-cw.js
   init_define_import_meta_env();
-  var __iconNode24 = [
+  var __iconNode26 = [
     ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
     ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
     ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
     ["path", { d: "M8 16H3v5", key: "1cv678" }]
   ];
-  var RefreshCw = createLucideIcon("refresh-cw", __iconNode24);
+  var RefreshCw = createLucideIcon("refresh-cw", __iconNode26);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/triangle-alert.js
   init_define_import_meta_env();
-  var __iconNode25 = [
+  var __iconNode27 = [
     [
       "path",
       {
@@ -5739,25 +5843,81 @@ var DevartUI = (() => {
     ["path", { d: "M12 9v4", key: "juzpu7" }],
     ["path", { d: "M12 17h.01", key: "p32p05" }]
   ];
-  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode25);
+  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode27);
 
   // node_modules/.pnpm/lucide-react@0.562.0_react@19.3.0/node_modules/lucide-react/dist/esm/icons/x.js
   init_define_import_meta_env();
-  var __iconNode26 = [
+  var __iconNode28 = [
     ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
     ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
   ];
-  var X = createLucideIcon("x", __iconNode26);
+  var X = createLucideIcon("x", __iconNode28);
 
   // dist/components/Accordion/AccordionTrigger.js
-  var AccordionTrigger3 = ({ className, children, ...props }) => {
-    return (0, import_jsx_runtime11.jsx)(Header, { "data-testid": "accordion-header", className: "flex", children: (0, import_jsx_runtime11.jsxs)(Trigger2, { "data-slot": "accordion-trigger", className: cn("group/accordion-trigger", "relative flex flex-1 items-center justify-between gap-3", "rounded-lg p-3", "text-ink-primary text-sm", "font-medium", focusRing, "transition-all", "disabled:pointer-events-none", "disabled:cursor-not-allowed", "disabled:opacity-disabled", "[&[data-state=open]>svg]:rotate-180", className), ...props, children: [children, (0, import_jsx_runtime11.jsx)(ChevronDown, { className: "pointer-events-none size-4 shrink-0 text-ink-secondary transition-transform duration-base" })] }) });
+  var AccordionTrigger3 = ({ className, children, size: size4 = "sm", ...props }) => {
+    return (0, import_jsx_runtime11.jsx)(Header, { "data-testid": "accordion-header", className: "flex", children: (0, import_jsx_runtime11.jsxs)(Trigger2, { "data-slot": "accordion-trigger", className: cn("group/accordion-trigger", "relative flex flex-1 items-center justify-between gap-3", "rounded-lg p-3", "text-ink-primary", size4 === "md" ? "text-base" : "text-sm", "font-medium", focusRing, "transition-all", "disabled:pointer-events-none", "disabled:cursor-not-allowed", "disabled:opacity-disabled", "[&[data-state=open]>svg]:rotate-180", className), ...props, children: [children, (0, import_jsx_runtime11.jsx)(ChevronDown, { className: "pointer-events-none size-4 shrink-0 text-ink-secondary transition-transform duration-base" })] }) });
   };
   AccordionTrigger3.displayName = Trigger2.displayName;
 
+  // dist/components/Alert/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime12 = __toESM(require_react_shim(), 1);
+  var alertVariants = cva(
+    /* px is one step tighter than py so the title lands on the same vertical as unboxed text
+       beside it — a bordered block's inner text otherwise never joins a list's column. */
+    cn("flex items-start gap-2.5", "rounded-lg border px-2 py-2.5"),
+    {
+      variants: {
+        /* The four tinted surfaces come from --alert-bg-* / --alert-border-*, which
+           have the same shape Toast's do: a color-mix() over Surface/Card, so the
+           block does not take the colour of whatever it is dropped onto, and the
+           wash steps 5% -> 8% in dark inside the token rather than in a class here. */
+        variant: {
+          success: "border-alert-border-success bg-alert-bg-success",
+          info: "border-alert-border-info bg-alert-bg-info",
+          warning: "border-alert-border-warning bg-alert-bg-warning",
+          error: "border-alert-border-error bg-alert-bg-error",
+          /* Neutral is Alert's own — Toast has no counterpart, because nothing
+             floats over the page to say something colourless. It is the one variant
+             with no colour to wash with, and a 5% grey is not a surface, it is a
+             smudge, so it takes a quiet surface and the ordinary border instead.
+             Surface/Card2, not Surface/Chips: on dark, Chips resolves to the SAME
+             grey as Stroke/Border, so fill and edge collapsed into one bright slab
+             while on light they sat clearly apart — the themes stopped agreeing. */
+          neutral: "border-stroke-border bg-surface-card2"
+        }
+      },
+      defaultVariants: { variant: "neutral" }
+    }
+  );
+  var ICON_TONE = {
+    success: "text-fb-green",
+    info: "text-brand-tertiary",
+    warning: "text-fb-attention",
+    error: "text-fb-red-text",
+    neutral: "text-ink-secondary"
+  };
+  var Alert = ({ title, description, titleClassName, descriptionClassName, icon, iconClassName, actions, actionsClassName, variant = "neutral", className, ref, ...props }) => (
+    /* `status`, not `alert`: these announce a state change politely and must not
+       interrupt what the person is doing. A true `alert` role is for something
+       that cannot wait, which none of these are. */
+    (0, import_jsx_runtime12.jsxs)("div", { ref, role: "status", className: cn(alertVariants({ variant }), className), ...props, children: [icon ? (
+      /* No nudge: the glyph box is 16px and so is the title's line box, so they
+         align by being the same box. */
+      (0, import_jsx_runtime12.jsx)("span", { "aria-hidden": "true", className: cn("flex shrink-0 [&_svg]:size-4", ICON_TONE[variant ?? "neutral"], iconClassName), children: icon })
+    ) : null, (0, import_jsx_runtime12.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-0.5", children: [(0, import_jsx_runtime12.jsx)("span", { className: cn("font-semibold text-ink-primary text-xs leading-4", titleClassName), children: title }), description ? (0, import_jsx_runtime12.jsx)("span", { className: cn("font-normal text-ink-secondary text-xs leading-4", descriptionClassName), children: description }) : null] }), actions ? (0, import_jsx_runtime12.jsx)("div", { className: cn(
+      "flex shrink-0 items-center gap-1.5 self-center",
+      // Under `sm` the actions drop under the copy instead of squeezing it
+      // into a column of single words.
+      "max-sm:w-full max-sm:self-start max-sm:pl-6",
+      actionsClassName
+    ), children: actions }) : null] })
+  );
+  Alert.displayName = "Alert";
+
   // dist/components/Autocomplete/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime40 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime46 = __toESM(require_react_shim(), 1);
   var import_react18 = __toESM(require_react_shim(), 1);
 
   // dist/hooks/use-autocomplete/index.js
@@ -6712,7 +6872,7 @@ var DevartUI = (() => {
   __name14(useCallbackRef, "useCallbackRef");
 
   // node_modules/.pnpm/@radix-ui+react-dismissable_63d83a7d3b4f9e2b0ed627cec6beace0/node_modules/@radix-ui/react-dismissable-layer/dist/index.mjs
-  var import_jsx_runtime12 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime13 = __toESM(require_react_shim(), 1);
   var __defProp16 = Object.defineProperty;
   var __name15 = (target, value) => __defProp16(target, "name", { value, configurable: true });
   var CONTEXT_UPDATE = "dismissableLayer.update";
@@ -6844,7 +7004,7 @@ var DevartUI = (() => {
         document.addEventListener(CONTEXT_UPDATE, handleUpdate);
         return () => document.removeEventListener(CONTEXT_UPDATE, handleUpdate);
       }, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
         Primitive.div,
         {
           ...layerProps,
@@ -7095,7 +7255,7 @@ var DevartUI = (() => {
   // node_modules/.pnpm/@radix-ui+react-focus-scope_6bcc4670baa1061bdd384d2d25a112d2/node_modules/@radix-ui/react-focus-scope/dist/index.mjs
   init_define_import_meta_env();
   var React17 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime13 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime14 = __toESM(require_react_shim(), 1);
   var __defProp18 = Object.defineProperty;
   var __name17 = (target, value) => __defProp18(target, "name", { value, configurable: true });
   var AUTOFOCUS_ON_MOUNT = "focusScope.autoFocusOnMount";
@@ -7219,7 +7379,7 @@ var DevartUI = (() => {
         },
         [loop, trapped, focusScope.paused]
       );
-      return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Primitive.div, { tabIndex: -1, ...scopeProps, ref: composedRefs, onKeyDown: handleKeyDown });
+      return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Primitive.div, { tabIndex: -1, ...scopeProps, ref: composedRefs, onKeyDown: handleKeyDown });
     }, "FocusScope")
   );
   function focusFirst(candidates, { select = false } = {}) {
@@ -9237,13 +9397,13 @@ var DevartUI = (() => {
   // node_modules/.pnpm/@radix-ui+react-arrow@1.1.1_bf9b4f75beca64ced512d261c5f439fc/node_modules/@radix-ui/react-arrow/dist/index.mjs
   init_define_import_meta_env();
   var React19 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime14 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime15 = __toESM(require_react_shim(), 1);
   var __defProp19 = Object.defineProperty;
   var __name18 = (target, value) => __defProp19(target, "name", { value, configurable: true });
   var Arrow = /* @__PURE__ */ React19.forwardRef(
     /* @__PURE__ */ __name18(function Arrow2(props, forwardedRef) {
       const { children, width = 10, height = 5, ...arrowProps } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
         Primitive.svg,
         {
           ...arrowProps,
@@ -9252,7 +9412,7 @@ var DevartUI = (() => {
           height,
           viewBox: "0 0 30 10",
           preserveAspectRatio: "none",
-          children: props.asChild ? children : /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("polygon", { points: "0,0 30,0 15,10" })
+          children: props.asChild ? children : /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("polygon", { points: "0,0 30,0 15,10" })
         }
       );
     }, "Arrow")
@@ -9301,7 +9461,7 @@ var DevartUI = (() => {
   __name19(useSize, "useSize");
 
   // node_modules/.pnpm/@radix-ui+react-popper@1.3._52cb9ef0cc07f4aeb883eb1cebc5f1e0/node_modules/@radix-ui/react-popper/dist/index.mjs
-  var import_jsx_runtime15 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime16 = __toESM(require_react_shim(), 1);
   var __defProp21 = Object.defineProperty;
   var __name20 = (target, value) => __defProp21(target, "name", { value, configurable: true });
   var POPPER_NAME = "Popper";
@@ -9311,7 +9471,7 @@ var DevartUI = (() => {
     const { __scopePopper, children } = props;
     const [anchor, setAnchor] = React21.useState(null);
     const [placementState, setPlacementState] = React21.useState(void 0);
-    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
       PopperProvider,
       {
         scope: __scopePopper,
@@ -9354,7 +9514,7 @@ var DevartUI = (() => {
       const sideAndAlign = context.placementState && getSideAndAlignFromPlacement(context.placementState);
       const placedSide = sideAndAlign?.[0];
       const placedAlign = sideAndAlign?.[1];
-      return virtualRef ? null : /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+      return virtualRef ? null : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         Primitive.div,
         {
           "data-radix-popper-side": placedSide,
@@ -9472,7 +9632,7 @@ var DevartUI = (() => {
       useLayoutEffect2(() => {
         if (content) setContentZIndex(window.getComputedStyle(content).zIndex);
       }, [content]);
-      return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         "div",
         {
           ref: refs.setFloating,
@@ -9496,7 +9656,7 @@ var DevartUI = (() => {
             }
           },
           dir: props.dir,
-          children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
             PopperContentProvider,
             {
               scope: __scopePopper,
@@ -9506,7 +9666,7 @@ var DevartUI = (() => {
               arrowX,
               arrowY,
               shouldHideArrow: cannotCenterArrow,
-              children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+              children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
                 Primitive.div,
                 {
                   "data-side": placedSide,
@@ -9544,7 +9704,7 @@ var DevartUI = (() => {
         // we have to use an extra wrapper because `ResizeObserver` (used by `useSize`)
         // doesn't report size as we'd expect on SVG elements.
         // it reports their bounding box which is effectively the largest path inside the SVG.
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
           "span",
           {
             ref: contentContext.onArrowChange,
@@ -9567,7 +9727,7 @@ var DevartUI = (() => {
               }[contentContext.placedSide],
               visibility: contentContext.shouldHideArrow ? "hidden" : void 0
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
               Root3,
               {
                 ...arrowProps,
@@ -9633,7 +9793,7 @@ var DevartUI = (() => {
   init_define_import_meta_env();
   var React25 = __toESM(require_react_shim(), 1);
   var ReactDOM3 = __toESM(require_react_dom_shim(), 1);
-  var import_jsx_runtime16 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime17 = __toESM(require_react_shim(), 1);
   var __defProp22 = Object.defineProperty;
   var __name21 = (target, value) => __defProp22(target, "name", { value, configurable: true });
   var Portal = /* @__PURE__ */ React25.forwardRef(
@@ -9642,7 +9802,7 @@ var DevartUI = (() => {
       const [mounted, setMounted] = React25.useState(false);
       useLayoutEffect2(() => setMounted(true), []);
       const container = containerProp || mounted && globalThis?.document?.body;
-      return container ? ReactDOM3.createPortal(/* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Primitive.div, { ...portalProps, ref: forwardedRef }), container) : null;
+      return container ? ReactDOM3.createPortal(/* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Primitive.div, { ...portalProps, ref: forwardedRef }), container) : null;
     }, "Portal")
   );
 
@@ -9685,7 +9845,7 @@ var DevartUI = (() => {
   var useIsHydrated2 = typeof useReactSyncExternalStore === "function" ? useIsHydratedModern : useIsHydrated;
 
   // node_modules/.pnpm/@radix-ui+react-roving-focu_75cc637b05e67b9bc8e40a432ccef040/node_modules/@radix-ui/react-roving-focus/dist/index.mjs
-  var import_jsx_runtime17 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime18 = __toESM(require_react_shim(), 1);
   var __defProp24 = Object.defineProperty;
   var __name23 = (target, value) => __defProp24(target, "name", { value, configurable: true });
   var ENTRY_FOCUS = "rovingFocusGroup.onEntryFocus";
@@ -9700,7 +9860,7 @@ var DevartUI = (() => {
   var RovingFocusGroup = /* @__PURE__ */ React28.forwardRef(
     // blank line to reduce diff noise
     /* @__PURE__ */ __name23(function RovingFocusGroup2(props, forwardedRef) {
-      return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Collection2.Provider, { scope: props.__scopeRovingFocusGroup, children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Collection2.Slot, { scope: props.__scopeRovingFocusGroup, children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(RovingFocusGroupImpl, { ...props, ref: forwardedRef }) }) });
+      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Collection2.Provider, { scope: props.__scopeRovingFocusGroup, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Collection2.Slot, { scope: props.__scopeRovingFocusGroup, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(RovingFocusGroupImpl, { ...props, ref: forwardedRef }) }) });
     }, "RovingFocusGroup")
   );
   var RovingFocusGroupImpl = /* @__PURE__ */ React28.forwardRef(/* @__PURE__ */ __name23(function RovingFocusGroupImpl2(props, forwardedRef) {
@@ -9737,7 +9897,7 @@ var DevartUI = (() => {
         return () => node.removeEventListener(ENTRY_FOCUS, handleEntryFocus);
       }
     }, [handleEntryFocus]);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
       RovingFocusProvider,
       {
         scope: __scopeRovingFocusGroup,
@@ -9758,7 +9918,7 @@ var DevartUI = (() => {
           () => setFocusableItemsCount((prevCount) => prevCount - 1),
           []
         ),
-        children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
           Primitive.div,
           {
             tabIndex: isTabbingBackOut || focusableItemsCount === 0 ? -1 : 0,
@@ -9826,14 +9986,14 @@ var DevartUI = (() => {
         onFocusableItemAdd();
         return () => onFocusableItemRemove();
       }, [isHydrated, focusable, onFocusableItemAdd, onFocusableItemRemove]);
-      return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
         Collection2.ItemSlot,
         {
           scope: __scopeRovingFocusGroup,
           id,
           focusable,
           active,
-          children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
             Primitive.span,
             {
               tabIndex: isCurrentTabStop ? 0 : -1,
@@ -10799,7 +10959,7 @@ var DevartUI = (() => {
   var Combination_default = ReactRemoveScroll;
 
   // node_modules/.pnpm/@radix-ui+react-menu@2.1.24_6b2f0594655ce3425712f5f55c3b8b9d/node_modules/@radix-ui/react-menu/dist/index.mjs
-  var import_jsx_runtime18 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime19 = __toESM(require_react_shim(), 1);
   var __defProp25 = Object.defineProperty;
   var __name24 = (target, value) => __defProp25(target, "name", { value, configurable: true });
   var SELECTION_KEYS = ["Enter", " "];
@@ -10854,7 +11014,7 @@ var DevartUI = (() => {
       window.addEventListener("blur", handleBlur);
       return () => window.removeEventListener("blur", handleBlur);
     }, [open, handleOpenChange]);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
       MenuProvider,
       {
         scope: __scopeMenu,
@@ -10862,7 +11022,7 @@ var DevartUI = (() => {
         onOpenChange: handleOpenChange,
         content,
         onContentChange: setContent,
-        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           MenuRootProvider,
           {
             scope: __scopeMenu,
@@ -10880,7 +11040,7 @@ var DevartUI = (() => {
     /* @__PURE__ */ __name24(function MenuAnchor2(props, forwardedRef) {
       const { __scopeMenu, ...anchorProps } = props;
       const popperScope = usePopperScope(__scopeMenu);
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Anchor, { ...popperScope, ...anchorProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Anchor, { ...popperScope, ...anchorProps, ref: forwardedRef });
     }, "MenuAnchor")
   );
   var PORTAL_NAME = "MenuPortal";
@@ -10890,7 +11050,7 @@ var DevartUI = (() => {
   var MenuPortal = /* @__PURE__ */ __name24((props) => {
     const { __scopeMenu, forceMount, children, container } = props;
     const context = useMenuContext(PORTAL_NAME, __scopeMenu);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(PortalProvider, { scope: __scopeMenu, forceMount, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Portal, { asChild: true, container, children }) }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(PortalProvider, { scope: __scopeMenu, forceMount, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Portal, { asChild: true, container, children }) }) });
   }, "MenuPortal");
   var CONTENT_NAME4 = "MenuContent";
   var [MenuContentProvider, useMenuContentContext] = createMenuContext(CONTENT_NAME4);
@@ -10900,7 +11060,7 @@ var DevartUI = (() => {
       const { forceMount = portalContext.forceMount, ...contentProps } = props;
       const context = useMenuContext(CONTENT_NAME4, props.__scopeMenu);
       const rootContext = useMenuRootContext(CONTENT_NAME4, props.__scopeMenu);
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Collection3.Provider, { scope: props.__scopeMenu, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Collection3.Slot, { scope: props.__scopeMenu, children: rootContext.modal ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(MenuRootContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(MenuRootContentNonModal, { ...contentProps, ref: forwardedRef }) }) }) });
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Collection3.Provider, { scope: props.__scopeMenu, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Collection3.Slot, { scope: props.__scopeMenu, children: rootContext.modal ? /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(MenuRootContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(MenuRootContentNonModal, { ...contentProps, ref: forwardedRef }) }) }) });
     }, "MenuContent")
   );
   var MenuRootContentModal = /* @__PURE__ */ React36.forwardRef(
@@ -10913,7 +11073,7 @@ var DevartUI = (() => {
         const content = ref.current;
         if (content) return hideOthers(content);
       }, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         MenuContentImpl,
         {
           ...props,
@@ -10933,7 +11093,7 @@ var DevartUI = (() => {
   );
   var MenuRootContentNonModal = /* @__PURE__ */ React36.forwardRef(/* @__PURE__ */ __name24(function MenuRootContentNonModal2(props, forwardedRef) {
     const context = useMenuContext(CONTENT_NAME4, props.__scopeMenu);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
       MenuContentImpl,
       {
         ...props,
@@ -11006,7 +11166,7 @@ var DevartUI = (() => {
         const isMovingTowards = pointerDirRef.current === pointerGraceIntentRef.current?.side;
         return isMovingTowards && isPointerInGraceArea(event, pointerGraceIntentRef.current?.area);
       }, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         MenuContentProvider,
         {
           scope: __scopeMenu,
@@ -11035,7 +11195,7 @@ var DevartUI = (() => {
           onPointerGraceIntentChange: React36.useCallback((intent) => {
             pointerGraceIntentRef.current = intent;
           }, []),
-          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(ScrollLockWrapper, { ...scrollLockWrapperProps, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(ScrollLockWrapper, { ...scrollLockWrapperProps, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
             FocusScope,
             {
               asChild: true,
@@ -11045,7 +11205,7 @@ var DevartUI = (() => {
                 contentRef.current?.focus({ preventScroll: true });
               }),
               onUnmountAutoFocus: onCloseAutoFocus,
-              children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+              children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
                 DismissableLayer,
                 {
                   asChild: true,
@@ -11055,7 +11215,7 @@ var DevartUI = (() => {
                   onFocusOutside,
                   onInteractOutside,
                   onDismiss,
-                  children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                  children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
                     Root4,
                     {
                       asChild: true,
@@ -11069,7 +11229,7 @@ var DevartUI = (() => {
                         if (!rootContext.isUsingKeyboardRef.current) event.preventDefault();
                       }),
                       preventScrollOnEntryFocus: true,
-                      children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+                      children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
                         Content3,
                         {
                           role: "menu",
@@ -11132,13 +11292,13 @@ var DevartUI = (() => {
   var MenuGroup = /* @__PURE__ */ React36.forwardRef(
     /* @__PURE__ */ __name24(function MenuGroup2(props, forwardedRef) {
       const { __scopeMenu, ...groupProps } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Primitive.div, { role: "group", ...groupProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Primitive.div, { role: "group", ...groupProps, ref: forwardedRef });
     }, "MenuGroup")
   );
   var MenuLabel = /* @__PURE__ */ React36.forwardRef(
     /* @__PURE__ */ __name24(function MenuLabel2(props, forwardedRef) {
       const { __scopeMenu, ...labelProps } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Primitive.div, { ...labelProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Primitive.div, { ...labelProps, ref: forwardedRef });
     }, "MenuLabel")
   );
   var ITEM_NAME3 = "MenuItem";
@@ -11165,7 +11325,7 @@ var DevartUI = (() => {
           }
         }
       }, "handleSelect");
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         MenuItemImpl,
         {
           ...itemProps,
@@ -11211,13 +11371,13 @@ var DevartUI = (() => {
           setTextContent((menuItem.textContent ?? "").trim());
         }
       }, [itemProps.children]);
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         Collection3.ItemSlot,
         {
           scope: __scopeMenu,
           disabled,
           textValue: textValue ?? textContent,
-          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Item2, { asChild: true, ...rovingFocusGroupScope, focusable: !disabled, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Item2, { asChild: true, ...rovingFocusGroupScope, focusable: !disabled, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
             Primitive.div,
             {
               role: "menuitem",
@@ -11256,7 +11416,7 @@ var DevartUI = (() => {
     // blank line to reduce diff noise
     /* @__PURE__ */ __name24(function MenuCheckboxItem2(props, forwardedRef) {
       const { checked = false, onCheckedChange, ...checkboxItemProps } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(ItemIndicatorProvider, { scope: props.__scopeMenu, checked, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(ItemIndicatorProvider, { scope: props.__scopeMenu, checked, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         MenuItem,
         {
           role: "menuitemcheckbox",
@@ -11283,7 +11443,7 @@ var DevartUI = (() => {
     /* @__PURE__ */ __name24(function MenuRadioGroup2(props, forwardedRef) {
       const { value, onValueChange, ...groupProps } = props;
       const handleValueChange = useCallbackRef(onValueChange);
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(RadioGroupProvider, { scope: props.__scopeMenu, value, onValueChange: handleValueChange, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(MenuGroup, { ...groupProps, ref: forwardedRef }) });
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(RadioGroupProvider, { scope: props.__scopeMenu, value, onValueChange: handleValueChange, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(MenuGroup, { ...groupProps, ref: forwardedRef }) });
     }, "MenuRadioGroup")
   );
   var RADIO_ITEM_NAME = "MenuRadioItem";
@@ -11292,7 +11452,7 @@ var DevartUI = (() => {
       const { value, ...radioItemProps } = props;
       const context = useRadioGroupContext(RADIO_ITEM_NAME, props.__scopeMenu);
       const checked = value === context.value;
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(ItemIndicatorProvider, { scope: props.__scopeMenu, checked, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(ItemIndicatorProvider, { scope: props.__scopeMenu, checked, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         MenuItem,
         {
           role: "menuitemradio",
@@ -11319,11 +11479,11 @@ var DevartUI = (() => {
     /* @__PURE__ */ __name24(function MenuItemIndicator2(props, forwardedRef) {
       const { __scopeMenu, forceMount, ...itemIndicatorProps } = props;
       const indicatorContext = useItemIndicatorContext(ITEM_INDICATOR_NAME, __scopeMenu);
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         Presence,
         {
           present: forceMount || isIndeterminate(indicatorContext.checked) || indicatorContext.checked === true,
-          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
             Primitive.span,
             {
               ...itemIndicatorProps,
@@ -11348,7 +11508,7 @@ var DevartUI = (() => {
       if (parentMenuContext.open === false) handleOpenChange(false);
       return () => handleOpenChange(false);
     }, [parentMenuContext.open, handleOpenChange]);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
       MenuProvider,
       {
         scope: __scopeMenu,
@@ -11356,7 +11516,7 @@ var DevartUI = (() => {
         onOpenChange: handleOpenChange,
         content,
         onContentChange: setContent,
-        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
           MenuSubProvider,
           {
             scope: __scopeMenu,
@@ -11380,7 +11540,7 @@ var DevartUI = (() => {
       const subContext = useMenuSubContext(SUB_CONTENT_NAME, props.__scopeMenu);
       const ref = React36.useRef(null);
       const composedRefs = useComposedRefs(forwardedRef, ref);
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Collection3.Provider, { scope: props.__scopeMenu, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Collection3.Slot, { scope: props.__scopeMenu, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Collection3.Provider, { scope: props.__scopeMenu, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Collection3.Slot, { scope: props.__scopeMenu, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
         MenuContentImpl,
         {
           id: subContext.contentId,
@@ -11496,7 +11656,7 @@ var DevartUI = (() => {
   var SubContent = MenuSubContent;
 
   // node_modules/.pnpm/@radix-ui+react-dropdown-me_32611e78537942864c16e5f214160f08/node_modules/@radix-ui/react-dropdown-menu/dist/index.mjs
-  var import_jsx_runtime19 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime20 = __toESM(require_react_shim(), 1);
   var __defProp26 = Object.defineProperty;
   var __name25 = (target, value) => __defProp26(target, "name", { value, configurable: true });
   var DROPDOWN_MENU_NAME = "DropdownMenu";
@@ -11524,7 +11684,7 @@ var DevartUI = (() => {
       onChange: onOpenChange,
       caller: DROPDOWN_MENU_NAME
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
       DropdownMenuProvider,
       {
         scope: __scopeDropdownMenu,
@@ -11535,7 +11695,7 @@ var DevartUI = (() => {
         onOpenChange: setOpen,
         onOpenToggle: React37.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
         modal,
-        children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Root32, { ...menuScope, open, onOpenChange: setOpen, dir, modal, children })
+        children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Root32, { ...menuScope, open, onOpenChange: setOpen, dir, modal, children })
       }
     );
   }, "DropdownMenu");
@@ -11547,7 +11707,7 @@ var DevartUI = (() => {
       const context = useDropdownMenuContext(TRIGGER_NAME3, __scopeDropdownMenu);
       const menuScope = useMenuScope(__scopeDropdownMenu);
       const composedRefs = useComposedRefs(forwardedRef, context.triggerRef);
-      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Anchor2, { asChild: true, ...menuScope, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Anchor2, { asChild: true, ...menuScope, children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -11579,7 +11739,7 @@ var DevartUI = (() => {
   var DropdownMenuPortal = /* @__PURE__ */ __name25((props) => {
     const { __scopeDropdownMenu, ...portalProps } = props;
     const menuScope = useMenuScope(__scopeDropdownMenu);
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Portal3, { ...menuScope, ...portalProps });
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Portal3, { ...menuScope, ...portalProps });
   }, "DropdownMenuPortal");
   var CONTENT_NAME5 = "DropdownMenuContent";
   var DropdownMenuContent = /* @__PURE__ */ React37.forwardRef(
@@ -11589,7 +11749,7 @@ var DevartUI = (() => {
       const context = useDropdownMenuContext(CONTENT_NAME5, __scopeDropdownMenu);
       const menuScope = useMenuScope(__scopeDropdownMenu);
       const hasInteractedOutsideRef = React37.useRef(false);
-      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
         Content22,
         {
           id: context.contentId,
@@ -11628,7 +11788,7 @@ var DevartUI = (() => {
     /* @__PURE__ */ __name25(function DropdownMenuGroup2(props, forwardedRef) {
       const { __scopeDropdownMenu, ...groupProps } = props;
       const menuScope = useMenuScope(__scopeDropdownMenu);
-      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Group, { ...menuScope, ...groupProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Group, { ...menuScope, ...groupProps, ref: forwardedRef });
     }, "DropdownMenuGroup")
   );
   var DropdownMenuLabel = /* @__PURE__ */ React37.forwardRef(
@@ -11636,7 +11796,7 @@ var DevartUI = (() => {
     /* @__PURE__ */ __name25(function DropdownMenuLabel2(props, forwardedRef) {
       const { __scopeDropdownMenu, ...labelProps } = props;
       const menuScope = useMenuScope(__scopeDropdownMenu);
-      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Label, { ...menuScope, ...labelProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Label, { ...menuScope, ...labelProps, ref: forwardedRef });
     }, "DropdownMenuLabel")
   );
   var DropdownMenuItem = /* @__PURE__ */ React37.forwardRef(
@@ -11644,28 +11804,28 @@ var DevartUI = (() => {
     /* @__PURE__ */ __name25(function DropdownMenuItem2(props, forwardedRef) {
       const { __scopeDropdownMenu, ...itemProps } = props;
       const menuScope = useMenuScope(__scopeDropdownMenu);
-      return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Item22, { ...menuScope, ...itemProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Item22, { ...menuScope, ...itemProps, ref: forwardedRef });
     }, "DropdownMenuItem")
   );
   var DropdownMenuCheckboxItem = /* @__PURE__ */ React37.forwardRef(/* @__PURE__ */ __name25(function DropdownMenuCheckboxItem2(props, forwardedRef) {
     const { __scopeDropdownMenu, ...checkboxItemProps } = props;
     const menuScope = useMenuScope(__scopeDropdownMenu);
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(CheckboxItem, { ...menuScope, ...checkboxItemProps, ref: forwardedRef });
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(CheckboxItem, { ...menuScope, ...checkboxItemProps, ref: forwardedRef });
   }, "DropdownMenuCheckboxItem"));
   var DropdownMenuRadioGroup = /* @__PURE__ */ React37.forwardRef(/* @__PURE__ */ __name25(function DropdownMenuRadioGroup2(props, forwardedRef) {
     const { __scopeDropdownMenu, ...radioGroupProps } = props;
     const menuScope = useMenuScope(__scopeDropdownMenu);
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(RadioGroup, { ...menuScope, ...radioGroupProps, ref: forwardedRef });
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(RadioGroup, { ...menuScope, ...radioGroupProps, ref: forwardedRef });
   }, "DropdownMenuRadioGroup"));
   var DropdownMenuRadioItem = /* @__PURE__ */ React37.forwardRef(/* @__PURE__ */ __name25(function DropdownMenuRadioItem2(props, forwardedRef) {
     const { __scopeDropdownMenu, ...radioItemProps } = props;
     const menuScope = useMenuScope(__scopeDropdownMenu);
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(RadioItem, { ...menuScope, ...radioItemProps, ref: forwardedRef });
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(RadioItem, { ...menuScope, ...radioItemProps, ref: forwardedRef });
   }, "DropdownMenuRadioItem"));
   var DropdownMenuItemIndicator = /* @__PURE__ */ React37.forwardRef(/* @__PURE__ */ __name25(function DropdownMenuItemIndicator2(props, forwardedRef) {
     const { __scopeDropdownMenu, ...itemIndicatorProps } = props;
     const menuScope = useMenuScope(__scopeDropdownMenu);
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(ItemIndicator, { ...menuScope, ...itemIndicatorProps, ref: forwardedRef });
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(ItemIndicator, { ...menuScope, ...itemIndicatorProps, ref: forwardedRef });
   }, "DropdownMenuItemIndicator"));
   var DropdownMenuSub = /* @__PURE__ */ __name25((props) => {
     const { __scopeDropdownMenu, children, open: openProp, onOpenChange, defaultOpen } = props;
@@ -11676,12 +11836,12 @@ var DevartUI = (() => {
       onChange: onOpenChange,
       caller: "DropdownMenuSub"
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Sub, { ...menuScope, open, onOpenChange: setOpen, children });
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Sub, { ...menuScope, open, onOpenChange: setOpen, children });
   }, "DropdownMenuSub");
   var DropdownMenuSubContent = /* @__PURE__ */ React37.forwardRef(/* @__PURE__ */ __name25(function DropdownMenuSubContent2(props, forwardedRef) {
     const { __scopeDropdownMenu, ...subContentProps } = props;
     const menuScope = useMenuScope(__scopeDropdownMenu);
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
       SubContent,
       {
         ...menuScope,
@@ -11717,8 +11877,8 @@ var DevartUI = (() => {
 
   // dist/components/DropdownMenu/DropdownMenuCheckboxItem.js
   init_define_import_meta_env();
-  var import_jsx_runtime20 = __toESM(require_react_shim(), 1);
-  var DropdownMenuCheckboxItem3 = ({ className, children, checked, ref, onPointerDown, ...props }) => (0, import_jsx_runtime20.jsxs)(CheckboxItem2, { ref, onPointerDown: (event) => {
+  var import_jsx_runtime21 = __toESM(require_react_shim(), 1);
+  var DropdownMenuCheckboxItem3 = ({ className, children, checked, ref, onPointerDown, ...props }) => (0, import_jsx_runtime21.jsxs)(CheckboxItem2, { ref, onPointerDown: (event) => {
     event.preventDefault();
     onPointerDown?.(event);
   }, className: cn(
@@ -11736,12 +11896,37 @@ var DevartUI = (() => {
     "data-[disabled]:cursor-not-allowed",
     "data-[disabled]:text-ink-inactive",
     className
-  ), checked, ...props, children: [(0, import_jsx_runtime20.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: (0, import_jsx_runtime20.jsx)(ItemIndicator2, { children: (0, import_jsx_runtime20.jsx)(Check, { className: "h-4 w-4" }) }) }), children] });
+  ), checked, ...props, children: [(0, import_jsx_runtime21.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: (0, import_jsx_runtime21.jsx)(ItemIndicator2, { children: (0, import_jsx_runtime21.jsx)(Check, { className: "h-4 w-4" }) }) }), children] });
   DropdownMenuCheckboxItem3.displayName = CheckboxItem2.displayName;
 
   // dist/components/DropdownMenu/DropdownMenuContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime21 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime22 = __toESM(require_react_shim(), 1);
+
+  // dist/lib/focus-modality.js
+  init_define_import_meta_env();
+  var keyboard = false;
+  if (typeof document !== "undefined") {
+    document.addEventListener("pointerdown", () => {
+      keyboard = false;
+    }, true);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Shift" || event.key === "Control" || event.key === "Alt" || event.key === "Meta") {
+        return;
+      }
+      keyboard = true;
+    }, true);
+  }
+  function lastInteractionWasKeyboard() {
+    return keyboard;
+  }
+  function restoreFocusOnlyForKeyboard(event, handler) {
+    handler?.(event);
+    if (event.defaultPrevented)
+      return;
+    if (!lastInteractionWasKeyboard())
+      event.preventDefault();
+  }
 
   // dist/lib/portal-container.js
   init_define_import_meta_env();
@@ -11753,89 +11938,61 @@ var DevartUI = (() => {
   }
 
   // dist/components/DropdownMenu/DropdownMenuContent.js
-  var DropdownMenuContent3 = ({ portalContainer, className, sideOffset = 4, alignOffset = 0, collisionPadding = 8, ref, ...props }) => {
+  var DropdownMenuContent3 = ({ portalContainer, className, sideOffset = 4, alignOffset = 0, collisionPadding = 8, onCloseAutoFocus, ref, ...props }) => {
     const container = usePortalContainer(portalContainer);
-    return (0, import_jsx_runtime21.jsx)(Portal22, { container, children: (0, import_jsx_runtime21.jsx)(Content23, { ref, sideOffset, alignOffset, collisionPadding, className: cn(
-      "z-50 rounded-lg border p-1",
-      "max-h-[var(--radix-dropdown-menu-content-available-height)]",
-      // Fluid width — menu hugs its longest item label within bounds.
-      "w-max min-w-[140px] max-w-[320px]",
-      "border-stroke bg-surface-card text-ink-body",
-      // Floating-surface elevation — the one shadow role that is redeclared
-      // for dark; `shadow-dropdown` is light-only and all but vanishes there.
-      "shadow-overlay-soft",
-      "overflow-y-auto overflow-x-hidden",
-      // Performance optimizations to reduce forced reflows
-      "will-change-[transform,opacity]",
-      "[transform:translateZ(0)]",
-      "[backface-visibility:hidden]",
-      //Closed state
-      "data-[state=closed]:animate-out",
-      "data-[state=closed]:fade-out-0",
-      "data-[state=closed]:zoom-out-95",
-      //Opened state
-      "data-[state=open]:animate-in",
-      "data-[state=open]:fade-in-0",
-      "data-[state=open]:zoom-in-95",
-      //Side based animations
-      "data-[side=bottom]:slide-in-from-top-2",
-      "data-[side=left]:slide-in-from-right-2",
-      "data-[side=right]:slide-in-from-left-2",
-      "data-[side=top]:slide-in-from-bottom-2",
-      "origin-[--radix-dropdown-menu-content-transform-origin]",
-      className
-    ), ...props }) });
+    return (0, import_jsx_runtime22.jsx)(Portal22, { container, children: (0, import_jsx_runtime22.jsx)(Content23, {
+      ref,
+      sideOffset,
+      alignOffset,
+      collisionPadding,
+      /* Closing returns focus to the trigger — and Radix does it with a
+         programmatic `focus()`, which Chrome answers with the
+         `:focus-visible` ring. So a menu opened with the mouse left a
+         focus ring sitting on its trigger afterwards, marking a row
+         nobody was navigating. Restored for the keyboard, where losing
+         your place is the worse fault; skipped for the pointer. A
+         consumer's own handler runs first and can still preventDefault. */
+      onCloseAutoFocus: (event) => restoreFocusOnlyForKeyboard(event, onCloseAutoFocus),
+      className: cn(
+        "z-50 rounded-lg border p-1",
+        "max-h-[var(--radix-dropdown-menu-content-available-height)]",
+        // Fluid width — menu hugs its longest item label within bounds.
+        "w-max min-w-[140px] max-w-[320px]",
+        "border-stroke bg-surface-card text-ink-body",
+        // Floating-surface elevation — the one shadow role that is redeclared
+        // for dark; `shadow-dropdown` is light-only and all but vanishes there.
+        "shadow-overlay-soft",
+        "overflow-y-auto overflow-x-hidden",
+        // The kit's own menu scrollbar — `.cl-menu-scroll`.
+        "scrollbar-thin",
+        // Performance optimizations to reduce forced reflows
+        "will-change-[transform,opacity]",
+        "[transform:translateZ(0)]",
+        "[backface-visibility:hidden]",
+        //Closed state
+        "data-[state=closed]:animate-out",
+        "data-[state=closed]:fade-out-0",
+        "data-[state=closed]:zoom-out-95",
+        //Opened state
+        "data-[state=open]:animate-in",
+        "data-[state=open]:fade-in-0",
+        "data-[state=open]:zoom-in-95",
+        //Side based animations
+        "data-[side=bottom]:slide-in-from-top-2",
+        "data-[side=left]:slide-in-from-right-2",
+        "data-[side=right]:slide-in-from-left-2",
+        "data-[side=top]:slide-in-from-bottom-2",
+        "origin-[--radix-dropdown-menu-content-transform-origin]",
+        className
+      ),
+      ...props
+    }) });
   };
   DropdownMenuContent3.displayName = Content23.displayName;
 
   // dist/components/DropdownMenu/DropdownMenuItem.js
   init_define_import_meta_env();
-  var import_jsx_runtime22 = __toESM(require_react_shim(), 1);
-
-  // node_modules/.pnpm/class-variance-authority@0.7.1/node_modules/class-variance-authority/dist/index.mjs
-  init_define_import_meta_env();
-  var falsyToString = (value) => typeof value === "boolean" ? `${value}` : value === 0 ? "0" : value;
-  var cx = clsx;
-  var cva = (base, config) => (props) => {
-    var _config_compoundVariants;
-    if ((config === null || config === void 0 ? void 0 : config.variants) == null) return cx(base, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
-    const { variants, defaultVariants } = config;
-    const getVariantClassNames = Object.keys(variants).map((variant) => {
-      const variantProp = props === null || props === void 0 ? void 0 : props[variant];
-      const defaultVariantProp = defaultVariants === null || defaultVariants === void 0 ? void 0 : defaultVariants[variant];
-      if (variantProp === null) return null;
-      const variantKey = falsyToString(variantProp) || falsyToString(defaultVariantProp);
-      return variants[variant][variantKey];
-    });
-    const propsWithoutUndefined = props && Object.entries(props).reduce((acc, param) => {
-      let [key, value] = param;
-      if (value === void 0) {
-        return acc;
-      }
-      acc[key] = value;
-      return acc;
-    }, {});
-    const getCompoundVariantClassNames = config === null || config === void 0 ? void 0 : (_config_compoundVariants = config.compoundVariants) === null || _config_compoundVariants === void 0 ? void 0 : _config_compoundVariants.reduce((acc, param) => {
-      let { class: cvClass, className: cvClassName, ...compoundVariantOptions } = param;
-      return Object.entries(compoundVariantOptions).every((param2) => {
-        let [key, value] = param2;
-        return Array.isArray(value) ? value.includes({
-          ...defaultVariants,
-          ...propsWithoutUndefined
-        }[key]) : {
-          ...defaultVariants,
-          ...propsWithoutUndefined
-        }[key] === value;
-      }) ? [
-        ...acc,
-        cvClass,
-        cvClassName
-      ] : acc;
-    }, []);
-    return cx(base, getVariantClassNames, getCompoundVariantClassNames, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
-  };
-
-  // dist/components/DropdownMenu/DropdownMenuItem.js
+  var import_jsx_runtime23 = __toESM(require_react_shim(), 1);
   var dropdownMenuItemVariants = cva(cn(
     // Radius is one step inside the 8px `.menu` shell.
     "relative flex items-center gap-2 rounded px-3 py-1.5",
@@ -11854,7 +12011,7 @@ var DevartUI = (() => {
     "[&_svg]:pointer-events-none",
     "[&_svg]:size-4",
     "[&_svg]:shrink-0",
-    "[&_svg]:stroke-[1.75]",
+    glyphStroke,
     //Focused state
     // Highlight is the ONE state here: Radix focuses the item on pointer-move,
     // so a focus ring would always paint on top of the highlight fill.
@@ -11868,20 +12025,30 @@ var DevartUI = (() => {
           "focus:bg-state-hover data-[highlighted]:bg-state-hover",
           "active:bg-state-pressed"
         ),
-        danger: cn("text-fb-red-text", "focus:bg-fb-red/8 data-[highlighted]:bg-fb-red/8", "active:bg-fb-red/12")
+        danger: cn("text-fb-red-text", "focus:bg-fb-red/8 data-[highlighted]:bg-fb-red/8", "active:bg-fb-red/12"),
+        // The one row in a menu that is THE action — "Manage connections",
+        // "Choose file", "Configure workspace". Brand ink plus medium weight,
+        // and the same neutral hover as every other row.
+        //
+        // Deliberately NOT a bordered button dropped into the menu. A button
+        // inside a 4px-padded surface doubles its border against the divider
+        // above it and outweighs the list it belongs to; the leading icon and
+        // the brand ink are what separate an action from a reading, at the
+        // same size and on the same rail.
+        accent: cn("font-medium text-ink-highlight", "focus:bg-state-hover data-[highlighted]:bg-state-hover", "active:bg-state-pressed")
       }
     },
     defaultVariants: {
       variant: "default"
     }
   });
-  var DropdownMenuItem3 = ({ className, inset, variant, ref, ...props }) => (0, import_jsx_runtime22.jsx)(Item23, { ref, className: cn(dropdownMenuItemVariants({ variant }), inset && "pl-8", className), ...props });
+  var DropdownMenuItem3 = ({ className, inset, variant, ref, ...props }) => (0, import_jsx_runtime23.jsx)(Item23, { ref, className: cn(dropdownMenuItemVariants({ variant }), inset && "pl-8", className), ...props });
   DropdownMenuItem3.displayName = Item23.displayName;
 
   // dist/components/DropdownMenu/DropdownMenuLabel.js
   init_define_import_meta_env();
-  var import_jsx_runtime23 = __toESM(require_react_shim(), 1);
-  var DropdownMenuLabel3 = ({ className, inset, ref, ...props }) => (0, import_jsx_runtime23.jsx)(Label2, { ref, className: cn(
+  var import_jsx_runtime24 = __toESM(require_react_shim(), 1);
+  var DropdownMenuLabel3 = ({ className, inset, ref, ...props }) => (0, import_jsx_runtime24.jsx)(Label2, { ref, className: cn(
     // Section heading inside a menu: the Overline style (10px / 600 / caps),
     // Text/Inactive, sitting on the same 12px horizontal rail as the items.
     "px-3 pt-2 pb-1",
@@ -11893,8 +12060,8 @@ var DevartUI = (() => {
 
   // dist/components/DropdownMenu/DropdownMenuRadioItem.js
   init_define_import_meta_env();
-  var import_jsx_runtime24 = __toESM(require_react_shim(), 1);
-  var DropdownMenuRadioItem3 = ({ className, children, ref, onPointerDown, ...props }) => (0, import_jsx_runtime24.jsxs)(RadioItem2, { ref, onPointerDown: (event) => {
+  var import_jsx_runtime25 = __toESM(require_react_shim(), 1);
+  var DropdownMenuRadioItem3 = ({ className, children, ref, onPointerDown, ...props }) => (0, import_jsx_runtime25.jsxs)(RadioItem2, { ref, onPointerDown: (event) => {
     event.preventDefault();
     onPointerDown?.(event);
   }, className: cn(
@@ -11912,21 +12079,27 @@ var DevartUI = (() => {
     "data-[disabled]:cursor-not-allowed",
     "data-[disabled]:text-ink-inactive",
     className
-  ), ...props, children: [(0, import_jsx_runtime24.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: (0, import_jsx_runtime24.jsx)(ItemIndicator2, { children: (0, import_jsx_runtime24.jsx)(Circle, { className: "h-2 w-2 fill-current" }) }) }), children] });
+  ), ...props, children: [(0, import_jsx_runtime25.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: (0, import_jsx_runtime25.jsx)(ItemIndicator2, { children: (0, import_jsx_runtime25.jsx)(Circle, { className: "h-2 w-2 fill-current" }) }) }), children] });
   DropdownMenuRadioItem3.displayName = RadioItem2.displayName;
+
+  // dist/components/DropdownMenu/DropdownMenuRow.js
+  init_define_import_meta_env();
+  var import_jsx_runtime26 = __toESM(require_react_shim(), 1);
+  var DropdownMenuRow = ({ className, ref, ...props }) => (0, import_jsx_runtime26.jsx)("div", { ref, "data-slot": "dropdown-menu-row", className: cn("flex items-center justify-between gap-3", "rounded px-3 py-1.5", "text-ink-body text-sm", className), ...props });
+  DropdownMenuRow.displayName = "DropdownMenuRow";
 
   // dist/components/DropdownMenu/DropdownMenuSeparator.js
   init_define_import_meta_env();
-  var import_jsx_runtime27 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime29 = __toESM(require_react_shim(), 1);
 
   // dist/components/Separator/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime26 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime28 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-separator@1_b4fa11a6a9c506329c5159413a703cd7/node_modules/@radix-ui/react-separator/dist/index.mjs
   init_define_import_meta_env();
   var React38 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime25 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime27 = __toESM(require_react_shim(), 1);
   var __defProp27 = Object.defineProperty;
   var __name26 = (target, value) => __defProp27(target, "name", { value, configurable: true });
   var DEFAULT_ORIENTATION = "horizontal";
@@ -11937,7 +12110,7 @@ var DevartUI = (() => {
       const orientation = isValidOrientation(orientationProp) ? orientationProp : DEFAULT_ORIENTATION;
       const ariaOrientation = orientation === "vertical" ? orientation : void 0;
       const semanticProps = decorative ? { role: "none" } : { "aria-orientation": ariaOrientation, role: "separator" };
-      return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
         Primitive.div,
         {
           "data-orientation": orientation,
@@ -11972,25 +12145,25 @@ var DevartUI = (() => {
       orientation: "horizontal"
     }
   });
-  var Separator3 = ({ className, orientation, variant, decorative = true, ref, ...props }) => (0, import_jsx_runtime26.jsx)(Root5, { ref, decorative, orientation: orientation || "horizontal", className: cn(separatorVariants({ orientation, variant }), className), ...props });
+  var Separator3 = ({ className, orientation, variant, decorative = true, ref, ...props }) => (0, import_jsx_runtime28.jsx)(Root5, { ref, decorative, orientation: orientation || "horizontal", className: cn(separatorVariants({ orientation, variant }), className), ...props });
   Separator3.displayName = "Separator";
 
   // dist/components/DropdownMenu/DropdownMenuSeparator.js
-  var DropdownMenuSeparator = ({ className, ref, ...props }) => (0, import_jsx_runtime27.jsx)(Separator3, { ref, variant: "border", orientation: "horizontal", className: cn("-mx-1 my-1", className), ...props });
+  var DropdownMenuSeparator = ({ className, ref, ...props }) => (0, import_jsx_runtime29.jsx)(Separator3, { ref, variant: "border", orientation: "horizontal", className: cn("-mx-1 my-1", className), ...props });
   DropdownMenuSeparator.displayName = "DropdownMenuSeparator";
 
   // dist/components/DropdownMenu/DropdownMenuShortcut.js
   init_define_import_meta_env();
-  var import_jsx_runtime28 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime30 = __toESM(require_react_shim(), 1);
   var DropdownMenuShortcut = ({ className, ...props }) => {
-    return (0, import_jsx_runtime28.jsx)("span", { className: cn("ml-auto text-xs tracking-widest opacity-60", className), ...props });
+    return (0, import_jsx_runtime30.jsx)("span", { className: cn("ml-auto text-xs tracking-widest opacity-60", className), ...props });
   };
   DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
 
   // dist/components/DropdownMenu/DropdownMenuSubContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime29 = __toESM(require_react_shim(), 1);
-  var DropdownMenuSubContent3 = ({ className, ref, ...props }) => (0, import_jsx_runtime29.jsx)(SubContent2, { ref, className: cn(
+  var import_jsx_runtime31 = __toESM(require_react_shim(), 1);
+  var DropdownMenuSubContent3 = ({ className, ref, ...props }) => (0, import_jsx_runtime31.jsx)(SubContent2, { ref, className: cn(
     "z-50 w-max min-w-[140px] max-w-[320px]",
     "rounded-lg border p-1",
     "border-stroke bg-surface-card text-ink-body",
@@ -12023,135 +12196,9 @@ var DevartUI = (() => {
   var DropdownMenuSub2 = Sub2;
   var DropdownMenuRadioGroup3 = RadioGroup2;
 
-  // dist/components/IconButton/index.js
-  init_define_import_meta_env();
-  var import_jsx_runtime31 = __toESM(require_react_shim(), 1);
-
-  // dist/components/Spinner/index.js
-  init_define_import_meta_env();
-  var import_jsx_runtime30 = __toESM(require_react_shim(), 1);
-  var spinnerVariants = cva("animate-spin", {
-    variants: {
-      size: {
-        xs: "size-3",
-        sm: "size-4",
-        md: "size-5",
-        lg: "size-6",
-        xl: "size-8"
-      },
-      color: {
-        primary: "text-brand-secondary",
-        secondary: "text-ink-secondary",
-        muted: "text-ink-inactive",
-        accent: "text-brand-primary",
-        success: "text-fb-green",
-        destructive: "text-fb-red-text",
-        warning: "text-fb-attention",
-        white: "text-content-on-solid",
-        inherit: "text-inherit"
-      }
-    },
-    defaultVariants: {
-      size: "sm",
-      color: "primary"
-    }
-  });
-  function Spinner({ className, size: size4, color, label = "Loading", ...props }) {
-    return (0, import_jsx_runtime30.jsx)(LoaderCircle, {
-      role: "status",
-      "aria-label": label,
-      strokeLinecap: "butt",
-      // reference draws the arc at 2.5, not lucide's default 2
-      strokeWidth: 2.5,
-      className: cn(spinnerVariants({ size: size4, color }), className),
-      ...props
-    });
-  }
-
-  // dist/components/IconButton/index.js
-  var iconButtonVariants = cva(cn(
-    "inline-flex items-center justify-center",
-    "cursor-pointer border",
-    "transition-all duration-fast",
-    // Focus: 2px ring + 2px surface-card gap; ring colour is set per variant
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card",
-    "disabled:cursor-not-allowed",
-    "aria-disabled:cursor-not-allowed",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0"
-  ), {
-    variants: {
-      // Shares the Button variant scale (Button.md: IconButton uses the same variants).
-      variant: {
-        primary: cn("border-transparent bg-btn-primary-bg text-btn-primary-text", "hover:bg-btn-primary-bg-hover", "pressed:bg-btn-primary-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive"),
-        secondary: cn("border-btn-secondary-border bg-surface-card text-ink-body", "hover:border-btn-secondary-border-hover hover:bg-state-hover", "pressed:border-btn-secondary-border pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:border-btn-secondary-border disabled:bg-state-disabled disabled:text-ink-inactive"),
-        outline: cn("border-brand-secondary bg-transparent text-ink-body", "hover:border-brand-hover hover:bg-btn-outline-bg-hover", "pressed:border-brand-hover pressed:bg-btn-outline-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive"),
-        tertiary: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover", "pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
-        // Focus ring is the kit-wide brand teal on every variant, destructive
-        // included — a red ring on a red control reads as noise.
-        destructive: cn("border-transparent bg-fb-red text-content-on-solid", "hover:bg-fb-error-hover", "pressed:bg-fb-error-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive"),
-        destructiveOutline: cn("border-outlineDestructive-border bg-transparent text-fb-red-text", "hover:border-outlineDestructive-border-hover hover:bg-outlineDestructive-bg-hover", "pressed:border-outlineDestructive-border-hover pressed:bg-outlineDestructive-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive"),
-        // Low-emphasis destructive ghost: red icon, transparent fill, red-tinted
-        // hover/press. Tertiary sibling of destructiveOutline (no border).
-        destructiveTertiary: cn(
-          "border-transparent bg-transparent text-fb-red-text",
-          // Shares the destructiveOutline fill tokens on light and goes a step
-          // stronger on dark, where there is no border to carry the signal.
-          "hover:bg-destructiveTertiary-bg-hover",
-          "pressed:bg-destructiveTertiary-bg-press",
-          "focus-visible:ring-focus-ring-brand",
-          "disabled:bg-transparent disabled:text-ink-inactive",
-          "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"
-        ),
-        transparent: cn("!p-0 m-0 max-h-fit max-w-fit border-none bg-transparent text-ink-body", "focus-visible:ring-focus-ring-brand")
-      },
-      size: {
-        // Box ladder mirrors Button step for step (28/32/36/40/44), so an
-        // icon-only control lines up with a text button of the same size.
-        // `2xs` (24px) sits one step BELOW that ladder: the row-action size,
-        // which an icon-only control reaches on the padded box around a 14px
-        // glyph. Glyph is 16px everywhere and 14px on the two smallest steps.
-        "2xs": "size-6 [&_svg]:size-3.5",
-        xs: "size-7 [&_svg]:size-3.5",
-        sm: "size-8 [&_svg]:size-4",
-        md: "size-9 [&_svg]:size-4",
-        lg: "size-10 [&_svg]:size-4",
-        xl: "size-11 [&_svg]:size-4"
-      },
-      rounded: {
-        none: "rounded-none",
-        sm: "rounded-sm",
-        rounded: "rounded",
-        md: "rounded-md",
-        lg: "rounded-lg",
-        xl: "rounded-xl",
-        full: "rounded-full"
-      }
-    },
-    compoundVariants: [
-      // The radius tightens one step on the two smallest boxes so a 24/28px
-      // square does not read as a pill. Scoped to the default `md` radius so an
-      // explicit `rounded` prop still wins.
-      { size: "2xs", rounded: "md", class: "rounded" },
-      { size: "xs", rounded: "md", class: "rounded" }
-    ],
-    defaultVariants: {
-      variant: "primary",
-      size: "md",
-      rounded: "md"
-    }
-  });
-  function IconButton({ className, variant, size: size4, rounded, asChild = false, isLoading = false, ref, children, ...props }) {
-    const Comp = asChild ? Slot : "button";
-    const spinnerSize = size4 === "2xs" || size4 === "xs" ? "xs" : "sm";
-    return (0, import_jsx_runtime31.jsx)(Comp, { "data-variant": variant ?? void 0, ref, className: cn(iconButtonVariants({ variant, size: size4, rounded }), className, isLoading && "pointer-events-none opacity-disabled"), "aria-busy": isLoading || void 0, ...props, children: isLoading ? (
-      // Decorative: `aria-busy` on the control conveys the loading state.
-      (0, import_jsx_runtime31.jsx)(Spinner, { "aria-hidden": true, color: "inherit", size: spinnerSize })
-    ) : children });
-  }
-
   // dist/components/InputGroup/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime36 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime37 = __toESM(require_react_shim(), 1);
   var import_react16 = __toESM(require_react_shim(), 1);
 
   // dist/components/Typography/index.js
@@ -12204,6 +12251,7 @@ var DevartUI = (() => {
         body14: "font-normal text-sm",
         body12: "font-normal text-xs",
         // Label · 500. xxs carries no paired line-height, so it is set here.
+        label16: "font-medium text-base",
         label14: "font-medium text-sm",
         label12: "font-medium text-xs",
         label10: "font-medium text-xxs leading-4",
@@ -12308,9 +12356,30 @@ var DevartUI = (() => {
     })), ...props });
   }
 
-  // dist/components/InputGroup/InputGroupAddon.js
+  // dist/components/InputGroup/InputGroupAction.js
   init_define_import_meta_env();
   var import_jsx_runtime33 = __toESM(require_react_shim(), 1);
+  var InputGroupAction = ({ className, type = "button", ...props }) => (0, import_jsx_runtime33.jsx)("button", { type, "data-slot": "input-group-action", className: cn(
+    "inline-flex shrink-0 items-center justify-center",
+    // A 24px box around the field's 16px glyph. The edge inset belongs to
+    // the field — `InputGroup` swaps its `px-3` for `pe-2` when this is
+    // present — so the action adds no margin of its own. Two insets on one
+    // edge is how the glyph ends up further from the border than the one
+    // opposite it.
+    "size-6 p-0",
+    "rounded-sm border-none bg-transparent",
+    "cursor-pointer",
+    "text-ink-icon transition-colors hover:text-ink-icon-hover",
+    "[&>svg]:size-4 [&>svg]:shrink-0",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card",
+    "disabled:pointer-events-none disabled:text-ink-inactive",
+    className
+  ), ...props });
+  InputGroupAction.displayName = "InputGroupAction";
+
+  // dist/components/InputGroup/InputGroupAddon.js
+  init_define_import_meta_env();
+  var import_jsx_runtime34 = __toESM(require_react_shim(), 1);
 
   // dist/components/InputGroup/InputGroupContext.js
   init_define_import_meta_env();
@@ -12337,21 +12406,68 @@ var DevartUI = (() => {
     "cursor-text select-none",
     // Disabled
     "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-ink-inactive",
+    "group-has-[[data-slot=input-group-control]:disabled]/input-group:[&>button]:text-ink-inactive",
     "group-has-[[data-slot=input-group-control]:disabled]/input-group:cursor-not-allowed",
     // Kbd shortcut styling
-    "[&>kbd]:rounded-[calc(var(--radius)-5px)]"
+    "[&>kbd]:rounded-[calc(var(--radius)-5px)]",
+    /* NO ink rule on the glyph. It inherits the addon's own `--ink-secondary`,
+       which is what the kit states: `.igrp-add` sets `color: var(--ink-secondary)`
+       and has no separate rule for its `svg`.
+    
+       There was one — `[&>svg]:text-ink-inactive` — on the reasoning that a
+       decorative glyph reads as part of the placeholder and an empty field
+       should be one weight of grey. Nobody asked for it and no case called for
+       it; it was a step away from the kit argued from inside the package, which
+       is the one thing a package that mirrors a kit may not do. */
+    glyphStroke,
+    /* A docked control is not decoration: it answers the pointer. The kit names
+       its own pair for this — `.igrp-act` is `--ink-icon` lifting to
+       `--ink-icon-hover` — so the package names them too.
+    
+       It used to write `--ink-secondary` -> `--ink-body` under a comment
+       claiming that WAS the kit's recipe. Rest matched by accident
+       (`--ink-icon` is declared as `var(--ink-secondary)`); hover did not —
+       `--ink-icon-hover` is `--ink-primary`, a step darker than `--ink-body`.
+       Naming the token the kit names is what keeps the two from drifting when
+       one of them is re-pointed.
+    
+       Written as a child selector because the nested IconButton sets its own
+       `text-ink-body`, and a plain class on the button would lose to it. No
+       pill, no surface — the field already owns hover, focus and press. */
+    "[&>button]:text-ink-icon",
+    "[&>button]:transition-colors",
+    "[&>button:hover]:text-ink-icon-hover"
   ), {
     variants: {
       variant: {
         primary: "text-ink-secondary",
         outline: "text-ink-secondary"
       },
+      /* Direct child, not descendant. The addon sizes ITS OWN decorative glyph;
+               anything nested inside it that has a size of its own — an IconButton for
+               clearing the field, the visibility toggle in PasswordInput — sizes its
+               glyph by its own size step.
+      
+               As a descendant rule (`[&_svg]`) this out-specified every nested
+               control: a `2xs` IconButton asking for a 14px glyph rendered 20px, and
+               PasswordInput had to fight back with three `!size-4`. */
+      /* The shared icon ladder — 14/16/16/20/20 for xs..xl. It is the same
+               ladder Button and IconButton carry, so a field, a text button and an
+               icon-only control at the same size step all show the same glyph. The
+               kit states this outright and expresses it as one set of tokens
+               (--icon-xs … --icon-xl) read by .btn, .iconbtn, .field and .igrp
+               alike; here the three cva ladders have to agree by hand.
+      
+               `xl` repeats `lg` at 20px rather than taking the kit's 24px: a 24px
+               glyph in a 44px field reads as an icon that outgrew its control, and
+               it dwarfs the text beside it. The ladder repeats at both ends — 16
+               across sm/md, 20 across lg/xl. */
       size: {
-        xs: "[&_svg]:size-4",
-        sm: "[&_svg]:size-5",
-        md: "[&_svg]:size-5",
-        lg: "[&_svg]:size-5",
-        xl: "[&_svg]:size-5"
+        xs: "[&>svg]:size-3.5",
+        sm: "[&>svg]:size-4",
+        md: "[&>svg]:size-4",
+        lg: "[&>svg]:size-5",
+        xl: "[&>svg]:size-5"
       },
       align: {
         "inline-start": cn(
@@ -12378,6 +12494,20 @@ var DevartUI = (() => {
         )
       }
     },
+    compoundVariants: [
+      /* The glyph gap has three steps, not one: 4 / 6 / 8 / 8 / 8, the same
+               ladder Button carries.
+      
+               The 28px field tightens to 4px because at that height a 14px icon with
+               8px of air each side is most of the remaining width — which is why the
+               kit gives .field.is-xs its own gap rather than one value for the whole
+               ladder. The 32px step sits at 6: it is the size the product uses most,
+               and 8px there reads loose against a 14px label. */
+      { size: "xs", align: "inline-start", class: "me-1 gap-1" },
+      { size: "xs", align: "inline-end", class: "ms-1 gap-1" },
+      { size: "sm", align: "inline-start", class: "me-1.5 gap-1.5" },
+      { size: "sm", align: "inline-end", class: "ms-1.5 gap-1.5" }
+    ],
     defaultVariants: {
       align: "inline-start"
     }
@@ -12386,7 +12516,7 @@ var DevartUI = (() => {
     const { size: size4, variant, inputRef } = useInputGroup();
     return (
       // biome-ignore lint/a11y/useKeyWithClickEvents: we can have onClick in this case without according key handle
-      (0, import_jsx_runtime33.jsx)("div", { "data-slot": "input-group-addon", "data-align": align, className: cn(inputGroupAddonVariants({ align, variant, size: size4 }), className), onClick: (e) => {
+      (0, import_jsx_runtime34.jsx)("div", { "data-slot": "input-group-addon", "data-align": align, className: cn(inputGroupAddonVariants({ align, variant, size: size4 }), className), onClick: (e) => {
         if (e.target.closest("button")) {
           return;
         }
@@ -12397,18 +12527,25 @@ var DevartUI = (() => {
 
   // dist/components/InputGroup/InputGroupInput.js
   init_define_import_meta_env();
-  var import_jsx_runtime35 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime36 = __toESM(require_react_shim(), 1);
   var import_react15 = __toESM(require_react_shim(), 1);
 
   // dist/components/Input/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime34 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime35 = __toESM(require_react_shim(), 1);
   function Input({ className, type, ref, ...props }) {
-    return (0, import_jsx_runtime34.jsx)("input", { ref, type, "data-slot": "input", className: cn(
+    return (0, import_jsx_runtime35.jsx)("input", { ref, type, "data-slot": "input", className: cn(
       // The field edge lives on the InputGroup shell; the control carries
       // none of its own horizontal padding.
       "h-full w-full min-w-0 px-0",
       "bg-transparent",
+      // The browser draws its own clear control inside a `type="search"`
+      // field once it holds a value, and it cannot be styled — so a search
+      // field in this system showed two crosses: the native one and the
+      // component's own. The design system owns that affordance (see
+      // InputGroup.md), so the native pair is suppressed.
+      "[&::-webkit-search-cancel-button]:hidden",
+      "[&::-webkit-search-decoration]:hidden",
       // Focus is signalled by the shell's 1px --input-focus border, never by
       // an outer ring — brand colour never visualises form-control focus.
       "focus-visible:outline-none",
@@ -12433,10 +12570,10 @@ var DevartUI = (() => {
         // Type ladder: xs 12 / sm 12 / md-xl 14. 13px is off the agreed
         // eight-size scale; the placeholder now matches the control.
         xs: "text-xs placeholder:text-xs",
-        sm: "text-xs placeholder:text-xs",
+        sm: "text-sm placeholder:text-sm",
         md: "text-sm placeholder:text-sm",
-        lg: "text-sm placeholder:text-sm",
-        xl: "text-sm placeholder:text-sm"
+        lg: "text-base placeholder:text-base",
+        xl: "text-base placeholder:text-base"
       }
     }
   });
@@ -12452,11 +12589,28 @@ var DevartUI = (() => {
         refProp.current = el;
       }
     }, [inputRef, refProp]);
-    return (0, import_jsx_runtime35.jsx)(Input, { ref: mergedRef, "data-slot": "input-group-control", className: cn(inputGroupInputVariants({ size: size4, variant }), className), ...props, id: id ?? inputId, "aria-invalid": isInvalid });
+    return (0, import_jsx_runtime36.jsx)(Input, { ref: mergedRef, "data-slot": "input-group-control", className: cn(inputGroupInputVariants({ size: size4, variant }), className), ...props, id: id ?? inputId, "aria-invalid": isInvalid });
   }
 
   // dist/components/InputGroup/index.js
-  var inputGroupVariants = cva(cn("group/input-group", "box-border", "relative flex w-full items-center rounded-md", "outline-none", "transition-[border,color,box-shadow]"), {
+  var inputGroupVariants = cva(cn(
+    "group/input-group",
+    "box-border",
+    "relative flex w-full items-center rounded-md",
+    "outline-none",
+    "transition-[border,color,box-shadow]",
+    // A trailing action carries the field's edge inset, so the field gives up
+    // its own rather than adding to it. The kit puts the ✕ 8px from the border
+    // in a 24px box around a 16px glyph — 12px of optical air, the same as the
+    // leading glyph opposite it. Left at the size ladder's `px-3` the two
+    // stack and the ✕ sits 24px in, visibly further from the edge than the
+    // search icon across from it.
+    //
+    // A `has-` selector rather than a prop: whether the field has a trailing
+    // action is something the markup already says, and a prop for it is a
+    // second place to get it wrong.
+    "has-[[data-slot=input-group-action]]:pe-2"
+  ), {
     variants: {
       variant: {
         // Page-level fields sitting on Surface/Card — the field reads as a
@@ -12484,11 +12638,16 @@ var DevartUI = (() => {
         // The field's horizontal edge, matching Button's ladder at the same
         // size so a button and a field line up. Children inside the shell
         // (input, addons) add none of their own.
+        // 6px, not 8. The one half-step on this ladder, and the conventions
+        // allow it inside a control: at 28px tall with a 14px glyph, 8px of
+        // edge leaves the icon closer to the border than to the text it
+        // introduces. The kit's .field.is-xs is 8px — this is a deliberate
+        // step tighter, see DESIGN-SYSTEM-CHANGES.
         xs: "h-7 min-h-7 px-2",
         sm: "h-8 min-h-8 px-3",
         md: "h-9 min-h-9 px-3",
-        lg: "h-10 min-h-10 px-4",
-        xl: "h-11 min-h-11 px-5"
+        lg: "h-10 min-h-10 px-3",
+        xl: "h-11 min-h-11 px-3"
       }
     },
     defaultVariants: {
@@ -12507,14 +12666,14 @@ var DevartUI = (() => {
     const inputRef = (0, import_react16.useRef)(null);
     const resolvedSize = size4 ?? "md";
     const resolvedVariant = variant ?? "outline";
-    return (0, import_jsx_runtime36.jsx)(InputGroupContext.Provider, { value: {
+    return (0, import_jsx_runtime37.jsx)(InputGroupContext.Provider, { value: {
       size: resolvedSize,
       variant: resolvedVariant,
       inputRef,
       isInvalid,
       errorText,
       inputId
-    }, children: (0, import_jsx_runtime36.jsxs)("div", { className: "flex w-full flex-col gap-1", children: [label ? (0, import_jsx_runtime36.jsx)(Typography, { element: "label", variant: "span", textColor: "secondary", weight: "medium", className: inputGroupLabelSizeClass[resolvedSize], htmlFor: inputId, children: label }) : null, (0, import_jsx_runtime36.jsx)("div", { "data-slot": "input-group", className: cn(
+    }, children: (0, import_jsx_runtime37.jsxs)("div", { className: "flex w-full flex-col gap-1", children: [label ? (0, import_jsx_runtime37.jsx)(Typography, { element: "label", variant: "span", textColor: "body", weight: "medium", className: inputGroupLabelSizeClass[resolvedSize], htmlFor: inputId, children: label }) : null, (0, import_jsx_runtime37.jsx)("div", { "data-slot": "input-group", className: cn(
       inputGroupVariants({
         size: resolvedSize,
         variant: resolvedVariant
@@ -12538,7 +12697,7 @@ var DevartUI = (() => {
       "has-[[data-slot=input-group-control]:disabled]:bg-state-disabled",
       "has-[[data-slot=input-group-control]:disabled]:text-ink-inactive",
       className
-    ), ...props }), isInvalid && errorText && (0, import_jsx_runtime36.jsx)(Typography, {
+    ), ...props }), isInvalid && errorText && (0, import_jsx_runtime37.jsx)(Typography, {
       variant: "span",
       textColor: "destructive",
       // Helper text is text-xs / medium in Feedback/Red.
@@ -12547,16 +12706,646 @@ var DevartUI = (() => {
     })] }) });
   }
 
-  // dist/components/Autocomplete/BadgeList.js
+  // dist/components/Spinner/index.js
   init_define_import_meta_env();
   var import_jsx_runtime38 = __toESM(require_react_shim(), 1);
+  var spinnerVariants = cva("animate-spin", {
+    variants: {
+      size: {
+        xs: "size-3",
+        sm: "size-4",
+        md: "size-5",
+        lg: "size-6",
+        xl: "size-8"
+      },
+      color: {
+        primary: "text-brand-secondary",
+        secondary: "text-ink-secondary",
+        muted: "text-ink-inactive",
+        accent: "text-brand-primary",
+        success: "text-fb-green",
+        destructive: "text-fb-red-text",
+        warning: "text-fb-attention",
+        white: "text-content-on-solid",
+        inherit: "text-inherit"
+      }
+    },
+    defaultVariants: {
+      size: "sm",
+      color: "primary"
+    }
+  });
+  function Spinner({ className, size: size4, color, label = "Loading", ...props }) {
+    return (0, import_jsx_runtime38.jsx)(LoaderCircle, { role: "status", "aria-label": label, strokeLinecap: "butt", className: cn(spinnerVariants({ size: size4, color }), className), ...props });
+  }
+
+  // dist/components/Autocomplete/BadgeList.js
+  init_define_import_meta_env();
+  var import_jsx_runtime44 = __toESM(require_react_shim(), 1);
   var import_react17 = __toESM(require_react_shim(), 1);
 
   // dist/components/Badge/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime37 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime43 = __toESM(require_react_shim(), 1);
+
+  // dist/components/Tooltip/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime42 = __toESM(require_react_shim(), 1);
+
+  // node_modules/.pnpm/@radix-ui+react-tooltip@1.2_a9853968d49b444bec3ceccc37be5362/node_modules/@radix-ui/react-tooltip/dist/index.mjs
+  init_define_import_meta_env();
+  var React40 = __toESM(require_react_shim(), 1);
+
+  // node_modules/.pnpm/@radix-ui+react-visually-hi_a1e4ac96c6609c7633611349b7441981/node_modules/@radix-ui/react-visually-hidden/dist/index.mjs
+  init_define_import_meta_env();
+  var React39 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime39 = __toESM(require_react_shim(), 1);
+  var __defProp28 = Object.defineProperty;
+  var __name27 = (target, value) => __defProp28(target, "name", { value, configurable: true });
+  var VISUALLY_HIDDEN_STYLES = Object.freeze({
+    // See: https://github.com/twbs/bootstrap/blob/main/scss/mixins/_visually-hidden.scss
+    position: "absolute",
+    border: 0,
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: "hidden",
+    clip: "rect(0, 0, 0, 0)",
+    whiteSpace: "nowrap",
+    wordWrap: "normal"
+  });
+  var VisuallyHidden = /* @__PURE__ */ React39.forwardRef(
+    /* @__PURE__ */ __name27(function VisuallyHidden2(props, forwardedRef) {
+      return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+        Primitive.span,
+        {
+          ...props,
+          ref: forwardedRef,
+          style: { ...VISUALLY_HIDDEN_STYLES, ...props.style }
+        }
+      );
+    }, "VisuallyHidden")
+  );
+  var Root6 = VisuallyHidden;
+
+  // node_modules/.pnpm/@radix-ui+react-tooltip@1.2_a9853968d49b444bec3ceccc37be5362/node_modules/@radix-ui/react-tooltip/dist/index.mjs
+  var import_jsx_runtime40 = __toESM(require_react_shim(), 1);
+  var __defProp29 = Object.defineProperty;
+  var __name28 = (target, value) => __defProp29(target, "name", { value, configurable: true });
+  var [createTooltipContext, createTooltipScope] = createContextScope("Tooltip", [
+    createPopperScope
+  ]);
+  var usePopperScope2 = createPopperScope();
+  var PROVIDER_NAME = "TooltipProvider";
+  var DEFAULT_DELAY_DURATION = 700;
+  var TOOLTIP_OPEN = "tooltip.open";
+  var [TooltipProviderContextProvider, useTooltipProviderContext] = createTooltipContext(PROVIDER_NAME);
+  var TooltipProvider = /* @__PURE__ */ __name28((props) => {
+    const {
+      __scopeTooltip,
+      delayDuration = DEFAULT_DELAY_DURATION,
+      skipDelayDuration = 300,
+      disableHoverableContent = false,
+      children
+    } = props;
+    const isOpenDelayedRef = React40.useRef(true);
+    const isPointerInTransitRef = React40.useRef(false);
+    const skipDelayTimerRef = React40.useRef(0);
+    React40.useEffect(() => {
+      const skipDelayTimer = skipDelayTimerRef.current;
+      return () => window.clearTimeout(skipDelayTimer);
+    }, []);
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+      TooltipProviderContextProvider,
+      {
+        scope: __scopeTooltip,
+        isOpenDelayedRef,
+        delayDuration,
+        onOpen: React40.useCallback(() => {
+          if (skipDelayDuration <= 0) return;
+          window.clearTimeout(skipDelayTimerRef.current);
+          isOpenDelayedRef.current = false;
+        }, [skipDelayDuration]),
+        onClose: React40.useCallback(() => {
+          if (skipDelayDuration <= 0) return;
+          window.clearTimeout(skipDelayTimerRef.current);
+          skipDelayTimerRef.current = window.setTimeout(
+            () => isOpenDelayedRef.current = true,
+            skipDelayDuration
+          );
+        }, [skipDelayDuration]),
+        isPointerInTransitRef,
+        onPointerInTransitChange: React40.useCallback((inTransit) => {
+          isPointerInTransitRef.current = inTransit;
+        }, []),
+        disableHoverableContent,
+        children
+      }
+    );
+  }, "TooltipProvider");
+  var TOOLTIP_NAME = "Tooltip";
+  var [TooltipContextProvider, useTooltipContext] = createTooltipContext(TOOLTIP_NAME);
+  var Tooltip = /* @__PURE__ */ __name28((props) => {
+    const {
+      __scopeTooltip,
+      children,
+      open: openProp,
+      defaultOpen,
+      onOpenChange,
+      disableHoverableContent: disableHoverableContentProp,
+      delayDuration: delayDurationProp
+    } = props;
+    const providerContext = useTooltipProviderContext(TOOLTIP_NAME, props.__scopeTooltip);
+    const popperScope = usePopperScope2(__scopeTooltip);
+    const [trigger, setTrigger] = React40.useState(null);
+    const [contentIdState, setContentId] = React40.useState(void 0);
+    const generatedContentId = useId();
+    const openTimerRef = React40.useRef(0);
+    const disableHoverableContent = disableHoverableContentProp ?? providerContext.disableHoverableContent;
+    const delayDuration = delayDurationProp ?? providerContext.delayDuration;
+    const wasOpenDelayedRef = React40.useRef(false);
+    const [open, setOpen] = useControllableState({
+      prop: openProp,
+      defaultProp: defaultOpen ?? false,
+      onChange: /* @__PURE__ */ __name28((open2) => {
+        if (open2) {
+          providerContext.onOpen();
+          document.dispatchEvent(new CustomEvent(TOOLTIP_OPEN));
+        } else {
+          providerContext.onClose();
+        }
+        onOpenChange?.(open2);
+      }, "onChange"),
+      caller: TOOLTIP_NAME
+    });
+    const stateAttribute = React40.useMemo(() => {
+      return open ? wasOpenDelayedRef.current ? "delayed-open" : "instant-open" : "closed";
+    }, [open]);
+    const handleOpen = React40.useCallback(() => {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = 0;
+      wasOpenDelayedRef.current = false;
+      setOpen(true);
+    }, [setOpen]);
+    const handleClose = React40.useCallback(() => {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = 0;
+      setOpen(false);
+    }, [setOpen]);
+    const handleDelayedOpen = React40.useCallback(() => {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = window.setTimeout(() => {
+        wasOpenDelayedRef.current = true;
+        setOpen(true);
+        openTimerRef.current = 0;
+      }, delayDuration);
+    }, [delayDuration, setOpen]);
+    React40.useEffect(() => {
+      return () => {
+        if (openTimerRef.current) {
+          window.clearTimeout(openTimerRef.current);
+          openTimerRef.current = 0;
+        }
+      };
+    }, []);
+    const contentId = contentIdState ?? generatedContentId;
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+      TooltipContextProvider,
+      {
+        scope: __scopeTooltip,
+        contentId,
+        setContentId,
+        open,
+        stateAttribute,
+        trigger,
+        onTriggerChange: setTrigger,
+        onTriggerEnter: React40.useCallback(() => {
+          if (providerContext.isOpenDelayedRef.current) handleDelayedOpen();
+          else handleOpen();
+        }, [providerContext.isOpenDelayedRef, handleDelayedOpen, handleOpen]),
+        onTriggerLeave: React40.useCallback(() => {
+          if (disableHoverableContent) {
+            handleClose();
+          } else {
+            window.clearTimeout(openTimerRef.current);
+            openTimerRef.current = 0;
+          }
+        }, [handleClose, disableHoverableContent]),
+        onOpen: handleOpen,
+        onClose: handleClose,
+        disableHoverableContent,
+        children
+      }
+    ) });
+  }, "Tooltip");
+  var TRIGGER_NAME4 = "TooltipTrigger";
+  var TooltipTrigger = /* @__PURE__ */ React40.forwardRef(
+    /* @__PURE__ */ __name28(function TooltipTrigger2(props, forwardedRef) {
+      const { __scopeTooltip, ...triggerProps } = props;
+      const context = useTooltipContext(TRIGGER_NAME4, __scopeTooltip);
+      const providerContext = useTooltipProviderContext(TRIGGER_NAME4, __scopeTooltip);
+      const popperScope = usePopperScope2(__scopeTooltip);
+      const ref = React40.useRef(null);
+      const composedRefs = useComposedRefs(forwardedRef, ref, context.onTriggerChange);
+      const isPointerDownRef = React40.useRef(false);
+      const hasPointerMoveOpenedRef = React40.useRef(false);
+      const handlePointerUp = React40.useCallback(() => isPointerDownRef.current = false, []);
+      React40.useEffect(() => {
+        return () => document.removeEventListener("pointerup", handlePointerUp);
+      }, [handlePointerUp]);
+      return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Anchor, { asChild: true, ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+        Primitive.button,
+        {
+          "aria-describedby": context.open ? context.contentId : void 0,
+          "data-state": context.stateAttribute,
+          ...triggerProps,
+          ref: composedRefs,
+          onPointerMove: composeEventHandlers(props.onPointerMove, (event) => {
+            if (event.pointerType === "touch") return;
+            if (!hasPointerMoveOpenedRef.current && !providerContext.isPointerInTransitRef.current) {
+              context.onTriggerEnter();
+              hasPointerMoveOpenedRef.current = true;
+            }
+          }),
+          onPointerLeave: composeEventHandlers(props.onPointerLeave, () => {
+            context.onTriggerLeave();
+            hasPointerMoveOpenedRef.current = false;
+          }),
+          onPointerDown: composeEventHandlers(props.onPointerDown, () => {
+            if (context.open) {
+              context.onClose();
+            }
+            isPointerDownRef.current = true;
+            document.addEventListener("pointerup", handlePointerUp, { once: true });
+          }),
+          onFocus: composeEventHandlers(props.onFocus, () => {
+            if (!isPointerDownRef.current) context.onOpen();
+          }),
+          onBlur: composeEventHandlers(props.onBlur, context.onClose),
+          onClick: composeEventHandlers(props.onClick, context.onClose)
+        }
+      ) });
+    }, "TooltipTrigger")
+  );
+  var PORTAL_NAME2 = "TooltipPortal";
+  var [PortalProvider2, usePortalContext2] = createTooltipContext(PORTAL_NAME2, {
+    forceMount: void 0
+  });
+  var TooltipPortal = /* @__PURE__ */ __name28((props) => {
+    const { __scopeTooltip, forceMount, children, container } = props;
+    const context = useTooltipContext(PORTAL_NAME2, __scopeTooltip);
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(PortalProvider2, { scope: __scopeTooltip, forceMount, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Portal, { asChild: true, container, children }) }) });
+  }, "TooltipPortal");
+  var CONTENT_NAME6 = "TooltipContent";
+  var TooltipContent = /* @__PURE__ */ React40.forwardRef(
+    /* @__PURE__ */ __name28(function TooltipContent2(props, forwardedRef) {
+      const portalContext = usePortalContext2(CONTENT_NAME6, props.__scopeTooltip);
+      const { forceMount = portalContext.forceMount, side = "top", ...contentProps } = props;
+      const context = useTooltipContext(CONTENT_NAME6, props.__scopeTooltip);
+      return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Presence, { present: forceMount || context.open, children: context.disableHoverableContent ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(TooltipContentImpl, { side, ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(TooltipContentHoverable, { side, ...contentProps, ref: forwardedRef }) });
+    }, "TooltipContent")
+  );
+  var TooltipContentHoverable = /* @__PURE__ */ React40.forwardRef(/* @__PURE__ */ __name28(function TooltipContentHoverable2(props, forwardedRef) {
+    const context = useTooltipContext(CONTENT_NAME6, props.__scopeTooltip);
+    const providerContext = useTooltipProviderContext(CONTENT_NAME6, props.__scopeTooltip);
+    const ref = React40.useRef(null);
+    const composedRefs = useComposedRefs(forwardedRef, ref);
+    const [pointerGraceArea, setPointerGraceArea] = React40.useState(null);
+    const { trigger, onClose } = context;
+    const content = ref.current;
+    const { onPointerInTransitChange } = providerContext;
+    const handleRemoveGraceArea = React40.useCallback(() => {
+      setPointerGraceArea(null);
+      onPointerInTransitChange(false);
+    }, [onPointerInTransitChange]);
+    const handleCreateGraceArea = React40.useCallback(
+      (event, hoverTarget) => {
+        const currentTarget = event.currentTarget;
+        const exitPoint = { x: event.clientX, y: event.clientY };
+        const exitSide = getExitSideFromRect(exitPoint, currentTarget.getBoundingClientRect());
+        const paddedExitPoints = getPaddedExitPoints(exitPoint, exitSide);
+        const hoverTargetPoints = getPointsFromRect(hoverTarget.getBoundingClientRect());
+        const graceArea = getHull([...paddedExitPoints, ...hoverTargetPoints]);
+        setPointerGraceArea(graceArea);
+        onPointerInTransitChange(true);
+      },
+      [onPointerInTransitChange]
+    );
+    React40.useEffect(() => {
+      return () => handleRemoveGraceArea();
+    }, [handleRemoveGraceArea]);
+    React40.useEffect(() => {
+      if (trigger && content) {
+        const handleTriggerLeave = /* @__PURE__ */ __name28((event) => handleCreateGraceArea(event, content), "handleTriggerLeave");
+        const handleContentLeave = /* @__PURE__ */ __name28((event) => handleCreateGraceArea(event, trigger), "handleContentLeave");
+        trigger.addEventListener("pointerleave", handleTriggerLeave);
+        content.addEventListener("pointerleave", handleContentLeave);
+        return () => {
+          trigger.removeEventListener("pointerleave", handleTriggerLeave);
+          content.removeEventListener("pointerleave", handleContentLeave);
+        };
+      }
+    }, [trigger, content, handleCreateGraceArea, handleRemoveGraceArea]);
+    React40.useEffect(() => {
+      if (pointerGraceArea) {
+        const handleTrackPointerGrace = /* @__PURE__ */ __name28((event) => {
+          const target = event.target;
+          const pointerPosition = { x: event.clientX, y: event.clientY };
+          const hasEnteredTarget = trigger?.contains(target) || content?.contains(target);
+          const isPointerOutsideGraceArea = !isPointInPolygon2(pointerPosition, pointerGraceArea);
+          if (hasEnteredTarget) {
+            handleRemoveGraceArea();
+          } else if (isPointerOutsideGraceArea) {
+            handleRemoveGraceArea();
+            onClose();
+          }
+        }, "handleTrackPointerGrace");
+        document.addEventListener("pointermove", handleTrackPointerGrace);
+        return () => document.removeEventListener("pointermove", handleTrackPointerGrace);
+      }
+    }, [trigger, content, pointerGraceArea, onClose, handleRemoveGraceArea]);
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(TooltipContentImpl, { ...props, ref: composedRefs });
+  }, "TooltipContentHoverable"));
+  var Slottable2 = createSlottable("TooltipContent");
+  var TooltipContentImpl = /* @__PURE__ */ React40.forwardRef(
+    // blank line to reduce diff noise
+    /* @__PURE__ */ __name28(function TooltipContentImpl2(props, forwardedRef) {
+      const {
+        __scopeTooltip,
+        children,
+        "aria-label": ariaLabel,
+        id: idProp,
+        onEscapeKeyDown,
+        onPointerDownOutside,
+        ...contentProps
+      } = props;
+      const context = useTooltipContext(CONTENT_NAME6, __scopeTooltip);
+      const popperScope = usePopperScope2(__scopeTooltip);
+      const { onClose } = context;
+      React40.useEffect(() => {
+        document.addEventListener(TOOLTIP_OPEN, onClose);
+        return () => document.removeEventListener(TOOLTIP_OPEN, onClose);
+      }, [onClose]);
+      React40.useEffect(() => {
+        if (context.trigger) {
+          const handleScroll2 = /* @__PURE__ */ __name28((event) => {
+            if (event.target instanceof Node && event.target.contains(context.trigger)) {
+              onClose();
+            }
+          }, "handleScroll");
+          window.addEventListener("scroll", handleScroll2, { capture: true });
+          return () => window.removeEventListener("scroll", handleScroll2, { capture: true });
+        }
+      }, [context.trigger, onClose]);
+      const { setContentId } = context;
+      useLayoutEffect2(() => {
+        setContentId(idProp);
+        return () => {
+          setContentId(void 0);
+        };
+      }, [idProp, setContentId]);
+      return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+        DismissableLayer,
+        {
+          asChild: true,
+          disableOutsidePointerEvents: false,
+          onEscapeKeyDown,
+          onPointerDownOutside,
+          onFocusOutside: (event) => event.preventDefault(),
+          onDismiss: onClose,
+          children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(
+            Content3,
+            {
+              "data-state": context.stateAttribute,
+              role: ariaLabel ? void 0 : "tooltip",
+              id: ariaLabel ? void 0 : context.contentId,
+              ...popperScope,
+              ...contentProps,
+              ref: forwardedRef,
+              style: {
+                ...contentProps.style,
+                // re-namespace exposed content custom properties
+                ...{
+                  "--radix-tooltip-content-transform-origin": "var(--radix-popper-transform-origin)",
+                  "--radix-tooltip-content-available-width": "var(--radix-popper-available-width)",
+                  "--radix-tooltip-content-available-height": "var(--radix-popper-available-height)",
+                  "--radix-tooltip-trigger-width": "var(--radix-popper-anchor-width)",
+                  "--radix-tooltip-trigger-height": "var(--radix-popper-anchor-height)"
+                }
+              },
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Slottable2, { children }),
+                ariaLabel ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Root6, { id: context.contentId, role: "tooltip", children: ariaLabel }) : null
+              ]
+            }
+          )
+        }
+      );
+    }, "TooltipContentImpl")
+  );
+  var TooltipArrow = /* @__PURE__ */ React40.forwardRef(
+    /* @__PURE__ */ __name28(function TooltipArrow2(props, forwardedRef) {
+      const { __scopeTooltip, ...arrowProps } = props;
+      const popperScope = usePopperScope2(__scopeTooltip);
+      return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Arrow3, { ...popperScope, ...arrowProps, ref: forwardedRef });
+    }, "TooltipArrow")
+  );
+  function getExitSideFromRect(point, rect) {
+    const top = Math.abs(rect.top - point.y);
+    const bottom = Math.abs(rect.bottom - point.y);
+    const right = Math.abs(rect.right - point.x);
+    const left = Math.abs(rect.left - point.x);
+    switch (Math.min(top, bottom, right, left)) {
+      case left:
+        return "left";
+      case right:
+        return "right";
+      case top:
+        return "top";
+      case bottom:
+        return "bottom";
+      default:
+        throw new Error("unreachable");
+    }
+  }
+  __name28(getExitSideFromRect, "getExitSideFromRect");
+  function getPaddedExitPoints(exitPoint, exitSide, padding = 5) {
+    const paddedExitPoints = [];
+    switch (exitSide) {
+      case "top":
+        paddedExitPoints.push(
+          { x: exitPoint.x - padding, y: exitPoint.y + padding },
+          { x: exitPoint.x + padding, y: exitPoint.y + padding }
+        );
+        break;
+      case "bottom":
+        paddedExitPoints.push(
+          { x: exitPoint.x - padding, y: exitPoint.y - padding },
+          { x: exitPoint.x + padding, y: exitPoint.y - padding }
+        );
+        break;
+      case "left":
+        paddedExitPoints.push(
+          { x: exitPoint.x + padding, y: exitPoint.y - padding },
+          { x: exitPoint.x + padding, y: exitPoint.y + padding }
+        );
+        break;
+      case "right":
+        paddedExitPoints.push(
+          { x: exitPoint.x - padding, y: exitPoint.y - padding },
+          { x: exitPoint.x - padding, y: exitPoint.y + padding }
+        );
+        break;
+    }
+    return paddedExitPoints;
+  }
+  __name28(getPaddedExitPoints, "getPaddedExitPoints");
+  function getPointsFromRect(rect) {
+    const { top, right, bottom, left } = rect;
+    return [
+      { x: left, y: top },
+      { x: right, y: top },
+      { x: right, y: bottom },
+      { x: left, y: bottom }
+    ];
+  }
+  __name28(getPointsFromRect, "getPointsFromRect");
+  function isPointInPolygon2(point, polygon) {
+    const { x, y } = point;
+    let inside = false;
+    for (let i = 0, j2 = polygon.length - 1; i < polygon.length; j2 = i++) {
+      const ii = polygon[i];
+      const jj = polygon[j2];
+      const xi = ii.x;
+      const yi = ii.y;
+      const xj = jj.x;
+      const yj = jj.y;
+      const intersect = yi > y !== yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi;
+      if (intersect) inside = !inside;
+    }
+    return inside;
+  }
+  __name28(isPointInPolygon2, "isPointInPolygon");
+  function getHull(points) {
+    const newPoints = points.slice();
+    newPoints.sort((a, b) => {
+      if (a.x < b.x) return -1;
+      else if (a.x > b.x) return 1;
+      else if (a.y < b.y) return -1;
+      else if (a.y > b.y) return 1;
+      else return 0;
+    });
+    return getHullPresorted(newPoints);
+  }
+  __name28(getHull, "getHull");
+  function getHullPresorted(points) {
+    if (points.length <= 1) return points.slice();
+    const upperHull = [];
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i];
+      while (upperHull.length >= 2) {
+        const q2 = upperHull[upperHull.length - 1];
+        const r2 = upperHull[upperHull.length - 2];
+        if ((q2.x - r2.x) * (p.y - r2.y) >= (q2.y - r2.y) * (p.x - r2.x)) upperHull.pop();
+        else break;
+      }
+      upperHull.push(p);
+    }
+    upperHull.pop();
+    const lowerHull = [];
+    for (let i = points.length - 1; i >= 0; i--) {
+      const p = points[i];
+      while (lowerHull.length >= 2) {
+        const q2 = lowerHull[lowerHull.length - 1];
+        const r2 = lowerHull[lowerHull.length - 2];
+        if ((q2.x - r2.x) * (p.y - r2.y) >= (q2.y - r2.y) * (p.x - r2.x)) lowerHull.pop();
+        else break;
+      }
+      lowerHull.push(p);
+    }
+    lowerHull.pop();
+    if (upperHull.length === 1 && lowerHull.length === 1 && upperHull[0].x === lowerHull[0].x && upperHull[0].y === lowerHull[0].y) {
+      return upperHull;
+    } else {
+      return upperHull.concat(lowerHull);
+    }
+  }
+  __name28(getHullPresorted, "getHullPresorted");
+  var Provider = TooltipProvider;
+  var Root33 = Tooltip;
+  var Trigger4 = TooltipTrigger;
+  var Portal4 = TooltipPortal;
+  var Content24 = TooltipContent;
+  var Arrow23 = TooltipArrow;
+
+  // dist/components/Tooltip/TooltipContent.js
+  init_define_import_meta_env();
+  var import_jsx_runtime41 = __toESM(require_react_shim(), 1);
+  function TooltipContent3({ portalContainer, className, sideOffset = 8, showArrow = true, arrowClassName, children, ref, ...props }) {
+    const container = usePortalContainer(portalContainer);
+    return (0, import_jsx_runtime41.jsx)(Portal4, { container, children: (0, import_jsx_runtime41.jsxs)(Content24, { ref, sideOffset, className: cn(
+      "z-50",
+      "px-2 py-1",
+      "rounded-md bg-ink-primary",
+      "text-surface-card text-xs",
+      // The bubble hugs short copy and wraps at 288px — the same width as a
+      // medium menu — so a long tip gets two or three lines instead of
+      // running off the viewport.
+      "w-max max-w-72 whitespace-normal text-left",
+      // Animation
+      "fade-in-0 zoom-in-95 animate-in",
+      "data-[state=closed]:fade-out-0",
+      "data-[state=closed]:zoom-out-95",
+      "data-[state=closed]:animate-out",
+      // Slide based on side
+      "data-[side=bottom]:slide-in-from-top-2",
+      "data-[side=left]:slide-in-from-right-2",
+      "data-[side=right]:slide-in-from-left-2",
+      "data-[side=top]:slide-in-from-bottom-2",
+      "origin-[--radix-tooltip-content-transform-origin]",
+      className
+    ), ...props, children: [children, showArrow && // 8x4, not Radix's default 10x5. The arrow is drawn INTO the
+    // `sideOffset` gap rather than beside it, so the distance a reader
+    // actually sees is `sideOffset - arrowHeight`. With the stock 5px
+    // arrow that came to 8 - 5 = 3px — and neither 5 nor 3 sits on the
+    // 4px scale. At 4px high the tip lands exactly 4px from the trigger,
+    // so all three numbers are on the grid.
+    (0, import_jsx_runtime41.jsx)(Arrow23, { width: 8, height: 4, className: cn(arrowClassName, "fill-ink-primary") })] }) });
+  }
+
+  // dist/components/Tooltip/index.js
+  var TooltipProvider2 = ({ delayDuration = 300, ...props }) => (0, import_jsx_runtime42.jsx)(Provider, { delayDuration, ...props });
+  TooltipProvider2.displayName = Provider.displayName;
+  var Tooltip2 = Root33;
+  var TooltipTrigger3 = ({ className, asChild, ...props }) => (0, import_jsx_runtime42.jsx)(Trigger4, { asChild, className: asChild ? className : cn(focusRing, className), ...props });
+  TooltipTrigger3.displayName = Trigger4.displayName;
+
+  // dist/components/Badge/index.js
   var badgeVariants = cva(cn(
-    "inline-flex items-center gap-2 border",
+    // The hairline is the BASE, not a variant. `--badge-border` mixes from
+    // `currentColor`, so the border is the chip's own hue on every variant, and
+    // a chip stays defined on a surface its fill happens to match — a Secondary
+    // badge is `--surface-card2`, which is also what a hovered or selected
+    // table row lands on. `flat` is the opt-out.
+    // No `gap` here — it steps with the size, below. A flat 8px meant the
+    // space between the glyph and the label was wider than the chip's own 6px
+    // edge inset at `sm`, which is what makes a small pill read as two things
+    // in a box rather than one chip.
+    "inline-flex items-center border border-badge-border",
+    // The height is fixed by `size`, so the label must never wrap: a second
+    // line does not make the pill taller, it spills out of it — the text runs
+    // over the border and the chip reads as broken. `Badge.md` already said a
+    // chip is one or two words; this is that rule in CSS rather than in prose,
+    // for the cases the author cannot see (a narrow column, a long locale, a
+    // count that reaches three digits).
+    //
+    // `overflow-hidden` is the other half of it, and it is what makes the pill
+    // shrinkable at all: a flex item's automatic minimum size is its content
+    // width until the item hides its overflow, at which point it becomes 0. So
+    // a badge with too little room narrows and ellipsises INSIDE its own
+    // border, instead of either wrapping or running out across its neighbour.
+    "overflow-hidden whitespace-nowrap",
     // reference: `.badge .b-ic { width:14px; height:14px; flex:none }`
     "[&_svg]:shrink-0",
     "font-medium",
@@ -12568,20 +13357,35 @@ var DevartUI = (() => {
   ), {
     variants: {
       variant: {
-        primary: "border-transparent bg-badge-primary-bg text-badge-primary-text",
-        secondary: "border-transparent bg-badge-secondary-bg text-badge-secondary-text",
-        attention: "border-transparent bg-fb-attention/15 text-fb-attention",
-        success: "border-transparent bg-fb-green/15 text-fb-green",
-        error: "border-transparent bg-fb-red/15 text-fb-red-text",
+        primary: "bg-badge-primary-bg text-badge-primary-text",
+        secondary: "bg-badge-secondary-bg text-badge-secondary-text",
+        attention: "bg-fb-attention/15 text-fb-attention",
+        success: "bg-fb-green/15 text-fb-green",
+        error: "bg-fb-red/15 text-fb-red-text",
+        // `brand` and `green` are fill choices, not "the bordered ones": they
+        // keep their own opaque border token because their fill is opaque too.
         brand: "border-badge-brand-border bg-badge-brand-bg text-badge-brand-text",
         green: "border-badge-green-border bg-badge-green-bg text-badge-green-text"
       },
+      // Height, inset, gap and glyph step together. The kit sets the base at
+      // 28px / 8px gap / 14px glyph and `badge-sm` at 20px / 6px inset / 4px
+      // gap / 12px glyph, with the reason written next to it: "a 14px glyph in
+      // a 20px pill leaves 3px of air — step down".
       size: {
-        xs: "h-5 px-2 text-xs [&_svg]:size-3",
-        sm: "h-5 px-1.5 text-xs [&_svg]:size-3.5",
-        md: "h-7 px-2.5 text-xs [&_svg]:size-3.5",
-        lg: "h-8 px-2.5 text-sm [&_svg]:size-4",
-        xl: "h-9 px-2.5 text-sm [&_svg]:size-4"
+        /* One small step, not two. `xs` and `sm` were both 20px tall and
+                   differed only in their sides — and backwards at that: the step named
+                   smaller carried the LARGER inset (8 against 6). A call site moving
+                   between them changed nothing anyone could see, which is what made it
+                   read as a mistake rather than as a choice.
+        
+                   `sm` keeps its own 6px sides and `xs` is gone. The kit has one badge
+                   at all (28px / 10px, this ladder's `md`), so nothing here is being
+                   contradicted — the ladder is the package's own and now has no step
+                   that is not a step. */
+        sm: "h-5 gap-1 px-1.5 text-xs [&_svg]:size-3",
+        md: "h-7 gap-2 px-2.5 text-xs [&_svg]:size-3.5",
+        lg: "h-8 gap-2 px-2.5 text-sm [&_svg]:size-4",
+        xl: "h-9 gap-2 px-2.5 text-sm [&_svg]:size-4"
       },
       rounded: {
         none: "rounded-none",
@@ -12591,22 +13395,32 @@ var DevartUI = (() => {
         lg: "rounded-lg",
         xl: "rounded-xl",
         full: "rounded-full"
+      },
+      flat: {
+        true: "border-transparent",
+        false: ""
       }
     },
     defaultVariants: {
       variant: "primary",
       size: "md",
-      rounded: "md"
+      rounded: "md",
+      flat: false
     }
   });
-  function Badge({ withDot, removeLabel = "Remove", variant, size: size4, rounded, leftSlot, rightSlot, onDelete, className, children, ...props }) {
-    return (0, import_jsx_runtime37.jsxs)("div", { className: cn(badgeVariants({ variant, rounded, size: size4 }), className), ...props, children: [withDot && (0, import_jsx_runtime37.jsx)("span", { "aria-hidden": true, className: "size-1.5 shrink-0 rounded-full bg-current" }), leftSlot, (0, import_jsx_runtime37.jsx)("span", { className: "inline-block align-text-top leading-none", children }), rightSlot, onDelete && (0, import_jsx_runtime37.jsxs)("button", { type: "button", onClick: onDelete, className: cn("inline-flex shrink-0 items-center justify-center rounded-sm", "opacity-70 transition-opacity", "hover:opacity-100", "focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"), children: [(0, import_jsx_runtime37.jsx)(X, {}), (0, import_jsx_runtime37.jsx)("span", { className: "sr-only", children: removeLabel })] })] });
+  function Badge({ withDot, removeLabel = "Remove", variant, size: size4, rounded, flat, leftSlot, rightSlot, onDelete, tooltip, tooltipSide = "top", className, children, ...props }) {
+    const badge = (0, import_jsx_runtime43.jsxs)("div", { className: cn(badgeVariants({ variant, rounded, size: size4, flat }), className), tabIndex: tooltip ? 0 : void 0, ...props, children: [withDot && (0, import_jsx_runtime43.jsx)("span", { "aria-hidden": true, className: "size-1.5 shrink-0 rounded-full bg-current" }), leftSlot ? (0, import_jsx_runtime43.jsx)("span", { className: "inline-flex shrink-0", children: leftSlot }) : null, (0, import_jsx_runtime43.jsx)("span", { className: "inline-block min-w-0 truncate", children }), rightSlot ? (0, import_jsx_runtime43.jsx)("span", { className: "inline-flex shrink-0", children: rightSlot }) : null, onDelete && (0, import_jsx_runtime43.jsxs)("button", { type: "button", onClick: onDelete, className: cn("inline-flex shrink-0 items-center justify-center rounded-sm", "opacity-70 transition-opacity", "hover:opacity-100", "focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"), children: [(0, import_jsx_runtime43.jsx)(X, {}), (0, import_jsx_runtime43.jsx)("span", { className: "sr-only", children: removeLabel })] })] });
+    if (!tooltip)
+      return badge;
+    return (0, import_jsx_runtime43.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime43.jsx)(TooltipTrigger3, { asChild: true, children: badge }), (0, import_jsx_runtime43.jsx)(TooltipContent3, { side: tooltipSide, children: tooltip })] });
   }
 
   // dist/components/Autocomplete/BadgeList.js
   var BADGE_SIZE_MAP = {
-    xs: "xs",
-    sm: "xs",
+    /* The field's two smallest steps both take the badge's one small step —
+       there is no longer a second 20px rung to distinguish them with. */
+    xs: "sm",
+    sm: "sm",
     md: "sm",
     lg: "md",
     xl: "lg"
@@ -12614,7 +13428,7 @@ var DevartUI = (() => {
   var BadgeListComponent = ({ tags, variant = "secondary", inputGroupSize = "lg", getOptionLabel, getBadgeProps, renderBadge }) => {
     if (tags.length === 0)
       return null;
-    return (0, import_jsx_runtime38.jsx)(import_jsx_runtime38.Fragment, { children: tags.map((tag, index2) => {
+    return (0, import_jsx_runtime44.jsx)(import_jsx_runtime44.Fragment, { children: tags.map((tag, index2) => {
       const badgeProps = getBadgeProps({ index: index2 });
       const label = getOptionLabel(tag);
       const onDelete = (e) => {
@@ -12622,21 +13436,21 @@ var DevartUI = (() => {
         badgeProps.onDelete(e);
       };
       if (renderBadge) {
-        return (0, import_jsx_runtime38.jsx)("span", { children: renderBadge(tag, onDelete) }, tag.id);
+        return (0, import_jsx_runtime44.jsx)("span", { children: renderBadge(tag, onDelete) }, tag.id);
       }
-      return (0, import_jsx_runtime38.jsx)(Badge, { variant, size: BADGE_SIZE_MAP[inputGroupSize ?? "lg"], "data-focused": badgeProps["data-focused"], onDelete, children: label }, tag.id);
+      return (0, import_jsx_runtime44.jsx)(Badge, { variant, size: BADGE_SIZE_MAP[inputGroupSize ?? "lg"], "data-focused": badgeProps["data-focused"], onDelete, children: label }, tag.id);
     }) });
   };
   var BadgeList = (0, import_react17.memo)(BadgeListComponent);
 
   // dist/components/Autocomplete/OptionItem.js
   init_define_import_meta_env();
-  var import_jsx_runtime39 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime45 = __toESM(require_react_shim(), 1);
   var OptionItem = ({ option, index: index2, getOptionProps, getOptionLabel, renderOption }) => {
     const optionProps = getOptionProps({ option, index: index2 });
     const isSelected = optionProps["aria-selected"];
-    const content = (0, import_jsx_runtime39.jsx)(import_jsx_runtime39.Fragment, { children: (0, import_jsx_runtime39.jsx)("span", { className: "flex-1 truncate", children: getOptionLabel(option) }) });
-    return (0, import_jsx_runtime39.jsx)(DropdownMenuItem3, { ...optionProps, onSelect: (e) => e.preventDefault(), asChild: !!renderOption, className: cn(
+    const content = (0, import_jsx_runtime45.jsx)(import_jsx_runtime45.Fragment, { children: (0, import_jsx_runtime45.jsx)("span", { className: "flex-1 truncate", children: getOptionLabel(option) }) });
+    return (0, import_jsx_runtime45.jsx)(DropdownMenuItem3, { ...optionProps, onSelect: (e) => e.preventDefault(), asChild: !!renderOption, className: cn(
       "min-h-11 cursor-pointer gap-2.5 rounded-md px-4 py-2.5",
       "text-ink-primary text-sm leading-normal",
       // Highlighted (pointer or keyboard) and selected are different states
@@ -12686,9 +13500,9 @@ var DevartUI = (() => {
     const tags = (0, import_react18.useMemo)(() => isMultipleSelect ? value || [] : [], [isMultipleSelect, value]);
     const memoizedOptions = (0, import_react18.useMemo)(() => {
       if (filteredOptions.length === 0) {
-        return (0, import_jsx_runtime40.jsx)("div", { className: "px-4 py-5 text-center text-ink-secondary text-sm", children: noOptionsText });
+        return (0, import_jsx_runtime46.jsx)("div", { className: "px-4 py-5 text-center text-ink-secondary text-sm", children: noOptionsText });
       }
-      return filteredOptions.map((option, index2) => (0, import_jsx_runtime40.jsx)(OptionItem, { option, index: index2, getOptionProps, getOptionLabel, renderOption }, option.id));
+      return filteredOptions.map((option, index2) => (0, import_jsx_runtime46.jsx)(OptionItem, { option, index: index2, getOptionProps, getOptionLabel, renderOption }, option.id));
     }, [
       filteredOptions,
       noOptionsText,
@@ -12704,24 +13518,26 @@ var DevartUI = (() => {
     }, [inputProps.onKeyDown]);
     const hasTags = tags.length > 0;
     const showClear = !disableClearable && !disabled && !readOnly && isDirty;
-    return (0, import_jsx_runtime40.jsxs)("div", { className: cn("relative w-full", className), children: [label && (0, import_jsx_runtime40.jsx)(Typography, { element: "label", variant: "span", textColor: "secondary", weight: "medium", className: "mb-1.5 block", ...getInputLabelProps(), children: label }), (0, import_jsx_runtime40.jsxs)(DropdownMenu2, { open, modal: false, onOpenChange: setOpen, children: [(0, import_jsx_runtime40.jsx)(DropdownMenuTrigger3, { asChild: true, disabled, children: (0, import_jsx_runtime40.jsx)("div", { ...getRootProps(), children: (0, import_jsx_runtime40.jsxs)(InputGroup, { size: size4, variant: "outline", className: cn("group h-auto", hasTags && "flex-wrap"), children: [startAddon && (0, import_jsx_runtime40.jsx)(InputGroupAddon, { align: "inline-start", children: startAddon }), (0, import_jsx_runtime40.jsxs)("div", { className: cn("flex flex-1 flex-wrap items-center", BADGE_LIST_PADDING_MAP[size4 ?? "lg"]), children: [(0, import_jsx_runtime40.jsx)(BadgeList, { tags, inputGroupSize: size4, variant: badgeVariant, getOptionLabel, getBadgeProps, renderBadge }), (0, import_jsx_runtime40.jsx)(InputGroupInput, { ...inputProps, placeholder, className: cn("min-w-8 flex-1 bg-transparent", hasTags && "px-0", inputClassName), onKeyDown: handleInputKeyDown })] }), (0, import_jsx_runtime40.jsxs)(InputGroupAddon, { align: "inline-end", className: "gap-0.5", children: [endAddon, showClear && (0, import_jsx_runtime40.jsx)(IconButton, { ...getClearProps(), "aria-label": clearLabel, variant: "transparent", asChild: true, className: cn("opacity-0", "transition-opacity", "group-focus-within:opacity-100", "group-hover:opacity-100", open && "opacity-100"), children: (0, import_jsx_runtime40.jsx)(X, {}) }), (0, import_jsx_runtime40.jsx)(IconButton, { ...getPopupIndicatorProps(), "aria-label": popupIndicatorLabel, variant: "transparent", asChild: true, children: (0, import_jsx_runtime40.jsx)(ChevronDown, { className: cn("transition-transform", "duration-base", open && "rotate-180") }) })] })] }) }) }), open && (0, import_jsx_runtime40.jsx)(DropdownMenuContent3, { ...getListboxProps(), className: cn(
+    return (0, import_jsx_runtime46.jsxs)("div", { className: cn("relative w-full", className), children: [label && (0, import_jsx_runtime46.jsx)(Typography, { element: "label", variant: "span", textColor: "secondary", weight: "medium", className: "mb-1.5 block", ...getInputLabelProps(), children: label }), (0, import_jsx_runtime46.jsxs)(DropdownMenu2, { open, modal: false, onOpenChange: setOpen, children: [(0, import_jsx_runtime46.jsx)(DropdownMenuTrigger3, { asChild: true, disabled, children: (0, import_jsx_runtime46.jsx)("div", { ...getRootProps(), children: (0, import_jsx_runtime46.jsxs)(InputGroup, { size: size4, variant: "outline", className: cn("group h-auto", hasTags && "flex-wrap"), children: [startAddon && (0, import_jsx_runtime46.jsx)(InputGroupAddon, { align: "inline-start", children: startAddon }), (0, import_jsx_runtime46.jsxs)("div", { className: cn("flex flex-1 flex-wrap items-center", BADGE_LIST_PADDING_MAP[size4 ?? "lg"]), children: [(0, import_jsx_runtime46.jsx)(BadgeList, { tags, inputGroupSize: size4, variant: badgeVariant, getOptionLabel, getBadgeProps, renderBadge }), (0, import_jsx_runtime46.jsx)(InputGroupInput, { ...inputProps, placeholder, className: cn("min-w-8 flex-1 bg-transparent", hasTags && "px-0", inputClassName), onKeyDown: handleInputKeyDown })] }), (0, import_jsx_runtime46.jsxs)(InputGroupAddon, { align: "inline-end", className: "gap-0.5", children: [endAddon, showClear && (0, import_jsx_runtime46.jsx)(InputGroupAction, { ...getClearProps(), "aria-label": clearLabel, className: cn("opacity-0", "transition-opacity", "group-focus-within:opacity-100", "group-hover:opacity-100", open && "opacity-100"), children: (0, import_jsx_runtime46.jsx)(X, {}) }), (0, import_jsx_runtime46.jsx)(InputGroupAction, { ...getPopupIndicatorProps(), "aria-label": popupIndicatorLabel, children: (0, import_jsx_runtime46.jsx)(ChevronDown, { className: cn("transition-transform", "duration-base", open && "rotate-180") }) })] })] }) }) }), open && (0, import_jsx_runtime46.jsx)(DropdownMenuContent3, { ...getListboxProps(), className: cn(
       "w-[--radix-dropdown-menu-trigger-width] max-w-none",
       // z-[110]: is used so the dropdown menu is rendered on top of Modal (z-100)
       "z-[110] overflow-y-auto p-2",
+      // The kit's own list scrollbar — `.cl-mention-list`.
+      "scrollbar-thin",
       listboxClassName
-    ), onCloseAutoFocus: (e) => e.preventDefault(), onFocusOutside: (e) => e.preventDefault(), children: isLoading ? (0, import_jsx_runtime40.jsxs)("div", { className: "flex items-center justify-center gap-2 px-4 py-5 text-center text-ink-secondary text-sm", children: [(0, import_jsx_runtime40.jsx)(Spinner, { size: "sm", color: "inherit", "aria-hidden": true }), loadingText] }) : memoizedOptions })] })] });
+    ), onCloseAutoFocus: (e) => e.preventDefault(), onFocusOutside: (e) => e.preventDefault(), children: isLoading ? (0, import_jsx_runtime46.jsxs)("div", { className: "flex items-center justify-center gap-2 px-4 py-5 text-center text-ink-secondary text-sm", children: [(0, import_jsx_runtime46.jsx)(Spinner, { size: "sm", color: "inherit", "aria-hidden": true }), loadingText] }) : memoizedOptions })] })] });
   }
 
   // dist/components/Avatar/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime42 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime48 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-avatar@1.2._96683e60687c34d78909ff59065448a8/node_modules/@radix-ui/react-avatar/dist/index.mjs
   init_define_import_meta_env();
-  var React39 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime41 = __toESM(require_react_shim(), 1);
-  var __defProp28 = Object.defineProperty;
-  var __name27 = (target, value) => __defProp28(target, "name", { value, configurable: true });
+  var React41 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime47 = __toESM(require_react_shim(), 1);
+  var __defProp30 = Object.defineProperty;
+  var __name29 = (target, value) => __defProp30(target, "name", { value, configurable: true });
   var AVATAR_NAME = "Avatar";
   var [createAvatarContext, createAvatarScope] = createContextScope(AVATAR_NAME);
   var STATIC_IMAGE_COUNT_STATE = [
@@ -12729,13 +13545,13 @@ var DevartUI = (() => {
     () => void 0
   ];
   var [AvatarProvider, useAvatarContext] = createAvatarContext(AVATAR_NAME);
-  var Avatar = /* @__PURE__ */ React39.forwardRef(
+  var Avatar = /* @__PURE__ */ React41.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name27(function Avatar2(props, forwardedRef) {
+    /* @__PURE__ */ __name29(function Avatar2(props, forwardedRef) {
       const { __scopeAvatar, ...avatarProps } = props;
-      const [imageLoadingStatus, setImageLoadingStatus] = React39.useState("idle");
+      const [imageLoadingStatus, setImageLoadingStatus] = React41.useState("idle");
       const [imageCount, setImageCount] = useImageCount();
-      return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
         AvatarProvider,
         {
           scope: __scopeAvatar,
@@ -12743,14 +13559,14 @@ var DevartUI = (() => {
           setImageLoadingStatus,
           imageCount,
           setImageCount,
-          children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Primitive.span, { ...avatarProps, ref: forwardedRef })
+          children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Primitive.span, { ...avatarProps, ref: forwardedRef })
         }
       );
     }, "Avatar")
   );
   var IMAGE_NAME = "AvatarImage";
-  var AvatarImage = /* @__PURE__ */ React39.forwardRef(
-    /* @__PURE__ */ __name27(function AvatarImage2(props, forwardedRef) {
+  var AvatarImage = /* @__PURE__ */ React41.forwardRef(
+    /* @__PURE__ */ __name29(function AvatarImage2(props, forwardedRef) {
       const { __scopeAvatar, src, onLoadingStatusChange, ...imageProps } = props;
       const context = useAvatarContext(IMAGE_NAME, __scopeAvatar);
       useUpdateImageCount(context.setImageCount);
@@ -12763,7 +13579,7 @@ var DevartUI = (() => {
       const handleLoadingStatusChange = useCallbackRef((status) => {
         onLoadingStatusChange?.(status);
       });
-      const loadingStatusRef = React39.useRef(imageLoadingStatus);
+      const loadingStatusRef = React41.useRef(imageLoadingStatus);
       useLayoutEffect2(() => {
         const previousLoadingStatus = loadingStatusRef.current;
         loadingStatusRef.current = imageLoadingStatus;
@@ -12771,22 +13587,22 @@ var DevartUI = (() => {
           handleLoadingStatusChange(imageLoadingStatus);
         }
       }, [imageLoadingStatus, handleLoadingStatusChange]);
-      return imageLoadingStatus === "loaded" ? /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Primitive.img, { ...imageProps, ref: forwardedRef, src }) : null;
+      return imageLoadingStatus === "loaded" ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Primitive.img, { ...imageProps, ref: forwardedRef, src }) : null;
     }, "AvatarImage")
   );
   var FALLBACK_NAME = "AvatarFallback";
-  var AvatarFallback = /* @__PURE__ */ React39.forwardRef(
-    /* @__PURE__ */ __name27(function AvatarFallback2(props, forwardedRef) {
+  var AvatarFallback = /* @__PURE__ */ React41.forwardRef(
+    /* @__PURE__ */ __name29(function AvatarFallback2(props, forwardedRef) {
       const { __scopeAvatar, delayMs, ...fallbackProps } = props;
       const context = useAvatarContext(FALLBACK_NAME, __scopeAvatar);
-      const [canRender, setCanRender] = React39.useState(delayMs === void 0);
-      React39.useEffect(() => {
+      const [canRender, setCanRender] = React41.useState(delayMs === void 0);
+      React41.useEffect(() => {
         if (delayMs !== void 0) {
           const timerId = window.setTimeout(() => setCanRender(true), delayMs);
           return () => window.clearTimeout(timerId);
         }
       }, [delayMs]);
-      return canRender && context.imageLoadingStatus !== "loaded" ? /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Primitive.span, { ...fallbackProps, ref: forwardedRef }) : null;
+      return canRender && context.imageLoadingStatus !== "loaded" ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Primitive.span, { ...fallbackProps, ref: forwardedRef }) : null;
     }, "AvatarFallback")
   );
   function useImageLoadingStatus(src, {
@@ -12801,11 +13617,11 @@ var DevartUI = (() => {
         return;
       }
       const image = new window.Image();
-      const handleLoad = /* @__PURE__ */ __name27((event) => {
+      const handleLoad = /* @__PURE__ */ __name29((event) => {
         const image2 = event.currentTarget;
         setLoadingStatus(getImageLoadingStatus(image2));
       }, "handleLoad");
-      const handleError = /* @__PURE__ */ __name27(() => setLoadingStatus("error"), "handleError");
+      const handleError = /* @__PURE__ */ __name29(() => setLoadingStatus("error"), "handleError");
       image.addEventListener("load", handleLoad);
       image.addEventListener("error", handleError);
       if (referrerPolicy) {
@@ -12822,18 +13638,18 @@ var DevartUI = (() => {
     }, [src, crossOrigin, referrerPolicy, setLoadingStatus]);
     return loadingStatus;
   }
-  __name27(useImageLoadingStatus, "useImageLoadingStatus");
+  __name29(useImageLoadingStatus, "useImageLoadingStatus");
   function getImageLoadingStatus(image) {
     return image.complete ? image.naturalWidth > 0 ? "loaded" : "error" : "loading";
   }
-  __name27(getImageLoadingStatus, "getImageLoadingStatus");
+  __name29(getImageLoadingStatus, "getImageLoadingStatus");
   function useImageCount() {
     let state = STATIC_IMAGE_COUNT_STATE;
     if (IS_DEVELOPMENT) {
-      state = React39.useState(0);
+      state = React41.useState(0);
       const [imageCount] = state;
-      const hasWarnedRef = React39.useRef(false);
-      React39.useEffect(() => {
+      const hasWarnedRef = React41.useRef(false);
+      React41.useEffect(() => {
         if (imageCount > 1 && !hasWarnedRef.current) {
           hasWarnedRef.current = true;
           console.warn(
@@ -12844,10 +13660,10 @@ var DevartUI = (() => {
     }
     return state;
   }
-  __name27(useImageCount, "useImageCount");
+  __name29(useImageCount, "useImageCount");
   function useUpdateImageCount(setImageCount) {
     if (IS_DEVELOPMENT) {
-      React39.useEffect(() => {
+      React41.useEffect(() => {
         setImageCount((imageCount) => imageCount + 1);
         return () => {
           setImageCount((imageCount) => imageCount - 1);
@@ -12855,7 +13671,7 @@ var DevartUI = (() => {
       }, [setImageCount]);
     }
   }
-  __name27(useUpdateImageCount, "useUpdateImageCount");
+  __name29(useUpdateImageCount, "useUpdateImageCount");
 
   // dist/components/Avatar/AvatarProvider.js
   init_define_import_meta_env();
@@ -12917,27 +13733,27 @@ var DevartUI = (() => {
       rounded: "md"
     }
   });
-  var Avatar3 = ({ className, rounded, size: size4, ref, ...props }) => (0, import_jsx_runtime42.jsx)(AvatarContext.Provider, { value: { rounded, size: size4 }, children: (0, import_jsx_runtime42.jsx)(Avatar, { ref, className: cn(avatarVariants({ rounded, size: size4 }), className), ...props }) });
+  var Avatar3 = ({ className, rounded, size: size4, ref, ...props }) => (0, import_jsx_runtime48.jsx)(AvatarContext.Provider, { value: { rounded, size: size4 }, children: (0, import_jsx_runtime48.jsx)(Avatar, { ref, className: cn(avatarVariants({ rounded, size: size4 }), className), ...props }) });
   Avatar3.displayName = Avatar.displayName;
-  var AvatarImage3 = ({ className, ref, ...props }) => (0, import_jsx_runtime42.jsx)(AvatarImage, { ref, className: cn("aspect-square h-full w-full", className), ...props });
+  var AvatarImage3 = ({ className, ref, ...props }) => (0, import_jsx_runtime48.jsx)(AvatarImage, { ref, className: cn("aspect-square h-full w-full", className), ...props });
   AvatarImage3.displayName = AvatarImage.displayName;
   var AvatarFallback3 = ({ className, ref, ...props }) => {
     const { rounded } = useAvatarContext2();
-    return (0, import_jsx_runtime42.jsx)(AvatarFallback, { ref, className: cn(avatarFallbackVariants({ rounded }), className), ...props });
+    return (0, import_jsx_runtime48.jsx)(AvatarFallback, { ref, className: cn(avatarFallbackVariants({ rounded }), className), ...props });
   };
   AvatarFallback3.displayName = AvatarFallback.displayName;
 
   // dist/components/Banner/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime43 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime49 = __toESM(require_react_shim(), 1);
   var BANNER_ROOT_LAYOUT = cn("group/banner relative flex items-center gap-5 rounded-xl", "max-md:flex-col max-md:items-start max-md:gap-3.5", "px-6 py-6", "max-md:px-5 max-md:py-5", "max-sm:p-4");
   var ICON_BASE = cn("box-border overflow-visible", "flex shrink-0 items-center justify-center", "rounded-full border-[1.5px] border-solid", "size-[3.75rem]", "[&_svg]:size-7", "max-md:size-11", "max-md:[&_svg]:size-[22px]");
   var ACTION_LAYOUT = cn("shrink-0 max-md:flex max-md:w-full", "max-md:[&_button]:max-w-48 max-md:[&_button]:flex-1", "max-md:[&_button]:justify-center", "max-sm:[&_button]:max-w-none");
   var GRADIENT_PRIMARY_ACTION = cn("[&_button]:border-transparent", "[&_button]:bg-banner-grad-text", "[&_button]:text-banner-grad-btn-text", "[&_button:hover]:bg-banner-grad-sub", "[&_button:hover]:text-banner-grad-btn-text", "[&_button:active]:bg-banner-grad-sub", "[&_button:active]:text-banner-grad-btn-text");
   var GRADIENT_ICON = cn("border-banner-grad-ic-border", "bg-banner-grad-ic-bg text-banner-grad-text", "shadow-banner-grad-ic");
   var SOLID_ICON = cn("border-transparent", "bg-brand-primary text-content-on-solid", "shadow-banner-ic");
-  var GRADIENT_CLOSE = cn("text-banner-grad-sub", "hover:bg-banner-grad-ic-bg hover:text-banner-grad-text");
-  var SOLID_CLOSE = cn("text-ink-secondary", "hover:bg-state-hover hover:text-ink-primary");
+  var GRADIENT_CLOSE = cn("text-banner-grad-sub", "hover:text-banner-grad-text");
+  var SOLID_CLOSE = cn("text-ink-icon", "hover:text-ink-icon-hover");
   var bannerVariants = cva(BANNER_ROOT_LAYOUT, {
     variants: {
       variant: {
@@ -13007,20 +13823,20 @@ var DevartUI = (() => {
   });
   var Banner = ({ title, description, descriptionClassName, titleClassName, icon, iconClassName, action, actionClassName, onDismiss, dismissLabel = "Dismiss", variant = "default", size: size4, className, ref, ...props }) => {
     const resolvedVariant = variant ?? "default";
-    return (0, import_jsx_runtime43.jsxs)("div", { ref, className: cn(
+    return (0, import_jsx_runtime49.jsxs)("div", { ref, className: cn(
       bannerVariants({ variant: resolvedVariant, size: size4 }),
       // reserves the corner the close button occupies, so it clears the CTA
       onDismiss && "pr-14 max-sm:pr-14 max-md:pr-14",
       className
-    ), ...props, children: [icon && (0, import_jsx_runtime43.jsx)("div", { className: cn(bannerIconVariants({ variant: resolvedVariant }), iconClassName), "data-slot": "banner-icon", children: icon }), (0, import_jsx_runtime43.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1.5", children: [(0, import_jsx_runtime43.jsx)(Typography, { className: cn(bannerTitleVariants({ variant: resolvedVariant }), titleClassName), "data-slot": "banner-title", variant: "h6", weight: "semibold", children: title }), description && (0, import_jsx_runtime43.jsx)(Typography, { className: cn(bannerDescriptionVariants({ variant: resolvedVariant }), descriptionClassName), "data-slot": "banner-description", variant: "p", weight: "normal", children: description })] }), action && (0, import_jsx_runtime43.jsx)("div", { className: cn(ACTION_LAYOUT, (resolvedVariant === "horizontalWide" || resolvedVariant === "diagonalAiry") && GRADIENT_PRIMARY_ACTION, actionClassName), "data-slot": "banner-action", children: action }), onDismiss && (0, import_jsx_runtime43.jsx)("button", { "aria-label": dismissLabel, className: bannerCloseVariants({ variant: resolvedVariant }), "data-slot": "banner-close", onClick: onDismiss, type: "button", children: (0, import_jsx_runtime43.jsx)(X, { "aria-hidden": "true" }) })] });
+    ), ...props, children: [icon && (0, import_jsx_runtime49.jsx)("div", { className: cn(bannerIconVariants({ variant: resolvedVariant }), iconClassName), "data-slot": "banner-icon", children: icon }), (0, import_jsx_runtime49.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1.5", children: [(0, import_jsx_runtime49.jsx)(Typography, { className: cn(bannerTitleVariants({ variant: resolvedVariant }), titleClassName), "data-slot": "banner-title", variant: "h6", weight: "semibold", children: title }), description && (0, import_jsx_runtime49.jsx)(Typography, { className: cn(bannerDescriptionVariants({ variant: resolvedVariant }), descriptionClassName), "data-slot": "banner-description", variant: "p", weight: "normal", children: description })] }), action && (0, import_jsx_runtime49.jsx)("div", { className: cn(ACTION_LAYOUT, (resolvedVariant === "horizontalWide" || resolvedVariant === "diagonalAiry") && GRADIENT_PRIMARY_ACTION, actionClassName), "data-slot": "banner-action", children: action }), onDismiss && (0, import_jsx_runtime49.jsx)("button", { "aria-label": dismissLabel, className: bannerCloseVariants({ variant: resolvedVariant }), "data-slot": "banner-close", onClick: onDismiss, type: "button", children: (0, import_jsx_runtime49.jsx)(X, { "aria-hidden": "true" }) })] });
   };
   Banner.displayName = "Banner";
 
   // dist/components/Button/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime44 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime50 = __toESM(require_react_shim(), 1);
   var buttonVariants = cva(cn(
-    "inline-flex items-center justify-center gap-1.5",
+    "inline-flex items-center justify-center gap-2",
     "whitespace-nowrap font-medium",
     "cursor-pointer border",
     "transition-all duration-fast",
@@ -13028,29 +13844,68 @@ var DevartUI = (() => {
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card",
     // Disabled — both forms. `disabled` blocks focus; `aria-disabled` keeps the
     // control focusable so a screen reader can announce why it is inert.
+    //
+    // Every variant below also switches its OWN hover recipe off again, because
+    // `:hover` still matches a disabled button: without that, a switched-off
+    // control lit up under the pointer and read as pressable. It is done per
+    // variant rather than once with `disabled:pointer-events-none`, because a
+    // disabled button is exactly the one that needs a tooltip saying why it is
+    // disabled, and a control with no pointer events cannot open one.
     "disabled:cursor-not-allowed",
     "aria-disabled:cursor-not-allowed",
     // Child icon styles
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0"
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+    glyphStroke
   ), {
     variants: {
       variant: {
         // Solid brand fill, theme-independent.
-        primary: cn("border-transparent bg-btn-primary-bg text-btn-primary-text", "hover:bg-btn-primary-bg-hover", "pressed:bg-btn-primary-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive"),
+        primary: cn("border-transparent bg-btn-primary-bg text-btn-primary-text", "hover:bg-btn-primary-bg-hover", "pressed:bg-btn-primary-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive", "disabled:hover:bg-state-disabled"),
         // Card-tone fill with a thin neutral border.
-        secondary: cn("border-btn-secondary-border bg-surface-card text-ink-body", "hover:border-btn-secondary-border-hover hover:bg-state-hover", "pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:border-btn-secondary-border disabled:bg-state-disabled disabled:text-ink-inactive"),
+        //
+        // Hover and press are the PRE-COMPOSITED `--btn-secondary-bg-*` blends,
+        // not `--state-hover` / `--state-pressed`. Those are translucent washes,
+        // and `bg-*` replaces rather than layers: on hover this button would
+        // stop being an opaque chip and show whatever sits behind it, so the
+        // same button changed surface depending on what it was placed on. The
+        // blends end opaque — brand at 5% and 8% over `--surface-card` — so the
+        // chip stays a chip and only deepens.
+        secondary: cn(
+          "border-btn-secondary-border bg-surface-card text-ink-body",
+          "hover:border-btn-secondary-border-hover hover:bg-btn-secondary-bg-hover",
+          "pressed:bg-btn-secondary-bg-press",
+          "focus-visible:ring-focus-ring-brand",
+          /* No disabled fill at all — not `--state-disabled` and not its own
+                       `--surface-card` either. A switched-off control should read as
+                       absent, and a white chip on a white card is invisible while the
+                       same chip on a tinted one reads as a card of its own. Transparent
+                       is the one answer that holds on every surface, and it is what
+                       `outline` already does; the border and the inactive label are
+                       what carry the state.
+          
+                       The kit paints `--state-disabled` here (`.s-disabled.btn-secondary`).
+                       Deliberate divergence. */
+          "disabled:border-btn-secondary-border disabled:bg-transparent disabled:text-ink-inactive",
+          "disabled:hover:border-btn-secondary-border disabled:hover:bg-transparent"
+        ),
         // Brand-bordered, transparent fill (previous Secondary look).
-        outline: cn("border-brand-secondary bg-transparent text-ink-body", "hover:border-brand-hover hover:bg-btn-outline-bg-hover", "pressed:border-brand-hover pressed:bg-btn-outline-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive"),
+        outline: cn("border-brand-secondary bg-transparent text-ink-body", "hover:border-brand-hover hover:bg-btn-outline-bg-hover", "pressed:border-brand-hover pressed:bg-btn-outline-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:border-ink-inactive disabled:hover:bg-transparent"),
         // Lowest-emphasis ghost: Outlined minus the border — same brand-tinted
         // hover/press overlays.
-        tertiary: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover", "pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
+        tertiary: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover", "pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
+        // Tertiary with a brand label: the pill, the focus ring and the
+        // disabled recipe are the neutral tertiary's, and only the label moves
+        // through the brand ramp. The kit ships it as `.btn-tertiary.is-brand`
+        // for standalone brand text actions — "Test Connection" in a side
+        // panel — where a bordered button would outweigh what it sits next to.
+        tertiaryBrand: cn("border-transparent bg-transparent text-brand-primary", "hover:bg-state-hover hover:text-brand-hover", "pressed:bg-state-pressed pressed:text-brand-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent disabled:hover:text-ink-inactive", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
         // Destructive: theme-independent red fill; focus ring is the kit-wide
         // brand teal (red-on-red would be unreadable).
-        destructive: cn("border-transparent bg-fb-red text-content-on-solid", "hover:bg-fb-error-hover", "pressed:bg-fb-error-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive"),
+        destructive: cn("border-transparent bg-fb-red text-content-on-solid", "hover:bg-fb-error-hover", "pressed:bg-fb-error-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive", "disabled:hover:bg-state-disabled"),
         // Destructive outline: red-bordered, transparent fill with red-tinted
         // hover/press. The label is Feedback/Red too — a neutral label under a
         // red border read as an ordinary secondary button and lost the warning.
-        destructiveOutline: cn("border-outlineDestructive-border bg-transparent text-fb-red-text", "hover:border-outlineDestructive-border-hover hover:bg-outlineDestructive-bg-hover", "pressed:border-outlineDestructive-border-hover pressed:bg-outlineDestructive-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive"),
+        destructiveOutline: cn("border-outlineDestructive-border bg-transparent text-fb-red-text", "hover:border-outlineDestructive-border-hover hover:bg-outlineDestructive-bg-hover", "pressed:border-outlineDestructive-border-hover pressed:bg-outlineDestructive-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:border-ink-inactive disabled:hover:bg-transparent"),
         // Low-emphasis destructive ghost: red label, transparent fill, red-tinted
         // hover/press. Tertiary sibling of destructiveOutline (no border).
         destructiveTertiary: cn(
@@ -13061,6 +13916,7 @@ var DevartUI = (() => {
           "pressed:bg-destructiveTertiary-bg-press",
           "focus-visible:ring-focus-ring-brand",
           "disabled:bg-transparent disabled:text-ink-inactive",
+          "disabled:hover:bg-transparent disabled:hover:text-ink-inactive",
           "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"
         ),
         // Bare utility (no box, fit-content) for inline/icon triggers.
@@ -13068,17 +13924,42 @@ var DevartUI = (() => {
         transparentUnderline: cn("border-none bg-transparent text-ink-body underline underline-offset-4", "focus-visible:ring-focus-ring-brand")
       },
       size: {
-        // Padding ladder pairs with the height: 8/12/12/16/20. Input, TextArea
-        // and Selector take the identical ladder, so a button and a field of
-        // the same size share one edge. 12px repeats at sm and md deliberately
-        // - those are the two sizes the product actually uses.
-        // Glyph follows the label: 16px everywhere, 14px at xs — the one step
-        // where the label also drops.
-        xs: "h-7 px-2 text-xs [&_svg]:size-3.5",
-        sm: "h-8 px-3 text-sm [&_svg]:size-4",
+        // Four ladders, and only the first one is flat:
+        //
+        //   padding   8  / 12 / 12 / 16 / 20
+        //   gap       4  /  6 /  8 /  8 /  8
+        //   label    12  / 14 / 14 / 16 / 16
+        //   glyph    14  / 16 / 16 / 20 / 20
+        //
+        // The padding ladder is the UX audit's (#15, #36) and it is the spec:
+        // 12px repeats at sm and md because those are the two sizes the
+        // product actually uses, and only the rare large steps open up.
+        //
+        // A FIELD DOES NOT FOLLOW IT PAST md. Input, InputGroup, Autocomplete
+        // and TextArea hold 12px at lg and xl, so the two share an edge at the
+        // three steps the product actually uses and part company above them:
+        // a button's inset is what makes its label read as a target, while a
+        // field is a place to put text and only reads tighter as its value
+        // starts further from the edge.
+        //
+        // The glyph holds 16 from sm through lg. 20px at lg made the icon the
+        // loudest thing in a 40px control, next to a 16px label; only xl, where
+        // the box is 44, carries it.
+        //
+        // The glyph repeats at both ends the way the label does — 16 across
+        // sm and md, 20 across lg and xl. The kit's 24px `--icon-xl` is taken
+        // by nothing: in a 44px control it outgrows its own box.
+        //
+        // The gap is the one axis with three steps rather than two. 8px is the
+        // kit's `.btn` value and holds from `md` up; `xs` tightens to 4,
+        // because at 28px a 14px glyph with 8px either side is most of the
+        // remaining width; and `sm` sits at 6 — the step the product uses most
+        // and the one the published package shipped at every size.
+        xs: "h-7 gap-1 px-2 text-xs [&_svg]:size-3.5",
+        sm: "h-8 gap-1.5 px-3 text-sm [&_svg]:size-4",
         md: "h-9 px-3 text-sm [&_svg]:size-4",
-        lg: "h-10 px-4 text-sm [&_svg]:size-4",
-        xl: "h-11 px-5 text-sm [&_svg]:size-4"
+        lg: "h-10 px-4 text-base [&_svg]:size-5",
+        xl: "h-11 px-5 text-base [&_svg]:size-5"
       },
       align: {
         left: "justify-start",
@@ -13118,40 +13999,40 @@ var DevartUI = (() => {
   var Button = ({ className, variant, size: size4, rounded, fullWidth, align, asChild = false, isLoading = false, ref, leftSlot = null, rightSlot = null, children, ...props }) => {
     const Comp = asChild ? Slot : "button";
     const hasLabel = children !== void 0 && children !== null && children !== false && children !== "";
-    return (0, import_jsx_runtime44.jsxs)(Comp, { "data-variant": variant ?? void 0, className: cn(buttonVariants({ variant, size: size4, rounded, fullWidth, align, className }), isLoading && "pointer-events-none opacity-disabled"), ref, "aria-busy": isLoading || void 0, ...props, children: [isLoading ? (0, import_jsx_runtime44.jsx)(Spinner, { "aria-hidden": true, color: "inherit", size: size4 === "xs" ? "xs" : "sm" }) : leftSlot, asChild ? (0, import_jsx_runtime44.jsx)(Slottable, { children }) : hasLabel && // Only `fullWidth` needs a box of its own — it truncates and aligns
+    return (0, import_jsx_runtime50.jsxs)(Comp, { "data-variant": variant ?? void 0, className: cn(buttonVariants({ variant, size: size4, rounded, fullWidth, align, className }), isLoading && "pointer-events-none opacity-disabled"), ref, "aria-busy": isLoading || void 0, ...props, children: [isLoading ? (0, import_jsx_runtime50.jsx)(Spinner, { "aria-hidden": true, color: "inherit", size: size4 === "xs" ? "xs" : "sm" }) : leftSlot, asChild ? (0, import_jsx_runtime50.jsx)(Slottable, { children }) : hasLabel && // Only `fullWidth` needs a box of its own — it truncates and aligns
     // the label inside the stretched row. Everything else goes straight
     // into the button's own flex row: the gap and the icon alignment are
     // already there, and one less wrapper means the design tool selects
     // the Button itself rather than an anonymous inner span.
-    (fullWidth ? (0, import_jsx_runtime44.jsx)("span", { className: cn("min-w-0 flex-1 truncate text-center", align === "left" && "text-left", align === "right" && "text-right"), children }) : children), rightSlot] });
+    (fullWidth ? (0, import_jsx_runtime50.jsx)("span", { className: cn("min-w-0 flex-1 truncate text-center", align === "left" && "text-left", align === "right" && "text-right"), children }) : children), rightSlot] });
   };
   Button.displayName = "Button";
 
   // dist/components/Card/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime53 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime59 = __toESM(require_react_shim(), 1);
 
   // dist/components/Card/CardContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime45 = __toESM(require_react_shim(), 1);
-  var CardContent = ({ className, ref, ...props }) => (0, import_jsx_runtime45.jsx)("div", { ref, className: cn("text-ink-body", className), ...props });
+  var import_jsx_runtime51 = __toESM(require_react_shim(), 1);
+  var CardContent = ({ className, ref, ...props }) => (0, import_jsx_runtime51.jsx)("div", { ref, className: cn("text-ink-body", className), ...props });
   CardContent.displayName = "CardContent";
 
   // dist/components/Card/CardDescription.js
   init_define_import_meta_env();
-  var import_jsx_runtime46 = __toESM(require_react_shim(), 1);
-  var CardDescription = ({ className, ref, ...props }) => (0, import_jsx_runtime46.jsx)("div", { ref, className: cn("text-sm", "text-ink-secondary", className), ...props });
+  var import_jsx_runtime52 = __toESM(require_react_shim(), 1);
+  var CardDescription = ({ className, ref, ...props }) => (0, import_jsx_runtime52.jsx)("div", { ref, className: cn("text-sm", "text-ink-secondary", className), ...props });
   CardDescription.displayName = "CardDescription";
 
   // dist/components/Card/CardDivider.js
   init_define_import_meta_env();
-  var import_jsx_runtime47 = __toESM(require_react_shim(), 1);
-  var CardDivider = ({ className, ref, ...props }) => (0, import_jsx_runtime47.jsx)("hr", { ref, className: cn("border-0 border-stroke border-t", className), ...props });
+  var import_jsx_runtime53 = __toESM(require_react_shim(), 1);
+  var CardDivider = ({ className, ref, ...props }) => (0, import_jsx_runtime53.jsx)("hr", { ref, className: cn("border-0 border-stroke border-t", className), ...props });
   CardDivider.displayName = "CardDivider";
 
   // dist/components/Card/CardFooter.js
   init_define_import_meta_env();
-  var import_jsx_runtime48 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime54 = __toESM(require_react_shim(), 1);
   var cardFooterVariants = cva("flex items-center", {
     variants: {
       variant: {
@@ -13163,12 +14044,12 @@ var DevartUI = (() => {
       variant: "default"
     }
   });
-  var CardFooter = ({ className, variant, ref, ...props }) => (0, import_jsx_runtime48.jsx)("div", { ref, className: cn(cardFooterVariants({ variant }), className), ...props });
+  var CardFooter = ({ className, variant, ref, ...props }) => (0, import_jsx_runtime54.jsx)("div", { ref, className: cn(cardFooterVariants({ variant }), className), ...props });
   CardFooter.displayName = "CardFooter";
 
   // dist/components/Card/CardHeader.js
   init_define_import_meta_env();
-  var import_jsx_runtime49 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime55 = __toESM(require_react_shim(), 1);
   var cardHeaderVariants = cva("", {
     variants: {
       layout: {
@@ -13180,12 +14061,12 @@ var DevartUI = (() => {
       layout: "vertical"
     }
   });
-  var CardHeader = ({ className, layout, leftSlot, children, ref, ...props }) => (0, import_jsx_runtime49.jsxs)("div", { ref, className: cn(cardHeaderVariants({ layout }), className), ...props, children: [leftSlot, layout === "horizontal" ? (0, import_jsx_runtime49.jsx)("div", { className: "flex min-w-0 flex-1 flex-col items-start gap-0.5", children }) : children] });
+  var CardHeader = ({ className, layout, leftSlot, children, ref, ...props }) => (0, import_jsx_runtime55.jsxs)("div", { ref, className: cn(cardHeaderVariants({ layout }), className), ...props, children: [leftSlot, layout === "horizontal" ? (0, import_jsx_runtime55.jsx)("div", { className: "flex min-w-0 flex-1 flex-col items-start gap-0.5", children }) : children] });
   CardHeader.displayName = "CardHeader";
 
   // dist/components/Card/CardIcon.js
   init_define_import_meta_env();
-  var import_jsx_runtime50 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime56 = __toESM(require_react_shim(), 1);
   var cardIconVariants = cva(cn("flex shrink-0 items-center justify-center overflow-hidden", "[&_img]:object-contain"), {
     variants: {
       variant: {
@@ -13197,19 +14078,19 @@ var DevartUI = (() => {
       variant: "default"
     }
   });
-  var CardIcon = ({ className, variant, children, ref, ...props }) => (0, import_jsx_runtime50.jsx)("div", { ref, className: cn(cardIconVariants({ variant }), className), ...props, children });
+  var CardIcon = ({ className, variant, children, ref, ...props }) => (0, import_jsx_runtime56.jsx)("div", { ref, className: cn(cardIconVariants({ variant }), className), ...props, children });
   CardIcon.displayName = "CardIcon";
 
   // dist/components/Card/CardSectionLabel.js
   init_define_import_meta_env();
-  var import_jsx_runtime51 = __toESM(require_react_shim(), 1);
-  var CardSectionLabel = ({ className, ref, ...props }) => (0, import_jsx_runtime51.jsx)(Typography, { className, element: "p", ref, textColor: "light", textStyle: "overline", ...props });
+  var import_jsx_runtime57 = __toESM(require_react_shim(), 1);
+  var CardSectionLabel = ({ className, ref, ...props }) => (0, import_jsx_runtime57.jsx)(Typography, { className, element: "p", ref, textColor: "light", textStyle: "overline", ...props });
   CardSectionLabel.displayName = "CardSectionLabel";
 
   // dist/components/Card/CardTitle.js
   init_define_import_meta_env();
-  var import_jsx_runtime52 = __toESM(require_react_shim(), 1);
-  var CardTitle = ({ className, ref, ...props }) => (0, import_jsx_runtime52.jsx)(Typography, { ref, className: cn("font-semibold text-base text-ink-primary tracking-tight", className), ...props });
+  var import_jsx_runtime58 = __toESM(require_react_shim(), 1);
+  var CardTitle = ({ className, ref, ...props }) => (0, import_jsx_runtime58.jsx)(Typography, { ref, className: cn("font-semibold text-base text-ink-primary tracking-tight", className), ...props });
   CardTitle.displayName = "CardTitle";
 
   // dist/components/Card/index.js
@@ -13235,11 +14116,28 @@ var DevartUI = (() => {
         // The clickable card is `elevated`; it guards its own active state with
         // `:not(:has(button:active))`.
         outline: cn("flex flex-col gap-3 p-4", "bg-surface-card", "border border-stroke", "shadow-sm", "text-ink-body"),
-        // Compact single-row layout for list items (chats, files, insights row view)
+        // Compact row layout for list items (chats, files, insights row view).
+        //
+        // PADDING, not a height. It was `h-11`: 44px stated as a ceiling as well as
+        // a floor, so a row with a name over a description either clipped or had to
+        // be argued out of its own height at the call site. A list item does not
+        // know how many lines its consumer has — it knows how much air belongs
+        // around them.
+        //
+        // `py-3` reproduces the 44px exactly where the fixed height was right: one
+        // line of `text-sm` is 20px, plus 12 above and below, is 44. Two lines grow
+        // to 64 instead of being cut off, and nothing at the call site has to say
+        // so.
+        //
+        // The horizontal inset is its own decision, and it is 16: the vertical
+        // number is the row’s height and the horizontal one is how far the text
+        // starts from the edge, which is 16 everywhere else a card holds text.
+        // 12 read as tight against a two-line row whose second line is a full
+        // sentence.
         row: cn(
           "group/row",
           "flex flex-row items-center gap-3",
-          "h-11 px-3",
+          "px-4 py-3",
           "cursor-pointer select-none",
           "bg-surface-card font-medium text-ink-body text-sm",
           "border border-stroke/45 shadow-rest",
@@ -13252,8 +14150,29 @@ var DevartUI = (() => {
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page",
           "[&:active:not(:has(button:active)):not(:has([data-state=open]))]:scale-[.99]"
         ),
-        elevated: cn("bg-surface-card", "border border-stroke", "shadow-rest", "text-ink-body", "transition-all duration-base", "hover:-translate-y-0.5 hover:border-card-lift-border hover:shadow-lift-hover"),
-        ghost: cn("cursor-pointer items-center justify-center", "border border-ink-secondary/35 border-dashed", "bg-bg text-center", "hover:border-ink-secondary/55 hover:bg-state-hover")
+        elevated: cn(
+          // The same box every other card variant draws. `elevated` and `ghost`
+          // carried no layout and no padding at all, so a card that lifts on
+          // hover was the one a page had to pad itself — and two cards side by
+          // side, one `outline` and one `elevated`, sat on different insets.
+          "flex flex-col gap-3 p-4",
+          "bg-surface-card",
+          "border border-stroke",
+          "shadow-rest",
+          "text-ink-body",
+          // 2px rather than the tile's 1: the same travel reads smaller on a
+          // bigger box.
+          liftOnHover(2)
+        ),
+        ghost: cn(
+          // `items-center justify-center` did nothing here: there was no
+          // `flex` for them to act on.
+          "flex flex-col gap-3 p-4",
+          "cursor-pointer items-center justify-center",
+          "border border-ink-secondary/35 border-dashed",
+          "bg-transparent text-center",
+          "hover:border-ink-secondary/55 hover:bg-state-hover"
+        )
       },
       // The full radius scale, matching Button. `rounded` is the system's 4px
       // DEFAULT step, which this scale used to skip entirely.
@@ -13263,8 +14182,10 @@ var DevartUI = (() => {
         rounded: "rounded",
         md: "rounded-md",
         lg: "rounded-lg",
-        xl: "rounded-xl",
-        full: "rounded-full"
+        xl: "rounded-xl"
+        // No `full`. A pill is a shape for a chip or an avatar — something whose
+        // height is its own — and on a card it turns the corner radius into a
+        // function of how much text the card happens to hold.
       },
       fullWidth: {
         true: "w-full",
@@ -13277,7 +14198,7 @@ var DevartUI = (() => {
       fullWidth: false
     }
   });
-  var Card = ({ className, ref, variant, fullWidth, rounded, ...props }) => (0, import_jsx_runtime53.jsx)("div", { ref, className: cn(cardVariants({ variant, fullWidth, rounded }), className), ...props });
+  var Card = ({ className, ref, variant, fullWidth, rounded, ...props }) => (0, import_jsx_runtime59.jsx)("div", { ref, className: cn(cardVariants({ variant, fullWidth, rounded }), className), ...props });
   Card.displayName = "Card";
 
   // dist/components/Checkbox/index.js
@@ -13285,14 +14206,14 @@ var DevartUI = (() => {
 
   // dist/components/Checkbox/Checkbox.js
   init_define_import_meta_env();
-  var import_jsx_runtime55 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime61 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-checkbox@1._c3c5f6a980e7caa20c179c90ba6f6912/node_modules/@radix-ui/react-checkbox/dist/index.mjs
   init_define_import_meta_env();
-  var React40 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime54 = __toESM(require_react_shim(), 1);
-  var __defProp29 = Object.defineProperty;
-  var __name28 = (target, value) => __defProp29(target, "name", { value, configurable: true });
+  var React42 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime60 = __toESM(require_react_shim(), 1);
+  var __defProp31 = Object.defineProperty;
+  var __name30 = (target, value) => __defProp31(target, "name", { value, configurable: true });
   var CHECKBOX_NAME = "Checkbox";
   var [createCheckboxContext, createCheckboxScope] = createContextScope(CHECKBOX_NAME);
   var [CheckboxProviderImpl, useCheckboxContext] = createCheckboxContext(CHECKBOX_NAME);
@@ -13317,10 +14238,10 @@ var DevartUI = (() => {
       onChange: onCheckedChange,
       caller: CHECKBOX_NAME
     });
-    const [control, setControl] = React40.useState(null);
-    const [bubbleInput, setBubbleInput] = React40.useState(null);
-    const hasConsumerStoppedPropagationRef = React40.useRef(false);
-    const [userInteractionCount, onUserInteraction] = React40.useReducer(
+    const [control, setControl] = React42.useState(null);
+    const [bubbleInput, setBubbleInput] = React42.useState(null);
+    const hasConsumerStoppedPropagationRef = React42.useRef(false);
+    const [userInteractionCount, onUserInteraction] = React42.useReducer(
       (count3) => count3 + 1,
       0
     );
@@ -13346,7 +14267,7 @@ var DevartUI = (() => {
       bubbleInput,
       setBubbleInput
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(
       CheckboxProviderImpl,
       {
         scope: __scopeCheckbox,
@@ -13355,10 +14276,10 @@ var DevartUI = (() => {
       }
     );
   }
-  __name28(CheckboxProvider, "CheckboxProvider");
-  var TRIGGER_NAME4 = "CheckboxTrigger";
-  var CheckboxTrigger = /* @__PURE__ */ React40.forwardRef(
-    /* @__PURE__ */ __name28(function CheckboxTrigger2({ __scopeCheckbox, onKeyDown, onClick, ...checkboxProps }, forwardedRef) {
+  __name30(CheckboxProvider, "CheckboxProvider");
+  var TRIGGER_NAME5 = "CheckboxTrigger";
+  var CheckboxTrigger = /* @__PURE__ */ React42.forwardRef(
+    /* @__PURE__ */ __name30(function CheckboxTrigger2({ __scopeCheckbox, onKeyDown, onClick, ...checkboxProps }, forwardedRef) {
       const {
         control,
         value,
@@ -13371,18 +14292,18 @@ var DevartUI = (() => {
         onUserInteraction,
         isFormControl,
         bubbleInput
-      } = useCheckboxContext(TRIGGER_NAME4, __scopeCheckbox);
+      } = useCheckboxContext(TRIGGER_NAME5, __scopeCheckbox);
       const composedRefs = useComposedRefs(forwardedRef, setControl);
-      const initialCheckedStateRef = React40.useRef(checked);
-      React40.useEffect(() => {
+      const initialCheckedStateRef = React42.useRef(checked);
+      React42.useEffect(() => {
         const form = control?.form;
         if (form) {
-          const reset = /* @__PURE__ */ __name28(() => setChecked(initialCheckedStateRef.current), "reset");
+          const reset = /* @__PURE__ */ __name30(() => setChecked(initialCheckedStateRef.current), "reset");
           form.addEventListener("reset", reset);
           return () => form.removeEventListener("reset", reset);
         }
       }, [control, setChecked]);
-      return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -13410,9 +14331,9 @@ var DevartUI = (() => {
       );
     }, "CheckboxTrigger")
   );
-  var Checkbox = /* @__PURE__ */ React40.forwardRef(
+  var Checkbox = /* @__PURE__ */ React42.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name28(function Checkbox2(props, forwardedRef) {
+    /* @__PURE__ */ __name30(function Checkbox2(props, forwardedRef) {
       const {
         __scopeCheckbox,
         name,
@@ -13425,7 +14346,7 @@ var DevartUI = (() => {
         form,
         ...checkboxProps
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(
         CheckboxProvider,
         {
           __scopeCheckbox,
@@ -13437,8 +14358,8 @@ var DevartUI = (() => {
           name,
           form,
           value,
-          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(import_jsx_runtime54.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)(import_jsx_runtime60.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(
               CheckboxTrigger,
               {
                 ...checkboxProps,
@@ -13446,7 +14367,7 @@ var DevartUI = (() => {
                 __scopeCheckbox
               }
             ),
-            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(
               CheckboxBubbleInput,
               {
                 __scopeCheckbox
@@ -13458,16 +14379,16 @@ var DevartUI = (() => {
     }, "Checkbox")
   );
   var INDICATOR_NAME = "CheckboxIndicator";
-  var CheckboxIndicator = /* @__PURE__ */ React40.forwardRef(
+  var CheckboxIndicator = /* @__PURE__ */ React42.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name28(function CheckboxIndicator2(props, forwardedRef) {
+    /* @__PURE__ */ __name30(function CheckboxIndicator2(props, forwardedRef) {
       const { __scopeCheckbox, forceMount, ...indicatorProps } = props;
       const context = useCheckboxContext(INDICATOR_NAME, __scopeCheckbox);
-      return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(
         Presence,
         {
           present: forceMount || isIndeterminate2(context.checked) || context.checked === true,
-          children: /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(
             Primitive.span,
             {
               "data-state": getState3(context.checked),
@@ -13482,9 +14403,9 @@ var DevartUI = (() => {
     }, "CheckboxIndicator")
   );
   var BUBBLE_INPUT_NAME = "CheckboxBubbleInput";
-  var CheckboxBubbleInput = /* @__PURE__ */ React40.forwardRef(
+  var CheckboxBubbleInput = /* @__PURE__ */ React42.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name28(function CheckboxBubbleInput2({ __scopeCheckbox, onClick, ...props }, forwardedRef) {
+    /* @__PURE__ */ __name30(function CheckboxBubbleInput2({ __scopeCheckbox, onClick, ...props }, forwardedRef) {
       const {
         control,
         hasConsumerStoppedPropagationRef,
@@ -13501,10 +14422,10 @@ var DevartUI = (() => {
       } = useCheckboxContext(BUBBLE_INPUT_NAME, __scopeCheckbox);
       const composedRefs = useComposedRefs(forwardedRef, setBubbleInput);
       const controlSize = useSize(control);
-      const shouldStopClickPropagationRef = React40.useRef(false);
-      const prevCheckedRef = React40.useRef(checked);
-      const prevUserInteractionCountRef = React40.useRef(userInteractionCount);
-      React40.useEffect(() => {
+      const shouldStopClickPropagationRef = React42.useRef(false);
+      const prevCheckedRef = React42.useRef(checked);
+      const prevUserInteractionCountRef = React42.useRef(userInteractionCount);
+      React42.useEffect(() => {
         const input = bubbleInput;
         if (!input) return;
         const inputProto = window.HTMLInputElement.prototype;
@@ -13527,8 +14448,8 @@ var DevartUI = (() => {
           shouldStopClickPropagationRef.current = false;
         }
       }, [bubbleInput, checked, hasConsumerStoppedPropagationRef, userInteractionCount]);
-      const defaultCheckedRef = React40.useRef(isIndeterminate2(checked) ? false : checked);
-      return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+      const defaultCheckedRef = React42.useRef(isIndeterminate2(checked) ? false : checked);
+      return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(
         Primitive.input,
         {
           type: "checkbox",
@@ -13566,15 +14487,15 @@ var DevartUI = (() => {
   function isFunction2(value) {
     return typeof value === "function";
   }
-  __name28(isFunction2, "isFunction");
+  __name30(isFunction2, "isFunction");
   function isIndeterminate2(checked) {
     return checked === "indeterminate";
   }
-  __name28(isIndeterminate2, "isIndeterminate");
+  __name30(isIndeterminate2, "isIndeterminate");
   function getState3(checked) {
     return isIndeterminate2(checked) ? "indeterminate" : checked ? "checked" : "unchecked";
   }
-  __name28(getState3, "getState");
+  __name30(getState3, "getState");
 
   // dist/components/Checkbox/Checkbox.js
   var import_react20 = __toESM(require_react_shim(), 1);
@@ -13650,8 +14571,8 @@ var DevartUI = (() => {
   ], {
     variants: {
       size: {
-        // Check mark is a 12x12 stroke-3 glyph; the indeterminate mark is a
-        // 10 x 2 px horizontal bar.
+        // Check mark is a 12x12 stroke-3 glyph, which renders at 1.5px;
+        // the indeterminate bar is 10 x 1.5px, the same weight.
         md: "[&>svg]:size-3"
       }
     },
@@ -13680,17 +14601,17 @@ var DevartUI = (() => {
   });
   function Checkbox3({ className, variant, size: size4, rounded, label, labelPosition, gap, labelClassName, disabled, ...props }) {
     const id = (0, import_react20.useId)();
-    const checkboxElement = (0, import_jsx_runtime55.jsx)(Checkbox, { id: label ? id : props.id, disabled, className: cn(checkboxVariants({ variant, size: size4, rounded }), !label && className), ...props, children: (0, import_jsx_runtime55.jsxs)(CheckboxIndicator, { className: cn(checkboxIndicatorVariants({ size: size4 }), "group/indicator"), children: [(0, import_jsx_runtime55.jsx)(Check, { className: "group-data-[state=indeterminate]/indicator:hidden", strokeWidth: 3 }), (0, import_jsx_runtime55.jsx)("span", { "aria-hidden": true, className: "hidden h-0.5 w-2.5 rounded-full bg-current group-data-[state=indeterminate]/indicator:block" })] }) });
+    const checkboxElement = (0, import_jsx_runtime61.jsx)(Checkbox, { id: label ? id : props.id, disabled, className: cn(checkboxVariants({ variant, size: size4, rounded }), !label && className), ...props, children: (0, import_jsx_runtime61.jsxs)(CheckboxIndicator, { className: cn(checkboxIndicatorVariants({ size: size4 }), "group/indicator"), children: [(0, import_jsx_runtime61.jsx)(Check, { className: "group-data-[state=indeterminate]/indicator:hidden", strokeWidth: 3 }), (0, import_jsx_runtime61.jsx)("svg", { "aria-hidden": "true", className: "hidden group-data-[state=indeterminate]/indicator:block", fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeWidth: 3, viewBox: "0 0 24 24", children: (0, import_jsx_runtime61.jsx)("path", { d: "M2 12h20" }) })] }) });
     if (!label) {
       return checkboxElement;
     }
-    return (0, import_jsx_runtime55.jsxs)("div", { className: cn(checkboxContainerVariants({ labelPosition, gap }), className), children: [checkboxElement, (0, import_jsx_runtime55.jsx)("label", { htmlFor: id, className: cn("font-medium text-ink-body text-sm", disabled ? "cursor-not-allowed opacity-disabled" : "cursor-pointer", labelClassName), children: label })] });
+    return (0, import_jsx_runtime61.jsxs)("div", { className: cn(checkboxContainerVariants({ labelPosition, gap }), className), children: [checkboxElement, (0, import_jsx_runtime61.jsx)("label", { htmlFor: id, className: cn("font-medium text-ink-body text-sm", disabled ? "cursor-not-allowed opacity-disabled" : "cursor-pointer", labelClassName), children: label })] });
   }
   Checkbox3.displayName = "Checkbox";
 
   // dist/components/Checkbox/CheckboxGroup.js
   init_define_import_meta_env();
-  var import_jsx_runtime56 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime62 = __toESM(require_react_shim(), 1);
   var import_react21 = __toESM(require_react_shim(), 1);
   function CheckboxGroup({ label, description, options: options2, value, orientation = "vertical", className, disabled = false, onValueChange }) {
     const valueSet = (0, import_react21.useMemo)(() => /* @__PURE__ */ new Set([...value]), [value]);
@@ -13703,17 +14624,17 @@ var DevartUI = (() => {
         onValueChange([...valueSet]);
       }
     }, [valueSet, onValueChange]);
-    return (0, import_jsx_runtime56.jsxs)("div", { className: cn("flex flex-col gap-3 border-none p-0", className), children: [(label || description) && (0, import_jsx_runtime56.jsxs)("div", { className: "flex flex-col gap-1", children: [label && (0, import_jsx_runtime56.jsx)(Typography, { variant: "span", element: "legend", leading: "none", children: label }), description && (0, import_jsx_runtime56.jsx)(Typography, { variant: "p", textColor: "secondary", children: description })] }), (0, import_jsx_runtime56.jsx)("div", { className: cn("flex gap-3", orientation === "vertical" ? "flex-col" : "flex-row flex-wrap"), children: options2.map((option) => {
+    return (0, import_jsx_runtime62.jsxs)("div", { className: cn("flex flex-col gap-3 border-none p-0", className), children: [(label || description) && (0, import_jsx_runtime62.jsxs)("div", { className: "flex flex-col gap-1", children: [label && (0, import_jsx_runtime62.jsx)(Typography, { variant: "span", element: "legend", leading: "none", children: label }), description && (0, import_jsx_runtime62.jsx)(Typography, { variant: "p", textColor: "secondary", children: description })] }), (0, import_jsx_runtime62.jsx)("div", { className: cn("flex gap-3", orientation === "vertical" ? "flex-col" : "flex-row flex-wrap"), children: options2.map((option) => {
       const isChecked = valueSet.has(option.id);
       const isDisabled = disabled || option.disabled;
-      return (0, import_jsx_runtime56.jsxs)("div", { className: "flex items-center gap-2", children: [(0, import_jsx_runtime56.jsx)(Checkbox3, { id: option.id, checked: isChecked, onCheckedChange: (checked) => handleCheckedChange(option.id, checked === true), disabled: isDisabled }), (0, import_jsx_runtime56.jsx)("label", { htmlFor: option.id, className: cn("font-medium text-ink-body text-sm", isDisabled ? "cursor-not-allowed opacity-disabled" : "cursor-pointer"), children: option.label })] }, option.id);
+      return (0, import_jsx_runtime62.jsxs)("div", { className: "flex items-center gap-2", children: [(0, import_jsx_runtime62.jsx)(Checkbox3, { id: option.id, checked: isChecked, onCheckedChange: (checked) => handleCheckedChange(option.id, checked === true), disabled: isDisabled }), (0, import_jsx_runtime62.jsx)("label", { htmlFor: option.id, className: cn("font-medium text-ink-body text-sm", isDisabled ? "cursor-not-allowed opacity-disabled" : "cursor-pointer"), children: option.label })] }, option.id);
     }) })] });
   }
   CheckboxGroup.displayName = "CheckboxGroup";
 
   // dist/components/CircularProgress/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime57 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime63 = __toESM(require_react_shim(), 1);
   var TRACK_COLOR = {
     primary: "hsl(var(--surface-page))",
     secondary: "hsl(var(--surface-page))"
@@ -13728,9 +14649,178 @@ var DevartUI = (() => {
     const circumference = 2 * Math.PI * radius;
     const clampedValue = Math.min(Math.max(value ?? 0, 0), max3);
     const offset4 = circumference - clampedValue / max3 * circumference;
-    return (0, import_jsx_runtime57.jsxs)("div", { className: cn("relative inline-flex items-center justify-center", className), style: { width: size4, height: size4 }, role: "progressbar", "aria-valuenow": clampedValue, "aria-valuemin": 0, "aria-valuemax": max3, ...props, children: [(0, import_jsx_runtime57.jsxs)("svg", { className: "absolute inset-0", viewBox: `0 0 ${size4} ${size4}`, fill: "none", "aria-hidden": "true", children: [(0, import_jsx_runtime57.jsx)("circle", { cx: center, cy: center, r: radius, stroke: TRACK_COLOR[variant], strokeWidth }), (0, import_jsx_runtime57.jsx)("circle", { cx: center, cy: center, r: radius, stroke: INDICATOR_COLOR[variant], strokeWidth, strokeDasharray: circumference, strokeDashoffset: offset4, strokeLinecap: "round", transform: `rotate(-90 ${center} ${center})` })] }), children && (0, import_jsx_runtime57.jsx)("div", { className: "relative", children })] });
+    return (0, import_jsx_runtime63.jsxs)("div", { className: cn("relative inline-flex items-center justify-center", className), style: { width: size4, height: size4 }, role: "progressbar", "aria-valuenow": clampedValue, "aria-valuemin": 0, "aria-valuemax": max3, ...props, children: [(0, import_jsx_runtime63.jsxs)("svg", { className: "absolute inset-0", viewBox: `0 0 ${size4} ${size4}`, fill: "none", "aria-hidden": "true", children: [(0, import_jsx_runtime63.jsx)("circle", { cx: center, cy: center, r: radius, stroke: TRACK_COLOR[variant], strokeWidth }), (0, import_jsx_runtime63.jsx)("circle", { cx: center, cy: center, r: radius, stroke: INDICATOR_COLOR[variant], strokeWidth, strokeDasharray: circumference, strokeDashoffset: offset4, strokeLinecap: "round", transform: `rotate(-90 ${center} ${center})` })] }), children && (0, import_jsx_runtime63.jsx)("div", { className: "relative", children })] });
   };
   CircularProgress.displayName = "CircularProgress";
+
+  // dist/components/CodeBlock/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime65 = __toESM(require_react_shim(), 1);
+  var import_react22 = __toESM(require_react_shim(), 1);
+
+  // dist/components/IconButton/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime64 = __toESM(require_react_shim(), 1);
+  var iconButtonVariants = cva(cn(
+    "inline-flex items-center justify-center",
+    "cursor-pointer border",
+    "transition-all duration-fast",
+    // Focus: 2px ring + 2px surface-card gap; ring colour is set per variant
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card",
+    // Each variant switches its own hover recipe off when disabled — see the
+    // note on `Button`: `:hover` still matches a disabled control, and
+    // `pointer-events-none` would take away the tooltip that says why.
+    "disabled:cursor-not-allowed",
+    "aria-disabled:cursor-not-allowed",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+    glyphStroke
+  ), {
+    variants: {
+      // Shares the Button variant scale (Button.md: IconButton uses the same variants).
+      variant: {
+        primary: cn("border-transparent bg-btn-primary-bg text-btn-primary-text", "hover:bg-btn-primary-bg-hover", "pressed:bg-btn-primary-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive", "disabled:hover:bg-state-disabled"),
+        secondary: cn(
+          "border-btn-secondary-border bg-surface-card text-ink-body",
+          // Opaque blends, not the translucent state washes — see Button.
+          "hover:border-btn-secondary-border-hover hover:bg-btn-secondary-bg-hover",
+          "pressed:border-btn-secondary-border pressed:bg-btn-secondary-bg-press",
+          "focus-visible:ring-focus-ring-brand",
+          /* No disabled fill at all — see Button: a white chip is invisible on
+             a white card and reads as its own card on a tinted one, so the
+             border and the inactive glyph carry the state instead. The kit
+             paints --state-disabled here; deliberate divergence. */
+          "disabled:border-btn-secondary-border disabled:bg-transparent disabled:text-ink-inactive",
+          "disabled:hover:border-btn-secondary-border disabled:hover:bg-transparent"
+        ),
+        outline: cn("border-brand-secondary bg-transparent text-ink-body", "hover:border-brand-hover hover:bg-btn-outline-bg-hover", "pressed:border-brand-hover pressed:bg-btn-outline-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:border-ink-inactive disabled:hover:bg-transparent"),
+        tertiary: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover", "pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent disabled:hover:text-ink-inactive", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
+        // The same pill as `tertiary`, with a brand glyph. Its label — the
+        // glyph — moves through the brand ramp; the surface does not.
+        tertiaryBrand: cn("border-transparent bg-transparent text-brand-primary", "hover:bg-state-hover hover:text-brand-hover", "pressed:bg-state-pressed pressed:text-brand-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent disabled:hover:text-ink-inactive", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
+        // Focus ring is the kit-wide brand teal on every variant, destructive
+        // included — a red ring on a red control reads as noise.
+        destructive: cn("border-transparent bg-fb-red text-content-on-solid", "hover:bg-fb-error-hover", "pressed:bg-fb-error-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive", "disabled:hover:bg-state-disabled"),
+        destructiveOutline: cn("border-outlineDestructive-border bg-transparent text-fb-red-text", "hover:border-outlineDestructive-border-hover hover:bg-outlineDestructive-bg-hover", "pressed:border-outlineDestructive-border-hover pressed:bg-outlineDestructive-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:border-ink-inactive disabled:hover:bg-transparent"),
+        // Low-emphasis destructive ghost: red icon, transparent fill, red-tinted
+        // hover/press. Tertiary sibling of destructiveOutline (no border).
+        destructiveTertiary: cn(
+          "border-transparent bg-transparent text-fb-red-text",
+          // Shares the destructiveOutline fill tokens on light and goes a step
+          // stronger on dark, where there is no border to carry the signal.
+          "hover:bg-destructiveTertiary-bg-hover",
+          "pressed:bg-destructiveTertiary-bg-press",
+          "focus-visible:ring-focus-ring-brand",
+          "disabled:bg-transparent disabled:text-ink-inactive",
+          "disabled:hover:bg-transparent disabled:hover:text-ink-inactive",
+          "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"
+        ),
+        transparent: cn("!p-0 m-0 max-h-fit max-w-fit border-none bg-transparent text-ink-body", "focus-visible:ring-focus-ring-brand")
+      },
+      size: {
+        // Box ladder mirrors Button step for step (28/32/36/40/44), so an
+        // icon-only control lines up with a text button of the same size.
+        // `2xs` (24px) sits one step BELOW that ladder: the row-action size,
+        // which an icon-only control reaches on the padded box around a 14px
+        // glyph. Glyph is 16px everywhere and 14px on the two smallest steps.
+        "2xs": "size-6 [&_svg]:size-3.5",
+        xs: "size-7 [&_svg]:size-3.5",
+        sm: "size-8 [&_svg]:size-4",
+        md: "size-9 [&_svg]:size-4",
+        lg: "size-10 [&_svg]:size-5",
+        xl: "size-11 [&_svg]:size-5"
+      },
+      rounded: {
+        none: "rounded-none",
+        sm: "rounded-sm",
+        rounded: "rounded",
+        md: "rounded-md",
+        lg: "rounded-lg",
+        xl: "rounded-xl",
+        full: "rounded-full"
+      }
+    },
+    compoundVariants: [
+      // The radius tightens one step on the two smallest boxes so a 24/28px
+      // square does not read as a pill. Scoped to the default `md` radius so an
+      // explicit `rounded` prop still wins.
+      { size: "2xs", rounded: "md", class: "rounded" },
+      { size: "xs", rounded: "md", class: "rounded" }
+    ],
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+      rounded: "md"
+    }
+  });
+  function IconButton({ className, variant, size: size4, rounded, asChild = false, isLoading = false, ref, children, ...props }) {
+    const Comp = asChild ? Slot : "button";
+    const spinnerSize = size4 === "2xs" || size4 === "xs" ? "xs" : "sm";
+    return (0, import_jsx_runtime64.jsx)(Comp, { "data-variant": variant ?? void 0, ref, className: cn(iconButtonVariants({ variant, size: size4, rounded }), className, isLoading && "pointer-events-none opacity-disabled"), "aria-busy": isLoading || void 0, ...props, children: isLoading ? (
+      // Decorative: `aria-busy` on the control conveys the loading state.
+      (0, import_jsx_runtime64.jsx)(Spinner, { "aria-hidden": true, color: "inherit", size: spinnerSize })
+    ) : children });
+  }
+
+  // dist/components/CodeBlock/index.js
+  var codeBlockVariants = cva(cn("relative", "rounded-md border border-stroke bg-surface-bg", "font-mono text-ink-body"), {
+    variants: {
+      // Same two rungs as StatTile and the rest of the padded surfaces.
+      size: {
+        sm: "p-3 text-xxs",
+        md: "p-4 text-xs"
+      }
+    },
+    defaultVariants: { size: "md" }
+  });
+  function CodeBlock({ code, children, copyable = true, copyLabel = "Copy", copiedLabel = "Copied", size: size4, className, ...props }) {
+    const [copied, setCopied] = (0, import_react22.useState)(false);
+    (0, import_react22.useEffect)(() => {
+      if (!copied)
+        return;
+      const t = setTimeout(() => setCopied(false), 2e3);
+      return () => clearTimeout(t);
+    }, [copied]);
+    const copy = async () => {
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(code);
+        } else {
+          const ta = document.createElement("textarea");
+          ta.value = code;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.append(ta);
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
+        }
+        setCopied(true);
+      } catch {
+        setCopied(false);
+      }
+    };
+    return (0, import_jsx_runtime65.jsxs)("div", { className: cn(codeBlockVariants({ size: size4 }), className), ...props, children: [copyable ? (0, import_jsx_runtime65.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime65.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime65.jsx)(IconButton, {
+      "aria-label": copied ? copiedLabel : copyLabel,
+      size: "2xs",
+      variant: "tertiary",
+      // Inside the block's own padding, clear of the first line.
+      className: "absolute end-2 top-2",
+      onClick: copy,
+      children: copied ? (0, import_jsx_runtime65.jsx)(Check, {}) : (0, import_jsx_runtime65.jsx)(Copy, {})
+    }) }), (0, import_jsx_runtime65.jsx)(TooltipContent3, { children: copied ? copiedLabel : copyLabel })] }) : null, (0, import_jsx_runtime65.jsx)("pre", { className: cn(
+      // The kit draws a hairline scrollbar and this pre never asked for
+      // it, so a long command got the browser default: a 16px trough with
+      // stepper arrows on Windows, under a 4px-radius code block. The
+      // preset that ships `scrollbar-thin` names `.cp-code-pre` as one of
+      // the three kit rules it was copied FROM, so the code block is where
+      // the utility came from in the first place.
+      "scrollbar-thin overflow-x-auto whitespace-pre",
+      // Room for the button on the first line only — the rest of the block
+      // uses the full width, so a long line is not indented for nothing.
+      copyable && "[&>code]:pe-8"
+    ), children: (0, import_jsx_runtime65.jsx)("code", { children: children ?? code }) })] });
+  }
+  CodeBlock.displayName = "CodeBlock";
 
   // dist/components/Collapsible/index.js
   init_define_import_meta_env();
@@ -13740,17 +14830,22 @@ var DevartUI = (() => {
 
   // dist/components/ConnectorLogo/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime58 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime66 = __toESM(require_react_shim(), 1);
 
   // dist/components/ConnectorLogo/logos.js
   init_define_import_meta_env();
   var CONNECTOR_LOGOS = {
     airtable: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22airtable%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M119.444%2063.687%2059.79%2088.372c-3.317%201.375-3.282%206.085.056%207.408l59.9%2023.755a22.23%2022.23%200%200%200%2016.388%200l59.901-23.755c3.338-1.325%203.375-6.035.055-7.408l-59.651-24.683a22.225%2022.225%200%200%200-16.998%200%22%20fill%3D%22%23FC0%22%2F%3E%3Cpath%20d%3D%22M133.256%20132.51v59.344c.003%202.773%202.891%204.734%205.47%203.715l66.751-25.911a4.033%204.033%200%200%200%202.522-3.715v-59.34c-.003-2.773-2.891-4.735-5.47-3.716l-66.751%2025.911a4.035%204.035%200%200%200-2.522%203.712Z%22%20fill%3D%22%2331C2F2%22%2F%3E%3Cpath%20d%3D%22m117.674%20135.573-63.639%2030.575c-2.65%201.281-6.035-.65-6.035-3.6v-55.695c0-2.834%203.478-4.686%205.93-3.715l63.414%2025.125c3.25%201.28%203.5%205.795.332%207.313%22%20fill%3D%22%23ED3049%22%2F%3E%3Cpath%20d%3D%22m117.673%20135.574-19.81%209.565-48.586-40.965c1.2-1.196%203.049-1.675%204.65-1.04l63.414%2025.125c3.25%201.28%203.5%205.798.332%207.315Z%22%20fill%3D%22%23C62842%22%2F%3E%3C%2Fsvg%3E",
+    alloydb: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22alloydb%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22m127.624%2045%2078.62%2039.049-17.454%208.892-61.166-30.389L66.45%2092.945%2049%2084.055v-.004L127.624%2045Z%22%20fill%3D%22%234285F4%22%2F%3E%3Cpath%20d%3D%22M64.725%20100.884v62.252l62.899%2031.25%2062.899-31.25v-62.26l15.725-8.01v80.021l-78.624%2039.051L49%20172.887V92.873l15.725%208.011Z%22%20fill%3D%22%234285F4%22%2F%3E%3Cpath%20d%3D%22m180.162%2097.291-16.026%208.129-36.582-18.092-36.581%2018.092-16.026-8.129%2052.673-26.012%2052.542%2026.012Z%22%20fill%3D%22%23AECBFA%22%2F%3E%3Cpath%20d%3D%22M96.11%20125.729v-14.152l31.444-15.487%2031.49%2015.618v14.021l-31.424%2016.05-31.51-16.05Z%22%20fill%3D%22%23AECBFA%22%2F%3E%3Cpath%20d%3D%22m88.223%20112.876-15.668-7.98v53.617l15.668%207.619v-53.256Zm78.739%200%2015.668-7.98v53.617l-15.668%207.619v-53.256Zm-39.407%2055.228L96.185%20152.6v-17.733l31.37%2015.697%2031.49-15.964v17.94l-31.49%2015.564Z%22%20fill%3D%22%23669DF6%22%2F%3E%3C%2Fsvg%3E",
+    amazonrds: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22amazonrds%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22m78.602%2087.19%2012.26-4.201L78.602%2079%2065.38%2082.755%2078.6%2087.19zm13.958%2016.335-13.063%204.729V88.678l13.063-4.492v19.339zM77.1%2088.69l-13.06-4.492v19.315l13.062%204.73V88.69zm-44.536%2025.492%2012.26-4.201-12.26-3.989-13.222%203.755%2013.222%204.435zm-1.501%201.5L18%20111.188v19.327l13.063%204.729v-19.562zm29.313%2021.295-12.26%204.202-13.22-4.436%2013.22-3.754%2012.26%203.988zm-11.365%2025.266%2013.062-4.73v-19.328l-13.062%204.494v19.564zm-2.396%200-13.06-4.732v-19.325l13.062%204.493-.002%2019.564zm-.091-31.726-13.065%204.729v-19.572l13.065-4.486v19.329zm1.96-19.323%2013.065%204.492v19.564l-13.065-4.729v-19.327zm15.46%2024.056%2013.063-4.729v-19.333l-13.062%204.492v19.57zm11.365-25.266-12.26%204.202-13.222-4.436%2013.221-3.754%2012.26%203.988zm19.21-25.798%2013.066%204.508-.003%2019.549-13.063-4.73V84.186zm15.463%2024.072%2013.062-4.729V84.186l-13.062%204.492v19.58zm11.363-25.265-12.259%204.2-13.222-4.43%2013.22-3.757%2012.261%203.987z%22%20fill%3D%22%23FCBD17%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M100.842%20132.244a7.22%207.22%200%200%200%201.855%204.78c.355.383.348.995-.015%201.369-.35.308-3.742%203.447-3.779%203.41a.98.98%200%200%201-1.16.12%2012.418%2012.418%200%200%201-2.816-3.434c-1.971%202.538-4.983%203.931-8.098%203.745-4.393.275-7.758-3.796-7.353-8.03-.119-3.685%201.975-7.053%205.238-8.424a32.57%2032.57%200%200%201%209.237-1.784c0-1.536.078-2.964-.599-4.405-1.905-2.594-6.097-1.231-6.705%201.752a1.07%201.07%200%200%201-.856.948l-4.816-.551c-.467-.099-.77-.576-.676-1.067%201.892-8.132%2012.356-10.399%2018.382-5.324%202.196%202.153%202.181%204.966%202.164%208.05-.016%202.948-.003%205.897-.003%208.845zm-7.813%202.458c.993-2.143.918-4.295.92-6.581-3.552%200-7.307.798-7.307%205.185%200%204.046%204.707%204.999%206.387%201.396z%22%20fill%3D%22%23000%22%2F%3E%3Cpath%20d%3D%22M132.662%20113.038c-3.038-.093-5.784%201.889-6.787%204.898-.902-2.919-3.494-4.896-6.42-4.896-2.925%200-5.518%201.977-6.42%204.896l-.095-3.452c-.04-.491-.424-.872-.893-.888h-4.575c-.511-.014-.937.408-.951.944v26.453c.047.479.421.85.88.872h4.912c.523.015.938-.436.95-.945%200-4.785.008-9.571%200-14.356-.005-3.026-.011-6.96%203.394-6.96%203.131%200%203.078%203.505%203.035%206.356-.075%204.983-.01%209.971-.01%2014.954.008.513.396.93.884.951h4.905c.523.014.938-.437.95-.947v-14.021c-.105-1.703.05-3.413.46-5.065.475-1.275%201.63-2.129%202.935-2.17%201.398-.205%202.69.816%202.889%202.282.162%201.645.208%203.301.138%204.953v14.019c.008.511.395.928.882.95h4.907c.523.014.938-.437.95-.947v-16.694c.69-4.832-.971-11.301-6.919-11.183l-.001-.004z%22%20fill%3D%22%23000%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M164.678%20132.244a7.222%207.222%200%200%200%201.857%204.78c.355.384.347.996-.017%201.369a224.376%20224.376%200%200%200-3.767%203.422l-.012-.012a.981.981%200%200%201-1.16.12%2012.429%2012.429%200%200%201-2.816-3.434c-1.971%202.538-4.983%203.93-8.099%203.745-4.392.275-7.757-3.796-7.352-8.03-.119-3.685%201.975-7.053%205.238-8.424a32.566%2032.566%200%200%201%209.237-1.784c0-1.536.078-2.964-.599-4.405-1.904-2.595-6.096-1.23-6.704%201.752a1.07%201.07%200%200%201-.856.948l-4.817-.551c-.467-.099-.77-.576-.677-1.067%201.208-5.184%205.941-8.584%2010.986-7.889%202.68-.107%205.307.804%207.398%202.565%202.196%202.152%202.18%204.963%202.163%208.044-.016%202.951-.003%205.901-.003%208.851zm-6.891-3.008c.29%202.937-.631%207.629-4.321%207.809-1.884%200-2.987-1.507-2.987-3.739%200-4.387%203.753-5.185%207.307-5.185l.001%201.115z%22%20fill%3D%22%23000%22%2F%3E%3Cpath%20d%3D%22M228.941%20113.038c6.22-.307%207.428%206.49%207.013%2011.354v16.642c-.069.486-.472.842-.941.832h-4.923c-.445-.022-.812-.371-.875-.833v-14.358c0-2.895.322-7.122-3.072-7.122-3.286.148-3.756%204.636-3.623%207.123v14.238c-.019.537-.444.96-.956.951h-4.896c-.486-.023-.872-.439-.88-.95l-.009-26.456c.055-.5.464-.874.944-.864h4.556a.946.946%200%200%201%20.873.74l.095%204.045c.749-3.215%203.54-5.442%206.694-5.342z%22%20fill%3D%22%23000%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M199.952%20113.038c-7.05%200-10.963%206.401-10.963%2014.637%200%208.176%203.867%2014.748%2010.963%2014.748%206.824%200%2011.145-6.401%2011.145-14.469%200-8.349-3.912-14.916-11.145-14.916zm0%2023.929v-.003c3.776%200%203.959-4.885%203.959-8.275.089-2.691.324-9.848-3.914-9.572-3.593%200-3.821%205.175-3.821%208.403%200%202.708-.357%209.447%203.776%209.447z%22%20fill%3D%22%23000%22%2F%3E%3Cpath%20d%3D%22M187.72%20134.7a17.215%2017.215%200%200%200-9.21-2.074l8.364-12.527a5.378%205.378%200%200%200%201.217-2.379v-3.24c.007-.496-.379-.95-.888-.958h-16.19c-.491-.012-.9.395-.912.911v3.825c-.006.52.39.946.886.953h8.481l-9.688%2014.586a4.735%204.735%200%200%200-.6%202.592v3.833c0%20.555.587%201.189%201.15.875a17.83%2017.83%200%200%201%2017.057-.022c.608.334%201.188-.309%201.188-.864v-4.032a1.742%201.742%200%200%200-.856-1.48l.001.001zm36.38%2035.706c2.008%201.08%208.884%203.112%208.884-1.062%200-1.44-1.031-2.259-3.637-3.255-3.605-1.333-5.954-3.453-5.954-6.805%200-3.934%203.089-6.948%208.202-6.948%201.903-.038%203.791.36%205.537%201.166l-1.096%204.21c-1.78-.918-7.69-2.312-7.69%201.13%200%201.467%201.226%202.119%204.022%203.249%203.829%201.503%205.632%203.623%205.632%206.873%200%207.6-9.61%208.36-14.901%205.749l1.001-4.307z%22%20fill%3D%22%23000%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22m182.508%20153.021-.003%2022.756h4.859v-9.067c2.818%200%204.37.587%204.996%203.698a30.188%2030.188%200%200%200%201.509%205.369h5.017c-.417-.886-1.092-3.903-1.77-6.499-.257-1.847-1.334-3.451-2.895-4.309v-.111c2.268-.853%203.796-3.117%203.831-5.675.39-7.874-10.45-6.948-15.544-6.162zm4.858%209.923v-6.367c2.455-.432%205.823-.185%205.823%203.047%200%203.312-3.376%203.32-5.823%203.32zm14.201-9.923c5.19-.793%2011.027-1.207%2015.511%201.987%205.249%204.359%204.797%2013.475.066%2018.031-4.537%203.392-10.202%203.344-15.572%202.634l-.005-22.652zm4.922%2018.818v-15.088c4.747-1.012%209.607%201.834%209.045%207.115.694%205.429-4.14%208.757-9.045%207.973z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fsvg%3E",
     amazons3: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22amazons3%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%3E%3Cpath%20fill%3D%22%238C3123%22%20d%3D%22m72.81%2075.766-10.654%205.327v93.6l10.654%205.327%2026.146-52.137z%22%2F%3E%3Cpath%20fill%3D%22%23E05243%22%20d%3D%22M128.341%20166.556%2072.809%20180V75.766l55.532%2013.444%2026.244%2038.829z%22%2F%3E%3Cpath%20fill%3D%22%238C3123%22%20d%3D%22M128.341%20166.556%20183.853%20180l9.6-50.79-9.6-53.444-55.512%2013.444z%22%2F%3E%3Cpath%20fill%3D%22%23E05243%22%20d%3D%22m183.854%2075.766%2010.673%205.327v93.6l-10.673%205.327z%22%2F%3E%3Cpath%20fill%3D%22%238C3123%22%20d%3D%22m104.127%20145.132%2024.215%203.102%2019.2-20.195-19.2-20.176-24.215%203.044z%22%2F%3E%3Cpath%20fill%3D%22%235E1F18%22%20d%3D%22m152.556%2094.341-24.215%204.41-24.215-4.41L128.341%2048z%22%2F%3E%3Cpath%20fill%3D%22%23F2B0A9%22%20d%3D%22m152.556%20161.659-24.215-4.449-24.215%204.449L128.341%20208z%22%2F%3E%3Cpath%20fill%3D%22%23E05243%22%20d%3D%22m152.556%2094.341-24.215-5.99V48l24.215%2012.098z%22%2F%3E%3Cpath%20fill%3D%22%238C3123%22%20d%3D%22m104.127%2094.341%2024.215-5.99V48l-24.215%2012.098z%22%2F%3E%3Cpath%20fill%3D%22%23E05243%22%20d%3D%22m128.341%20208%2024.215-12.098v-34.244l-24.215%205.99z%22%2F%3E%3Cpath%20fill%3D%22%238C3123%22%20d%3D%22m128.341%20208-24.215-12.098v-34.244l24.215%205.99z%22%2F%3E%3Cpath%20fill%3D%22%23E05243%22%20d%3D%22m152.556%20145.132-24.215%203.102v-40.371l24.215%203.044z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
     bigquery: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22bigquery%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22m78.057%20198.562-36.523-63.259a15.998%2015.998%200%200%201%200-15.998l36.523-63.259a16%2016%200%200%201%2013.855-8h73.045c5.716%200%2010.997%203.05%2013.855%208l36.523%2063.259a15.997%2015.997%200%200%201%200%2015.998l-36.523%2063.259a15.998%2015.998%200%200%201-13.855%207.999H91.912a15.997%2015.997%200%200%201-13.855-7.999z%22%20fill%3D%22url(%23asa)%22%2F%3E%3Cpath%20opacity%3D%22.07%22%20d%3D%22m203.133%20156.438-24.321%2042.124a15.998%2015.998%200%200%201-13.855%207.999h-2.889l-55.982-55.982-6.45-23.275%208.022-20.905%2020.776-7.72%2023.131%206.19%2051.568%2051.569z%22%20fill%3D%22%23000%22%2F%3E%3Cpath%20d%3D%22M113.116%20126.058v10.03a17.8%2017.8%200%200%200%206.096%206.227v-16.257h-6.096zm12.085%2018.55v-27.006h6.097v27.049a17.562%2017.562%200%200%201-6.097-.043zm12.647-14.381v11.912a17.797%2017.797%200%200%200%206.097-6.54v-5.372h-6.097z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M96.164%20127.304c0-17.824%2014.448-32.272%2032.27-32.272%2017.823%200%2032.271%2014.448%2032.271%2032.272a32.128%2032.128%200%200%201-6.875%2019.913l12.647%2012.648a1.52%201.52%200%200%201%200%202.138l-3.343%203.341a1.516%201.516%200%200%201-2.139%200L148.348%20152.7a32.131%2032.131%200%200%201-19.914%206.875c-17.822%200-32.27-14.449-32.27-32.271zm7.785%200c0%2013.524%2010.962%2024.486%2024.485%2024.486%2013.524%200%2024.488-10.962%2024.488-24.486%200-13.523-10.964-24.488-24.488-24.488-13.523%200-24.485%2010.965-24.485%2024.488z%22%20fill%3D%22%23fff%22%2F%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22asa%22%20x1%3D%2239.529%22%20y1%3D%2248.047%22%20x2%3D%2239.529%22%20y2%3D%22206.316%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%234387FD%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%234683EA%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E",
     databricks: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22databricks%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22m199.428%20112.905-71.349%2040.103-76.4-42.852L48%20112.137v31.115l80.079%2044.824%2071.34-39.946v16.465l-71.34%2040.112-76.4-42.852L48%20163.836v5.332L128.079%20214%20208%20169.168v-31.107l-3.679-1.981-76.242%2042.695-71.507-39.947v-16.473l71.507%2039.946L208%20117.485v-30.67l-3.985-2.285-75.936%2042.546-67.828-37.817%2067.828-37.966%2055.725%2031.256%204.902-2.74v-3.813L128.079%2042%2048%2086.824v4.886l80.079%2044.832%2071.34-40.111.009%2016.474Z%22%20fill%3D%22%23EE3D2C%22%2F%3E%3C%2Fsvg%3E",
     dynamics: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22dynamics%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M85%2091.607V49l92.715%2049.783-29.211%2024.176L85%2091.607zM85%20208l30.612-88.905L85%2098.795V208zm97-54.989v-50.465L85.177%20208%20182%20153.011z%22%20fill%3D%22%23002050%22%2F%3E%3C%2Fsvg%3E",
     freshbooks: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22freshbooks%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M116.635%2055C82.539%2055%2055%2082.539%2055%20116.635V201h84.365C173.461%20201%20201%20173.461%20201%20139.365V55h-84.365z%22%20fill%3D%22%230075DD%22%2F%3E%3Cpath%20d%3D%22M167%2081.25c0%2011.375-9.611%2019.75-20.539%2019.75H125v18h28v20h-28v42h-24V76h24v18.813c.874-10.5%209.222-18.813%2019.713-18.813H167v5.25z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E",
+    googlecloudsqlmysql: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22googlecloudsqlmysql%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cmask%20id%3D%22cda%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%2257%22%20y%3D%2245%22%20width%3D%22143%22%20height%3D%22116%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M128.125%2045.869c22.169%200%2041.218%2013.225%2049.742%2032.187a7.846%207.846%200%200%200%202.679%203.215c11.448%207.956%2018.906%2021.284%2018.677%2036.367-.356%2023.859-20.305%2042.789-44.165%2042.789H97.203c-21.996%200-40.451-17.997-40.183-39.993.166-13.723%207.332-25.74%2018.061-32.692%205.704-24.018%2027.281-41.873%2053.037-41.873h.007Zm0%2026.862c-14.394%200-26.237%2011.013-27.533%2025.068l-.766%208.328-7.814%202.986a12.646%2012.646%200%200%200-8.13%2011.819c0%206.984%205.657%2012.641%2012.641%2012.641h59.254c9.165%200%2016.592-7.426%2016.592-16.591%200-6.795-4.085-12.665-9.995-15.224l-5.886-2.56-1.706-6.186c-3.231-11.701-13.96-20.273-26.657-20.273v-.008Z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url(%23cda)%22%3E%3Ccircle%20cx%3D%22132.232%22%20cy%3D%22117.869%22%20r%3D%22104%22%20fill%3D%22%23fff%22%2F%3E%3Cg%20filter%3D%22url(%23cdb)%22%3E%3Cpath%20d%3D%22M62.405%2040.797a104%20104%200%200%200-34.172%2076.877l103.999.195-69.827-77.072Z%22%20fill%3D%22%23FF55A1%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cdc)%22%3E%3Cpath%20d%3D%22M179.823%2025.396A104%20104%200%200%200%2052.66%2050.907l79.572%2066.963%2047.591-92.472Z%22%20fill%3D%22%23FF242C%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cdd)%22%3E%3Cpath%20d%3D%22M51.534%20183.472a103.994%20103.994%200%200%200%2073.706%2038.162%20104.001%20104.001%200%200%200%2078.16-27.928l-71.168-75.837-80.698%2065.603Z%22%20fill%3D%22%23009AEB%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cde)%22%3E%3Cpath%20d%3D%22M188.779%20205.153A104%20104%200%200%200%20230.652%2084.26l-98.42%2033.609%2056.547%2087.284Z%22%20fill%3D%22%2300BE53%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cdf)%22%3E%3Cpath%20d%3D%22M28.232%20117.869a104%20104%200%200%200%2072.524%2099.122l31.476-99.122h-104Z%22%20fill%3D%22%230087FF%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cdg)%22%3E%3Cpath%20d%3D%22M233.925%2096.082a104.004%20104.004%200%200%200-64.952-75.507l-36.741%2097.294%20101.693-21.787Z%22%20fill%3D%22%23FFD401%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cpath%20d%3D%22M96.524%2081.414c12.317%200%2023.323%205.64%2030.568%2014.473l-18.867%2018.867-2.536-2.536a12.622%2012.622%200%200%200-9.173-3.943c-6.984%200-12.64%205.657-12.64%2012.641%200%204.915%202.804%209.181%206.905%2011.267l-19.294%2019.293c-8.832-7.245-14.473-18.243-14.473-30.56%200-21.813%2017.689-39.502%2039.502-39.502h.008Z%22%20fill%3D%22url(%23cdh)%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M94.838%20170.403V201H88.58v-17.598c0-.812.035-1.792.147-2.772L80.6%20196.359c-1.117%202.17-4.815%202.153-5.922%200l-8.127-15.771c.084%201.008.147%202.002.147%202.814V201H60.44v-30.597h5.418c1.231%200%201.791.028%202.352%201.092l7.875%2015.519a35.073%2035.073%200%200%201%201.553%203.423c.477-1.232.987-2.422%201.575-3.486l7.855-15.456c.525-.999%201.339-1.092%202.352-1.092h5.418Zm25.43%208.82-11.634%2027.426c-.412.913-1.068%201.26-2.058%201.26h-4.872l4.2-8.82-8.694-19.866h5.754c.797%200%201.457.383%201.764%201.134l3.57%209.387c.336.854.609%201.729.819%202.625.307-.892.605-1.787.945-2.667l3.234-9.345c.268-.683.999-1.134%201.722-1.134h5.25Zm19.572-2.604c-.608.974-1.598%201.248-2.593.704-1.567-.858-3.1-1.67-4.925-1.67-2.008%200-3.948.893-3.948%203.15%200%202.103%202.674%202.9%204.316%203.392%204.621%201.382%209.334%203.593%209.334%208.998%200%204.191-2.413%207.857-6.31%209.356-4.895%201.882-11.412.495-15.152-3.245l2.1-3.318c.68-.963%201.883-1.028%202.825-.441%201.814%201.13%203.596%202.163%205.785%202.163%202.289%200%204.074-1.1%204.074-3.549%200-3.146-4.475-3.634-6.804-4.378-4.149-1.327-6.804-4.238-6.804-8.621%200-5.684%205.318-9.093%2010.5-9.093%203.318%200%206.88.96%209.366%203.255l-1.764%203.297Zm11.886%209.072c0%205.317%203.17%209.765%208.652%209.765%205.68%200%208.61-4.576%208.61-9.765%200-5.263-3.159-9.765-8.61-9.765-5.618%200-8.652%204.632-8.652%209.765Zm26.25%2021.042h-5.838c-1.557%200-3.005-.395-4.116-1.533l-3.801-4.263c-1.19.266-2.471.399-3.843.399-8.863%200-15.918-6.867-15.918-15.645%200-8.962%207.218-15.624%2015.918-15.624%208.832%200%2015.876%206.879%2015.876%2015.624%200%204.853-2.078%209.675-6.027%2012.579l7.749%208.463Zm20.895-11.403V201h-18.438v-30.597h7.098v24.927h11.34Z%22%20fill%3D%22%235F6368%22%2F%3E%3Cdefs%3E%3Cfilter%20id%3D%22cdb%22%20x%3D%22-11.768%22%20y%3D%22.797%22%20width%3D%22184%22%20height%3D%22157.072%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_331%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cdc%22%20x%3D%2212.66%22%20y%3D%22-26.131%22%20width%3D%22207.162%22%20height%3D%22184%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_331%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cdd%22%20x%3D%2211.533%22%20y%3D%2277.869%22%20width%3D%22231.867%22%20height%3D%22184%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_331%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cde%22%20x%3D%2292.232%22%20y%3D%2244.26%22%20width%3D%22184%22%20height%3D%22200.893%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_331%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cdf%22%20x%3D%224.232%22%20y%3D%2293.869%22%20width%3D%22152%22%20height%3D%22147.122%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2212%22%20result%3D%22effect1_foregroundBlur_1_331%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cdg%22%20x%3D%2292.232%22%20y%3D%22-19.425%22%20width%3D%22181.691%22%20height%3D%22177.294%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_331%22%2F%3E%3C%2Ffilter%3E%3ClinearGradient%20id%3D%22cdh%22%20x1%3D%2297.204%22%20y1%3D%22123.539%22%20x2%3D%2299.195%22%20y2%3D%22127.616%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%230087FF%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230087FF%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E",
+    googlecloudsqlpostgresql: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22googlecloudsqlpostgresql%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cmask%20id%3D%22cea%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%2257%22%20y%3D%2245%22%20width%3D%22143%22%20height%3D%22116%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M128.125%2045.869c22.169%200%2041.218%2013.225%2049.742%2032.187a7.846%207.846%200%200%200%202.679%203.215c11.448%207.956%2018.906%2021.284%2018.677%2036.367-.356%2023.859-20.305%2042.789-44.165%2042.789H97.203c-21.996%200-40.451-17.997-40.183-39.993.166-13.723%207.332-25.74%2018.061-32.692%205.704-24.018%2027.281-41.873%2053.037-41.873h.007Zm0%2026.862c-14.394%200-26.237%2011.013-27.533%2025.068l-.766%208.328-7.814%202.986a12.646%2012.646%200%200%200-8.13%2011.819c0%206.984%205.657%2012.641%2012.641%2012.641h59.254c9.165%200%2016.592-7.426%2016.592-16.591%200-6.795-4.085-12.665-9.995-15.224l-5.886-2.56-1.706-6.186c-3.231-11.701-13.96-20.273-26.657-20.273v-.008Z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url(%23cea)%22%3E%3Ccircle%20cx%3D%22132.232%22%20cy%3D%22117.869%22%20r%3D%22104%22%20fill%3D%22%23fff%22%2F%3E%3Cg%20filter%3D%22url(%23ceb)%22%3E%3Cpath%20d%3D%22M62.405%2040.797a104%20104%200%200%200-34.172%2076.877l103.999.195-69.827-77.072Z%22%20fill%3D%22%23FF55A1%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cec)%22%3E%3Cpath%20d%3D%22M179.823%2025.396A104%20104%200%200%200%2052.66%2050.907l79.572%2066.963%2047.591-92.472Z%22%20fill%3D%22%23FF242C%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23ced)%22%3E%3Cpath%20d%3D%22M51.534%20183.472a103.994%20103.994%200%200%200%2073.706%2038.162%20104.001%20104.001%200%200%200%2078.16-27.928l-71.168-75.837-80.698%2065.603Z%22%20fill%3D%22%23009AEB%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cee)%22%3E%3Cpath%20d%3D%22M188.779%20205.153A104%20104%200%200%200%20230.652%2084.26l-98.42%2033.609%2056.547%2087.284Z%22%20fill%3D%22%2300BE53%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cef)%22%3E%3Cpath%20d%3D%22M28.232%20117.869a104%20104%200%200%200%2072.524%2099.122l31.476-99.122h-104Z%22%20fill%3D%22%230087FF%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23ceg)%22%3E%3Cpath%20d%3D%22M233.925%2096.082a104.004%20104.004%200%200%200-64.952-75.507l-36.741%2097.294%20101.693-21.787Z%22%20fill%3D%22%23FFD401%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cpath%20d%3D%22M96.524%2081.414c12.317%200%2023.323%205.64%2030.568%2014.473l-18.867%2018.867-2.536-2.536a12.622%2012.622%200%200%200-9.173-3.943c-6.984%200-12.64%205.657-12.64%2012.641%200%204.915%202.804%209.181%206.905%2011.267l-19.294%2019.293c-8.832-7.245-14.473-18.243-14.473-30.56%200-21.813%2017.689-39.502%2039.502-39.502h.008Z%22%20fill%3D%22url(%23ceh)%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M38.74%20189.5V200h-6.03v-29.859h10.173c5.715%200%209.7%204.221%209.7%209.884%200%205.804-4.13%209.475-9.823%209.475h-4.02Zm0-5.024h4.143c2.542%200%203.61-2.115%203.61-4.41%200-2.205-.959-4.868-3.549-4.901H38.74v9.311Zm19.011-4.205c3.21-3.873%209.997-3.874%2013.207%200%203.457%204.172%203.497%2013.086.02%2017.289-3.197%203.864-10.042%203.848-13.237-.011-3.48-4.203-3.451-13.1.01-17.278Zm4.484%2014.229c1.033%201.447%203.261%201.446%204.295%200%201.112-1.556%201.001-3.672%201.017-5.5.015-1.768.072-3.734-.834-5.314-1.093-1.906-3.603-1.912-4.686%200-.884%201.56-.83%203.489-.83%205.23%200%201.845-.082%204.014%201.038%205.584Zm20.68-3.503c-3.166-1.284-6.276-3.092-6.276-6.891%200-4.252%203.715-6.706%207.67-6.706%204.196%200%208.039%202.425%208.039%206.953h-5.804c0-1.805-.752-2.707-2.256-2.707-1.264%200-2.112.931-2.112%202.173%200%201.673%202.577%202.408%203.753%202.912%203.367%201.246%206.48%203.134%206.48%207.096%200%204.432-4.126%206.583-8.1%206.583-4.16%200-8.286-2.749-8.286-7.28h5.517c.05%201.853.971%203.035%202.892%203.035%201.383%200%202.153-.555%202.308-1.665.294-2.102-2.318-2.844-3.826-3.503Zm19.851-18.642v5.456h2.973v4.368h-2.973v11.012c0%202.013%201.127%202.689%203.117%202.154l-.041%204.511c-1.509.566-3.258.734-4.842.392-2.658-.573-4.004-2.665-4.038-6.277v-11.792h-2.564v-4.368h2.564v-5.456h5.804Zm12.94%205.045c2.01%200%203.562.793%204.655%202.379l.226-1.968h5.229V200c0%202.83-.793%204.994-2.378%206.491-3.325%203.138-10.564%203.208-13.659-.339l1.949-4.019c1.653%201.736%205.57%203.036%207.413%201.015%201.154-1.265.872-3.326.872-4.912-1.108%201.45-2.55%202.174-4.327%202.174-5.694%200-7.426-5.785-7.465-10.541%200-5.215.736-12.469%207.485-12.469Zm-1.682%2012.285c0%202.325.276%205.885%203.343%205.885%201.19%200%202.071-.43%202.646-1.292v-10.602c-.602-.944-1.47-1.415-2.605-1.415-3.702%200-3.384%204.877-3.384%207.424Zm26.968-6.276-1.928-.164c-1.585%200-2.659.697-3.219%202.092V200h-5.824v-22.189h5.475l.164%202.399c.916-1.873%202.181-2.81%203.794-2.81.656%200%201.19.089%201.6.267l-.062%205.742Zm10.91%2016.987c-6.878-.306-8.839-5.997-8.839-12.044%200-3.5.766-6.201%202.297-8.101%202.981-3.699%209.86-4%2012.879-.174%202.389%203.026%202.154%207.13%202.154%2010.777h-11.546c.12%202.408%201.019%204.577%203.691%204.727%201.953.109%203.855-.576%205.23-1.979l2.276%203.506c-1.818%202.517-5.17%203.42-8.142%203.288Zm-3.014-13.603h5.803c0-1.927-.305-4.573-2.789-4.573-2.497%200-2.912%202.57-3.014%204.573Zm27.685%205.373c0-2.715-2.061-3.771-4.327-4.696-4.257-1.614-8.429-4.366-8.429-9.393%200-5.263%204.547-8.347%209.475-8.347%205.257%200%209.372%203.824%209.372%209.229h-6.009c0-2.221-.992-4.286-3.466-4.286-2.034%200-3.342%201.441-3.342%203.445%200%202.344%202.657%203.514%204.47%204.286%204.553%201.646%208.327%204.509%208.327%209.721%200%205.342-4.175%208.285-9.229%208.285-5.752%200-10.336-4.04-10.336-9.823h6.05c0%202.891%201.199%204.922%204.286%204.922%202.106%200%203.158-1.114%203.158-3.343Zm27.071%205.988%204.122%203.692-3.794%203.486-5.496-5.024c-3.582.232-7.08-.42-9.506-3.333-2.825-3.392-2.881-7.791-2.881-11.975%200-4.125.087-8.464%202.85-11.814%203.812-4.621%2011.826-4.651%2015.73-.133%202.888%203.342%202.974%207.769%202.974%2011.947%200%204.688-.102%209.876-3.999%2013.154Zm-6.789-23.379c-5.116%200-4.737%206.578-4.737%2010.142%200%203.618-.479%2010.469%204.778%2010.469%205.159%200%204.697-6.853%204.697-10.386%200-3.558.403-10.225-4.738-10.225Zm21.165%2020.221h10.582V200H211.99v-29.859h6.03v24.855Z%22%20fill%3D%22%235F6368%22%2F%3E%3Cdefs%3E%3Cfilter%20id%3D%22ceb%22%20x%3D%22-11.768%22%20y%3D%22.797%22%20width%3D%22184%22%20height%3D%22157.072%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_325%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cec%22%20x%3D%2212.66%22%20y%3D%22-26.131%22%20width%3D%22207.162%22%20height%3D%22184%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_325%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22ced%22%20x%3D%2211.533%22%20y%3D%2277.869%22%20width%3D%22231.867%22%20height%3D%22184%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_325%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cee%22%20x%3D%2292.232%22%20y%3D%2244.26%22%20width%3D%22184%22%20height%3D%22200.893%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_325%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cef%22%20x%3D%224.232%22%20y%3D%2293.869%22%20width%3D%22152%22%20height%3D%22147.122%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2212%22%20result%3D%22effect1_foregroundBlur_1_325%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22ceg%22%20x%3D%2292.232%22%20y%3D%22-19.425%22%20width%3D%22181.691%22%20height%3D%22177.294%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_325%22%2F%3E%3C%2Ffilter%3E%3ClinearGradient%20id%3D%22ceh%22%20x1%3D%2297.204%22%20y1%3D%22123.539%22%20x2%3D%2299.195%22%20y2%3D%22127.616%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%230087FF%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230087FF%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E",
+    googlecloudsqlserver: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22googlecloudsqlserver%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cmask%20id%3D%22cfa%22%20style%3D%22mask-type%3Aalpha%22%20maskUnits%3D%22userSpaceOnUse%22%20x%3D%2257%22%20y%3D%2245%22%20width%3D%22143%22%20height%3D%22116%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M128.125%2045.869c22.169%200%2041.218%2013.225%2049.742%2032.187a7.846%207.846%200%200%200%202.679%203.215c11.448%207.956%2018.906%2021.284%2018.677%2036.367-.356%2023.859-20.305%2042.789-44.165%2042.789H97.203c-21.996%200-40.451-17.997-40.183-39.993.166-13.723%207.332-25.74%2018.061-32.692%205.704-24.018%2027.281-41.873%2053.037-41.873h.007Zm0%2026.862c-14.394%200-26.237%2011.013-27.533%2025.068l-.766%208.328-7.814%202.986a12.646%2012.646%200%200%200-8.13%2011.819c0%206.984%205.657%2012.641%2012.641%2012.641h59.254c9.165%200%2016.592-7.426%2016.592-16.591%200-6.795-4.085-12.665-9.995-15.224l-5.886-2.56-1.706-6.186c-3.231-11.701-13.96-20.273-26.657-20.273v-.008Z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url(%23cfa)%22%3E%3Ccircle%20cx%3D%22132.232%22%20cy%3D%22117.869%22%20r%3D%22104%22%20fill%3D%22%23fff%22%2F%3E%3Cg%20filter%3D%22url(%23cfb)%22%3E%3Cpath%20d%3D%22M62.405%2040.797a104%20104%200%200%200-34.172%2076.877l103.999.195-69.827-77.072Z%22%20fill%3D%22%23FF55A1%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cfc)%22%3E%3Cpath%20d%3D%22M179.823%2025.396A104%20104%200%200%200%2052.66%2050.907l79.572%2066.963%2047.591-92.472Z%22%20fill%3D%22%23FF242C%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cfd)%22%3E%3Cpath%20d%3D%22M51.534%20183.472a103.994%20103.994%200%200%200%2073.706%2038.162%20104.001%20104.001%200%200%200%2078.16-27.928l-71.168-75.837-80.698%2065.603Z%22%20fill%3D%22%23009AEB%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cfe)%22%3E%3Cpath%20d%3D%22M188.779%20205.153A104%20104%200%200%200%20230.652%2084.26l-98.42%2033.609%2056.547%2087.284Z%22%20fill%3D%22%2300BE53%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cff)%22%3E%3Cpath%20d%3D%22M28.232%20117.869a104%20104%200%200%200%2072.524%2099.122l31.476-99.122h-104Z%22%20fill%3D%22%230087FF%22%2F%3E%3C%2Fg%3E%3Cg%20filter%3D%22url(%23cfg)%22%3E%3Cpath%20d%3D%22M233.925%2096.082a104.004%20104.004%200%200%200-64.952-75.507l-36.741%2097.294%20101.693-21.787Z%22%20fill%3D%22%23FFD401%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cpath%20d%3D%22M96.524%2081.414c12.317%200%2023.323%205.64%2030.568%2014.473l-18.867%2018.867-2.536-2.536a12.622%2012.622%200%200%200-9.173-3.943c-6.984%200-12.64%205.657-12.64%2012.641%200%204.915%202.804%209.181%206.905%2011.267l-19.294%2019.293c-8.832-7.245-14.473-18.243-14.473-30.56%200-21.813%2017.689-39.502%2039.502-39.502h.008Z%22%20fill%3D%22url(%23cfh)%22%2F%3E%3Cpath%20d%3D%22m43.63%20173.322-1.764%203.297c-.42.672-.82%201.008-1.554%201.008-1.281%200-2.856-1.974-5.964-1.974-2.667%200-3.948%201.218-3.948%203.15%200%204.956%2013.65%202.142%2013.65%2012.39%200%205.649-3.99%2010.143-10.962%2010.143-3.801%200-8.106-1.638-10.5-4.032l2.1-3.318c.336-.483.903-.84%201.554-.84%201.659%200%203.234%202.562%207.056%202.562%202.583%200%204.074-1.092%204.074-3.549%200-5.754-13.608-1.575-13.608-12.999%200-4.62%203.78-9.093%2010.5-9.093%203.759%200%207.182%201.239%209.366%203.255Zm28.61%2024.948%207.75%208.463h-5.838c-1.68%200-2.961-.357-4.116-1.533l-3.801-4.263c-1.197.273-2.478.399-3.843.399-9.534%200-15.918-6.804-15.918-15.645s6.384-15.624%2015.918-15.624c9.513%200%2015.876%206.825%2015.876%2015.624%200%205.25-2.205%209.765-6.027%2012.579Zm-18.5-12.579c0%206.132%203.192%209.765%208.652%209.765%205.418%200%208.61-3.633%208.61-9.765%200-6.069-3.192-9.765-8.61-9.765-5.46%200-8.652%203.696-8.652%209.765Zm35.823%209.639h11.34V201H82.465v-30.597h7.098v24.927Zm42.086-22.008-1.764%203.297c-.42.672-.819%201.008-1.554%201.008-1.281%200-2.856-1.974-5.964-1.974-2.667%200-3.948%201.218-3.948%203.15%200%204.956%2013.65%202.142%2013.65%2012.39%200%205.649-3.99%2010.143-10.962%2010.143-3.801%200-8.106-1.638-10.5-4.032l2.1-3.318c.336-.483.903-.84%201.554-.84%201.659%200%203.234%202.562%207.056%202.562%202.583%200%204.074-1.092%204.074-3.549%200-5.754-13.608-1.575-13.608-12.999%200-4.62%203.78-9.093%2010.5-9.093%203.759%200%207.182%201.239%209.366%203.255Zm21.744%2017.955h-12.558c.42%203.633%202.289%205.187%205.124%205.187%203.045%200%204.158-1.764%205.712-1.764.525%200%20.903.189%201.176.567l1.89%202.331c-2.667%203.066-6.384%203.738-9.366%203.738-6.09%200-11.046-3.99-11.046-11.697%200-5.817%204.116-10.752%2010.752-10.752%205.754%200%209.786%203.675%209.786%209.975%200%201.932-.294%202.415-1.47%202.415Zm-12.474-3.78h8.106c0-2.058-1.008-4.116-3.822-4.116-2.457%200-3.843%201.449-4.284%204.116Zm22.956-6.741.336%201.827c1.344-2.352%203.066-3.78%205.334-3.78.987%200%201.785.231%202.394.693l-.42%204.788c-.147.609-.441.798-1.008.798-.462%200-1.491-.168-2.163-.168-1.911%200-2.94%201.071-3.717%202.856V201h-6.51v-21.777h3.864c1.302%200%201.659.42%201.89%201.533Zm25.634-1.533h5.166L186.233%20201h-5.922l-8.442-21.777h5.418c.924%200%201.575.483%201.806%201.134l3.024%209.765a41.812%2041.812%200%200%201%201.239%204.599%2035.992%2035.992%200%200%201%201.281-4.599l3.15-9.765c.231-.651.882-1.134%201.722-1.134Zm24.464%2012.054h-12.558c.42%203.633%202.289%205.187%205.124%205.187%203.045%200%204.158-1.764%205.712-1.764.525%200%20.903.189%201.176.567l1.89%202.331c-2.667%203.066-6.384%203.738-9.366%203.738-6.09%200-11.046-3.99-11.046-11.697%200-5.817%204.116-10.752%2010.752-10.752%205.754%200%209.786%203.675%209.786%209.975%200%201.932-.294%202.415-1.47%202.415Zm-12.474-3.78h8.106c0-2.058-1.008-4.116-3.822-4.116-2.457%200-3.843%201.449-4.284%204.116Zm22.956-6.741.336%201.827c1.344-2.352%203.066-3.78%205.334-3.78.987%200%201.785.231%202.394.693l-.42%204.788c-.147.609-.441.798-1.008.798-.462%200-1.491-.168-2.163-.168-1.911%200-2.94%201.071-3.717%202.856V201h-6.51v-21.777h3.864c1.302%200%201.659.42%201.89%201.533Z%22%20fill%3D%22%235F6368%22%2F%3E%3Cdefs%3E%3Cfilter%20id%3D%22cfb%22%20x%3D%22-11.768%22%20y%3D%22.797%22%20width%3D%22184%22%20height%3D%22157.072%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_337%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cfc%22%20x%3D%2212.66%22%20y%3D%22-26.131%22%20width%3D%22207.162%22%20height%3D%22184%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_337%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cfd%22%20x%3D%2211.533%22%20y%3D%2277.869%22%20width%3D%22231.867%22%20height%3D%22184%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_337%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cfe%22%20x%3D%2292.232%22%20y%3D%2244.26%22%20width%3D%22184%22%20height%3D%22200.893%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_337%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cff%22%20x%3D%224.232%22%20y%3D%2293.869%22%20width%3D%22152%22%20height%3D%22147.122%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2212%22%20result%3D%22effect1_foregroundBlur_1_337%22%2F%3E%3C%2Ffilter%3E%3Cfilter%20id%3D%22cfg%22%20x%3D%2292.232%22%20y%3D%22-19.425%22%20width%3D%22181.691%22%20height%3D%22177.294%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22shape%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2220%22%20result%3D%22effect1_foregroundBlur_1_337%22%2F%3E%3C%2Ffilter%3E%3ClinearGradient%20id%3D%22cfh%22%20x1%3D%2297.204%22%20y1%3D%22123.539%22%20x2%3D%2299.195%22%20y2%3D%22127.616%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%230087FF%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230087FF%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E",
     hubspot: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22hubspot%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M169.79%2081v19.25h-.03a42.25%2042.25%200%201%201-32.1%2075.33l-15.67%2015.67c.406%201.271.622%202.596.64%203.93%200%207.594-6.156%2013.75-13.75%2013.75s-13.75-6.156-13.75-13.75%206.156-13.75%2013.75-13.75a13.58%2013.58%200%200%201%203.93.64l15.84-15.84a42.18%2042.18%200%200%201-.65-47.56L75.95%2078.15a16.89%2016.89%200%201%201%207.91-10.29l52.94%2041.23a42.06%2042.06%200%200%201%2020-8.8V81a14.84%2014.84%200%200%201-8.56-13.38v-.45c.022-8.181%206.649-14.808%2014.83-14.83h.45c8.182.022%2014.808%206.649%2014.83%2014.83v.45A14.84%2014.84%200%200%201%20169.79%2081zm-28.15%2060.953c-.02%2011.969%209.662%2021.689%2021.63%2021.717l.05.01c11.974%200%2021.68-9.706%2021.68-21.68.006-11.968-9.688-21.677-21.656-21.69-11.969-.013-21.683%209.675-21.704%2021.643z%22%20fill%3D%22%23FF7A59%22%2F%3E%3C%2Fsvg%3E",
     mariadb: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22mariadb%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M215.935%2063h-.049c-2.899.093-3.35%201.671-9.611%203.218-6.326%201.564-12.435.062-19.242%202.931-20.33%208.56-24.661%2038.087-43.144%2048.562-13.818%207.834-27.175%2011.311-39.699%2015.251-8.239%202.589-16.405%205.569-23.866%2012.022-5.79%205.013-7.362%208.904-13.412%2015.192-6.158%206.394-25.09-4.924-34.32%203.356-.805.725-.784%202.016.034%202.731%202.002%201.757%205.8%205.935%209.415%207.223-1.149%202.182-7.626%208.604-6.308%2011.815%201.396%203.377%2017.46%201.081%2032.317-7.921%206.918-4.195%2012.425-10.237%2023.206-11.677%2013.942-1.864%2030.006%201.199%2046.149%203.533-2.394%207.16-7.203%2011.929-11.052%2017.632-1.19%201.288%202.394%201.433%206.488.656%207.361-1.826%2012.665-3.3%2018.217-6.542%206.825-3.988%207.86-14.212%2016.233-16.421%204.045%206.242%2014.135%208.345%2021.878%205.03.729-.31%201.764-.634%201.766-1.591.001-.963-.881-1.633-1.474-2.276-4.375-4.713-5.373-15.837-3.429-21.248%202.205-6.156%204.385-16.006%206.614-24.141%202.388-8.742%203.268-19.756%206.161-24.21%204.345-6.695%209.154-8.994%2013.326-12.771%204.17-3.778%207.988-7.455%207.864-16.097-.043-2.533-1.481-4.257-4.062-4.257z%22%20fill%3D%22%23454A5E%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M216.682%2072.225c-.861%205.915-4.682%209.187-9.15%2012.306-3.942%202.748-8.255%205.394-11.025%209.684-2.843%204.397-4.645%2019.441-9.048%2034.296-3.658%2012.33-9.102%2024.526-18.415%2030.4a1.01%201.01%200%200%201-1.533-.669c-.627-3.444-.523-9.756-1.595-7.703-1.354%203.831-2.877%207.481-4.665%2010.877-5.481%2010.417-13.409%2018.398-26.222%2021.524-1.033.25-1.822-.915-1.206-1.775%205.916-8.153%2011.204-16.929%2011.852-30.318.052-1.155-1.409-1.686-2.139-.788-2.791%203.423-3.459%2011.569-7.566%2014.074-3.201.35-6.453.346-9.716.154-13.426-.802-27.197-4.818-39.748-.808-8.555%202.731-17.526%2010.489-24.772%2013.614-8.503%203.671-12.534%207.135-23.283%206.895-1.099-1.47%204.483-7.837%206.38-10.585.607-.881-.685-1.806-1.9-2.361-2.909-1.327-5.83-4.935-8.931-6.34.4-.727%201.809-1.456%202.58-1.905%207.05-4.068%2025.733%204.595%2030.757-.309%203.104-3.026%205.188-5.682%207.297-8.759%203.263-4.781%207.826-8.631%2012.589-11.86%205.481-3.732%208.5-4.01%2015.593-6.631%209.03-3.341%2020.213-6.268%2029.905-9.952%205.981-2.279%2012.492-5.085%2017.798-9.019a35.715%2035.715%200%200%200%203.552-2.999c15.149-14.69%2018.153-40.6%2041.788-43.013a95.206%2095.206%200%200%201%207.018-.484c2.388-.061%204.744-.668%207.101-1.768.727-.319%205.054-2.92%206.515-1.662.978.84.251%205.39.189%205.884z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M189%2079.658c3.256%203.124%2010.078.62%208.855-5.589-4.133-.388-7.916%201.153-8.855%205.589z%22%20fill%3D%22%23454A5E%22%2F%3E%3C%2Fsvg%3E",
     mongodb: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22mongodb%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3ClinearGradient%20x1%3D%22-69.633%25%22%20y1%3D%2243.939%25%22%20x2%3D%22161.12%25%22%20y2%3D%2255.837%25%22%20id%3D%22gca%22%3E%3Cstop%20stop-color%3D%22%23999875%22%20offset%3D%2223.08%25%22%2F%3E%3Cstop%20stop-color%3D%22%239B9977%22%20offset%3D%2256.32%25%22%2F%3E%3Cstop%20stop-color%3D%22%23A09F7E%22%20offset%3D%2268.29%25%22%2F%3E%3Cstop%20stop-color%3D%22%23A9A889%22%20offset%3D%2276.83%25%22%2F%3E%3Cstop%20stop-color%3D%22%23B7B69A%22%20offset%3D%2283.73%25%22%2F%3E%3Cstop%20stop-color%3D%22%23C9C7B0%22%20offset%3D%2289.64%25%22%2F%3E%3Cstop%20stop-color%3D%22%23DEDDCB%22%20offset%3D%2294.82%25%22%2F%3E%3Cstop%20stop-color%3D%22%23F8F6EB%22%20offset%3D%2299.44%25%22%2F%3E%3Cstop%20stop-color%3D%22%23FBF9EF%22%20offset%3D%22100%25%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20x1%3D%22-16.739%25%22%20y1%3D%22.667%25%22%20x2%3D%2278.267%25%22%20y2%3D%2297.496%25%22%20id%3D%22gcb%22%3E%3Cstop%20stop-color%3D%22%2348A547%22%20offset%3D%220%25%22%2F%3E%3Cstop%20stop-color%3D%22%233F9143%22%20offset%3D%22100%25%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20x1%3D%22-9.367%25%22%20y1%3D%2256.115%25%22%20x2%3D%22152.53%25%22%20y2%3D%2246.339%25%22%20id%3D%22gcc%22%3E%3Cstop%20stop-color%3D%22%2341A247%22%20offset%3D%220%25%22%2F%3E%3Cstop%20stop-color%3D%22%234BA74B%22%20offset%3D%2235.23%25%22%2F%3E%3Cstop%20stop-color%3D%22%2367B554%22%20offset%3D%2295.57%25%22%2F%3E%3Cstop%20stop-color%3D%22%2369B655%22%20offset%3D%22100%25%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%3E%3Cpath%20d%3D%22m134.643%20254.071-6.429-2.143s.857-32.357-10.929-34.5c-7.714-9%201.286-380.143%2029.143-1.286%200%200-9.643%204.714-11.357%2012.857-1.714%208.143-.429%2025.071-.429%2025.071z%22%20fill%3D%22url(%23gca)%22%2F%3E%3Cpath%20d%3D%22M138.071%20222.786s55.5-36.429%2042.429-112.286c-12.429-55.071-42-73.286-45-80.143-3.429-4.929-7.071-13.5-7.071-13.5l2.357%20153.429s-4.929%2046.929%207.286%2052.5z%22%20fill%3D%22url(%23gcb)%22%2F%3E%3Cpath%20d%3D%22M125%20224.929s-52.071-35.571-49.071-98.143c3.214-62.571%2039.857-93.429%2046.929-99%204.714-4.929%204.714-6.857%205.143-11.786%203.214%206.857%202.786%20103.929%203%20115.286%201.5%2044.357-2.357%2085.286-6%2093.643z%22%20fill%3D%22url(%23gcc)%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E",
@@ -13763,6 +14858,7 @@ var DevartUI = (() => {
     salesforce: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22salesforce%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M113.231%2077.308c6.462-6.693%2015.462-10.923%2025.385-10.923%2013.23%200%2024.692%207.384%2030.846%2018.307C174.769%2082.308%20180.693%2081%20186.923%2081%20210.769%2081%20230%20100.462%20230%20124.462c0%2024-19.307%2043.461-43.077%2043.461-2.923%200-5.769-.308-8.461-.846-5.385%209.615-15.693%2016.154-27.539%2016.154a31.745%2031.745%200%200%201-13.769-3.154C131.693%20192.923%20118.923%20202%20104.077%20202c-15.461%200-28.692-9.769-33.77-23.538-2.23.461-4.538.692-6.845.692-18.462%200-33.385-15.077-33.385-33.769%200-12.462%206.692-23.385%2016.692-29.231-2.076-4.692-3.23-9.923-3.23-15.462C43.462%2079.385%2060.923%2062%2082.308%2062c12.615%200%2023.846%206%2030.923%2015.308z%22%20fill%3D%22%2300A1E0%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M149.23%20111.308c.077%200%20.308.154.231.384l-.923%202.462c-.154.307-.425.198-.695.116-1.814-.549-3.694.021-4.459%201.807-.461%201.231-.615%202.538-.615%202.615h3.692c.308%200%20.385.154.385.385l-.462%202.385c-.077.384-.385.307-.385.307h-3.846l-2.461%2014.846c-.576%202.878-1.379%207.097-4.693%208-1.68.672-3.935.672-5.615%200-.154-.077-.231-.23-.154-.461.077-.231.769-2.077.846-2.385.154-.307.385-.154.385-.154%203.871%201.291%204.928-2.178%205.538-5.23l2.616-14.539h-2.539c-.307%200-.384-.154-.384-.384l.461-2.385c.077-.385.385-.308.385-.308h2.615c.429-2.143.852-4.39%202.462-6%201.735-1.735%205.29-2.391%207.615-1.461zm42.385%2022.154.846%202.307c.077.308-.154.385-.154.385-1.308.538-3.077.846-4.846.846-5.619%200-9.077-3.848-9.077-9.385%200-5.086%203.431-9.461%208.846-9.461%201.551%200%203.429.06%204.846.769.077%200%20.308.154.231.385a37.896%2037.896%200%200%201-.846%202.307c-.154.385-.385.231-.385.231-1.153-.384-2.23-.538-3.615-.538-3.548%200-5.077%203.016-5.077%206.23%200%203.444%201.722%206.154%205.385%206.154.927%200%202.946-.754%203.551-.487a.523.523%200%200%201%20.295.257zm-131.77-1.077-.846%202.23c-.153.308%200%20.385.077.539%201.941%201.552%204.745%202.077%207.154%202.077%204.077%200%206.616-2.154%206.616-5.693%200-3.159-3.172-4.911-5.924-5.461-1.248-.384-3.769-.913-3.769-2.615%200-1.154%201-2%202.616-2%201.769%200%203.846.538%205.23%201.307%200%200%20.385.231.539-.154.077-.23.77-2%20.846-2.23.077-.231-.077-.385-.23-.462-1.858-1.207-4.05-1.615-6.231-1.615-3.77%200-6.385%202.307-6.385%205.538%200%203.283%202.873%204.601%205.615%205.385%201.334.444%204.154.869%204.154%202.692%200%201.593-1.507%202.308-2.923%202.308-2.224%200-4.175-.783-6-2l-.033-.017c-.152-.079-.362-.187-.505.171zm60.001%200-.847%202.23c-.077.308.077.385.077.539%201.941%201.552%204.745%202.077%207.154%202.077%204.077%200%206.616-2.154%206.616-5.693%200-3.22-3.142-4.905-5.923-5.461-2-.615-3.77-1.231-3.77-2.539%200-1.432%201.336-2.076%202.616-2.076%201.769%200%203.846.538%205.23%201.307%200%200%20.385.231.539-.154.077-.23.769-2%20.846-2.23.077-.231-.077-.385-.231-.462-1.857-1.207-4.048-1.615-6.23-1.615-3.77%200-6.385%202.307-6.385%205.538v.077c0%203.385%202.923%204.539%205.615%205.308%201.334.444%204.154.869%204.154%202.692%200%201.593-1.507%202.308-2.923%202.308-2.158%200-4.222-.815-6-2-.077-.077-.385-.231-.538.154zm44.153-4.616c0%204.943-3.004%209.385-8.384%209.385-5.27%200-8.385-4.246-8.385-9.385%200-4.915%203.015-9.461%208.385-9.461%205.255%200%208.384%204.387%208.384%209.461zm-4-.077c0%202.935-.871%206.308-4.384%206.308-3.477%200-4.385-3.387-4.385-6.308%200-2.909.935-6.23%204.385-6.23%203.447%200%204.384%203.332%204.384%206.23zm49.385.693c.077-.154.462-2.385-.308-5-.87-3.047-3.805-4.923-6.923-4.923-5.326%200-8.615%204.234-8.615%209.461%200%205.648%203.975%209.231%209.385%209.231%203.384%200%205.153-.769%205.846-1.154l.026-.025c.079-.071.188-.17.051-.513l-.77-2.154c-.161-.322-.442-.239-.702-.142-.829.312-2.012.757-4.528.757-3.315%200-5.244-1.982-5.385-5.231h11.615s.308%200%20.308-.307zm-11.846-2.539h8.231c-.168-2.35-1.387-4.461-4-4.461-2.75%200-3.762%202.115-4.231%204.461zm-80.911%202.409c.539-4.813-1.755-9.793-7.243-9.793-5.461%200-8.615%204.401-8.615%209.461%200%205.429%203.822%209.231%209.384%209.231%203.385%200%205.154-.769%205.846-1.154l.027-.025c.08-.072.188-.17.05-.513l-.769-2.154c-.161-.322-.443-.239-.702-.142-.83.312-2.012.757-4.529.757-3.314%200-5.243-1.982-5.384-5.231h11.615c.266%200%20.297-.231.32-.437zm-11.935-2.409h8.307c-.167-2.35-1.386-4.461-4-4.461-2.709%200-3.839%202.122-4.307%204.461zm-18.462-.384c-1-.154-1.923-.231-1.923-.231-.461%200-1.077%200-2-.077-1%200-1.923.154-2.846.384-.846.308-1.692.616-2.385%201.154-.692.539-1.307%201.154-1.692%201.923a6.04%206.04%200%200%200-.615%202.693c0%201%20.153%201.923.538%202.615a5.206%205.206%200%200%200%201.539%201.846c.692.462%201.461.769%202.384%201%20.923.231%201.923.308%203.077.308%201.23%200%202.385-.077%203.539-.308.959-.128%202.078-.362%202.649-.481.115-.025.209-.044.274-.057.384-.077.846-.231.846-.231.23-.077.23-.385.23-.385V125c0-2.385-.615-4.077-1.846-5.154-1.23-1.077-3-1.615-5.307-1.615-.846%200-2.231.154-3.077.307%200%200-2.462.462-3.539%201.308%200%200-.23.154-.077.462l.847%202.23c.076.231.384.154.384.154s.077%200%20.154-.077c2.23-1.153%205.077-1.153%205.077-1.153%201.23%200%202.23.307%202.846.769.615.461.923%201.231.923%202.769v.462zm-6.538%207.923s1.077.846%203.384.692a22.033%2022.033%200%200%200%203.154-.385v-5.307s-1.461-.231-3.154-.231c-2.384%200-3.384.846-3.384.846-.693.462-1%201.231-1%202.231%200%20.615.154%201.154.384%201.538.077.154.154.308.616.616zm98.077-14.077c.077-.308-.077-.385-.385-.462-.154-.077-1.154-.231-1.923-.308-1.81-.095-3.781.401-4.923%201.924v-1.385c0-.231-.077-.385-.308-.385h-3c-.154%200-.307.154-.307.385v17.308c0%20.23.153.384.384.384h3.077c.231%200%20.385-.154.385-.384v-8.616c0-2.157.412-4.92%202.846-5.615a5.728%205.728%200%200%201%202.846-.077c.231%200%20.385-.077.462-.308.153-.538.769-2.154.846-2.461zm-80.693%2017.384c.154%200%20.308-.154.308-.384v-24.693c0-.23-.077-.384-.308-.384H94c-.153%200-.307.231-.307.384v24.693c0%20.23.077.384.307.384h3.077z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E",
     slack: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22slack%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M86.658%20146.813c0%208.245-6.736%2014.981-14.981%2014.981-8.245%200-14.98-6.736-14.98-14.981%200-8.245%206.735-14.981%2014.98-14.981h14.98v14.981zm7.548%200c0-8.245%206.736-14.981%2014.981-14.981%208.245%200%2014.98%206.736%2014.98%2014.981v37.51c0%208.245-6.735%2014.98-14.98%2014.98-8.245%200-14.98-6.735-14.98-14.98v-37.51z%22%20fill%3D%22%23E01E5A%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M109.187%2086.658c-8.245%200-14.98-6.735-14.98-14.98%200-8.246%206.735-14.981%2014.98-14.981%208.245%200%2014.98%206.735%2014.98%2014.98v14.981h-14.98zm0%207.549c8.245%200%2014.98%206.735%2014.98%2014.98%200%208.245-6.735%2014.981-14.98%2014.981h-37.51c-8.245%200-14.98-6.736-14.98-14.981%200-8.245%206.735-14.98%2014.98-14.98h37.51z%22%20fill%3D%22%2336C5F0%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M169.342%20109.187c0-8.245%206.735-14.98%2014.98-14.98%208.246%200%2014.981%206.735%2014.981%2014.98%200%208.245-6.735%2014.981-14.981%2014.981h-14.98v-14.981zm-7.549%200c0%208.245-6.735%2014.981-14.98%2014.981-8.245%200-14.981-6.736-14.981-14.981v-37.51c0-8.245%206.736-14.98%2014.981-14.98%208.245%200%2014.98%206.735%2014.98%2014.98v37.51z%22%20fill%3D%22%232EB67D%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M146.813%20169.342c8.245%200%2014.98%206.735%2014.98%2014.981%200%208.245-6.735%2014.98-14.98%2014.98-8.245%200-14.981-6.735-14.981-14.98v-14.981h14.981zm0-7.548c-8.245%200-14.981-6.736-14.981-14.981%200-8.245%206.736-14.981%2014.981-14.981h37.509c8.246%200%2014.981%206.736%2014.981%2014.981%200%208.245-6.735%2014.981-14.981%2014.981h-37.509z%22%20fill%3D%22%23ECB22E%22%2F%3E%3C%2Fsvg%3E",
     snowflake: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22snowflake%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22m98.823%20119.916-31.778-18.263c-4.486-2.57-10.205-1.042-12.78%203.416-2.599%204.452-1.066%2010.138%203.42%2012.715l17.758%2010.221-17.758%2010.194a9.287%209.287%200%200%200-3.42%2012.738c2.575%204.447%208.294%205.968%2012.78%203.398l31.778-18.275c6.191-3.547%206.177-12.599%200-16.144zm7.463%2029.157-31.802%2018.251c-4.474%202.575-6.002%208.291-3.42%2012.751%202.594%204.447%208.308%205.979%2012.776%203.392l17.817-10.23v20.441c0%205.149%204.186%209.322%209.366%209.322%205.156%200%209.355-4.173%209.355-9.322v-36.542c0-7.121-8.072-11.554-14.092-8.063zm43.421-42.145%2031.795-18.269a9.31%209.31%200%200%200%203.425-12.74c-2.581-4.451-8.3-5.978-12.774-3.404l-17.805%2010.242V62.309c0-5.135-4.186-9.309-9.367-9.309-5.18%200-9.355%204.174-9.355%209.31v36.54c0%207.141%208.048%2011.533%2014.081%208.078zM74.484%2088.659l31.802%2018.269c6.033%203.455%2014.092-.934%2014.092-8.077V62.31c0-5.136-4.199-9.31-9.355-9.31-5.18%200-9.366%204.174-9.366%209.31v20.447L83.84%2072.514c-4.468-2.574-10.182-1.047-12.776%203.404a9.309%209.309%200%200%200%203.42%2012.74zm59.065%2037.607-3.828-3.792c-.909-.903-2.542-.914-3.45%200l-3.827%203.792c-.889.91-.91%202.545%200%203.451l3.827%203.803c.912.907%202.538.908%203.45%200l3.828-3.803c.933-.945.912-2.501%200-3.451zm11.264%205.31-13.217%2013.139c-.378.387-1.109.703-1.659.703h-3.887c-.534%200-1.276-.316-1.66-.703l-13.211-13.139c-.378-.37-.683-1.114-.683-1.639v-3.874c0-.537.305-1.282.683-1.658l13.211-13.138c.384-.387%201.126-.691%201.66-.691h3.887c.539%200%201.281.304%201.659.691l13.217%2013.138c.377.376.683%201.121.683%201.658v3.874c0%20.525-.306%201.269-.683%201.639zm36.689%2035.748-31.795-18.251c-6.02-3.491-14.081.945-14.081%208.063v36.542c0%205.149%204.175%209.322%209.355%209.322%205.181%200%209.367-4.173%209.367-9.322v-20.441l17.805%2010.23c4.473%202.587%2010.193%201.055%2012.774-3.392%202.576-4.46%201.056-10.176-3.425-12.751zm16.812-49.54-17.759%2010.221%2017.759%2010.194c4.485%202.581%206.018%208.268%203.425%2012.738-2.588%204.447-8.312%205.968-12.781%203.398l-31.802-18.275c-6.16-3.569-6.145-12.575%200-16.144l31.802-18.263c4.469-2.57%2010.193-1.042%2012.781%203.416%202.593%204.452%201.06%2010.138-3.425%2012.715z%22%20fill%3D%22%2329B5E8%22%2F%3E%3C%2Fsvg%3E",
+    sqlazure: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22sqlazure%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M155.592%20121.921c1.539%203.602-1.72%201.625-3.966%203.535%200%200%204.518%2024.621-1.907%2051.595-4.155%2017.455-15.372%2039.73-16.217%2040.287-1%20.661-61.845-1.434-78.337-25.704-8.99-13.23%204.392-24.555%2016.653-34.932%202.809-2.378%205.56-4.706%207.968-6.995C105%20141%20129.915%20130.295%20155.592%20121.921zm-6.808%2020.239c.385%200-.905-15.428-1.391-15.428-1.51%200-16.347%204.069-14.985%205.141%201.619%201.271%2015.477%2010.287%2016.376%2010.287zm-2.276.286c3.057%201.485%202.3%201.117.188%202.552-8.116%205.511-20.639%2011.07-21.108%2011.07-.045%200%20.102-.668.324-1.487%201.828-6.761%202.859-13.586%202.888-19.06.014-2.707.015-2.721.271-2.785.261-.081%201.852.929%202.307%201.217l.054.034.039.025c8.041%205.037%2012.676%207.288%2015.037%208.434zm-21.307-.399c.197-1.652.315-7.719.153-7.881-.102-.103-14.393%205.422-14.809%205.724-.092.067.892%202.467%201.509%203.683%203.219%206.341%209.839%2012.413%2010.038%2012.183.192-.22%202.305-6.994%203.109-13.709zm-17.493-.868c.902%201%20.759%206.462%2012.5%2016.943.576.511-16.776%206.237-23.402%208.423-1.422.469-2.35.775-2.501.832-.244.09-.169-.061.545-1.175%204.428-6.913%2010.552-20.412%2011.7-24.234.072-.242.821-1.163%201.158-.789zm-8.159%207.819c1.352-2.638%202.727-5.543%202.655-5.606-.778-.682-14.156%206.004-15.398%207.309-.221.233-.299.603-.512%201.626l-.012.058c-.959%204.611-.367%209.771%201.941%2014.362.494.983.373%201.184%201.264-.294%203.473-5.759%206.99-11.465%2010.062-17.455zm49.428-3.705c0%207.648-.674%2015.626-1.59%2021.527a63.853%2063.853%200%200%201-.317%201.946c-.01.01-.774-.213-1.696-.499-4.07-1.264-8.484-3.152-12.467-5.334-2.637-1.445-6.45-3.785-6.343-3.893%200%200%2015.987-8.185%2022.413-13.747zm-64.3%2025.086c.022-.02-.406-.948-.954-2.061-3.388-6.887-2.506-11.525-2.1-13.66.14-.732.223-1.17.059-1.303-.377-.307-2.058.992-7.361%204.019-14.305%208.168-17.775%2021.19-16.665%2020.858.096-.029.994-.284%202.41-.684l.006-.002c6.57-1.861%2024.245-6.868%2024.605-7.167zm39.35-9.494s9.514%205.955%2022.867%209.006c-5.547%203.087-18.802%208.297-26.198%2011.109-1.943.739-6.667%202.597-6.667%202.486%200%200%206.443-11.715%209.646-21.574.178-.546.335-1.006.352-1.027zm-4.784%202.674c.278-.672.49-1.242.471-1.26%200%200-9.867%204.66-28.235%209.702%204.073%205.091%208.902%209.143%2014.656%2012.665.967.592%201.784%201.075%201.816%201.078.032.003.879-1.452%201.884-3.234%203.949-7.003%207.045-13.237%209.408-18.951zm20.269%2032.818c-.143-.034-.439-.088-.871-.168-2.862-.528-11.686-2.157-21.514-6.107-1.891-.76-4.622-1.969-4.767-2.11%200%200%2025.747-11.415%2033.138-15.859.525-.316.915-.501%201.004-.482.644-.002-6.656%2024.825-6.99%2024.726zm-63.058-10.854c4.823-6.751%208.277-11.695%208.211-11.757-.035-.031-26.953%206.318-26.997%206.332-.274.083-.265.742.022%202.037%201.357%206.117%206.193%2011.061%2010.792%2014.93l.399-.615c2.154-3.327%202.25-3.475%207.573-10.927zm11.683-10.429c3.77%204.208%207.411%207.799%2013.601%2011.377.856.494%201.508.924%201.453.959-.375.23-32.176%2011.43-32.309%2011.41-.055-.008-.78-.529-.987-.677l-.052-.038c4.216-6.075%206.249-8.532%2018.294-23.031zm24.337%2016.421c-1.465-.548-2.676-.977-2.695-.953-.019.024-.761%201.148-1.646%202.496-5.5%208.381-12.455%2016.637-12.455%2016.637%200%20.121.909.36%201.169.306%201-.212%2040.139-11.554%2041.706-12.546%200%200-13.527-1.244-26.079-5.94zm-7.49-.818s-9.275%2014.667-11.473%2018.498c-11.815-3.15-21.482-9.23-21.028-9.373l32.501-9.125zm27.219%2025.312c.622.03%206.944-17.49%206.537-17.396%200%200-8.863%204.178-17.698%206.882-5.558%201.701-10.942%202.915-19.848%204.924l-1.288.291c8.828%201.949%2030.577%205.225%2032.297%205.299zM118.617%2038.307c-1.276-.148-39.074%2013.313-39.124%2019.973%2012.54%209.22%2040.668%2011.213%2056.401%2013.918l.238-2.02c-1.102-.176-2.205-.349-3.308-.522-4.888-8.585-10.739-19.878-13.374-29.387-.502-1.812-.554-1.929-.833-1.962zm-.414%201.396s.542%206.141%202.877%2013.102c.178.53%201.077%202.277.679%202.614-.111.094-.392-.011-.855-.14-5.103-1.424-26.799-4.54-26.799-4.54-.114-.114%206.467-3.562%209.385-4.919%207.245-3.372%2014.713-6.117%2014.713-6.117zm4.726%2018.049s-18.548-1.708-30.896-5.912c4.746%204.453%209.415%208.988%2014.084%2013.521%201.345.218%201.86.394%202.341.325.424-.061.822-.314%201.74-.9%201.499-.955%204.383-2.794%2011.035-6.126.954-.478%201.719-.887%201.696-.908zm-31.962-5.061c.01.011%209.3%2011.578%209.289%2011.586-.108.079-5.526-.976-8.398-1.634a90.373%2090.373%200%200%201-7.479-2.06c.044-3.035%204.037-6.136%206.588-7.892zm37.546%2016.047c-.696-1.062-3.575-6.553-4.5-8.579-.28-.614-.374-.93-.536-.97-.206-.051-.522.342-1.467%201.139a53.23%2053.23%200%200%201-8.268%205.726c-.274.153-.572.237-.573.325-.004.38%2015.288%203.062%2015.472%202.573.015-.04-.062-.113-.128-.214z%22%20fill%3D%22%2300B4EC%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M79.81%2057c-1.833%202.906%204.61%207.406%206.427%209.148%2011.43%2010.96%2019.012%2018.23%2019.452%2035.446.605%2023.665-21.114%2044.809-40.167%2060.47l2.694-.892c3.615-2.708%2022.735-13.866%2054.398-25.767%2022.971-8.632%2063.904-20.22%2093.307-24.733-20.111-31.538-54.038-36.675-90.831-42.246-10.745-1.627-21.734-3.29-32.695-5.66-1.638-.354-4.751-1.091-7.171-1.924a46.875%2046.875%200%200%200-.77-.292c-1.888-.706-4.116-1.538-4.643-3.55zm6.984%206.781s3.392%201.141%208.517%202.451c1.631.417%202.98.775%202.996.794.24.269%204.619%2014.501%204.455%2014.668-.026.025-.33-.446-.67-1.044-5.66-9.953-15.297-16.869-15.297-16.869zm14.81%203.938c-.717-.159-1.318-.259-1.458-.25l.004.008c.131.289%203.668%208.077%205.347%2014.513.146.562.285%201.021.306%201.021%200%200%206.348-6.689%2014.855-10.968.973-.489%201.208-.45-1.467-.887-2.56-.418-7.787-1.27-17.587-3.437zm22.027%204.216c.154.051.447.963.964%203.013%201.454%205.755%201.616%2013.165%201.056%2015.037-4.663-1.51-17.238-5.146-17.238-5.146%200-.168%203.353-3.521%204.794-4.795%202.754-2.435%2010.162-8.196%2010.424-8.109zm27.713%205.09c-1.829-.767-25.739-4.923-25.846-4.823-.02.019.132.424.335.896%203.408%207.938%202.962%2016.461%202.962%2016.461s7.663-5.631%2020.33-11.343c1.813-.817%202.378-1.125%202.219-1.191zm2.957.873c.086.086-.279%202.283-.596%203.581-1.711%207.005-7.629%2017.406-7.956%2017.505%200%200-5.869-3.421-12.268-6.06-1.093-.451-2.023-.852-2.071-.896-.443-.419%2022.445-14.575%2022.891-14.13zm30.247%2010.078c-12.908-5.843-27.188-9.754-28.189-9.754-.064%200-.154.404-.198.902-.844%209.535-5.805%2019.435-5.805%2019.435s12.282-5.508%2034.192-10.583zm-77.293%201.532c.423-.415%2015.527%204.243%2015.536%204.607%200%200-5.992%204.979-12.67%2011.428-1.215%201.173-2.247%202.127-2.298%202.127-.051%200-.074-.171-.045-.38%201.076-7.945-.523-17.782-.523-17.782zm57.781%2028.218c.382%200%2021.923-27.623%2021.398-28.144-.051-.05-3.556.957-6.855%201.969-6.255%201.918-14.616%204.899-20.732%207.388-3.513%201.43-8.117%203.405-8.115%203.479%200%200%207.555%205.295%2013.533%2014.225.398.594.746%201.083.771%201.083zm43.141-13.244c1.444%201.418%204.978%205.093%204.925%205.124-.014.008-1.233.104-2.712.216-19.891%201.495-41.903%207.087-41.903%207.087-.054%200%20.991-1.049%202.32-2.327%208.254-7.935%2012.02-12.945%2016.449-21.896a431.615%20431.615%200%200%200%201.254-2.559c1-.001%2012.065%206.892%2019.667%2014.355zm-67.171-1.77c-.527-.494-11.766-6.158-12.847-6.4-.085-.02-.206.263-.307.725-1.693%207.8-4.274%2012.558-5.48%2014.78-.485.894-.747%201.377-.639%201.483.127.125.767-.274%202.161-1.143%202.309-1.439%206.687-4.168%2014.229-7.942%201.61-.805%202.906-1.482%202.883-1.503zm-16.393-5.765c.074.074-.84%203.429-1.418%205.22-1.8%205.574-4.208%2010.186-6.9%2014.588l-.579-.562c-1.959-1.904-3.39-3.295-5.986-4.63-.723-.372-1.31-.715-1.311-.766-.01-.627%2015.934-14.109%2016.194-13.85zm37.694%2021.562c-2.615-2.75-8.319-7.625-16.143-12.699-8.106%2012.148-15.916%2019.225-19.516%2022.487-1.404%201.272-2.168%201.964-2.059%202.151.129.223%201.5-.274%204.507-1.365%205.29-1.918%2015.645-5.673%2033.211-10.574zm-21.807-11.28c.065.065-3.67%205.296-5.889%208.25-2.656%203.534-7.386%209.442-10.64%2013.289-.506.599-.918%201.099-1.253%201.506-.828%201.006-1.185%201.44-1.339%201.377-.117-.048-.117-.383-.116-.972.002-1.592.006-5.04-2.297-9.702-.62-1.254-.723-1.558-.596-1.674%201.812-1.641%2022.016-12.19%2022.13-12.074zm-28.189%2012.256c-2.632-2.196-5.886-3.864-6.06-3.864-.068%200-.326.617-.573%201.373-1.846%205.639-4.303%209.449-5.387%2011.131-.385.597-.597.926-.547.973.061.057.515-.309%201.525-1.121%201.582-1.272%204.528-3.642%209.465-7.204.92-.664%201.63-1.244%201.577-1.288zm-19.192%2024.194c-1.433.68-1.432.68-.412-.008%202.66-1.793%2012.256-8.264%2021.477-19.545l.042-.051c.206-.253%201.043-1.279%201.149-1.294.369%200%203.521%204.449%204.131%209.748-15.813%206.127-23.673%209.86-26.387%2011.15zm12.962-14.105c2.089-2.132%205.191-5.641%205.084-5.748-.107-.107-9.282%206.108-13.294%209.005-1.49%201.076-1.683%201.262-2.7%202.582-2.934%203.809-5.398%206.371-6.66%207.685-1.306%201.358-1.33%201.382.736.072%206.42-4.075%2011.605-8.259%2016.834-13.596z%22%20fill%3D%22%23005CA6%22%2F%3E%3C%2Fsvg%3E",
     sqlserver: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22sqlserver%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M155.592%20121.921c1.539%203.602-1.72%201.625-3.966%203.535%200%200%204.518%2024.621-1.907%2051.595-4.155%2017.455-15.372%2039.73-16.217%2040.287-1%20.661-61.845-1.434-78.337-25.704-8.99-13.23%204.392-24.555%2016.653-34.932%202.809-2.378%205.56-4.706%207.968-6.995C105%20141%20129.915%20130.295%20155.592%20121.921zm-6.808%2020.239c.385%200-.905-15.428-1.391-15.428-1.51%200-16.347%204.069-14.985%205.141%201.619%201.271%2015.477%2010.287%2016.376%2010.287zm-2.276.286c3.057%201.485%202.3%201.117.188%202.552-8.116%205.511-20.639%2011.07-21.108%2011.07-.045%200%20.102-.668.324-1.487%201.828-6.761%202.859-13.586%202.888-19.06.014-2.707.015-2.721.271-2.785.261-.081%201.852.929%202.307%201.217l.054.034.039.025c8.041%205.037%2012.676%207.288%2015.037%208.434zm-21.307-.399c.197-1.652.315-7.719.153-7.881-.102-.103-14.393%205.422-14.809%205.724-.092.067.892%202.467%201.509%203.683%203.219%206.341%209.839%2012.413%2010.038%2012.183.192-.22%202.305-6.994%203.109-13.709zm-17.493-.868c.902%201%20.759%206.462%2012.5%2016.943.576.511-16.776%206.237-23.402%208.423-1.422.469-2.35.775-2.501.832-.244.09-.169-.061.545-1.175%204.428-6.913%2010.552-20.412%2011.7-24.234.072-.242.821-1.163%201.158-.789zm-8.159%207.819c1.352-2.638%202.727-5.543%202.655-5.606-.778-.682-14.156%206.004-15.398%207.309-.221.233-.299.603-.512%201.626l-.012.058c-.959%204.611-.367%209.771%201.941%2014.362.494.983.373%201.184%201.264-.294%203.473-5.759%206.99-11.465%2010.062-17.455zm49.428-3.705c0%207.648-.674%2015.626-1.59%2021.527a63.853%2063.853%200%200%201-.317%201.946c-.01.01-.774-.213-1.696-.499-4.07-1.264-8.484-3.152-12.467-5.334-2.637-1.445-6.45-3.785-6.343-3.893%200%200%2015.987-8.185%2022.413-13.747zm-64.3%2025.086c.022-.02-.406-.948-.954-2.061-3.388-6.887-2.506-11.525-2.1-13.66.14-.732.223-1.17.059-1.303-.377-.307-2.058.992-7.361%204.019-14.305%208.168-17.775%2021.19-16.665%2020.858.096-.029.994-.284%202.41-.684l.006-.002c6.57-1.861%2024.245-6.868%2024.605-7.167zm39.35-9.494s9.514%205.955%2022.867%209.006c-5.547%203.087-18.802%208.297-26.198%2011.109-1.943.739-6.667%202.597-6.667%202.486%200%200%206.443-11.715%209.646-21.574.178-.546.335-1.006.352-1.027zm-4.784%202.674c.278-.672.49-1.242.471-1.26%200%200-9.867%204.66-28.235%209.702%204.073%205.091%208.902%209.143%2014.656%2012.665.967.592%201.784%201.075%201.816%201.078.032.003.879-1.452%201.884-3.234%203.949-7.003%207.045-13.237%209.408-18.951zm20.269%2032.818c-.143-.034-.439-.088-.871-.168-2.862-.528-11.686-2.157-21.514-6.107-1.891-.76-4.622-1.969-4.767-2.11%200%200%2025.747-11.415%2033.138-15.859.525-.316.915-.501%201.004-.482.644-.002-6.656%2024.825-6.99%2024.726zm-63.058-10.854c4.823-6.751%208.277-11.695%208.211-11.757-.035-.031-26.953%206.318-26.997%206.332-.274.083-.265.742.022%202.037%201.357%206.117%206.193%2011.061%2010.792%2014.93l.399-.615c2.154-3.327%202.25-3.475%207.573-10.927zm11.683-10.429c3.77%204.208%207.411%207.799%2013.601%2011.377.856.494%201.508.924%201.453.959-.375.23-32.176%2011.43-32.309%2011.41-.055-.008-.78-.529-.987-.677l-.052-.038c4.216-6.075%206.249-8.532%2018.294-23.031zm24.337%2016.421c-1.465-.548-2.676-.977-2.695-.953-.019.024-.761%201.148-1.646%202.496-5.5%208.381-12.455%2016.637-12.455%2016.637%200%20.121.909.36%201.169.306%201-.212%2040.139-11.554%2041.706-12.546%200%200-13.527-1.244-26.079-5.94zm-7.49-.818s-9.275%2014.667-11.473%2018.498c-11.815-3.15-21.482-9.23-21.028-9.373l32.501-9.125zm27.219%2025.312c.622.03%206.944-17.49%206.537-17.396%200%200-8.863%204.178-17.698%206.882-5.558%201.701-10.942%202.915-19.848%204.924l-1.288.291c8.828%201.949%2030.577%205.225%2032.297%205.299z%22%20fill%3D%22url(%23jja)%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M118.616%2038.307c-1.276-.148-39.074%2013.313-39.124%2019.973%2012.54%209.22%2040.668%2011.213%2056.401%2013.918l.238-2.02c-1.102-.176-2.205-.349-3.308-.522-4.888-8.585-10.739-19.878-13.374-29.387-.502-1.812-.554-1.929-.833-1.962zm-.414%201.396s.542%206.141%202.877%2013.102c.178.53%201.077%202.277.679%202.614-.111.094-.392-.011-.855-.14-5.103-1.424-26.799-4.54-26.799-4.54-.114-.114%206.467-3.562%209.385-4.919%207.245-3.372%2014.713-6.117%2014.713-6.117zm4.726%2018.049s-18.548-1.708-30.896-5.912c4.746%204.453%209.415%208.988%2014.084%2013.521%201.345.218%201.86.394%202.341.325.424-.061.822-.314%201.74-.9%201.499-.955%204.383-2.794%2011.035-6.126.954-.478%201.719-.887%201.696-.908zm-31.962-5.061c.01.011%209.3%2011.578%209.289%2011.586-.108.079-5.526-.976-8.398-1.634a90.373%2090.373%200%200%201-7.479-2.06c.044-3.035%204.037-6.136%206.588-7.892zm37.546%2016.047c-.696-1.062-3.575-6.553-4.5-8.579-.28-.614-.374-.93-.536-.97-.206-.051-.522.342-1.467%201.139a53.23%2053.23%200%200%201-8.268%205.726c-.274.153-.572.237-.573.325-.004.38%2015.288%203.062%2015.472%202.573.015-.04-.062-.113-.128-.214z%22%20fill%3D%22url(%23jjb)%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M79.81%2057c-1.833%202.906%204.61%207.406%206.427%209.148%2011.43%2010.96%2019.012%2018.23%2019.452%2035.446.605%2023.665-21.114%2044.809-40.167%2060.47l2.694-.892c3.615-2.708%2022.735-13.866%2054.398-25.767%2022.971-8.632%2063.904-20.22%2093.307-24.733-20.111-31.538-54.038-36.675-90.831-42.246-10.745-1.627-21.734-3.29-32.695-5.66-1.638-.354-4.751-1.091-7.171-1.924a46.875%2046.875%200%200%200-.77-.292c-1.888-.706-4.116-1.538-4.643-3.55zm6.984%206.781s3.392%201.141%208.517%202.451c1.631.417%202.98.775%202.996.794.24.269%204.619%2014.501%204.455%2014.668-.026.025-.33-.446-.67-1.044-5.66-9.953-15.297-16.869-15.297-16.869zm14.81%203.938c-.717-.159-1.318-.259-1.458-.25l.004.008c.131.289%203.668%208.077%205.347%2014.513.146.562.285%201.021.306%201.021%200%200%206.348-6.689%2014.855-10.968.973-.489%201.208-.45-1.467-.887-2.56-.418-7.787-1.27-17.587-3.437zm22.027%204.216c.154.051.447.963.964%203.013%201.454%205.755%201.616%2013.165%201.056%2015.037-4.663-1.51-17.238-5.146-17.238-5.146%200-.168%203.353-3.521%204.794-4.795%202.754-2.435%2010.162-8.196%2010.424-8.109zm27.713%205.09c-1.829-.767-25.739-4.923-25.846-4.823-.02.019.132.424.335.896%203.408%207.938%202.962%2016.461%202.962%2016.461s7.663-5.631%2020.33-11.343c1.813-.817%202.378-1.125%202.219-1.191zm2.957.873c.086.086-.279%202.283-.596%203.581-1.711%207.005-7.629%2017.406-7.956%2017.505%200%200-5.869-3.421-12.268-6.06-1.093-.451-2.023-.852-2.071-.896-.443-.419%2022.445-14.575%2022.891-14.13zm30.247%2010.078c-12.908-5.843-27.188-9.754-28.189-9.754-.064%200-.154.404-.198.902-.844%209.535-5.805%2019.435-5.805%2019.435s12.282-5.508%2034.192-10.583zm-77.293%201.532c.423-.415%2015.527%204.243%2015.536%204.607%200%200-5.992%204.979-12.67%2011.428-1.215%201.173-2.247%202.127-2.298%202.127-.051%200-.074-.171-.045-.38%201.076-7.945-.523-17.782-.523-17.782zm57.781%2028.218c.382%200%2021.923-27.623%2021.398-28.144-.051-.05-3.556.957-6.855%201.969-6.255%201.918-14.616%204.899-20.732%207.388-3.513%201.43-8.117%203.405-8.115%203.479%200%200%207.555%205.295%2013.533%2014.225.398.594.746%201.083.771%201.083zm43.141-13.244c1.444%201.418%204.978%205.093%204.925%205.124-.014.008-1.233.104-2.712.216-19.891%201.495-41.903%207.087-41.903%207.087-.054%200%20.991-1.049%202.32-2.327%208.254-7.935%2012.02-12.945%2016.449-21.896a431.615%20431.615%200%200%200%201.254-2.559c1-.001%2012.065%206.892%2019.667%2014.355zm-67.171-1.77c-.527-.494-11.766-6.158-12.847-6.4-.085-.02-.206.263-.307.725-1.693%207.8-4.274%2012.558-5.48%2014.78-.485.894-.747%201.377-.639%201.483.127.125.767-.274%202.161-1.143%202.309-1.439%206.687-4.168%2014.229-7.942%201.61-.805%202.906-1.482%202.883-1.503zm-16.393-5.765c.074.074-.84%203.429-1.418%205.22-1.8%205.574-4.208%2010.186-6.9%2014.588l-.579-.562c-1.959-1.904-3.39-3.295-5.986-4.63-.723-.372-1.31-.715-1.311-.766-.01-.627%2015.934-14.109%2016.194-13.85zm37.694%2021.562c-2.615-2.75-8.319-7.625-16.143-12.699-8.106%2012.148-15.916%2019.225-19.516%2022.487-1.404%201.272-2.168%201.964-2.059%202.151.129.223%201.5-.274%204.507-1.365%205.29-1.918%2015.645-5.673%2033.211-10.574zm-21.807-11.28c.065.065-3.67%205.296-5.889%208.25-2.656%203.534-7.386%209.442-10.64%2013.289-.506.599-.918%201.099-1.253%201.506-.828%201.006-1.185%201.44-1.339%201.377-.117-.048-.117-.383-.116-.972.002-1.592.006-5.04-2.297-9.702-.62-1.254-.723-1.558-.596-1.674%201.812-1.641%2022.016-12.19%2022.13-12.074zm-28.189%2012.256c-2.632-2.196-5.886-3.864-6.06-3.864-.068%200-.326.617-.573%201.373-1.846%205.639-4.303%209.449-5.387%2011.131-.385.597-.597.926-.547.973.061.057.515-.309%201.525-1.121%201.582-1.272%204.528-3.642%209.465-7.204.92-.664%201.63-1.244%201.577-1.288zm-19.192%2024.194c-1.433.68-1.432.68-.412-.008%202.66-1.793%2012.256-8.264%2021.477-19.545l.042-.051c.206-.253%201.043-1.279%201.149-1.294.369%200%203.521%204.449%204.131%209.748-15.813%206.127-23.673%209.86-26.387%2011.15zm12.962-14.105c2.089-2.132%205.191-5.641%205.084-5.748-.107-.107-9.282%206.108-13.294%209.005-1.49%201.076-1.683%201.262-2.7%202.582-2.934%203.809-5.398%206.371-6.66%207.685-1.306%201.358-1.33%201.382.736.072%206.42-4.075%2011.605-8.259%2016.834-13.596z%22%20fill%3D%22url(%23jjc)%22%2F%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22jja%22%20x1%3D%22100.864%22%20y1%3D%22232.513%22%20x2%3D%22167.357%22%20y2%3D%22185.926%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%23909CA9%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23EDEDEE%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22jjb%22%20x1%3D%2279.499%22%20y1%3D%2272.248%22%20x2%3D%22136.139%22%20y2%3D%2272.248%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%23939FAB%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23DCDEE1%22%2F%3E%3C%2FlinearGradient%3E%3CradialGradient%20id%3D%22jjc%22%20cx%3D%220%22%20cy%3D%220%22%20r%3D%221%22%20gradientUnits%3D%22userSpaceOnUse%22%20gradientTransform%3D%22matrix(112.271%200%200%2078.4283%20132.911%20103.239)%22%3E%3Cstop%20stop-color%3D%22%23EE352C%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23A91D22%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E",
     sugar: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22sugar%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M169.48%20128.314c22.728%200%2041.16%2018.432%2041.16%2041.162%200%2022.729-18.423%2041.161-41.16%2041.161H46l41.16-41.161h82.32v-41.162Z%22%20fill%3D%22%231B321B%22%2F%3E%3Cpath%20d%3D%22M142.04%20114.602v27.438h-27.436v-27.438h27.436Zm27.44-27.441H87.16v41.161c-22.728%200-41.16-18.432-41.16-41.16C46%2064.423%2064.423%2046%2087.16%2046h123.48l-41.16%2041.161Z%22%20fill%3D%22%231B321B%22%2F%3E%3C%2Fsvg%3E",
     zoho: "data:image/svg+xml,%3Csvg%20width%3D%22256%22%20height%3D%22256%22%20fill%3D%22none%22%20viewBox%3D%220%200%20256%20256%22%20id%3D%22zoho%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M62.777%2095.777c-17.524%2017.524-17.524%2045.936%200%2063.46%208.798%208.799%2020.33%2013.179%2031.869%2013.143%201.749-.005%203.487-.114%205.23-.25%201.952-.152%204.468-.341%209.133-.491a5.817%205.817%200%201%201%20.375%2011.628c-4.442.143-6.774.319-8.603.462-2.032.158-4.06.279-6.1.285-14.51.044-29.053-5.473-40.13-16.55-22.068-22.068-22.068-57.846%200-79.913%2022.067-22.068%2057.845-22.068%2079.913%200l32.024%2032.023c7.626%207.627%207.626%2019.991%200%2027.617-7.627%207.627-19.991%207.627-27.617%200l-28.793-28.792a7.895%207.895%200%200%200-11.164%2011.165l30.849%2030.848c17.524%2017.524%2045.936%2017.524%2063.46%200s17.524-45.936%200-63.46c-8.728-8.728-20.145-13.108-31.591-13.143-4.511-.014-3.948.094-14.774%201.297a5.817%205.817%200%200%201-1.285-11.563c10.327-1.148%2010.724-1.384%2016.094-1.368%2014.395.045%2028.794%205.563%2039.782%2016.55%2022.068%2022.068%2022.068%2057.846%200%2079.914-22.067%2022.067-57.845%2022.067-79.913%200L90.688%20137.79c-7.627-7.626-7.627-19.991%200-27.617%207.626-7.626%2019.99-7.626%2027.617%200l28.792%2028.792a7.894%207.894%200%200%200%2011.164%200%207.894%207.894%200%200%200%200-11.164l-32.024-32.024c-17.524-17.524-45.936-17.524-63.46%200z%22%20fill%3D%22%23226DB4%22%2F%3E%3C%2Fsvg%3E",
@@ -13816,9 +14912,75 @@ var DevartUI = (() => {
   var toSlug = (connector) => connector.toLowerCase().replace(/[^a-z0-9]/g, "");
   function ConnectorLogo({ connector, label, size: size4, className, ...props }) {
     const slug = toSlug(connector);
-    const resolved = ALIASES[slug] ?? slug;
-    const mark = CONNECTOR_LOGOS[resolved];
-    return (0, import_jsx_runtime58.jsx)("span", { className: cn(connectorLogoVariants({ size: size4 }), className), ...label ? { role: "img", "aria-label": label } : { "aria-hidden": true }, ...props, children: mark ? (0, import_jsx_runtime58.jsx)("img", { alt: "", className: "h-full w-full object-contain", src: mark }) : (0, import_jsx_runtime58.jsx)("span", { className: monogramVariants({ size: size4 }), children: connector.charAt(0) }) });
+    const resolved2 = ALIASES[slug] ?? slug;
+    const mark = CONNECTOR_LOGOS[resolved2];
+    return (0, import_jsx_runtime66.jsx)("span", { className: cn(connectorLogoVariants({ size: size4 }), className), ...label ? { role: "img", "aria-label": label } : { "aria-hidden": true }, ...props, children: mark ? (0, import_jsx_runtime66.jsx)("img", { alt: "", className: "h-full w-full object-contain", src: mark }) : (0, import_jsx_runtime66.jsx)("span", { className: monogramVariants({ size: size4 }), children: connector.charAt(0) }) });
+  }
+
+  // dist/components/DataSourceCard/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime67 = __toESM(require_react_shim(), 1);
+  var dataSourceCardVariants = cva(cn(
+    "group/ds-card grid text-center",
+    // One cell, two layers: the content and the scrim both sit in `1/1`
+    // rather than the scrim being `absolute`. That is what sets the tile's
+    // minimum width — an absolutely positioned child contributes nothing to
+    // intrinsic size, so the tile used to shrink under the Connect action and
+    // clip it. Stacked, the tile can never be narrower than the action plus
+    // the 8px the scrim keeps either side of it.
+    //
+    // Above that minimum the grid decides: `w-full` fills the track, and the
+    // catalog's own `minmax()` floor takes over.
+    // `min-w-fit` is what makes the stack a floor rather than a suggestion.
+    // Tailwind's `grid-cols-N` is `minmax(0, 1fr)`, which lets a track shrink
+    // below its item's min-content, so the intrinsic minimum alone does not
+    // hold: the tile has to refuse.
+    "h-32 w-full min-w-fit",
+    "rounded-lg border border-stroke bg-surface-card",
+    "shadow-rest",
+    liftOnHover(),
+    // The tile is a button, so it takes the shared focus ring.
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand",
+    "focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page",
+    "disabled:pointer-events-none disabled:opacity-disabled"
+  ), {
+    variants: {
+      /**
+       * `tile` is the catalog layout and the only one the kit approved. The
+       * variant axis exists so a second layout has somewhere to go rather than
+       * arriving as a pile of overrides at the call site.
+       */
+      variant: { tile: "" }
+    },
+    defaultVariants: { variant: "tile" }
+  });
+  function DataSourceCard({ className, connector, name, connectLabel = "Connect", onConnect, variant, ...props }) {
+    const label = name ?? connector;
+    return (0, import_jsx_runtime67.jsxs)("button", { "data-slot": "data-source-card", type: "button", className: cn(dataSourceCardVariants({ variant }), className), onClick: onConnect, ...props, children: [(0, import_jsx_runtime67.jsxs)("span", { className: "flex flex-col items-center justify-center gap-2 p-4 [grid-area:1/1]", children: [(0, import_jsx_runtime67.jsx)(ConnectorLogo, { connector, size: "md" }), (0, import_jsx_runtime67.jsx)("span", { className: "line-clamp-2 text-ink-primary text-sm", children: label })] }), (0, import_jsx_runtime67.jsx)("span", { "aria-hidden": true, className: cn(
+      // `relative` so the scrim is the layer that wins. Both children sit
+      // in one grid cell, and among positioned siblings the later one
+      // paints on top; a static scrim would fall behind anything in the
+      // content layer that gains a position of its own.
+      "relative flex items-center justify-center rounded-[inherit] [grid-area:1/1]",
+      // 8px either side of the action, and this is the pair that decides
+      // the tile's minimum width — see the note on the root. A control
+      // touching the border of the surface it sits on reads as clipped.
+      "px-2",
+      "bg-ds-card-scrim",
+      "pointer-events-none opacity-0",
+      "transition-opacity duration-slow",
+      "group-hover/ds-card:opacity-100 group-focus-visible/ds-card:opacity-100"
+    ), children: (0, import_jsx_runtime67.jsx)(Button, { asChild: true, leftSlot: (0, import_jsx_runtime67.jsx)(Plus, {}), size: "sm", tabIndex: -1, variant: "secondary", className: cn(
+      "translate-y-1.5 transition-transform duration-slow",
+      "group-hover/ds-card:translate-y-0 group-focus-visible/ds-card:translate-y-0",
+      // `pointer-events-auto`: the action answers the pointer itself.
+      // Inside a `pointer-events-none` scrim it could not be hovered at
+      // all, so the one control on the tile was the only button in the
+      // system that stayed flat under the cursor — reported as "why is
+      // there no hover on the buttons". It is still not the click target:
+      // a click on it bubbles to the tile, which is the button.
+      "pointer-events-auto"
+    ), children: (0, import_jsx_runtime67.jsx)("span", { children: connectLabel }) }) })] });
   }
 
   // dist/components/Datepicker/index.js
@@ -13826,7 +14988,7 @@ var DevartUI = (() => {
 
   // dist/components/Datepicker/Calendar.js
   init_define_import_meta_env();
-  var import_jsx_runtime63 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime72 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@date-fns+tz@1.5.0/node_modules/@date-fns/tz/index.js
   init_define_import_meta_env();
@@ -16426,7 +17588,7 @@ var DevartUI = (() => {
     NextMonthButton: () => NextMonthButton,
     Option: () => Option,
     PreviousMonthButton: () => PreviousMonthButton,
-    Root: () => Root6,
+    Root: () => Root7,
     Select: () => Select,
     Week: () => Week,
     WeekNumber: () => WeekNumber,
@@ -16440,60 +17602,60 @@ var DevartUI = (() => {
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Button.js
   init_define_import_meta_env();
-  var import_react22 = __toESM(require_react_shim(), 1);
+  var import_react23 = __toESM(require_react_shim(), 1);
   function Button2(props) {
-    return import_react22.default.createElement("button", { ...props });
+    return import_react23.default.createElement("button", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/CaptionLabel.js
   init_define_import_meta_env();
-  var import_react23 = __toESM(require_react_shim(), 1);
+  var import_react24 = __toESM(require_react_shim(), 1);
   function CaptionLabel(props) {
-    return import_react23.default.createElement("span", { ...props });
+    return import_react24.default.createElement("span", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Chevron.js
   init_define_import_meta_env();
-  var import_react24 = __toESM(require_react_shim(), 1);
+  var import_react25 = __toESM(require_react_shim(), 1);
   function Chevron(props) {
     const { size: size4 = 24, orientation = "left", className } = props;
     return (
       // biome-ignore lint/a11y/noSvgWithoutTitle: handled by the parent component
-      import_react24.default.createElement(
+      import_react25.default.createElement(
         "svg",
         { className, width: size4, height: size4, viewBox: "0 0 24 24" },
-        orientation === "up" && import_react24.default.createElement("polygon", { points: "6.77 17 12.5 11.43 18.24 17 20 15.28 12.5 8 5 15.28" }),
-        orientation === "down" && import_react24.default.createElement("polygon", { points: "6.77 8 12.5 13.57 18.24 8 20 9.72 12.5 17 5 9.72" }),
-        orientation === "left" && import_react24.default.createElement("polygon", { points: "16 18.112 9.81111111 12 16 5.87733333 14.0888889 4 6 12 14.0888889 20" }),
-        orientation === "right" && import_react24.default.createElement("polygon", { points: "8 18.112 14.18888889 12 8 5.87733333 9.91111111 4 18 12 9.91111111 20" })
+        orientation === "up" && import_react25.default.createElement("polygon", { points: "6.77 17 12.5 11.43 18.24 17 20 15.28 12.5 8 5 15.28" }),
+        orientation === "down" && import_react25.default.createElement("polygon", { points: "6.77 8 12.5 13.57 18.24 8 20 9.72 12.5 17 5 9.72" }),
+        orientation === "left" && import_react25.default.createElement("polygon", { points: "16 18.112 9.81111111 12 16 5.87733333 14.0888889 4 6 12 14.0888889 20" }),
+        orientation === "right" && import_react25.default.createElement("polygon", { points: "8 18.112 14.18888889 12 8 5.87733333 9.91111111 4 18 12 9.91111111 20" })
       )
     );
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Day.js
   init_define_import_meta_env();
-  var import_react25 = __toESM(require_react_shim(), 1);
+  var import_react26 = __toESM(require_react_shim(), 1);
   function Day(props) {
     const { day, modifiers, ...tdProps } = props;
-    return import_react25.default.createElement("td", { ...tdProps });
+    return import_react26.default.createElement("td", { ...tdProps });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/DayButton.js
   init_define_import_meta_env();
-  var import_react26 = __toESM(require_react_shim(), 1);
+  var import_react27 = __toESM(require_react_shim(), 1);
   function DayButton(props) {
     const { day, modifiers, ...buttonProps } = props;
-    const ref = import_react26.default.useRef(null);
-    import_react26.default.useEffect(() => {
+    const ref = import_react27.default.useRef(null);
+    import_react27.default.useEffect(() => {
       if (modifiers.focused)
         ref.current?.focus();
     }, [modifiers.focused]);
-    return import_react26.default.createElement("button", { ref, ...buttonProps });
+    return import_react27.default.createElement("button", { ref, ...buttonProps });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Dropdown.js
   init_define_import_meta_env();
-  var import_react27 = __toESM(require_react_shim(), 1);
+  var import_react28 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/UI.js
   init_define_import_meta_env();
@@ -16556,73 +17718,73 @@ var DevartUI = (() => {
     const { options: options2, className, components, classNames, ...selectProps } = props;
     const cssClassSelect = [classNames[UI.Dropdown], className].join(" ");
     const selectedOption = options2?.find(({ value }) => value === selectProps.value);
-    return import_react27.default.createElement(
+    return import_react28.default.createElement(
       "span",
       { "data-disabled": selectProps.disabled, className: classNames[UI.DropdownRoot] },
-      import_react27.default.createElement(components.Select, { className: cssClassSelect, ...selectProps }, options2?.map(({ value, label, disabled }) => import_react27.default.createElement(components.Option, { key: value, value, disabled }, label))),
-      import_react27.default.createElement(
+      import_react28.default.createElement(components.Select, { className: cssClassSelect, ...selectProps }, options2?.map(({ value, label, disabled }) => import_react28.default.createElement(components.Option, { key: value, value, disabled }, label))),
+      import_react28.default.createElement(
         "span",
         { className: classNames[UI.CaptionLabel], "aria-hidden": true },
         selectedOption?.label,
-        import_react27.default.createElement(components.Chevron, { orientation: "down", size: 18, className: classNames[UI.Chevron] })
+        import_react28.default.createElement(components.Chevron, { orientation: "down", size: 18, className: classNames[UI.Chevron] })
       )
     );
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/DropdownNav.js
   init_define_import_meta_env();
-  var import_react28 = __toESM(require_react_shim(), 1);
+  var import_react29 = __toESM(require_react_shim(), 1);
   function DropdownNav(props) {
-    return import_react28.default.createElement("div", { ...props });
+    return import_react29.default.createElement("div", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Footer.js
   init_define_import_meta_env();
-  var import_react29 = __toESM(require_react_shim(), 1);
+  var import_react30 = __toESM(require_react_shim(), 1);
   function Footer(props) {
-    return import_react29.default.createElement("div", { ...props });
+    return import_react30.default.createElement("div", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Month.js
   init_define_import_meta_env();
-  var import_react30 = __toESM(require_react_shim(), 1);
+  var import_react31 = __toESM(require_react_shim(), 1);
   function Month(props) {
     const { calendarMonth, displayIndex, ...divProps } = props;
-    return import_react30.default.createElement("div", { ...divProps }, props.children);
+    return import_react31.default.createElement("div", { ...divProps }, props.children);
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/MonthCaption.js
   init_define_import_meta_env();
-  var import_react31 = __toESM(require_react_shim(), 1);
+  var import_react32 = __toESM(require_react_shim(), 1);
   function MonthCaption(props) {
     const { calendarMonth, displayIndex, ...divProps } = props;
-    return import_react31.default.createElement("div", { ...divProps });
+    return import_react32.default.createElement("div", { ...divProps });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/MonthGrid.js
   init_define_import_meta_env();
-  var import_react32 = __toESM(require_react_shim(), 1);
+  var import_react33 = __toESM(require_react_shim(), 1);
   function MonthGrid(props) {
-    return import_react32.default.createElement("table", { ...props });
+    return import_react33.default.createElement("table", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Months.js
   init_define_import_meta_env();
-  var import_react33 = __toESM(require_react_shim(), 1);
+  var import_react34 = __toESM(require_react_shim(), 1);
   function Months(props) {
-    return import_react33.default.createElement("div", { ...props });
+    return import_react34.default.createElement("div", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/MonthsDropdown.js
   init_define_import_meta_env();
-  var import_react35 = __toESM(require_react_shim(), 1);
+  var import_react36 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/useDayPicker.js
   init_define_import_meta_env();
-  var import_react34 = __toESM(require_react_shim(), 1);
-  var dayPickerContext = (0, import_react34.createContext)(void 0);
+  var import_react35 = __toESM(require_react_shim(), 1);
+  var dayPickerContext = (0, import_react35.createContext)(void 0);
   function useDayPicker() {
-    const context = (0, import_react34.useContext)(dayPickerContext);
+    const context = (0, import_react35.useContext)(dayPickerContext);
     if (context === void 0) {
       throw new Error("useDayPicker() must be used within a custom component.");
     }
@@ -16632,138 +17794,138 @@ var DevartUI = (() => {
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/MonthsDropdown.js
   function MonthsDropdown(props) {
     const { components } = useDayPicker();
-    return import_react35.default.createElement(components.Dropdown, { ...props });
+    return import_react36.default.createElement(components.Dropdown, { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Nav.js
   init_define_import_meta_env();
-  var import_react36 = __toESM(require_react_shim(), 1);
+  var import_react37 = __toESM(require_react_shim(), 1);
   function Nav(props) {
     const { onPreviousClick, onNextClick, previousMonth, nextMonth, ...navProps } = props;
     const { components, classNames, labels: { labelPrevious: labelPrevious2, labelNext: labelNext2 } } = useDayPicker();
-    const handleNextClick = (0, import_react36.useCallback)((e) => {
+    const handleNextClick = (0, import_react37.useCallback)((e) => {
       if (nextMonth) {
         onNextClick?.(e);
       }
     }, [nextMonth, onNextClick]);
-    const handlePreviousClick = (0, import_react36.useCallback)((e) => {
+    const handlePreviousClick = (0, import_react37.useCallback)((e) => {
       if (previousMonth) {
         onPreviousClick?.(e);
       }
     }, [previousMonth, onPreviousClick]);
-    return import_react36.default.createElement(
+    return import_react37.default.createElement(
       "nav",
       { ...navProps },
-      import_react36.default.createElement(
+      import_react37.default.createElement(
         components.PreviousMonthButton,
         { type: "button", className: classNames[UI.PreviousMonthButton], tabIndex: previousMonth ? void 0 : -1, "aria-disabled": previousMonth ? void 0 : true, "aria-label": labelPrevious2(previousMonth), onClick: handlePreviousClick },
-        import_react36.default.createElement(components.Chevron, { disabled: previousMonth ? void 0 : true, className: classNames[UI.Chevron], orientation: "left" })
+        import_react37.default.createElement(components.Chevron, { disabled: previousMonth ? void 0 : true, className: classNames[UI.Chevron], orientation: "left" })
       ),
-      import_react36.default.createElement(
+      import_react37.default.createElement(
         components.NextMonthButton,
         { type: "button", className: classNames[UI.NextMonthButton], tabIndex: nextMonth ? void 0 : -1, "aria-disabled": nextMonth ? void 0 : true, "aria-label": labelNext2(nextMonth), onClick: handleNextClick },
-        import_react36.default.createElement(components.Chevron, { disabled: nextMonth ? void 0 : true, orientation: "right", className: classNames[UI.Chevron] })
+        import_react37.default.createElement(components.Chevron, { disabled: nextMonth ? void 0 : true, orientation: "right", className: classNames[UI.Chevron] })
       )
     );
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/NextMonthButton.js
   init_define_import_meta_env();
-  var import_react37 = __toESM(require_react_shim(), 1);
+  var import_react38 = __toESM(require_react_shim(), 1);
   function NextMonthButton(props) {
     const { components } = useDayPicker();
-    return import_react37.default.createElement(components.Button, { ...props });
+    return import_react38.default.createElement(components.Button, { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Option.js
   init_define_import_meta_env();
-  var import_react38 = __toESM(require_react_shim(), 1);
+  var import_react39 = __toESM(require_react_shim(), 1);
   function Option(props) {
-    return import_react38.default.createElement("option", { ...props });
+    return import_react39.default.createElement("option", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/PreviousMonthButton.js
   init_define_import_meta_env();
-  var import_react39 = __toESM(require_react_shim(), 1);
+  var import_react40 = __toESM(require_react_shim(), 1);
   function PreviousMonthButton(props) {
     const { components } = useDayPicker();
-    return import_react39.default.createElement(components.Button, { ...props });
+    return import_react40.default.createElement(components.Button, { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Root.js
   init_define_import_meta_env();
-  var import_react40 = __toESM(require_react_shim(), 1);
-  function Root6(props) {
+  var import_react41 = __toESM(require_react_shim(), 1);
+  function Root7(props) {
     const { rootRef, ...rest } = props;
-    return import_react40.default.createElement("div", { ...rest, ref: rootRef });
+    return import_react41.default.createElement("div", { ...rest, ref: rootRef });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Select.js
   init_define_import_meta_env();
-  var import_react41 = __toESM(require_react_shim(), 1);
+  var import_react42 = __toESM(require_react_shim(), 1);
   function Select(props) {
-    return import_react41.default.createElement("select", { ...props });
+    return import_react42.default.createElement("select", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Week.js
   init_define_import_meta_env();
-  var import_react42 = __toESM(require_react_shim(), 1);
+  var import_react43 = __toESM(require_react_shim(), 1);
   function Week(props) {
     const { week, ...trProps } = props;
-    return import_react42.default.createElement("tr", { ...trProps });
+    return import_react43.default.createElement("tr", { ...trProps });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Weekday.js
   init_define_import_meta_env();
-  var import_react43 = __toESM(require_react_shim(), 1);
+  var import_react44 = __toESM(require_react_shim(), 1);
   function Weekday(props) {
-    return import_react43.default.createElement("th", { ...props });
+    return import_react44.default.createElement("th", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Weekdays.js
   init_define_import_meta_env();
-  var import_react44 = __toESM(require_react_shim(), 1);
+  var import_react45 = __toESM(require_react_shim(), 1);
   function Weekdays(props) {
-    return import_react44.default.createElement(
+    return import_react45.default.createElement(
       "thead",
       { "aria-hidden": true },
-      import_react44.default.createElement("tr", { ...props })
+      import_react45.default.createElement("tr", { ...props })
     );
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/WeekNumber.js
   init_define_import_meta_env();
-  var import_react45 = __toESM(require_react_shim(), 1);
+  var import_react46 = __toESM(require_react_shim(), 1);
   function WeekNumber(props) {
     const { week, ...thProps } = props;
-    return import_react45.default.createElement("th", { ...thProps });
+    return import_react46.default.createElement("th", { ...thProps });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/WeekNumberHeader.js
   init_define_import_meta_env();
-  var import_react46 = __toESM(require_react_shim(), 1);
+  var import_react47 = __toESM(require_react_shim(), 1);
   function WeekNumberHeader(props) {
-    return import_react46.default.createElement("th", { ...props });
+    return import_react47.default.createElement("th", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/Weeks.js
   init_define_import_meta_env();
-  var import_react47 = __toESM(require_react_shim(), 1);
+  var import_react48 = __toESM(require_react_shim(), 1);
   function Weeks(props) {
-    return import_react47.default.createElement("tbody", { ...props });
+    return import_react48.default.createElement("tbody", { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/components/YearsDropdown.js
   init_define_import_meta_env();
-  var import_react48 = __toESM(require_react_shim(), 1);
+  var import_react49 = __toESM(require_react_shim(), 1);
   function YearsDropdown(props) {
     const { components } = useDayPicker();
-    return import_react48.default.createElement(components.Dropdown, { ...props });
+    return import_react49.default.createElement(components.Dropdown, { ...props });
   }
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/DayPicker.js
   init_define_import_meta_env();
-  var import_react53 = __toESM(require_react_shim(), 1);
+  var import_react54 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/helpers/createGetModifiers.js
   init_define_import_meta_env();
@@ -17410,7 +18572,7 @@ var DevartUI = (() => {
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/useAnimation.js
   init_define_import_meta_env();
-  var import_react49 = __toESM(require_react_shim(), 1);
+  var import_react50 = __toESM(require_react_shim(), 1);
   var asHtmlElement = (element) => {
     if (element instanceof HTMLElement)
       return element;
@@ -17425,10 +18587,10 @@ var DevartUI = (() => {
   var queryNavEl = (element) => asHtmlElement(element.querySelector("[data-animated-nav]"));
   var queryWeekdaysEl = (element) => asHtmlElement(element.querySelector("[data-animated-weekdays]"));
   function useAnimation(rootElRef, enabled, { classNames, months, focused, dateLib }) {
-    const previousRootElSnapshotRef = (0, import_react49.useRef)(null);
-    const previousMonthsRef = (0, import_react49.useRef)(months);
-    const animatingRef = (0, import_react49.useRef)(false);
-    (0, import_react49.useLayoutEffect)(() => {
+    const previousRootElSnapshotRef = (0, import_react50.useRef)(null);
+    const previousMonthsRef = (0, import_react50.useRef)(months);
+    const animatingRef = (0, import_react50.useRef)(false);
+    (0, import_react50.useLayoutEffect)(() => {
       const previousMonths = previousMonthsRef.current;
       previousMonthsRef.current = months;
       if (!enabled || !rootElRef.current || // safety check because the ref can be set to anything by consumers
@@ -17539,7 +18701,7 @@ var DevartUI = (() => {
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/useCalendar.js
   init_define_import_meta_env();
-  var import_react51 = __toESM(require_react_shim(), 1);
+  var import_react52 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/helpers/getDates.js
   init_define_import_meta_env();
@@ -17744,9 +18906,9 @@ var DevartUI = (() => {
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/helpers/useControlledValue.js
   init_define_import_meta_env();
-  var import_react50 = __toESM(require_react_shim(), 1);
+  var import_react51 = __toESM(require_react_shim(), 1);
   function useControlledValue(defaultValue, controlledValue) {
-    const [uncontrolledValue, setValue] = (0, import_react50.useState)(defaultValue);
+    const [uncontrolledValue, setValue] = (0, import_react51.useState)(defaultValue);
     const value = controlledValue === void 0 ? uncontrolledValue : controlledValue;
     return [value, setValue];
   }
@@ -17761,11 +18923,11 @@ var DevartUI = (() => {
       // initialMonth is always computed from props.month if provided
       props.month ? initialMonth : void 0
     );
-    (0, import_react51.useEffect)(() => {
+    (0, import_react52.useEffect)(() => {
       const newInitialMonth = getInitialMonth(props, navStart, navEnd, dateLib);
       setFirstMonth(newInitialMonth);
     }, [props.timeZone]);
-    const { months, weeks, days, previousMonth, nextMonth } = (0, import_react51.useMemo)(() => {
+    const { months, weeks, days, previousMonth, nextMonth } = (0, import_react52.useMemo)(() => {
       const displayMonths = getDisplayMonths(firstMonth, navEnd, { numberOfMonths: props.numberOfMonths }, dateLib);
       const dates = getDates(displayMonths, props.endMonth ? endOfMonth2(props.endMonth) : void 0, {
         ISOWeek: props.ISOWeek,
@@ -17841,7 +19003,7 @@ var DevartUI = (() => {
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/useFocus.js
   init_define_import_meta_env();
-  var import_react52 = __toESM(require_react_shim(), 1);
+  var import_react53 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/helpers/calculateFocusTarget.js
   init_define_import_meta_env();
@@ -17926,9 +19088,9 @@ var DevartUI = (() => {
   // node_modules/.pnpm/react-day-picker@9.14.0_react@19.3.0/node_modules/react-day-picker/dist/esm/useFocus.js
   function useFocus(props, calendar, getModifiers, isSelected, dateLib) {
     const { autoFocus } = props;
-    const [lastFocused, setLastFocused] = (0, import_react52.useState)();
+    const [lastFocused, setLastFocused] = (0, import_react53.useState)();
     const focusTarget = calculateFocusTarget(calendar.days, getModifiers, isSelected || (() => false), lastFocused);
-    const [focusedDay, setFocused] = (0, import_react52.useState)(autoFocus ? focusTarget : void 0);
+    const [focusedDay, setFocused] = (0, import_react53.useState)(autoFocus ? focusTarget : void 0);
     const blur = () => {
       setLastFocused(focusedDay);
       setFocused(void 0);
@@ -18346,7 +19508,7 @@ var DevartUI = (() => {
         props.modifiers = nextModifiers;
       }
     }
-    const { components, formatters: formatters2, labels, dateLib, locale, classNames } = (0, import_react53.useMemo)(() => {
+    const { components, formatters: formatters2, labels, dateLib, locale, classNames } = (0, import_react54.useMemo)(() => {
       const locale2 = { ...enUS2, ...props.locale };
       const weekStartsOn = props.broadcastCalendar ? 1 : props.weekStartsOn;
       const noonOverrides = props.noonSafe && props.timeZone ? createNoonOverrides(props.timeZone, {
@@ -18398,21 +19560,21 @@ var DevartUI = (() => {
     const { isSelected, select, selected: selectedValue } = useSelection(props, dateLib) ?? {};
     const { blur, focused, isFocusTarget, moveFocus, setFocused } = useFocus(props, calendar, getModifiers, isSelected ?? (() => false), dateLib);
     const { labelDayButton: labelDayButton2, labelGridcell: labelGridcell2, labelGrid: labelGrid2, labelMonthDropdown: labelMonthDropdown2, labelNav: labelNav2, labelPrevious: labelPrevious2, labelNext: labelNext2, labelWeekday: labelWeekday2, labelWeekNumber: labelWeekNumber2, labelWeekNumberHeader: labelWeekNumberHeader2, labelYearDropdown: labelYearDropdown2 } = labels;
-    const weekdays = (0, import_react53.useMemo)(() => getWeekdays(dateLib, props.ISOWeek, props.broadcastCalendar, props.today), [dateLib, props.ISOWeek, props.broadcastCalendar, props.today]);
+    const weekdays = (0, import_react54.useMemo)(() => getWeekdays(dateLib, props.ISOWeek, props.broadcastCalendar, props.today), [dateLib, props.ISOWeek, props.broadcastCalendar, props.today]);
     const isInteractive = mode !== void 0 || onDayClick !== void 0;
-    const handlePreviousClick = (0, import_react53.useCallback)(() => {
+    const handlePreviousClick = (0, import_react54.useCallback)(() => {
       if (!previousMonth)
         return;
       goToMonth(previousMonth);
       onPrevClick?.(previousMonth);
     }, [previousMonth, goToMonth, onPrevClick]);
-    const handleNextClick = (0, import_react53.useCallback)(() => {
+    const handleNextClick = (0, import_react54.useCallback)(() => {
       if (!nextMonth)
         return;
       goToMonth(nextMonth);
       onNextClick?.(nextMonth);
     }, [goToMonth, nextMonth, onNextClick]);
-    const handleDayClick = (0, import_react53.useCallback)((day, m) => (e) => {
+    const handleDayClick = (0, import_react54.useCallback)((day, m) => (e) => {
       e.preventDefault();
       e.stopPropagation();
       setFocused(day);
@@ -18422,15 +19584,15 @@ var DevartUI = (() => {
       select?.(day.date, m, e);
       onDayClick?.(day.date, m, e);
     }, [select, onDayClick, setFocused]);
-    const handleDayFocus = (0, import_react53.useCallback)((day, m) => (e) => {
+    const handleDayFocus = (0, import_react54.useCallback)((day, m) => (e) => {
       setFocused(day);
       onDayFocus?.(day.date, m, e);
     }, [onDayFocus, setFocused]);
-    const handleDayBlur = (0, import_react53.useCallback)((day, m) => (e) => {
+    const handleDayBlur = (0, import_react54.useCallback)((day, m) => (e) => {
       blur();
       onDayBlur?.(day.date, m, e);
     }, [blur, onDayBlur]);
-    const handleDayKeyDown = (0, import_react53.useCallback)((day, modifiers) => (e) => {
+    const handleDayKeyDown = (0, import_react54.useCallback)((day, modifiers) => (e) => {
       const keyMap = {
         ArrowLeft: [
           e.shiftKey ? "month" : "day",
@@ -18455,28 +19617,28 @@ var DevartUI = (() => {
       }
       onDayKeyDown?.(day.date, modifiers, e);
     }, [moveFocus, onDayKeyDown, props.dir]);
-    const handleDayMouseEnter = (0, import_react53.useCallback)((day, modifiers) => (e) => {
+    const handleDayMouseEnter = (0, import_react54.useCallback)((day, modifiers) => (e) => {
       onDayMouseEnter?.(day.date, modifiers, e);
     }, [onDayMouseEnter]);
-    const handleDayMouseLeave = (0, import_react53.useCallback)((day, modifiers) => (e) => {
+    const handleDayMouseLeave = (0, import_react54.useCallback)((day, modifiers) => (e) => {
       onDayMouseLeave?.(day.date, modifiers, e);
     }, [onDayMouseLeave]);
-    const handleMonthChange = (0, import_react53.useCallback)((date) => (e) => {
+    const handleMonthChange = (0, import_react54.useCallback)((date) => (e) => {
       const selectedMonth = Number(e.target.value);
       const month = dateLib.setMonth(dateLib.startOfMonth(date), selectedMonth);
       goToMonth(month);
     }, [dateLib, goToMonth]);
-    const handleYearChange = (0, import_react53.useCallback)((date) => (e) => {
+    const handleYearChange = (0, import_react54.useCallback)((date) => (e) => {
       const selectedYear = Number(e.target.value);
       const month = dateLib.setYear(dateLib.startOfMonth(date), selectedYear);
       goToMonth(month);
     }, [dateLib, goToMonth]);
-    const { className, style } = (0, import_react53.useMemo)(() => ({
+    const { className, style } = (0, import_react54.useMemo)(() => ({
       className: [classNames[UI.Root], props.className].filter(Boolean).join(" "),
       style: { ...styles?.[UI.Root], ...props.style }
     }), [classNames, props.className, props.style, styles]);
     const dataAttributes = getDataAttributes(props);
-    const rootElRef = (0, import_react53.useRef)(null);
+    const rootElRef = (0, import_react54.useRef)(null);
     useAnimation(rootElRef, Boolean(props.animate), {
       classNames,
       months,
@@ -18499,18 +19661,18 @@ var DevartUI = (() => {
       labels,
       formatters: formatters2
     };
-    return import_react53.default.createElement(
+    return import_react54.default.createElement(
       dayPickerContext.Provider,
       { value: contextValue },
-      import_react53.default.createElement(
+      import_react54.default.createElement(
         components.Root,
         { rootRef: props.animate ? rootElRef : void 0, className, style, dir: props.dir, id: props.id, lang: props.lang ?? locale.code, nonce: props.nonce, title: props.title, role: props.role, "aria-label": props["aria-label"], "aria-labelledby": props["aria-labelledby"], ...dataAttributes },
-        import_react53.default.createElement(
+        import_react54.default.createElement(
           components.Months,
           { className: classNames[UI.Months], style: styles?.[UI.Months] },
-          !props.hideNavigation && !navLayout && import_react53.default.createElement(components.Nav, { "data-animated-nav": props.animate ? "true" : void 0, className: classNames[UI.Nav], style: styles?.[UI.Nav], "aria-label": labelNav2(), onPreviousClick: handlePreviousClick, onNextClick: handleNextClick, previousMonth, nextMonth }),
+          !props.hideNavigation && !navLayout && import_react54.default.createElement(components.Nav, { "data-animated-nav": props.animate ? "true" : void 0, className: classNames[UI.Nav], style: styles?.[UI.Nav], "aria-label": labelNav2(), onPreviousClick: handlePreviousClick, onNextClick: handleNextClick, previousMonth, nextMonth }),
           months.map((calendarMonth, displayIndex) => {
-            return import_react53.default.createElement(
+            return import_react54.default.createElement(
               components.Month,
               {
                 "data-animated-month": props.animate ? "true" : void 0,
@@ -18521,21 +19683,21 @@ var DevartUI = (() => {
                 displayIndex,
                 calendarMonth
               },
-              navLayout === "around" && !props.hideNavigation && displayIndex === 0 && import_react53.default.createElement(
+              navLayout === "around" && !props.hideNavigation && displayIndex === 0 && import_react54.default.createElement(
                 components.PreviousMonthButton,
                 { type: "button", className: classNames[UI.PreviousMonthButton], tabIndex: previousMonth ? void 0 : -1, "aria-disabled": previousMonth ? void 0 : true, "aria-label": labelPrevious2(previousMonth), onClick: handlePreviousClick, "data-animated-button": props.animate ? "true" : void 0 },
-                import_react53.default.createElement(components.Chevron, { disabled: previousMonth ? void 0 : true, className: classNames[UI.Chevron], orientation: props.dir === "rtl" ? "right" : "left" })
+                import_react54.default.createElement(components.Chevron, { disabled: previousMonth ? void 0 : true, className: classNames[UI.Chevron], orientation: props.dir === "rtl" ? "right" : "left" })
               ),
-              import_react53.default.createElement(components.MonthCaption, { "data-animated-caption": props.animate ? "true" : void 0, className: classNames[UI.MonthCaption], style: styles?.[UI.MonthCaption], calendarMonth, displayIndex }, captionLayout?.startsWith("dropdown") ? import_react53.default.createElement(
+              import_react54.default.createElement(components.MonthCaption, { "data-animated-caption": props.animate ? "true" : void 0, className: classNames[UI.MonthCaption], style: styles?.[UI.MonthCaption], calendarMonth, displayIndex }, captionLayout?.startsWith("dropdown") ? import_react54.default.createElement(
                 components.DropdownNav,
                 { className: classNames[UI.Dropdowns], style: styles?.[UI.Dropdowns] },
                 (() => {
-                  const monthControl = captionLayout === "dropdown" || captionLayout === "dropdown-months" ? import_react53.default.createElement(components.MonthsDropdown, { key: "month", className: classNames[UI.MonthsDropdown], "aria-label": labelMonthDropdown2(), classNames, components, disabled: Boolean(props.disableNavigation), onChange: handleMonthChange(calendarMonth.date), options: getMonthOptions(calendarMonth.date, navStart, navEnd, formatters2, dateLib), style: styles?.[UI.Dropdown], value: dateLib.getMonth(calendarMonth.date) }) : import_react53.default.createElement("span", { key: "month" }, formatMonthDropdown2(calendarMonth.date, dateLib));
-                  const yearControl = captionLayout === "dropdown" || captionLayout === "dropdown-years" ? import_react53.default.createElement(components.YearsDropdown, { key: "year", className: classNames[UI.YearsDropdown], "aria-label": labelYearDropdown2(dateLib.options), classNames, components, disabled: Boolean(props.disableNavigation), onChange: handleYearChange(calendarMonth.date), options: getYearOptions(navStart, navEnd, formatters2, dateLib, Boolean(props.reverseYears)), style: styles?.[UI.Dropdown], value: dateLib.getYear(calendarMonth.date) }) : import_react53.default.createElement("span", { key: "year" }, formatYearDropdown2(calendarMonth.date, dateLib));
+                  const monthControl = captionLayout === "dropdown" || captionLayout === "dropdown-months" ? import_react54.default.createElement(components.MonthsDropdown, { key: "month", className: classNames[UI.MonthsDropdown], "aria-label": labelMonthDropdown2(), classNames, components, disabled: Boolean(props.disableNavigation), onChange: handleMonthChange(calendarMonth.date), options: getMonthOptions(calendarMonth.date, navStart, navEnd, formatters2, dateLib), style: styles?.[UI.Dropdown], value: dateLib.getMonth(calendarMonth.date) }) : import_react54.default.createElement("span", { key: "month" }, formatMonthDropdown2(calendarMonth.date, dateLib));
+                  const yearControl = captionLayout === "dropdown" || captionLayout === "dropdown-years" ? import_react54.default.createElement(components.YearsDropdown, { key: "year", className: classNames[UI.YearsDropdown], "aria-label": labelYearDropdown2(dateLib.options), classNames, components, disabled: Boolean(props.disableNavigation), onChange: handleYearChange(calendarMonth.date), options: getYearOptions(navStart, navEnd, formatters2, dateLib, Boolean(props.reverseYears)), style: styles?.[UI.Dropdown], value: dateLib.getYear(calendarMonth.date) }) : import_react54.default.createElement("span", { key: "year" }, formatYearDropdown2(calendarMonth.date, dateLib));
                   const controls = dateLib.getMonthYearOrder() === "year-first" ? [yearControl, monthControl] : [monthControl, yearControl];
                   return controls;
                 })(),
-                import_react53.default.createElement("span", { role: "status", "aria-live": "polite", style: {
+                import_react54.default.createElement("span", { role: "status", "aria-live": "polite", style: {
                   border: 0,
                   clip: "rect(0 0 0 0)",
                   height: "1px",
@@ -18547,27 +19709,27 @@ var DevartUI = (() => {
                   whiteSpace: "nowrap",
                   wordWrap: "normal"
                 } }, formatCaption2(calendarMonth.date, dateLib.options, dateLib))
-              ) : import_react53.default.createElement(components.CaptionLabel, { className: classNames[UI.CaptionLabel], role: "status", "aria-live": "polite" }, formatCaption2(calendarMonth.date, dateLib.options, dateLib))),
-              navLayout === "around" && !props.hideNavigation && displayIndex === numberOfMonths - 1 && import_react53.default.createElement(
+              ) : import_react54.default.createElement(components.CaptionLabel, { className: classNames[UI.CaptionLabel], role: "status", "aria-live": "polite" }, formatCaption2(calendarMonth.date, dateLib.options, dateLib))),
+              navLayout === "around" && !props.hideNavigation && displayIndex === numberOfMonths - 1 && import_react54.default.createElement(
                 components.NextMonthButton,
                 { type: "button", className: classNames[UI.NextMonthButton], tabIndex: nextMonth ? void 0 : -1, "aria-disabled": nextMonth ? void 0 : true, "aria-label": labelNext2(nextMonth), onClick: handleNextClick, "data-animated-button": props.animate ? "true" : void 0 },
-                import_react53.default.createElement(components.Chevron, { disabled: nextMonth ? void 0 : true, className: classNames[UI.Chevron], orientation: props.dir === "rtl" ? "left" : "right" })
+                import_react54.default.createElement(components.Chevron, { disabled: nextMonth ? void 0 : true, className: classNames[UI.Chevron], orientation: props.dir === "rtl" ? "left" : "right" })
               ),
-              displayIndex === numberOfMonths - 1 && navLayout === "after" && !props.hideNavigation && import_react53.default.createElement(components.Nav, { "data-animated-nav": props.animate ? "true" : void 0, className: classNames[UI.Nav], style: styles?.[UI.Nav], "aria-label": labelNav2(), onPreviousClick: handlePreviousClick, onNextClick: handleNextClick, previousMonth, nextMonth }),
-              import_react53.default.createElement(
+              displayIndex === numberOfMonths - 1 && navLayout === "after" && !props.hideNavigation && import_react54.default.createElement(components.Nav, { "data-animated-nav": props.animate ? "true" : void 0, className: classNames[UI.Nav], style: styles?.[UI.Nav], "aria-label": labelNav2(), onPreviousClick: handlePreviousClick, onNextClick: handleNextClick, previousMonth, nextMonth }),
+              import_react54.default.createElement(
                 components.MonthGrid,
                 { role: "grid", "aria-multiselectable": mode === "multiple" || mode === "range", "aria-label": labelGrid2(calendarMonth.date, dateLib.options, dateLib) || void 0, className: classNames[UI.MonthGrid], style: styles?.[UI.MonthGrid] },
-                !props.hideWeekdays && import_react53.default.createElement(
+                !props.hideWeekdays && import_react54.default.createElement(
                   components.Weekdays,
                   { "data-animated-weekdays": props.animate ? "true" : void 0, className: classNames[UI.Weekdays], style: styles?.[UI.Weekdays] },
-                  showWeekNumber && import_react53.default.createElement(components.WeekNumberHeader, { "aria-label": labelWeekNumberHeader2(dateLib.options), className: classNames[UI.WeekNumberHeader], style: styles?.[UI.WeekNumberHeader], scope: "col" }, formatWeekNumberHeader2()),
-                  weekdays.map((weekday) => import_react53.default.createElement(components.Weekday, { "aria-label": labelWeekday2(weekday, dateLib.options, dateLib), className: classNames[UI.Weekday], key: String(weekday), style: styles?.[UI.Weekday], scope: "col" }, formatWeekdayName2(weekday, dateLib.options, dateLib)))
+                  showWeekNumber && import_react54.default.createElement(components.WeekNumberHeader, { "aria-label": labelWeekNumberHeader2(dateLib.options), className: classNames[UI.WeekNumberHeader], style: styles?.[UI.WeekNumberHeader], scope: "col" }, formatWeekNumberHeader2()),
+                  weekdays.map((weekday) => import_react54.default.createElement(components.Weekday, { "aria-label": labelWeekday2(weekday, dateLib.options, dateLib), className: classNames[UI.Weekday], key: String(weekday), style: styles?.[UI.Weekday], scope: "col" }, formatWeekdayName2(weekday, dateLib.options, dateLib)))
                 ),
-                import_react53.default.createElement(components.Weeks, { "data-animated-weeks": props.animate ? "true" : void 0, className: classNames[UI.Weeks], style: styles?.[UI.Weeks] }, calendarMonth.weeks.map((week) => {
-                  return import_react53.default.createElement(
+                import_react54.default.createElement(components.Weeks, { "data-animated-weeks": props.animate ? "true" : void 0, className: classNames[UI.Weeks], style: styles?.[UI.Weeks] }, calendarMonth.weeks.map((week) => {
+                  return import_react54.default.createElement(
                     components.Week,
                     { className: classNames[UI.Week], key: week.weekNumber, style: styles?.[UI.Week], week },
-                    showWeekNumber && import_react53.default.createElement(components.WeekNumber, { week, style: styles?.[UI.WeekNumber], "aria-label": labelWeekNumber2(week.weekNumber, {
+                    showWeekNumber && import_react54.default.createElement(components.WeekNumber, { week, style: styles?.[UI.WeekNumber], "aria-label": labelWeekNumber2(week.weekNumber, {
                       locale
                     }), className: classNames[UI.WeekNumber], scope: "row", role: "rowheader" }, formatWeekNumber2(week.weekNumber, dateLib)),
                     week.days.map((day) => {
@@ -18584,7 +19746,7 @@ var DevartUI = (() => {
                       const style2 = getStyleForModifiers(modifiers, styles, props.modifiersStyles);
                       const className2 = getClassNamesForModifiers(modifiers, classNames, props.modifiersClassNames);
                       const ariaLabel = !isInteractive && !modifiers.hidden ? labelGridcell2(date, modifiers, dateLib.options, dateLib) : void 0;
-                      return import_react53.default.createElement(components.Day, { key: `${day.isoDate}_${day.displayMonthId}`, day, modifiers, className: className2.join(" "), style: style2, role: "gridcell", "aria-selected": modifiers.selected || void 0, "aria-label": ariaLabel, "data-day": day.isoDate, "data-month": day.outside ? day.dateMonthId : void 0, "data-selected": modifiers.selected || void 0, "data-disabled": modifiers.disabled || void 0, "data-hidden": modifiers.hidden || void 0, "data-outside": day.outside || void 0, "data-focused": modifiers.focused || void 0, "data-today": modifiers.today || void 0 }, !modifiers.hidden && isInteractive ? import_react53.default.createElement(components.DayButton, { className: classNames[UI.DayButton], style: styles?.[UI.DayButton], type: "button", day, modifiers, disabled: !modifiers.focused && modifiers.disabled || void 0, "aria-disabled": modifiers.focused && modifiers.disabled || void 0, tabIndex: isFocusTarget(day) ? 0 : -1, "aria-label": labelDayButton2(date, modifiers, dateLib.options, dateLib), onClick: handleDayClick(day, modifiers), onBlur: handleDayBlur(day, modifiers), onFocus: handleDayFocus(day, modifiers), onKeyDown: handleDayKeyDown(day, modifiers), onMouseEnter: handleDayMouseEnter(day, modifiers), onMouseLeave: handleDayMouseLeave(day, modifiers) }, formatDay2(date, dateLib.options, dateLib)) : !modifiers.hidden && formatDay2(day.date, dateLib.options, dateLib));
+                      return import_react54.default.createElement(components.Day, { key: `${day.isoDate}_${day.displayMonthId}`, day, modifiers, className: className2.join(" "), style: style2, role: "gridcell", "aria-selected": modifiers.selected || void 0, "aria-label": ariaLabel, "data-day": day.isoDate, "data-month": day.outside ? day.dateMonthId : void 0, "data-selected": modifiers.selected || void 0, "data-disabled": modifiers.disabled || void 0, "data-hidden": modifiers.hidden || void 0, "data-outside": day.outside || void 0, "data-focused": modifiers.focused || void 0, "data-today": modifiers.today || void 0 }, !modifiers.hidden && isInteractive ? import_react54.default.createElement(components.DayButton, { className: classNames[UI.DayButton], style: styles?.[UI.DayButton], type: "button", day, modifiers, disabled: !modifiers.focused && modifiers.disabled || void 0, "aria-disabled": modifiers.focused && modifiers.disabled || void 0, tabIndex: isFocusTarget(day) ? 0 : -1, "aria-label": labelDayButton2(date, modifiers, dateLib.options, dateLib), onClick: handleDayClick(day, modifiers), onBlur: handleDayBlur(day, modifiers), onFocus: handleDayFocus(day, modifiers), onKeyDown: handleDayKeyDown(day, modifiers), onMouseEnter: handleDayMouseEnter(day, modifiers), onMouseLeave: handleDayMouseLeave(day, modifiers) }, formatDay2(date, dateLib.options, dateLib)) : !modifiers.hidden && formatDay2(day.date, dateLib.options, dateLib));
                     })
                   );
                 }))
@@ -18592,36 +19754,36 @@ var DevartUI = (() => {
             );
           })
         ),
-        props.footer && import_react53.default.createElement(components.Footer, { className: classNames[UI.Footer], style: styles?.[UI.Footer], role: "status", "aria-live": "polite" }, props.footer)
+        props.footer && import_react54.default.createElement(components.Footer, { className: classNames[UI.Footer], style: styles?.[UI.Footer], role: "status", "aria-live": "polite" }, props.footer)
       )
     );
   }
 
   // dist/components/Datepicker/CalendarChevron.js
   init_define_import_meta_env();
-  var import_jsx_runtime59 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime68 = __toESM(require_react_shim(), 1);
   var CalendarChevron = ({ className, orientation, ...props }) => {
     if (orientation === "left") {
-      return (0, import_jsx_runtime59.jsx)(ChevronLeft, { className: cn("size-4", className), ...props });
+      return (0, import_jsx_runtime68.jsx)(ChevronLeft, { className: cn("size-4", className), ...props });
     }
     if (orientation === "right") {
-      return (0, import_jsx_runtime59.jsx)(ChevronRight, { className: cn("size-4", className), ...props });
+      return (0, import_jsx_runtime68.jsx)(ChevronRight, { className: cn("size-4", className), ...props });
     }
-    return (0, import_jsx_runtime59.jsx)(ChevronDown, { className: cn("size-4", className), ...props });
+    return (0, import_jsx_runtime68.jsx)(ChevronDown, { className: cn("size-4", className), ...props });
   };
 
   // dist/components/Datepicker/CalendarDayButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime60 = __toESM(require_react_shim(), 1);
-  var import_react54 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime69 = __toESM(require_react_shim(), 1);
+  var import_react55 = __toESM(require_react_shim(), 1);
   var CalendarDayButton = ({ className, day, modifiers, ...props }) => {
     const defaultClassNames = getDefaultClassNames();
-    const ref = (0, import_react54.useRef)(null);
-    (0, import_react54.useEffect)(() => {
+    const ref = (0, import_react55.useRef)(null);
+    (0, import_react55.useEffect)(() => {
       if (modifiers.focused)
         ref.current?.focus();
     }, [modifiers.focused]);
-    return (0, import_jsx_runtime60.jsx)(Button, { ref, variant: "transparent", size: "xs", "data-day": day.date.toLocaleDateString(), "data-selected-single": modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle, "data-range-start": modifiers.range_start, "data-range-end": modifiers.range_end, "data-range-middle": modifiers.range_middle, className: cn(
+    return (0, import_jsx_runtime69.jsx)(Button, { ref, variant: "transparent", size: "xs", "data-day": day.date.toLocaleDateString(), "data-selected-single": modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle, "data-range-start": modifiers.range_start, "data-range-end": modifiers.range_end, "data-range-middle": modifiers.range_middle, className: cn(
       // Base layout
       "relative isolate z-10",
       "flex aspect-square size-auto w-full min-w-[--cell-size] flex-col gap-1",
@@ -18659,18 +19821,18 @@ var DevartUI = (() => {
 
   // dist/components/Datepicker/CalendarRoot.js
   init_define_import_meta_env();
-  var import_jsx_runtime61 = __toESM(require_react_shim(), 1);
-  var CalendarRoot = ({ className, rootRef, ...props }) => (0, import_jsx_runtime61.jsx)("div", { "data-slot": "calendar", ref: rootRef, className: cn(className), ...props });
+  var import_jsx_runtime70 = __toESM(require_react_shim(), 1);
+  var CalendarRoot = ({ className, rootRef, ...props }) => (0, import_jsx_runtime70.jsx)("div", { "data-slot": "calendar", ref: rootRef, className: cn(className), ...props });
 
   // dist/components/Datepicker/CalendarWeekNumber.js
   init_define_import_meta_env();
-  var import_jsx_runtime62 = __toESM(require_react_shim(), 1);
-  var CalendarWeekNumber = ({ children, ...props }) => (0, import_jsx_runtime62.jsx)("td", { ...props, children: (0, import_jsx_runtime62.jsx)("div", { className: "flex size-[--cell-size] items-center justify-center text-center", children }) });
+  var import_jsx_runtime71 = __toESM(require_react_shim(), 1);
+  var CalendarWeekNumber = ({ children, ...props }) => (0, import_jsx_runtime71.jsx)("td", { ...props, children: (0, import_jsx_runtime71.jsx)("div", { className: "flex size-[--cell-size] items-center justify-center text-center", children }) });
 
   // dist/components/Datepicker/Calendar.js
   function Calendar({ className, classNames, showOutsideDays = true, captionLayout = "label", buttonVariant = "transparent", formatters: formatters2, components, weekStartsOn = 1, ...props }) {
     const defaultClassNames = getDefaultClassNames();
-    return (0, import_jsx_runtime63.jsx)(DayPicker, { showOutsideDays, weekStartsOn, className: cn("group/calendar", "px-3 pt-3", "[--cell-radius:var(--radius-md)]", "[--cell-size:theme(spacing.7)]", "[[data-slot=card-content]_&]:bg-transparent", "[[data-slot=popover-content]_&]:bg-transparent", className), captionLayout, formatters: {
+    return (0, import_jsx_runtime72.jsx)(DayPicker, { showOutsideDays, weekStartsOn, className: cn("group/calendar", "px-3 pt-3", "[--cell-radius:var(--radius-md)]", "[--cell-size:theme(spacing.7)]", "[[data-slot=card-content]_&]:bg-transparent", "[[data-slot=popover-content]_&]:bg-transparent", className), captionLayout, formatters: {
       formatMonthDropdown: (date) => date.toLocaleString("default", { month: "short" }),
       ...formatters2
     }, classNames: {
@@ -18727,12 +19889,12 @@ var DevartUI = (() => {
 
   // dist/components/Datepicker/DateRangePicker.js
   init_define_import_meta_env();
-  var import_jsx_runtime64 = __toESM(require_react_shim(), 1);
-  var import_react56 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime73 = __toESM(require_react_shim(), 1);
+  var import_react57 = __toESM(require_react_shim(), 1);
 
   // dist/hooks/use-mobile.js
   init_define_import_meta_env();
-  var import_react55 = __toESM(require_react_shim(), 1);
+  var import_react56 = __toESM(require_react_shim(), 1);
 
   // dist/lib/breakpoints.js
   init_define_import_meta_env();
@@ -18746,13 +19908,13 @@ var DevartUI = (() => {
   // dist/hooks/use-mobile.js
   var getServerSnapshot = () => false;
   function useMaxWidth(maxWidth) {
-    const subscribe2 = (0, import_react55.useCallback)((onStoreChange) => {
+    const subscribe2 = (0, import_react56.useCallback)((onStoreChange) => {
       const mql = window.matchMedia(`(max-width: ${maxWidth - 1}px)`);
       mql.addEventListener("change", onStoreChange);
       return () => mql.removeEventListener("change", onStoreChange);
     }, [maxWidth]);
-    const getSnapshot = (0, import_react55.useCallback)(() => window.innerWidth < maxWidth, [maxWidth]);
-    return (0, import_react55.useSyncExternalStore)(subscribe2, getSnapshot, getServerSnapshot);
+    const getSnapshot = (0, import_react56.useCallback)(() => window.innerWidth < maxWidth, [maxWidth]);
+    return (0, import_react56.useSyncExternalStore)(subscribe2, getSnapshot, getServerSnapshot);
   }
   function useIsMobile(breakpoint = BREAKPOINTS.md) {
     return useMaxWidth(breakpoint);
@@ -18766,7 +19928,7 @@ var DevartUI = (() => {
   // dist/components/Datepicker/DateRangePicker.js
   function DateRangePicker({ selected, className, confirmLabel = "Set Date", startMonth = DEFAULT_START_MONTH_DATE, endMonth = DEFAULT_END_MONTH_DATE, mobileBreakpoint = BREAKPOINTS.md, onSelect, onConfirm }) {
     const isMobile = useIsMobile(mobileBreakpoint);
-    const [internalRange, setInternalRange] = (0, import_react56.useState)(selected);
+    const [internalRange, setInternalRange] = (0, import_react57.useState)(selected);
     const handleRangeSelect = (range2) => {
       setInternalRange(range2);
       onSelect?.(range2);
@@ -18775,10 +19937,10 @@ var DevartUI = (() => {
       onConfirm?.(internalRange);
     };
     const defaultMonth = internalRange?.from || /* @__PURE__ */ new Date();
-    (0, import_react56.useEffect)(() => {
+    (0, import_react57.useEffect)(() => {
       setInternalRange(selected);
     }, [selected]);
-    return (0, import_jsx_runtime64.jsxs)("div", { className: cn("max-md:max-w-xs", "flex flex-col gap-2", "overflow-hidden", "rounded-md border border-stroke bg-surface-card", className), children: [(0, import_jsx_runtime64.jsx)(Calendar, { mode: "range", selected: internalRange, defaultMonth, captionLayout: "label", numberOfMonths: isMobile ? 1 : 2, onSelect: handleRangeSelect, startMonth, endMonth, classNames: {
+    return (0, import_jsx_runtime73.jsxs)("div", { className: cn("max-md:max-w-xs", "flex flex-col gap-2", "overflow-hidden", "rounded-md border border-stroke bg-surface-card", className), children: [(0, import_jsx_runtime73.jsx)(Calendar, { mode: "range", selected: internalRange, defaultMonth, captionLayout: "label", numberOfMonths: isMobile ? 1 : 2, onSelect: handleRangeSelect, startMonth, endMonth, classNames: {
       root: "w-full",
       months: "relative flex flex-row gap-8 border-b border-stroke pb-3",
       month: "flex w-full flex-col gap-1",
@@ -18797,16 +19959,16 @@ var DevartUI = (() => {
       range_end: "[&_button]:rounded-l-none [&_button]:!rounded-r-full",
       range_middle: "bg-surface-card2 rounded-none",
       outside: "pointer-events-none opacity-0"
-    } }), (0, import_jsx_runtime64.jsx)("div", { className: "flex flex-col gap-3 px-3 pb-3 md:flex-row md:items-center", children: (0, import_jsx_runtime64.jsx)(Button, { variant: "primary", size: "lg", rounded: "full", onClick: handleConfirm, className: "ms-auto", children: confirmLabel }) })] });
+    } }), (0, import_jsx_runtime73.jsx)("div", { className: "flex flex-col gap-3 px-3 pb-3 md:flex-row md:items-center", children: (0, import_jsx_runtime73.jsx)(Button, { variant: "primary", size: "lg", rounded: "full", onClick: handleConfirm, className: "ms-auto", children: confirmLabel }) })] });
   }
 
   // dist/components/Datepicker/SingleDatePicker.js
   init_define_import_meta_env();
-  var import_jsx_runtime65 = __toESM(require_react_shim(), 1);
-  var import_react57 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime74 = __toESM(require_react_shim(), 1);
+  var import_react58 = __toESM(require_react_shim(), 1);
   function SingleDatePicker({ selected, className, confirmLabel = "Set Date", startMonth = new Date(2025, 0), endMonth = new Date(2026, 11), onSelect, onConfirm }) {
-    const [internalDate, setInternalDate] = (0, import_react57.useState)(selected);
-    (0, import_react57.useEffect)(() => {
+    const [internalDate, setInternalDate] = (0, import_react58.useState)(selected);
+    (0, import_react58.useEffect)(() => {
       setInternalDate(selected);
     }, [selected]);
     const handleDaySelect = (date) => {
@@ -18816,16 +19978,16 @@ var DevartUI = (() => {
     const handleConfirm = () => {
       onConfirm?.(internalDate);
     };
-    const formatMonthDropdown2 = (0, import_react57.useCallback)((date) => {
+    const formatMonthDropdown2 = (0, import_react58.useCallback)((date) => {
       return date.toLocaleString("en-US", { month: "long" });
     }, []);
-    return (0, import_jsx_runtime65.jsxs)("div", { className: cn(
+    return (0, import_jsx_runtime74.jsxs)("div", { className: cn(
       // Layout
       "flex flex-col gap-2",
       // Appearance
       "rounded-md border border-stroke bg-surface-card",
       className
-    ), children: [(0, import_jsx_runtime65.jsx)(Calendar, { mode: "single", captionLayout: "label", selected: internalDate, defaultMonth: internalDate, onSelect: handleDaySelect, startMonth, endMonth, formatters: {
+    ), children: [(0, import_jsx_runtime74.jsx)(Calendar, { mode: "single", captionLayout: "label", selected: internalDate, defaultMonth: internalDate, onSelect: handleDaySelect, startMonth, endMonth, formatters: {
       formatMonthDropdown: formatMonthDropdown2
     }, classNames: {
       // Container & Layout
@@ -18851,23 +20013,23 @@ var DevartUI = (() => {
       range_middle: "bg-surface-card2",
       // Other
       outside: "text-ink-secondary"
-    } }), (0, import_jsx_runtime65.jsx)("div", { className: "flex items-center gap-2 px-3 pb-3", children: (0, import_jsx_runtime65.jsx)(Button, { variant: "primary", size: "lg", onClick: handleConfirm, rounded: "full", className: "flex-1", children: confirmLabel }) })] });
+    } }), (0, import_jsx_runtime74.jsx)("div", { className: "flex items-center gap-2 px-3 pb-3", children: (0, import_jsx_runtime74.jsx)(Button, { variant: "primary", size: "lg", onClick: handleConfirm, rounded: "full", className: "flex-1", children: confirmLabel }) })] });
   }
 
   // dist/components/DialogTitleFallback/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime67 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime76 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-dialog@1.1._710546e0d99e287f38299d291aa17887/node_modules/@radix-ui/react-dialog/dist/index.mjs
   init_define_import_meta_env();
-  var React68 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime66 = __toESM(require_react_shim(), 1);
-  var __defProp30 = Object.defineProperty;
-  var __name29 = (target, value) => __defProp30(target, "name", { value, configurable: true });
+  var React70 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime75 = __toESM(require_react_shim(), 1);
+  var __defProp32 = Object.defineProperty;
+  var __name31 = (target, value) => __defProp32(target, "name", { value, configurable: true });
   var DIALOG_NAME = "Dialog";
   var [createDialogContext, createDialogScope] = createContextScope(DIALOG_NAME);
   var [DialogProvider, useDialogContext] = createDialogContext(DIALOG_NAME);
-  var Dialog = /* @__PURE__ */ __name29((props) => {
+  var Dialog = /* @__PURE__ */ __name31((props) => {
     const {
       __scopeDialog,
       children,
@@ -18876,17 +20038,17 @@ var DevartUI = (() => {
       onOpenChange,
       modal = true
     } = props;
-    const triggerRef = React68.useRef(null);
-    const contentRef = React68.useRef(null);
+    const triggerRef = React70.useRef(null);
+    const contentRef = React70.useRef(null);
     const [open, setOpen] = useControllableState({
       prop: openProp,
       defaultProp: defaultOpen ?? false,
       onChange: onOpenChange,
       caller: DIALOG_NAME
     });
-    const [titleCount, setTitleCount] = React68.useState(0);
-    const [descriptionCount, setDescriptionCount] = React68.useState(0);
-    return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
+    const [titleCount, setTitleCount] = React70.useState(0);
+    const [descriptionCount, setDescriptionCount] = React70.useState(0);
+    return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
       DialogProvider,
       {
         scope: __scopeDialog,
@@ -18901,19 +20063,19 @@ var DevartUI = (() => {
         setDescriptionCount,
         open,
         onOpenChange: setOpen,
-        onOpenToggle: React68.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
+        onOpenToggle: React70.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
         modal,
         children
       }
     );
   }, "Dialog");
-  var TRIGGER_NAME5 = "DialogTrigger";
-  var DialogTrigger = /* @__PURE__ */ React68.forwardRef(
-    /* @__PURE__ */ __name29(function DialogTrigger2(props, forwardedRef) {
+  var TRIGGER_NAME6 = "DialogTrigger";
+  var DialogTrigger = /* @__PURE__ */ React70.forwardRef(
+    /* @__PURE__ */ __name31(function DialogTrigger2(props, forwardedRef) {
       const { __scopeDialog, ...triggerProps } = props;
-      const context = useDialogContext(TRIGGER_NAME5, __scopeDialog);
+      const context = useDialogContext(TRIGGER_NAME6, __scopeDialog);
       const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef);
-      return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -18928,28 +20090,28 @@ var DevartUI = (() => {
       );
     }, "DialogTrigger")
   );
-  var PORTAL_NAME2 = "DialogPortal";
-  var [PortalProvider2, usePortalContext2] = createDialogContext(PORTAL_NAME2, {
+  var PORTAL_NAME3 = "DialogPortal";
+  var [PortalProvider3, usePortalContext3] = createDialogContext(PORTAL_NAME3, {
     forceMount: void 0
   });
-  var DialogPortal = /* @__PURE__ */ __name29((props) => {
+  var DialogPortal = /* @__PURE__ */ __name31((props) => {
     const { __scopeDialog, forceMount, children, container } = props;
-    const context = useDialogContext(PORTAL_NAME2, __scopeDialog);
-    return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(PortalProvider2, { scope: __scopeDialog, forceMount, children: React68.Children.map(children, (child) => /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(Portal, { asChild: true, container, children: child }) })) });
+    const context = useDialogContext(PORTAL_NAME3, __scopeDialog);
+    return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(PortalProvider3, { scope: __scopeDialog, forceMount, children: React70.Children.map(children, (child) => /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Portal, { asChild: true, container, children: child }) })) });
   }, "DialogPortal");
   var OVERLAY_NAME = "DialogOverlay";
-  var DialogOverlay = /* @__PURE__ */ React68.forwardRef(
-    /* @__PURE__ */ __name29(function DialogOverlay2(props, forwardedRef) {
-      const portalContext = usePortalContext2(OVERLAY_NAME, props.__scopeDialog);
+  var DialogOverlay = /* @__PURE__ */ React70.forwardRef(
+    /* @__PURE__ */ __name31(function DialogOverlay2(props, forwardedRef) {
+      const portalContext = usePortalContext3(OVERLAY_NAME, props.__scopeDialog);
       const { forceMount = portalContext.forceMount, ...overlayProps } = props;
       const context = useDialogContext(OVERLAY_NAME, props.__scopeDialog);
-      return context.modal ? /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(DialogOverlayImpl, { ...overlayProps, ref: forwardedRef }) }) : null;
+      return context.modal ? /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(DialogOverlayImpl, { ...overlayProps, ref: forwardedRef }) }) : null;
     }, "DialogOverlay")
   );
   var Slot3 = createSlot("DialogOverlay.RemoveScroll");
-  var DialogOverlayImpl = /* @__PURE__ */ React68.forwardRef(
+  var DialogOverlayImpl = /* @__PURE__ */ React70.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name29(function DialogOverlayImpl2(props, forwardedRef) {
+    /* @__PURE__ */ __name31(function DialogOverlayImpl2(props, forwardedRef) {
       const { __scopeDialog, ...overlayProps } = props;
       const context = useDialogContext(OVERLAY_NAME, __scopeDialog);
       const registerDismissableSurface = useDismissableLayerSurface();
@@ -18957,7 +20119,7 @@ var DevartUI = (() => {
       return (
         // Make sure `Content` is scrollable even when it doesn't live inside `RemoveScroll`
         // ie. when `Overlay` and `Content` are siblings
-        /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(Combination_default, { as: Slot3, allowPinchZoom: true, shards: [context.contentRef], children: /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Combination_default, { as: Slot3, allowPinchZoom: true, shards: [context.contentRef], children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
           Primitive.div,
           {
             "data-state": getState4(context.open),
@@ -18969,26 +20131,26 @@ var DevartUI = (() => {
       );
     }, "DialogOverlayImpl")
   );
-  var CONTENT_NAME6 = "DialogContent";
-  var DialogContent = /* @__PURE__ */ React68.forwardRef(
-    /* @__PURE__ */ __name29(function DialogContent2(props, forwardedRef) {
-      const portalContext = usePortalContext2(CONTENT_NAME6, props.__scopeDialog);
+  var CONTENT_NAME7 = "DialogContent";
+  var DialogContent = /* @__PURE__ */ React70.forwardRef(
+    /* @__PURE__ */ __name31(function DialogContent2(props, forwardedRef) {
+      const portalContext = usePortalContext3(CONTENT_NAME7, props.__scopeDialog);
       const { forceMount = portalContext.forceMount, ...contentProps } = props;
-      const context = useDialogContext(CONTENT_NAME6, props.__scopeDialog);
-      return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(Presence, { present: forceMount || context.open, children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(DialogContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(DialogContentNonModal, { ...contentProps, ref: forwardedRef }) });
+      const context = useDialogContext(CONTENT_NAME7, props.__scopeDialog);
+      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Presence, { present: forceMount || context.open, children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(DialogContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(DialogContentNonModal, { ...contentProps, ref: forwardedRef }) });
     }, "DialogContent")
   );
-  var DialogContentModal = /* @__PURE__ */ React68.forwardRef(
+  var DialogContentModal = /* @__PURE__ */ React70.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name29(function DialogContentModal2(props, forwardedRef) {
-      const context = useDialogContext(CONTENT_NAME6, props.__scopeDialog);
-      const contentRef = React68.useRef(null);
+    /* @__PURE__ */ __name31(function DialogContentModal2(props, forwardedRef) {
+      const context = useDialogContext(CONTENT_NAME7, props.__scopeDialog);
+      const contentRef = React70.useRef(null);
       const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef);
-      React68.useEffect(() => {
+      React70.useEffect(() => {
         const content = contentRef.current;
         if (content) return hideOthers(content);
       }, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
         DialogContentImpl,
         {
           ...props,
@@ -19013,13 +20175,13 @@ var DevartUI = (() => {
       );
     }, "DialogContentModal")
   );
-  var DialogContentNonModal = /* @__PURE__ */ React68.forwardRef(
+  var DialogContentNonModal = /* @__PURE__ */ React70.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name29(function DialogContentNonModal2(props, forwardedRef) {
-      const context = useDialogContext(CONTENT_NAME6, props.__scopeDialog);
-      const hasInteractedOutsideRef = React68.useRef(false);
-      const hasPointerDownOutsideRef = React68.useRef(false);
-      return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
+    /* @__PURE__ */ __name31(function DialogContentNonModal2(props, forwardedRef) {
+      const context = useDialogContext(CONTENT_NAME7, props.__scopeDialog);
+      const hasInteractedOutsideRef = React70.useRef(false);
+      const hasPointerDownOutsideRef = React70.useRef(false);
+      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
         DialogContentImpl,
         {
           ...props,
@@ -19054,13 +20216,13 @@ var DevartUI = (() => {
       );
     }, "DialogContentNonModal")
   );
-  var DialogContentImpl = /* @__PURE__ */ React68.forwardRef(
+  var DialogContentImpl = /* @__PURE__ */ React70.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name29(function DialogContentImpl2(props, forwardedRef) {
+    /* @__PURE__ */ __name31(function DialogContentImpl2(props, forwardedRef) {
       const { __scopeDialog, trapFocus, onOpenAutoFocus, onCloseAutoFocus, ...contentProps } = props;
-      const context = useDialogContext(CONTENT_NAME6, __scopeDialog);
+      const context = useDialogContext(CONTENT_NAME7, __scopeDialog);
       useFocusGuards();
-      return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(import_jsx_runtime66.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(import_jsx_runtime75.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
         FocusScope,
         {
           asChild: true,
@@ -19068,7 +20230,7 @@ var DevartUI = (() => {
           trapped: trapFocus,
           onMountAutoFocus: onOpenAutoFocus,
           onUnmountAutoFocus: onCloseAutoFocus,
-          children: /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
             DismissableLayer,
             {
               role: "dialog",
@@ -19087,8 +20249,8 @@ var DevartUI = (() => {
     }, "DialogContentImpl")
   );
   var TITLE_NAME = "DialogTitle";
-  var DialogTitle = /* @__PURE__ */ React68.forwardRef(
-    /* @__PURE__ */ __name29(function DialogTitle2(props, forwardedRef) {
+  var DialogTitle = /* @__PURE__ */ React70.forwardRef(
+    /* @__PURE__ */ __name31(function DialogTitle2(props, forwardedRef) {
       const { __scopeDialog, ...titleProps } = props;
       const context = useDialogContext(TITLE_NAME, __scopeDialog);
       const { setTitleCount } = context;
@@ -19096,13 +20258,13 @@ var DevartUI = (() => {
         setTitleCount((count3) => count3 + 1);
         return () => setTitleCount((count3) => count3 - 1);
       }, [setTitleCount]);
-      return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(Primitive.h2, { id: context.titleId, ...titleProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Primitive.h2, { id: context.titleId, ...titleProps, ref: forwardedRef });
     }, "DialogTitle")
   );
   var DESCRIPTION_NAME = "DialogDescription";
-  var DialogDescription = /* @__PURE__ */ React68.forwardRef(
+  var DialogDescription = /* @__PURE__ */ React70.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name29(function DialogDescription2(props, forwardedRef) {
+    /* @__PURE__ */ __name31(function DialogDescription2(props, forwardedRef) {
       const { __scopeDialog, ...descriptionProps } = props;
       const context = useDialogContext(DESCRIPTION_NAME, __scopeDialog);
       const { setDescriptionCount } = context;
@@ -19110,15 +20272,15 @@ var DevartUI = (() => {
         setDescriptionCount((count3) => count3 + 1);
         return () => setDescriptionCount((count3) => count3 - 1);
       }, [setDescriptionCount]);
-      return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(Primitive.p, { id: context.descriptionId, ...descriptionProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Primitive.p, { id: context.descriptionId, ...descriptionProps, ref: forwardedRef });
     }, "DialogDescription")
   );
   var CLOSE_NAME = "DialogClose";
-  var DialogClose = /* @__PURE__ */ React68.forwardRef(
-    /* @__PURE__ */ __name29(function DialogClose2(props, forwardedRef) {
+  var DialogClose = /* @__PURE__ */ React70.forwardRef(
+    /* @__PURE__ */ __name31(function DialogClose2(props, forwardedRef) {
       const { __scopeDialog, ...closeProps } = props;
       const context = useDialogContext(CLOSE_NAME, __scopeDialog);
-      return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -19132,15 +20294,15 @@ var DevartUI = (() => {
   function getState4(open) {
     return open ? "open" : "closed";
   }
-  __name29(getState4, "getState");
+  __name31(getState4, "getState");
 
   // dist/components/DialogTitleFallback/index.js
-  var import_react58 = __toESM(require_react_shim(), 1);
+  var import_react59 = __toESM(require_react_shim(), 1);
   function DialogTitleFallback({ children }) {
-    const titleRef = (0, import_react58.useRef)(null);
-    const titleIdRef = (0, import_react58.useRef)(null);
-    const [isRendered, setIsRendered] = (0, import_react58.useState)(true);
-    (0, import_react58.useLayoutEffect)(() => {
+    const titleRef = (0, import_react59.useRef)(null);
+    const titleIdRef = (0, import_react59.useRef)(null);
+    const [isRendered, setIsRendered] = (0, import_react59.useState)(true);
+    (0, import_react59.useLayoutEffect)(() => {
       const titleId = titleRef.current?.id ?? titleIdRef.current;
       if (!titleId)
         return;
@@ -19151,31 +20313,31 @@ var DevartUI = (() => {
     if (!isRendered)
       return null;
     const hasLabel = children !== void 0 && children !== null && children !== "";
-    return (0, import_jsx_runtime67.jsx)(DialogTitle, { ref: titleRef, hidden: !hasLabel, className: hasLabel ? "sr-only" : void 0, children });
+    return (0, import_jsx_runtime76.jsx)(DialogTitle, { ref: titleRef, hidden: !hasLabel, className: hasLabel ? "sr-only" : void 0, children });
   }
   DialogTitleFallback.displayName = "DialogTitleFallback";
 
   // dist/components/File/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime75 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime84 = __toESM(require_react_shim(), 1);
 
   // dist/components/ProgressBar/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime69 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime78 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-progress@1._2c88236196428d02da85f0b8a6e7e1dd/node_modules/@radix-ui/react-progress/dist/index.mjs
   init_define_import_meta_env();
-  var React69 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime68 = __toESM(require_react_shim(), 1);
-  var __defProp31 = Object.defineProperty;
-  var __name30 = (target, value) => __defProp31(target, "name", { value, configurable: true });
+  var React71 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime77 = __toESM(require_react_shim(), 1);
+  var __defProp33 = Object.defineProperty;
+  var __name32 = (target, value) => __defProp33(target, "name", { value, configurable: true });
   var PROGRESS_NAME = "Progress";
   var DEFAULT_MAX = 100;
   var [createProgressContext, createProgressScope] = createContextScope(PROGRESS_NAME);
   var [ProgressProvider, useProgressContext] = createProgressContext(PROGRESS_NAME);
-  var Progress = /* @__PURE__ */ React69.forwardRef(
+  var Progress = /* @__PURE__ */ React71.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name30(function Progress2(props, forwardedRef) {
+    /* @__PURE__ */ __name32(function Progress2(props, forwardedRef) {
       const {
         __scopeProgress,
         value: valueProp = null,
@@ -19192,7 +20354,7 @@ var DevartUI = (() => {
       }
       const value = isValidValueNumber(valueProp, max3) ? valueProp : null;
       const valueLabel = isNumber2(value) ? getValueLabel(value, max3) : void 0;
-      return /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(ProgressProvider, { scope: __scopeProgress, value, max: max3, children: /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(ProgressProvider, { scope: __scopeProgress, value, max: max3, children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
         Primitive.div,
         {
           "aria-valuemax": max3,
@@ -19210,12 +20372,12 @@ var DevartUI = (() => {
     }, "Progress")
   );
   var INDICATOR_NAME2 = "ProgressIndicator";
-  var ProgressIndicator = /* @__PURE__ */ React69.forwardRef(
+  var ProgressIndicator = /* @__PURE__ */ React71.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name30(function ProgressIndicator2(props, forwardedRef) {
+    /* @__PURE__ */ __name32(function ProgressIndicator2(props, forwardedRef) {
       const { __scopeProgress, ...indicatorProps } = props;
       const context = useProgressContext(INDICATOR_NAME2, __scopeProgress);
-      return /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
         Primitive.div,
         {
           "data-state": getProgressState(context.value, context.max),
@@ -19230,27 +20392,27 @@ var DevartUI = (() => {
   function defaultGetValueLabel(value, max3) {
     return `${Math.round(value / max3 * 100)}%`;
   }
-  __name30(defaultGetValueLabel, "defaultGetValueLabel");
+  __name32(defaultGetValueLabel, "defaultGetValueLabel");
   function getProgressState(value, maxValue) {
     return value == null ? "indeterminate" : value === maxValue ? "complete" : "loading";
   }
-  __name30(getProgressState, "getProgressState");
+  __name32(getProgressState, "getProgressState");
   function isNumber2(value) {
     return typeof value === "number";
   }
-  __name30(isNumber2, "isNumber");
+  __name32(isNumber2, "isNumber");
   function isValidMaxNumber(max3) {
     return isNumber2(max3) && !isNaN(max3) && max3 > 0;
   }
-  __name30(isValidMaxNumber, "isValidMaxNumber");
+  __name32(isValidMaxNumber, "isValidMaxNumber");
   function isValidValueNumber(value, max3) {
     return isNumber2(value) && !isNaN(value) && value <= max3 && value >= 0;
   }
-  __name30(isValidValueNumber, "isValidValueNumber");
+  __name32(isValidValueNumber, "isValidValueNumber");
   function getInvalidMaxError(propValue, componentName) {
     return `Invalid prop \`max\` of value \`${propValue}\` supplied to \`${componentName}\`. Only numbers greater than 0 are valid max values. Defaulting to \`${DEFAULT_MAX}\`.`;
   }
-  __name30(getInvalidMaxError, "getInvalidMaxError");
+  __name32(getInvalidMaxError, "getInvalidMaxError");
   function getInvalidValueError(propValue, componentName) {
     return `Invalid prop \`value\` of value \`${propValue}\` supplied to \`${componentName}\`. The \`value\` prop must be:
   - a positive number
@@ -19259,8 +20421,8 @@ var DevartUI = (() => {
 
 Defaulting to \`null\`.`;
   }
-  __name30(getInvalidValueError, "getInvalidValueError");
-  var Root7 = Progress;
+  __name32(getInvalidValueError, "getInvalidValueError");
+  var Root8 = Progress;
   var Indicator = ProgressIndicator;
 
   // dist/components/ProgressBar/index.js
@@ -19310,26 +20472,26 @@ Defaulting to \`null\`.`;
   var ProgressBar = ({ className, value, variant, size: size4, rounded, ref, max: max3 = 100, ...props }) => {
     const clampedValue = Math.min(Math.max(value ?? 0, 0), max3);
     const percentage = Math.round(clampedValue / max3 * 100);
-    return (0, import_jsx_runtime69.jsx)(Root7, { ref, className: cn(progressVariants({ variant, size: size4, rounded }), className), value: clampedValue, max: max3, ...props, children: (0, import_jsx_runtime69.jsx)(Indicator, { className: progressIndicatorVariants({ variant, rounded }), style: { width: `${percentage}%` } }) });
+    return (0, import_jsx_runtime78.jsx)(Root8, { ref, className: cn(progressVariants({ variant, size: size4, rounded }), className), value: clampedValue, max: max3, ...props, children: (0, import_jsx_runtime78.jsx)(Indicator, { className: progressIndicatorVariants({ variant, rounded }), style: { width: `${percentage}%` } }) });
   };
   ProgressBar.displayName = "ProgressBar";
 
   // dist/components/File/FileRightSlot.js
   init_define_import_meta_env();
-  var import_jsx_runtime72 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime81 = __toESM(require_react_shim(), 1);
 
   // dist/components/File/FileDismiss.js
   init_define_import_meta_env();
-  var import_jsx_runtime70 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime79 = __toESM(require_react_shim(), 1);
   var FileDismiss = ({ onDismiss, label = "Remove file" }) => {
-    return (0, import_jsx_runtime70.jsx)(IconButton, { "aria-label": label, variant: "transparent", size: "sm", onClick: onDismiss, children: (0, import_jsx_runtime70.jsx)(X, { className: "size-4 text-ink-secondary" }) });
+    return (0, import_jsx_runtime79.jsx)(IconButton, { "aria-label": label, variant: "transparent", size: "sm", onClick: onDismiss, children: (0, import_jsx_runtime79.jsx)(X, { className: "size-4 text-ink-secondary" }) });
   };
 
   // dist/components/File/FileRetry.js
   init_define_import_meta_env();
-  var import_jsx_runtime71 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime80 = __toESM(require_react_shim(), 1);
   var FileRetry = ({ onRetry, label = "Retry upload" }) => {
-    return (0, import_jsx_runtime71.jsx)(IconButton, { "aria-label": label, variant: "transparent", size: "sm", onClick: onRetry, children: (0, import_jsx_runtime71.jsx)(RefreshCcw, { className: "size-4 text-ink-secondary" }) });
+    return (0, import_jsx_runtime80.jsx)(IconButton, { "aria-label": label, variant: "transparent", size: "sm", onClick: onRetry, children: (0, import_jsx_runtime80.jsx)(RefreshCcw, { className: "size-4 text-ink-secondary" }) });
   };
 
   // dist/components/File/FileRightSlot.js
@@ -19338,24 +20500,24 @@ Defaulting to \`null\`.`;
       return slot;
     }
     if (isLoading) {
-      return (0, import_jsx_runtime72.jsx)(Spinner, { size: "sm", color: "accent" });
+      return (0, import_jsx_runtime81.jsx)(Spinner, { size: "sm", color: "accent" });
     }
     if (isError && onRetry && onDismiss) {
-      return (0, import_jsx_runtime72.jsxs)("div", { className: "flex items-center gap-1", children: [(0, import_jsx_runtime72.jsx)(FileRetry, { onRetry }), (0, import_jsx_runtime72.jsx)(FileDismiss, { onDismiss })] });
+      return (0, import_jsx_runtime81.jsxs)("div", { className: "flex items-center gap-1", children: [(0, import_jsx_runtime81.jsx)(FileRetry, { onRetry }), (0, import_jsx_runtime81.jsx)(FileDismiss, { onDismiss })] });
     }
     if (onDismiss) {
-      return (0, import_jsx_runtime72.jsx)(FileDismiss, { onDismiss });
+      return (0, import_jsx_runtime81.jsx)(FileDismiss, { onDismiss });
     }
     return null;
   };
 
   // dist/components/File/FileSkeleton.js
   init_define_import_meta_env();
-  var import_jsx_runtime74 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime83 = __toESM(require_react_shim(), 1);
 
   // dist/components/Skeleton/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime73 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime82 = __toESM(require_react_shim(), 1);
   var skeletonVariants = cva(cn("skeleton", "pointer-events-none", "relative", "overflow-hidden", "bg-surface-chips"), {
     variants: {
       animation: {
@@ -19385,12 +20547,12 @@ Defaulting to \`null\`.`;
     if (isLoaded) {
       return children;
     }
-    return (0, import_jsx_runtime73.jsxs)("div", { className: containerClasses, "data-loaded": isLoaded, ...props, children: [(0, import_jsx_runtime73.jsx)("div", { "aria-hidden": "true", className: "absolute inset-0" }), children && (0, import_jsx_runtime73.jsx)("div", { className: "pointer-events-none invisible max-h-fit max-w-fit", children })] });
+    return (0, import_jsx_runtime82.jsxs)("div", { className: containerClasses, "data-loaded": isLoaded, ...props, children: [(0, import_jsx_runtime82.jsx)("div", { "aria-hidden": "true", className: "absolute inset-0" }), children && (0, import_jsx_runtime82.jsx)("div", { className: "pointer-events-none invisible max-h-fit max-w-fit", children })] });
   }
 
   // dist/components/File/FileSkeleton.js
   function FileSkeleton({ className, showLeading, showMetadataLine, showTrailing, ...props }) {
-    return (0, import_jsx_runtime74.jsxs)("div", { className: cn("flex min-w-0 items-center justify-between gap-2", "rounded-sm", "border border-stroke", "px-2 py-1", className), ...props, children: [(0, import_jsx_runtime74.jsxs)("div", { className: "flex min-w-0 flex-1 items-center gap-2", children: [showLeading ? (0, import_jsx_runtime74.jsx)(Skeleton, { className: "size-6 shrink-0", rounded: "md" }) : null, (0, import_jsx_runtime74.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1 overflow-hidden", children: [(0, import_jsx_runtime74.jsx)(Skeleton, { className: "h-4 w-full", rounded: "sm" }), showMetadataLine ? (0, import_jsx_runtime74.jsx)(Skeleton, { className: "h-3 w-full", rounded: "sm" }) : null] })] }), showTrailing ? (0, import_jsx_runtime74.jsx)(Skeleton, { className: "size-4 shrink-0", rounded: "full" }) : null] });
+    return (0, import_jsx_runtime83.jsxs)("div", { className: cn("flex min-w-0 items-center justify-between gap-2", "rounded-sm", "border border-stroke", "px-2 py-1", className), ...props, children: [(0, import_jsx_runtime83.jsxs)("div", { className: "flex min-w-0 flex-1 items-center gap-2", children: [showLeading ? (0, import_jsx_runtime83.jsx)(Skeleton, { className: "size-6 shrink-0", rounded: "md" }) : null, (0, import_jsx_runtime83.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1 overflow-hidden", children: [(0, import_jsx_runtime83.jsx)(Skeleton, { className: "h-4 w-full", rounded: "sm" }), showMetadataLine ? (0, import_jsx_runtime83.jsx)(Skeleton, { className: "h-3 w-full", rounded: "sm" }) : null] })] }), showTrailing ? (0, import_jsx_runtime83.jsx)(Skeleton, { className: "size-4 shrink-0", rounded: "full" }) : null] });
   }
   FileSkeleton.displayName = "FileSkeleton";
 
@@ -19427,14 +20589,14 @@ Defaulting to \`null\`.`;
     }
   });
   function File2({ className, name, fileSize, progress, variant, size: size4, rounded, isLoading, isError = false, icon: iconProp, rightSlot: rightSlotProp, onClick, onDismiss, onRetry }) {
-    const Icon2 = iconProp ?? (0, import_jsx_runtime75.jsx)(File, { className: "size-6 text-brand-tertiary" });
+    const Icon2 = iconProp ?? (0, import_jsx_runtime84.jsx)(File, { className: "size-6 text-brand-tertiary" });
     const handleKeyDown = (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
         onClick?.();
       }
     };
-    return (0, import_jsx_runtime75.jsxs)("div", { tabIndex: onClick ? 0 : -1, role: onClick ? "button" : "div", className: cn(
+    return (0, import_jsx_runtime84.jsxs)("div", { tabIndex: onClick ? 0 : -1, role: onClick ? "button" : "div", className: cn(
       fileVariants({ variant, size: size4, rounded }),
       isLoading && "pointer-events-none",
       isError && "border-fb-red/20 bg-fb-red/5 ring-fb-red/20 [&_svg]:text-fb-red-text/75",
@@ -19444,21 +20606,21 @@ Defaulting to \`null\`.`;
       onClick && !isError && "transition-colors duration-fast hover:bg-state-hover active:bg-state-pressed",
       onClick && "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2",
       className
-    ), onClick, onKeyDown: handleKeyDown, children: [(0, import_jsx_runtime75.jsxs)("div", { className: "flex min-w-0 flex-1 items-center gap-2", children: [Icon2, (0, import_jsx_runtime75.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col overflow-hidden", children: [(0, import_jsx_runtime75.jsx)(Typography, { variant: "span", textColor: "body", weight: "medium", className: "min-w-0 truncate", children: name }), progress !== void 0 ? (0, import_jsx_runtime75.jsxs)("span", { className: "flex h-4 min-w-0 items-center gap-2", children: [(0, import_jsx_runtime75.jsx)(ProgressBar, { value: progress, size: "md", className: "min-w-0 flex-1", "aria-label": name }), (0, import_jsx_runtime75.jsxs)(Typography, { variant: "span", textColor: "secondary", className: "shrink-0 text-xs tabular-nums leading-4", children: [progress, "%"] })] }) : fileSize && (0, import_jsx_runtime75.jsx)(Typography, { variant: "span", textColor: "secondary", className: "min-w-0 truncate text-xs leading-4", children: fileSize })] })] }), (0, import_jsx_runtime75.jsx)(FileRightSlot, { slot: rightSlotProp, isLoading, isError, onRetry, onDismiss })] });
+    ), onClick, onKeyDown: handleKeyDown, children: [(0, import_jsx_runtime84.jsxs)("div", { className: "flex min-w-0 flex-1 items-center gap-2", children: [Icon2, (0, import_jsx_runtime84.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col overflow-hidden", children: [(0, import_jsx_runtime84.jsx)(Typography, { variant: "span", textColor: "body", weight: "medium", className: "min-w-0 truncate", children: name }), progress !== void 0 ? (0, import_jsx_runtime84.jsxs)("span", { className: "flex h-4 min-w-0 items-center gap-2", children: [(0, import_jsx_runtime84.jsx)(ProgressBar, { value: progress, size: "md", className: "min-w-0 flex-1", "aria-label": name }), (0, import_jsx_runtime84.jsxs)(Typography, { variant: "span", textColor: "secondary", className: "shrink-0 text-xs tabular-nums leading-4", children: [progress, "%"] })] }) : fileSize && (0, import_jsx_runtime84.jsx)(Typography, { variant: "span", textColor: "secondary", className: "min-w-0 truncate text-xs leading-4", children: fileSize })] })] }), (0, import_jsx_runtime84.jsx)(FileRightSlot, { slot: rightSlotProp, isLoading, isError, onRetry, onDismiss })] });
   }
 
   // dist/components/FilterChips/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime78 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime87 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-radio-group_72b19f6da39c9ec25f24f18f5dd4b1b1/node_modules/@radix-ui/react-radio-group/dist/index.mjs
   init_define_import_meta_env();
   var React210 = __toESM(require_react_shim(), 1);
-  var React70 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime76 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime77 = __toESM(require_react_shim(), 1);
-  var __defProp32 = Object.defineProperty;
-  var __name31 = (target, value) => __defProp32(target, "name", { value, configurable: true });
+  var React72 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime85 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime86 = __toESM(require_react_shim(), 1);
+  var __defProp34 = Object.defineProperty;
+  var __name33 = (target, value) => __defProp34(target, "name", { value, configurable: true });
   var RADIO_NAME = "Radio";
   var [createRadioContext, createRadioScope] = createContextScope(RADIO_NAME);
   var [RadioProviderImpl, useRadioContext] = createRadioContext(RADIO_NAME);
@@ -19476,10 +20638,10 @@ Defaulting to \`null\`.`;
       // @ts-expect-error
       internal_do_not_use_render
     } = props;
-    const [control, setControl] = React70.useState(null);
-    const [bubbleInput, setBubbleInput] = React70.useState(null);
-    const hasConsumerStoppedPropagationRef = React70.useRef(false);
-    const [userInteractionCount, onUserInteraction] = React70.useReducer(
+    const [control, setControl] = React72.useState(null);
+    const [bubbleInput, setBubbleInput] = React72.useState(null);
+    const hasConsumerStoppedPropagationRef = React72.useRef(false);
+    const [userInteractionCount, onUserInteraction] = React72.useReducer(
       (count3) => count3 + 1,
       0
     );
@@ -19502,14 +20664,14 @@ Defaulting to \`null\`.`;
       isFormControl,
       bubbleInput,
       setBubbleInput,
-      onCheck: /* @__PURE__ */ __name31(() => onCheck?.(), "onCheck")
+      onCheck: /* @__PURE__ */ __name33(() => onCheck?.(), "onCheck")
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(RadioProviderImpl, { scope: __scopeRadio, ...context, children: isFunction3(internal_do_not_use_render) ? internal_do_not_use_render(context) : children });
+    return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(RadioProviderImpl, { scope: __scopeRadio, ...context, children: isFunction3(internal_do_not_use_render) ? internal_do_not_use_render(context) : children });
   }
-  __name31(RadioProvider, "RadioProvider");
-  var TRIGGER_NAME6 = "RadioTrigger";
-  var RadioTrigger = /* @__PURE__ */ React70.forwardRef(
-    /* @__PURE__ */ __name31(function RadioTrigger2({ __scopeRadio, onClick, ...radioProps }, forwardedRef) {
+  __name33(RadioProvider, "RadioProvider");
+  var TRIGGER_NAME7 = "RadioTrigger";
+  var RadioTrigger = /* @__PURE__ */ React72.forwardRef(
+    /* @__PURE__ */ __name33(function RadioTrigger2({ __scopeRadio, onClick, ...radioProps }, forwardedRef) {
       const {
         checked,
         disabled,
@@ -19520,9 +20682,9 @@ Defaulting to \`null\`.`;
         onUserInteraction,
         isFormControl,
         bubbleInput
-      } = useRadioContext(TRIGGER_NAME6, __scopeRadio);
+      } = useRadioContext(TRIGGER_NAME7, __scopeRadio);
       const composedRefs = useComposedRefs(forwardedRef, setControl);
-      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -19549,11 +20711,11 @@ Defaulting to \`null\`.`;
     }, "RadioTrigger")
   );
   var INDICATOR_NAME3 = "RadioIndicator";
-  var RadioIndicator = /* @__PURE__ */ React70.forwardRef(
-    /* @__PURE__ */ __name31(function RadioIndicator2(props, forwardedRef) {
+  var RadioIndicator = /* @__PURE__ */ React72.forwardRef(
+    /* @__PURE__ */ __name33(function RadioIndicator2(props, forwardedRef) {
       const { __scopeRadio, forceMount, ...indicatorProps } = props;
       const context = useRadioContext(INDICATOR_NAME3, __scopeRadio);
-      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(Presence, { present: forceMount || context.checked, children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Presence, { present: forceMount || context.checked, children: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
         Primitive.span,
         {
           "data-state": getState5(context.checked),
@@ -19565,8 +20727,8 @@ Defaulting to \`null\`.`;
     }, "RadioIndicator")
   );
   var BUBBLE_INPUT_NAME2 = "RadioBubbleInput";
-  var RadioBubbleInput = /* @__PURE__ */ React70.forwardRef(
-    /* @__PURE__ */ __name31(function RadioBubbleInput2({ __scopeRadio, onClick, ...props }, forwardedRef) {
+  var RadioBubbleInput = /* @__PURE__ */ React72.forwardRef(
+    /* @__PURE__ */ __name33(function RadioBubbleInput2({ __scopeRadio, onClick, ...props }, forwardedRef) {
       const {
         control,
         checked,
@@ -19582,10 +20744,10 @@ Defaulting to \`null\`.`;
       } = useRadioContext(BUBBLE_INPUT_NAME2, __scopeRadio);
       const composedRefs = useComposedRefs(forwardedRef, setBubbleInput);
       const controlSize = useSize(control);
-      const shouldStopClickPropagationRef = React70.useRef(false);
-      const prevCheckedRef = React70.useRef(checked);
-      const prevUserInteractionCountRef = React70.useRef(userInteractionCount);
-      React70.useEffect(() => {
+      const shouldStopClickPropagationRef = React72.useRef(false);
+      const prevCheckedRef = React72.useRef(checked);
+      const prevUserInteractionCountRef = React72.useRef(userInteractionCount);
+      React72.useEffect(() => {
         const input = bubbleInput;
         if (!input) return;
         const inputProto = window.HTMLInputElement.prototype;
@@ -19607,8 +20769,8 @@ Defaulting to \`null\`.`;
           shouldStopClickPropagationRef.current = false;
         }
       }, [bubbleInput, checked, hasConsumerStoppedPropagationRef, userInteractionCount]);
-      const defaultCheckedRef = React70.useRef(checked);
-      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
+      const defaultCheckedRef = React72.useRef(checked);
+      return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
         Primitive.input,
         {
           type: "radio",
@@ -19646,11 +20808,11 @@ Defaulting to \`null\`.`;
   function isFunction3(value) {
     return typeof value === "function";
   }
-  __name31(isFunction3, "isFunction");
+  __name33(isFunction3, "isFunction");
   function getState5(checked) {
     return checked ? "checked" : "unchecked";
   }
-  __name31(getState5, "getState");
+  __name33(getState5, "getState");
   var ARROW_KEYS = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
   var RADIO_GROUP_NAME2 = "RadioGroup";
   var [createRadioGroupContext, createRadioGroupScope] = createContextScope(RADIO_GROUP_NAME2, [
@@ -19661,7 +20823,7 @@ Defaulting to \`null\`.`;
   var useRadioScope = createRadioScope();
   var [RadioGroupProvider2, useRadioGroupContext2] = createRadioGroupContext(RADIO_GROUP_NAME2);
   var RadioGroup3 = /* @__PURE__ */ React210.forwardRef(
-    /* @__PURE__ */ __name31(function RadioGroup22(props, forwardedRef) {
+    /* @__PURE__ */ __name33(function RadioGroup22(props, forwardedRef) {
       const {
         __scopeRadioGroup,
         name,
@@ -19690,12 +20852,12 @@ Defaulting to \`null\`.`;
       React210.useEffect(() => {
         const associatedForm = form ? control?.ownerDocument.getElementById(form) : control?.closest("form");
         if (associatedForm instanceof HTMLFormElement) {
-          const reset = /* @__PURE__ */ __name31(() => setValue(initialValueRef.current), "reset");
+          const reset = /* @__PURE__ */ __name33(() => setValue(initialValueRef.current), "reset");
           associatedForm.addEventListener("reset", reset);
           return () => associatedForm.removeEventListener("reset", reset);
         }
       }, [control, form, setValue]);
-      return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
         RadioGroupProvider2,
         {
           scope: __scopeRadioGroup,
@@ -19705,7 +20867,7 @@ Defaulting to \`null\`.`;
           disabled,
           value,
           onValueChange: setValue,
-          children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
             Root4,
             {
               asChild: true,
@@ -19713,7 +20875,7 @@ Defaulting to \`null\`.`;
               orientation,
               dir: direction,
               loop,
-              children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+              children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
                 Primitive.div,
                 {
                   role: "radiogroup",
@@ -19745,7 +20907,7 @@ Defaulting to \`null\`.`;
     const context = useRadioGroupContext2(ITEM_PROVIDER_NAME, __scopeRadioGroup);
     const radioScope = useRadioScope(__scopeRadioGroup);
     const isDisabled = context.disabled || disabled;
-    return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
       RadioProvider,
       {
         ...radioScope,
@@ -19761,8 +20923,8 @@ Defaulting to \`null\`.`;
       }
     );
   }
-  __name31(RadioGroupItemProvider, "RadioGroupItemProvider");
-  var RadioGroupItemTrigger = /* @__PURE__ */ React210.forwardRef(/* @__PURE__ */ __name31(function RadioGroupItemTrigger2(props, forwardedRef) {
+  __name33(RadioGroupItemProvider, "RadioGroupItemProvider");
+  var RadioGroupItemTrigger = /* @__PURE__ */ React210.forwardRef(/* @__PURE__ */ __name33(function RadioGroupItemTrigger2(props, forwardedRef) {
     const { __scopeRadioGroup, ...triggerProps } = props;
     const rovingFocusGroupScope = useRovingFocusGroupScope2(__scopeRadioGroup);
     const radioScope = useRadioScope(__scopeRadioGroup);
@@ -19771,12 +20933,12 @@ Defaulting to \`null\`.`;
     const composedRefs = useComposedRefs(forwardedRef, ref);
     const isArrowKeyPressedRef = React210.useRef(false);
     React210.useEffect(() => {
-      const handleKeyDown = /* @__PURE__ */ __name31((event) => {
+      const handleKeyDown = /* @__PURE__ */ __name33((event) => {
         if (ARROW_KEYS.includes(event.key)) {
           isArrowKeyPressedRef.current = true;
         }
       }, "handleKeyDown");
-      const handleKeyUp = /* @__PURE__ */ __name31(() => isArrowKeyPressedRef.current = false, "handleKeyUp");
+      const handleKeyUp = /* @__PURE__ */ __name33(() => isArrowKeyPressedRef.current = false, "handleKeyUp");
       document.addEventListener("keydown", handleKeyDown);
       document.addEventListener("keyup", handleKeyUp);
       return () => {
@@ -19784,14 +20946,14 @@ Defaulting to \`null\`.`;
         document.removeEventListener("keyup", handleKeyUp);
       };
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
       Item2,
       {
         asChild: true,
         ...rovingFocusGroupScope,
         focusable: !disabled,
         active: checked,
-        children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           RadioTrigger,
           {
             ...radioScope,
@@ -19811,16 +20973,16 @@ Defaulting to \`null\`.`;
     );
   }, "RadioGroupItemTrigger"));
   var RadioGroupItem = /* @__PURE__ */ React210.forwardRef(
-    /* @__PURE__ */ __name31(function RadioGroupItem2(props, forwardedRef) {
+    /* @__PURE__ */ __name33(function RadioGroupItem2(props, forwardedRef) {
       const { __scopeRadioGroup, value, disabled, ...itemProps } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
         RadioGroupItemProvider,
         {
           __scopeRadioGroup,
           value,
           disabled,
-          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime77.jsxs)(import_jsx_runtime77.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(import_jsx_runtime86.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
               RadioGroupItemTrigger,
               {
                 ...itemProps,
@@ -19828,7 +20990,7 @@ Defaulting to \`null\`.`;
                 __scopeRadioGroup
               }
             ),
-            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
               RadioGroupItemBubbleInput,
               {
                 __scopeRadioGroup
@@ -19839,17 +21001,17 @@ Defaulting to \`null\`.`;
       );
     }, "RadioGroupItem")
   );
-  var RadioGroupItemBubbleInput = /* @__PURE__ */ React210.forwardRef(/* @__PURE__ */ __name31(function RadioGroupItemBubbleInput2(props, forwardedRef) {
+  var RadioGroupItemBubbleInput = /* @__PURE__ */ React210.forwardRef(/* @__PURE__ */ __name33(function RadioGroupItemBubbleInput2(props, forwardedRef) {
     const { __scopeRadioGroup, ...bubbleProps } = props;
     const radioScope = useRadioScope(__scopeRadioGroup);
-    return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(RadioBubbleInput, { ...radioScope, ...bubbleProps, ref: forwardedRef });
+    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(RadioBubbleInput, { ...radioScope, ...bubbleProps, ref: forwardedRef });
   }, "RadioGroupItemBubbleInput"));
   var RadioGroupIndicator = /* @__PURE__ */ React210.forwardRef(
     // blank line to reduce diff noise
-    /* @__PURE__ */ __name31(function RadioGroupIndicator2(props, forwardedRef) {
+    /* @__PURE__ */ __name33(function RadioGroupIndicator2(props, forwardedRef) {
       const { __scopeRadioGroup, ...indicatorProps } = props;
       const radioScope = useRadioScope(__scopeRadioGroup);
-      return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(RadioIndicator, { ...radioScope, ...indicatorProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(RadioIndicator, { ...radioScope, ...indicatorProps, ref: forwardedRef });
     }, "RadioGroupIndicator")
   );
 
@@ -19881,7 +21043,7 @@ Defaulting to \`null\`.`;
     defaultVariants: { size: "md" }
   });
   function FilterChips({ className, size: size4, ...props }) {
-    return (0, import_jsx_runtime78.jsx)(RadioGroup3, {
+    return (0, import_jsx_runtime87.jsx)(RadioGroup3, {
       "data-slot": "filter-chips",
       // Horizontal: arrow keys should move along the row, not up and down.
       orientation: "horizontal",
@@ -19891,12 +21053,13 @@ Defaulting to \`null\`.`;
     });
   }
   function FilterChip({ className, size: size4, count: count3, children, ...props }) {
-    return (0, import_jsx_runtime78.jsxs)(RadioGroupItem, { "data-slot": "filter-chip", className: cn(filterChipVariants({ size: size4 }), className), ...props, children: [children, count3 !== void 0 && (0, import_jsx_runtime78.jsx)("span", { className: cn("tabular-nums text-ink-secondary", "group-data-[state=checked]:text-brand-secondary"), "data-slot": "filter-chip-count", children: count3 })] });
+    return (0, import_jsx_runtime87.jsxs)(RadioGroupItem, { "data-slot": "filter-chip", className: cn(filterChipVariants({ size: size4 }), className), ...props, children: [children, count3 !== void 0 && (0, import_jsx_runtime87.jsx)("span", { className: cn("text-ink-secondary tabular-nums", "group-data-[state=checked]:text-brand-secondary"), "data-slot": "filter-chip-count", children: count3 })] });
   }
 
   // dist/components/Foundations/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime79 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime88 = __toESM(require_react_shim(), 1);
+  var import_react60 = __toESM(require_react_shim(), 1);
 
   // dist/lib/constants.js
   init_define_import_meta_env();
@@ -19915,7 +21078,9 @@ Defaulting to \`null\`.`;
       body: "hsl(var(--ink-body) / <alpha-value>)",
       secondary: "hsl(var(--ink-secondary) / <alpha-value>)",
       inactive: "hsl(var(--ink-inactive) / <alpha-value>)",
-      highlight: "hsl(var(--ink-highlight) / <alpha-value>)"
+      highlight: "hsl(var(--ink-highlight) / <alpha-value>)",
+      icon: "hsl(var(--ink-icon) / <alpha-value>)",
+      "icon-hover": "hsl(var(--ink-icon-hover) / <alpha-value>)"
     },
     surface: {
       page: "hsl(var(--surface-page) / <alpha-value>)",
@@ -19931,8 +21096,9 @@ Defaulting to \`null\`.`;
     },
     table: {
       "header-bg": "hsl(var(--tbl-header-bg) / <alpha-value>)",
-      "row-hover": "hsl(var(--tbl-row-hover) / <alpha-value>)",
-      "row-pressed": "hsl(var(--tbl-row-pressed) / <alpha-value>)"
+      // Overlays — bare var(), see the note on `state` above.
+      "row-hover": "var(--tbl-row-hover)",
+      "row-pressed": "var(--tbl-row-pressed)"
     },
     metrics: {
       "group-band": "hsl(var(--mx-group-band) / <alpha-value>)"
@@ -19941,8 +21107,11 @@ Defaulting to \`null\`.`;
       scrim: "var(--overlay-scrim)"
     },
     state: {
-      hover: "hsl(var(--state-hover) / <alpha-value>)",
-      pressed: "hsl(var(--state-pressed) / <alpha-value>)",
+      // Relative overlays — color-mix() values that carry their own alpha, so
+      // they are passed through bare. Wrapping one in hsl() emits invalid CSS
+      // and the fill vanishes with no error. They also take no /alpha modifier.
+      hover: "var(--state-hover)",
+      pressed: "var(--state-pressed)",
       disabled: "hsl(var(--state-disabled) / <alpha-value>)",
       "focus-ring": "hsl(var(--state-focus-ring) / <alpha-value>)"
     },
@@ -19954,7 +21123,8 @@ Defaulting to \`null\`.`;
       "error-hover": "hsl(var(--fb-error-hover) / <alpha-value>)",
       "error-press": "hsl(var(--fb-error-press) / <alpha-value>)",
       attention: "hsl(var(--fb-attention) / <alpha-value>)",
-      green: "hsl(var(--fb-green) / <alpha-value>)"
+      green: "hsl(var(--fb-green) / <alpha-value>)",
+      info: "hsl(var(--fb-info) / <alpha-value>)"
     },
     logo: {
       ink: "hsl(var(--logo-ink) / <alpha-value>)",
@@ -19976,6 +21146,7 @@ Defaulting to \`null\`.`;
       "primary-text": "hsl(var(--btn-primary-text) / <alpha-value>)",
       // color-mix value — no alpha channel substitution
       "secondary-bg-hover": "var(--btn-secondary-bg-hover)",
+      "secondary-bg-press": "var(--btn-secondary-bg-press)",
       "secondary-border": "hsl(var(--btn-secondary-border) / <alpha-value>)",
       "secondary-bg": "hsl(var(--btn-secondary-bg) / <alpha-value>)",
       "secondary-border-hover": "hsl(var(--btn-secondary-border-hover) / <alpha-value>)",
@@ -19997,6 +21168,8 @@ Defaulting to \`null\`.`;
       "secondary-text": "hsl(var(--badge-secondary-text) / <alpha-value>)",
       "chip-bg": "hsl(var(--badge-chip-bg) / <alpha-value>)",
       "chip-text": "hsl(var(--badge-chip-text) / <alpha-value>)",
+      // The shared hairline — color-mix from currentColor, so no hsl() wrapper
+      border: "var(--badge-border)",
       // color-mix values (opaque tints) — no alpha channel substitution
       "brand-bg": "var(--badge-brand-bg)",
       "brand-border": "var(--badge-brand-border)",
@@ -20008,6 +21181,17 @@ Defaulting to \`null\`.`;
     switch: {
       "off-bg": "hsl(var(--switch-off-bg) / <alpha-value>)",
       "off-bg-hover": "hsl(var(--switch-off-bg-hover) / <alpha-value>)"
+    },
+    // color-mix values (variant-tinted alert surfaces) — no alpha substitution
+    alert: {
+      "bg-success": "var(--alert-bg-success)",
+      "bg-info": "var(--alert-bg-info)",
+      "bg-warning": "var(--alert-bg-warning)",
+      "bg-error": "var(--alert-bg-error)",
+      "border-success": "var(--alert-border-success)",
+      "border-info": "var(--alert-border-info)",
+      "border-warning": "var(--alert-border-warning)",
+      "border-error": "var(--alert-border-error)"
     },
     // color-mix values (variant-tinted toast surfaces) — no alpha substitution
     toast: {
@@ -20025,10 +21209,9 @@ Defaulting to \`null\`.`;
       "hover-bg": "var(--segctrl-btn-hover-bg)"
     },
     tbl: {
-      "row-hover": "hsl(var(--tbl-row-hover) / <alpha-value>)",
-      "row-pressed": "hsl(var(--tbl-row-pressed) / <alpha-value>)",
-      // color-mix value — no alpha channel substitution
-      "row-selected-hover": "var(--tbl-row-selected-hover)"
+      // Overlays — bare var(), see the note on `state` above.
+      "row-hover": "var(--tbl-row-hover)",
+      "row-pressed": "var(--tbl-row-pressed)"
     },
     "content-on-solid": "hsl(var(--content-on-solid) / <alpha-value>)",
     "focus-ring-brand": "hsl(var(--focus-ring-brand) / <alpha-value>)",
@@ -20050,6 +21233,9 @@ Defaulting to \`null\`.`;
     plan: {
       "card-featured-border": "var(--plan-card-featured-border)"
     },
+    "ds-card": {
+      scrim: "var(--ds-card-scrim)"
+    },
     dropzone: {
       border: "hsl(var(--dropzone-border) / <alpha-value>)",
       "border-active": "var(--dropzone-border-active)",
@@ -20057,16 +21243,137 @@ Defaulting to \`null\`.`;
     }
   };
 
+  // dist/components/Foundations/tokens.js
+  init_define_import_meta_env();
+  var TRIPLET = /^-?[\d.]+ [\d.]+% [\d.]+%$/;
+  var ALIAS = /^var\(\s*(--[\w-]+)\s*\)$/;
+  var ALPHA_ALIAS = /^hsl\(\s*var\(\s*(--[\w-]+)\s*\)\s*\/\s*([^)]+)\)$/;
+  function declarationsFor(selector) {
+    const out = {};
+    for (const sheet of Array.from(document.styleSheets)) {
+      let rules;
+      try {
+        rules = Array.from(sheet.cssRules);
+      } catch {
+        continue;
+      }
+      for (const rule of rules) {
+        if (!(rule instanceof CSSStyleRule) || rule.selectorText !== selector) {
+          continue;
+        }
+        for (const prop of Array.from(rule.style)) {
+          if (prop.startsWith("--")) {
+            out[prop] = rule.style.getPropertyValue(prop).trim();
+          }
+        }
+      }
+    }
+    return out;
+  }
+  var lightDecls = () => declarationsFor(":root");
+  var darkDecls = () => declarationsFor(".dark");
+  var isPrimitive = (value) => TRIPLET.test(value);
+  function aliasOf(value) {
+    const plain = ALIAS.exec(value)?.[1];
+    if (plain)
+      return plain.replace(/^--/, "");
+    const alpha = ALPHA_ALIAS.exec(value);
+    if (alpha)
+      return `${alpha[1]?.replace(/^--/, "")} / ${alpha[2]?.trim()}`;
+    return null;
+  }
+  function ramps(decls) {
+    const byRamp = /* @__PURE__ */ new Map();
+    for (const [name, value] of Object.entries(decls)) {
+      if (!isPrimitive(value))
+        continue;
+      const step = /-(\d+)(-soft)?$/.exec(name);
+      const ramp = step ? name.slice(0, step.index) : name;
+      const list = byRamp.get(ramp);
+      if (list)
+        list.push(name);
+      else
+        byRamp.set(ramp, [name]);
+    }
+    return Array.from(byRamp, ([ramp, names]) => [
+      ramp.replace(/^--/, ""),
+      names
+    ]);
+  }
+  function resolved(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  function tripletToHex(triplet) {
+    const [h = Number.NaN, s = Number.NaN, l = Number.NaN] = triplet.replace(/%/g, "").split(/\s+/).map((n) => Number.parseFloat(n));
+    if ([h, s, l].some(Number.isNaN))
+      return "";
+    const a = s / 100 * Math.min(l / 100, 1 - l / 100);
+    const channel = (n) => {
+      const k = (n + h / 30) % 12;
+      const v = l / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+      return Math.round(255 * v).toString(16).padStart(2, "0");
+    };
+    return `#${channel(0)}${channel(8)}${channel(4)}`.toUpperCase();
+  }
+
   // dist/components/Foundations/index.js
-  function Grid({ children }) {
-    return (0, import_jsx_runtime79.jsx)("div", { className: "grid grid-cols-3 gap-x-3 gap-y-2 sm:grid-cols-4 lg:grid-cols-6", children });
+  function Grid({ children, wide }) {
+    return (0, import_jsx_runtime88.jsx)("div", { className: cn("grid gap-x-3 gap-y-2", wide ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" : "grid-cols-3 sm:grid-cols-4 lg:grid-cols-6"), children });
   }
   function Group3({ title, children }) {
-    return (0, import_jsx_runtime79.jsxs)("section", { className: "flex flex-col gap-1.5", children: [(0, import_jsx_runtime79.jsx)(Typography, { element: "h3", textColor: "secondary", textStyle: "overline", children: title }), children] });
+    return (0, import_jsx_runtime88.jsxs)("section", { className: "flex flex-col gap-1.5", children: [(0, import_jsx_runtime88.jsx)(Typography, { element: "h3", textColor: "secondary", textStyle: "overline", children: title }), children] });
   }
-  function Swatch({ name, value }) {
+  function useTokenGraph() {
+    const [graph, setGraph] = (0, import_react60.useState)({ light: {}, dark: {}, hex: {} });
+    (0, import_react60.useEffect)(() => {
+      const read = () => {
+        const light = lightDecls();
+        const hex = {};
+        for (const [, names] of ramps(light)) {
+          for (const name of names)
+            hex[name] = tripletToHex(resolved(name));
+        }
+        setGraph({ light, dark: darkDecls(), hex });
+      };
+      read();
+      const observer = new MutationObserver(read);
+      observer.observe(document.documentElement, {
+        attributeFilter: ["class", "data-palette"]
+      });
+      return () => observer.disconnect();
+    }, []);
+    return graph;
+  }
+  function PrimitiveSwatch({ name, hex }) {
+    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex min-w-0 items-center gap-2", children: [(0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: "size-6 shrink-0 rounded border border-stroke", style: { background: `hsl(var(${name}))` } }), (0, import_jsx_runtime88.jsxs)("span", { className: "flex min-w-0 flex-col", children: [(0, import_jsx_runtime88.jsx)(Typography, { className: "truncate", element: "span", textStyle: "body12", children: name.replace(/^--/, "") }), (0, import_jsx_runtime88.jsx)(Typography, { className: "truncate tabular-nums", element: "span", textColor: "secondary", textStyle: "body12", children: hex })] })] });
+  }
+  function Primitives() {
+    const { light, hex } = useTokenGraph();
+    return (0, import_jsx_runtime88.jsx)("div", { className: "flex flex-col gap-4", children: ramps(light).map(([ramp, names]) => (0, import_jsx_runtime88.jsx)(Group3, { title: ramp, children: (0, import_jsx_runtime88.jsx)(Grid, { children: names.map((name) => (0, import_jsx_runtime88.jsx)(PrimitiveSwatch, { hex: hex[name] ?? "", name }, name)) }) }, ramp)) });
+  }
+  function lineage(cssName, light, dark) {
+    const describe = (value) => {
+      if (!value)
+        return "";
+      const alias = aliasOf(value);
+      if (alias)
+        return alias;
+      if (value.startsWith("color-mix"))
+        return "color-mix";
+      if (/^\d/.test(value))
+        return tripletToHex(value);
+      return value;
+    };
+    const l = describe(light[cssName]);
+    const d = describe(dark[cssName]);
+    return { light: l, dark: d && d !== l ? d : "" };
+  }
+  function Swatch({ name, value, light, dark }) {
     const css = value.replace("<alpha-value>", "1");
-    return (0, import_jsx_runtime79.jsxs)("div", { className: "flex min-w-0 items-center gap-2", children: [(0, import_jsx_runtime79.jsx)("span", { "aria-hidden": true, className: "size-6 shrink-0 rounded border border-stroke", style: { background: css } }), (0, import_jsx_runtime79.jsx)("span", { className: "flex min-w-0 flex-col", children: (0, import_jsx_runtime79.jsx)(Typography, { className: "truncate", element: "span", textStyle: "body12", children: name }) })] });
+    const cssName = /--[\w-]+/.exec(value)?.[0] ?? "";
+    const from = lineage(cssName, light, dark);
+    const source = from.light ? `${from.light}${from.dark ? ` \xB7 dark ${from.dark}` : ""}` : `dark only: ${from.dark}`;
+    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex min-w-0 items-center gap-2", children: [(0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: "size-6 shrink-0 rounded border border-stroke", style: { background: css } }), (0, import_jsx_runtime88.jsxs)("span", { className: "flex min-w-0 flex-col", children: [(0, import_jsx_runtime88.jsx)(Typography, { className: "truncate", element: "span", textStyle: "body12", children: name }), (0, import_jsx_runtime88.jsx)(Typography, { className: "truncate", element: "span", textColor: "secondary", textStyle: "body12", title: `${cssName}: ${source}`, children: source })] })] });
   }
   function colorGroups() {
     const loose = [];
@@ -20084,7 +21391,8 @@ Defaulting to \`null\`.`;
     return groups;
   }
   function Colors() {
-    return (0, import_jsx_runtime79.jsx)("div", { className: "flex flex-col gap-4", children: colorGroups().map(([group, entries]) => (0, import_jsx_runtime79.jsx)(Group3, { title: group, children: (0, import_jsx_runtime79.jsx)(Grid, { children: entries.map(([name, value]) => (0, import_jsx_runtime79.jsx)(Swatch, { name, value }, name)) }) }, group)) });
+    const { light, dark } = useTokenGraph();
+    return (0, import_jsx_runtime88.jsx)("div", { className: "flex flex-col gap-4", children: colorGroups().map(([group, entries]) => (0, import_jsx_runtime88.jsx)(Group3, { title: group, children: (0, import_jsx_runtime88.jsx)(Grid, { wide: true, children: entries.map(([name, value]) => (0, import_jsx_runtime88.jsx)(Swatch, { dark, light, name, value }, name)) }) }, group)) });
   }
   var RADII = [
     ["rounded-sm", "--radius-sm", "2px"],
@@ -20095,9 +21403,9 @@ Defaulting to \`null\`.`;
     ["rounded-full", "9999px", "pill"]
   ];
   function Radius() {
-    return (0, import_jsx_runtime79.jsx)(Grid, { children: RADII.map(([cls, token, px]) => (0, import_jsx_runtime79.jsxs)("div", { className: "flex flex-col gap-2", children: [(0, import_jsx_runtime79.jsx)("span", { "aria-hidden": true, className: "h-14 w-full border border-stroke bg-surface-chips", style: {
+    return (0, import_jsx_runtime88.jsx)(Grid, { children: RADII.map(([cls, token, px]) => (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-2", children: [(0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: "h-14 w-full border border-stroke bg-surface-chips", style: {
       borderRadius: token.startsWith("--") ? `var(${token})` : token
-    } }), (0, import_jsx_runtime79.jsx)(Typography, { element: "span", textStyle: "body12", children: cls }), (0, import_jsx_runtime79.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: px })] }, cls)) });
+    } }), (0, import_jsx_runtime88.jsx)(Typography, { element: "span", textStyle: "body12", children: cls }), (0, import_jsx_runtime88.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: px })] }, cls)) });
   }
   var SHADOWS = [
     ["shadow-rest", "--shadow-rest", "a flat card at rest"],
@@ -20110,25 +21418,187 @@ Defaulting to \`null\`.`;
     ["shadow-thumb-hover", "--shadow-thumb-hover", "thumb under the pointer"]
   ];
   function Shadows() {
-    return (0, import_jsx_runtime79.jsx)(Grid, { children: SHADOWS.map(([cls, token, role]) => (0, import_jsx_runtime79.jsxs)("div", { className: "flex flex-col gap-2", children: [(0, import_jsx_runtime79.jsx)("span", { "aria-hidden": true, className: "h-14 w-full rounded-lg bg-surface-card", style: { boxShadow: `var(${token})` } }), (0, import_jsx_runtime79.jsx)(Typography, { element: "span", textStyle: "body12", children: cls }), (0, import_jsx_runtime79.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: role })] }, cls)) });
+    return (0, import_jsx_runtime88.jsx)(Grid, { children: SHADOWS.map(([cls, token, role]) => (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-2", children: [(0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: "h-14 w-full rounded-lg bg-surface-card", style: { boxShadow: `var(${token})` } }), (0, import_jsx_runtime88.jsx)(Typography, { element: "span", textStyle: "body12", children: cls }), (0, import_jsx_runtime88.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: role })] }, cls)) });
   }
   var SPACING = [
-    ["1", 4],
-    ["2", 8],
-    ["3", 12],
-    ["4", 16],
-    ["5", 20],
-    ["6", 24],
-    ["8", 32],
-    ["10", 40],
-    ["12", 48],
-    ["16", 64],
-    ["20", 80],
-    ["24", 96]
+    ["1", 4, ""],
+    ["2", 8, "tight cluster"],
+    ["3", 12, ""],
+    ["4", 16, "related elements"],
+    ["5", 20, ""],
+    ["6", 24, "page padding, and the gap between sections"],
+    ["8", 32, ""],
+    ["10", 40, ""],
+    ["12", 48, ""],
+    ["16", 64, ""],
+    ["20", 80, ""],
+    ["24", 96, ""]
   ];
-  function Spacing() {
-    return (0, import_jsx_runtime79.jsx)("div", { className: "flex flex-col gap-2", children: SPACING.map(([step, px]) => (0, import_jsx_runtime79.jsxs)("div", { className: "flex items-center gap-3", children: [(0, import_jsx_runtime79.jsx)(Typography, { className: "w-8 shrink-0", element: "span", textColor: "secondary", textStyle: "body12", children: step }), (0, import_jsx_runtime79.jsx)("span", { "aria-hidden": true, className: "h-4 rounded-sm bg-brand-primary", style: { width: `${px}px` } }), (0, import_jsx_runtime79.jsxs)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: [px, "px"] })] }, step)) });
+  var HALF_STEPS = [
+    ["px", 1, "Card \u2014 the lift on hover"],
+    ["0.5", 2, "SidebarMenu \u2014 between nav rows"],
+    ["1.5", 6, "Button sm \u2014 glyph to label"],
+    ["2.5", 10, "SidebarFooter \u2014 the row own inset"],
+    ["3.5", 14, ""]
+  ];
+  function Step({ step, px, use: use2, max: max3 }) {
+    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex items-center gap-3", children: [(0, import_jsx_runtime88.jsx)(Typography, { className: "w-10 shrink-0 text-end tabular-nums", element: "span", textStyle: "body12", children: step }), (0, import_jsx_runtime88.jsxs)(Typography, { className: "w-10 shrink-0 tabular-nums", element: "span", textColor: "secondary", textStyle: "body12", children: [px, "px"] }), (0, import_jsx_runtime88.jsx)("span", { className: "hidden shrink-0 sm:block", style: { width: `${max3}px` }, "aria-hidden": true, children: (0, import_jsx_runtime88.jsx)("span", { className: "block h-3 rounded-sm bg-brand-primary", style: { width: `${px}px` } }) }), (0, import_jsx_runtime88.jsx)(Typography, { className: "min-w-0 truncate", element: "span", textColor: use2 ? "secondary" : "light", textStyle: "body12", children: use2 || "\u2014" })] });
   }
+  function Rhythm({ label, cls, children }) {
+    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-1.5", children: [(0, import_jsx_runtime88.jsxs)(Typography, { element: "span", textStyle: "body12", children: [(0, import_jsx_runtime88.jsx)("code", { className: "rounded bg-surface-chips px-1 py-0.5 font-mono text-xxs", children: cls }), " ", label] }), (0, import_jsx_runtime88.jsx)("div", { className: "rounded-md border border-stroke bg-surface-card", children })] });
+  }
+  function Fill({ h = "h-6" }) {
+    return (
+      // A tint rather than `--surface-chips`: the block sits on a card and has
+      // to read as content at a glance, or the gap it is there to show reads as
+      // the whole box being empty.
+      (0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: `block rounded-sm bg-brand-primary/15 ${h}` })
+    );
+  }
+  function Spacing() {
+    const max3 = SPACING.at(-1)?.[1] ?? 96;
+    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-5", children: [(0, import_jsx_runtime88.jsx)(Group3, { title: "The scale \u2014 the number in p-*, m-*, gap-*, size-*", children: (0, import_jsx_runtime88.jsx)("div", { className: "flex flex-col gap-1.5", children: SPACING.map(([step, px, use2]) => (0, import_jsx_runtime88.jsx)(Step, { max: max3, px, step, use: use2 }, step)) }) }), (0, import_jsx_runtime88.jsx)(Group3, { title: "Half-steps \u2014 control internals only \xB7 one call site each", children: (0, import_jsx_runtime88.jsx)("div", { className: "flex flex-col gap-1.5", children: HALF_STEPS.map(([step, px, use2]) => (0, import_jsx_runtime88.jsx)(Step, { max: max3, px, step, use: use2 }, step)) }) }), (0, import_jsx_runtime88.jsx)(Group3, { title: "Page rhythm \u2014 the four states Spacing.md names", children: (0, import_jsx_runtime88.jsxs)("div", { className: "grid gap-3 sm:grid-cols-2", children: [(0, import_jsx_runtime88.jsx)(Rhythm, { cls: "gap-2", label: "a tight cluster", children: (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-2 p-3", children: [(0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" }), (0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" })] }) }), (0, import_jsx_runtime88.jsx)(Rhythm, { cls: "gap-4", label: "related elements", children: (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-4 p-3", children: [(0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" }), (0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" })] }) }), (0, import_jsx_runtime88.jsx)(Rhythm, { cls: "gap-6", label: "between sections", children: (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-6 p-3", children: [(0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" }), (0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" })] }) }), (0, import_jsx_runtime88.jsx)(Rhythm, { cls: "p-6", label: "the page\u2019s own padding", children: (0, import_jsx_runtime88.jsx)("div", { className: "p-6", children: (0, import_jsx_runtime88.jsx)(Fill, {}) }) })] }) })] });
+  }
+
+  // dist/components/LinkButton/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime89 = __toESM(require_react_shim(), 1);
+  var linkButtonVariants = cva(cn(
+    "inline-flex items-center gap-1.5",
+    "cursor-pointer",
+    // A link takes the size of the text it sits in. That is the whole point of
+    // it being a link and not a button: it belongs to a sentence, or to a card
+    // heading, and giving it a size ladder of its own would let it disagree
+    // with its own line.
+    // `font-medium` only. `font-[inherit]` was here to inherit the FAMILY, but
+    // Tailwind reads it as a font-WEIGHT arbitrary value, so tailwind-merge
+    // dropped `font-medium` as the loser of the same group and every link
+    // rendered at 400 — the kit's `.link` is 500. An anchor inherits its family
+    // anyway, so the class was buying nothing and costing the weight.
+    "font-medium text-[length:inherit] leading-[inherit]",
+    "border-none bg-transparent p-0",
+    "transition-colors",
+    // The rule sits a quarter of the font-size below the baseline so it clears
+    // descenders, and is pinned to 1px so it does not thicken as the text it
+    // inherits grows.
+    "[text-decoration-thickness:1px] [text-underline-offset:25%]",
+    "[&_svg]:size-4 [&_svg]:shrink-0",
+    "focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card",
+    "aria-disabled:pointer-events-none aria-disabled:text-ink-inactive"
+  ), {
+    variants: {
+      /**
+       * `standalone` is a link that sits on its own — a row action, a "See
+       * all", the end of a card. It carries no rule until the pointer is on
+       * it, because in a column of them a permanent underline reads as a
+       * table of contents.
+       *
+       * `inline` is a link inside a sentence, where there is nothing else to
+       * mark it: the rule is always there, at 25% of the ink so it reads as a
+       * link without cutting the line of text in half. Hover brings it to full
+       * strength rather than adding it.
+       */
+      variant: {
+        standalone: "no-underline hover:underline",
+        inline: "underline [text-decoration-color:color-mix(in_srgb,currentColor_25%,transparent)] hover:[text-decoration-color:currentColor]"
+      },
+      tone: {
+        /** The default — Brand-600 on light, Tertiary-400 on dark, AA in both. */
+        brand: "text-ink-highlight",
+        /** A link inside body copy that must not outshout the sentence. */
+        body: "text-ink-body hover:text-ink-highlight",
+        /** On a solid or brand fill, where the highlight ink would vanish. */
+        onSolid: "text-content-on-solid"
+      }
+    },
+    defaultVariants: { tone: "brand", variant: "standalone" }
+  });
+  function LinkButton({ asChild, tone, variant, leftSlot, rightSlot, className, children, ...props }) {
+    const Comp = asChild ? Slot : "a";
+    return (0, import_jsx_runtime89.jsxs)(Comp, { className: cn(linkButtonVariants({ tone, variant }), className), ...props, children: [leftSlot, asChild ? (0, import_jsx_runtime89.jsx)(Slottable, { children }) : children, rightSlot] });
+  }
+  LinkButton.displayName = "LinkButton";
+
+  // dist/components/MetaRow/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime90 = __toESM(require_react_shim(), 1);
+  var metaRowVariants = cva(cn(
+    "flex flex-wrap items-center",
+    // 12px between members, 8px when the row wraps.
+    "gap-3 gap-y-2",
+    // The row owns its own 6px of vertical air, and its floor is the height it
+    // has WITH actions: a 32px `sm` button plus that padding is 44px, so a
+    // shorter floor let the row grow the moment a selection appeared and the
+    // list under it jumped. 44 is the row at its tallest, always.
+    "min-h-11 py-1.5",
+    // Transparent on purpose: no background, no border, no card. It belongs to
+    // the list under it, and a surface of its own would make it a toolbar.
+    "border-none bg-transparent",
+    // One typographic group — the count, the link and the buttons all read at
+    // the same Body level rather than as three separate things.
+    "text-sm leading-5"
+  ), {
+    variants: {
+      variant: {
+        /**
+         * The default. The count and the action next to it stay together, so
+         * the link reads as belonging to the number — "10 conversations ·
+         * Select all", not two things anchored to opposite edges.
+         */
+        cluster: "",
+        /** The action belongs on the far edge. */
+        split: "justify-between"
+      }
+    },
+    defaultVariants: { variant: "cluster" }
+  });
+  function MetaRow({ variant, onClear, clearLabel = "Clear selection", className, children, ...props }) {
+    return (0, import_jsx_runtime90.jsxs)("div", { "data-slot": "meta-row", className: cn(metaRowVariants({ variant }), className), ...props, children: [children, onClear ? (0, import_jsx_runtime90.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime90.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime90.jsx)(IconButton, {
+      "aria-label": clearLabel,
+      /* `sm`, the same rung the row's action buttons sit on. They end
+         up side by side at the row's right edge, and two controls on
+         one line at two different box sizes read as a control and an
+         afterthought — which is not what leaving a selection is. */
+      size: "sm",
+      variant: "tertiary",
+      /* Last in the row and outside `MetaRow.End`: leaving is not one
+                       of the actions that act on the selection, it is the way out of
+                       having one.
+      
+                       It claims the right edge only when `MetaRow.End` is not there
+                       to claim it. Two flex items with `margin-inline-start:auto`
+                       do not queue up at the edge — they SPLIT the free space
+                       between them, which parked the Delete button in the middle of
+                       the row with the ✕ out at the end.
+      
+                       This was `last:ms-auto`, meant as "only if nothing else took
+                       the edge". It is not that: `:last-child` is true whenever the
+                       ✕ is last in the row, which is always. The condition has to
+                       look at what comes BEFORE it, so it is a sibling selector.
+      
+                       Beside the actions it also gives back half the row's gap. The
+                       row spaces its MEMBERS 12px apart — the count, the link, the
+                       action cluster — but the ✕ is not another member out at the
+                       edge, it belongs to the cluster it follows. At 12px (plus the
+                       button's own inset, so ~17px to the eye) it read as stranded;
+                       at 8px it reads as the end of that group without collapsing
+                       into it the way the cluster's own 4px would. */
+      className: "ms-auto [[data-slot=meta-row-end]+&]:-ms-1",
+      onClick: onClear,
+      children: (0, import_jsx_runtime90.jsx)(X, {})
+    }) }), (0, import_jsx_runtime90.jsx)(TooltipContent3, { children: clearLabel })] }) : null] });
+  }
+  function MetaRowCount({ className, children, ...props }) {
+    return (0, import_jsx_runtime90.jsx)(Typography, { element: "span", textStyle: "body14", textColor: "secondary", className: cn("shrink-0 whitespace-nowrap", className), ...props, children });
+  }
+  function MetaRowEnd({ className, ...props }) {
+    return (0, import_jsx_runtime90.jsx)("span", { "data-slot": "meta-row-end", className: cn("ms-auto inline-flex shrink-0 items-center gap-1", className), ...props });
+  }
+  MetaRow.displayName = "MetaRow";
+  MetaRowCount.displayName = "MetaRow.Count";
+  MetaRowEnd.displayName = "MetaRow.End";
+  MetaRow.Count = MetaRowCount;
+  MetaRow.End = MetaRowEnd;
 
   // dist/components/Modal/index.js
   init_define_import_meta_env();
@@ -20139,16 +21609,16 @@ Defaulting to \`null\`.`;
 
   // dist/components/Modal/ModalBody.js
   init_define_import_meta_env();
-  var import_jsx_runtime81 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime92 = __toESM(require_react_shim(), 1);
 
   // dist/components/ScrollShadow/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime80 = __toESM(require_react_shim(), 1);
-  var import_react60 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime91 = __toESM(require_react_shim(), 1);
+  var import_react62 = __toESM(require_react_shim(), 1);
 
   // dist/hooks/use-scroll-shadow/index.js
   init_define_import_meta_env();
-  var import_react59 = __toESM(require_react_shim(), 1);
+  var import_react61 = __toESM(require_react_shim(), 1);
 
   // dist/hooks/use-scroll-shadow/constants.js
   init_define_import_meta_env();
@@ -20171,13 +21641,13 @@ Defaulting to \`null\`.`;
 
   // dist/hooks/use-scroll-shadow/index.js
   function useScrollShadow({ containerRef, orientation = "vertical", size: size4 = 40, offset: offset4 = 0, visibility = "auto", isEnabled = true, onVisibilityChange }) {
-    const prevStateRef = (0, import_react59.useRef)(null);
-    const animationIdRef = (0, import_react59.useRef)(null);
-    const applyMask = (0, import_react59.useCallback)((scrollableElement, hasScrollBefore, hasScrollAfter) => {
+    const prevStateRef = (0, import_react61.useRef)(null);
+    const animationIdRef = (0, import_react61.useRef)(null);
+    const applyMask = (0, import_react61.useCallback)((scrollableElement, hasScrollBefore, hasScrollAfter) => {
       const mask = getMaskImage(orientation, size4, hasScrollBefore, hasScrollAfter);
       scrollableElement.style.maskImage = mask;
     }, [orientation, size4]);
-    const checkOverflow = (0, import_react59.useCallback)(() => {
+    const checkOverflow = (0, import_react61.useCallback)(() => {
       const scrollableElement = containerRef.current;
       if (!scrollableElement)
         return;
@@ -20213,7 +21683,7 @@ Defaulting to \`null\`.`;
         }
       });
     }, [containerRef, orientation, offset4, onVisibilityChange, applyMask]);
-    (0, import_react59.useEffect)(() => {
+    (0, import_react61.useEffect)(() => {
       const scrollableElement = containerRef.current;
       if (!scrollableElement || visibility === "auto")
         return;
@@ -20234,7 +21704,7 @@ Defaulting to \`null\`.`;
           break;
       }
     }, [containerRef, visibility, applyMask]);
-    (0, import_react59.useEffect)(() => {
+    (0, import_react61.useEffect)(() => {
       const scrollableElement = containerRef.current;
       if (!scrollableElement || !isEnabled || visibility !== "auto")
         return;
@@ -20264,7 +21734,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/ScrollShadow/index.js
   function ScrollShadow({ ref, children, className, size: size4 = 40, offset: offset4 = 0, orientation = "vertical", visibility = "auto", isEnabled = true, style, onVisibilityChange, ...props }) {
-    const internalRef = (0, import_react60.useRef)(null);
+    const internalRef = (0, import_react62.useRef)(null);
     useScrollShadow({
       containerRef: internalRef,
       orientation,
@@ -20275,7 +21745,7 @@ Defaulting to \`null\`.`;
       onVisibilityChange
     });
     const scrollPaddingStyle = orientation === "vertical" ? { scrollPaddingBlock: `${size4}px` } : { scrollPaddingInline: `${size4}px` };
-    return (0, import_jsx_runtime80.jsx)("div", { ref: (node) => {
+    return (0, import_jsx_runtime91.jsx)("div", { ref: (node) => {
       internalRef.current = node;
       if (typeof ref === "function") {
         ref(node);
@@ -20288,7 +21758,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/Modal/ModalBody.js
   function ModalBody({ className, shadowSize = 40, children, ...props }) {
-    return (0, import_jsx_runtime81.jsx)(ScrollShadow, { size: shadowSize, className: cn("-mr-4 flex min-h-0 flex-1 flex-col gap-3 pr-2", className), ...props, children });
+    return (0, import_jsx_runtime92.jsx)(ScrollShadow, { size: shadowSize, className: cn("-mr-4 flex min-h-0 flex-1 flex-col gap-3 pr-2", className), ...props, children });
   }
 
   // dist/components/Modal/ModalClose.js
@@ -20297,579 +21767,13 @@ Defaulting to \`null\`.`;
 
   // dist/components/Modal/ModalContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime87 = __toESM(require_react_shim(), 1);
-
-  // dist/components/Tooltip/index.js
-  init_define_import_meta_env();
-  var import_jsx_runtime85 = __toESM(require_react_shim(), 1);
-
-  // node_modules/.pnpm/@radix-ui+react-tooltip@1.2_a9853968d49b444bec3ceccc37be5362/node_modules/@radix-ui/react-tooltip/dist/index.mjs
-  init_define_import_meta_env();
-  var React72 = __toESM(require_react_shim(), 1);
-
-  // node_modules/.pnpm/@radix-ui+react-visually-hi_a1e4ac96c6609c7633611349b7441981/node_modules/@radix-ui/react-visually-hidden/dist/index.mjs
-  init_define_import_meta_env();
-  var React71 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime82 = __toESM(require_react_shim(), 1);
-  var __defProp33 = Object.defineProperty;
-  var __name32 = (target, value) => __defProp33(target, "name", { value, configurable: true });
-  var VISUALLY_HIDDEN_STYLES = Object.freeze({
-    // See: https://github.com/twbs/bootstrap/blob/main/scss/mixins/_visually-hidden.scss
-    position: "absolute",
-    border: 0,
-    width: 1,
-    height: 1,
-    padding: 0,
-    margin: -1,
-    overflow: "hidden",
-    clip: "rect(0, 0, 0, 0)",
-    whiteSpace: "nowrap",
-    wordWrap: "normal"
-  });
-  var VisuallyHidden = /* @__PURE__ */ React71.forwardRef(
-    /* @__PURE__ */ __name32(function VisuallyHidden2(props, forwardedRef) {
-      return /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
-        Primitive.span,
-        {
-          ...props,
-          ref: forwardedRef,
-          style: { ...VISUALLY_HIDDEN_STYLES, ...props.style }
-        }
-      );
-    }, "VisuallyHidden")
-  );
-  var Root8 = VisuallyHidden;
-
-  // node_modules/.pnpm/@radix-ui+react-tooltip@1.2_a9853968d49b444bec3ceccc37be5362/node_modules/@radix-ui/react-tooltip/dist/index.mjs
-  var import_jsx_runtime83 = __toESM(require_react_shim(), 1);
-  var __defProp34 = Object.defineProperty;
-  var __name33 = (target, value) => __defProp34(target, "name", { value, configurable: true });
-  var [createTooltipContext, createTooltipScope] = createContextScope("Tooltip", [
-    createPopperScope
-  ]);
-  var usePopperScope2 = createPopperScope();
-  var PROVIDER_NAME = "TooltipProvider";
-  var DEFAULT_DELAY_DURATION = 700;
-  var TOOLTIP_OPEN = "tooltip.open";
-  var [TooltipProviderContextProvider, useTooltipProviderContext] = createTooltipContext(PROVIDER_NAME);
-  var TooltipProvider = /* @__PURE__ */ __name33((props) => {
-    const {
-      __scopeTooltip,
-      delayDuration = DEFAULT_DELAY_DURATION,
-      skipDelayDuration = 300,
-      disableHoverableContent = false,
-      children
-    } = props;
-    const isOpenDelayedRef = React72.useRef(true);
-    const isPointerInTransitRef = React72.useRef(false);
-    const skipDelayTimerRef = React72.useRef(0);
-    React72.useEffect(() => {
-      const skipDelayTimer = skipDelayTimerRef.current;
-      return () => window.clearTimeout(skipDelayTimer);
-    }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
-      TooltipProviderContextProvider,
-      {
-        scope: __scopeTooltip,
-        isOpenDelayedRef,
-        delayDuration,
-        onOpen: React72.useCallback(() => {
-          if (skipDelayDuration <= 0) return;
-          window.clearTimeout(skipDelayTimerRef.current);
-          isOpenDelayedRef.current = false;
-        }, [skipDelayDuration]),
-        onClose: React72.useCallback(() => {
-          if (skipDelayDuration <= 0) return;
-          window.clearTimeout(skipDelayTimerRef.current);
-          skipDelayTimerRef.current = window.setTimeout(
-            () => isOpenDelayedRef.current = true,
-            skipDelayDuration
-          );
-        }, [skipDelayDuration]),
-        isPointerInTransitRef,
-        onPointerInTransitChange: React72.useCallback((inTransit) => {
-          isPointerInTransitRef.current = inTransit;
-        }, []),
-        disableHoverableContent,
-        children
-      }
-    );
-  }, "TooltipProvider");
-  var TOOLTIP_NAME = "Tooltip";
-  var [TooltipContextProvider, useTooltipContext] = createTooltipContext(TOOLTIP_NAME);
-  var Tooltip = /* @__PURE__ */ __name33((props) => {
-    const {
-      __scopeTooltip,
-      children,
-      open: openProp,
-      defaultOpen,
-      onOpenChange,
-      disableHoverableContent: disableHoverableContentProp,
-      delayDuration: delayDurationProp
-    } = props;
-    const providerContext = useTooltipProviderContext(TOOLTIP_NAME, props.__scopeTooltip);
-    const popperScope = usePopperScope2(__scopeTooltip);
-    const [trigger, setTrigger] = React72.useState(null);
-    const [contentIdState, setContentId] = React72.useState(void 0);
-    const generatedContentId = useId();
-    const openTimerRef = React72.useRef(0);
-    const disableHoverableContent = disableHoverableContentProp ?? providerContext.disableHoverableContent;
-    const delayDuration = delayDurationProp ?? providerContext.delayDuration;
-    const wasOpenDelayedRef = React72.useRef(false);
-    const [open, setOpen] = useControllableState({
-      prop: openProp,
-      defaultProp: defaultOpen ?? false,
-      onChange: /* @__PURE__ */ __name33((open2) => {
-        if (open2) {
-          providerContext.onOpen();
-          document.dispatchEvent(new CustomEvent(TOOLTIP_OPEN));
-        } else {
-          providerContext.onClose();
-        }
-        onOpenChange?.(open2);
-      }, "onChange"),
-      caller: TOOLTIP_NAME
-    });
-    const stateAttribute = React72.useMemo(() => {
-      return open ? wasOpenDelayedRef.current ? "delayed-open" : "instant-open" : "closed";
-    }, [open]);
-    const handleOpen = React72.useCallback(() => {
-      window.clearTimeout(openTimerRef.current);
-      openTimerRef.current = 0;
-      wasOpenDelayedRef.current = false;
-      setOpen(true);
-    }, [setOpen]);
-    const handleClose = React72.useCallback(() => {
-      window.clearTimeout(openTimerRef.current);
-      openTimerRef.current = 0;
-      setOpen(false);
-    }, [setOpen]);
-    const handleDelayedOpen = React72.useCallback(() => {
-      window.clearTimeout(openTimerRef.current);
-      openTimerRef.current = window.setTimeout(() => {
-        wasOpenDelayedRef.current = true;
-        setOpen(true);
-        openTimerRef.current = 0;
-      }, delayDuration);
-    }, [delayDuration, setOpen]);
-    React72.useEffect(() => {
-      return () => {
-        if (openTimerRef.current) {
-          window.clearTimeout(openTimerRef.current);
-          openTimerRef.current = 0;
-        }
-      };
-    }, []);
-    const contentId = contentIdState ?? generatedContentId;
-    return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
-      TooltipContextProvider,
-      {
-        scope: __scopeTooltip,
-        contentId,
-        setContentId,
-        open,
-        stateAttribute,
-        trigger,
-        onTriggerChange: setTrigger,
-        onTriggerEnter: React72.useCallback(() => {
-          if (providerContext.isOpenDelayedRef.current) handleDelayedOpen();
-          else handleOpen();
-        }, [providerContext.isOpenDelayedRef, handleDelayedOpen, handleOpen]),
-        onTriggerLeave: React72.useCallback(() => {
-          if (disableHoverableContent) {
-            handleClose();
-          } else {
-            window.clearTimeout(openTimerRef.current);
-            openTimerRef.current = 0;
-          }
-        }, [handleClose, disableHoverableContent]),
-        onOpen: handleOpen,
-        onClose: handleClose,
-        disableHoverableContent,
-        children
-      }
-    ) });
-  }, "Tooltip");
-  var TRIGGER_NAME7 = "TooltipTrigger";
-  var TooltipTrigger = /* @__PURE__ */ React72.forwardRef(
-    /* @__PURE__ */ __name33(function TooltipTrigger2(props, forwardedRef) {
-      const { __scopeTooltip, ...triggerProps } = props;
-      const context = useTooltipContext(TRIGGER_NAME7, __scopeTooltip);
-      const providerContext = useTooltipProviderContext(TRIGGER_NAME7, __scopeTooltip);
-      const popperScope = usePopperScope2(__scopeTooltip);
-      const ref = React72.useRef(null);
-      const composedRefs = useComposedRefs(forwardedRef, ref, context.onTriggerChange);
-      const isPointerDownRef = React72.useRef(false);
-      const hasPointerMoveOpenedRef = React72.useRef(false);
-      const handlePointerUp = React72.useCallback(() => isPointerDownRef.current = false, []);
-      React72.useEffect(() => {
-        return () => document.removeEventListener("pointerup", handlePointerUp);
-      }, [handlePointerUp]);
-      return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Anchor, { asChild: true, ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
-        Primitive.button,
-        {
-          "aria-describedby": context.open ? context.contentId : void 0,
-          "data-state": context.stateAttribute,
-          ...triggerProps,
-          ref: composedRefs,
-          onPointerMove: composeEventHandlers(props.onPointerMove, (event) => {
-            if (event.pointerType === "touch") return;
-            if (!hasPointerMoveOpenedRef.current && !providerContext.isPointerInTransitRef.current) {
-              context.onTriggerEnter();
-              hasPointerMoveOpenedRef.current = true;
-            }
-          }),
-          onPointerLeave: composeEventHandlers(props.onPointerLeave, () => {
-            context.onTriggerLeave();
-            hasPointerMoveOpenedRef.current = false;
-          }),
-          onPointerDown: composeEventHandlers(props.onPointerDown, () => {
-            if (context.open) {
-              context.onClose();
-            }
-            isPointerDownRef.current = true;
-            document.addEventListener("pointerup", handlePointerUp, { once: true });
-          }),
-          onFocus: composeEventHandlers(props.onFocus, () => {
-            if (!isPointerDownRef.current) context.onOpen();
-          }),
-          onBlur: composeEventHandlers(props.onBlur, context.onClose),
-          onClick: composeEventHandlers(props.onClick, context.onClose)
-        }
-      ) });
-    }, "TooltipTrigger")
-  );
-  var PORTAL_NAME3 = "TooltipPortal";
-  var [PortalProvider3, usePortalContext3] = createTooltipContext(PORTAL_NAME3, {
-    forceMount: void 0
-  });
-  var TooltipPortal = /* @__PURE__ */ __name33((props) => {
-    const { __scopeTooltip, forceMount, children, container } = props;
-    const context = useTooltipContext(PORTAL_NAME3, __scopeTooltip);
-    return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(PortalProvider3, { scope: __scopeTooltip, forceMount, children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Portal, { asChild: true, container, children }) }) });
-  }, "TooltipPortal");
-  var CONTENT_NAME7 = "TooltipContent";
-  var TooltipContent = /* @__PURE__ */ React72.forwardRef(
-    /* @__PURE__ */ __name33(function TooltipContent2(props, forwardedRef) {
-      const portalContext = usePortalContext3(CONTENT_NAME7, props.__scopeTooltip);
-      const { forceMount = portalContext.forceMount, side = "top", ...contentProps } = props;
-      const context = useTooltipContext(CONTENT_NAME7, props.__scopeTooltip);
-      return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Presence, { present: forceMount || context.open, children: context.disableHoverableContent ? /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(TooltipContentImpl, { side, ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(TooltipContentHoverable, { side, ...contentProps, ref: forwardedRef }) });
-    }, "TooltipContent")
-  );
-  var TooltipContentHoverable = /* @__PURE__ */ React72.forwardRef(/* @__PURE__ */ __name33(function TooltipContentHoverable2(props, forwardedRef) {
-    const context = useTooltipContext(CONTENT_NAME7, props.__scopeTooltip);
-    const providerContext = useTooltipProviderContext(CONTENT_NAME7, props.__scopeTooltip);
-    const ref = React72.useRef(null);
-    const composedRefs = useComposedRefs(forwardedRef, ref);
-    const [pointerGraceArea, setPointerGraceArea] = React72.useState(null);
-    const { trigger, onClose } = context;
-    const content = ref.current;
-    const { onPointerInTransitChange } = providerContext;
-    const handleRemoveGraceArea = React72.useCallback(() => {
-      setPointerGraceArea(null);
-      onPointerInTransitChange(false);
-    }, [onPointerInTransitChange]);
-    const handleCreateGraceArea = React72.useCallback(
-      (event, hoverTarget) => {
-        const currentTarget = event.currentTarget;
-        const exitPoint = { x: event.clientX, y: event.clientY };
-        const exitSide = getExitSideFromRect(exitPoint, currentTarget.getBoundingClientRect());
-        const paddedExitPoints = getPaddedExitPoints(exitPoint, exitSide);
-        const hoverTargetPoints = getPointsFromRect(hoverTarget.getBoundingClientRect());
-        const graceArea = getHull([...paddedExitPoints, ...hoverTargetPoints]);
-        setPointerGraceArea(graceArea);
-        onPointerInTransitChange(true);
-      },
-      [onPointerInTransitChange]
-    );
-    React72.useEffect(() => {
-      return () => handleRemoveGraceArea();
-    }, [handleRemoveGraceArea]);
-    React72.useEffect(() => {
-      if (trigger && content) {
-        const handleTriggerLeave = /* @__PURE__ */ __name33((event) => handleCreateGraceArea(event, content), "handleTriggerLeave");
-        const handleContentLeave = /* @__PURE__ */ __name33((event) => handleCreateGraceArea(event, trigger), "handleContentLeave");
-        trigger.addEventListener("pointerleave", handleTriggerLeave);
-        content.addEventListener("pointerleave", handleContentLeave);
-        return () => {
-          trigger.removeEventListener("pointerleave", handleTriggerLeave);
-          content.removeEventListener("pointerleave", handleContentLeave);
-        };
-      }
-    }, [trigger, content, handleCreateGraceArea, handleRemoveGraceArea]);
-    React72.useEffect(() => {
-      if (pointerGraceArea) {
-        const handleTrackPointerGrace = /* @__PURE__ */ __name33((event) => {
-          const target = event.target;
-          const pointerPosition = { x: event.clientX, y: event.clientY };
-          const hasEnteredTarget = trigger?.contains(target) || content?.contains(target);
-          const isPointerOutsideGraceArea = !isPointInPolygon2(pointerPosition, pointerGraceArea);
-          if (hasEnteredTarget) {
-            handleRemoveGraceArea();
-          } else if (isPointerOutsideGraceArea) {
-            handleRemoveGraceArea();
-            onClose();
-          }
-        }, "handleTrackPointerGrace");
-        document.addEventListener("pointermove", handleTrackPointerGrace);
-        return () => document.removeEventListener("pointermove", handleTrackPointerGrace);
-      }
-    }, [trigger, content, pointerGraceArea, onClose, handleRemoveGraceArea]);
-    return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(TooltipContentImpl, { ...props, ref: composedRefs });
-  }, "TooltipContentHoverable"));
-  var Slottable2 = createSlottable("TooltipContent");
-  var TooltipContentImpl = /* @__PURE__ */ React72.forwardRef(
-    // blank line to reduce diff noise
-    /* @__PURE__ */ __name33(function TooltipContentImpl2(props, forwardedRef) {
-      const {
-        __scopeTooltip,
-        children,
-        "aria-label": ariaLabel,
-        id: idProp,
-        onEscapeKeyDown,
-        onPointerDownOutside,
-        ...contentProps
-      } = props;
-      const context = useTooltipContext(CONTENT_NAME7, __scopeTooltip);
-      const popperScope = usePopperScope2(__scopeTooltip);
-      const { onClose } = context;
-      React72.useEffect(() => {
-        document.addEventListener(TOOLTIP_OPEN, onClose);
-        return () => document.removeEventListener(TOOLTIP_OPEN, onClose);
-      }, [onClose]);
-      React72.useEffect(() => {
-        if (context.trigger) {
-          const handleScroll2 = /* @__PURE__ */ __name33((event) => {
-            if (event.target instanceof Node && event.target.contains(context.trigger)) {
-              onClose();
-            }
-          }, "handleScroll");
-          window.addEventListener("scroll", handleScroll2, { capture: true });
-          return () => window.removeEventListener("scroll", handleScroll2, { capture: true });
-        }
-      }, [context.trigger, onClose]);
-      const { setContentId } = context;
-      useLayoutEffect2(() => {
-        setContentId(idProp);
-        return () => {
-          setContentId(void 0);
-        };
-      }, [idProp, setContentId]);
-      return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
-        DismissableLayer,
-        {
-          asChild: true,
-          disableOutsidePointerEvents: false,
-          onEscapeKeyDown,
-          onPointerDownOutside,
-          onFocusOutside: (event) => event.preventDefault(),
-          onDismiss: onClose,
-          children: /* @__PURE__ */ (0, import_jsx_runtime83.jsxs)(
-            Content3,
-            {
-              "data-state": context.stateAttribute,
-              role: ariaLabel ? void 0 : "tooltip",
-              id: ariaLabel ? void 0 : context.contentId,
-              ...popperScope,
-              ...contentProps,
-              ref: forwardedRef,
-              style: {
-                ...contentProps.style,
-                // re-namespace exposed content custom properties
-                ...{
-                  "--radix-tooltip-content-transform-origin": "var(--radix-popper-transform-origin)",
-                  "--radix-tooltip-content-available-width": "var(--radix-popper-available-width)",
-                  "--radix-tooltip-content-available-height": "var(--radix-popper-available-height)",
-                  "--radix-tooltip-trigger-width": "var(--radix-popper-anchor-width)",
-                  "--radix-tooltip-trigger-height": "var(--radix-popper-anchor-height)"
-                }
-              },
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Slottable2, { children }),
-                ariaLabel ? /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Root8, { id: context.contentId, role: "tooltip", children: ariaLabel }) : null
-              ]
-            }
-          )
-        }
-      );
-    }, "TooltipContentImpl")
-  );
-  var TooltipArrow = /* @__PURE__ */ React72.forwardRef(
-    /* @__PURE__ */ __name33(function TooltipArrow2(props, forwardedRef) {
-      const { __scopeTooltip, ...arrowProps } = props;
-      const popperScope = usePopperScope2(__scopeTooltip);
-      return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(Arrow3, { ...popperScope, ...arrowProps, ref: forwardedRef });
-    }, "TooltipArrow")
-  );
-  function getExitSideFromRect(point, rect) {
-    const top = Math.abs(rect.top - point.y);
-    const bottom = Math.abs(rect.bottom - point.y);
-    const right = Math.abs(rect.right - point.x);
-    const left = Math.abs(rect.left - point.x);
-    switch (Math.min(top, bottom, right, left)) {
-      case left:
-        return "left";
-      case right:
-        return "right";
-      case top:
-        return "top";
-      case bottom:
-        return "bottom";
-      default:
-        throw new Error("unreachable");
-    }
-  }
-  __name33(getExitSideFromRect, "getExitSideFromRect");
-  function getPaddedExitPoints(exitPoint, exitSide, padding = 5) {
-    const paddedExitPoints = [];
-    switch (exitSide) {
-      case "top":
-        paddedExitPoints.push(
-          { x: exitPoint.x - padding, y: exitPoint.y + padding },
-          { x: exitPoint.x + padding, y: exitPoint.y + padding }
-        );
-        break;
-      case "bottom":
-        paddedExitPoints.push(
-          { x: exitPoint.x - padding, y: exitPoint.y - padding },
-          { x: exitPoint.x + padding, y: exitPoint.y - padding }
-        );
-        break;
-      case "left":
-        paddedExitPoints.push(
-          { x: exitPoint.x + padding, y: exitPoint.y - padding },
-          { x: exitPoint.x + padding, y: exitPoint.y + padding }
-        );
-        break;
-      case "right":
-        paddedExitPoints.push(
-          { x: exitPoint.x - padding, y: exitPoint.y - padding },
-          { x: exitPoint.x - padding, y: exitPoint.y + padding }
-        );
-        break;
-    }
-    return paddedExitPoints;
-  }
-  __name33(getPaddedExitPoints, "getPaddedExitPoints");
-  function getPointsFromRect(rect) {
-    const { top, right, bottom, left } = rect;
-    return [
-      { x: left, y: top },
-      { x: right, y: top },
-      { x: right, y: bottom },
-      { x: left, y: bottom }
-    ];
-  }
-  __name33(getPointsFromRect, "getPointsFromRect");
-  function isPointInPolygon2(point, polygon) {
-    const { x, y } = point;
-    let inside = false;
-    for (let i = 0, j2 = polygon.length - 1; i < polygon.length; j2 = i++) {
-      const ii = polygon[i];
-      const jj = polygon[j2];
-      const xi = ii.x;
-      const yi = ii.y;
-      const xj = jj.x;
-      const yj = jj.y;
-      const intersect = yi > y !== yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi;
-      if (intersect) inside = !inside;
-    }
-    return inside;
-  }
-  __name33(isPointInPolygon2, "isPointInPolygon");
-  function getHull(points) {
-    const newPoints = points.slice();
-    newPoints.sort((a, b) => {
-      if (a.x < b.x) return -1;
-      else if (a.x > b.x) return 1;
-      else if (a.y < b.y) return -1;
-      else if (a.y > b.y) return 1;
-      else return 0;
-    });
-    return getHullPresorted(newPoints);
-  }
-  __name33(getHull, "getHull");
-  function getHullPresorted(points) {
-    if (points.length <= 1) return points.slice();
-    const upperHull = [];
-    for (let i = 0; i < points.length; i++) {
-      const p = points[i];
-      while (upperHull.length >= 2) {
-        const q2 = upperHull[upperHull.length - 1];
-        const r2 = upperHull[upperHull.length - 2];
-        if ((q2.x - r2.x) * (p.y - r2.y) >= (q2.y - r2.y) * (p.x - r2.x)) upperHull.pop();
-        else break;
-      }
-      upperHull.push(p);
-    }
-    upperHull.pop();
-    const lowerHull = [];
-    for (let i = points.length - 1; i >= 0; i--) {
-      const p = points[i];
-      while (lowerHull.length >= 2) {
-        const q2 = lowerHull[lowerHull.length - 1];
-        const r2 = lowerHull[lowerHull.length - 2];
-        if ((q2.x - r2.x) * (p.y - r2.y) >= (q2.y - r2.y) * (p.x - r2.x)) lowerHull.pop();
-        else break;
-      }
-      lowerHull.push(p);
-    }
-    lowerHull.pop();
-    if (upperHull.length === 1 && lowerHull.length === 1 && upperHull[0].x === lowerHull[0].x && upperHull[0].y === lowerHull[0].y) {
-      return upperHull;
-    } else {
-      return upperHull.concat(lowerHull);
-    }
-  }
-  __name33(getHullPresorted, "getHullPresorted");
-  var Provider = TooltipProvider;
-  var Root33 = Tooltip;
-  var Trigger4 = TooltipTrigger;
-  var Portal4 = TooltipPortal;
-  var Content24 = TooltipContent;
-  var Arrow23 = TooltipArrow;
-
-  // dist/components/Tooltip/TooltipContent.js
-  init_define_import_meta_env();
-  var import_jsx_runtime84 = __toESM(require_react_shim(), 1);
-  function TooltipContent3({ portalContainer, className, sideOffset = 8, showArrow = true, arrowClassName, children, ref, ...props }) {
-    const container = usePortalContainer(portalContainer);
-    return (0, import_jsx_runtime84.jsx)(Portal4, { container, children: (0, import_jsx_runtime84.jsxs)(Content24, { ref, sideOffset, className: cn(
-      "z-50",
-      "px-2 py-1",
-      "rounded-md bg-ink-primary",
-      "text-surface-card text-xs",
-      // The bubble hugs short copy and wraps at 288px — the same width as a
-      // medium menu — so a long tip gets two or three lines instead of
-      // running off the viewport.
-      "w-max max-w-72 whitespace-normal text-left",
-      // Animation
-      "fade-in-0 zoom-in-95 animate-in",
-      "data-[state=closed]:fade-out-0",
-      "data-[state=closed]:zoom-out-95",
-      "data-[state=closed]:animate-out",
-      // Slide based on side
-      "data-[side=bottom]:slide-in-from-top-2",
-      "data-[side=left]:slide-in-from-right-2",
-      "data-[side=right]:slide-in-from-left-2",
-      "data-[side=top]:slide-in-from-bottom-2",
-      "origin-[--radix-tooltip-content-transform-origin]",
-      className
-    ), ...props, children: [children, showArrow && (0, import_jsx_runtime84.jsx)(Arrow23, { className: cn(arrowClassName, "fill-ink-primary") })] }) });
-  }
-
-  // dist/components/Tooltip/index.js
-  var TooltipProvider2 = Provider;
-  var Tooltip2 = Root33;
-  var TooltipTrigger3 = ({ className, asChild, ...props }) => (0, import_jsx_runtime85.jsx)(Trigger4, { asChild, className: asChild ? className : cn(focusRing, className), ...props });
-  TooltipTrigger3.displayName = Trigger4.displayName;
+  var import_jsx_runtime94 = __toESM(require_react_shim(), 1);
 
   // dist/components/Modal/ModalOverlay.js
   init_define_import_meta_env();
-  var import_jsx_runtime86 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime93 = __toESM(require_react_shim(), 1);
   function ModalOverlay({ className, ref, ...props }) {
-    return (0, import_jsx_runtime86.jsx)(DialogOverlay, { ref, "data-modal-overlay": "", className: cn(
+    return (0, import_jsx_runtime93.jsx)(DialogOverlay, { ref, "data-modal-overlay": "", className: cn(
       "fixed inset-0 z-[100]",
       "bg-overlay-scrim",
       // Closed state
@@ -20894,15 +21798,21 @@ Defaulting to \`null\`.`;
       size: {
         sm: "max-w-modal-sm",
         md: "max-w-modal-md",
-        lg: "max-w-modal-lg"
+        lg: "max-w-modal-lg",
+        xl: "max-w-modal-xl"
       }
     },
     defaultVariants: { size: "md" }
   });
   function ModalContent({ ref, className, children, size: size4, isCloseButtonVisible = true, closeButtonProps, ...props }) {
     const { className: closeButtonClassName, "aria-label": closeLabel = DEFAULT_CLOSE_LABEL, ...restCloseButtonProps } = closeButtonProps ?? {};
-    return (0, import_jsx_runtime87.jsxs)(ModalPortal, { children: [(0, import_jsx_runtime87.jsx)(ModalOverlay, {}), (0, import_jsx_runtime87.jsxs)(DialogContent, { ref, "aria-describedby": void 0, className: cn(
-      "flex max-h-[90dvh] flex-col",
+    return (0, import_jsx_runtime94.jsxs)(ModalPortal, { children: [(0, import_jsx_runtime94.jsx)(ModalOverlay, {}), (0, import_jsx_runtime94.jsxs)(DialogContent, { ref, "aria-describedby": void 0, className: cn(
+      // `max-h-modal` — 80% of the window, from `--modal-max-h`. It was an
+      // arbitrary `max-h-[90dvh]`: a number in a class rather than a token,
+      // and 90% left so little page around a tall dialog that the dialog
+      // read as the screen. The body scrolls inside the cap (`ModalBody`),
+      // so a dialog can hold a long tree without growing past it.
+      "flex max-h-modal flex-col",
       modalContentVariants({ size: size4 }),
       "fixed top-1/2 left-1/2 z-[100] w-[calc(100%-1.5rem)] -translate-x-1/2 -translate-y-1/2",
       "rounded-2xl",
@@ -20926,13 +21836,13 @@ Defaulting to \`null\`.`;
       "data-[state=open]:slide-in-from-top-[48%]",
       "data-[state=open]:animate-in",
       className
-    ), ...props, children: [children, (0, import_jsx_runtime87.jsx)(DialogTitleFallback, { children: props["aria-label"] }), isCloseButtonVisible && (0, import_jsx_runtime87.jsx)(TooltipProvider2, { delayDuration: 200, children: (0, import_jsx_runtime87.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime87.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime87.jsx)(ModalClose, { asChild: true, children: (0, import_jsx_runtime87.jsx)(IconButton, { variant: "tertiary", size: "sm", rounded: "md", className: cn("absolute top-4 right-4", closeButtonClassName), ...restCloseButtonProps, "aria-label": closeLabel, children: (0, import_jsx_runtime87.jsx)(X, {}) }) }) }), (0, import_jsx_runtime87.jsx)(TooltipContent3, { side: "bottom", align: "end", className: "z-[110]", children: closeLabel })] }) })] })] });
+    ), ...props, children: [children, (0, import_jsx_runtime94.jsx)(DialogTitleFallback, { children: props["aria-label"] }), isCloseButtonVisible && (0, import_jsx_runtime94.jsx)(TooltipProvider2, { children: (0, import_jsx_runtime94.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime94.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime94.jsx)(ModalClose, { asChild: true, children: (0, import_jsx_runtime94.jsx)(IconButton, { variant: "tertiary", size: "sm", rounded: "md", className: cn("absolute top-4 right-4", closeButtonClassName), ...restCloseButtonProps, "aria-label": closeLabel, children: (0, import_jsx_runtime94.jsx)(X, {}) }) }) }), (0, import_jsx_runtime94.jsx)(TooltipContent3, { side: "bottom", align: "end", className: "z-[110]", children: closeLabel })] }) })] })] });
   }
   ModalContent.displayName = "ModalContent";
 
   // dist/components/Modal/ModalFooter.js
   init_define_import_meta_env();
-  var import_jsx_runtime88 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime95 = __toESM(require_react_shim(), 1);
   var modalFooterVariants = cva(cn("mt-4 flex flex-shrink-0 items-center gap-2", "-mx-4 border-stroke border-t px-4 pt-4"), {
     variants: {
       align: {
@@ -20953,13 +21863,13 @@ Defaulting to \`null\`.`;
     }
   });
   function ModalFooter({ className, align, ...props }) {
-    return (0, import_jsx_runtime88.jsx)("div", { className: cn(modalFooterVariants({ align }), className), ...props });
+    return (0, import_jsx_runtime95.jsx)("div", { className: cn(modalFooterVariants({ align }), className), ...props });
   }
   ModalFooter.displayName = "ModalFooter";
 
   // dist/components/Modal/ModalHeader.js
   init_define_import_meta_env();
-  var import_jsx_runtime89 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime96 = __toESM(require_react_shim(), 1);
   var modalHeaderVariants = cva("mb-3 flex flex-shrink-0 flex-col gap-1.5", {
     variants: {
       align: {
@@ -20973,15 +21883,15 @@ Defaulting to \`null\`.`;
     }
   });
   function ModalHeader({ className, align, ...props }) {
-    return (0, import_jsx_runtime89.jsx)("div", { className: cn(modalHeaderVariants({ align }), className), ...props });
+    return (0, import_jsx_runtime96.jsx)("div", { className: cn(modalHeaderVariants({ align }), className), ...props });
   }
   ModalHeader.displayName = "ModalHeader";
 
   // dist/components/Modal/ModalTitle.js
   init_define_import_meta_env();
-  var import_jsx_runtime90 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime97 = __toESM(require_react_shim(), 1);
   function ModalTitle({ className, ref, align, ...props }) {
-    return (0, import_jsx_runtime90.jsx)(DialogTitle, { asChild: true, children: (0, import_jsx_runtime90.jsx)(Typography, { ref, variant: "span", textStyle: "heading20", textColor: "primary", align, className, ...props }) });
+    return (0, import_jsx_runtime97.jsx)(DialogTitle, { asChild: true, children: (0, import_jsx_runtime97.jsx)(Typography, { ref, variant: "span", textStyle: "heading20", textColor: "primary", align, className, ...props }) });
   }
   ModalTitle.displayName = "ModalTitle";
 
@@ -20991,58 +21901,79 @@ Defaulting to \`null\`.`;
 
   // dist/components/PageHeader/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime91 = __toESM(require_react_shim(), 1);
-  function PageHeader({ title, onBack, backLabel = "Back", actions, leading, className, ...props }) {
-    return (0, import_jsx_runtime91.jsxs)("header", { "data-slot": "page-header", className: cn("flex shrink-0 items-center gap-3 px-6 py-5", className), ...props, children: [leading, onBack ? (0, import_jsx_runtime91.jsxs)("div", { className: "flex min-w-0 items-center gap-2", children: [(0, import_jsx_runtime91.jsx)(IconButton, { "aria-label": backLabel, size: "sm", variant: "tertiary", onClick: onBack, children: (0, import_jsx_runtime91.jsx)(ArrowLeft, { className: "size-5" }) }), (0, import_jsx_runtime91.jsx)(Typography, { element: "h1", textStyle: "title24", textColor: "primary", className: "truncate", children: title })] }) : (0, import_jsx_runtime91.jsx)(Typography, { element: "h1", textStyle: "title24", textColor: "primary", className: "truncate", children: title }), actions ? (0, import_jsx_runtime91.jsx)("div", { className: "ms-auto flex items-center gap-3", children: actions }) : null] });
+  var import_jsx_runtime98 = __toESM(require_react_shim(), 1);
+  function PageHeader({ title, onBack, backLabel = "Back", actions, leading, badge, condensed, className, ...props }) {
+    return (0, import_jsx_runtime98.jsxs)("header", { "data-slot": "page-header", "data-condensed": condensed ? "" : void 0, className: cn(
+      "flex shrink-0 items-center gap-3 px-6 py-5",
+      // The padding is what shrinks, and it is animated: the row is on screen
+      // while it changes, so a jump reads as the page flinching. The type is
+      // not animated — a font-size transition is a reflow every frame, and the
+      // one step it would smooth is 8px.
+      "transition-[padding] duration-fast",
+      condensed && "py-2.5",
+      className
+    ), ...props, children: [leading, (0, import_jsx_runtime98.jsxs)("div", { className: "flex min-w-0 items-center gap-1", children: [onBack ? (0, import_jsx_runtime98.jsx)(IconButton, {
+      "aria-label": backLabel,
+      className: "me-0.5 shrink-0",
+      onClick: onBack,
+      /* The arrow is sized against the TITLE, not against the row — so
+         it steps down with it. `condensed` puts a `title16` where the
+         full header has a `title24`, and a 24px arrow beside 16px type
+         stops reading as the title's own control and starts reading as
+         a control that outgrew it. */
+      size: condensed ? "sm" : "md",
+      variant: "tertiary",
+      children: (0, import_jsx_runtime98.jsx)(ArrowLeft, { className: condensed ? void 0 : "!size-6" })
+    }) : null, (0, import_jsx_runtime98.jsx)(Typography, { element: "h1", textStyle: condensed ? "title16" : "title24", textColor: "primary", className: "truncate", children: title }), badge ? (0, import_jsx_runtime98.jsx)("span", { className: "ms-2 flex shrink-0 items-center", children: badge }) : null] }), actions ? (0, import_jsx_runtime98.jsx)("div", { className: "ms-auto flex items-center gap-3", children: actions }) : null] });
   }
 
   // dist/components/Pagination/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime99 = __toESM(require_react_shim(), 1);
-  var import_react61 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime106 = __toESM(require_react_shim(), 1);
+  var import_react63 = __toESM(require_react_shim(), 1);
 
   // dist/components/Pagination/EllipsisIndicator.js
   init_define_import_meta_env();
-  var import_jsx_runtime92 = __toESM(require_react_shim(), 1);
-  var EllipsisIndicator = () => (0, import_jsx_runtime92.jsx)("span", { "aria-hidden": true, className: "flex size-8 cursor-default items-center justify-center text-ink-inactive [&_svg]:size-4", children: (0, import_jsx_runtime92.jsx)(Ellipsis, {}) });
+  var import_jsx_runtime99 = __toESM(require_react_shim(), 1);
+  var EllipsisIndicator = () => (0, import_jsx_runtime99.jsx)("span", { "aria-hidden": true, className: "flex size-8 cursor-default items-center justify-center text-ink-inactive [&_svg]:size-4", children: (0, import_jsx_runtime99.jsx)(Ellipsis, {}) });
   EllipsisIndicator.displayName = "EllipsisIndicator";
 
   // dist/components/Pagination/FirstButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime94 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime101 = __toESM(require_react_shim(), 1);
 
   // dist/components/Pagination/NavButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime93 = __toESM(require_react_shim(), 1);
-  var NavButton = ({ isDisabled, label, children, onClick }) => (0, import_jsx_runtime93.jsx)(IconButton, { type: "button", variant: "secondary", size: "sm", rounded: "md", onClick, disabled: isDisabled, "aria-label": label, children });
+  var import_jsx_runtime100 = __toESM(require_react_shim(), 1);
+  var NavButton = ({ isDisabled, label, children, onClick }) => (0, import_jsx_runtime100.jsx)(IconButton, { type: "button", variant: "secondary", size: "sm", rounded: "md", onClick, disabled: isDisabled, "aria-label": label, children });
   NavButton.displayName = "NavButton";
 
   // dist/components/Pagination/FirstButton.js
-  var FirstButton = ({ onClick, isDisabled, label = "First page" }) => (0, import_jsx_runtime94.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime94.jsx)(ChevronsLeft, {}) });
+  var FirstButton = ({ onClick, isDisabled, label = "First page" }) => (0, import_jsx_runtime101.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime101.jsx)(ChevronsLeft, {}) });
   FirstButton.displayName = "FirstButton";
 
   // dist/components/Pagination/LastButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime95 = __toESM(require_react_shim(), 1);
-  var LastButton = ({ onClick, isDisabled, label = "Last page" }) => (0, import_jsx_runtime95.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime95.jsx)(ChevronsRight, {}) });
+  var import_jsx_runtime102 = __toESM(require_react_shim(), 1);
+  var LastButton = ({ onClick, isDisabled, label = "Last page" }) => (0, import_jsx_runtime102.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime102.jsx)(ChevronsRight, {}) });
   LastButton.displayName = "LastButton";
 
   // dist/components/Pagination/NextButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime96 = __toESM(require_react_shim(), 1);
-  var NextButton = ({ onClick, isDisabled, label = "Next page" }) => (0, import_jsx_runtime96.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime96.jsx)(ChevronRight, {}) });
+  var import_jsx_runtime103 = __toESM(require_react_shim(), 1);
+  var NextButton = ({ onClick, isDisabled, label = "Next page" }) => (0, import_jsx_runtime103.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime103.jsx)(ChevronRight, {}) });
   NextButton.displayName = "NextButton";
 
   // dist/components/Pagination/PageButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime97 = __toESM(require_react_shim(), 1);
-  var PageButton = ({ page, isActive, onClick }) => (0, import_jsx_runtime97.jsx)(Button, { type: "button", variant: isActive ? "primary" : "secondary", size: "sm", rounded: "md", onClick, "aria-current": isActive ? "page" : void 0, className: "size-8 px-0", children: page });
+  var import_jsx_runtime104 = __toESM(require_react_shim(), 1);
+  var PageButton = ({ page, isActive, onClick }) => (0, import_jsx_runtime104.jsx)(Button, { type: "button", variant: isActive ? "primary" : "secondary", size: "sm", rounded: "md", onClick, "aria-current": isActive ? "page" : void 0, className: "size-8 px-0", children: page });
   PageButton.displayName = "PageButton";
 
   // dist/components/Pagination/PrevButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime98 = __toESM(require_react_shim(), 1);
-  var PrevButton = ({ isDisabled, onClick, label = "Previous page" }) => (0, import_jsx_runtime98.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime98.jsx)(ChevronLeft, {}) });
+  var import_jsx_runtime105 = __toESM(require_react_shim(), 1);
+  var PrevButton = ({ isDisabled, onClick, label = "Previous page" }) => (0, import_jsx_runtime105.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime105.jsx)(ChevronLeft, {}) });
   PrevButton.displayName = "PrevButton";
 
   // dist/components/Pagination/utils.js
@@ -21099,8 +22030,8 @@ Defaulting to \`null\`.`;
   };
 
   // dist/components/Pagination/index.js
-  var Pagination = ({ currentPage, totalPages, onPageChange, siblingCount = 1, boundaryCount = 1, showFirstLast = true, showPrevNext = true, labels }) => {
-    const paginationRange = (0, import_react61.useMemo)(() => getPaginationRange({
+  var Pagination = ({ currentPage, totalPages, onPageChange, siblingCount = 1, boundaryCount = 1, showFirstLast = true, showPrevNext = true, showPageNumbers = true, labels }) => {
+    const paginationRange = (0, import_react63.useMemo)(() => getPaginationRange({
       currentPage,
       totalPages,
       siblingCount,
@@ -21108,30 +22039,37 @@ Defaulting to \`null\`.`;
     }), [currentPage, totalPages, siblingCount, boundaryCount]);
     const isFirstPage = currentPage === 1;
     const isLastPage = currentPage === totalPages;
-    return (0, import_jsx_runtime99.jsxs)("div", { className: "flex items-center gap-2", children: [showFirstLast && (0, import_jsx_runtime99.jsx)(FirstButton, { onClick: () => onPageChange(1), isDisabled: isFirstPage, label: labels?.first }), showPrevNext && (0, import_jsx_runtime99.jsx)(PrevButton, { onClick: () => onPageChange(currentPage - 1), isDisabled: isFirstPage, label: labels?.previous }), paginationRange.map((item) => isEllipsisItem(item) ? (0, import_jsx_runtime99.jsx)(EllipsisIndicator, {}, item) : (0, import_jsx_runtime99.jsx)(PageButton, { page: item, isActive: currentPage === item, onClick: () => onPageChange(item) }, item)), showPrevNext && (0, import_jsx_runtime99.jsx)(NextButton, { onClick: () => onPageChange(currentPage + 1), isDisabled: isLastPage, label: labels?.next }), showFirstLast && (0, import_jsx_runtime99.jsx)(LastButton, { onClick: () => onPageChange(totalPages), isDisabled: isLastPage, label: labels?.last })] });
+    return (0, import_jsx_runtime106.jsxs)("div", { className: "flex items-center gap-2", children: [showFirstLast && (0, import_jsx_runtime106.jsx)(FirstButton, { onClick: () => onPageChange(1), isDisabled: isFirstPage, label: labels?.first }), showPrevNext && (0, import_jsx_runtime106.jsx)(PrevButton, { onClick: () => onPageChange(currentPage - 1), isDisabled: isFirstPage, label: labels?.previous }), showPageNumbers && paginationRange.map((item) => isEllipsisItem(item) ? (0, import_jsx_runtime106.jsx)(EllipsisIndicator, {}, item) : (0, import_jsx_runtime106.jsx)(PageButton, { page: item, isActive: currentPage === item, onClick: () => onPageChange(item) }, item)), showPrevNext && (0, import_jsx_runtime106.jsx)(NextButton, { onClick: () => onPageChange(currentPage + 1), isDisabled: isLastPage, label: labels?.next }), showFirstLast && (0, import_jsx_runtime106.jsx)(LastButton, { onClick: () => onPageChange(totalPages), isDisabled: isLastPage, label: labels?.last })] });
   };
   Pagination.displayName = "Pagination";
 
   // dist/components/PasswordInput/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime100 = __toESM(require_react_shim(), 1);
-  var import_react62 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime107 = __toESM(require_react_shim(), 1);
+  var import_react64 = __toESM(require_react_shim(), 1);
+  var TOGGLE_SIZE_BY_FIELD_SIZE = {
+    xs: "xs",
+    sm: "sm",
+    md: "md",
+    lg: "lg",
+    xl: "xl"
+  };
   function PasswordInput({ className, ref, toggleHideLabel = "Hide password", toggleShowLabel = "Show password", inputGroupProps, toggleButtonProps, classNames, ...inputProps }) {
     const { size: size4, variant, isInvalid, errorText, label, inputId } = inputGroupProps || {};
     const { startAddonClassName, endAddonClassName, inputClassName } = classNames || {};
-    const [visible, setVisible] = (0, import_react62.useState)(false);
-    const onToggleVisible = (0, import_react62.useCallback)(() => setVisible((visible2) => !visible2), []);
-    return (0, import_jsx_runtime100.jsxs)(InputGroup, { className: cn("min-w-0", className), size: size4, variant, isInvalid, errorText, label, inputId, children: [(0, import_jsx_runtime100.jsx)(InputGroupAddon, { align: "inline-start", className: startAddonClassName, children: (0, import_jsx_runtime100.jsx)(Lock, { "aria-hidden": true, className: "!size-4 shrink-0" }) }), (0, import_jsx_runtime100.jsx)(InputGroupInput, { ref, ...inputProps, type: visible ? "text" : "password", className: inputClassName }), (0, import_jsx_runtime100.jsx)(InputGroupAddon, { align: "inline-end", className: endAddonClassName, children: (0, import_jsx_runtime100.jsx)(IconButton, { "aria-label": visible ? toggleHideLabel : toggleShowLabel, rounded: "sm", size: "sm", type: "button", variant: "transparent", ...toggleButtonProps, onClick: onToggleVisible, children: visible ? (0, import_jsx_runtime100.jsx)(EyeOff, { "aria-hidden": true, className: "!size-4" }) : (0, import_jsx_runtime100.jsx)(Eye, { "aria-hidden": true, className: "!size-4" }) }) })] });
+    const [visible, setVisible] = (0, import_react64.useState)(false);
+    const onToggleVisible = (0, import_react64.useCallback)(() => setVisible((visible2) => !visible2), []);
+    return (0, import_jsx_runtime107.jsxs)(InputGroup, { className: cn("min-w-0", className), size: size4, variant, isInvalid, errorText, label, inputId, children: [(0, import_jsx_runtime107.jsx)(InputGroupAddon, { align: "inline-start", className: startAddonClassName, children: (0, import_jsx_runtime107.jsx)(Lock, { "aria-hidden": true, className: "shrink-0" }) }), (0, import_jsx_runtime107.jsx)(InputGroupInput, { ref, ...inputProps, type: visible ? "text" : "password", className: inputClassName }), (0, import_jsx_runtime107.jsx)(InputGroupAddon, { align: "inline-end", className: endAddonClassName, children: (0, import_jsx_runtime107.jsx)(IconButton, { "aria-label": visible ? toggleHideLabel : toggleShowLabel, rounded: "sm", size: TOGGLE_SIZE_BY_FIELD_SIZE[size4 ?? "md"], type: "button", variant: "transparent", ...toggleButtonProps, onClick: onToggleVisible, children: visible ? (0, import_jsx_runtime107.jsx)(EyeOff, { "aria-hidden": true }) : (0, import_jsx_runtime107.jsx)(Eye, { "aria-hidden": true }) }) })] });
   }
 
   // dist/components/Popover/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime103 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime110 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-popover@1.1_ae9e7568a82c25f7d92fb22287e8659e/node_modules/@radix-ui/react-popover/dist/index.mjs
   init_define_import_meta_env();
   var React73 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime101 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime108 = __toESM(require_react_shim(), 1);
   var __defProp35 = Object.defineProperty;
   var __name34 = (target, value) => __defProp35(target, "name", { value, configurable: true });
   var POPOVER_NAME = "Popover";
@@ -21158,7 +22096,7 @@ Defaulting to \`null\`.`;
       onChange: onOpenChange,
       caller: POPOVER_NAME
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
       PopoverProvider,
       {
         scope: __scopePopover,
@@ -21186,7 +22124,7 @@ Defaulting to \`null\`.`;
         onCustomAnchorAdd();
         return () => onCustomAnchorRemove();
       }, [onCustomAnchorAdd, onCustomAnchorRemove]);
-      return /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(Anchor, { ...popperScope, ...anchorProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Anchor, { ...popperScope, ...anchorProps, ref: forwardedRef });
     }, "PopoverAnchor")
   );
   var TRIGGER_NAME8 = "PopoverTrigger";
@@ -21196,7 +22134,7 @@ Defaulting to \`null\`.`;
       const context = usePopoverContext(TRIGGER_NAME8, __scopePopover);
       const popperScope = usePopperScope3(__scopePopover);
       const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef);
-      const trigger = /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(
+      const trigger = /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -21209,7 +22147,7 @@ Defaulting to \`null\`.`;
           onClick: composeEventHandlers(props.onClick, context.onOpenToggle)
         }
       );
-      return context.hasCustomAnchor ? trigger : /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(Anchor, { asChild: true, ...popperScope, children: trigger });
+      return context.hasCustomAnchor ? trigger : /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Anchor, { asChild: true, ...popperScope, children: trigger });
     }, "PopoverTrigger")
   );
   var PORTAL_NAME4 = "PopoverPortal";
@@ -21219,7 +22157,7 @@ Defaulting to \`null\`.`;
   var PopoverPortal = /* @__PURE__ */ __name34((props) => {
     const { __scopePopover, forceMount, children, container } = props;
     const context = usePopoverContext(PORTAL_NAME4, __scopePopover);
-    return /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(PortalProvider4, { scope: __scopePopover, forceMount, children: /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(Portal, { asChild: true, container, children }) }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(PortalProvider4, { scope: __scopePopover, forceMount, children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Portal, { asChild: true, container, children }) }) });
   }, "PopoverPortal");
   var CONTENT_NAME8 = "PopoverContent";
   var PopoverContent = /* @__PURE__ */ React73.forwardRef(
@@ -21228,7 +22166,7 @@ Defaulting to \`null\`.`;
       const portalContext = usePortalContext4(CONTENT_NAME8, props.__scopePopover);
       const { forceMount = portalContext.forceMount, ...contentProps } = props;
       const context = usePopoverContext(CONTENT_NAME8, props.__scopePopover);
-      return /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(Presence, { present: forceMount || context.open, children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(PopoverContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(PopoverContentNonModal, { ...contentProps, ref: forwardedRef }) });
+      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Presence, { present: forceMount || context.open, children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(PopoverContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(PopoverContentNonModal, { ...contentProps, ref: forwardedRef }) });
     }, "PopoverContent")
   );
   var Slot4 = createSlot("PopoverContent.RemoveScroll");
@@ -21243,7 +22181,7 @@ Defaulting to \`null\`.`;
         const content = contentRef.current;
         if (content) return hideOthers(content);
       }, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(Combination_default, { as: Slot4, allowPinchZoom: true, children: /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Combination_default, { as: Slot4, allowPinchZoom: true, children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
         PopoverContentImpl,
         {
           ...props,
@@ -21279,7 +22217,7 @@ Defaulting to \`null\`.`;
       const context = usePopoverContext(CONTENT_NAME8, props.__scopePopover);
       const hasInteractedOutsideRef = React73.useRef(false);
       const hasPointerDownOutsideRef = React73.useRef(false);
-      return /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
         PopoverContentImpl,
         {
           ...props,
@@ -21332,7 +22270,7 @@ Defaulting to \`null\`.`;
       const context = usePopoverContext(CONTENT_NAME8, __scopePopover);
       const popperScope = usePopperScope3(__scopePopover);
       useFocusGuards();
-      return /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
         FocusScope,
         {
           asChild: true,
@@ -21340,7 +22278,7 @@ Defaulting to \`null\`.`;
           trapped: trapFocus,
           onMountAutoFocus: onOpenAutoFocus,
           onUnmountAutoFocus: onCloseAutoFocus,
-          children: /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
             DismissableLayer,
             {
               asChild: true,
@@ -21351,7 +22289,7 @@ Defaulting to \`null\`.`;
               onFocusOutside,
               onDismiss: () => context.onOpenChange(false),
               deferPointerDownOutside: true,
-              children: /* @__PURE__ */ (0, import_jsx_runtime101.jsx)(
+              children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
                 Content3,
                 {
                   "data-state": getState6(context.open),
@@ -21391,17 +22329,27 @@ Defaulting to \`null\`.`;
 
   // dist/components/Popover/PopoverContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime102 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime109 = __toESM(require_react_shim(), 1);
   var PopoverContent3 = ({ portalContainer, className, align = "center", sideOffset = 4, ref, ...props }) => {
     const container = usePortalContainer(portalContainer);
-    return (0, import_jsx_runtime102.jsx)(Portal5, { container, children: (0, import_jsx_runtime102.jsx)(Content25, { ref, align, sideOffset, className: cn(
+    return (0, import_jsx_runtime109.jsx)(Portal5, { container, children: (0, import_jsx_runtime109.jsx)(Content25, { ref, align, sideOffset, className: cn(
       "z-50 w-72 rounded-md border p-4 outline-none",
       "border-stroke bg-surface-page text-ink-primary",
       // Floating-surface elevation — theme-aware, unlike the stock shadows,
       // which are invisible against a dark card.
       "shadow-overlay-soft",
-      // Closed state
+      // Closed state.
+      //
+      // `fill-mode-forwards` is load-bearing, not polish. Radix keeps the
+      // panel mounted until the exit animation reports back, and the
+      // `exit` keyframe carries only a `to` frame: with the default
+      // `fill-mode: none` the panel snaps BACK to full opacity the instant
+      // the 150ms run ends and sits there, fully painted, until the
+      // unmount lands. Open a second popover in that window and two panels
+      // are on screen at once — one of them belonging to a row you have
+      // already left. `forwards` holds the faded-out end frame instead.
       "data-[state=closed]:animate-out",
+      "data-[state=closed]:fill-mode-forwards",
       "data-[state=closed]:fade-out-0",
       "data-[state=closed]:zoom-out-95",
       // Opened state
@@ -21422,28 +22370,28 @@ Defaulting to \`null\`.`;
   // dist/components/Popover/index.js
   var Popover2 = Root24;
   var PopoverAnchor3 = Anchor22;
-  var PopoverTrigger3 = ({ className, asChild, ...props }) => (0, import_jsx_runtime103.jsx)(Trigger5, { asChild, className: asChild ? className : cn(focusRing, className), ...props });
+  var PopoverTrigger3 = ({ className, asChild, ...props }) => (0, import_jsx_runtime110.jsx)(Trigger5, { asChild, className: asChild ? className : cn(focusRing, className), ...props });
   PopoverTrigger3.displayName = Trigger5.displayName;
 
   // dist/components/PortalContainer/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime104 = __toESM(require_react_shim(), 1);
-  var import_react63 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime111 = __toESM(require_react_shim(), 1);
+  var import_react65 = __toESM(require_react_shim(), 1);
   function PortalContainerProvider({ children, className }) {
-    const [container, setContainer] = (0, import_react63.useState)(null);
-    return (0, import_jsx_runtime104.jsx)("div", { className: cn("relative transform-gpu", className), ref: setContainer, children: (0, import_jsx_runtime104.jsx)(PortalContainerContext.Provider, { value: container, children }) });
+    const [container, setContainer] = (0, import_react65.useState)(null);
+    return (0, import_jsx_runtime111.jsx)("div", { className: cn("relative transform-gpu", className), ref: setContainer, children: (0, import_jsx_runtime111.jsx)(PortalContainerContext.Provider, { value: container, children }) });
   }
 
   // dist/components/RadioButton/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime106 = __toESM(require_react_shim(), 1);
-  var import_react64 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime113 = __toESM(require_react_shim(), 1);
+  var import_react66 = __toESM(require_react_shim(), 1);
 
   // dist/components/RadioButton/RadioGroup.js
   init_define_import_meta_env();
-  var import_jsx_runtime105 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime112 = __toESM(require_react_shim(), 1);
   var RadioGroup4 = ({ className, ...props }) => {
-    return (0, import_jsx_runtime105.jsx)(RadioGroup3, { className: cn("grid gap-2", className), ...props });
+    return (0, import_jsx_runtime112.jsx)(RadioGroup3, { className: cn("grid gap-2", className), ...props });
   };
   RadioGroup4.displayName = "RadioGroup";
 
@@ -21536,24 +22484,24 @@ Defaulting to \`null\`.`;
     }
   });
   var RadioButton = ({ id, className, variant, size: size4, label, labelPosition, gap, labelClassName, disabled, ...props }) => {
-    const generatedId = (0, import_react64.useId)();
+    const generatedId = (0, import_react66.useId)();
     const radioId = id ?? generatedId;
-    const radioElement = (0, import_jsx_runtime106.jsx)(RadioGroupItem, { id: radioId, disabled, className: cn(radioVariants({ variant, size: size4 }), !label && className), ...props, children: (0, import_jsx_runtime106.jsx)(RadioGroupIndicator, { className: cn(radioIndicatorVariants({ size: size4 })), children: (0, import_jsx_runtime106.jsx)(Circle, { className: "fill-current text-current" }) }) });
+    const radioElement = (0, import_jsx_runtime113.jsx)(RadioGroupItem, { id: radioId, disabled, className: cn(radioVariants({ variant, size: size4 }), !label && className), ...props, children: (0, import_jsx_runtime113.jsx)(RadioGroupIndicator, { className: cn(radioIndicatorVariants({ size: size4 })), children: (0, import_jsx_runtime113.jsx)(Circle, { className: "fill-current text-current" }) }) });
     if (!label) {
       return radioElement;
     }
-    return (0, import_jsx_runtime106.jsxs)("div", { className: cn(radioContainerVariants({ labelPosition, gap }), className), children: [radioElement, (0, import_jsx_runtime106.jsx)("label", { htmlFor: radioId, className: cn("font-medium text-ink-body text-sm", disabled ? "cursor-not-allowed opacity-disabled" : "cursor-pointer", labelClassName), children: label })] });
+    return (0, import_jsx_runtime113.jsxs)("div", { className: cn(radioContainerVariants({ labelPosition, gap }), className), children: [radioElement, (0, import_jsx_runtime113.jsx)("label", { htmlFor: radioId, className: cn("font-medium text-ink-body text-sm", disabled ? "cursor-not-allowed opacity-disabled" : "cursor-pointer", labelClassName), children: label })] });
   };
   RadioButton.displayName = "RadioButton";
 
   // dist/components/Resizable/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime108 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime115 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/react-resizable-panels@4.12_b08b154533ad610ac48f3061ea37aed7/node_modules/react-resizable-panels/dist/react-resizable-panels.js
   init_define_import_meta_env();
-  var import_jsx_runtime107 = __toESM(require_react_shim(), 1);
-  var import_react65 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime114 = __toESM(require_react_shim(), 1);
+  var import_react67 = __toESM(require_react_shim(), 1);
   function St(e, t) {
     const n = getComputedStyle(e), o = parseFloat(n.fontSize);
     return t * o;
@@ -23101,19 +24049,19 @@ Defaulting to \`null\`.`;
     };
   }
   function Kt() {
-    const [e, t] = (0, import_react65.useState)({}), n = (0, import_react65.useCallback)(() => t({}), []);
+    const [e, t] = (0, import_react67.useState)({}), n = (0, import_react67.useCallback)(() => t({}), []);
     return [e, n];
   }
   function Ce(e) {
-    const t = (0, import_react65.useId)();
+    const t = (0, import_react67.useId)();
     return `${e ?? t}`;
   }
-  var q = typeof window < "u" ? import_react65.useLayoutEffect : import_react65.useEffect;
+  var q = typeof window < "u" ? import_react67.useLayoutEffect : import_react67.useEffect;
   function re2(e) {
-    const t = (0, import_react65.useRef)(e);
+    const t = (0, import_react67.useRef)(e);
     return q(() => {
       t.current = e;
-    }, [e]), (0, import_react65.useCallback)(
+    }, [e]), (0, import_react67.useCallback)(
       (...n) => t.current?.(...n),
       [t]
     );
@@ -23136,19 +24084,19 @@ Defaulting to \`null\`.`;
     });
   }
   function Ee(e) {
-    const t = (0, import_react65.useRef)({ ...e });
+    const t = (0, import_react67.useRef)({ ...e });
     return q(() => {
       for (const n in e)
         t.current[n] = e[n];
     }, [e]), t.current;
   }
-  var ct = (0, import_react65.createContext)(null);
+  var ct = (0, import_react67.createContext)(null);
   function Xt(e, t) {
-    const n = (0, import_react65.useRef)({
+    const n = (0, import_react67.useRef)({
       getLayout: () => ({}),
       setLayout: Mt
     });
-    (0, import_react65.useImperativeHandle)(t, () => n.current, []), q(() => {
+    (0, import_react67.useImperativeHandle)(t, () => n.current, []), q(() => {
       Object.assign(
         n.current,
         lt({ groupId: e })
@@ -23174,7 +24122,7 @@ Defaulting to \`null\`.`;
     style: p,
     ...S
   }) {
-    const z = (0, import_react65.useRef)({
+    const z = (0, import_react67.useRef)({
       onLayoutChange: {},
       onLayoutChanged: {}
     }), f = re2((x) => {
@@ -23183,7 +24131,7 @@ Defaulting to \`null\`.`;
       (x, P) => {
         K(z.current.onLayoutChanged, x) || (z.current.onLayoutChanged = x, l?.(x, { isUserInteraction: P }));
       }
-    ), h = Ce(a), y = (0, import_react65.useRef)(null), [b, v] = Kt(), g = (0, import_react65.useRef)({
+    ), h = Ce(a), y = (0, import_react67.useRef)(null), [b, v] = Kt(), g = (0, import_react67.useRef)({
       lastExpandedPanelSizes: {},
       layouts: {},
       panels: [],
@@ -23217,7 +24165,7 @@ Defaulting to \`null\`.`;
     ), L = Ee({
       defaultLayout: n,
       disableCursor: o
-    }), G = (0, import_react65.useMemo)(
+    }), G = (0, import_react67.useMemo)(
       () => ({
         get disableCursor() {
           return !!L.disableCursor;
@@ -23269,7 +24217,7 @@ Defaulting to \`null\`.`;
         }
       }),
       [E, h, v, c, L]
-    ), N = (0, import_react65.useRef)(null);
+    ), N = (0, import_react67.useRef)(null);
     return q(() => {
       const x = y.current;
       if (x === null)
@@ -23335,10 +24283,10 @@ Defaulting to \`null\`.`;
       c,
       b,
       L
-    ]), (0, import_react65.useEffect)(() => {
+    ]), (0, import_react67.useEffect)(() => {
       const x = N.current;
       x && (x.mutableState.defaultLayout = n, x.mutableState.disableCursor = !!o);
-    }), /* @__PURE__ */ (0, import_jsx_runtime107.jsx)(ct.Provider, { value: G, children: /* @__PURE__ */ (0, import_jsx_runtime107.jsx)(
+    }), /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(ct.Provider, { value: G, children: /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
       "div",
       {
         ...S,
@@ -23367,14 +24315,14 @@ Defaulting to \`null\`.`;
   }
   qt.displayName = "Group";
   function Me() {
-    const e = (0, import_react65.useContext)(ct);
+    const e = (0, import_react67.useContext)(ct);
     return C(
       e,
       "Group Context not found; did you render a Panel or Separator outside of a Group?"
     ), e;
   }
   function Zt(e, t) {
-    const { id: n } = Me(), o = (0, import_react65.useRef)({
+    const { id: n } = Me(), o = (0, import_react67.useRef)({
       collapse: Se,
       expand: Se,
       getSize: () => ({
@@ -23384,7 +24332,7 @@ Defaulting to \`null\`.`;
       isCollapsed: () => false,
       resize: Se
     });
-    (0, import_react65.useImperativeHandle)(t, () => o.current, []), q(() => {
+    (0, import_react67.useImperativeHandle)(t, () => o.current, []), q(() => {
       Object.assign(
         o.current,
         at2({ groupId: n, panelId: e })
@@ -23410,7 +24358,7 @@ Defaulting to \`null\`.`;
   }) {
     const f = !!r2, d = Ce(r2), h = Ee({
       disabled: s
-    }), y = (0, import_react65.useRef)(null), b = Re(y, u), {
+    }), y = (0, import_react67.useRef)(null), b = Re(y, u), {
       getPanelStyles: v,
       id: g,
       orientation: w,
@@ -23458,14 +24406,14 @@ Defaulting to \`null\`.`;
       N,
       E,
       h
-    ]), (0, import_react65.useEffect)(() => {
+    ]), (0, import_react67.useEffect)(() => {
       L(d, { disabled: s });
     }, [s, d, L]), Zt(d, p);
     const x = () => {
       const R = v(g, d);
       if (R)
         return JSON.stringify(R);
-    }, P = (0, import_react65.useSyncExternalStore)(
+    }, P = (0, import_react67.useSyncExternalStore)(
       (R) => we(g, R),
       x,
       x
@@ -23475,7 +24423,7 @@ Defaulting to \`null\`.`;
       flexGrow: void 0,
       flexShrink: void 0,
       flexBasis: i
-    } : I = { flexGrow: 1 }, /* @__PURE__ */ (0, import_jsx_runtime107.jsx)(
+    } : I = { flexGrow: 1 }, /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
       "div",
       {
         ...z,
@@ -23492,7 +24440,7 @@ Defaulting to \`null\`.`;
           overflow: "visible",
           ...I
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime107.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
           "div",
           {
             className: t,
@@ -23579,7 +24527,7 @@ Defaulting to \`null\`.`;
     const r2 = Ce(s), l = Ee({
       disabled: n,
       disableDoubleClick: o
-    }), [c, m] = (0, import_react65.useState)({}), [p, S] = (0, import_react65.useState)("inactive"), [z, f] = (0, import_react65.useState)(false), d = (0, import_react65.useRef)(null), h = Re(d, i), {
+    }), [c, m] = (0, import_react67.useState)({}), [p, S] = (0, import_react67.useState)("inactive"), [z, f] = (0, import_react67.useState)(false), d = (0, import_react67.useRef)(null), h = Re(d, i), {
       disableCursor: y,
       id: b,
       orientation: v,
@@ -23625,7 +24573,7 @@ Defaulting to \`null\`.`;
           I(), R(), P();
         };
       }
-    }, [b, r2, g, l]), (0, import_react65.useEffect)(() => {
+    }, [b, r2, g, l]), (0, import_react67.useEffect)(() => {
       w(r2, { disabled: n, disableDoubleClick: o });
     }, [n, o, r2, w]);
     let L;
@@ -23642,7 +24590,7 @@ Defaulting to \`null\`.`;
         default:
           z ? G = "focus" : G = p;
       }
-    return /* @__PURE__ */ (0, import_jsx_runtime107.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
       "div",
       {
         ...a,
@@ -23678,21 +24626,21 @@ Defaulting to \`null\`.`;
   nn.displayName = "Separator";
 
   // dist/components/Resizable/index.js
-  var ResizablePanelGroup = ({ className, ...props }) => (0, import_jsx_runtime108.jsx)(qt, { className: cn("flex h-full w-full", className), ...props });
+  var ResizablePanelGroup = ({ className, ...props }) => (0, import_jsx_runtime115.jsx)(qt, { className: cn("flex h-full w-full", className), ...props });
   var ResizablePanel = Qt;
-  var ResizableHandle = ({ withHandle, className, ...props }) => (0, import_jsx_runtime108.jsx)(nn, { className: cn("relative flex w-px items-center justify-center bg-stroke", "after:absolute after:inset-y-0 after:-right-1 after:-left-1", "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-1", "[&[data-resize-handle-state=drag]]:bg-brand-secondary/50", "[&[data-resize-handle-state=hover]]:bg-brand-secondary/30", className), ...props, children: withHandle && (0, import_jsx_runtime108.jsx)("div", { className: "z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-stroke bg-stroke", children: (0, import_jsx_runtime108.jsx)(GripVertical, { className: "size-2.5" }) }) });
+  var ResizableHandle = ({ withHandle, className, ...props }) => (0, import_jsx_runtime115.jsx)(nn, { className: cn("relative flex w-px items-center justify-center bg-stroke", "after:absolute after:inset-y-0 after:-right-1 after:-left-1", "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-1", "[&[data-resize-handle-state=drag]]:bg-brand-secondary/50", "[&[data-resize-handle-state=hover]]:bg-brand-secondary/30", className), ...props, children: withHandle && (0, import_jsx_runtime115.jsx)("div", { className: "z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-stroke bg-stroke", children: (0, import_jsx_runtime115.jsx)(GripVertical, { className: "size-2.5" }) }) });
 
   // dist/components/SegmentedControl/index.js
   init_define_import_meta_env();
 
   // dist/components/SegmentedControl/SegmentedControl.js
   init_define_import_meta_env();
-  var import_jsx_runtime110 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime117 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-tabs@1.1.21_04c6baac77796ccddff1224aa92ba08b/node_modules/@radix-ui/react-tabs/dist/index.mjs
   init_define_import_meta_env();
   var React74 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime109 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime116 = __toESM(require_react_shim(), 1);
   var __defProp36 = Object.defineProperty;
   var __name35 = (target, value) => __defProp36(target, "name", { value, configurable: true });
   var TABS_NAME = "Tabs";
@@ -23721,7 +24669,7 @@ Defaulting to \`null\`.`;
         defaultProp: defaultValue ?? "",
         caller: TABS_NAME
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
         TabsProvider,
         {
           scope: __scopeTabs,
@@ -23731,7 +24679,7 @@ Defaulting to \`null\`.`;
           orientation,
           dir: direction,
           activationMode,
-          children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
             Primitive.div,
             {
               dir: direction,
@@ -23751,7 +24699,7 @@ Defaulting to \`null\`.`;
       const { __scopeTabs, loop = true, ...listProps } = props;
       const context = useTabsContext(TAB_LIST_NAME, __scopeTabs);
       const rovingFocusGroupScope = useRovingFocusGroupScope3(__scopeTabs);
-      return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
         Root4,
         {
           asChild: true,
@@ -23759,7 +24707,7 @@ Defaulting to \`null\`.`;
           orientation: context.orientation,
           dir: context.dir,
           loop,
-          children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
             Primitive.div,
             {
               role: "tablist",
@@ -23781,14 +24729,14 @@ Defaulting to \`null\`.`;
       const triggerId = makeTriggerId(context.baseId, value);
       const contentId = makeContentId(context.baseId, value);
       const isSelected = value === context.value;
-      return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
         Item2,
         {
           asChild: true,
           ...rovingFocusGroupScope,
           focusable: !disabled,
           active: isSelected,
-          children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
             Primitive.button,
             {
               type: "button",
@@ -23841,7 +24789,7 @@ Defaulting to \`null\`.`;
         const rAF = requestAnimationFrame(() => isMountAnimationPreventedRef.current = false);
         return () => cancelAnimationFrame(rAF);
       }, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Presence, { present: forceMount || isSelected, children: ({ present }) => /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Presence, { present: forceMount || isSelected, children: ({ present }) => /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
         Primitive.div,
         {
           "data-state": isSelected ? "active" : "inactive",
@@ -23876,14 +24824,14 @@ Defaulting to \`null\`.`;
   var Content4 = TabsContent;
 
   // dist/components/SegmentedControl/SegmentedControl.js
-  var import_react67 = __toESM(require_react_shim(), 1);
+  var import_react69 = __toESM(require_react_shim(), 1);
 
   // dist/components/SegmentedControl/SegmentedControlContext.js
   init_define_import_meta_env();
-  var import_react66 = __toESM(require_react_shim(), 1);
-  var SegmentedControlContext = (0, import_react66.createContext)(null);
+  var import_react68 = __toESM(require_react_shim(), 1);
+  var SegmentedControlContext = (0, import_react68.createContext)(null);
   var useSegmentedControl = () => {
-    const context = (0, import_react66.useContext)(SegmentedControlContext);
+    const context = (0, import_react68.useContext)(SegmentedControlContext);
     if (!context) {
       throw new Error("SegmentedControl components must be used within a SegmentedControl root");
     }
@@ -23892,14 +24840,14 @@ Defaulting to \`null\`.`;
 
   // dist/components/SegmentedControl/SegmentedControl.js
   var SegmentedControl = ({ size: size4 = "md", variant = "default", rounded = "md", className, ...props }) => {
-    const contextValue = (0, import_react67.useMemo)(() => ({ size: size4, variant, rounded }), [size4, variant, rounded]);
-    return (0, import_jsx_runtime110.jsx)(SegmentedControlContext.Provider, { value: contextValue, children: (0, import_jsx_runtime110.jsx)(Root25, { className, ...props }) });
+    const contextValue = (0, import_react69.useMemo)(() => ({ size: size4, variant, rounded }), [size4, variant, rounded]);
+    return (0, import_jsx_runtime117.jsx)(SegmentedControlContext.Provider, { value: contextValue, children: (0, import_jsx_runtime117.jsx)(Root25, { className, ...props }) });
   };
   SegmentedControl.displayName = "SegmentedControl";
 
   // dist/components/SegmentedControl/SegmentedControlContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime111 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime118 = __toESM(require_react_shim(), 1);
   var segmentedControlContentVariants = cva(cn("focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"), {
     variants: {
       size: {
@@ -23913,13 +24861,13 @@ Defaulting to \`null\`.`;
   });
   var SegmentedControlContent = ({ className, ref, ...props }) => {
     const { size: size4 } = useSegmentedControl();
-    return (0, import_jsx_runtime111.jsx)(Content4, { ref, className: cn(segmentedControlContentVariants({ size: size4 }), className), ...props });
+    return (0, import_jsx_runtime118.jsx)(Content4, { ref, className: cn(segmentedControlContentVariants({ size: size4 }), className), ...props });
   };
   SegmentedControlContent.displayName = Content4.displayName;
 
   // dist/components/SegmentedControl/SegmentedControlList.js
   init_define_import_meta_env();
-  var import_jsx_runtime112 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime119 = __toESM(require_react_shim(), 1);
   var segmentedControlListVariants = cva(cn("inline-flex items-center gap-1 p-0.5"), {
     variants: {
       variant: {
@@ -23941,13 +24889,13 @@ Defaulting to \`null\`.`;
   });
   var SegmentedControlList = ({ className, ref, ...props }) => {
     const { variant, rounded } = useSegmentedControl();
-    return (0, import_jsx_runtime112.jsx)(List, { ref, className: cn(segmentedControlListVariants({ variant, rounded }), className), ...props });
+    return (0, import_jsx_runtime119.jsx)(List, { ref, className: cn(segmentedControlListVariants({ variant, rounded }), className), ...props });
   };
   SegmentedControlList.displayName = List.displayName;
 
   // dist/components/SegmentedControl/SegmentedControlTrigger.js
   init_define_import_meta_env();
-  var import_jsx_runtime113 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime120 = __toESM(require_react_shim(), 1);
   var segmentedControlTriggerVariants = cva(cn(
     "inline-flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap",
     "font-medium text-ink-secondary",
@@ -23981,29 +24929,62 @@ Defaulting to \`null\`.`;
         lg: "rounded-md",
         xl: "rounded-lg",
         full: "rounded-full"
+      },
+      /**
+       * DRAFT. What the selected half MEANS, for a control whose two options
+       * are not equivalent.
+       *
+       * `neutral` is the default and the only one that existed: the selected
+       * half is a raised card-tone pill, and which half that is carries no
+       * meaning beyond "this one". Right for Read / Read & write, Light / Dark,
+       * Create / Edit — alternatives of the same kind.
+       *
+       * `positive` and `negative` are for a control that states a FACT with a
+       * consequence: included or excluded, allowed or blocked, on or off. A
+       * column of these is read down at a glance, and a neutral pill makes the
+       * reader parse the label on every row to find the exceptions; a green or
+       * red fill is read without parsing. The tone belongs to the TRIGGER, not
+       * to the control: only the option itself knows whether it is the
+       * permissive one.
+       *
+       * Unselected, both are the same neutral text as any other trigger. The
+       * colour is the answer, not the offer.
+       */
+      tone: {
+        neutral: "",
+        positive: cn(
+          // Theme-independent fills, like the destructive button: one green
+          // and one red in both themes, so there is no `dark:` pair to keep in
+          // step (and no stacked variant for the bundle to miss).
+          "data-[state=active]:bg-fb-green",
+          "data-[state=active]:text-content-on-solid",
+          "data-[state=active]:shadow-none"
+        ),
+        negative: cn("data-[state=active]:bg-fb-red", "data-[state=active]:text-content-on-solid", "data-[state=active]:shadow-none")
       }
     },
     defaultVariants: {
       size: "md",
-      rounded: "md"
+      rounded: "md",
+      tone: "neutral"
     }
   });
-  var SegmentedControlTrigger = ({ className, ref, ...props }) => {
+  var SegmentedControlTrigger = ({ className, tone, ref, ...props }) => {
     const { size: size4, rounded } = useSegmentedControl();
-    return (0, import_jsx_runtime113.jsx)(Trigger6, { ref, className: cn(segmentedControlTriggerVariants({ size: size4, rounded }), className), ...props });
+    return (0, import_jsx_runtime120.jsx)(Trigger6, { ref, className: cn(segmentedControlTriggerVariants({ size: size4, rounded, tone }), className), ...props });
   };
   SegmentedControlTrigger.displayName = Trigger6.displayName;
 
   // dist/components/Sheet/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime114 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime121 = __toESM(require_react_shim(), 1);
   var DEFAULT_CLOSE_LABEL2 = "Close";
   var Sheet = Dialog;
   var SheetTrigger = DialogTrigger;
   var SheetClose = DialogClose;
   var SheetPortal = DialogPortal;
   function SheetOverlay({ className, ref, ...props }) {
-    return (0, import_jsx_runtime114.jsx)(DialogOverlay, { "data-modal-overlay": "", className: cn(
+    return (0, import_jsx_runtime121.jsx)(DialogOverlay, { "data-modal-overlay": "", className: cn(
       "fixed inset-0 z-50",
       "bg-overlay-scrim",
       // Closed state
@@ -24070,16 +25051,16 @@ Defaulting to \`null\`.`;
   });
   function SheetContent({ side = "right", className, children, ref, isCloseButtonVisible = true, sheetOverlayClassName, closeButtonProps, ...props }) {
     const { className: closeButtonClassName, "aria-label": closeLabel = DEFAULT_CLOSE_LABEL2, ...restCloseButtonProps } = closeButtonProps ?? {};
-    return (0, import_jsx_runtime114.jsxs)(SheetPortal, { children: [(0, import_jsx_runtime114.jsx)(SheetOverlay, { className: sheetOverlayClassName }), (0, import_jsx_runtime114.jsxs)(DialogContent, { ref, "aria-describedby": void 0, className: cn(sheetVariants({ side }), className), ...props, children: [children, (0, import_jsx_runtime114.jsx)(DialogTitleFallback, { children: props["aria-label"] }), isCloseButtonVisible && // The close control is an IconButton `tertiary` at the 24px
+    return (0, import_jsx_runtime121.jsxs)(SheetPortal, { children: [(0, import_jsx_runtime121.jsx)(SheetOverlay, { className: sheetOverlayClassName }), (0, import_jsx_runtime121.jsxs)(DialogContent, { ref, "aria-describedby": void 0, className: cn(sheetVariants({ side }), className), ...props, children: [children, (0, import_jsx_runtime121.jsx)(DialogTitleFallback, { children: props["aria-label"] }), isCloseButtonVisible && // The close control is an IconButton `tertiary` at the 24px
     // row-action size — hover, pressed and the focus ring are all
     // inherited from that variant; the Sheet adds no bespoke styling.
-    (0, import_jsx_runtime114.jsx)(DialogClose, { ...restCloseButtonProps, asChild: true, children: (0, import_jsx_runtime114.jsx)(IconButton, { variant: "tertiary", size: "2xs", className: cn("absolute top-5 right-4", closeButtonClassName), "aria-label": closeLabel, children: (0, import_jsx_runtime114.jsx)(X, {}) }) })] })] });
+    (0, import_jsx_runtime121.jsx)(DialogClose, { ...restCloseButtonProps, asChild: true, children: (0, import_jsx_runtime121.jsx)(IconButton, { variant: "tertiary", size: "2xs", className: cn("absolute top-5 right-4", closeButtonClassName), "aria-label": closeLabel, children: (0, import_jsx_runtime121.jsx)(X, {}) }) })] })] });
   }
   function SheetHeader({ className, ...props }) {
-    return (0, import_jsx_runtime114.jsx)("div", { className: cn("flex flex-col space-y-2 text-center sm:text-left", className), ...props });
+    return (0, import_jsx_runtime121.jsx)("div", { className: cn("flex flex-col space-y-2 text-center sm:text-left", className), ...props });
   }
   function SheetTitle({ className, ref, ...props }) {
-    return (0, import_jsx_runtime114.jsx)(DialogTitle, {
+    return (0, import_jsx_runtime121.jsx)(DialogTitle, {
       ref,
       // Title/16 — the drawer heading sits one step below a modal title.
       className: cn("font-semibold text-base text-ink-primary", className),
@@ -24087,59 +25068,91 @@ Defaulting to \`null\`.`;
     });
   }
   function SheetDescription({ className, ref, ...props }) {
-    return (0, import_jsx_runtime114.jsx)(DialogDescription, { ref, className: cn("text-ink-secondary text-sm", className), ...props });
+    return (0, import_jsx_runtime121.jsx)(DialogDescription, { ref, className: cn("text-ink-secondary text-sm", className), ...props });
   }
   function SheetBody({ className, ...props }) {
-    return (0, import_jsx_runtime114.jsx)("div", { className: cn("flex min-h-0 flex-1 flex-col overflow-y-auto", className), ...props });
+    return (0, import_jsx_runtime121.jsx)("div", { className: cn("flex min-h-0 flex-1 flex-col overflow-y-auto", className), ...props });
   }
   function SheetFooter({ className, ...props }) {
-    return (0, import_jsx_runtime114.jsx)("div", { className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className), ...props });
+    return (0, import_jsx_runtime121.jsx)("div", { className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className), ...props });
   }
 
   // dist/components/Sidebar/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime130 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime137 = __toESM(require_react_shim(), 1);
+
+  // dist/components/Sidebar/SidebarBrand.js
+  init_define_import_meta_env();
+  var import_jsx_runtime122 = __toESM(require_react_shim(), 1);
+  function SidebarBrand({ className, ref, ...props }) {
+    return (0, import_jsx_runtime122.jsx)("div", { ref, "data-sidebar": "brand", className: cn(
+      "flex h-8 min-w-0 items-center justify-between gap-2",
+      // Collapsed to icons the row is 32px wide, and a 20px mark, a name and a
+      // 24px control cannot share that. What survives is the TRAILING control,
+      // centred: in that state it is the one thing the row is for — the way
+      // back out of the collapsed sidebar. The mark and the name go with the
+      // width they needed, the same way `SidebarMenuButton` drops its label
+      // and keeps its icon.
+      "group-data-[collapsible=icon]:justify-center",
+      "group-data-[collapsible=icon]:[&>*:first-child]:hidden",
+      className
+    ), ...props });
+  }
 
   // dist/components/Sidebar/SidebarContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime115 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime123 = __toESM(require_react_shim(), 1);
   function SidebarContent({ className, ref, ...props }) {
-    return (0, import_jsx_runtime115.jsx)("div", { ref, "data-sidebar": "content", className: cn("flex min-h-0 flex-1 flex-col gap-2", "overflow-auto", "group-data-[collapsible=icon]:overflow-hidden", className), ...props });
+    return (0, import_jsx_runtime123.jsx)("div", { ref, "data-sidebar": "content", className: cn(
+      // `px-2` is the nav column's own gutter, and without it the rail has
+      // none: nothing between the sidebar edge and a row button supplies one,
+      // so the icons sat on 8 while the brand mark sits on 16. With it the
+      // row fill starts 8 from the edge and the glyph lands on 16, which is
+      // what the product renders.
+      "flex min-h-0 flex-1 flex-col gap-2 px-2 pb-4",
+      "overflow-auto",
+      // `.sbx-chats` in the kit: the rail scrolls and shows no bar.
+      "scrollbar-none",
+      "group-data-[collapsible=icon]:overflow-hidden",
+      className
+    ), ...props });
   }
 
   // dist/components/Sidebar/SidebarFooter.js
   init_define_import_meta_env();
-  var import_jsx_runtime116 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime124 = __toESM(require_react_shim(), 1);
   function SidebarFooter({ className, ref, ...props }) {
-    return (0, import_jsx_runtime116.jsx)("div", { ref, "data-sidebar": "footer", className: cn("relative mt-auto flex flex-col gap-2 border-stroke border-t p-2", className), ...props });
+    return (0, import_jsx_runtime124.jsx)("div", { ref, "data-sidebar": "footer", className: cn("relative mt-auto flex flex-col gap-2 border-stroke border-t p-2", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarGroup.js
   init_define_import_meta_env();
-  var import_jsx_runtime117 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime125 = __toESM(require_react_shim(), 1);
   function SidebarGroup({ className, ref, ...props }) {
-    return (0, import_jsx_runtime117.jsx)("div", { ref, "data-sidebar": "group", className: cn("relative flex w-full min-w-0 flex-col", className), ...props });
-  }
-
-  // dist/components/Sidebar/SidebarBrand.js
-  init_define_import_meta_env();
-  var import_jsx_runtime118 = __toESM(require_react_shim(), 1);
-  function SidebarBrand({ className, ref, ...props }) {
-    return (0, import_jsx_runtime118.jsx)("div", { ref, "data-sidebar": "brand", className: cn("flex h-8 min-w-0 items-center justify-between gap-2 ps-4 pe-2", className), ...props });
+    return (0, import_jsx_runtime125.jsx)("div", { ref, "data-sidebar": "group", className: cn("relative flex w-full min-w-0 flex-col", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarHeader.js
   init_define_import_meta_env();
-  var import_jsx_runtime119 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime126 = __toESM(require_react_shim(), 1);
   function SidebarHeader({ className, ref, ...props }) {
-    return (0, import_jsx_runtime119.jsx)("div", { ref, "data-sidebar": "header", className: cn("flex flex-col gap-0 pt-3 pb-2", className), ...props });
+    return (0, import_jsx_runtime126.jsx)("div", { ref, "data-sidebar": "header", className: cn(
+      "flex flex-col gap-0 ps-4 pe-2 pt-3 pb-2 empty:pb-0",
+      // Collapsed the rail is 48px and the asymmetric inset stops being an
+      // inset: 16/8 puts the surviving control's centre on 28 while every nav
+      // glyph below it centres on 24, so the top of the rail leans 4px right
+      // of the column it heads. Symmetric 8/8 is the same gutter the nav
+      // column uses, so the two line up.
+      "group-data-[collapsible=icon]:px-2",
+      className
+    ), ...props });
   }
 
   // dist/components/Sidebar/SidebarInset.js
   init_define_import_meta_env();
-  var import_jsx_runtime120 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime127 = __toESM(require_react_shim(), 1);
   function SidebarInset({ className, ref, ...props }) {
-    return (0, import_jsx_runtime120.jsx)("main", { ref, className: cn(
+    return (0, import_jsx_runtime127.jsx)("main", { ref, className: cn(
       "relative flex min-h-svh flex-1 flex-col",
       "bg-surface-page",
       "overflow-hidden",
@@ -24157,22 +25170,22 @@ Defaulting to \`null\`.`;
 
   // dist/components/Sidebar/SidebarMenu.js
   init_define_import_meta_env();
-  var import_jsx_runtime121 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime128 = __toESM(require_react_shim(), 1);
   function SidebarMenu({ className, ref, ...props }) {
-    return (0, import_jsx_runtime121.jsx)("ul", { ref, "data-sidebar": "menu", className: cn("flex w-full min-w-0 flex-col gap-1", className), ...props });
+    return (0, import_jsx_runtime128.jsx)("ul", { ref, "data-sidebar": "menu", className: cn("flex w-full min-w-0 flex-col gap-0.5", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarMenuButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime123 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime130 = __toESM(require_react_shim(), 1);
 
   // dist/components/Sidebar/SidebarProvider.js
   init_define_import_meta_env();
-  var import_jsx_runtime122 = __toESM(require_react_shim(), 1);
-  var import_react68 = __toESM(require_react_shim(), 1);
-  var SidebarContext = (0, import_react68.createContext)(null);
+  var import_jsx_runtime129 = __toESM(require_react_shim(), 1);
+  var import_react70 = __toESM(require_react_shim(), 1);
+  var SidebarContext = (0, import_react70.createContext)(null);
   function useSidebar() {
-    const context = (0, import_react68.useContext)(SidebarContext);
+    const context = (0, import_react70.useContext)(SidebarContext);
     if (!context) {
       throw new Error("useSidebar must be used within a SidebarProvider.");
     }
@@ -24180,10 +25193,10 @@ Defaulting to \`null\`.`;
   }
   function SidebarProvider({ defaultOpen = true, open: openProp, onOpenChange: setOpenProp, sheetBreakpoint = BREAKPOINTS.lg, className, style, children, ref, ...props }) {
     const isMobile = useMaxWidth(sheetBreakpoint);
-    const [openMobile, setOpenMobile] = (0, import_react68.useState)(false);
-    const [_open, _setOpen] = (0, import_react68.useState)(defaultOpen);
+    const [openMobile, setOpenMobile] = (0, import_react70.useState)(false);
+    const [_open, _setOpen] = (0, import_react70.useState)(defaultOpen);
     const open = openProp ?? _open;
-    const setOpen = (0, import_react68.useCallback)((value) => {
+    const setOpen = (0, import_react70.useCallback)((value) => {
       const openState = typeof value === "function" ? value(open) : value;
       if (setOpenProp) {
         setOpenProp(openState);
@@ -24191,11 +25204,11 @@ Defaulting to \`null\`.`;
         _setOpen(openState);
       }
     }, [setOpenProp, open]);
-    const toggleSidebar = (0, import_react68.useCallback)(() => {
+    const toggleSidebar = (0, import_react70.useCallback)(() => {
       return isMobile ? setOpenMobile((open2) => !open2) : setOpen((open2) => !open2);
     }, [isMobile, setOpen]);
     const state = open ? "expanded" : "collapsed";
-    const contextValue = (0, import_react68.useMemo)(() => ({
+    const contextValue = (0, import_react70.useMemo)(() => ({
       state,
       open,
       isMobile,
@@ -24204,13 +25217,30 @@ Defaulting to \`null\`.`;
       setOpenMobile,
       toggleSidebar
     }), [state, open, isMobile, openMobile, setOpen, toggleSidebar]);
-    return (0, import_jsx_runtime122.jsx)(SidebarContext.Provider, { value: contextValue, children: (0, import_jsx_runtime122.jsx)(TooltipProvider2, { delayDuration: 500, children: (0, import_jsx_runtime122.jsx)("div", { style, className: cn("group/sidebar-wrapper flex min-h-svh w-full", "has-[[data-variant=inset]]:bg-surface-card", className), ref, ...props, children }) }) });
+    return (0, import_jsx_runtime129.jsx)(SidebarContext.Provider, { value: contextValue, children: (0, import_jsx_runtime129.jsx)(TooltipProvider2, { children: (0, import_jsx_runtime129.jsx)("div", { style, className: cn("group/sidebar-wrapper flex min-h-svh w-full", "has-[[data-variant=inset]]:bg-surface-card", className), ref, ...props, children }) }) });
   }
 
   // dist/components/Sidebar/SidebarMenuButton.js
   var sidebarMenuButtonVariants = cva(cn(
     "peer/menu-button",
     "group-data-[collapsible=icon]:!size-8 rounded-md",
+    // Collapsed, the button is forced to 32x32 — so its own horizontal padding
+    // has to go, or the usable box shrinks to 16px and anything wider than a
+    // 16px icon is clipped by the `overflow-hidden` below. A 28px avatar in the
+    // footer lost its right edge exactly this way. Centring replaces the
+    // alignment the padding used to provide.
+    "group-data-[collapsible=icon]:!px-0",
+    "group-data-[collapsible=icon]:justify-center",
+    // …and the label has to go with it, or centring is a no-op: the row stays
+    // "icon + text", overflows its 32px box, and the icon ends up pinned to the
+    // left edge instead of the 24px column. The collapsed rail shows the label
+    // through the tooltip, so hiding it costs nothing.
+    //
+    // `> span:last-child` deliberately — the same selector the truncate rule
+    // below already uses. A nav row is `icon, span`, so the label matches; the
+    // footer row is `avatar, span, chevron`, where the span is NOT the last
+    // child, so an avatar-led row is left alone instead of being blanked.
+    "group-data-[collapsible=icon]:[&>span:last-child]:hidden",
     "flex w-full items-center gap-2",
     "text-left font-medium text-sm",
     "overflow-hidden",
@@ -24283,32 +25313,32 @@ Defaulting to \`null\`.`;
   function SidebarMenuButton({ asChild = false, isActive = false, variant = "default", size: size4 = "default", tooltip, className, ref, ...props }) {
     const Comp = asChild ? Slot : "button";
     const { isMobile, state } = useSidebar();
-    const button = (0, import_jsx_runtime123.jsx)(Comp, { ref, "data-sidebar": "menu-button", "data-size": size4, "data-active": isActive, className: cn(sidebarMenuButtonVariants({ variant, size: size4 }), className), ...props });
+    const button = (0, import_jsx_runtime130.jsx)(Comp, { ref, "data-sidebar": "menu-button", "data-size": size4, "data-active": isActive, className: cn(sidebarMenuButtonVariants({ variant, size: size4 }), className), ...props });
     if (!tooltip) {
       return button;
     }
-    return (0, import_jsx_runtime123.jsxs)(Tooltip, { children: [(0, import_jsx_runtime123.jsx)(TooltipTrigger, { asChild: true, children: button }), (0, import_jsx_runtime123.jsx)(TooltipContent, { side: "right", align: "center", hidden: state !== "collapsed" || isMobile, ...tooltip })] });
+    return (0, import_jsx_runtime130.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime130.jsx)(TooltipTrigger3, { asChild: true, children: button }), (0, import_jsx_runtime130.jsx)(TooltipContent3, { side: "right", align: "center", hidden: state !== "collapsed" || isMobile, ...tooltip })] });
   }
 
   // dist/components/Sidebar/SidebarMenuItem.js
   init_define_import_meta_env();
-  var import_jsx_runtime124 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime131 = __toESM(require_react_shim(), 1);
   function SidebarMenuItem({ className, ref, ...props }) {
-    return (0, import_jsx_runtime124.jsx)("li", { ref, "data-sidebar": "menu-item", className: cn("group/menu-item relative", className), ...props });
+    return (0, import_jsx_runtime131.jsx)("li", { ref, "data-sidebar": "menu-item", className: cn("group/menu-item relative", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarMenuSub.js
   init_define_import_meta_env();
-  var import_jsx_runtime125 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime132 = __toESM(require_react_shim(), 1);
   function SidebarMenuSub({ className, ref, ...props }) {
-    return (0, import_jsx_runtime125.jsx)("ul", { ref, "data-sidebar": "menu-sub", className: cn("mt-1 flex min-w-0 flex-col gap-1", "ms-6 px-2.5 py-0 ps-2", "border-stroke border-l", "translate-x-px", "group-data-[collapsible=icon]:hidden", className), ...props });
+    return (0, import_jsx_runtime132.jsx)("ul", { ref, "data-sidebar": "menu-sub", className: cn("mt-1 flex min-w-0 flex-col gap-1", "ms-6 px-2.5 py-0 ps-2", "border-stroke border-l", "translate-x-px", "group-data-[collapsible=icon]:hidden", className), ...props });
   }
   function SidebarMenuSubItem({ ref, ...props }) {
-    return (0, import_jsx_runtime125.jsx)("li", { ref, ...props });
+    return (0, import_jsx_runtime132.jsx)("li", { ref, ...props });
   }
   function SidebarMenuSubButton({ asChild = false, size: size4 = "md", isActive, className, ref, ...props }) {
     const Comp = asChild ? Slot : "a";
-    return (0, import_jsx_runtime125.jsx)(Comp, { ref, "data-sidebar": "menu-sub-button", "data-size": size4, "data-active": isActive, className: cn(
+    return (0, import_jsx_runtime132.jsx)(Comp, { ref, "data-sidebar": "menu-sub-button", "data-size": size4, "data-active": isActive, className: cn(
       "flex h-7 min-w-0 items-center gap-2 rounded-md px-2",
       "-translate-x-px overflow-hidden",
       // Kit chat row: 13px Text/Secondary, no brand ink in any state.
@@ -24337,25 +25367,25 @@ Defaulting to \`null\`.`;
 
   // dist/components/Sidebar/SidebarNavigationItems.js
   init_define_import_meta_env();
-  var import_jsx_runtime127 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime134 = __toESM(require_react_shim(), 1);
 
   // dist/components/TruncatedTitleTooltip/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime126 = __toESM(require_react_shim(), 1);
-  var import_react69 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime133 = __toESM(require_react_shim(), 1);
+  var import_react71 = __toESM(require_react_shim(), 1);
   var defaultGetTarget = (trigger) => trigger.querySelector(":scope > span:last-child");
   var isOverflowing = (node) => Boolean(node && node.scrollWidth > node.clientWidth);
   function TruncatedTitleTooltip({ title, children, getTruncationTarget = defaultGetTarget, side = "top", className }) {
-    const [isTruncated, setIsTruncated] = (0, import_react69.useState)(false);
-    const wrapperRef = (0, import_react69.useRef)(null);
-    const measure = (0, import_react69.useCallback)(() => {
+    const [isTruncated, setIsTruncated] = (0, import_react71.useState)(false);
+    const wrapperRef = (0, import_react71.useRef)(null);
+    const measure = (0, import_react71.useCallback)(() => {
       const trigger = wrapperRef.current?.firstElementChild;
       if (!trigger)
         return;
       const target = getTruncationTarget(trigger) ?? trigger;
       setIsTruncated(isOverflowing(target));
     }, [getTruncationTarget]);
-    return (0, import_jsx_runtime126.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime126.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime126.jsx)("span", { ref: wrapperRef, className: "flex w-full min-w-0", onPointerEnter: measure, onFocus: measure, children }) }), (0, import_jsx_runtime126.jsx)(Portal4, { children: (0, import_jsx_runtime126.jsx)(TooltipContent3, {
+    return (0, import_jsx_runtime133.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime133.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime133.jsx)("span", { ref: wrapperRef, className: "flex w-full min-w-0", onPointerEnter: measure, onFocus: measure, children }) }), (0, import_jsx_runtime133.jsx)(Portal4, { children: (0, import_jsx_runtime133.jsx)(TooltipContent3, {
       side,
       align: "center",
       hidden: !isTruncated,
@@ -24388,21 +25418,21 @@ Defaulting to \`null\`.`;
       if (renderLink) {
         return renderLink(item, options2);
       }
-      return (0, import_jsx_runtime127.jsxs)("a", { href: item.url, children: [item.icon && (0, import_jsx_runtime127.jsx)(item.icon, {}), (0, import_jsx_runtime127.jsx)("span", { className: "font-medium", children: item.title })] });
+      return (0, import_jsx_runtime134.jsxs)("a", { href: item.url, children: [item.icon && (0, import_jsx_runtime134.jsx)(item.icon, {}), (0, import_jsx_runtime134.jsx)("span", { className: "font-medium", children: item.title })] });
     };
     const renderViewAllLink = (item) => {
       if (renderLink) {
         return renderLink(item, {
           className: "flex items-center gap-0.5",
           onClick: stopMenuButtonPropagation,
-          trailingChildren: (0, import_jsx_runtime127.jsx)(ChevronRight, { className: "size-4 shrink-0" })
+          trailingChildren: (0, import_jsx_runtime134.jsx)(ChevronRight, { className: "size-4 shrink-0" })
         });
       }
-      return (0, import_jsx_runtime127.jsxs)("a", { href: item.url, className: "flex items-center gap-0.5", onClick: stopMenuButtonPropagation, children: [(0, import_jsx_runtime127.jsx)("span", { className: "font-medium", children: item.title }), (0, import_jsx_runtime127.jsx)(ChevronRight, { className: "size-4 shrink-0" })] });
+      return (0, import_jsx_runtime134.jsxs)("a", { href: item.url, className: "flex items-center gap-0.5", onClick: stopMenuButtonPropagation, children: [(0, import_jsx_runtime134.jsx)("span", { className: "font-medium", children: item.title }), (0, import_jsx_runtime134.jsx)(ChevronRight, { className: "size-4 shrink-0" })] });
     };
     const renderItem = (item) => {
       if (isNavigationItem(item)) {
-        return (0, import_jsx_runtime127.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime127.jsx)(SidebarMenuButton, { asChild: true, className: menuButtonClassName, children: renderItemLink(item) }) }, item.id ?? item.title);
+        return (0, import_jsx_runtime134.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime134.jsx)(SidebarMenuButton, { asChild: true, className: menuButtonClassName, tooltip: { children: item.title }, children: renderItemLink(item) }) }, item.id ?? item.title);
       }
       if (isNavigationGroup(item)) {
         const Icon2 = item.icon;
@@ -24415,15 +25445,15 @@ Defaulting to \`null\`.`;
               icon: item.icon,
               title: item.title
             };
-            return (0, import_jsx_runtime127.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime127.jsx)(SidebarMenuButton, { asChild: true, isActive: item.isActive, className: menuButtonClassName, children: renderItemLink(viewAllAsItem, { controlledActive: true }) }) }, collapsedKey);
+            return (0, import_jsx_runtime134.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime134.jsx)(SidebarMenuButton, { asChild: true, isActive: item.isActive, className: menuButtonClassName, tooltip: { children: item.title }, children: renderItemLink(viewAllAsItem, { controlledActive: true }) }) }, collapsedKey);
           }
-          return (0, import_jsx_runtime127.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime127.jsxs)(SidebarMenuButton, { isActive: item.isActive, className: menuButtonClassName, children: [Icon2 && (0, import_jsx_runtime127.jsx)(Icon2, {}), (0, import_jsx_runtime127.jsx)("span", { className: "font-medium", children: item.title })] }) }, collapsedKey);
+          return (0, import_jsx_runtime134.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime134.jsxs)(SidebarMenuButton, { isActive: item.isActive, className: menuButtonClassName, tooltip: { children: item.title }, children: [Icon2 && (0, import_jsx_runtime134.jsx)(Icon2, {}), (0, import_jsx_runtime134.jsx)("span", { className: "font-medium", children: item.title })] }) }, collapsedKey);
         }
         return (
           // Key includes isEmpty so Collapsible remounts when items first arrive,
           // resetting defaultOpen to true. Without this the group starts collapsed
           // even after conversations are fetched.
-          (0, import_jsx_runtime127.jsx)(Collapsible3, { asChild: true, defaultOpen: item.defaultOpen ?? !isEmpty, className: "group/collapsible", children: (0, import_jsx_runtime127.jsxs)(SidebarMenuItem, { children: [(0, import_jsx_runtime127.jsxs)("div", { className: "group/trigger-row relative", children: [(0, import_jsx_runtime127.jsx)(CollapsibleTrigger3, { asChild: true, children: (0, import_jsx_runtime127.jsxs)(SidebarMenuButton, { isActive: item.isActive, className: cn("group/collapsible-trigger !pe-0", menuButtonClassName), children: [Icon2 && (0, import_jsx_runtime127.jsx)(Icon2, {}), (0, import_jsx_runtime127.jsx)("span", { className: "font-medium", children: item.title }), (0, import_jsx_runtime127.jsx)(ChevronRight, { className: "opacity-0 transition-transform duration-base group-hover/trigger-row:opacity-100 group-data-[state=open]/collapsible:rotate-90" })] }) }), item.viewAll && (0, import_jsx_runtime127.jsx)(SidebarMenuButton, { asChild: true, "data-sidebar": "menu-action", className: cn(
+          (0, import_jsx_runtime134.jsx)(Collapsible3, { asChild: true, defaultOpen: item.defaultOpen ?? !isEmpty, className: "group/collapsible", children: (0, import_jsx_runtime134.jsxs)(SidebarMenuItem, { children: [(0, import_jsx_runtime134.jsxs)("div", { className: "group/trigger-row relative", children: [(0, import_jsx_runtime134.jsx)(CollapsibleTrigger3, { asChild: true, children: (0, import_jsx_runtime134.jsxs)(SidebarMenuButton, { isActive: item.isActive, className: cn("group/collapsible-trigger !pe-0", menuButtonClassName), children: [Icon2 && (0, import_jsx_runtime134.jsx)(Icon2, {}), (0, import_jsx_runtime134.jsx)("span", { className: "font-medium", children: item.title }), (0, import_jsx_runtime134.jsx)(ChevronRight, { className: "opacity-0 transition-transform duration-base group-hover/trigger-row:opacity-100 group-data-[state=open]/collapsible:rotate-90" })] }) }), item.viewAll && (0, import_jsx_runtime134.jsx)(SidebarMenuButton, { asChild: true, "data-sidebar": "menu-action", className: cn(
             "!bg-transparent",
             "absolute end-0 top-1/2 -translate-y-1/2",
             "h-4 w-fit gap-0.5 p-0 text-sm",
@@ -24431,55 +25461,107 @@ Defaulting to \`null\`.`;
             "!text-brand-primary hover:!text-brand-hover",
             "opacity-0 transition-opacity duration-base",
             "group-hover/trigger-row:opacity-100"
-          ), children: renderViewAllLink(item.viewAll) })] }), (0, import_jsx_runtime127.jsx)(CollapsibleContent3, { children: (0, import_jsx_runtime127.jsx)(SidebarMenuSub, { children: isEmpty && item.emptyMessage ? (0, import_jsx_runtime127.jsx)(SidebarMenuSubItem, { className: "flex items-center py-1", children: (0, import_jsx_runtime127.jsx)("span", { className: "ps-2 text-ink-secondary text-xs", children: item.emptyMessage }) }) : item.items.map((subItem) => (0, import_jsx_runtime127.jsx)(SidebarMenuSubItem, { children: (0, import_jsx_runtime127.jsx)(TruncatedTitleTooltip, { title: subItem.title, children: (0, import_jsx_runtime127.jsx)(SidebarMenuSubButton, { asChild: true, className: "px-1.5", children: renderItemLink(subItem) }) }) }, subItem.id ?? subItem.title)) }) })] }) }, `${item.id ?? item.title}-${isEmpty ? "empty" : "filled"}`)
+          ), children: renderViewAllLink(item.viewAll) })] }), (0, import_jsx_runtime134.jsx)(CollapsibleContent3, { children: (0, import_jsx_runtime134.jsx)(SidebarMenuSub, { children: isEmpty && item.emptyMessage ? (0, import_jsx_runtime134.jsx)(SidebarMenuSubItem, { className: "flex items-center py-1", children: (0, import_jsx_runtime134.jsx)("span", { className: "ps-2 text-ink-secondary text-xs", children: item.emptyMessage }) }) : item.items.map((subItem) => (0, import_jsx_runtime134.jsx)(SidebarMenuSubItem, { children: (0, import_jsx_runtime134.jsx)(TruncatedTitleTooltip, { title: subItem.title, children: (0, import_jsx_runtime134.jsx)(SidebarMenuSubButton, { asChild: true, className: "px-1.5", children: renderItemLink(subItem) }) }) }, subItem.id ?? subItem.title)) }) })] }) }, `${item.id ?? item.title}-${isEmpty ? "empty" : "filled"}`)
         );
       }
     };
-    return (0, import_jsx_runtime127.jsx)(SidebarGroup, { children: (0, import_jsx_runtime127.jsx)(SidebarMenu, { children: items.map((item) => renderItem(item)) }) });
+    return (0, import_jsx_runtime134.jsx)(SidebarGroup, { children: (0, import_jsx_runtime134.jsx)(SidebarMenu, { children: items.map((item) => renderItem(item)) }) });
   }
 
   // dist/components/Sidebar/SidebarRail.js
   init_define_import_meta_env();
-  var import_jsx_runtime128 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime135 = __toESM(require_react_shim(), 1);
   function SidebarRail({ className, label = "Toggle Sidebar", ...props }) {
     const { toggleSidebar } = useSidebar();
-    return (0, import_jsx_runtime128.jsx)("button", { "data-sidebar": "rail", "data-slot": "sidebar-rail", "aria-label": label, tabIndex: -1, onClick: toggleSidebar, title: label, className: cn("absolute inset-y-0 z-20 hidden w-4", "transition-all ease-linear", "after:absolute after:inset-y-0 after:start-1/2 after:w-[2px]", "group-data-[side=left]:-right-4", "group-data-[side=right]:left-0", "sm:flex", "ltr:-translate-x-1/2", "rtl:-translate-x-1/2", "cursor-e-resize", "group-data-[collapsible=offcanvas]:translate-x-0", "group-data-[collapsible=offcanvas]:after:left-full", "[[data-side=left][data-collapsible=offcanvas]_&]:-right-2", "[[data-side=right][data-collapsible=offcanvas]_&]:-left-2", className), ...props });
+    return (0, import_jsx_runtime135.jsx)("button", { "data-sidebar": "rail", "data-slot": "sidebar-rail", "aria-label": label, tabIndex: -1, onClick: toggleSidebar, title: label, className: cn("absolute inset-y-0 z-20 hidden w-4", "transition-all ease-linear", "after:absolute after:inset-y-0 after:start-1/2 after:w-[2px]", "group-data-[side=left]:-right-4", "group-data-[side=right]:left-0", "sm:flex", "ltr:-translate-x-1/2", "rtl:-translate-x-1/2", "cursor-e-resize", "group-data-[collapsible=offcanvas]:translate-x-0", "group-data-[collapsible=offcanvas]:after:left-full", "[[data-side=left][data-collapsible=offcanvas]_&]:-right-2", "[[data-side=right][data-collapsible=offcanvas]_&]:-left-2", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarTrigger.js
   init_define_import_meta_env();
-  var import_jsx_runtime129 = __toESM(require_react_shim(), 1);
-  function SidebarTrigger({ className, onClick, ref, label = "Toggle Sidebar", ...props }) {
+  var import_jsx_runtime136 = __toESM(require_react_shim(), 1);
+  function SidebarTrigger({
+    className,
+    onClick,
+    ref,
+    label = "Toggle Sidebar",
+    /* Tertiary, not Button's `primary` default. The collapse control is chrome:
+       it sits beside the product mark and is reached rarely, so a solid brand
+       fill there makes it the loudest thing in the rail and reads as the
+       sidebar's main action. It carried no `variant` at all, which is how it
+       ended up filled. */
+    variant = "tertiary",
+    ...props
+  }) {
     const { toggleSidebar } = useSidebar();
-    return (0, import_jsx_runtime129.jsxs)(Button, { ref, "data-sidebar": "trigger", className: cn("h-7 w-7", className), onClick: (event) => {
+    return (0, import_jsx_runtime136.jsxs)(Button, { ref, "data-sidebar": "trigger", className: cn("h-7 w-7 p-0", className), variant, onClick: (event) => {
       onClick?.(event);
       toggleSidebar();
-    }, ...props, children: [(0, import_jsx_runtime129.jsx)(PanelLeft, {}), (0, import_jsx_runtime129.jsx)("span", { className: "sr-only", children: label })] });
+    }, ...props, children: [(0, import_jsx_runtime136.jsx)(PanelLeft, {}), (0, import_jsx_runtime136.jsx)("span", { className: "sr-only", children: label })] });
   }
 
   // dist/components/Sidebar/index.js
   function Sidebar({ side = "left", variant = "sidebar", collapsible = "offcanvas", className, children, sheetClassname, ref, ...props }) {
     const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
     if (collapsible === "none") {
-      return (0, import_jsx_runtime130.jsx)("div", { className: cn("flex h-full w-[--sidebar-width] flex-col bg-surface-card text-ink-primary", className), ref, ...props, children });
+      return (0, import_jsx_runtime137.jsx)("div", { className: cn("flex h-full w-[--sidebar-width] flex-col bg-surface-card text-ink-primary", className), ref, ...props, children });
     }
     if (isMobile) {
-      return (0, import_jsx_runtime130.jsx)(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: (0, import_jsx_runtime130.jsx)(SheetContent, { "data-sidebar": "sidebar", "data-mobile": "true", side: "left", className: cn("w-[--sidebar-width] bg-surface-card p-0 [--sidebar-width:var(--sidebar-width-mobile)] [&>button]:hidden", "data-[state=closed]:duration-500", "data-[state=open]:duration-500", sheetClassname), children: (0, import_jsx_runtime130.jsx)("div", { className: "flex h-full w-full flex-col", children }) }) });
+      return (0, import_jsx_runtime137.jsx)(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: (0, import_jsx_runtime137.jsx)(SheetContent, { "data-sidebar": "sidebar", "data-mobile": "true", side: "left", className: cn("w-[--sidebar-width] bg-surface-card p-0 [--sidebar-width:var(--sidebar-width-mobile)] [&>button]:hidden", "data-[state=closed]:duration-500", "data-[state=open]:duration-500", sheetClassname), children: (0, import_jsx_runtime137.jsx)("div", { className: "flex h-full w-full flex-col", children }) }) });
     }
-    return (0, import_jsx_runtime130.jsxs)("div", { ref, className: "group peer hidden lg:block", "data-state": state, "data-collapsible": state === "collapsed" ? collapsible : "", "data-variant": variant, "data-side": side, children: [(0, import_jsx_runtime130.jsx)("div", { className: cn("relative w-[--sidebar-width]", "bg-transparent", "transition-[width] duration-base ease-linear", "group-data-[collapsible=offcanvas]:w-0", "group-data-[side=right]:rotate-180", variant === "floating" || variant === "inset" ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]" : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]") }), (0, import_jsx_runtime130.jsx)("div", { className: cn("fixed inset-y-0 z-10", "hidden lg:flex", "h-svh w-[--sidebar-width]", "transition-[left,right,width] duration-base ease-linear", side === "left" ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]" : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]", variant === "floating" || variant === "inset" ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]" : "border-stroke group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l", className), ...props, children: (0, import_jsx_runtime130.jsx)("div", { "data-sidebar": "sidebar", className: cn("flex h-full w-full flex-col", "bg-surface-card", "group-data-[variant=floating]:rounded-md", "group-data-[variant=floating]:border", "group-data-[variant=floating]:border-stroke", "group-data-[variant=floating]:shadow"), children }) })] });
+    return (0, import_jsx_runtime137.jsxs)("div", { ref, className: "group peer hidden lg:block", "data-state": state, "data-collapsible": state === "collapsed" ? collapsible : "", "data-variant": variant, "data-side": side, children: [(0, import_jsx_runtime137.jsx)("div", { className: cn("relative w-[--sidebar-width]", "bg-transparent", "transition-[width] duration-base ease-linear", "group-data-[collapsible=offcanvas]:w-0", "group-data-[side=right]:rotate-180", variant === "floating" || variant === "inset" ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]" : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]") }), (0, import_jsx_runtime137.jsx)("div", { className: cn(
+      "fixed inset-y-0 z-10",
+      "hidden lg:flex",
+      // Width only. The height comes from `inset-y-0`, which resolves
+      // against whatever containing block this panel has — the viewport on
+      // a web page, and the app shell when one exists. `h-svh` pinned it to
+      // the VIEWPORT unconditionally, so the moment the shell was not the
+      // whole window — a page with
+      // a banner above it, a preview frame — the panel ran past the bottom
+      // edge and took its footer with it. With no transformed ancestor the
+      // two are identical, so nothing changes for the web product.
+      "w-[--sidebar-width]",
+      "transition-[left,right,width] duration-base ease-linear",
+      side === "left" ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]" : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
+      variant === "floating" || variant === "inset" ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]" : "border-stroke group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
+      className
+    ), ...props, children: (0, import_jsx_runtime137.jsx)("div", { "data-sidebar": "sidebar", className: cn("flex h-full w-full flex-col", "bg-surface-card", "group-data-[variant=floating]:rounded-md", "group-data-[variant=floating]:border", "group-data-[variant=floating]:border-stroke", "group-data-[variant=floating]:shadow"), children }) })] });
   }
+
+  // dist/components/StatTile/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime138 = __toESM(require_react_shim(), 1);
+  var statTileVariants = cva("flex flex-col", {
+    variants: {
+      // The two rungs the rest of the system uses for a padded surface: `sm` is
+      // a dense row of tiles under a heading, `md` a dashboard's own top row.
+      size: {
+        sm: "gap-1 p-4",
+        md: "gap-1.5 p-5"
+      }
+    },
+    defaultVariants: { size: "md" }
+  });
+  var VALUE_STYLE = { sm: "title20", md: "title24" };
+  function StatTile({ label, value, description, rightSlot, size: size4, className, ...props }) {
+    return (0, import_jsx_runtime138.jsxs)(Card, { variant: "outline", className: cn(statTileVariants({ size: size4 }), className), ...props, children: [(0, import_jsx_runtime138.jsxs)("div", { className: "flex items-start justify-between gap-3", children: [(0, import_jsx_runtime138.jsx)(Typography, { element: "span", textStyle: "overline", textColor: "secondary", children: label }), rightSlot] }), (0, import_jsx_runtime138.jsx)(Typography, { element: "span", textStyle: VALUE_STYLE[size4 ?? "md"], textColor: "primary", className: "tabular-nums", children: value }), description ? (0, import_jsx_runtime138.jsx)(Typography, { element: "span", textStyle: "body12", textColor: "secondary", children: description }) : null] });
+  }
+  StatTile.displayName = "StatTile";
 
   // dist/components/StatusView/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime131 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime139 = __toESM(require_react_shim(), 1);
   var containerVariants = cva("flex min-h-0 flex-1 flex-col items-center justify-center rounded-lg text-center", {
     variants: {
-      // reference ladder: sm gap 8 / pad 16 · md gap 12 / pad 24 · lg gap 16 / pad 32
+      /* `lg` and `sm` are the kit's two empty states, copied from
+         `.empty-state` and `.empty-state.is-sm`: 48/24 padding at gap 8, and
+         24/16 at gap 6. `xs` and `md` have no counterpart in the kit — they
+         are the package's own rungs for a status block inside a card, and are
+         marked as such in StatusView.md rather than presented as kit values. */
       size: {
         xs: "gap-1 p-3",
-        sm: "gap-2 p-4",
+        sm: "gap-1.5 px-4 py-6",
         md: "gap-3 p-6",
-        lg: "gap-4 p-8"
+        lg: "gap-2 px-6 py-12"
       },
       surface: {
         embedded: "",
@@ -24501,7 +25583,13 @@ Defaulting to \`null\`.`;
         success: "bg-fb-green/10 text-fb-green",
         transparent: "bg-transparent"
       },
-      // reference circles: sm 32 · md 40 · lg 56; glyphs 16 · 20 · 28
+      /* The halo is the package's own; the kit's page-level empty state has
+         no chip at all — `.empty-ic` is a bare 48px glyph in `--ink-inactive`
+         (32px at `.is-sm`). Reach for `withIconHalo={false}` to get that, which
+         is also what the illustrations need. The chip that IS in the kit is
+         `.cl-menu-empty-ic`: 28px, `--icon-wrapper-bg`, a border, a 16px glyph.
+         The `xs` rung is that size; its fill comes from `tone`, not from here,
+         because a size axis that also sets a colour cannot be composed. */
       size: {
         xs: "size-7 [&_svg]:size-4",
         sm: "size-8 [&_svg]:size-4",
@@ -24520,25 +25608,33 @@ Defaulting to \`null\`.`;
     md: { element: "p", textStyle: "title14" },
     lg: { element: "h3", textStyle: "title16" }
   };
+  var ACTIONS_OFFSET_BY_SIZE = {
+    xs: "",
+    sm: "mt-0.5",
+    md: "",
+    lg: "mt-1"
+  };
   var DESCRIPTION_BY_SIZE = {
     xs: "body12",
     sm: "body12",
     md: "body12",
     lg: "body14"
   };
+  var EmptyStateIllustration = ({ className }) => (0, import_jsx_runtime139.jsxs)("svg", { "aria-hidden": "true", className: cn("h-auto w-[150px] shrink-0", className), fill: "none", viewBox: "0 0 150 104", children: [(0, import_jsx_runtime139.jsxs)("g", { className: "[filter:drop-shadow(0_2px_5px_rgb(15_23_42/0.10))]", children: [(0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "26", rx: "8", width: "132", x: "9", y: "4" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/55", height: "12", rx: "4", width: "12", x: "18", y: "11" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "80", x: "36", y: "14" })] }), (0, import_jsx_runtime139.jsxs)("g", { opacity: "0.55", children: [(0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "26", rx: "8", width: "132", x: "9", y: "38" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/55", height: "12", rx: "4", width: "12", x: "18", y: "45" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "64", x: "36", y: "48" })] }), (0, import_jsx_runtime139.jsxs)("g", { opacity: "0.28", children: [(0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "26", rx: "8", width: "132", x: "9", y: "72" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/55", height: "12", rx: "4", width: "12", x: "18", y: "79" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "72", x: "36", y: "82" })] })] });
+  var EmptySearchIllustration = ({ className }) => (0, import_jsx_runtime139.jsxs)("svg", { "aria-hidden": "true", className: cn("h-auto w-[150px] shrink-0", className), fill: "none", viewBox: "0 0 150 104", children: [(0, import_jsx_runtime139.jsxs)("g", { className: "[filter:drop-shadow(0_2px_5px_rgb(15_23_42/0.10))]", children: [(0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "28", rx: "8", width: "132", x: "9", y: "4" }), (0, import_jsx_runtime139.jsx)("circle", { className: "stroke-ink-inactive/60", cx: "24", cy: "17", r: "5", strokeWidth: "1.5" }), (0, import_jsx_runtime139.jsx)("path", { className: "stroke-ink-inactive/60", d: "M27.8 20.8 L31 24", strokeLinecap: "round", strokeWidth: "1.5" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "52", x: "38", y: "15" })] }), (0, import_jsx_runtime139.jsx)("g", { opacity: "0.4", children: (0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "22", rx: "8", width: "132", x: "9", y: "44", strokeDasharray: "4 4" }) }), (0, import_jsx_runtime139.jsx)("g", { opacity: "0.2", children: (0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "22", rx: "8", width: "132", x: "9", y: "74", strokeDasharray: "4 4" }) })] });
   var TONE_DEFAULT_ICON = {
-    neutral: (0, import_jsx_runtime131.jsx)(Inbox, { "aria-hidden": "true" }),
-    muted: (0, import_jsx_runtime131.jsx)(Inbox, { "aria-hidden": "true" }),
-    error: (0, import_jsx_runtime131.jsx)(CircleAlert, { "aria-hidden": "true" }),
-    info: (0, import_jsx_runtime131.jsx)(Info, { "aria-hidden": "true" }),
-    success: (0, import_jsx_runtime131.jsx)(CircleCheck, { "aria-hidden": "true" }),
+    neutral: (0, import_jsx_runtime139.jsx)(Inbox, { "aria-hidden": "true" }),
+    muted: (0, import_jsx_runtime139.jsx)(Inbox, { "aria-hidden": "true" }),
+    error: (0, import_jsx_runtime139.jsx)(CircleAlert, { "aria-hidden": "true" }),
+    info: (0, import_jsx_runtime139.jsx)(Info, { "aria-hidden": "true" }),
+    success: (0, import_jsx_runtime139.jsx)(CircleCheck, { "aria-hidden": "true" }),
     transparent: null
   };
   var DEFAULT_RETRY_BUTTON = {
     variant: "secondary",
     size: "sm",
     rounded: "full",
-    leftSlot: (0, import_jsx_runtime131.jsx)(RefreshCw, {})
+    leftSlot: (0, import_jsx_runtime139.jsx)(RefreshCw, {})
   };
   var StatusView = ({ tone = "neutral", size: size4, surface, icon, withIconHalo = true, title, description, actions, actionsOrientation = "inline", retryLabel, retryButton, className, ref, onRetry, ...props }) => {
     const isError = tone === "error";
@@ -24546,14 +25642,40 @@ Defaulting to \`null\`.`;
     const titleStyle = TITLE_BY_SIZE[size4 ?? "md"];
     const resolvedIcon = icon === null ? null : icon ?? TONE_DEFAULT_ICON[tone];
     const { variant: retryVariant = DEFAULT_RETRY_BUTTON.variant, size: retrySize = DEFAULT_RETRY_BUTTON.size, rounded: retryRounded = DEFAULT_RETRY_BUTTON.rounded, leftSlot: retryLeftSlot = DEFAULT_RETRY_BUTTON.leftSlot } = retryButton ?? {};
-    const resolvedActions = actions ?? (onRetry && retryLabel ? (0, import_jsx_runtime131.jsx)(Button, { variant: retryVariant, size: retrySize, rounded: retryRounded, leftSlot: retryLeftSlot, onClick: onRetry, children: retryLabel }) : null);
-    return (0, import_jsx_runtime131.jsxs)("div", { ref, role: isError ? "alert" : void 0, "aria-live": isError ? "assertive" : void 0, className: cn(containerVariants({ size: size4, surface }), className), ...props, children: [resolvedIcon && (withIconHalo ? (0, import_jsx_runtime131.jsx)("span", { className: haloVariants({ tone, size: size4 }), children: resolvedIcon }) : resolvedIcon), (0, import_jsx_runtime131.jsxs)("div", { className: "flex max-w-md flex-col items-center gap-1.5", children: [(0, import_jsx_runtime131.jsx)(Typography, { align: "center", element: titleStyle.element, textColor: "primary", textStyle: titleStyle.textStyle, children: title }), description && (0, import_jsx_runtime131.jsx)(Typography, { align: "center", className: isCompact ? "text-balance leading-normal" : "leading-relaxed", element: "p", textColor: "secondary", textStyle: DESCRIPTION_BY_SIZE[size4 ?? "md"], children: description })] }), resolvedActions && (0, import_jsx_runtime131.jsx)("div", { className: cn("flex w-full max-w-xs", actionsOrientation === "stacked" ? "flex-col gap-3" : "flex-row items-center justify-center gap-3"), children: resolvedActions })] });
+    const resolvedActions = actions ?? (onRetry && retryLabel ? (0, import_jsx_runtime139.jsx)(Button, { variant: retryVariant, size: retrySize, rounded: retryRounded, leftSlot: retryLeftSlot, onClick: onRetry, children: retryLabel }) : null);
+    return (0, import_jsx_runtime139.jsxs)("div", { ref, role: isError ? "alert" : void 0, "aria-live": isError ? "assertive" : void 0, className: cn(containerVariants({ size: size4, surface }), className), ...props, children: [resolvedIcon && (withIconHalo ? (0, import_jsx_runtime139.jsx)("span", { className: haloVariants({ tone, size: size4 }), children: resolvedIcon }) : resolvedIcon), (0, import_jsx_runtime139.jsxs)("div", { className: "flex max-w-md flex-col items-center gap-1.5", children: [(0, import_jsx_runtime139.jsx)(Typography, { align: "center", element: titleStyle.element, textColor: "primary", textStyle: titleStyle.textStyle, children: title }), description && (0, import_jsx_runtime139.jsx)(Typography, {
+      align: "center",
+      /* `.empty-msg` in the kit: `max-width:32ch` and
+                     `text-wrap:balance`, on every size. Both were conditional here —
+                     balance only on `xs`, and the width came from the block's own
+                     `max-w-md` (448px) — which is how a message ends up breaking one
+                     word onto a line of its own.
+      
+                     The cap is on the MESSAGE, not on the block: the kit gives the
+                     title no max-width, because a title short enough to be a title
+                     does not need one. */
+      className: cn("max-w-[32ch] text-balance", isCompact ? "leading-normal" : "leading-relaxed"),
+      element: "p",
+      textColor: "secondary",
+      textStyle: DESCRIPTION_BY_SIZE[size4 ?? "md"],
+      children: description
+    })] }), resolvedActions && (0, import_jsx_runtime139.jsx)("div", {
+      /* One action or two, and no more. One is the thing the state is
+                   missing; two is that plus its alternative — never two primaries,
+                   and never a third, because an empty state that offers three ways
+                   out is a menu with a picture on it.
+      
+                   `max-w-xs` caps the row so a stacked pair does not stretch to the
+                   width of the block. */
+      className: cn("flex w-full max-w-xs", ACTIONS_OFFSET_BY_SIZE[size4 ?? "md"], actionsOrientation === "stacked" ? "flex-col gap-3" : "flex-row items-center justify-center gap-3"),
+      children: resolvedActions
+    })] });
   };
   StatusView.displayName = "StatusView";
 
   // dist/components/StepSlider/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime133 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime141 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-slider@1.4._e1295421719f590fb34d57f497378fc2/node_modules/@radix-ui/react-slider/dist/index.mjs
   init_define_import_meta_env();
@@ -24586,7 +25708,7 @@ Defaulting to \`null\`.`;
   __name37(usePrevious, "usePrevious");
 
   // node_modules/.pnpm/@radix-ui+react-slider@1.4._e1295421719f590fb34d57f497378fc2/node_modules/@radix-ui/react-slider/dist/index.mjs
-  var import_jsx_runtime132 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime140 = __toESM(require_react_shim(), 1);
   var __defProp39 = Object.defineProperty;
   var __name38 = (target, value) => __defProp39(target, "name", { value, configurable: true });
   var PAGE_KEYS = ["PageUp", "PageDown"];
@@ -24685,7 +25807,7 @@ Defaulting to \`null\`.`;
         });
       }
       __name38(updateValues, "updateValues");
-      return /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
         SliderProvider,
         {
           scope: props.__scopeSlider,
@@ -24698,7 +25820,7 @@ Defaulting to \`null\`.`;
           values,
           orientation,
           form,
-          children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Collection4.Provider, { scope: props.__scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Collection4.Slot, { scope: props.__scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Collection4.Provider, { scope: props.__scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Collection4.Slot, { scope: props.__scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
             SliderOrientation,
             {
               "aria-disabled": disabled,
@@ -24787,7 +25909,7 @@ Defaulting to \`null\`.`;
         return value(pointerPosition - rect.left);
       }
       __name38(getValueFromPointer, "getValueFromPointer");
-      return /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
         SliderOrientationProvider,
         {
           scope: props.__scopeSlider,
@@ -24795,7 +25917,7 @@ Defaulting to \`null\`.`;
           endEdge: isSlidingFromLeft ? "right" : "left",
           direction: isSlidingFromLeft ? 1 : -1,
           size: "width",
-          children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
             SliderImpl,
             {
               dir: direction,
@@ -24854,7 +25976,7 @@ Defaulting to \`null\`.`;
         return value(pointerPosition - rect.top);
       }
       __name38(getValueFromPointer, "getValueFromPointer");
-      return /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
         SliderOrientationProvider,
         {
           scope: props.__scopeSlider,
@@ -24862,7 +25984,7 @@ Defaulting to \`null\`.`;
           endEdge: isSlidingFromBottom ? "top" : "bottom",
           size: "height",
           direction: isSlidingFromBottom ? 1 : -1,
-          children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
             SliderImpl,
             {
               "data-orientation": "vertical",
@@ -24908,7 +26030,7 @@ Defaulting to \`null\`.`;
         ...sliderProps
       } = props;
       const context = useSliderContext(SLIDER_NAME, __scopeSlider);
-      return /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
         Primitive.span,
         {
           ...sliderProps,
@@ -24992,7 +26114,7 @@ Defaulting to \`null\`.`;
       percent,
       size: size4
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(SliderThumbContextProvider, { scope: __scopeSlider, ...thumbContext, children: isFunction4(internal_do_not_use_render) ? internal_do_not_use_render(thumbContext) : children });
+    return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(SliderThumbContextProvider, { scope: __scopeSlider, ...thumbContext, children: isFunction4(internal_do_not_use_render) ? internal_do_not_use_render(thumbContext) : children });
   }
   __name38(SliderThumbProvider, "SliderThumbProvider");
   var THUMB_TRIGGER_NAME = "SliderThumbTrigger";
@@ -25010,7 +26132,7 @@ Defaulting to \`null\`.`;
       const label = getLabel(index2, context.values.length);
       const orientationSize = size4?.[orientation.size];
       const thumbInBoundsOffset = orientationSize ? getThumbInBoundsOffset(orientationSize, percent, orientation.direction) : 0;
-      return /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
         "span",
         {
           style: {
@@ -25018,7 +26140,7 @@ Defaulting to \`null\`.`;
             position: "absolute",
             [orientation.startEdge]: `calc(${percent}% + ${thumbInBoundsOffset}px)`
           },
-          children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(Collection4.ItemSlot, { scope: __scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Collection4.ItemSlot, { scope: __scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
             Primitive.span,
             {
               role: "slider",
@@ -25045,13 +26167,13 @@ Defaulting to \`null\`.`;
   var SliderThumb = /* @__PURE__ */ React76.forwardRef(
     /* @__PURE__ */ __name38(function SliderThumb2(props, forwardedRef) {
       const { __scopeSlider, name, ...thumbProps } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
         SliderThumbProvider,
         {
           __scopeSlider,
           name,
-          internal_do_not_use_render: ({ index: index2, isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime132.jsxs)(import_jsx_runtime132.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+          internal_do_not_use_render: ({ index: index2, isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(import_jsx_runtime140.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
               SliderThumbTrigger,
               {
                 ...thumbProps,
@@ -25059,7 +26181,7 @@ Defaulting to \`null\`.`;
                 __scopeSlider
               }
             ),
-            isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+            isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
               SliderBubbleInput,
               {
                 __scopeSlider
@@ -25091,7 +26213,7 @@ Defaulting to \`null\`.`;
           input.dispatchEvent(event);
         }
       }, [prevValue, value]);
-      return /* @__PURE__ */ (0, import_jsx_runtime132.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
         Primitive.input,
         {
           style: { display: "none" },
@@ -25268,7 +26390,7 @@ Defaulting to \`null\`.`;
       if (nextStep && nextStep.value !== value)
         onValueChange?.(nextStep.value);
     };
-    return (0, import_jsx_runtime133.jsxs)(Slider, { ref, min: 0, max: maxIndex, step: 1, value: [selectedIndex], orientation: "horizontal", disabled, className: cn(stepSliderVariants({ size: size4 }), className), onValueChange: handleValueChange, ...props, children: [(0, import_jsx_runtime133.jsx)("div", { className: stepSliderStopsVariants({ size: size4 }), children: steps.map((step) => (0, import_jsx_runtime133.jsx)("span", { "aria-hidden": true, className: STEP_SLIDER_DOT_CLASSES }, step.value)) }), showStepTooltips && !disabled && (0, import_jsx_runtime133.jsx)("div", { "aria-hidden": true, className: cn(stepSliderStopsVariants({ size: size4 }), "pointer-events-auto z-10"), children: steps.map((step) => (0, import_jsx_runtime133.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime133.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime133.jsx)("span", { "data-slot": "step-slider-stop", className: STEP_SLIDER_HIT_CLASSES }) }), (0, import_jsx_runtime133.jsx)(TooltipContent3, { children: step.label })] }, step.value)) }), (0, import_jsx_runtime133.jsx)(SliderThumb, { "aria-label": ariaLabel, "aria-valuetext": steps[selectedIndex]?.label, className: stepSliderThumbVariants({ size: size4 }) })] });
+    return (0, import_jsx_runtime141.jsxs)(Slider, { ref, min: 0, max: maxIndex, step: 1, value: [selectedIndex], orientation: "horizontal", disabled, className: cn(stepSliderVariants({ size: size4 }), className), onValueChange: handleValueChange, ...props, children: [(0, import_jsx_runtime141.jsx)("div", { className: stepSliderStopsVariants({ size: size4 }), children: steps.map((step) => (0, import_jsx_runtime141.jsx)("span", { "aria-hidden": true, className: STEP_SLIDER_DOT_CLASSES }, step.value)) }), showStepTooltips && !disabled && (0, import_jsx_runtime141.jsx)("div", { "aria-hidden": true, className: cn(stepSliderStopsVariants({ size: size4 }), "pointer-events-auto z-10"), children: steps.map((step) => (0, import_jsx_runtime141.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime141.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime141.jsx)("span", { "data-slot": "step-slider-stop", className: STEP_SLIDER_HIT_CLASSES }) }), (0, import_jsx_runtime141.jsx)(TooltipContent3, { children: step.label })] }, step.value)) }), (0, import_jsx_runtime141.jsx)(SliderThumb, { "aria-label": ariaLabel, "aria-valuetext": steps[selectedIndex]?.label, className: stepSliderThumbVariants({ size: size4 }) })] });
   };
   StepSlider.displayName = "StepSlider";
 
@@ -25277,40 +26399,40 @@ Defaulting to \`null\`.`;
 
   // dist/components/Stepper/Stepper.js
   init_define_import_meta_env();
-  var import_react71 = __toESM(require_react_shim(), 1);
+  var import_react73 = __toESM(require_react_shim(), 1);
 
   // dist/components/Stepper/use-stepper.js
   init_define_import_meta_env();
-  var import_react70 = __toESM(require_react_shim(), 1);
+  var import_react72 = __toESM(require_react_shim(), 1);
   function useStepper({ totalSteps, initialStep = 0, initialData, onStepChange }) {
-    const clampStep = (0, import_react70.useCallback)((step, totalSteps2) => {
+    const clampStep = (0, import_react72.useCallback)((step, totalSteps2) => {
       return Math.max(0, Math.min(totalSteps2 - 1, step));
     }, []);
-    const [currentStep, setCurrentStep] = (0, import_react70.useState)(() => clampStep(initialStep, totalSteps));
-    const [data, setData] = (0, import_react70.useState)(initialData);
-    const onStepChangeRef = (0, import_react70.useRef)(onStepChange);
+    const [currentStep, setCurrentStep] = (0, import_react72.useState)(() => clampStep(initialStep, totalSteps));
+    const [data, setData] = (0, import_react72.useState)(initialData);
+    const onStepChangeRef = (0, import_react72.useRef)(onStepChange);
     onStepChangeRef.current = onStepChange;
-    const prevStepRef = (0, import_react70.useRef)(currentStep);
-    (0, import_react70.useEffect)(() => {
+    const prevStepRef = (0, import_react72.useRef)(currentStep);
+    (0, import_react72.useEffect)(() => {
       if (prevStepRef.current !== currentStep) {
         prevStepRef.current = currentStep;
         onStepChangeRef.current?.(currentStep);
       }
     }, [currentStep]);
-    const goTo = (0, import_react70.useCallback)((index2) => {
+    const goTo = (0, import_react72.useCallback)((index2) => {
       setCurrentStep(Math.max(0, Math.min(totalSteps - 1, index2)));
     }, [totalSteps]);
-    const goNext = (0, import_react70.useCallback)(() => {
+    const goNext = (0, import_react72.useCallback)(() => {
       setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
     }, [totalSteps]);
-    const goBack = (0, import_react70.useCallback)(() => {
+    const goBack = (0, import_react72.useCallback)(() => {
       setCurrentStep((prev) => Math.max(prev - 1, 0));
     }, []);
-    const reset = (0, import_react70.useCallback)(() => {
+    const reset = (0, import_react72.useCallback)(() => {
       setCurrentStep(clampStep(initialStep, totalSteps));
       setData(initialData);
     }, [initialStep, initialData, totalSteps, clampStep]);
-    return (0, import_react70.useMemo)(() => ({
+    return (0, import_react72.useMemo)(() => ({
       currentStep,
       totalSteps,
       isFirst: currentStep === 0,
@@ -25332,20 +26454,52 @@ Defaulting to \`null\`.`;
       initialData,
       onStepChange
     });
-    (0, import_react71.useImperativeHandle)(ref, () => api, [api]);
+    (0, import_react73.useImperativeHandle)(ref, () => api, [api]);
     const currentRenderer = steps[api.currentStep];
     return currentRenderer ? currentRenderer(api) : null;
   }
   Stepper.displayName = "Stepper";
 
+  // dist/components/Stepper/StepperIndicator.js
+  init_define_import_meta_env();
+  var import_jsx_runtime142 = __toESM(require_react_shim(), 1);
+  var MARKER = {
+    sm: "size-5 text-xs",
+    md: "size-7 text-sm"
+  };
+  var GLYPH = { sm: 12, md: 14 };
+  function StepperIndicator({ steps, current, orientation = "horizontal", navigable = "completed", onStepSelect, size: size4 = "md", "aria-label": ariaLabel = "Progress", className }) {
+    return (0, import_jsx_runtime142.jsx)("ol", { "aria-label": ariaLabel, className: cn("flex gap-2", orientation === "vertical" ? "flex-col items-start" : "flex-row flex-wrap items-center", className), children: steps.map((step, index2) => {
+      const isDone = index2 < current;
+      const isActive = index2 === current;
+      const canGo = navigable === "all" || navigable === "completed" && (isDone || isActive);
+      const interactive = canGo && Boolean(onStepSelect) && !isActive;
+      return (0, import_jsx_runtime142.jsxs)("li", { className: "flex items-center gap-2", children: [index2 > 0 ? (0, import_jsx_runtime142.jsx)("span", { "aria-hidden": true, className: cn("bg-stroke", orientation === "vertical" ? "ms-3 h-4 w-px" : "h-px w-6") }) : null, (0, import_jsx_runtime142.jsxs)("button", { type: "button", disabled: !interactive, "aria-current": isActive ? "step" : void 0, onClick: () => interactive && onStepSelect?.(index2), className: cn("flex items-center gap-2 rounded-md px-2 py-1", "transition-colors duration-fast", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page", interactive ? "cursor-pointer hover:bg-state-hover" : (
+        // A step you cannot go to is not a broken button — it is
+        // not a button. No dimming, because the marker and the
+        // label already carry the state.
+        "cursor-default disabled:pointer-events-none"
+      )), children: [(0, import_jsx_runtime142.jsx)("span", { "aria-hidden": true, className: cn("flex shrink-0 items-center justify-center rounded-full font-medium", MARKER[size4], isActive && "bg-brand-primary text-content-on-solid", isDone && "bg-state-pressed text-ink-body", !isActive && !isDone && "bg-state-disabled text-ink-inactive"), children: isDone ? (0, import_jsx_runtime142.jsx)(Check, { size: GLYPH[size4] }) : index2 + 1 }), (0, import_jsx_runtime142.jsx)(Typography, {
+        element: "span",
+        textStyle: "label14",
+        // `light` IS ink-inactive. There is no `inactive` key —
+        // Typography silently emits no colour class for one, which is
+        // how an upcoming step ended up simply inheriting its parent.
+        textColor: isActive ? "primary" : isDone ? "body" : "light",
+        children: step.label
+      })] })] }, step.id);
+    }) });
+  }
+  StepperIndicator.displayName = "StepperIndicator";
+
   // dist/components/Switch/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime135 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime144 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-switch@1.3._6942ef4354d0381c1f398974c27bdc78/node_modules/@radix-ui/react-switch/dist/index.mjs
   init_define_import_meta_env();
   var React77 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime134 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime143 = __toESM(require_react_shim(), 1);
   var __defProp40 = Object.defineProperty;
   var __name39 = (target, value) => __defProp40(target, "name", { value, configurable: true });
   var SWITCH_NAME = "Switch";
@@ -25401,7 +26555,7 @@ Defaulting to \`null\`.`;
       bubbleInput,
       setBubbleInput
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime134.jsx)(SwitchProviderImpl, { scope: __scopeSwitch, ...context, children: isFunction5(internal_do_not_use_render) ? internal_do_not_use_render(context) : children });
+    return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(SwitchProviderImpl, { scope: __scopeSwitch, ...context, children: isFunction5(internal_do_not_use_render) ? internal_do_not_use_render(context) : children });
   }
   __name39(SwitchProvider, "SwitchProvider");
   var TRIGGER_NAME10 = "SwitchTrigger";
@@ -25431,7 +26585,7 @@ Defaulting to \`null\`.`;
           return () => associatedForm.removeEventListener("reset", reset);
         }
       }, [control, form, setChecked]);
-      return /* @__PURE__ */ (0, import_jsx_runtime134.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -25471,7 +26625,7 @@ Defaulting to \`null\`.`;
         form,
         ...switchProps
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime134.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
         SwitchProvider,
         {
           __scopeSwitch,
@@ -25483,8 +26637,8 @@ Defaulting to \`null\`.`;
           name,
           form,
           value,
-          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime134.jsxs)(import_jsx_runtime134.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime134.jsx)(
+          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime143.jsxs)(import_jsx_runtime143.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
               SwitchTrigger,
               {
                 ...switchProps,
@@ -25492,7 +26646,7 @@ Defaulting to \`null\`.`;
                 __scopeSwitch
               }
             ),
-            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime134.jsx)(
+            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
               SwitchBubbleInput,
               {
                 __scopeSwitch
@@ -25508,7 +26662,7 @@ Defaulting to \`null\`.`;
     /* @__PURE__ */ __name39(function SwitchThumb2(props, forwardedRef) {
       const { __scopeSwitch, ...thumbProps } = props;
       const context = useSwitchContext(THUMB_NAME2, __scopeSwitch);
-      return /* @__PURE__ */ (0, import_jsx_runtime134.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
         Primitive.span,
         {
           "data-state": getState7(context.checked),
@@ -25565,7 +26719,7 @@ Defaulting to \`null\`.`;
         }
       }, [bubbleInput, checked, hasConsumerStoppedPropagationRef, userInteractionCount]);
       const defaultCheckedRef = React77.useRef(checked);
-      return /* @__PURE__ */ (0, import_jsx_runtime134.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
         Primitive.input,
         {
           type: "checkbox",
@@ -25610,7 +26764,7 @@ Defaulting to \`null\`.`;
   __name39(getState7, "getState");
 
   // dist/components/Switch/index.js
-  var import_react72 = __toESM(require_react_shim(), 1);
+  var import_react74 = __toESM(require_react_shim(), 1);
   var switchTrackClasses = cn(
     // Checked states
     "data-[state=checked]:bg-brand-primary",
@@ -25712,15 +26866,15 @@ Defaulting to \`null\`.`;
     }
   });
   var Switch3 = ({ className, variant, size: size4, rounded, label, labelPosition, gap, containerVariant, labelClassName, ...props }) => {
-    const id = (0, import_react72.useId)();
+    const id = (0, import_react74.useId)();
     if (!label) {
-      return (0, import_jsx_runtime135.jsx)(Switch, { className: cn(switchVariants({ variant, size: size4, rounded, className })), ...props, children: (0, import_jsx_runtime135.jsx)(SwitchThumb, { className: cn(switchThumbVariants({ variant, size: size4 })) }) });
+      return (0, import_jsx_runtime144.jsx)(Switch, { className: cn(switchVariants({ variant, size: size4, rounded, className })), ...props, children: (0, import_jsx_runtime144.jsx)(SwitchThumb, { className: cn(switchThumbVariants({ variant, size: size4 })) }) });
     }
-    return (0, import_jsx_runtime135.jsxs)("div", { className: cn(switchContainerVariants({
+    return (0, import_jsx_runtime144.jsxs)("div", { className: cn(switchContainerVariants({
       labelPosition,
       gap,
       variant: containerVariant
-    }), className), children: [(0, import_jsx_runtime135.jsx)(Switch, { id, className: cn(switchVariants({ variant, size: size4, rounded })), ...props, children: (0, import_jsx_runtime135.jsx)(SwitchThumb, { className: cn(switchThumbVariants({ variant, size: size4 })) }) }), (0, import_jsx_runtime135.jsx)("label", {
+    }), className), children: [(0, import_jsx_runtime144.jsx)(Switch, { id, className: cn(switchVariants({ variant, size: size4, rounded })), ...props, children: (0, import_jsx_runtime144.jsx)(SwitchThumb, { className: cn(switchThumbVariants({ variant, size: size4 })) }) }), (0, import_jsx_runtime144.jsx)("label", {
       htmlFor: id,
       // Same recipe as Checkbox and RadioButton, the two sibling controls
       // with an inline label. It carried no ink token at all, so it
@@ -25734,26 +26888,60 @@ Defaulting to \`null\`.`;
 
   // dist/components/Table/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime144 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime153 = __toESM(require_react_shim(), 1);
 
   // dist/components/Table/TableActionsCell.js
   init_define_import_meta_env();
-  var import_jsx_runtime137 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime146 = __toESM(require_react_shim(), 1);
 
   // dist/components/Table/TableCell.js
   init_define_import_meta_env();
-  var import_jsx_runtime136 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime145 = __toESM(require_react_shim(), 1);
   function TableCell({ className, ...props }) {
-    return (0, import_jsx_runtime136.jsx)("td", { "data-slot": "table-cell", className: cn(
+    return (0, import_jsx_runtime145.jsx)("td", { "data-slot": "table-cell", className: cn(
       // One padding recipe, shared verbatim with TableHead: 10px/16px. The two
       // must stay identical or every column's header sits off its own body
       // text. Height comes from the padding, never from an `h-*` lock — a
       // two-line cell has to be free to grow.
       "px-4 py-2.5 align-middle",
-      // Truncate rather than wrap. In an auto-layout table the column just
-      // widens, so this only bites under `layout="fixed"` — which is exactly
-      // where a long value must not blow its column open.
-      "overflow-hidden text-ellipsis whitespace-nowrap",
+      // A nested row is 8px instead of 10px — see `TableRow nested`. It is a
+      // rule of the table, not a property of any one screen: it used to exist
+      // only as a local override on a metrics table, which meant every other
+      // place that nested rows either invented its own number or did not
+      // tighten at all. Horizontal padding does not change; indentation of
+      // the first cell belongs to the consumer.
+      "group-data-[nested]/row:py-2",
+      // `density="compact"` on the table — 6px instead of 10. **Draft.**
+      // Stamped on the table and read here for the same reason `layout` is:
+      // the row's air is a decision about the whole table, and a cell that
+      // took its own would let two columns disagree.
+      "[[data-density=compact]_&]:py-1.5",
+      // Positioning context for a row link. A navigable row is one real
+      // anchor in one cell, stretched over the row with `after:absolute
+      // after:inset-0` — see Table.md. The anchor needs a positioned
+      // ancestor, and a <tr> cannot be one reliably: `position: relative` on
+      // a table row is ignored by some engines, so the cell carries it.
+      "relative",
+      // The row grows with its content — the cell wraps, and the height comes
+      // from the padding plus however many lines the text takes. The kit's
+      // `table.tbl td` carries padding, a border and a colour and nothing
+      // else, and truncation there is opt-in per column (the Connections
+      // description cell) or per variant (the horizontally scrolling table).
+      //
+      // This used to read `overflow-hidden text-ellipsis whitespace-nowrap`
+      // on every cell, with a comment claiming it "only bites under
+      // `layout=fixed`". It bit everywhere: `whitespace-nowrap` stops the
+      // text wrapping whatever the table-layout is, so under `auto` the
+      // column widened instead and the table scrolled sideways. A two-line
+      // cell was unreachable in either mode.
+      //
+      // `fixed` is where a long value genuinely must not blow its column
+      // open, because the widths are taken from the first row and never
+      // re-measured — so the clamp is scoped to it, keyed off the
+      // `data-layout` the table already stamps.
+      "[[data-layout=fixed]_&]:overflow-hidden",
+      "[[data-layout=fixed]_&]:text-ellipsis",
+      "[[data-layout=fixed]_&]:whitespace-nowrap",
       "text-ink-body text-sm",
       "[&:has([role=checkbox])]:pe-0",
       "transition-[background-color] duration-fast [transition-timing-function:ease]",
@@ -25762,18 +26950,32 @@ Defaulting to \`null\`.`;
       // punch a hole through the row state.
       "group-data-[interactive]/row:group-hover/row:bg-tbl-row-hover",
       "group-data-[interactive]/row:group-focus-visible/row:bg-tbl-row-hover",
-      "group-data-[interactive]/row:group-active/row:bg-tbl-row-pressed",
+      // Pressed belongs to whatever was actually pressed. `:active` fires
+      // while the pointer is held ANYWHERE inside the row, so pressing a
+      // toggle, a kebab or a disclosure inside a clickable row painted the
+      // whole row as though the row had been clicked — and an open menu kept
+      // it painted afterwards. In a table the click target is the object,
+      // not the row; the row takes the pressed fill only when the row itself
+      // is what went down. Same guard `Card variant="row"` already carries.
+      "group-[[data-interactive]:active:not(:has(button:active)):not(:has(a:active)):not(:has([data-state=open]))]/row:bg-tbl-row-pressed",
       // Selected is not gated on `data-interactive` — a row can be selected
       // without being clickable. Both spellings are supported: the
       // `is-selected` class and Radix-style `data-state="selected"`.
       "group-[.is-selected]/row:bg-tbl-row-pressed",
       "group-data-[state=selected]/row:bg-tbl-row-pressed",
-      // Hover/press *while selected* has to out-specify plain hover, and
-      // Tailwind emits the `.is-selected` variants first in the stylesheet, so
-      // same-specificity ordering would otherwise hand the win to hover.
-      "group-[.is-selected]/row:group-hover/row:!bg-tbl-row-selected-hover",
+      // A selected row keeps its own surface under the pointer — there is no
+      // combined selected+hover colour any more, and no `--tbl-row-selected-hover`
+      // to name. Pointing at a selected row used to repaint it, which read as
+      // the row becoming *less* selected the moment you touched it.
+      //
+      // These two still carry `!` because Tailwind emits the `.is-selected`
+      // variants before the `data-interactive` ones, so at equal specificity
+      // plain hover would win and the selection would visibly disappear. The
+      // row still answers the pointer: the controls inside it keep their own
+      // hover, which now composites on top of the selected surface.
+      "group-[.is-selected]/row:group-hover/row:!bg-tbl-row-pressed",
       "group-[.is-selected]/row:group-active/row:!bg-tbl-row-pressed",
-      "group-data-[state=selected]/row:group-hover/row:!bg-tbl-row-selected-hover",
+      "group-data-[state=selected]/row:group-hover/row:!bg-tbl-row-pressed",
       "group-data-[state=selected]/row:group-active/row:!bg-tbl-row-pressed",
       className
     ), ...props });
@@ -25781,7 +26983,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/Table/TableActionsCell.js
   function TableActionsCell({ className, reveal = true, ...props }) {
-    return (0, import_jsx_runtime137.jsx)(TableCell, { "data-slot": "table-actions-cell", className: cn(
+    return (0, import_jsx_runtime146.jsx)(TableCell, { "data-slot": "table-actions-cell", className: cn(
       // TableCell clips its overflow to truncate text; an actions cell holds
       // controls, and a menu anchored here must not be cut off.
       "relative w-12 overflow-visible pe-2 text-right",
@@ -25804,9 +27006,9 @@ Defaulting to \`null\`.`;
 
   // dist/components/Table/TableBody.js
   init_define_import_meta_env();
-  var import_jsx_runtime138 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime147 = __toESM(require_react_shim(), 1);
   function TableBody({ className, ...props }) {
-    return (0, import_jsx_runtime138.jsx)("tbody", { "data-slot": "table-body", className: cn(
+    return (0, import_jsx_runtime147.jsx)("tbody", { "data-slot": "table-body", className: cn(
       // The divider lives here, on the child selector, rather than only on
       // TableRow: a consumer that writes a plain <tr> — which is valid, and
       // what a generator tends to do — would otherwise get a table with no
@@ -25821,68 +27023,116 @@ Defaulting to \`null\`.`;
 
   // dist/components/Table/TableCaption.js
   init_define_import_meta_env();
-  var import_jsx_runtime139 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime148 = __toESM(require_react_shim(), 1);
   function TableCaption({ className, ...props }) {
-    return (0, import_jsx_runtime139.jsx)("caption", { "data-slot": "table-caption", className: cn("mt-3 text-ink-secondary text-sm", className), ...props });
+    return (0, import_jsx_runtime148.jsx)("caption", { "data-slot": "table-caption", className: cn("mt-3 text-ink-secondary text-sm", className), ...props });
   }
 
   // dist/components/Table/TableFooter.js
   init_define_import_meta_env();
-  var import_jsx_runtime140 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime149 = __toESM(require_react_shim(), 1);
   function TableFooter({ className, ...props }) {
-    return (0, import_jsx_runtime140.jsx)("tfoot", { "data-slot": "table-footer", className: cn("border-stroke border-t font-medium", "[&>tr]:last:border-b-0", className), ...props });
+    return (0, import_jsx_runtime149.jsx)("tfoot", { "data-slot": "table-footer", className: cn("border-stroke border-t font-medium", "[&>tr]:last:border-b-0", className), ...props });
   }
 
   // dist/components/Table/TableHead.js
   init_define_import_meta_env();
-  var import_jsx_runtime141 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime150 = __toESM(require_react_shim(), 1);
   function SortIcon({ direction }) {
     if (!direction) {
-      return (0, import_jsx_runtime141.jsx)(ChevronsUpDown, { className: "size-3.5 text-ink-inactive" });
+      return (0, import_jsx_runtime150.jsx)(ChevronsUpDown, { className: "size-3.5 text-ink-inactive transition-colors group-hover:text-ink-icon-hover" });
     }
-    return (0, import_jsx_runtime141.jsx)(ChevronDown, { className: cn("size-3.5 text-ink-body transition-transform duration-base", direction === "asc" && "rotate-180") });
+    return (0, import_jsx_runtime150.jsx)(ChevronDown, { className: cn("size-3.5 text-ink-body transition-[transform,color] duration-base", "group-hover:text-ink-icon-hover", direction === "asc" && "rotate-180") });
   }
-  function TableHead({ className, children, sortable, sortDirection = void 0, onSort, ...props }) {
-    return (0, import_jsx_runtime141.jsx)("th", { "data-slot": "table-head", "aria-sort": sortable ? sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none" : void 0, className: cn(
+  function TableHead({ className, children, width = "auto", sortable, sortDirection = void 0, onSort, ...props }) {
+    return (0, import_jsx_runtime150.jsx)("th", { "data-slot": "table-head", "aria-sort": sortable ? sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none" : void 0, className: cn(
       // Same 10px/16px padding as TableCell, deliberately duplicated rather
       // than shortened: a header inset that differs from its column's body
       // inset is the single most visible table defect there is.
-      "px-4 py-2.5 align-middle",
+      // 36px, fixed, and the vertical inset comes FROM that height rather
+      // than from padding. Measured: a header row was 36.5px in a table with
+      // no selection column and 38.5px in one with it, because an 18px
+      // checkbox is taller than the 16px line the labels sit on and padding
+      // adds to whatever is tallest. Two tables on the same screen, two
+      // header heights, for a reason that has nothing to do with the header.
+      //
+      // `h-9` alone did not fix it — on a table cell `height` is a minimum,
+      // so 20px of padding around an 18px control still won. The padding has
+      // to yield: at `py-0` the cell is exactly 36px and `align-middle`
+      // centres whatever is in it, which puts a 16px label at the same 10px
+      // from the top it had before. The label does not move; only the extra
+      // 2px under a checkbox goes.
+      //
+      // 36px is also what the kit's `table.tbl th` computes to (.625rem of
+      // padding around a 16px line), so this is the height the header always
+      // meant to be. Safe as a fixed height because a header never wraps —
+      // `whitespace-nowrap` is right below — and nothing in one is taller
+      // than the 18px control that caused this.
+      //
+      // `TableCell` keeps its padding and still grows with its content (§42):
+      // a body row has to be able to hold two lines, a header does not.
+      "h-9 px-4 py-0 align-middle",
+      // The header tightens with the body — 28px against 36. **Draft**, with
+      // `Table density="compact"`. A header that keeps its height over a
+      // tightened body stops reading as that body's header.
+      "[[data-density=compact]_&]:h-7",
       "whitespace-nowrap text-left",
+      width === "control" && "w-12",
+      width === "actions" && "w-28",
+      width === "sm" && "w-[12%]",
+      width === "md" && "w-[16%]",
+      width === "lg" && "w-[20%]",
       "font-medium text-ink-secondary text-xs leading-4",
       "[&:has([role=checkbox])]:pe-0",
       className
-    ), ...props, children: sortable ? (0, import_jsx_runtime141.jsxs)("button", { type: "button", onClick: onSort, className: cn("inline-flex items-center gap-1.5 rounded", "transition-colors hover:text-ink-body", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-table-header-bg", sortDirection && "text-ink-body"), children: [children, (0, import_jsx_runtime141.jsx)(SortIcon, { direction: sortDirection })] }) : children });
+    ), ...props, children: sortable ? (0, import_jsx_runtime150.jsxs)("button", { type: "button", onClick: onSort, className: cn(
+      "inline-flex items-center gap-1.5 rounded",
+      /* The sort control is a label plus a standalone glyph — no box to
+         fill — so hover and press are carried by colour alone, on the
+         icon tokens. */
+      /* Hover only. A sort header is not a press target — it commits on
+         click and the result is the table reordering, which is feedback
+         enough; a press colour on a control with no box reads as a
+         flicker. */
+      "group transition-colors hover:text-ink-icon-hover",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-table-header-bg",
+      sortDirection && "text-ink-body"
+    ), children: [children, (0, import_jsx_runtime150.jsx)(SortIcon, { direction: sortDirection })] }) : children });
   }
 
   // dist/components/Table/TableHeader.js
   init_define_import_meta_env();
-  var import_jsx_runtime142 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime151 = __toESM(require_react_shim(), 1);
   function TableHeader({ className, ...props }) {
-    return (0, import_jsx_runtime142.jsx)("thead", { "data-slot": "table-header", className: cn("[&_tr]:border-stroke [&_tr]:border-b", className), ...props });
+    return (0, import_jsx_runtime151.jsx)("thead", { "data-slot": "table-header", className: cn("[&_tr]:border-stroke [&_tr]:border-b", className), ...props });
   }
 
   // dist/components/Table/TableRow.js
   init_define_import_meta_env();
-  var import_jsx_runtime143 = __toESM(require_react_shim(), 1);
-  function TableRow({ className, ...props }) {
-    return (0, import_jsx_runtime143.jsx)("tr", {
-      "data-slot": "table-row",
-      // `group/row` is the hook every row-scoped rule hangs off: the cell fills
-      // in TableCell and the hover/focus reveal in TableActionsCell.
-      className: cn("group/row border-stroke border-b", className),
-      ...props
-    });
+  var import_jsx_runtime152 = __toESM(require_react_shim(), 1);
+  function TableRow({ className, nested, ...props }) {
+    return (0, import_jsx_runtime152.jsx)("tr", { "data-slot": "table-row", "data-nested": nested ? "" : void 0, className: cn(
+      "group/row border-stroke border-b",
+      // `data-interactive` already gets the hover fill (on the cells, see
+      // TableCell) and the pressed fill and the focus fill. It did not get a
+      // CURSOR, so the one row state that means "this opens something"
+      // answered the pointer with a text caret — the fill said pressable and
+      // the cursor said selectable text, on the same pixel. Consumers were
+      // documenting the cursor as part of the attribute while no rule
+      // emitted it.
+      "data-[interactive]:cursor-pointer",
+      className
+    ), ...props });
   }
 
   // dist/components/Table/index.js
-  function Table({ className, wrapperClassName, layout = "auto", ...props }) {
-    return (0, import_jsx_runtime144.jsx)("div", {
+  function Table({ className, wrapperClassName, layout = "auto", density = "comfortable", ...props }) {
+    return (0, import_jsx_runtime153.jsx)("div", {
       "data-slot": "table-container",
       // `overflow-x-auto` doubles as the clip that keeps the header band inside
       // the rounded corners.
       className: cn("relative w-full overflow-x-auto rounded-lg border border-stroke bg-surface-card", wrapperClassName),
-      children: (0, import_jsx_runtime144.jsx)("table", { "data-slot": "table", "data-layout": layout, className: cn(
+      children: (0, import_jsx_runtime153.jsx)("table", { "data-slot": "table", "data-layout": layout, "data-density": density === "compact" ? "compact" : void 0, className: cn(
         "caption-bottom text-sm",
         // A fixed table fills the frame; an auto table is allowed to outgrow
         // it and scroll, which is the whole point of the container.
@@ -25897,15 +27147,15 @@ Defaulting to \`null\`.`;
 
   // dist/components/Tabs/Tabs.js
   init_define_import_meta_env();
-  var import_jsx_runtime145 = __toESM(require_react_shim(), 1);
-  var import_react74 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime154 = __toESM(require_react_shim(), 1);
+  var import_react76 = __toESM(require_react_shim(), 1);
 
   // dist/components/Tabs/TabsContext.js
   init_define_import_meta_env();
-  var import_react73 = __toESM(require_react_shim(), 1);
-  var TabsContext = (0, import_react73.createContext)(null);
+  var import_react75 = __toESM(require_react_shim(), 1);
+  var TabsContext = (0, import_react75.createContext)(null);
   var useTabs = () => {
-    const context = (0, import_react73.useContext)(TabsContext);
+    const context = (0, import_react75.useContext)(TabsContext);
     if (!context) {
       throw new Error("Tabs components must be used within a Tabs root");
     }
@@ -25914,22 +27164,23 @@ Defaulting to \`null\`.`;
 
   // dist/components/Tabs/Tabs.js
   var Tabs3 = ({ size: size4 = "md", className, ...props }) => {
-    const contextValue = (0, import_react74.useMemo)(() => ({ size: size4 }), [size4]);
-    return (0, import_jsx_runtime145.jsx)(TabsContext.Provider, { value: contextValue, children: (0, import_jsx_runtime145.jsx)(Root25, { className, ...props }) });
+    const contextValue = (0, import_react76.useMemo)(() => ({ size: size4 }), [size4]);
+    return (0, import_jsx_runtime154.jsx)(TabsContext.Provider, { value: contextValue, children: (0, import_jsx_runtime154.jsx)(Root25, { className, ...props }) });
   };
   Tabs3.displayName = "Tabs";
 
   // dist/components/Tabs/TabsContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime146 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime155 = __toESM(require_react_shim(), 1);
   var TabsContent3 = ({ className, ref, ...props }) => {
-    return (0, import_jsx_runtime146.jsx)(Content4, { ref, className: cn(
+    return (0, import_jsx_runtime155.jsx)(Content4, { ref, className: cn(
       // Radix hides the inactive panel with the `hidden` attribute, and that
       // is only `display:none` from the UA stylesheet — any display class a
       // consumer passes (`flex`, `grid`, `block`) outranks it and brings the
       // panel back as an empty box that pushes the active one down. Pin it.
       "data-[state=inactive]:!hidden",
-      "mt-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card",
+      // No top margin: the gap to the strip is emitted by TabsList (see there).
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card",
       className
     ), ...props });
   };
@@ -25937,12 +27188,18 @@ Defaulting to \`null\`.`;
 
   // dist/components/Tabs/TabsList.js
   init_define_import_meta_env();
-  var import_jsx_runtime147 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime156 = __toESM(require_react_shim(), 1);
   var TabsList3 = ({ className, ref, ...props }) => {
-    return (0, import_jsx_runtime147.jsx)(List, {
+    return (0, import_jsx_runtime156.jsx)(List, {
       ref,
       // Shared bottom edge the active tab's underline overlaps (-mb-px on trigger).
-      className: cn("inline-flex items-center gap-2 border-stroke border-b", className),
+      //
+      // The gap down to the panel lives HERE, not on TabsContent. It is the gap
+      // between the strip and what the strip controls, so it belongs to the
+      // strip: a Tabs used without a visible list (sections, a stepped flow)
+      // then starts flush with whatever sits beside it, instead of carrying an
+      // orphan 16px that has nothing above it to separate from.
+      className: cn("mb-4 inline-flex items-center gap-2 border-stroke border-b", className),
       ...props
     });
   };
@@ -25950,7 +27207,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/Tabs/TabsTrigger.js
   init_define_import_meta_env();
-  var import_jsx_runtime148 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime157 = __toESM(require_react_shim(), 1);
   var tabsTriggerVariants = cva(cn(
     "relative inline-flex items-center justify-center gap-1.5 whitespace-nowrap",
     "-mb-px cursor-pointer rounded-t border-0 bg-transparent font-medium text-ink-secondary",
@@ -25980,14 +27237,14 @@ Defaulting to \`null\`.`;
   });
   var TabsTrigger3 = ({ className, ref, ...props }) => {
     const { size: size4 } = useTabs();
-    return (0, import_jsx_runtime148.jsx)(Trigger6, { ref, className: cn(tabsTriggerVariants({ size: size4 }), className), ...props });
+    return (0, import_jsx_runtime157.jsx)(Trigger6, { ref, className: cn(tabsTriggerVariants({ size: size4 }), className), ...props });
   };
   TabsTrigger3.displayName = Trigger6.displayName;
 
   // dist/components/TextArea/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime149 = __toESM(require_react_shim(), 1);
-  var import_react75 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime158 = __toESM(require_react_shim(), 1);
+  var import_react77 = __toESM(require_react_shim(), 1);
   var textAreaVariants = cva(cn(
     "block w-full min-w-0 resize-none",
     "outline-none",
@@ -26016,13 +27273,17 @@ Defaulting to \`null\`.`;
         "3xl": "rounded-3xl"
       },
       size: {
-        // Same horizontal ladder as Button and InputGroup.
+        // The field ladder: 8 / 12 / 12 / 12 / 12. It matches Button at xs,
+        // sm and md and then holds, where Button opens out to 16 and 20 — a
+        // field is a place to put text and reads tighter the nearer its value
+        // starts to the edge, while a button's inset is what makes the label
+        // read as a target. InputGroup carries the same five values.
         // Type ladder: xs 12 / sm 12 / md-xl 14 - 13px is off the scale.
-        xs: cn("px-2 py-2", "text-xs placeholder:text-xs"),
-        sm: cn("px-3 py-2", "text-xs placeholder:text-xs"),
+        xs: cn("px-2 py-1", "text-xs placeholder:text-xs"),
+        sm: cn("px-3 py-1.5", "text-sm placeholder:text-sm"),
         md: cn("px-3 py-2", "text-sm placeholder:text-sm"),
-        lg: cn("px-4 py-2.5", "text-sm placeholder:text-sm"),
-        xl: cn("px-5 py-3", "text-sm placeholder:text-sm")
+        lg: cn("px-3 py-2", "text-base placeholder:text-base"),
+        xl: cn("px-3 py-2.5", "text-base placeholder:text-base")
       }
     },
     defaultVariants: {
@@ -26048,20 +27309,20 @@ Defaulting to \`null\`.`;
     const normalizedValue = Math.floor(value);
     return normalizedValue > 0 ? normalizedValue : fallback;
   };
-  var TextArea = ({ ref, variant, size: size4, rounded, maxRowsBeforeScroll = 15, rows = 8, value, defaultValue, className, onInput, id, label, isInvalid = false, errorText, showCount = false, maxLength, ...props }) => {
-    const innerRef = (0, import_react75.useRef)(null);
-    const generatedId = (0, import_react75.useId)();
+  var TextArea = ({ ref, variant, size: size4, rounded, maxRowsBeforeScroll = 15, rows = 8, value, defaultValue, className, onInput, id, label, isInvalid = false, errorText, showCount = false, wrapperClassName, hintText, maxLength, ...props }) => {
+    const innerRef = (0, import_react77.useRef)(null);
+    const generatedId = (0, import_react77.useId)();
     const resolvedId = id ?? (label ? generatedId : void 0);
     const safeMaxRowsBeforeScroll = sanitizePositiveRowCount(maxRowsBeforeScroll, 15);
     const errorId = isInvalid && errorText ? `${resolvedId}-error` : void 0;
-    const [uncontrolledCount, setUncontrolledCount] = (0, import_react75.useState)(() => String(defaultValue ?? "").length);
+    const [uncontrolledCount, setUncontrolledCount] = (0, import_react77.useState)(() => String(defaultValue ?? "").length);
     const count3 = value === void 0 ? uncontrolledCount : String(value).length;
     const hasCount = showCount && typeof maxLength === "number";
-    const handleRef = (0, import_react75.useCallback)((node) => {
+    const handleRef = (0, import_react77.useCallback)((node) => {
       innerRef.current = node;
       setRef3(ref, node);
     }, [ref]);
-    const resizeToContent = (0, import_react75.useCallback)(() => {
+    const resizeToContent = (0, import_react77.useCallback)(() => {
       const element = innerRef.current;
       if (!element) {
         return;
@@ -26078,10 +27339,10 @@ Defaulting to \`null\`.`;
       element.style.height = `${nextHeight}px`;
       element.style.overflowY = element.scrollHeight > maxHeight ? "auto" : "hidden";
     }, [safeMaxRowsBeforeScroll]);
-    (0, import_react75.useLayoutEffect)(() => {
+    (0, import_react77.useLayoutEffect)(() => {
       resizeToContent();
     }, [resizeToContent, value]);
-    const textareaElement = (0, import_jsx_runtime149.jsx)("textarea", { ref: handleRef, id: resolvedId, rows, value, defaultValue, "aria-invalid": isInvalid || void 0, "aria-describedby": errorId, maxLength, onInput: (event) => {
+    const textareaElement = (0, import_jsx_runtime158.jsx)("textarea", { ref: handleRef, id: resolvedId, rows, value, defaultValue, "aria-invalid": isInvalid || void 0, "aria-describedby": errorId, maxLength, onInput: (event) => {
       resizeToContent();
       setUncontrolledCount(event.currentTarget.value.length);
       onInput?.(event);
@@ -26094,21 +27355,30 @@ Defaulting to \`null\`.`;
     if (!label && !errorText && !hasCount) {
       return textareaElement;
     }
-    return (0, import_jsx_runtime149.jsxs)("div", { className: "flex w-full flex-col gap-1", children: [label ? (0, import_jsx_runtime149.jsx)(Typography, { id: errorId, element: "label", variant: "span", textColor: "secondary", weight: "medium", htmlFor: resolvedId, "aria-live": "polite", className: "text-sm", children: label }) : null, textareaElement, isInvalid && errorText || hasCount ? (0, import_jsx_runtime149.jsxs)("div", { className: "flex items-start justify-between gap-4", children: [isInvalid && errorText ? (0, import_jsx_runtime149.jsx)(Typography, {
+    return (0, import_jsx_runtime158.jsxs)("div", { className: cn("flex w-full flex-col gap-1", wrapperClassName), children: [label ? (0, import_jsx_runtime158.jsx)(Typography, { id: errorId, element: "label", variant: "span", textColor: "body", weight: "medium", htmlFor: resolvedId, "aria-live": "polite", className: "text-sm", children: label }) : null, textareaElement, isInvalid && errorText || hasCount || hintText ? (0, import_jsx_runtime158.jsxs)("div", { className: "flex items-start justify-between gap-4", children: [isInvalid && errorText ? (0, import_jsx_runtime158.jsx)(Typography, {
       variant: "span",
       textColor: "destructive",
       // Helper text is text-xs / medium in Feedback/Red — matches Input.
       className: "min-w-0 flex-1 font-medium text-fb-red-text text-xs",
       children: errorText
-    }) : null, hasCount ? (0, import_jsx_runtime149.jsxs)(Typography, {
-      variant: "span",
+    }) : hintText ? (
+      // `textStyle="body12"`, not `variant="span"`. The legacy variant is
+      // `font-medium text-sm`, so `text-xs` beside it corrected the size
+      // and left the WEIGHT at 500: the hint under a field rendered
+      // bolder than the sentence it belongs to, and bolder than the same
+      // hint written by hand anywhere else in the product. A hint is body
+      // copy; the named scale says so in one token.
+      (0, import_jsx_runtime158.jsx)(Typography, { element: "span", textStyle: "body12", textColor: "secondary", className: "min-w-0 flex-1", children: hintText })
+    ) : null, hasCount ? (0, import_jsx_runtime158.jsxs)(Typography, {
+      element: "span",
+      textStyle: "body12",
       textColor: "secondary",
       "aria-live": "polite",
       // Digits only. "0 characters / 4000 max" reads as a sentence and
       // gets re-read on every keystroke; "0/4000" is a readout — the eye
       // catches the changing number without parsing words around it.
       // tabular-nums keeps it from twitching as the width of digits changes.
-      className: "ms-auto shrink-0 whitespace-nowrap text-xs tabular-nums",
+      className: "ms-auto shrink-0 whitespace-nowrap tabular-nums",
       children: [count3, "/", maxLength]
     }) : null] }) : null] });
   };
@@ -26118,29 +27388,29 @@ Defaulting to \`null\`.`;
 
   // dist/components/Timeline/Timeline.js
   init_define_import_meta_env();
-  var import_jsx_runtime150 = __toESM(require_react_shim(), 1);
-  var Timeline = ({ className, ref, ...props }) => (0, import_jsx_runtime150.jsx)(Root, { ref, "data-slot": "timeline", className: cn("flex w-full flex-col", className), ...props });
+  var import_jsx_runtime159 = __toESM(require_react_shim(), 1);
+  var Timeline = ({ className, ref, ...props }) => (0, import_jsx_runtime159.jsx)(Root, { ref, "data-slot": "timeline", className: cn("flex w-full flex-col", className), ...props });
   Timeline.displayName = "Timeline";
 
   // dist/components/Timeline/TimelineContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime151 = __toESM(require_react_shim(), 1);
-  var TimelineContent = ({ className, children, ref, ...props }) => (0, import_jsx_runtime151.jsx)(Content, { ref, "data-slot": "timeline-content", className: cn("py-1", "overflow-hidden", "motion-reduce:animate-none", "data-[state=closed]:motion-safe:animate-collapsible-up", "data-[state=open]:motion-safe:animate-collapsible-down"), ...props, children: (0, import_jsx_runtime151.jsx)("div", { className: cn("flex flex-col pb-2", "[&>*:last-child_[data-slot=timeline-connector]]:hidden", className), children }) });
+  var import_jsx_runtime160 = __toESM(require_react_shim(), 1);
+  var TimelineContent = ({ className, children, ref, ...props }) => (0, import_jsx_runtime160.jsx)(Content, { ref, "data-slot": "timeline-content", className: cn("py-1", "overflow-hidden", "motion-reduce:animate-none", "data-[state=closed]:motion-safe:animate-collapsible-up", "data-[state=open]:motion-safe:animate-collapsible-down"), ...props, children: (0, import_jsx_runtime160.jsx)("div", { className: cn("flex flex-col pb-2", "[&>*:last-child_[data-slot=timeline-connector]]:hidden", className), children }) });
   TimelineContent.displayName = "TimelineContent";
 
   // dist/components/Timeline/TimelineHeader.js
   init_define_import_meta_env();
-  var import_jsx_runtime152 = __toESM(require_react_shim(), 1);
-  var TimelineHeader = ({ icon, className, children, ref, ...props }) => (0, import_jsx_runtime152.jsxs)(Trigger, { ref, "data-slot": "timeline-header", className: cn("group/timeline-header", "flex w-full items-center gap-2 py-2", "text-ink-secondary text-sm", "font-medium", "outline-none", "transition-colors", "hover:text-ink-primary", "focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-state-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card", className), ...props, children: [icon && (0, import_jsx_runtime152.jsx)("span", { className: "flex shrink-0 items-center [&_svg]:size-4", children: icon }), (0, import_jsx_runtime152.jsx)("span", { className: "truncate text-left", children }), (0, import_jsx_runtime152.jsx)(ChevronDown, { className: "pointer-events-none size-4 shrink-0 -rotate-90 transition-transform duration-base group-data-[state=open]/timeline-header:rotate-0" })] });
+  var import_jsx_runtime161 = __toESM(require_react_shim(), 1);
+  var TimelineHeader = ({ icon, className, children, ref, ...props }) => (0, import_jsx_runtime161.jsxs)(Trigger, { ref, "data-slot": "timeline-header", className: cn("group/timeline-header", "flex w-full items-center gap-2 py-2", "text-ink-secondary text-sm", "font-medium", "outline-none", "transition-colors", "hover:text-ink-primary", "focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-state-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card", className), ...props, children: [icon && (0, import_jsx_runtime161.jsx)("span", { className: "flex shrink-0 items-center [&_svg]:size-4", children: icon }), (0, import_jsx_runtime161.jsx)("span", { className: "truncate text-left", children }), (0, import_jsx_runtime161.jsx)(ChevronDown, { className: "pointer-events-none size-4 shrink-0 -rotate-90 transition-transform duration-base group-data-[state=open]/timeline-header:rotate-0" })] });
   TimelineHeader.displayName = "TimelineHeader";
 
   // dist/components/Timeline/TimelineStep.js
   init_define_import_meta_env();
-  var import_jsx_runtime154 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime163 = __toESM(require_react_shim(), 1);
 
   // dist/components/Timeline/TimelineStepMarker.js
   init_define_import_meta_env();
-  var import_jsx_runtime153 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime162 = __toESM(require_react_shim(), 1);
   var timelineStepMarkerVariants = cva(cn("relative z-10 flex size-4 shrink-0 items-center justify-center rounded-full", "bg-surface-card", "[&_svg]:size-4"), {
     variants: {
       status: {
@@ -26156,14 +27426,14 @@ Defaulting to \`null\`.`;
   });
   var TimelineStepMarker = ({ status }) => {
     if (status === "active") {
-      return (0, import_jsx_runtime153.jsx)("span", { className: cn(timelineStepMarkerVariants({ status })), children: (0, import_jsx_runtime153.jsx)(Spinner, { size: "xs", color: "secondary" }) });
+      return (0, import_jsx_runtime162.jsx)("span", { className: cn(timelineStepMarkerVariants({ status })), children: (0, import_jsx_runtime162.jsx)(Spinner, { size: "xs", color: "secondary" }) });
     }
-    return (0, import_jsx_runtime153.jsxs)("span", { className: cn(timelineStepMarkerVariants({ status })), children: [status === "success" && (0, import_jsx_runtime153.jsx)(CircleCheck, {}), status === "error" && (0, import_jsx_runtime153.jsx)(CircleAlert, {}), status === "pending" && (0, import_jsx_runtime153.jsx)(Circle, {})] });
+    return (0, import_jsx_runtime162.jsxs)("span", { className: cn(timelineStepMarkerVariants({ status })), children: [status === "success" && (0, import_jsx_runtime162.jsx)(CircleCheck, {}), status === "error" && (0, import_jsx_runtime162.jsx)(CircleAlert, {}), status === "pending" && (0, import_jsx_runtime162.jsx)(Circle, {})] });
   };
   TimelineStepMarker.displayName = "TimelineStepMarker";
 
   // dist/components/Timeline/TimelineStep.js
-  var TimelineStep = ({ status, title, icon, open, defaultOpen = false, toggleLabel, className, contentClassName, children, ref, onOpenChange, ...props }) => (0, import_jsx_runtime154.jsxs)(Root, { ref, open, defaultOpen, onOpenChange, "data-slot": "timeline-step", className: cn("relative flex flex-col", className), ...props, children: [(0, import_jsx_runtime154.jsx)("span", { "aria-hidden": true, "data-slot": "timeline-connector", className: "absolute top-3 -bottom-3 left-2 w-px -translate-x-1/2 bg-stroke" }), (0, import_jsx_runtime154.jsxs)(Trigger, { "aria-label": toggleLabel, "data-slot": "timeline-step-trigger", className: cn("group/timeline-step", "relative flex w-full items-center gap-2 py-2", "outline-none", "focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-state-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"), children: [(0, import_jsx_runtime154.jsx)(TimelineStepMarker, { status }), icon && (0, import_jsx_runtime154.jsx)("span", { className: "flex shrink-0 items-center text-ink-secondary [&_svg]:size-4", children: icon }), (0, import_jsx_runtime154.jsx)("span", { className: "min-w-0 flex-initial truncate text-left font-mono text-ink-body text-sm transition-colors group-hover/timeline-step:text-ink-primary", children: title }), (0, import_jsx_runtime154.jsx)(ChevronDown, { className: "pointer-events-none -ml-0.5 size-3 shrink-0 -rotate-90 text-ink-secondary transition-transform duration-base group-hover/timeline-step:text-ink-primary group-data-[state=open]/timeline-step:rotate-0" })] }), (0, import_jsx_runtime154.jsx)(Content, { "data-slot": "timeline-step-content", className: cn("overflow-hidden", "motion-reduce:animate-none", "data-[state=closed]:motion-safe:animate-collapsible-up", "data-[state=open]:motion-safe:animate-collapsible-down"), children: (0, import_jsx_runtime154.jsx)("div", { className: cn("flex flex-col gap-3 pt-1 pb-2 pl-6", contentClassName), children }) })] });
+  var TimelineStep = ({ status, title, icon, open, defaultOpen = false, toggleLabel, className, contentClassName, children, ref, onOpenChange, ...props }) => (0, import_jsx_runtime163.jsxs)(Root, { ref, open, defaultOpen, onOpenChange, "data-slot": "timeline-step", className: cn("relative flex flex-col", className), ...props, children: [(0, import_jsx_runtime163.jsx)("span", { "aria-hidden": true, "data-slot": "timeline-connector", className: "absolute top-3 -bottom-3 left-2 w-px -translate-x-1/2 bg-stroke" }), (0, import_jsx_runtime163.jsxs)(Trigger, { "aria-label": toggleLabel, "data-slot": "timeline-step-trigger", className: cn("group/timeline-step", "relative flex w-full items-center gap-2 py-2", "outline-none", "focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-state-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"), children: [(0, import_jsx_runtime163.jsx)(TimelineStepMarker, { status }), icon && (0, import_jsx_runtime163.jsx)("span", { className: "flex shrink-0 items-center text-ink-secondary [&_svg]:size-4", children: icon }), (0, import_jsx_runtime163.jsx)("span", { className: "min-w-0 flex-initial truncate text-left font-mono text-ink-body text-sm transition-colors group-hover/timeline-step:text-ink-primary", children: title }), (0, import_jsx_runtime163.jsx)(ChevronDown, { className: "pointer-events-none -ml-0.5 size-3 shrink-0 -rotate-90 text-ink-secondary transition-transform duration-base group-hover/timeline-step:text-ink-primary group-data-[state=open]/timeline-step:rotate-0" })] }), (0, import_jsx_runtime163.jsx)(Content, { "data-slot": "timeline-step-content", className: cn("overflow-hidden", "motion-reduce:animate-none", "data-[state=closed]:motion-safe:animate-collapsible-up", "data-[state=open]:motion-safe:animate-collapsible-down"), children: (0, import_jsx_runtime163.jsx)("div", { className: cn("flex flex-col gap-3 pt-1 pb-2 pl-6", contentClassName), children }) })] });
   TimelineStep.displayName = "TimelineStep";
 
   // dist/components/Toast/index.js
@@ -26171,11 +27441,11 @@ Defaulting to \`null\`.`;
 
   // dist/components/Toast/Toaster.js
   init_define_import_meta_env();
-  var import_jsx_runtime155 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime164 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/sonner@2.0.8_@types+react@1_8915214fe78a3a9151a0586d1784340a/node_modules/sonner/dist/index.mjs
   init_define_import_meta_env();
-  var import_react76 = __toESM(require_react_shim(), 1);
+  var import_react78 = __toESM(require_react_shim(), 1);
   var import_react_dom2 = __toESM(require_react_dom_shim(), 1);
   function __insertCSS(code) {
     if (!code || typeof document == "undefined") return;
@@ -26201,68 +27471,68 @@ Defaulting to \`null\`.`;
   };
   var bars = Array(12).fill(0);
   var Loader = ({ visible, className }) => {
-    return /* @__PURE__ */ import_react76.default.createElement("div", {
+    return /* @__PURE__ */ import_react78.default.createElement("div", {
       className: [
         "sonner-loading-wrapper",
         className
       ].filter(Boolean).join(" "),
       "data-visible": visible
-    }, /* @__PURE__ */ import_react76.default.createElement("div", {
+    }, /* @__PURE__ */ import_react78.default.createElement("div", {
       className: "sonner-spinner"
-    }, bars.map((_, i) => /* @__PURE__ */ import_react76.default.createElement("div", {
+    }, bars.map((_, i) => /* @__PURE__ */ import_react78.default.createElement("div", {
       className: "sonner-loading-bar",
       key: `spinner-bar-${i}`
     }))));
   };
-  var SuccessIcon = /* @__PURE__ */ import_react76.default.createElement("svg", {
+  var SuccessIcon = /* @__PURE__ */ import_react78.default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
     height: "20",
     width: "20",
     "aria-hidden": "true"
-  }, /* @__PURE__ */ import_react76.default.createElement("path", {
+  }, /* @__PURE__ */ import_react78.default.createElement("path", {
     fillRule: "evenodd",
     d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z",
     clipRule: "evenodd"
   }));
-  var WarningIcon = /* @__PURE__ */ import_react76.default.createElement("svg", {
+  var WarningIcon = /* @__PURE__ */ import_react78.default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     fill: "currentColor",
     height: "20",
     width: "20",
     "aria-hidden": "true"
-  }, /* @__PURE__ */ import_react76.default.createElement("path", {
+  }, /* @__PURE__ */ import_react78.default.createElement("path", {
     fillRule: "evenodd",
     d: "M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z",
     clipRule: "evenodd"
   }));
-  var InfoIcon = /* @__PURE__ */ import_react76.default.createElement("svg", {
+  var InfoIcon = /* @__PURE__ */ import_react78.default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
     height: "20",
     width: "20",
     "aria-hidden": "true"
-  }, /* @__PURE__ */ import_react76.default.createElement("path", {
+  }, /* @__PURE__ */ import_react78.default.createElement("path", {
     fillRule: "evenodd",
     d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z",
     clipRule: "evenodd"
   }));
-  var ErrorIcon = /* @__PURE__ */ import_react76.default.createElement("svg", {
+  var ErrorIcon = /* @__PURE__ */ import_react78.default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
     height: "20",
     width: "20",
     "aria-hidden": "true"
-  }, /* @__PURE__ */ import_react76.default.createElement("path", {
+  }, /* @__PURE__ */ import_react78.default.createElement("path", {
     fillRule: "evenodd",
     d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z",
     clipRule: "evenodd"
   }));
-  var CloseIcon = /* @__PURE__ */ import_react76.default.createElement("svg", {
+  var CloseIcon = /* @__PURE__ */ import_react78.default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     width: "12",
     height: "12",
@@ -26273,20 +27543,20 @@ Defaulting to \`null\`.`;
     strokeLinecap: "round",
     strokeLinejoin: "round",
     "aria-hidden": "true"
-  }, /* @__PURE__ */ import_react76.default.createElement("line", {
+  }, /* @__PURE__ */ import_react78.default.createElement("line", {
     x1: "18",
     y1: "6",
     x2: "6",
     y2: "18"
-  }), /* @__PURE__ */ import_react76.default.createElement("line", {
+  }), /* @__PURE__ */ import_react78.default.createElement("line", {
     x1: "6",
     y1: "6",
     x2: "18",
     y2: "18"
   }));
   var useIsDocumentHidden = () => {
-    const [isDocumentHidden, setIsDocumentHidden] = import_react76.default.useState(document.hidden);
-    import_react76.default.useEffect(() => {
+    const [isDocumentHidden, setIsDocumentHidden] = import_react78.default.useState(document.hidden);
+    import_react78.default.useEffect(() => {
       const callback = () => {
         setIsDocumentHidden(document.hidden);
       };
@@ -26470,7 +27740,7 @@ Defaulting to \`null\`.`;
             "resolve",
             response
           ];
-          const isReactElementResponse = import_react76.default.isValidElement(response);
+          const isReactElementResponse = import_react78.default.isValidElement(response);
           if (isReactElementResponse) {
             shouldDismiss = false;
             this.create({
@@ -26482,7 +27752,7 @@ Defaulting to \`null\`.`;
             shouldDismiss = false;
             const promiseData = typeof data.error === "function" ? await data.error(`HTTP error! status: ${response.status}`) : data.error;
             const description = typeof data.description === "function" ? await data.description(`HTTP error! status: ${response.status}`) : data.description;
-            const isExtendedResult = typeof promiseData === "object" && !import_react76.default.isValidElement(promiseData);
+            const isExtendedResult = typeof promiseData === "object" && !import_react78.default.isValidElement(promiseData);
             const toastSettings = isExtendedResult ? promiseData : {
               message: promiseData
             };
@@ -26496,7 +27766,7 @@ Defaulting to \`null\`.`;
             shouldDismiss = false;
             const promiseData = typeof data.error === "function" ? await data.error(response) : data.error;
             const description = typeof data.description === "function" ? await data.description(response) : data.description;
-            const isExtendedResult = typeof promiseData === "object" && !import_react76.default.isValidElement(promiseData);
+            const isExtendedResult = typeof promiseData === "object" && !import_react78.default.isValidElement(promiseData);
             const toastSettings = isExtendedResult ? promiseData : {
               message: promiseData
             };
@@ -26510,7 +27780,7 @@ Defaulting to \`null\`.`;
             shouldDismiss = false;
             const promiseData = typeof data.success === "function" ? await data.success(response) : data.success;
             const description = typeof data.description === "function" ? await data.description(response) : data.description;
-            const isExtendedResult = typeof promiseData === "object" && !import_react76.default.isValidElement(promiseData);
+            const isExtendedResult = typeof promiseData === "object" && !import_react78.default.isValidElement(promiseData);
             const toastSettings = isExtendedResult ? promiseData : {
               message: promiseData
             };
@@ -26530,7 +27800,7 @@ Defaulting to \`null\`.`;
             shouldDismiss = false;
             const promiseData = typeof data.error === "function" ? await data.error(error) : data.error;
             const description = typeof data.description === "function" ? await data.description(error) : data.description;
-            const isExtendedResult = typeof promiseData === "object" && !import_react76.default.isValidElement(promiseData);
+            const isExtendedResult = typeof promiseData === "object" && !import_react78.default.isValidElement(promiseData);
             const toastSettings = isExtendedResult ? promiseData : {
               message: promiseData
             };
@@ -26631,18 +27901,18 @@ Defaulting to \`null\`.`;
   var Toast = (props) => {
     var _toast_classNames, _toast_classNames1, _toast_classNames2, _toast_classNames3, _toast_classNames4, _toast_classNames5, _toast_classNames6, _toast_classNames7, _toast_classNames8;
     const { invert: ToasterInvert, toast: toast3, unstyled, interacting, setHeights, visibleToasts, heights, index: index2, toasts, expanded, removeToast, defaultRichColors, closeButton: closeButtonFromToaster, style, cancelButtonStyle, actionButtonStyle, className = "", descriptionClassName = "", duration: durationFromToaster, position, gap, expandByDefault, classNames, icons, closeButtonAriaLabel = "Close toast" } = props;
-    const [swipeDirection, setSwipeDirection] = import_react76.default.useState(null);
-    const [swipeOutDirection, setSwipeOutDirection] = import_react76.default.useState(null);
-    const [mounted, setMounted] = import_react76.default.useState(false);
-    const [removed, setRemoved] = import_react76.default.useState(false);
-    const [swiping, setSwiping] = import_react76.default.useState(false);
-    const [swipeOut, setSwipeOut] = import_react76.default.useState(false);
-    const [isSwiped, setIsSwiped] = import_react76.default.useState(false);
-    const [offsetBeforeRemove, setOffsetBeforeRemove] = import_react76.default.useState(0);
-    const [initialHeight, setInitialHeight] = import_react76.default.useState(0);
-    const remainingTime = import_react76.default.useRef(toast3.duration || durationFromToaster || TOAST_LIFETIME);
-    const dragStartTime = import_react76.default.useRef(null);
-    const toastRef = import_react76.default.useRef(null);
+    const [swipeDirection, setSwipeDirection] = import_react78.default.useState(null);
+    const [swipeOutDirection, setSwipeOutDirection] = import_react78.default.useState(null);
+    const [mounted, setMounted] = import_react78.default.useState(false);
+    const [removed, setRemoved] = import_react78.default.useState(false);
+    const [swiping, setSwiping] = import_react78.default.useState(false);
+    const [swipeOut, setSwipeOut] = import_react78.default.useState(false);
+    const [isSwiped, setIsSwiped] = import_react78.default.useState(false);
+    const [offsetBeforeRemove, setOffsetBeforeRemove] = import_react78.default.useState(0);
+    const [initialHeight, setInitialHeight] = import_react78.default.useState(0);
+    const remainingTime = import_react78.default.useRef(toast3.duration || durationFromToaster || TOAST_LIFETIME);
+    const dragStartTime = import_react78.default.useRef(null);
+    const toastRef = import_react78.default.useRef(null);
     const isFront = index2 === 0;
     const isVisible = index2 + 1 <= visibleToasts;
     const toastType = toast3.type;
@@ -26650,27 +27920,27 @@ Defaulting to \`null\`.`;
     const dismissible = toast3.dismissible !== false;
     const toastClassname = toast3.className || "";
     const toastDescriptionClassname = toast3.descriptionClassName || "";
-    const heightIndex = import_react76.default.useMemo(() => heights.findIndex((height) => height.toastId === toast3.id) || 0, [
+    const heightIndex = import_react78.default.useMemo(() => heights.findIndex((height) => height.toastId === toast3.id) || 0, [
       heights,
       toast3.id
     ]);
-    const closeButton = import_react76.default.useMemo(() => {
+    const closeButton = import_react78.default.useMemo(() => {
       var _toast_closeButton;
       return (_toast_closeButton = toast3.closeButton) != null ? _toast_closeButton : closeButtonFromToaster;
     }, [
       toast3.closeButton,
       closeButtonFromToaster
     ]);
-    const duration = import_react76.default.useMemo(() => toast3.duration || durationFromToaster || TOAST_LIFETIME, [
+    const duration = import_react78.default.useMemo(() => toast3.duration || durationFromToaster || TOAST_LIFETIME, [
       toast3.duration,
       durationFromToaster
     ]);
-    const closeTimerStartTimeRef = import_react76.default.useRef(0);
-    const offset4 = import_react76.default.useRef(0);
-    const lastCloseTimerStartTimeRef = import_react76.default.useRef(0);
-    const pointerStartRef = import_react76.default.useRef(null);
+    const closeTimerStartTimeRef = import_react78.default.useRef(0);
+    const offset4 = import_react78.default.useRef(0);
+    const lastCloseTimerStartTimeRef = import_react78.default.useRef(0);
+    const pointerStartRef = import_react78.default.useRef(null);
     const [y, x] = position.split("-");
-    const toastsHeightBefore = import_react76.default.useMemo(() => {
+    const toastsHeightBefore = import_react78.default.useMemo(() => {
       return heights.reduce((prev, curr, reducerIndex) => {
         if (reducerIndex >= heightIndex) {
           return prev;
@@ -26682,7 +27952,7 @@ Defaulting to \`null\`.`;
       heightIndex
     ]);
     const isDocumentHidden = useIsDocumentHidden();
-    const swipeDirections = import_react76.default.useMemo(() => {
+    const swipeDirections = import_react78.default.useMemo(() => {
       var _props_swipeDirections;
       return (_props_swipeDirections = props.swipeDirections) != null ? _props_swipeDirections : getDefaultSwipeDirections(position);
     }, [
@@ -26691,19 +27961,19 @@ Defaulting to \`null\`.`;
     ]);
     const invert = toast3.invert || ToasterInvert;
     const disabled = toastType === "loading";
-    offset4.current = import_react76.default.useMemo(() => heightIndex * gap + toastsHeightBefore, [
+    offset4.current = import_react78.default.useMemo(() => heightIndex * gap + toastsHeightBefore, [
       heightIndex,
       toastsHeightBefore
     ]);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       remainingTime.current = duration;
     }, [
       duration
     ]);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       setMounted(true);
     }, []);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       const toastNode = toastRef.current;
       if (toastNode) {
         const height = toastNode.getBoundingClientRect().height;
@@ -26722,7 +27992,7 @@ Defaulting to \`null\`.`;
       setHeights,
       toast3.id
     ]);
-    import_react76.default.useLayoutEffect(() => {
+    import_react78.default.useLayoutEffect(() => {
       if (!mounted) return;
       const toastNode = toastRef.current;
       const originalHeight = toastNode.style.height;
@@ -26758,7 +28028,7 @@ Defaulting to \`null\`.`;
       toast3.action,
       toast3.cancel
     ]);
-    const deleteToast = import_react76.default.useCallback(() => {
+    const deleteToast = import_react78.default.useCallback(() => {
       setRemoved(true);
       setOffsetBeforeRemove(offset4.current);
       setHeights((h) => h.filter((height) => height.toastId !== toast3.id));
@@ -26771,7 +28041,7 @@ Defaulting to \`null\`.`;
       setHeights,
       offset4
     ]);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       if (toast3.promise && toastType === "loading" || toast3.duration === Infinity || toast3.type === "loading") return;
       let timeoutId;
       const pauseTimer = () => {
@@ -26803,7 +28073,7 @@ Defaulting to \`null\`.`;
       isDocumentHidden,
       deleteToast
     ]);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       if (toast3.delete) {
         deleteToast();
         toast3.onDismiss == null ? void 0 : toast3.onDismiss.call(toast3, toast3);
@@ -26816,19 +28086,19 @@ Defaulting to \`null\`.`;
       var _toast_classNames9;
       if (icons == null ? void 0 : icons.loading) {
         var _toast_classNames12;
-        return /* @__PURE__ */ import_react76.default.createElement("div", {
+        return /* @__PURE__ */ import_react78.default.createElement("div", {
           className: cn2(classNames == null ? void 0 : classNames.loader, toast3 == null ? void 0 : (_toast_classNames12 = toast3.classNames) == null ? void 0 : _toast_classNames12.loader, "sonner-loader"),
           "data-visible": toastType === "loading"
         }, icons.loading);
       }
-      return /* @__PURE__ */ import_react76.default.createElement(Loader, {
+      return /* @__PURE__ */ import_react78.default.createElement(Loader, {
         className: cn2(classNames == null ? void 0 : classNames.loader, toast3 == null ? void 0 : (_toast_classNames9 = toast3.classNames) == null ? void 0 : _toast_classNames9.loader),
         visible: toastType === "loading"
       });
     }
     const icon = toast3.icon || (icons == null ? void 0 : icons[toastType]) || getAsset(toastType);
     var _toast_richColors, _icons_close;
-    return /* @__PURE__ */ import_react76.default.createElement("li", {
+    return /* @__PURE__ */ import_react78.default.createElement("li", {
       tabIndex: 0,
       ref: toastRef,
       className: cn2(className, toastClassname, classNames == null ? void 0 : classNames.toast, toast3 == null ? void 0 : (_toast_classNames = toast3.classNames) == null ? void 0 : _toast_classNames.toast, classNames == null ? void 0 : classNames[toastTypeKey], toast3 == null ? void 0 : (_toast_classNames1 = toast3.classNames) == null ? void 0 : _toast_classNames1[toastTypeKey]),
@@ -26952,7 +28222,7 @@ Defaulting to \`null\`.`;
         (_toastRef_current = toastRef.current) == null ? void 0 : _toastRef_current.style.setProperty("--swipe-amount-x", `${swipeAmount.x}px`);
         (_toastRef_current1 = toastRef.current) == null ? void 0 : _toastRef_current1.style.setProperty("--swipe-amount-y", `${swipeAmount.y}px`);
       }
-    }, closeButton && !toast3.jsx && toastType !== "loading" ? /* @__PURE__ */ import_react76.default.createElement("button", {
+    }, closeButton && !toast3.jsx && toastType !== "loading" ? /* @__PURE__ */ import_react78.default.createElement("button", {
       "aria-label": closeButtonAriaLabel,
       "data-disabled": disabled,
       "data-close-button": true,
@@ -26962,19 +28232,19 @@ Defaulting to \`null\`.`;
         toast3.onDismiss == null ? void 0 : toast3.onDismiss.call(toast3, toast3);
       },
       className: cn2(classNames == null ? void 0 : classNames.closeButton, toast3 == null ? void 0 : (_toast_classNames2 = toast3.classNames) == null ? void 0 : _toast_classNames2.closeButton)
-    }, (_icons_close = icons == null ? void 0 : icons.close) != null ? _icons_close : CloseIcon) : null, (toastType || toast3.icon || toast3.promise) && toast3.icon !== null && ((icons == null ? void 0 : icons[toastType]) !== null || toast3.icon) ? /* @__PURE__ */ import_react76.default.createElement("div", {
+    }, (_icons_close = icons == null ? void 0 : icons.close) != null ? _icons_close : CloseIcon) : null, (toastType || toast3.icon || toast3.promise) && toast3.icon !== null && ((icons == null ? void 0 : icons[toastType]) !== null || toast3.icon) ? /* @__PURE__ */ import_react78.default.createElement("div", {
       "data-icon": "",
       className: cn2(classNames == null ? void 0 : classNames.icon, toast3 == null ? void 0 : (_toast_classNames3 = toast3.classNames) == null ? void 0 : _toast_classNames3.icon)
-    }, toastType === "loading" ? toast3.icon || getLoadingIcon() : toast3.promise ? getLoadingIcon() : null, toastType !== "loading" ? icon : null) : null, /* @__PURE__ */ import_react76.default.createElement("div", {
+    }, toastType === "loading" ? toast3.icon || getLoadingIcon() : toast3.promise ? getLoadingIcon() : null, toastType !== "loading" ? icon : null) : null, /* @__PURE__ */ import_react78.default.createElement("div", {
       "data-content": "",
       className: cn2(classNames == null ? void 0 : classNames.content, toast3 == null ? void 0 : (_toast_classNames4 = toast3.classNames) == null ? void 0 : _toast_classNames4.content)
-    }, /* @__PURE__ */ import_react76.default.createElement("div", {
+    }, /* @__PURE__ */ import_react78.default.createElement("div", {
       "data-title": "",
       className: cn2(classNames == null ? void 0 : classNames.title, toast3 == null ? void 0 : (_toast_classNames5 = toast3.classNames) == null ? void 0 : _toast_classNames5.title)
-    }, toast3.jsx ? toast3.jsx : typeof toast3.title === "function" ? toast3.title() : toast3.title), toast3.description ? /* @__PURE__ */ import_react76.default.createElement("div", {
+    }, toast3.jsx ? toast3.jsx : typeof toast3.title === "function" ? toast3.title() : toast3.title), toast3.description ? /* @__PURE__ */ import_react78.default.createElement("div", {
       "data-description": "",
       className: cn2(descriptionClassName, toastDescriptionClassname, classNames == null ? void 0 : classNames.description, toast3 == null ? void 0 : (_toast_classNames6 = toast3.classNames) == null ? void 0 : _toast_classNames6.description)
-    }, typeof toast3.description === "function" ? toast3.description() : toast3.description) : null), /* @__PURE__ */ import_react76.default.isValidElement(toast3.cancel) ? toast3.cancel : toast3.cancel && isAction(toast3.cancel) ? /* @__PURE__ */ import_react76.default.createElement("button", {
+    }, typeof toast3.description === "function" ? toast3.description() : toast3.description) : null), /* @__PURE__ */ import_react78.default.isValidElement(toast3.cancel) ? toast3.cancel : toast3.cancel && isAction(toast3.cancel) ? /* @__PURE__ */ import_react78.default.createElement("button", {
       "data-button": true,
       "data-cancel": true,
       style: toast3.cancelButtonStyle || cancelButtonStyle,
@@ -26985,7 +28255,7 @@ Defaulting to \`null\`.`;
         deleteToast();
       },
       className: cn2(classNames == null ? void 0 : classNames.cancelButton, toast3 == null ? void 0 : (_toast_classNames7 = toast3.classNames) == null ? void 0 : _toast_classNames7.cancelButton)
-    }, toast3.cancel.label) : null, /* @__PURE__ */ import_react76.default.isValidElement(toast3.action) ? toast3.action : toast3.action && isAction(toast3.action) ? /* @__PURE__ */ import_react76.default.createElement("button", {
+    }, toast3.cancel.label) : null, /* @__PURE__ */ import_react78.default.isValidElement(toast3.action) ? toast3.action : toast3.action && isAction(toast3.action) ? /* @__PURE__ */ import_react78.default.createElement("button", {
       "data-button": true,
       "data-action": true,
       style: toast3.actionButtonStyle || actionButtonStyle,
@@ -27047,13 +28317,13 @@ Defaulting to \`null\`.`;
     });
     return styles;
   }
-  var Toaster = /* @__PURE__ */ import_react76.default.forwardRef(function Toaster2(props, ref) {
+  var Toaster = /* @__PURE__ */ import_react78.default.forwardRef(function Toaster2(props, ref) {
     const { id, invert, position = "bottom-right", hotkey = [
       "altKey",
       "KeyT"
     ], expand, closeButton, className, offset: offset4, mobileOffset, theme = "light", richColors, duration, style, visibleToasts = VISIBLE_TOASTS_AMOUNT, toastOptions, dir = getDocumentDirection(), gap = GAP, icons, customAriaLabel, containerAriaLabel = "Notifications" } = props;
-    const [toasts, setToasts] = import_react76.default.useState([]);
-    const filteredToasts = import_react76.default.useMemo(() => {
+    const [toasts, setToasts] = import_react78.default.useState([]);
+    const filteredToasts = import_react78.default.useMemo(() => {
       if (id) {
         return toasts.filter((toast3) => toast3.toasterId === id);
       }
@@ -27062,7 +28332,7 @@ Defaulting to \`null\`.`;
       toasts,
       id
     ]);
-    const possiblePositions = import_react76.default.useMemo(() => {
+    const possiblePositions = import_react78.default.useMemo(() => {
       return Array.from(new Set([
         position
       ].concat(filteredToasts.filter((toast3) => toast3.position).map((toast3) => toast3.position))));
@@ -27070,15 +28340,15 @@ Defaulting to \`null\`.`;
       filteredToasts,
       position
     ]);
-    const [heights, setHeights] = import_react76.default.useState([]);
-    const [expanded, setExpanded] = import_react76.default.useState(false);
-    const [interacting, setInteracting] = import_react76.default.useState(false);
-    const [actualTheme, setActualTheme] = import_react76.default.useState(theme !== "system" ? theme : typeof window !== "undefined" ? window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light" : "light");
-    const listRef = import_react76.default.useRef(null);
+    const [heights, setHeights] = import_react78.default.useState([]);
+    const [expanded, setExpanded] = import_react78.default.useState(false);
+    const [interacting, setInteracting] = import_react78.default.useState(false);
+    const [actualTheme, setActualTheme] = import_react78.default.useState(theme !== "system" ? theme : typeof window !== "undefined" ? window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light" : "light");
+    const listRef = import_react78.default.useRef(null);
     const hotkeyLabel = hotkey.join("+").replace(/Key/g, "").replace(/Digit/g, "");
-    const lastFocusedElementRef = import_react76.default.useRef(null);
-    const isFocusWithinRef = import_react76.default.useRef(false);
-    const removeToast = import_react76.default.useCallback((toastToRemove) => {
+    const lastFocusedElementRef = import_react78.default.useRef(null);
+    const isFocusWithinRef = import_react78.default.useRef(false);
+    const removeToast = import_react78.default.useCallback((toastToRemove) => {
       setToasts((toasts2) => {
         var _toasts_find;
         if (!((_toasts_find = toasts2.find((toast3) => toast3.id === toastToRemove.id)) == null ? void 0 : _toasts_find.delete)) {
@@ -27087,7 +28357,7 @@ Defaulting to \`null\`.`;
         return toasts2.filter(({ id: id2 }) => id2 !== toastToRemove.id);
       });
     }, []);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       return ToastState.subscribe((toast3) => {
         if (toast3.dismiss) {
           requestAnimationFrame(() => {
@@ -27121,7 +28391,7 @@ Defaulting to \`null\`.`;
         });
       });
     }, []);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       if (theme !== "system") {
         setActualTheme(theme);
         return;
@@ -27159,14 +28429,14 @@ Defaulting to \`null\`.`;
     }, [
       theme
     ]);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       if (toasts.length <= 1) {
         setExpanded(false);
       }
     }, [
       toasts
     ]);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       const handleKeyDown = (event) => {
         var _listRef_current;
         const isHotkeyPressed = hotkey.length > 0 && hotkey.every((key) => event[key] || event.code === key);
@@ -27184,7 +28454,7 @@ Defaulting to \`null\`.`;
     }, [
       hotkey
     ]);
-    import_react76.default.useEffect(() => {
+    import_react78.default.useEffect(() => {
       if (listRef.current) {
         return () => {
           if (lastFocusedElementRef.current) {
@@ -27201,7 +28471,7 @@ Defaulting to \`null\`.`;
     ]);
     return (
       // Remove item from normal navigation flow, only available via hotkey
-      /* @__PURE__ */ import_react76.default.createElement("section", {
+      /* @__PURE__ */ import_react78.default.createElement("section", {
         ref,
         "aria-label": customAriaLabel != null ? customAriaLabel : `${containerAriaLabel} ${hotkeyLabel}`,
         tabIndex: -1,
@@ -27214,7 +28484,7 @@ Defaulting to \`null\`.`;
         var _heights_;
         const [y, x] = position2.split("-");
         if (!filteredToasts.length) return null;
-        return /* @__PURE__ */ import_react76.default.createElement("ol", {
+        return /* @__PURE__ */ import_react78.default.createElement("ol", {
           key: position2,
           dir: dir === "auto" ? getDocumentDirection() : dir,
           tabIndex: -1,
@@ -27266,7 +28536,7 @@ Defaulting to \`null\`.`;
           onPointerUp: () => setInteracting(false)
         }, filteredToasts.filter((toast3) => !toast3.position && index2 === 0 || toast3.position === position2).map((toast3, index3) => {
           var _toastOptions_duration, _toastOptions_closeButton;
-          return /* @__PURE__ */ import_react76.default.createElement(Toast, {
+          return /* @__PURE__ */ import_react78.default.createElement(Toast, {
             key: toast3.id,
             icons,
             index: index3,
@@ -27302,13 +28572,13 @@ Defaulting to \`null\`.`;
 
   // dist/components/Toast/Toaster.js
   function Toaster3({ position = "top-right", gap = 8, ...props }) {
-    return (0, import_jsx_runtime155.jsx)(Toaster, { position, gap, ...props });
+    return (0, import_jsx_runtime164.jsx)(Toaster, { position, gap, ...props });
   }
   Toaster3.displayName = "Toaster";
 
   // dist/components/Toast/ToastMessage/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime157 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime166 = __toESM(require_react_shim(), 1);
 
   // dist/components/Toast/ToastMessage/constants.js
   init_define_import_meta_env();
@@ -27341,15 +28611,15 @@ Defaulting to \`null\`.`;
 
   // dist/components/Toast/ToastMessage/ToastProgress.js
   init_define_import_meta_env();
-  var import_jsx_runtime156 = __toESM(require_react_shim(), 1);
-  var import_react77 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime165 = __toESM(require_react_shim(), 1);
+  var import_react79 = __toESM(require_react_shim(), 1);
   var ToastProgress = ({ progressColor, duration }) => {
-    const [started, setStarted] = (0, import_react77.useState)(false);
-    (0, import_react77.useEffect)(() => {
+    const [started, setStarted] = (0, import_react79.useState)(false);
+    (0, import_react79.useEffect)(() => {
       const id = requestAnimationFrame(() => setStarted(true));
       return () => cancelAnimationFrame(id);
     }, []);
-    return (0, import_jsx_runtime156.jsx)("div", { className: cn("absolute bottom-0 left-0 h-[3px]", progressColor), style: {
+    return (0, import_jsx_runtime165.jsx)("div", { className: cn("absolute bottom-0 left-0 h-[3px]", progressColor), style: {
       width: started ? "0%" : "100%",
       transition: `width ${duration}ms linear`
     } });
@@ -27360,24 +28630,30 @@ Defaulting to \`null\`.`;
     const showProgress = Number.isFinite(duration);
     const { icon: iconColor, progress: progressColor } = VARIANT_COLOR_MAP[variant];
     const IconComponent = VARIANT_ICON_MAP[variant];
-    return (0, import_jsx_runtime157.jsxs)("div", { className: cn("relative", "flex w-full flex-col gap-3", "overflow-hidden", "rounded-lg", "border", VARIANT_BORDER_MAP[variant], "p-4", VARIANT_BG_MAP[variant], "shadow-lg", className), ...props, children: [(0, import_jsx_runtime157.jsxs)("div", { className: "flex flex-1 items-start justify-between gap-3", children: [(0, import_jsx_runtime157.jsxs)("div", { className: "flex min-w-0 flex-1 items-start gap-3", children: [icon ?? (0, import_jsx_runtime157.jsx)(IconComponent, { className: cn("mb-auto size-5 shrink-0", iconColor) }), (0, import_jsx_runtime157.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-0.5 text-left", children: [(0, import_jsx_runtime157.jsx)(Typography, { variant: "span", weight: "medium", className: "text-ink-primary", children: message2 }), description && (0, import_jsx_runtime157.jsx)("span", { className: "text-ink-secondary text-xs leading-snug", children: description })] })] }), onClose && (0, import_jsx_runtime157.jsx)(IconButton, { variant: "transparent", size: "sm", className: "mt-0.5 shrink-0 text-ink-body", "aria-label": closeLabel, onClick: onClose, children: (0, import_jsx_runtime157.jsx)(X, { className: "size-4" }) })] }), action && (0, import_jsx_runtime157.jsx)(Button, { variant: "outline", size: "xs", onClick: () => {
+    return (0, import_jsx_runtime166.jsxs)("div", { className: cn("relative", "flex w-full flex-col gap-3", "overflow-hidden", "rounded-lg", "border", VARIANT_BORDER_MAP[variant], "p-4", VARIANT_BG_MAP[variant], "shadow-lg", className), ...props, children: [(0, import_jsx_runtime166.jsxs)("div", { className: "flex flex-1 items-start justify-between gap-3", children: [(0, import_jsx_runtime166.jsxs)("div", { className: "flex min-w-0 flex-1 items-start gap-3", children: [icon ?? (0, import_jsx_runtime166.jsx)(IconComponent, { className: cn("mb-auto size-5 shrink-0", iconColor) }), (0, import_jsx_runtime166.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-0.5 text-left", children: [(0, import_jsx_runtime166.jsx)(Typography, { variant: "span", weight: "medium", className: "text-ink-primary", children: message2 }), description && (0, import_jsx_runtime166.jsx)("span", { className: "text-ink-secondary text-xs leading-snug", children: description })] })] }), onClose && (0, import_jsx_runtime166.jsx)(IconButton, { variant: "transparent", size: "sm", className: "mt-0.5 shrink-0 text-ink-body", "aria-label": closeLabel, onClick: onClose, children: (0, import_jsx_runtime166.jsx)(X, { className: "size-4" }) })] }), action && (0, import_jsx_runtime166.jsx)(Button, { variant: "outline", size: "xs", onClick: () => {
       action.onClick();
       onClose?.();
-    }, children: action.label }), showProgress && (0, import_jsx_runtime157.jsx)(ToastProgress, { progressColor, duration })] });
+    }, children: action.label }), showProgress && (0, import_jsx_runtime166.jsx)(ToastProgress, { progressColor, duration })] });
   }
   ToastMessage.displayName = "ToastMessage";
 
   // dist/components/Toast/toast.js
   init_define_import_meta_env();
-  var import_jsx_runtime158 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime167 = __toESM(require_react_shim(), 1);
   function createToast(variant, message2, options2) {
     const duration = options2?.duration ?? TOAST_DEFAULT_DURATION;
     const position = options2?.position ?? TOAST_DEFAULT_POSITION;
-    return toast.custom((id) => (0, import_jsx_runtime158.jsx)(ToastMessage, { variant, message: message2, description: options2?.description, action: options2?.action, icon: options2?.icon, duration, onClose: () => toast.dismiss(options2?.id || id), closeLabel: options2?.closeLabel }), {
+    return toast.custom((id) => (0, import_jsx_runtime167.jsx)(ToastMessage, { variant, message: message2, description: options2?.description, action: options2?.action, icon: options2?.icon, duration, onClose: () => toast.dismiss(options2?.id || id), closeLabel: options2?.closeLabel }), {
       duration,
       position,
       ...options2?.id ? { id: options2.id } : {},
-      ...options2?.width !== void 0 ? { style: { width: options2.width } } : {}
+      /* One width for every toast, taken from the Toaster’s own `--width`.
+         A custom toast is unstyled as far as sonner is concerned, so it fell
+         back to fitting its content: three success toasts stacked in a
+         corner measured 317, 268 and 296px, and a stack of ragged boxes
+         reads as three unrelated things rather than one log. The variable is
+         still the Toaster’s to set, and an explicit `width` still wins. */
+      style: { width: options2?.width ?? "var(--width)" }
     });
   }
   var toast2 = {
@@ -27390,12 +28666,12 @@ Defaulting to \`null\`.`;
 
   // dist/components/Toggle/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime160 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime169 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-toggle@1.1._079c4c215a61b46de879661b2bf941ff/node_modules/@radix-ui/react-toggle/dist/index.mjs
   init_define_import_meta_env();
   var React79 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime159 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime168 = __toESM(require_react_shim(), 1);
   var __defProp41 = Object.defineProperty;
   var __name40 = (target, value) => __defProp41(target, "name", { value, configurable: true });
   var NAME = "Toggle";
@@ -27408,7 +28684,7 @@ Defaulting to \`null\`.`;
         defaultProp: defaultPressed ?? false,
         caller: NAME
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime159.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -27475,18 +28751,18 @@ Defaulting to \`null\`.`;
     }
   });
   var Toggle3 = ({ className, variant, size: size4, rounded, ref, ...props }) => {
-    return (0, import_jsx_runtime160.jsx)(Root9, { ref, className: cn(toggleVariants({ variant, size: size4, rounded, className })), ...props });
+    return (0, import_jsx_runtime169.jsx)(Root9, { ref, className: cn(toggleVariants({ variant, size: size4, rounded, className })), ...props });
   };
   Toggle3.displayName = Root9.displayName;
 
   // dist/components/ToggleGroup/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime163 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime172 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-toggle-grou_c75615c28d2de6bf606eddb668a7fbe3/node_modules/@radix-ui/react-toggle-group/dist/index.mjs
   init_define_import_meta_env();
   var React80 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime161 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime170 = __toESM(require_react_shim(), 1);
   var __defProp42 = Object.defineProperty;
   var __name41 = (target, value) => __defProp42(target, "name", { value, configurable: true });
   var TOGGLE_GROUP_NAME = "ToggleGroup";
@@ -27498,11 +28774,11 @@ Defaulting to \`null\`.`;
     const { type, ...toggleGroupProps } = props;
     if (type === "single") {
       const singleProps = toggleGroupProps;
-      return /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(ToggleGroupImplSingle, { role: "radiogroup", ...singleProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupImplSingle, { role: "radiogroup", ...singleProps, ref: forwardedRef });
     }
     if (type === "multiple") {
       const multipleProps = toggleGroupProps;
-      return /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(ToggleGroupImplMultiple, { role: "toolbar", ...multipleProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupImplMultiple, { role: "toolbar", ...multipleProps, ref: forwardedRef });
     }
     throw new Error(`Missing prop \`type\` expected on \`${TOGGLE_GROUP_NAME}\``);
   }, "ToggleGroup"));
@@ -27521,7 +28797,7 @@ Defaulting to \`null\`.`;
       onChange: onValueChange,
       caller: TOGGLE_GROUP_NAME
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
       ToggleGroupValueProvider,
       {
         scope: props.__scopeToggleGroup,
@@ -27529,7 +28805,7 @@ Defaulting to \`null\`.`;
         value: React80.useMemo(() => value ? [value] : [], [value]),
         onItemActivate: setValue,
         onItemDeactivate: React80.useCallback(() => setValue(""), [setValue]),
-        children: /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(ToggleGroupImpl, { ...toggleGroupSingleProps, ref: forwardedRef })
+        children: /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupImpl, { ...toggleGroupSingleProps, ref: forwardedRef })
       }
     );
   }, "ToggleGroupImplSingle"));
@@ -27555,7 +28831,7 @@ Defaulting to \`null\`.`;
       (itemValue) => setValue((prevValue = []) => prevValue.filter((value2) => value2 !== itemValue)),
       [setValue]
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
       ToggleGroupValueProvider,
       {
         scope: props.__scopeToggleGroup,
@@ -27563,7 +28839,7 @@ Defaulting to \`null\`.`;
         value,
         onItemActivate: handleButtonActivate,
         onItemDeactivate: handleButtonDeactivate,
-        children: /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(ToggleGroupImpl, { ...toggleGroupMultipleProps, ref: forwardedRef })
+        children: /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupImpl, { ...toggleGroupMultipleProps, ref: forwardedRef })
       }
     );
   }, "ToggleGroupImplMultiple"));
@@ -27583,7 +28859,7 @@ Defaulting to \`null\`.`;
       const rovingFocusGroupScope = useRovingFocusGroupScope4(__scopeToggleGroup);
       const direction = useDirection(dir);
       const commonProps = { dir: direction, ...toggleGroupProps };
-      return /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(ToggleGroupContext, { scope: __scopeToggleGroup, rovingFocus, disabled, children: rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupContext, { scope: __scopeToggleGroup, rovingFocus, disabled, children: rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
         Root4,
         {
           asChild: true,
@@ -27591,9 +28867,9 @@ Defaulting to \`null\`.`;
           orientation,
           dir: direction,
           loop,
-          children: /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(Primitive.div, { ...commonProps, ref: forwardedRef })
+          children: /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(Primitive.div, { ...commonProps, ref: forwardedRef })
         }
-      ) : /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(Primitive.div, { ...commonProps, ref: forwardedRef }) });
+      ) : /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(Primitive.div, { ...commonProps, ref: forwardedRef }) });
     }, "ToggleGroupImpl")
   );
   var ITEM_NAME4 = "ToggleGroupItem";
@@ -27607,7 +28883,7 @@ Defaulting to \`null\`.`;
       const disabled = context.disabled || props.disabled;
       const commonProps = { ...props, pressed, disabled };
       const ref = React80.useRef(null);
-      return context.rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(
+      return context.rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
         Item2,
         {
           asChild: true,
@@ -27615,9 +28891,9 @@ Defaulting to \`null\`.`;
           focusable: !disabled,
           active: pressed,
           ref,
-          children: /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(ToggleGroupItemImpl, { ...commonProps, ref: forwardedRef })
+          children: /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupItemImpl, { ...commonProps, ref: forwardedRef })
         }
-      ) : /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(ToggleGroupItemImpl, { ...commonProps, ref: forwardedRef });
+      ) : /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupItemImpl, { ...commonProps, ref: forwardedRef });
     }, "ToggleGroupItem")
   );
   var ToggleGroupItemImpl = /* @__PURE__ */ React80.forwardRef(
@@ -27627,7 +28903,7 @@ Defaulting to \`null\`.`;
       const valueContext = useToggleGroupValueContext(ITEM_NAME4, __scopeToggleGroup);
       const singleProps = { role: "radio", "aria-checked": props.pressed, "aria-pressed": void 0 };
       const typeProps = valueContext.type === "single" ? singleProps : void 0;
-      return /* @__PURE__ */ (0, import_jsx_runtime161.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
         Toggle,
         {
           ...typeProps,
@@ -27646,14 +28922,14 @@ Defaulting to \`null\`.`;
   );
 
   // dist/components/ToggleGroup/index.js
-  var import_react79 = __toESM(require_react_shim(), 1);
+  var import_react81 = __toESM(require_react_shim(), 1);
 
   // dist/components/ToggleGroup/ToggleGroupContext.js
   init_define_import_meta_env();
-  var import_react78 = __toESM(require_react_shim(), 1);
-  var ToggleGroupContext2 = (0, import_react78.createContext)(null);
+  var import_react80 = __toESM(require_react_shim(), 1);
+  var ToggleGroupContext2 = (0, import_react80.createContext)(null);
   var useToggleGroup = () => {
-    const context = (0, import_react78.useContext)(ToggleGroupContext2);
+    const context = (0, import_react80.useContext)(ToggleGroupContext2);
     if (!context) {
       throw new Error("ToggleGroupItem must be used within a ToggleGroup root");
     }
@@ -27662,7 +28938,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/ToggleGroup/ToggleGroupItem.js
   init_define_import_meta_env();
-  var import_jsx_runtime162 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime171 = __toESM(require_react_shim(), 1);
   var ToggleGroupItem3 = ({ className, variant, size: size4, rounded, ref, onClick, ...props }) => {
     const group = useToggleGroup();
     const handleClick = (event) => {
@@ -27675,7 +28951,7 @@ Defaulting to \`null\`.`;
       }
       onClick?.(event);
     };
-    return (0, import_jsx_runtime162.jsx)(ToggleGroupItem, { ref, className: cn(focusRing, toggleVariants({
+    return (0, import_jsx_runtime171.jsx)(ToggleGroupItem, { ref, className: cn(focusRing, toggleVariants({
       variant: variant ?? group.variant,
       size: size4 ?? group.size,
       rounded: rounded ?? group.rounded,
@@ -27686,15 +28962,180 @@ Defaulting to \`null\`.`;
 
   // dist/components/ToggleGroup/index.js
   var ToggleGroup3 = ({ className, variant = "outline", size: size4 = "sm", rounded = "md", scrollIntoGroup = true, children, ...props }) => {
-    const contextValue = (0, import_react79.useMemo)(() => ({
+    const contextValue = (0, import_react81.useMemo)(() => ({
       variant: variant ?? "outline",
       size: size4 ?? "sm",
       rounded: rounded ?? "md",
       scrollIntoGroup
     }), [variant, size4, rounded, scrollIntoGroup]);
-    return (0, import_jsx_runtime163.jsx)(ToggleGroupContext2.Provider, { value: contextValue, children: (0, import_jsx_runtime163.jsx)(ToggleGroup, { className: cn("flex flex-wrap items-center gap-2", className), ...props, children }) });
+    return (0, import_jsx_runtime172.jsx)(ToggleGroupContext2.Provider, { value: contextValue, children: (0, import_jsx_runtime172.jsx)(ToggleGroup, { className: cn("flex flex-wrap items-center gap-2", className), ...props, children }) });
   };
   ToggleGroup3.displayName = ToggleGroup.displayName;
+
+  // dist/components/UploadTray/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime173 = __toESM(require_react_shim(), 1);
+  var import_react82 = __toESM(require_react_shim(), 1);
+  var uploadTrayVariants = cva(cn(
+    /* A WIDTH, not a cap. `w-full max-w-[26rem]` measures against the parent,
+       so in a shrink-to-fit container — a fixed dock, an inline-flex wrapper —
+       'full' is whatever the contents happen to need, and the plate narrowed
+       as its rows left. The kit is explicit about this for its own popover:
+       the width is fixed across every state, loading, empty, filled and
+       scrolling alike, or the surface resizes as content arrives and goes.
+    
+       26rem is the kit's own width for this plate. `max-w-full` keeps it
+       inside a viewport narrower than that. */
+    "w-[26rem] max-w-full",
+    "border border-stroke bg-surface-card",
+    // 10px — the kit's own value, and not a step on the radius scale.
+    "rounded-[0.625rem] shadow-overlay-soft",
+    // The head's focus ring is inset because of this: an outside ring on a
+    // full-bleed bar would be clipped away.
+    "overflow-hidden"
+  ));
+  var HEAD_ICON = (spinner) => ({
+    /**
+     * `spinner` is a prop and not an assumption (DRAFT). The glyph spins
+     * while something is actually moving — an upload — and a batch can also
+     * be open and waiting on the PERSON: a list of things still to be set
+     * up, where nothing will advance until somebody goes and does it. A
+     * spinner there promises progress nothing is making, and left on screen
+     * it reads as a transfer that has hung.
+     *
+     * And with no spinner there is NO GLYPH, not a still one. The mark in this
+     * slot exists to say something is happening; held still it has nothing to
+     * say, and a ring standing in an open batch reads as a loader that stalled.
+     * The title already states the count, so the slot simply goes.
+     */
+    uploading: spinner ? (0, import_jsx_runtime173.jsx)(LoaderCircle, { "aria-hidden": "true", className: "animate-spin motion-reduce:animate-none" }) : null,
+    complete: (0, import_jsx_runtime173.jsx)(CircleCheck, { "aria-hidden": "true" }),
+    failed: (0, import_jsx_runtime173.jsx)(CircleAlert, { "aria-hidden": "true" })
+  });
+  var headIconVariants = cva("flex size-4 shrink-0 items-center justify-center [&_svg]:size-4", {
+    variants: {
+      /* No colour in the head, on any status. The kit paints this glyph —
+               brand while uploading, green complete, red failed — and its own rule
+               is that the colour is never the only cue: the title states the outcome
+               in words right beside it. Asked for a plain head, the words are what
+               is left, and they were already carrying it.
+      
+               The ROWS keep their colour. That is where 'which file failed' is
+               answered; the head only counts. */
+      status: {
+        uploading: "text-ink-secondary",
+        complete: "text-ink-secondary",
+        failed: "text-ink-secondary"
+      }
+    },
+    defaultVariants: { status: "uploading" }
+  });
+  var AUTO_DISMISS_MS = 4e3;
+  var AutoDismissContext = (0, import_react82.createContext)(null);
+  function UploadTray({ status, title, children, open, defaultOpen = true, onOpenChange, onDismiss, dismissLabel = "Dismiss", expandLabel = "Show the files", collapseLabel = "Hide the files", spinner = true, autoDismiss = false, autoDismissDelay = AUTO_DISMISS_MS, className, ...props }) {
+    const [uncontrolledOpen, setUncontrolledOpen] = (0, import_react82.useState)(defaultOpen);
+    const isOpen = open ?? uncontrolledOpen;
+    const toggle = () => {
+      if (open === void 0)
+        setUncontrolledOpen(!isOpen);
+      onOpenChange?.(!isOpen);
+    };
+    const [liveRows, setLiveRows] = (0, import_react82.useState)(() => import_react82.Children.count(children));
+    const [leaving, setLeaving] = (0, import_react82.useState)(false);
+    (0, import_react82.useEffect)(() => {
+      if (!autoDismiss)
+        return;
+      if (liveRows > 0)
+        return;
+      if (import_react82.Children.count(children) === 0)
+        return;
+      setLeaving(true);
+    }, [autoDismiss, liveRows, children]);
+    return (0, import_jsx_runtime173.jsxs)("div", { className: cn(uploadTrayVariants(), leaving && cn("animate-panel-out", "motion-reduce:[animation-duration:1ms]"), className), "data-leaving": leaving ? "" : void 0, "data-slot": "upload-tray", "data-status": status, onAnimationEnd: (event) => {
+      if (!leaving)
+        return;
+      if (event.target !== event.currentTarget)
+        return;
+      onDismiss?.();
+    }, ...props, children: [(0, import_jsx_runtime173.jsxs)("div", { className: "flex items-center gap-1 px-2 py-1.5", children: [(0, import_jsx_runtime173.jsxs)("button", { "aria-expanded": isOpen, className: cn("flex min-w-0 flex-1 items-center gap-2.5 px-1 py-1", "cursor-pointer rounded-md border-none bg-transparent text-left", "font-medium text-ink-primary text-sm", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-inset"), "data-slot": "upload-tray-head", onClick: toggle, type: "button", children: [HEAD_ICON(spinner)[status] ? (0, import_jsx_runtime173.jsx)("span", { className: headIconVariants({ status }), children: HEAD_ICON(spinner)[status] }) : null, (0, import_jsx_runtime173.jsx)("span", { className: "min-w-0 flex-1 truncate", children: title })] }), (0, import_jsx_runtime173.jsx)(IconButton, { "aria-label": isOpen ? collapseLabel : expandLabel, className: "shrink-0", "data-slot": "upload-tray-toggle", onClick: toggle, size: "xs", variant: "tertiary", children: (0, import_jsx_runtime173.jsx)(ChevronDown, { "aria-hidden": "true", className: cn("transition-transform duration-base", !isOpen && "rotate-180") }) }), onDismiss ? (0, import_jsx_runtime173.jsx)(IconButton, { "aria-label": dismissLabel, className: "shrink-0", "data-slot": "upload-tray-dismiss", onClick: onDismiss, size: "xs", variant: "tertiary", children: (0, import_jsx_runtime173.jsx)(X, { "aria-hidden": "true" }) }) : null] }), (0, import_jsx_runtime173.jsx)("div", { className: "scrollbar-thin max-h-56 overflow-y-auto border-stroke border-t p-1", "data-slot": "upload-tray-list", hidden: !isOpen, children: (0, import_jsx_runtime173.jsx)(AutoDismissContext.Provider, { value: {
+      enabled: autoDismiss,
+      delay: autoDismissDelay,
+      onRowGone: () => setLiveRows((n) => n - 1)
+    }, children }) })] });
+  }
+  var itemVariants = cva("flex gap-2.5 rounded-md p-2", {
+    variants: {
+      status: {
+        uploading: "",
+        done: "",
+        /* No tint. The kit fills a failed row with 5% red; the plate here is a
+                 plain white surface, and a tinted band inside it reads as the plate
+                 having a state rather than one row having one.
+        
+                 The failure is still not colour-only, which is the rule that matters:
+                 the glyph is red, the sentence under the name says what went wrong,
+                 and the title counts the failures. Losing the tint loses redundancy,
+                 not the message. */
+        failed: ""
+      }
+    },
+    defaultVariants: { status: "uploading" }
+  });
+  var itemIconVariants = cva("flex size-4 shrink-0 items-center justify-center text-ink-secondary [&_svg]:size-4");
+  var STATUS_BADGE_VARIANT = {
+    uploading: "attention",
+    done: "secondary",
+    failed: "error"
+  };
+  var STATUS_MARK = {
+    uploading: null,
+    done: (0, import_jsx_runtime173.jsx)(CircleCheck, { "aria-hidden": "true", className: "size-4 text-fb-green" }),
+    failed: (0, import_jsx_runtime173.jsx)(CircleAlert, { "aria-hidden": "true", className: "size-4 text-fb-red-text" })
+  };
+  function UploadTrayItem({ status, name, icon, progress, meta, error, action, statusLabel, onRowClick, className, ...props }) {
+    const hasSecondLine = error !== void 0 || status === "uploading" && progress !== void 0;
+    const auto = (0, import_react82.useContext)(AutoDismissContext);
+    const ref = (0, import_react82.useRef)(null);
+    const [leaving, setLeaving] = (0, import_react82.useState)(false);
+    const [gone, setGone] = (0, import_react82.useState)(false);
+    const retires = auto?.enabled === true && status === "done";
+    (0, import_react82.useEffect)(() => {
+      if (!retires)
+        return;
+      const id = setTimeout(() => {
+        const el = ref.current;
+        if (el)
+          el.style.setProperty("--row-height", `${el.offsetHeight}px`);
+        setLeaving(true);
+      }, auto.delay);
+      return () => clearTimeout(id);
+    }, [retires, auto?.delay]);
+    if (gone)
+      return null;
+    return (0, import_jsx_runtime173.jsxs)("div", { className: cn(itemVariants({ status }), hasSecondLine ? "items-start" : "items-center", "relative cursor-pointer", "transition-colors duration-fast", "hover:bg-state-hover", "active:bg-state-pressed", leaving && cn(
+      "animate-row-out overflow-hidden",
+      // NOT `motion-reduce:animate-none`: the row retires on
+      // `animationend`, so removing the animation removes the
+      // retirement with it and the plate never empties. Reduced
+      // motion shortens the exit to one frame instead — one code
+      // path, and no second timer to keep in step with it.
+      "motion-reduce:[animation-duration:1ms]"
+    ), className), "data-leaving": leaving ? "" : void 0, "data-slot": "upload-tray-item", "data-status": status, onAnimationEnd: (event) => {
+      if (!leaving)
+        return;
+      if (event.target !== event.currentTarget)
+        return;
+      setGone(true);
+      auto?.onRowGone();
+    }, ref, ...props, children: [icon ? (0, import_jsx_runtime173.jsx)("span", { className: cn(itemIconVariants(), hasSecondLine && "mt-0.5"), children: icon }) : null, (0, import_jsx_runtime173.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1", children: [(0, import_jsx_runtime173.jsx)("button", { className: cn("truncate text-left text-ink-body text-sm", "cursor-pointer border-none bg-transparent p-0", "after:absolute after:inset-0", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-inset"), onClick: onRowClick, type: "button", children: name }), status === "uploading" && progress !== void 0 ? (0, import_jsx_runtime173.jsx)(ProgressBar, { className: "w-full", size: "md", value: progress }) : null, error ? (0, import_jsx_runtime173.jsx)("span", { className: "text-balance text-fb-red-text text-xs", children: error }) : null] }), meta ? (0, import_jsx_runtime173.jsx)("span", { className: "relative shrink-0 text-ink-secondary text-xs tabular-nums", children: meta }) : null, action ? (0, import_jsx_runtime173.jsx)("span", { className: "relative flex shrink-0 items-center text-xs", children: action }) : null, statusLabel ? (0, import_jsx_runtime173.jsx)("span", { className: cn("flex shrink-0 items-center", hasSecondLine && "self-start"), "data-slot": "upload-tray-item-status", children: (0, import_jsx_runtime173.jsx)(Badge, { rounded: "full", size: "sm", variant: STATUS_BADGE_VARIANT[status], children: statusLabel }) }) : null, !statusLabel && STATUS_MARK[status] ? (0, import_jsx_runtime173.jsx)("span", { className: cn(
+      "flex shrink-0 items-center",
+      /* Aligned to the name’s line when the row has a second one, the
+         same rule the leading glyph follows. */
+      hasSecondLine && "mt-0.5 self-start"
+    ), "data-slot": "upload-tray-item-status", children: STATUS_MARK[status] }) : null] });
+  }
+  UploadTray.displayName = "UploadTray";
+  UploadTrayItem.displayName = "UploadTrayItem";
   return __toCommonJS(ds_entry_exports);
 })();
 /*! Bundled license information:
@@ -27715,6 +29156,7 @@ lucide-react/dist/esm/icons/circle-alert.js:
 lucide-react/dist/esm/icons/circle-check.js:
 lucide-react/dist/esm/icons/circle-x.js:
 lucide-react/dist/esm/icons/circle.js:
+lucide-react/dist/esm/icons/copy.js:
 lucide-react/dist/esm/icons/ellipsis.js:
 lucide-react/dist/esm/icons/eye-off.js:
 lucide-react/dist/esm/icons/eye.js:
@@ -27725,6 +29167,7 @@ lucide-react/dist/esm/icons/info.js:
 lucide-react/dist/esm/icons/loader-circle.js:
 lucide-react/dist/esm/icons/lock.js:
 lucide-react/dist/esm/icons/panel-left.js:
+lucide-react/dist/esm/icons/plus.js:
 lucide-react/dist/esm/icons/refresh-ccw.js:
 lucide-react/dist/esm/icons/refresh-cw.js:
 lucide-react/dist/esm/icons/triangle-alert.js:
