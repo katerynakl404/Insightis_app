@@ -18,6 +18,19 @@ Source: `@insightis/ui` `Sidebar/` — overall component plus the sub-parts Side
 | Scrollbar (content area) | native | — | hidden visually (`scrollbar-width:none` + `::-webkit-scrollbar{display:none}`); keyboard scroll preserved | quieter shell, content-forward |
 | Internal divider (nav ↔ chats) | not present (chats are a nested collapsible group) | — | **no divider** — sidebar reads as one quiet stack; sections breathe via `gap` only | content-forward |
 
+
+## Chat-row queue counter
+
+A chat row may carry a [Counter](Counter.md) for messages queued in **that** chat.
+
+**The state is that queue’s, not this row’s.** Active while it is still sending; quiet once it has stopped and is waiting for a person — the same quiet the paused [Alert](Alert.md) stands on, so "stopped" looks the same wherever it surfaces. An earlier version tied the colour to whether the row was selected; that was wrong, because the row already shows its own selection and a counter repeating it tells the reader nothing they cannot see.
+
+**It shares a corner with the row menu, so it hands over.** `.sbx-chat-more` is absolutely positioned at the right edge with a higher stacking order, so with a counter present the two drew on top of each other. The counter fades out for exactly as long as the menu is shown — the same move `.mqi-num` makes for the queue row’s own actions. Two things in one slot read as a rendering fault.
+
+**The truncation fade is off on a row that has one.** Otherwise the label runs under the count instead of ellipsising before it.
+
+The nav-item badge is unaffected and stays a [Badge](Badge.md) pill: it counts things inside a section, not work parked somewhere you are not — and it has no fixed number of digits, which is the whole reason a pill is right there and a circle is right here.
+
 ## SidebarHeader — brand row + CTA
 | Aspect | Current (prod) · was | v1.0 | Expected · became | Specification |
 |---|---|---|---|---|

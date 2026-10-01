@@ -57,6 +57,10 @@
     --content-max-narrow:680px;
     --content-max-wide:1200px;
     --content-max-width:var(--content-max-wide);
+    /* The chat stack's two columns. --chat-max-w mirrors prod's max-w-chat-container: it caps the
+       composer, the queue band and every turn alike, which is the whole point — the thing you type
+       and the thing you read share one measure. */
+    --chat-max-w:820px;
     /* ── Mobile card-stack — table→card reflow shared design tokens ──────────────
        Applied at ≤767px on all three list pages (Metrics, Connections, Files).
        Override here to restyle all three consistently; never hardcode these values
@@ -315,7 +319,12 @@
     --banner-grad-sub:color-mix(in srgb,var(--white) var(--tint-80),transparent);
     --banner-grad-btn-hover:color-mix(in srgb,var(--brand-600) 8%,var(--white));
     --banner-grad-ic-bg:color-mix(in srgb,var(--white) var(--tint-20),transparent);
-    --banner-grad-ic-border:rgba(255,255,255,.4);
+    --banner-grad-ic-border:color-mix(in srgb,var(--white) var(--tint-40),transparent);
+    /* The corner close needs STATE tokens of its own. It used to borrow --banner-grad-ic-bg, the
+       40px icon circle's fill — so a hover on a 28px ✕ landed as heavy as the banner's own icon.
+       Hover keeps that exact value; what it gains is a pressed step above it. */
+    --banner-grad-close-hover:color-mix(in srgb,var(--white) var(--tint-20),transparent);
+    --banner-grad-close-pressed:color-mix(in srgb,var(--white) var(--tint-30),transparent);
     --banner-grad-ic-shadow:0 0 0 8px rgba(255,255,255,.07),0 0 24px rgba(255,255,255,.09);
     /* Always-white content on solid surfaces — destructive Button text, Checkbox mark + indeterminate bar, Switch thumb. Theme-independent. */
     --content-on-solid:var(--white);
@@ -443,6 +452,9 @@
     --intg-ink:#1e293b;
     --intg-ink-muted:#64748b;
     --intg-accent:#2563eb;
+    /* Azure’s own blue. Same rule as the tokens above: a provider’s brand colour is fixed, not
+       ours to re-theme, and the hex belongs in the token layer so component rules stay var()-only. */
+    --intg-azure:#0078D4;
     /* Inset focus ring — for interactive children nested inside a hovering/scrolling parent (the
        chat-row kebab + pin buttons) where an outset halo would be clipped by the row's mask. A single
        2px ring drawn inward instead of the outset gap+halo; same --focus-ring colour seam. */
@@ -494,6 +506,12 @@
        arriving). Both were raw .4s/.5s before. Do NOT use them for hover/focus/open — those stay on
        fast/base/slow. */
     --motion-slower:400ms;--motion-slowest:500ms;
+    /* How long an undoable action keeps its way back on screen. Not a motion step — nothing
+       animates for 4s — it is a READING window: long enough to notice the note and reach it,
+       short enough that it does not become a permanent row. The value is the design system's
+       Toast default (TOAST_DEFAULT_DURATION, 4000ms), so an undo that floats and an undo that
+       sits in place give the same amount of time. */
+    --undo-window:4000ms;
     --motion-ease:cubic-bezier(.4,0,.2,1);
     --motion-ease-out:cubic-bezier(0,0,.2,1);
 
@@ -542,6 +560,9 @@
     --radius-panel:10px;   /* .625rem — .card-panel / .block lift family */
     --radius-xl:12px;      /* .75rem — large feature panels */
     --radius-2xl:14px;     /* .875rem — modal dialog (.dlg) */
+    --radius-3xl:16px;     /* 1rem — the chat stack's shell: composer and queue band. Prod's
+                              rounded-2xl; it tops the ladder because this is the largest surface
+                              a person types into, not a dialog drawn over the page. */
     --radius-full:9999px;  /* pills & circles (.swt, .chip, avatar, .b-dot, .spinner) */
     /* ICON SCALE — glyph size per size step, shared by EVERY sized control (Button, IconButton,
        Input, InputGroup, Selector), so a button and a field of the same size carry the same glyph.
@@ -748,7 +769,9 @@
     --toast-bg-warning:color-mix(in srgb, var(--fb-attention) 8%, var(--surface-card));
     --toast-bg-error:color-mix(in srgb, var(--fb-red-text) 8%, var(--surface-card));
     --banner-grad-ic-bg:color-mix(in srgb,var(--white) var(--tint-12),transparent);
-    --banner-grad-ic-border:rgba(255,255,255,.18);
+    --banner-grad-ic-border:color-mix(in srgb,var(--white) var(--tint-18),transparent);
+    --banner-grad-close-hover:color-mix(in srgb,var(--white) var(--tint-12),transparent);
+    --banner-grad-close-pressed:color-mix(in srgb,var(--white) var(--tint-20),transparent);
     --banner-grad-ic-shadow:0 0 0 6px rgba(255,255,255,.04),0 0 16px rgba(255,255,255,.05);
   }
 
@@ -971,7 +994,12 @@
   .btn-tertiary:disabled{color:var(--ink-inactive);background:transparent;cursor:not-allowed}
   .btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   /* loading state (works on any Button/IconButton variant via currentColor; opacity-based — no disabled-colour swap) */
-  .btn .spinner,.iconbtn .spinner{width:var(--icon-md);height:var(--icon-md);border-radius:var(--radius-full);border:2px solid currentColor;border-right-color:transparent;display:inline-block;animation:btn-spin .7s linear infinite;vertical-align:-.1em}
+  /* ONE spinner. The same recipe was written out three times — in .btn/.iconbtn, in .file, and a
+     fourth copy had grown inside a page — and the only thing that ever differed between them was
+     the diameter. The base carries the recipe at the small size; a scope that wants a bigger one
+     sets width/height and nothing else. */
+  .spinner{display:inline-block;width:var(--icon-xs);height:var(--icon-xs);border:2px solid currentColor;border-right-color:transparent;border-radius:var(--radius-full);animation:btn-spin .7s linear infinite}
+  .btn .spinner,.iconbtn .spinner{width:var(--icon-md);height:var(--icon-md);vertical-align:-.1em}
   /* The spinner replaces the glyph, so it is the glyph size — the same two steps as .btn svg. */
   .btn-xs .spinner,.iconbtn-xs .spinner,.iconbtn-2xs .spinner{width:var(--icon-xs);height:var(--icon-xs)}
   .s-loading.btn,.s-loading.iconbtn{pointer-events:none;opacity:var(--opacity-disabled)}
@@ -1230,6 +1258,38 @@
   .stps.s-disabled{pointer-events:none}
   .stps[aria-disabled="true"] .stps-step{pointer-events:none;cursor:not-allowed}
 
+  /* Screen-reader-only. The kit shipped without one, so every page that announces anything —
+     a queue change, a copy confirmation — wrote its own. clip-path, not the deprecated clip:
+     same result, and it is the property that is still specified. Never display:none, which
+     takes the text out of the accessibility tree along with the layout. */
+  .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+
+  /* Scroll fade — the bottom edge of a scroller says "there is more" by letting the text run
+     under it instead of being cut mid-letter. It goes on the non-scrolling PARENT: a gradient on
+     the scroller itself scrolls away with the content, which is the usual way this is got wrong.
+     Only shown while there IS more below — a permanent fade over the last row says the list is
+     cut when it is finished. kit-kit.js keeps the class in sync.
+       <div class="… scroll-fade"><ul data-scroll-fade>…</ul></div> */
+  /* It is a MASK on the scroller, not a gradient painted over it. An overlay tints the text it
+     covers — dark letters under a white wash go muddy rather than faint, which reads as blur —
+     and it can only reach as far as the overlay's own box, while the scroller keeps clipping at
+     its edge, so a hard line survives underneath the soft one. A mask fades the glyphs
+     themselves to transparent and ends exactly where the scroll box ends: nothing is left to
+     cut. The ramp height is a custom property so .has-more can switch it from 0.
+       The switch is NOT transitioned. A transition on a custom property latches here — the
+     element keeps interpolating a stale copy while the class already says otherwise, and the
+     fade stops appearing at all. It is 40px of alpha either way: switching it costs nothing
+     visually, and the version that always works beats the version that sometimes eases. */
+  /* Both edges, because a scroller that has been scrolled has content above it too, and only
+     fading the bottom says the list begins where the box begins. 2.5rem is the design system's
+     own default size for this (ScrollShadow, size=40). */
+  .scroll-fade{--scroll-fade-h:0px;--scroll-fade-top:0px;position:relative}
+  .scroll-fade.has-more{--scroll-fade-h:2.5rem}
+  .scroll-fade.has-above{--scroll-fade-top:2.5rem}
+  .scroll-fade [data-scroll-fade]{
+    -webkit-mask-image:linear-gradient(to bottom,transparent,var(--black) var(--scroll-fade-top),var(--black) calc(100% - var(--scroll-fade-h)),transparent);
+    mask-image:linear-gradient(to bottom,transparent,var(--black) var(--scroll-fade-top),var(--black) calc(100% - var(--scroll-fade-h)),transparent)}
+
   /* Checkbox (.cbx) — Brand/Primary fill when checked; theme-aware Stroke/Border_Hover when unchecked. */
   .cbx{width:1.125rem;height:1.125rem;border-radius:.25rem;border:1.5px solid var(--field-border-hover);background:var(--surface-card);display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:pointer;color:var(--content-on-solid);transition:background-color .12s, border-color .12s, box-shadow .12s;vertical-align:middle}
   .cbx.on{background:var(--brand-primary);border-color:var(--brand-primary)}
@@ -1364,7 +1424,8 @@
      positioned top-right; :has() reserves right padding so it never overlaps the CTA. */
   .banner-close{position:absolute;top:.625rem;right:.625rem;width:1.75rem;height:1.75rem;display:flex;align-items:center;justify-content:center;border:none;background:transparent;border-radius:.5rem;color:var(--ink-secondary);cursor:pointer;transition:background var(--motion-fast),color var(--motion-fast)}
   .banner-close svg{width:var(--icon-md);height:var(--icon-md)}
-  .banner-close:hover{background:var(--state-hover);color:var(--ink-body)}
+  .banner-close:hover,.banner-close.s-hover{background:var(--state-hover);color:var(--ink-body)}
+  .banner-close:active,.banner-close.s-pressed{background:var(--state-pressed);color:var(--ink-body)}
   .banner-close:focus-visible{outline:none;box-shadow:var(--focus-ring-brand)}
   .banner:has(.banner-close){padding-right:2.75rem}
   /* Compact modifier — smaller padding + icon; use on secondary/inline banners */
@@ -1403,7 +1464,8 @@
   .banner-grad .banner-d b{color:var(--banner-grad-text)}
   /* Close on gradient: white icon, translucent-white hover overlay (reuses the icon-pill token). */
   .banner-grad .banner-close{color:var(--banner-grad-sub)}
-  .banner-grad .banner-close:hover{background:var(--banner-grad-ic-bg);color:var(--banner-grad-text)}
+  .banner-grad .banner-close:hover,.banner-grad .banner-close.s-hover{background:var(--banner-grad-close-hover);color:var(--banner-grad-text)}
+  .banner-grad .banner-close:active,.banner-grad .banner-close.s-pressed{background:var(--banner-grad-close-pressed);color:var(--banner-grad-text)}
   /* CTA on gradient — btn-secondary renders naturally (solid white card bg, dark text — high contrast).
      btn-primary flips to white bg + brand text so it doesn't clash with the white body copy.
      Dark theme: card bg is too dark against the gradient; use translucent white instead. */
@@ -1884,9 +1946,57 @@
      .badge dropped in there reads as a foreign chip on a 28px row. It sits above the truncation
      fade (z-index) so the number is never the thing the gradient eats, and the label's ellipsis
      stops before it rather than running under it. */
-  .sbx-chat .nav-badge{position:relative;z-index:1;flex:none}
-  .sbx-chat:has(.nav-badge)::after{display:none}
-  .sbx-nav-item .nav-badge,.sbx-chat .nav-badge{margin-left:auto;background:color-mix(in srgb, var(--brand-primary) var(--tint-15), transparent);color:var(--brand-primary);font-size:var(--ts-label-s-size);font-weight:var(--ts-label-s-weight);padding:1px 6px;border-radius:var(--radius-full);line-height:var(--ts-label-s-lh);font-variant-numeric:tabular-nums;letter-spacing:var(--ts-label-s-track)}
+  /* =========================================================================
+     COUNTER — one small round count, wherever the product says "N of these are waiting".
+     ---------------------------------------------------------------------------
+     The queue row’s order number and the sidebar’s per-chat count are the SAME
+     object and now say so: one box, one type ramp, two states. They had drifted
+     into a 20px circle and a padded pill that happened to look alike.
+
+       <span class="counter">2</span>              quiet: it is just a number
+       <span class="counter is-active">2</span>    live: that queue is still going
+
+     Default is the quiet surface with Text/Body on it — a count is content, not a
+     status, and most of the time nothing is happening to it. Active fills with
+     Brand/Primary and flips the ink to Content/On_Solid: the only thing it ever
+     means is "this is moving on its own right now", which is worth a solid.
+     1:1 like every mark in the kit — a second digit does not stretch the box.
+     ========================================================================= */
+  .counter{display:inline-flex;align-items:center;justify-content:center;flex:none;box-sizing:border-box;width:1.25rem;height:1.25rem;border-radius:var(--radius-full);background:var(--surface-card2);color:var(--ink-body);font-size:var(--ts-label-m-size);font-weight:var(--ts-label-m-weight);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:var(--ts-label-m-track)}
+  /* Button/Primary’s pair, not Brand/Primary raw: the kit maintains that fill and that ink to
+     stay legible in BOTH themes, and white on Brand/Primary measures 3.93:1 on dark — under the
+     floor for 12px. Same colour on light, a legible one on dark, and it tracks the button if the
+     brand ever moves. */
+  .counter.is-active{background:var(--btn-primary-bg);color:var(--btn-primary-text)}
+  /* Small step. 20px is right beside 14px body text in a queue row; beside a 14px sidebar label it
+     reads as a token dropped on the row. 16px with Label/S is the size the nav badge beside it
+     already uses, so the two counts in the sidebar sit on one line of weight. */
+  .counter.is-sm{width:1rem;height:1rem;font-size:var(--ts-label-s-size);font-weight:var(--ts-label-s-weight)}
+
+  .sbx-chat .counter{margin-left:auto;position:relative;z-index:1}
+  /* The counter and the row menu want the same corner, and the menu is absolute with a higher
+     z-index — so with a badge present the two drew on top of each other. The counter steps aside
+     for exactly as long as the menu is there, which is the same move .mqi-num makes for the queue
+     row’s actions. Two things in one slot read as a rendering fault; the count is one pointer-move
+     away. */
+  .sbx-chat .counter{transition:opacity var(--motion-fast) var(--motion-ease)}
+  .sbx-chat:hover .counter,.sbx-chat.s-hover .counter,.sbx-chat:focus-within .counter{opacity:0}
+  .sbx-chat:has(.counter)::after{display:none}
+  .sbx-nav-item .nav-badge{margin-left:auto;background:color-mix(in srgb, var(--brand-primary) var(--tint-15), transparent);color:var(--brand-primary);font-size:var(--ts-label-s-size);font-weight:var(--ts-label-s-weight);padding:1px 6px;border-radius:var(--radius-full);line-height:var(--ts-label-s-lh);font-variant-numeric:tabular-nums;letter-spacing:var(--ts-label-s-track)}
+  /* Two states, because the badge answers two different questions. On any row but the one you are
+     in it says "that chat has a queue waiting" — information about somewhere else, which should not
+     be wearing the brand, so it is grey. On the ACTIVE row the queue it counts is the one in front
+     of you, and it takes Brand/Primary. The nav-item badge above keeps the brand tint
+     unconditionally: it counts things inside a section, not work parked where you are not. */
+  /* The counter carries the STATE OF THAT QUEUE, and it carries it in ONE property. The number is
+     the same number either way, so the ink is the same ink — only the ground under it moves:
+     Badge/Primary while that queue is still going, Badge/Secondary once it has stopped and is
+     waiting for a person, which is the same grey the paused Alert stands on. Two properties
+     changing for one piece of information is how a reader starts looking for a second meaning. */
+  /* A circle, not a pill. The nav-item badge above is a pill because it counts things of no fixed
+     number; this one is the same object as the queue row’s .mqi-num — one waiting message, one
+     digit — and two counters for the same queue must not be two shapes. 1:1 like every other mark
+     in the kit: if a count outgrows the box, the box grows on BOTH axes, it does not stretch. */
 
   /* Chat sections — scroll area, scrollbar visually hidden. Tight intra-section (1px between chat rows
      via .sbx-sect gap), generous inter-section (12px between Pinned and Recent groups). */
@@ -2544,7 +2654,7 @@
   .file.s-error .file-ic,.file.s-error .file-r svg{color:color-mix(in srgb,var(--fb-red-text) var(--tint-75),transparent)}
   .file.s-loading{pointer-events:none}
   .file.s-loading .file-r .spinner{display:inline-block}
-  .file .file-r .spinner{width:var(--icon-xs);height:var(--icon-xs);border-radius:var(--radius-full);border:2px solid currentColor;border-right-color:transparent;animation:btn-spin .7s linear infinite}
+  /* .file takes the base size; only its display toggle above is its own. */
 
   /* InputGroup */
   .igrp-wrap{display:flex;flex-direction:column;gap:4px;width:240px}
@@ -2843,16 +2953,16 @@
     .chip-row[data-chip-scroll="end"]{padding-inline-end:2.5rem}
     /* At scroll start: more is to the right → fade the right edge only. */
     .chip-row[data-chip-scroll="start"]{
-      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 2.5rem),transparent 100%);
-      mask-image:linear-gradient(to right,#000 calc(100% - 2.5rem),transparent 100%)}
+      -webkit-mask-image:linear-gradient(to right,var(--black) calc(100% - 2.5rem),transparent 100%);
+      mask-image:linear-gradient(to right,var(--black) calc(100% - 2.5rem),transparent 100%)}
     /* Mid-scroll: more both ways → fade both edges. */
     .chip-row[data-chip-scroll="middle"]{
-      -webkit-mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 calc(100% - 2.5rem),transparent 100%);
-      mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 calc(100% - 2.5rem),transparent 100%)}
+      -webkit-mask-image:linear-gradient(to right,transparent 0,var(--black) 2rem,var(--black) calc(100% - 2.5rem),transparent 100%);
+      mask-image:linear-gradient(to right,transparent 0,var(--black) 2rem,var(--black) calc(100% - 2.5rem),transparent 100%)}
     /* At scroll end: more is to the left → fade the left edge only. */
     .chip-row[data-chip-scroll="end"]{
-      -webkit-mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 100%);
-      mask-image:linear-gradient(to right,transparent 0,#000 2rem,#000 100%)}
+      -webkit-mask-image:linear-gradient(to right,transparent 0,var(--black) 2rem,var(--black) 100%);
+      mask-image:linear-gradient(to right,transparent 0,var(--black) 2rem,var(--black) 100%)}
   }
   .chip{display:inline-flex;align-items:center;gap:.5rem;height:1.75rem;padding:0 .75rem;border-radius:var(--radius-full);font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);font-family:inherit;cursor:pointer;border:1px solid var(--stroke-border);background:var(--surface-card);color:var(--ink-body);transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
   .chip:hover,.chip.s-hover{background:var(--state-hover);color:var(--ink-primary)}
@@ -2935,7 +3045,7 @@
   .prov-ic-w.is-broken img{display:none}
   .prov-ic-w{width:2.75rem;height:2.75rem;border-radius:var(--radius-panel);border:1px solid var(--stroke-border);background:var(--surface-card);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}
   .prov-ic-w img{width:1.625rem;height:1.625rem;object-fit:contain;display:block}
-  .prov-ic-w.is-azure{background:#0078D4;border-color:#0078D4;color:#fff;font-size:.5rem;font-weight:700}
+  .prov-ic-w.is-azure{background:var(--intg-azure);border-color:var(--intg-azure);color:var(--white);font-size:.5rem;font-weight:700}
 
   /* ===== Connector logos — individual brand SVGs (assets/logos/<slug>.svg) =====
      Plain brand logo: NO container, NO border, NO backing. Each connector is its own
@@ -3261,6 +3371,67 @@
   .ds-conn-row.is-entering{animation:ds-row-in var(--motion-slowest) cubic-bezier(.15,0,.1,1) both}
   .ds-conn-row.is-leaving {animation:ds-row-out .2s cubic-bezier(.4,0,1,1) both;pointer-events:none}
 
+  /* ── Leaving a list ──────────────────────────────────────────────────────
+     Mirrors the design system's `row-out` / `panel-out` keyframes (tailwind-preset.ts) to the
+     value. Do not re-derive this recipe: the order is what makes it read as smooth. The row
+     FADES over the first 40% and only then collapses over the remaining 60%. Fading and
+     shrinking together is the version that looks abrupt — the row is still legible while the
+     list is already moving under it, so the eye is asked to track text that is going away and
+     rows that are arriving at the same time.
+       --motion-slow, not base: this is a row leaving a list under the reader, not a control
+     answering a press. ease-in-out for the same reason — ease-out starts at full speed, which is
+     what makes the collapse snap. Height and padding both go, or the row leaves a gap the width
+     of its own inset; the element hands its measured height over as --row-height, because
+     'height:auto' is not a value an animation can start from.
+       Reduced motion SHORTENS the exit to one frame rather than removing it: the consumer
+     retires the element on animationend, so animation:none would take the retirement with it. */
+  @keyframes row-out{
+    0%  {opacity:1;height:var(--row-height);min-height:0}
+    40% {opacity:0;height:var(--row-height);min-height:0}
+    100%{opacity:0;height:0;min-height:0;padding-top:0;padding-bottom:0}
+  }
+  /* The same row arriving — an undo putting it back, or a row inserted into a list the reader
+     is already looking at. row-out reversed, and reversed in ORDER too: the height opens first
+     and the text fades in only once there is room for it. Fading in while the list is still
+     moving asks the eye to read something that is not where it will end up. */
+  @keyframes row-in{
+    0%  {opacity:0;height:0;min-height:0;padding-top:0;padding-bottom:0}
+    60% {opacity:0;height:var(--row-height);min-height:0}
+    100%{opacity:1;height:var(--row-height);min-height:0}
+  }
+  @keyframes panel-out{
+    from{opacity:1;transform:translateY(0)}
+    to  {opacity:0;transform:translateY(.25rem)}
+  }
+  /* min-height:0 lives in the KEYFRAMES, not here. A list row usually carries a min-height so
+     short content still makes a full row, and that floor clamps the animated height — the
+     collapse silently does nothing and the row fades, then jumps out. Overriding it from a
+     class does not work either: the class and the component rule have equal specificity, so
+     whichever is written later wins, which is a coin toss. A declaration inside a keyframe
+     outranks both. */
+  /* REPLACING a row in place, rather than losing one. A removal that leaves an undo behind is not
+     a row leaving and another arriving — it is one slot whose contents change. Running row-out
+     and then row-in at it reads as two events: the list closes the gap and then tears it back
+     open, and the eye is asked to follow a hole that was never really there. So the box stays
+     put and only the contents cross over. The height still moves, because a note is not as tall
+     as the message it replaces, but it moves BETWEEN the two heights and never through zero.
+       Out is --motion-fast: it is the half of the move you are not meant to watch. */
+  @keyframes row-swap-out{from{opacity:1}to{opacity:0}}
+  @keyframes row-swap-in{
+    0%  {opacity:0;height:var(--row-from);min-height:0}
+    50% {opacity:0;height:var(--row-height);min-height:0}
+    100%{opacity:1;height:var(--row-height);min-height:0}
+  }
+  .animate-row-swap-out{animation:row-swap-out var(--motion-fast) ease-in-out forwards;pointer-events:none}
+  .animate-row-swap-in{animation:row-swap-in var(--motion-slow) ease-in-out both;overflow:hidden}
+  .animate-row-out{animation:row-out var(--motion-slow) ease-in-out forwards;overflow:hidden;pointer-events:none}
+  .animate-row-in{animation:row-in var(--motion-slow) ease-in-out both;overflow:hidden}
+  .animate-panel-out{animation:panel-out var(--motion-slow) ease-in-out forwards;pointer-events:none}
+  @media (prefers-reduced-motion: reduce){
+    .animate-row-out,.animate-row-in,.animate-row-swap-out,.animate-row-swap-in,
+    .animate-panel-out{animation-duration:1ms}
+  }
+
   /* ===== UploadTray — the progress plate shown during and after a file upload ==================
      Reproduces the plate prod raises after an upload: a summary bar ("5 uploads complete") that
      expands into the per-file list, plus a dismiss ✕.
@@ -3488,7 +3659,12 @@
   .cp-msg-row{display:flex;flex-direction:column;gap:.25rem;position:relative}
   .cp-msg-row.user{align-items:flex-end}
   .cp-msg-row.ai{align-items:flex-start}
-  .cp-bubble{max-width:85%;padding:.625rem .875rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary);border-radius:1rem}
+  /* overflow-wrap:anywhere is load-bearing, not polish. A message can be one unbroken token — a
+     pasted id, a URL, a wall of the same character — and without it the bubble ignores its own
+     max-width and runs off the side of the conversation, taking the scroll with it. anywhere, not
+     break-word: break-word only breaks when the word is alone on its line, which is exactly not
+     this case. */
+  .cp-bubble{max-width:85%;min-width:0;overflow-wrap:anywhere;padding:.625rem .875rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary);border-radius:1rem}
   /* card2 alone was too close to --surface-page (F1F5F9 on F8FAFC); full --stroke-border was too dark. Reads
      --surface-neutral-strong, not --stroke-border directly — border tokens are for borders, not fills. */
   .cp-bubble.user{background:var(--surface-neutral-strong);border-radius:1rem 1rem .25rem 1rem}
@@ -3503,7 +3679,7 @@
   /* Prose paragraphs + ordered/unordered lists inside an AI answer (e.g. the analysis plan) + inline
      code chips. Answer body text uses --ink-primary (near-black) so the final response reads clearly — darker
      than the default --ink-body used for body copy elsewhere. */
-  .cp-ai-prose{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary);margin:0}
+  .cp-ai-prose{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary);margin:0;min-width:0;overflow-wrap:anywhere}
   .cp-ai-list{margin:.125rem 0 0;padding-left:1.25rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary)}
   .cp-ai-list li{margin-bottom:.25rem}
   .cp-ai-list li:last-child{margin-bottom:0}
@@ -4473,7 +4649,12 @@
      composer's own 1rem corner — so band + composer read as one stack instead of a grey slab
      parked on top of a white card. --surface-card2 measured 1.05:1 against the page: invisible.
      The rows carry the contrast now (State/Hover on hover), not the tray (2026-09-29). */
-  .mqb{display:flex;flex-direction:column;gap:.25rem;width:100%;box-sizing:border-box;padding:.5rem;border-radius:1rem;background:var(--surface-card);border:var(--border-width) solid var(--stroke-border)}
+  /* A ceiling, so Expand can never eat the screen. 50vh is the half line: expanded, the queue
+     and the conversation get the same amount of room, and neither reads as the subordinate one.
+     40vh was tried first and lost — with wrapped rows and attachments it clipped at four short
+     messages, so Expand barely expanded (user directive 2026-10-02). The list inside takes
+     min-height:0 so it shrinks and scrolls rather than pushing the band past its own cap. */
+  .mqb{display:flex;flex-direction:column;max-height:50vh;gap:.25rem;width:100%;box-sizing:border-box;padding:.5rem;border-radius:1rem;background:var(--surface-card);border:var(--border-width) solid var(--stroke-border)}
   /* Header states the count AND when the queue leaves — it never depends on
      whether text is currently streaming (R3: a pause in the text is not a turn
      boundary), so the wording stays put while a tool or Python call runs. */
@@ -4489,11 +4670,17 @@
      rung on the icon ladder lands it on the grid instead of nudging it there. */
   .mqb-head-ic{width:var(--icon-sm);height:var(--icon-sm);margin:0 2px;flex:none;color:var(--ink-inactive)}
   .mqb-head-t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .mqb-head-n{flex:none}
   .mqb-head-act{margin-left:auto;flex:none}
+  /* Expand appears when the list is ACTUALLY clipped, not when it holds more than N rows — with
+     wrapping and attachments, three rows can overflow and five can fit. kit-kit.js sets
+     .is-clipped from the measurement. Once expanded the control stays, or there would be no way
+     back down. */
+  .mqb:not(.is-clipped):not(:has(.mqb-list.is-tall)) .mqb-head-act{display:none}
   /* One control, two directions: the chevron turns instead of the label changing word. */
   .mqb-head-act svg{transition:transform var(--motion-fast) var(--motion-ease)}
-  .mqb-head-act[aria-expanded="true"] svg{transform:rotate(180deg)}
+  /* The panel grows UPWARD out of the composer, so the arrow points the way the panel
+     will move: up while collapsed ("open it this way"), back down once it is open. */
+  .mqb-head-act[aria-expanded="false"] svg{transform:rotate(180deg)}
   @media (prefers-reduced-motion: reduce){ .mqb-head-act svg{transition:none} }
   .mqb-list{display:flex;flex-direction:column;gap:.125rem;list-style:none;margin:0;padding:0}
   /* Collapse — the band sits in the most-used spot in the product, so it never
@@ -4512,13 +4699,25 @@
      lap; collapsing keeps the band silent but hides rows behind a click. */
   /* Nothing overflows sideways any more (the optical pulls are gone), so the scroller needs no
      compensating margin — only room for its own scrollbar. */
-  .mqb-list.is-scroll{padding-right:.25rem;max-height:calc(var(--mq-item-h) * 3 + .5rem);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
-  /* Expanded: the cap rises but the list still scrolls, so a long queue can be read in place
-     without the band ever taking over the screen. */
-  .mqb-list.is-scroll.is-tall{max-height:calc(var(--mq-item-h) * 8 + 1.75rem)}
+  .mqb-list.is-scroll{flex:1 1 auto;min-height:0;padding-right:.25rem;max-height:calc(var(--mq-item-h) * 3 + .5rem);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
+  /* Expanded: the list stops setting its own ceiling and takes the band's — 50vh — because a
+     ceiling counted in ROWS stopped meaning anything once rows wrap. Eight nominal rows is four
+     real ones when the text is long, which is how Expand came to barely expand. The band's cap
+     is measured in the window instead, so expanded is always half the screen whatever the rows
+     are doing (user directive 2026-10-02). */
+  .mqb-list.is-scroll.is-tall{max-height:none}
 
   /* ── Item ───────────────────────────────────────────────────────────────── */
-  .mqi{position:relative;display:flex;align-items:center;gap:.5rem;min-height:var(--mq-item-h);box-sizing:border-box;padding:.25rem .375rem;border-radius:var(--radius-md);background:transparent;color:var(--ink-body);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);cursor:default;transition:background-color var(--motion-fast) var(--motion-ease)}
+  /* flex:none is load-bearing. The list is a flex COLUMN with a capped height, so its rows are
+     flex items that shrink by default — and min-height stopped that shrink at exactly one row,
+     which is why a two-line message kept the height of a one-line one and spilled 14px out of its
+     own box onto the row below. The list scrolls; the rows do not compress. */
+  /* Rows wrap. A queued message is a sentence someone typed, and clipping it to one line made
+     the queue a list of beginnings — the choice between truncating and wrapping is now made, so
+     the row carries the wrapping behaviour instead of a mode toggling it on. The number and the
+     actions sit on the FIRST LINE, not on the row: on a three-line message the row’s centre is
+     the middle of the paragraph. */
+  .mqi{position:relative;flex:none;display:flex;align-items:flex-start;gap:.5rem;min-height:var(--mq-item-h);box-sizing:border-box;padding:.375rem;border-radius:var(--radius-md);background:transparent;color:var(--ink-body);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);cursor:default;transition:background-color var(--motion-fast) var(--motion-ease)}
   /* Standalone interactive: the band under the row never changes background, so
      the neutral State/Hover token is correct here (no parent-state collision). */
   .mqi:hover,.mqi.s-hover,.mqi:focus-within{background:var(--state-hover)}
@@ -4527,8 +4726,14 @@
      asked next — and Inactive on the band surface measures 3.13:1 on light, under
      the 4.5:1 floor for 12px text. Secondary lands at 5.03:1 and still sits a
      clear step below the message itself (9.45:1). */
-  .mqi-num{flex:none;display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;border-radius:var(--radius-full);background:var(--surface-card2);color:var(--ink-secondary);font-size:var(--ts-label-m-size);line-height:1;font-variant-numeric:tabular-nums;transition:opacity var(--motion-fast) var(--motion-ease)}
-  .mqi-text{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Placement and the hover hand-off only — the look is .counter. */
+  .mqi-num{position:relative}
+  /* The message and whatever is attached to it are ONE block, stacked. Side by side the chip
+     read as a separate column — and on a long message it ended up a line away from the words it
+     belongs to, or squeezed against the actions. Under the text it stays attached to it at any
+     length. */
+  .mqi-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:.25rem}
+  .mqi-text{max-width:100%;overflow-wrap:anywhere}
   /* Attachment chip = .badge.badge-sm.badge-secondary; this only caps + truncates it. */
   .mqi-file{flex:none;min-width:0;max-width:11rem}
   .mqi-file-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -4539,7 +4744,7 @@
      3.13:1 against the band and dipped below it once the row hovered. */
   /* The number is a fixed round box, so the column aligns on BOTH edges and the digit is centred
      inside it — no arguing with tabular-nums advance widths or a narrow "1". */
-  .mqi-lead{position:relative;flex:none;width:1.25rem;height:var(--mq-item-h);display:flex;align-items:center;justify-content:center}
+  .mqi-lead{position:relative;flex:none;width:1.25rem;height:var(--ts-body-m-lh);display:flex;align-items:center;justify-content:center;align-self:flex-start}
   /* The grip shares the number's box instead of claiming a gutter of its own: a 24px column that
      is empty at rest pushed every row's text in by two steps and made the band read as a slab.
      On hover the number fades out and the grip takes its place, so the row keeps one left edge. */
@@ -4550,7 +4755,7 @@
   /* Optically flush right. Two pulls: the row's own padding, plus HALF the icon button's internal
      inset ((24-14)/2), so the trailing GLYPH lands on the same vertical as the header button's
      label — not the invisible edge of its 24px hit box, which is what left a stubborn gap. */
-  .mqi-acts{flex:none;display:flex;align-items:center;gap:.125rem;opacity:0;pointer-events:none;transition:opacity var(--motion-fast) var(--motion-ease)}
+  .mqi-acts{flex:none;align-self:flex-start;height:var(--ts-body-m-lh);display:flex;align-items:center;gap:.125rem;opacity:0;pointer-events:none;transition:opacity var(--motion-fast) var(--motion-ease)}
   .mqi:hover .mqi-grip,.mqi.s-hover .mqi-grip,.mqi:focus-within .mqi-grip{opacity:1}
   .mqi:hover .mqi-num,.mqi.s-hover .mqi-num,.mqi:focus-within .mqi-num{opacity:0}
   .mqi:hover .mqi-acts,.mqi.s-hover .mqi-acts,.mqi:focus-within .mqi-acts{opacity:1;pointer-events:auto}
@@ -4559,8 +4764,34 @@
 
   /* Removed + Undo (C4) — the strip takes the row place for 5s, so the list never
      silently loses a line and no modal is needed for a reversible delete. */
-  .mqi.is-removed{background:var(--surface-card);border:1px dashed var(--stroke-border);color:var(--ink-secondary)}
-  .mqi.is-removed .mqi-text{font-style:italic}
+  /* The undo strip is not a queued message, so it does not keep a message’s height or a message’s
+     frame. The dashed border drew a box around something that is on its way out — an outline is
+     for a drop target, not for a receipt — and the em-dash in the number slot put a mark where a
+     position used to be, which is the one thing this row no longer has. Both gone; what is left
+     is one quiet line and the way back. */
+  /* The undo strip stands on the ROW’S columns — empty lead, text where text goes, Undo where the
+     row actions go — so it reads as the gap a message left rather than as a different kind of
+     object that drifted in. It quotes nothing: the message can be a paragraph, and a strip that
+     grows to hold it is a second copy of the thing you just removed. "Message removed" is the
+     same length whatever left.
+     No border and no height of its own: an outline is for a drop target, not for a receipt.
+     Its Undo is always visible — a way back that only appears on hover is not a way back. */
+  /* The band’s meta line — what just happened to the queue, and the way back from it. It is NOT
+     a queued row, and every attempt to make it look like one went wrong: given a row’s columns it
+     flung "Undo" to the far right with a gap of nothing between, and given a row’s italic it
+     became the only italic on the screen.
+     It belongs to the register the THREAD’s meta lines already use (.cp-toolline, .cp-stopped):
+     Body/S on Text/Secondary, no box, no frame. The way back sits right after the sentence,
+     because they are one statement — "this happened, undo it" — not two ends of a bar. */
+  /* flex:none for the same reason .mqi carries it: the list is a flex COLUMN with a capped
+     height, so anything without it is free to be shrunk by the container — the note was being
+     squashed to its content and its height could not be animated at all. */
+  .mqb-note{display:flex;flex:none;align-items:center;gap:.5rem;padding:.25rem .375rem;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);color:var(--ink-secondary);list-style:none}
+  .mqb-note .link{font-size:inherit;line-height:inherit}
+  /* The note has no arrival animation of its own. It only ever appears by REPLACING a row, and
+     that move belongs to the pair of them — .animate-row-swap-in, handed the height the message
+     had. A blanket enter here also re-fired on every re-render, so a note already on screen
+     flickered whenever anything else in the queue changed. */
 
   /* Enter / send motion — taken from prod, not invented. The app animates every
      appearance with tailwindcss-animate: `.animate-in` = keyframes `enter` at
@@ -4662,6 +4893,27 @@
      The sizer is the point: it reserves the FINAL width, so the card does not
      reflow letter by letter while the label types in. Same trick here.
      ========================================================================= */
+  /* =========================================================================
+     THREAD STATES — what a turn shows when it is not prose.
+     ---------------------------------------------------------------------------
+     Three one-line states, all Body on a quieter ink than the answer itself:
+     the turn is reporting on itself, not answering. They lived in a page for as
+     long as only one screen had a queue; they are turn states, not queue ones.
+
+       <div class="cp-toolline"><span class="spinner"></span>Running Python…</div>
+       <div class="cp-stopped">Stopped</div>
+       <div class="cp-errline"><svg/>Couldn’t finish this answer</div>
+     ========================================================================= */
+  .cp-toolline{display:flex;align-items:center;gap:.375rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  /* Italic, and the only italic in the kit: the turn stopped mid-sentence, and the slant is
+     what says the text is about the answer rather than part of it. */
+  .cp-stopped{margin-top:.5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);font-style:italic}
+  /* Body/M, not Body/S: a failure is the answer in that turn, so it reads at the answer’s size.
+     Feedback/Red_Text and the circled cross — the same mark the error Alert carries, because it
+     is the same event seen from the thread. */
+  .cp-errline{display:flex;align-items:center;gap:.375rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--fb-red-text)}
+  .cp-errline svg{width:var(--icon-sm);height:var(--icon-sm);flex:none}
+
   /* One line, and the wait lives IN it. The earlier version paired the label with a three-line
      .skel of the reply, which promised a shape the answer then did not have — a placeholder
      claiming to know the length of something not yet written. The animation moved onto the text it
@@ -4713,11 +4965,21 @@
      unmistakably one family, and they cost zero new colour tokens. The wash is
      the sanctioned tint recipe (semantic base + --tint-N step, no literal %).
      ========================================================================= */
-  .alert{--alert-accent:var(--ink-secondary);display:flex;align-items:flex-start;gap:.625rem;box-sizing:border-box;padding:.625rem .5rem;border-radius:var(--radius-lg);border:var(--border-width) solid color-mix(in srgb, var(--alert-accent) var(--tint-30), transparent);background:color-mix(in srgb, var(--alert-accent) var(--alert-wash), var(--surface-card))}
-  .alert-ic{flex:none;width:var(--icon-sm);height:var(--icon-sm);color:var(--alert-accent)}
+  .alert{--alert-accent:var(--ink-secondary);display:flex;align-items:flex-start;gap:.625rem;box-sizing:border-box;padding:.625rem .75rem;border-radius:var(--radius-lg);border:var(--border-width) solid color-mix(in srgb, var(--alert-accent) var(--tint-30), transparent);background:color-mix(in srgb, var(--alert-accent) var(--alert-wash), var(--surface-card))}
+  /* The glyphs are Toast’s paths, but Toast draws them at 20px and this draws them at 16 — the
+     glyph box has to equal the title’s line box or it stops aligning. At stroke-width 2 the same
+     circle-and-cross collapses into a blob 20% smaller, so the STROKE carries the difference
+     instead of the geometry: 1.5 at 16px is the weight 2 has at 20. Same shape, same vocabulary,
+     same optical mass. */
+  .alert-ic{flex:none;width:var(--icon-sm);height:var(--icon-sm);stroke-width:1.5;color:var(--alert-accent)}
   .alert-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .alert-t{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-primary)}
   .alert-d{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  /* The actions line up with the GLYPH and the title, not with the middle of the block: a
+     two-line alert pushed them half a line below the thing they answer. The offset is the two
+  /* Centred on the block, not aligned to the glyph. Tried top-aligned so the control sat on the
+     title line it answers; it read as the button having slipped upward, and on a two-line alert
+     the block is what the eye measures against. Reverted 2026-09-30. */
   .alert-acts{flex:none;display:flex;align-items:center;gap:.375rem;align-self:center}
   /* The roster and the accents are Toast's, token for token — Alert is the same feedback family
      standing still instead of floating, and a family that changes colour when it stops moving is
@@ -4800,6 +5062,12 @@
      Text/Body: the title is already on the darkest ink, so the only way to make it read as MORE
      contrasting is to open the gap below it. Body sat one step away and the two flattened. */
   .cfc-opt-d{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);font-weight:var(--ts-body-m-weight);color:var(--ink-secondary)}
+  /* Floating variant — the card carries its own surface instead of borrowing the answer card's.
+     A question the queue is waiting on must not scroll away with the conversation: one you have to
+     scroll back to find reads as optional, and the queue then looks stuck for no visible reason.
+     The consumer positions it (see .cp-cfc-layer on the chat page); this only makes it a panel.
+     Shadow, not a heavier border: it sits OVER the thread, and depth is what says so. */
+  .cfc-float{box-sizing:border-box;padding:1rem;background:var(--surface-card);border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-overlay-soft)}
   /* The escape hatch: same hit area and states, no box. */
   /* Folded: the band is carrying an Alert and nothing else should compete with it. The list is
      hidden rather than removed, so expanding it costs no layout jump. */
@@ -4807,13 +5075,152 @@
   /* The toggle's LABEL sits on the same vertical as the ROW TEXT below it, so the band has one
      text column. It cannot also meet the alert's title: the alert is a bordered block with its own
      padding, and its title is 4.8px further right than any unboxed text in the band — see
-     changes/QueueBand.md. */
-  .mqb-fold{align-self:flex-start;margin-left:calc(var(--icon-sm) + .625rem - var(--border-width))}
+  /* The toggle’s LABEL starts where the alert’s GLYPH starts, so the alert above and the control
+     under it share one left edge. The inset is the alert’s own lead (border + padding) minus the
+     button’s own (border + padding) — the border terms cancel, leaving .75rem - .5rem. */
+  .mqb-fold{align-self:flex-start;margin-left:calc(.75rem - .5rem)}
 
   /* Wrapping rows — the list grows each row to its text instead of cutting it at one line.
      The lead circle and the actions stay pinned to the FIRST line (align-self:flex-start), so a
      three-line message does not leave its number floating in the middle of the row. */
-  .mqb-list.is-wrap .mqi{align-items:flex-start}
-  .mqb-list.is-wrap .mqi-text{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
-  .mqb-list.is-wrap .mqi-lead{height:var(--mq-item-h);align-self:flex-start}
-  .mqb-list.is-wrap .mqi-acts{align-self:flex-start;height:var(--mq-item-h)}
+  /* A wrapped row has to carry its own breathing room. On one line the row is held open by
+     min-height and the spare 4px splits above and below the text, so the text sits 6px off each
+     edge. Past one line min-height stops doing anything and only the 4px padding is left — so a
+     two-line message ended up 2px tighter than every single-line row around it, and read as
+     colliding with the next one. 6px stated outright: identical on one line, correct on three.
+     Off the 4px step on purpose, like the optical offsets elsewhere — it is derived from the row
+     height and the line box, not chosen. */
+  /* On a wrapped row the number and the actions centre on the FIRST LINE, not on the row. They
+     were given the row’s own height, so on a three-line message the number drifted toward the
+     middle of the paragraph and stopped reading as the marker for that message. One line box is
+     what they belong to; the rest of the row is the message’s, not theirs. */
+
+  /* =========================================================================
+     CHAT SHELL + COMPOSER — the frame every chat screen is built in
+     ---------------------------------------------------------------------------
+     This lived in four page <style> blocks as four hand-kept copies. It was classed
+     as "layout glue" in June, which was true then; it stopped being true the moment
+     padding, radius, a hover border, a focus border and a transition appeared on it.
+     A thing with states is a component, and a component belongs here.
+
+       <div class="cl-shell">
+         <aside class="cl-side">…Sidebar…</aside>
+         <div class="cl-main">
+           <header class="cp-header">…title…</header>
+           <div class="cp-thread-wrap"><div class="cp-thread">…turns…</div></div>
+           <div class="cp-composer-area"><div class="cp-composer-inner">
+             …band… <div class="cl-composer card">…</div>
+           </div></div>
+         </div>
+       </div>
+
+     Pages own only what is theirs: which turns are in the thread, and page furniture
+     such as a design-review state picker. No page may restate a rule from here.
+     ========================================================================= */
+
+  /* ── Frame ──────────────────────────────────────────────────────────────── */
+  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--surface-page)}
+  .cl-side{width:16rem;flex:none;background:var(--surface-card);border-right:var(--border-width) solid var(--stroke-border);height:100%;overflow:hidden;display:flex;flex-direction:column;transition:width var(--motion-base) var(--motion-ease)}
+  .cl-shell:has(.sbx.is-collapsed) .cl-side{width:var(--sbx-collapsed-w)}
+  .cl-side .sbx{height:auto;flex:1 1 0;min-height:0}
+  .cl-side .sbx-head{padding-top:.5rem}
+  .cl-main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+
+  /* ── Header ─────────────────────────────────────────────────────────────── */
+  .cp-header{flex:none;display:flex;align-items:center;padding:0 1.5rem;height:3rem;gap:.5rem}
+  .cp-title-wrap{display:flex;align-items:center;gap:.25rem;flex:1;min-width:0;position:relative}
+  /* The menu hangs off the chevron's own wrapper, not off the title, or it opens at the start of
+     a title whose length it has nothing to do with. */
+  .cp-title-menu-wrap{position:relative;display:inline-flex;flex:none}
+  .cp-title-menu{position:absolute;top:calc(100% + .25rem);left:0;min-width:10rem;display:none;z-index:20;box-shadow:var(--shadow-overlay-soft)}
+  .cp-title-wrap:has([aria-expanded="true"]) .cp-title-menu{display:block}
+
+  /* ── Thread ─────────────────────────────────────────────────────────────── */
+  /* The scroller is masked top and bottom so a turn slides under the header and the composer
+     instead of being cut across a line of text. */
+  .cp-thread-wrap{flex:1;overflow:hidden;position:relative;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,var(--black) .625rem,var(--black) calc(100% - 2rem),transparent 100%);
+    mask-image:linear-gradient(to bottom,transparent 0,var(--black) .625rem,var(--black) calc(100% - 2rem),transparent 100%)}
+  /* The gutter is reserved on the right only, so an equal left padding puts the scroller's centre
+     back where the composer's is. --sb-w is measured at load by the page; 0 where scrollbars
+     overlay. */
+  .cp-thread{height:100%;overflow-y:auto;scrollbar-gutter:stable;padding-left:var(--sb-w, 0px);display:flex;flex-direction:column;align-items:stretch;padding-bottom:2rem;scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
+  .cp-thread::-webkit-scrollbar{width:10px}
+  .cp-thread::-webkit-scrollbar-track{background:transparent}
+  .cp-thread::-webkit-scrollbar-thumb{background:var(--stroke-border);border-radius:var(--radius-full);border:3px solid transparent;background-clip:padding-box}
+  .cp-thread:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+
+  /* ── Answer content ─────────────────────────────────────────────────────── */
+  .cp-ai-wrap{display:flex;flex-direction:column;gap:.5rem;max-width:100%;width:100%;position:relative}
+
+  /* ── Message footer ─────────────────────────────────────────────────────── */
+  /* Revealed with opacity, never display: the row height is reserved in flow either way, so
+     hovering down a thread never reflows the messages under the pointer. */
+  .cp-msg-foot{display:flex;align-items:center;gap:.25rem;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity var(--motion-fast) var(--motion-ease)}
+  .cp-msg-row:hover .cp-msg-foot{opacity:1;pointer-events:auto}
+  .cp-msg-actions{display:flex;gap:.125rem;align-items:center}
+  /* An answer carries its timestamp and nothing else — copy belongs to what you wrote. */
+  .cp-msg-row.ai .cp-msg-actions{display:none}
+  .cp-msg-row.ai .cp-msg-foot{justify-content:flex-start}
+
+  /* ── Composer area ──────────────────────────────────────────────────────── */
+  .cp-composer-area{flex:none;padding:.625rem 1.5rem 1.25rem}
+  /* The same box as a thread turn, or the two columns cannot land on the same edges: the turn's
+     inner is --chat-max-w with 1.5rem of padding INSIDE that cap, so its content column is 48px
+     narrower. Giving the composer the cap and no padding is what made every message sit narrower
+     than the field once the viewport was wide enough for the cap to bite. */
+  .cp-composer-inner{position:relative;max-width:var(--chat-max-w);padding:0 1.5rem;box-sizing:border-box;margin:0 auto;display:flex;flex-direction:column;gap:.5rem}
+
+  /* ── Confirmation-Card sheet ────────────────────────────────────────────── */
+  /* When the assistant needs an answer before it can go on, the card is a SHEET over the chat,
+     not a block above it. It covers the thread AND the composer: it is the thing the conversation
+     stopped for, and a question you can type past reads as optional. Anchored to the bottom so it
+     ends where the composer ends, growing upward over the conversation as its options need room.
+       The horizontal inset is 3rem, not 1.5: the composer sits inside TWO paddings, the area's and
+     the inner column's, and matching only one left the card 48px wider than the panel it covers.
+     inset:0 gives the sheet a definite height, so the card caps itself against it instead of
+     running off the top of the screen. */
+  .cp-cfc-layer{position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 1.25rem;pointer-events:none}
+  .cp-cfc-layer:empty{display:none}
+  .cp-cfc-layer > .cfc-float{width:100%;max-width:calc(var(--chat-max-w) - 3rem);margin:0 auto;pointer-events:auto;overflow-y:auto}
+
+  /* ── Composer ───────────────────────────────────────────────────────────── */
+  /* Composed as `.cl-composer.card-panel`: the panel brings the border, this brings the surface
+     and the typing behaviour.
+       The surface is prod's — the card colour at 72% over a 10px blur, so the tail of the last
+     answer stays faintly visible under the thing you are typing instead of meeting a hard opaque
+     slab. It is stated here rather than left to .card-panel because three of the four chat pages
+     had dropped it and only the landing page still carried it, by hand.
+       The hover guard is prod's too: a focused composer does NOT take the hover border. Without
+     it, moving the mouse across a field you are already typing in swaps its border colour for no
+     reason the typist can act on. */
+  .cl-composer{position:relative;width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem;border-radius:var(--radius-3xl);background:color-mix(in srgb,var(--surface-card) var(--tint-72),transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color var(--motion-base) var(--motion-ease),box-shadow var(--motion-base) var(--motion-ease)}
+  .cl-composer:hover:not(:focus-within){border-color:var(--field-border-hover)}
+  .cl-composer:focus-within{border-color:var(--input-focus);box-shadow:none}
+  /* The prompt is a <textarea> on the landing screen and a contenteditable div inside a
+     conversation — the div is what lets inline mention tokens flow in the text. One rule serves
+     both: the declarations each one ignores are inert on the other (a div cannot be resized, a
+     textarea wraps on its own), and only the placeholder has to be written twice, because an
+     empty textarea has a placeholder attribute and an empty div has nothing at all. */
+  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:var(--ts-body-m-size);min-height:2rem;max-height:300px;overflow-y:auto;resize:none;color:var(--ink-primary);outline:none;font-family:inherit;line-height:var(--ts-body-m-lh);white-space:pre-wrap;word-break:break-word}
+  .cl-prompt::placeholder{color:var(--ink-inactive)}
+  .cl-prompt[data-placeholder]:empty:before{content:attr(data-placeholder);color:var(--ink-inactive);pointer-events:none}
+  .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+  .cl-composer-tools{display:flex;align-items:center;gap:.25rem}
+  /* Send IS the system button (.btn.btn-primary.btn-sm). The only thing owned here is that it
+     must not flex — size, padding, gap, type, radius and glyph all come from the size step.
+     Restating them by hand is how it once shipped with a 6px gap where the ladder says 8. */
+  .cl-send{white-space:nowrap;flex:none}
+
+  /* Below lg the burger is a fixed overlay, so the header has to leave it room. */
+  @media (max-width: 1023px){
+    .cp-header{padding-left:3.25rem}
+  }
+  /* On most phones the composer's labels collapse and its controls become icon-only. The
+     aria-labels and the glyphs carry the meaning, so nothing is lost — and it is the composer's
+     own behaviour, not a decision each screen gets to make for itself. */
+  @media (max-width: 479px){
+    .cl-send .cl-send-lbl{display:none}
+    .cl-dropdown{padding:0 .25rem}
+    .cl-dropdown .cl-dropdown-lbl{display:none}
+  }

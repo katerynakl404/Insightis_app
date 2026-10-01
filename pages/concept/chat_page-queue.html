@@ -10,167 +10,37 @@
 <link rel="stylesheet" href="../kit-theme.css?v=9" />
 <script src="../kit-kit.js" defer></script>
 <style>
-  /* ===== Page-only layout (no component restyling) ===== */
-  .topbar{padding:.375rem 1rem;height:40px;box-sizing:border-box;flex:none}
+  /* Page frame for the design-review harness. Everything below the topbar — the shell, the
+     sidebar column, the header, the thread, the composer area and the composer itself — is the
+     kit's CHAT SHELL + COMPOSER section. This page composes it and adds nothing to it. */
   html,body{height:100%;overflow:hidden}
   body{display:flex;flex-direction:column}
-  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--surface-page)}
-
-  /* Sidebar column */
-  .cl-side{width:16rem;flex:none;background:var(--surface-card);border-right:1px solid var(--stroke-border);height:100%;overflow:hidden;display:flex;flex-direction:column;transition:width .2s ease}
-  .cl-shell:has(.sbx.is-collapsed) .cl-side{width:var(--sbx-collapsed-w)}
-  .cl-side .sbx{height:auto;flex:1 1 0;min-height:0}
-  .cl-side .sbx-head{padding-top:8px}
-
-  /* Current/Expected swap removed — only Expected remains. */
-
-  /* Main column */
-  .cl-main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
-
-  /* ── Header bar ── */
-  .cp-header{flex:none;display:flex;align-items:center;padding:0 1.5rem;height:3rem;gap:.5rem}
-  /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) at narrow widths
-     so the page title isn't overlapped by the hamburger button. Threshold matches kit-theme's
-     burger breakpoint (kit shows it at <= 1023 px). */
+  .topbar{padding:.375rem 1rem;height:40px;box-sizing:border-box;flex:none}
+  /* The harness topbar offsets the chat header, so the kit's fixed burger must clear it:
+     2.5rem topbar + (3rem header − 2rem burger) / 2. */
   @media (max-width: 1023px){
-    .cp-header{padding-left:3.25rem}
-    /* The concept-page .topbar (version toggles, 2.5rem) offsets the chat header, so the fixed
-       burger must clear it: 2.5rem topbar + (3rem header - 2rem burger)/2 = 3rem to centre it. */
     .cl-burger{top:3rem;left:.75rem}
   }
-  /* Title + chevron dropdown */
-  .cp-title-wrap{display:flex;align-items:center;gap:.25rem;flex:1;min-width:0;position:relative}
-  /* Menu anchors to the chevron (its relative wrapper), not the title start. */
-  .cp-title-menu-wrap{position:relative;display:inline-flex;flex:none}
-  .cp-title-menu{position:absolute;top:calc(100% + .25rem);left:0;min-width:10rem;display:none;z-index:20;box-shadow:var(--shadow-overlay-soft)}
-  .cp-title-wrap:has([aria-expanded="true"]) .cp-title-menu{display:block}
 
-  /* ── Thread ── */
-  .cp-thread-wrap{flex:1;overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(to bottom,transparent 0,black .625rem,black calc(100% - 2rem),transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,black .625rem,black calc(100% - 2rem),transparent 100%)}
-  /* The gutter is reserved on the right only, so an equal left padding puts the scroller's centre
-     back where the composer's is. --sb-w is measured at load; 0 on overlay-scrollbar platforms. */
-  .cp-thread{height:100%;overflow-y:auto;scrollbar-gutter:stable;padding-left:var(--sb-w, 0px);display:flex;flex-direction:column;align-items:stretch;padding-bottom:2rem;scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
-  .cp-thread::-webkit-scrollbar{width:10px}
-  .cp-thread::-webkit-scrollbar-track{background:transparent}
-  .cp-thread::-webkit-scrollbar-thumb{background:var(--stroke-border);border-radius:var(--radius-full);border:3px solid transparent;background-clip:padding-box}
-  .cp-thread:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
-  .cp-inner{max-width:960px;width:100%;padding:0 1.5rem;box-sizing:border-box;display:flex;flex-direction:column;gap:1.25rem}
-
-  /* Message-row layout + bubble fills now live in pages/kit-theme.css (#chat-message section) —
-     shared kit component, not page-only styling. .cp-bubble.ai was unused dead code (AI turns use
-     .cp-ai-bubble) and was dropped in the move. */
-  /* Timestamp */
-  /* Timestamp is hidden by default (space reserved via visibility, so nothing shifts) and revealed
-     when the message row is hovered. */
-  /* Timestamp is ALWAYS visible (like prod) — never a hover-reveal. Hovering never reflows/jumps the
-     messages, and it's real content, not an empty res
-
-  /* Scroll-to-bottom btn — absolute within thread-wrap */
-  /* .cp-scroll-btn (floating scroll-to-bottom button) now lives in pages/kit-theme.css — shared kit component. */
-
-  /* ── Expected — rich AI content blocks ── */
-  /* Messages span the full chat column (like the live chat), not a narrow inset. */
-  .cp-ai-wrap{display:flex;flex-direction:column;gap:.5rem;max-width:100%;width:100%;position:relative}
-  /* .cp-ai-bubble now lives in pages/kit-theme.css — see .cp-msg-row block. */
-  /* .cp-ai-prose now lives in pages/kit-theme.css (#chat-message) — darker --ink-primary answer text. */
-  /* Metric grid */
-  .cp-metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;min-width:360px}
-  .cp-metric-card{display:flex;flex-direction:column;gap:.25rem;padding:.75rem;border-radius:.5rem;border:1px solid var(--stroke-border);background:var(--surface-page)}
-  /* Chart */
-  .cp-chart-wrap{padding:.875rem 1rem;display:flex;flex-direction:column;gap:.5rem;background:var(--surface-page);border:1px solid var(--stroke-border);border-radius:.5rem}
-  .cp-chart-svg{width:100%;aspect-ratio:560/100;overflow:visible;display:block}
-  /* Data source note
-  /* Action buttons */
-  .cp-actions{display:flex;gap:.5rem;flex-wrap:wrap}
-  /* User message footer: timestamp + action icons on the same row */
-  /* Footer (timestamp + copy) reveals on hover (opacity) but its row height is ALWAYS reserved in
-     flow — spacing between messages stays consistent and the footer never overlaps the next message.
-     No layout jump (opacity, not display). */
-  .cp-msg-foot{display:flex;align-items:center;gap:.25rem;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .12s}
-  .cp-msg-row:hover .cp-msg-foot{opacity:1;pointer-events:auto}
-  .cp-msg-actions{display:flex;gap:.125rem;align-items:center}
-  /* AI answers have no copy/actions — only the timestamp (copy stays on user messages). */
-  .cp-msg-row.ai .cp-msg-actions{display:none}
-  .cp-msg-row.ai .cp-msg-foot{justify-content:flex-start}
-
-  /* ── Composer area ── */
-  /* The thread reserves its scrollbar on the right (scrollbar-gutter), so its content column is
-     that much narrower than the composer's. --sb-w is measured once at load and pads the composer
-     area by the same amount, which is the only way to make two columns that live in different
-     boxes land on the same left and right edges. On overlay-scrollbar platforms it is 0 and
-     nothing changes. */
-  .cp-composer-area{flex:none;padding:.625rem 1.5rem 1.25rem}
-  /* Band + composer stack in one column. The band grows UPWARD (the thread above it
-     absorbs the height), so the composer under the pointer never moves. */
-  /* Same box as a thread turn, or the two columns cannot land on the same edges:
-     `.cp-turn-inner` is `max-width:820px` with `padding:0 1.5rem` INSIDE that cap, so its content
-     column is 772px. The composer's inner had the same 820 cap and no padding — an 820px column.
-     That 48px, not the scrollbar, is what made every message sit narrower than the composer once
-     the viewport was wide enough for the cap to bite. */
-  .cp-composer-inner{max-width:820px;padding:0 1.5rem;box-sizing:border-box;margin:0 auto;display:flex;flex-direction:column;gap:.5rem}
-  /* Design-review state picker in the chat header — page furniture, not product UI. */
+  /* ── Design-review state picker ──────────────────────────────────────────
+     Page furniture, not product UI: it switches the page between the states this spec
+     documents. It lives in the harness topbar and ships with nothing. */
   .mq-statebar{display:flex;align-items:center;gap:.5rem;flex:none}
   .mq-statebar-lbl{font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);color:var(--ink-secondary)}
   .mq-state-wrap{position:relative}
   /* position:fixed, placed by JS — the same escape hatch the kit's tooltip engine uses. The
-     topbar is a 40px horizontal scroller (overflow:auto), so an absolutely positioned menu is
-     clipped away entirely by it. */
+     topbar is a 40px horizontal scroller, so an absolutely positioned menu is clipped by it. */
   .mq-state-menu{position:fixed;display:none;z-index:60;max-height:min(26rem,calc(100vh - 4rem));overflow-y:auto}
   .mq-state-wrap:has([aria-expanded="true"]) .mq-state-menu{display:block}
   .mq-state-trig{user-select:none}
   .mq-state-menu [data-state]{gap:10px}
   .mq-state-id{flex:none;width:2rem;font-variant-numeric:tabular-nums;color:var(--ink-secondary);font-weight:var(--ts-label-m-weight)}
   .mq-state-menu [data-state].is-active .mq-state-id{color:var(--brand-primary)}
+  .tb-concept{display:flex;align-items:center;gap:.375rem}
   @media (max-width: 767px){
     .mq-statebar-lbl{display:none}
     .mq-state-trig{max-width:9rem;overflow:hidden}
   }
-  /* Composer styles (mirrors chat-landing.html's .cl-composer rules) */
-  .cl-composer{position:relative;width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem;border-radius:1rem;transition:border-color .15s,box-shadow .15s}
-  .cl-composer:hover{border-color:var(--field-border-hover)}
-  .cl-composer:focus-within{border-color:var(--input-focus);box-shadow:none}
-  /* Contenteditable prompt — a div (not <textarea>) so inline .cl-mention-tag tokens can flow in
-     the text. Auto-grows with content; caps at 300px then scrolls. */
-  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:var(--ts-body-m-size);min-height:32px;max-height:300px;overflow-y:auto;color:var(--ink-primary);outline:none;font-family:inherit;line-height:var(--ts-body-m-lh);white-space:pre-wrap;word-break:break-word}
-  .cl-prompt:empty:before{content:attr(data-placeholder);color:var(--ink-inactive);pointer-events:none}
-  .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-  /* Composer tools row — unified with chat-landing.html (.cl-composer-tools + .cl-dropdown set). */
-  .cl-composer-tools{display:flex;align-items:center;gap:.25rem}
-  /* Composer trigger buttons (.cl-attach / .cl-dropdown), menu anchoring (.cl-dropdown-wrap /
-     .cl-dropdown-menu) and the attached-file chip (.cl-file-chip) now live in the single source
-     pages/kit-theme.css (storybook #composer-menus). Page <style> keeps only layout glue below. */
-  /* Radius is concentric with the composer: outer 1rem − .5rem padding = .5rem inner. */
-  /* The composer send button IS the system button — .btn.btn-primary.btn-sm. What stays
-     here is only what the page owns: it must not flex, and below the composer breakpoint it
-     collapses to an icon-only square. Size, padding, gap, type, radius and icon size all come
-     from .btn-sm now; hand-restating them is how this button ended up with a 6px gap where
-     the ladder says 8 and a 14px glyph where a 32px control takes 16. */
-  .cl-send{white-space:nowrap;flex:none}
-  /* NOT carried over from chat_page-landing.html, deliberately. That page keeps the Send button
-     looking active while `disabled`, for visual continuity when the field is merely empty. The
-     queue introduces a disabled state that carries meaning — the queue is full (B3) — and a
-     control that is off but looks on fails WCAG 2.1 (a disabled element must read as
-     non-interactive). So here `disabled` looks disabled. ⚠ Open: whether the approved page
-     should follow. See page-changes/chat_page-queue.md.
-     .cl-send[disabled]{background:var(--brand-primary);…}  ← removed on purpose */
-
-  /* Thread bits the queue flow appends — mirrors what the shipped thread already renders.
-     .mq-caret is the kit's (prod-matched) blinking caret; these are only layout/typography. */
-  /* No margin of its own: it is a direct child of .cp-ai-bubble, which already spaces its children
-     with a single .75rem gap. A margin here stacks on top of that gap — and when the tool line is
-     the bubble's ONLY child (B4) it shows up as dead space above the spinner. */
-  .mq-toolline{display:flex;align-items:center;gap:.375rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
-  .mq-toolline .spinner{width:var(--icon-xs);height:var(--icon-xs);border:2px solid currentColor;border-right-color:transparent;border-radius:var(--radius-full);animation:btn-spin .7s linear infinite}
-  .mq-stopped{margin-top:.5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);font-style:italic}
-  .mq-errline{display:flex;align-items:center;gap:.375rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--fb-red-text)}
-  .mq-errline svg{width:var(--icon-sm);height:var(--icon-sm);flex:none}
-  .mq-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-
-  /* Sticker removed — no in-page handoff note. */
-  /* Concept control (design-review only) — lives in the page topbar (top of page, never in content);
-     switches the composer popovers between states. The switcher itself is the kit SegmentedControl. */
-  .tb-concept{display:flex;align-items:center;gap:.375rem}
-  /* Sidebar→drawer is kit-owned at ≤1023px (kit-theme.css) — pages must not redeclare it. */
 </style>
 </head>
 <body>
@@ -229,7 +99,7 @@
 <!-- ===== Topbar ===== -->
 <div class="topbar">
   <div style="display:flex;align-items:center;gap:.5rem">
-    <span class="ttl">AI Chat — message queue</span>
+    <span class="ttl">Chat page — message queue</span>
     <span class="badge badge-sm badge-secondary">AIINS-1808</span>
   </div>
   <div style="display:flex;align-items:center;gap:.625rem">
@@ -247,17 +117,7 @@
         </button>
         <div class="menu mq-state-menu is-md" role="menu" id="mq-state-menu"></div>
       </div>
-      <span class="mq-statebar-lbl">List</span>
-      <div class="segctrl is-sm" role="tablist" aria-label="List mode" style="width:13rem">
-        <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" onclick="mqList('c3',this)">3 rows</button>
-        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="mqList('c5',this)">5 rows</button>
-        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="mqList('scroll',this)">Scroll</button>
-      </div>
-      <span class="mq-statebar-lbl">Rows</span>
-      <div class="segctrl is-sm" role="tablist" aria-label="Row height" style="width:11rem">
-        <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" onclick="mqWrap(false,this)">One line</button>
-        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="mqWrap(true,this)">Wrap</button>
-      </div>
+      
       <button class="btn btn-tertiary btn-xs" type="button" onclick="mqReset()">Reset</button>
     </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
@@ -349,7 +209,7 @@
             </div>
             <!-- Active item — the chat we're currently viewing -->
             <div class="sbx-chat s-active" role="button" tabindex="0" aria-current="true">
-              <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
+              <span class="sbx-chat-lbl">Message queue</span>
               <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
@@ -423,8 +283,8 @@
               <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">540 left</span></div>
             </div>
             <div class="sbx-pop-tok-actions">
-              <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=balance'">Buy Credits</button>
-              <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
+              <button class="btn btn-primary sbx-pop-cta" type="button" onclick="window.location.href='../approved/user_profile-modal.html?section=balance'">Buy Credits</button>
+              <button class="btn btn-secondary sbx-pop-cta" type="button" onclick="window.location.href='../approved/user_profile-modal.html?section=manage-plan'">Upgrade Plan</button>
             </div>
           </div>
         </div>
@@ -441,7 +301,7 @@
     <!-- Header bar -->
     <header class="cp-header">
       <div class="cp-title-wrap">
-        <h1 class="cp-header-title">Search first 5 Jira issues with AIINS</h1>
+        <h1 class="cp-header-title">Message queue</h1>
         <!-- Chevron + its menu share a relative wrapper so the dropdown anchors to the chevron. -->
         <div class="cp-title-menu-wrap">
           <button class="iconbtn iconbtn-tertiary iconbtn-2xs cp-title-btn" type="button" aria-label="Chat options" aria-haspopup="menu" aria-expanded="false"
@@ -791,6 +651,9 @@
       </div>
     </div>
 
+    <!-- The Confirmation Card covers the chat AND the composer. It is what the queue is waiting
+         on, so while it is open there is nothing else to do on this screen. -->
+    <div id="cp-cfc-layer" class="cp-cfc-layer"></div>
   </main>
 </div>
 
@@ -1241,7 +1104,7 @@
     if(!acctItem) return;
     var acctMap = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
     var acctSec = acctMap[acctItem.textContent.trim()];
-    if(acctSec) window.location.href = 'user_profile-modal.html?section=' + acctSec;
+    if(acctSec) window.location.href = '../approved/user_profile-modal.html?section=' + acctSec;
   });
   function clTogglePop(id){
     var pop = document.getElementById(id);
@@ -1315,7 +1178,7 @@ document.addEventListener('click', function(e){
   if(!it) return;
   var map = {'My account':'my-account','Manage plan':'manage-plan','Billing':'billing','Balance':'balance','Leave feedback':'leave-feedback'};
   var sec = map[it.textContent.trim()];
-  if(sec) window.location.href = 'user_profile-modal.html?section=' + sec;
+  if(sec) window.location.href = '../approved/user_profile-modal.html?section=' + sec;
 });
 </script>
 <!-- ===== Sidebar chat menus — shared dialogs + behavior (verbatim across sidebar-bearing pages;
@@ -1501,9 +1364,8 @@ document.addEventListener('click', function(e){
    review furniture, not product UI.
    ═══════════════════════════════════════════════════════════════════════════ */
 (function(){
-  var MAX = 10;
   var MQ = { queue:[], seq:1, streaming:false, paused:null, editing:null, held:false,
-             removed:null, attach:false, timers:[], state:'live' };
+             removed:[], attach:false, timers:[], state:'live' };
 
   /* ── Icons ─────────────────────────────────────────────────────────────── */
   var I = {
@@ -1539,9 +1401,11 @@ document.addEventListener('click', function(e){
   /* ── Band ──────────────────────────────────────────────────────────────── */
   function itemHtml(q,i){
         return '<li class="mqi" tabindex="0" data-sort-item data-id="'+q.id+'">'
-      + '<span class="mqi-lead"><span class="mqi-num">'+(i+1)+'</span><button class="mqi-grip" type="button" data-sort-handle aria-label="Drag to reorder" tabindex="-1">'+I.grip+'</button></span>'
-      + '<span class="mqi-text">'+esc(q.text)+'</span>'
-      + (q.file?'<span class="badge badge-sm '+(q.lost?'badge-attention':'badge-secondary')+' mqi-file">'+(q.lost?I.alert:I.file)+'<span class="mqi-file-name">'+esc(q.file)+(q.lost?' — attach again':'')+'</span></span>':'')
+      + '<span class="mqi-lead"><span class="counter mqi-num">'+(i+1)+'</span><button class="mqi-grip" type="button" data-sort-handle aria-label="Drag to reorder" tabindex="-1">'+I.grip+'</button></span>'
+      + '<span class="mqi-body">'
+      +   '<span class="mqi-text">'+esc(q.text)+'</span>'
+      +   (q.file?'<span class="badge badge-sm badge-secondary mqi-file">'+I.file+'<span class="mqi-file-name">'+esc(q.file)+'</span></span>':'')
+      + '</span>'
       + '<span class="mqi-acts">'
       + '<button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="Edit queued message" data-tip="Edit" data-mq="edit">'+I.edit+'</button>'
       + '<button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="Remove from queue" data-tip="Remove" data-mq="remove">'+I.x+'</button>'
@@ -1551,94 +1415,105 @@ document.addEventListener('click', function(e){
      marks on btn-xs, so they read at a glance in a band that is mostly text — and the one that
      spends money says so before the label does. */
   var AIC = {
-    goto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>',
     resume:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 4 12 8-12 8z"/></svg>',
     retry:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>',
+    clear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
     buy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.2a2.8 2.8 0 0 0-2.5-1.2c-1.5 0-2.5.8-2.5 2s1 1.8 2.5 2 2.5.7 2.5 2-1 2-2.5 2a2.8 2.8 0 0 1-2.5-1.2"/><path d="M12 6.2v11.6"/></svg>'
   };
   function pauseHtml(){
     if(!MQ.paused) return '';
-    var n=MQ.queue.length, kept=n+(n===1?' message kept':' messages kept')+' · nothing sent or charged';
+    var n=MQ.queue.length, held=(n===1?'1 message is':n+' messages are')+' on hold';
     var P={
-      confirm:{v:'info',t:'Queue paused · waiting for your answer above',a:[{l:'Go to question',p:1,act:'goto',i:'goto'}]},
-      answered:{v:'info',t:'You answered — resume when ready',a:[{l:'Resume',p:1,act:'resume',i:'resume'}]},
-      error:{v:'error',t:'Queue paused · the last reply didn’t finish',a:[{l:'Retry',p:1,act:'retry',i:'retry'},{l:'Resume',act:'resume',i:'resume'}]},
-      credits:{v:'warn',t:'Queue paused · you’re out of credits',a:[{l:'Buy credits',p:1,i:'buy'}]},
-      stopped:{v:'neutral',t:'Queue paused because you stopped the reply',a:[{l:'Resume',p:1,act:'resume',i:'resume'}]},
-      resumed:{v:'info',t:'Resumed · sends after this reply',a:[]},
-      restored:{v:'warn',t:'Restored '+n+' queued messages'+(MQ.restoredRunning?' · sends after this reply':''),d:'“targets_2026.xlsx” wasn’t kept — attach it again',a:[{l:'Resume',p:1,act:'resume',i:'resume'}]}
+      /* Title = the cause, in the words a person would use. Description = what it means for the
+         work they already did. No "Queue paused ·" prefix on all four: the same scaffold four
+         times reads as a template, and the band is visibly stopped anyway. "Nothing was charged"
+         survives on exactly one of them, because money is the only one of these that costs
+         anything to get wrong. */
+      confirm:{v:'info',t:'Waiting for your answer',a:[]},
+      error:{v:'error',t:'The last reply didn’t finish',a:[{l:'Retry',p:1,act:'retry',i:'retry'},{l:'Resume',act:'resume',i:'resume'}]},
+            /* The button goes where the money is: the balance section of the account modal, the same
+         destination the sidebar's own Buy Credits CTA uses. A pause that names a wall has to carry
+         the way through it. */
+      credits:{v:'warn',t:'You’re out of credits',d:held+' — nothing was charged',a:[{l:'Buy Credits',p:1,i:'buy',act:'buy'}]},
+      stopped:{v:'neutral',t:'You stopped the reply',a:[{l:'Resume',p:1,act:'resume',i:'resume'}]},
+      restored:MQ.restoredRunning
+        /* Q2 — the queue picked itself back up, so the sentence is a statement of fact and there
+           is nothing to press. */
+        ? {v:'neutral',t:(n===1?'1 message restored':n+' messages restored'),d:'Sending after this reply',a:[]}
+        /* E2 — restored but holding. It used to say it would send after this reply while showing
+           the Resume that is the only thing that sends it: the copy contradicted the control. */
+        : {v:'neutral',t:(n===1?'1 message restored':n+' messages restored'),d:'Nothing sends until you resume',a:[{l:'Resume',p:1,act:'resume',i:'resume'}]}
     }[MQ.paused];
     /* House rule: the primary action sits on the RIGHT, so secondary actions are emitted first
        regardless of the order they are declared in. */
+    /* Clear queue only on the NEUTRAL pauses. Where the pause names a problem — an unanswered
+       question, a failed reply, an empty balance — the way out is to deal with the problem, and an
+       “empty it all” beside Retry or Buy credits reads as the product offering to give up for you.
+       Neutral is the one case where nothing is wrong and the queue is simply parked, so throwing it
+       away is an ordinary choice. Listed first, so the primary still reads last. */
+    if(MQ.queue.length && P.v==='neutral') (P.a=P.a||[]).unshift({l:'Clear Queue',act:'clear',i:'clear'});
     var ordered=(P.a||[]).slice().sort(function(x,y){ return (x.p?1:0)-(y.p?1:0); });
     var acts=ordered.map(function(a){ return '<button class="btn '+(a.p?'btn-primary':'btn-secondary')+' btn-xs" type="button"'+(a.d?' disabled':'')+(a.act?' data-mq="'+a.act+'"':'')+'>'+(a.i&&AIC[a.i]?AIC[a.i]:'')+'<span class="btn-lbl">'+esc(a.l)+'</span></button>'; }).join('');
     return '<div class="alert alert-'+P.v+'" role="status">'
       + '<svg class="alert-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+VIC[P.v]+'</svg>'
       + '<div class="alert-body"><div class="alert-t">'+esc(P.t)+'</div>'
-      + (MQ.paused==='resumed'?'':'<div class="alert-d">'+esc(P.d||kept)+'</div>')+'</div>'
+      + '<div class="alert-d">'+esc(P.d||held)+'</div>'+'</div>'
       + (acts?'<div class="alert-acts">'+acts+'</div>':'') + '</div>';
   }
-  /* Q7 has three answers now: collapse at 3, collapse at 5, or scroll with the newest row pinned
-     in view. listMode() is the single place that decides. */
-  /* How the list handles more rows than fit, and whether a row keeps its text on one line.
-     Both are page-level controls in the review strip, not separate states: they are dimensions
-     every state has, the same way light/dark is. */
+  /* One answer to Q7, not three. The band scrolls, capped, pinned to its end — collapsing to N
+     rows behind a "+N more" made the count something you had to open the queue to trust, and two
+     clamp depths were two versions of the same compromise. */
   function listMode(){
-    var wrap = MQ.wrap ? ' is-wrap' : '';
-    if(MQ.scrollMode) return ' is-scroll'+(MQ.scrollTall?' is-tall':'')+wrap;
-    if(MQ.queue.length>(MQ.clamp5?5:3)) return (MQ.clamp5?' is-clamped-5':' is-clamped')+wrap;
-    return wrap;
+    return ' is-scroll'+(MQ.scrollTall?' is-tall':'');
   }
-  function segPickIn(btn){
-    var set=btn.parentNode.querySelectorAll('.segctrl-btn');
-    for(var i=0;i<set.length;i++){ set[i].classList.toggle('is-active', set[i]===btn); set[i].setAttribute('aria-selected', set[i]===btn?'true':'false'); }
+  function headText(){
+    var n=MQ.queue.length;
+    return n+' queued · sends after this reply';
   }
-  window.mqList = function(mode, btn){
-    MQ.scrollMode = mode==='scroll';
-    MQ.clamp5 = mode==='c5';
-    MQ.scrollTall = false;
-    segPickIn(btn); render();
-  };
-  window.mqWrap = function(on, btn){ MQ.wrap=!!on; segPickIn(btn); render(); };
-  /* The count is a badge reading "n / 10", so the ceiling is legible from the first message
-     instead of appearing as a surprise on the tenth. At the limit it turns Attention and says so
-     in words — the disabled Send and its tooltip then confirm a limit the band already showed. */
-  function headCount(){
-    var n=MQ.queue.length, full=n>=MAX;
-    return '<span class="badge badge-sm '+(full?'badge-attention':'badge-secondary')+' mqb-head-n">'
-      + n+' / '+MAX+(full?' · Full':'')+'</span>';
-  }
-  /* One line for every count. "one by one" was describing a numbered list that is already on
-     screen, and the singular/plural branch existed only to keep that phrase grammatical. */
-  function headText(){ return 'queued · sends after this reply'; }
   function renderBand(){
     var host=$('mq-band');
-    if(!MQ.queue.length && !MQ.paused && !MQ.removed){ host.innerHTML=''; return; }
-    var rows=(MQ.removed?'<li class="mqi is-removed"><span class="mqi-num" aria-hidden="true">—</span><span class="mqi-text">Removed “'+esc(MQ.removed.item.text)+'”</span><button class="btn btn-tertiary btn-xs" type="button" data-mq="undo">Undo</button></li>':'')
-      + MQ.queue.map(itemHtml).join('');
+    /* Remove the last message and the whole band goes — pause or no pause. A paused alert over an
+       empty queue is a notice about nothing: it says what was kept when nothing is kept. */
+    /* Empty queue, no band — and the undo note goes with it. Keeping the band alive just to hold
+       “Message removed” left a header reading “0 queued·sends after this reply” above a queue that
+       no longer exists. The cost is accepted: removing the LAST message cannot be undone from here,
+       because there is no here any more.
+       MQ.removed is cleared with it, so a queue started later never inherits a stale note. */
+    if(!MQ.queue.length){ MQ.removed=[]; clearAllUndo(); host.innerHTML=''; return; }
+    /* The note takes the GAP the message left. Rendered at the top it read as a new event
+       arriving rather than as the hole where something was, and the numbers below it jumped a
+       line for no visible reason. Spliced at the removed index, the rest of the queue stays
+       where your eye left it. */
+    /* Several removals in a row are several holes, not one: each keeps its own note at its own
+       place with its own way back, so undoing the second does not resurrect the fourth. Sorted
+       ascending and offset by the notes already inserted, so every index still lands on the gap
+       it belongs to after the ones above it have widened the list. */
+    var items=MQ.queue.map(itemHtml);
+    var notes=MQ.removed.slice().sort(function(a,b){ return a.index-b.index; });
+    for(var n=0;n<notes.length;n++) items.splice(Math.min(notes[n].index+n, items.length), 0, noteHtml(notes[n]));
+    var rows=items.join('');
     /* Paused, the queue steps back: the alert states the reason and the count, and the rows fold
        away so the thing that actually needs doing — answering, retrying, buying credits — is the
        only thing competing for attention. They are still reachable: everything stays editable
        until it is sent, so this is a disclosure, not a lockout. */
     var folded = !!MQ.paused && !MQ.pausedOpen;
-    host.innerHTML = '<div class="mqb'+(folded?' is-folded':'')+'">'
+    host.innerHTML = '<div class="mqb scroll-fade'+(folded?' is-folded':'')+'">'
       + pauseHtml()
       + (folded && MQ.queue.length
           ? '<button class="btn btn-tertiary is-brand btn-xs mqb-fold" type="button" aria-expanded="false" data-mq="fold">'
-            + 'Show ' + MQ.queue.length + (MQ.queue.length===1?' queued message':' queued messages') + '</button>'
+            + 'Show ' + MQ.queue.length + (MQ.queue.length===1?' Queued Message':' Queued Messages') + '</button>'
           : '')
       + (MQ.paused && MQ.pausedOpen
-          ? '<button class="btn btn-tertiary is-brand btn-xs mqb-fold" type="button" aria-expanded="true" data-mq="fold">Hide queue</button>'
+          ? '<button class="btn btn-tertiary is-brand btn-xs mqb-fold" type="button" aria-expanded="true" data-mq="fold">Hide Queue</button>'
           : '')
-      + (MQ.paused?'':'<div class="mqb-head">'+I.list+headCount()+'<span class="mqb-head-t">'+esc(headText())+'</span>'
-          + (MQ.scrollMode
-              ? (MQ.queue.length>3?'<button class="iconbtn iconbtn-tertiary iconbtn-xs mqb-head-act" type="button" aria-expanded="'+(MQ.scrollTall?'true':'false')+'" data-mq="tall" aria-label="'+(MQ.scrollTall?'Collapse the queue':'Expand the queue')+'" data-tip="'+(MQ.scrollTall?'Collapse':'Expand')+'">'+I.chev+'</button>':'')
-              : (MQ.queue.length>(MQ.clamp5?5:3)?'<button class="btn btn-tertiary is-brand btn-xs mqb-head-act" type="button" aria-expanded="false" data-mq="more">+'+(MQ.queue.length-(MQ.clamp5?5:3))+' more</button>':''))+'</div>')
-      + '<ul class="mqb-list'+listMode()+'" data-sortable>'+rows+'</ul>'
+      + (MQ.paused?'':'<div class="mqb-head">'+I.list+'<span class="mqb-head-t">'+esc(headText())+'</span>'
+          + ('<button class="iconbtn iconbtn-tertiary iconbtn-xs mqb-head-act" type="button" aria-expanded="'+(MQ.scrollTall?'true':'false')+'" data-mq="tall" aria-label="'+(MQ.scrollTall?'Collapse the queue':'Expand the queue')+'" data-tip="'+(MQ.scrollTall?'Collapse':'Expand')+'">'+I.chev+'</button>')+'</div>')
+      + '<ul class="mqb-list'+listMode()+'" data-sortable data-scroll-fade>'+rows+'</ul>'
       + '</div>';
     /* "the last one must be visible": a scrolling queue is pinned to its END, so the message just
        added is the one on screen rather than something four rows up. */
-    if(MQ.scrollMode){ var l=host.querySelector('.mqb-list'); if(l) l.scrollTop=l.scrollHeight; }
+    var l=host.querySelector('.mqb-list'); if(l) l.scrollTop=l.scrollHeight;
+    if(window.kitSyncFades) window.kitSyncFades(host);
   }
 
   /* ── Composer action — ONE control (see changes/Button.md) ──────────────── */
@@ -1652,7 +1527,7 @@ document.addEventListener('click', function(e){
       /* Stop shows only on an empty field, so it is never where a send is aimed. */
       html='<button class="btn btn-secondary btn-sm" type="button" aria-label="Stop the reply" data-mq="stop">'+I.stop+'<span class="btn-lbl">Stop</span></button>';
     } else {
-      var off = !typed || (queuing && MQ.queue.length>=MAX);
+      var off = !typed;
       html='<button class="btn btn-primary btn-sm cl-send" type="button"'+(off?' disabled':'')+' aria-label="Send message"'
         + ' data-mq="send">'+I.send+'<span class="btn-lbl">Send</span></button>';
     }
@@ -1660,13 +1535,6 @@ document.addEventListener('click', function(e){
        needed: kit-kit.js now hides the tooltip when its trigger leaves the DOM (this page is what
        surfaced that gap — the swap is driven by TYPING, so neither mousedown nor mouseout fires). */
     if(host.innerHTML!==html) host.innerHTML=html;
-    /* The one place a tooltip earns its keep here: Send is disabled at the limit, and a disabled
-       button explains nothing on its own. The tip goes on the SLOT, not the button — a disabled
-       button fires no pointer events, so a tip on it would never show. The header already carries
-       "10 of 10", so this adds the reason and the way out, not a second copy of the count. */
-    var full = queuing && MQ.queue.length>=MAX;
-    if(full) host.setAttribute('data-tip','Queue is full ('+MAX+' of '+MAX+'). Remove a message or wait for the next one to send.');
-    else host.removeAttribute('data-tip');
     var p=$('cl-prompt');
     if(p) p.setAttribute('data-placeholder', MQ.streaming ? 'Ask a follow-up — it will wait its turn' : 'Ask anything about your data, or type @ to reference a metric…');
   }
@@ -1721,7 +1589,7 @@ document.addEventListener('click', function(e){
       if(!MQ.streaming) return;
       /* R3 — text is done but the turn is NOT: a Python call is still running. */
       var tool=document.createElement('div');
-      tool.className='mq-toolline';
+      tool.className='cp-toolline';
       tool.innerHTML='<span class="spinner" aria-hidden="true"></span>Running Python…';
       el.parentNode.appendChild(tool); scrollDown();
         later(function(){
@@ -1743,7 +1611,7 @@ document.addEventListener('click', function(e){
   /* ── Actions ───────────────────────────────────────────────────────────── */
   function queueFromComposer(){
     var t=promptText(); if(!t) return;
-    if(MQ.queue.length>=MAX){ render(); return; }
+    /* No ceiling: the queue takes what you give it. */
     /* The attachment comes from the composer's REAL file chip, so a queued message carries a file
        in any state — the attach flow is the page's own, not a preset. */
     var chip = document.getElementById('cl-file-chip');
@@ -1759,15 +1627,18 @@ document.addEventListener('click', function(e){
   function sendFromComposer(){ var t=promptText(); if(!t) return; $('cl-prompt').textContent=''; startTurn(t,null); }
   function stop(){
     clearTimers(); MQ.streaming=false;
-    var tl=thread().querySelector('.mq-toolline'); if(tl) tl.remove();
+    var tl=thread().querySelector('.cp-toolline'); if(tl) tl.remove();
     var last=thread().querySelector('.cp-turn:last-child .cp-ai-bubble');
-    if(last && !last.querySelector('.mq-stopped')){ var s=document.createElement('div'); s.className='mq-stopped'; s.textContent='Stopped'; last.appendChild(s); }
+    if(last && !last.querySelector('.cp-stopped')){ var s=document.createElement('div'); s.className='cp-stopped'; s.textContent='Stopped'; last.appendChild(s); }
     var c=thread().querySelector('.mq-caret'); if(c) c.remove();
     if(MQ.queue.length){ MQ.paused='stopped'; announce('Queue paused because you stopped the reply'); }
     render();
   }
-  function resume(){ MQ.paused = MQ.streaming?'resumed':null; render(); if(!MQ.streaming) next(); }
-  function retry(){ MQ.paused=null; var e=thread().querySelector('.mq-errline'); if(e) e.closest('.cp-turn').remove(); render(); startTurn('what was revenue by region last quarter?',null); }
+  /* Resuming while a reply is still running is not a state of its own: the queue goes back to
+     waiting, and the band header already says it sends after this reply. The alert that used to
+     announce it repeated the header and was removed with D5. */
+  function resume(){ MQ.paused = null; render(); if(!MQ.streaming) next(); }
+  function retry(){ MQ.paused=null; var e=thread().querySelector('.cp-errline'); if(e) e.closest('.cp-turn').remove(); render(); startTurn('what was revenue by region last quarter?',null); }
   /* Edit is not an editor. The row leaves the queue and its text goes back into the COMPOSER —
      the one writing surface the app has. No second text field, no Save/Cancel, no "held" row.
      (Design-owner directive 2026-09-29; it replaces the spec's C2 inline editor, and with it R6
@@ -1785,7 +1656,121 @@ document.addEventListener('click', function(e){
     var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
     announce('Moved back to the composer: '+q.text);
   }
-  function undo(){ if(!MQ.removed) return; MQ.queue.splice(MQ.removed.index,0,MQ.removed.item); MQ.removed=null; render(); }
+  /* The way back is on a clock, and the clock is the Toast's: --undo-window mirrors the design
+     system's TOAST_DEFAULT_DURATION, so an undo that floats past and an undo that sits in the
+     list give you the same amount of time. Without it the note is not a note — it stays in the
+     band as a permanent row describing something that is no longer there. */
+  var UNDO_MS=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--undo-window'))||4000;
+  var undoTimers={}, removedSeq=0;
+
+  /* Collapse a row out of the list before the state behind it changes: the gap closes over the
+     time it takes to read that something left, instead of the list snapping and leaving you to
+     work out which line went. The recipe is the kit's .animate-row-out, which mirrors the design
+     system's own row-out — this page does not own it and must not restate it; it only hands over
+     the measured height and waits.
+       The exit is retired on animationend, so the wait can never drift out of step with the CSS
+     duration. The timer behind it is a backstop, not a second implementation: a re-render during
+     the animation (a second Remove while this one is in flight) destroys the element and its
+     animationend with it, and without the backstop that removal would never reach the state. */
+  function onceAnimationEnd(el, cls, done){
+    var settled=false;
+    function settle(){ if(settled) return; settled=true; done(); }
+    el.classList.add(cls);
+    el.addEventListener('animationend', function(e){ if(e.target===el) settle(); });
+    /* Backstop, not a second implementation: a re-render during the animation destroys the
+       element and its animationend with it, and a hidden tab never advances the timeline at all.
+       Without it that removal would never reach the state. */
+    setTimeout(settle, 600);
+  }
+  /* Nothing replaces this one — the list really does close over it. */
+  function collapseOut(el, done){
+    if(!el){ done(); return; }
+    el.style.setProperty('--row-height', el.offsetHeight+'px');
+    onceAnimationEnd(el, 'animate-row-out', done);
+  }
+  /* One slot, two contents. `commit` changes the state and re-renders; `find` returns the element
+     that now stands in the old one's place, and it is faded in from the height the old one had.
+     The two halves are a single move, which is the whole point: a collapse followed by an expand
+     is two. */
+  function swapInPlace(el, commit, find){
+    if(!el){ commit(); return; }
+    var from=el.offsetHeight;
+    onceAnimationEnd(el, 'animate-row-swap-out', function(){
+      commit();
+      var next=find();
+      if(!next) return;
+      next.style.setProperty('--row-from', from+'px');
+      next.style.setProperty('--row-height', next.offsetHeight+'px');
+      /* The cleanup gets the backstop too. row-swap-in holds its final height on a 'both' fill,
+         so a missed animationend — a hidden tab never advances the timeline at all — would pin
+         the element at the height it had when it arrived, and it would stop following its own
+         text from then on. */
+      onceAnimationEnd(next, 'animate-row-swap-in', function(){
+        next.classList.remove('animate-row-swap-in');
+        next.style.removeProperty('--row-from');
+        next.style.removeProperty('--row-height');
+      });
+    });
+  }
+
+  function noteHtml(r){
+    return '<li class="mqb-note" data-key="'+r.key+'">'
+      + '<span>Message removed</span>'
+      + '<button class="link" type="button" data-mq="undo" data-key="'+r.key+'">Undo</button>'
+      + '</li>';
+  }
+  function noteAt(key){ for(var k=0;k<MQ.removed.length;k++){ if(MQ.removed[k].key===key) return k; } return -1; }
+  function clearUndo(key){ if(undoTimers[key]){ clearTimeout(undoTimers[key]); delete undoTimers[key]; } }
+  function clearAllUndo(){ for(var k in undoTimers) clearTimeout(undoTimers[k]); undoTimers={}; }
+  /* Each note runs its own clock — they were removed at different moments, so they leave at
+     different moments — and it leaves the way the row did, collapsing rather than vanishing. */
+  function armUndo(key){
+    undoTimers[key]=setTimeout(function(){
+      delete undoTimers[key];
+      collapseOut(document.querySelector('.mqb-note[data-key="'+key+'"]'), function(){
+        var n=noteAt(key); if(n<0) return;
+        MQ.removed.splice(n,1); render();
+      });
+    }, UNDO_MS);
+  }
+
+  /* Removing is cheap because it is undoable: a .mqb-note takes the row’s place saying what
+     happened, with the way back beside it, so the action needs no confirmation step in front of
+     it. The row collapses out first and the note takes the gap, so the change is one move. */
+  function remove(id){
+    var i=MQ.queue.map(function(x){return x.id;}).indexOf(id); if(i<0) return;
+    var gone=MQ.queue[i];
+    /* Announce from the captured item, not from state afterwards: emptying the queue takes the
+       band away and clears MQ.removed with it. */
+    announce('Removed from the queue: '+gone.text);
+    var key=++removedSeq;
+    swapInPlace(
+      document.querySelector('.mqi[data-id="'+id+'"]'),
+      function(){
+        var j=MQ.queue.indexOf(gone); if(j<0) return;
+        MQ.queue.splice(j,1);
+        MQ.removed.push({key:key, index:j, item:gone});
+        armUndo(key);
+        render();
+      },
+      function(){ return document.querySelector('.mqb-note[data-key="'+key+'"]'); }
+    );
+  }
+  /* Undo is the same swap, the other way round: the note's slot becomes the message again. */
+  function undo(key){
+    var n=noteAt(key); if(n<0) return;
+    clearUndo(key);
+    var r=MQ.removed[n];
+    swapInPlace(
+      document.querySelector('.mqb-note[data-key="'+key+'"]'),
+      function(){
+        var at=noteAt(key); if(at>=0) MQ.removed.splice(at,1);
+        MQ.queue.splice(Math.min(r.index, MQ.queue.length), 0, r.item);
+        render();
+      },
+      function(){ return document.querySelector('.mqi[data-id="'+r.item.id+'"]'); }
+    );
+  }
 
   /* ── Delegated events ──────────────────────────────────────────────────── */
   document.addEventListener('click', function(e){
@@ -1797,13 +1782,14 @@ document.addEventListener('click', function(e){
     else if(a==='stop') stop();
     else if(a==='resume') resume();
     else if(a==='retry') retry();
-    else if(a==='goto'){ var card=thread().querySelector('.cfc'); if(card) card.scrollIntoView({block:'center'}); }
     else if(a==='edit') edit(id);
+    else if(a==='buy') window.location.href='../approved/user_profile-modal.html?section=balance';
+    else if(a==='dismiss'){ floatCard(false); MQ.paused=null; render(); }
     else if(a==='remove') remove(id);
-    else if(a==='undo') undo();
+    else if(a==='undo') undo(+t.getAttribute('data-key'));
+    else if(a==='clear'){ clearAllUndo(); MQ.queue=[]; MQ.removed=[]; MQ.paused=null; render(); announce('Queue cleared'); }
     else if(a==='fold'){ MQ.pausedOpen=!MQ.pausedOpen; render(); }
     else if(a==='tall'){ MQ.scrollTall=!MQ.scrollTall; render(); }
-    else if(a==='more'){ var l=document.querySelector('#mq-band .mqb-list'); l.classList.toggle('is-clamped'); t.setAttribute('aria-expanded', l.classList.contains('is-clamped')?'false':'true'); t.textContent = l.classList.contains('is-clamped') ? '+'+(MQ.queue.length-3)+' more' : 'Show less'; }
     if(e.altKey && (e.key==='ArrowUp'||e.key==='ArrowDown')) return;
   }, true);
   document.addEventListener('input', function(e){ if(e.target && e.target.id==='cl-prompt') renderActs(); });
@@ -1827,7 +1813,7 @@ document.addEventListener('click', function(e){
   function q(n,file){
     var src=['now split that by channel','and compare to Q3','which channel grew fastest in EMEA and was the growth driven by new customers or by existing ones?','show top 5 products','also show margin by region','break out EMEA by country','compare with last year','show the same for net revenue','which segment churned most','add a forecast for Q4'];
     MQ.queue=[]; MQ.seq=1;
-    for(var i=0;i<n;i++) MQ.queue.push({id:MQ.seq++, text:src[i%src.length], file:(file&&i===0)?'targets_2026.xlsx':null, lost:(file==='lost'&&i===0)});
+    for(var i=0;i<n;i++) MQ.queue.push({id:MQ.seq++, text:src[i%src.length], file:(file&&i===0)?'targets_2026.xlsx':null});
   }
   /* A state SHOWS a state: no animation replays when you open one. "A reply is running" is the
      assistant's own in-progress indicator — the Thinking label prod uses — not a half-typed
@@ -1850,11 +1836,15 @@ document.addEventListener('click', function(e){
       + (badge?' <span class="badge badge-sm badge-primary">'+esc(badge)+'</span>':'')+'</span>'
       + (desc?'<span class="cfc-opt-d">'+esc(desc)+'</span>':'')+'</span></label>';
   }
+  function floatCard(on){
+    var host=$('cp-cfc-layer'); if(!host) return;
+    host.innerHTML = on ? '<div class="cfc-float">'+confirmCardHtml()+'</div>' : '';
+  }
   function confirmCardHtml(){
     return '<div class="cfc" role="radiogroup" aria-label="Which revenue field to use">'
       + '<div class="cfc-top"><p class="cfc-q">Which revenue field best represents the business performance you want to track?</p>'
       + '<span class="cfc-top-r"><span class="cfc-esc">Esc to cancel</span>'
-      + '<button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Dismiss" data-tip="Dismiss">'+I.x+'</button></span></div>'
+      + '<button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Dismiss" data-tip="Dismiss" data-mq="dismiss">'+I.x+'</button></span></div>'
       + '<div class="cfc-opts">'
       + cfcOpt('net','Net revenue','Recommended','Revenue after deductions — profit-generating revenue and financial health.')
       + cfcOpt('gross','Gross revenue','','Revenue before deductions (costs, returns, discounts) — top-line sales volume and reach.')
@@ -1875,51 +1865,37 @@ document.addEventListener('click', function(e){
     ['A3','A3 · Reply running, text entered', function(){ streamTail(1); MQ.streaming=true; $('cl-prompt').textContent='now split that by channel'; }],
     ['B1','B1 · One message waiting', function(){ streamTail(1); MQ.streaming=true; q(1); }],
     ['B2','B2 · Several messages', function(){ streamTail(1); MQ.streaming=true; q(5); }],
-    ['B3','B3 · Queue full (10 of 10)', function(){ streamTail(1); MQ.streaming=true; q(10); $('cl-prompt').textContent='also show margin by region'; }],
+    /* A queued message can carry an attachment, and it survives everything the queue does to it */
+    ['B2f','B2 · A queued message with a file', function(){ streamTail(1); MQ.streaming=true; q(2,'file'); }],
     /* B4 has to SHOW the departure, not a snapshot of the moment after it: the row plays mq-exit,
        leaves the band, lands in the thread as an ordinary user message, and the rest renumber.
        Looped while B4 is the active state so it is visible whenever you arrive. */
     ['B4','B4 · Messages leaving one by one', function(){ streamTail(1); MQ.streaming=true; q(10); loopB4(); }],
-    ['B5','B5 · Reply looks finished, turn is not', function(){ streamTail(0); addTurn(aiRow('<div class="mq-toolline"><span class="spinner" aria-hidden="true"></span>Running Python…</div>')); MQ.streaming=true; q(1); }],
-    ['D1','D1 · Waiting on a Confirmation Card', function(){ streamTail(0); addTurn(aiRow(confirmCardHtml())); q(2); MQ.paused='confirm'; }],
-    ['D1b','D1b · Card answered', function(){ streamTail(0); q(2); MQ.paused='answered'; }],
-    ['D2','D2 · Last reply failed', function(){ streamTail(0); addTurn(aiRow('<div class="mq-errline">'+I.alert.replace('b-ic','')+'Couldn’t finish this answer</div>')); q(2); MQ.paused='error'; }],
+    /* The card FLOATS over the thread rather than sitting in it. It is the thing the queue is
+       waiting on, so it must not be something you scroll back to find. */
+    ['D1','D1 · Waiting on a Confirmation Card', function(){ streamTail(0); floatCard(true); q(2); MQ.paused='confirm'; }],
+    ['D2','D2 · Last reply failed', function(){ streamTail(0); addTurn(aiRow('<div class="cp-errline">'+I.alert.replace('b-ic','')+'Couldn’t finish this answer</div>')); q(2); MQ.paused='error'; }],
     ['D3','D3 · Out of credits', function(){ streamTail(0); q(2); MQ.paused='credits'; }],
-    ['D4','D4 · You pressed Stop', function(){ streamTail(0); var b=thread().querySelector('.cp-turn:last-child .cp-ai-bubble'); var s=document.createElement('div'); s.className='mq-stopped'; s.textContent='Stopped'; b.appendChild(s); q(2); MQ.paused='stopped'; }],
-    ['D5','D5 · Resume while a reply runs', function(){ streamTail(1); MQ.streaming=true; q(1); MQ.paused='resumed'; }],
-    ['E1','E1 · Leaving with a non-empty queue', function(){ streamTail(0); q(2); openLeaveDialog(); }],
-    ['E2','E2 · After a reload', function(){ streamTail(0); q(2,'lost'); MQ.queue[0].file='targets_2026.xlsx'; MQ.queue[0].lost=true; MQ.paused='restored'; }],
-    ['E3','E3 · A queue in another chat', function(){ streamTail(0); q(2); flagSidebar(); }],
+    ['D4','D4 · You pressed Stop', function(){ streamTail(0); var b=thread().querySelector('.cp-turn:last-child .cp-ai-bubble'); var s=document.createElement('div'); s.className='cp-stopped'; s.textContent='Stopped'; b.appendChild(s); q(2); MQ.paused='stopped'; }],
+    ['E2','E2 · After a reload', function(){ streamTail(0); q(2); MQ.queue[0].file='targets_2026.xlsx'; MQ.paused='restored'; }],
+    ['E3','E3 · A queue in another chat — running', function(){ streamTail(0); q(2); flagSidebar(false); }],
+    ['E3b','E3b · A queue in another chat — stopped', function(){ streamTail(0); q(2); flagSidebar(true); }],
     /* Q2's alternative stays a state — it is a different BEHAVIOUR after a reload. Q7 does not:
        list mode is a dimension of every state, so it lives in the review strip instead. */
-    ['Q2','Q2 alt · after a reload, queue continues', function(){ streamTail(0); q(2); MQ.queue[0].file='targets_2026.xlsx'; MQ.queue[0].lost=true; MQ.paused='restored'; MQ.restoredRunning=true; }]
+    ['Q2','Q2 alt · after a reload, queue continues', function(){ streamTail(0); q(2); MQ.queue[0].file='targets_2026.xlsx'; MQ.paused='restored'; MQ.restoredRunning=true; }]
   ];
-  function flagSidebar(){
+  function flagSidebar(paused){
     /* The queue belongs to ANOTHER chat than the one open, which is the whole point of E3 — so the
        counter goes on a chat the person is not currently in, not on the active row. */
     var chat=[].slice.call(document.querySelectorAll('.sbx-chat')).filter(function(c){ return !c.classList.contains('s-active'); })[0];
     if(chat && !chat.querySelector('.mq-sb-count')){
-      var b=document.createElement('span'); b.className='nav-badge mq-sb-count'; b.textContent='2';
-      b.title='2 messages queued in this chat'; chat.appendChild(b);
+      var b=document.createElement('span');
+      b.className='counter is-sm mq-sb-count'+(paused?'':' is-active');
+      b.textContent='2';
+      b.title = paused ? '2 messages queued in this chat — paused, waiting for you'
+                       : '2 messages queued in this chat — still sending';
+      chat.appendChild(b);
     }
-  }
-  function openLeaveDialog(){
-    /* .dlg-overlay is the kit's modal shell (fixed, scrim, centred). I had invented an .ovl class
-       that does not exist, so the dialog fell into normal flow at the bottom of the page. */
-    var o=document.createElement('div'); o.className='dlg-overlay mq-leave';
-    o.addEventListener('click', function(e){ if(e.target===o) o.remove(); });
-    /* Built to the same shell as the product's own system dialog (#sbc-del-dlg): size S, a header
-       that carries a close, secondary body ink — and Leave is DESTRUCTIVE, not primary. It throws
-       away queued work and their attachments, which is the one thing on this page that cannot be
-       undone; a teal primary was recommending it. */
-    var close='this.closest(\'.mq-leave\').remove()';
-    o.innerHTML='<div class="dlg is-sm" role="dialog" aria-modal="true" aria-label="Leave with queued messages">'
-      +'<div class="dlg-hdr"><h2 class="dlg-title">Leave with 2 queued messages?</h2>'
-      +'<button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" data-tip="Close" onclick="'+close+'">'+I.x+'</button></div>'
-      +'<div class="dlg-content"><p style="margin:0;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-secondary)">Queued text is kept in this browser, but attachments are not. The messages won’t be sent until you come back.</p></div>'
-      +'<div class="dlg-ftr"><button class="btn btn-secondary btn-sm" type="button" onclick="'+close+'">Stay</button>'
-      +'<button class="btn btn-destructive btn-sm" type="button" onclick="'+close+'">Leave</button></div></div>';
-    document.body.appendChild(o);
   }
   /* The state menu is position:fixed and placed here, because the topbar it sits in is a 40px
      horizontal scroller — an absolutely positioned menu never escapes it. */
@@ -1946,8 +1922,9 @@ document.addEventListener('click', function(e){
   function applyState(id){
     clearTimers();
     var s=STATES.filter(function(x){return x[0]===id;})[0]; if(!s) return;
-    MQ.queue=[]; MQ.seq=1; MQ.streaming=false; MQ.paused=null; MQ.removed=null; MQ.attach=false; MQ.state=id; MQ.scrollTall=false; MQ.pausedOpen=false; MQ.restoredRunning=false;
-    var lv=document.querySelector('.mq-leave'); if(lv) lv.remove();
+    clearAllUndo();
+    MQ.queue=[]; MQ.seq=1; MQ.streaming=false; MQ.paused=null; MQ.removed=[]; MQ.attach=false; MQ.state=id; MQ.pausedOpen=false; MQ.scrollTall=false; MQ.restoredRunning=false;
+    floatCard(false);
     var sb=document.querySelector('.mq-sb-count'); if(sb) sb.remove();
     resetThread();
     var p=$('cl-prompt'); if(p) p.textContent='';
@@ -1973,7 +1950,7 @@ document.addEventListener('click', function(e){
         if(MQ.state!=='B4') return;
         var q0=MQ.queue.shift();
         addTurn(userRow(q0.text));
-        addTurn(aiRow('<div class="mq-toolline"><span class="spinner" aria-hidden="true"></span>Querying sales…</div>'));
+        addTurn(aiRow('<div class="cp-toolline"><span class="spinner" aria-hidden="true"></span>Querying sales…</div>'));
         render();
         loopB4();
       }, 200);
@@ -2001,7 +1978,7 @@ document.addEventListener('click', function(e){
     measureScrollbar();
     window.addEventListener('resize', measureScrollbar);
     BASE_THREAD = thread().innerHTML;
-    var live=document.createElement('p'); live.id='mq-live'; live.className='mq-sr'; live.setAttribute('role','status'); live.setAttribute('aria-live','polite');
+    var live=document.createElement('p'); live.id='mq-live'; live.className='sr-only'; live.setAttribute('role','status'); live.setAttribute('aria-live','polite');
     document.querySelector('.cp-composer-inner').appendChild(live);
     buildStateMenu(); applyState('live');
   }

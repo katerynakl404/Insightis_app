@@ -8,15 +8,16 @@ Everything visual comes from the kit. New components: [QueueBand](../changes/Que
 
 ## The state list
 
-`live` · `A1` `A2` `A3` · `B1` `B2` `B3` `B4` `B5` · `D1` `D1b` `D2` `D3` `D4` `D5` · `E1` `E2` `E3` · `Q2 alt`
+`live` · `A1` `A2` `A3` · `B1` `B2` `B2f` `B4` · `D1` `D2` `D3` `D4` · `E2` `E3` `E3b` · `Q2`
 
-Three groups the spec names are deliberately absent:
+Groups the spec names that are deliberately absent:
 
-- **A4 (mobile)** — every state is responsive, so a separate mobile state would mean the other eighteen are not. Narrow the window on any of them.
+- **A4 (mobile)** — every state is responsive, so a separate mobile state would mean the others are not. Narrow the window on any of them.
 - **B0 (empty queue)** — the band renders only when it holds something, so "empty queue" is *no band*, which is A1.
+- **B3 (queue full)** — the limit was dropped from the feature. A queue that cannot fill cannot have a full state.
 - **C1–C6 (row states)** — hover, focus, drag, removed and so on work on every state that has rows. Freezing them as their own entries documented a row that can only exist standing still.
 
-Two dimensions every state has are page-level controls in the review strip rather than states of their own — **List** (3 rows / 5 rows / Scroll) and **Rows** (one line / wrap) — for the same reason light and dark are not states.
+Two states were merged away during review: **B5** rendered pixel-identical to B2, and **E1** said with different words what E2 says with its own control.
 
 ## Motion is prod's, not ours
 
@@ -29,9 +30,11 @@ Every animation on this page is the value the live app already ships, read from 
 | streaming caret | a **1px hairline in the text's own colour**, `caret-blink 1.25s ease-out infinite` | the reply being written |
 | streaming text | arrives in bursts of 3–7 words, not letter by letter | the reply being written |
 | hover reveal | `transition-opacity duration-150`, hidden only from `lg` up | row grip + actions |
-| reduced motion | `motion-safe:` / `motion-reduce:animate-none` | all of the above |
+| reduced motion | `motion-safe:` / `motion-reduce:` | all of the above — shortened to one frame, never removed, because the element retires on the animation's own end |
 
-The app has **no bespoke keyframes for messages**, so the queue does not invent one either. ⚠ One gap stays open: prod reveals actions over 150ms and the kit's micro-feedback step is `--motion-fast` (120ms); the reveal uses the kit token, and reconciling the kit's motion scale with prod's 100/150 steps is a separate decision.
+Three list moves are the design system's, not this page's: `row-out` (a row leaving), `row-in` (one arriving) and `row-swap-out` / `row-swap-in` (one slot whose contents change — a removal leaving an undo behind, and the undo putting the message back). The page hands over the measured height and waits; it owns none of the recipe.
+
+The app has **no bespoke keyframes for messages**, so the queue does not invent one either. The hover reveal uses the kit's `--motion-fast` rather than prod's one-off 150ms: the kit's motion scale is its own agreed contract.
 
 ## Differences from the current chat screen
 
@@ -58,7 +61,7 @@ The consequence is that the spec's R6 and its C5 no longer describe anything: th
 - **The composer must not move when a row is added.** The band is stacked above the composer and the thread above it absorbs the height, so the band grows upward.
 - **The band matches the composer width.** The two content columns are the same: `.cp-turn-inner` caps at 820px *including* 24px of padding, so `.cp-composer-inner` must carry the same padding inside the same cap — without it the composer ran 48px wider than the messages above it, but only past the cap, which is why it looked right at narrow widths.
 - The thread reserves its scrollbar gutter, so nothing shifts sideways when the conversation grows past one screen.
-- Page `<style>` holds layout glue only: the composer column, the state picker, and the thread lines the queue flow appends. No selector in it restyles a kit class.
+- Page `<style>` holds the review harness and nothing else: the topbar and the state picker. The shell, the sidebar column, the chat header, the thread, the composer area and the composer are the kit's [Chat Shell & Composer](../changes/ChatShell.md) — lifted out of this page and three others in the same pass, because four hand-kept copies had already drifted.
 
 ## Fixed in the kit while building this
 
@@ -72,7 +75,7 @@ The consequence is that the spec's R6 and its C5 no longer describe anything: th
 
 ## Responsive
 
-- `< 768px` — the band clamps to 2 rows and tightens its padding; the composer action becomes a 40×40 icon square; row actions are permanently visible.
+- `< 768px` — the band tightens its padding; the composer action becomes a 40×40 icon square; row actions are permanently visible.
 - `< 1024px` — the sidebar collapses into the off-canvas drawer (kit-owned), and the row grip + actions stop hiding behind hover — prod's own `lg:` rule.
 - This is the real chat screen, so it inherits the approved page's responsive behaviour unchanged.
 
@@ -80,6 +83,6 @@ The consequence is that the spec's R6 and its C5 no longer describe anything: th
 
 - The pauses are distinguishable without reading the text — different glyph **shape** before any accent, and a different primary action.
 - A queue row cannot be mistaken for an input — borderless, transparent, `cursor: default`, and nothing in the band is ever typeable.
-- The composer action cannot be pressed by mistake — the slot shows Stop only while the field is empty, so it is never Stop when there is something to send. ⚠ Accepted consequence: with a draft in the field there is no Stop (see [Button](../changes/Button.md)).
+- The composer action cannot be pressed by mistake — the slot shows Stop only while the field is empty, so it is never Stop when there is something to send. Accepted consequence: with a draft in the field there is no Stop (see [Button](../changes/Button.md)).
 - The composer does not jump when a row is added — the band grows upward into the thread.
-- The ceiling is legible from the first message, not announced at the tenth — the header counts `n / 10` throughout.
+- Nothing is hidden without saying so — Expand appears exactly when the list is measured as clipped, and the bottom edge fades only while there is more below it.

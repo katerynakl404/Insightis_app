@@ -245,6 +245,7 @@
             <!-- Unified sidebar chat rows (same as metrics/chats pages): hover reveals the
                  .sbx-chat-more kebab; menu = Unpin/Pin · Rename · Delete. Navigation is delegated
                  (data-href), so kebab/menu clicks never navigate. -->
+            <div class="sbx-chat" role="button" tabindex="0" data-href="../concept/chat_page-queue.html"><span class="sbx-chat-lbl">Message queue</span></div>
             <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Q1 revenue commentary draft</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
             <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Onboarding cohort summary</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
             <div class="sbx-chat" role="button" tabindex="0" data-href="chat_page-landing.html"><span class="sbx-chat-lbl">Churn deep-dive</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
@@ -1054,7 +1055,7 @@
   var uplTimer = null;
 
   var UPL_SPIN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>';
-  var UPL_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>';
+  var UPL_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>';
   var UPL_ALERT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
   var UPL_CHEV  = '<svg class="upl-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
   var UPL_DOC   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
@@ -1070,7 +1071,7 @@
 
     /* The summary text states the batch outcome in words — the icon colour only reinforces it. */
     var cls, ic, title;
-    if (uploading){ cls = 'is-uploading'; ic = UPL_SPIN;  title = uploading + (uploading === 1 ? ' file uploading' : ' files uploading'); }
+    if (uploading){ cls = 'is-uploading'; ic = UPL_SPIN;  title = uploading + ' uploading'; }
     else if (failed){ cls = 'has-failed'; ic = UPL_ALERT; title = failed + ' of ' + UPL.length + (UPL.length === 1 ? ' upload failed' : ' uploads failed'); }
     else { cls = 'is-complete'; ic = UPL_CHECK; title = UPL.length + (UPL.length === 1 ? ' upload complete' : ' uploads complete'); }
 
@@ -1083,24 +1084,27 @@
           + '<span class="upl-item-meta">' + u.pct + '%</span></div>';
       }
       if (u.state === 'failed'){
-        return '<div class="upl-item is-failed"><span class="upl-item-ic" aria-hidden="true">' + UPL_ALERT + '</span>'
+        return '<div class="upl-item is-failed"><span class="upl-item-ic" aria-hidden="true">' + UPL_DOC + '</span>'
           + '<span class="upl-item-body"><span class="upl-item-name">' + name + '</span>'
           + '<span class="upl-item-err">' + escHtml(u.err) + '</span></span>'
-          + '<span class="upl-item-act"><button class="link" type="button" data-action="upl-retry" data-name="' + name + '">Retry</button></span></div>';
+          + '<span class="upl-item-act"><button class="link" type="button" data-action="upl-retry" data-name="' + name + '">Retry</button></span><span class="upl-item-stat" role="img" aria-label="Failed">' + UPL_ALERT + '</span></div>';
       }
-      return '<div class="upl-item is-done"><span class="upl-item-ic" aria-hidden="true">' + UPL_CHECK + '</span>'
+      return '<div class="upl-item is-done"><span class="upl-item-ic" aria-hidden="true">' + UPL_DOC + '</span>'
         + '<span class="upl-item-body"><span class="upl-item-name">' + name + '</span></span>'
-        + '<span class="upl-item-meta">Done</span></div>';
+        + '<span class="upl-item-stat" role="img" aria-label="Done">' + UPL_CHECK + '</span></div>';
     }).join('');
 
-    /* The whole bar except the ✕ is the expand target: .upl-head is the button, ✕ is its sibling. */
+    /* Three siblings on the bar, never nested: .upl-head carries aria-expanded, then the chevron
+       and the ✕ as kit icon buttons. Both of those toggle/dismiss; the chevron's label states which
+       way it goes, since the list opens upward. */
     dock.innerHTML = '<div class="upl-tray ' + cls + '" role="region" aria-label="File uploads">'
       + '<div class="upl-bar">'
       +   '<button class="upl-head" type="button" aria-expanded="' + (uplOpen ? 'true' : 'false') + '" aria-controls="dsf-upl-list" data-action="upl-toggle">'
       +     '<span class="upl-head-ic" aria-hidden="true">' + ic + '</span>'
-      +     '<span class="upl-head-title">' + title + '</span>' + UPL_CHEV
+      +     '<span class="upl-head-title">' + title + '</span>'
       +   '</button>'
-      +   '<button class="upl-x" type="button" data-action="upl-dismiss" aria-label="Dismiss uploads" data-tip="Dismiss">' + CLOSE + '</button>'
+      +   '<button class="iconbtn iconbtn-xs iconbtn-tertiary upl-chevbtn" type="button" data-action="upl-toggle" aria-label="' + (uplOpen ? 'Hide the files' : 'Show the files') + '" data-tip="' + (uplOpen ? 'Hide the files' : 'Show the files') + '">' + UPL_CHEV + '</button>'
+      +   '<button class="iconbtn iconbtn-xs iconbtn-tertiary" type="button" data-action="upl-dismiss" aria-label="Dismiss uploads" data-tip="Dismiss">' + CLOSE + '</button>'
       + '</div>'
       + '<div class="upl-list" id="dsf-upl-list"' + (uplOpen ? '' : ' hidden') + '>' + rows + '</div>'
       + '</div>';

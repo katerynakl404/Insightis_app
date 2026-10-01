@@ -21,21 +21,15 @@
      grid + sticky + min-height was producing. */
   html,body{height:100%;overflow:hidden}
   body{display:flex;flex-direction:column}
-  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--surface-page);transition:width .2s ease}
-  .cl-side{width:16rem;flex:none;background:var(--surface-card);border-right:1px solid var(--stroke-border);height:100%;overflow:hidden;display:flex;flex-direction:column;align-items:stretch;transition:width .2s ease}
   /* When the Expected sidebar is collapsed, narrow the side to match .sbx.is-collapsed exactly */
-  .cl-shell:has(.sbx.is-collapsed) .cl-side{width:var(--sbx-collapsed-w)}
-  .cl-main{flex:1;min-width:0;height:100%;overflow:auto}
   /* When the sidebar lives inside the page (not the kit stage) it spans the column,
      no kit-default 14.75rem width / 700px height / rounded border. */
-  .cl-side .sbx{height:auto;flex:1 1 0;min-height:0}
 
   /* Sidebar wrapper inherits cl-side's flex height directly — no Current/Expected swap any more
      (Current state was removed; only Expected remains). */
 
   /* justify-content:center vertically centers the hero within the main column's full height,
      instead of pinning it via a fixed top padding (which left it visibly top-heavy). */
-  .cl-main{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;padding:1.25rem 1.5rem}
 
   .cl-hero{display:flex;flex-direction:column;align-items:center;gap:1.75rem;width:100%;max-width:680px;margin:0 auto}
   /* Live prod uses Tailwind: scroll-m-20 font-medium text-3xl md:text-4xl text-content-primary text-center max-w-[20.688rem]
@@ -51,19 +45,12 @@
      interactive form-control; the inner textarea stays chromeless and the card does the
      border lift on hover and the input-focus border on focus-within). */
   /* Composer card — 8px top/right/bottom, 4px left (per design). Asymmetric left padding tucks the prompt text close to the visible inner edge while the footer controls keep balanced right margin. */
-  .cl-composer{width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem;border-radius:1rem;transition:border-color .15s,box-shadow .15s}
   /* Hover uses the kit's form-control --field-border-hover token — same as inputs / textarea /
      InputGroup. Both tokens were softened kit-wide so the affordance reads gently. */
-  .cl-composer:hover{border-color:var(--field-border-hover)}
   /* Active (focus-within) uses the kit's form-control --input-focus token — same as
      inputs / textarea / InputGroup. Both --field-border-hover and --input-focus were softened
      kit-wide so the default → hover → focus progression stays subtle. */
-  .cl-composer:focus-within{border-color:var(--input-focus);box-shadow:none}
   /* Prompt textarea — padding 4px 8px per design spec. Filled text uses the kit's .field input font scale (14px, ink) for consistency with any Input across the system. */
-  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:var(--ts-body-m-size);min-height:32px;resize:none;color:var(--ink-primary);outline:none;font-family:inherit;line-height:var(--ts-body-m-lh)}
-  .cl-prompt::placeholder{color:var(--ink-inactive)}
-  .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-  .cl-composer-tools{display:flex;align-items:center;gap:.25rem}
   /* Composer trigger buttons (.cl-attach / .cl-dropdown), menu anchoring (.cl-dropdown-wrap /
      .cl-dropdown-menu) and the attached-file chip (.cl-file-chip) now live in the single source
      pages/kit-theme.css (storybook #composer-menus). Page <style> keeps only layout glue below. */
@@ -72,7 +59,6 @@
      collapses to an icon-only square. Size, padding, gap, type, radius and icon size all come
      from .btn-sm now; hand-restating them is how this button ended up with a 6px gap where
      the ladder says 8 and a 14px glyph where a 32px control takes 16. */
-  .cl-send{white-space:nowrap;flex:none}
 
   /* Negative margin-top pulls the chips up to shrink the visual gap from the composer
      (hero's gap is 28px; with -4px here the composer-to-chips gap reads as 24px, while
@@ -109,7 +95,6 @@
     /* Sidebar fully hidden by default on mobile — no icon-mode rail. The page
        reads as main-column-only; sidebar surfaces only when the user explicitly
        opens it via the topbar hamburger. */
-    .cl-side{display:none}
     /* Hamburger replaces the sidebar's in-flow trigger as the open affordance */
     .cl-burger{display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer}
     .cl-burger:hover{background:var(--state-hover)}
@@ -135,23 +120,15 @@
   .cl-side-backdrop{display:none}
 
   @media (max-width:639px){
-    .cl-main{padding:.75rem 1rem 3rem}
     .cl-hero{gap:1.25rem}
     .cl-title{font-size:var(--ts-heading-s-size);line-height:var(--ts-heading-s-lh)}
-    .cl-composer{padding:.5rem}
     .cl-suggest{margin-top:0;gap:6px}
     /* foot-left allowed to wrap to a 2nd row before Send drops to its own row */
-    .cl-composer-tools{flex-wrap:wrap;row-gap:.25rem}
-    .cl-composer-foot{flex-wrap:wrap;row-gap:.375rem}
   }
   /* < 480px (most phones): dropdown labels collapse to icon+chevron; Send becomes icon-only.
      Same icon-only-on-mobile pattern OpenAI's chat composer uses. The aria-labels and SVG
      glyphs carry the meaning — no a11y regression. */
   @media (max-width:479px){
-    .cl-dropdown{padding:0 .25rem}
-    .cl-dropdown .cl-dropdown-lbl{display:none}
-    .cl-send{width:2rem;padding:0;justify-content:center}
-    .cl-send .cl-send-lbl{display:none}
     .cl-pill{height:2rem;padding:0 .75rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh)}
   }
 
@@ -161,7 +138,6 @@
      blurred ::before overlay diffuses the gradient's falloff so even low alpha
      reads as a soft halo, not a hard ramp.
      ============================================================================ */
-  .cl-shell{position:relative;overflow:hidden;background:
     radial-gradient(at 50% 0%,color-mix(in srgb,var(--brand-tertiary) var(--tint-2),var(--surface-page)),var(--surface-page) 55%)}
   .cl-shell::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 55vw 45vh at 60% 50%,color-mix(in srgb,var(--brand-tertiary) var(--tint-8),transparent),transparent 65%);filter:blur(60px)}
   .dark .cl-shell{background:
@@ -174,8 +150,6 @@
      the sidebar and composer only. The suggestion pills stay on the kit's .btn-secondary
      recipe (default / hover / pressed) so their interaction states match the rest of the
      system rather than using a custom brand-tinted glass treatment. */
-  .cl-side{background:color-mix(in srgb,var(--surface-card) var(--tint-78),transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-  .cl-composer{background:color-mix(in srgb,var(--surface-card) var(--tint-72),transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 
   /* New-Chat swap moved to pages/kit-theme.css so every page picks it up uniformly. See the `.sbx-nav-newchat` rule there. */
 
@@ -336,6 +310,9 @@
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only; reorder via Move up/down was removed (replaced with drag-to-reorder if/when pinned-set ordering ships). -->
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-queue.html'">
+              <span class="sbx-chat-lbl">Message queue</span>
+            </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
               <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">

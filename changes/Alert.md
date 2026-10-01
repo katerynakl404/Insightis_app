@@ -42,7 +42,7 @@ There is **no `brand` variant.** With info on Tertiary the two would be the same
 
 **No accent rail.** A 2px left border following an 8px radius reads as a thick half-rounded edge rather than as a cue. The hairline all the way round does the job the rail was reaching for.
 
-**Horizontal padding is one step tighter than vertical** (`.5rem` / `.625rem`). Not a rhythm decision — an alignment one. A bordered block's inner text never joins the column of unboxed text beside it unless the block's own inset is subtracted from the chain: inside the Queue Band the title sat 5px right of the row text below it, and the band read as two ragged left edges. At `.5rem` the chain — border + padding + glyph + gap — comes out exactly at the rows' lead width, and the band has one text column.
+**Horizontal padding stays at `.75rem`, wider than vertical.** It was tightened to `.5rem` for one pass, to put the title on the same vertical as the unboxed text below it inside the Queue Band — a bordered block’s inner text only joins that column when the block’s own inset is subtracted from the chain. Reverted 2026-09-30: the side gaps read as too tight, and a block that is uncomfortable to look at is the worse trade. The consequence is recorded rather than hidden — inside the band the Alert title sits ~5px right of the row text, and that is accepted.
 
 **The triangle belongs to warning and nothing else.** It was on error for a while, so the same failure carried a triangle in the band and a circle in the thread and read as two different events. Error took the circled cross — Toast's error mark — and the triangle moved to warning, where a coin glyph had been standing in for it.
 

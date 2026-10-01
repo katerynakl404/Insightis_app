@@ -112,8 +112,9 @@ The wizard is a **host dialog of ours wrapping an integrated third-party connect
 ### #5 · Files · Upload tray — only the chevron expands it
 - **The component:** the plate that rises during and after an upload — *"5 uploads complete"* with a chevron and a ✕, and the file list underneath. In the design it is the **Upload tray** (`.upl-tray`): a floating card, `max-width: 26rem`, with a header row (`.upl-bar`) and a scrolling list (`.upl-list`, `max-height: 14rem`). The bar is its collapsed state, not the whole thing.
 - **Problem:** only the small chevron expands it. Clicking the header does nothing, so the list looks unavailable.
-- **Expected:** the header is one target. In the design that is already how it is built — **`.upl-head` is a `<button>` at `flex:1`**, so it fills the row beside the ✕ and the whole strip is clickable. It carries `cursor:pointer`, a hover state, keyboard focus and `aria-expanded`; the chevron is a state indicator that rotates, not the target.
-- **✕ stays its own button** (`.upl-x`, 32px) outside the header, so closing is never read as expanding.
+- **Expected:** the header is *also* a target, not instead of the chevron. In the design **`.upl-head` is a `<button>` at `flex:1`** that fills the row, carries `cursor:pointer`, keyboard focus and `aria-expanded`, and toggles the list — so the whole strip works, not just the 28px glyph.
+- **The chevron stays a real button too** (`.iconbtn.iconbtn-xs.iconbtn-tertiary`, 28px), labelled *"Show the files"* / *"Hide the files"*. Two ways in, one state: the head is the element that announces it via `aria-expanded`, and the glyph rotates off that attribute so the two can never disagree.
+- **✕ is the same kit icon button**, beside the chevron rather than fenced off by a divider, so closing is never read as expanding.
 - **Fix:** make the header the button rather than moving a handler onto a `div` — a real `<button>` brings focus, Enter/Space and the accessible name with it.
 ### #6 · Chats, Files · Some icon-only buttons are missing their tooltip
 - **Problem:** tooltips exist on most icon-only buttons, but a few are missing theirs, so those controls have to be guessed. Confirmed:

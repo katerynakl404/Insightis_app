@@ -39,6 +39,14 @@ The description was `Body/L` and read as a second paragraph competing with the l
 
 **The focus ring is keyboard-only and drawn once.** `:has(.rdo-in:focus-visible)` on the row, not `:focus-within` — the latter fires on a mouse click, so choosing an option painted a full ring on top of the selected state and the two together read as an error. The control inside suppresses its own ring, so one focus is drawn one time.
 
+## It floats over the thread, it does not sit in it
+
+The card used to render inside the answer card, in the flow of the conversation. It now lifts out and floats directly above the composer, covering the tail of the thread — `.cfc-float` gives it a surface of its own, and `.cp-cfc-layer` on the chat page puts it there.
+
+The reason is the queue. The card is the thing the queue is waiting on, and a question you have to scroll back to find reads as optional — meanwhile the queue looks stuck for no visible reason. Floating it means the question and the reason the queue stopped are on screen together, always.
+
+It carries `--shadow-overlay-soft` rather than a heavier border: it sits OVER the conversation, and depth is what says so. Positioning stays with the consumer; the kit variant only makes the card a panel.
+
 ## Token map
 
 | Slot | Token |

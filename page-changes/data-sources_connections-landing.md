@@ -68,7 +68,7 @@ These are locked decisions. Do not change without explicit approval.
 | Column: header col 1 | Provider | Data Source |
 | Column: Status | Present (standalone) | Removed — no connected/synced badge (connection is connected by definition) |
 | Column: Description | Narrower, may wrap | Single-line truncated |
-| Column: Last check | — | Added (2026-08-11) — relative-time pill (neutral healthy / red on failure → error toast with reason + exact time); always-on re-test icon matched to the kebab; testing = a same-size loading pill (no row jump) |
+| Column: Last check | — | Added (2026-08-11) — relative-time pill carrying the outcome glyph (neutral + success tick healthy / red + error ✕ on failure → error toast with reason + exact time); always-on re-test icon matched to the kebab; testing = a same-size loading pill (no row jump) |
 | Column widths | — | 22% / 18% / 30% / 22% / 8% |
 
 ## Connection row sidepanel
@@ -94,12 +94,14 @@ Fields shown:
 
 **Model (locked).** A listed connection is connected, so the column carries NO persistent connected/synced status badge — a one-off test result is only true in the moment and would go stale. The column is labelled **Last check** and shows *when the connection was last checked*. Re-test is always one click away on **every** row (not gated behind the error state, not buried in the kebab).
 
+The outcome glyph is the **same path pair the toast uses** (`TOAST_ICONS.success` / `.error` in `kit-kit.js`) at the Badge’s `.b-ic` step, so the pill and the toast it opens read as one status — a warning triangle was swapped out for the error circle-✕ and the healthy state gained its success tick (2026-09-29, user directive: the column should carry an error icon, not a warning, plus a success icon).
+
 The relative time renders as the **kit Badge**, no page-local variant: `.badge .badge-sm .rf` — the same small step the Metrics table's Custom / Built-in badges use, with the pill radius. It used to be a bespoke `.ds-sync-chip` that re-implemented Badge at a slightly different weight, radius and fail-wash; that class is gone (2026-09-19). Behaviour:
 
 | State | Cell (table / card / panel) |
 |---|---|
-| Healthy | `.badge-body` time badge (e.g. "2 hours ago") + re-test icon |
-| Failed | `.badge-red` rendered as a `<button>` with a `.b-ic` ⚠ + time; click/hover → error toast/tooltip carrying the reason **and exact date/time** (`dsFailReason`) |
+| Healthy | `.badge-body` time badge (e.g. "2 hours ago") with a leading `.b-ic` success circle-tick + re-test icon |
+| Failed | `.badge-red` rendered as a `<button>` with a `.b-ic` error circle-✕ + time; click/hover → error toast/tooltip carrying the reason **and exact date/time** (`dsFailReason`) |
 | Testing | the same badge with a spinner ("Testing…") replaces it in place → **no row jump**; the re-test result arrives as a toast |
 
 The `currentColor`-tinted edge that keeps the badge readable on a hovered row needs no page rule: Badge ships bordered by default (`--badge-border`), in a table, a card and the panel alike.

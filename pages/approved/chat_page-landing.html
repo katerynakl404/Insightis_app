@@ -14,45 +14,26 @@
   .topbar{padding:.375rem 1rem;height:40px;box-sizing:border-box;flex:none}
   html,body{height:100%;overflow:hidden}
   body{display:flex;flex-direction:column}
-  .cl-shell{position:relative;display:flex;flex:1 1 0;min-height:0;background:var(--surface-page)}
 
   /* Sidebar column */
-  .cl-side{width:16rem;flex:none;background:var(--surface-card);border-right:1px solid var(--stroke-border);height:100%;overflow:hidden;display:flex;flex-direction:column;transition:width .2s ease}
-  .cl-shell:has(.sbx.is-collapsed) .cl-side{width:var(--sbx-collapsed-w)}
-  .cl-side .sbx{height:auto;flex:1 1 0;min-height:0}
-  .cl-side .sbx-head{padding-top:8px}
 
   /* Current/Expected swap removed — only Expected remains. */
 
   /* Main column */
-  .cl-main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
 
   /* ── Header bar ── */
-  .cp-header{flex:none;display:flex;align-items:center;padding:0 1.5rem;height:3rem;gap:.5rem}
   /* Make room for the absolute-positioned .cl-burger (right edge ≈ 2.75rem) at narrow widths
      so the page title isn't overlapped by the hamburger button. Threshold matches kit-theme's
      burger breakpoint (kit shows it at <= 1023 px). */
   @media (max-width: 1023px){
-    .cp-header{padding-left:3.25rem}
     /* The concept-page .topbar (version toggles, 2.5rem) offsets the chat header, so the fixed
        burger must clear it: 2.5rem topbar + (3rem header - 2rem burger)/2 = 3rem to centre it. */
     .cl-burger{top:3rem;left:.75rem}
   }
   /* Title + chevron dropdown */
-  .cp-title-wrap{display:flex;align-items:center;gap:.25rem;flex:1;min-width:0;position:relative}
   /* Menu anchors to the chevron (its relative wrapper), not the title start. */
-  .cp-title-menu-wrap{position:relative;display:inline-flex;flex:none}
-  .cp-title-menu{position:absolute;top:calc(100% + .25rem);left:0;min-width:10rem;display:none;z-index:20;box-shadow:var(--shadow-overlay-soft)}
-  .cp-title-wrap:has([aria-expanded="true"]) .cp-title-menu{display:block}
 
   /* ── Thread ── */
-  .cp-thread-wrap{flex:1;overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(to bottom,transparent 0,black .625rem,black calc(100% - 2rem),transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,black .625rem,black calc(100% - 2rem),transparent 100%)}
-  .cp-thread{height:100%;overflow-y:auto;display:flex;flex-direction:column;align-items:stretch;padding-bottom:2rem;scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
-  .cp-thread::-webkit-scrollbar{width:10px}
-  .cp-thread::-webkit-scrollbar-track{background:transparent}
-  .cp-thread::-webkit-scrollbar-thumb{background:var(--stroke-border);border-radius:var(--radius-full);border:3px solid transparent;background-clip:padding-box}
-  .cp-thread:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
-  .cp-inner{max-width:960px;width:100%;padding:0 1.5rem;box-sizing:border-box;display:flex;flex-direction:column;gap:1.25rem}
 
   /* Message-row layout + bubble fills now live in pages/kit-theme.css (#chat-message section) —
      shared kit component, not page-only styling. .cp-bubble.ai was unused dead code (AI turns use
@@ -68,43 +49,23 @@
 
   /* ── Expected — rich AI content blocks ── */
   /* Messages span the full chat column (like the live chat), not a narrow inset. */
-  .cp-ai-wrap{display:flex;flex-direction:column;gap:.5rem;max-width:100%;width:100%;position:relative}
   /* .cp-ai-bubble now lives in pages/kit-theme.css — see .cp-msg-row block. */
   /* .cp-ai-prose now lives in pages/kit-theme.css (#chat-message) — darker --ink-primary answer text. */
   /* Metric grid */
-  .cp-metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;min-width:360px}
-  .cp-metric-card{display:flex;flex-direction:column;gap:.25rem;padding:.75rem;border-radius:.5rem;border:1px solid var(--stroke-border);background:var(--surface-page)}
   /* Chart */
-  .cp-chart-wrap{padding:.875rem 1rem;display:flex;flex-direction:column;gap:.5rem;background:var(--surface-page);border:1px solid var(--stroke-border);border-radius:.5rem}
-  .cp-chart-svg{width:100%;aspect-ratio:560/100;overflow:visible;display:block}
   /* Data source note
   /* Action buttons */
-  .cp-actions{display:flex;gap:.5rem;flex-wrap:wrap}
   /* User message footer: timestamp + action icons on the same row */
   /* Footer (timestamp + copy) reveals on hover (opacity) but its row height is ALWAYS reserved in
      flow — spacing between messages stays consistent and the footer never overlaps the next message.
      No layout jump (opacity, not display). */
-  .cp-msg-foot{display:flex;align-items:center;gap:.25rem;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .12s}
-  .cp-msg-row:hover .cp-msg-foot{opacity:1;pointer-events:auto}
-  .cp-msg-actions{display:flex;gap:.125rem;align-items:center}
   /* AI answers have no copy/actions — only the timestamp (copy stays on user messages). */
-  .cp-msg-row.ai .cp-msg-actions{display:none}
-  .cp-msg-row.ai .cp-msg-foot{justify-content:flex-start}
 
   /* ── Composer area ── */
-  .cp-composer-area{flex:none;padding:.625rem 1.5rem 1.25rem}
-  .cp-composer-inner{max-width:820px;margin:0 auto}
   /* Composer styles (mirrors chat-landing.html's .cl-composer rules) */
-  .cl-composer{position:relative;width:100%;display:flex;flex-direction:column;gap:.5rem;padding:.5rem;border-radius:1rem;transition:border-color .15s,box-shadow .15s}
-  .cl-composer:hover{border-color:var(--field-border-hover)}
-  .cl-composer:focus-within{border-color:var(--input-focus);box-shadow:none}
   /* Contenteditable prompt — a div (not <textarea>) so inline .cl-mention-tag tokens can flow in
      the text. Auto-grows with content; caps at 300px then scrolls. */
-  .cl-prompt{width:100%;max-width:none;border:none;background:transparent;padding:4px 8px;font-size:var(--ts-body-m-size);min-height:32px;max-height:300px;overflow-y:auto;color:var(--ink-primary);outline:none;font-family:inherit;line-height:var(--ts-body-m-lh);white-space:pre-wrap;word-break:break-word}
-  .cl-prompt:empty:before{content:attr(data-placeholder);color:var(--ink-inactive);pointer-events:none}
-  .cl-composer-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
   /* Composer tools row — unified with chat-landing.html (.cl-composer-tools + .cl-dropdown set). */
-  .cl-composer-tools{display:flex;align-items:center;gap:.25rem}
   /* Composer trigger buttons (.cl-attach / .cl-dropdown), menu anchoring (.cl-dropdown-wrap /
      .cl-dropdown-menu) and the attached-file chip (.cl-file-chip) now live in the single source
      pages/kit-theme.css (storybook #composer-menus). Page <style> keeps only layout glue below. */
@@ -114,7 +75,6 @@
      collapses to an icon-only square. Size, padding, gap, type, radius and icon size all come
      from .btn-sm now; hand-restating them is how this button ended up with a 6px gap where
      the ladder says 8 and a 14px glyph where a 32px control takes 16. */
-  .cl-send{white-space:nowrap;flex:none}
   /* Send button — always shows active styling even with disabled attr (visual continuity) */
   .cl-send[disabled]{background:var(--brand-primary);color:var(--content-on-solid);border-color:transparent;opacity:1;pointer-events:none}
 
@@ -250,6 +210,9 @@
                 <svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
+            </div>
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-queue.html'">
+              <span class="sbx-chat-lbl">Message queue</span>
             </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>

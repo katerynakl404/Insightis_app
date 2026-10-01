@@ -370,6 +370,38 @@
   window.kitToastDismiss = dismissToast;
 
   /* ==========================================================================================
+     3b. SCROLL FADE — tell a scroller's bottom edge whether there is more below.
+
+     A scroller opts in with `data-scroll-fade`; the fade itself is drawn by .scroll-fade on its
+     nearest non-scrolling ancestor (see kit-theme.css). The class is only on while content is
+     actually hidden below — a permanent fade over a finished list says it is cut when it is not.
+     ========================================================================================== */
+  function syncFade(el) {
+    var host = el.closest('.scroll-fade');
+    if (!host) return;
+    /* Two different questions off one measurement. has-more is about WHERE you are: is there
+       anything above or below the fold right now — that is what the two fades answer. is-clipped is about the
+       BOX: does the content exceed it at all, wherever you have scrolled to — that is what a
+       "show me more" control should key off, because a count of rows cannot answer it once rows
+       have different heights. */
+    host.classList.toggle('has-above', el.scrollTop > 1);
+    host.classList.toggle('has-more', el.scrollHeight - el.scrollTop - el.clientHeight > 1);
+    host.classList.toggle('is-clipped', el.scrollHeight - el.clientHeight > 1);
+  }
+  function bindFades(root) {
+    (root || document).querySelectorAll('[data-scroll-fade]').forEach(function (el) {
+      if (el.__fadeBound) return;
+      el.__fadeBound = true;
+      el.addEventListener('scroll', function () { syncFade(el); }, { passive: true });
+      if (window.ResizeObserver) new ResizeObserver(function () { syncFade(el); }).observe(el);
+      syncFade(el);
+    });
+  }
+  window.kitSyncFades = function (root) { bindFades(root); };
+  document.addEventListener('DOMContentLoaded', function () { bindFades(); });
+  bindFades();
+
+  /* ==========================================================================================
      4. SORTABLE LIST — drag-to-reorder, pointer + keyboard
 
      Generic, not queue-specific: any list that lets people reorder its rows opts in with three

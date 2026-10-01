@@ -1,82 +1,53 @@
 # Queue Band — prod → expected
 
-Baseline: [`../current/QueueBand.md`](../current/QueueBand.md) — **new component, nothing on prod to diff against.** Storybook: [`#queueband`](../insightis-preview-kit.html#queueband). Screen: [`../pages/concept/chat_page-queue.html`](../pages/concept/chat_page-queue.html) (states B1–B5). Spec: AIINS-1808.
+Baseline: [`../current/QueueBand.md`](../current/QueueBand.md) — **new component, nothing on prod to diff against.** Storybook: [`#queueband`](../insightis-preview-kit.html#queueband). Screen: [`../pages/concept/chat_page-queue.html`](../pages/concept/chat_page-queue.html). Spec: AIINS-1808.
 
-The strip between the conversation thread and the composer that holds follow-up questions typed while the assistant is still answering. It is the container; its contents are [QueueItem](QueueItem.md), an [Alert](Alert.md) when the queue is paused, and a count header.
+The strip between the conversation and the composer that holds follow-up questions typed while the assistant is still answering. Prod has nowhere to put them: while a reply streams, Send becomes Stop and submission is blocked, so text typed during a reply has no stated fate at all.
 
-## Why it exists
+## The decisions
 
-A reply in AI Chat now runs long — the assistant calls tools and writes and runs Python inside one answer — and people watching it already know their next question. Today that question has nowhere to go: the composer refuses it, so people learn to wait, and the ones who type anyway have no idea what will happen to the text. The band is the place the question waits.
+**It is part of the composer, not a tray on top of it.** Same surface family, same corner (`--radius-3xl`), sitting directly above it — band and composer read as one stack. An earlier version used the darker `--surface-card2` to separate the two; measured against the page it came out at 1.05:1, which is not a separation, it is a smudge. The contrast that matters is carried by the rows on hover, not by the tray.
 
-## The three decisions the shape encodes
+**It renders only when it holds something.** No empty frame, no zero-height placeholder. The space above the composer is the most-used area of the product and is never spent on a container with nothing in it. "Empty queue" is therefore not a state of this component; it is the component's absence.
 
-**It is not a box, and the rows in it are not boxes.** The single largest risk in this feature is that a queued row reads as a second input and gets typed into. The band is a filled tray with borderless, transparent rows; the composer below it is a bordered panel. A list inside a tray next to a box — two different objects, not two boxes.
+**The header never reacts to the streamed text.** It says the count and when the queue leaves, and keeps saying it while a tool or Python call runs — an answer that looks finished is not a finished turn.
 
-**It exists only when it holds something.** No empty frame, no reserved height, no zero-state. This is the most-used area of the product, and a permanent container would cost every person vertical space so that the minority who type ahead get a label. "Queue empty" is therefore *no band*, not an empty one — which is also why there is no separate B0 state.
+**There is no maximum.** The count is a sentence, not a badge counting toward a ceiling. An earlier version showed `n / 10` from the first message on the reasoning that a limit on screen from the start reads as a rule rather than a fault. The limit itself was then dropped from the feature, and with it the whole apparatus: no `n / 10`, no attention badge at the top, no disabled Send confirming a ceiling, and no "queue full" state. A queue that cannot fill cannot have a full state.
 
-**The header never reacts to the streamed text.** It states the count and when the queue leaves, and keeps saying it while a tool or Python call runs (R3) — an answer that looks finished is not a finished turn. B5 is deliberately pixel-identical to B1; that is the state that proves the header is driven by the turn, not by whether characters are arriving.
+**Collapsed height is measured, not counted.** The list stands three rows tall and scrolls. Whether anything is hidden is decided by measuring the box — `kit-kit.js` sets `.is-clipped` — never by counting rows, because a row count stopped meaning anything once rows wrap: three rows can overflow and five can fit.
 
-## The ceiling is visible from the first message
+**Expand points up, and it exists only when there is something to expand.** The panel grows upward out of the composer, so the arrow points the way the panel will move; it turns back down once open. When nothing is clipped the control is *absent*, not disabled — there is nothing for it to do.
 
-The count is a badge reading **`n / 10`**, not a sentence that starts mentioning the maximum only once it is reached. A limit that appears for the first time *at* the limit reads as a fault; a limit that has been on screen since message one reads as a rule. At the maximum the badge turns `badge-attention` and says `10 / 10 · Full`, and the disabled Send in the composer then confirms a limit the band already showed rather than breaking the news.
+**Expanded, the list takes the band's ceiling, not its own.** `50vh`: the queue and the conversation get the same room and neither reads as the subordinate one. The list had been capped at eight nominal rows, which is four real ones when the text is long — that is how Expand came to barely expand.
 
-## Growth direction (R: the composer must not jump)
+**The bottom edge fades as a mask on the scroller, not a gradient over it.** An overlay tints the text it covers, and dark letters under a white wash go muddy rather than faint, which reads as blur; it also stops at its own box while the scroller keeps clipping lower, so a hard line survives under the soft one. A mask fades the glyphs themselves and ends exactly where the scroll box ends. Both edges fade, because a scroller that has been scrolled has content above it too.
 
-The band is stacked above the composer inside the composer area, and the thread above it absorbs the height. Adding a row grows the band **upward**; the composer under the person's pointer does not move. This is a consumer requirement on the page layout, not a property of the component, and it is what `pages/concept/chat_page-queue.html` implements.
+**Paused, the queue steps back.** The [Alert](Alert.md) states the reason and the count and the rows fold away, so the thing that actually needs doing is the only thing competing for attention. They stay reachable — everything is editable until it is sent, so this is a disclosure, not a lockout. **Clear Queue appears only on neutral pauses**, where stopping was the person's own doing; on an error or a credits pause, clearing is not the next thing anyone wants.
 
-It is also why a drag must not change how many rows are visible: revealing a clamped tail mid-drag moves the whole list out from under the cursor. See [SortableList](SortableList.md).
+**A removal leaves a note in the gap it made.** Not at the top of the list, where it read as a new event arriving rather than as the hole where something was. Several removals are several notes, each in its own place with its own Undo and its own clock. Each leaves on its own after `--undo-window` — the same time a Toast gives, because an undo that floats past and an undo that sits in a list have to give the same amount of time.
 
-## How the list handles more rows than fit
+**A removal is one move, not two.** The note replaces the row *in place*: the box stays and only the contents cross over, with the height moving between the two and never through zero. Collapsing to nothing and then expanding again reads as two events — the list closes a gap and then tears it back open. Undo is the same move reversed. See the kit's `row-swap-in` / `row-swap-out`, mirroring the design system's keyframes of the same names.
 
-Three answers to Q7, all built, switchable on the concept page rather than living as separate concepts:
+## Token map
 
-| Mode | Class | Behaviour |
-|---|---|---|
-| 3 rows | `.is-clamped` | 3 on desktop / 2 on phones, rest behind `+N more` |
-| 5 rows | `.is-clamped-5` | 5 / 3 |
-| Scroll | `.is-scroll` | capped height, **pinned to the end** so the row just added is the one on screen; an icon-only chevron expands the cap |
-
-Rows are one line by default and can wrap (`.is-wrap`) — also a page-level control, because wrapping is a dimension every state has, the way light/dark is, not a state of its own.
-
-**The clamp counts rows, not children** (`nth-child(n+4 of .mqi)`). A drag inserts a placeholder among the children, and a plain count hid one row too early, landing every drop a position short of where it was let go.
-
-## DOM / markup contract
-
-- Outer `<div class="mqb">`, wrapped by the consuming page in `role="region"` + `aria-label="Queued messages"`.
-- When paused, an [Alert](Alert.md) comes first and the count header is **replaced**, not stacked beside it: the reason supersedes the "sends after…" promise. The rows then fold away behind a single tertiary toggle (`.mqb-fold`), so the thing that actually needs doing is the only thing competing for attention. They stay reachable — everything is editable until it is sent, so this is disclosure, not a lockout.
-- Header `<div class="mqb-head">` = decorative `.mqb-head-ic` glyph + the `n / 10` count badge + `<span class="mqb-head-t">` + an optional trailing action (`+N more`, or an icon-only expand chevron in scroll mode).
-- List `<ul class="mqb-list" data-sortable>`, items are `<li class="mqi" data-sort-item>`.
-
-## Tokens
-
-| Token | Role here |
+| Slot | Token |
 |---|---|
-| `--surface-card` + `--stroke-border` | tray fill and edge — the band sits on the page, so it needs its own edge |
-| `--radius-xl` (`--radius-lg` on phones) | tray corner, deliberately below the composer's so the band reads as subordinate |
-| `--ts-label-m-*` · `--ink-secondary` | header type + colour |
-| `--ink-inactive` | header glyph (decorative, `aria-hidden`) |
-| `--mq-item-h` | shared row rhythm (see [QueueItem](QueueItem.md)) |
-
-No new colour tokens. `--mq-item-h` is the only dimensional addition.
-
-## Copy
-
-| Where | Text |
-|---|---|
-| Count badge | `{n} / {max}` — `{max} / {max} · Full` at the limit |
-| Header | `queued · sends after this reply` — one line for every count; "one by one" described a numbered list that is already on screen |
-| Expand (clamped) | `+{n} more` |
-| Expand / collapse (scroll) | icon only, tooltip `Expand` / `Collapse` |
-| Queue full (Send tooltip) | `Queue is full ({max} of {max}). Remove a message or wait for the next one to send.` |
+| tray | `--surface-card` on `--stroke-border`, `--radius-3xl` |
+| header | `Label/M`, `--ink-secondary`; glyph `--icon-sm` at `--ink-inactive` |
+| note | `Label/M` — the header's own weight, so the two annotations in the band match |
+| ceiling | `50vh` on the band; the list sets none of its own |
+| fade | `--scroll-fade-h` / `--scroll-fade-top`, the design system's `ScrollShadow` size |
+| undo window | `--undo-window` |
+| leaving / arriving | `row-out`, `row-in`, `row-swap-out`, `row-swap-in` |
 
 ## No change (—)
 
-The composer below it, the thread above it and the page's own spacing are untouched; the band is inserted into the composer area and the thread absorbs the height.
+Nothing: there is no prod counterpart.
 
 ## Accessibility self-check
 
-- Header is inside a `role="status"` region, so a queued / sent / paused change is announced without moving focus.
-- Header text on the tray measures **5.03:1** light · **10.81:1** dark — over the 4.5:1 floor.
-- At the limit the badge pairs the attention colour with the word **Full**, so the ceiling is never carried by colour alone (1.4.1), and the disabled Send carries the reason as a tooltip on its slot — a disabled button fires no pointer events, so a tip on the button itself would never show.
-- Tray-to-page contrast is intentionally slight: the tray is a grouping cue, not a boundary the eye has to find; the rows and header inside it carry the meaning and clear their own floors.
-- The expand control is a real `<button>` with `aria-expanded`. In scroll mode it is icon-only and carries both an `aria-label` and a tooltip — the chevron rotates rather than the label changing word.
+- `role="region"` with an accessible name, so the band is reachable as a landmark rather than as loose content above the field.
+- Every row is editable and removable from the keyboard; controls are revealed by `focus-within`, never by hover alone.
+- Removal, undo and clearing are announced through the page's live region; the announcement is built from the captured message, not read back from state after the re-render.
+- Expand carries `aria-expanded` and an `aria-label` that names the action, not the glyph.
+- Every animation has a reduced-motion path that shortens it to one frame rather than removing it — the retirement is driven by the animation's own end, so removing the animation would remove the retirement with it.

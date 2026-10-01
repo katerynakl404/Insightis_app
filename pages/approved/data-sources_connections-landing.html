@@ -207,6 +207,9 @@
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only. -->
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-queue.html'">
+              <span class="sbx-chat-lbl">Message queue</span>
+            </div>
             <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
               <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
               <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
@@ -772,11 +775,15 @@
      tooltip and the error toast, so the error never drops the timestamp the success state shows). */
   function dsFailReason(c){ return (c.error || 'Unknown error') + ' · ' + dsAbsTime(c.lastSync); }
   var _DS_IC_RETRY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.36 2.64L3 8"/><path d="M3 3v5h5"/></svg>';
-  var _DS_IC_ALERT = '<svg class="b-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
+  /* Outcome glyphs inside the Last-check pill — the same two paths kit-kit.js gives the success /
+     error toast, so the pill and the toast it opens read as one status. */
+  var _DS_IC_OK    = '<svg class="b-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>';
+  var _DS_IC_ERR   = '<svg class="b-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>';
   var _DS_IC_SPIN  = '<svg class="spin ds-sync-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>';
   /* Shared "Last sync" block — table cell, mobile card, and panel. A listed connection is connected
      by definition, so there is NO connected/synced badge. Time-forward: the relative time is the
-     anchor; success is quiet, only a FAILED run is loud (single affordance — no separate ⚠ + ⓘ).
+     anchor and a circle glyph carries the outcome — a quiet tick when the last check passed, a red ✕
+     when it failed (single affordance — no separate ⚠ + ⓘ).
      The pill is the kit Badge (.badge.badge-sm.rf) and the re-test is a plain kit IconButton
      (.iconbtn.iconbtn-tertiary.iconbtn-2xs) — no page-local variants. Two concepts toggled from the topbar:
        C1 (toast-driven): cell shows time only; a single toast carries the loader→result — no cell
@@ -797,10 +804,10 @@
     if(c._busy){
       return '<div class="ds-sync"><span class="ds-sync-status"><span class="badge badge-body badge-sm rf">' + _DS_IC_SPIN + 'Testing…</span></span></div>';
     }
-    /* Relative time as a small pill — neutral when healthy, red (+ ⚠, opens the error toast) on failure. */
+    /* Relative time as a small pill — neutral + ✓ when healthy, red + ✕ (opens the error toast) on failure. */
     var status = (c.status === 'error')
-      ? '<span class="ds-sync-status"><button type="button" class="badge badge-red badge-sm rf" aria-label="Last check failed ' + time + ' — view details" data-tip="Check failed: ' + dsEsc(dsFailReason(c)) + '" onclick="event.stopPropagation();dsErrToast(\'' + n + '\')">' + _DS_IC_ALERT + time + '</button></span>'
-      : '<span class="ds-sync-status"><span class="badge badge-body badge-sm rf"' + tip + '>' + time + '</span></span>';
+      ? '<span class="ds-sync-status"><button type="button" class="badge badge-red badge-sm rf" aria-label="Last check failed ' + time + ' — view details" data-tip="Check failed: ' + dsEsc(dsFailReason(c)) + '" onclick="event.stopPropagation();dsErrToast(\'' + n + '\')">' + _DS_IC_ERR + time + '</button></span>'
+      : '<span class="ds-sync-status"><span class="badge badge-body badge-sm rf"' + tip + '>' + _DS_IC_OK + time + '</span></span>';
     var actions = opts.retry ? '<span class="ds-sync-actions">' + dsRetryBtn(n, c._busy) + '</span>' : '';
     return '<div class="ds-sync">' + status + actions + '</div>';
   }

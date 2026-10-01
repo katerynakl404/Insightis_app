@@ -39,6 +39,8 @@ Open `../insightis-preview-kit.html` for the visual side-by-side; each component
 - [ConfirmationCard](ConfirmationCard.md) — exists on prod; options became a real radio group
 - [SortableList](SortableList.md) — new kit BEHAVIOUR (kit-kit.js § 4); drag + Alt+↑/↓ reorder
 - [ThinkingIndicator](ThinkingIndicator.md) — exists on prod; the skeleton went, the label carries the wait
+- [Counter](Counter.md) — new component; one small round count, in the queue row and the sidebar alike
+- [ChatShell](ChatShell.md) — exists on prod; moved out of four page `<style>` blocks into the kit
 - [DataSourcesFiles](DataSourcesFiles.md)
 - typography — no change (—)
 - Spinner — no change (—)
