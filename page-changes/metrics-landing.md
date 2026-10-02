@@ -240,3 +240,18 @@ Opt-in via `.mx-tbl-sections` on the `.mx-tbl` wrapper. Rule lives in `pages/kit
 - Clear button `aria-label="Clear search"` ✓
 - Connect dialog `aria-labelledby="mx-conn-title"` updated to "Add a Connection" ✓
 - Empty / filled sections toggled via CSS visibility, not `hidden` attribute — screen readers see both; update to `aria-hidden` if needed in prod ✓
+
+## Free plan — what locks
+
+Topbar carries a **Plan** toggle (`Paid` / `Free`, kit `.segctrl.is-sm`) — a mockup affordance.
+On Free the library reads in full: built-in metrics, filters, groups, a metric's definition. Every
+action locks and opens the [Upgrade popover](../changes/UpgradePopover.md).
+
+| Element | On Free | Marker |
+|---|---|---|
+| `Create Metric` (page head) | `.is-locked` | `PlanLock` badge **Starter** |
+| `New Connection` (page head) | `.is-locked` | badge **Starter**, connections copy in the popover |
+| `Add Metric` in each source group | `.is-locked` | badge with the **lock glyph alone** — a `btn-xs` has no width for a word |
+| Per-metric activation Switch | `.is-locked`, inert | none — a table cell carries no marker; the popover does the naming |
+
+The read-only banner and the paid-plan empty state (U4 / U5 in the brief) are **not** in this pass.

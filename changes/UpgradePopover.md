@@ -8,14 +8,14 @@ Source brief: the Free-plan upgrade points spec (component **U2**).
 
 ## What it is
 
-The one brand-coloured surface that answers "why can't I use this?" — a lock and the feature name
-in a tinted head band, two or three things the plan gives, the plan line, one CTA. It hangs off a
+The one brand-coloured surface that answers "why can't I use this?" — the feature's own glyph
+and its name in a tinted head band, two or three things the plan gives, the plan line, one CTA. It hangs off a
 plan-locked control, opens on hover or tap, and never appears on its own.
 
 | Piece | Component | Why that one |
 |---|---|---|
 | Shell | [Popover](Popover.md) (`.pop`) + `.pop-upgrade` | A variant, not a new surface — radius, border and shadow stay the kit's popover; only colour and width change. |
-| Plan marker on the trigger | [Badge](Badge.md) `.badge-sm.badge-primary` + lock glyph | The brief asks for one marker everywhere, one colour, one shape. Badge already is that; a bespoke pill would be a second one. |
+| Plan marker on the trigger | [Badge](Badge.md) `.badge-sm.badge-primary` + `#mi-lock` | The brief asks for one marker everywhere, one colour, one shape. Badge already is that; a bespoke pill would be a second one. |
 | Benefits | `.feat-list` | The same brand tick the Manage-plan cards use, so a benefit reads identically wherever it is seen. Previously named `.acct-plan-feats`; the account-scoped name is kept as an alias on the same rule until its consumers are renamed. |
 | CTA | [Button](Button.md) `.btn-primary.btn-sm` | One way into Manage plan, with the kit's primary affordance. Full width because the popover is small and this is the only thing to do in it. |
 
@@ -86,3 +86,21 @@ leads to the same place: Settings → Manage plan.
 - Head ink is the Badge/Brand ratio over the head band; body copy stays `Text/Body` on a 6% wash,
   so neither drops below the contrast the same pair already passes on a plain card.
 - The lock glyph is `aria-hidden`; the plan name beside it carries the meaning.
+
+## Glyph per state
+
+One dictionary entry per state, in the shared `<symbol>` block every page and the storybook carry;
+markup references them with `<use href="#mi-*"/>` and never pastes path data.
+
+| State | Glyph | Id | Where | Why this one |
+|---|---|---|---|---|
+| Locked (plan-gated) | closed padlock | `#mi-lock` | the **trigger** — menu row, action button, composer control. `.badge-sm` (12px) in a row, `.badge` (14px) beside a button, glyph-only pill where a word does not fit | one marker everywhere, as the brief asks |
+| Unlocked (after upgrade) | open padlock, green | `#mi-unlock` | the confirmation that follows payment, once | same padlock opened — the pair reads without words |
+| Read-only | eye | `#mi-view-only` | the read-only banner and the "View only" row marker | what is saved stays readable; a padlock would say "you cannot see this", which is the opposite of what Free gets |
+| Feature, in the popover head | brain · linked squares · pie | `#mi-model` `#mi-connections` `#mi-metrics` | the head band of the upgrade popover | each is the glyph that feature already wears in the product. The head takes the **feature's** glyph, never a second padlock — the lock belongs on the locked thing |
+| Benefit line | tick | CSS mask on `.feat-list li::before` | popover body, plan cards | decoration on a list, not an icon anybody points at |
+| Disabled | none | — | — | nothing on offer, so nothing to mark; it explains itself with a Tooltip and signals itself with `not-allowed` + `Text/Inactive` |
+| Busy / failed | unchanged | `.spinner`, Feedback/Red | — | a locked action never reaches a loading state, because it never runs |
+
+**Rule for a new gated area:** reuse the glyph that area already has in the product for the popover
+head, and the padlock for its trigger. Do not draw a new mark for a new lock.

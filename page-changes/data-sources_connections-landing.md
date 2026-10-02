@@ -165,3 +165,20 @@ Sizes (`--logo-size`): catalog tile 2.75rem · catalog row 3rem · connect dialo
 
 - Files page (separate route, separate handoff)
 - Connector detail / OAuth flow screens
+
+## Free plan — what locks
+
+Topbar carries a **Plan** toggle (`Paid` / `Free`, kit `.segctrl.is-sm`) — a mockup affordance.
+On Free the whole page stays readable: catalog, search, categories, saved connections and their
+fields. Every **action** locks and explains itself through the
+[Upgrade popover](../changes/UpgradePopover.md).
+
+| Element | On Free |
+|---|---|
+| `Create Connection` (page head) | `.is-locked` + `PlanLock` badge **Starter** |
+| `Edit` / `Test Connection` in a row's action menu | `.is-locked` + badge **Starter** |
+| `Edit` in the connection detail panel | `.is-locked` + badge **Starter** |
+| `Connect` on each catalog card | `.is-locked`, **no badge** — 24 identical cards would mean 24 identical badges; the popover names the plan once |
+| `Disconnect` | untouched — removing something you already have is not a paid feature |
+
+The read-only banner at the top of the page (U4 in the brief) is **not** in this pass.

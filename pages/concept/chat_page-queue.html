@@ -1131,16 +1131,14 @@
   });
 </script>
 <script>
-/* Sidebar nav — wire each .sbx-nav-item to its destination page. Active row and the
-   current page are skipped so there are no self-reloads. Pages live together in this
-   directory so bare filenames work as relative targets. */
+/* Sidebar drawer only. Navigation is NOT wired here: every .sbx-nav-item already carries its
+   own destination in markup, and a second handler with a second copy of the paths is how this
+   page lost its sidebar. The copy here mapped a label to a BARE filename — true for the pages
+   that sit next to their targets in pages/approved/, false for this one, which is a directory
+   away — and because it was added with addEventListener it ran after the inline handler and
+   overwrote a correct destination with a missing one. One destination, written once, on the
+   button. */
 (function(){
-  var navMap = {
-    'New Chat': 'chat-landing.html',
-    'Data Sources':  'data-sources_connections-landing.html',
-    'Metrics':  'metrics-landing.html',
-    'Files':    'data-sources_files-landing.html'
-  };
   // Mobile/tablet hamburger — opens the sidebar drawer overlay.
   window.clOpenSidebar = function(){
     document.documentElement.classList.add('side-open');
@@ -1156,18 +1154,6 @@
     function apply(){ if(window.innerWidth >= 1024) document.documentElement.classList.remove('side-open'); }
     window.addEventListener('resize', apply); apply();
   })();
-  var current = location.pathname.split('/').pop();
-  document.querySelectorAll('.sbx-nav .sbx-nav-item').forEach(function(btn){
-    var lbl = btn.querySelector('.lbl');
-    if (!lbl) return;
-    var dest = navMap[lbl.textContent.trim()];
-    if (!dest || dest === current) return;
-    btn.addEventListener('click', function(e){
-      if (btn.classList.contains('active')) return;
-      e.preventDefault();
-      window.location.href = dest;
-    });
-  });
 })();
 </script>
 <script>

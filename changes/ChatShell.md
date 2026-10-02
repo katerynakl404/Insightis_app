@@ -31,6 +31,16 @@ None of that was a decision anybody made. It is what four copies do.
 
 **Two raw widths became tokens.** `--chat-max-w` mirrors prod's `max-w-chat-container` and caps the composer, the queue band and every turn alike — the thing you type and the thing you read share one measure. `--radius-3xl` is the 16px corner the composer and the band both use; it had been written as `1rem` in two places.
 
+**One rule was lost in the move, and came back conditional.** The four copies of `.cl-main` were
+not identical: the chat **landing**'s copy carried `align-items:center; justify-content:center` and
+`padding:1.25rem 1.5rem`, the three conversation screens' copies carried neither, and only theirs
+survived the merge. The landing's greeting and composer went from centred in the column to pinned
+at its top, leaving ~590px of empty page below them. The centring is back in `kit-theme.css` as
+`.cl-main:has(> .cl-hero)` — the condition is the hero, because the hero is the only thing that
+differs: a main column holding a thread must stay top-aligned, and a second `.cl-main` variant
+would have made the shell two components. The page keeps a one-line comment pointing here instead
+of re-declaring it.
+
 **Six rules were deleted rather than moved.** `.cp-inner`, `.cp-metric-grid`, `.cp-metric-card`, `.cp-chart-wrap`, `.cp-chart-svg`, `.cp-actions` were declared in two page `<style>` blocks and used in no markup anywhere. Lifting dead code into the kit would have made it look maintained.
 
 ## Composition

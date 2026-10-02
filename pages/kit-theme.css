@@ -2861,6 +2861,11 @@
   .is-locked .swt,.is-locked .cbx,.is-locked .rdo,.is-locked .stps{opacity:var(--opacity-disabled);pointer-events:none}
   /* The marker always sits at the row's far edge, whatever the row is. */
   .is-locked .lock-mark{margin-left:auto;flex:none}
+  /* The marker's second form: the padlock on its own, no pill. Used wherever the plan NAME does
+     not belong — a composer control, a btn-xs, a table cell. The pill exists to carry the word;
+     with no word it is a coloured chip saying nothing, which is heavier than the glyph it holds.
+     The popover names the plan in those places. */
+  .lock-glyph{width:var(--icon-xs);height:var(--icon-xs);flex:none;color:var(--brand-primary)}
 
 
   /* ScrollShadow */
@@ -5196,6 +5201,17 @@
   .cl-side .sbx{height:auto;flex:1 1 0;min-height:0}
   .cl-side .sbx-head{padding-top:.5rem}
   .cl-main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+  /* A main column holding the landing HERO centres it; a main column holding a thread does not.
+     The condition is the hero itself rather than a second .cl-main variant, because that is the
+     only thing that differs — the shell is one component either way.
+     Restores what was lost when the four page copies of the shell were merged in here: the chat
+     LANDING's copy carried `align-items:center; justify-content:center` plus the column padding,
+     the chat PAGE's copy carried neither, and only the chat page's survived the merge — so the
+     landing's greeting + composer have been pinned to the top of an 860px column since. */
+  .cl-main:has(> .cl-hero){align-items:center;justify-content:center;padding:1.25rem 1.5rem}
+  @media (max-width:639px){
+    .cl-main:has(> .cl-hero){padding:.75rem 1rem 3rem}
+  }
 
   /* ── Header ─────────────────────────────────────────────────────────────── */
   .cp-header{flex:none;display:flex;align-items:center;padding:0 1.5rem;height:3rem;gap:.5rem}

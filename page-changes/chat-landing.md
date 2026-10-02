@@ -64,3 +64,21 @@ The composer popovers no longer carry the `.menu-wip` "In redesign" stub — it 
 Consistency: PASS
 Accessibility: PASS
 ```
+
+## Free plan — what locks in the composer
+
+The page carries a **Plan** toggle in the topbar (`Paid` / `Free`, kit `.segctrl.is-sm`) — a mockup
+affordance, not product UI. `Paid` is the screen as approved; `Free` renders it the way a Free
+account sees it. Nothing is hidden on Free: the rule is *visible but locked*.
+
+| Element | On Free | Opens |
+|---|---|---|
+| `Insightis Light` model row | unchanged — Free has this model | — |
+| `Insightis Medium` row | `.is-locked`, label `Text/Secondary`, `PlanLock` badge **Starter** | its own [Upgrade popover](../changes/UpgradePopover.md) |
+| `Insightis Pro` row | `.is-locked`, badge **Pro** | its own upgrade popover (the head names the row's model, not a shared heading) |
+| Each connection row | `.is-locked`, the Switch off and inert | the connections upgrade popover |
+| `Connections` composer trigger | carries the **Starter** badge | — (the marker is visible before the menu is opened) |
+
+The attach control, the prompt and Send are untouched: Free keeps file-based chat.
+
+Same pass, same markup, on [chat_page-landing](../pages/approved/chat_page-landing.html).
