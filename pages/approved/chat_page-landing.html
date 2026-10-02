@@ -145,6 +145,16 @@
     <div class="pg-approved-tag" aria-hidden="true">Approved</div>
   </div>
   <div style="display:flex;align-items:center;gap:.625rem">
+    <!-- Plan toggle (mockup only) — Free renders the screen the way a Free account sees it:
+         nothing is hidden, the paid parts are locked and explain themselves. Paid is the
+         approved screen, unchanged. -->
+    <div class="tb-concept" role="group" aria-label="Plan">
+      <span class="tb-concept-lbl">Plan</span>
+      <div class="segctrl is-sm" role="tablist" aria-label="Plan" style="width:auto">
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="true" onclick="clSetPlan('paid',this)">Paid</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetPlan('free',this)">Free</button>
+      </div>
+    </div>
     <div class="tb-concept" role="group" aria-label="Popover state (concept)" title="Open Connections or Add file in the composer to preview the selected state">
       <span class="tb-concept-lbl">Popover state</span>
       <div class="segctrl is-sm" role="tablist" aria-label="Popover state" style="width:auto">
@@ -1097,6 +1107,78 @@
     }).join('');
     box.innerHTML=(state==='scroll')?'<div class="cl-menu-scroll">'+rows+'</div>':rows;
   }
+  /* ── Plan (mockup toggle) ───────────────────────────────────────────────────────────────
+     On Free the composer keeps every control it has on a paid plan — the brief's rule is
+     "visible but locked", never hidden. What changes is that the paid rows become .is-locked:
+     secondary label, a Badge naming the plan, the switch off and inert, and the kit's upgrade
+     popover on hover or tap. Insightis Light stays selectable, because Free has it.
+     The rows are re-rendered by the popover simulation, so the pass re-runs after every render
+     rather than being baked into the markup. */
+  /* Each locked model names itself in its own popover — one shared panel would greet the
+     Medium row with the Pro heading. */
+  var CL_MODEL_LOCK = {
+    'Insightis Medium': { plan: 'Starter', pop: 'cl-upop-model-medium' },
+    'Insightis Pro':    { plan: 'Pro',     pop: 'cl-upop-model' }
+  };
+  function clLockMark(plan){
+    return '<span class="badge badge-sm badge-primary lock-mark">' +
+      '<svg class="b-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' + plan + '</span>';
+  }
+  function clLockRow(row, locked, popId, plan){
+    row.classList.toggle('is-locked', locked);
+    var mark = row.querySelector('.lock-mark');
+    if(locked){
+      row.setAttribute('aria-disabled','true');
+      row.setAttribute('data-upgrade', popId);
+      if(!mark) row.insertAdjacentHTML('beforeend', clLockMark(plan));
+    } else {
+      row.removeAttribute('aria-disabled');
+      row.removeAttribute('data-upgrade');
+      if(mark) mark.remove();
+    }
+  }
+  function clApplyPlan(){
+    var free = document.documentElement.classList.contains('is-free');
+    document.querySelectorAll('#cl-model-list .cl-model-item').forEach(function(row){
+      var name = (row.querySelector('.cl-model-name')||{}).textContent || '';
+      var lock = CL_MODEL_LOCK[name.trim()];
+      if(!lock) return;                                  /* Insightis Light — Free has it */
+      clLockRow(row, free, lock.pop, lock.plan);
+    });
+    document.querySelectorAll('#cl-conn-list .cl-conn-item').forEach(function(row){
+      clLockRow(row, free, 'cl-upop-conn', 'Starter');
+      var sw = row.querySelector('.cl-conn-swt');
+      /* A locked connection reads as off: Free cannot use one in chat, and leaving a switch on
+         would promise an answer the assistant cannot give. */
+      if(free && sw){ sw.setAttribute('aria-checked','false'); sw.classList.remove('on'); }
+    });
+    /* The composer's Connections trigger carries the same marker, so the lock is visible before
+       the menu is ever opened. */
+    var conn = document.querySelector('.cl-dropdown-wrap .cl-conn-menu');
+    var trig = conn && conn.parentElement.querySelector('.cl-dropdown');
+    if(trig){
+      var m = trig.querySelector('.lock-mark');
+      if(free && !m) trig.insertAdjacentHTML('beforeend', clLockMark('Starter'));
+      if(!free && m) m.remove();
+    }
+  }
+  function clSetPlan(plan, btn){
+    document.documentElement.classList.toggle('is-free', plan === 'free');
+    clApplyPlan();
+    if(btn){ var sibs=btn.parentNode.querySelectorAll('.segctrl-btn');
+      for(var i=0;i<sibs.length;i++) sibs[i].setAttribute('aria-selected','false');
+      btn.setAttribute('aria-selected','true'); }
+  }
+  /* Both popovers rebuild their rows from scratch on open, which would drop the locks — so the
+     pass rides on the renderers rather than being called from each of their call sites. */
+  (function(){
+    var rc = clRenderConn, rm = clRenderModels;
+    clRenderConn = function(){ rc.apply(null, arguments); clApplyPlan(); };
+    clRenderModels = function(){ rm.apply(null, arguments); clApplyPlan(); };
+  })();
+  document.addEventListener('DOMContentLoaded', clApplyPlan);
+
   function clSetPopState(state, btn){
     clPopState=state;
     clRenderConn(state); clRenderFiles(state); clRenderModels();
@@ -1383,5 +1465,41 @@ document.addEventListener('click', function(e){
   }, true);
 })();
 </script>
+<!-- Upgrade popovers (kit component) — opened by kit-kit.js from any locked row in the composer.
+     They live outside the menus on purpose: the engine positions them fixed, so a popover from the
+     last row of a menu is never clipped by the menu or pushed off-screen. -->
+<div class="pop pop-upgrade" id="cl-upop-model" role="dialog" aria-label="Insightis Pro" hidden>
+  <div class="pop-up-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Insightis Pro</div>
+  <div class="pop-up-body">
+    <ul class="feat-list">
+      <li>Holds the thread through a long, multi-step question</li>
+      <li>Handles wide tables and joins without losing track</li>
+    </ul>
+    <p class="pop-up-plan">On the Pro plan</p>
+    <button class="btn btn-primary btn-sm" type="button">See Plans</button>
+  </div>
+</div>
+<div class="pop pop-upgrade" id="cl-upop-model-medium" role="dialog" aria-label="Insightis Medium" hidden>
+  <div class="pop-up-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Insightis Medium</div>
+  <div class="pop-up-body">
+    <ul class="feat-list">
+      <li>A step up from Light on tables and multi-step questions</li>
+      <li>Comes with every other model on the plan</li>
+    </ul>
+    <p class="pop-up-plan">From the Starter plan</p>
+    <button class="btn btn-primary btn-sm" type="button">See Plans</button>
+  </div>
+</div>
+<div class="pop pop-upgrade" id="cl-upop-conn" role="dialog" aria-label="Connections" hidden>
+  <div class="pop-up-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Connections</div>
+  <div class="pop-up-body">
+    <ul class="feat-list">
+      <li>Ask about live data from your tools, not only uploaded files</li>
+      <li>Five connections on Starter, no limit on Pro</li>
+    </ul>
+    <p class="pop-up-plan">From the Starter plan</p>
+    <button class="btn btn-primary btn-sm" type="button">See Plans</button>
+  </div>
+</div>
 </body>
 </html>

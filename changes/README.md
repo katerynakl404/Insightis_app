@@ -11,6 +11,7 @@ Open `../insightis-preview-kit.html` for the visual side-by-side; each component
 
 - [colors](colors.md)
 - [Tracking (letter-spacing)](Tracking.md) — foundation token scale
+- [Disabled state](DisabledState.md) — cross-component: disabled stops killing pointer events, so it can carry a tooltip
 - [Button](Button.md)
 - IconButton — see [Button](Button.md) (shares variants)
 - [Input](Input.md)
@@ -58,6 +59,7 @@ Surfaces:
 - [Separator](Separator.md)
 - [Sheet](Sheet.md)
 - [Popover](Popover.md)
+- [Upgrade popover](UpgradePopover.md) — brand plan-gate explainer + the `.is-locked` state
 - [ScrollShadow](ScrollShadow.md)
 
 Forms:

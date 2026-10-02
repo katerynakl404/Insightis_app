@@ -19,6 +19,9 @@
    1b. Scroll-to-bottom — .cp-scroll-btn hides itself while the thread is already at the end.
    3. Toast host      — the single top-right stack + window.kitToast / window.kitToastDismiss.
    4. Sortable list   — drag-to-reorder + Alt+↑/↓ for any [data-sortable]; emits kit:sorted.
+   5. Disabled guard  — swallows activation on [aria-disabled="true"], the job the native
+                        `disabled` attribute did before the kit stopped relying on it.
+   6. Upgrade popover — opens .pop-upgrade from any [data-upgrade] trigger, locked or disabled.
    ============================================================================================ */
 (function () {
   if (window.__kitKitLoaded) return;
@@ -513,4 +516,176 @@
     e.preventDefault();
     sortEmit(list, from, to);
   });
+
+  /* ==========================================================================================
+     5. DISABLED GUARD — what `disabled` used to do, minus the dead zone
+
+     The kit's disabled recipe no longer sets `pointer-events:none` (see the disabled contract in
+     kit-theme.css): a control that is off still has to be able to carry the explanation of WHY
+     it is off — a [data-tip], or the upgrade popover below — and a dead element carries nothing.
+     The native `disabled` attribute has the same problem one level deeper: browsers swallow
+     pointer events on a natively-disabled form control, so the kit marks a control that must
+     explain itself with `aria-disabled="true"` instead.
+
+     That leaves activation to block, which is this. Click, Enter and Space are swallowed on
+     anything aria-disabled, in the capture phase, before any page handler sees them — except on
+     an upgrade trigger, whose whole purpose is to answer the click by explaining itself.
+     ========================================================================================== */
+  /* Every way the kit says "off": the aria state, the class a page sets, and the storybook's
+     forced-state mirror. All three were inert through `pointer-events:none` before, so all three
+     have to be inert through here now — otherwise removing that one line would quietly have made
+     disabled rows clickable. */
+  var INERT_SEL = '[aria-disabled="true"],.is-disabled,.s-disabled';
+  function inertTarget(e) {
+    var el = e.target.closest && e.target.closest(INERT_SEL);
+    if (!el) return null;
+    /* Locked is not disabled — it has an answer to give, and section 6 gives it. */
+    if (el.classList.contains('is-locked')) return null;
+    /* An upgrade trigger handles its own click (section 6) — never swallow that one. */
+    if (el.hasAttribute('data-upgrade') || el.closest('[data-upgrade]')) return null;
+    /* Anything inside an open popover is live UI sitting over a disabled trigger. */
+    if (el.closest('.pop-upgrade')) return null;
+    return el;
+  }
+  document.addEventListener('click', function (e) {
+    if (!inertTarget(e)) return;
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    if (!inertTarget(e)) return;
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
+
+  /* ==========================================================================================
+     6. UPGRADE POPOVER — the plan explainer that hangs off a locked control
+
+     Contract:
+     - trigger: `data-upgrade="<id of the .pop-upgrade element>"`. The trigger can be anything —
+       a menu row, a connection switch row, an action button — and it can be locked, disabled or
+       both, which is the reason the sections above stopped making those states inert to the
+       pointer.
+     - opens on hover after the SAME 300ms the tooltip waits (one hover timing in the kit, never
+       two), and immediately on click or tap. Touch has no hover, so the tap is not a fallback —
+       it is the primary path on a phone.
+     - the pointer may travel from the trigger INTO the popover without it closing: the popover
+       holds a CTA, so a hover-only bubble that died on the way there would be unusable.
+     - it NEVER closes the menu it was opened from: the click is stopped at the trigger, so the
+       menu's own outside-click handler never sees it.
+     - Esc closes it, an outside click closes it, scrolling closes it.
+     - position is fixed and measured per open: below the trigger, flipped above when there is no
+       room, clamped into the viewport horizontally — the same reasoning as the tooltip engine, so
+       a popover opened from the last row of a menu is never half off-screen.
+     ========================================================================================== */
+  var UPOP_GAP = 8;      /* distance from the trigger, matching the menus' --menu-gap default */
+  var UPOP_GRACE = 160;  /* travel time allowed between trigger and popover before closing */
+  var upopEl, upopTrigger, upopOpenTimer, upopCloseTimer;
+
+  function upopFor(trigger) {
+    var id = trigger.getAttribute('data-upgrade');
+    return id ? document.getElementById(id) : null;
+  }
+
+  function upopPlace(pop, trigger) {
+    var r = trigger.getBoundingClientRect(), p = pop.getBoundingClientRect();
+    var top = r.bottom + UPOP_GAP;
+    if (top + p.height > window.innerHeight - UPOP_GAP) {
+      var above = r.top - p.height - UPOP_GAP;
+      if (above > UPOP_GAP) top = above;
+      else top = Math.max(UPOP_GAP, window.innerHeight - p.height - UPOP_GAP);
+    }
+    /* A trigger scrolled out of view (or a very tall panel) must not place the panel off the
+       top of the screen — the flip above only answers the bottom edge. */
+    top = Math.max(UPOP_GAP, top);
+    var left = r.left;
+    if (left + p.width > window.innerWidth - UPOP_GAP) left = window.innerWidth - p.width - UPOP_GAP;
+    pop.style.left = Math.max(UPOP_GAP, left) + 'px';
+    pop.style.top = top + 'px';
+  }
+
+  function upopOpen(trigger) {
+    var pop = upopFor(trigger);
+    if (!pop) return;
+    clearTimeout(upopCloseTimer);
+    if (upopEl && upopEl !== pop) upopClose();
+    upopEl = pop;
+    upopTrigger = trigger;
+    pop.style.position = 'fixed';
+    pop.style.zIndex = '9998';   /* under the tooltip layer (9999), over every menu */
+    pop.hidden = false;
+    pop.style.display = 'block';
+    upopPlace(pop, trigger);
+    trigger.setAttribute('aria-expanded', 'true');
+    /* The tooltip and the popover would say the same thing twice — the bigger one wins. */
+    if (window.kitTipHide) window.kitTipHide();
+  }
+
+  function upopClose() {
+    clearTimeout(upopOpenTimer);
+    clearTimeout(upopCloseTimer);
+    if (!upopEl) return;
+    upopEl.hidden = true;
+    upopEl.style.display = '';
+    if (upopTrigger) upopTrigger.setAttribute('aria-expanded', 'false');
+    upopEl = null;
+    upopTrigger = null;
+  }
+
+  function upopCloseSoon() {
+    clearTimeout(upopCloseTimer);
+    upopCloseTimer = setTimeout(upopClose, UPOP_GRACE);
+  }
+
+  document.addEventListener('mouseover', function (e) {
+    var t = e.target.closest && e.target.closest('[data-upgrade]');
+    if (t) {
+      clearTimeout(upopCloseTimer);
+      if (upopTrigger === t) return;
+      clearTimeout(upopOpenTimer);
+      upopOpenTimer = setTimeout(function () { upopOpen(t); }, TIP_DELAY);
+      return;
+    }
+    /* Inside the open popover: keep it open, the CTA lives there. */
+    if (upopEl && e.target.closest && e.target.closest('.pop-upgrade') === upopEl) {
+      clearTimeout(upopCloseTimer);
+    }
+  }, true);
+
+  document.addEventListener('mouseout', function (e) {
+    var from = e.target.closest && (e.target.closest('[data-upgrade]') || e.target.closest('.pop-upgrade'));
+    if (!from) return;
+    var to = e.relatedTarget;
+    if (to && to.closest && (to.closest('[data-upgrade]') === upopTrigger || to.closest('.pop-upgrade') === upopEl)) return;
+    clearTimeout(upopOpenTimer);
+    upopCloseSoon();
+  }, true);
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-upgrade]');
+    if (t) {
+      /* Stop here: the locked control must not fire its own action, and the menu around it must
+         not read this as an outside click and close. */
+      e.preventDefault();
+      e.stopPropagation();
+      clearTimeout(upopOpenTimer);
+      if (upopTrigger === t) upopClose();
+      else upopOpen(t);
+      return;
+    }
+    if (upopEl && e.target.closest && e.target.closest('.pop-upgrade') === upopEl) return;
+    upopClose();
+  }, true);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !upopEl) return;
+    var back = upopTrigger;
+    upopClose();
+    if (back && back.focus) back.focus();
+  });
+  window.addEventListener('scroll', function () { if (upopEl) upopClose(); }, true);
+  window.addEventListener('resize', function () { if (upopEl) upopClose(); });
+  window.kitUpgradeClose = upopClose;
+
 })();
