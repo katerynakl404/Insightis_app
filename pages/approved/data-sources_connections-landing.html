@@ -151,8 +151,8 @@
     <!-- Plan toggle (mockup only) — Free renders the page the way a Free account sees it:
          the catalog and the connections stay readable, every action is locked and explains itself. -->
     <div class="segctrl is-sm" role="tablist" aria-label="Plan" style="width:auto">
-      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" onclick="dsSetPlan('paid',this)">Paid</button>
-      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="dsSetPlan('free',this)">Free</button>
+      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-plan-switch="paid">Paid</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-plan-switch="free">Free</button>
     </div>
     <div class="segctrl is-sm" style="width:auto">
       <button class="segctrl-btn is-active" id="ds-seg-empty" type="button" onclick="dsSegState(this,'empty')">Empty</button>
@@ -1098,43 +1098,58 @@
      marker and opens the upgrade popover instead of running. Disconnect is deliberately left
      alone: removing something you already have is not a paid feature.
      Rows and menus are rebuilt by dsRender(), so the pass rides on it. */
-  /* Two groups, because the marker does not belong on a repeating card. A page-level action
-     carries the plan name; the 24 identical Connect buttons in the catalog grid would turn into
-     24 identical badges, which is noise — they lock and open the popover, and the popover names
-     the plan once. */
-  var DS_LOCK_MARKED = '.ds-addnew,.ds-conn-menu .mi:not(.danger),#ds-panel-edit-btn';
-  var DS_LOCK_PLAIN  = '.ds-card-connect';
+  /* Three groups, by where the plan NAME can live.
+     · A menu row is wide and quiet, so it carries the Badge with the word.
+     · A button carries the padlock alone — a chip inside a button is a second control drawn on
+       top of the first, and on a primary fill it fights its own label.
+     · A repeating catalog card carries nothing: 24 identical Connect buttons would become 24
+       identical markers, which is noise. They lock, and the popover names the plan once. */
+  var DS_LOCK_NAMED  = '.ds-conn-menu .mi:not(.danger)';
+  var DS_LOCK_GLYPH  = '.ds-addnew,#ds-panel-edit-btn';
+  var DS_LOCK_PLAIN  = '.ds-card-connect,.ds-card';
   function dsLockMark(plan){
+    if(!plan) return '<svg class="lock-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>';
     return '<span class="badge badge-sm badge-primary lock-mark">' +
       '<svg class="b-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>' + plan + '</span>';
   }
   function dsApplyPlan(){
     var free = document.documentElement.classList.contains('is-free');
-    function lock(sel, marked){
+    /* The sidebar plan line follows the switch. A page that still says "Professional" while
+       every action on it is locked reads as a bug, not as a Free account. The paid wording is
+       whatever the page shipped with, remembered on first run. */
+    var meta = document.querySelector('.sbx-user-meta');
+    if(meta){
+      if(!meta.getAttribute('data-plan-paid')) meta.setAttribute('data-plan-paid', meta.textContent);
+      var paid = meta.getAttribute('data-plan-paid');
+      var sep = paid.indexOf('\u00b7');
+      meta.textContent = free ? (sep >= 0 ? paid.slice(0, sep + 1) + ' Free' : 'Free') : paid;
+    }
+    function lock(sel, plan){
       document.querySelectorAll(sel).forEach(function(el){
         el.classList.toggle('is-locked', free);
-        var mark = el.querySelector('.lock-mark');
+        var mark = el.querySelector('.lock-mark,.lock-glyph');
         if(free){
           el.setAttribute('aria-disabled','true');
           el.setAttribute('data-upgrade','ds-upop-conn');
-          if(marked && !mark) el.insertAdjacentHTML('beforeend', dsLockMark('Starter'));
+          /* A catalog card is thumbnail-sized; it waits to be clicked rather than opening on hover. */
+          if(el.classList.contains('ds-card')) el.setAttribute('data-upgrade-click','');
+          if(plan !== null && !mark) el.insertAdjacentHTML('beforeend', dsLockMark(plan));
         } else {
           el.removeAttribute('aria-disabled');
           el.removeAttribute('data-upgrade');
+          el.removeAttribute('data-upgrade-click');
           if(mark) mark.remove();
         }
       });
     }
-    lock(DS_LOCK_MARKED, true);
-    lock(DS_LOCK_PLAIN, false);
+    lock(DS_LOCK_NAMED, 'Starter');
+    lock(DS_LOCK_GLYPH, '');
+    lock(DS_LOCK_PLAIN, null);
   }
-  function dsSetPlan(plan, btn){
-    document.documentElement.classList.toggle('is-free', plan === 'free');
-    dsApplyPlan();
-    if(btn){ var sibs=btn.parentNode.querySelectorAll('.segctrl-btn');
-      for(var i=0;i<sibs.length;i++){ sibs[i].setAttribute('aria-selected','false'); sibs[i].classList.remove('is-active'); }
-      btn.setAttribute('aria-selected','true'); btn.classList.add('is-active'); }
-  }
+  /* The switch itself is kit-kit.js (section 7): it stores the choice, restores it on every
+     page and broadcasts `kit:plan`. What stays here is which of THIS page's controls the choice
+     gates — that is a property of the page, not of the kit. */
+  document.addEventListener('kit:plan', dsApplyPlan);
   function dsRender(){ dsRenderCats(); dsRenderGrid(); dsRenderConnectedList(); dsApplyPlan(); }
 
   /* Re-render connections list when crossing the mobile breakpoint */

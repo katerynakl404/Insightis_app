@@ -21,7 +21,9 @@
    4. Sortable list   — drag-to-reorder + Alt+↑/↓ for any [data-sortable]; emits kit:sorted.
    5. Disabled guard  — swallows activation on [aria-disabled="true"], the job the native
                         `disabled` attribute did before the kit stopped relying on it.
-   6. Upgrade popover — opens .pop-upgrade from any [data-upgrade] trigger, locked or disabled.
+   6. Upgrade popover — opens .pop-upgrade from any [data-upgrade] trigger, locked or disabled;
+                        [data-upgrade-click] makes a large target answer the click only.
+   7. Plan harness   — the mockups' Free / Paid switch: stored, restored, broadcast as kit:plan.
    ============================================================================================ */
 (function () {
   if (window.__kitKitLoaded) return;
@@ -642,6 +644,12 @@
     var t = e.target.closest && e.target.closest('[data-upgrade]');
     if (t) {
       clearTimeout(upopCloseTimer);
+      /* `data-upgrade-click` — a trigger that answers the CLICK only. Hover-opening suits a
+         control: a row, a button, something the size of its own label. On a large target — a
+         catalog card the size of a thumbnail — a panel that appears because the pointer crossed
+         it reads as the page grabbing at you. The card still explains itself; it waits to be
+         asked. */
+      if (t.hasAttribute('data-upgrade-click')) return;
       if (upopTrigger === t) return;
       clearTimeout(upopOpenTimer);
       upopOpenTimer = setTimeout(function () { upopOpen(t); }, TIP_DELAY);
@@ -688,4 +696,73 @@
   window.addEventListener('resize', function () { if (upopEl) upopClose(); });
   window.kitUpgradeClose = upopClose;
 
+
+  /* ==========================================================================================
+     7. PLAN HARNESS — the Free / Paid switch, remembered
+
+     The mockups carry a Paid / Free switch so a reviewer can see the same screen as a Free
+     account sees it. It has to SURVIVE: clicking through from the chat to Metrics and finding
+     the page back on Paid makes the reviewer re-set it on every screen, and makes a flow
+     impossible to read end to end.
+
+     The storage, the `html.is-free` class and the button state live here, once, because four
+     pages need the identical thing. What stays page-local is the lock pass itself — which rows
+     and buttons that page gates is a property of the page, not of the kit. Pages opt in by
+     listening for `kit:plan`.
+
+     Markup contract: a `.segctrl` whose buttons carry `data-plan-switch="paid" | "free"` (not `data-plan` — the account modal already uses that for its balance states). No onclick —
+     this layer owns the click, so a page cannot wire it differently.
+     ========================================================================================== */
+  var PLAN_KEY = 'insightis.plan';
+
+  function planGet() {
+    /* Storage can throw (private mode, blocked site data). A reviewer with no storage still
+       gets a working switch; it just forgets between pages. */
+    try { return localStorage.getItem(PLAN_KEY) === 'free' ? 'free' : 'paid'; } catch (e) { return 'paid'; }
+  }
+
+  function planSync(plan) {
+    document.documentElement.classList.toggle('is-free', plan === 'free');
+    var btns = document.querySelectorAll('[data-plan-switch]');
+    for (var i = 0; i < btns.length; i++) {
+      var on = btns[i].getAttribute('data-plan-switch') === plan;
+      btns[i].setAttribute('aria-selected', on ? 'true' : 'false');
+      btns[i].classList.toggle('is-active', on);
+    }
+    document.dispatchEvent(new CustomEvent('kit:plan', { detail: { plan: plan } }));
+  }
+
+  function planSet(plan) {
+    try { localStorage.setItem(PLAN_KEY, plan); } catch (e) {}
+    planSync(plan);
+  }
+
+  window.kitPlanGet = planGet;
+  window.kitPlanSet = planSet;
+
+  /* The class goes on <html> as early as this file runs, so a page that styles off `.is-free`
+     never paints Paid first and then flips. Buttons and the event wait for the DOM. */
+  document.documentElement.classList.toggle('is-free', planGet() === 'free');
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('[data-plan-switch]');
+    if (!btn) return;
+    planSet(btn.getAttribute('data-plan-switch'));
+  });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { planSync(planGet()); });
+  } else {
+    planSync(planGet());
+  }
+
+
+  /* The CTA inside any .pop-upgrade leads to one place — Settings → Manage plan. That single
+     destination is the brief's rule, so it is the kit's, not each page's. The storybook renders
+     the popover as a demo and has no plan switch; there the CTA stays inert. */
+  var PLAN_URL = document.documentElement.getAttribute('data-plan-url') || 'user_profile-modal.html?section=manage-plan';
+  document.addEventListener('click', function (e) {
+    var cta = e.target.closest && e.target.closest('.pop-upgrade .btn');
+    if (!cta) return;
+    if (window.kitUpgradeClose) window.kitUpgradeClose();
+    if (document.querySelector('[data-plan-switch]')) location.href = PLAN_URL;
+  });
 })();

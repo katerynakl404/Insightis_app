@@ -251,7 +251,10 @@ action locks and opens the [Upgrade popover](../changes/UpgradePopover.md).
 |---|---|---|
 | `Create Metric` (page head) | `.is-locked` | `PlanLock` badge **Starter** |
 | `New Connection` (page head) | `.is-locked` | badge **Starter**, connections copy in the popover |
-| `Add Metric` in each source group | `.is-locked` | badge with the **lock glyph alone** — a `btn-xs` has no width for a word |
-| Per-metric activation Switch | `.is-locked`, inert | none — a table cell carries no marker; the popover does the naming |
+| `Add Metric` in each source group | `.is-locked` | the **padlock alone** (`.lock-glyph`) — a `btn-xs` has no width for the word |
+| Per-metric activation Switch (M4) | `.is-locked`, inert | none — a table cell carries no marker; the popover does the naming |
+| Row action menu — `Edit`, `Duplicate` (M5) | `.is-locked` | Badge **Starter** — a menu row is wide enough for the word. `Delete` untouched, like `Disconnect` on Data Sources |
+| Details sheet — `Edit`, `Duplicate`, `Connect {provider}` (M6) | `.is-locked` | the padlock alone. The sheet is built on open, so the pass re-runs there |
+| Provider cards offering a connection, empty state and under a group (M1, M7) | `.is-locked` | **no marker** — ~50 identical cards would be ~50 identical padlocks |
 
 The read-only banner and the paid-plan empty state (U4 / U5 in the brief) are **not** in this pass.

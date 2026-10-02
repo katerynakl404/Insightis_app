@@ -280,17 +280,18 @@
     --plan-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 8%, var(--surface-card)) 0%, var(--surface-card) 40%);
     --plan-card-featured-shadow:0 6px 16px -8px color-mix(in srgb, var(--brand-primary) 45%, transparent);
     /* Upgrade popover (U2) — the brand explainer that hangs off a plan-locked control.
-       Brand all the way through, which is the point: this surface has to read as "the paid
-       product" the moment it appears, next to menus and rows that are deliberately neutral.
-       Three washes over --surface-card (not over transparent — the panel is portalled over
-       arbitrary content and a translucent fill would let that content through): body at
-       --tint-6, head band at double that, border mixed into --stroke-border so the edge stays
-       drawn. Head ink borrows the Badge/Brand ratio (85% brand into Text/Primary) so the lock
-       row and the plan marker inside it are the same colour by construction. */
-    --upop-bg:color-mix(in srgb, var(--brand-primary) var(--tint-6), var(--surface-card));
-    --upop-head-bg:color-mix(in srgb, var(--brand-primary) var(--tint-12), var(--surface-card));
-    --upop-border:color-mix(in srgb, var(--brand-primary) var(--tint-25), var(--stroke-border));
-    --upop-head-ink:color-mix(in srgb, var(--brand-primary) 85%, var(--ink-primary));
+       The brand arrives as a GRADIENT that fades out, not as a flat fill: a short wash at the
+       top settling into the card by 55%. A panel filled edge to edge with one tint and topped
+       by a saturated band is the 2015 "info box"; the same colour, applied as a glow that
+       resolves into the surface, reads as a card with a light on it. Exactly the recipe the
+       featured plan card already uses — one gradient idea in the system, not two.
+       Mixed over --surface-card rather than over transparent: the panel is positioned over
+       arbitrary content, and a translucent fill would let that content show through.
+       The icon chip is the one place colour stays solid — small, so it can carry the hue the
+       flat fill used to carry across the whole panel. */
+    --upop-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) var(--tint-8), var(--surface-card)) 0%, var(--surface-card) 55%);
+    --upop-ic-bg:color-mix(in srgb, var(--brand-primary) var(--tint-12), var(--surface-card));
+    --upop-border:color-mix(in srgb, var(--brand-primary) var(--tint-20), var(--stroke-border));
     --fb-red:var(--red-700);--fb-error-hover:var(--red-800);--fb-error-press:var(--red-850);
     /* Feedback/Red_Text — theme-adaptive destructive text/icon colour. Red-700 on white card = 8.39:1 AA.
        --fb-red (red-700) would fail AA 2.76:1 against dark Surface/Card, so a brighter red is used in .dark below.
@@ -709,10 +710,11 @@
     /* Featured plan card — the 8% wash that lifts off white is invisible over the dark card, so
        the top stop nearly doubles. Fade length stays 40% so the accent still clears the name row. */
     --plan-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 14%, var(--surface-card)) 0%, var(--surface-card) 40%);
-    /* Upgrade popover on dark — same reason as the featured card above: a 6% brand wash over a
-       near-black card is invisible, so both steps move up one rung of the tint scale. */
-    --upop-bg:color-mix(in srgb, var(--brand-primary) var(--tint-10), var(--surface-card));
-    --upop-head-bg:color-mix(in srgb, var(--brand-primary) var(--tint-20), var(--surface-card));
+    /* Upgrade popover on dark — same reason as the featured card above: a light wash over a
+       near-black card is invisible, so the gradient's top stop and the icon chip both move up
+       the tint scale. The fade length is unchanged; it is the strength that has to grow. */
+    --upop-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) var(--tint-15), var(--surface-card)) 0%, var(--surface-card) 55%);
+    --upop-ic-bg:color-mix(in srgb, var(--brand-primary) var(--tint-22), var(--surface-card));
     --focus-ring:var(--focus-ring-brand);
     --logo-ink:var(--brand-50);
     /* --logo-mark must lighten in dark mode: Brand-600 (#07807E) on Surface/Card (#17171E) fails AA at 3.74:1.
@@ -2828,22 +2830,29 @@
   .pop .pop-d{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
 
   /* ── Upgrade popover (.pop.pop-upgrade) — U2 ───────────────────────────────────────────
-     One shape for every "this is on a paid plan" moment: the lock and the feature name in a
-     brand head band, two or three things the plan actually gives, the plan line, one CTA.
-     It is the Popover component wearing a brand skin — .pop still owns shell, radius and
-     shadow; .pop-upgrade re-colours it, drops .pop's padding (the head band runs edge to
-     edge) and widens it to 18rem, the width the kit already uses for a roomy popover
-     (.menu.is-md and --tip-max-w are the same 288px — one comfortable width, not a third one).
+     One shape for every "this is on a paid plan" moment: the feature's glyph in a small tinted
+     chip, its name beside it, two or three things the plan actually gives, the plan line, one
+     CTA. It is the Popover component wearing a brand skin — .pop owns shell and shadow;
+     .pop-upgrade takes the panel radius (a 6px popover corner reads sharp at this size),
+     replaces the flat fill with the fading gradient, and widens it to 18rem, the width the kit
+     already uses for a roomy popover (.menu.is-md and --tip-max-w are the same 288px — one
+     comfortable width, not a third one).
+     Colour lands in four small places — the gradient, the icon chip, the ticks and the CTA —
+     rather than across the whole panel. The head is no longer a filled band: a saturated bar
+     above tinted copy is what made this read like a 2015 info box.
      It attaches to LOCKED and to DISABLED controls alike, which is exactly why the disabled
      contract higher up stopped killing pointer events. */
-  .pop-upgrade{width:18rem;padding:0;overflow:hidden;background:var(--upop-bg);border-color:var(--upop-border)}
-  .pop-up-head{display:flex;align-items:center;gap:.375rem;padding:.5rem .75rem;background:var(--upop-head-bg);color:var(--upop-head-ink);font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:600}
-  .pop-up-head svg{width:var(--icon-xs);height:var(--icon-xs);flex:none}
-  .pop-up-body{display:flex;flex-direction:column;gap:.625rem;padding:.75rem}
+  .pop-upgrade{width:18rem;padding:0;overflow:hidden;background:var(--upop-bg);border-color:var(--upop-border);border-radius:var(--radius-panel)}
+  .pop-up-head{display:flex;align-items:center;gap:.5rem;padding:.875rem .875rem .375rem;color:var(--ink-primary);font-size:var(--ts-title-14-size);line-height:var(--ts-title-14-lh);font-weight:var(--ts-title-14-weight)}
+  /* The glyph sits in a chip, not loose: a 14px outline next to 14px text disappears. */
+  .pop-up-head svg{width:var(--icon-md);height:var(--icon-md);flex:none;padding:.25rem;box-sizing:content-box;border-radius:var(--radius-sm);background:var(--upop-ic-bg);color:var(--brand-primary)}
+  .pop-up-body{display:flex;flex-direction:column;gap:.75rem;padding:.5rem .875rem .875rem}
   /* The benefits are .feat-list — the same brand tick the plan cards use, so a benefit reads
      identically whether it is seen here or in Manage plan. */
   .pop-up-body .feat-list{margin:0}
-  .pop-up-plan{margin:0;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  /* The plan line closes the copy, so it sits on its own above the CTA with a hairline — the
+     structure a reader expects: what it gives · what it costs you to get it · the way there. */
+  .pop-up-plan{margin:0;padding-top:.625rem;border-top:1px solid var(--stroke-border);font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
   /* One CTA, full width: the popover is small and the button is the only thing to do in it. */
   .pop-upgrade .btn{width:100%}
 
@@ -2861,12 +2870,15 @@
   .is-locked .swt,.is-locked .cbx,.is-locked .rdo,.is-locked .stps{opacity:var(--opacity-disabled);pointer-events:none}
   /* The marker always sits at the row's far edge, whatever the row is. */
   .is-locked .lock-mark{margin-left:auto;flex:none}
-  /* The marker's second form: the padlock on its own, no pill. Used wherever the plan NAME does
-     not belong — a composer control, a btn-xs, a table cell. The pill exists to carry the word;
-     with no word it is a coloured chip saying nothing, which is heavier than the glyph it holds.
-     The popover names the plan in those places. */
-  .lock-glyph{width:var(--icon-xs);height:var(--icon-xs);flex:none;color:var(--brand-primary)}
-
+  /* The marker's second form: the padlock on its own, no pill.
+     Where each form goes — the pill exists to carry the plan NAME, so it belongs where a name
+     reads naturally: a MENU ROW, which is wide, quiet and already full of words. A BUTTON is not
+     that place. A chip inside a filled button is a second control drawn on top of the first, and
+     on a primary fill it fights the label it is attached to. Buttons, btn-xs, table cells and
+     composer chrome take the padlock alone; the popover they open names the plan.
+     Colour is `currentColor` on purpose: the marker belongs to the control it sits in, so it is
+     white on a primary button and body ink on a tertiary one, with no per-variant rule. */
+  .lock-glyph{width:var(--icon-xs);height:var(--icon-xs);flex:none;color:currentColor}
 
   /* ScrollShadow */
   .ssh{width:220px;height:96px;border:1px solid var(--stroke-border);border-radius:6px;background:var(--surface-card);position:relative;overflow:hidden}

@@ -184,8 +184,8 @@
     <!-- Plan toggle (mockup only) — Free renders the page the way a Free account sees it:
          the library, the filters and the groups stay readable, every action is locked. -->
     <div class="segctrl is-sm" role="tablist" aria-label="Plan" style="width:auto;flex:none">
-      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" style="padding:0 .5rem" onclick="mxSetPlan('paid',this)">Paid</button>
-      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" style="padding:0 .5rem" onclick="mxSetPlan('free',this)">Free</button>
+      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" style="padding:0 .5rem" data-plan-switch="paid">Paid</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" style="padding:0 .5rem" data-plan-switch="free">Free</button>
     </div>
     <div class="segctrl is-sm" id="mx-state-seg" role="tablist" aria-label="Demo state" style="width:auto;flex:none">
       <button class="segctrl-btn is-active" role="tab" type="button" aria-selected="true" data-state="empty" style="padding:0 .5rem" onclick="mxSetState('empty');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Empty</button>
@@ -1778,15 +1778,29 @@ function mxSetLinkType(type, btn) {
    the per-group Add Metric (a btn-xs) and inside a table row it is the same Badge with the lock
    glyph alone — the row has no width for a word, and the popover names the plan anyway. */
 function mxLockMark(plan){
+  /* Two forms, and the rule is the word: the pill exists to carry the plan NAME. Where the name
+     does not fit — a btn-xs, a table cell, a line of chrome — the marker is the padlock alone,
+     because a coloured chip holding nothing but a glyph is heavier than the glyph itself. */
+  if(!plan) return '<svg class="lock-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>';
   return '<span class="badge badge-sm badge-primary lock-mark">' +
-    '<svg class="b-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>' + (plan || '') + '</span>';
+    '<svg class="b-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>' + plan + '</span>';
 }
 function mxApplyPlan(){
   var free = document.documentElement.classList.contains('is-free');
+    /* The sidebar plan line follows the switch. A page that still says "Professional" while
+       every action on it is locked reads as a bug, not as a Free account. The paid wording is
+       whatever the page shipped with, remembered on first run. */
+    var meta = document.querySelector('.sbx-user-meta');
+    if(meta){
+      if(!meta.getAttribute('data-plan-paid')) meta.setAttribute('data-plan-paid', meta.textContent);
+      var paid = meta.getAttribute('data-plan-paid');
+      var sep = paid.indexOf('\u00b7');
+      meta.textContent = free ? (sep >= 0 ? paid.slice(0, sep + 1) + ' Free' : 'Free') : paid;
+    }
   function lock(sel, popId, plan){
     document.querySelectorAll(sel).forEach(function(el){
       el.classList.toggle('is-locked', free);
-      var mark = el.querySelector('.lock-mark');
+      var mark = el.querySelector('.lock-mark,.lock-glyph');
       if(free){
         el.setAttribute('aria-disabled','true');
         el.setAttribute('data-upgrade', popId);
@@ -1798,19 +1812,29 @@ function mxApplyPlan(){
       }
     });
   }
-  lock('#mx-add-custom-btn', 'mx-upop-metrics', 'Starter');
-  lock('#mx-newconn-btn',    'mx-upop-conn',    'Starter');
-  lock('.mx-add-metric-hover-btn', 'mx-upop-metrics', '');   /* glyph only — btn-xs */
-  lock('.mx-swt-wrap',       'mx-upop-metrics', null);       /* no marker inside a table cell */
+  /* Every action point the brief lists for this screen (M1, M3–M7). Reading is untouched:
+     filters, groups, search, a metric's details sheet and its definition all stay open. */
+  /* M3 — page head + per-group create. Buttons, so the padlock alone. */
+  lock('#mx-add-custom-btn', 'mx-upop-metrics', '');
+  lock('#mx-newconn-btn',    'mx-upop-conn',    '');
+  lock('.mx-add-metric-hover-btn', 'mx-upop-metrics', '');
+  /* M5 — the row's action menu. A menu row is wide and quiet, so it carries the plan NAME.
+     Delete is left alone, like Disconnect on Data Sources: removing what you already have is
+     not a paid feature (the brief parks it as an open question). */
+  lock('.mx-tbl .menu .mi:not(.danger)', 'mx-upop-metrics', 'Starter');
+  /* M4 — the activation switch, in the table and in the details sheet. */
+  lock('.mx-swt-wrap',       'mx-upop-metrics', null);
+  /* M6 — the details sheet's own actions: Edit, Duplicate, Connect {provider}. */
+  lock('#mx-edit-toggle,#mx-panel-cta .btn,#mx-panel-body .btn-primary', 'mx-upop-metrics', '');
+  /* M1 + M7 — the provider cards offering a connection, in the empty state and under a group.
+     Repeating cards carry no marker: 50 identical padlocks would be noise, and the popover
+     names the plan once. */
+  lock('.prov-card .btn',    'mx-upop-conn',    null);
 }
-function mxSetPlan(plan, btn){
-  document.documentElement.classList.toggle('is-free', plan === 'free');
-  mxApplyPlan();
-  if(btn){ var sibs=btn.parentNode.querySelectorAll('.segctrl-btn');
-    for(var i=0;i<sibs.length;i++){ sibs[i].setAttribute('aria-selected','false'); sibs[i].classList.remove('is-active'); }
-    btn.setAttribute('aria-selected','true'); btn.classList.add('is-active'); }
-}
-document.addEventListener('DOMContentLoaded', mxApplyPlan);
+/* The switch itself is kit-kit.js (section 7): it stores the choice, restores it on every
+   page and broadcasts `kit:plan`. What stays here is which of THIS page's controls the choice
+   gates — that is a property of the page, not of the kit. */
+document.addEventListener('kit:plan', mxApplyPlan);
 
 function mxSetState(v) {
   mxRoot.classList.toggle('is-filled', v === 'filled');
@@ -1986,6 +2010,9 @@ function mxOpenDetail(row) {
   mxPanelCta.style.display = ctaHtml ? '' : 'none';
   mxOv.classList.add('is-open');
   mxOv.setAttribute('aria-hidden', 'false');
+  /* The sheet is built here, after the plan pass has already run over the page — so the pass
+     runs again over what was just created. */
+  mxApplyPlan();
 }
 
 function mxCloseDetail() {

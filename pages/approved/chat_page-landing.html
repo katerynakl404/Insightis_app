@@ -161,8 +161,8 @@
     <div class="tb-concept" role="group" aria-label="Plan">
       <span class="tb-concept-lbl">Plan</span>
       <div class="segctrl is-sm" role="tablist" aria-label="Plan" style="width:auto">
-        <button class="segctrl-btn" type="button" role="tab" aria-selected="true" onclick="clSetPlan('paid',this)">Paid</button>
-        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetPlan('free',this)">Free</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="true" data-plan-switch="paid">Paid</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-plan-switch="free">Free</button>
       </div>
     </div>
     <div class="tb-concept" role="group" aria-label="Popover state (concept)" title="Open Connections or Add file in the composer to preview the selected state">
@@ -783,21 +783,47 @@
   function cpHideMention(){ var m=cpMenu(); if(m) m.classList.remove('is-open'); cpMentionCtx=null; cpHideMentionDetail(); }
   function cpRenderMention(q){
     var box=document.getElementById('cl-mention-list'); if(!box) return;
+    /* Free: the metrics the account already HAS are still shown, locked.
+       An account arrives on Free by letting a paid plan lapse, so its metrics are usually there
+       — defined, named, still attached to their sources. Hiding them would tell the person their
+       work is gone, which is both untrue and the one thing the brief rules out ("nothing is
+       deleted"). So the list renders as usual and every row is locked: the padlock replaces the
+       insert, hovering or clicking opens the Metrics popover, and nothing is inserted into the
+       question. An account that never had any gets the single "on paid plans" row instead —
+       there is no list to show, and the row still explains itself. */
+    var free = document.documentElement.classList.contains('is-free');
     var ql=q.toLowerCase();
     // Search matches the ALIAS (the primary handle you type + insert); the metric name is secondary.
     var hits=CP_METRICS.filter(function(m){ return m.alias.toLowerCase().indexOf(ql)>=0; });
-    if(!hits.length){ cpHideMention(); return; }        // nothing matches → hide entirely
+    if(!hits.length){
+      /* Free and nothing to show: the row that explains the feature stands in for the list. On a
+         paid plan an empty result is just an empty result — hide. */
+      if(free){
+        box.innerHTML =
+          '<div class="mi is-locked" role="option" aria-selected="false" aria-disabled="true" data-upgrade="cl-upop-metrics">' +
+          '<svg class="lock-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>' +
+          '<span class="cl-mention-text"><span class="cl-mention-alias">Metrics are on paid plans</span>' +
+          '<span class="cl-mention-name">Name a number once, then use it in any question</span></span></div>';
+        var mEmpty=cpMenu(); if(mEmpty) mEmpty.classList.add('is-open');
+        return;
+      }
+      cpHideMention(); return;
+    }
     // Each row: source logo + alias primary (bold+coloured match) + name secondary. The FIRST row
     // is highlighted (.is-active) on open; arrow-nav / :hover move it from there.
     box.innerHTML=hits.map(function(m,i){
       // Each row leads with the connector logo of the metric's source (32px, own left column).
       var cls=CP_SOURCE_LOGO[m.source]||'database';
-      return '<div class="mi cl-mention-item'+(i===0?' is-active':'')+'" role="option" aria-selected="'+(i===0?'true':'false')+'" '+
+      /* Locked rows keep the active highlight off: there is nothing to pick, so nothing leads. */
+      return '<div class="mi cl-mention-item'+(free?' is-locked':(i===0?' is-active':''))+'" role="option" aria-selected="'+(!free&&i===0?'true':'false')+'" '+
         'data-name="'+cpEsc(m.name)+'" data-alias="'+cpEsc(m.alias)+'" '+
-        'onmousedown="event.preventDefault()" onclick="cpInsertMention(this)">'+
+        (free?'aria-disabled="true" data-upgrade="cl-upop-metrics" ':'')+
+        'onmousedown="event.preventDefault()" '+(free?'':'onclick="cpInsertMention(this)"')+'>'+
         '<span class="logo-spr '+cls+' cl-mention-logo" role="img" aria-label="'+cpEsc(m.source)+' logo"></span>'+
         '<span class="cl-mention-text"><span class="cl-mention-alias">@'+cpHl(m.alias,q)+'</span>'+
-        '<span class="cl-mention-name">'+cpEsc(m.name)+'</span></span></div>';
+        '<span class="cl-mention-name">'+cpEsc(m.name)+'</span></span>'+
+        /* The padlock sits where the pick used to be — the row keeps its logo and its words. */
+        (free?'<svg class="lock-glyph" viewBox="0 0 24 24" aria-hidden="true" style="margin-left:auto"><use href="#mi-lock"/></svg>':'')+'</div>';
     }).join('');
     var m=cpMenu(); if(m) m.classList.add('is-open');
   }
@@ -1149,6 +1175,16 @@
   }
   function clApplyPlan(){
     var free = document.documentElement.classList.contains('is-free');
+    /* The sidebar plan line follows the switch. A page that still says "Professional" while
+       every action on it is locked reads as a bug, not as a Free account. The paid wording is
+       whatever the page shipped with, remembered on first run. */
+    var meta = document.querySelector('.sbx-user-meta');
+    if(meta){
+      if(!meta.getAttribute('data-plan-paid')) meta.setAttribute('data-plan-paid', meta.textContent);
+      var paid = meta.getAttribute('data-plan-paid');
+      var sep = paid.indexOf('\u00b7');
+      meta.textContent = free ? (sep >= 0 ? paid.slice(0, sep + 1) + ' Free' : 'Free') : paid;
+    }
     document.querySelectorAll('#cl-model-list .cl-model-item').forEach(function(row){
       var name = (row.querySelector('.cl-model-name')||{}).textContent || '';
       var lock = CL_MODEL_LOCK[name.trim()];
@@ -1162,13 +1198,19 @@
          would promise an answer the assistant cannot give. */
       if(free && sw){ sw.setAttribute('aria-checked','false'); sw.classList.remove('on'); }
     });
+    var conn = document.querySelector('.cl-dropdown-wrap .cl-conn-menu');
+    var trig = conn && conn.parentElement.querySelector('.cl-dropdown');
+    if(trig){
+      var g = trig.querySelector('.lock-glyph');
+      if(free && !g) trig.insertAdjacentHTML('beforeend', clLockGlyph());
+      if(!free && g) g.remove();
+    }
   }
-  function clSetPlan(plan, btn){
-    document.documentElement.classList.toggle('is-free', plan === 'free');
-    clApplyPlan();
-    if(btn){ var sibs=btn.parentNode.querySelectorAll('.segctrl-btn');
-      for(var i=0;i<sibs.length;i++) sibs[i].setAttribute('aria-selected','false');
-      btn.setAttribute('aria-selected','true'); }
+  /* The composer's Connections trigger carries the padlock ALONE — no pill, no plan name. The
+     control is one line of chrome at the bottom of the composer; a named chip there reads as a
+     second control. The name belongs in the popover the trigger opens. */
+  function clLockGlyph(){
+    return '<svg class="lock-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>';
   }
   /* Both popovers rebuild their rows from scratch on open, which would drop the locks — so the
      pass rides on the renderers rather than being called from each of their call sites. */
@@ -1177,7 +1219,10 @@
     clRenderConn = function(){ rc.apply(null, arguments); clApplyPlan(); };
     clRenderModels = function(){ rm.apply(null, arguments); clApplyPlan(); };
   })();
-  document.addEventListener('DOMContentLoaded', clApplyPlan);
+  /* The switch itself is kit-kit.js (section 7): it stores the choice, restores it on every
+     page and broadcasts `kit:plan`. What stays here is which of THIS page's controls the
+     choice gates — that is a property of the page, not of the kit. */
+  document.addEventListener('kit:plan', clApplyPlan);
 
   function clSetPopState(state, btn){
     clPopState=state;
@@ -1496,6 +1541,17 @@ document.addEventListener('click', function(e){
     <ul class="feat-list">
       <li>Ask about live data from your tools, not only uploaded files</li>
       <li>Five connections on Starter, no limit on Pro</li>
+    </ul>
+    <p class="pop-up-plan">From the Starter plan</p>
+    <button class="btn btn-primary btn-sm" type="button">See Plans</button>
+  </div>
+</div>
+<div class="pop pop-upgrade" id="cl-upop-metrics" role="dialog" aria-label="Metrics" hidden>
+  <div class="pop-up-head"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-metrics"/></svg>Metrics</div>
+  <div class="pop-up-body">
+    <ul class="feat-list">
+      <li>Name a number once — MRR, win rate — and use it in any question</li>
+      <li>Every connection brings its own built-in metrics</li>
     </ul>
     <p class="pop-up-plan">From the Starter plan</p>
     <button class="btn btn-primary btn-sm" type="button">See Plans</button>

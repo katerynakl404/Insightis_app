@@ -1,283 +1,188 @@
-# AIINS-1808 — Message queue in AI Chat
+# Очередь сообщений в AI Chat — исправленная редакция ТЗ
 
-**Corrected specification.** Epic INS-MJ9P · stories AIINS-1806 / 1810 / 1813. Supersedes the original AIINS-1808 text.
+Markdown-зеркало исправленного ТЗ AIINS-1808. Полная вёрстанная редакция с мокапами — [артефакт](https://claude.ai/artifact/LS1EXJzTgkAxiotPT7E99R).
 
-Built against: [`../pages/concept/chat_page-queue.html`](../pages/concept/chat_page-queue.html) · screen diff [`../page-changes/chat_page-queue.md`](../page-changes/chat_page-queue.md).
+Эпик INS-MJ9P · AIINS-1806 / 1810 / 1813. Исходный черновик 28.09.2026, эта редакция 02.10.2026 — после того, как экран собран.
 
-> **How corrections are marked.** Nothing is removed quietly. Where this document drops something the original asked for, the original wording stays on the page ~~struck through~~ with a **`DELETED`** note and the reason. Where it adds something the original has no entry for, the heading carries **`NEW`**. Everything unmarked is the original requirement, unchanged.
+Собрано на: [`../pages/concept/chat_page-queue.html`](../pages/concept/chat_page-queue.html) · диффы экрана [`../page-changes/chat_page-queue.md`](../page-changes/chat_page-queue.md).
 
----
-
-## 1. The problem
-
-While the assistant is answering, the person cannot say anything. Send is replaced by Stop in the same slot, Enter does nothing, and text typed during a reply has no stated fate — it sits in the field, and whether it will ever be sent is something the person has to guess.
-
-This is not an edge case. The most common moment to think of a follow-up is while reading the answer to the last one.
-
-## 2. What we are building
-
-A **queue**: a holding area between the conversation and the composer. Anything typed during a reply goes into it, in order, and leaves it one message at a time as the assistant becomes free. Until a message is sent, it is fully the person's: they can reorder it, edit it, or remove it.
-
-The queue is a promise the product makes. Every rule below exists to make that promise legible: what is waiting, in what order, when it will go, and what to do when it cannot.
+> **Как читать.** ~~Зачёркнуто~~ = **УДАЛЕНО**, с причиной рядом; текст оставлен на месте, ничего не убрано молча. **ДОБАВЛЕНО** = того, что в исходном ТЗ не было, а экрану понадобилось. Остальное — исходное требование без изменений.
 
 ---
 
-## 3. The model
+## 03 · Поведение — правила
 
-A queue belongs to **one chat**. It holds messages; each message has text and, optionally, one attachment.
+**R1** Enter во время ответа ставит в очередь. **R2** Одно сообщение за ход. **R5** Всё можно поменять до отправки. **R7** Четыре причины паузы. **R8** Пауза ничего не теряет и не тратит. **R9** Resume ждёт границы хода. **R10** Очередь принадлежит чату. — без изменений.
 
-| Property | Rule |
-|---|---|
-| Order | explicit, 1-based, shown on every row. Order decides what is asked next. |
-| Capacity | **unbounded.** |
-| Lifetime | survives a page reload. |
-| Ownership | every message is editable and removable until the moment it is sent. |
-| Draining | one message leaves per completed turn, from the front. |
+**R3 · Только на границе хода** — усилено.
+Ответ, который выглядит законченным, ещё не законченный ход. Это же правило теперь отвечает за заголовок полосы: он **никогда** не реагирует на то, идёт ли текст. Состояние B5 существовало только чтобы это показать, и удалено — правило проверяется здесь.
 
-> ~~**Capacity: maximum 10 messages. At 10 the queue is full: the counter reads `10 / 10 · Full`, turns Attention, and Send is disabled with a tooltip giving the reason.**~~
-> **`DELETED`** — the limit was dropped from the feature. With it go the `n / 10` counter, the attention state at the ceiling, the disabled Send that confirmed it, and state **B3**. A queue that cannot fill cannot have a full state. The counter is now a sentence, not a ratio.
+~~**R4 · Stop и очередь — разные кнопки.**~~ → **УДАЛЕНО, заменено.**
+**Одна кнопка, два лица.** Stop — пока поле пустое; как только появился текст, это Send. Ошибочное нажатие, от которого защищало R4, требует текста в поле, а с текстом в поле Stop здесь не бывает: два контрола рядом — это и есть то, что порождает промах. Принятое следствие, названное прямо: с черновиком в поле кнопки Stop нет, чтобы остановить ответ — очистить поле. *Решение владельца дизайна, 29.09.2026.*
 
-### 3.1 When a turn is over
+~~**R6 · Редактируемое не уходит.**~~ → **УДАЛЕНО, отпало вместе с C2.**
+«Редактировать» **забирает** сообщение из очереди и возвращает его текст и вложение в композер. Сообщения «в режиме правки внутри очереди» не существует: нечего держать, нечего сохранять, нечего отменять. Заодно это главная защита от того, чтобы строка очереди читалась как второе поле ввода — в полосе вообще нет ничего, куда можно печатать.
 
-A turn ends when the assistant has finished everything it is doing — including a tool call or a Python run that produces no visible text. **An answer that looks finished is not a finished turn.** The queue waits for the turn, never for the text to stop arriving.
+**R11 · Перезагрузка предупреждает** — исправлено.
+После reload текст сообщений восстановлен, ~~вложения нет, и мы об этом говорим~~ — **вложение переживает перезагрузку вместе с сообщением**. Ни текста «attach it again», ни состояния C6b не нужно.
 
-> ~~**State B5 — "reply looks finished, turn is not": the band must show that the queue is still waiting although the text has stopped."**~~
-> **`DELETED` as a state, kept as a rule.** B5 rendered pixel-identical to B2, because the correct behaviour is that *nothing changes*. A state whose entire content is "the picture does not change" documents the same picture twice. The requirement now lives here, where it can be tested.
+~~**R12 · Лимит 10.**~~ → **УДАЛЕНО, лимит убран из фичи.**
+Очередь **без потолка**. Вместе с лимитом ушло всё, что его обслуживало: счётчик `n / 10`, состояние Attention на пределе, неактивный Send и состояние **B3**. Очередь, которая не может наполниться, не может иметь состояния «полна».
 
 ---
 
-## 4. The composer
+## 05 · Каталог состояний
 
-### 4.1 One action, two faces
+### A · Композер
 
-The composer has **one** action control. It shows **Stop** while a reply is running *and the field is empty*; otherwise it shows **Send**.
+**A1** — без изменений.
 
-> ~~**Stop and Send/Queue are two separate buttons side by side.**~~
-> **`DELETED`** — two controls next to each other is what *creates* the mis-click the requirement was written to prevent: aiming to send a question and stopping the answer instead. That mistake needs text in the field, and with text in the field this slot is always Send, so the mis-click has nowhere to happen. (Design owner, 2026-09-29.)
->
-> **Accepted consequence, stated rather than hidden:** with a draft in the field there is no Stop. To stop the reply, clear the field.
+**A2 · Ответ идёт, поле пустое** — исправлено. Отдельной кнопки очереди нет. Пока поле пустое и идёт ответ, в слоте **Stop**. Прыжков раскладки не бывает по построению: контрол всегда один.
 
-### 4.2 Enter and the placeholder
+**A3 · Ответ идёт, текст набран** — исправлено. Как только в поле появился текст, слот — **Send**, и Enter ставит в очередь. Запрет «кнопка, которая по умолчанию Stop, а при вводе превращается в Queue» снят: опасной была не смена лица, а **соседство двух кнопок**.
 
-- During a reply, **Enter queues**. It does not send, and it does not do nothing.
-- The placeholder says so: `Ask a follow-up — it will wait its turn`, replacing the idle `Ask anything about your data…`.
-- Queueing is announced to assistive tech as *"Queued, N waiting"*.
+~~**A4 · Мобильная ширина**~~ → **УДАЛЕНО: это не состояние, а ширина.**
+Все состояния адаптивны; отдельная запись утверждала бы, что остальные — нет. Поведение осталось: `< 768px` — действие композера становится иконкой 40×40, действия строки видны постоянно, полоса ужимает отступы. Вопрос «сколько строк видно на телефоне» снят вместе с клампом (см. B2).
 
-Nothing else explains queueing — no tour, no hint card. The placeholder, the control and the band appearing are the explanation.
+### B · Полоса очереди
 
-### 4.3 Attachments
+~~**B0 · Пустая: полосы нет**~~ → **УДАЛЕНО: это отсутствие полосы.**
+«Пустая очередь» — это **A1**. Отдельная запись приглашает нарисовать пустую рамку, а именно её и нельзя. Анимации появления первой строки и исчезновения последней сделаны, композер при этом не двигается.
 
-A message is queued **with its attachment**. The file travels with the text, is shown on the row, and comes back to the composer with it if the message is edited.
+**B1** — без изменений.
 
-> ~~**State C6b — the attachment is lost after a reload; the row shows the message without its file.**~~
-> **`DELETED`** — a queued file stays linked across a reload. The state cannot occur, and specifying it would ask the designer to draw a failure the system does not have.
+**B2 · Несколько сообщений** — исправлено, две вещи.
+- **Текст переносится, а не обрезается.** Сообщение в очереди — то, что человек вот-вот отправит, и он должен прочитать его целиком *до* отправки. Раз ничего не спрятано, тултип нечему восстанавливать — убран вместе с обрезкой. На перенесённой строке номер и действия держатся **первой строки**.
+- ~~«+N more»~~ → **измеряемый Expand.** Вопрос «сколько строк видно» (и Q7) снят: при переносе и вложениях **три строки могут не поместиться, а пять поместиться**. Полоса меряет себя: свёрнутая — три строки и скролл; Expand появляется ровно тогда, когда что-то обрезано, и **отсутствует**, а не выключен, когда нет; развёрнутая берёт **половину экрана**. Стрелка смотрит **вверх** — панель растёт вверх из композера. Края скролла гаснут маской, сверху тоже.
 
----
+~~**B3 · Очередь полна (10 из 10)**~~ → **УДАЛЕНО вместе с лимитом (R12).**
+Ушли счётчик `10 of 10`, метка Attention, неактивная кнопка и текст `Queue is full…`.
 
-## 5. The band
+**B4 · Сообщение уходит** — уточнено. Строка уходит анимацией `row-out`: сначала **гаснет**, и только потом схлопывается. Гасить и сжимать одновременно — та версия, которая выглядит резко: строка ещё читается, а список под ней уже едет.
 
-The strip between the conversation and the composer.
+~~**B5 · Ответ «закончился», но ход нет**~~ → **УДАЛЕНО как состояние, осталось правилом.**
+B5 рисуется **пиксель в пиксель как B2**, потому что правильное поведение здесь — что **ничего не меняется**. Состояние, всё содержание которого «картинка не меняется», показывает ту же картинку дважды. Переехало в R3.
 
-### 5.1 It exists only when it holds something
+### C · Элемент очереди
 
-No empty frame, no zero-height placeholder, no "0 queued". The space directly above the composer is the most-used area of the product and is never spent on a container with nothing in it.
+**C1 · Покой и hover/focus** — исправлено. Действий **два**, плюс ручка: перетащить · редактировать · удалить. «Вверх/вниз» убраны — они в третий раз повторяли ручку и клавиатуру, а после их удаления в кебабе остался один пункт, то есть меню, существующее чтобы спрятать одну кнопку. Ручка — не кнопка: поверхность, за которую тянут, без фона и hover-пилюли.
 
-> ~~**State B0 — empty queue.**~~
-> **`DELETED`** — "empty queue" is *no band at all*, which is already state **A1**. An entry for it invites an empty frame to be designed.
+~~**C2 · Редактирование на месте**~~ → **УДАЛЕНО: правка — не редактор.**
+«Редактировать» забирает сообщение из очереди и кладёт его текст и вложение обратно в **композер**, курсор в конец. Второй пишущей поверхности в продукте нет, и в полосе её не появляется. Снимает R6 и C5.
 
-### 5.2 It is part of the composer, not a tray on top of it
+**C3 · Перемещение** — принято. **Alt+↑ / Alt+↓** реализовано как равный путь, а не обходной. Во время перетаскивания список не меняет, сколько строк видно: открыть спрятанный хвост под курсором — значит увести список из-под руки.
 
-Same surface family, same corner, directly above it — the band and the composer read as one stack. The contrast that separates the rows is carried by the rows themselves on hover, not by darkening the tray.
+**C4 · Удаление** — принято и доработано. «Без подтверждения, но с Undo на месте строки» принято, плюс три вещи:
+- **Строка заменяется на месте, одним движением.** Коробка остаётся, высота идёт *между* двумя значениями и никогда через ноль. Схлопнуть в ноль и потом развернуть — два события: список закрывает дыру и тут же рвёт её обратно. Undo — то же движение назад.
+- **Несколько удалений — несколько заметок**, каждая на своём месте, со своим Undo и своими часами. Одна общая заставила бы второй Undo вернуть не то сообщение.
+- **Окно отмены — 4 секунды**, столько же, сколько даёт тост; значение вынесено в токен `--undo-window` в дизайн-системе.
 
-### 5.3 The header
+Удаление **последнего** сообщения уносит полосу, а с ней и отмену: полоса, живая только ради строки «Message removed», показывает заголовок, считающий очередь, которой уже нет.
 
-One line: the count, and when the queue leaves — `3 queued · sends after this reply`. The wording does not change while a tool call runs (§ 3.1).
+~~**C5 · Правка в момент, когда подошла очередь**~~ → **УДАЛЕНО: нечего рисовать.**
+Сообщения, которое правят *внутри* очереди, не существует. Вопрос Q4 снят вместе с состоянием.
 
-### 5.4 It grows upward
+**C6 · Сообщение с вложением** — исправлено. **Файл стоит под текстом**, в той же колонке тела строки: сбоку чип оторван от предложения, а на длинном сообщении ему негде встать. Состояния «файл потерялся» нет — вложение переживает reload (R11).
 
-Adding a message must not move the composer. The band is stacked above it and the conversation absorbs the height, so the control under the pointer stays where it is.
+### D · Паузы
 
-### 5.5 Height, scrolling and Expand — **`NEW`**
+Четыре причины, различимые **до чтения текста**: разная *форма* глифа до всякого цвета и разное основное действие.
 
-The original has no entry for a queue longer than the box.
-
-- Collapsed, the list is three rows tall and scrolls, pinned to its end so the message just added is the one on screen.
-- **Whether anything is hidden is measured, never counted.** With wrapping and attachments, three rows can overflow and five can fit, so a row count cannot answer the question.
-- **Expand appears exactly when the list is clipped** — and is *absent*, not disabled, when it is not. There is nothing for it to do.
-- **Expand points up.** The panel grows upward out of the composer, so the arrow points the way the panel will move. It turns back down once open.
-- Expanded, the band may take **half the screen**. The queue and the conversation then get the same room, and neither reads as the subordinate one.
-- The scroller's edges fade where there is more content past them — top as well as bottom, because a scroller that has been scrolled has content above it too.
-
----
-
-## 6. The row
-
-### 6.1 It must never read as an input
-
-This is the single biggest risk in the feature: a queued row mistaken for a second text field and typed into. The row is borderless, transparent, on the band's own surface, with a default cursor — and because editing moves the text to the composer (§ 6.4), **nothing in the band is ever typeable**.
-
-### 6.2 Text wraps
-
-A row shows its message in full, on as many lines as it needs. Nothing truncates.
-
-> ~~**The message is truncated to one line; the full text is available in a tooltip and in edit mode.**~~
-> **`DELETED`** — a queued message is something the person is about to send, and they have to be able to read all of it before they do. With nothing hidden there is nothing for a tooltip to recover, so the tooltip went with the truncation.
-
-On a wrapped row, the order number and the row's controls stay aligned to the **first line**. Centred on the whole row they drift into the middle of a paragraph and stop reading as that message's marker.
-
-### 6.3 Two controls, plus the grip
-
-Drag grip · Edit · Remove. That is the whole set, revealed on hover **or focus-within**, so the row is never mouse-only.
-
-> ~~**Remove sits in a row kebab menu, together with Move up and Move down.**~~
-> **`DELETED`** — Move up/down duplicated the drag grip and the keyboard path for a third time. Once they were gone the kebab held a single item, which is a menu whose only purpose is to hide one button. Removal is cheap to undo (§ 6.5), so it does not need hiding.
-
-The grip is a surface you drag, not a button you press: no hover pill, no button background.
-
-### 6.4 Edit is not an editor
-
-Edit takes the message **out** of the queue and puts its text — and its attachment — back into the composer, with the caret at the end. There is no second writing surface in the product, and the band never contains one.
-
-> ~~**R6 — while a message is being edited, the turn is held.** / ~~**C5 — the state of a message being edited while still in the queue.**~~
-> **`DELETED`** — there is no message being edited *while queued*: editing removes it. So there is no turn to hold, nothing to save, nothing to cancel, and no state to draw. (Design owner, 2026-09-29.)
-
-### 6.5 Removal is undoable — **`NEW`**
-
-The original describes removal as a single destructive act. It is not, and the difference changes the interaction.
-
-- Removing needs **no confirmation step**. The way back is offered after the fact instead of permission being asked before it.
-- The row is **replaced in place** by a note carrying **Undo**. The note takes the gap the message left — at the top of the list it reads as a new event arriving rather than as the hole where something was.
-- The note leaves on its own after a fixed window, the same length the product gives a toast. An undo that floats past and an undo that sits in a list must give the same amount of time.
-- **Several removals are several notes**, each in its own place, with its own Undo and its own clock. They were removed at different moments and they leave at different moments. One shared note would quietly make the second Undo restore the wrong message.
-- Removing the **last** message takes the band with it, and the undo with it. Accepted: a band kept alive only to say "Message removed" shows a header counting a queue that no longer exists.
-
-### 6.6 Reordering
-
-Drag the grip, or **Alt + ↑ / ↓** from the keyboard. The drag is never the only path.
-
-> ~~**C1–C6 — row states: rest, hover, menu open, dragging, drop target, removed, with attachment.**~~
-> **`DELETED` as screen states.** They are not states of the screen — they work on every state that has rows. Fixed as separate entries they documented a row that can only exist standing still. They remain states of the row *component*, specified in [QueueItem](../changes/QueueItem.md).
-
----
-
-## 7. Pauses
-
-The queue stops sending and says why. Four causes, and they must be distinguishable **before any text is read** — a different glyph *shape* first, then colour, and a different primary action.
-
-| Cause | Reads | Primary action | Also |
+| ID | Заголовок | Основное | Ещё |
 |---|---|---|---|
-| The assistant asked a question | *Waiting for your answer* | — (answer the card) | — |
-| The last reply failed | *The last reply didn't finish* | Resume | Retry |
-| Out of credits | *You're out of credits* — "nothing was charged" | Buy Credits | — |
-| The person pressed Stop | *You stopped the reply* | Resume | Clear Queue |
+| D1 | `Waiting for your answer` | — (ответить на карточку) | — |
+| D2 | `The last reply didn’t finish` | Resume | Retry |
+| D3 | `You’re out of credits` | Buy Credits | — |
+| D4 | `You stopped the reply` | Resume | Clear Queue |
 
-Supporting line always says what is held: *"N messages are on hold"*.
+Общий префикс ~~`Queue paused ·`~~ снят со всех четырёх: один каркас четыре раза читается как шаблон, а полоса и так видимо стоит. Подпись — `{n} messages are on hold`; ~~`nothing sent or charged` на всех четырёх~~ → **только на кредитах**: деньги — единственное здесь, что дорого стоит, если понять неправильно.
 
-**Copy rules.** The title is the cause in the words a person would use; the description is what it means for the work they already did. No shared `Queue paused ·` prefix — the same scaffold four times reads as a template, and the band is visibly stopped anyway. *"Nothing was charged"* appears on exactly one of the four, because money is the only one of these that costs anything to get wrong.
+**Clear Queue — только на нейтральной паузе (D4).** Где пауза называет проблему, выход — разобраться с ней, а «выбросить всё» рядом с Retry или Buy Credits читается как предложение сдаться за пользователя.
 
-**Clear Queue appears only on the neutral pause.** Where the pause names a problem — an unanswered question, a failed reply, an empty balance — the way out is to deal with the problem, and "empty it all" sitting beside *Retry* or *Buy Credits* reads as the product offering to give up on the person's behalf.
+**D1** дополнительно: карточка перекрывает чат и композер целиком — вопрос, мимо которого можно напечатать, читается как необязательный.
 
-**Paused, the rows fold away** behind *Show N Queued Messages*. The thing that actually needs doing is then the only thing competing for attention. The rows stay reachable — everything is editable until it is sent, so this is a disclosure, not a lockout.
+~~**D5 · Resume, пока идёт ответ**~~ → **УДАЛЕНО: не состояние.**
+Resume возвращает очередь в ожидание, и заголовок полосы уже говорит «sends after this reply». Алерт `Resumed · sends after this reply` повторял заголовок. R9 в силе.
 
-**Resume** puts the queue back to waiting. It is the only thing that sends a held queue, and no copy anywhere may promise sending without it.
+### E · Перезагрузка и навигация
 
-> ~~**States D1b and D5.**~~
-> **`DELETED`** — both restate a pause already covered above with different wording. D5 in particular ("resumed while a reply is still running") is not a state: the queue goes back to waiting and the header already says it sends after this reply.
+**E1 · Предупреждение перед уходом** — сделано: системный диалог размера **S**, где **Leave деструктивна** (выбрасывает набранное и вложения). Текст про «вложения не сохраняются» убран — сохраняются.
 
----
+**E2 · После перезагрузки** — исправлено. Вопрос Q2 решён: **стоит на паузе**. `{n} messages restored` · `Nothing sends until you resume`, рядом Resume. Копия больше **не обещает того, что опровергает видимый контрол**: прежняя говорила «уйдут после этого ответа», показывая Resume, который и есть единственное, что их отправляет. Где очередь законно продолжает сама — `Sending after this reply`, без кнопки.
 
-## 8. Reload
+**E3 · Очередь в другом чате** — **ДОБАВЛЕНО, разделено надвое.** Вопрос Q3 решён: счётчик в списке чатов нужен, очередь продолжает уходить. Но это два разных положения дел:
+- **E3 — заполненный счётчик**: та очередь всё ещё отправляет сама.
+- **E3b — тихий счётчик**: та очередь остановилась и ждёт человека.
 
-The queue survives. On return it is **held**, not running: *"N messages restored — nothing sends until you resume"*, with Resume.
+Счётчик не дублирует выделение строки и уступает угол меню строки, а не рисуется поверх него.
 
-Where the queue legitimately picks itself back up, the same notice states the fact and offers nothing to press: *"N messages restored — sending after this reply"*. **Copy must never describe an outcome the visible control contradicts.**
-
-> ~~**State E1.**~~
-> **`DELETED`** — says with different words what the restored state above says, and that one carries the control that makes the difference legible.
-
----
-
-## 9. A queue in another chat — **`NEW`**
-
-The original stops at the open chat. A queue that keeps working while the person reads somewhere else has to say so where they are.
-
-The chat's row in the sidebar carries a **count**:
-
-- **filled** — that queue is still sending on its own;
-- **quiet** — that queue has stopped and is waiting for a person.
-
-Two different situations. A queue working is not a queue stuck. The count never doubles as a selection indicator — the row already shows which chat is open — and it hands its corner over to the row's own menu rather than drawing on top of it.
+~~**C1–C6 как состояния экрана**~~ → **УДАЛЕНО как раздел.** Hover, focus, drag, removed и вложение работают на каждом состоянии, где есть строки. Зафиксированные отдельными записями, они документировали строку, которая умеет только стоять. Остались состояниями *компонента* — [QueueItem](../changes/QueueItem.md).
 
 ---
 
-## 10. Leaving with work pending
+## 07 · Взаимодействие
 
-Navigating away with a non-empty queue raises a confirmation. **Leave is destructive**: it throws away queued text and its attachments.
+| Действие | Где | Результат | |
+|---|---|---|---|
+| `Enter` | композер, идёт ответ | в очередь, поле очищено | обязательно |
+| `Enter` | композер, ответа нет | отправка | обязательно |
+| `Shift+Enter` | композер | перенос строки | обязательно |
+| ~~`Enter` / `Esc`~~ | ~~строка в правке~~ | режима правки внутри очереди нет (C2) | **УДАЛЕНО** |
+| `Alt+↑/↓` | строка в фокусе | переместить | обязательно |
+| `Tab` | строка очереди | внутрь, к действиям: `focus-within` открывает то же, что hover | **ДОБАВЛЕНО** |
+| перетаскивание | ручка строки | переставить | обязательно |
+
+**Анимация.** Появление строки из композера вверх. **ДОБАВЛЕНО:** удаление — это *замена на месте*, не исчезновение; уход строки — сначала гаснет, потом схлопывается. `prefers-reduced-motion` **укорачивает** анимацию до одного кадра, а не выключает: элемент снимается по концу своей анимации. Все четыре движения живут в дизайн-системе (`row-in`, `row-out`, `row-swap-in`, `row-swap-out`), а не в странице.
 
 ---
 
-## 11. The state list
+## 08 · Тексты
 
-Sixteen states, all on one screen, switchable from the review strip; `Live` leaves the page free to interact with.
+Это **финальные** тексты, а не черновики — они стоят на экране.
 
-| | |
+| Где | Текст |
 |---|---|
-| `Live` | free interaction — type during a reply, queue, reorder, edit, remove, undo, stop, resume |
-| `A1` | no reply running |
-| `A2` | reply running, composer empty |
-| `A3` | reply running, text entered |
-| `B1` | one message waiting |
-| `B2` | several messages |
-| `B2f` | **`NEW`** — a queued message carrying a file |
-| `B4` | messages leaving one by one |
-| `D1` | waiting on a Confirmation Card |
-| `D2` | last reply failed |
-| `D3` | out of credits |
-| `D4` | the person pressed Stop |
-| `E2` | after a reload |
-| `E3` | **`NEW`** — a queue in another chat, running |
-| `E3b` | **`NEW`** — a queue in another chat, stopped |
-| `Q2` | after a reload, the queue continues |
+| плейсхолдер во время ответа | `Ask a follow-up — it will wait its turn` |
+| заголовок полосы | `{n} queued · sends after this reply` |
+| Expand | `Expand` · `Collapse` |
+| действия строки | `Edit` · `Remove` · `Drag to reorder` |
+| удалено | `Message removed` · `Undo` |
+| паузы | `Waiting for your answer` · `The last reply didn’t finish` · `You’re out of credits` · `You stopped the reply` |
+| подпись пауз | `{n} messages are on hold` (+ `— nothing was charged` только на кредитах) |
+| кнопки пауз | `Retry` · `Buy Credits` · `Clear Queue` · `Resume` |
+| развернуть на паузе | `Show {n} Queued Messages` · `Hide Queue` |
+| уход со страницы | `Leave with {n} queued messages?` |
+| после перезагрузки | `{n} messages restored` · `Nothing sends until you resume` |
 
-> ~~**State A4 — mobile.**~~
-> **`DELETED`** — every state is responsive. A separate mobile entry asserts that the others are not, and it fixes one width as if it were a condition. Narrow the window on any state instead.
-
-**B2f** exists because the attachment's *placement* is a decision, not a property: the file sits **under** the text it belongs to. Beside it, the chip is cut adrift from its own sentence and on a long message has nowhere to sit at all.
+**УДАЛЕНО:** ~~`Queue`~~ и ~~тултип кнопки очереди~~ (кнопки нет), ~~`Next`~~ (порядок читается по номерам), ~~`+{n} more`~~, ~~`Queue is full…`~~, ~~`Save · Cancel · Enter to save · Esc to cancel`~~, ~~`Your turn is held…`~~, ~~`Resumed · sends after this reply`~~.
 
 ---
 
-## 12. Responsive
+## 10 · Что сдано
 
-- **< 768px** — the band tightens its padding; the composer's action becomes an icon-only square; row controls are permanently visible, because there is no hover to reveal them with.
-- **< 1024px** — the sidebar becomes the off-canvas drawer; row controls stop hiding behind hover, matching the app's own breakpoint.
+Вместо набора артбордов на состояние — **один живой экран**. Причина в самом ТЗ: оно требует проверить, что композер не прыгает, что строку нельзя принять за поле ввода и что паузы различимы. Ни одно не проверяется на отдельных картинках.
 
-Everything else is the approved chat screen's behaviour, inherited unchanged.
-
----
-
-## 13. Accessibility
-
-- The band is a labelled region, reachable as a landmark rather than as loose content above the field.
-- Every control is reachable from the keyboard; `focus-within` reveals exactly what hover reveals.
-- Reordering has a keyboard path (**Alt + ↑ / ↓**) that is not a workaround for the drag but an equal route.
-- Queueing, removal, undo, edit and clearing are announced in a live region. An announcement is built from the captured message, never read back from state after the re-render.
-- Expand carries `aria-expanded` and a label naming the action, not the glyph.
-- Nothing is carried by colour alone: order is a number, a pause has its own glyph shape, an attachment is a named chip.
-- Reduced motion **shortens** every animation to a single frame rather than removing it — elements retire on their animation's end, so removing the animation would remove the retirement with it.
+- Экран со всеми состояниями — [`chat_page-queue.html`](../pages/concept/chat_page-queue.html): 16 состояний плюс Live.
+- Светлая/тёмная тема и адаптив — на самом экране, не отдельными макетами.
+- Анимации в прототипе на CSS, с `prefers-reduced-motion`.
+- **Компонентная разбивка — в ките Insightis:** [QueueBand](../changes/QueueBand.md) · [QueueItem](../changes/QueueItem.md) · [Alert](../changes/Alert.md) · [Counter](../changes/Counter.md) · [Radio](../changes/Radio.md) · [ConfirmationCard](../changes/ConfirmationCard.md) · [SortableList](../changes/SortableList.md) · [ThinkingIndicator](../changes/ThinkingIndicator.md) · [ChatShell](../changes/ChatShell.md).
+- **Правки в devart.ui.react** (раздел 09 просил называть их явно): `Counter`, `Alert`, токен `--undo-window`, движения `row-in` / `row-swap-in` / `row-swap-out`. Каждое отдельным changeset.
+- Чат-оболочка и композер вынесены в кит: жили в четырёх страницах как четыре копии, и копии успели разойтись.
 
 ---
 
-## 14. Out of scope
+## 11 · Открытые вопросы
 
-Thread rendering, tool-call traces, Python execution, connections and model dropdowns, message cost — untouched. Editing or recalling an already-sent message is out of scope, as is **Send now** (phase 2; the row keeps the slot for it).
+| # | Решение | |
+|---|---|---|
+| Q1 | **В конец.** Пауза значит «держим»; сообщение, обогнавшее очередь, сделало бы паузу необязательной. | решено |
+| Q2 | **Стоит на паузе** — см. E2. | решено |
+| Q3 | **Уходит, индикатор нужен и двухсоставный** — E3 / E3b. | решено |
+| Q4 | Вопроса нет: правка забирает сообщение из очереди. | отпал |
+| Q5 | Пауза несёт **свой** Retry вторичным действием. Если в ленте появится собственный — свести. | решено |
+| Q6 | Доступа к состоянию сжатия (INS-ULRG) на проде не было, свести к одному виду не на чем. | **открыт** |
+| Q7 | **Снят целиком.** Ответом не может быть число: три строки могут не поместиться, а пять поместиться. Полоса меряет себя. | решено |
 
 ---
 
-## Where the built answer lives
-
-| | |
-|---|---|
-| Screen, all 16 states | [`../pages/concept/chat_page-queue.html`](../pages/concept/chat_page-queue.html) |
-| Screen-level diff vs prod | [`../page-changes/chat_page-queue.md`](../page-changes/chat_page-queue.md) |
-| Components | [QueueBand](../changes/QueueBand.md) · [QueueItem](../changes/QueueItem.md) · [Alert](../changes/Alert.md) · [Counter](../changes/Counter.md) · [Radio](../changes/Radio.md) · [ConfirmationCard](../changes/ConfirmationCard.md) · [SortableList](../changes/SortableList.md) · [ThinkingIndicator](../changes/ThinkingIndicator.md) · [Chat Shell & Composer](../changes/ChatShell.md) |
-| The one-button composer decision | [Button](../changes/Button.md) |
+**Что изменилось и почему.** Правки не вкусовые: каждая — либо требование, которому при сборке оказалось нечего описывать (B0, B3, B5, C2, C5, C6b, D5, A4), либо требование, которое само порождало проблему, от которой защищало (R4), либо состояние, которого экрану не хватило (E3 / E3b, Expand по измерению, замена строки на месте).

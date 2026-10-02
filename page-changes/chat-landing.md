@@ -77,8 +77,19 @@ account sees it. Nothing is hidden on Free: the rule is *visible but locked*.
 | `Insightis Medium` row | `.is-locked`, label `Text/Secondary`, `PlanLock` badge **Starter** | its own [Upgrade popover](../changes/UpgradePopover.md) |
 | `Insightis Pro` row | `.is-locked`, badge **Pro** | its own upgrade popover (the head names the row's model, not a shared heading) |
 | Each connection row | `.is-locked`, the Switch off and inert | the connections upgrade popover |
-| `Connections` composer trigger | carries the **Starter** badge | — (the marker is visible before the menu is opened) |
+| `Connections` composer trigger | carries the **padlock alone** (`.lock-glyph`) — no pill, no plan name: it is one line of composer chrome, and a named chip there reads as a second control | — |
 
 The attach control, the prompt and Send are untouched: Free keeps file-based chat.
 
 Same pass, same markup, on [chat_page-landing](../pages/approved/chat_page-landing.html).
+
+On [chat_page-landing](../pages/approved/chat_page-landing.html) one more point from the brief is
+covered: typing **`@`** (C5) no longer lists the metrics. The list itself is the paid thing, so
+offering it and then refusing the pick would be a tease — a single locked row takes its place and
+opens the Metrics popover.
+
+The **Thinking** switch and the **Effort** slider (C4b) are deliberately left open: the brief parks
+that one with the PM.
+
+Clicking **See Plans** in any popover goes to Settings → Manage plan — the one destination every
+upgrade surface leads to.

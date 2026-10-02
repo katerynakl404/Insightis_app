@@ -179,6 +179,7 @@ fields. Every **action** locks and explains itself through the
 | `Edit` / `Test Connection` in a row's action menu | `.is-locked` + badge **Starter** |
 | `Edit` in the connection detail panel | `.is-locked` + badge **Starter** |
 | `Connect` on each catalog card | `.is-locked`, **no badge** — 24 identical cards would mean 24 identical badges; the popover names the plan once |
+| Whole catalog card (click anywhere on it) | `.is-locked`, **no marker**, and `data-upgrade-click` — a thumbnail-sized target answers the click, not the hover |
 | `Disconnect` | untouched — removing something you already have is not a paid feature |
 
 The read-only banner at the top of the page (U4 in the brief) is **not** in this pass.

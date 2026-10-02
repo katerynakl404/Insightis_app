@@ -21,13 +21,19 @@ plan-locked control, opens on hover or tap, and never appears on its own.
 
 ## Decisions
 
-**Brand all the way through, not a neutral card with an accent.** This surface has to read as
-"the paid product" the instant it appears, next to menus and rows that are deliberately neutral.
-Body, head band and border are three mixes of `--brand-primary` over `Surface/Card`, as
-component-scoped tokens (`--upop-bg`, `--upop-head-bg`, `--upop-border`, `--upop-head-ink`) —
-mixed over the card rather than over `transparent`, because the panel is positioned over arbitrary
-content and a translucent fill would let that content show through. Head ink borrows the
-Badge/Brand ratio, so the band and the marker inside it are the same colour by construction.
+**The brand arrives as a gradient that fades out, not as a flat fill.** First pass filled the
+panel edge to edge with one tint and topped it with a saturated band; that is the 2015 "info box",
+and it read as one. The same colour applied as a short wash at the top, settling into
+`Surface/Card` by 55%, reads as a card with a light on it. `--upop-bg` is that gradient — the same
+recipe the featured plan card already uses, so the system has one gradient idea rather than two.
+
+Colour then lands in four small places instead of across the panel: the gradient, the icon chip
+(`--upop-ic-bg`), the benefit ticks and the CTA. The border is `--upop-border`. Everything is mixed
+over the card rather than over `transparent`, because the panel is positioned over arbitrary
+content and a translucent fill would let that content show through. The head band is gone: the
+feature glyph sits in a small tinted chip with the name beside it, and the plan line closes the
+copy above a hairline, which is the order a reader expects — what it gives, what it costs, the way
+there.
 
 **Width is the kit's existing roomy width**, the one `.menu.is-md` and `--tip-max-w` already share
 — a third popover width would make three "comfortable" numbers where the kit has one.
@@ -94,7 +100,7 @@ markup references them with `<use href="#mi-*"/>` and never pastes path data.
 
 | State | Glyph | Id | Where | Why this one |
 |---|---|---|---|---|
-| Locked (plan-gated) | closed padlock | `#mi-lock` | the **trigger** — menu row, action button, composer control. `.badge-sm` (12px) in a row, `.badge` (14px) beside a button, glyph-only pill where a word does not fit | one marker everywhere, as the brief asks |
+| Locked (plan-gated) | closed padlock | `#mi-lock` | the **trigger**. Two forms, and the rule is the word: the Badge pill carries the plan NAME (`.badge-sm` 12px in a row, `.badge` 14px beside a button); where the name does not fit — a `btn-xs`, a table cell, the composer chrome — the padlock stands **alone** (`.lock-glyph`, 14px `Brand/Primary`) | one marker everywhere, as the brief asks. A pill holding nothing but a glyph is heavier than the glyph itself, and the popover names the plan anyway |
 | Unlocked (after upgrade) | open padlock, green | `#mi-unlock` | the confirmation that follows payment, once | same padlock opened — the pair reads without words |
 | Read-only | eye | `#mi-view-only` | the read-only banner and the "View only" row marker | what is saved stays readable; a padlock would say "you cannot see this", which is the opposite of what Free gets |
 | Feature, in the popover head | brain · linked squares · pie | `#mi-model` `#mi-connections` `#mi-metrics` | the head band of the upgrade popover | each is the glyph that feature already wears in the product. The head takes the **feature's** glyph, never a second padlock — the lock belongs on the locked thing |
@@ -104,3 +110,16 @@ markup references them with `<use href="#mi-*"/>` and never pastes path data.
 
 **Rule for a new gated area:** reuse the glyph that area already has in the product for the popover
 head, and the padlock for its trigger. Do not draw a new mark for a new lock.
+
+## Trigger contract
+
+| Attribute | Meaning |
+|---|---|
+| `data-upgrade="<id>"` | this control is gated; the element with that id is the popover it opens. Hover (300 ms), click and tap all open it |
+| `data-upgrade-click` | same, but **hover does nothing**. For a target bigger than its own label — a catalog card the size of a thumbnail — where a panel appearing under the pointer reads as the page grabbing at you |
+| `aria-disabled="true"` | always set alongside, never the native `disabled` attribute: a natively-disabled control emits no pointer events, so the popover would have nothing to open from. `kit-kit.js` swallows click, Enter and Space |
+
+The mockups' **Paid / Free switch** is `kit-kit.js` §7: it stores the choice, restores it on every
+page and broadcasts `kit:plan`. Pages listen and run their own lock pass — which controls a page
+gates is a property of the page, not of the kit. Markup is a `.segctrl` whose buttons carry
+`data-plan-switch`; the pages do not wire the click themselves.
