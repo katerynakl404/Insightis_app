@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Insightis В· Metrics</title>
+<title>Insightis · Metrics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../kit-theme.css" />
 <script src="../kit-kit.js" defer></script>
+<script src="../kit-plans.js" defer></script>
 <style>
   /* ===== Page-only layout helpers ===== */
   html,body{height:100%;overflow:hidden}
@@ -44,7 +45,9 @@
 
   /* в”Ђв”Ђ State visibility — default = empty (no class); filled = is-filled в”Ђв”Ђ */
   .mx-empty{display:flex;flex-direction:column;gap:.75rem}
-  .mx-filled{display:none;flex-direction:column;gap:.75rem}
+  /* 16px between every block in the filled page, the same step the Data Sources panels use —
+     the alert sat 12px off its table here and 16 there, on two screens shown side by side. */
+  .mx-filled{display:none;flex-direction:column;gap:1rem}
   #mx-root.is-filled .mx-empty{display:none}
   #mx-root.is-filled .mx-filled{display:flex;flex-direction:column;gap:1rem}
   .mx-add-btn{display:none !important}
@@ -75,7 +78,6 @@
   #mx-add-dlg{display:none}
   #mx-add-dlg.is-open{display:flex}
   #mx-add-dlg .field,#mx-add-dlg .ta,#mx-add-dlg select.field{max-width:100%;width:100%}
-  #mx-add-dlg .igrp{max-width:100%;width:100%}
 
   /* в”Ђв”Ђ Category filter header (empty state) в”Ђв”Ђ */
   .mx-cat-header{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;margin-top:1.25rem}
@@ -86,7 +88,6 @@
   /* в”Ђв”Ђ C3 filled toolbar — 2-row layout в”Ђв”Ђ */
   .mx-c3-toolbar{display:none;flex-direction:column;gap:1rem}
   #mx-root.is-filled .mx-c3-toolbar{display:flex}
-  .mx-c3-toolbar .igrp{width:100%}
   .mx-c3-filter-chips{display:flex;align-items:center;gap:.375rem;flex-wrap:wrap;row-gap:.5rem}
   /* margin-left:auto pins "Active only" to the right at every width — was reset to 0 on
      mobile, which dropped it flush after the chips on the left instead of staying fixed
@@ -128,27 +129,29 @@
      Lucide 24×24 outlines; menu items reference them with <use href="#mi-*"/>, never inline paths.
      Keep in sync with the same block in insightis-preview-kit.html. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <symbol id="mi-add-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v6"/><path d="M9 10h6"/></symbol>
-  <symbol id="mi-rename" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
-  <symbol id="mi-duplicate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
-  <symbol id="mi-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
-  <symbol id="mi-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol>
-  <symbol id="mi-unpin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M15 9.34V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H7.89"/><path d="m2 2 20 20"/><path d="M9 9v1.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h11"/></symbol>
-  <symbol id="mi-select" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
-  <symbol id="mi-deselect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12H3"/><path d="M16 6H3"/><path d="M11 18H3"/><path d="m19 10 4 4"/><path d="m19 14 4-4"/></symbol>
-  <symbol id="mi-test-conn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.36 2.64L3 8"/><path d="M3 3v5h5"/></symbol>
-  <symbol id="mi-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
-  <symbol id="mi-disconnect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="M12 6l6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></symbol>
+  <symbol id="mi-add-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v6"/><path d="M9 10h6"/></symbol>
+  <symbol id="mi-rename" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+  <symbol id="mi-duplicate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="mi-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+  <symbol id="mi-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol>
+  <symbol id="mi-unpin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M15 9.34V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H7.89"/><path d="m2 2 20 20"/><path d="M9 9v1.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h11"/></symbol>
+  <symbol id="mi-select" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
+  <symbol id="mi-deselect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12H3"/><path d="M16 6H3"/><path d="M11 18H3"/><path d="m19 10 4 4"/><path d="m19 14 4-4"/></symbol>
+  <symbol id="mi-test-conn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.36 2.64L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="mi-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
+  <symbol id="mi-disconnect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="M12 6l6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></symbol>
   <!-- Plan-state glyphs. One dictionary entry per STATE, so a lock drawn in a menu row, in a
        button and in a popover head is the same lock. The head of an upgrade popover carries the
        FEATURE's own glyph (model / connections / metrics), never the lock — the lock belongs on
        the thing that is locked, and repeating it inside the panel says nothing new. -->
-  <symbol id="mi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
-  <symbol id="mi-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></symbol>
-  <symbol id="mi-view-only" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
-  <symbol id="mi-model" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2a2.5 2.5 0 0 0-2.5 2.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></symbol>
-  <symbol id="mi-connections" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="7" height="7" rx="1.2"/><rect x="15" y="15" width="7" height="7" rx="1.2"/><path d="M5.5 9v4a2 2 0 0 0 2 2h7"/></symbol>
-  <symbol id="mi-metrics" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></symbol>
+  <symbol id="mi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="mi-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></symbol>
+  <symbol id="mi-view-only" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="mi-model" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2a2.5 2.5 0 0 0-2.5 2.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></symbol>
+  <symbol id="mi-connections" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="7" height="7" rx="1.2"/><rect x="15" y="15" width="7" height="7" rx="1.2"/><path d="M5.5 9v4a2 2 0 0 0 2 2h7"/></symbol>
+  <symbol id="mi-metrics" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></symbol>
+  <symbol id="mi-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  <symbol id="mi-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
 </svg>
 
 
@@ -192,7 +195,10 @@
       <button class="segctrl-btn" role="tab" type="button" aria-selected="false" data-state="filled" style="padding:0 .5rem" onclick="mxSetState('filled');this.parentElement.querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">Filled</button>
     </div>
     <div style="display:flex;gap:.375rem">
-      <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
+      <div class="segctrl is-sm" role="tablist" aria-label="Theme" style="width:auto">
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-theme-switch="light">Light</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-theme-switch="dark">Dark</button>
+    </div>
     </div>
   </div>
 </div>
@@ -202,7 +208,7 @@
   <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')"></div>
 
   <!-- ===== SIDEBAR ===== -->
-  <aside class="cl-side">
+  <aside class="cl-side" id="cl-side">
     <div class="sbx var-embedded">
       <div class="sbx-head">
         <div class="sbx-brand">
@@ -247,22 +253,41 @@
             <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
           </div>
           <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-queue.html'"><span class="sbx-chat-lbl">Message queue</span></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Q1 revenue commentary draft</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Onboarding cohort summary</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Churn deep-dive</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=Salesforce%20%C2%B7%20Q1%20revenue%20commentary'"><span class="sbx-chat-lbl">Salesforce · Q1 revenue commentary</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=HubSpot%20%C2%B7%20onboarding%20cohort'"><span class="sbx-chat-lbl">HubSpot · onboarding cohort</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=churn.csv%20%C2%B7%20deep-dive'"><span class="sbx-chat-lbl">churn.csv · deep-dive</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-unpin"/></svg>Unpin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
         </div>
         <div class="sbx-sect">
           <div class="sbx-sect-head">
             <button class="sbx-sect-label-wrap" type="button" aria-expanded="true"><span class="sbx-sect-label">Recent</span><svg class="sbx-sect-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
             <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
           </div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'"><span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
-          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'"><span class="sbx-chat-lbl">Generate two charts using random data</span><span class="sbx-chat-status is-new" aria-hidden="true"></span><span class="sbx-sr">New activity</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=Jira%20%C2%B7%20first%205%20AIINS%20issues'"><span class="sbx-chat-lbl">Jira · first 5 AIINS issues</span><button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg></button><div class="menu sbx-chat-menu"><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div><div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div><div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div></div></div>
+          <!-- The chat the paused-connections notice belongs to: it is about an uploaded file, which is
+               the one thing a Free account can still ask about. Same list on every page. -->
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'"><span class="sbx-chat-lbl">Generate two charts using random data</span></div>
+          <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=Q3%20report.xlsx'"><span class="sbx-chat-lbl">Q3 report.xlsx</span></div>
+        </div>
+      </div>
+      <!-- The way OUT of the current plan, where a person already looks to find out what their
+           account is. It deliberately does NOT name the plan they are on: the user row directly
+           below already says "Admin · Free", and saying it twice in 40px of sidebar is noise, not
+           emphasis (reported 2026-10-06). What it adds is what the money buys. -->
+      <div class="sbx-promo-card" id="sbx-promo-card" hidden>
+        <div class="promo-card-wrap">
+          <a class="promo-card hov-card" href="user_profile-modal.html?section=manage-plan">
+            <svg class="promo-card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+            <span class="promo-card-body">
+              <span class="promo-card-t">Upgrade to Pro</span>
+              <span class="promo-card-d">Unlimited sources and 15,000 credits a month</span>
+            </span>
+          </a>
+          <button class="iconbtn iconbtn-tertiary iconbtn-2xs promo-card-x" type="button" aria-label="Dismiss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
         </div>
       </div>
       <div class="sbx-foot">
-        <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')"><div class="sbx-tok-row"><span class="sbx-tok-label">Balance</span><span class="sbx-tok-val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>287 left</span></div></button>
-        <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')"><span class="sbx-user-ava">K</span><span class="sbx-user-info"><span class="sbx-user-name">Kateryna K.</span><span class="sbx-user-meta">Admin В· Professional</span></span><svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></button>
+        <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')"><div class="sbx-tok-row"><span class="sbx-tok-label">Balance</span><span class="sbx-tok-val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>287 left</span></div></button>
+        <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')"><span class="sbx-user-ava">K</span><span class="sbx-user-info"><span class="sbx-user-name">Kateryna K.</span><span class="sbx-user-meta">Admin · Pro</span></span><svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></button>
 
         <!-- Account popover — opens above the user row -->
         <div class="sbx-pop sbx-pop-account" id="sbx-pop-account" role="menu" aria-label="Account">
@@ -293,18 +318,18 @@
         <!-- Subscription credits popover — opens above the tokens row -->
         <div class="sbx-pop sbx-pop-tokens" id="sbx-pop-tokens" role="dialog" aria-label="Subscription credits">
           <div class="sbx-pop-tok-head"><span class="plan-name">Free</span></div>
-          <div class="sbx-pop-tok-meter">
+          <div class="meter">
             <div class="row"><span class="label">Subscription Credits</span></div>
             <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
-            <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
+            <div class="bar"><span style="width:42.6%"></span></div>
           </div>
           <!-- Daily limit — a cap on the SAME subscription pool, so it reuses that pool's blue fill;
                no coin (it is a rate limit, not a wallet). Sits under the monthly meter. -->
-          <div class="sbx-pop-tok-meter">
+          <div class="meter">
             <div class="row"><span class="label">Daily Limit</span><span class="val sm">32 of 50</span></div>
-            <div class="bar"><span style="width:64%;background:var(--brand-tertiary)"></span></div>
+            <div class="bar"><span style="width:64%"></span></div>
           </div>
-          <div class="sbx-pop-tok-meter">
+          <div class="meter">
             <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">540 left</span></div>
           </div>
           <div class="sbx-pop-tok-actions">
@@ -328,11 +353,11 @@
         <h1 class="cl-page-title">Metrics</h1>
         <div class="mx-head-actions" style="display:flex;align-items:center;gap:.5rem">
           <button class="btn btn-secondary btn-sm rf mx-add-btn" type="button" id="mx-newconn-btn" onclick="window.location.href='data-sources_connections-landing.html'">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             New Connection
           </button>
           <button class="btn btn-primary btn-sm rf mx-add-btn" type="button" id="mx-add-custom-btn" onclick="mxOpenAddDlg()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Create Metric
           </button>
         </div>
@@ -346,7 +371,7 @@
           <div class="banner-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
           <div class="banner-body">
             <p class="banner-t">Explore your metrics library</p>
-            <p class="banner-d">50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.</p>
+            <p class="banner-d" id="mx-empty-d">50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.</p>
           </div>
           <div class="banner-cta">
             <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='data-sources_connections-landing.html'">Create Connection</button>
@@ -1210,7 +1235,7 @@
           <!-- View more — dynamic category -->
           <div class="prov-card is-browse" role="button" tabindex="0" onclick="mxGoCatalog()" onkeydown="if(event.key==='Enter'||event.key===' ')mxGoCatalog()">
             <div class="prov-card-browse-ic" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
             </div>
             <div>
               <p class="prov-card-browse-label" id="mx-browse-label">Explore more data sources</p>
@@ -1224,10 +1249,33 @@
 
       <!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ FILLED STATE в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
       <div class="mx-filled" id="mx-filled">
+          <!-- U4 — read-only notice. The kit ALERT, not the gradient banner: a gradient
+               strip reads as an offer and the eye files it with marketing, which is exactly what
+               a person skips. This is a state of their account, so it takes the component the
+               product already uses to say "something here is not normal" (2026-10-06).
+               Attention, not error: nothing is broken and nothing was lost. The ✕ DISMISSES it —
+               it does not collapse to a stub, and it comes back on the next visit, because the
+               state it describes is still true. -->
+          <div class="banner-wrap" id="mx-u4-wrap" hidden>
+            <div class="alert alert-warn is-md" role="note">
+              <svg class="alert-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/></svg>
+              <div class="alert-body">
+                <div class="alert-t">Your subscription ended, so these metrics can no longer be edited</div>
+                <div class="alert-d">Nothing was deleted. <a class="link" href="#" data-upgrade="metrics" data-upgrade-click onclick="return false">Upgrade to Starter</a> to edit them and ask about them in chat.</div>
+              </div>
+              <div class="alert-acts">
+                
+                <button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="Dismiss" data-tip="Dismiss" onclick="this.closest('.banner-wrap').classList.add('is-dismissed')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
 
         <!-- Toolbar: search row + filter chips row -->
         <div class="mx-c3-toolbar" id="mx-c3-toolbar">
-          <div class="igrp is-lg" role="search">
+          <div class="igrp is-lg is-block" role="search">
             <span class="igrp-add" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             </span>
@@ -1276,7 +1324,7 @@
                   <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse group" onclick="event.stopPropagation();mxToggleGroup(this)" data-tip="Collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg></button>
                   <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/jira" alt="" loading="lazy"></span>
                   <span class="mx-prov-group-name">Jira Software Cloud</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
+                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
               <!-- Custom metrics first -->
@@ -1366,7 +1414,7 @@
                 <td colspan="6"><div class="mx-conn-sub-label">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                   <span class="mx-conn-sub-label-text">Skyvia Jira</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
+                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-nested data-prov="jira" data-conn="Skyvia Jira" data-name="Jira ticket sync lag" data-alias="@jira_sync_lag" data-provider="Jira Software Cloud" data-connector="Skyvia Jira" data-type="Average" data-desc="Average delay (in minutes) between a Jira issue update and its appearance in Insightis. Measured via Skyvia Jira connector sync timestamps. Spikes indicate connector throttling or API rate-limit events." data-custom="true" data-active="true" data-row-id="custom-skyvia-1" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1392,7 +1440,7 @@
                   <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse group" onclick="event.stopPropagation();mxToggleGroup(this)" data-tip="Collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg></button>
                   <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/azuredevops" alt="" loading="lazy" data-fb="Az" data-color="#0078D4" onerror="var s=this.parentElement;s.style.background=this.dataset.color;s.style.border='none';s.style.color='#fff';s.style.fontSize='.5625rem';s.style.fontWeight='700';s.textContent=this.dataset.fb"></span>
                   <span class="mx-prov-group-name">Azure DevOps</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
+                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
               <tr class="mx-no-builtin-row" data-prov="azure">
@@ -1411,7 +1459,7 @@
                   <button class="mx-prov-collapse-btn" type="button" aria-label="Collapse group" onclick="event.stopPropagation();mxToggleGroup(this)" data-tip="Collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="6 9 12 15 18 9"/></svg></button>
                   <span class="mx-prov-ic"><img src="https://cdn.simpleicons.org/github/000000" alt="" loading="lazy" class="dark-invert"></span>
                   <span class="mx-prov-group-name">GitHub</span>
-                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
+                  <button class="btn btn-xs btn-outline mx-add-metric-hover-btn" style="margin-left:auto" type="button" aria-label="Add Metric" onclick="event.stopPropagation();mxOpenAddDlg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex:none" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span class="mx-add-metric-label">Add Metric</span></button>
                 </div></td>
               </tr>
               <tr class="mx-metric-child" data-nested data-prov="github" data-name="Pull requests opened" data-alias="@prs_opened" data-provider="GitHub" data-type="Count" data-desc="Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count." data-custom="false" data-active="true" onclick="if(!event.target.closest('[data-kbp],.kbp-menu'))mxOpenDetail(this)">
@@ -1531,7 +1579,7 @@
 </div>
 
 <!-- ===== Connect-source dialog ===== -->
-<div id="mx-conn-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)mxCloseConnDlg()">
+<div id="mx-conn-dlg" class="dlg-overlay" hidden aria-hidden="true" onclick="if(event.target===this)mxCloseConnDlg()">
   <div class="dlg is-lg var-wizard" role="dialog" aria-modal="true" aria-labelledby="mx-conn-title">
     <div class="dlg-hdr">
       <h2 id="mx-conn-title" class="dlg-title">New connection</h2>
@@ -1597,7 +1645,7 @@
 </div>
 
 <!-- ===== Add custom metric dialog ===== -->
-<div id="mx-add-dlg" class="dlg-overlay" aria-hidden="true" onclick="if(event.target===this)mxCloseAddDlg()">
+<div id="mx-add-dlg" class="dlg-overlay" aria-hidden="true" onclick="if(event.target===this)mxCloseAddDlg()" hidden>
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="mx-add-title">
 
     <!-- Header -->
@@ -1777,60 +1825,69 @@ function mxSetLinkType(type, btn) {
    Where the marker goes: on the two page-level buttons it is the Badge with the plan name. On
    the per-group Add Metric (a btn-xs) and inside a table row it is the same Badge with the lock
    glyph alone — the row has no width for a word, and the popover names the plan anyway. */
-function mxLockMark(plan){
-  /* Two forms, and the rule is the word: the pill exists to carry the plan NAME. Where the name
-     does not fit — a btn-xs, a table cell, a line of chrome — the marker is the padlock alone,
-     because a coloured chip holding nothing but a glyph is heavier than the glyph itself. */
-  if(!plan) return '<svg class="lock-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>';
-  return '<span class="badge badge-sm badge-primary lock-mark">' +
-    '<svg class="b-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>' + plan + '</span>';
-}
 function mxApplyPlan(){
+  /* kit-kit.js is loaded with defer, so it runs AFTER every inline script on the page. A page
+     that renders at parse time therefore reaches kitLock before it exists — which threw, and
+     took the rest of the render down with it. Wait for the document instead of guessing. */
+  if(typeof kitLock !== 'function'){ document.addEventListener('DOMContentLoaded', mxApplyPlan, { once: true }); return; }
   var free = document.documentElement.classList.contains('is-free');
-    /* The sidebar plan line follows the switch. A page that still says "Professional" while
-       every action on it is locked reads as a bug, not as a Free account. The paid wording is
-       whatever the page shipped with, remembered on first run. */
-    var meta = document.querySelector('.sbx-user-meta');
-    if(meta){
-      if(!meta.getAttribute('data-plan-paid')) meta.setAttribute('data-plan-paid', meta.textContent);
-      var paid = meta.getAttribute('data-plan-paid');
-      var sep = paid.indexOf('\u00b7');
-      meta.textContent = free ? (sep >= 0 ? paid.slice(0, sep + 1) + ' Free' : 'Free') : paid;
-    }
-  function lock(sel, popId, plan){
+  var meta = document.querySelector('.sbx-user-meta');
+  if(meta){
+    if(!meta.getAttribute('data-plan-paid')) meta.setAttribute('data-plan-paid', meta.textContent);
+    var paid = meta.getAttribute('data-plan-paid');
+    var sep = paid.indexOf('\u00b7');
+    var paidName = /Free/.test(paid) ? paid.replace(/Free/, 'Pro') : paid;
+    meta.textContent = free ? (sep >= 0 ? paid.slice(0, sep + 1) + ' Free' : 'Free') : paidName;
+  }
+  /* Hover cases take the popover; an ACTION takes the modal (U3). The difference is whether
+     the person was reading or had already pressed something. */
+  function lock(sel, popId, plan, modalId){
     document.querySelectorAll(sel).forEach(function(el){
-      el.classList.toggle('is-locked', free);
-      var mark = el.querySelector('.lock-mark,.lock-glyph');
-      if(free){
-        el.setAttribute('aria-disabled','true');
-        el.setAttribute('data-upgrade', popId);
-        if(plan !== null && !mark) el.insertAdjacentHTML('beforeend', mxLockMark(plan));
-      } else {
-        el.removeAttribute('aria-disabled');
-        el.removeAttribute('data-upgrade');
-        if(mark) mark.remove();
-      }
+      kitLock(el, { locked: free, popover: modalId ? null : popId, modal: modalId, plan: plan });
     });
   }
-  /* Every action point the brief lists for this screen (M1, M3–M7). Reading is untouched:
-     filters, groups, search, a metric's details sheet and its definition all stay open. */
-  /* M3 — page head + per-group create. Buttons, so the padlock alone. */
-  lock('#mx-add-custom-btn', 'mx-upop-metrics', '');
-  lock('#mx-newconn-btn',    'mx-upop-conn',    '');
-  lock('.mx-add-metric-hover-btn', 'mx-upop-metrics', '');
-  /* M5 — the row's action menu. A menu row is wide and quiet, so it carries the plan NAME.
-     Delete is left alone, like Disconnect on Data Sources: removing what you already have is
-     not a paid feature (the brief parks it as an open question). */
-  lock('.mx-tbl .menu .mi:not(.danger)', 'mx-upop-metrics', 'Starter');
+  /* Every action point the brief lists for this screen (M3–M7). Reading is untouched: filters,
+     groups, search, a metric's details and its definition all stay open — and so does anything
+     whose click only NAVIGATES to the Data Sources catalog (New Connection, the banner's Create
+     Connection, the Browse card). The catalog is readable on Free; the gate is the connect
+     action inside it. */
+  lock('#mx-add-custom-btn', 'metrics', '', 'metrics');
+  lock('.mx-add-metric-hover-btn', 'metrics', '', 'metrics');
+  /* The inline 'Create a custom metric →' link inside an empty source group is an action like
+     any other — it opened the create dialog ungated until review caught it. */
+  lock('.mx-tbl .link', 'metrics', '', 'metrics');
+  /* M5 — the row's action menu. Delete stays open, like Disconnect on Data Sources. */
+  lock('.mx-tbl .menu .mi:not(.danger)', 'metrics', '', 'metrics');
   /* M4 — the activation switch, in the table and in the details sheet. */
-  lock('.mx-swt-wrap',       'mx-upop-metrics', null);
-  /* M6 — the details sheet's own actions: Edit, Duplicate, Connect {provider}. */
-  lock('#mx-edit-toggle,#mx-panel-cta .btn,#mx-panel-body .btn-primary', 'mx-upop-metrics', '');
-  /* M1 + M7 — the provider cards offering a connection, in the empty state and under a group.
-     Repeating cards carry no marker: 50 identical padlocks would be noise, and the popover
-     names the plan once. */
-  lock('.prov-card .btn',    'mx-upop-conn',    null);
+  /* M4 — the per-metric activation switch, in the table and in the details sheet. NOT the
+     'Active only' filter above the table: filtering is reading, and locking it would stop a
+     person looking at what they already have. No padlock on these either — the dimmed switch
+     already says it. */
+  /* The WRAP, not the switch: .is-locked dims the control INSIDE it, so marking the button
+     itself left the details sheet showing a bright, fully-on toggle beside a locked table. */
+  lock('.mx-tbl .mx-swt-wrap,#mx-panel .mx-swt-wrap', 'metrics', null);
+  /* M6 — the details sheet's own actions. */
+  /* Destructive actions are never gated — deleting a metric is not a paid feature, exactly like
+     Disconnect on Data Sources. The selector says so rather than relying on where the button
+     happens to sit. */
+  lock('#mx-edit-toggle,#mx-panel-cta .btn:not(.btn-destructive):not(.btn-outline-destructive),#mx-panel-body .btn-primary', 'metrics', '', 'metrics');
+  /* M1 + M7 — provider cards that offer a connection. */
+  lock('.prov-card .btn', 'connections', '', 'connections');
+  /* U4 — the filled library is the case where there is something to be read-only about.
+     The brief also asks for one banner, not two, so the bottom "connect more sources" banner
+     steps aside while this one is up. */
+  /* U5 — the empty library on Free. Reading the definitions is free; the thing that would make
+     them live is not, so the hero says which plan does it. */
+  var med = document.getElementById('mx-empty-d');
+  if(med) med.innerHTML = free
+    ? 'Browse 50+ ready-made metrics for free. To see your own numbers in them, connect a source — that starts on Starter.'
+    : '50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.';
+  var u4 = document.getElementById('mx-u4-wrap');
+  if(u4) u4.hidden = !free;
+  var connBanner = document.querySelector('.mx-connect-banner');
+  if(connBanner) connBanner.closest('.banner-wrap') ? connBanner.closest('.banner-wrap').hidden = free : connBanner.hidden = free;
 }
+
 /* The switch itself is kit-kit.js (section 7): it stores the choice, restores it on every
    page and broadcasts `kit:plan`. What stays here is which of THIS page's controls the choice
    gates — that is a property of the page, not of the kit. */
@@ -1976,7 +2033,7 @@ function mxOpenDetail(row) {
     var rowId = row ? row.getAttribute('data-row-id') : '';
     // Delete (low priority, left) | Edit (primary action, right)
     ctaHtml += '<div style="display:flex;gap:.5rem;width:100%">'
-            +  '<button class="btn btn-outline-destructive btn-sm" type="button" style="margin-right:auto" onclick="mxDeleteCustom(\''+ rowId +'\');mxCloseDetail()">Delete</button>'
+            +  '<button class="btn btn-outline-destructive btn-sm" type="button" style="margin-right:auto" onclick="mxDeleteCustom(\''+ rowId +'\');mxCloseDetail()"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</button>'
             +  '<button class="btn btn-primary btn-sm" id="mx-edit-toggle" type="button" onclick="mxEditFromRow(mxActiveRow)">Edit</button>'
             +  '</div>';
   }
@@ -2128,12 +2185,12 @@ function mxOpenConnDlg(btnOrName, _unused) {
   document.getElementById('mx-conn-prog-fill').style.width = '50%';
   document.getElementById('mx-conn-s1-btn').textContent = 'Save';
   document.getElementById('mx-conn-s1-btn').disabled = false;
-  mxConnDlg.style.display = 'flex';
+  mxConnDlg.hidden = false;
   mxConnDlg.setAttribute('aria-hidden', 'false');
 }
 
 function mxCloseConnDlg() {
-  mxConnDlg.style.display = 'none';
+  mxConnDlg.hidden = true;
   mxConnDlg.setAttribute('aria-hidden', 'true');
 }
 
@@ -2631,7 +2688,7 @@ document.addEventListener('keydown', function(e){
      contract: page-changes/data-sources_files-landing.md rule 31 / changes/Sidebar.md).
      Rename -> "Rename chat" dialog; Delete -> "Delete chat?" confirm; Pin/Unpin moves the row
      between the Pinned and Recent sections. Only one row menu may be open at a time. -->
-<div id="sbc-ren-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)sbcCloseRename()">
+<div id="sbc-ren-dlg" class="dlg-overlay" hidden aria-hidden="true" onclick="if(event.target===this)sbcCloseRename()">
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="sbc-ren-title">
     <div class="dlg-hdr">
       <h2 id="sbc-ren-title" class="dlg-title">Rename chat</h2>
@@ -2649,7 +2706,7 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 </div>
-<div id="sbc-del-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)sbcCloseDelete()">
+<div id="sbc-del-dlg" class="dlg-overlay" hidden aria-hidden="true" onclick="if(event.target===this)sbcCloseDelete()">
   <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="sbc-del-title">
     <div class="dlg-hdr">
       <h2 id="sbc-del-title" class="dlg-title">Delete chat?</h2>
@@ -2683,10 +2740,10 @@ document.addEventListener('keydown', function(e){
     var inp = document.getElementById('sbc-ren-input');
     inp.value = row.querySelector('.sbx-chat-lbl').textContent.trim();
     var dlg = document.getElementById('sbc-ren-dlg');
-    dlg.style.display = ''; dlg.setAttribute('aria-hidden','false');
+    dlg.hidden = false; dlg.setAttribute('aria-hidden','false');
     inp.focus(); inp.setSelectionRange(0, inp.value.length);
   };
-  window.sbcCloseRename = function(){ renRow = null; var d = document.getElementById('sbc-ren-dlg'); d.style.display = 'none'; d.setAttribute('aria-hidden','true'); };
+  window.sbcCloseRename = function(){ renRow = null; var d = document.getElementById('sbc-ren-dlg'); d.hidden = true; d.setAttribute('aria-hidden','true'); };
   window.sbcSaveRename = function(){
     var name = document.getElementById('sbc-ren-input').value.trim();
     if (renRow && name){
@@ -2698,10 +2755,10 @@ document.addEventListener('keydown', function(e){
   window.sbcOpenDelete = function(row){
     delRow = row;
     var dlg = document.getElementById('sbc-del-dlg');
-    dlg.style.display = ''; dlg.setAttribute('aria-hidden','false');
+    dlg.hidden = false; dlg.setAttribute('aria-hidden','false');
     setTimeout(function(){ document.getElementById('sbc-del-confirm').focus(); }, 50);
   };
-  window.sbcCloseDelete = function(){ delRow = null; var d = document.getElementById('sbc-del-dlg'); d.style.display = 'none'; d.setAttribute('aria-hidden','true'); };
+  window.sbcCloseDelete = function(){ delRow = null; var d = document.getElementById('sbc-del-dlg'); d.hidden = true; d.setAttribute('aria-hidden','true'); };
   window.sbcConfirmDelete = function(){
     var row = delRow;
     sbcCloseDelete();
@@ -2742,29 +2799,63 @@ document.addEventListener('keydown', function(e){
 })();
 </script>
 <!-- Upgrade popovers (kit component) — opened by kit-kit.js from every locked action on this page. -->
-<div class="pop pop-upgrade" id="mx-upop-metrics" role="dialog" aria-label="Metrics" hidden>
-  <div class="pop-up-head"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-metrics"/></svg>Metrics</div>
-  <div class="pop-up-body">
-    <ul class="feat-list">
-      <li>Define MRR or win rate once and mention it with @ in any question</li>
-      <li>Every connection brings its own built-in metrics</li>
-    </ul>
-    <p class="pop-up-plan">From the Starter plan</p>
-    <button class="btn btn-primary btn-sm" type="button">See Plans</button>
-  </div>
-</div>
-<div class="pop pop-upgrade" id="mx-upop-conn" role="dialog" aria-label="Data connections" hidden>
-  <div class="pop-up-head"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-connections"/></svg>Data connections</div>
-  <div class="pop-up-body">
-    <ul class="feat-list">
-      <li>Ask about live data from your tools, not only uploaded files</li>
-      <li>Five connections on Starter, no limit on Pro</li>
-    </ul>
-    <p class="pop-up-plan">From the Starter plan</p>
-    <button class="btn btn-primary btn-sm" type="button">See Plans</button>
-  </div>
-</div>
-</body>
+<script>
+/* ── Plan, in the sidebar ────────────────────────────────────────────────────────────────
+   Two things follow the switch down here, and both were lying before:
+
+   · the upgrade pill appears on Free and is simply absent on a paid plan — a greyed-out
+     "upgrade" on an account that already upgraded is noise;
+   · the credits popover shows what the plan actually gives. Free has NO monthly pool at all —
+     it has a daily allowance of 20 — so the subscription meter is removed rather than shown at
+     zero, and the daily meter leads. A paid plan has the pool and no daily cap, so the daily
+     meter goes instead. The Balance figure above reads from the same numbers.
+   The figures come from the subscription matrix, not from this page. */
+(function(){
+  var CREDITS = {
+    free: { daily: { used: 12, cap: 20 }, pool: null,                 balance: 12 },
+    paid: { daily: null,                  pool: { used: 5520, cap: 15000 }, balance: 9480 }
+  };
+  function sbxApplyPlan(){
+    var free = document.documentElement.classList.contains('is-free');
+    var data = free ? CREDITS.free : CREDITS.paid;
+
+    var pop = document.getElementById('sbx-pop-tokens');
+    if(pop){
+      /* The demo's paid plan is Pro — a page whose markup shipped saying "Free" must not
+         keep saying it once the switch is on paid. */
+      var name = pop.querySelector('.plan-name');
+      if(name) name.textContent = free ? 'Free' : 'Pro';
+      var meters = pop.querySelectorAll('.meter');
+      /* 0 = subscription pool · 1 = daily limit · 2 = purchased credits (untouched: purchased
+         credits belong to the person, not to the plan). */
+      if(meters[0]){
+        meters[0].hidden = free;
+        if(!free && data.pool){
+          var pv = meters[0].querySelector('.val'); var pb = meters[0].querySelector('.bar span');
+          if(pv) pv.textContent = data.pool.used.toLocaleString() + ' of ' + data.pool.cap.toLocaleString();
+          if(pb) pb.style.width = Math.round(data.pool.used / data.pool.cap * 100) + '%';
+        }
+      }
+      if(meters[1]){
+        meters[1].hidden = !free;
+        if(free && data.daily){
+          var dv = meters[1].querySelector('.val'); var db = meters[1].querySelector('.bar span');
+          if(dv) dv.textContent = data.daily.used + ' of ' + data.daily.cap + ' today';
+          if(db) db.style.width = Math.round(data.daily.used / data.daily.cap * 100) + '%';
+        }
+      }
+    }
+    var bal = document.querySelector('.sbx-tok-val');
+    if(bal){
+      var num = bal.lastChild;
+      if(num && num.nodeType === 3) num.textContent = data.balance + ' left';
+    }
+  }
+  document.addEventListener('kit:plan', sbxApplyPlan);
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sbxApplyPlan);
+  else sbxApplyPlan();
+})();
+</script></body>
 </html>
 
 

@@ -24,6 +24,9 @@
    6. Upgrade popover — opens .pop-upgrade from any [data-upgrade] trigger, locked or disabled;
                         [data-upgrade-click] makes a large target answer the click only.
    7. Plan harness   — the mockups' Free / Paid switch: stored, restored, broadcast as kit:plan.
+   8. Upgrade modal  — [data-upgrade-modal] opens the U3 dialog; Esc, Not now and the scrim close it.
+   9. Theme harness  — the mockups' Light / Dark switch: stored, restored, broadcast as kit:theme.
+  10. Sidebar promo  — #sbx-promo-card shows on Free only; the X dismisses it for the session.
    ============================================================================================ */
 (function () {
   if (window.__kitKitLoaded) return;
@@ -541,8 +544,6 @@
   function inertTarget(e) {
     var el = e.target.closest && e.target.closest(INERT_SEL);
     if (!el) return null;
-    /* Locked is not disabled — it has an answer to give, and section 6 gives it. */
-    if (el.classList.contains('is-locked')) return null;
     /* An upgrade trigger handles its own click (section 6) — never swallow that one. */
     if (el.hasAttribute('data-upgrade') || el.closest('[data-upgrade]')) return null;
     /* Anything inside an open popover is live UI sitting over a disabled trigger. */
@@ -581,30 +582,272 @@
        room, clamped into the viewport horizontally — the same reasoning as the tooltip engine, so
        a popover opened from the last row of a menu is never half off-screen.
      ========================================================================================== */
+
+  /* ------------------------------------------------------------------------------------------
+     kitLock(el, opts) — mark one control as plan-locked, or clear the mark.
+
+     Every page gates different controls, but they must all be MARKED the same way, so the marking
+     lives here and the choosing stays with the page. One position per KIND of target, never a
+     position that depends on what happens to be in the markup:
+
+     1. Leading slot holds a plain icon → the padlock REPLACES it. That slot is the control's own
+        icon slot, the first thing read, so the lock costs nothing there; a second glyph beside it
+        would make a row of symbols. The original is remembered and restored exactly.
+     2. Leading slot is empty → the padlock is PREPENDED. Same place, same reading order, so two
+        otherwise identical buttons never wear it on opposite edges.
+     3. Leading slot holds an IDENTITY mark — a connector logo, an avatar — → the mark stays and
+        the padlock goes to the row's END. Which source a metric or a connection belongs to is
+        worth more than the position, and the position is still predictable: logo rows end with it.
+     4. The control is a switch, checkbox or radio inside the row → NO padlock. The control is
+        already dimmed and inert; a padlock beside it says the same thing twice.
+     5. The plan NAME, when given, rides in a Badge at the far edge. If a padlock is already in the
+        leading slot the Badge carries the word alone — the lock has been said once.
+     6. WHERE the padlock goes is decided by the shape of the thing, not by the page: a BUTTON
+        leads with it (icon slot, or prepended), a ROW in a menu or dropdown trails it at the
+        right-hand edge. Rows keep their own icons — a menu whose every glyph became the same
+        padlock stopped saying which row was which.
+
+     opts: { locked, popover, modal, plan, clickOnly }
+       popover → opens the U2 popover · modal → opens the U3 dialog (an action the person pressed)
+       plan: 'Starter' → Badge with the word · '' → padlock only · null → no marker at all
+     ------------------------------------------------------------------------------------------ */
+  /* The leading glyph is swapped for the padlock ONLY on a control that has no row to trail in:
+     the composer's Connections trigger, whose own glyph is the thing being locked. In a MENU or a
+     dropdown LIST the padlock goes to the right-hand edge and the row keeps its own icon — a
+     column of rows whose icons have all turned into the same padlock stops saying which row is
+     which (rule set 2026-10-06). */
+  var LOCK_GLYPH_SEL = '.cl-dropdown-icon';
+  /* Identity marks: they say WHICH thing a row is, so they are never replaced. */
+  var LOCK_IDENTITY_SEL = '.logo-spr,.avatar,.mx-prov-ic,.prov-ic-w';
+  var LOCK_SVG = '<svg class="lock-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>';
+
+  function lockBadge(plan, withGlyph) {
+    return '<span class="badge badge-sm badge-primary lock-mark">' +
+      (withGlyph ? '<svg class="b-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>' : '') +
+      plan + '</span>';
+  }
+
+  window.kitLock = function (el, opts) {
+    if (!el) return;
+    opts = opts || {};
+    var locked = !!opts.locked;
+    /* The leading glyph: a named icon slot, or simply the first child when it is an svg — a button
+       that starts with an icon has one whether or not the kit named it. */
+    var row = !!el.closest('.menu,.cl-dropdown-menu') || el.classList.contains('mi');
+    var lead = row ? null : el.querySelector(LOCK_GLYPH_SEL);
+    var identity = !!el.querySelector(LOCK_IDENTITY_SEL);
+    if (!row && !lead && !identity) {
+      var first = el.firstElementChild;
+      if (first && first.tagName.toLowerCase() === 'svg') lead = first;
+    }
+    var mark = el.querySelector('.lock-mark,.lock-glyph');
+
+    el.classList.toggle('is-locked', locked);
+
+    if (!locked) {
+      el.removeAttribute('aria-haspopup');
+      el.removeAttribute('data-upgrade');
+      el.removeAttribute('data-upgrade-modal');
+      el.removeAttribute('data-upgrade-click');
+      el.removeAttribute('data-tip');
+      if (mark) mark.remove();
+      if (lead && lead.getAttribute('data-glyph')) {
+        lead.innerHTML = lead.getAttribute('data-glyph');
+        lead.removeAttribute('data-glyph');
+      }
+      return;
+    }
+
+    /* No aria-disabled: a locked control is not inert. It is a button that opens a dialog,
+       and that is exactly what it announces. */
+    el.setAttribute('aria-haspopup', 'dialog');
+    if (opts.popover) el.setAttribute('data-upgrade', opts.popover);
+    /* An ACTION opens the modal instead: the person had already committed to doing something. */
+    if (opts.modal) el.setAttribute('data-upgrade-modal', opts.modal);
+    if (opts.clickOnly) el.setAttribute('data-upgrade-click', '');
+    /* A tooltip names the plan on hover where the popover waits for a click — the control still
+       answers a pointer passing over it, with one line instead of a panel. */
+    if (opts.tip) el.setAttribute('data-tip', opts.tip);
+
+    if (lead) {
+      if (!lead.getAttribute('data-glyph')) lead.setAttribute('data-glyph', lead.innerHTML);
+      lead.innerHTML = '<use href="#mi-lock"/>';
+    }
+    if (mark) return;                                  /* already marked */
+    if (opts.plan) {
+      el.insertAdjacentHTML('beforeend', lockBadge(opts.plan, !lead && !identity));
+      if (!lead && !identity) return;                  /* the Badge carries the only padlock */
+    }
+    if (lead) return;                                  /* the swapped glyph IS the padlock */
+    if (opts.plan === null) return;                    /* explicitly unmarked (switch rows) */
+    /* A ROW trails its padlock at the right-hand edge; a BUTTON leads with it. Identity marks
+       (a connector logo, an avatar) also push the padlock to the end — the mark says which thing
+       the row is, and losing it costs more than the position does. */
+    el.insertAdjacentHTML(row || identity ? 'beforeend' : 'afterbegin', LOCK_SVG);
+  };
+
   var UPOP_GAP = 8;      /* distance from the trigger, matching the menus' --menu-gap default */
   var UPOP_GRACE = 160;  /* travel time allowed between trigger and popover before closing */
   var upopEl, upopTrigger, upopOpenTimer, upopCloseTimer;
 
-  function upopFor(trigger) {
-    var id = trigger.getAttribute('data-upgrade');
-    return id ? document.getElementById(id) : null;
+  /* ── The panels themselves ──────────────────────────────────────────────────────────────
+     A trigger names a FEATURE (`data-upgrade="connections"`), and the panel is built from the
+     catalogue in kit-plans.js the first time it is needed, then kept. Before this, every page
+     hand-wrote its own copies: 14 popovers and 4 modals for six features — and they had already
+     drifted, the same panel reading "Connections" on one page and "Data connections" on another,
+     with the metrics benefit worded two different ways.
+
+     A page may still hand-write a panel when it carries live data (the Files storage meter is the
+     one such case); a trigger pointing at an existing element id keeps working untouched. */
+  function planFeature(key) {
+    var cat = window.KIT_PLAN_FEATURES;
+    return cat && Object.prototype.hasOwnProperty.call(cat, key) ? cat[key] : null;
   }
 
+  function planHost() {
+    var host = document.getElementById('kit-plan-panels');
+    if (!host) {
+      host = document.createElement('div');
+      host.id = 'kit-plan-panels';
+      document.body.appendChild(host);
+    }
+    return host;
+  }
+
+  function featList(items) {
+    return '<ul class="feat-list">' + items.map(function (b) {
+      return '<li>' + b + '</li>';
+    }).join('') + '</ul>';
+  }
+
+  function planBadge(plan) {
+    return '<span class="badge badge-sm badge-primary plan-badge">' + plan + '</span>';
+  }
+
+  /* The popover: the feature's name, the plan, the two strongest benefits. Two, not three — it
+     hangs beside a pointer and answers a hover, so it states the case and stops. */
+  function buildUpop(key, f) {
+    var el = document.createElement('div');
+    el.className = 'pop pop-upgrade';
+    el.id = 'kit-upop-' + key;
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-label', f.name);
+    el.hidden = true;
+    el.innerHTML =
+      '<div class="pop-up-head">' + f.name + planBadge(f.plan) + '</div>' +
+      '<div class="pop-up-body">' + featList(f.benefits.slice(0, 2)) +
+      '<button class="btn btn-primary btn-sm" type="button">Upgrade to Unlock</button></div>';
+    planHost().appendChild(el);
+    return el;
+  }
+
+  /* The modal answers a PRESS, so it gets the headline, the sentence and every benefit. */
+  function buildUdlg(key, f) {
+    var el = document.createElement('div');
+    el.className = 'dlg-overlay';
+    el.id = 'kit-udlg-' + key;
+    el.hidden = true;
+    var titleId = 'kit-udlg-' + key + '-title';
+    el.innerHTML =
+      '<div class="dlg dlg-upgrade" role="dialog" aria-modal="true" aria-labelledby="' + titleId + '">' +
+        '<div class="dlg-hdr">' +
+          '<div class="dlg-up-head"><div class="dlg-up-title-row">' +
+            '<h2 class="dlg-title" id="' + titleId + '">' + f.title + '</h2>' + planBadge(f.plan) +
+          '</div></div>' +
+          '<button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" data-dlg-close data-tip="Close">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+          '</button>' +
+        '</div>' +
+        '<div class="dlg-content is-stack">' +
+          '<p class="dlg-up-lead">' + f.lead + '</p>' + featList(f.benefits) +
+        '</div>' +
+        '<div class="dlg-ftr">' +
+          '<button class="btn btn-secondary btn-sm" type="button" data-dlg-close>Cancel</button>' +
+          '<button class="btn btn-primary btn-sm" type="button">Upgrade to Unlock</button>' +
+        '</div>' +
+      '</div>';
+    planHost().appendChild(el);
+    return el;
+  }
+
+  function planPanel(key, kind) {
+    if (!key) return null;
+    var existing = document.getElementById(key);
+    if (existing) return existing;                 /* a page's own hand-written panel wins */
+    var prefix = kind === 'modal' ? 'kit-udlg-' : 'kit-upop-';
+    var built = document.getElementById(prefix + key);
+    if (built) return built;
+    var f = planFeature(key);
+    if (!f) return null;
+    return kind === 'modal' ? buildUdlg(key, f) : buildUpop(key, f);
+  }
+
+  function upopFor(trigger) {
+    return planPanel(trigger.getAttribute('data-upgrade'), 'popover');
+  }
+
+  /* Placement, in order of preference:
+     1. BESIDE the trigger — right, then left. A panel at the side leaves the row it explains
+        visible, and leaves the rest of the menu visible with it: open the Pro row and you can
+        still see that Light is the one selected. A panel below covers exactly the list the
+        person was reading.
+     2. Below, then above, when neither side has room — a narrow window, or a trigger against
+        the edge. Then it behaves like any anchored menu.
+     Both axes are clamped last, so a trigger near a corner still produces a panel fully on
+     screen rather than one bleeding off it. */
   function upopPlace(pop, trigger) {
     var r = trigger.getBoundingClientRect(), p = pop.getBoundingClientRect();
-    var top = r.bottom + UPOP_GAP;
-    if (top + p.height > window.innerHeight - UPOP_GAP) {
-      var above = r.top - p.height - UPOP_GAP;
-      if (above > UPOP_GAP) top = above;
-      else top = Math.max(UPOP_GAP, window.innerHeight - p.height - UPOP_GAP);
+    var vw = window.innerWidth, vh = window.innerHeight, g = UPOP_GAP;
+    var left = null, top;
+
+    /* WHERE it opens depends on what it hangs off.
+
+       A ROW IN A LIST gets the panel BESIDE it: below would cover exactly the list the person is
+       reading, and the point of a locked list is that you can still run your eye down it.
+
+       Anything else — a button, the composer's Connections control — gets it BELOW, or above when
+       there is no room, which is how every other panel anchored to that control already behaves.
+       A panel at the side of a composer control reads as belonging to the thing next to it. */
+    var inList = !!(trigger.closest && trigger.closest('.menu,.cl-dropdown-menu'));
+
+    /* A trigger that owns a MENU opens its panel the way that menu opens: the composer's controls
+       open upward, and a popover that dropped downward from the same button made one control
+       answer in two directions. The menu's own direction is read off the DOM, not assumed. */
+    var ownMenu = !inList && trigger.parentElement
+      ? trigger.parentElement.querySelector('.cl-dropdown-menu,.menu') : null;
+    var menuOpensUp = !!ownMenu && (ownMenu.classList.contains('is-up') ||
+      getComputedStyle(ownMenu).bottom !== 'auto');
+
+    if (inList) {
+      if (r.right + g + p.width <= vw - g) {
+        left = r.right + g;                     /* right side */
+      } else if (r.left - g - p.width >= g) {
+        left = r.left - g - p.width;            /* left side */
+      }
     }
-    /* A trigger scrolled out of view (or a very tall panel) must not place the panel off the
-       top of the screen — the flip above only answers the bottom edge. */
-    top = Math.max(UPOP_GAP, top);
-    var left = r.left;
-    if (left + p.width > window.innerWidth - UPOP_GAP) left = window.innerWidth - p.width - UPOP_GAP;
-    pop.style.left = Math.max(UPOP_GAP, left) + 'px';
-    pop.style.top = top + 'px';
+
+    if (left !== null) {
+      /* Beside: align the panel's top to the trigger's, then clamp into the viewport. */
+      top = r.top;
+    } else if (menuOpensUp) {
+      /* Above, like the control's own menu — falling back below only if there is no room. */
+      left = r.left;
+      top = r.top - p.height - g;
+      if (top < g) {
+        var below = r.bottom + g;
+        top = (below + p.height <= vh - g) ? below : g;
+      }
+    } else {
+      left = r.left;
+      top = r.bottom + g;
+      if (top + p.height > vh - g) {
+        var above = r.top - p.height - g;
+        top = above > g ? above : vh - p.height - g;
+      }
+    }
+
+    pop.style.left = Math.max(g, Math.min(left, vw - p.width - g)) + 'px';
+    pop.style.top = Math.max(g, Math.min(top, vh - p.height - g)) + 'px';
   }
 
   function upopOpen(trigger) {
@@ -619,7 +862,11 @@
     pop.hidden = false;
     pop.style.display = 'block';
     upopPlace(pop, trigger);
-    trigger.setAttribute('aria-expanded', 'true');
+    /* NOT aria-expanded: on a composer control that attribute is what opens its menu
+       (`.cl-dropdown[aria-expanded="true"]+.cl-dropdown-menu`), so setting it here opened the
+       very menu the lock exists to keep shut. The panel is a dialog, announced by aria-haspopup,
+       and this flag is only for styling the trigger while it is open. */
+    trigger.setAttribute('data-upgrade-open', '');
     /* The tooltip and the popover would say the same thing twice — the bigger one wins. */
     if (window.kitTipHide) window.kitTipHide();
   }
@@ -630,7 +877,7 @@
     if (!upopEl) return;
     upopEl.hidden = true;
     upopEl.style.display = '';
-    if (upopTrigger) upopTrigger.setAttribute('aria-expanded', 'false');
+    if (upopTrigger) upopTrigger.removeAttribute('data-upgrade-open');
     upopEl = null;
     upopTrigger = null;
   }
@@ -713,6 +960,46 @@
      Markup contract: a `.segctrl` whose buttons carry `data-plan-switch="paid" | "free"` (not `data-plan` — the account modal already uses that for its balance states). No onclick —
      this layer owns the click, so a page cannot wire it differently.
      ========================================================================================== */
+  /* ── Theme harness ────────────────────────────────────────────────────────────────────
+     The mockups' Light / Dark switch. It lived per page — a bare "Light / Dark" toggle button on
+     four pages, a .segctrl on two, none of them remembering anything — so walking between pages
+     threw the choice away and a dark-theme review had to start over on every screen.
+
+     One switch, stored like the plan: `.segctrl` buttons carrying `data-theme-switch="light|dark"`.
+     The class goes on <html> as early as this file runs, so a page never paints light and flips. */
+  var THEME_KEY = 'insightis.theme';
+
+  function themeGet() {
+    try { return localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light'; } catch (e) { return 'light'; }
+  }
+
+  function themeSync(theme) {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    var btns = document.querySelectorAll('[data-theme-switch]');
+    for (var i = 0; i < btns.length; i++) {
+      var on = btns[i].getAttribute('data-theme-switch') === theme;
+      btns[i].setAttribute('aria-selected', on ? 'true' : 'false');
+      btns[i].classList.toggle('is-active', on);
+    }
+    document.dispatchEvent(new CustomEvent('kit:theme', { detail: { theme: theme } }));
+  }
+
+  function themeSet(theme) {
+    try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+    themeSync(theme);
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-theme-switch]');
+    if (!b) return;
+    themeSet(b.getAttribute('data-theme-switch'));
+  });
+
+  document.documentElement.classList.toggle('dark', themeGet() === 'dark');
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { themeSync(themeGet()); });
+  else themeSync(themeGet());
+  window.kitThemeSet = themeSet;
+
   var PLAN_KEY = 'insightis.plan';
 
   function planGet() {
@@ -755,14 +1042,103 @@
   }
 
 
-  /* The CTA inside any .pop-upgrade leads to one place — Settings → Manage plan. That single
-     destination is the brief's rule, so it is the kit's, not each page's. The storybook renders
-     the popover as a demo and has no plan switch; there the CTA stays inert. */
+  /* Every upgrade CTA — in the popover and in the modal alike — leads to one place: Settings →
+     Manage plan. One destination is the brief's rule, so it belongs to the kit rather than to
+     each page, and both surfaces read it from here. "Not now" is excluded by selector: only the
+     PRIMARY button travels; the secondary one is the way out.
+     The storybook renders both as demos and has no plan switch; there they stay inert. */
   var PLAN_URL = document.documentElement.getAttribute('data-plan-url') || 'user_profile-modal.html?section=manage-plan';
   document.addEventListener('click', function (e) {
-    var cta = e.target.closest && e.target.closest('.pop-upgrade .btn');
+    if (!e.target.closest) return;
+    var cta = e.target.closest('.pop-upgrade .btn, .dlg-upgrade .btn-primary');
     if (!cta) return;
     if (window.kitUpgradeClose) window.kitUpgradeClose();
+    if (window.kitUpgradeModalClose) window.kitUpgradeModalClose();
     if (document.querySelector('[data-plan-switch]')) location.href = PLAN_URL;
   });
+
+  /* ==========================================================================================
+     8. UPGRADE MODAL — the answer to an action
+
+     Hovering a locked row gets a popover (section 6). PRESSING a locked action — Connect, Edit,
+     Create, Add — gets this: the person had already decided to do something, and a bubble at the
+     edge of the pointer is too small an answer for that.
+
+     Contract: `data-upgrade-modal="<id of the .dlg-overlay>"` on the trigger. Click opens; Esc,
+     the scrim and any [data-dlg-close] inside close it. Focus moves to the dialog and returns to
+     the trigger, because the trigger is where the person was.
+     ========================================================================================== */
+  var upModalEl, upModalTrigger;
+
+  function upModalClose() {
+    if (!upModalEl) return;
+    upModalEl.hidden = true;
+    if (upModalTrigger && upModalTrigger.focus) upModalTrigger.focus();
+    upModalEl = null;
+    upModalTrigger = null;
+  }
+
+  function upModalOpen(trigger) {
+    var el = planPanel(trigger.getAttribute('data-upgrade-modal'), 'modal');
+    if (!el) return;
+    if (window.kitUpgradeClose) window.kitUpgradeClose();   /* never both at once */
+    upModalEl = el;
+    upModalTrigger = trigger;
+    el.hidden = false;
+    var first = el.querySelector('.btn-primary, button');
+    if (first && first.focus) first.focus();
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-upgrade-modal]');
+    if (t) {
+      e.preventDefault();
+      e.stopPropagation();
+      upModalOpen(t);
+      return;
+    }
+    if (!upModalEl) return;
+    if (e.target.closest && e.target.closest('[data-dlg-close]')) { upModalClose(); return; }
+    /* The scrim is the overlay itself; a click that lands on the dialog is inside it. */
+    if (e.target === upModalEl) upModalClose();
+  }, true);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && upModalEl) upModalClose();
+  });
+  window.kitUpgradeModalClose = upModalClose;
+
+  /* ==========================================================================================
+     10. Sidebar promo card — Free-only, dismissed-for-the-session.
+
+     Lives here because the card is part of the SIDEBAR's contract, not of any one page: it
+     appeared on the five gated pages and was missing from the three concept pages, so the same
+     sidebar rendered two different ways depending on which screen you were on. The visibility
+     rule and the dismiss both belong to the component; a page only supplies the markup.
+     ========================================================================================== */
+
+  var promoOff = false;
+
+  function promoApply() {
+    var card = document.getElementById('sbx-promo-card');
+    if (!card) return;
+    var free = document.documentElement.classList.contains('is-free');
+    /* Dismissed stays dismissed for the session — flipping the plan switch must not bring it
+       back, or the X reads as "hide until you touch anything". */
+    card.hidden = !free || promoOff;
+  }
+
+  document.addEventListener('click', function (e) {
+    var x = e.target.closest && e.target.closest('.promo-card-x');
+    if (!x) return;
+    var card = x.closest('.sbx-promo-card');
+    if (!card) return;
+    promoOff = true;
+    card.hidden = true;
+  });
+
+  document.addEventListener('kit:plan', promoApply);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', promoApply, { once: true });
+  else promoApply();
+
 })();

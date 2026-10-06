@@ -218,9 +218,9 @@
   /* Tight header cluster (name/price/tagline share the .375rem base gap); the tagline's
      margin-bottom + the feature list's margin-top open a clear .75rem band around the CTA,
      giving the card a 3-tier rhythm instead of one flat evenly-spaced stack. */
-  .acct-plan-card{position:relative;display:flex;flex-direction:column;gap:.375rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.75rem;padding:1.25rem}
+  .acct-promo-card{position:relative;display:flex;flex-direction:column;gap:.375rem;background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.75rem;padding:1.25rem}
   /* Recommended tier — accent border + brand wash + brand-tinted lift. */
-  .acct-plan-card.is-featured{border-color:var(--plan-card-featured-border);background:var(--plan-card-featured-bg);box-shadow:var(--plan-card-featured-shadow)}
+  .acct-promo-card.is-featured{border-color:var(--promo-card-featured-border);background:var(--promo-card-featured-bg);box-shadow:var(--promo-card-featured-shadow)}
   /* min-height keeps the name row a constant height whether or not a card carries badges, so the
      price / tagline / CTA below all line up across the three cards. */
   .acct-plan-name-row{display:flex;align-items:center;flex-wrap:wrap;gap:.375rem;min-height:1.75rem}
@@ -234,7 +234,7 @@
      price row is always exactly two lines → the tagline + CTA below line up across all three
      cards (Free's short "/ month" no longer sits inline while Starter/Pro's longer unit wraps).
   /* Full-width CTA (layout sizing only — visual variant + height come from .btn-primary/.btn-outline + .btn-md). */
-  .acct-plan-card .btn.acct-plan-cta{width:100%;justify-content:center}
+  .acct-promo-card .btn.acct-plan-cta{width:100%;justify-content:center}
   /* Check marker — brand-tinted tick via CSS mask (clean markup, colour flows from --brand-primary).
   /* ── Manage-plan dialogs (cancel / downgrade / yearly request) ── */
   /* .25rem top: .dlg-hdr already pays .5rem below the title, so a full 1.25rem here would
@@ -340,6 +340,13 @@
   <div style="display:flex;gap:.375rem;align-items:center">
     <!-- Plan state toggle — Balance-only demo control, mirrors the sidebar tokens popover's states
          plus a third exhausted-limit state. Hidden on tabs that don't expose [data-plan] panels. -->
+    <!-- The product plan the account is on (mockup switch, shared with every other page via
+         kit-kit.js §7). Distinct from "Plan state" beside it, which drives the Balance tab's
+         credit panels — one is what you pay for, the other is how much is left. -->
+    <div class="segctrl is-sm" role="tablist" aria-label="Plan" style="width:auto">
+      <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-plan-switch="paid">Paid</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-plan-switch="free">Free</button>
+    </div>
     <div class="segctrl is-sm" id="plan-toggle" role="tablist" aria-label="Plan state" style="width:auto">
       <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-plan-btn="free" onclick="setPlanState('free')">Free</button>
       <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-plan-btn="trial" onclick="setPlanState('trial')">Trial</button>
@@ -354,7 +361,10 @@
       <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" data-daily-btn="on" onclick="setDailyLimit(true)">Daily on</button>
       <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-daily-btn="off" onclick="setDailyLimit(false)">Daily off</button>
     </div>
-    <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
+    <div class="segctrl is-sm" role="tablist" aria-label="Theme" style="width:auto">
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-theme-switch="light">Light</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-theme-switch="dark">Dark</button>
+    </div>
   </div>
 </div>
 
@@ -389,25 +399,25 @@
             <div class="sbx-pop-list var-rows" role="group" aria-labelledby="modal-lbl-acct">
               <button class="sbx-pop-item" type="button" id="modal-nav-my-account"
                       data-section="my-account" onclick="acctSetSection('my-account')">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
                 My account
                 <svg class="acct-nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
               </button>
               <button class="sbx-pop-item" type="button" id="modal-nav-manage-plan"
                       data-section="manage-plan" onclick="acctSetSection('manage-plan')">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
                 Manage plan
                 <svg class="acct-nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
               </button>
               <button class="sbx-pop-item" type="button" id="modal-nav-billing"
                       data-section="billing" onclick="acctSetSection('billing')">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
                 Billing
                 <svg class="acct-nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
               </button>
               <button class="sbx-pop-item" type="button" id="modal-nav-balance"
                       data-section="balance" onclick="acctSetSection('balance')">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
                 Balance
                 <svg class="acct-nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
               </button>
@@ -418,21 +428,21 @@
             <div class="sbx-pop-list var-rows" role="group" aria-labelledby="modal-lbl-sup">
               <button class="sbx-pop-item" type="button" data-section="leave-feedback"
                       onclick="acctSetSection('leave-feedback')">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M7.5 9.5c0 .687.265 1.383.697 1.844l3.009 3.264a1.14 1.14 0 0 0 .407.314 1 1 0 0 0 .783-.004 1.14 1.14 0 0 0 .398-.31l3.008-3.264A2.77 2.77 0 0 0 16.5 9.5 2.5 2.5 0 0 0 12 8a2.5 2.5 0 0 0-4.5 1.5"/></svg>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M7.5 9.5c0 .687.265 1.383.697 1.844l3.009 3.264a1.14 1.14 0 0 0 .407.314 1 1 0 0 0 .783-.004 1.14 1.14 0 0 0 .398-.31l3.008-3.264A2.77 2.77 0 0 0 16.5 9.5 2.5 2.5 0 0 0 12 8a2.5 2.5 0 0 0-4.5 1.5"/></svg>
                 Leave feedback
                 <svg class="acct-nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
               </button>
               <a class="sbx-pop-item" href="#" target="_blank" rel="noopener"
                  aria-label="Resources (opens in new tab)">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M12 17h.01"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/></svg>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M12 17h.01"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/></svg>
                 Resources
-                <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="m7 17 10-10"/></svg>
+                <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="m7 17 10-10"/></svg>
               </a>
             </div>
           </div>
           <div class="acct-nav-foot"><div class="sbx-pop-list var-rows">
             <button class="sbx-pop-item danger" type="button">
-              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
               Log out
             </button>
             </div>
@@ -476,17 +486,17 @@
                 <div class="segctrl is-md" role="tablist" aria-label="Theme" style="width:100%">
                   <button class="segctrl-btn is-active" type="button" aria-label="Light" aria-selected="true"
                           onclick="this.closest('.segctrl').querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
                     <span class="segctrl-lbl">Light</span>
                   </button>
                   <button class="segctrl-btn" type="button" aria-label="Dark" aria-selected="false"
                           onclick="this.closest('.segctrl').querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
                     <span class="segctrl-lbl">Dark</span>
                   </button>
                   <button class="segctrl-btn" type="button" aria-label="System" aria-selected="false"
                           onclick="this.closest('.segctrl').querySelectorAll('.segctrl-btn').forEach(function(b){b.classList.remove('is-active');b.setAttribute('aria-selected','false')});this.classList.add('is-active');this.setAttribute('aria-selected','true')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 20H8"/><path d="M17 9h.01"/><rect width="10" height="16" x="12" y="4" rx="2"/><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"/><circle cx="17" cy="15" r="1"/></svg>
                     <span class="segctrl-lbl">System</span>
                   </button>
                 </div>
@@ -504,14 +514,14 @@
                   <div class="acct-plan-current-main">
                     <span class="acct-plan-current-lbl">Current plan</span>
                     <span class="acct-plan-current-val">
-                      <span class="acct-plan-current-name">Starter Monthly</span>
+                      <span class="acct-plan-current-name" id="acct-current-name">Starter Monthly</span>
                       <!-- The separator is its own element so the mobile rule can drop it once the
                            two lines stack (a leading or trailing "·" on its own line reads as a typo). -->
                       <span class="acct-plan-current-meta acct-plan-current-sep" aria-hidden="true">·</span>
-                      <span class="acct-plan-current-meta">Expires on Sep 30, 2026</span>
+                      <span class="acct-plan-current-meta" id="acct-current-meta">Expires on Sep 30, 2026</span>
                     </span>
                   </div>
-                  <button class="btn btn-secondary btn-sm" type="button" onclick="acctOpenCancelPlan()">Cancel Plan</button>
+                  <button class="btn btn-secondary btn-sm" id="acct-cancel-plan" type="button" onclick="acctOpenCancelPlan()">Cancel Plan</button>
                 </div>
 
                 <!-- Header row: "Choose a plan" + billing-period toggle -->
@@ -525,12 +535,12 @@
                            the text is ever hidden, matching the Theme segctrl's pattern. -->
                       <button class="segctrl-btn is-active" type="button" role="tab" aria-selected="true" aria-label="Monthly"
                               data-period="monthly" onclick="acctSetPlanPeriod('monthly',this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
                         <span class="segctrl-lbl">Monthly</span>
                       </button>
                       <button class="segctrl-btn" type="button" role="tab" aria-selected="false" aria-label="Yearly"
                               data-period="yearly" onclick="acctSetPlanPeriod('yearly',this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
                         <span class="segctrl-lbl">Yearly</span>
                       </button>
                     </div>
@@ -540,12 +550,12 @@
                 <!-- Pricing cards — CTAs are contextual to the current tier (Starter): Free is a
                      downgrade, Starter is the current plan, Pro is the upgrade. -->
                 <div class="acct-plan-grid">
-                  <div class="acct-plan-card">
+                  <div class="acct-promo-card">
                     <div class="acct-plan-name-row"><span class="acct-plan-name">Free</span></div>
                     <div class="acct-plan-tagline">For getting started</div>
                     <!-- Invisible unit line keeps the CTA row aligned with the paid cards. -->
                     <div class="acct-plan-price-row"><span class="acct-plan-price">$0</span><span class="acct-plan-per" aria-hidden="true" style="visibility:hidden">excl. VAT</span></div>
-                    <button class="btn btn-outline btn-md acct-plan-cta" type="button" onclick="acctOpenDowngrade('Free')">Switch to Free</button>
+                    <button id="acct-plan-cta-free" class="btn btn-outline btn-md acct-plan-cta" type="button" onclick="acctOpenDowngrade('Free')">Switch to Free</button>
                     <ul class="acct-plan-feats">
                       <li>1 user</li>
                       <li>500 AI credits / month</li>
@@ -557,7 +567,7 @@
                   <!-- Starter — the current tier: same surface as the others, disabled CTA. The
                        50% OFF promo is a ribbon on the card's top border, mirrored from the live
                        pricing page. -->
-                  <div class="acct-plan-card">
+                  <div class="acct-promo-card">
                     <div class="acct-plan-ribbon is-accent">50% OFF</div>
                     <div class="acct-plan-name-row"><span class="acct-plan-name">Starter <span data-monthly="Monthly" data-yearly="Yearly">Monthly</span></span></div>
                     <div class="acct-plan-tagline">For small teams</div>
@@ -576,7 +586,7 @@
                   </div>
                   <!-- Pro — the recommended tier: accent border + brand wash, and both markers
                        ("Most popular" + the promo) share one row on the top border. -->
-                  <div class="acct-plan-card is-featured">
+                  <div class="acct-promo-card is-featured">
                     <div class="acct-plan-ribbon-row">
                       <div class="acct-plan-ribbon is-brand">Most popular</div>
                       <div class="acct-plan-ribbon is-accent">50% OFF</div>
@@ -584,7 +594,7 @@
                     <div class="acct-plan-name-row"><span class="acct-plan-name">Pro <span data-monthly="Monthly" data-yearly="Yearly">Monthly</span></span></div>
                     <div class="acct-plan-tagline">For growing teams</div>
                     <div class="acct-plan-price-row"><span class="acct-plan-price" data-monthly="$15.99" data-yearly="$143.88">$15.99</span><span class="acct-plan-price-was" data-monthly="$39.99" data-yearly="$287.88">$39.99</span><span class="acct-plan-per">excl. VAT</span></div>
-                    <button class="btn btn-primary btn-md acct-plan-cta" type="button">Upgrade to Pro</button>
+                    <button id="acct-plan-cta-pro" class="btn btn-primary btn-md acct-plan-cta" type="button">Upgrade to Pro</button>
                     <ul class="acct-plan-feats">
                       <li>Unlimited users</li>
                       <li>25,000 AI credits / month</li>
@@ -662,7 +672,7 @@
                       <span class="badge badge-primary badge-sm">Free plan</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
+                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
                       <div class="acct-bal-amount" style="flex:1">827<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
@@ -714,7 +724,7 @@
                       <span class="badge badge-attention badge-sm">Trial ends in 14 days</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
+                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
                       <div class="acct-bal-amount" style="flex:1">14,999.9<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>
@@ -765,7 +775,7 @@
                       <span class="badge badge-attention badge-sm">Trial ends in 14 days</span>
                     </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 1 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
+                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 1 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
                       <div class="acct-bal-amount" style="flex:1">6,800<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
@@ -812,7 +822,7 @@
                       <div class="acct-sect-title">Your credit balance</div>
                       <span class="badge badge-primary badge-sm">Free plan</span>                    </div>
                     <div class="acct-bal-hero-row" style="margin-top:.75rem">
-                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
+                      <div class="acct-bal-total-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></div>
                       <div class="acct-bal-amount" style="flex:1">0<span style="font-size:var(--ts-heading-xs-size);line-height:var(--ts-heading-xs-lh);font-weight:var(--ts-heading-xs-weight);color:var(--ink-secondary)"> left</span></div>
                       <div class="acct-bal-btns">
                         <button class="btn btn-secondary btn-sm" type="button" onclick="acctSetSection('manage-plan')">Upgrade Plan</button>                      </div>
@@ -957,12 +967,12 @@
                   <label class="acct-field-label" for="chpw-current">Current password</label>
                   <div class="igrp">
                     <span class="igrp-add" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     </span>
                     <input id="chpw-current" class="igrp-input" type="password" placeholder="Enter current password" autocomplete="current-password" />
                     <button class="igrp-act" type="button" aria-label="Show current password"
                             onclick="chpwToggle('chpw-current',this);this.blur()" data-tip="Show password">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
                     </button>
                   </div>
                 </div>
@@ -970,12 +980,12 @@
                   <label class="acct-field-label" for="chpw-new">New password</label>
                   <div class="igrp">
                     <span class="igrp-add" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     </span>
                     <input id="chpw-new" class="igrp-input" type="password" placeholder="Enter new password" autocomplete="new-password" />
                     <button class="igrp-act" type="button" aria-label="Show new password"
                             onclick="chpwToggle('chpw-new',this);this.blur()" data-tip="Show password">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
                     </button>
                   </div>
                 </div>
@@ -1004,10 +1014,10 @@
      stays visible behind them. -->
 
 <!-- Cancel plan — informational confirm: read what is lost, answer. -->
-<div id="acct-cancel-dlg" class="dlg-overlay" style="display:none;z-index:70" aria-hidden="true" onclick="if(event.target===this)acctCloseCancelPlan()">
+<div id="acct-cancel-dlg" class="dlg-overlay" style="display:none;z-index:70" aria-hidden="true" onclick="if(event.target===this)acctCloseCancelPlan()" hidden>
   <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="acct-cancel-title">
     <div class="dlg-hdr">
-      <svg class="acct-dlg-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+      <svg class="acct-dlg-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
       <h2 id="acct-cancel-title" class="dlg-title">Cancel Starter plan?</h2>
       <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="acctCloseCancelPlan()" data-tip="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1032,10 +1042,10 @@
 </div>
 
 <!-- Downgrade — same anatomy as Cancel, but the loss lands at the end of the paid period. -->
-<div id="acct-downgrade-dlg" class="dlg-overlay" style="display:none;z-index:70" aria-hidden="true" onclick="if(event.target===this)acctCloseDowngrade()">
+<div id="acct-downgrade-dlg" class="dlg-overlay" style="display:none;z-index:70" aria-hidden="true" onclick="if(event.target===this)acctCloseDowngrade()" hidden>
   <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="acct-downgrade-title">
     <div class="dlg-hdr">
-      <svg class="acct-dlg-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+      <svg class="acct-dlg-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
       <h2 id="acct-downgrade-title" class="dlg-title">Switch to <span id="acct-downgrade-name">Free</span>?</h2>
       <button class="iconbtn iconbtn-tertiary iconbtn-sm" type="button" aria-label="Close" onclick="acctCloseDowngrade()" data-tip="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1061,7 +1071,7 @@
 
 <!-- Yearly billing — a form (note field), so the wider .is-md dialog. Two states in one shell:
      the request form, then the sent acknowledgement. -->
-<div id="acct-yearly-dlg" class="dlg-overlay" style="display:none;z-index:70" aria-hidden="true" onclick="if(event.target===this)acctCloseYearlyReq()">
+<div id="acct-yearly-dlg" class="dlg-overlay" style="display:none;z-index:70" aria-hidden="true" onclick="if(event.target===this)acctCloseYearlyReq()" hidden>
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="acct-yearly-title">
     <div class="dlg-hdr">
       <h2 id="acct-yearly-title" class="dlg-title">Switch to yearly billing</h2>
@@ -1114,8 +1124,8 @@
     /* Tip stays short ("Show password"), aria-label keeps the field name — both track the state. */
     btn.setAttribute('data-tip', (show ? 'Hide' : 'Show') + ' password');
     btn.innerHTML = show
-      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>'
-      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>';
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>';
   }
 
   /* Closing the modal returns to the page the user came from — consuming pages navigate here with
@@ -1229,7 +1239,7 @@
   /* ── Manage-plan dialogs (cancel / downgrade / yearly request) ── */
   function acctShowDlg(id, show){
     var dlg = document.getElementById(id);
-    dlg.style.display = show ? 'flex' : 'none';
+    dlg.hidden = !show;
     dlg.setAttribute('aria-hidden', show ? 'false' : 'true');
   }
   function acctOpenCancelPlan(){ acctShowDlg('acct-cancel-dlg', true); }
@@ -1263,7 +1273,7 @@
     var ids = ['acct-yearly-dlg','acct-downgrade-dlg','acct-cancel-dlg'];
     for(var i = 0; i < ids.length; i++){
       var dlg = document.getElementById(ids[i]);
-      if(dlg && dlg.style.display !== 'none'){
+      if(dlg && !dlg.hidden){
         if(ids[i] === 'acct-yearly-dlg') acctCloseYearlyReq(); else acctShowDlg(ids[i], false);
         return true;
       }
@@ -1299,9 +1309,7 @@
     /* No [data-plan] panels on this tab: hide both concept controls. applyDailyLimit() must
        still run so #daily-toggle hides too, instead of lingering from the previous tab. */
     if(!panels.length){ if(toggle) toggle.style.display = 'none'; applyDailyLimit(); return; }
-    if(toggle) toggle.style.display = '';
-    /* data-plan may list several states (space-separated) for blocks shared by more than one —
-       e.g. the Buy-credits pack tray shows for every state except Trial, which has no packs. */
+    if(toggle) toggle.hidden = false;
     panels.forEach(function(p){
       p.style.display = p.dataset.plan.split(/\s+/).indexOf(acctPlanPref) !== -1 ? '' : 'none';
     });
@@ -1345,6 +1353,66 @@
   if(acctIsMobile()) acctSetMobileState('menu');
 
   // Sticker drag IIFE removed — sticker no longer rendered on this page.
+</script>
+<script>
+/* ── Plan (mockup switch) ─────────────────────────────────────────────────────────────────
+   Manage plan has to agree with the rest of the product. A screen that says "Starter Monthly,
+   expires Sep 30" while every action behind it is locked tells the person their plan is fine
+   and the app is broken — the one reading we never want.
+
+   On Free: the current-plan line says Free with nothing to expire, Cancel Plan goes (there is
+   nothing to cancel), and the cards swap which one is the account's. The current card is marked
+   the way this page already marks it — by its disabled CTA, no extra highlight. */
+(function(){
+  function acctApplyPlan(){
+    var free = document.documentElement.classList.contains('is-free');
+    var name = document.getElementById('acct-current-name');
+    var meta = document.getElementById('acct-current-meta');
+    var sep  = document.querySelector('.acct-plan-current-sep');
+    var cancel = document.getElementById('acct-cancel-plan');
+    var ctaFree = document.getElementById('acct-plan-cta-free');
+    var ctaStarter = document.getElementById('acct-plan-cta-starter');
+
+    if(name){
+      if(!name.getAttribute('data-paid')) name.setAttribute('data-paid', name.textContent);
+      name.textContent = free ? 'Free' : name.getAttribute('data-paid');
+    }
+    if(meta) meta.style.display = free ? 'none' : '';
+    if(sep)  sep.style.display  = free ? 'none' : '';
+    if(cancel) cancel.style.display = free ? 'none' : '';
+
+    if(ctaFree){
+      if(!ctaFree.getAttribute('data-paid')) ctaFree.setAttribute('data-paid', ctaFree.textContent);
+      ctaFree.textContent = free ? 'Current Plan' : ctaFree.getAttribute('data-paid');
+      ctaFree.disabled = free;
+      if(free) ctaFree.setAttribute('aria-disabled','true'); else ctaFree.removeAttribute('aria-disabled');
+    }
+    if(ctaStarter){
+      if(!ctaStarter.getAttribute('data-paid')) ctaStarter.setAttribute('data-paid', ctaStarter.textContent);
+      ctaStarter.textContent = free ? 'Upgrade to Starter' : ctaStarter.getAttribute('data-paid');
+      ctaStarter.disabled = !free;
+      if(free){ ctaStarter.removeAttribute('aria-disabled'); ctaStarter.classList.remove('btn-outline'); ctaStarter.classList.add('btn-primary'); }
+      else { ctaStarter.setAttribute('aria-disabled','true'); ctaStarter.classList.add('btn-outline'); ctaStarter.classList.remove('btn-primary'); }
+    }
+  }
+  /* F2 — what happens after paying. The mockup cannot take money, so the CTA stands in for the
+     whole transaction: the plan flips to paid, everything locked across every page unlocks with
+     it (the switch is shared), and a toast says WHICH plan and WHAT it opened. That sentence
+     shape is the brief's: "Success!" tells nobody what changed. */
+  function acctUpgrade(plan, unlocked){
+    kitPlanSet('paid');
+    if(window.kitToast) kitToast('You are on ' + plan, unlocked + ' are unlocked.', 'success');
+  }
+  document.addEventListener('click', function(e){
+    var starter = e.target.closest && e.target.closest('#acct-plan-cta-starter');
+    if(starter && !starter.disabled){ acctUpgrade('Starter', 'Connections and metrics'); return; }
+    var pro = e.target.closest && e.target.closest('#acct-plan-cta-pro');
+    if(pro && !pro.disabled) acctUpgrade('Pro', 'Every model, connection and metric');
+  });
+  document.addEventListener('kit:plan', acctApplyPlan);
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', acctApplyPlan);
+  else acctApplyPlan();
+})();
 </script>
 </body>
 </html>

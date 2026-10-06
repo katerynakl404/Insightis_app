@@ -79,3 +79,49 @@ Radius, gap, typography scale, focus handling and motion are inherited from exis
 - Glyph contrast against the wash clears 3:1 in both themes for every variant; the title and description ride on `Text/Primary` / `Text/Secondary`, which clear AA on every kit surface.
 - The glyph is `aria-hidden` — it duplicates the title, and a screen reader that reads both says the same thing twice.
 - Under `sm` the actions drop under the copy instead of squeezing it into a column of single words.
+
+## 2026-10-06 — Alert becomes the plan-state notice (U4 / U6)
+
+Two surfaces that were built as gradient banners are now Alerts, with no change to the component
+itself:
+
+| Surface | Variant | Why the swap |
+|---|---|---|
+| **U4 — read-only notice** (Metrics, My Connections) | `.alert.alert-warn` | A gradient strip reads as an offer, and the eye files offers with marketing. This is a state of the person's own account, so it takes the component the product already uses for "something here is not normal". |
+| **U6 — connections paused in a chat** (`.cl-u6`) | `.alert.alert-warn` | Same statement, inside a thread. The page sets position only (`width`, `max-width`, `margin`); every other value is the component's. |
+
+**Warning, not error or info.** Nothing is broken and nothing was lost — but a constraint the
+person has not met is attention, and the family's triangle is the glyph that says so. The eye glyph
+tried first belonged to no variant.
+
+**The action differs by context, and that is deliberate.** Above a table the upgrade is an inline
+`.link` inside the description — a button there would be a third control in a row that already has
+two. Inside a chat it is a real `.btn.btn-secondary.btn-xs` in `.alert-acts`, because a link inside
+a sentence reads as part of the conversation. Both dismiss with an `.iconbtn.iconbtn-tertiary.iconbtn-2xs`
+labelled **Dismiss** (not "Collapse": it goes away, it does not fold to a stub).
+
+## 2026-10-06 — two sizes, S and M
+
+An Alert does two jobs and they do not want the same type. Inside another component — a queue
+band, a card — it is a footnote and reads at 12. Standing on a page above a table, speaking about
+the whole screen, it occupies a full row, and 12px there is a whisper from something large.
+
+| | S (default) | M (`.alert.is-md`) |
+|---|---|---|
+| Title | `Title/12` | `Title/14` |
+| Description | `Body/S` (12) | `Body/M` (14) |
+| Glyph | 16px | 20px — same stroke, only the box steps |
+| Padding / gap | 10/12 · 10 | 12/14 · 12 |
+
+S stays the default because every inline use predates M. **Every rung moves together** — type,
+glyph and padding — so M is a size, not a bigger font.
+
+**In use:** the read-only notice on Metrics and on My Connections is `is-md`; the paused-connections
+card inside a chat thread stays S, because there it sits in a conversation rather than over it.
+
+**Both sizes carry the same stroke (2026-10-06).** A 1.5 / 2 pair lived here for a day, on the
+argument that a glyph at 16px with stroke 2 is ~20% heavier relative to its box than the same glyph
+at 20px. It was dropped the same day: prod draws every UI glyph at one weight, and an Alert whose
+glyph is lighter than the button beside it reads as a different icon set, not as a smaller alert.
+Only the BOX steps — 16px at S, 20px at M — and the stroke stays `--icon-stroke`. The Devart UI
+Alert made the same move in the same pass, so the package and the kit agree.

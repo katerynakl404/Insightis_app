@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../kit-theme.css" />
 <script src="../kit-kit.js" defer></script>
+<script src="../kit-plans.js" defer></script>
 <style>
   /* ===== Page-only layout (NO component restyling) ===== */
   .topbar{padding:.375rem 1rem}
@@ -24,10 +25,23 @@
   /* Burger alignment handled globally in kit-theme.css — no per-page rules needed. */
   /* Search — width glue only. Everything else is the kit InputGroup: .is-lg height, .igrp-add
      leading glyph, .igrp-act.igrp-clear trailing clear (the kit also owns its show/hide). */
-  .ds-search.igrp{max-width:none;width:100%}
 
   /* Page head — title left, CTA right. */
-  .ds-page-body{display:flex;flex-direction:column;gap:.75rem}
+  /* 16px, the same step the panels inside it use. At 12px the tab row sat closer to the alert
+     than the alert sat to the table, so the notice looked attached to the tabs above it. One
+     rhythm from the page head down. */
+  .ds-page-body{display:flex;flex-direction:column;gap:1rem}
+  /* Both tab panels keep the page's own rhythm: the container sets the gap, nothing sets a
+     margin of its own. That is why the banners sat flush on one tab and spaced on the other —
+     one had a margin, the other had nothing, and neither matched .ds-page-body's .75rem. */
+  #ds-panel-catalog,#ds-panel-connections{display:flex;flex-direction:column;gap:1rem}
+  /* …and the hidden one must stay hidden: `display:flex` out-ranks the browser's own [hidden]
+     rule, which is what made the Catalog render underneath the My Connections tab. */
+  #ds-panel-catalog[hidden],#ds-panel-connections[hidden]{display:none}
+  /* A collapsed banner keeps its slot in a flex column and so keeps its gap — which is how the
+     Connections tab ended up with 24px under its banner while Catalog had 12. Collapsed means
+     gone. */
+  #ds-panel-catalog > .banner-wrap.is-dismissed,#ds-panel-connections > .banner-wrap.is-dismissed{display:none}
   .ds-page-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
   .ds-page-head .cl-page-title{margin:0}
   .ds-page-head .ds-addnew{flex:none}
@@ -56,9 +70,10 @@
      The .ds-card tile styling lives in kit-theme.css; this is the page-composition column rule.
      The max() min-track grows once 8 tiles would each clear 7rem, so auto-fill never places a
      9th; below that the 7rem floor lets it reflow down as the content narrows. ===== */
-  .ds-grid{display:grid;gap:.75rem;margin-top:.75rem}
+  .ds-grid{display:grid;gap:.75rem}
   .ds-app.ds-v3 .ds-grid{grid-template-columns:repeat(auto-fill,minmax(max(7rem,(100% - 7 * .75rem)/8),1fr));gap:.75rem}
-  #ds-cats{flex-wrap:wrap;padding-bottom:2px;margin-top:.75rem}
+  /* No margin-top: #ds-panel-catalog's own gap is the spacing between every block on the tab. */
+  #ds-cats{flex-wrap:wrap;padding-bottom:2px}
   #ds-cats::-webkit-scrollbar{display:none}
   @media(max-width:767px){#ds-cats{flex-wrap:nowrap;overflow-x:auto}}
 
@@ -83,27 +98,29 @@
      Lucide 24×24 outlines; menu items reference them with <use href="#mi-*"/>, never inline paths.
      Keep in sync with the same block in insightis-preview-kit.html. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <symbol id="mi-add-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v6"/><path d="M9 10h6"/></symbol>
-  <symbol id="mi-rename" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
-  <symbol id="mi-duplicate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
-  <symbol id="mi-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
-  <symbol id="mi-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol>
-  <symbol id="mi-unpin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M15 9.34V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H7.89"/><path d="m2 2 20 20"/><path d="M9 9v1.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h11"/></symbol>
-  <symbol id="mi-select" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
-  <symbol id="mi-deselect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12H3"/><path d="M16 6H3"/><path d="M11 18H3"/><path d="m19 10 4 4"/><path d="m19 14 4-4"/></symbol>
-  <symbol id="mi-test-conn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.36 2.64L3 8"/><path d="M3 3v5h5"/></symbol>
-  <symbol id="mi-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
-  <symbol id="mi-disconnect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="M12 6l6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></symbol>
+  <symbol id="mi-add-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v6"/><path d="M9 10h6"/></symbol>
+  <symbol id="mi-rename" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+  <symbol id="mi-duplicate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="mi-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+  <symbol id="mi-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol>
+  <symbol id="mi-unpin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M15 9.34V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H7.89"/><path d="m2 2 20 20"/><path d="M9 9v1.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h11"/></symbol>
+  <symbol id="mi-select" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
+  <symbol id="mi-deselect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12H3"/><path d="M16 6H3"/><path d="M11 18H3"/><path d="m19 10 4 4"/><path d="m19 14 4-4"/></symbol>
+  <symbol id="mi-test-conn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.36 2.64L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="mi-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
+  <symbol id="mi-disconnect" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="M12 6l6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></symbol>
   <!-- Plan-state glyphs. One dictionary entry per STATE, so a lock drawn in a menu row, in a
        button and in a popover head is the same lock. The head of an upgrade popover carries the
        FEATURE's own glyph (model / connections / metrics), never the lock — the lock belongs on
        the thing that is locked, and repeating it inside the panel says nothing new. -->
-  <symbol id="mi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
-  <symbol id="mi-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></symbol>
-  <symbol id="mi-view-only" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
-  <symbol id="mi-model" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2a2.5 2.5 0 0 0-2.5 2.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></symbol>
-  <symbol id="mi-connections" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="7" height="7" rx="1.2"/><rect x="15" y="15" width="7" height="7" rx="1.2"/><path d="M5.5 9v4a2 2 0 0 0 2 2h7"/></symbol>
-  <symbol id="mi-metrics" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></symbol>
+  <symbol id="mi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="mi-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></symbol>
+  <symbol id="mi-view-only" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="mi-model" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2a2.5 2.5 0 0 0-2.5 2.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></symbol>
+  <symbol id="mi-connections" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="7" height="7" rx="1.2"/><rect x="15" y="15" width="7" height="7" rx="1.2"/><path d="M5.5 9v4a2 2 0 0 0 2 2h7"/></symbol>
+  <symbol id="mi-metrics" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></symbol>
+  <symbol id="mi-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  <symbol id="mi-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
 </svg>
 
 
@@ -155,17 +172,17 @@
       <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-plan-switch="free">Free</button>
     </div>
     <div class="segctrl is-sm" style="width:auto">
-      <button class="segctrl-btn is-active" id="ds-seg-empty" type="button" onclick="dsSegState(this,'empty')">Empty</button>
-      <button class="segctrl-btn" id="ds-seg-connected" type="button" onclick="dsSegState(this,'connected')">Connected</button>
+      <button class="segctrl-btn" id="ds-seg-empty" type="button" onclick="dsSegState(this,'empty')">Empty</button>
+      <button class="segctrl-btn is-active" id="ds-seg-connected" type="button" onclick="dsSegState(this,'connected')">Connected</button>
     </div>
     <!-- Loaded/Skeleton — in-page initial-load preview (flips html.skel-on). NOT a Current/Expected scope; never wire to .prod. -->
     <div class="segctrl is-sm" role="group" aria-label="Page state" style="width:auto">
       <button class="segctrl-btn is-active" type="button" aria-selected="true" onclick="document.documentElement.classList.remove('skel-on');this.classList.add('is-active');this.setAttribute('aria-selected','true');this.nextElementSibling.classList.remove('is-active');this.nextElementSibling.setAttribute('aria-selected','false')">Loaded</button>
       <button class="segctrl-btn" type="button" aria-selected="false" onclick="document.documentElement.classList.add('skel-on');this.classList.add('is-active');this.setAttribute('aria-selected','true');this.previousElementSibling.classList.remove('is-active');this.previousElementSibling.setAttribute('aria-selected','false')">Skeleton</button>
     </div>
-    <div class="segctrl is-sm" style="width:auto">
-      <button class="segctrl-btn is-active" id="ds-seg-light" type="button" onclick="dsSegTheme(this,'light')">Light</button>
-      <button class="segctrl-btn" id="ds-seg-dark" type="button" onclick="dsSegTheme(this,'dark')">Dark</button>
+    <div class="segctrl is-sm" role="tablist" aria-label="Theme" style="width:auto">
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-theme-switch="light">Light</button>
+      <button class="segctrl-btn" type="button" role="tab" aria-selected="false" data-theme-switch="dark">Dark</button>
     </div>
   </div>
 </div>
@@ -175,7 +192,7 @@
   <div class="cl-side-backdrop" onclick="document.documentElement.classList.remove('side-open')"></div>
   <!-- ============= Sidebar — kept in sync with chats-landing.html (single source of truth);
        only the active row differs (Sources here, not Chats). ============= -->
-  <aside class="cl-side">
+  <aside class="cl-side" id="cl-side">
     <div class="sbx var-embedded">
         <div class="sbx-head">
           <div class="sbx-brand">
@@ -223,11 +240,9 @@
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
             <!-- Pinned chats — context menu surfaces Unpin / Rename / Delete only. -->
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-queue.html'">
-              <span class="sbx-chat-lbl">Message queue</span>
-            </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Q1 revenue commentary draft</span>
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-queue.html'"><span class="sbx-chat-lbl">Message queue</span></div>
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=Salesforce%20%C2%B7%20Q1%20revenue%20commentary'">
+              <span class="sbx-chat-lbl">Salesforce · Q1 revenue commentary</span>
               <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
@@ -237,8 +252,8 @@
                 <div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Onboarding cohort summary</span>
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=HubSpot%20%C2%B7%20onboarding%20cohort'">
+              <span class="sbx-chat-lbl">HubSpot · onboarding cohort</span>
               <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
@@ -248,8 +263,8 @@
                 <div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Churn deep-dive</span>
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=churn.csv%20%C2%B7%20deep-dive'">
+              <span class="sbx-chat-lbl">churn.csv · deep-dive</span>
               <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
@@ -268,8 +283,8 @@
               </button>
               <button class="link sbx-sect-link" type="button" onclick="window.location.href='../concept/chats-landing.html'">See all</button>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html'">
-              <span class="sbx-chat-lbl">Search first 5 Jira issues with AIINS</span>
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=Jira%20%C2%B7%20first%205%20AIINS%20issues'">
+              <span class="sbx-chat-lbl">Jira · first 5 AIINS issues</span>
               <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
                 <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
               </button>
@@ -279,31 +294,42 @@
                 <div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
               </div>
             </div>
-            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'">
-              <span class="sbx-chat-lbl">Generate two charts using random data</span>
-              <button class="iconbtn iconbtn-tertiary iconbtn-2xs sbx-chat-more" data-kbp="1" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="false" onclick="event.stopPropagation();var e=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',e)" data-tip="More actions">
-                <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>
-              </button>
-              <div class="menu sbx-chat-menu">
-                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-pin"/></svg>Pin</div>
-                <div class="mi"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-rename"/></svg>Rename</div>
-                <div class="mi danger"><svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-delete"/></svg>Delete</div>
-              </div>
+            <!-- The chat the paused-connections notice belongs to: it is about an uploaded file, which is
+                 the one thing a Free account can still ask about. Same list on every page. -->
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='../concept/chat_page-charts-landing.html'"><span class="sbx-chat-lbl">Generate two charts using random data</span></div>
+            <div class="sbx-chat" role="button" tabindex="0" onclick="window.location.href='chat_page-landing.html?chat=Q3%20report.xlsx'">
+              <span class="sbx-chat-lbl">Q3 report.xlsx</span>
             </div>
+          </div>
+        </div>
+        <!-- The way OUT of the current plan, where a person already looks to find out what their
+             account is. It deliberately does NOT name the plan they are on: the user row directly
+             below already says "Admin · Free", and saying it twice in 40px of sidebar is noise, not
+             emphasis (reported 2026-10-06). What it adds is what the money buys. -->
+        <div class="sbx-promo-card" id="sbx-promo-card" hidden>
+          <div class="promo-card-wrap">
+            <a class="promo-card hov-card" href="user_profile-modal.html?section=manage-plan">
+              <svg class="promo-card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              <span class="promo-card-body">
+                <span class="promo-card-t">Upgrade to Pro</span>
+                <span class="promo-card-d">Unlimited sources and 15,000 credits a month</span>
+              </span>
+            </a>
+            <button class="iconbtn iconbtn-tertiary iconbtn-2xs promo-card-x" type="button" aria-label="Dismiss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
           </div>
         </div>
         <div class="sbx-foot">
           <button class="sbx-tok" type="button" aria-haspopup="dialog" aria-expanded="false" data-popover-target="sbx-pop-tokens" aria-controls="sbx-pop-tokens" onclick="event.stopPropagation();clTogglePop('sbx-pop-tokens')">
             <div class="sbx-tok-row">
               <span class="sbx-tok-label">Balance</span>
-              <span class="sbx-tok-val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>287 left</span>
+              <span class="sbx-tok-val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>287 left</span>
             </div>
                       </button>
           <button class="sbx-user" type="button" aria-haspopup="menu" aria-expanded="false" data-popover-target="sbx-pop-account" aria-controls="sbx-pop-account" onclick="event.stopPropagation();clTogglePop('sbx-pop-account')">
             <span class="sbx-user-ava">K</span>
             <span class="sbx-user-info">
               <span class="sbx-user-name">Kateryna K.</span>
-              <span class="sbx-user-meta">Admin В· Professional</span>
+              <span class="sbx-user-meta">Admin · Pro</span>
             </span>
             <svg class="sbx-user-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
           </button>
@@ -339,18 +365,18 @@
             <div class="sbx-pop-tok-head">
               <span class="plan-name">Free</span>
             </div>
-            <div class="sbx-pop-tok-meter">
+            <div class="meter">
               <div class="row"><span class="label">Subscription Credits</span></div>
               <div class="row"><span class="coin" aria-hidden="true"></span><span class="val">213 of 500</span></div>
-              <div class="bar"><span style="width:42.6%;background:var(--brand-tertiary)"></span></div>
+              <div class="bar"><span style="width:42.6%"></span></div>
             </div>
             <!-- Daily limit — a cap on the SAME subscription pool, so it reuses that pool's blue fill;
                  no coin (it is a rate limit, not a wallet). Sits under the monthly meter. -->
-            <div class="sbx-pop-tok-meter">
+            <div class="meter">
               <div class="row"><span class="label">Daily Limit</span><span class="val sm">32 of 50</span></div>
-              <div class="bar"><span style="width:64%;background:var(--brand-tertiary)"></span></div>
+              <div class="bar"><span style="width:64%"></span></div>
             </div>
-            <div class="sbx-pop-tok-meter">
+            <div class="meter">
               <div class="row"><span class="label">Purchased Credits</span><span class="coin sm" aria-hidden="true"></span><span class="val sm">540 left</span></div>
             </div>
             <div class="sbx-pop-tok-actions">
@@ -396,7 +422,24 @@
 
         <!-- Panel 1 — Catalog -->
         <div id="ds-panel-catalog">
-          <div class="igrp is-lg var-outline ds-search" role="search">
+          <!-- D3 — the Catalog's own notice. Gradient, not the Alert used on My Connections, and
+               the difference is deliberate: nothing here is restricted, so there is nothing to
+               warn about. This is an offer sitting over a catalogue a Free account can read end
+               to end, and an offer is what the gradient banner is for. -->
+          <div class="banner-wrap" id="ds-cat-banner-wrap" hidden>
+            <div class="banner banner-grad is-upgrade banner-sm" role="note">
+              <span class="banner-ic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-connections"/></svg></span>
+              <div class="banner-body">
+                <p class="banner-t">Look around as much as you like</p>
+                <p class="banner-d">Every source here is free to browse. Connecting one to your account starts on Starter.</p>
+              </div>
+              <div class="banner-cta"><button class="btn btn-secondary btn-sm" type="button" data-upgrade-modal="connections">See Plans</button></div>
+              <button class="banner-close" type="button" aria-label="Collapse" onclick="this.closest('.banner-wrap').classList.add('is-dismissed')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="igrp is-lg is-block ds-search" role="search">
             <span class="igrp-add" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
             <input class="igrp-input" id="ds-search-input" type="search" placeholder="Search data sources…" aria-label="Search data sources" oninput="dsFilterSearch(this.value)">
             <button class="igrp-act igrp-clear" type="button" aria-label="Clear search" onclick="dsClearSearch()" data-tip="Clear search">
@@ -407,7 +450,7 @@
           <div class="ds-grid sk-loaded" id="ds-grid" aria-label="Available data sources"></div>
           <!-- Loading skeleton — shown when html.skel-on (top Loaded/Skeleton toggle); chip row + V3 catalog tiles (8/row) -->
           <div class="sk-skel" aria-hidden="true">
-            <div class="chip-row" style="margin-top:.75rem">
+            <div class="chip-row">
               <span class="skel shimmer r-full" style="width:4rem;height:1.75rem"></span>
               <span class="skel shimmer r-full" style="width:6rem;height:1.75rem"></span>
               <span class="skel shimmer r-full" style="width:5rem;height:1.75rem"></span>
@@ -415,7 +458,7 @@
               <span class="skel shimmer r-full" style="width:5.5rem;height:1.75rem"></span>
               <span class="skel shimmer r-full" style="width:4.5rem;height:1.75rem"></span>
             </div>
-            <div class="ds-grid" style="margin-top:.75rem">
+            <div class="ds-grid">
               <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:4rem;height:.875rem"></span></div></div></div>
               <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:5rem;height:.875rem"></span></div></div></div>
               <div class="ds-card"><span class="ds-logo-wrap"><span class="skel shimmer r-lg" style="display:block;width:2.5rem;height:2.5rem"></span></span><div class="ds-card-body"><div class="ds-card-head"><span class="skel shimmer r-sm" style="display:block;width:3.5rem;height:.875rem"></span></div></div></div>
@@ -446,6 +489,29 @@
 
         <!-- Panel 2 — My Connections (hidden until first connection) -->
         <div id="ds-panel-connections" hidden>
+          <!-- U4 — read-only notice. The kit ALERT, not the gradient banner: a gradient
+               strip reads as an offer and the eye files it with marketing, which is exactly what
+               a person skips. This is a state of their account, so it takes the component the
+               product already uses to say "something here is not normal" (2026-10-06).
+               Attention, not error: nothing is broken and nothing was lost. The ✕ DISMISSES it —
+               it does not collapse to a stub, and it comes back on the next visit, because the
+               state it describes is still true. -->
+          <div class="banner-wrap" id="ds-u4-wrap" hidden>
+            <div class="alert alert-warn is-md" role="note">
+              <svg class="alert-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/></svg>
+              <div class="alert-body">
+                <div class="alert-t">Your subscription ended, so these connections can't be used</div>
+                <div class="alert-d">Nothing was deleted. <a class="link" href="#" data-upgrade="connections" data-upgrade-click onclick="return false">Upgrade to Starter</a> to switch them back on and edit them.</div>
+              </div>
+              <div class="alert-acts">
+                
+                <button class="iconbtn iconbtn-tertiary iconbtn-2xs" type="button" aria-label="Dismiss" data-tip="Dismiss" onclick="this.closest('.banner-wrap').classList.add('is-dismissed')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- Banner — grad style matching metrics page; collapses via kit is-dismissed once connections exist. -->
           <div class="banner-wrap is-dismissed" id="ds-banner-wrap">
             <div class="banner banner-grad" role="note">
@@ -453,8 +519,8 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               </span>
               <div class="banner-body">
-                <p class="banner-t">Connect your first data source</p>
-                <p class="banner-d">Browse the <b>Catalog</b> and click Connect to get started in about <b>2 minutes</b>.</p>
+                <p class="banner-t" id="ds-empty-t">Connect your first data source</p>
+                <p class="banner-d" id="ds-empty-d">Browse the <b>Catalog</b> and click Connect to get started in about <b>2 minutes</b>.</p>
               </div>
               <button class="btn btn-secondary btn-sm"
                       onclick="dsSwitchTab('catalog', document.getElementById('ds-tab-catalog'))">
@@ -507,7 +573,7 @@
 
 <!-- ===== Edit connection dialog ===== -->
 <!-- ===== New Connection dialog ===== -->
-<div id="ds-conn-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsCloseConnDlg()">
+<div id="ds-conn-dlg" class="dlg-overlay" hidden aria-hidden="true" onclick="if(event.target===this)dsCloseConnDlg()">
   <div class="dlg is-lg var-wizard" role="dialog" aria-modal="true" aria-labelledby="ds-conn-dlg-title">
     <!-- Shared header -->
     <div class="dlg-hdr">
@@ -580,7 +646,7 @@
 </div>
 
 <!-- ===== Disconnect confirm dialog ===== -->
-<div id="ds-disc-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsCloseDisc()">
+<div id="ds-disc-dlg" class="dlg-overlay" hidden aria-hidden="true" onclick="if(event.target===this)dsCloseDisc()">
   <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="ds-disc-title">
     <div class="dlg-hdr">
       <h2 id="ds-disc-title" class="dlg-title">Disconnect <span id="ds-disc-name" style="color:var(--ink-primary)"></span>?</h2>
@@ -599,7 +665,7 @@
   </div>
 </div>
 
-<div id="ds-edit-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)dsCloseEdit()">
+<div id="ds-edit-dlg" class="dlg-overlay" hidden aria-hidden="true" onclick="if(event.target===this)dsCloseEdit()">
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="ds-edit-title">
     <div class="dlg-hdr">
       <h2 id="ds-edit-title" class="dlg-title">Edit connection</h2>
@@ -639,7 +705,8 @@
     <!-- Body -->
     <div id="ds-panel-body" style="flex:1;overflow-y:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem">
     </div>
-    <!-- Footer actions: Disconnect (left, destructive) | Edit. Both carry a leading 16px icon from the
+    <!-- Footer actions: Disconnect (left, destructive) | Edit. Re-testing is NOT here: it belongs
+         beside the Last check value it refreshes, and a third button made the row overflow. Both carry a leading 16px icon from the
          shared action dictionary — unplug for Disconnect, pencil for Edit (same glyph as Rename). -->
     <div id="ds-panel-foot" style="padding:1rem 1.5rem;border-top:1px solid var(--stroke-border);flex:none;display:flex;gap:.5rem;align-items:center">
       <button class="btn btn-outline-destructive btn-sm" type="button" id="ds-panel-delete-btn" style="margin-right:auto" onclick=""><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-disconnect"/></svg>Disconnect</button>
@@ -800,17 +867,14 @@
      by definition, so there is NO connected/synced badge. Time-forward: the relative time is the
      anchor and a circle glyph carries the outcome — a quiet tick when the last check passed, a red ✕
      when it failed (single affordance — no separate ⚠ + ⓘ).
-     The pill is the kit Badge (.badge.badge-sm.rf) and the re-test is a plain kit IconButton
-     (.iconbtn.iconbtn-tertiary.iconbtn-2xs) — no page-local variants. Two concepts toggled from the topbar:
+     The pill is the kit Badge (.badge.badge-sm.rf) — no page-local variants. Re-testing is NOT an
+     icon in the cell: it lives in the row's own menu and in the detail panel, so the cell carries
+     one thing, a status (the inline icon was removed 2026-10-06 — two affordances for the same
+     action, and on Free a second padlock inside a status cell). Two concepts toggled from the topbar:
        C1 (toast-driven): cell shows time only; a single toast carries the loader→result — no cell
          spinner. Failure = red "Failed · time" that opens the error toast.
        C2 (quiet inline): failure = one red ⚠ (hover/click = details); progress = inline spinner in
-         the status slot (reserved min-width → no layout jump).
-     opts.retry — render the inline hover re-test icon (table/card = true; panel uses its own button). */
-  function dsRetryBtn(n, busy){
-    return '<button type="button" class="iconbtn iconbtn-tertiary iconbtn-2xs" aria-label="Test connection" data-tip="Test connection"'
-      + (busy ? ' disabled' : '') + ' onclick="event.stopPropagation();dsTestConnection(\'' + n + '\')">' + _DS_IC_RETRY + '</button>';
-  }
+         the status slot (reserved min-width → no layout jump). */
   function dsSyncHtml(c, opts){
     opts = opts || {};
     var n = c.name.replace(/'/g, "\\'");
@@ -824,8 +888,7 @@
     var status = (c.status === 'error')
       ? '<span class="ds-sync-status"><button type="button" class="badge badge-red badge-sm rf" aria-label="Last check failed ' + time + ' — view details" data-tip="Check failed: ' + dsEsc(dsFailReason(c)) + '" onclick="event.stopPropagation();dsErrToast(\'' + n + '\')">' + _DS_IC_ERR + time + '</button></span>'
       : '<span class="ds-sync-status"><span class="badge badge-body badge-sm rf"' + tip + '>' + _DS_IC_OK + time + '</span></span>';
-    var actions = opts.retry ? '<span class="ds-sync-actions">' + dsRetryBtn(n, c._busy) + '</span>' : '';
-    return '<div class="ds-sync">' + status + actions + '</div>';
+    return '<div class="ds-sync">' + status + '</div>';
   }
   /* Error details as a toast — opened from the failed marker/label (hover shows the same reason). */
   function dsErrToast(name){
@@ -883,8 +946,8 @@
       + '</span>';
   }
 
-  var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:var(--icon-md);height:var(--icon-md);flex:none"><polyline points="20 6 9 17 4 12"/></svg>';
-  var PLUS_SVG_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:var(--icon-md);height:var(--icon-md);flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
+  var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:var(--icon-md);height:var(--icon-md);flex:none"><polyline points="20 6 9 17 4 12"/></svg>';
+  var PLUS_SVG_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:var(--icon-md);height:var(--icon-md);flex:none"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
 
   function dsCardHtml(c){
     var n = c.name.replace(/'/g, "\\'");
@@ -961,10 +1024,7 @@
     dsRenderConnectedList();
   }
 
-  function dsSegTheme(btn, theme){
-    dsSegActivate(['ds-seg-light','ds-seg-dark'], btn.id);
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-  }
+
 
   function dsGetFiltered(){
     return CONNECTORS.filter(function(c){
@@ -1039,7 +1099,7 @@
         +   '<span style="color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">' + c.name + '</span>'
         + '</div></td>'
         + '<td class="ds-conn-cell-desc">' + (c.desc || '') + '</td>'
-        + '<td class="ds-conn-cell-sync">' + dsSyncHtml(c, {retry:true}) + '</td>'
+        + '<td class="ds-conn-cell-sync">' + dsSyncHtml(c) + '</td>'
         + '<td class="mx-tbl-actions ds-conn-cell-act"><div class="kbp-wrap">' + kebab + menuHtml + '</div></td>'
         + '</tr>';
     }
@@ -1051,7 +1111,7 @@
       +     '<span class="ds-conn-meta ds-conn-src-row"><span class="logo-spr ds-conn-src-mark ' + src.slug + '" role="img" aria-label="' + c.name + ' logo"></span>' + c.name + '</span>'
       +   '</div>'
       + (c.desc ? '<span class="ds-conn-desc">' + c.desc + '</span>' : '')
-      + '<div class="ds-conn-sync-wrap">' + dsSyncHtml(c, {retry:true}) + '</div>'
+      + '<div class="ds-conn-sync-wrap">' + dsSyncHtml(c) + '</div>'
       + '</div>'
       + '<div class="kbp-wrap">' + kebab + menuHtml + '</div>'
       + '</div>';
@@ -1105,52 +1165,89 @@
      · A repeating catalog card carries nothing: 24 identical Connect buttons would become 24
        identical markers, which is noise. They lock, and the popover names the plan once. */
   var DS_LOCK_NAMED  = '.ds-conn-menu .mi:not(.danger)';
-  var DS_LOCK_GLYPH  = '.ds-addnew,#ds-panel-edit-btn';
+  /* .ds-addnew is NOT here: its click switches to the Catalog tab, and browsing the catalog is
+     reading. The gate is on the connect action inside it. */
+  var DS_LOCK_GLYPH  = '#ds-panel-edit-btn';
   var DS_LOCK_PLAIN  = '.ds-card-connect,.ds-card';
-  function dsLockMark(plan){
-    if(!plan) return '<svg class="lock-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>';
-    return '<span class="badge badge-sm badge-primary lock-mark">' +
-      '<svg class="b-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-lock"/></svg>' + plan + '</span>';
-  }
   function dsApplyPlan(){
+    /* kit-kit.js is loaded with defer, so it runs AFTER every inline script on the page. A page
+       that renders at parse time therefore reaches kitLock before it exists — which threw, and
+       took the rest of the render down with it. Wait for the document instead of guessing. */
+    if(typeof kitLock !== 'function'){ document.addEventListener('DOMContentLoaded', dsApplyPlan, { once: true }); return; }
     var free = document.documentElement.classList.contains('is-free');
-    /* The sidebar plan line follows the switch. A page that still says "Professional" while
-       every action on it is locked reads as a bug, not as a Free account. The paid wording is
-       whatever the page shipped with, remembered on first run. */
+    /* The sidebar plan line follows the switch — a page that still says "Professional" while
+       every action on it is locked reads as a bug, not as a Free account. The separator is kept
+       whole: slicing it off produced "Admin B· Free". */
     var meta = document.querySelector('.sbx-user-meta');
     if(meta){
       if(!meta.getAttribute('data-plan-paid')) meta.setAttribute('data-plan-paid', meta.textContent);
       var paid = meta.getAttribute('data-plan-paid');
       var sep = paid.indexOf('\u00b7');
-      meta.textContent = free ? (sep >= 0 ? paid.slice(0, sep + 1) + ' Free' : 'Free') : paid;
+      var paidName = /Free/.test(paid) ? paid.replace(/Free/, 'Pro') : paid;
+      meta.textContent = free ? (sep >= 0 ? paid.slice(0, sep + 1) + ' Free' : 'Free') : paidName;
     }
-    function lock(sel, plan){
+    function lock(sel, opts){
       document.querySelectorAll(sel).forEach(function(el){
-        el.classList.toggle('is-locked', free);
-        var mark = el.querySelector('.lock-mark,.lock-glyph');
-        if(free){
-          el.setAttribute('aria-disabled','true');
-          el.setAttribute('data-upgrade','ds-upop-conn');
-          /* A catalog card is thumbnail-sized; it waits to be clicked rather than opening on hover. */
-          if(el.classList.contains('ds-card')) el.setAttribute('data-upgrade-click','');
-          if(plan !== null && !mark) el.insertAdjacentHTML('beforeend', dsLockMark(plan));
-        } else {
-          el.removeAttribute('aria-disabled');
-          el.removeAttribute('data-upgrade');
-          el.removeAttribute('data-upgrade-click');
-          if(mark) mark.remove();
-        }
+        kitLock(el, { locked: free, popover: opts.popover, modal: opts.modal,
+                      plan: opts.plan, clickOnly: opts.clickOnly });
       });
     }
-    lock(DS_LOCK_NAMED, 'Starter');
-    lock(DS_LOCK_GLYPH, '');
-    lock(DS_LOCK_PLAIN, null);
+    /* A ROW answers the hover with the upgrade popover — the same thing a locked model row or a
+       locked connection row does in the composer. One pattern for every menu in the product; a
+       kebab menu that opened a modal while the model list opened a panel read as two different
+       products (2026-10-06). Delete / Disconnect stay open: removing what you already have is
+       not a paid feature.
+       Edit and testing are both Starter, but they open different panels because they are
+       different features — the panel names the feature, not just the plan. */
+    lock('.ds-conn-menu .mi:not(.danger):not([onclick*="dsTestConnection"])', { plan: '', popover: 'connection-edit' });
+    lock('.ds-conn-menu .mi[onclick*="dsTestConnection"]', { plan: '', popover: 'connection-test' });
+    /* Buttons keep every colour; the padlock takes their icon slot. A BUTTON is an action you
+       meant to take, so it answers the click with the full modal. */
+    lock('#ds-panel-edit-btn,.ds-card-connect', { plan: '', modal: 'connections' });
+    /* The whole catalog tile is a target too, and a thumbnail-sized one answers the click, not the
+       hover. No padlock of its own — the Connect button inside it already wears one. */
+    lock('.ds-card', { plan: null, modal: 'connections', clickOnly: true });
+
+    /* U4 — the read-only banner, only where there is something to be read-only ABOUT: the saved
+       connections. An empty account gets the empty state instead, which explains the same thing
+       without claiming there is anything to protect. */
+    /* U5 — the empty state on Free. An account with no connections and no way to make one needs
+       the offer, not the how-to: the steps it describes are the part that is locked. */
+    var et = document.getElementById('ds-empty-t'), ed = document.getElementById('ds-empty-d');
+    if(et && ed){
+      et.textContent = free ? 'Connecting a source starts on Starter'
+                            : 'Connect your first data source';
+      ed.innerHTML = free
+        ? 'The whole catalogue is free to read. Connecting one and asking about live data is on Starter and Pro.'
+        : 'Browse the <b>Catalog</b> and click Connect to get started in about <b>2 minutes</b>.';
+    }
+    /* D3 — the Catalog says the same thing in its own words: everything here is browsable,
+       connecting is what the plan buys. */
+    var cat = document.getElementById('ds-cat-banner-wrap');
+    if(cat) cat.hidden = !free;
+    var u4 = document.getElementById('ds-u4-wrap');
+    /* Shown only where there IS something read-only to look at. The Empty demo keeps the seed
+       array and hides the list, so the page's own state is the truth here, not CONNECTED.length. */
+    if(u4) u4.hidden = !(free && document.querySelector('.ds-app.has-connections'));
   }
+
   /* The switch itself is kit-kit.js (section 7): it stores the choice, restores it on every
      page and broadcasts `kit:plan`. What stays here is which of THIS page's controls the choice
      gates — that is a property of the page, not of the kit. */
   document.addEventListener('kit:plan', dsApplyPlan);
+  /* The open detail panel is rebuilt on a plan change — it carries a control that exists on one
+     plan and not the other. */
+  document.addEventListener('kit:plan', function(){ if(_dsPanelName) dsPanelOpen(_dsPanelName); });
   function dsRender(){ dsRenderCats(); dsRenderGrid(); dsRenderConnectedList(); dsApplyPlan(); }
+  /* Both lists rebuild their rows — and the action menu inside every row — from scratch, and they
+     are called from more places than dsRender(): the Empty/Connected switch, the tab switch, a
+     disconnect, a width change. Anything rendered after the lock pass would come back unlocked,
+     so the pass rides on the renderers themselves. */
+  (function(){
+    var grid = dsRenderGrid, conn = dsRenderConnectedList;
+    dsRenderGrid = function(){ grid.apply(null, arguments); dsApplyPlan(); };
+    dsRenderConnectedList = function(){ conn.apply(null, arguments); dsApplyPlan(); };
+  })();
 
   /* Re-render connections list when crossing the mobile breakpoint */
   (function(){
@@ -1225,7 +1322,7 @@
     document.getElementById('ds-conn-s1-btn').textContent = 'Save';
     document.getElementById('ds-conn-s1-btn').disabled = false;
     var dlg = document.getElementById('ds-conn-dlg');
-    dlg.style.display = 'flex'; dlg.setAttribute('aria-hidden','false');
+    dlg.hidden = false; dlg.setAttribute('aria-hidden','false');
   }
 
   function dsConnStep1(){
@@ -1259,7 +1356,7 @@
 
   function dsCloseConnDlg(){
     var dlg = document.getElementById('ds-conn-dlg');
-    dlg.style.display = 'none'; dlg.setAttribute('aria-hidden','true');
+    dlg.hidden = true; dlg.setAttribute('aria-hidden','true');
   }
 
   /* ===== Edit connection dialog ===== */
@@ -1271,12 +1368,12 @@
     document.getElementById('ds-edit-name').value = c.label || c.name;
     document.getElementById('ds-edit-desc').value = c.description || '';
     var dlg = document.getElementById('ds-edit-dlg');
-    dlg.style.display = 'flex'; dlg.setAttribute('aria-hidden','false');
+    dlg.hidden = false; dlg.setAttribute('aria-hidden','false');
     setTimeout(function(){ document.getElementById('ds-edit-name').focus(); }, 50);
   }
   function dsCloseEdit(){
     var dlg = document.getElementById('ds-edit-dlg');
-    dlg.style.display = 'none'; dlg.setAttribute('aria-hidden','true');
+    dlg.hidden = true; dlg.setAttribute('aria-hidden','true');
   }
   function dsSaveEdit(){
     var name  = document.getElementById('ds-edit-key').value;
@@ -1334,8 +1431,17 @@
 
   document.body.classList.add('no-init-transition');
   dsRender();
-  /* Open directly on My Connections so a shared link lands on the connected list, not the Catalog. */
-  dsSwitchTab('connections', document.getElementById('ds-tab-connections'));
+  /* The Empty/Connected segment is the single source of the demo's state — including on load.
+     Hard-opening My Connections here meant that with the segment on Empty the page landed on a
+     tab that is disabled by definition: there is nothing to connect to yet. dsSegState opens
+     the right tab and disables the other one, so there is one code path, not two. */
+  (function(){
+    var on = document.getElementById('ds-seg-connected');
+    var off = document.getElementById('ds-seg-empty');
+    var connected = on.classList.contains('is-active');
+    dsSegState(connected ? on : off, connected ? 'connected' : 'empty');
+    if(connected) dsSwitchTab('connections', document.getElementById('ds-tab-connections'));
+  })();
   setTimeout(function(){ document.body.classList.remove('no-init-transition'); }, 0);
 
   /* Account popover items open the user-profile modal on the matching tab */
@@ -1380,6 +1486,7 @@
      so the panel and table share one affordance. */
   function dsPanelBody(c, src){
     var markHtml = src.slug ? dsLogo(src.slug, c.name, '2rem') : '';
+    var n = c.name.replace(/'/g, "\\'");
     return ''
       + '<div class="dp-fields">'
       + '<div class="dp-field"><span class="dp-label">Name</span>'
@@ -1387,8 +1494,17 @@
       + '<div class="dp-field"><span class="dp-label">Data source</span>'
       + '<div class="dp-value">'+ markHtml +'<span>'+ c.name +'</span></div></div>'
       + '<div class="dp-field"><span class="dp-label">Last check</span>'
-      + dsSyncHtml(c, {retry:true})
-      + '</div>'
+      /* The re-test sits with the time it would change, not in the footer with Disconnect and
+         Edit: it answers "is this still true?", which is a question about this value. */
+      /* Testing is Pro-only, and unlike Edit it has nowhere to lead on Free: there is no view of a
+         test result to show. So it is ABSENT on Free rather than present-and-locked — the one
+         place in this system where a control is removed instead of marked (directive 2026-10-06).
+         The panel is rendered by dsPanelOpen, which runs after the lock pass, so a locked button
+         here would never have picked up its marker anyway. */
+      + '<div class="dp-check">' + dsSyncHtml(c)
+      + (document.documentElement.classList.contains('is-free') ? ''
+         : '<button class="btn btn-secondary btn-xs" type="button" id="ds-panel-test-btn" onclick="dsTestConnection(\'' + n + '\')"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-test-conn"/></svg>Test Connection</button>')
+      + '</div></div>'
       + (c.desc ? '<div class="dp-field"><span class="dp-label">Description</span>'
       + '<p class="dp-value-body">'+ c.desc +'</p></div>' : '')
       + '</div>';
@@ -1468,12 +1584,12 @@ function dsConfirmDisconnect(name) {
   document.getElementById('ds-disc-name').textContent = (c && c.label) ? c.label : name;
   document.getElementById('ds-disc-key').value = name;
   var dlg = document.getElementById('ds-disc-dlg');
-  dlg.style.display = 'flex'; dlg.setAttribute('aria-hidden','false');
+  dlg.hidden = false; dlg.setAttribute('aria-hidden','false');
   setTimeout(function(){ dlg.querySelector('.btn-destructive').focus(); }, 50);
 }
 function dsCloseDisc() {
   var dlg = document.getElementById('ds-disc-dlg');
-  dlg.style.display = 'none'; dlg.setAttribute('aria-hidden','true');
+  dlg.hidden = true; dlg.setAttribute('aria-hidden','true');
 }
 function dsDisconnectConfirmed() {
   var name = document.getElementById('ds-disc-key').value;
@@ -1538,7 +1654,7 @@ document.addEventListener('keydown', function(e){
      contract: page-changes/data-sources_files-landing.md rule 31 / changes/Sidebar.md).
      Rename -> "Rename chat" dialog; Delete -> "Delete chat?" confirm; Pin/Unpin moves the row
      between the Pinned and Recent sections. Only one row menu may be open at a time. -->
-<div id="sbc-ren-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)sbcCloseRename()">
+<div id="sbc-ren-dlg" class="dlg-overlay" hidden aria-hidden="true" onclick="if(event.target===this)sbcCloseRename()">
   <div class="dlg is-md" role="dialog" aria-modal="true" aria-labelledby="sbc-ren-title">
     <div class="dlg-hdr">
       <h2 id="sbc-ren-title" class="dlg-title">Rename chat</h2>
@@ -1556,7 +1672,7 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 </div>
-<div id="sbc-del-dlg" class="dlg-overlay" style="display:none" aria-hidden="true" onclick="if(event.target===this)sbcCloseDelete()">
+<div id="sbc-del-dlg" class="dlg-overlay" hidden aria-hidden="true" onclick="if(event.target===this)sbcCloseDelete()">
   <div class="dlg is-sm" role="dialog" aria-modal="true" aria-labelledby="sbc-del-title">
     <div class="dlg-hdr">
       <h2 id="sbc-del-title" class="dlg-title">Delete chat?</h2>
@@ -1590,10 +1706,10 @@ document.addEventListener('keydown', function(e){
     var inp = document.getElementById('sbc-ren-input');
     inp.value = row.querySelector('.sbx-chat-lbl').textContent.trim();
     var dlg = document.getElementById('sbc-ren-dlg');
-    dlg.style.display = ''; dlg.setAttribute('aria-hidden','false');
+    dlg.hidden = false; dlg.setAttribute('aria-hidden','false');
     inp.focus(); inp.setSelectionRange(0, inp.value.length);
   };
-  window.sbcCloseRename = function(){ renRow = null; var d = document.getElementById('sbc-ren-dlg'); d.style.display = 'none'; d.setAttribute('aria-hidden','true'); };
+  window.sbcCloseRename = function(){ renRow = null; var d = document.getElementById('sbc-ren-dlg'); d.hidden = true; d.setAttribute('aria-hidden','true'); };
   window.sbcSaveRename = function(){
     var name = document.getElementById('sbc-ren-input').value.trim();
     if (renRow && name){
@@ -1605,10 +1721,10 @@ document.addEventListener('keydown', function(e){
   window.sbcOpenDelete = function(row){
     delRow = row;
     var dlg = document.getElementById('sbc-del-dlg');
-    dlg.style.display = ''; dlg.setAttribute('aria-hidden','false');
+    dlg.hidden = false; dlg.setAttribute('aria-hidden','false');
     setTimeout(function(){ document.getElementById('sbc-del-confirm').focus(); }, 50);
   };
-  window.sbcCloseDelete = function(){ delRow = null; var d = document.getElementById('sbc-del-dlg'); d.style.display = 'none'; d.setAttribute('aria-hidden','true'); };
+  window.sbcCloseDelete = function(){ delRow = null; var d = document.getElementById('sbc-del-dlg'); d.hidden = true; d.setAttribute('aria-hidden','true'); };
   window.sbcConfirmDelete = function(){
     var row = delRow;
     sbcCloseDelete();
@@ -1651,18 +1767,63 @@ document.addEventListener('keydown', function(e){
 <!-- Upgrade popover (kit component) — opened by kit-kit.js from every locked action on this page:
      the Create Connection CTA, each catalog card's Connect, and the Edit / Test Connection rows in
      a connection's action menu. One panel, because all of them are gated by the same thing. -->
-<div class="pop pop-upgrade" id="ds-upop-conn" role="dialog" aria-label="Data connections" hidden>
-  <div class="pop-up-head"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#mi-connections"/></svg>Data connections</div>
-  <div class="pop-up-body">
-    <ul class="feat-list">
-      <li>Ask about live data from your tools, not only uploaded files</li>
-      <li>Every source brings its own built-in metrics</li>
-      <li>Five connections on Starter, no limit on Pro</li>
-    </ul>
-    <p class="pop-up-plan">From the Starter plan</p>
-    <button class="btn btn-primary btn-sm" type="button">See Plans</button>
-  </div>
-</div>
+<script>
+/* ── Plan, in the sidebar ────────────────────────────────────────────────────────────────
+   Two things follow the switch down here, and both were lying before:
+
+   · the upgrade pill appears on Free and is simply absent on a paid plan — a greyed-out
+     "upgrade" on an account that already upgraded is noise;
+   · the credits popover shows what the plan actually gives. Free has NO monthly pool at all —
+     it has a daily allowance of 20 — so the subscription meter is removed rather than shown at
+     zero, and the daily meter leads. A paid plan has the pool and no daily cap, so the daily
+     meter goes instead. The Balance figure above reads from the same numbers.
+   The figures come from the subscription matrix, not from this page. */
+(function(){
+  var CREDITS = {
+    free: { daily: { used: 12, cap: 20 }, pool: null,                 balance: 12 },
+    paid: { daily: null,                  pool: { used: 5520, cap: 15000 }, balance: 9480 }
+  };
+  function sbxApplyPlan(){
+    var free = document.documentElement.classList.contains('is-free');
+    var data = free ? CREDITS.free : CREDITS.paid;
+
+    var pop = document.getElementById('sbx-pop-tokens');
+    if(pop){
+      /* The demo's paid plan is Pro — a page whose markup shipped saying "Free" must not
+         keep saying it once the switch is on paid. */
+      var name = pop.querySelector('.plan-name');
+      if(name) name.textContent = free ? 'Free' : 'Pro';
+      var meters = pop.querySelectorAll('.meter');
+      /* 0 = subscription pool · 1 = daily limit · 2 = purchased credits (untouched: purchased
+         credits belong to the person, not to the plan). */
+      if(meters[0]){
+        meters[0].hidden = free;
+        if(!free && data.pool){
+          var pv = meters[0].querySelector('.val'); var pb = meters[0].querySelector('.bar span');
+          if(pv) pv.textContent = data.pool.used.toLocaleString() + ' of ' + data.pool.cap.toLocaleString();
+          if(pb) pb.style.width = Math.round(data.pool.used / data.pool.cap * 100) + '%';
+        }
+      }
+      if(meters[1]){
+        meters[1].hidden = !free;
+        if(free && data.daily){
+          var dv = meters[1].querySelector('.val'); var db = meters[1].querySelector('.bar span');
+          if(dv) dv.textContent = data.daily.used + ' of ' + data.daily.cap + ' today';
+          if(db) db.style.width = Math.round(data.daily.used / data.daily.cap * 100) + '%';
+        }
+      }
+    }
+    var bal = document.querySelector('.sbx-tok-val');
+    if(bal){
+      var num = bal.lastChild;
+      if(num && num.nodeType === 3) num.textContent = data.balance + ' left';
+    }
+  }
+  document.addEventListener('kit:plan', sbxApplyPlan);
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sbxApplyPlan);
+  else sbxApplyPlan();
+})();
+</script>
 </body>
 </html>
 

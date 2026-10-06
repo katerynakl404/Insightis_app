@@ -217,3 +217,17 @@ The account modal's footer Log-out button is now wrapped in its own `.sbx-pop-li
 The base `.sbx` stands free on the storybook stage: fixed width, own border and 10px radius. Inside an app page it is docked into a layout column that already draws the divider between sidebar and content, so the two frames stacked into a double rule. All seven app pages were cancelling it with their own `border:none;border-radius:0` — the same three values seven times.
 
 `.var-embedded` makes that a component variation: fills its column, no frame. **Sizing stays with the page** (`height`/`flex` glue differs per page's scroll model); only the frame belongs to the component.
+
+## 2026-10-06 — promo card above the footer
+
+The sidebar gains one part: `.promo-card` inside `.sbx-promo-card`, sitting directly above the footer
+rule — a glyph, the offer, one line of what it gives, and a dismiss. It is documented in full in
+[PromoCard.md](PromoCard.md); what belongs here is where it sits and what it must not do.
+
+- **Above the footer rule, not inside it.** It reads as the last thing in the list rather than as
+  part of the account block.
+- **It never names the current plan.** The account row directly below says `Admin · Free`; the same
+  word twice in 40px of column is noise.
+- **Hidden when the rail is collapsed** — there is no 57px version of a two-line offer.
+- Devart UI ships the same part under the same name, `PromoCard`.
+- Visibility (Free only) and the dismiss are kit-owned — `pages/kit-kit.js` § 10, not the page.

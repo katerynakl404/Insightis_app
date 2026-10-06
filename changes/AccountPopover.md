@@ -73,7 +73,7 @@ div.sbx-pop.sbx-pop-account  [id, role="menu", aria-label="Account"]   (+.is-ope
   button.sbx-pop-item        svg.ic + "Log out"       (standalone, outside any sect)
 ```
 
-All icons are 24×24-viewBox Lucide SVGs, `fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"`; glyph paths live in the storybook markup (`#accountpopover` → My Account = user, Manage Plan = blocks/layers, Billing = credit-card, Balance = wallet, Leave Feedback = message-circle-heart, Resources = file-question + arrow `.ext`, theme = sun/moon/monitor-smartphone, Log out = log-out).
+All icons are 24×24-viewBox Lucide SVGs, `fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"`; glyph paths live in the storybook markup (`#accountpopover` → My Account = user, Manage Plan = blocks/layers, Billing = credit-card, Balance = wallet, Leave Feedback = message-circle-heart, Resources = file-question + arrow `.ext`, theme = sun/moon/monitor-smartphone, Log out = log-out).
 
 ## Dimensions (reproduction)
 

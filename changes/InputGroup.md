@@ -138,10 +138,25 @@ Layout grammar (`inline-start` / `inline-end` / `block-start` / `block-end` alig
 
 DS Connections and Chats were building their search control out of `.field` + a leading `.field-icon` + a trailing `.iconbtn.iconbtn-tertiary.iconbtn-2xs`, plus page CSS for the clear button's show/hide and for suppressing the native WebKit clear ✕.
 
-That is an InputGroup: an input with addons. Both now use `.igrp.is-lg.var-outline` with `.igrp-add` / `.igrp-input` / `.igrp-act.igrp-clear` — matching the Metrics toolbar search, which already did. Consequences:
+That is an InputGroup: an input with addons. Both now use `.igrp.is-lg` with `.igrp-add` / `.igrp-input` / `.igrp-act.igrp-clear` — matching the Metrics toolbar search, which already did. Consequences:
 
 - The trailing clear stops being an IconButton, which the ladder [explicitly forbids](../pages/kit-theme.css) for a control docked inside a field — an icon in a field needs no surface, because the field already owns hover / focus / press.
 - The kit already owns the clear's visibility (`.igrp:has(.igrp-input:not(:placeholder-shown)) .igrp-clear`), so both pages dropped their own `:has()` rule.
 - **Native WebKit clear suppression moved into the kit**: `.igrp .igrp-input[type="search"]::-webkit-search-cancel-button/-decoration` and the `.field` equivalent. Three pages were each re-declaring those two pseudo-elements.
 
 Page CSS is now one line each: `max-width:none;width:100%`.
+
+**2026-10-06 — the stale `var-outline` class came off.** The 2026-09-19 inversion made the card
+surface the default and renamed the opt-in to `var-filled`, but three pages kept `var-outline` in
+their markup. It matched no rule, so the fields rendered correctly and the class sat there looking
+like a variant that was being applied. Catalog, Chats and the kit's own copies now carry
+`.igrp.is-lg` alone — the same markup the Metrics toolbar search has always had.
+
+## 2026-10-06 — `.igrp.is-block`, the missing width step
+
+`.igrp-wrap` ships 240px, so every full-width search field was writing its own override:
+`.ds-search.igrp{max-width:none;width:100%}`, `#mx-add-dlg .igrp{…}`, `.mx-c3-toolbar .igrp{…}`.
+Three pages, one decision — which is the definition of a missing ladder step.
+
+`.igrp.is-block{width:100%;max-width:none}` is that step. Width is a separate axis from height, so
+it composes with every size: `.igrp.is-lg.is-block`. The three page rules are gone.

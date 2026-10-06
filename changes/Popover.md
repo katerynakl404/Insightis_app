@@ -126,3 +126,10 @@ No new tokens introduced by the coin-meter recipe (reuses existing coin SVGs + `
 - **Arrow** — Radix supports `<Popover.Arrow>` but Insightis doesn't expose / style it.
 - **Sizes** — only one width (`w-72` = 288px); no `sm` / `lg` width variants.
 - **Dismiss-on-outside-click / Esc** — Radix defaults, document them for consumers.
+
+## 2026-10-06 — `.pop-upgrade.is-plain`
+
+The upgrade panel's shell, reporting an allowance instead of selling a feature: `Surface/Card` and
+the ordinary border in place of the brand wash. The gradient is reserved for panels that make an
+offer; the storage meter states a fact about this account, so it reads like the balance popover.
+Same parts, same width, same placement engine.

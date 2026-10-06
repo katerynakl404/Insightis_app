@@ -91,5 +91,5 @@ opens the Metrics popover.
 The **Thinking** switch and the **Effort** slider (C4b) are deliberately left open: the brief parks
 that one with the PM.
 
-Clicking **See Plans** in any popover goes to Settings → Manage plan — the one destination every
+Clicking **Upgrade to Unlock** in any popover goes to Settings → Manage plan — the one destination every
 upgrade surface leads to.

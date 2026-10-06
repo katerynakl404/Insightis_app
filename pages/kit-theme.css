@@ -276,9 +276,9 @@
     /* Recommended (featured) card — accent border + a short brand wash fading into the card
        surface + a brand-tinted lift. The gradient needs a stronger mix in .dark (below) or it
        reads as flat against the dark card. */
-    --plan-card-featured-border:color-mix(in srgb, var(--brand-primary) 40%, var(--stroke-border));
-    --plan-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 8%, var(--surface-card)) 0%, var(--surface-card) 40%);
-    --plan-card-featured-shadow:0 6px 16px -8px color-mix(in srgb, var(--brand-primary) 45%, transparent);
+    --promo-card-featured-border:color-mix(in srgb, var(--brand-primary) 40%, var(--stroke-border));
+    --promo-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 8%, var(--surface-card)) 0%, var(--surface-card) 40%);
+    --promo-card-featured-shadow:0 6px 16px -8px color-mix(in srgb, var(--brand-primary) 45%, transparent);
     /* Upgrade popover (U2) — the brand explainer that hangs off a plan-locked control.
        The brand arrives as a GRADIENT that fades out, not as a flat fill: a short wash at the
        top settling into the card by 55%. A panel filled edge to edge with one tint and topped
@@ -289,9 +289,8 @@
        arbitrary content, and a translucent fill would let that content show through.
        The icon chip is the one place colour stays solid — small, so it can carry the hue the
        flat fill used to carry across the whole panel. */
-    --upop-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) var(--tint-8), var(--surface-card)) 0%, var(--surface-card) 55%);
-    --upop-ic-bg:color-mix(in srgb, var(--brand-primary) var(--tint-12), var(--surface-card));
-    --upop-border:color-mix(in srgb, var(--brand-primary) var(--tint-20), var(--stroke-border));
+    --upop-bg:var(--grad-accent-wash);
+    --upop-border:color-mix(in srgb, var(--brand-tertiary) var(--tint-25), var(--stroke-border));
     --fb-red:var(--red-700);--fb-error-hover:var(--red-800);--fb-error-press:var(--red-850);
     /* Feedback/Red_Text — theme-adaptive destructive text/icon colour. Red-700 on white card = 8.39:1 AA.
        --fb-red (red-700) would fail AA 2.76:1 against dark Surface/Card, so a brighter red is used in .dark below.
@@ -324,10 +323,22 @@
     --logo-mark:var(--brand-600);                /* was #07807D — typo of Brand-600 */
     /* Button (component-scoped, theme-independent — keep AA vs #FFF in both themes) */
     --btn-primary-bg:var(--brand-600);--btn-primary-bg-hover:var(--brand-700);--btn-primary-bg-press:var(--tertiary-800);--btn-primary-text:var(--white);
-    /* Banner gradient variant — override --grad-teal-dark per-instance to swap the fill.
+    /* Banner gradient variant — override --grad-brand per-instance to swap the fill.
        Light: brand-400→brand-800. Dark: overridden in .dark block below to brand-600→brand-900. */
-    --grad-teal-dark:linear-gradient(135deg,var(--brand-400) 0%,var(--brand-800) 100%);
+    /* BRAND gradient — role-named like its accent sibling below; it was --grad-teal-dark, which
+       tied a reusable token to one hue and to one shade of it. */
+    --grad-brand:linear-gradient(135deg,var(--brand-400) 0%,var(--brand-800) 100%);
     --grad-noise:linear-gradient(135deg,var(--tertiary-700) 0%,var(--brand-600) 20%,var(--brand-100) 100%);
+    /* ACCENT gradient — the kit's second gradient, named for its ROLE so it can be reused.
+       Built on Tertiary rather than Brand: Everything a person already owns
+       is teal — the sidebar, the composer, the primary button — so an upgrade surface painted in
+       the same teal reads as more of the product rather than as an offer about it. Tertiary is
+       the kit's second hue: close enough to belong, different enough to mean something else.
+       Same angle and the same two-stop shape as --grad-brand, so the two are siblings. */
+    --grad-accent:linear-gradient(135deg,var(--tertiary-500) 0%,var(--tertiary-900) 100%);
+    /* The soft form of it: a wash that fades into the card, for panels that carry copy. */
+    --grad-accent-wash:linear-gradient(180deg, color-mix(in srgb, var(--brand-tertiary) var(--tint-10), var(--surface-card)) 0%, var(--surface-card) 55%);
+
     --banner-grad-text:var(--white);
     --banner-grad-sub:color-mix(in srgb,var(--white) var(--tint-80),transparent);
     --banner-grad-btn-hover:color-mix(in srgb,var(--brand-600) 8%,var(--white));
@@ -591,6 +602,36 @@
        · the top stops at 20. The canonical scale ends 16 · 20 · 24, but 24 in a 44px control is an
          icon that outgrew its box, so xl takes 20 and nothing takes 24. */
     --icon-xs:14px; --icon-sm:16px; --icon-md:16px; --icon-lg:20px; --icon-xl:20px;
+
+
+    /* The DEFAULT weight for an ordinary UI glyph — a button icon, an icon button, a menu row,
+       a nav item. 2, matching prod: every UI glyph on insightis-app.devart.info/chat is the Lucide
+       default, stroke-width="2" in a 24 viewBox — measured 2026-10-06, 20 glyphs, 13 in a 16px
+       box and 7 in a 14px box. ONE weight; the BOX does the scaling. (The logo mark and wordmark
+       draw at 1, but they are artwork, not UI glyphs.)
+
+       1.75 was tried the same day, because the `#mi-*` symbol dictionary had always drawn at 1.75
+       while inline SVGs in buttons carried 2 — the same mark at the same box in two weights. 1.75
+       closed that split the wrong way: it made the kit 12% lighter than the identical glyph in
+       prod. The dictionary moved to 2 instead, in the same pass.
+
+       CASCADE — this token does NOT reach a <use> icon, and the comment here previously claimed
+       it did. stroke-width sits on the <symbol> element, and a presentation attribute on an
+       element beats a value INHERITED from the referencing <svg>; CSS only outranks an attribute
+       on the SAME element. Measured both ways in the storybook. So the token governs inline SVGs,
+       the dictionary attribute governs the 161 <use> icons, and the two must move TOGETHER:
+         sed -i -E 's|(<symbol id="mi-[^"]*"[^>]*)stroke-width="OLD"|\1stroke-width="NEW"|g' <files>
+       Keeping them equal is what makes one weight real; letting them drift is the original bug.
+
+       BAND — 2 is the value for a glyph in the 14–20px band, which is the only band prod draws in.
+       The rule underneath it is optical: ~1.2–1.33px on screen. Outside the band the NUMBER
+       changes so the WEIGHT does not — 10px chevrons (.chip-meta-arrow, .sbx-sect-chev) stay at
+       2.5 (= 1.04px; 2 would be 0.83px and dissolve), the 12px .cbx tick stays at 3 so it reads
+       (and matches the Devart UI Checkbox), .spin 2.5 is a progress arc and .empty-ic / 
+       .cp-fp-empty-ic 1.5 are illustration at 32–48px. .ty-info keeps 1.5 because its viewBox is
+       16, not 24 (1.5 × 14/16 = 1.31px — already the band weight), and .chat-row-pin keeps 1.5
+       because that mark is filled. Full list + rationale: changes/README.md → Icon stroke. */
+    --icon-stroke:2;
   }
 
   /* =========================================================================
@@ -709,12 +750,11 @@
     --fb-attention:var(--orange-500);--fb-attention-text:var(--orange-400);--fb-green:var(--green-500);
     /* Featured plan card — the 8% wash that lifts off white is invisible over the dark card, so
        the top stop nearly doubles. Fade length stays 40% so the accent still clears the name row. */
-    --plan-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 14%, var(--surface-card)) 0%, var(--surface-card) 40%);
+    --promo-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 14%, var(--surface-card)) 0%, var(--surface-card) 40%);
     /* Upgrade popover on dark — same reason as the featured card above: a light wash over a
        near-black card is invisible, so the gradient's top stop and the icon chip both move up
        the tint scale. The fade length is unchanged; it is the strength that has to grow. */
-    --upop-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) var(--tint-15), var(--surface-card)) 0%, var(--surface-card) 55%);
-    --upop-ic-bg:color-mix(in srgb, var(--brand-primary) var(--tint-22), var(--surface-card));
+    --upop-bg:var(--grad-accent-wash);
     --focus-ring:var(--focus-ring-brand);
     --logo-ink:var(--brand-50);
     /* --logo-mark must lighten in dark mode: Brand-600 (#07807E) on Surface/Card (#17171E) fails AA at 3.74:1.
@@ -778,7 +818,13 @@
     --input-error:var(--red-500);
     /* Press feedback comes from bg-color shift alone — see :root for the rationale */
     /* Banner gradient — dark: brand-600→brand-900. */
-    --grad-teal-dark:linear-gradient(135deg,var(--brand-600) 0%,var(--brand-900) 100%);
+    --grad-brand:linear-gradient(135deg,var(--brand-600) 0%,var(--brand-900) 100%);
+    /* Dark: the same two rungs down the tertiary ramp, and a stronger wash — a 10% tint over a
+       near-black card is invisible. 18% was too far the other way: a bright teal at that strength
+       over a near-black card reads as a coloured panel rather than as a card with a light on it, so
+       the wash sits at the same 10% both themes (reported 2026-10-06). */
+    --grad-accent:linear-gradient(135deg,var(--tertiary-600) 0%,var(--tertiary-950) 100%);
+    --grad-accent-wash:linear-gradient(180deg, color-mix(in srgb, var(--brand-tertiary) var(--tint-10), var(--surface-card)) 0%, var(--surface-card) 55%);
     --grad-noise:linear-gradient(135deg,var(--slate-900) 0%,var(--brand-800) 48%,var(--brand-700) 100%);
     /* Toast bg — restore 8% tint on dark (light uses 4% for a more transparent feel on white) */
     --alert-wash:var(--tint-8);
@@ -896,6 +942,11 @@
      base. Only the level changes per size — xs `label-m`, sm/md `label-l`, lg/xl `label-xl`
      (the label family's 16px rung, added with this change — a button label is a label, not a heading). */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;white-space:nowrap;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);border-radius:.375rem;transition:all .12s;cursor:pointer;border:1px solid transparent;font-family:inherit}
+  /* A button hidden by the ATTRIBUTE must actually go: display:inline-flex above out-ranks the
+     browser's own [hidden]{display:none}, so `btn.hidden = true` left the control on screen and
+     clickable. Found on the storage popover, whose CTA is hidden on the top plan — there is
+     nothing left to upgrade to — and showed anyway (2026-10-06). */
+  .btn[hidden],.iconbtn[hidden]{display:none}
   .btn-xs{height:1.75rem;padding:0 .5rem;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);gap:.25rem}
   /* gap .375rem: the icon-to-label ladder is 4 / 6 / 8 / 8 / 8, not one value with an xs
      exception. 8px reads loose at 32px against a 14px label, and sm is the step the product
@@ -913,7 +964,9 @@
   .btn-xl{height:2.75rem;padding:0 1.25rem;font-size:var(--ts-label-xl-size);line-height:var(--ts-label-xl-lh)}
   /* Icon sizing — the shared ICON SCALE, so markup never hand-sizes an icon and a button lines up
      with a field of the same size. */
-  .btn svg{width:var(--icon-md);height:var(--icon-md);flex:none}
+  .btn svg{width:var(--icon-md);height:var(--icon-md);flex:none;stroke-width:var(--icon-stroke)}
+  /* …except a Badge's own mark inside a button, which belongs to the badge, not to the button. */
+  .btn .badge svg{stroke-width:inherit}
   .btn-xs svg{width:var(--icon-xs);height:var(--icon-xs)}
   .btn-sm svg{width:var(--icon-sm);height:var(--icon-sm)}
   .btn-lg svg{width:var(--icon-lg);height:var(--icon-lg)}
@@ -1058,7 +1111,7 @@
      molecules that DID declare 14x14 got shrunk below it — the svg is a flex item in an inline-flex
      box, and .sbx-chat-more / .toast-x / .sht-x / .igrp-clear all rendered NON-square (10x14) even
      though their own rule was correct. The size fixes (1); flex:none fixes (2). */
-  .iconbtn svg{width:var(--icon-md);height:var(--icon-md);flex:none}
+  .iconbtn svg{width:var(--icon-md);height:var(--icon-md);flex:none;stroke-width:var(--icon-stroke)}
   /* Size ladder — 2xs 24 / xs 28 / sm 32 / md 36 (= the base) / lg 40 / xl 44. From xs up the
      heights match .btn step for step, so an icon-only control sits next to a text button of the
      same size class and lines up. `2xs` is the one rung with no .btn counterpart — a text button
@@ -1178,7 +1231,10 @@
   .field{display:flex;align-items:center;height:2.25rem;border:1px solid var(--stroke-border);border-radius:.375rem;background:var(--surface-card);padding:0 .75rem;gap:.5rem;width:100%;max-width:240px;transition:border-color .12s, box-shadow .12s}
   .field input{height:100%;width:100%;background:transparent;border:none;outline:none;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary);font-family:inherit}
   .field input::placeholder{color:var(--ink-inactive)}
-  .field:hover,.field.s-hover{border-color:var(--field-border-hover)}
+  /* A disabled field does not answer the pointer: the shared guard that every button and link
+     already carries was missing here, so a .field.is-disabled still took the hover border — the
+     one visual cue that says "this is live" (found 2026-10-06). */
+  .field:not(.s-disabled,[disabled],[aria-disabled="true"],.is-disabled):hover,.field:not(.s-disabled,[disabled],[aria-disabled="true"],.is-disabled).s-hover{border-color:var(--field-border-hover)}
   .field:focus-within,.field.s-focus{border-color:var(--input-focus);box-shadow:none;outline:none}
   /* Press feedback on the wrapper — border-only swap. The earlier --state-pressed bg read as a
      "selected" surface and weighed too much for a single-tap interaction; the focus-coloured border
@@ -1219,7 +1275,7 @@
   .ta-count{display:block;text-align:right;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-inactive);margin-top:.25rem}
   .ta{width:100%;max-width:260px;border:1px solid var(--stroke-border);border-radius:.375rem;background:var(--surface-card);padding:.5rem .75rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-primary);outline:none;resize:none;font-family:inherit;transition:border-color .12s, box-shadow .12s}
   .ta::placeholder{color:var(--ink-inactive)}
-  .ta:hover,.ta.s-hover{border-color:var(--field-border-hover)}
+  .ta:not(.s-disabled,[disabled],[aria-disabled="true"],.is-disabled):hover,.ta:not(.s-disabled,[disabled],[aria-disabled="true"],.is-disabled).s-hover{border-color:var(--field-border-hover)}
   .ta:focus,.ta.s-focus{border-color:var(--input-focus);box-shadow:none;outline:none}
   .ta.s-error{border-color:var(--input-error);box-shadow:none}
   .ta.is-disabled{background:var(--state-disabled);color:var(--ink-inactive);cursor:not-allowed}
@@ -1467,6 +1523,11 @@
   .banner:has(.banner-close){padding-right:2.75rem}
   /* Compact modifier — smaller padding + icon; use on secondary/inline banners */
   .banner-sm{padding:1rem 1.25rem}
+  /* 2px between title and description — Alert's value, not a midpoint. The two sit in one column
+     at the same 14/20 type, where each line box already carries 3px of half-leading top and
+     bottom, so 6px of gap on top of that pushed the pair apart. The large .banner keeps 6: its
+     title is 16px and the block is twice the height. */
+  .banner-sm .banner-body{gap:.125rem}
   .banner-sm .banner-ic{width:2.5rem;height:2.5rem;border-radius:.5rem}
   .banner-sm .banner-ic svg{width:20px;height:20px}
   .banner-sm .banner-t{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
@@ -1491,9 +1552,9 @@
   .banner-wrap{overflow:hidden;max-height:11rem;opacity:1;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,margin .35s ease}
   .banner-wrap.is-dismissed{max-height:0;opacity:0;pointer-events:none;margin-bottom:0}
   /* Gradient banner variant — add .banner-grad to .banner to switch from the neutral card surface
-     to a brand gradient fill. Override --grad-teal-dark inline to change the gradient per-instance
+     to a brand gradient fill. Override --grad-brand inline to change the gradient per-instance
      (angle, stops, colours). Text and icon automatically adapt to the dark background. */
-  .banner-grad{background:var(--grad-teal-dark);border:none}
+  .banner-grad{background:var(--grad-brand);border:none}
   /* Icon on gradient: circle shape + translucent border + subtle glow ring */
   .banner-grad .banner-ic{background:var(--banner-grad-ic-bg);border:1.5px solid var(--banner-grad-ic-border);border-radius:var(--radius-full);box-shadow:var(--banner-grad-ic-shadow);color:var(--banner-grad-text)}
   .banner-grad .banner-t{color:var(--banner-grad-text)}
@@ -1513,7 +1574,11 @@
   .banner-grad .btn-primary{background:var(--banner-grad-text);color:var(--brand-600)}
   .banner-grad .btn-primary:hover{background:var(--banner-grad-btn-hover);color:var(--brand-600)}
   /* Optional noise-textured gradient — swaps the fill to the noise gradient token + a soft grain overlay */
-  .banner-noise{--grad-teal-dark:var(--grad-noise);position:relative;overflow:hidden}
+  /* Upgrade banners take the tertiary gradient: one override of the fill the gradient banner
+     already reads, so every other rule of .banner-grad (white ink, white CTA, close button) keeps
+     working untouched. */
+  .banner-grad.is-upgrade{--grad-brand:var(--grad-accent)}
+  .banner-noise{--grad-brand:var(--grad-noise);position:relative;overflow:hidden}
   .banner-noise::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.07;mix-blend-mode:soft-light}
   .dark .banner-noise::after{opacity:.15}
   .mi:not(.s-disabled,[disabled],[aria-disabled="true"],.is-disabled):active{background:var(--state-pressed)}
@@ -1530,7 +1595,7 @@
   /* Page-level Approved indicator — green sibling of .pg-wip-tag (same recipe, --fb-green family).
      Set by /approve-page when a page moves concept → approved; replaces the In redesign tag. */
   .pg-approved-tag{display:inline-flex;align-items:center;padding:2px 6px;font-size:var(--ts-overline-size);line-height:var(--ts-overline-lh);font-weight:var(--ts-overline-weight);letter-spacing:var(--ts-overline-track);text-transform:uppercase;color:var(--fb-green);background:color-mix(in srgb,var(--fb-green) var(--tint-10),var(--surface-card));border:1px solid color-mix(in srgb, var(--fb-green) var(--tint-25), transparent);border-radius:.25rem;white-space:nowrap;flex:none}
-  .mi .mi-ic{width:var(--icon-md);height:var(--icon-md);flex:none;color:currentColor}
+  .mi .mi-ic{width:var(--icon-md);height:var(--icon-md);flex:none;color:currentColor;stroke-width:var(--icon-stroke)}
   /* Menu separator — thin rule used to group related items inside a .menu. Negative horizontal
      margin lets the rule span edge-to-edge across the menu's 4 px padding. */
   .menu-sep{height:1px;margin:4px -4px;background:var(--stroke-border);border:0}
@@ -1570,7 +1635,7 @@
   .cl-attach[aria-disabled="true"]:hover{background:transparent}
   /* Trigger ↔ menu anchoring — the menu floats just above the trigger, shown while aria-expanded. */
   .cl-dropdown-wrap{position:relative}
-  .cl-dropdown-menu{position:absolute;bottom:calc(100% + 4px);left:0;z-index:50;display:none}
+  .cl-dropdown-menu{position:absolute;bottom:calc(100% + var(--menu-gap, 8px));left:0;z-index:50;display:none}
   .cl-dropdown[aria-expanded="true"]+.cl-dropdown-menu,.cl-attach[aria-expanded="true"]+.cl-dropdown-menu{display:block}
   /* Attached-file chip — appears above the input once a file is loaded; × removes it. Follows the
      prod chat chip (generic lucide "file" glyph in --brand-primary teal + two-line name/size meta +
@@ -1625,13 +1690,7 @@
      for Connections, the Manage footer) stay pinned while the rows scroll. clFitMenu (page JS) caps
      this to the space above the trigger (popover opens upward → never slides under the topbar); this
      max-height is the no-JS fallback. Minimalist thin scrollbar — not the chunky default. */
-  .cl-menu-scroll{max-height:min(16rem,40vh);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
-  /* Floating ~4px thumb (10px gutter minus a 3px transparent inset via background-clip) — no track
-     channel, light --stroke-border thumb → minimal/modern, not the chunky default bar. Darkens on hover. */
-  .cl-menu-scroll::-webkit-scrollbar{width:10px}
-  .cl-menu-scroll::-webkit-scrollbar-track{background:transparent}
-  .cl-menu-scroll::-webkit-scrollbar-thumb{background:var(--stroke-border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
-  .cl-menu-scroll:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+  .cl-menu-scroll{max-height:min(16rem,40vh);overflow-y:auto;overscroll-behavior:contain}
   /* Empty state — modern pattern: a tinted icon chip, a short title, helper text, then the CTA,
      centered with generous breathing room (replaces the old cramped one-line message + button). */
   .cl-menu-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.25rem;padding:12px}
@@ -1800,6 +1859,11 @@
 
   /* Dialog / Modal — reusable multi-step shell */
   .dlg-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--overlay-scrim)}
+  /* `display:flex` above out-ranks the browser's own `[hidden]{display:none}`, so an overlay
+     marked hidden stayed on screen — several of them stacked, and the buttons of the panel the
+     person could SEE were closing the panel underneath it. Dialogs that hide with an inline
+     `style="display:none"` never hit this; one that hides with the attribute did. Both work now. */
+  .dlg-overlay[hidden]{display:none}
   .dlg{background:var(--surface-card);border:1px solid var(--stroke-border);border-radius:.875rem;max-width:var(--dlg-max-w);max-height:var(--dlg-max-h);display:flex;flex-direction:column;box-shadow:var(--shadow-modal)}
   /* ── Size variants: S, M and L ────────────────────────────────────────────────────────────────
      Three sizes, same naming as .menu.is-sm/.is-md/.is-lg so one size vocabulary covers every
@@ -1854,6 +1918,16 @@
      A menu opened inside .dlg-content is clipped by its scroll box, so kit-kit.js measures the
      flip against the nearest scroll container, not only the viewport. */
   .dlg-content{min-height:0;overflow-y:auto;padding:0 1.25rem 1.25rem}
+  /* ── Thin scroll — the product's scrollbar ─────────────────────────────────────────────
+     A floating ~4px thumb: a 10px gutter minus a 3px transparent inset via background-clip, no
+     track channel, Stroke/Border thumb darkening to Text/Inactive on hover. Written once for the
+     composer's menu and then not applied to the dialog body, which meant one product with two
+     scrollbars — the slim one inside menus and the OS default inside dialogs. */
+  .scroll-thin,.cl-menu-scroll,.dlg-content{scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
+  .scroll-thin::-webkit-scrollbar,.cl-menu-scroll::-webkit-scrollbar,.dlg-content::-webkit-scrollbar{width:10px}
+  .scroll-thin::-webkit-scrollbar-track,.cl-menu-scroll::-webkit-scrollbar-track,.dlg-content::-webkit-scrollbar-track{background:transparent}
+  .scroll-thin::-webkit-scrollbar-thumb,.cl-menu-scroll::-webkit-scrollbar-thumb,.dlg-content::-webkit-scrollbar-thumb{background:var(--stroke-border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .scroll-thin:hover::-webkit-scrollbar-thumb,.cl-menu-scroll:hover::-webkit-scrollbar-thumb,.dlg-content:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
   /* Stacked form fields — the common case. Top padding stays 0 because .dlg-hdr already carries
      .5rem below the title. */
   .dlg-content.is-stack{display:flex;flex-direction:column;gap:1rem}
@@ -2413,16 +2487,28 @@
   /* Intra-row gap (label → coin → value: 4px, tightened from 8px so the coin sits close to its
      number) and inter-meter gap (6px between the row and the bar) so the meter doesn't read as a
      single dense block */
-  .sbx-pop-tok-meter{display:flex;flex-direction:column;gap:.375rem;padding:0 .25rem;width:100%}
-  .sbx-pop-tok-meter .row{display:flex;align-items:center;gap:.25rem}
-  .sbx-pop-tok-meter .label{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);flex:1}
-  .sbx-pop-tok-meter .coin{display:inline-block;width:28px;height:28px;flex:none;background:url(assets/coins/coin-brand-1.svg) center/contain no-repeat}
-  .sbx-pop-tok-meter .coin.sm{width:20px;height:20px;background:url(assets/coins/coin-green-1.svg) center/contain no-repeat}
-  .sbx-pop-tok-meter .val{font-size:var(--ts-title-16-size);line-height:var(--ts-title-16-lh);font-weight:var(--ts-title-16-weight);color:var(--ink-primary);font-variant-numeric:tabular-nums}
-  .sbx-pop-tok-meter .val.sm{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh)}
+  /* METER — label, figure, bar: how much of an allowance is gone. Named for what it is, not for
+     the sidebar it first appeared in, because the storage popover now uses the same component.
+     `.sbx-pop-tok-meter` stays as an alias on every rule below until its markup is renamed. */
+  .meter,.sbx-pop-tok-meter{display:flex;flex-direction:column;gap:.375rem;padding:0 .25rem;width:100%}
+  /* A meter the plan does not have is hidden by [hidden] — and display:flex out-ranks the UA's
+     own [hidden]{display:none}, so it has to be said here. Free has a daily limit and no pool;
+     a paid plan has a pool and no daily limit; both were showing at once. */
+  .meter[hidden],.sbx-pop-tok-meter[hidden]{display:none}
+  .meter .row,.sbx-pop-tok-meter .row{display:flex;align-items:center;gap:.25rem}
+  .meter .label,.sbx-pop-tok-meter .label{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary);flex:1}
+  .meter .coin,.sbx-pop-tok-meter .coin{display:inline-block;width:28px;height:28px;flex:none;background:url(assets/coins/coin-brand-1.svg) center/contain no-repeat}
+  .meter .coin.sm,.sbx-pop-tok-meter .coin.sm{width:20px;height:20px;background:url(assets/coins/coin-green-1.svg) center/contain no-repeat}
+  .meter .val,.sbx-pop-tok-meter .val{font-size:var(--ts-title-16-size);line-height:var(--ts-title-16-lh);font-weight:var(--ts-title-16-weight);color:var(--ink-primary);font-variant-numeric:tabular-nums}
+  .meter .val.sm,.sbx-pop-tok-meter .val.sm{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh)}
   /* Empty meter track — must stay visible against the new --surface-card popover surface (was --surface-card when popover was --surface-page). --surface-card2 = next layer down in light, next layer up in dark — subtle but perceivable in both themes (~1.05:1 light / ~1.4:1 dark vs the popover). */
-  .sbx-pop-tok-meter .bar{width:100%;height:4px;border-radius:var(--radius-full);background:var(--surface-card2);overflow:hidden}
-  .sbx-pop-tok-meter .bar>span{display:block;height:100%;border-radius:var(--radius-full)}
+  .meter .bar,.sbx-pop-tok-meter .bar{width:100%;height:4px;border-radius:var(--radius-full);background:var(--surface-card2);overflow:hidden}
+  /* The fill's colour is the component's. It used to be written inline on every bar — twelve
+     copies of one decision, and a kit atom restyled from page markup. */
+  .meter .bar>span,.sbx-pop-tok-meter .bar>span{display:block;height:100%;border-radius:var(--radius-full);background:var(--brand-tertiary)}
+  /* Over the limit the fill takes the Alert's warning accent — one state class, set by the page,
+     never a colour written inline onto the component. */
+  .meter.is-over .bar>span,.sbx-pop-tok-meter.is-over .bar>span{background:var(--fb-attention)}
   .sbx-pop-tok-actions{display:flex;flex-direction:column;gap:.625rem;width:100%;margin-top:.125rem}
   .sbx-pop-cta{width:100%;height:2rem;border-radius:var(--radius-full);justify-content:center;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight)}
 
@@ -2767,6 +2853,9 @@
      alone (4px) at every size. Trailing controls inset by side-pad − 4 (their box's own padding),
      which puts their glyph on the same rail as the leading one. */
   .igrp.is-xs{height:28px} .igrp.is-sm{height:32px} .igrp.is-lg{height:40px} .igrp.is-xl{height:44px}
+  /* Width is a separate axis from height: .igrp-wrap ships 240px, and a search field in a toolbar
+     or a dialog wants the whole row. Three pages were each writing that override locally. */
+  .igrp.is-block{width:100%;max-width:none}
   /* Type steps with the control too, on the body family (a field's value is 400, not a label):
      xs `body-s` · sm·md `body-m` · lg `body-l` · xl `body-xl`. The family used to stop at 16, which
      made lg and xl identical; the 18px rung was added rather than letting the top of the ladder
@@ -2843,33 +2932,100 @@
      It attaches to LOCKED and to DISABLED controls alike, which is exactly why the disabled
      contract higher up stopped killing pointer events. */
   .pop-upgrade{width:18rem;padding:0;overflow:hidden;background:var(--upop-bg);border-color:var(--upop-border);border-radius:var(--radius-panel)}
+  /* …and the same panel reporting an ALLOWANCE rather than offering a feature: the storage meter
+     states how much room is left, which is a fact about this account, not an offer. It takes the
+     plain surface the balance popover has — the gradient is reserved for the panels that sell. */
+  .pop-upgrade.is-plain{background:var(--surface-card);border-color:var(--stroke-border)}
+  /* The head is the feature's name at heading weight and heading ink — it is the title of the
+     panel, and a title that is also the one coloured thing competes with the CTA. The glyph takes
+     the TITLE's colour, not the brand: a mark and the words beside it are one line, and two
+     colours on one line make two things. It needs nothing else of its own either — no chip, no
+     fill, no second surface. */
+  /* No glyph in the head. The feature's own icon sat beside its name and said nothing the name
+     did not already say, while costing the title a third of its width before the plan badge even
+     arrived (2026-10-06). The head is the title and, in badge mode, the plan. */
   .pop-up-head{display:flex;align-items:center;gap:.5rem;padding:.875rem .875rem .375rem;color:var(--ink-primary);font-size:var(--ts-title-14-size);line-height:var(--ts-title-14-lh);font-weight:var(--ts-title-14-weight)}
-  /* The glyph sits in a chip, not loose: a 14px outline next to 14px text disappears. */
-  .pop-up-head svg{width:var(--icon-md);height:var(--icon-md);flex:none;padding:.25rem;box-sizing:content-box;border-radius:var(--radius-sm);background:var(--upop-ic-bg);color:var(--brand-primary)}
   .pop-up-body{display:flex;flex-direction:column;gap:.75rem;padding:.5rem .875rem .875rem}
   /* The benefits are .feat-list — the same brand tick the plan cards use, so a benefit reads
      identically whether it is seen here or in Manage plan. */
   .pop-up-body .feat-list{margin:0}
-  /* The plan line closes the copy, so it sits on its own above the CTA with a hairline — the
-     structure a reader expects: what it gives · what it costs you to get it · the way there. */
-  .pop-up-plan{margin:0;padding-top:.625rem;border-top:1px solid var(--stroke-border);font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  /* A meter inside this popover sits on --upop-bg, not on the card. Surface/Chips over that wash
+     lands within a shade of it, so the UNFILLED part of the bar vanished and the fill read as a
+     floating pill. The track takes the card surface and a hairline instead — the same pair the
+     kit uses for any well cut into a tinted surface. */
+  /* The plan line closes the copy. No rule above it: the panel is six short lines, and a
+     divider inside six lines splits a single thought into two blocks. */
+  .pop-up-plan{margin:0;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
   /* One CTA, full width: the popover is small and the button is the only thing to do in it. */
   .pop-upgrade .btn{width:100%}
 
   /* ── Locked (plan-gated) — .is-locked ──────────────────────────────────────────────────
-     Locked is NOT disabled, and the difference is the whole design: a disabled control has
-     nothing to offer, a locked one has something the person can buy. So a locked row keeps
-     its hover surface, keeps a pointer cursor and stays clickable — the click opens the
-     upgrade popover. What it loses is the control's own effect: the switch, checkbox or
-     radio inside it is inert (pointer-events on that INNER control, so the row around it
-     still answers the mouse) and sits at disabled opacity, so the row reads "off and not
-     yours to turn on" without ever looking broken. The plan marker on the right is a Badge
-     (.badge.badge-sm.badge-primary + a lock glyph) — there is no bespoke pill for this. */
+     ONE rule, because three were two too many: a locked control looks and behaves like any
+     other control, and the padlock in its icon slot is the whole of the difference.
+
+     Locked is NOT disabled. A disabled control has nothing to offer and does nothing, so it
+     shows no hover and a not-allowed cursor. A locked one HAS something to offer and DOES
+     something: it opens the upgrade popover. So it keeps its own colours, its own hover and
+     press, its pointer cursor — nothing is dimmed, greyed or made translucent. A greyed-out
+     Connect reads as broken; a normal Connect with a padlock reads as locked.
+
+     Consequence worth stating, because the first pass got it wrong: a locked control is NOT
+     marked `aria-disabled`. That attribute means "inert", the shared disabled guard strips
+     hover from everything carrying it, and the result was a control that answered the click
+     but looked dead. The click is stopped by the popover engine instead — at the trigger, in
+     the capture phase — which is both the real behaviour and the honest markup.
+
+     What IS inert is the control INSIDE a locked row: the switch, checkbox, radio or slider
+     the row exists to operate. It sits at disabled opacity with its pointer events off, so
+     the row around it still answers the mouse while the thing itself cannot be moved. */
   .is-locked{cursor:pointer}
-  .mi.is-locked{color:var(--ink-secondary)}
   .is-locked .swt,.is-locked .cbx,.is-locked .rdo,.is-locked .stps{opacity:var(--opacity-disabled);pointer-events:none}
+  /* Two appearances, chosen by what the control IS — not by which page it sits on.
+
+     A ROW IN A MENU takes a dimmed label and keeps its hover — every menu, so a kebab menu and
+     the model list read as the same product. The padlock says it is locked; the hover is how the
+     pointer reaches the explanation, and running your eye down the list is still useful on Free:
+     it is how you see what you would get.
+
+     A BUTTON keeps every colour it has. A greyed-out Connect reads as broken, and a primary
+     button dimmed to Text/Inactive is unreadable besides; the padlock in its icon slot is enough,
+     and the person is meant to press it. Same for cards and the composer control's siblings.
+
+     The ONE exception is stated below: the composer's Connections control, which leads nowhere
+     on Free and so is drawn disabled — and, being drawn disabled, takes no hover surface. */
+  /* ONE appearance for every locked row, whatever menu it sits in. The first pass split them by
+     which surface they opened — model rows kept their hover, kebab rows read disabled — and the
+     two menus stopped looking like the same product. A row in a list is a row in a list: dimmed
+     label, live hover, and the pointer finds the explanation by running down the list the way it
+     always does. The shared disabled guard strips hover from anything locked, so it is
+     re-declared here (one pattern agreed 2026-10-06). */
+  .mi.is-locked{color:var(--ink-secondary)}
+  .mi.is-locked:hover{background:var(--state-hover)}
+  .mi.is-locked:active{background:var(--state-pressed)}
+  /* A row whose two lines set their OWN colours does not inherit the locked label colour — the
+     alias stayed at Text/Primary while every other locked row dimmed. Both lines step down one
+     rung together, so the pair keeps its hierarchy (alias above name) while reading as locked. */
+  .mi.is-locked .cl-mention-alias{color:var(--ink-secondary)}
+  .mi.is-locked .cl-mention-name{color:var(--ink-inactive)}
+  /* Model and connection rows carry their name in Text/Primary for the same reason, and the same
+     fix: the row's locked colour cannot reach a child that sets its own. */
+  .mi.is-locked .cl-model-name,.mi.is-locked .cl-conn-name{color:var(--ink-secondary)}
+  /* The composer's Connections control is the one BUTTON that reads disabled, because unlike a
+     Connect or an Edit it leads nowhere on Free: its menu does not open, so a control at full
+     strength would be promising a list it will not show. Label, glyph and chevron go to
+     Text/Inactive together; the padlock in its icon slot says why. */
+  .cl-dropdown.is-locked{color:var(--ink-inactive);cursor:not-allowed}
+  .cl-dropdown.is-locked .cl-dropdown-icon,.cl-dropdown.is-locked .cl-ic-chev{color:currentColor}
+  /* — and it takes no surface on hover, on press, or while its own popover is open. A control
+     drawn as disabled that lights up under the pointer makes two statements at once; the one
+     thing it still does is explain itself, and the panel that appears IS that answer. */
+  .cl-dropdown.is-locked:hover,.cl-dropdown.is-locked:active,.cl-dropdown.is-locked[data-upgrade-open]{background:transparent}
+  /* No lit state while the popover is open: in a LIST it meant two rows carried a surface at
+     once — the one under the pointer and the one the panel belongs to — and the second read as a
+     hover that had failed to clear. Hover is the only surface a locked row takes. */
   /* The marker always sits at the row's far edge, whatever the row is. */
   .is-locked .lock-mark{margin-left:auto;flex:none}
+  .mi.is-locked > .lock-glyph{margin-left:auto}
   /* The marker's second form: the padlock on its own, no pill.
      Where each form goes — the pill exists to carry the plan NAME, so it belongs where a name
      reads naturally: a MENU ROW, which is wide, quiet and already full of words. A BUTTON is not
@@ -2879,6 +3035,130 @@
      Colour is `currentColor` on purpose: the marker belongs to the control it sits in, so it is
      white on a primary button and body ink on a tertiary one, with no per-variant rule. */
   .lock-glyph{width:var(--icon-xs);height:var(--icon-xs);flex:none;color:currentColor}
+
+  /* ── Upgrade modal (.dlg.dlg-upgrade) — U3 ─────────────────────────────────────────────
+     The popover answers a hover; this answers an ACTION. Someone pressed Connect, Edit or
+     Create — they had already decided to do something — so the reply takes the screen instead
+     of hanging beside the pointer.
+
+     It is built from the kit's own dialog chrome, the same parts every other dialog on these
+     pages uses: `.dlg-hdr` with the title and a tertiary close, `.dlg-content.is-stack` for the
+     copy, `.dlg-ftr` for the two buttons. The first pass put a gradient band with floating
+     source chips on top; it read as stock illustration rather than as this product, and an
+     illustration is not what makes an upgrade worth considering — what the plan does is.
+
+     The feature's glyph sits in the icon tile the kit already uses for exactly this (the
+     icon-wrapper recipe behind `.prov-ic-w` and `.mx-prov-ic`), so a locked feature is marked
+     here the same way a source is marked everywhere else. */
+  /* The shape current upgrade dialogs actually use — Linear, Raycast, Vercel, Figma all land in
+     the same place, and it is the opposite of the pricing-box this started as: no illustration,
+     no bordered list, no header rule, one dominant action.
+
+       plan pill as an EYEBROW over the headline   (what you are being offered, in two words)
+       headline, large and tight                   (the benefit as a sentence, not a feature noun)
+       three plain ticked lines                    (the evidence; no box around it)
+       one full-width primary                      (the decision)
+       a quiet text link under it                  (the way out, which should not look like a
+                                                    second decision of equal weight)
+
+     The eyebrow costs no markup: the title row is reversed, so the badge that sits beside the
+     title in every other surface rises above it here. Everything else is removal — the icon tile,
+     the list's border and dividers, the footer's rule, the secondary button's outline. */
+  .dlg-upgrade{width:27rem;max-width:calc(100vw - 2rem);background:var(--upop-bg)}
+  /* The close sits on the eyebrow's own line rather than floating over it: the header reserves
+     the button's width on the right, and the eyebrow row is at least as tall as the button, so
+     the two read as one row instead of one overlapping the other. */
+  .dlg-upgrade .dlg-hdr{position:relative;display:block;padding:1rem 3.25rem 0 1.25rem;background:transparent;border:0}
+  /* The close is OUT of flow, so nothing aligns it to the eyebrow beside it: the IconButton's box
+     is 32px and the plan pill is 20px, and neither matching their tops nor guessing an offset put
+     their CENTRES on one line. Instead the eyebrow is given the button's height in padding —
+     6px above and below a 20px pill is a 32px line — so both sit at the same distance from the
+     header's top edge and the centres coincide exactly. The button's own 12px right offset keeps
+     its GLYPH on the 20px gutter the title and the pill start from (the box is 8px wider than the
+     glyph on each side). */
+  .dlg-upgrade .dlg-hdr > .iconbtn{position:absolute;top:1rem;right:.75rem}
+  .dlg-up-title-row > .plan-badge{margin:.375rem 0}
+  /* Reversed: the plan pill rides ABOVE the headline as the eyebrow. */
+  .dlg-up-title-row{display:flex;flex-direction:column-reverse;align-items:flex-start;gap:.5rem}
+  /* The type scale's own 24 rung, every value from its tokens — size, line-height, weight and
+     tracking. The first pass set a hand-picked line-height and letter-spacing beside tokenised
+     body copy, which is what made the panel read as three typefaces having a meeting. */
+  .dlg-upgrade .dlg-title{font-size:var(--ts-title-24-size);line-height:var(--ts-title-24-lh);font-weight:var(--ts-title-24-weight);letter-spacing:var(--ts-title-24-track)}
+  .dlg-up-head{min-width:0;display:flex;flex-direction:column;gap:.25rem}
+  /* TWO rungs, not three: a 24px headline, then one body size and one ink for everything under
+     it. The lead and the benefits are the same kind of sentence — what this does for you — so
+     setting them at different sizes and in different greys made the panel look like it had been
+     assembled from two components (agreed 2026-10-06: "типографія має бути однакового розміру та
+     кольору"). Body/M in Text/Body, both. */
+  .dlg-up-lead{margin:0;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-body)}
+  .dlg-upgrade .dlg-content{padding:.875rem 1.25rem 1.25rem;gap:1rem}
+  /* Plain ticked lines. The bordered panel they sat in was a box drawn around three short
+     sentences; at this width the whitespace separates them perfectly well on its own. */
+  /* The list keeps .feat-list's OWN 8px gap — the kit sets it once for every benefit list in the
+     product, and a 12px override here made three short lines read as three separate notices. */
+  .dlg-upgrade .feat-list{margin:0;background:none;border:0;border-radius:0}
+  .dlg-upgrade .feat-list li{padding:0;border:0;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-body)}
+  .dlg-upgrade .feat-list li::before{margin-top:.1875rem}
+  /* The plan line is the TEXT treatment of "which plan opens this" and it stays: in badge mode
+     the eyebrow says it and this is hidden, in text mode this is the only place it is said. It
+     sits last, immediately above the button it is the condition of. */
+  .dlg-upgrade .plan-line{margin:0;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  /* The footer is the kit's dialog footer, untouched — two buttons right-aligned, the rule above
+     them, the kit's padding. Both deviations tried here are reverted: a full-width primary with a
+     centred text link under it is a paywall's shape, not this product's dialog, and dropping the
+     top rule took away the separation the design system gives every dialog footer (2026-10-06). */
+
+  /* ── Plan info — the Badge, and only the Badge ────────────────────────────────────────
+     Which plan opens a feature is the answer to the question the person is asking. Two readings
+     were built and compared in place — the sentence under the title, or the plan name as the same
+     Badge the locked controls already wear — and the Badge won (decided 2026-10-06). The sentence
+     treatment and the `html.plan-info-badge` switch that compared them are gone: a second way to
+     say the same thing is a second thing to keep in sync.
+
+     The Badge sits beside the feature name in a popover head, and rises ABOVE the headline as an
+     eyebrow in the modal (`.dlg-up-title-row` is `column-reverse`). Same component, same word. */
+  .plan-badge{display:inline-flex}
+  /* A small supporting line under the benefits. NOT a plan marker — the Badge is that. It carries
+     a fact the Badge cannot, e.g. the two storage caps a person is choosing between. */
+  .plan-line{margin:0;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-body)}
+  .plan-line b{color:var(--ink-primary);font-weight:600}
+
+  /* ── Plan card (.promo-card) — the sidebar's upgrade offer ──────────────────────────────
+     There used to be a .plan-pill above the composer as well, stating which plan was answering.
+     It went 2026-10-06: on a screen with no locked control it was the only thing saying "Free",
+     and that is what the sidebar card does — one offer, in one place, instead of two surfaces
+     competing to say the same thing a line apart.
+  /* The SIDEBAR form is not a pill at all — it is a small card, because the footer is a column
+     and a one-line pill squeezed into it says almost nothing. The card has room for the offer:
+     a glyph, what it is, what you get, and a dismiss. Same family as the composer pill (same
+     border, radius family and link colour), different shape for a different slot. */
+  .promo-card-wrap{position:relative;width:100%}
+  .promo-card{display:flex;align-items:flex-start;gap:.5rem;width:100%;padding:.625rem .75rem;border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-md);background:var(--surface-card);text-align:left;cursor:pointer;font-family:inherit;transition:background var(--motion-fast) var(--motion-ease),border-color var(--motion-fast) var(--motion-ease)}
+  /* Hover is the kit's own card recipe and nothing else — .hov-card on the element supplies the
+     lift, the shadow and the border. An earlier pass also recoloured the title to the highlight
+     ink on hover; no other card in the product does that, and it read as the heading turning into
+     a link under the pointer. Removed 2026-10-06. */
+  .promo-card:hover{background:var(--state-hover)}
+  .promo-card:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .promo-card-ic{width:var(--icon-lg);height:var(--icon-lg);flex:none;color:var(--brand-primary);margin-top:.0625rem}
+  .promo-card-body{min-width:0;display:flex;flex-direction:column;gap:.125rem;padding-right:1rem}
+  .promo-card-t{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-primary)}
+  /* The benefit line is description, and description is secondary ink. Tried it in the highlight
+     colour so the card would read as an offer; two lines of teal under a dark title read as a
+     link that had been clicked, not as a sentence (reverted 2026-10-06). The title carries the
+     offer; the line under it explains. */
+  .promo-card-d{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  /* In the sidebar it sits ABOVE the footer rule, inside the scroll column's own padding, so it
+     reads as the last thing in the list rather than as part of the account block below it. */
+  .sbx-promo-card{padding:0 8px 8px}
+  .sbx.is-collapsed .sbx-promo-card{display:none}
+  /* The dismiss is the kit's own IconButton at its smallest rung — `.iconbtn.iconbtn-tertiary.iconbtn-2xs`,
+     composed in the markup. This class only PLACES it: the box, the radius, the tertiary colours
+     and the hover pill all come from the component. It was re-drawn here first (1.5rem square,
+     radius-sm, its own hover) — which is `.iconbtn-2xs` written out a second time, and the second
+     copy is the one that drifts. */
+  .promo-card-x{position:absolute;top:.25rem;right:.25rem}
+
 
   /* ScrollShadow */
   .ssh{width:220px;height:96px;border:1px solid var(--stroke-border);border-radius:6px;background:var(--surface-card);position:relative;overflow:hidden}
@@ -3397,7 +3677,9 @@
   .ds-conn-meta{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ds-conn-desc{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
   /* ===== Connected — table view (shared kebab styles) ===== */
-  .ds-conn-tbl{margin-top:.25rem}
+  /* No margin of its own: the panel it sits in is a flex column with a gap, and a 4px margin on
+     top of that gap made the space under the read-only notice 20px where every other block on
+     the page is 16 (found with devtools 2026-10-06 — the extra 4 was invisible in the markup). */
   .ds-conn-tbl .ds-conn-cell-desc{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);color:var(--ink-secondary);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:0}
   .ds-conn-cell-name{display:flex;align-items:center;gap:.375rem}
   .ds-conn-cell-label{font-weight:500;color:var(--ink-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -3432,7 +3714,6 @@
      border — bordered is the Badge default, so nothing is added here. */
   .ds-sync .badge{white-space:nowrap}
   .ds-sync-spin{width:12px;height:12px;color:var(--brand-primary);flex:none}
-  .ds-sync-actions{display:flex;align-items:center;flex:none}
   .ds-conn-cell-sync{vertical-align:middle}
   .ds-conn-sync-wrap{margin-top:.125rem}
 
@@ -4295,6 +4576,10 @@
 /* ── Detail panel fields (shared: metrics, data-sources connections) ── */
 .dp-fields{display:flex;flex-direction:column;gap:1.25rem;font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
 .dp-field{display:flex;flex-direction:column;gap:.25rem}
+/* Last check: the value and the button that refreshes it share one line, the button at the far
+   edge. It used to sit in the panel footer, which put three buttons in a 26rem row. */
+.dp-check{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.dp-check .btn{margin-left:auto}
 .dp-label{font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);text-transform:uppercase;letter-spacing:var(--tracking-label);color:var(--ink-secondary)}
 .dp-value{font-size:var(--ts-body-m-size);color:var(--ink-primary);line-height:var(--ts-body-m-lh);display:flex;align-items:center;gap:.375rem;min-width:0}
 .dp-value-name{font-size:var(--ts-title-16-size);font-weight:var(--ts-title-16-weight);color:var(--ink-primary);line-height:var(--ts-title-16-lh)}
@@ -5054,15 +5339,23 @@
      the sanctioned tint recipe (semantic base + --tint-N step, no literal %).
      ========================================================================= */
   .alert{--alert-accent:var(--ink-secondary);display:flex;align-items:flex-start;gap:.625rem;box-sizing:border-box;padding:.625rem .75rem;border-radius:var(--radius-lg);border:var(--border-width) solid color-mix(in srgb, var(--alert-accent) var(--tint-30), transparent);background:color-mix(in srgb, var(--alert-accent) var(--alert-wash), var(--surface-card))}
-  /* The glyphs are Toast’s paths, but Toast draws them at 20px and this draws them at 16 — the
-     glyph box has to equal the title’s line box or it stops aligning. At stroke-width 2 the same
-     circle-and-cross collapses into a blob 20% smaller, so the STROKE carries the difference
-     instead of the geometry: 1.5 at 16px is the weight 2 has at 20. Same shape, same vocabulary,
-     same optical mass. */
-  .alert-ic{flex:none;width:var(--icon-sm);height:var(--icon-sm);stroke-width:1.5;color:var(--alert-accent)}
+  /* The glyph box equals the title's line box, or it stops aligning: 16/16 at sm, 20/20 at md.
+     The STROKE does not change with the size: one weight across the kit (--icon-stroke), the box
+     alone carries the step. A 1.5/2 pair lived here until 2026-10-06 and was dropped so the Alert
+     glyph weighs what every other glyph weighs — the Devart UI Alert made the same move. */
+  .alert-ic{flex:none;width:var(--icon-sm);height:var(--icon-sm);stroke-width:var(--icon-stroke);color:var(--alert-accent)}
   .alert-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .alert-t{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-primary)}
   .alert-d{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
+  /* TWO SIZES, because an Alert does two jobs. Tucked inside another component — a queue band, a
+     card — it is a footnote and reads at 12. Standing on a page, above a table, speaking about the
+     whole screen, 12px is a whisper from something that occupies a full row: that one is 14.
+     S is the default (every inline use predates M); M is the opt-in, and everything in it moves
+     one rung together — type, glyph and padding — so it is a size, not a bigger font. */
+  .alert.is-md{gap:.75rem;padding:.75rem .875rem}
+  .alert.is-md .alert-ic{width:var(--icon-lg);height:var(--icon-lg)}
+  .alert.is-md .alert-t{font-size:var(--ts-title-14-size);line-height:var(--ts-title-14-lh);font-weight:var(--ts-title-14-weight)}
+  .alert.is-md .alert-d{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   /* The actions line up with the GLYPH and the title, not with the middle of the block: a
      two-line alert pushed them half a line below the thing they answer. The offset is the two
   /* Centred on the block, not aligned to the glyph. Tried top-aligned so the control sat on the

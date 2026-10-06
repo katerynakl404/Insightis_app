@@ -77,3 +77,24 @@ reads as "the delay is broken".
 `.s-loading` still sets `pointer-events:none` on Button and IconButton. A loading button has the
 same problem (it cannot carry a tooltip), but loading is a different state with a different
 contract, so it is left as is rather than changed in passing.
+
+## 2026-10-06 — two recipes were still missing the guard
+
+The shared guard — `:not(.s-disabled,[disabled],[aria-disabled="true"],.is-disabled)` — is on every
+button, link and row recipe, but **Input and TextArea never got it**: `.field:hover` and `.ta:hover`
+matched a disabled field and still painted `--field-border-hover`. The border lifting under the
+pointer is the one cue that says a field is live, so a disabled one claimed to be.
+
+Both now carry the guard, in the kit and in both hover forms (`:hover` and the storybook's
+`.s-hover`).
+
+**Also corrected: locked demo rows in the storybook claimed to be disabled.** Four `.mi.is-locked`
+rows carried `aria-disabled="true"`, which is exactly what the contract forbids — the attribute
+pulls the disabled guard in and strips the hover a locked row is supposed to keep. They now carry
+`aria-haspopup="dialog"`, which is what `kitLock` writes.
+
+**Audit method, so it can be repeated.** Walk every stylesheet rule whose selector contains
+`:hover`, strip the pseudo-class, and test whether any element matching
+`[disabled],[aria-disabled="true"],.s-disabled,.is-disabled` matches what is left. On the storybook —
+46 disabled elements, every recipe in the kit on screen — the only remaining match is
+`.cl-attach[aria-disabled="true"]:hover{background:transparent}`, which is the guard itself.

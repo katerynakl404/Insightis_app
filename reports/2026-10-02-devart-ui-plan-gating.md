@@ -81,7 +81,7 @@ has nothing to offer, a locked one has something the person can buy.
     'Handles wide tables and joins without losing track',
   ]}
   plan="On the Pro plan"
-  ctaLabel="See Plans"
+  ctaLabel="Upgrade to Unlock"
   onCta={…}
 />
 ```
@@ -119,8 +119,66 @@ broken delay.
 
 ---
 
+## 4. Two components the library does not have yet
+
+The gating system is built from existing Devart UI parts wherever one fits — Badge for the plan
+marker, Button, Popover, Modal, Alert. Two pieces have no counterpart in the library and are
+needed by any product that gates by plan:
+
+| Component | What it is | Built from |
+|---|---|---|
+| **UpgradePopover / UpgradeModal** | What a locked control answers with: hover gets the popover, a press gets the modal. | Popover and Modal in a brand skin — plan pill as an eyebrow, one headline, benefits at ONE size and ONE ink, the library's standard dialog footer (two buttons, right-aligned, rule above them). |
+| **Meter** | Label, figure, bar: how much of an allowance is gone. Used for credits and for storage. | `Body/S` label, `Title/16` figure, 4px track. `isOver` recolours the fill to `Feedback/Attention`. The fill colour belongs to the component — it was inline on twelve bars before. |
+
+Two rules that belong in the library rather than in each product:
+
+1. **Where the padlock goes follows the SHAPE of the control.** A button leads with it (its icon
+   slot, or prepended); a row in a menu or list trails it at the right-hand edge and keeps its own
+   icon. A menu whose every glyph became the same padlock stops saying which row is which.
+2. **A locked control is not `aria-disabled`.** It is a control that opens a dialog, so
+   `aria-haspopup="dialog"` is what it announces. `aria-disabled` pulls in the library's disabled
+   recipe, which strips the hover — the result answers the click while looking dead.
+
+One placement rule for the popover: a trigger that owns a menu opens its panel the way that menu
+opens (the composer's controls open upward), and a row inside a list opens it to the SIDE so the
+list stays readable. Same gap from the trigger as any anchored menu — one token, not two numbers.
+
+---
+
 ## Not done here
 
 The vendored `ds-bundle/` in this repo is generated output and is overwritten by the next refresh,
 so nothing above was hand-edited into it. The Insightis side of both changes is implemented and
 shipped in this repo.
+
+## 5. Alert needs a size axis
+
+The library's Alert has one size. It needs two, for the same reason Button and Badge have a ladder:
+the component is used both INSIDE another surface (a band, a card — a footnote) and ON a page
+(full width, above a table — a statement), and one type scale cannot serve both.
+
+| | S (default) | M |
+|---|---|---|
+| Title | `Title/12` | `Title/14` |
+| Description | `Body/S` (12px) | `Body/M` (14px) |
+| Glyph | 16px, stroke 1.5 | 20px, stroke 2 |
+| Padding / gap | 10/12 · 10 | 12/14 · 12 |
+
+Prop shape to match the rest of the library: `size="sm" | "md"`, default `"sm"`. Everything moves
+one rung together — type, glyph and padding — so M reads as a size rather than as an Alert with a
+bigger font. Implemented in the Insightis kit as `.alert` / `.alert.is-md`, with both sizes in the
+storybook's Alert section.
+
+## 6. Shipped since this report was written
+
+Three of the gaps above are now in the library, with stories and changesets:
+
+| Component | What landed |
+|---|---|
+| `Alert` | `size="sm" \| "md"` — the component does two jobs and had one size. §89 |
+| `Banner` | `size="sm"` line gap 6px → 2px, body gains `data-slot="banner-body"`. §90 |
+| `PromoCard` | **new** — the offer card a sidebar has room for. §91 |
+
+`PromoCard` is deliberately *not* `SidebarPromo` and *not* `PlanCard`: the consuming kit calls the
+same part `.promo-card`, and the two systems name it identically. An upgrade is only one kind of
+offer — an invitation or an ending trial fit the same shape.
