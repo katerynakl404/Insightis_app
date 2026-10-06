@@ -1,0 +1,1203 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Очередь сообщений в AI Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F6F6; --surface:#FFFFFF; --ink:#101B21; --ink2:#44545C; --muted:#6A7A82; --line:#DCE4E6; --line2:#C9D4D7;
+  --accent:#07807E; --accent-soft:#E3F1F0; --accent-ink:#055F5E;
+  --info:#2458C6; --info-soft:#E8EEFB;
+  --danger:#B42318; --danger-soft:#FCEBE9;
+  --warn:#A15C07; --warn-soft:#FDF1DE;
+  --neutral:#475569; --neutral-soft:#EEF1F4;
+  --code-bg:#EEF3F3;
+  /* mock = Insightis tokens */
+  --m-page:#F6F8FA; --m-card:#FFFFFF; --m-line:#E2E8F0; --m-line2:#CBD5E1; --m-text:#0F172A; --m-text2:#64748B; --m-body:#374151;
+  --m-brand:#07807E; --m-brand-hover:#148F8D; --m-chip:#F1F5F9; --m-accent:#F0F6F8; --m-focus:#475569;
+  --font:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0D1113; --surface:#151B1E; --ink:#E6EDEF; --ink2:#B8C5CA; --muted:#8C9CA3; --line:#26323A; --line2:#34424B;
+    --accent:#2FA29B; --accent-soft:#12302E; --accent-ink:#7FD3CC;
+    --info:#7FA6F5; --info-soft:#17223A; --danger:#F08A80; --danger-soft:#361815; --warn:#E6AE5A; --warn-soft:#33240F; --neutral:#A3B1BF; --neutral-soft:#1E262D;
+    --code-bg:#1B2327;
+    --m-page:#0F0F14; --m-card:#17171E; --m-line:#2A2834; --m-line2:#334155; --m-text:#FFFFFF; --m-text2:#97979A; --m-body:#DEDEDE;
+    --m-brand:#148F8D; --m-brand-hover:#2FA29B; --m-chip:#2A2834; --m-accent:#111A1C; --m-focus:#64748B;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0D1113; --surface:#151B1E; --ink:#E6EDEF; --ink2:#B8C5CA; --muted:#8C9CA3; --line:#26323A; --line2:#34424B;
+  --accent:#2FA29B; --accent-soft:#12302E; --accent-ink:#7FD3CC;
+  --info:#7FA6F5; --info-soft:#17223A; --danger:#F08A80; --danger-soft:#361815; --warn:#E6AE5A; --warn-soft:#33240F; --neutral:#A3B1BF; --neutral-soft:#1E262D;
+  --code-bg:#1B2327;
+  --m-page:#0F0F14; --m-card:#17171E; --m-line:#2A2834; --m-line2:#334155; --m-text:#FFFFFF; --m-text2:#97979A; --m-body:#DEDEDE;
+  --m-brand:#148F8D; --m-brand-hover:#2FA29B; --m-chip:#2A2834; --m-accent:#111A1C; --m-focus:#64748B;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55;margin:0;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1120px;margin:0 auto}
+a{color:var(--accent-ink)}
+h1,h2,h3,h4{text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,4.2vw,40px);font-weight:700;letter-spacing:-.02em}
+h2{font-size:24px;font-weight:600;letter-spacing:-.01em}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+.prose{max-width:70ch;display:flex;flex-direction:column;gap:10px}
+.prose ul,.prose ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code,.mono{font-family:var(--mono);font-size:.86em}
+code{background:var(--code-bg);padding:1px 5px;border-radius:4px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* header */
+header.top{padding-block:40px 28px;display:flex;flex-direction:column;gap:16px;border-bottom:1px solid var(--line)}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:3px 10px;border-radius:999px;border:1px solid var(--line2);background:var(--surface);color:var(--ink2);text-decoration:none}
+.tag b{font-weight:600;color:var(--ink)}
+.lede{font-size:17px;color:var(--ink2);max-width:68ch}
+
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px;overflow-x:auto;white-space:nowrap}
+nav.toc .in{max-width:1120px;margin:0 auto;display:flex;gap:4px}
+nav.toc a{font-size:13px;text-decoration:none;color:var(--ink2);padding:4px 10px;border-radius:6px}
+nav.toc a:hover{background:var(--surface);color:var(--ink)}
+
+section{padding-block:44px 8px;display:flex;flex-direction:column;gap:18px;scroll-margin-top:56px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head .eyebrow{color:var(--accent-ink)}
+
+.callout{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;max-width:80ch}
+.callout.key{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));background:var(--accent-soft)}
+.callout.warn{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));background:var(--warn-soft)}
+.callout h4{font-size:14px;font-weight:600}
+
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.rule .n{font-family:var(--mono);font-size:12px;color:var(--accent-ink)}
+.rule h3{font-size:15px}
+.rule p{color:var(--ink2);font-size:14px}
+
+table{border-collapse:collapse;width:100%;font-size:14px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:12.5px;color:var(--muted);background:color-mix(in srgb,var(--bg) 60%,var(--surface))}
+tr:last-child td{border-bottom:0}
+td.copy{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+
+/* state cards */
+.group-title{display:flex;align-items:baseline;gap:10px;margin-top:10px}
+.group-title .gid{font-family:var(--mono);font-size:13px;color:var(--accent-ink);background:var(--accent-soft);padding:2px 8px;border-radius:6px}
+.state{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+@media (max-width:880px){.state{grid-template-columns:1fr}}
+.state .desc{display:flex;flex-direction:column;gap:10px;font-size:14px}
+.state .sid{display:flex;align-items:center;gap:8px}
+.state .sid code{font-size:12px}
+.req{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px}
+.req.must{background:var(--accent-soft);color:var(--accent-ink)}
+.req.prop{background:var(--neutral-soft);color:var(--neutral)}
+.req.del{background:var(--danger-soft);color:var(--danger)}
+.req.new{background:var(--info-soft);color:var(--info)}
+/* A struck block stays on the page: the reader has to see what was asked for and that it is
+   gone, otherwise the correction is just a different document. */
+.is-del > .desc h3,.is-del > .desc .kv dd,.is-del > .desc .copyline,.rule.is-del h3,.rule.is-del > p{text-decoration:line-through;text-decoration-thickness:1px}
+.is-del{opacity:.72}
+.is-del .mock{filter:grayscale(1);opacity:.5}
+.fix{background:var(--info-soft);border-left:3px solid var(--info);border-radius:0 8px 8px 0;padding:10px 13px;margin-top:10px;font-size:13.5px;color:var(--ink2);opacity:1;text-decoration:none}
+.is-del .fix,.rule.is-del .fix{opacity:1}
+.fix b{color:var(--info)}
+.fix .lbl{display:block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--info);margin-bottom:3px}
+.legend{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:9px;font-size:13.5px;color:var(--ink2);margin-top:18px}
+.legend .row{display:flex;gap:10px;align-items:baseline}
+.legend .row .req{flex:none}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px}
+.kv dt{color:var(--muted);font-size:12.5px;padding-top:1px}
+.kv dd{margin:0;color:var(--ink2)}
+.kv ul{margin:0;padding-left:18px}
+.copyline{font-family:var(--mono);font-size:12.5px;background:var(--code-bg);border-radius:6px;padding:6px 8px;color:var(--ink)}
+
+/* ---------- MOCK (Insightis UI approximation) ---------- */
+.mock{background:var(--m-page);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;color:var(--m-text);font-size:13.5px;position:relative;min-width:0}
+.mock .cap{position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:10.5px;color:var(--m-text2);letter-spacing:.04em}
+.m-trans{display:flex;flex-direction:column;gap:8px}
+.m-user{align-self:flex-end;background:var(--m-chip);color:var(--m-text);padding:7px 12px;border-radius:14px 14px 4px 14px;max-width:85%}
+.m-asst{color:var(--m-body);display:flex;flex-direction:column;gap:6px;max-width:95%}
+.m-asst .fig{font-weight:600;color:var(--m-text)}
+.m-tool{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--m-text2);border:1px solid var(--m-line);border-radius:8px;padding:3px 8px;align-self:flex-start;background:var(--m-card)}
+.m-cursor{display:inline-block;width:7px;height:14px;background:var(--m-brand);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(2,start) infinite}
+@keyframes blink{to{visibility:hidden}}
+.m-fade{opacity:.45}
+.m-note{font-size:12px;color:var(--m-text2)}
+
+.m-strip{border:1px solid var(--m-line);border-radius:14px;background:var(--m-card);padding:4px;display:flex;flex-direction:column}
+.m-strip-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 8px 4px;font-size:12px;color:var(--m-text2)}
+.m-strip-head b{color:var(--m-text);font-weight:600}
+.qi{display:grid;grid-template-columns:16px 20px minmax(0,1fr) auto;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;min-height:34px}
+.qi:hover,.qi.hov{background:var(--m-chip)}
+.qi .grip{color:var(--m-text2);opacity:.0}
+.qi:hover .grip,.qi.hov .grip,.qi.moving .grip{opacity:1}
+.qi .num{font-family:var(--mono);font-size:11px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:var(--m-text2);border:1px solid var(--m-line2);font-variant-numeric:tabular-nums}
+.qi.next .num{background:var(--m-brand);border-color:var(--m-brand);color:#fff}
+.qi .txt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--m-body)}
+.qi .acts{display:flex;gap:2px;opacity:0}
+.qi:hover .acts,.qi.hov .acts,.qi:focus-within .acts{opacity:1}
+.ib{width:24px;height:24px;border-radius:6px;border:0;background:transparent;color:var(--m-text2);display:grid;place-items:center;cursor:pointer;padding:0}
+.ib:hover{background:var(--m-line);color:var(--m-text)}
+.ib:focus-visible,.btn:focus-visible{outline:2px solid var(--m-focus);outline-offset:1px}
+.qi .badge{font-size:10.5px;font-weight:600;color:var(--m-brand);letter-spacing:.03em;text-transform:uppercase;margin-left:6px}
+.qi.moving{background:var(--m-card);box-shadow:0 6px 18px rgba(15,23,42,.16);border:1px solid var(--m-line2);transform:rotate(-.6deg)}
+.qi.slot{border:1.5px dashed var(--m-line2);background:transparent;min-height:34px}
+.qi.editing{background:var(--m-accent);grid-template-columns:16px 20px minmax(0,1fr)}
+.qi .edit{display:flex;flex-direction:column;gap:6px;grid-column:3}
+.qi .edit .inp{border:1px solid var(--m-focus);border-radius:8px;padding:5px 8px;background:var(--m-card);color:var(--m-text);min-height:28px}
+.qi .edit .row{display:flex;gap:6px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.qi.removed{grid-template-columns:minmax(0,1fr) auto;color:var(--m-text2);font-size:12.5px}
+.qi .held{font-size:11.5px;color:var(--m-brand);display:flex;align-items:center;gap:5px}
+.qi .att{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--m-text2);border:1px solid var(--m-line);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.qi.sending{opacity:.55}
+.more{font-size:12px;color:var(--m-text2);padding:4px 10px 6px 44px;cursor:pointer}
+
+.m-pause{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;margin:2px 2px 4px;padding:8px 10px;border-radius:10px;font-size:12.5px}
+.m-pause .ic{width:22px;height:22px;border-radius:6px;display:grid;place-items:center}
+.m-pause .t b{display:block;font-size:12.5px;color:var(--m-text)}
+.m-pause .t span{color:var(--m-text2);font-size:12px}
+.m-pause .a{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.p-confirm{background:var(--info-soft)} .p-confirm .ic{background:var(--info);color:#fff}
+.p-failed{background:var(--danger-soft)} .p-failed .ic{background:var(--danger);color:#fff}
+.p-balance{background:var(--warn-soft)} .p-balance .ic{background:var(--warn);color:#fff}
+.p-stop{background:var(--neutral-soft)} .p-stop .ic{background:var(--neutral);color:#fff}
+@media (max-width:520px){.m-pause{grid-template-columns:auto minmax(0,1fr)}.m-pause .a{grid-column:1/-1;justify-content:flex-start}}
+
+.m-comp{border:1px solid var(--m-line);border-radius:16px;background:var(--m-card);padding:8px;display:flex;flex-direction:column;gap:8px}
+.m-comp.focus{border-color:var(--m-focus)}
+.m-comp .field{padding:3px 8px;min-height:22px;color:var(--m-text)}
+.m-comp .field.ph{color:var(--m-text2)}
+.m-comp .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.m-comp .tools{display:flex;gap:4px;color:var(--m-text2)}
+.m-comp .right{display:flex;gap:6px;align-items:center}
+.btn{height:28px;border-radius:8px;padding:0 10px;font-size:12.5px;font-family:inherit;display:inline-flex;gap:6px;align-items:center;border:1px solid var(--m-line);background:var(--m-card);color:var(--m-text);cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--m-line2)}
+.btn.primary{background:var(--m-brand);border-color:var(--m-brand);color:#fff}
+.btn.primary:hover{background:var(--m-brand-hover)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--m-text2)}
+.btn.sm{height:24px;padding:0 8px;font-size:12px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.kbd{font-family:var(--mono);font-size:10.5px;border:1px solid currentColor;border-radius:4px;padding:0 4px;opacity:.7}
+.m-hint{font-size:11.5px;color:var(--m-text2);padding:0 8px}
+.m-hint.err{color:var(--danger)}
+.m-toast{align-self:center;background:var(--m-text);color:var(--m-card);font-size:12px;border-radius:8px;padding:6px 10px;display:flex;gap:10px;align-items:center}
+.m-toast a{color:var(--m-card);font-weight:600}
+.m-banner{border:1px solid var(--m-line);background:var(--m-card);border-radius:10px;padding:8px 10px;display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start;font-size:12.5px}
+.m-card{border:1px solid var(--m-line);background:var(--m-card);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;font-size:13px}
+.m-card .row{display:flex;gap:6px}
+.dialog{border:1px solid var(--m-line2);background:var(--m-card);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 30px rgba(15,23,42,.18);max-width:360px;align-self:center}
+svg.i{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+svg.i.s12{width:12px;height:12px}
+.qbtn-sub{font-size:10.5px;opacity:.8}
+
+/* anatomy */
+.anat{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:880px){.anat{grid-template-columns:1fr}}
+.pin{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:600;font-family:var(--mono);flex:none}
+.anat-list{display:flex;flex-direction:column;gap:10px;font-size:14px}
+.anat-list div{display:flex;gap:10px}
+.pinned{position:relative}
+.pinned>.pin{position:absolute;left:-9px;top:-9px;z-index:2}
+
+/* prototype */
+.proto{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.proto{grid-template-columns:1fr}}
+.proto .mock{min-height:520px;justify-content:flex-end}
+#p-trans{overflow-y:auto;max-height:360px;padding-right:4px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px;font-size:13.5px}
+.panel h4{font-size:13px;font-weight:600}
+.panel label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.panel input[type=checkbox]{margin-top:3px;accent-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:inherit;font-size:12.5px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);border-radius:999px;padding:3px 10px;cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+#p-log{font-family:var(--mono);font-size:11.5px;color:var(--ink2);display:flex;flex-direction:column;gap:3px;max-height:200px;overflow-y:auto;background:var(--code-bg);border-radius:8px;padding:8px}
+#p-log .b{color:var(--accent-ink)} #p-log .w{color:var(--warn)}
+.p-input{border:0;outline:0;background:transparent;resize:none;font:inherit;color:var(--m-text);width:100%;padding:3px 8px;min-height:22px}
+.p-input::placeholder{color:var(--m-text2)}
+.cc-ans{display:flex;gap:6px}
+
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;max-width:80ch}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:8px}
+ol.steps li::before{content:counter(s);font-family:var(--mono);font-size:12px;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;height:22px;display:grid;place-items:center}
+
+.checklist{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;max-width:85ch}
+.checklist li{display:grid;grid-template-columns:18px 1fr;gap:8px}
+.checklist li::before{content:"";width:14px;height:14px;border:1.5px solid var(--line2);border-radius:4px;margin-top:4px}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+@media (prefers-reduced-motion:reduce){.m-cursor{animation:none}*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-square" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></symbol>
+  <symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18M7 6h1v4M16.71 13.88l.7.71-2.82 2.82"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></symbol>
+  <symbol id="i-queue" viewBox="0 0 24 24"><path d="M11 12H3M16 6H3M16 18H3M18 9v6M21 12h-6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-retry" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+</svg>
+
+<div class="wrap">
+
+<header class="top">
+  <span class="eyebrow">ТЗ для дизайна · Insightis · AI Chat</span>
+  <h1>Очередь сообщений в AI Chat</h1>
+<p class="lede" style="color:var(--info);font-weight:500">Исправленная редакция — после того, как экран был собран. Структура, разделы и нумерация прежние.</p>
+  <p class="lede">Пока ассистент ещё пишет ответ, пользователь уже знает следующий вопрос. Нужно дать этому вопросу место, где он подождёт своей очереди и уйдёт сам, когда ответ закончится. Здесь всё: правила поведения, полный список состояний с примерами, тексты и то, что сдано.</p>
+<div class="legend">
+  <div class="row"><span class="req must">обязательно</span><span>Требование из исходного ТЗ, оставлено как есть.</span></div>
+  <div class="row"><span class="req del">удалено</span><span>Требование из исходного ТЗ, которое <b>не реализовано</b>. Текст оставлен на странице зачёркнутым, под ним причина. Ничего не убрано молча.</span></div>
+  <div class="row"><span class="req new">добавлено</span><span>Состояние или правило, которых в исходном ТЗ не было, а экрану они нужны.</span></div>
+  <div class="row"><span class="req prop">предложение</span><span>Было предложением автора ТЗ; где оно принято или отклонено — сказано на месте.</span></div>
+</div>
+  <div class="meta">
+    <a class="tag" href="https://devart.atlassian.net/browse/AIINS-1806"><b>AIINS-1806</b> Story-01 · поставить в очередь и отправить по очереди</a>
+    <a class="tag" href="https://devart.atlassian.net/browse/AIINS-1808"><b>AIINS-1808</b> Задача дизайна (эта)</a>
+    <a class="tag" href="https://devart.atlassian.net/browse/AIINS-1805"><b>AIINS-1805</b> Эпик INS-MJ9P</a>
+    <a class="tag" href="https://devart.atlassian.net/browse/AIINS-1810"><b>AIINS-1810</b> Story-02 · редактировать, переставлять, удалять</a>
+    <a class="tag" href="https://devart.atlassian.net/browse/AIINS-1813"><b>AIINS-1813</b> Story-03 · паузы и Resume</a>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Разделы"><div class="in">
+  <a href="#why">Зачем</a><a href="#today">Как сейчас</a><a href="#rules">Правила</a><a href="#anatomy">Анатомия</a>
+  <a href="#states">Состояния</a><a href="#proto">Прототип</a><a href="#interaction">Взаимодействие</a><a href="#copy">Тексты</a>
+  <a href="#out">Вне рамок</a><a href="#deliver">Что сдать</a><a href="#questions">Вопросы</a>
+</div></nav>
+
+<!-- WHY -->
+<section id="why">
+  <div class="sec-head"><span class="eyebrow">01 · Контекст</span><h2>Зачем это и для кого</h2></div>
+  <div class="prose">
+    <p>Ответ в AI Chat может идти долго: ассистент вызывает инструменты и пишет и запускает Python внутри одного ответа, а сам ответ теперь содержит главную цифру, 2–4 вывода, таблицу и график. Всё это время пользователь смотрит, как ответ собирается, и часто уже знает следующий вопрос.</p>
+    <p>Сейчас поведение для этого случая никак не определено. Пользователь не понимает, что будет с набранным текстом, и привыкает просто ждать. Мы хотим, чтобы набранное во время ответа сообщение не терялось и не врезалось в незаконченный ответ, а вставало в очередь и уходило в своё время.</p>
+    <p><b>Для кого.</b> Business user (основной) и Analyst: те, кто задаёт четыре вопроса подряд. Если человек никогда не печатает заранее, для него ничего не меняется: полоса очереди появляется только когда в ней что-то есть.</p>
+  </div>
+  <div class="callout key">
+    <h4>Сценарий, от которого проектируем</h4>
+    <p>Пользователь спрашивает <i>«what was revenue by region last quarter?»</i>. Ответ начинает стримиться. Пользователь набирает <i>«now split that by channel»</i> и жмёт Enter: композер очищается, сообщение появляется в полосе над композером. Он добавляет <i>«and compare to Q3»</i>, теперь их два, по порядку. Ответ закончился: первое уходит отдельным ходом. Его ответ закончился: уходит второе. До отправки любое можно поправить, переставить или удалить.</p>
+  </div>
+</section>
+
+<!-- TODAY -->
+<section id="today">
+  <div class="sec-head"><span class="eyebrow">02 · Исходная точка</span><h2>Как композер устроен сейчас</h2></div>
+  <div class="grid2">
+    <div class="prose">
+      <p>По коду фронтенда (<code>features/chat/components/MessageInput</code>):</p>
+      <ul>
+        <li>Композер: карточка со скруглением 16px, редактор, под ним слева кнопки прикрепления файла, справа одна кнопка действия.</li>
+        <li>Пока ответ стримится, <b>кнопка Send подменяется кнопкой Stop</b> на том же месте (<code>MessageSendButton</code>), а отправка заблокирована.</li>
+        <li>На мобильной ширине обе кнопки становятся иконками (Send: самолётик, Stop: квадрат).</li>
+        <li>Вложение показывается чипом файла над текстом.</li>
+      </ul>
+    </div>
+    <div class="mock" aria-label="Как сейчас: во время стрима">
+      <span class="cap">AS-IS · STREAMING</span>
+      <div class="m-trans">
+        <div class="m-user">What was revenue by region last quarter?</div>
+        <div class="m-asst"><span class="m-tool"><svg class="i s12"><use href="#i-code"/></svg>Running Python…</span><span>Revenue for Q2 was <span class="fig">$4.82M</span>, led by EMEA<span class="m-cursor"></span></span></div>
+      </div>
+      <div class="m-comp">
+        <div class="field">now split that by channel</div>
+        <div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div>
+          <div class="right"><button class="btn" tabindex="-1"><svg class="i"><use href="#i-square"/></svg>Stop</button></div></div>
+      </div>
+      <p class="m-note">Enter ничего не отправляет, место кнопки Send занято Stop.</p>
+    </div>
+  </div>
+  <div class="callout warn">
+    <h4>Главное изменение в композере</h4>
+    <p><s>Спека требует, чтобы <b>Stop и «поставить в очередь» были двумя разными контролами</b>, и ни один не менял смысл в зависимости от состояния. Контрол, который меняет значение, люди нажимают по ошибке: хотел отправить вопрос, а остановил ответ. Значит, текущий приём «Send превращается в Stop» во время стрима нужно пересмотреть: Stop остаётся, рядом появляется отдельная кнопка очереди.</s>
+<div class="fix"><span class="lbl">Исправлено · см. R4</span>Осталась <b>одна кнопка в одном месте</b>. Два контрола рядом — это и есть то, что порождает ошибочное нажатие: промах мимо соседней кнопки. Слот показывает <b>Stop</b> только когда поле <b>пустое</b>, то есть никогда не там, куда целятся отправкой: промах «хотел отправить, остановил ответ» требует текста в поле, а с текстом в поле здесь всегда Send. Решение владельца дизайна, 29.09.2026.</div></p>
+  </div>
+</section>
+
+<!-- RULES -->
+<section id="rules">
+  <div class="sec-head"><span class="eyebrow">03 · Поведение</span><h2>Правила, на которых стоит дизайн</h2>
+  <p class="prose" style="color:var(--ink2)">Это логика фичи, она уже согласована с разработкой. Визуальное решение за дизайнером, но макеты не должны противоречить этим пунктам.</p></div>
+  <div class="grid3">
+    <div class="rule"><span class="n">R1</span><h3>Enter во время ответа ставит в очередь</h3><p>Композер очищается, сообщение появляется в полосе над ним. Можно сразу печатать следующее.</p></div>
+    <div class="rule"><span class="n">R2</span><h3>Одно сообщение за ход</h3><p>Сообщения уходят по одному, строго по порядку, каждое отдельным ходом. Никогда не склеиваются в одно.</p></div>
+    <div class="rule"><span class="n">R3</span><h3>Только на границе хода</h3><p>Ответ, который выглядит законченным, ещё не законченный ход. Пока идёт вызов инструмента или Python, очередь ждёт. Паузы в тексте ничего не значат.</p>
+<div class="fix"><span class="lbl">Усилено</span>Это же правило теперь отвечает за заголовок полосы: он <b>никогда</b> не реагирует на то, идёт ли текст. Состояние B5 существовало только чтобы это показать, и было удалено — правило проверяется здесь.</div></div>
+    <div class="rule is-del"><span class="n">R4</span><span class="req del" style="margin-left:6px">удалено</span><h3>Stop и очередь — разные кнопки</h3><p>Stop останавливает ответ и ставит очередь на паузу. Кнопка очереди только добавляет сообщение.</p>
+<div class="fix"><span class="lbl">Заменено</span><b>Одна кнопка, два лица.</b> Stop — пока поле пустое; как только появился текст, это Send. Ошибочное нажатие, от которого защищало R4, требует текста в поле, а с текстом в поле Stop здесь не бывает. Принятое следствие, названное прямо: с черновиком в поле кнопки Stop нет — чтобы остановить ответ, надо очистить поле.</div></div>
+    <div class="rule"><span class="n">R5</span><h3>Всё можно поменять до отправки</h3><p>Редактировать, переставлять, удалять. После отправки это обычное сообщение: никаких действий над ним.</p></div>
+    <div class="rule is-del"><span class="n">R6</span><span class="req del" style="margin-left:6px">удалено</span><h3>Редактируемое не уходит</h3><p>Если ход закончился, пока сообщение в режиме правки, оно не отправляется недописанным и не уступает место следующему. Ждёт, пока пользователь сохранит или отменит правку.</p>
+<div class="fix"><span class="lbl">Отпало вместе с C2</span><b>Правка — не редактор.</b> «Редактировать» <b>забирает</b> сообщение из очереди и возвращает его текст и вложение в композер. Значит, сообщения «в режиме правки внутри очереди» не существует: нечего держать, нечего сохранять, нечего отменять. Заодно это главная защита от того, чтобы строка очереди читалась как второе поле ввода — в полосе вообще нет ничего, куда можно печатать. Решение владельца дизайна, 29.09.2026.</div></div>
+    <div class="rule"><span class="n">R7</span><h3>Четыре причины паузы</h3><p>Confirmation Card ждёт ответа, прошлый ответ упал, кончились кредиты, пользователь нажал Stop. Очередь стоит, называет причину и предлагает выход. Resume ручной.</p></div>
+    <div class="rule"><span class="n">R8</span><h3>Пауза ничего не теряет и не тратит</h3><p>Сообщения в очереди остаются как были. За неотправленное ничего не списывается. Это должно читаться в каждом из четырёх состояний.</p></div>
+    <div class="rule"><span class="n">R9</span><h3>Resume ждёт границы хода</h3><p>Если в момент Resume идёт ответ, следующее сообщение уйдёт после него, а не сразу.</p></div>
+    <div class="rule"><span class="n">R10</span><h3>Очередь принадлежит чату</h3><p>Ушёл в другой чат и вернулся: очередь на месте. В чужом чате её нет.</p></div>
+    <div class="rule"><span class="n">R11</span><h3>Перезагрузка предупреждает</h3><p>Перед reload предупреждаем. После reload текст сообщений восстановлен, <s>вложения нет, и мы об этом говорим</s>.</p>
+<div class="fix"><span class="lbl">Исправлено</span><b>Вложение переживает перезагрузку вместе с сообщением.</b> Файл остаётся привязан, поэтому ни отдельного текста «attach it again», ни состояния C6b не нужно. Предупреждение перед уходом со страницы осталось (см. E1) и говорит про несохранённую очередь, а не про потерю файлов.</div></div>
+    <div class="rule is-del"><span class="n">R12</span><span class="req del" style="margin-left:6px">удалено</span><h3>Лимит 10, ничего не теряем</h3><p>Одиннадцатое не встаёт в очередь, текст остаётся в композере, пользователь видит, что очередь полна. Лимит — настройка, может поменяться.</p>
+<div class="fix"><span class="lbl">Лимит убран из фичи</span>Очередь <b>без потолка</b>. Вместе с лимитом ушло всё, что его обслуживало: счётчик <code>n / 10</code>, состояние Attention на пределе, неактивный Send и состояние <b>B3</b>. Очередь, которая не может наполниться, не может иметь состояния «полна». Счётчик в заголовке — предложение, а не дробь.</div></div>
+  </div>
+  <div class="grid2">
+    <div class="callout"><h4>Когда очереди нет</h4><p>В новом чате, где ещё ни разу не было ответа, Enter отправляет сразу, как сегодня, и полоса не появляется. Ставить в очередь не за что.</p></div>
+    <div class="callout"><h4>Одна очередь, не две</h4><p>Во время сжатия длинного разговора (INS-ULRG, <a href="https://devart.atlassian.net/browse/AIINS-1285">AIINS-1285</a>) ввод уже принимается и держится. Это тот же механизм: сообщения, набранные во время сжатия, должны показываться в этой же полосе и выглядеть так же. Проверьте, как это выглядит сейчас, и сведите к одному виду.</p></div>
+  </div>
+</section>
+
+<!-- ANATOMY -->
+<section id="anatomy">
+  <div class="sec-head"><span class="eyebrow">04 · Анатомия</span><h2>Из чего состоит</h2></div>
+  <div class="anat">
+    <div class="mock">
+      <span class="cap">TO-BE · STREAMING + 2 QUEUED</span>
+      <div class="m-trans pinned"><span class="pin">1</span>
+        <div class="m-user">What was revenue by region last quarter?</div>
+        <div class="m-asst"><span>Revenue for Q2 was <span class="fig">$4.82M</span>, up 6% on Q1. EMEA led with $1.9M<span class="m-cursor"></span></span></div>
+      </div>
+      <div class="m-strip pinned"><span class="pin">2</span>
+        <div class="m-strip-head pinned"><span><b>Queued · 2</b> · sends after this reply</span></div>
+        <div class="qi next hov pinned"><span class="pin" style="left:-4px;top:-4px">3</span><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel<span class="badge">Next</span></span>
+          <span class="acts pinned"><span class="pin" style="left:-12px;top:-8px">4</span><button class="ib" aria-label="Edit"><svg class="i"><use href="#i-pencil"/></svg></button><button class="ib" aria-label="Remove"><svg class="i"><use href="#i-x"/></svg></button></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div>
+      </div>
+      <div class="m-comp focus pinned"><span class="pin">5</span>
+        <div class="field ph">Ask a follow-up…</div>
+        <div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div>
+          <div class="right pinned"><span class="pin" style="left:-14px">6</span>
+            <button class="btn" tabindex="-1"><svg class="i"><use href="#i-square"/></svg>Stop</button>
+            <button class="btn primary" tabindex="-1" disabled><svg class="i"><use href="#i-queue"/></svg>Queue <span class="kbd">↵</span></button></div></div>
+      </div>
+    </div>
+    <div class="anat-list">
+      <div><span class="pin">1</span><p><b>Лента разговора.</b> Не меняется. Отправленное из очереди сообщение появляется здесь как обычное сообщение пользователя.</p></div>
+      <div><span class="pin">2</span><p><b>Полоса очереди.</b> Новый элемент между лентой и композером, там сейчас пусто. Той же ширины, что композер (<code>max-w-chat-container</code>). Появляется только когда есть хотя бы одно сообщение.</p></div>
+      <div><span class="pin">3</span><p><b>Элемент очереди.</b> Одна строка текста, номер, отметка «следующее». Не должен выглядеть как поле ввода (это главный риск: человек начнёт печатать не туда).</p></div>
+      <div><span class="pin">4</span><p><b>Действия элемента.</b> Редактировать, удалить, перетащить (ручка слева). В спокойном состоянии можно прятать до hover/focus, но на touch они должны быть доступны без hover.</p></div>
+      <div><span class="pin">5</span><p><b>Композер.</b> Во время ответа не блокируется. Плейсхолдер может подсказывать, что ввод встанет в очередь.</p></div>
+      <div><span class="pin">6</span><p><b>Два контрола.</b> Stop и кнопка очереди стоят рядом и читаются как разные действия (R4). Кнопка очереди активна, когда в поле есть текст.</p></div>
+      <div class="callout" style="display:block"><p><b>Композер не должен прыгать.</b> Когда в полосу добавляется элемент, композер под курсором пользователя не должен сдвигаться. Полоса растёт вверх, за счёт ленты.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATES -->
+<section id="states">
+  <div class="sec-head"><span class="eyebrow">05 · Каталог</span><h2>Все состояния, которые нужно нарисовать</h2>
+  <p class="prose" style="color:var(--ink2)">Мокапы ниже собраны на токенах Insightis и показывают <b>что</b> должно быть на экране, а не финальный визуал. Метка <span class="req must">обязательно</span> значит, что состояние есть в требованиях. Метка <span class="req prop">предложение</span> значит, что это моя идея решения, её можно заменить своей.</p></div>
+
+  <!-- A -->
+  <div class="group-title"><span class="gid">A</span><h3>Композер</h3></div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>A1</code><h3>Нет ответа в процессе</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Ассистент ничего не пишет, очередь пуста. Также новый чат без единого ответа.</dd>
+      <dt>Что видно</dt><dd>Как сегодня: одна кнопка Send. Enter отправляет сразу. Полосы нет.</dd>
+      <dt>Зачем рисовать</dt><dd>Базовая точка, чтобы было видно, что для тех, кто не печатает заранее, ничего не поменялось.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">A1</span>
+      <div class="m-comp"><div class="field">What was revenue by region last quarter?</div>
+        <div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right"><button class="btn primary" tabindex="-1"><svg class="i"><use href="#i-send"/></svg>Send</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>A2</code><h3>Ответ идёт, поле пустое</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Ответ стримится, пользователь ещё ничего не набрал.</dd>
+      <dt>Что видно</dt><dd>Stop доступен. Кнопка очереди видна, но неактивна (или скрыта до ввода: решите сами, главное чтобы не было прыжков раскладки). Плейсхолдер намекает, что можно печатать дальше.</dd>
+      <dt>Текст</dt><dd><div class="copyline">Ask a follow-up — it will wait its turn</div></dd></dl><div class="fix"><span class="lbl">Исправлено</span>Отдельной кнопки очереди нет — см. R4. Пока поле пустое и идёт ответ, в слоте <b>Stop</b>. Прыжков раскладки не бывает по построению: контрол всегда один.</div>
+    </div>
+    <div class="mock"><span class="cap">A2</span>
+      <div class="m-trans"><div class="m-asst"><span>Revenue for Q2 was <span class="fig">$4.82M</span><span class="m-cursor"></span></span></div></div>
+      <div class="m-comp"><div class="field ph">Ask a follow-up — it will wait its turn</div>
+        <div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right"><button class="btn" tabindex="-1"><svg class="i"><use href="#i-square"/></svg>Stop</button><button class="btn primary" tabindex="-1" disabled><svg class="i"><use href="#i-queue"/></svg>Queue <span class="kbd">↵</span></button></div></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>A3</code><h3>Ответ идёт, текст набран</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Пользователь печатает во время ответа.</dd>
+      <dt>Что видно</dt><dd>Кнопка очереди активна и явно отличается от Stop по форме, подписи и иконке. Подсказка про Enter. Shift+Enter переносит строку, как сейчас.</dd>
+      <dt>Нельзя</dt><dd>Кнопку, которая по умолчанию Stop, а при вводе превращается в Queue. Это ровно то, от чего защищает R4.</dd></dl><div class="fix"><span class="lbl">Исправлено</span>Как только в поле появился текст, слот — это <b>Send</b>, и Enter ставит в очередь. Запрет «кнопка, которая по умолчанию Stop, а при вводе превращается в Queue» снят: опасной была не смена лица, а <b>соседство двух кнопок</b>. Ошибка «хотел отправить, остановил ответ» требует текста в поле, а с текстом в поле Stop здесь не существует.</div>
+    </div>
+    <div class="mock"><span class="cap">A3</span>
+      <div class="m-trans"><div class="m-asst"><span>Revenue for Q2 was <span class="fig">$4.82M</span>, up 6% on Q1<span class="m-cursor"></span></span></div></div>
+      <div class="m-comp focus"><div class="field">now split that by channel</div>
+        <div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right"><button class="btn" tabindex="-1"><svg class="i"><use href="#i-square"/></svg>Stop</button><button class="btn primary" tabindex="-1"><svg class="i"><use href="#i-queue"/></svg>Queue <span class="kbd">↵</span></button></div></div></div>
+    </div>
+  </div>
+
+  <div class="state is-del">
+    <div class="desc">
+      <div class="sid"><code>A4</code><h3>Мобильная ширина</h3><span class="req del">удалено</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Ширина &lt; 768px. Сейчас кнопки там становятся иконками.</dd>
+      <dt>Что видно</dt><dd>Две иконки, которые не перепутать: квадрат Stop и иконка очереди, разный цвет заливки. Минимум 40×40 зона нажатия. Действия элементов очереди доступны без hover.</dd>
+      <dt>Решить</dt><dd>Сколько строк очереди видно на телефоне, чтобы лента не исчезла совсем (предлагаю максимум 2, остальное свернуть).</dd></dl><div class="fix"><span class="lbl">Не состояние, а ширина</span>Все состояния адаптивны, поэтому отдельная мобильная запись утверждала бы, что остальные — нет, и фиксировала одну ширину как условие. Поведение осталось: <b>&lt; 768px</b> — действие композера становится иконкой 40×40, действия строки видны постоянно (без hover их нечем открыть), полоса ужимает отступы. Проверяется сужением окна на любом состоянии.<br><br>Вопрос «сколько строк очереди видно на телефоне» снят вместе с клампом — см. B2.</div>
+    </div>
+    <div class="mock" style="max-width:340px"><span class="cap">A4 · 375px</span>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 3</b></span></div>
+        <div class="qi next hov"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel</span><span class="acts"><button class="ib"><svg class="i"><use href="#i-pencil"/></svg></button><button class="ib"><svg class="i"><use href="#i-x"/></svg></button></span></div>
+        <div class="qi hov"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"><button class="ib"><svg class="i"><use href="#i-pencil"/></svg></button><button class="ib"><svg class="i"><use href="#i-x"/></svg></button></span></div>
+        <div class="more">+1 more</div>
+      </div>
+      <div class="m-comp focus"><div class="field">show top 5 products</div>
+        <div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right"><button class="btn" tabindex="-1" aria-label="Stop" style="width:32px;justify-content:center;padding:0"><svg class="i"><use href="#i-square"/></svg></button><button class="btn primary" tabindex="-1" aria-label="Queue" style="width:32px;justify-content:center;padding:0"><svg class="i"><use href="#i-queue"/></svg></button></div></div></div>
+    </div>
+  </div>
+
+  <!-- B -->
+  <div class="group-title"><span class="gid">B</span><h3>Полоса очереди</h3></div>
+
+  <div class="state is-del">
+    <div class="desc">
+      <div class="sid"><code>B0</code><h3>Пустая: полосы нет</h3><span class="req del">удалено</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>В очереди ничего нет.</dd>
+      <dt>Что видно</dt><dd>Ничего. Никакой постоянной пустой рамки: это самое используемое место продукта, и платить за него местом будут все ради немногих.</dd>
+      <dt>Нарисовать</dt><dd>Анимацию появления первой строки и исчезновения последней (после отправки или удаления). Композер при этом не двигается.</dd></dl><div class="fix"><span class="lbl">Это отсутствие полосы, а не состояние</span>«Пустая очередь» — это <b>A1</b>: полосы нет вообще. Отдельная запись приглашает нарисовать пустую рамку, а именно её и нельзя. Требование из «Нарисовать» выполнено: появление первой строки и исчезновение последней анимированы, композер при этом не двигается.</div>
+    </div>
+    <div class="mock"><span class="cap">B0</span>
+      <div class="m-trans"><div class="m-asst"><span>Revenue for Q2 was <span class="fig">$4.82M</span><span class="m-cursor"></span></span></div></div>
+      <div class="m-comp"><div class="field ph">Ask a follow-up — it will wait its turn</div><div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right"><button class="btn" tabindex="-1"><svg class="i"><use href="#i-square"/></svg>Stop</button><button class="btn primary" tabindex="-1" disabled><svg class="i"><use href="#i-queue"/></svg>Queue</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>B1</code><h3>Одно сообщение ждёт</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Сразу после первого Enter во время ответа.</dd>
+      <dt>Что видно</dt><dd>Заголовок с количеством и тем, когда уйдёт. Одна строка. Понятно, что сообщение не отправлено, а ждёт.</dd>
+      <dt>Текст</dt><dd><div class="copyline">Queued · 1 · sends after this reply</div></dd></dl>
+    </div>
+    <div class="mock"><span class="cap">B1</span>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 1</b> · sends after this reply</span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel</span><span class="acts"></span></div></div>
+      <div class="m-comp focus"><div class="field ph">Ask a follow-up — it will wait its turn</div><div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right"><button class="btn" tabindex="-1"><svg class="i"><use href="#i-square"/></svg>Stop</button><button class="btn primary" tabindex="-1" disabled><svg class="i"><use href="#i-queue"/></svg>Queue</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>B2</code><h3>Несколько сообщений</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>2 и больше сообщений.</dd>
+      <dt>Что видно</dt><dd><b>Порядок читается с одного взгляда</b>: порядок решает, что будет спрошено следующим. Первое помечено как следующее. Длинный текст обрезается в одну строку, полный текст виден при редактировании или в тултипе.</dd>
+      <dt>Решить</dt><dd>Сколько строк видно без прокрутки. <span class="req prop">предложение</span> до 3 строк, остальные сворачиваются в «+N more» с раскрытием.</dd></dl><div class="fix"><span class="lbl">Исправлено — две вещи</span><b>Текст переносится, а не обрезается.</b> Сообщение в очереди — это то, что человек вот-вот отправит, и он должен прочитать его целиком <i>до</i> отправки. Раз ничего не спрятано, тултип нечему восстанавливать, и он убран вместе с обрезкой. На перенесённой строке номер и действия держатся <b>первой строки</b> — по центру всей строки они уезжают в середину абзаца и перестают быть меткой этого сообщения.<br><br><b>«+N more» заменён на измеряемый Expand.</b> Решение «сколько строк видно» (и Q7) снято: при переносе и вложениях <b>три строки могут не поместиться, а пять поместиться</b>, поэтому счёт строк на этот вопрос не отвечает. Полоса меряет себя: свёрнутая — три строки и скролл, Expand появляется ровно тогда, когда что-то действительно обрезано, и <b>отсутствует</b>, а не выключен, когда нет. Развёрнутая берёт <b>половину экрана</b>. Стрелка смотрит <b>вверх</b>: панель растёт вверх из композера, то есть туда, куда она поедет. Края скролла гаснут маской, когда за ними есть ещё содержимое — сверху тоже.</div>
+    </div>
+    <div class="mock"><span class="cap">B2</span>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 5</b> · sends one by one after this reply</span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel<span class="badge">Next</span></span><span class="acts"></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">3</span><span class="txt">which channel grew fastest in EMEA and was the growth driven by new customers or by existing ones?</span><span class="acts"></span></div>
+        <div class="more">+2 more</div></div>
+      <div class="m-comp"><div class="field ph">Ask a follow-up — it will wait its turn</div><div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right"><button class="btn" tabindex="-1"><svg class="i"><use href="#i-square"/></svg>Stop</button><button class="btn primary" tabindex="-1" disabled><svg class="i"><use href="#i-queue"/></svg>Queue</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="state is-del">
+    <div class="desc">
+      <div class="sid"><code>B3</code><h3>Очередь полна (10 из 10)</h3><span class="req del">удалено</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>В очереди 10, пользователь жмёт Enter на одиннадцатом.</dd>
+      <dt>Что видно</dt><dd>Сообщение <b>не</b> добавлено. <b>Текст остаётся в композере</b>, не очищается. Рядом объяснение, почему, и что сделать. Кнопка очереди неактивна.</dd>
+      <dt>Текст</dt><dd><div class="copyline">Queue is full (10 of 10). Remove a message or wait for the next one to send.</div></dd></dl><div class="fix"><span class="lbl">Лимит убран из фичи — см. R12</span>Очередь без потолка, поэтому состояния «полна» не существует. Вместе с ним ушли счётчик <code>10 of 10</code>, метка Attention, неактивная кнопка и текст <code>Queue is full…</code>.</div>
+    </div>
+    <div class="mock"><span class="cap">B3</span>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 10 of 10</b> · sends one by one after this reply</span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel<span class="badge">Next</span></span><span class="acts"></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div>
+        <div class="more">+8 more</div></div>
+      <div class="m-comp focus"><div class="field">also show margin by region</div><div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right"><button class="btn" tabindex="-1"><svg class="i"><use href="#i-square"/></svg>Stop</button><button class="btn primary" tabindex="-1" disabled><svg class="i"><use href="#i-queue"/></svg>Queue</button></div></div>
+        <div class="m-hint err">Queue is full (10 of 10). Remove a message or wait for the next one to send.</div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>B4</code><h3>Сообщение уходит</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Ход закончился, первое сообщение отправляется.</dd>
+      <dt>Что видно</dt><dd>Строка покидает полосу и появляется в ленте как обычное сообщение пользователя. Нумерация остальных сдвигается. Переход должен объяснять, куда делось сообщение (нарисовать как motion-спеку).</dd>
+      <dt>После</dt><dd>Отправленное сообщение в ленте ничем не отличается от набранного вручную: без действий, без метки «из очереди» <span class="req prop">предложение</span>.</dd></dl><div class="fix"><span class="lbl">Уточнено</span>Строка уходит анимацией <code>row-out</code>: сначала <b>гаснет</b>, и только потом схлопывается по высоте. Гасить и сжимать одновременно — та версия, которая выглядит резко: строка ещё читается, а список под ней уже едет. Нумерация пересчитывается, заголовок пересчитывает счётчик.</div>
+    </div>
+    <div class="mock"><span class="cap">B4</span>
+      <div class="m-trans"><div class="m-asst m-fade"><span>…EMEA led with $1.9M, followed by North America at $1.6M.</span></div>
+        <div class="m-user">now split that by channel</div>
+        <div class="m-asst"><span class="m-tool"><svg class="i s12"><use href="#i-db"/></svg>Querying sales…</span></div></div>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 1</b> · sends after this reply</span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">and compare to Q3</span><span class="acts"></span></div></div>
+      <div class="m-comp"><div class="field ph">Ask a follow-up — it will wait its turn</div><div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right"><button class="btn" tabindex="-1"><svg class="i"><use href="#i-square"/></svg>Stop</button><button class="btn primary" tabindex="-1" disabled><svg class="i"><use href="#i-queue"/></svg>Queue</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="state is-del">
+    <div class="desc">
+      <div class="sid"><code>B5</code><h3>Ответ «закончился», но ход нет</h3><span class="req del">удалено</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Текст перестал идти, но ассистент запустил инструмент или Python (R3).</dd>
+      <dt>Что видно</dt><dd>Очередь продолжает ждать, и это видно: «sends after this reply» остаётся. Нельзя рисовать ничего, что подсказывает «сейчас уйдёт», пока ход не закрыт.</dd>
+      <dt>Зачем рисовать</dt><dd>Чтобы проверить, что заголовок полосы не зависит от того, идёт ли текст.</dd></dl><div class="fix"><span class="lbl">Осталось правилом, а не состоянием</span>B5 рисуется <b>пиксель в пиксель как B2</b> — потому что правильное поведение здесь в том, что <b>ничего не меняется</b>. Состояние, всё содержание которого «картинка не меняется», показывает ту же картинку дважды. Требование переехало в R3, где его можно проверить.</div>
+    </div>
+    <div class="mock"><span class="cap">B5</span>
+      <div class="m-trans"><div class="m-asst"><span>Revenue for Q2 was <span class="fig">$4.82M</span>. Let me break that down.</span><span class="m-tool"><svg class="i s12"><use href="#i-code"/></svg>Running Python…</span></div></div>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 1</b> · sends after this reply</span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <!-- C -->
+  <div class="group-title"><span class="gid">C</span><h3>Элемент очереди</h3></div>
+  <div class="callout"><p>Три действия над одной строкой текста, и при этом элемент не должен превратиться во второй композер. Если строка очереди похожа на поле ввода, человек начнёт печатать в неё вместо композера.</p></div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>C1</code><h3>Покой и hover/focus</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Что видно</dt><dd>В покое: номер и текст. При hover или фокусе с клавиатуры: ручка перетаскивания, «редактировать», «удалить». Нарисовать оба.</dd>
+      <dt>Доступность</dt><dd>Все действия доступны с клавиатуры (Tab до строки, дальше до кнопок). У иконок есть aria-label.</dd></dl><div class="fix"><span class="lbl">Исправлено</span>Действий <b>два</b>, плюс ручка: перетащить · редактировать · удалить. «Вверх/вниз» в меню строки убраны — они в третий раз повторяли ручку и клавиатуру, а после их удаления в кебабе остался один пункт, то есть меню, существующее чтобы спрятать одну кнопку. Удаление дёшево отменить (C4), прятать его не нужно. Ручка — не кнопка: это поверхность, за которую тянут, поэтому без фона и без hover-пилюли.</div>
+    </div>
+    <div class="mock"><span class="cap">C1</span>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 2</b> · sends after this reply</span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel<span class="badge">Next</span></span><span class="acts"></span></div>
+        <div class="qi hov"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"><button class="ib" aria-label="Edit"><svg class="i"><use href="#i-pencil"/></svg></button><button class="ib" aria-label="Remove"><svg class="i"><use href="#i-x"/></svg></button></span></div></div>
+    </div>
+  </div>
+
+  <div class="state is-del">
+    <div class="desc">
+      <div class="sid"><code>C2</code><h3>Редактирование на месте</h3><span class="req del">удалено</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Клик по «редактировать» (или двойной клик по тексту <span class="req prop">предложение</span>).</dd>
+      <dt>Что видно</dt><dd>Строка раскрывается в поле с полным текстом, Save и Cancel. Отличается от композера (фон, размер), чтобы было ясно, где сейчас ввод. Enter сохраняет, Esc отменяет.</dd>
+      <dt>Правило</dt><dd>Отправится именно исправленный текст.</dd></dl><div class="fix"><span class="lbl">Правка — не редактор</span>«Редактировать» <b>забирает</b> сообщение из очереди и кладёт его текст — и вложение — обратно в <b>композер</b>, курсор в конец. Второй пишущей поверхности в продукте нет, и в полосе её не появляется. Это снимает и R6, и C5, и заодно закрывает главный риск фичи: в полосе нет ничего, куда можно напечатать. Решение владельца дизайна, 29.09.2026.</div>
+    </div>
+    <div class="mock"><span class="cap">C2</span>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 2</b> · sends after this reply</span></div>
+        <div class="qi editing next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span>
+          <div class="edit"><div class="inp">now split that by channel and by device<span class="m-cursor" style="background:var(--m-text)"></span></div>
+            <div class="row"><span class="m-note">Enter to save · Esc to cancel</span><span style="display:flex;gap:6px"><button class="btn sm ghost" tabindex="-1">Cancel</button><button class="btn sm primary" tabindex="-1">Save</button></span></div></div></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>C3</code><h3>Перемещение</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Перетаскивание за ручку. Альтернатива для клавиатуры и touch обязательна.</dd>
+      <dt>Что видно</dt><dd>Поднятая строка, место, куда она встанет, пересчитанные номера. После отпускания новое первое сообщение уйдёт на ближайшей границе хода.</dd>
+      <dt>Клавиатура</dt><dd><span class="req prop">предложение</span> Alt+↑ / Alt+↓ на строке в фокусе, либо кнопки «вверх/вниз» в меню строки.</dd></dl><div class="fix"><span class="lbl">Принято</span>Предложение <b>Alt+↑ / Alt+↓</b> принято и реализовано — это равный путь, а не обходной. Кнопок «вверх/вниз» в меню нет (см. C1). Во время перетаскивания список не меняет, сколько строк видно: открыть спрятанный хвост под курсором — значит увести список из-под руки.</div>
+    </div>
+    <div class="mock"><span class="cap">C3</span>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 3</b> · sends after this reply</span></div>
+        <div class="qi moving"><svg class="i grip"><use href="#i-grip"/></svg><span class="num" style="background:var(--m-brand);border-color:var(--m-brand);color:#fff">1</span><span class="txt">and compare to Q3</span><span class="acts"></span></div>
+        <div class="qi slot"></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">now split that by channel</span><span class="acts"></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">3</span><span class="txt">show top 5 products</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>C4</code><h3>Удаление</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Клик по «удалить».</dd>
+      <dt>Что видно</dt><dd>Сообщение пропадает из очереди и никогда не будет отправлено. Остальные сохраняют порядок.</dd>
+      <dt>Решить</dt><dd>Как защититься от случайного удаления. <span class="req prop">предложение</span> без подтверждения, но с «Undo» на месте строки 5 секунд. Модалка тут слишком тяжёлая.</dd>
+      <dt>Текст</dt><dd><div class="copyline">Removed · Undo</div></dd></dl><div class="fix"><span class="lbl">Принято и доработано</span>Предложение «без подтверждения, но с Undo на месте строки» принято. Доработано тремя вещами, которые видны только в сборке:<br><br>• <b>Строка заменяется на месте, одним движением.</b> Коробка остаётся, меняется только содержимое, а высота идёт <i>между</i> двумя значениями и никогда через ноль. Схлопнуть в ноль и потом развернуть — это два события: список закрывает дыру и тут же рвёт её обратно. Undo — то же движение назад.<br><br>• <b>Несколько удалений — несколько заметок</b>, каждая на своём месте, со своим Undo и своими часами. Их удалили в разные моменты, и уходят они в разные моменты; одна общая заметка молча заставила бы второй Undo вернуть не то сообщение.<br><br>• <b>Окно отмены — 4 секунды</b>, ровно столько же, сколько даёт тост. Отмена, которая проплывает мимо, и отмена, которая лежит в списке, обязаны давать одинаковое время; значение вынесено в токен <code>--undo-window</code> в дизайн-системе.<br><br>Удаление <b>последнего</b> сообщения уносит полосу, а с ней и отмену. Принято: полоса, живая только ради строки «Message removed», показывает заголовок, считающий очередь, которой уже нет.</div>
+    </div>
+    <div class="mock"><span class="cap">C4</span>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 1</b> · sends after this reply</span></div>
+        <div class="qi removed"><span>Removed “now split that by channel”</span><button class="btn sm ghost" tabindex="-1"><svg class="i"><use href="#i-retry"/></svg>Undo</button></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">and compare to Q3<span class="badge">Next</span></span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <div class="state is-del">
+    <div class="desc">
+      <div class="sid"><code>C5</code><h3>Правка в момент, когда подошла очередь</h3><span class="req del">удалено</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Пользователь редактирует первое сообщение, а ответ как раз закончился (R6).</dd>
+      <dt>Что видно</dt><dd>Сообщение <b>держит место</b>, не отправлено, следующее его не обгоняет. Спокойно, без тревоги: человек на середине фразы. Save отправит, Cancel вернёт исходный текст (и он тоже уйдёт).</dd>
+      <dt>Текст</dt><dd><div class="copyline">Your turn is held — sends when you save</div></dd>
+      <dt>Важно</dt><dd>Это состояние важнее, чем кажется. Не показывать его как ошибку и не мигать.</dd></dl><div class="fix"><span class="lbl">Нечего рисовать — см. C2 и R6</span>Сообщения, которое правят <i>внутри</i> очереди, не существует: правка его оттуда забирает. Значит, нет хода, который надо держать, нечего сохранять, нечего отменять и нечего показывать. Вопрос Q4 («что уходит при отмене правки») снят вместе с состоянием.</div>
+    </div>
+    <div class="mock"><span class="cap">C5</span>
+      <div class="m-trans"><div class="m-asst"><span>…and North America at $1.6M.</span></div></div>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 2</b> · waiting for your edit</span></div>
+        <div class="qi editing next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span>
+          <div class="edit"><div class="inp">now split that by chan<span class="m-cursor" style="background:var(--m-text)"></span></div>
+            <div class="row"><span class="held"><svg class="i s12"><use href="#i-clock"/></svg>Your turn is held — sends when you save</span><span style="display:flex;gap:6px"><button class="btn sm ghost" tabindex="-1">Cancel</button><button class="btn sm primary" tabindex="-1">Save &amp; send</button></span></div></div></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>C6</code><h3>Сообщение с вложением</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Пользователь прикрепил файл к сообщению и поставил его в очередь.</dd>
+      <dt>Что видно</dt><dd>Строка показывает, что с сообщением идёт файл (иконка с именем). Это важно для состояния после перезагрузки (E2), где файла уже не будет.</dd></dl><div class="fix"><span class="lbl">Исправлено</span><b>Файл стоит под текстом</b>, в той же колонке тела строки. Сбоку чип оторван от предложения, к которому относится, а на длинном сообщении ему вообще негде встать.<br><br>Состояние после перезагрузки, ради которого C6 был нужен, <b>не наступает</b>: вложение переживает reload вместе с сообщением (см. R11). Состояния «файл потерялся» нет.</div>
+    </div>
+    <div class="mock"><span class="cap">C6</span>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Queued · 1</b> · sends after this reply</span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">compare with this target plan<span class="att"><svg class="i s12"><use href="#i-file"/></svg>targets_2026.xlsx</span></span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <!-- D -->
+  <div class="group-title"><span class="gid">D</span><h3>Паузы: четыре причины, четыре разных состояния</h3></div>
+  <div class="callout key">
+    <p>Общая подпись «Paused» заставляет угадывать, а действие, которое снимает паузу, в каждом случае своё. Каждое состояние должно: <b>назвать причину</b>, <b>предложить выход</b>, показать <b>Resume</b> и явно сказать, что <b>ничего не потеряно и ничего не списано</b>. Все четыре должны различаться между собой не только текстом (иконка, цвет, основное действие), и выглядеть вместе как одна система.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>ID</th><th>Причина</th><th>Что делает пользователь</th><th>Основное действие</th><th>Когда доступен Resume</th></tr></thead>
+    <tbody>
+      <tr><td><code>D1</code></td><td>Ассистент показал Confirmation Card и ждёт ответа</td><td>Отвечает на карточку</td><td>Перейти к вопросу</td><td>После ответа на карточку</td></tr>
+      <tr><td><code>D2</code></td><td>Последний ответ завершился ошибкой</td><td>Повторяет ответ или решает продолжить</td><td>Retry</td><td>Сразу</td></tr>
+      <tr><td><code>D3</code></td><td>Закончились кредиты</td><td>Покупает кредиты</td><td>Buy credits</td><td>Когда баланс снова больше нуля</td></tr>
+      <tr><td><code>D4</code></td><td>Пользователь нажал Stop</td><td>Решает, продолжать ли</td><td>Resume</td><td>Сразу</td></tr>
+    </tbody></table></div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>D1</code><h3>Ждём ответа на Confirmation Card</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Ассистент задал уточняющий вопрос карточкой. Слать ему следующий вопрос — значит не ответить ни на один.</dd>
+      <dt>Что видно</dt><dd>Пауза названа, есть ссылка на карточку (скролл к ней). Resume неактивен, пока карточка без ответа. После ответа подпись меняется и Resume становится доступен.</dd>
+      <dt>Текст</dt><dd><div class="copyline">Queue paused · The assistant is waiting for your answer above</div><div class="copyline" style="margin-top:4px">После ответа: You answered — resume when ready</div></dd></dl><div class="fix"><span class="lbl">Исправлено — тексты</span>Общий префикс <code>Queue paused ·</code> снят со всех четырёх: один и тот же каркас четыре раза читается как шаблон, а полоса и так видимо стоит. Заголовок — причина словами человека, подпись — что это значит для уже сделанной работы. Здесь: <code>Waiting for your answer</code> и <code>N messages are on hold</code>. Карточка перекрывает чат и композер целиком — вопрос, мимо которого можно напечатать, читается как необязательный.</div>
+    </div>
+    <div class="mock"><span class="cap">D1</span>
+      <div class="m-card"><span>I found two revenue fields: <b>gross_revenue</b> and <b>net_revenue</b>. Which one should I use?</span><div class="row"><button class="btn sm" tabindex="-1">gross_revenue</button><button class="btn sm" tabindex="-1">net_revenue</button></div></div>
+      <div class="m-strip">
+        <div class="m-pause p-confirm"><span class="ic"><svg class="i"><use href="#i-help"/></svg></span><span class="t"><b>Queue paused · waiting for your answer above</b><span>2 messages kept · nothing sent or charged</span></span><span class="a"><button class="btn sm" tabindex="-1">Go to question</button><button class="btn sm" tabindex="-1" disabled><svg class="i s12"><use href="#i-play"/></svg>Resume</button></span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel</span><span class="acts"></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>D2</code><h3>Последний ответ упал</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Ответ завершился ошибкой. Если продолжать, одна ошибка превратится в ряд ошибок.</dd>
+      <dt>Что видно</dt><dd>Причина, Retry (повторить неудачный ответ), Resume (продолжить очередь без повтора). Сообщения очереди не тронуты.</dd>
+      <dt>Текст</dt><dd><div class="copyline">Queue paused · The last reply didn't finish</div></dd>
+      <dt>Уточнить</dt><dd>Как сейчас выглядит ошибка ответа в ленте и есть ли там свой Retry. Если есть, пауза ссылается на него, а не дублирует.</dd></dl><div class="fix"><span class="lbl">Исправлено — тексты</span><code>The last reply didn’t finish</code> · <code>N messages are on hold</code>. Основное действие — <b>Resume</b>, рядом вторичный <b>Retry</b>. «Очистить очередь» здесь <b>нет</b>: где пауза называет проблему, выход — разобраться с ней, а «выбросить всё» рядом с Retry читается как предложение сдаться за пользователя.</div>
+    </div>
+    <div class="mock"><span class="cap">D2</span>
+      <div class="m-trans"><div class="m-asst"><span class="m-tool" style="color:var(--danger);border-color:color-mix(in srgb,var(--danger) 40%,var(--m-line))"><svg class="i s12"><use href="#i-alert"/></svg>Couldn't finish this answer</span></div></div>
+      <div class="m-strip">
+        <div class="m-pause p-failed"><span class="ic"><svg class="i"><use href="#i-alert"/></svg></span><span class="t"><b>Queue paused · the last reply didn't finish</b><span>2 messages kept · nothing sent or charged</span></span><span class="a"><button class="btn sm" tabindex="-1"><svg class="i s12"><use href="#i-retry"/></svg>Retry</button><button class="btn sm" tabindex="-1"><svg class="i s12"><use href="#i-play"/></svg>Resume</button></span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel</span><span class="acts"></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>D3</code><h3>Закончились кредиты</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Ответ закончился, а баланс нулевой. Ничего не отправляется, ничего не списывается. Очередь не должна становиться способом обойти блокировку трат на нуле.</dd>
+      <dt>Что видно</dt><dd>Причина, «Buy credits» (ведёт туда же, куда сегодня ведёт покупка кредитов), Resume неактивен, пока баланс нулевой. Отдельно и крупно: ничего не списано.</dd>
+      <dt>Текст</dt><dd><div class="copyline">Queue paused · You're out of credits. Nothing was sent or charged.</div></dd>
+      <dt>Слово</dt><dd>В интерфейсе используется «credits» (Buy credits, Credit usage). Используем его.</dd></dl><div class="fix"><span class="lbl">Исправлено — тексты</span><code>You’re out of credits</code> · <code>N messages are on hold — nothing was charged</code>. «Ничего не списано» осталось <b>ровно на одном</b> из четырёх: деньги — единственное здесь, что дорого стоит, если понять неправильно. На остальных трёх эта фраза была шумом. Слово <b>credits</b> сохранено.</div>
+    </div>
+    <div class="mock"><span class="cap">D3</span>
+      <div class="m-strip">
+        <div class="m-pause p-balance"><span class="ic"><svg class="i"><use href="#i-coins"/></svg></span><span class="t"><b>Queue paused · you're out of credits</b><span>2 messages kept · nothing sent or charged</span></span><span class="a"><button class="btn sm primary" tabindex="-1">Buy credits</button><button class="btn sm" tabindex="-1" disabled><svg class="i s12"><use href="#i-play"/></svg>Resume</button></span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel</span><span class="acts"></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>D4</code><h3>Пользователь нажал Stop</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Stop во время ответа при непустой очереди. Человек только что прервал ответ, явно не хочет следующий вопрос прямо сейчас.</dd>
+      <dt>Что видно</dt><dd>Пауза объяснена как следствие Stop, это не ошибка. Самый нейтральный из четырёх вариантов. Resume основное действие.</dd>
+      <dt>Текст</dt><dd><div class="copyline">Queue paused because you stopped the reply</div></dd></dl><div class="fix"><span class="lbl">Исправлено — тексты и действия</span><code>You stopped the reply</code> · <code>N messages are on hold</code>. Это единственная <b>нейтральная</b> пауза — ничего не сломалось, очередь просто припаркована, — и поэтому единственная, где появляется <b>Clear Queue</b>: выбросить её здесь обычный выбор. Основное действие — Resume.</div>
+    </div>
+    <div class="mock"><span class="cap">D4</span>
+      <div class="m-trans"><div class="m-asst"><span>Revenue for Q2 was <span class="fig">$4.82M</span>, up 6%…</span><span class="m-note">Stopped</span></div></div>
+      <div class="m-strip">
+        <div class="m-pause p-stop"><span class="ic"><svg class="i"><use href="#i-pause"/></svg></span><span class="t"><b>Queue paused because you stopped the reply</b><span>2 messages kept · nothing sent or charged</span></span><span class="a"><button class="btn sm primary" tabindex="-1"><svg class="i s12"><use href="#i-play"/></svg>Resume</button></span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel</span><span class="acts"></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <div class="state is-del">
+    <div class="desc">
+      <div class="sid"><code>D5</code><h3>Resume, пока идёт ответ</h3><span class="req del">удалено</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Очередь на паузе, пользователь сам отправил вопрос или нажал Retry, идёт ответ, и тут он жмёт Resume (R9).</dd>
+      <dt>Что видно</dt><dd>Пауза снята, но ничего не уходит сразу: заголовок снова «sends after this reply».</dd>
+      <dt>Текст</dt><dd><div class="copyline">Resumed · sends after this reply</div></dd></dl><div class="fix"><span class="lbl">Не состояние</span>Resume во время ответа возвращает очередь в ожидание, и заголовок полосы уже говорит «sends after this reply». Отдельный алерт <code>Resumed · sends after this reply</code> повторял заголовок и убран вместе с состоянием. R9 при этом в силе: следующее сообщение уходит на границе хода, а не сразу.</div>
+    </div>
+    <div class="mock"><span class="cap">D5</span>
+      <div class="m-trans"><div class="m-asst"><span>Retrying… Revenue for Q2 was<span class="m-cursor"></span></span></div></div>
+      <div class="m-strip"><div class="m-strip-head"><span><b>Resumed</b> · sends after this reply</span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">now split that by channel</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <!-- E -->
+  <div class="group-title"><span class="gid">E</span><h3>Перезагрузка и навигация</h3></div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>E1</code><h3>Предупреждение перед перезагрузкой</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Пользователь перезагружает или закрывает вкладку при непустой очереди.</dd>
+      <dt>Ограничение</dt><dd>Браузер показывает <b>свой системный диалог</b> (beforeunload), текст в нём менять нельзя. Рисовать его не надо.</dd>
+      <dt>Решить</dt><dd>Нужно ли своё предупреждение внутри приложения для случаев, которые мы контролируем (выход из аккаунта, переход в настройки, если он перезагружает страницу). <span class="req prop">предложение</span> модалка ниже.</dd></dl><div class="fix"><span class="lbl">Сделано</span>Своё предупреждение внутри приложения нужно — сделано: системный диалог размера <b>S</b>, где <b>Leave деструктивна</b>, потому что выбрасывает набранное и вложения. Текст про «вложения не сохраняются» убран: теперь сохраняются (см. R11).</div>
+    </div>
+    <div class="mock"><span class="cap">E1 · IN-APP</span>
+      <div class="dialog"><b style="font-size:14px">Leave with 2 queued messages?</b><span class="m-note" style="font-size:12.5px">Queued text is kept in this browser, but attachments are not. The messages won't be sent until you come back.</span>
+        <div style="display:flex;justify-content:flex-end;gap:6px"><button class="btn sm" tabindex="-1">Stay</button><button class="btn sm primary" tabindex="-1">Leave</button></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>E2</code><h3>После перезагрузки</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Страница открылась снова, очередь восстановлена.</dd>
+      <dt>Что видно</dt><dd>Текст сообщений на месте. У сообщения, где было вложение, видно, что файла нет, и явно сказано, что его надо прикрепить снова. Пользователь не должен обнаружить это сам после отправки.</dd>
+      <dt>Решить</dt><dd>Очередь после перезагрузки сразу продолжает работу или стоит на паузе? <span class="req prop">предложение</span> на паузе: пользователь мог забыть, что там лежит. См. открытые вопросы.</dd>
+      <dt>Текст</dt><dd><div class="copyline">Restored 2 queued messages. “targets_2026.xlsx” wasn't kept — attach it again.</div></dd></dl><div class="fix"><span class="lbl">Исправлено</span>Вопрос «продолжает или стоит на паузе» (Q2) решён: <b>стоит</b>. Текст: <code>N messages restored</code> · <code>Nothing sends until you resume</code>, и рядом Resume.<br><br>Копия больше <b>не обещает того, что опровергает видимый контрол</b>: прежняя формулировка говорила «уйдут после этого ответа», показывая при этом Resume, который и есть единственное, что их отправляет. Там, где очередь законно продолжает сама, та же плашка просто констатирует факт — <code>Sending after this reply</code> — и ничего не предлагает нажать.<br><br>Про потерянное вложение не говорим: файл на месте.</div>
+    </div>
+    <div class="mock"><span class="cap">E2</span>
+      <div class="m-strip">
+        <div class="m-pause p-stop"><span class="ic"><svg class="i"><use href="#i-info"/></svg></span><span class="t"><b>Restored 2 queued messages</b><span>“targets_2026.xlsx” wasn't kept — attach it again</span></span><span class="a"><button class="btn sm primary" tabindex="-1"><svg class="i s12"><use href="#i-play"/></svg>Resume</button></span></div>
+        <div class="qi next"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">1</span><span class="txt">compare with this target plan<span class="att" style="text-decoration:line-through"><svg class="i s12"><use href="#i-file"/></svg>targets_2026.xlsx</span></span><span class="acts"></span></div>
+        <div class="qi"><svg class="i grip"><use href="#i-grip"/></svg><span class="num">2</span><span class="txt">and compare to Q3</span><span class="acts"></span></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>E3</code><h3>Очередь в другом чате</h3><span class="req new">добавлено</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>У пользователя есть очередь в чате A, он ушёл в чат B.</dd>
+      <dt>Требование</dt><dd>В чате B очереди A не видно. Вернулся в A: всё на месте (R10).</dd>
+      <dt>Решить</dt><dd>Показывать ли в списке чатов, что где-то лежит очередь (точка или счётчик), и продолжает ли очередь уходить, пока пользователь в другом чате. В требованиях этого нет, вопрос к PM.</dd></dl><div class="fix"><span class="lbl">Принято и разделено надвое</span>Вопрос Q3 решён: счётчик в списке чатов <b>нужен</b>, и очередь продолжает уходить, пока человек в другом чате. Но одного индикатора мало — это <b>два разных положения дел</b>:<br><br>• <b>E3 — заполненный счётчик</b>: та очередь всё ещё отправляет сама.<br>• <b>E3b — тихий счётчик</b>: та очередь остановилась и ждёт человека.<br><br>Очередь, которая работает, и очередь, которая застряла, — не одно и то же. Счётчик не дублирует выделение строки (строка и так показывает, какой чат открыт) и уступает угол меню строки, а не рисуется поверх него.</div>
+    </div>
+    <div class="mock"><span class="cap">E3 · SIDEBAR</span>
+      <div class="m-card" style="padding:6px;gap:2px">
+        <div class="qi" style="grid-template-columns:1fr auto"><span class="txt">Revenue by region Q2</span><span class="num" style="width:auto;padding:0 6px;border-radius:999px;background:var(--m-brand);color:#fff;border-color:var(--m-brand)">2</span></div>
+        <div class="qi hov" style="grid-template-columns:1fr auto"><span class="txt">Churn drivers</span><span></span></div>
+        <div class="qi" style="grid-template-columns:1fr auto"><span class="txt">Marketing spend vs leads</span><span></span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROTOTYPE -->
+<section id="proto">
+  <div class="sec-head"><span class="eyebrow">06 · Поведенческий прототип</span><h2>Попробуйте логику руками</h2>
+  <p class="prose" style="color:var(--ink2)">Это не визуальное решение, а модель поведения, чтобы проверить свой макет на реальных последовательностях событий. Отправьте первый вопрос, пока идёт ответ поставьте ещё пару, попробуйте правку в момент окончания ответа, Stop и сценарии справа. В журнале видно, почему очередь ждёт или идёт.</p></div>
+  <div class="proto">
+    <div class="mock" id="p-mock">
+      <span class="cap">PROTOTYPE</span>
+      <div class="m-trans" id="p-trans"></div>
+      <div class="m-strip" id="p-strip" hidden></div>
+      <div class="m-comp" id="p-comp">
+        <textarea id="p-input" class="p-input" rows="1" aria-label="Message"></textarea>
+        <div class="row"><div class="tools"><svg class="i"><use href="#i-clip"/></svg></div><div class="right" id="p-btns"></div></div>
+        <div class="m-hint" id="p-hint" hidden></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div><h4>Быстрые вопросы</h4><div class="chips" id="p-chips"></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><h4>Что случится в конце текущего/следующего ответа</h4>
+        <label><input type="checkbox" id="sc-confirm"> <span>Ассистент попросит подтверждение (Confirmation Card)</span></label>
+        <label><input type="checkbox" id="sc-fail"> <span>Ответ упадёт с ошибкой</span></label>
+        <label><input type="checkbox" id="sc-credits"> <span>Кредиты закончатся после этого ответа</span></label>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><button class="chip" id="p-reset">Сбросить</button></div>
+      <div><h4 style="margin-bottom:6px">Журнал</h4><div id="p-log" aria-live="polite"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTION -->
+<section id="interaction">
+  <div class="sec-head"><span class="eyebrow">07 · Взаимодействие</span><h2>Клавиатура, фокус, анимация, доступность</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Действие</th><th>Где</th><th>Результат</th><th>Статус</th></tr></thead>
+    <tbody>
+      <tr><td><span class="kbd">Enter</span></td><td>Композер, идёт ответ</td><td>В очередь, композер очищен, фокус остаётся в композере</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td><span class="kbd">Enter</span></td><td>Композер, ответа нет, очередь пуста</td><td>Отправка, как сейчас</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td><span class="kbd">Shift</span>+<span class="kbd">Enter</span></td><td>Композер</td><td>Перенос строки</td><td><span class="req must">обязательно</span></td></tr>
+      <tr style="opacity:.6"><td><s><span class="kbd">Enter</span> / <span class="kbd">Esc</span></s></td><td><s>Строка очереди в правке</s></td><td><s>Сохранить / отменить правку</s> — режима правки внутри очереди нет, см. C2</td><td><span class="req del">удалено</span></td></tr>
+      <tr><td><span class="kbd">Alt</span>+<span class="kbd">↑</span>/<span class="kbd">↓</span></td><td>Строка очереди в фокусе</td><td>Переместить вверх/вниз</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td><span class="kbd">Tab</span></td><td>Строка очереди</td><td>Внутрь, к действиям строки: <code>focus-within</code> открывает ровно то же, что hover</td><td><span class="req new">добавлено</span></td></tr>
+      <tr><td>Перетаскивание</td><td>Ручка строки</td><td>Переставить; на touch — долгое нажатие или кнопки ↑↓</td><td><span class="req must">обязательно</span></td></tr>
+    </tbody></table></div>
+  <div class="grid2">
+    <div class="prose"><h3>Анимация</h3><ul>
+      <li>Появление строки в полосе: из композера вверх (связь «я это отправил сюда»).</li>
+      <li><b>добавлено.</b> Удаление — это <b>замена на месте</b>, а не исчезновение: коробка остаётся, высота идёт между двумя содержимыми и никогда через ноль. Undo — то же движение назад. Когда окно отмены истекает и заменять нечем, заметка схлопывается по-настоящему.</li>
+      <li><b>добавлено.</b> Уход строки: сначала гаснет, потом схлопывается. Одновременно — та версия, которая выглядит резко.</li>
+      <li>Отправка: строка уходит из полосы, в ленте появляется сообщение.</li>
+      <li>Смена порядка: плавный пересчёт номеров.</li>
+      <li>Появление паузы: без тряски и мигания; пауза не ошибка, кроме D2.</li>
+      <li>Всё с учётом <code>prefers-reduced-motion</code> — анимация <b>укорачивается до одного кадра</b>, а не выключается: элемент снимается по концу своей анимации, и выключив её, мы сняли бы вместе с ней и это.</li>
+      <li><b>добавлено.</b> Все четыре движения живут в дизайн-системе (<code>row-in</code>, <code>row-out</code>, <code>row-swap-in</code>, <code>row-swap-out</code>), а не в странице.</li></ul></div>
+    <div class="prose"><h3>Доступность</h3><ul>
+      <li>Объявлять скринридером: «Queued, 2 waiting», «Sent: now split that by channel», «Queue paused: …».</li>
+      <li>У всех иконок aria-label. Stop и Queue различаются не только цветом.</li>
+      <li>Цвета пауз проходят контраст в светлой и тёмной теме.</li>
+      <li>Фокус не теряется, когда строка уходит из очереди.</li></ul></div>
+  </div>
+</section>
+
+<!-- COPY -->
+<section id="copy">
+  <div class="sec-head"><span class="eyebrow">08 · Тексты</span><h2>Черновик текстов интерфейса</h2>
+  <p class="prose" style="color:var(--ink2)">Интерфейс на английском. <b>Это финальные тексты, а не черновики</b> — они стоят на экране. Общий префикс <code>Queue paused ·</code> снят со всех пауз: один каркас четыре раза читается как шаблон. «Nothing was charged» осталось ровно на одной из четырёх — на кредитах. На остальных это был шум. Итоговые тексты уйдут в документацию (AIINS-1809, 1812, 1815), поэтому их фиксируем в макете. Никаких обещаний о точности ответов (SOT §10). Термины: AI Chat, the assistant, Confirmation Card, credits.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Где</th><th>Текст</th><th>Состояние</th><th>Статус</th></tr></thead>
+    <tbody>
+      <tr><td>Плейсхолдер композера во время ответа</td><td><div class="copyline">Ask a follow-up — it will wait its turn</div></td><td>A2</td><td><span class="req must">обязательно</span></td></tr>
+      <tr style="opacity:.6"><td><s>Кнопка очереди</s></td><td><s>Queue</s> — отдельной кнопки нет, см. R4</td><td>A2, A3</td><td><span class="req del">удалено</span></td></tr>
+      <tr style="opacity:.6"><td><s>Тултип кнопки очереди</s></td><td><s>Add to queue · sends after this reply (Enter)</s></td><td>A3</td><td><span class="req del">удалено</span></td></tr>
+      <tr><td>Заголовок полосы</td><td><div class="copyline">{n} queued · sends after this reply</div></td><td>B1, B2</td><td><span class="req must">обязательно</span></td></tr>
+      <tr style="opacity:.6"><td><s>Метка первого</s></td><td><s>Next</s> — порядок читается по номерам, отдельная метка на первой строке ничего не добавляла</td><td>B2</td><td><span class="req del">удалено</span></td></tr>
+      <tr style="opacity:.6"><td><s>Свёрнутые</s></td><td><s>+{n} more</s> — заменено на Expand по измерению, см. B2</td><td>B2</td><td><span class="req del">удалено</span></td></tr>
+      <tr style="opacity:.6"><td><s>Очередь полна</s></td><td><s>Queue is full ({max} of {max})…</s> — лимита нет, см. R12</td><td>B3</td><td><span class="req del">удалено</span></td></tr>
+      <tr><td>Подпись Expand</td><td><div class="copyline">Expand · Collapse</div></td><td>B2</td><td><span class="req new">добавлено</span></td></tr>
+      <tr><td>aria-label действий</td><td><div class="copyline">Edit · Remove · Drag to reorder</div></td><td>C1</td><td><span class="req must">обязательно</span></td></tr>
+      <tr style="opacity:.6"><td><s>Правка</s></td><td><s>Save · Cancel · Enter to save · Esc to cancel</s> — правка уходит в композер, см. C2</td><td>C2</td><td><span class="req del">удалено</span></td></tr>
+      <tr><td>Удалено</td><td><div class="copyline">Message removed · Undo</div></td><td>C4</td><td><span class="req must">обязательно</span></td></tr>
+      <tr style="opacity:.6"><td><s>Очередь дошла до правки</s></td><td><s>Your turn is held — sends when you save</s></td><td>C5</td><td><span class="req del">удалено</span></td></tr>
+      <tr><td>Пауза: Confirmation Card</td><td><div class="copyline">Waiting for your answer</div></td><td>D1</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td>Пауза: ошибка</td><td><div class="copyline">The last reply didn’t finish</div></td><td>D2</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td>Пауза: кредиты</td><td><div class="copyline">You’re out of credits</div></td><td>D3</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td>Пауза: Stop</td><td><div class="copyline">You stopped the reply</div></td><td>D4</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td>Подпись во всех паузах</td><td><div class="copyline">{n} messages are on hold</div> — и только на кредитах добавляется <code>— nothing was charged</code></td><td>D1–D4</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td>Кнопки пауз</td><td><div class="copyline">Retry · Buy Credits · Clear Queue · Resume</div> — Clear Queue только на нейтральной паузе (D4)</td><td>D1–D4</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td>Развернуть очередь на паузе</td><td><div class="copyline">Show {n} Queued Messages · Hide Queue</div></td><td>D1–D4</td><td><span class="req new">добавлено</span></td></tr>
+      <tr style="opacity:.6"><td><s>Resume во время ответа</s></td><td><s>Resumed · sends after this reply</s></td><td>D5</td><td><span class="req del">удалено</span></td></tr>
+      <tr><td>Уход со страницы</td><td><div class="copyline">Leave with {n} queued messages?</div> — Leave деструктивна</td><td>E1</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td>После перезагрузки</td><td><div class="copyline">{n} messages restored</div> · <div class="copyline">Nothing sends until you resume</div></td><td>E2</td><td><span class="req must">обязательно</span></td></tr>
+      <tr><td>После перезагрузки, очередь продолжает</td><td><div class="copyline">{n} messages restored</div> · <div class="copyline">Sending after this reply</div> — без кнопки</td><td>E2</td><td><span class="req new">добавлено</span></td></tr>
+    </tbody></table></div>
+</section>
+
+<!-- OUT -->
+<section id="out">
+  <div class="sec-head"><span class="eyebrow">09 · Границы</span><h2>Что не проектируем сейчас</h2></div>
+  <div class="grid2">
+    <div class="prose"><ul>
+      <li><b>«Send now»</b>: прервать текущий ответ и сразу отправить сообщение из очереди. Это фаза 2. Не рисуем, но <b>оставьте для неё место</b> в действиях строки, чтобы потом не переделывать.</li>
+      <li>Общая очередь на несколько чатов: очередь всегда своя у каждого чата.</li>
+      <li>Очередь в новом чате до первого ответа.</li>
+      <li>Сохранение вложений после перезагрузки.</li></ul></div>
+    <div class="prose"><ul>
+      <li>Изменение ответов ассистента, трассировки Tool calls, выполнения Python.</li>
+      <li>Редактирование или отзыв уже отправленного сообщения.</li>
+      <li>Изменение стоимости: сообщение из очереди стоит ровно столько же, сколько набранное вручную.</li>
+      <li>Изменения в общем ките <code>devart.ui.react</code>. Если без этого никак, выносим в отдельную задачу и называем явно.</li></ul></div>
+  </div>
+</section>
+
+<!-- DELIVER -->
+<section id="deliver">
+  <div class="sec-head"><span class="eyebrow">10 · Результат</span><h2>Что сдать</h2></div>
+  <div class="callout key">
+    <h4>Где сделан дизайн: в Claude, не в Figma</h4>
+    <p>Дизайн разрабатывается в Claude: артефакт типа <b>Design</b> (канвас с живыми артбордами) плюс рабочий HTML-прототип. Макеты сразу собираются на реальных токенах Insightis (<code>packages/ui/src/globals.css</code>) и компонентах приложения, поэтому фронтенд получает не картинку, а разметку и стили, которые можно переносить в код.</p>
+    <p><b>Как вышло:</b> вместо набора артбордов на состояние сдан <b>один живой экран</b> — настоящая страница чата, которая переключается между всеми состояниями. Причина в самом ТЗ: оно требует проверить, что композер не прыгает, что строку нельзя принять за поле ввода и что паузы различимы между собой. Ни одно из трёх не проверяется на отдельных картинках, они проверяются только переходами.</p>
+<p>Из этого же следует, почему список состояний в разделе 05 стал короче: половина «состояний» оказалась не состояниями экрана, а состояниями компонента или адаптивом, и на живом экране они есть всегда, а отдельными артбордами были бы заморожены в одной позе.</p>
+  </div>
+  <ul class="checklist">
+    <li><span><b>Экран со всеми состояниями</b> — <code>pages/concept/chat_page-queue.html</code>. Шестнадцать состояний в переключателе плюс режим Live, где можно печатать во время ответа, ставить в очередь, переставлять, править, удалять, отменять удаление, останавливать и возобновлять.</span></li>
+    <li><span>Светлая и тёмная тема — переключаются на самом экране, каждое состояние в обеих.</span></li>
+    <li><span>Desktop и mobile (&lt; 768px) — не отдельными макетами, а адаптивом: сужается окно.</span></li>
+    <li><span>Анимации сделаны в прототипе на CSS, а не описаны словами: появление, уход, замена на месте, перестановка, появление паузы, с учётом <code>prefers-reduced-motion</code>.</span></li>
+    <li><span><b>Компонентная разбивка — в ките Insightis</b>, а не в макете: полоса очереди, строка, Alert (4 варианта), Counter, Radio, Confirmation Card, Sortable List, Thinking Indicator. У каждого — страница в сторибуке и файл с описанием изменения.</span></li>
+    <li><span><b>Правки в devart.ui.react</b> (раздел 09 просил выносить их отдельно и называть явно): новый компонент <code>Counter</code>; <code>Alert</code> как общая плашка; токен <code>--undo-window</code>; движения <code>row-in</code> / <code>row-out</code> / <code>row-swap-in</code> / <code>row-swap-out</code>. Каждое — отдельным changeset.</span></li>
+    <li><span><b>Чат-оболочка и композер вынесены в кит.</b> Они жили в четырёх страницах как четыре копии, и копии успели разойтись: три потеряли полупрозрачную поверхность с размытием, которую шипит прод, и все четыре — продовскую защиту <code>:hover:not(:focus-within)</code>. Теперь это один компонент.</span></li>
+    <li><span>Финальные тексты стоят на экране (раздел 08).</span></li>
+    <li><span><b>Проверка.</b> Четыре паузы различимы без чтения текста — разная <i>форма</i> глифа до всякого цвета и разное основное действие. Строку нельзя принять за поле ввода — она без рамки, прозрачная, с обычным курсором, и в полосе вообще нет ничего, куда можно напечатать. Stop и Send перепутать нельзя — их не бывает одновременно. Композер не прыгает при добавлении строки — полоса растёт вверх.</span></li>
+    <li><span>Приёмка PM.</span></li>
+  </ul>
+</section>
+
+<!-- QUESTIONS -->
+<section id="questions">
+  <div class="sec-head"><span class="eyebrow">11 · Открыто</span><h2>Вопросы, которые надо решить по ходу</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Вопрос</th><th>Решение</th><th>Статус</th></tr></thead>
+    <tbody>
+      <tr><td>Q1</td><td>Очередь на паузе, пользователь пишет новое сообщение и жмёт Enter. Отправить сразу или добавить в конец?</td><td><b>В конец.</b> Пауза значит «держим», и сообщение, обогнавшее очередь, сделало бы паузу необязательной.</td><td><span class="req must">решено</span></td></tr>
+      <tr><td>Q2</td><td>После перезагрузки очередь продолжает или стоит на паузе?</td><td><b>Стоит.</b> <code>{n} messages restored · Nothing sends until you resume</code>, рядом Resume. Отдельно сделан случай, когда очередь законно продолжает сама: та же плашка просто констатирует факт и ничего не предлагает нажать.</td><td><span class="req must">решено</span></td></tr>
+      <tr><td>Q3</td><td>Продолжает ли очередь уходить, пока пользователь в другом чате? Нужен ли индикатор в списке чатов?</td><td><b>Уходит, индикатор нужен — и он двухсоставный.</b> Заполненный счётчик: та очередь всё ещё отправляет. Тихий счётчик: та очередь остановилась и ждёт человека. Очередь, которая работает, и очередь, которая застряла, — не одно и то же (E3 / E3b).</td><td><span class="req must">решено</span></td></tr>
+      <tr><td>Q4</td><td>Отмена правки в C5: уходит исходный текст сразу или сообщение ждёт ручного Resume?</td><td>Вопроса нет: правка забирает сообщение из очереди, поэтому «отмены правки внутри очереди» не существует. Вместе с C5 и R6.</td><td><span class="req del">отпал</span></td></tr>
+      <tr><td>Q5</td><td>Есть ли в ленте свой Retry для упавшего ответа? От этого зависит D2.</td><td>Пауза несёт <b>свой</b> Retry — вторичным действием рядом с Resume. Если в ленте появится собственный, их надо будет свести; на сегодня дублирования нет.</td><td><span class="req must">решено</span></td></tr>
+      <tr><td>Q6</td><td>Как выглядит ввод во время сжатия разговора (INS-ULRG)? Привести к этой же полосе.</td><td><b>Остаётся открытым.</b> Доступа к этому состоянию на проде не было, свести к одному виду не на чем. Механизм тот же, полоса готова его принять.</td><td><span class="req prop">открыт</span></td></tr>
+      <tr><td>Q7</td><td>Сколько строк видно до сворачивания на desktop и mobile?</td><td><b>Вопрос снят целиком.</b> Ответом не может быть число: при переносе текста и вложениях три строки могут не поместиться, а пять поместиться. Полоса <b>меряет себя</b> — свёрнутая три строки и скролл, Expand появляется ровно тогда, когда что-то действительно обрезано, развёрнутая берёт половину экрана.</td><td><span class="req must">решено</span></td></tr>
+    </tbody></table></div>
+</section>
+
+<footer>
+  <span>Источник: спецификация INS-MJ9P в репозитории PM (brief, epic, story-01…03, задачи AIINS-1807…1815), код <code>insightis/frontend</code> — компонент <code>MessageInput</code>. Черновик от 28.09.2026. <b>Исправленная редакция — 02.10.2026, после сборки экрана.</b></span>
+  <span>Артефакт фронтенд-разработчика прочитать не удалось (нет доступа). Если в нём есть решения, которые противоречат этому ТЗ, приоритет за ним по технической части, за этим документом по логике поведения.<br><br><b>Что в этой редакции изменилось и почему.</b> Правки не вкусовые: каждая — это либо требование, которое при сборке оказалось нечему описывать (B0, B3, B5, C2, C5, C6b, D5, A4), либо требование, которое само порождало проблему, от которой защищало (R4), либо состояние, которого экрану не хватило (E3 / E3b, Expand по измерению, замена строки на месте при удалении). Удалённое оставлено на странице зачёркнутым — чтобы было видно, что именно отпало, и не пришлось сравнивать два документа.</span>
+</footer>
+</div>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const trans = $('#p-trans'), strip = $('#p-strip'), input = $('#p-input'), btns = $('#p-btns'), hint = $('#p-hint'), logEl = $('#p-log'), comp = $('#p-comp');
+  const MAX = 10;
+  const ANSWERS = [
+    ['Revenue for Q2 was', '$4.82M', ', up 6% on Q1. EMEA led with $1.9M, followed by North America at $1.6M and APAC at $1.3M.'],
+    ['Split by channel, direct sales brought', '$2.71M', ' (56%), partners $1.44M and online $0.67M. Partner revenue grew fastest.'],
+    ['Against Q3 so far, revenue is', '$5.10M', ', 6% above Q2. The gap is mostly in EMEA partner deals.'],
+    ['The top product was', 'Analytics Pro', ' at $1.2M, then Data Sync at $0.9M.']
+  ];
+  const CHIPS = ['What was revenue by region last quarter?','now split that by channel','and compare to Q3','show top 5 products','which region is weakest?'];
+  let S, uid = 0, timers = [];
+
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    S = {started:false, streaming:false, paused:null, confirmAnswered:false, noCredits:false, queue:[], msgs:[], cur:null, answerIdx:0, full:false};
+    logEl.innerHTML = '';
+    input.value = CHIPS[0];
+    log('Новый чат. Ответов ещё не было: Enter отправит сразу, очереди нет.');
+    render();
+  }
+  function later(fn, ms){ const t = setTimeout(fn, ms); timers.push(t); return t; }
+  function log(t, cls){ const d = document.createElement('div'); if(cls) d.className = cls; const time = new Date().toTimeString().slice(0,8); d.textContent = time + '  ' + t; logEl.appendChild(d); logEl.scrollTop = logEl.scrollHeight; }
+  const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const icon = (id, cls) => `<svg class="i ${cls||''}"><use href="#i-${id}"/></svg>`;
+  const live = () => S.queue.filter(q => !q.removed);
+
+  function sendUser(text){
+    S.msgs.push({role:'user', text});
+    startReply();
+  }
+  function startReply(){
+    S.started = true; S.streaming = true;
+    const a = ANSWERS[S.answerIdx % ANSWERS.length]; S.answerIdx++;
+    const m = {role:'asst', phase:'tool', text:'', full:a, state:'streaming'};
+    S.msgs.push(m); S.cur = m;
+    log('Ответ начался: ассистент запускает Python.');
+    render();
+    later(() => { log('Python завершился. Ход ещё не закончен: очередь ждёт.', 'w'); m.phase = 'text'; streamText(m, 0); }, 1600);
+  }
+  function streamText(m, i){
+    const full = m.full[0] + ' ' + m.full[1] + m.full[2];
+    const words = full.split(' ');
+    if (i >= words.length){ endTurn(m); return; }
+    m.text = words.slice(0, i+1).join(' ');
+    render();
+    later(() => streamText(m, i+1), 170);
+  }
+  function endTurn(m){
+    S.streaming = false; S.cur = null;
+    if ($('#sc-fail').checked){ $('#sc-fail').checked = false; m.state = 'failed';
+      log('Ответ упал с ошибкой.', 'w');
+      if (live().length){ S.paused = 'failed'; log('Очередь на паузе: failed.', 'w'); }
+      render(); return; }
+    if ($('#sc-confirm').checked){ $('#sc-confirm').checked = false; m.state = 'confirm'; S.confirmAnswered = false;
+      log('Ассистент показал Confirmation Card.', 'w');
+      if (live().length){ S.paused = 'confirm'; log('Очередь на паузе: ждём ответа на карточку.', 'w'); }
+      render(); return; }
+    m.state = 'done';
+    log('Граница хода: ответ и ход завершены.', 'b');
+    if ($('#sc-credits').checked){ $('#sc-credits').checked = false; S.noCredits = true; log('Кредиты закончились.', 'w'); }
+    drain();
+  }
+  function drain(){
+    render();
+    if (S.streaming || S.paused) return;
+    const q = live();
+    if (!q.length) return;
+    if (S.noCredits){ S.paused = 'balance'; log('Очередь на паузе: нет кредитов. Ничего не отправлено и не списано.', 'w'); render(); return; }
+    const head = q[0];
+    if (head.editing){ head.held = true; log('Первое сообщение в правке: его место держится, следующее не обгоняет.', 'w'); render(); return; }
+    S.queue = S.queue.filter(x => x !== head);
+    log('Отправлено из очереди: «' + head.text + '».', 'b');
+    sendUser(head.text);
+  }
+  function submit(){
+    const text = input.value.trim();
+    if (!text) return;
+    if (!S.started && !S.streaming){ input.value=''; S.full=false; log('Отправлено сразу (очереди ещё нет).'); sendUser(text); return; }
+    const queueMode = S.streaming || S.paused || live().length > 0;
+    if (!queueMode){ input.value=''; S.full=false; sendUser(text); log('Отправлено сразу.'); return; }
+    if (live().length >= MAX){ S.full = true; log('Очередь полна: текст остался в композере.', 'w'); render(); return; }
+    S.full = false;
+    S.queue.push({id:++uid, text, editing:false, held:false, removed:false});
+    input.value = '';
+    log('В очередь: «' + text + '». Ждёт: ' + live().length + '.');
+    render();
+    input.focus();
+    if (!S.streaming && !S.paused) drain();
+  }
+  function stop(){
+    if (!S.streaming) return;
+    timers.forEach(clearTimeout); timers = [];
+    S.streaming = false; if (S.cur){ S.cur.state = 'stopped'; S.cur.phase = 'text'; } S.cur = null;
+    log('Stop: ответ остановлен.');
+    if (live().length){ S.paused = 'stop'; log('Очередь на паузе: пользователь нажал Stop.', 'w'); }
+    render();
+  }
+  function resume(){
+    const p = S.paused; S.paused = null;
+    log('Resume.' + (S.streaming ? ' Идёт ответ: отправка после его окончания.' : ''), 'b');
+    if (!S.streaming) drain(); else render();
+  }
+
+  // item actions
+  function act(id, what){
+    const it = S.queue.find(q => q.id === id); if (!it) return;
+    const idx = S.queue.indexOf(it);
+    if (what === 'edit'){ S.queue.forEach(q => q.editing = false); it.editing = true; it.draft = it.text; render(); const f = document.getElementById('edit-'+id); if (f){ f.focus(); f.setSelectionRange(f.value.length, f.value.length);} return; }
+    if (what === 'save' || what === 'cancel'){
+      const f = document.getElementById('edit-'+id);
+      if (what === 'save' && f && f.value.trim()) { it.text = f.value.trim(); log('Правка сохранена: «' + it.text + '».'); }
+      else log('Правка отменена.');
+      it.editing = false; const wasHeld = it.held; it.held = false;
+      if (wasHeld) drain(); else render();
+      input.focus(); return; }
+    if (what === 'up' || what === 'down'){
+      const L = S.queue; const j = what === 'up' ? idx-1 : idx+1;
+      if (j < 0 || j >= L.length) return;
+      [L[idx], L[j]] = [L[j], L[idx]]; log('Порядок изменён.'); render(); return; }
+    if (what === 'remove'){ it.removed = true; it.editing = false; log('Удалено: «' + it.text + '». Undo 5 с.');
+      it.t = setTimeout(() => { S.queue = S.queue.filter(q => q !== it); render(); }, 5000);
+      render(); if (!S.streaming && !S.paused && it.held) drain(); return; }
+    if (what === 'undo'){ clearTimeout(it.t); it.removed = false; log('Удаление отменено.'); render(); return; }
+  }
+
+  function render(){
+    if (S.paused && !S.queue.length) S.paused = null; // a pause only exists while something is waiting
+    // transcript
+    if (!S.msgs.length){
+      trans.innerHTML = '<p class="m-note" style="text-align:center;padding:40px 0">New chat · ask something to start</p>';
+    } else {
+      trans.innerHTML = S.msgs.map((m, i) => {
+        if (m.role === 'user') return `<div class="m-user">${esc(m.text)}</div>`;
+        let h = '<div class="m-asst">';
+        if (m.phase === 'tool' && m.state === 'streaming') h += `<span class="m-tool">${icon('code','s12')}Running Python…</span>`;
+        if (m.text){
+          const fig = m.full[1]; let t = esc(m.text).replace(esc(fig), `<span class="fig">${esc(fig)}</span>`);
+          h += `<span>${t}${m.state === 'streaming' ? '<span class="m-cursor"></span>' : ''}</span>`;
+        }
+        if (m.state === 'stopped') h += '<span class="m-note">Stopped</span>';
+        if (m.state === 'failed') h += `<span class="m-tool" style="color:var(--danger)">${icon('alert','s12')}Couldn't finish this answer</span>`;
+        if (m.state === 'confirm'){
+          h += S.confirmAnswered ? '<span class="m-note">Answered: net_revenue</span>' :
+            `<div class="m-card" id="cc"><span>I found two revenue fields: <b>gross_revenue</b> and <b>net_revenue</b>. Which one should I use?</span><div class="cc-ans"><button class="btn sm" data-cc="1">gross_revenue</button><button class="btn sm" data-cc="1">net_revenue</button></div></div>`;
+        }
+        return h + '</div>';
+      }).join('');
+      trans.scrollTop = trans.scrollHeight;
+    }
+    // strip
+    const q = live();
+    const anyRow = S.queue.length > 0;
+    strip.hidden = !anyRow;
+    if (anyRow){
+      let head = '';
+      const kept = `${q.length} message${q.length===1?'':'s'} kept · nothing sent or charged`;
+      if (S.paused === 'confirm'){
+        head = `<div class="m-pause p-confirm"><span class="ic">${icon('help')}</span><span class="t"><b>${S.confirmAnswered ? 'You answered — resume when ready' : 'Queue paused · waiting for your answer above'}</b><span>${kept}</span></span><span class="a">${S.confirmAnswered ? '' : '<button class="btn sm" data-a="goto">Go to question</button>'}<button class="btn sm ${S.confirmAnswered?'primary':''}" data-a="resume" ${S.confirmAnswered?'':'disabled'}>${icon('play','s12')}Resume</button></span></div>`;
+      } else if (S.paused === 'failed'){
+        head = `<div class="m-pause p-failed"><span class="ic">${icon('alert')}</span><span class="t"><b>Queue paused · the last reply didn't finish</b><span>${kept}</span></span><span class="a"><button class="btn sm" data-a="retry">${icon('retry','s12')}Retry</button><button class="btn sm" data-a="resume">${icon('play','s12')}Resume</button></span></div>`;
+      } else if (S.paused === 'balance'){
+        head = `<div class="m-pause p-balance"><span class="ic">${icon('coins')}</span><span class="t"><b>Queue paused · you're out of credits</b><span>${kept}</span></span><span class="a">${S.noCredits ? '<button class="btn sm primary" data-a="buy">Buy credits</button>' : ''}<button class="btn sm ${S.noCredits?'':'primary'}" data-a="resume" ${S.noCredits?'disabled':''}>${icon('play','s12')}Resume</button></span></div>`;
+      } else if (S.paused === 'stop'){
+        head = `<div class="m-pause p-stop"><span class="ic">${icon('pause')}</span><span class="t"><b>Queue paused because you stopped the reply</b><span>${kept}</span></span><span class="a"><button class="btn sm primary" data-a="resume">${icon('play','s12')}Resume</button></span></div>`;
+      } else {
+        const held = q[0] && q[0].held;
+        const when = held ? 'waiting for your edit' : (S.streaming ? (q.length>1?'sends one by one after this reply':'sends after this reply') : 'sending…');
+        head = `<div class="m-strip-head"><span><b>Queued · ${q.length}${q.length>=MAX?' of '+MAX:''}</b> · ${when}</span></div>`;
+      }
+      let n = 0;
+      const rows = S.queue.map((it, i) => {
+        if (it.removed) return `<div class="qi removed"><span>Removed “${esc(it.text)}”</span><button class="btn sm ghost" data-i="${it.id}" data-do="undo">${icon('retry')}Undo</button></div>`;
+        n++;
+        const isNext = n === 1;
+        if (it.editing){
+          return `<div class="qi editing ${isNext?'next':''}">${icon('grip','grip')}<span class="num">${n}</span><div class="edit"><textarea class="inp p-input" id="edit-${it.id}" rows="1" style="padding:5px 8px">${esc(it.draft)}</textarea><div class="row">${it.held ? `<span class="held">${icon('clock','s12')}Your turn is held — sends when you save</span>` : '<span class="m-note">Enter to save · Esc to cancel</span>'}<span style="display:flex;gap:6px"><button class="btn sm ghost" data-i="${it.id}" data-do="cancel">Cancel</button><button class="btn sm primary" data-i="${it.id}" data-do="save">${it.held?'Save &amp; send':'Save'}</button></span></div></div></div>`;
+        }
+        return `<div class="qi ${isNext?'next':''}" tabindex="0" data-row="${it.id}">${icon('grip','grip')}<span class="num">${n}</span><span class="txt" title="${esc(it.text)}">${esc(it.text)}${isNext && q.length>1?'<span class="badge">Next</span>':''}</span><span class="acts"><button class="ib" aria-label="Move up" data-i="${it.id}" data-do="up">${icon('up')}</button><button class="ib" aria-label="Move down" data-i="${it.id}" data-do="down">${icon('down')}</button><button class="ib" aria-label="Edit queued message" data-i="${it.id}" data-do="edit">${icon('pencil')}</button><button class="ib" aria-label="Remove from queue" data-i="${it.id}" data-do="remove">${icon('x')}</button></span></div>`;
+      }).join('');
+      const html = head + rows;
+      if (html !== strip._html){
+        const ae = document.activeElement, aid = ae && strip.contains(ae) ? (ae.id || (ae.dataset.row ? 'row:'+ae.dataset.row : null)) : null;
+        const s0 = ae && ae.selectionStart, s1 = ae && ae.selectionEnd;
+        strip.innerHTML = html; strip._html = html;
+        if (aid){
+          const el = aid.startsWith('row:') ? strip.querySelector(`[data-row="${aid.slice(4)}"]`) : document.getElementById(aid);
+          if (el){ el.focus(); if (el.setSelectionRange && s0 != null) el.setSelectionRange(s0, s1); }
+        }
+      }
+      const ed = strip.querySelector('textarea.inp');
+      if (ed) ed.addEventListener('input', e => { const it = S.queue.find(q => 'edit-'+q.id === e.target.id); if (it) it.draft = e.target.value; });
+    }
+    // composer
+    const queueMode = S.streaming || !!S.paused || live().length > 0;
+    input.placeholder = S.streaming ? 'Ask a follow-up — it will wait its turn' : (S.started ? 'Ask a follow-up…' : 'Ask about your data…');
+    const hasText = input.value.trim().length > 0;
+    let b = '';
+    if (S.streaming) b += `<button class="btn" data-a="stop">${icon('square')}Stop</button>`;
+    if (queueMode && S.started) b += `<button class="btn primary" data-a="submit" ${hasText && live().length < MAX ? '' : 'disabled'} title="Add to queue · sends after this reply (Enter)">${icon('queue')}Queue <span class="kbd">↵</span></button>`;
+    else b += `<button class="btn primary" data-a="submit" ${hasText?'':'disabled'}>${icon('send')}Send</button>`;
+    btns.innerHTML = b;
+    hint.hidden = !S.full;
+    hint.className = 'm-hint err';
+    hint.textContent = `Queue is full (${MAX} of ${MAX}). Remove a message or wait for the next one to send.`;
+  }
+
+  // events
+  document.getElementById('p-mock').addEventListener('click', e => {
+    const t = e.target.closest('button'); if (!t) return;
+    const a = t.dataset.a, id = +t.dataset.i, d = t.dataset.do;
+    if (d) return act(id, d);
+    if (t.dataset.cc){ S.confirmAnswered = true; log('Пользователь ответил на карточку. Ассистент продолжает.'); render(); startReply(); return; }
+    if (a === 'submit') submit();
+    if (a === 'stop') stop();
+    if (a === 'resume') resume();
+    if (a === 'retry'){ log('Retry: повторяем ответ. Очередь остаётся на паузе.'); startReply(); }
+    if (a === 'buy'){ S.noCredits = false; log('Кредиты пополнены. Resume доступен.'); render(); }
+    if (a === 'goto'){ const c = document.getElementById('cc'); if (c) c.scrollIntoView({block:'nearest', behavior:'smooth'}); }
+  });
+  input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); submit(); } });
+  input.addEventListener('input', () => { if (S.full) S.full = false; render(); });
+  strip.addEventListener('keydown', e => {
+    const ta = e.target.closest('textarea.inp');
+    if (ta){ const id = +ta.id.split('-')[1];
+      if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); act(id, 'save'); }
+      if (e.key === 'Escape'){ e.preventDefault(); act(id, 'cancel'); }
+      return; }
+    const row = e.target.closest('[data-row]'); if (!row || e.target !== row) return;
+    const id = +row.dataset.row;
+    if (e.altKey && e.key === 'ArrowUp'){ e.preventDefault(); act(id,'up'); }
+    if (e.altKey && e.key === 'ArrowDown'){ e.preventDefault(); act(id,'down'); }
+    if (e.key === 'Delete'){ e.preventDefault(); act(id,'remove'); }
+  });
+  comp.addEventListener('click', e => { if (!e.target.closest('button')) input.focus(); });
+  input.addEventListener('focus', () => comp.classList.add('focus'));
+  input.addEventListener('blur', () => comp.classList.remove('focus'));
+  document.getElementById('p-chips').innerHTML = CHIPS.map(c => `<button class="chip">${esc(c)}</button>`).join('');
+  document.getElementById('p-chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return; input.value = c.textContent; S.full = false; render(); input.focus(); });
+  document.getElementById('p-reset').addEventListener('click', reset);
+  reset();
+})();
+</script>
+
+</body></html>
