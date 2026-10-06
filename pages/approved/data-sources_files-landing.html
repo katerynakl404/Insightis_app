@@ -62,11 +62,15 @@
   /* Sits WITH the title, not in the row's general gap — a mark that belongs to a word has to be
      the width of a space away from it. The page head gaps at .75rem, so -.25rem lands the mark at
      8px: on the 4px grid, where every other distance in the kit is. */
-  /* NO hover colour. The mark is a glyph inside the page title, not a control with a surface
-     of its own — and the hover already has an answer: the popover opens. Darkening it as well made
-     the glyph look like it was changing state (user directive 2026-10-06). */
-  .dsf-quota-mark{display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;padding:0;border:none;background:none;cursor:pointer;color:var(--ink-secondary);flex:none;align-self:center;margin-left:-.25rem}
+  /* The glyph takes the kit's ICON pair, not the generic text ramp: --ink-icon / --ink-icon-hover
+     exist for exactly this and are what .igrp-act already uses. --ink-secondary / --ink-body was
+     the right direction through the wrong tokens. Over the limit it takes the feedback family's
+     own pair, --fb-attention / --fb-attention-hover — it used to hover to --fb-attention-text,
+     which is a TEXT colour and not a state (corrected 2026-10-06). */
+  .dsf-quota-mark{display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;padding:0;border:none;background:none;cursor:pointer;color:var(--ink-icon);flex:none;align-self:center;margin-left:-.25rem}
+  .dsf-quota-mark:hover{color:var(--ink-icon-hover)}
   .dsf-quota-mark.is-over{color:var(--fb-attention)}
+  .dsf-quota-mark.is-over:hover{color:var(--fb-attention-hover)}
   .dsf-quota-ic{width:var(--icon-sm);height:var(--icon-sm)}
   /* The detail panel reuses the upgrade popover's shell; its meter is the kit ProgressBar. */
   .dsf-quota-val{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-body);font-variant-numeric:tabular-nums}
@@ -1481,7 +1485,16 @@ document.addEventListener('click', function(e){
    state can be reviewed without inventing files. */
 (function(){
   var CAP = { free: { label: '50 MB', mb: 50 }, paid: { label: '1 GB', mb: 1024 } };
-  var USED = { empty: 0, within: 38.6, over: 52.4 };
+  var USED = { empty: 0, within: 38.6 };
+  /* Over the limit is a RATIO, not a figure: a fixed 52.4 MB is past Free's 50 MB and a rounding
+     error against Pro's 1 GB, so the Paid + Over-limit case silently rendered as "within". 5% is
+     the smallest overshoot that still reads as over after rounding on both caps (52.5 MB of 50 MB,
+     1.1 GB of 1 GB). */
+  var OVER_RATIO = 1.05;
+  function usedMb(cap){
+    if (quotaState === 'over') return cap.mb * OVER_RATIO;
+    return USED[quotaState];
+  }
   var quotaState = 'within';
 
   function fmt(mb){ return mb >= 1024 ? (mb/1024).toFixed(1) + ' GB' : mb.toFixed(1).replace(/\.0$/,'') + ' MB'; }
@@ -1491,7 +1504,7 @@ document.addEventListener('click', function(e){
   function dsfIsOverLimit(){
     var cap  = document.documentElement.classList.contains('is-free') ? CAP.free : CAP.paid;
     var empty = !!document.querySelector('.dsf-ph-row');
-    return (empty ? USED.empty : USED[quotaState]) > cap.mb;
+    return (empty ? USED.empty : usedMb(cap)) > cap.mb;
   }
   window.dsfIsOverLimit = dsfIsOverLimit;
 
@@ -1501,7 +1514,7 @@ document.addEventListener('click', function(e){
     /* An empty library cannot be holding 38.6 MB — the figure follows what the page is showing,
        and the placeholder table IS the page saying it has nothing. */
     var empty = !!document.querySelector('.dsf-ph-row');
-    var used = empty ? USED.empty : USED[quotaState];
+    var used = empty ? USED.empty : usedMb(cap);
     var pct = Math.min(100, Math.round(used / cap.mb * 100));
     var over = used > cap.mb;
 

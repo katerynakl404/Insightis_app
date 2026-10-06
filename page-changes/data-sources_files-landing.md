@@ -66,6 +66,22 @@ These are locked decisions. Do not change without explicit approval.
 - **Filter no-match empty state.** New — prod has none. Kit `.empty-state` + shared `.es-illu`, "No matches found", switch-to-All hint; chips stay, meta row hides.
 - **Loading skeleton.** New — `.sk-loaded`/`.sk-skel` regions flipped by `html.skel-on` (topbar Loaded/Skeleton segctrl): 3 chip ghosts + count ghost + 5-row table skeleton mirroring the real 6 columns; drop zone stays real. A topbar Filled/Empty segctrl previews the first-run empty state.
 
+## Storage mark (2026-10-06)
+
+`.dsf-quota-mark` is a glyph in the page title that opens the storage popover. Two corrections:
+
+- **It takes the icon pair, not the text ramp.** Rest/hover is `--ink-icon` / `--ink-icon-hover`
+  (`--ink-secondary` → `--ink-primary`), the tokens that exist for exactly this and that
+  `.igrp-act` already uses; the page had reached for `--ink-secondary` / `--ink-body` directly —
+  the right direction through the wrong tokens. Over the limit it is `--fb-attention` /
+  **`--fb-attention-hover`** (new, mirroring `--fb-error-hover`); it used to hover to
+  `--fb-attention-text`, which is a text colour, not a state.
+- **Over the limit is a ratio, not a figure.** A fixed 52.4 MB is past Free's 50 MB and a rounding
+  error against Pro's 1 GB, so Paid + Over-limit rendered as if it were within. Both the mark and
+  the upload gate now read `cap × 1.05`: 52.5 MB of 50 MB on Free, 1.1 GB of 1 GB on Pro. The
+  warning glyph and the refusal toast appear on **both** plans; only the upgrade line in the toast
+  and the popover's CTA stay Free-only, because on a paid plan more storage is not what is for sale.
+
 ## Out of scope
 
 - Reuses existing `.chip` (filter), `.badge` (status), `table.tbl` (table view) as-is. **DropZone (`.dsf-drop*`) was promoted to a kit component** — CSS moved to `kit-theme.css`, storybook `#dropzone` added, `changes/DropZone.md` created. Remaining page-only glue: `.dsf-library`, `.dsf-filter`, `.dsf-tbl*`.

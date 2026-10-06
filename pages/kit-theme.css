@@ -311,7 +311,7 @@
        the dark theme re-resolves them without its own pair. */
     --ink-icon:var(--ink-secondary);
     --ink-icon-hover:var(--ink-primary);
-    --fb-attention:var(--orange-500);--fb-attention-text:var(--amber-700);--fb-green:var(--green-600);
+    --fb-attention:var(--orange-500);--fb-attention-hover:var(--orange-600);--fb-attention-text:var(--amber-700);--fb-green:var(--green-600);
     /* Popular-connector flame badge (DataSourceCard) — decorative red flame, not a logo, so it
        flows through a token. Red-500 reads as a warm "trending" accent on the white badge ring. */
     --popular-flame:var(--red-500);
@@ -747,7 +747,7 @@
        (a preview panel, a forced-dark page) paint the glyphs correctly. */
     --ink-icon:var(--ink-secondary);
     --ink-icon-hover:var(--ink-primary);
-    --fb-attention:var(--orange-500);--fb-attention-text:var(--orange-400);--fb-green:var(--green-500);
+    --fb-attention:var(--orange-500);--fb-attention-hover:var(--orange-600);--fb-attention-text:var(--orange-400);--fb-green:var(--green-500);
     /* Featured plan card — the 8% wash that lifts off white is invisible over the dark card, so
        the top stop nearly doubles. Fade length stays 40% so the accent still clears the name row. */
     --promo-card-featured-bg:linear-gradient(180deg, color-mix(in srgb, var(--brand-primary) 14%, var(--surface-card)) 0%, var(--surface-card) 40%);
