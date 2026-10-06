@@ -106,6 +106,13 @@
   --motion-base: 180ms;
   --motion-slow: 240ms;
 
+  /* How long an undoable action keeps its way back on screen. Not a motion step — nothing
+     animates for four seconds — it is a READING window: long enough to notice what happened and
+     reach the way back, short enough that it does not become a permanent part of the layout.
+     One value, because an undo that floats past in a toast and an undo that sits in a list have
+     to give the same amount of time; the Toast default duration reads it from here. */
+  --undo-window: 4000ms;
+
   /* ===== Layer 1: Primitives (theme-independent) ===== */
   --brand-50: 193.8 39.4% 93.5%; /* #E8F2F5 */
   --brand-100: 196 37% 84%; /* #C7DDE5 */

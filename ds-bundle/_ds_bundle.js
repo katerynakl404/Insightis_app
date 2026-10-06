@@ -1,4 +1,4 @@
-/* @ds-bundle: {"namespace":"DevartUI","components":[{"name":"Accordion","sourcePath":"components/components/Accordion/Accordion.jsx"},{"name":"Alert","sourcePath":"components/components/Alert/Alert.jsx"},{"name":"Autocomplete","sourcePath":"components/components/Autocomplete/Autocomplete.jsx"},{"name":"Avatar","sourcePath":"components/components/Avatar/Avatar.jsx"},{"name":"Badge","sourcePath":"components/components/Badge/Badge.jsx"},{"name":"Banner","sourcePath":"components/components/Banner/Banner.jsx"},{"name":"Button","sourcePath":"components/components/Button/Button.jsx"},{"name":"Card","sourcePath":"components/components/Card/Card.jsx"},{"name":"Checkbox","sourcePath":"components/components/Checkbox/Checkbox.jsx"},{"name":"CircularProgress","sourcePath":"components/components/CircularProgress/CircularProgress.jsx"},{"name":"CodeBlock","sourcePath":"components/components/CodeBlock/CodeBlock.jsx"},{"name":"Collapsible","sourcePath":"components/components/Collapsible/Collapsible.jsx"},{"name":"Colors","sourcePath":"components/foundations/Colors/Colors.jsx"},{"name":"ConnectorLogo","sourcePath":"components/components/ConnectorLogo/ConnectorLogo.jsx"},{"name":"DataSourceCard","sourcePath":"components/components/DataSourceCard/DataSourceCard.jsx"},{"name":"DropdownMenu","sourcePath":"components/components/DropdownMenu/DropdownMenu.jsx"},{"name":"File","sourcePath":"components/components/File/File.jsx"},{"name":"FilterChips","sourcePath":"components/components/FilterChips/FilterChips.jsx"},{"name":"IconButton","sourcePath":"components/components/IconButton/IconButton.jsx"},{"name":"Input","sourcePath":"components/components/Input/Input.jsx"},{"name":"InputGroup","sourcePath":"components/components/InputGroup/InputGroup.jsx"},{"name":"LinkButton","sourcePath":"components/components/LinkButton/LinkButton.jsx"},{"name":"MetaRow","sourcePath":"components/components/MetaRow/MetaRow.jsx"},{"name":"Modal","sourcePath":"components/components/Modal/Modal.jsx"},{"name":"PageHeader","sourcePath":"components/components/PageHeader/PageHeader.jsx"},{"name":"Pagination","sourcePath":"components/components/Pagination/Pagination.jsx"},{"name":"PasswordInput","sourcePath":"components/components/PasswordInput/PasswordInput.jsx"},{"name":"Popover","sourcePath":"components/components/Popover/Popover.jsx"},{"name":"ProgressBar","sourcePath":"components/components/ProgressBar/ProgressBar.jsx"},{"name":"RadioButton","sourcePath":"components/components/RadioButton/RadioButton.jsx"},{"name":"Radius","sourcePath":"components/foundations/Radius/Radius.jsx"},{"name":"ResizablePanelGroup","sourcePath":"components/components/ResizablePanelGroup/ResizablePanelGroup.jsx"},{"name":"ScrollShadow","sourcePath":"components/components/ScrollShadow/ScrollShadow.jsx"},{"name":"SegmentedControl","sourcePath":"components/components/SegmentedControl/SegmentedControl.jsx"},{"name":"Separator","sourcePath":"components/components/Separator/Separator.jsx"},{"name":"Shadows","sourcePath":"components/foundations/Shadows/Shadows.jsx"},{"name":"Sheet","sourcePath":"components/components/Sheet/Sheet.jsx"},{"name":"Sidebar","sourcePath":"components/components/Sidebar/Sidebar.jsx"},{"name":"SingleDatePicker","sourcePath":"components/components/SingleDatePicker/SingleDatePicker.jsx"},{"name":"Skeleton","sourcePath":"components/components/Skeleton/Skeleton.jsx"},{"name":"Spacing","sourcePath":"components/foundations/Spacing/Spacing.jsx"},{"name":"Spinner","sourcePath":"components/components/Spinner/Spinner.jsx"},{"name":"StatTile","sourcePath":"components/components/StatTile/StatTile.jsx"},{"name":"StatusView","sourcePath":"components/components/StatusView/StatusView.jsx"},{"name":"Stepper","sourcePath":"components/components/Stepper/Stepper.jsx"},{"name":"StepSlider","sourcePath":"components/components/StepSlider/StepSlider.jsx"},{"name":"Switch","sourcePath":"components/components/Switch/Switch.jsx"},{"name":"Table","sourcePath":"components/components/Table/Table.jsx"},{"name":"Tabs","sourcePath":"components/components/Tabs/Tabs.jsx"},{"name":"TextArea","sourcePath":"components/components/TextArea/TextArea.jsx"},{"name":"Timeline","sourcePath":"components/components/Timeline/Timeline.jsx"},{"name":"ToastMessage","sourcePath":"components/components/ToastMessage/ToastMessage.jsx"},{"name":"Toggle","sourcePath":"components/components/Toggle/Toggle.jsx"},{"name":"ToggleGroup","sourcePath":"components/components/ToggleGroup/ToggleGroup.jsx"},{"name":"Tooltip","sourcePath":"components/components/Tooltip/Tooltip.jsx"},{"name":"TruncatedTitleTooltip","sourcePath":"components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.jsx"},{"name":"Typography","sourcePath":"components/components/Typography/Typography.jsx"},{"name":"UploadTray","sourcePath":"components/components/UploadTray/UploadTray.jsx"}],"sourceHashes":{"components/components/Accordion/Accordion.jsx":"c9109aa7def8","components/components/Accordion/Accordion.d.ts":"7852b0d69453","components/components/Accordion/Accordion.prompt.md":"6875c58493da","components/components/Alert/Alert.jsx":"a72f58c3018c","components/components/Alert/Alert.d.ts":"6e0a8b40f090","components/components/Alert/Alert.prompt.md":"39ea815dbe41","components/components/Autocomplete/Autocomplete.jsx":"8d37f9e13e6a","components/components/Autocomplete/Autocomplete.d.ts":"d2bd98615dd5","components/components/Autocomplete/Autocomplete.prompt.md":"8d08c7efc116","components/components/Avatar/Avatar.jsx":"d1948df6447c","components/components/Avatar/Avatar.d.ts":"f6b12dc31372","components/components/Avatar/Avatar.prompt.md":"9db045aae5fd","components/components/Badge/Badge.jsx":"65463f87598c","components/components/Badge/Badge.d.ts":"4ffdb46114bf","components/components/Badge/Badge.prompt.md":"429d1f5847ab","components/components/Banner/Banner.jsx":"0eda78f5ca9a","components/components/Banner/Banner.d.ts":"991689fb890e","components/components/Banner/Banner.prompt.md":"2dfd4465d2b8","components/components/Button/Button.jsx":"e35bef339b68","components/components/Button/Button.d.ts":"4b2db331445b","components/components/Button/Button.prompt.md":"3ea6f1e77df3","components/components/Card/Card.jsx":"87f2edb5c191","components/components/Card/Card.d.ts":"31be656ea1f4","components/components/Card/Card.prompt.md":"43b97430f707","components/components/Checkbox/Checkbox.jsx":"498095f93ec8","components/components/Checkbox/Checkbox.d.ts":"f2d2a697bca1","components/components/Checkbox/Checkbox.prompt.md":"9895c3d87dbc","components/components/CircularProgress/CircularProgress.jsx":"bb187cb512b5","components/components/CircularProgress/CircularProgress.d.ts":"884e707eacea","components/components/CircularProgress/CircularProgress.prompt.md":"d0da6c42a2fa","components/components/CodeBlock/CodeBlock.jsx":"50d77c6e6712","components/components/CodeBlock/CodeBlock.d.ts":"98b9a8b82c23","components/components/CodeBlock/CodeBlock.prompt.md":"891cd85363cd","components/components/Collapsible/Collapsible.jsx":"7e78fc30108d","components/components/Collapsible/Collapsible.d.ts":"d966b6cec339","components/components/Collapsible/Collapsible.prompt.md":"82af7a826ee0","components/foundations/Colors/Colors.jsx":"4af9067be804","components/foundations/Colors/Colors.d.ts":"83a3601419db","components/foundations/Colors/Colors.prompt.md":"3d19095dc922","components/components/ConnectorLogo/ConnectorLogo.jsx":"94b621ecfbb8","components/components/ConnectorLogo/ConnectorLogo.d.ts":"450806ce7b7a","components/components/ConnectorLogo/ConnectorLogo.prompt.md":"ebf3ab11dd75","components/components/DataSourceCard/DataSourceCard.jsx":"b64cb746d5b6","components/components/DataSourceCard/DataSourceCard.d.ts":"11b8b43aae17","components/components/DataSourceCard/DataSourceCard.prompt.md":"19e704d14025","components/components/DropdownMenu/DropdownMenu.jsx":"7d8295ec70c1","components/components/DropdownMenu/DropdownMenu.d.ts":"deed981915e8","components/components/DropdownMenu/DropdownMenu.prompt.md":"2f3e9f7db225","components/components/File/File.jsx":"92209e40e2dc","components/components/File/File.d.ts":"8c5c0b52dec9","components/components/File/File.prompt.md":"3bcab9b34606","components/components/FilterChips/FilterChips.jsx":"234491644555","components/components/FilterChips/FilterChips.d.ts":"03eb00d7b7be","components/components/FilterChips/FilterChips.prompt.md":"44aa849dbfba","components/components/IconButton/IconButton.jsx":"b65c876b793f","components/components/IconButton/IconButton.d.ts":"da6757d47d63","components/components/IconButton/IconButton.prompt.md":"d0ad027a95f1","components/components/Input/Input.jsx":"e044594a998e","components/components/Input/Input.d.ts":"3c6a5a3836ec","components/components/Input/Input.prompt.md":"75b835afa372","components/components/InputGroup/InputGroup.jsx":"15fb32eadbc9","components/components/InputGroup/InputGroup.d.ts":"70092534a247","components/components/InputGroup/InputGroup.prompt.md":"825ba193ec3a","components/components/LinkButton/LinkButton.jsx":"37ab6f6de220","components/components/LinkButton/LinkButton.d.ts":"9997ffb0fbef","components/components/LinkButton/LinkButton.prompt.md":"7cd70b9a34a9","components/components/MetaRow/MetaRow.jsx":"61af274c74d1","components/components/MetaRow/MetaRow.d.ts":"2b90986d3f1e","components/components/MetaRow/MetaRow.prompt.md":"3513566a8661","components/components/Modal/Modal.jsx":"2de65e4a3661","components/components/Modal/Modal.d.ts":"9dd23c8e0811","components/components/Modal/Modal.prompt.md":"f51ad912dbde","components/components/PageHeader/PageHeader.jsx":"e9b5c1ac724f","components/components/PageHeader/PageHeader.d.ts":"47672ce8120f","components/components/PageHeader/PageHeader.prompt.md":"c6b7d9a24cc0","components/components/Pagination/Pagination.jsx":"522c693cfb53","components/components/Pagination/Pagination.d.ts":"aea5e1c2f7fb","components/components/Pagination/Pagination.prompt.md":"c359c17bf1ba","components/components/PasswordInput/PasswordInput.jsx":"90a7e850274a","components/components/PasswordInput/PasswordInput.d.ts":"c021f97749fe","components/components/PasswordInput/PasswordInput.prompt.md":"517e382b4b36","components/components/Popover/Popover.jsx":"7915914f31b4","components/components/Popover/Popover.d.ts":"5f7cb49f018e","components/components/Popover/Popover.prompt.md":"e31a3ea5df86","components/components/ProgressBar/ProgressBar.jsx":"c9a1730f6be5","components/components/ProgressBar/ProgressBar.d.ts":"df540b65eab7","components/components/ProgressBar/ProgressBar.prompt.md":"bd0801165930","components/components/RadioButton/RadioButton.jsx":"ff20b5e1fc5f","components/components/RadioButton/RadioButton.d.ts":"7b9ef560c834","components/components/RadioButton/RadioButton.prompt.md":"40e71d3aa79b","components/foundations/Radius/Radius.jsx":"6baa55c2edc4","components/foundations/Radius/Radius.d.ts":"090e9c459e42","components/foundations/Radius/Radius.prompt.md":"e00f87cefe4b","components/components/ResizablePanelGroup/ResizablePanelGroup.jsx":"ca14e2f50909","components/components/ResizablePanelGroup/ResizablePanelGroup.d.ts":"7869b5b95387","components/components/ResizablePanelGroup/ResizablePanelGroup.prompt.md":"5f4143c0224b","components/components/ScrollShadow/ScrollShadow.jsx":"fae5e1036115","components/components/ScrollShadow/ScrollShadow.d.ts":"a7ea46492a2c","components/components/ScrollShadow/ScrollShadow.prompt.md":"ba3625bda6d8","components/components/SegmentedControl/SegmentedControl.jsx":"9e2072f2143e","components/components/SegmentedControl/SegmentedControl.d.ts":"c71699a60deb","components/components/SegmentedControl/SegmentedControl.prompt.md":"7d5a6a47590e","components/components/Separator/Separator.jsx":"3ac499df52fb","components/components/Separator/Separator.d.ts":"84d7e4ba48dc","components/components/Separator/Separator.prompt.md":"5e306c5704ef","components/foundations/Shadows/Shadows.jsx":"dd44c2f4f342","components/foundations/Shadows/Shadows.d.ts":"6627419e442c","components/foundations/Shadows/Shadows.prompt.md":"e98e8ac33ac9","components/components/Sheet/Sheet.jsx":"dcc8488e3b4c","components/components/Sheet/Sheet.d.ts":"9365feac06c9","components/components/Sheet/Sheet.prompt.md":"454009a319c4","components/components/Sidebar/Sidebar.jsx":"47bcfdb3a699","components/components/Sidebar/Sidebar.d.ts":"1efe961dd44b","components/components/Sidebar/Sidebar.prompt.md":"4e05f1ef70a7","components/components/SingleDatePicker/SingleDatePicker.jsx":"48ba06984d3f","components/components/SingleDatePicker/SingleDatePicker.d.ts":"b4530e4f4a31","components/components/SingleDatePicker/SingleDatePicker.prompt.md":"ec185ba08f61","components/components/Skeleton/Skeleton.jsx":"b1406a947586","components/components/Skeleton/Skeleton.d.ts":"5c1203b51a27","components/components/Skeleton/Skeleton.prompt.md":"211027c6c087","components/foundations/Spacing/Spacing.jsx":"bf1d5fd66be1","components/foundations/Spacing/Spacing.d.ts":"1a53d4499309","components/foundations/Spacing/Spacing.prompt.md":"e05b59cb1e36","components/components/Spinner/Spinner.jsx":"af0fdac6e245","components/components/Spinner/Spinner.d.ts":"16d3ddb7fbdb","components/components/Spinner/Spinner.prompt.md":"f6cdbe285eae","components/components/StatTile/StatTile.jsx":"d143f019a8f9","components/components/StatTile/StatTile.d.ts":"45c65c9a789c","components/components/StatTile/StatTile.prompt.md":"99266ae7a6ab","components/components/StatusView/StatusView.jsx":"8a44ae4cdaf7","components/components/StatusView/StatusView.d.ts":"76f6eeb54e48","components/components/StatusView/StatusView.prompt.md":"0ccf3239d0db","components/components/Stepper/Stepper.jsx":"2d27743584f9","components/components/Stepper/Stepper.d.ts":"66dac2d07734","components/components/Stepper/Stepper.prompt.md":"62c0e3f653a8","components/components/StepSlider/StepSlider.jsx":"a3139bcbc434","components/components/StepSlider/StepSlider.d.ts":"4ed71ed92ef9","components/components/StepSlider/StepSlider.prompt.md":"d2a552854630","components/components/Switch/Switch.jsx":"ecf4b284ff82","components/components/Switch/Switch.d.ts":"5c6e2376485b","components/components/Switch/Switch.prompt.md":"2a3ea6b485ec","components/components/Table/Table.jsx":"d6f520022091","components/components/Table/Table.d.ts":"4d6ab6ee927a","components/components/Table/Table.prompt.md":"99545c043a2b","components/components/Tabs/Tabs.jsx":"fd0814586e41","components/components/Tabs/Tabs.d.ts":"a11e7f34a93f","components/components/Tabs/Tabs.prompt.md":"3b53d6fb2d95","components/components/TextArea/TextArea.jsx":"f04443d00503","components/components/TextArea/TextArea.d.ts":"9aca357becf8","components/components/TextArea/TextArea.prompt.md":"907ef4644bc2","components/components/Timeline/Timeline.jsx":"3edc724e94a5","components/components/Timeline/Timeline.d.ts":"bd4715087884","components/components/Timeline/Timeline.prompt.md":"1802e9f50dd9","components/components/ToastMessage/ToastMessage.jsx":"fcd0cff73a0b","components/components/ToastMessage/ToastMessage.d.ts":"a0f6ebd9a39a","components/components/ToastMessage/ToastMessage.prompt.md":"f0aa9d30ae51","components/components/Toggle/Toggle.jsx":"356282788f0a","components/components/Toggle/Toggle.d.ts":"56835184ee54","components/components/Toggle/Toggle.prompt.md":"e84dcda3064e","components/components/ToggleGroup/ToggleGroup.jsx":"8557f0da2a5f","components/components/ToggleGroup/ToggleGroup.d.ts":"9661813699b4","components/components/ToggleGroup/ToggleGroup.prompt.md":"73eae306c974","components/components/Tooltip/Tooltip.jsx":"7831d988b558","components/components/Tooltip/Tooltip.d.ts":"11ac3babb516","components/components/Tooltip/Tooltip.prompt.md":"bf550a0da747","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.jsx":"f3ff79d6b89d","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.d.ts":"77100c639c53","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.prompt.md":"1e144ae52963","components/components/Typography/Typography.jsx":"08d9210ac679","components/components/Typography/Typography.d.ts":"947153270961","components/components/Typography/Typography.prompt.md":"48687cfa05fb","components/components/UploadTray/UploadTray.jsx":"bbe33963766b","components/components/UploadTray/UploadTray.d.ts":"d72876e348f7","components/components/UploadTray/UploadTray.prompt.md":"c112c00e513a"},"inlinedExternals":[".pnpm"],"builtBy":"cc-design-sync"} */
+/* @ds-bundle: {"namespace":"DevartUI","components":[{"name":"Accordion","sourcePath":"components/components/Accordion/Accordion.jsx"},{"name":"Alert","sourcePath":"components/components/Alert/Alert.jsx"},{"name":"Autocomplete","sourcePath":"components/components/Autocomplete/Autocomplete.jsx"},{"name":"Avatar","sourcePath":"components/components/Avatar/Avatar.jsx"},{"name":"Badge","sourcePath":"components/components/Badge/Badge.jsx"},{"name":"Banner","sourcePath":"components/components/Banner/Banner.jsx"},{"name":"Button","sourcePath":"components/components/Button/Button.jsx"},{"name":"Card","sourcePath":"components/components/Card/Card.jsx"},{"name":"Checkbox","sourcePath":"components/components/Checkbox/Checkbox.jsx"},{"name":"CircularProgress","sourcePath":"components/components/CircularProgress/CircularProgress.jsx"},{"name":"CodeBlock","sourcePath":"components/components/CodeBlock/CodeBlock.jsx"},{"name":"Collapsible","sourcePath":"components/components/Collapsible/Collapsible.jsx"},{"name":"Colors","sourcePath":"components/foundations/Colors/Colors.jsx"},{"name":"ConnectorLogo","sourcePath":"components/components/ConnectorLogo/ConnectorLogo.jsx"},{"name":"Counter","sourcePath":"components/components/Counter/Counter.jsx"},{"name":"DataSourceCard","sourcePath":"components/components/DataSourceCard/DataSourceCard.jsx"},{"name":"DropdownMenu","sourcePath":"components/components/DropdownMenu/DropdownMenu.jsx"},{"name":"File","sourcePath":"components/components/File/File.jsx"},{"name":"FilterChips","sourcePath":"components/components/FilterChips/FilterChips.jsx"},{"name":"IconButton","sourcePath":"components/components/IconButton/IconButton.jsx"},{"name":"Input","sourcePath":"components/components/Input/Input.jsx"},{"name":"InputGroup","sourcePath":"components/components/InputGroup/InputGroup.jsx"},{"name":"LinkButton","sourcePath":"components/components/LinkButton/LinkButton.jsx"},{"name":"MetaRow","sourcePath":"components/components/MetaRow/MetaRow.jsx"},{"name":"Modal","sourcePath":"components/components/Modal/Modal.jsx"},{"name":"Motion","sourcePath":"components/foundations/Motion/Motion.jsx"},{"name":"PageHeader","sourcePath":"components/components/PageHeader/PageHeader.jsx"},{"name":"Pagination","sourcePath":"components/components/Pagination/Pagination.jsx"},{"name":"PasswordInput","sourcePath":"components/components/PasswordInput/PasswordInput.jsx"},{"name":"Popover","sourcePath":"components/components/Popover/Popover.jsx"},{"name":"ProgressBar","sourcePath":"components/components/ProgressBar/ProgressBar.jsx"},{"name":"PromoCard","sourcePath":"components/components/PromoCard/PromoCard.jsx"},{"name":"RadioButton","sourcePath":"components/components/RadioButton/RadioButton.jsx"},{"name":"Radius","sourcePath":"components/foundations/Radius/Radius.jsx"},{"name":"ResizablePanelGroup","sourcePath":"components/components/ResizablePanelGroup/ResizablePanelGroup.jsx"},{"name":"ScrollShadow","sourcePath":"components/components/ScrollShadow/ScrollShadow.jsx"},{"name":"SegmentedControl","sourcePath":"components/components/SegmentedControl/SegmentedControl.jsx"},{"name":"Separator","sourcePath":"components/components/Separator/Separator.jsx"},{"name":"Shadows","sourcePath":"components/foundations/Shadows/Shadows.jsx"},{"name":"Sheet","sourcePath":"components/components/Sheet/Sheet.jsx"},{"name":"Sidebar","sourcePath":"components/components/Sidebar/Sidebar.jsx"},{"name":"SingleDatePicker","sourcePath":"components/components/SingleDatePicker/SingleDatePicker.jsx"},{"name":"Skeleton","sourcePath":"components/components/Skeleton/Skeleton.jsx"},{"name":"Spacing","sourcePath":"components/foundations/Spacing/Spacing.jsx"},{"name":"Spinner","sourcePath":"components/components/Spinner/Spinner.jsx"},{"name":"StatTile","sourcePath":"components/components/StatTile/StatTile.jsx"},{"name":"StatusView","sourcePath":"components/components/StatusView/StatusView.jsx"},{"name":"Stepper","sourcePath":"components/components/Stepper/Stepper.jsx"},{"name":"StepSlider","sourcePath":"components/components/StepSlider/StepSlider.jsx"},{"name":"Switch","sourcePath":"components/components/Switch/Switch.jsx"},{"name":"Table","sourcePath":"components/components/Table/Table.jsx"},{"name":"Tabs","sourcePath":"components/components/Tabs/Tabs.jsx"},{"name":"TextArea","sourcePath":"components/components/TextArea/TextArea.jsx"},{"name":"Timeline","sourcePath":"components/components/Timeline/Timeline.jsx"},{"name":"ToastMessage","sourcePath":"components/components/ToastMessage/ToastMessage.jsx"},{"name":"Toggle","sourcePath":"components/components/Toggle/Toggle.jsx"},{"name":"ToggleGroup","sourcePath":"components/components/ToggleGroup/ToggleGroup.jsx"},{"name":"Tooltip","sourcePath":"components/components/Tooltip/Tooltip.jsx"},{"name":"TruncatedTitleTooltip","sourcePath":"components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.jsx"},{"name":"Typography","sourcePath":"components/components/Typography/Typography.jsx"},{"name":"UploadTray","sourcePath":"components/components/UploadTray/UploadTray.jsx"}],"sourceHashes":{"components/components/Accordion/Accordion.jsx":"c9109aa7def8","components/components/Accordion/Accordion.d.ts":"7852b0d69453","components/components/Accordion/Accordion.prompt.md":"6875c58493da","components/components/Alert/Alert.jsx":"a72f58c3018c","components/components/Alert/Alert.d.ts":"6863d87f6b36","components/components/Alert/Alert.prompt.md":"a53076bcdbb0","components/components/Autocomplete/Autocomplete.jsx":"8d37f9e13e6a","components/components/Autocomplete/Autocomplete.d.ts":"d2bd98615dd5","components/components/Autocomplete/Autocomplete.prompt.md":"8d08c7efc116","components/components/Avatar/Avatar.jsx":"d1948df6447c","components/components/Avatar/Avatar.d.ts":"f6b12dc31372","components/components/Avatar/Avatar.prompt.md":"9db045aae5fd","components/components/Badge/Badge.jsx":"65463f87598c","components/components/Badge/Badge.d.ts":"00bdc3e123da","components/components/Badge/Badge.prompt.md":"9ee13d5fb9cd","components/components/Banner/Banner.jsx":"0eda78f5ca9a","components/components/Banner/Banner.d.ts":"6dc75ed2e4dc","components/components/Banner/Banner.prompt.md":"3da71aa3e935","components/components/Button/Button.jsx":"e35bef339b68","components/components/Button/Button.d.ts":"51f19ac7baaf","components/components/Button/Button.prompt.md":"65393cea6ff8","components/components/Card/Card.jsx":"87f2edb5c191","components/components/Card/Card.d.ts":"31be656ea1f4","components/components/Card/Card.prompt.md":"43b97430f707","components/components/Checkbox/Checkbox.jsx":"498095f93ec8","components/components/Checkbox/Checkbox.d.ts":"304449867030","components/components/Checkbox/Checkbox.prompt.md":"eb63a606b79b","components/components/CircularProgress/CircularProgress.jsx":"bb187cb512b5","components/components/CircularProgress/CircularProgress.d.ts":"884e707eacea","components/components/CircularProgress/CircularProgress.prompt.md":"d0da6c42a2fa","components/components/CodeBlock/CodeBlock.jsx":"50d77c6e6712","components/components/CodeBlock/CodeBlock.d.ts":"98b9a8b82c23","components/components/CodeBlock/CodeBlock.prompt.md":"891cd85363cd","components/components/Collapsible/Collapsible.jsx":"7e78fc30108d","components/components/Collapsible/Collapsible.d.ts":"d966b6cec339","components/components/Collapsible/Collapsible.prompt.md":"82af7a826ee0","components/foundations/Colors/Colors.jsx":"4af9067be804","components/foundations/Colors/Colors.d.ts":"83a3601419db","components/foundations/Colors/Colors.prompt.md":"3d19095dc922","components/components/ConnectorLogo/ConnectorLogo.jsx":"94b621ecfbb8","components/components/ConnectorLogo/ConnectorLogo.d.ts":"450806ce7b7a","components/components/ConnectorLogo/ConnectorLogo.prompt.md":"ebf3ab11dd75","components/components/Counter/Counter.jsx":"6f495e72388d","components/components/Counter/Counter.d.ts":"94bbd3a51e9b","components/components/Counter/Counter.prompt.md":"2eeedaa89d61","components/components/DataSourceCard/DataSourceCard.jsx":"b64cb746d5b6","components/components/DataSourceCard/DataSourceCard.d.ts":"11b8b43aae17","components/components/DataSourceCard/DataSourceCard.prompt.md":"19e704d14025","components/components/DropdownMenu/DropdownMenu.jsx":"7d8295ec70c1","components/components/DropdownMenu/DropdownMenu.d.ts":"deed981915e8","components/components/DropdownMenu/DropdownMenu.prompt.md":"113c7e26f9d7","components/components/File/File.jsx":"92209e40e2dc","components/components/File/File.d.ts":"34eae64e8991","components/components/File/File.prompt.md":"bbb0af016fee","components/components/FilterChips/FilterChips.jsx":"234491644555","components/components/FilterChips/FilterChips.d.ts":"03eb00d7b7be","components/components/FilterChips/FilterChips.prompt.md":"44aa849dbfba","components/components/IconButton/IconButton.jsx":"b65c876b793f","components/components/IconButton/IconButton.d.ts":"bbf2b0946f65","components/components/IconButton/IconButton.prompt.md":"b7c7ab21743b","components/components/Input/Input.jsx":"e044594a998e","components/components/Input/Input.d.ts":"3c6a5a3836ec","components/components/Input/Input.prompt.md":"75b835afa372","components/components/InputGroup/InputGroup.jsx":"15fb32eadbc9","components/components/InputGroup/InputGroup.d.ts":"03ad4f6d9f31","components/components/InputGroup/InputGroup.prompt.md":"751ae76505b1","components/components/LinkButton/LinkButton.jsx":"37ab6f6de220","components/components/LinkButton/LinkButton.d.ts":"9997ffb0fbef","components/components/LinkButton/LinkButton.prompt.md":"7cd70b9a34a9","components/components/MetaRow/MetaRow.jsx":"61af274c74d1","components/components/MetaRow/MetaRow.d.ts":"2b90986d3f1e","components/components/MetaRow/MetaRow.prompt.md":"3513566a8661","components/components/Modal/Modal.jsx":"2de65e4a3661","components/components/Modal/Modal.d.ts":"9dd23c8e0811","components/components/Modal/Modal.prompt.md":"f51ad912dbde","components/foundations/Motion/Motion.jsx":"05d6a153ba48","components/foundations/Motion/Motion.d.ts":"6e5d533f91bb","components/foundations/Motion/Motion.prompt.md":"fbb5114a1297","components/components/PageHeader/PageHeader.jsx":"e9b5c1ac724f","components/components/PageHeader/PageHeader.d.ts":"47672ce8120f","components/components/PageHeader/PageHeader.prompt.md":"c6b7d9a24cc0","components/components/Pagination/Pagination.jsx":"522c693cfb53","components/components/Pagination/Pagination.d.ts":"aea5e1c2f7fb","components/components/Pagination/Pagination.prompt.md":"c359c17bf1ba","components/components/PasswordInput/PasswordInput.jsx":"90a7e850274a","components/components/PasswordInput/PasswordInput.d.ts":"c021f97749fe","components/components/PasswordInput/PasswordInput.prompt.md":"517e382b4b36","components/components/Popover/Popover.jsx":"7915914f31b4","components/components/Popover/Popover.d.ts":"5f7cb49f018e","components/components/Popover/Popover.prompt.md":"e31a3ea5df86","components/components/ProgressBar/ProgressBar.jsx":"c9a1730f6be5","components/components/ProgressBar/ProgressBar.d.ts":"1dd52cabece5","components/components/ProgressBar/ProgressBar.prompt.md":"fe78dce881c8","components/components/PromoCard/PromoCard.jsx":"2723ccb1f769","components/components/PromoCard/PromoCard.d.ts":"fc1b95307b5a","components/components/PromoCard/PromoCard.prompt.md":"219204f5f133","components/components/RadioButton/RadioButton.jsx":"ff20b5e1fc5f","components/components/RadioButton/RadioButton.d.ts":"6b4573b3f4c6","components/components/RadioButton/RadioButton.prompt.md":"05d9257d1874","components/foundations/Radius/Radius.jsx":"6baa55c2edc4","components/foundations/Radius/Radius.d.ts":"090e9c459e42","components/foundations/Radius/Radius.prompt.md":"e00f87cefe4b","components/components/ResizablePanelGroup/ResizablePanelGroup.jsx":"ca14e2f50909","components/components/ResizablePanelGroup/ResizablePanelGroup.d.ts":"7869b5b95387","components/components/ResizablePanelGroup/ResizablePanelGroup.prompt.md":"5f4143c0224b","components/components/ScrollShadow/ScrollShadow.jsx":"fae5e1036115","components/components/ScrollShadow/ScrollShadow.d.ts":"a7ea46492a2c","components/components/ScrollShadow/ScrollShadow.prompt.md":"ba3625bda6d8","components/components/SegmentedControl/SegmentedControl.jsx":"9e2072f2143e","components/components/SegmentedControl/SegmentedControl.d.ts":"c71699a60deb","components/components/SegmentedControl/SegmentedControl.prompt.md":"7d5a6a47590e","components/components/Separator/Separator.jsx":"3ac499df52fb","components/components/Separator/Separator.d.ts":"84d7e4ba48dc","components/components/Separator/Separator.prompt.md":"5e306c5704ef","components/foundations/Shadows/Shadows.jsx":"dd44c2f4f342","components/foundations/Shadows/Shadows.d.ts":"6627419e442c","components/foundations/Shadows/Shadows.prompt.md":"e98e8ac33ac9","components/components/Sheet/Sheet.jsx":"dcc8488e3b4c","components/components/Sheet/Sheet.d.ts":"9365feac06c9","components/components/Sheet/Sheet.prompt.md":"454009a319c4","components/components/Sidebar/Sidebar.jsx":"47bcfdb3a699","components/components/Sidebar/Sidebar.d.ts":"1efe961dd44b","components/components/Sidebar/Sidebar.prompt.md":"4e05f1ef70a7","components/components/SingleDatePicker/SingleDatePicker.jsx":"48ba06984d3f","components/components/SingleDatePicker/SingleDatePicker.d.ts":"b4530e4f4a31","components/components/SingleDatePicker/SingleDatePicker.prompt.md":"ec185ba08f61","components/components/Skeleton/Skeleton.jsx":"b1406a947586","components/components/Skeleton/Skeleton.d.ts":"5c1203b51a27","components/components/Skeleton/Skeleton.prompt.md":"211027c6c087","components/foundations/Spacing/Spacing.jsx":"bf1d5fd66be1","components/foundations/Spacing/Spacing.d.ts":"1a53d4499309","components/foundations/Spacing/Spacing.prompt.md":"e05b59cb1e36","components/components/Spinner/Spinner.jsx":"af0fdac6e245","components/components/Spinner/Spinner.d.ts":"16d3ddb7fbdb","components/components/Spinner/Spinner.prompt.md":"f6cdbe285eae","components/components/StatTile/StatTile.jsx":"d143f019a8f9","components/components/StatTile/StatTile.d.ts":"45c65c9a789c","components/components/StatTile/StatTile.prompt.md":"99266ae7a6ab","components/components/StatusView/StatusView.jsx":"8a44ae4cdaf7","components/components/StatusView/StatusView.d.ts":"76f6eeb54e48","components/components/StatusView/StatusView.prompt.md":"0ccf3239d0db","components/components/Stepper/Stepper.jsx":"2d27743584f9","components/components/Stepper/Stepper.d.ts":"66dac2d07734","components/components/Stepper/Stepper.prompt.md":"62c0e3f653a8","components/components/StepSlider/StepSlider.jsx":"a3139bcbc434","components/components/StepSlider/StepSlider.d.ts":"4ed71ed92ef9","components/components/StepSlider/StepSlider.prompt.md":"d2a552854630","components/components/Switch/Switch.jsx":"ecf4b284ff82","components/components/Switch/Switch.d.ts":"afc0ad55d870","components/components/Switch/Switch.prompt.md":"5f476fb6f3ff","components/components/Table/Table.jsx":"d6f520022091","components/components/Table/Table.d.ts":"4d6ab6ee927a","components/components/Table/Table.prompt.md":"99545c043a2b","components/components/Tabs/Tabs.jsx":"fd0814586e41","components/components/Tabs/Tabs.d.ts":"a11e7f34a93f","components/components/Tabs/Tabs.prompt.md":"3b53d6fb2d95","components/components/TextArea/TextArea.jsx":"f04443d00503","components/components/TextArea/TextArea.d.ts":"37d3d8a852f4","components/components/TextArea/TextArea.prompt.md":"40c9cfae37a3","components/components/Timeline/Timeline.jsx":"3edc724e94a5","components/components/Timeline/Timeline.d.ts":"bd4715087884","components/components/Timeline/Timeline.prompt.md":"1802e9f50dd9","components/components/ToastMessage/ToastMessage.jsx":"fcd0cff73a0b","components/components/ToastMessage/ToastMessage.d.ts":"a0f6ebd9a39a","components/components/ToastMessage/ToastMessage.prompt.md":"f0aa9d30ae51","components/components/Toggle/Toggle.jsx":"356282788f0a","components/components/Toggle/Toggle.d.ts":"3d323f9a77b4","components/components/Toggle/Toggle.prompt.md":"abe3ac4afe85","components/components/ToggleGroup/ToggleGroup.jsx":"8557f0da2a5f","components/components/ToggleGroup/ToggleGroup.d.ts":"358c9b5a2589","components/components/ToggleGroup/ToggleGroup.prompt.md":"fd6c83582578","components/components/Tooltip/Tooltip.jsx":"7831d988b558","components/components/Tooltip/Tooltip.d.ts":"11ac3babb516","components/components/Tooltip/Tooltip.prompt.md":"bf550a0da747","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.jsx":"f3ff79d6b89d","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.d.ts":"77100c639c53","components/components/TruncatedTitleTooltip/TruncatedTitleTooltip.prompt.md":"1e144ae52963","components/components/Typography/Typography.jsx":"08d9210ac679","components/components/Typography/Typography.d.ts":"947153270961","components/components/Typography/Typography.prompt.md":"48687cfa05fb","components/components/UploadTray/UploadTray.jsx":"bbe33963766b","components/components/UploadTray/UploadTray.d.ts":"d72876e348f7","components/components/UploadTray/UploadTray.prompt.md":"c112c00e513a"},"inlinedExternals":[".pnpm"],"builtBy":"cc-design-sync"} */
 "use strict";
 var DevartUI = (() => {
   var __create = Object.create;
@@ -133,6 +133,7 @@ var DevartUI = (() => {
     CollapsibleTrigger: () => CollapsibleTrigger3,
     Colors: () => Colors,
     ConnectorLogo: () => ConnectorLogo,
+    Counter: () => Counter,
     DataSourceCard: () => DataSourceCard,
     DateRangePicker: () => DateRangePicker,
     DialogTitleFallback: () => DialogTitleFallback,
@@ -177,6 +178,7 @@ var DevartUI = (() => {
     ModalPortal: () => ModalPortal,
     ModalTitle: () => ModalTitle,
     ModalTrigger: () => ModalTrigger,
+    Motion: () => Motion,
     PageHeader: () => PageHeader,
     Pagination: () => Pagination,
     PasswordInput: () => PasswordInput,
@@ -188,6 +190,7 @@ var DevartUI = (() => {
     PortalContainerProvider: () => PortalContainerProvider,
     Primitives: () => Primitives,
     ProgressBar: () => ProgressBar,
+    PromoCard: () => PromoCard,
     RadioButton: () => RadioButton,
     RadioGroup: () => RadioGroup4,
     Radius: () => Radius,
@@ -286,6 +289,7 @@ var DevartUI = (() => {
     codeBlockVariants: () => codeBlockVariants,
     connectorLogoVariants: () => connectorLogoVariants,
     containerVariants: () => containerVariants,
+    counterVariants: () => counterVariants,
     dataSourceCardVariants: () => dataSourceCardVariants,
     fileVariants: () => fileVariants,
     filterChipVariants: () => filterChipVariants,
@@ -5412,7 +5416,7 @@ var DevartUI = (() => {
     return twMerge(clsx(inputs));
   }
   var focusRing = cn("focus-visible:outline-none", "focus-visible:ring-2 focus-visible:ring-offset-2", "focus-visible:ring-offset-surface-card", "focus-visible:ring-focus-ring-brand");
-  var glyphStroke = "[&_svg]:stroke-[1.75]";
+  var glyphStroke = "[&_svg]:stroke-2";
   var formFocusRing = cn("focus-visible:outline-none", "focus-visible:ring-2 focus-visible:ring-offset-2", "focus-visible:ring-offset-surface-card", "focus-visible:ring-state-focus-ring");
   var liftOnHover = (distance = 1) => cn("transition-[box-shadow,border-color,transform] duration-base", distance === 1 ? "hover:-translate-y-px" : "hover:-translate-y-0.5", "hover:border-card-lift-border hover:shadow-lift-hover");
 
@@ -5863,11 +5867,21 @@ var DevartUI = (() => {
   init_define_import_meta_env();
   var import_jsx_runtime12 = __toESM(require_react_shim(), 1);
   var alertVariants = cva(
-    /* px is one step tighter than py so the title lands on the same vertical as unboxed text
-       beside it — a bordered block's inner text otherwise never joins a list's column. */
-    cn("flex items-start gap-2.5", "rounded-lg border px-2 py-2.5"),
+    /* px stays wider than py. It was tightened to px-2 for one pass, to put the title on the
+       same vertical as unboxed text beside it — a bordered block's inner text only joins that
+       column when its own inset is subtracted. Reverted: the side gaps read as too tight. */
+    cn("flex items-start", "rounded-lg border"),
     {
       variants: {
+        /* TWO SIZES, because an Alert does two jobs. Tucked inside another surface — a queue
+           band, a card — it is a footnote and reads at 12. Standing on a page, above a table,
+           speaking about the whole screen, it occupies a full row, and 12px there is a whisper
+           from something large. Every rung moves together — type, glyph, padding and gap — so md
+           is a SIZE, not an Alert with a bigger font. */
+        size: {
+          sm: "gap-2.5 px-3 py-2.5",
+          md: "gap-3 px-3.5 py-3"
+        },
         /* The four tinted surfaces come from --alert-bg-* / --alert-border-*, which
            have the same shape Toast's do: a color-mix() over Surface/Card, so the
            block does not take the colour of whatever it is dropped onto, and the
@@ -5884,12 +5898,33 @@ var DevartUI = (() => {
              Surface/Card2, not Surface/Chips: on dark, Chips resolves to the SAME
              grey as Stroke/Border, so fill and edge collapsed into one bright slab
              while on light they sat clearly apart — the themes stopped agreeing. */
-          neutral: "border-stroke-border bg-surface-card2"
+          /* `border-stroke`, not `border-stroke-border`: the key is
+             `stroke.DEFAULT`, so the latter named nothing, generated no CSS, and
+             left the bare `border` in the base string painting Tailwind's own
+             default (#E5E7EB). On light that is 1.13 against the fill — within a
+             hundredth of the token it was meant to be, so the defect was
+             invisible. On dark it is 12.86: a white hairline round a near-black
+             block, and the one variant whose themes did not match. */
+          neutral: "border-stroke bg-surface-card2"
         }
       },
-      defaultVariants: { variant: "neutral" }
+      /* sm is the default: every inline use of Alert predates md, and the component was drawn for
+         the footnote case first. */
+      defaultVariants: { variant: "neutral", size: "sm" }
     }
   );
+  var SIZE_TITLE = {
+    sm: "text-xs leading-4",
+    md: "text-sm leading-5"
+  };
+  var SIZE_DESCRIPTION = {
+    sm: "text-xs leading-4",
+    md: "text-sm leading-5"
+  };
+  var SIZE_ICON = {
+    sm: "[&_svg]:size-4",
+    md: "[&_svg]:size-5"
+  };
   var ICON_TONE = {
     success: "text-fb-green",
     info: "text-brand-tertiary",
@@ -5897,15 +5932,15 @@ var DevartUI = (() => {
     error: "text-fb-red-text",
     neutral: "text-ink-secondary"
   };
-  var Alert = ({ title, description, titleClassName, descriptionClassName, icon, iconClassName, actions, actionsClassName, variant = "neutral", className, ref, ...props }) => (
+  var Alert = ({ title, description, titleClassName, descriptionClassName, icon, iconClassName, actions, actionsClassName, variant = "neutral", size: size4 = "sm", className, ref, ...props }) => (
     /* `status`, not `alert`: these announce a state change politely and must not
        interrupt what the person is doing. A true `alert` role is for something
        that cannot wait, which none of these are. */
-    (0, import_jsx_runtime12.jsxs)("div", { ref, role: "status", className: cn(alertVariants({ variant }), className), ...props, children: [icon ? (
+    (0, import_jsx_runtime12.jsxs)("div", { ref, role: "status", className: cn(alertVariants({ variant, size: size4 }), className), ...props, children: [icon ? (
       /* No nudge: the glyph box is 16px and so is the title's line box, so they
          align by being the same box. */
-      (0, import_jsx_runtime12.jsx)("span", { "aria-hidden": "true", className: cn("flex shrink-0 [&_svg]:size-4", ICON_TONE[variant ?? "neutral"], iconClassName), children: icon })
-    ) : null, (0, import_jsx_runtime12.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-0.5", children: [(0, import_jsx_runtime12.jsx)("span", { className: cn("font-semibold text-ink-primary text-xs leading-4", titleClassName), children: title }), description ? (0, import_jsx_runtime12.jsx)("span", { className: cn("font-normal text-ink-secondary text-xs leading-4", descriptionClassName), children: description }) : null] }), actions ? (0, import_jsx_runtime12.jsx)("div", { className: cn(
+      (0, import_jsx_runtime12.jsx)("span", { "aria-hidden": "true", className: cn("flex shrink-0", SIZE_ICON[size4 ?? "sm"], glyphStroke, ICON_TONE[variant ?? "neutral"], iconClassName), children: icon })
+    ) : null, (0, import_jsx_runtime12.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-0.5", children: [(0, import_jsx_runtime12.jsx)("span", { className: cn("font-semibold text-ink-primary", SIZE_TITLE[size4 ?? "sm"], titleClassName), children: title }), description ? (0, import_jsx_runtime12.jsx)("span", { className: cn("font-normal text-ink-secondary", SIZE_DESCRIPTION[size4 ?? "sm"], descriptionClassName), children: description }) : null] }), actions ? (0, import_jsx_runtime12.jsx)("div", { className: cn(
       "flex shrink-0 items-center gap-1.5 self-center",
       // Under `sm` the actions drop under the copy instead of squeezing it
       // into a column of single words.
@@ -12369,7 +12404,7 @@ var DevartUI = (() => {
     "size-6 p-0",
     "rounded-sm border-none bg-transparent",
     "cursor-pointer",
-    "text-ink-icon transition-colors hover:text-ink-icon-hover",
+    "text-ink-icon transition-colors enabled:hover:text-ink-icon-hover",
     "[&>svg]:size-4 [&>svg]:shrink-0",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card",
     "disabled:pointer-events-none disabled:text-ink-inactive",
@@ -12550,8 +12585,8 @@ var DevartUI = (() => {
       // an outer ring — brand colour never visualises form-control focus.
       "focus-visible:outline-none",
       "transition-[color,box-shadow]",
-      //Disabled
-      "disabled:pointer-events-none",
+      // Disabled keeps its pointer events so a Tooltip can say why it is off; what it loses is
+      // the hover state, which the shell (InputGroup / the field wrapper) guards with `enabled:`.
       "disabled:cursor-not-allowed",
       "disabled:text-ink-inactive",
       "disabled:placeholder:text-ink-inactive",
@@ -13518,7 +13553,7 @@ var DevartUI = (() => {
     }, [inputProps.onKeyDown]);
     const hasTags = tags.length > 0;
     const showClear = !disableClearable && !disabled && !readOnly && isDirty;
-    return (0, import_jsx_runtime46.jsxs)("div", { className: cn("relative w-full", className), children: [label && (0, import_jsx_runtime46.jsx)(Typography, { element: "label", variant: "span", textColor: "secondary", weight: "medium", className: "mb-1.5 block", ...getInputLabelProps(), children: label }), (0, import_jsx_runtime46.jsxs)(DropdownMenu2, { open, modal: false, onOpenChange: setOpen, children: [(0, import_jsx_runtime46.jsx)(DropdownMenuTrigger3, { asChild: true, disabled, children: (0, import_jsx_runtime46.jsx)("div", { ...getRootProps(), children: (0, import_jsx_runtime46.jsxs)(InputGroup, { size: size4, variant: "outline", className: cn("group h-auto", hasTags && "flex-wrap"), children: [startAddon && (0, import_jsx_runtime46.jsx)(InputGroupAddon, { align: "inline-start", children: startAddon }), (0, import_jsx_runtime46.jsxs)("div", { className: cn("flex flex-1 flex-wrap items-center", BADGE_LIST_PADDING_MAP[size4 ?? "lg"]), children: [(0, import_jsx_runtime46.jsx)(BadgeList, { tags, inputGroupSize: size4, variant: badgeVariant, getOptionLabel, getBadgeProps, renderBadge }), (0, import_jsx_runtime46.jsx)(InputGroupInput, { ...inputProps, placeholder, className: cn("min-w-8 flex-1 bg-transparent", hasTags && "px-0", inputClassName), onKeyDown: handleInputKeyDown })] }), (0, import_jsx_runtime46.jsxs)(InputGroupAddon, { align: "inline-end", className: "gap-0.5", children: [endAddon, showClear && (0, import_jsx_runtime46.jsx)(InputGroupAction, { ...getClearProps(), "aria-label": clearLabel, className: cn("opacity-0", "transition-opacity", "group-focus-within:opacity-100", "group-hover:opacity-100", open && "opacity-100"), children: (0, import_jsx_runtime46.jsx)(X, {}) }), (0, import_jsx_runtime46.jsx)(InputGroupAction, { ...getPopupIndicatorProps(), "aria-label": popupIndicatorLabel, children: (0, import_jsx_runtime46.jsx)(ChevronDown, { className: cn("transition-transform", "duration-base", open && "rotate-180") }) })] })] }) }) }), open && (0, import_jsx_runtime46.jsx)(DropdownMenuContent3, { ...getListboxProps(), className: cn(
+    return (0, import_jsx_runtime46.jsxs)("div", { className: cn("relative w-full", className), children: [label && (0, import_jsx_runtime46.jsx)(Typography, { element: "label", variant: "span", textColor: "secondary", weight: "medium", className: "mb-1.5 block", ...getInputLabelProps(), children: label }), (0, import_jsx_runtime46.jsxs)(DropdownMenu2, { open, modal: false, onOpenChange: setOpen, children: [(0, import_jsx_runtime46.jsx)(DropdownMenuTrigger3, { asChild: true, disabled, children: (0, import_jsx_runtime46.jsx)("div", { ...getRootProps(), children: (0, import_jsx_runtime46.jsxs)(InputGroup, { size: size4, variant: "outline", className: cn("group h-auto", hasTags && "flex-wrap"), children: [startAddon && (0, import_jsx_runtime46.jsx)(InputGroupAddon, { align: "inline-start", children: startAddon }), (0, import_jsx_runtime46.jsxs)("div", { className: cn("flex flex-1 flex-wrap items-center", BADGE_LIST_PADDING_MAP[size4 ?? "lg"]), children: [(0, import_jsx_runtime46.jsx)(BadgeList, { tags, inputGroupSize: size4, variant: badgeVariant, getOptionLabel, getBadgeProps, renderBadge }), (0, import_jsx_runtime46.jsx)(InputGroupInput, { ...inputProps, placeholder, className: cn("min-w-8 flex-1 bg-transparent", hasTags && "px-0", inputClassName), onKeyDown: handleInputKeyDown })] }), (0, import_jsx_runtime46.jsxs)(InputGroupAddon, { align: "inline-end", className: "gap-0.5", children: [endAddon, showClear && (0, import_jsx_runtime46.jsx)(InputGroupAction, { ...getClearProps(), "aria-label": clearLabel, children: (0, import_jsx_runtime46.jsx)(X, {}) }), (0, import_jsx_runtime46.jsx)(InputGroupAction, { ...getPopupIndicatorProps(), "aria-label": popupIndicatorLabel, children: (0, import_jsx_runtime46.jsx)(ChevronDown, { className: cn("transition-transform", "duration-base", open && "rotate-180") }) })] })] }) }) }), open && (0, import_jsx_runtime46.jsx)(DropdownMenuContent3, { ...getListboxProps(), className: cn(
       "w-[--radix-dropdown-menu-trigger-width] max-w-none",
       // z-[110]: is used so the dropdown menu is rendered on top of Modal (z-100)
       "z-[110] overflow-y-auto p-2",
@@ -13765,7 +13800,7 @@ var DevartUI = (() => {
       },
       size: {
         default: "",
-        sm: cn("px-5 py-4", "[&_[data-slot=banner-icon]]:size-10", "[&_[data-slot=banner-icon]_svg]:size-5", "[&_[data-slot=banner-title]]:text-sm", "[&_[data-slot=banner-title]]:leading-5", "[&_[data-slot=banner-action]]:gap-2")
+        sm: cn("px-5 py-4", "[&_[data-slot=banner-icon]]:size-10", "[&_[data-slot=banner-icon]_svg]:size-5", "[&_[data-slot=banner-title]]:text-sm", "[&_[data-slot=banner-title]]:leading-5", "[&_[data-slot=banner-action]]:gap-2", "[&_[data-slot=banner-body]]:gap-0.5")
       }
     },
     defaultVariants: {
@@ -13828,7 +13863,7 @@ var DevartUI = (() => {
       // reserves the corner the close button occupies, so it clears the CTA
       onDismiss && "pr-14 max-sm:pr-14 max-md:pr-14",
       className
-    ), ...props, children: [icon && (0, import_jsx_runtime49.jsx)("div", { className: cn(bannerIconVariants({ variant: resolvedVariant }), iconClassName), "data-slot": "banner-icon", children: icon }), (0, import_jsx_runtime49.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1.5", children: [(0, import_jsx_runtime49.jsx)(Typography, { className: cn(bannerTitleVariants({ variant: resolvedVariant }), titleClassName), "data-slot": "banner-title", variant: "h6", weight: "semibold", children: title }), description && (0, import_jsx_runtime49.jsx)(Typography, { className: cn(bannerDescriptionVariants({ variant: resolvedVariant }), descriptionClassName), "data-slot": "banner-description", variant: "p", weight: "normal", children: description })] }), action && (0, import_jsx_runtime49.jsx)("div", { className: cn(ACTION_LAYOUT, (resolvedVariant === "horizontalWide" || resolvedVariant === "diagonalAiry") && GRADIENT_PRIMARY_ACTION, actionClassName), "data-slot": "banner-action", children: action }), onDismiss && (0, import_jsx_runtime49.jsx)("button", { "aria-label": dismissLabel, className: bannerCloseVariants({ variant: resolvedVariant }), "data-slot": "banner-close", onClick: onDismiss, type: "button", children: (0, import_jsx_runtime49.jsx)(X, { "aria-hidden": "true" }) })] });
+    ), ...props, children: [icon && (0, import_jsx_runtime49.jsx)("div", { className: cn(bannerIconVariants({ variant: resolvedVariant }), iconClassName), "data-slot": "banner-icon", children: icon }), (0, import_jsx_runtime49.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1.5", "data-slot": "banner-body", children: [(0, import_jsx_runtime49.jsx)(Typography, { className: cn(bannerTitleVariants({ variant: resolvedVariant }), titleClassName), "data-slot": "banner-title", variant: "h6", weight: "semibold", children: title }), description && (0, import_jsx_runtime49.jsx)(Typography, { className: cn(bannerDescriptionVariants({ variant: resolvedVariant }), descriptionClassName), "data-slot": "banner-description", variant: "p", weight: "normal", children: description })] }), action && (0, import_jsx_runtime49.jsx)("div", { className: cn(ACTION_LAYOUT, (resolvedVariant === "horizontalWide" || resolvedVariant === "diagonalAiry") && GRADIENT_PRIMARY_ACTION, actionClassName), "data-slot": "banner-action", children: action }), onDismiss && (0, import_jsx_runtime49.jsx)("button", { "aria-label": dismissLabel, className: bannerCloseVariants({ variant: resolvedVariant }), "data-slot": "banner-close", onClick: onDismiss, type: "button", children: (0, import_jsx_runtime49.jsx)(X, { "aria-hidden": "true" }) })] });
   };
   Banner.displayName = "Banner";
 
@@ -13892,13 +13927,13 @@ var DevartUI = (() => {
         outline: cn("border-brand-secondary bg-transparent text-ink-body", "hover:border-brand-hover hover:bg-btn-outline-bg-hover", "pressed:border-brand-hover pressed:bg-btn-outline-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:border-ink-inactive disabled:hover:bg-transparent"),
         // Lowest-emphasis ghost: Outlined minus the border — same brand-tinted
         // hover/press overlays.
-        tertiary: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover", "pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
+        tertiary: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover", "pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent", "aria-disabled:bg-transparent aria-disabled:text-ink-inactive", "aria-disabled:hover:bg-transparent aria-disabled:hover:text-ink-inactive", "aria-disabled:pressed:bg-transparent"),
         // Tertiary with a brand label: the pill, the focus ring and the
         // disabled recipe are the neutral tertiary's, and only the label moves
         // through the brand ramp. The kit ships it as `.btn-tertiary.is-brand`
         // for standalone brand text actions — "Test Connection" in a side
         // panel — where a bordered button would outweigh what it sits next to.
-        tertiaryBrand: cn("border-transparent bg-transparent text-brand-primary", "hover:bg-state-hover hover:text-brand-hover", "pressed:bg-state-pressed pressed:text-brand-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent disabled:hover:text-ink-inactive", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
+        tertiaryBrand: cn("border-transparent bg-transparent text-brand-primary", "hover:bg-state-hover hover:text-brand-hover", "pressed:bg-state-pressed pressed:text-brand-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent disabled:hover:text-ink-inactive", "aria-disabled:bg-transparent aria-disabled:text-ink-inactive", "aria-disabled:hover:bg-transparent aria-disabled:hover:text-ink-inactive", "aria-disabled:pressed:bg-transparent"),
         // Destructive: theme-independent red fill; focus ring is the kit-wide
         // brand teal (red-on-red would be unreadable).
         destructive: cn("border-transparent bg-fb-red text-content-on-solid", "hover:bg-fb-error-hover", "pressed:bg-fb-error-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive", "disabled:hover:bg-state-disabled"),
@@ -13917,7 +13952,9 @@ var DevartUI = (() => {
           "focus-visible:ring-focus-ring-brand",
           "disabled:bg-transparent disabled:text-ink-inactive",
           "disabled:hover:bg-transparent disabled:hover:text-ink-inactive",
-          "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"
+          "aria-disabled:bg-transparent aria-disabled:text-ink-inactive",
+          "aria-disabled:hover:bg-transparent aria-disabled:hover:text-ink-inactive",
+          "aria-disabled:pressed:bg-transparent"
         ),
         // Bare utility (no box, fit-content) for inline/icon triggers.
         transparent: cn("m-0 max-h-fit max-w-fit border-none bg-transparent text-ink-body", "focus-visible:ring-focus-ring-brand"),
@@ -14521,30 +14558,30 @@ var DevartUI = (() => {
         primary: cn(
           // Unchecked state
           "border-stroke-field-hover bg-surface-card",
-          "hover:border-ink-secondary",
+          "enabled:hover:border-ink-secondary",
           // Checked state
           "data-[state=checked]:border-brand-primary",
           "data-[state=checked]:bg-brand-primary",
           "data-[state=checked]:text-content-on-solid",
-          "data-[state=checked]:hover:border-brand-hover",
-          "data-[state=checked]:hover:bg-brand-hover",
+          "enabled:data-[state=checked]:hover:border-brand-hover",
+          "enabled:data-[state=checked]:hover:bg-brand-hover",
           // Indeterminate state
           "data-[state=indeterminate]:border-brand-primary",
           "data-[state=indeterminate]:bg-brand-primary",
           "data-[state=indeterminate]:text-content-on-solid",
-          "data-[state=indeterminate]:hover:border-brand-hover",
-          "data-[state=indeterminate]:hover:bg-brand-hover",
+          "enabled:data-[state=indeterminate]:hover:border-brand-hover",
+          "enabled:data-[state=indeterminate]:hover:bg-brand-hover",
           // Error state — mirrors Input; error fill wins over checked
           "aria-invalid:border-input-error",
-          "aria-invalid:hover:border-input-error",
+          "enabled:aria-invalid:hover:border-input-error",
           "aria-invalid:data-[state=checked]:border-input-error",
           "aria-invalid:data-[state=checked]:bg-input-error",
-          "aria-invalid:data-[state=checked]:hover:border-input-error",
-          "aria-invalid:data-[state=checked]:hover:bg-input-error",
+          "enabled:aria-invalid:data-[state=checked]:hover:border-input-error",
+          "enabled:aria-invalid:data-[state=checked]:hover:bg-input-error",
           "aria-invalid:data-[state=indeterminate]:border-input-error",
           "aria-invalid:data-[state=indeterminate]:bg-input-error",
-          "aria-invalid:data-[state=indeterminate]:hover:border-input-error",
-          "aria-invalid:data-[state=indeterminate]:hover:bg-input-error"
+          "enabled:aria-invalid:data-[state=indeterminate]:hover:border-input-error",
+          "enabled:aria-invalid:data-[state=indeterminate]:hover:bg-input-error"
         )
       },
       size: {
@@ -14693,10 +14730,10 @@ var DevartUI = (() => {
           "disabled:hover:border-btn-secondary-border disabled:hover:bg-transparent"
         ),
         outline: cn("border-brand-secondary bg-transparent text-ink-body", "hover:border-brand-hover hover:bg-btn-outline-bg-hover", "pressed:border-brand-hover pressed:bg-btn-outline-bg-press", "focus-visible:ring-focus-ring-brand", "disabled:border-ink-inactive disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:border-ink-inactive disabled:hover:bg-transparent"),
-        tertiary: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover", "pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent disabled:hover:text-ink-inactive", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
+        tertiary: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover", "pressed:bg-state-pressed", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent disabled:hover:text-ink-inactive", "aria-disabled:bg-transparent aria-disabled:text-ink-inactive", "aria-disabled:hover:bg-transparent aria-disabled:hover:text-ink-inactive", "aria-disabled:pressed:bg-transparent"),
         // The same pill as `tertiary`, with a brand glyph. Its label — the
         // glyph — moves through the brand ramp; the surface does not.
-        tertiaryBrand: cn("border-transparent bg-transparent text-brand-primary", "hover:bg-state-hover hover:text-brand-hover", "pressed:bg-state-pressed pressed:text-brand-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent disabled:hover:text-ink-inactive", "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"),
+        tertiaryBrand: cn("border-transparent bg-transparent text-brand-primary", "hover:bg-state-hover hover:text-brand-hover", "pressed:bg-state-pressed pressed:text-brand-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-transparent disabled:text-ink-inactive", "disabled:hover:bg-transparent disabled:hover:text-ink-inactive", "aria-disabled:bg-transparent aria-disabled:text-ink-inactive", "aria-disabled:hover:bg-transparent aria-disabled:hover:text-ink-inactive", "aria-disabled:pressed:bg-transparent"),
         // Focus ring is the kit-wide brand teal on every variant, destructive
         // included — a red ring on a red control reads as noise.
         destructive: cn("border-transparent bg-fb-red text-content-on-solid", "hover:bg-fb-error-hover", "pressed:bg-fb-error-press", "focus-visible:ring-focus-ring-brand", "disabled:bg-state-disabled disabled:text-ink-inactive", "disabled:hover:bg-state-disabled"),
@@ -14712,7 +14749,9 @@ var DevartUI = (() => {
           "focus-visible:ring-focus-ring-brand",
           "disabled:bg-transparent disabled:text-ink-inactive",
           "disabled:hover:bg-transparent disabled:hover:text-ink-inactive",
-          "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-ink-inactive"
+          "aria-disabled:bg-transparent aria-disabled:text-ink-inactive",
+          "aria-disabled:hover:bg-transparent aria-disabled:hover:text-ink-inactive",
+          "aria-disabled:pressed:bg-transparent"
         ),
         transparent: cn("!p-0 m-0 max-h-fit max-w-fit border-none bg-transparent text-ink-body", "focus-visible:ring-focus-ring-brand")
       },
@@ -14917,9 +14956,32 @@ var DevartUI = (() => {
     return (0, import_jsx_runtime66.jsx)("span", { className: cn(connectorLogoVariants({ size: size4 }), className), ...label ? { role: "img", "aria-label": label } : { "aria-hidden": true }, ...props, children: mark ? (0, import_jsx_runtime66.jsx)("img", { alt: "", className: "h-full w-full object-contain", src: mark }) : (0, import_jsx_runtime66.jsx)("span", { className: monogramVariants({ size: size4 }), children: connector.charAt(0) }) });
   }
 
-  // dist/components/DataSourceCard/index.js
+  // dist/components/Counter/index.js
   init_define_import_meta_env();
   var import_jsx_runtime67 = __toESM(require_react_shim(), 1);
+  var counterVariants = cva(cn("inline-flex shrink-0 items-center justify-center", "box-border rounded-full", "font-medium leading-none tabular-nums"), {
+    variants: {
+      active: {
+        false: "bg-surface-card2 text-ink-body",
+        true: "bg-btn-primary-bg text-btn-primary-text"
+      },
+      /* Two steps, because the same count sits beside two different line heights.
+         md is right next to 14px body text in a list row; beside a 14px nav label
+         it reads as a token dropped on the row, and sm is the size the nav badge
+         next to it already uses. */
+      size: {
+        md: "size-5 text-xs",
+        sm: "size-4 text-xxs"
+      }
+    },
+    defaultVariants: { active: false, size: "md" }
+  });
+  var Counter = ({ active, size: size4, className, children, ref, ...props }) => (0, import_jsx_runtime67.jsx)("span", { ref, className: cn(counterVariants({ active, size: size4 }), className), ...props, children });
+  Counter.displayName = "Counter";
+
+  // dist/components/DataSourceCard/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime68 = __toESM(require_react_shim(), 1);
   var dataSourceCardVariants = cva(cn(
     "group/ds-card grid text-center",
     // One cell, two layers: the content and the scrim both sit in `1/1`
@@ -14956,7 +15018,7 @@ var DevartUI = (() => {
   });
   function DataSourceCard({ className, connector, name, connectLabel = "Connect", onConnect, variant, ...props }) {
     const label = name ?? connector;
-    return (0, import_jsx_runtime67.jsxs)("button", { "data-slot": "data-source-card", type: "button", className: cn(dataSourceCardVariants({ variant }), className), onClick: onConnect, ...props, children: [(0, import_jsx_runtime67.jsxs)("span", { className: "flex flex-col items-center justify-center gap-2 p-4 [grid-area:1/1]", children: [(0, import_jsx_runtime67.jsx)(ConnectorLogo, { connector, size: "md" }), (0, import_jsx_runtime67.jsx)("span", { className: "line-clamp-2 text-ink-primary text-sm", children: label })] }), (0, import_jsx_runtime67.jsx)("span", { "aria-hidden": true, className: cn(
+    return (0, import_jsx_runtime68.jsxs)("button", { "data-slot": "data-source-card", type: "button", className: cn(dataSourceCardVariants({ variant }), className), onClick: onConnect, ...props, children: [(0, import_jsx_runtime68.jsxs)("span", { className: "flex flex-col items-center justify-center gap-2 p-4 [grid-area:1/1]", children: [(0, import_jsx_runtime68.jsx)(ConnectorLogo, { connector, size: "md" }), (0, import_jsx_runtime68.jsx)("span", { className: "line-clamp-2 text-ink-primary text-sm", children: label })] }), (0, import_jsx_runtime68.jsx)("span", { "aria-hidden": true, className: cn(
       // `relative` so the scrim is the layer that wins. Both children sit
       // in one grid cell, and among positioned siblings the later one
       // paints on top; a static scrim would fall behind anything in the
@@ -14970,7 +15032,7 @@ var DevartUI = (() => {
       "pointer-events-none opacity-0",
       "transition-opacity duration-slow",
       "group-hover/ds-card:opacity-100 group-focus-visible/ds-card:opacity-100"
-    ), children: (0, import_jsx_runtime67.jsx)(Button, { asChild: true, leftSlot: (0, import_jsx_runtime67.jsx)(Plus, {}), size: "sm", tabIndex: -1, variant: "secondary", className: cn(
+    ), children: (0, import_jsx_runtime68.jsx)(Button, { asChild: true, leftSlot: (0, import_jsx_runtime68.jsx)(Plus, {}), size: "sm", tabIndex: -1, variant: "secondary", className: cn(
       "translate-y-1.5 transition-transform duration-slow",
       "group-hover/ds-card:translate-y-0 group-focus-visible/ds-card:translate-y-0",
       // `pointer-events-auto`: the action answers the pointer itself.
@@ -14980,7 +15042,7 @@ var DevartUI = (() => {
       // there no hover on the buttons". It is still not the click target:
       // a click on it bubbles to the tile, which is the button.
       "pointer-events-auto"
-    ), children: (0, import_jsx_runtime67.jsx)("span", { children: connectLabel }) }) })] });
+    ), children: (0, import_jsx_runtime68.jsx)("span", { children: connectLabel }) }) })] });
   }
 
   // dist/components/Datepicker/index.js
@@ -14988,7 +15050,7 @@ var DevartUI = (() => {
 
   // dist/components/Datepicker/Calendar.js
   init_define_import_meta_env();
-  var import_jsx_runtime72 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime73 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@date-fns+tz@1.5.0/node_modules/@date-fns/tz/index.js
   init_define_import_meta_env();
@@ -19761,20 +19823,20 @@ var DevartUI = (() => {
 
   // dist/components/Datepicker/CalendarChevron.js
   init_define_import_meta_env();
-  var import_jsx_runtime68 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime69 = __toESM(require_react_shim(), 1);
   var CalendarChevron = ({ className, orientation, ...props }) => {
     if (orientation === "left") {
-      return (0, import_jsx_runtime68.jsx)(ChevronLeft, { className: cn("size-4", className), ...props });
+      return (0, import_jsx_runtime69.jsx)(ChevronLeft, { className: cn("size-4", className), ...props });
     }
     if (orientation === "right") {
-      return (0, import_jsx_runtime68.jsx)(ChevronRight, { className: cn("size-4", className), ...props });
+      return (0, import_jsx_runtime69.jsx)(ChevronRight, { className: cn("size-4", className), ...props });
     }
-    return (0, import_jsx_runtime68.jsx)(ChevronDown, { className: cn("size-4", className), ...props });
+    return (0, import_jsx_runtime69.jsx)(ChevronDown, { className: cn("size-4", className), ...props });
   };
 
   // dist/components/Datepicker/CalendarDayButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime69 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime70 = __toESM(require_react_shim(), 1);
   var import_react55 = __toESM(require_react_shim(), 1);
   var CalendarDayButton = ({ className, day, modifiers, ...props }) => {
     const defaultClassNames = getDefaultClassNames();
@@ -19783,7 +19845,7 @@ var DevartUI = (() => {
       if (modifiers.focused)
         ref.current?.focus();
     }, [modifiers.focused]);
-    return (0, import_jsx_runtime69.jsx)(Button, { ref, variant: "transparent", size: "xs", "data-day": day.date.toLocaleDateString(), "data-selected-single": modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle, "data-range-start": modifiers.range_start, "data-range-end": modifiers.range_end, "data-range-middle": modifiers.range_middle, className: cn(
+    return (0, import_jsx_runtime70.jsx)(Button, { ref, variant: "transparent", size: "xs", "data-day": day.date.toLocaleDateString(), "data-selected-single": modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle, "data-range-start": modifiers.range_start, "data-range-end": modifiers.range_end, "data-range-middle": modifiers.range_middle, className: cn(
       // Base layout
       "relative isolate z-10",
       "flex aspect-square size-auto w-full min-w-[--cell-size] flex-col gap-1",
@@ -19821,18 +19883,18 @@ var DevartUI = (() => {
 
   // dist/components/Datepicker/CalendarRoot.js
   init_define_import_meta_env();
-  var import_jsx_runtime70 = __toESM(require_react_shim(), 1);
-  var CalendarRoot = ({ className, rootRef, ...props }) => (0, import_jsx_runtime70.jsx)("div", { "data-slot": "calendar", ref: rootRef, className: cn(className), ...props });
+  var import_jsx_runtime71 = __toESM(require_react_shim(), 1);
+  var CalendarRoot = ({ className, rootRef, ...props }) => (0, import_jsx_runtime71.jsx)("div", { "data-slot": "calendar", ref: rootRef, className: cn(className), ...props });
 
   // dist/components/Datepicker/CalendarWeekNumber.js
   init_define_import_meta_env();
-  var import_jsx_runtime71 = __toESM(require_react_shim(), 1);
-  var CalendarWeekNumber = ({ children, ...props }) => (0, import_jsx_runtime71.jsx)("td", { ...props, children: (0, import_jsx_runtime71.jsx)("div", { className: "flex size-[--cell-size] items-center justify-center text-center", children }) });
+  var import_jsx_runtime72 = __toESM(require_react_shim(), 1);
+  var CalendarWeekNumber = ({ children, ...props }) => (0, import_jsx_runtime72.jsx)("td", { ...props, children: (0, import_jsx_runtime72.jsx)("div", { className: "flex size-[--cell-size] items-center justify-center text-center", children }) });
 
   // dist/components/Datepicker/Calendar.js
   function Calendar({ className, classNames, showOutsideDays = true, captionLayout = "label", buttonVariant = "transparent", formatters: formatters2, components, weekStartsOn = 1, ...props }) {
     const defaultClassNames = getDefaultClassNames();
-    return (0, import_jsx_runtime72.jsx)(DayPicker, { showOutsideDays, weekStartsOn, className: cn("group/calendar", "px-3 pt-3", "[--cell-radius:var(--radius-md)]", "[--cell-size:theme(spacing.7)]", "[[data-slot=card-content]_&]:bg-transparent", "[[data-slot=popover-content]_&]:bg-transparent", className), captionLayout, formatters: {
+    return (0, import_jsx_runtime73.jsx)(DayPicker, { showOutsideDays, weekStartsOn, className: cn("group/calendar", "px-3 pt-3", "[--cell-radius:var(--radius-md)]", "[--cell-size:theme(spacing.7)]", "[[data-slot=card-content]_&]:bg-transparent", "[[data-slot=popover-content]_&]:bg-transparent", className), captionLayout, formatters: {
       formatMonthDropdown: (date) => date.toLocaleString("default", { month: "short" }),
       ...formatters2
     }, classNames: {
@@ -19889,7 +19951,7 @@ var DevartUI = (() => {
 
   // dist/components/Datepicker/DateRangePicker.js
   init_define_import_meta_env();
-  var import_jsx_runtime73 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime74 = __toESM(require_react_shim(), 1);
   var import_react57 = __toESM(require_react_shim(), 1);
 
   // dist/hooks/use-mobile.js
@@ -19940,7 +20002,7 @@ var DevartUI = (() => {
     (0, import_react57.useEffect)(() => {
       setInternalRange(selected);
     }, [selected]);
-    return (0, import_jsx_runtime73.jsxs)("div", { className: cn("max-md:max-w-xs", "flex flex-col gap-2", "overflow-hidden", "rounded-md border border-stroke bg-surface-card", className), children: [(0, import_jsx_runtime73.jsx)(Calendar, { mode: "range", selected: internalRange, defaultMonth, captionLayout: "label", numberOfMonths: isMobile ? 1 : 2, onSelect: handleRangeSelect, startMonth, endMonth, classNames: {
+    return (0, import_jsx_runtime74.jsxs)("div", { className: cn("max-md:max-w-xs", "flex flex-col gap-2", "overflow-hidden", "rounded-md border border-stroke bg-surface-card", className), children: [(0, import_jsx_runtime74.jsx)(Calendar, { mode: "range", selected: internalRange, defaultMonth, captionLayout: "label", numberOfMonths: isMobile ? 1 : 2, onSelect: handleRangeSelect, startMonth, endMonth, classNames: {
       root: "w-full",
       months: "relative flex flex-row gap-8 border-b border-stroke pb-3",
       month: "flex w-full flex-col gap-1",
@@ -19959,12 +20021,12 @@ var DevartUI = (() => {
       range_end: "[&_button]:rounded-l-none [&_button]:!rounded-r-full",
       range_middle: "bg-surface-card2 rounded-none",
       outside: "pointer-events-none opacity-0"
-    } }), (0, import_jsx_runtime73.jsx)("div", { className: "flex flex-col gap-3 px-3 pb-3 md:flex-row md:items-center", children: (0, import_jsx_runtime73.jsx)(Button, { variant: "primary", size: "lg", rounded: "full", onClick: handleConfirm, className: "ms-auto", children: confirmLabel }) })] });
+    } }), (0, import_jsx_runtime74.jsx)("div", { className: "flex flex-col gap-3 px-3 pb-3 md:flex-row md:items-center", children: (0, import_jsx_runtime74.jsx)(Button, { variant: "primary", size: "lg", rounded: "full", onClick: handleConfirm, className: "ms-auto", children: confirmLabel }) })] });
   }
 
   // dist/components/Datepicker/SingleDatePicker.js
   init_define_import_meta_env();
-  var import_jsx_runtime74 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime75 = __toESM(require_react_shim(), 1);
   var import_react58 = __toESM(require_react_shim(), 1);
   function SingleDatePicker({ selected, className, confirmLabel = "Set Date", startMonth = new Date(2025, 0), endMonth = new Date(2026, 11), onSelect, onConfirm }) {
     const [internalDate, setInternalDate] = (0, import_react58.useState)(selected);
@@ -19981,13 +20043,13 @@ var DevartUI = (() => {
     const formatMonthDropdown2 = (0, import_react58.useCallback)((date) => {
       return date.toLocaleString("en-US", { month: "long" });
     }, []);
-    return (0, import_jsx_runtime74.jsxs)("div", { className: cn(
+    return (0, import_jsx_runtime75.jsxs)("div", { className: cn(
       // Layout
       "flex flex-col gap-2",
       // Appearance
       "rounded-md border border-stroke bg-surface-card",
       className
-    ), children: [(0, import_jsx_runtime74.jsx)(Calendar, { mode: "single", captionLayout: "label", selected: internalDate, defaultMonth: internalDate, onSelect: handleDaySelect, startMonth, endMonth, formatters: {
+    ), children: [(0, import_jsx_runtime75.jsx)(Calendar, { mode: "single", captionLayout: "label", selected: internalDate, defaultMonth: internalDate, onSelect: handleDaySelect, startMonth, endMonth, formatters: {
       formatMonthDropdown: formatMonthDropdown2
     }, classNames: {
       // Container & Layout
@@ -20013,17 +20075,17 @@ var DevartUI = (() => {
       range_middle: "bg-surface-card2",
       // Other
       outside: "text-ink-secondary"
-    } }), (0, import_jsx_runtime74.jsx)("div", { className: "flex items-center gap-2 px-3 pb-3", children: (0, import_jsx_runtime74.jsx)(Button, { variant: "primary", size: "lg", onClick: handleConfirm, rounded: "full", className: "flex-1", children: confirmLabel }) })] });
+    } }), (0, import_jsx_runtime75.jsx)("div", { className: "flex items-center gap-2 px-3 pb-3", children: (0, import_jsx_runtime75.jsx)(Button, { variant: "primary", size: "lg", onClick: handleConfirm, rounded: "full", className: "flex-1", children: confirmLabel }) })] });
   }
 
   // dist/components/DialogTitleFallback/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime76 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime77 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-dialog@1.1._710546e0d99e287f38299d291aa17887/node_modules/@radix-ui/react-dialog/dist/index.mjs
   init_define_import_meta_env();
   var React70 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime75 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime76 = __toESM(require_react_shim(), 1);
   var __defProp32 = Object.defineProperty;
   var __name31 = (target, value) => __defProp32(target, "name", { value, configurable: true });
   var DIALOG_NAME = "Dialog";
@@ -20048,7 +20110,7 @@ var DevartUI = (() => {
     });
     const [titleCount, setTitleCount] = React70.useState(0);
     const [descriptionCount, setDescriptionCount] = React70.useState(0);
-    return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
       DialogProvider,
       {
         scope: __scopeDialog,
@@ -20075,7 +20137,7 @@ var DevartUI = (() => {
       const { __scopeDialog, ...triggerProps } = props;
       const context = useDialogContext(TRIGGER_NAME6, __scopeDialog);
       const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef);
-      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -20097,7 +20159,7 @@ var DevartUI = (() => {
   var DialogPortal = /* @__PURE__ */ __name31((props) => {
     const { __scopeDialog, forceMount, children, container } = props;
     const context = useDialogContext(PORTAL_NAME3, __scopeDialog);
-    return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(PortalProvider3, { scope: __scopeDialog, forceMount, children: React70.Children.map(children, (child) => /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Portal, { asChild: true, container, children: child }) })) });
+    return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(PortalProvider3, { scope: __scopeDialog, forceMount, children: React70.Children.map(children, (child) => /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(Portal, { asChild: true, container, children: child }) })) });
   }, "DialogPortal");
   var OVERLAY_NAME = "DialogOverlay";
   var DialogOverlay = /* @__PURE__ */ React70.forwardRef(
@@ -20105,7 +20167,7 @@ var DevartUI = (() => {
       const portalContext = usePortalContext3(OVERLAY_NAME, props.__scopeDialog);
       const { forceMount = portalContext.forceMount, ...overlayProps } = props;
       const context = useDialogContext(OVERLAY_NAME, props.__scopeDialog);
-      return context.modal ? /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(DialogOverlayImpl, { ...overlayProps, ref: forwardedRef }) }) : null;
+      return context.modal ? /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(DialogOverlayImpl, { ...overlayProps, ref: forwardedRef }) }) : null;
     }, "DialogOverlay")
   );
   var Slot3 = createSlot("DialogOverlay.RemoveScroll");
@@ -20119,7 +20181,7 @@ var DevartUI = (() => {
       return (
         // Make sure `Content` is scrollable even when it doesn't live inside `RemoveScroll`
         // ie. when `Overlay` and `Content` are siblings
-        /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Combination_default, { as: Slot3, allowPinchZoom: true, shards: [context.contentRef], children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(Combination_default, { as: Slot3, allowPinchZoom: true, shards: [context.contentRef], children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
           Primitive.div,
           {
             "data-state": getState4(context.open),
@@ -20137,7 +20199,7 @@ var DevartUI = (() => {
       const portalContext = usePortalContext3(CONTENT_NAME7, props.__scopeDialog);
       const { forceMount = portalContext.forceMount, ...contentProps } = props;
       const context = useDialogContext(CONTENT_NAME7, props.__scopeDialog);
-      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Presence, { present: forceMount || context.open, children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(DialogContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(DialogContentNonModal, { ...contentProps, ref: forwardedRef }) });
+      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(Presence, { present: forceMount || context.open, children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(DialogContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(DialogContentNonModal, { ...contentProps, ref: forwardedRef }) });
     }, "DialogContent")
   );
   var DialogContentModal = /* @__PURE__ */ React70.forwardRef(
@@ -20150,7 +20212,7 @@ var DevartUI = (() => {
         const content = contentRef.current;
         if (content) return hideOthers(content);
       }, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
         DialogContentImpl,
         {
           ...props,
@@ -20181,7 +20243,7 @@ var DevartUI = (() => {
       const context = useDialogContext(CONTENT_NAME7, props.__scopeDialog);
       const hasInteractedOutsideRef = React70.useRef(false);
       const hasPointerDownOutsideRef = React70.useRef(false);
-      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
         DialogContentImpl,
         {
           ...props,
@@ -20222,7 +20284,7 @@ var DevartUI = (() => {
       const { __scopeDialog, trapFocus, onOpenAutoFocus, onCloseAutoFocus, ...contentProps } = props;
       const context = useDialogContext(CONTENT_NAME7, __scopeDialog);
       useFocusGuards();
-      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(import_jsx_runtime75.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(import_jsx_runtime76.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
         FocusScope,
         {
           asChild: true,
@@ -20230,7 +20292,7 @@ var DevartUI = (() => {
           trapped: trapFocus,
           onMountAutoFocus: onOpenAutoFocus,
           onUnmountAutoFocus: onCloseAutoFocus,
-          children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
             DismissableLayer,
             {
               role: "dialog",
@@ -20258,7 +20320,7 @@ var DevartUI = (() => {
         setTitleCount((count3) => count3 + 1);
         return () => setTitleCount((count3) => count3 - 1);
       }, [setTitleCount]);
-      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Primitive.h2, { id: context.titleId, ...titleProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(Primitive.h2, { id: context.titleId, ...titleProps, ref: forwardedRef });
     }, "DialogTitle")
   );
   var DESCRIPTION_NAME = "DialogDescription";
@@ -20272,7 +20334,7 @@ var DevartUI = (() => {
         setDescriptionCount((count3) => count3 + 1);
         return () => setDescriptionCount((count3) => count3 - 1);
       }, [setDescriptionCount]);
-      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Primitive.p, { id: context.descriptionId, ...descriptionProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(Primitive.p, { id: context.descriptionId, ...descriptionProps, ref: forwardedRef });
     }, "DialogDescription")
   );
   var CLOSE_NAME = "DialogClose";
@@ -20280,7 +20342,7 @@ var DevartUI = (() => {
     /* @__PURE__ */ __name31(function DialogClose2(props, forwardedRef) {
       const { __scopeDialog, ...closeProps } = props;
       const context = useDialogContext(CLOSE_NAME, __scopeDialog);
-      return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -20313,22 +20375,22 @@ var DevartUI = (() => {
     if (!isRendered)
       return null;
     const hasLabel = children !== void 0 && children !== null && children !== "";
-    return (0, import_jsx_runtime76.jsx)(DialogTitle, { ref: titleRef, hidden: !hasLabel, className: hasLabel ? "sr-only" : void 0, children });
+    return (0, import_jsx_runtime77.jsx)(DialogTitle, { ref: titleRef, hidden: !hasLabel, className: hasLabel ? "sr-only" : void 0, children });
   }
   DialogTitleFallback.displayName = "DialogTitleFallback";
 
   // dist/components/File/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime84 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime85 = __toESM(require_react_shim(), 1);
 
   // dist/components/ProgressBar/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime78 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime79 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-progress@1._2c88236196428d02da85f0b8a6e7e1dd/node_modules/@radix-ui/react-progress/dist/index.mjs
   init_define_import_meta_env();
   var React71 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime77 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime78 = __toESM(require_react_shim(), 1);
   var __defProp33 = Object.defineProperty;
   var __name32 = (target, value) => __defProp33(target, "name", { value, configurable: true });
   var PROGRESS_NAME = "Progress";
@@ -20354,7 +20416,7 @@ var DevartUI = (() => {
       }
       const value = isValidValueNumber(valueProp, max3) ? valueProp : null;
       const valueLabel = isNumber2(value) ? getValueLabel(value, max3) : void 0;
-      return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(ProgressProvider, { scope: __scopeProgress, value, max: max3, children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(ProgressProvider, { scope: __scopeProgress, value, max: max3, children: /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
         Primitive.div,
         {
           "aria-valuemax": max3,
@@ -20377,7 +20439,7 @@ var DevartUI = (() => {
     /* @__PURE__ */ __name32(function ProgressIndicator2(props, forwardedRef) {
       const { __scopeProgress, ...indicatorProps } = props;
       const context = useProgressContext(INDICATOR_NAME2, __scopeProgress);
-      return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
         Primitive.div,
         {
           "data-state": getProgressState(context.value, context.max),
@@ -20472,26 +20534,26 @@ Defaulting to \`null\`.`;
   var ProgressBar = ({ className, value, variant, size: size4, rounded, ref, max: max3 = 100, ...props }) => {
     const clampedValue = Math.min(Math.max(value ?? 0, 0), max3);
     const percentage = Math.round(clampedValue / max3 * 100);
-    return (0, import_jsx_runtime78.jsx)(Root8, { ref, className: cn(progressVariants({ variant, size: size4, rounded }), className), value: clampedValue, max: max3, ...props, children: (0, import_jsx_runtime78.jsx)(Indicator, { className: progressIndicatorVariants({ variant, rounded }), style: { width: `${percentage}%` } }) });
+    return (0, import_jsx_runtime79.jsx)(Root8, { ref, className: cn(progressVariants({ variant, size: size4, rounded }), className), value: clampedValue, max: max3, ...props, children: (0, import_jsx_runtime79.jsx)(Indicator, { className: progressIndicatorVariants({ variant, rounded }), style: { width: `${percentage}%` } }) });
   };
   ProgressBar.displayName = "ProgressBar";
 
   // dist/components/File/FileRightSlot.js
   init_define_import_meta_env();
-  var import_jsx_runtime81 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime82 = __toESM(require_react_shim(), 1);
 
   // dist/components/File/FileDismiss.js
   init_define_import_meta_env();
-  var import_jsx_runtime79 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime80 = __toESM(require_react_shim(), 1);
   var FileDismiss = ({ onDismiss, label = "Remove file" }) => {
-    return (0, import_jsx_runtime79.jsx)(IconButton, { "aria-label": label, variant: "transparent", size: "sm", onClick: onDismiss, children: (0, import_jsx_runtime79.jsx)(X, { className: "size-4 text-ink-secondary" }) });
+    return (0, import_jsx_runtime80.jsx)(IconButton, { "aria-label": label, variant: "transparent", size: "sm", onClick: onDismiss, children: (0, import_jsx_runtime80.jsx)(X, { className: "size-4 text-ink-secondary" }) });
   };
 
   // dist/components/File/FileRetry.js
   init_define_import_meta_env();
-  var import_jsx_runtime80 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime81 = __toESM(require_react_shim(), 1);
   var FileRetry = ({ onRetry, label = "Retry upload" }) => {
-    return (0, import_jsx_runtime80.jsx)(IconButton, { "aria-label": label, variant: "transparent", size: "sm", onClick: onRetry, children: (0, import_jsx_runtime80.jsx)(RefreshCcw, { className: "size-4 text-ink-secondary" }) });
+    return (0, import_jsx_runtime81.jsx)(IconButton, { "aria-label": label, variant: "transparent", size: "sm", onClick: onRetry, children: (0, import_jsx_runtime81.jsx)(RefreshCcw, { className: "size-4 text-ink-secondary" }) });
   };
 
   // dist/components/File/FileRightSlot.js
@@ -20500,24 +20562,24 @@ Defaulting to \`null\`.`;
       return slot;
     }
     if (isLoading) {
-      return (0, import_jsx_runtime81.jsx)(Spinner, { size: "sm", color: "accent" });
+      return (0, import_jsx_runtime82.jsx)(Spinner, { size: "sm", color: "accent" });
     }
     if (isError && onRetry && onDismiss) {
-      return (0, import_jsx_runtime81.jsxs)("div", { className: "flex items-center gap-1", children: [(0, import_jsx_runtime81.jsx)(FileRetry, { onRetry }), (0, import_jsx_runtime81.jsx)(FileDismiss, { onDismiss })] });
+      return (0, import_jsx_runtime82.jsxs)("div", { className: "flex items-center gap-1", children: [(0, import_jsx_runtime82.jsx)(FileRetry, { onRetry }), (0, import_jsx_runtime82.jsx)(FileDismiss, { onDismiss })] });
     }
     if (onDismiss) {
-      return (0, import_jsx_runtime81.jsx)(FileDismiss, { onDismiss });
+      return (0, import_jsx_runtime82.jsx)(FileDismiss, { onDismiss });
     }
     return null;
   };
 
   // dist/components/File/FileSkeleton.js
   init_define_import_meta_env();
-  var import_jsx_runtime83 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime84 = __toESM(require_react_shim(), 1);
 
   // dist/components/Skeleton/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime82 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime83 = __toESM(require_react_shim(), 1);
   var skeletonVariants = cva(cn("skeleton", "pointer-events-none", "relative", "overflow-hidden", "bg-surface-chips"), {
     variants: {
       animation: {
@@ -20547,12 +20609,12 @@ Defaulting to \`null\`.`;
     if (isLoaded) {
       return children;
     }
-    return (0, import_jsx_runtime82.jsxs)("div", { className: containerClasses, "data-loaded": isLoaded, ...props, children: [(0, import_jsx_runtime82.jsx)("div", { "aria-hidden": "true", className: "absolute inset-0" }), children && (0, import_jsx_runtime82.jsx)("div", { className: "pointer-events-none invisible max-h-fit max-w-fit", children })] });
+    return (0, import_jsx_runtime83.jsxs)("div", { className: containerClasses, "data-loaded": isLoaded, ...props, children: [(0, import_jsx_runtime83.jsx)("div", { "aria-hidden": "true", className: "absolute inset-0" }), children && (0, import_jsx_runtime83.jsx)("div", { className: "pointer-events-none invisible max-h-fit max-w-fit", children })] });
   }
 
   // dist/components/File/FileSkeleton.js
   function FileSkeleton({ className, showLeading, showMetadataLine, showTrailing, ...props }) {
-    return (0, import_jsx_runtime83.jsxs)("div", { className: cn("flex min-w-0 items-center justify-between gap-2", "rounded-sm", "border border-stroke", "px-2 py-1", className), ...props, children: [(0, import_jsx_runtime83.jsxs)("div", { className: "flex min-w-0 flex-1 items-center gap-2", children: [showLeading ? (0, import_jsx_runtime83.jsx)(Skeleton, { className: "size-6 shrink-0", rounded: "md" }) : null, (0, import_jsx_runtime83.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1 overflow-hidden", children: [(0, import_jsx_runtime83.jsx)(Skeleton, { className: "h-4 w-full", rounded: "sm" }), showMetadataLine ? (0, import_jsx_runtime83.jsx)(Skeleton, { className: "h-3 w-full", rounded: "sm" }) : null] })] }), showTrailing ? (0, import_jsx_runtime83.jsx)(Skeleton, { className: "size-4 shrink-0", rounded: "full" }) : null] });
+    return (0, import_jsx_runtime84.jsxs)("div", { className: cn("flex min-w-0 items-center justify-between gap-2", "rounded-sm", "border border-stroke", "px-2 py-1", className), ...props, children: [(0, import_jsx_runtime84.jsxs)("div", { className: "flex min-w-0 flex-1 items-center gap-2", children: [showLeading ? (0, import_jsx_runtime84.jsx)(Skeleton, { className: "size-6 shrink-0", rounded: "md" }) : null, (0, import_jsx_runtime84.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1 overflow-hidden", children: [(0, import_jsx_runtime84.jsx)(Skeleton, { className: "h-4 w-full", rounded: "sm" }), showMetadataLine ? (0, import_jsx_runtime84.jsx)(Skeleton, { className: "h-3 w-full", rounded: "sm" }) : null] })] }), showTrailing ? (0, import_jsx_runtime84.jsx)(Skeleton, { className: "size-4 shrink-0", rounded: "full" }) : null] });
   }
   FileSkeleton.displayName = "FileSkeleton";
 
@@ -20589,14 +20651,14 @@ Defaulting to \`null\`.`;
     }
   });
   function File2({ className, name, fileSize, progress, variant, size: size4, rounded, isLoading, isError = false, icon: iconProp, rightSlot: rightSlotProp, onClick, onDismiss, onRetry }) {
-    const Icon2 = iconProp ?? (0, import_jsx_runtime84.jsx)(File, { className: "size-6 text-brand-tertiary" });
+    const Icon2 = iconProp ?? (0, import_jsx_runtime85.jsx)(File, { className: "size-6 text-brand-tertiary" });
     const handleKeyDown = (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
         onClick?.();
       }
     };
-    return (0, import_jsx_runtime84.jsxs)("div", { tabIndex: onClick ? 0 : -1, role: onClick ? "button" : "div", className: cn(
+    return (0, import_jsx_runtime85.jsxs)("div", { tabIndex: onClick ? 0 : -1, role: onClick ? "button" : "div", className: cn(
       fileVariants({ variant, size: size4, rounded }),
       isLoading && "pointer-events-none",
       isError && "border-fb-red/20 bg-fb-red/5 ring-fb-red/20 [&_svg]:text-fb-red-text/75",
@@ -20606,19 +20668,19 @@ Defaulting to \`null\`.`;
       onClick && !isError && "transition-colors duration-fast hover:bg-state-hover active:bg-state-pressed",
       onClick && "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2",
       className
-    ), onClick, onKeyDown: handleKeyDown, children: [(0, import_jsx_runtime84.jsxs)("div", { className: "flex min-w-0 flex-1 items-center gap-2", children: [Icon2, (0, import_jsx_runtime84.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col overflow-hidden", children: [(0, import_jsx_runtime84.jsx)(Typography, { variant: "span", textColor: "body", weight: "medium", className: "min-w-0 truncate", children: name }), progress !== void 0 ? (0, import_jsx_runtime84.jsxs)("span", { className: "flex h-4 min-w-0 items-center gap-2", children: [(0, import_jsx_runtime84.jsx)(ProgressBar, { value: progress, size: "md", className: "min-w-0 flex-1", "aria-label": name }), (0, import_jsx_runtime84.jsxs)(Typography, { variant: "span", textColor: "secondary", className: "shrink-0 text-xs tabular-nums leading-4", children: [progress, "%"] })] }) : fileSize && (0, import_jsx_runtime84.jsx)(Typography, { variant: "span", textColor: "secondary", className: "min-w-0 truncate text-xs leading-4", children: fileSize })] })] }), (0, import_jsx_runtime84.jsx)(FileRightSlot, { slot: rightSlotProp, isLoading, isError, onRetry, onDismiss })] });
+    ), onClick, onKeyDown: handleKeyDown, children: [(0, import_jsx_runtime85.jsxs)("div", { className: "flex min-w-0 flex-1 items-center gap-2", children: [Icon2, (0, import_jsx_runtime85.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col overflow-hidden", children: [(0, import_jsx_runtime85.jsx)(Typography, { variant: "span", textColor: "body", weight: "medium", className: "min-w-0 truncate", children: name }), progress !== void 0 ? (0, import_jsx_runtime85.jsxs)("span", { className: "flex h-4 min-w-0 items-center gap-2", children: [(0, import_jsx_runtime85.jsx)(ProgressBar, { value: progress, size: "md", className: "min-w-0 flex-1", "aria-label": name }), (0, import_jsx_runtime85.jsxs)(Typography, { variant: "span", textColor: "secondary", className: "shrink-0 text-xs tabular-nums leading-4", children: [progress, "%"] })] }) : fileSize && (0, import_jsx_runtime85.jsx)(Typography, { variant: "span", textColor: "secondary", className: "min-w-0 truncate text-xs leading-4", children: fileSize })] })] }), (0, import_jsx_runtime85.jsx)(FileRightSlot, { slot: rightSlotProp, isLoading, isError, onRetry, onDismiss })] });
   }
 
   // dist/components/FilterChips/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime87 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime88 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-radio-group_72b19f6da39c9ec25f24f18f5dd4b1b1/node_modules/@radix-ui/react-radio-group/dist/index.mjs
   init_define_import_meta_env();
   var React210 = __toESM(require_react_shim(), 1);
   var React72 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime85 = __toESM(require_react_shim(), 1);
   var import_jsx_runtime86 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime87 = __toESM(require_react_shim(), 1);
   var __defProp34 = Object.defineProperty;
   var __name33 = (target, value) => __defProp34(target, "name", { value, configurable: true });
   var RADIO_NAME = "Radio";
@@ -20666,7 +20728,7 @@ Defaulting to \`null\`.`;
       setBubbleInput,
       onCheck: /* @__PURE__ */ __name33(() => onCheck?.(), "onCheck")
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(RadioProviderImpl, { scope: __scopeRadio, ...context, children: isFunction3(internal_do_not_use_render) ? internal_do_not_use_render(context) : children });
+    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(RadioProviderImpl, { scope: __scopeRadio, ...context, children: isFunction3(internal_do_not_use_render) ? internal_do_not_use_render(context) : children });
   }
   __name33(RadioProvider, "RadioProvider");
   var TRIGGER_NAME7 = "RadioTrigger";
@@ -20684,7 +20746,7 @@ Defaulting to \`null\`.`;
         bubbleInput
       } = useRadioContext(TRIGGER_NAME7, __scopeRadio);
       const composedRefs = useComposedRefs(forwardedRef, setControl);
-      return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -20715,7 +20777,7 @@ Defaulting to \`null\`.`;
     /* @__PURE__ */ __name33(function RadioIndicator2(props, forwardedRef) {
       const { __scopeRadio, forceMount, ...indicatorProps } = props;
       const context = useRadioContext(INDICATOR_NAME3, __scopeRadio);
-      return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(Presence, { present: forceMount || context.checked, children: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(Presence, { present: forceMount || context.checked, children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
         Primitive.span,
         {
           "data-state": getState5(context.checked),
@@ -20770,7 +20832,7 @@ Defaulting to \`null\`.`;
         }
       }, [bubbleInput, checked, hasConsumerStoppedPropagationRef, userInteractionCount]);
       const defaultCheckedRef = React72.useRef(checked);
-      return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
         Primitive.input,
         {
           type: "radio",
@@ -20857,7 +20919,7 @@ Defaulting to \`null\`.`;
           return () => associatedForm.removeEventListener("reset", reset);
         }
       }, [control, form, setValue]);
-      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
         RadioGroupProvider2,
         {
           scope: __scopeRadioGroup,
@@ -20867,7 +20929,7 @@ Defaulting to \`null\`.`;
           disabled,
           value,
           onValueChange: setValue,
-          children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
             Root4,
             {
               asChild: true,
@@ -20875,7 +20937,7 @@ Defaulting to \`null\`.`;
               orientation,
               dir: direction,
               loop,
-              children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+              children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
                 Primitive.div,
                 {
                   role: "radiogroup",
@@ -20907,7 +20969,7 @@ Defaulting to \`null\`.`;
     const context = useRadioGroupContext2(ITEM_PROVIDER_NAME, __scopeRadioGroup);
     const radioScope = useRadioScope(__scopeRadioGroup);
     const isDisabled = context.disabled || disabled;
-    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
       RadioProvider,
       {
         ...radioScope,
@@ -20946,14 +21008,14 @@ Defaulting to \`null\`.`;
         document.removeEventListener("keyup", handleKeyUp);
       };
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
       Item2,
       {
         asChild: true,
         ...rovingFocusGroupScope,
         focusable: !disabled,
         active: checked,
-        children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
           RadioTrigger,
           {
             ...radioScope,
@@ -20975,14 +21037,14 @@ Defaulting to \`null\`.`;
   var RadioGroupItem = /* @__PURE__ */ React210.forwardRef(
     /* @__PURE__ */ __name33(function RadioGroupItem2(props, forwardedRef) {
       const { __scopeRadioGroup, value, disabled, ...itemProps } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
         RadioGroupItemProvider,
         {
           __scopeRadioGroup,
           value,
           disabled,
-          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(import_jsx_runtime86.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(import_jsx_runtime87.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
               RadioGroupItemTrigger,
               {
                 ...itemProps,
@@ -20990,7 +21052,7 @@ Defaulting to \`null\`.`;
                 __scopeRadioGroup
               }
             ),
-            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
               RadioGroupItemBubbleInput,
               {
                 __scopeRadioGroup
@@ -21004,14 +21066,14 @@ Defaulting to \`null\`.`;
   var RadioGroupItemBubbleInput = /* @__PURE__ */ React210.forwardRef(/* @__PURE__ */ __name33(function RadioGroupItemBubbleInput2(props, forwardedRef) {
     const { __scopeRadioGroup, ...bubbleProps } = props;
     const radioScope = useRadioScope(__scopeRadioGroup);
-    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(RadioBubbleInput, { ...radioScope, ...bubbleProps, ref: forwardedRef });
+    return /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(RadioBubbleInput, { ...radioScope, ...bubbleProps, ref: forwardedRef });
   }, "RadioGroupItemBubbleInput"));
   var RadioGroupIndicator = /* @__PURE__ */ React210.forwardRef(
     // blank line to reduce diff noise
     /* @__PURE__ */ __name33(function RadioGroupIndicator2(props, forwardedRef) {
       const { __scopeRadioGroup, ...indicatorProps } = props;
       const radioScope = useRadioScope(__scopeRadioGroup);
-      return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(RadioIndicator, { ...radioScope, ...indicatorProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(RadioIndicator, { ...radioScope, ...indicatorProps, ref: forwardedRef });
     }, "RadioGroupIndicator")
   );
 
@@ -21024,13 +21086,13 @@ Defaulting to \`null\`.`;
     "disabled:pointer-events-none disabled:opacity-disabled",
     // Rest
     "border-stroke bg-transparent text-ink-body",
-    "hover:border-stroke-field-hover hover:bg-state-hover",
+    "enabled:hover:border-stroke-field-hover enabled:hover:bg-state-hover",
     // Selected — brand outline and ink over a light brand wash. The fill is an
     // alpha tint so the chip keeps working on any surface it is placed on.
     "data-[state=checked]:border-brand-primary",
     "data-[state=checked]:bg-brand-primary/8",
     "data-[state=checked]:text-brand-secondary",
-    "data-[state=checked]:hover:bg-brand-primary/12"
+    "enabled:data-[state=checked]:hover:bg-brand-primary/12"
   ), {
     variants: {
       size: {
@@ -21043,7 +21105,7 @@ Defaulting to \`null\`.`;
     defaultVariants: { size: "md" }
   });
   function FilterChips({ className, size: size4, ...props }) {
-    return (0, import_jsx_runtime87.jsx)(RadioGroup3, {
+    return (0, import_jsx_runtime88.jsx)(RadioGroup3, {
       "data-slot": "filter-chips",
       // Horizontal: arrow keys should move along the row, not up and down.
       orientation: "horizontal",
@@ -21053,12 +21115,12 @@ Defaulting to \`null\`.`;
     });
   }
   function FilterChip({ className, size: size4, count: count3, children, ...props }) {
-    return (0, import_jsx_runtime87.jsxs)(RadioGroupItem, { "data-slot": "filter-chip", className: cn(filterChipVariants({ size: size4 }), className), ...props, children: [children, count3 !== void 0 && (0, import_jsx_runtime87.jsx)("span", { className: cn("text-ink-secondary tabular-nums", "group-data-[state=checked]:text-brand-secondary"), "data-slot": "filter-chip-count", children: count3 })] });
+    return (0, import_jsx_runtime88.jsxs)(RadioGroupItem, { "data-slot": "filter-chip", className: cn(filterChipVariants({ size: size4 }), className), ...props, children: [children, count3 !== void 0 && (0, import_jsx_runtime88.jsx)("span", { className: cn("text-ink-secondary tabular-nums", "group-data-[state=checked]:text-brand-secondary"), "data-slot": "filter-chip-count", children: count3 })] });
   }
 
   // dist/components/Foundations/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime88 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime89 = __toESM(require_react_shim(), 1);
   var import_react60 = __toESM(require_react_shim(), 1);
 
   // dist/lib/constants.js
@@ -21318,10 +21380,10 @@ Defaulting to \`null\`.`;
 
   // dist/components/Foundations/index.js
   function Grid({ children, wide }) {
-    return (0, import_jsx_runtime88.jsx)("div", { className: cn("grid gap-x-3 gap-y-2", wide ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" : "grid-cols-3 sm:grid-cols-4 lg:grid-cols-6"), children });
+    return (0, import_jsx_runtime89.jsx)("div", { className: cn("grid gap-x-3 gap-y-2", wide ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" : "grid-cols-3 sm:grid-cols-4 lg:grid-cols-6"), children });
   }
   function Group3({ title, children }) {
-    return (0, import_jsx_runtime88.jsxs)("section", { className: "flex flex-col gap-1.5", children: [(0, import_jsx_runtime88.jsx)(Typography, { element: "h3", textColor: "secondary", textStyle: "overline", children: title }), children] });
+    return (0, import_jsx_runtime89.jsxs)("section", { className: "flex flex-col gap-1.5", children: [(0, import_jsx_runtime89.jsx)(Typography, { element: "h3", textColor: "secondary", textStyle: "overline", children: title }), children] });
   }
   function useTokenGraph() {
     const [graph, setGraph] = (0, import_react60.useState)({ light: {}, dark: {}, hex: {} });
@@ -21345,11 +21407,11 @@ Defaulting to \`null\`.`;
     return graph;
   }
   function PrimitiveSwatch({ name, hex }) {
-    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex min-w-0 items-center gap-2", children: [(0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: "size-6 shrink-0 rounded border border-stroke", style: { background: `hsl(var(${name}))` } }), (0, import_jsx_runtime88.jsxs)("span", { className: "flex min-w-0 flex-col", children: [(0, import_jsx_runtime88.jsx)(Typography, { className: "truncate", element: "span", textStyle: "body12", children: name.replace(/^--/, "") }), (0, import_jsx_runtime88.jsx)(Typography, { className: "truncate tabular-nums", element: "span", textColor: "secondary", textStyle: "body12", children: hex })] })] });
+    return (0, import_jsx_runtime89.jsxs)("div", { className: "flex min-w-0 items-center gap-2", children: [(0, import_jsx_runtime89.jsx)("span", { "aria-hidden": true, className: "size-6 shrink-0 rounded border border-stroke", style: { background: `hsl(var(${name}))` } }), (0, import_jsx_runtime89.jsxs)("span", { className: "flex min-w-0 flex-col", children: [(0, import_jsx_runtime89.jsx)(Typography, { className: "truncate", element: "span", textStyle: "body12", children: name.replace(/^--/, "") }), (0, import_jsx_runtime89.jsx)(Typography, { className: "truncate tabular-nums", element: "span", textColor: "secondary", textStyle: "body12", children: hex })] })] });
   }
   function Primitives() {
     const { light, hex } = useTokenGraph();
-    return (0, import_jsx_runtime88.jsx)("div", { className: "flex flex-col gap-4", children: ramps(light).map(([ramp, names]) => (0, import_jsx_runtime88.jsx)(Group3, { title: ramp, children: (0, import_jsx_runtime88.jsx)(Grid, { children: names.map((name) => (0, import_jsx_runtime88.jsx)(PrimitiveSwatch, { hex: hex[name] ?? "", name }, name)) }) }, ramp)) });
+    return (0, import_jsx_runtime89.jsx)("div", { className: "flex flex-col gap-4", children: ramps(light).map(([ramp, names]) => (0, import_jsx_runtime89.jsx)(Group3, { title: ramp, children: (0, import_jsx_runtime89.jsx)(Grid, { children: names.map((name) => (0, import_jsx_runtime89.jsx)(PrimitiveSwatch, { hex: hex[name] ?? "", name }, name)) }) }, ramp)) });
   }
   function lineage(cssName, light, dark) {
     const describe = (value) => {
@@ -21373,7 +21435,7 @@ Defaulting to \`null\`.`;
     const cssName = /--[\w-]+/.exec(value)?.[0] ?? "";
     const from = lineage(cssName, light, dark);
     const source = from.light ? `${from.light}${from.dark ? ` \xB7 dark ${from.dark}` : ""}` : `dark only: ${from.dark}`;
-    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex min-w-0 items-center gap-2", children: [(0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: "size-6 shrink-0 rounded border border-stroke", style: { background: css } }), (0, import_jsx_runtime88.jsxs)("span", { className: "flex min-w-0 flex-col", children: [(0, import_jsx_runtime88.jsx)(Typography, { className: "truncate", element: "span", textStyle: "body12", children: name }), (0, import_jsx_runtime88.jsx)(Typography, { className: "truncate", element: "span", textColor: "secondary", textStyle: "body12", title: `${cssName}: ${source}`, children: source })] })] });
+    return (0, import_jsx_runtime89.jsxs)("div", { className: "flex min-w-0 items-center gap-2", children: [(0, import_jsx_runtime89.jsx)("span", { "aria-hidden": true, className: "size-6 shrink-0 rounded border border-stroke", style: { background: css } }), (0, import_jsx_runtime89.jsxs)("span", { className: "flex min-w-0 flex-col", children: [(0, import_jsx_runtime89.jsx)(Typography, { className: "truncate", element: "span", textStyle: "body12", children: name }), (0, import_jsx_runtime89.jsx)(Typography, { className: "truncate", element: "span", textColor: "secondary", textStyle: "body12", title: `${cssName}: ${source}`, children: source })] })] });
   }
   function colorGroups() {
     const loose = [];
@@ -21392,7 +21454,7 @@ Defaulting to \`null\`.`;
   }
   function Colors() {
     const { light, dark } = useTokenGraph();
-    return (0, import_jsx_runtime88.jsx)("div", { className: "flex flex-col gap-4", children: colorGroups().map(([group, entries]) => (0, import_jsx_runtime88.jsx)(Group3, { title: group, children: (0, import_jsx_runtime88.jsx)(Grid, { wide: true, children: entries.map(([name, value]) => (0, import_jsx_runtime88.jsx)(Swatch, { dark, light, name, value }, name)) }) }, group)) });
+    return (0, import_jsx_runtime89.jsx)("div", { className: "flex flex-col gap-4", children: colorGroups().map(([group, entries]) => (0, import_jsx_runtime89.jsx)(Group3, { title: group, children: (0, import_jsx_runtime89.jsx)(Grid, { wide: true, children: entries.map(([name, value]) => (0, import_jsx_runtime89.jsx)(Swatch, { dark, light, name, value }, name)) }) }, group)) });
   }
   var RADII = [
     ["rounded-sm", "--radius-sm", "2px"],
@@ -21403,9 +21465,9 @@ Defaulting to \`null\`.`;
     ["rounded-full", "9999px", "pill"]
   ];
   function Radius() {
-    return (0, import_jsx_runtime88.jsx)(Grid, { children: RADII.map(([cls, token, px]) => (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-2", children: [(0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: "h-14 w-full border border-stroke bg-surface-chips", style: {
+    return (0, import_jsx_runtime89.jsx)(Grid, { children: RADII.map(([cls, token, px]) => (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-2", children: [(0, import_jsx_runtime89.jsx)("span", { "aria-hidden": true, className: "h-14 w-full border border-stroke bg-surface-chips", style: {
       borderRadius: token.startsWith("--") ? `var(${token})` : token
-    } }), (0, import_jsx_runtime88.jsx)(Typography, { element: "span", textStyle: "body12", children: cls }), (0, import_jsx_runtime88.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: px })] }, cls)) });
+    } }), (0, import_jsx_runtime89.jsx)(Typography, { element: "span", textStyle: "body12", children: cls }), (0, import_jsx_runtime89.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: px })] }, cls)) });
   }
   var SHADOWS = [
     ["shadow-rest", "--shadow-rest", "a flat card at rest"],
@@ -21418,7 +21480,7 @@ Defaulting to \`null\`.`;
     ["shadow-thumb-hover", "--shadow-thumb-hover", "thumb under the pointer"]
   ];
   function Shadows() {
-    return (0, import_jsx_runtime88.jsx)(Grid, { children: SHADOWS.map(([cls, token, role]) => (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-2", children: [(0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: "h-14 w-full rounded-lg bg-surface-card", style: { boxShadow: `var(${token})` } }), (0, import_jsx_runtime88.jsx)(Typography, { element: "span", textStyle: "body12", children: cls }), (0, import_jsx_runtime88.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: role })] }, cls)) });
+    return (0, import_jsx_runtime89.jsx)(Grid, { children: SHADOWS.map(([cls, token, role]) => (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-2", children: [(0, import_jsx_runtime89.jsx)("span", { "aria-hidden": true, className: "h-14 w-full rounded-lg bg-surface-card", style: { boxShadow: `var(${token})` } }), (0, import_jsx_runtime89.jsx)(Typography, { element: "span", textStyle: "body12", children: cls }), (0, import_jsx_runtime89.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: role })] }, cls)) });
   }
   var SPACING = [
     ["1", 4, ""],
@@ -21442,27 +21504,49 @@ Defaulting to \`null\`.`;
     ["3.5", 14, ""]
   ];
   function Step({ step, px, use: use2, max: max3 }) {
-    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex items-center gap-3", children: [(0, import_jsx_runtime88.jsx)(Typography, { className: "w-10 shrink-0 text-end tabular-nums", element: "span", textStyle: "body12", children: step }), (0, import_jsx_runtime88.jsxs)(Typography, { className: "w-10 shrink-0 tabular-nums", element: "span", textColor: "secondary", textStyle: "body12", children: [px, "px"] }), (0, import_jsx_runtime88.jsx)("span", { className: "hidden shrink-0 sm:block", style: { width: `${max3}px` }, "aria-hidden": true, children: (0, import_jsx_runtime88.jsx)("span", { className: "block h-3 rounded-sm bg-brand-primary", style: { width: `${px}px` } }) }), (0, import_jsx_runtime88.jsx)(Typography, { className: "min-w-0 truncate", element: "span", textColor: use2 ? "secondary" : "light", textStyle: "body12", children: use2 || "\u2014" })] });
+    return (0, import_jsx_runtime89.jsxs)("div", { className: "flex items-center gap-3", children: [(0, import_jsx_runtime89.jsx)(Typography, { className: "w-10 shrink-0 text-end tabular-nums", element: "span", textStyle: "body12", children: step }), (0, import_jsx_runtime89.jsxs)(Typography, { className: "w-10 shrink-0 tabular-nums", element: "span", textColor: "secondary", textStyle: "body12", children: [px, "px"] }), (0, import_jsx_runtime89.jsx)("span", { className: "hidden shrink-0 sm:block", style: { width: `${max3}px` }, "aria-hidden": true, children: (0, import_jsx_runtime89.jsx)("span", { className: "block h-3 rounded-sm bg-brand-primary", style: { width: `${px}px` } }) }), (0, import_jsx_runtime89.jsx)(Typography, { className: "min-w-0 truncate", element: "span", textColor: use2 ? "secondary" : "light", textStyle: "body12", children: use2 || "\u2014" })] });
   }
   function Rhythm({ label, cls, children }) {
-    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-1.5", children: [(0, import_jsx_runtime88.jsxs)(Typography, { element: "span", textStyle: "body12", children: [(0, import_jsx_runtime88.jsx)("code", { className: "rounded bg-surface-chips px-1 py-0.5 font-mono text-xxs", children: cls }), " ", label] }), (0, import_jsx_runtime88.jsx)("div", { className: "rounded-md border border-stroke bg-surface-card", children })] });
+    return (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-1.5", children: [(0, import_jsx_runtime89.jsxs)(Typography, { element: "span", textStyle: "body12", children: [(0, import_jsx_runtime89.jsx)("code", { className: "rounded bg-surface-chips px-1 py-0.5 font-mono text-xxs", children: cls }), " ", label] }), (0, import_jsx_runtime89.jsx)("div", { className: "rounded-md border border-stroke bg-surface-card", children })] });
   }
   function Fill({ h = "h-6" }) {
     return (
       // A tint rather than `--surface-chips`: the block sits on a card and has
       // to read as content at a glance, or the gap it is there to show reads as
       // the whole box being empty.
-      (0, import_jsx_runtime88.jsx)("span", { "aria-hidden": true, className: `block rounded-sm bg-brand-primary/15 ${h}` })
+      (0, import_jsx_runtime89.jsx)("span", { "aria-hidden": true, className: `block rounded-sm bg-brand-primary/15 ${h}` })
     );
+  }
+  var DURATIONS = [
+    ["duration-fast", "--motion-fast", "120ms", "micro-feedback: colour, opacity, an icon swapping"],
+    ["duration-base", "--motion-base", "180ms", "surface changes: background, border, shadow, transform"],
+    ["duration-slow", "--motion-slow", "240ms", "larger moves: a panel opening, a row leaving a list"]
+  ];
+  var WINDOWS = [["--undo-window", "4000ms", "how long an undo stays reachable \u2014 a toast and an inline Undo give the same time"]];
+  var MOVES = [
+    ["animate-row-in", "a row arriving", "The height opens first and the text fades in only once there is room for it."],
+    ["animate-row-out", "a row leaving", "It FADES first (0\u201340%) and only then collapses. Fading and shrinking together is the version that looks abrupt: the row is still legible while the list is already moving under it."],
+    ["animate-row-swap-in", "a slot whose contents change", "For a removal that leaves an undo behind. The box stays put, the height travels BETWEEN the two contents and never through zero \u2014 out-then-in reads as two events."],
+    ["animate-panel-out", "a panel with nothing left to say", "Fades and settles 4px down."]
+  ];
+  function MoveRow({ cls, what, why }) {
+    const [playing, setPlaying] = (0, import_react60.useState)(false);
+    return (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-2 rounded-lg border border-stroke p-3", children: [(0, import_jsx_runtime89.jsxs)("div", { className: "flex items-center justify-between gap-3", children: [(0, import_jsx_runtime89.jsxs)(Typography, { element: "span", textStyle: "body14", children: [(0, import_jsx_runtime89.jsx)("code", { children: cls }), " \u2014 ", what] }), (0, import_jsx_runtime89.jsx)("button", { className: "rounded-md border border-stroke px-2 py-1 text-ink-body text-xs hover:bg-state-hover", onClick: () => {
+      setPlaying(false);
+      requestAnimationFrame(() => setPlaying(true));
+    }, type: "button", children: "Play" })] }), (0, import_jsx_runtime89.jsx)("div", { className: "overflow-hidden rounded-md bg-surface-chips p-2", children: (0, import_jsx_runtime89.jsxs)("div", { className: cn("flex items-center gap-2 rounded-md bg-surface-card px-2 py-1.5", playing && cls), onAnimationEnd: () => setPlaying(false), style: { ["--row-height"]: "34px", ["--row-from"]: "34px" }, children: [(0, import_jsx_runtime89.jsx)("span", { className: "inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-surface-card2 text-ink-body text-xs", children: "1" }), (0, import_jsx_runtime89.jsx)(Typography, { element: "span", textStyle: "body14", children: "now split that by channel" })] }) }), (0, import_jsx_runtime89.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: why })] });
+  }
+  function Motion() {
+    return (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-6", children: [(0, import_jsx_runtime89.jsx)(Grid, { wide: true, children: DURATIONS.map(([cls, token, ms, use2]) => (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-2", children: [(0, import_jsx_runtime89.jsx)("span", { "aria-hidden": true, className: "h-14 w-full rounded-md border border-stroke bg-surface-chips", style: { transition: `background-color var(${token}) ease-in-out` } }), (0, import_jsx_runtime89.jsx)(Typography, { element: "span", textStyle: "body12", children: cls }), (0, import_jsx_runtime89.jsxs)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: [ms, " \xB7 ", use2] })] }, cls)) }), (0, import_jsx_runtime89.jsx)("div", { className: "flex flex-col gap-2", children: WINDOWS.map(([token, ms, use2]) => (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-1 rounded-lg border border-stroke p-3", children: [(0, import_jsx_runtime89.jsxs)(Typography, { element: "span", textStyle: "body12", children: [(0, import_jsx_runtime89.jsx)("code", { children: token }), " \u2014 ", ms] }), (0, import_jsx_runtime89.jsx)(Typography, { element: "span", textColor: "secondary", textStyle: "body12", children: use2 })] }, token)) }), (0, import_jsx_runtime89.jsx)("div", { className: "flex flex-col gap-3", children: MOVES.map(([cls, what, why]) => (0, import_jsx_runtime89.jsx)(MoveRow, { cls, what, why }, cls)) })] });
   }
   function Spacing() {
     const max3 = SPACING.at(-1)?.[1] ?? 96;
-    return (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-5", children: [(0, import_jsx_runtime88.jsx)(Group3, { title: "The scale \u2014 the number in p-*, m-*, gap-*, size-*", children: (0, import_jsx_runtime88.jsx)("div", { className: "flex flex-col gap-1.5", children: SPACING.map(([step, px, use2]) => (0, import_jsx_runtime88.jsx)(Step, { max: max3, px, step, use: use2 }, step)) }) }), (0, import_jsx_runtime88.jsx)(Group3, { title: "Half-steps \u2014 control internals only \xB7 one call site each", children: (0, import_jsx_runtime88.jsx)("div", { className: "flex flex-col gap-1.5", children: HALF_STEPS.map(([step, px, use2]) => (0, import_jsx_runtime88.jsx)(Step, { max: max3, px, step, use: use2 }, step)) }) }), (0, import_jsx_runtime88.jsx)(Group3, { title: "Page rhythm \u2014 the four states Spacing.md names", children: (0, import_jsx_runtime88.jsxs)("div", { className: "grid gap-3 sm:grid-cols-2", children: [(0, import_jsx_runtime88.jsx)(Rhythm, { cls: "gap-2", label: "a tight cluster", children: (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-2 p-3", children: [(0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" }), (0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" })] }) }), (0, import_jsx_runtime88.jsx)(Rhythm, { cls: "gap-4", label: "related elements", children: (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-4 p-3", children: [(0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" }), (0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" })] }) }), (0, import_jsx_runtime88.jsx)(Rhythm, { cls: "gap-6", label: "between sections", children: (0, import_jsx_runtime88.jsxs)("div", { className: "flex flex-col gap-6 p-3", children: [(0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" }), (0, import_jsx_runtime88.jsx)(Fill, { h: "h-4" })] }) }), (0, import_jsx_runtime88.jsx)(Rhythm, { cls: "p-6", label: "the page\u2019s own padding", children: (0, import_jsx_runtime88.jsx)("div", { className: "p-6", children: (0, import_jsx_runtime88.jsx)(Fill, {}) }) })] }) })] });
+    return (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-5", children: [(0, import_jsx_runtime89.jsx)(Group3, { title: "The scale \u2014 the number in p-*, m-*, gap-*, size-*", children: (0, import_jsx_runtime89.jsx)("div", { className: "flex flex-col gap-1.5", children: SPACING.map(([step, px, use2]) => (0, import_jsx_runtime89.jsx)(Step, { max: max3, px, step, use: use2 }, step)) }) }), (0, import_jsx_runtime89.jsx)(Group3, { title: "Half-steps \u2014 control internals only \xB7 one call site each", children: (0, import_jsx_runtime89.jsx)("div", { className: "flex flex-col gap-1.5", children: HALF_STEPS.map(([step, px, use2]) => (0, import_jsx_runtime89.jsx)(Step, { max: max3, px, step, use: use2 }, step)) }) }), (0, import_jsx_runtime89.jsx)(Group3, { title: "Page rhythm \u2014 the four states Spacing.md names", children: (0, import_jsx_runtime89.jsxs)("div", { className: "grid gap-3 sm:grid-cols-2", children: [(0, import_jsx_runtime89.jsx)(Rhythm, { cls: "gap-2", label: "a tight cluster", children: (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-2 p-3", children: [(0, import_jsx_runtime89.jsx)(Fill, { h: "h-4" }), (0, import_jsx_runtime89.jsx)(Fill, { h: "h-4" })] }) }), (0, import_jsx_runtime89.jsx)(Rhythm, { cls: "gap-4", label: "related elements", children: (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-4 p-3", children: [(0, import_jsx_runtime89.jsx)(Fill, { h: "h-4" }), (0, import_jsx_runtime89.jsx)(Fill, { h: "h-4" })] }) }), (0, import_jsx_runtime89.jsx)(Rhythm, { cls: "gap-6", label: "between sections", children: (0, import_jsx_runtime89.jsxs)("div", { className: "flex flex-col gap-6 p-3", children: [(0, import_jsx_runtime89.jsx)(Fill, { h: "h-4" }), (0, import_jsx_runtime89.jsx)(Fill, { h: "h-4" })] }) }), (0, import_jsx_runtime89.jsx)(Rhythm, { cls: "p-6", label: "the page\u2019s own padding", children: (0, import_jsx_runtime89.jsx)("div", { className: "p-6", children: (0, import_jsx_runtime89.jsx)(Fill, {}) }) })] }) })] });
   }
 
   // dist/components/LinkButton/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime89 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime90 = __toESM(require_react_shim(), 1);
   var linkButtonVariants = cva(cn(
     "inline-flex items-center gap-1.5",
     "cursor-pointer",
@@ -21484,7 +21568,8 @@ Defaulting to \`null\`.`;
     "[text-decoration-thickness:1px] [text-underline-offset:25%]",
     "[&_svg]:size-4 [&_svg]:shrink-0",
     "focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card",
-    "aria-disabled:pointer-events-none aria-disabled:text-ink-inactive"
+    "aria-disabled:text-ink-inactive",
+    "aria-disabled:hover:text-ink-inactive aria-disabled:hover:no-underline"
   ), {
     variants: {
       /**
@@ -21515,13 +21600,13 @@ Defaulting to \`null\`.`;
   });
   function LinkButton({ asChild, tone, variant, leftSlot, rightSlot, className, children, ...props }) {
     const Comp = asChild ? Slot : "a";
-    return (0, import_jsx_runtime89.jsxs)(Comp, { className: cn(linkButtonVariants({ tone, variant }), className), ...props, children: [leftSlot, asChild ? (0, import_jsx_runtime89.jsx)(Slottable, { children }) : children, rightSlot] });
+    return (0, import_jsx_runtime90.jsxs)(Comp, { className: cn(linkButtonVariants({ tone, variant }), className), ...props, children: [leftSlot, asChild ? (0, import_jsx_runtime90.jsx)(Slottable, { children }) : children, rightSlot] });
   }
   LinkButton.displayName = "LinkButton";
 
   // dist/components/MetaRow/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime90 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime91 = __toESM(require_react_shim(), 1);
   var metaRowVariants = cva(cn(
     "flex flex-wrap items-center",
     // 12px between members, 8px when the row wraps.
@@ -21553,7 +21638,7 @@ Defaulting to \`null\`.`;
     defaultVariants: { variant: "cluster" }
   });
   function MetaRow({ variant, onClear, clearLabel = "Clear selection", className, children, ...props }) {
-    return (0, import_jsx_runtime90.jsxs)("div", { "data-slot": "meta-row", className: cn(metaRowVariants({ variant }), className), ...props, children: [children, onClear ? (0, import_jsx_runtime90.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime90.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime90.jsx)(IconButton, {
+    return (0, import_jsx_runtime91.jsxs)("div", { "data-slot": "meta-row", className: cn(metaRowVariants({ variant }), className), ...props, children: [children, onClear ? (0, import_jsx_runtime91.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime91.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime91.jsx)(IconButton, {
       "aria-label": clearLabel,
       /* `sm`, the same rung the row's action buttons sit on. They end
          up side by side at the row's right edge, and two controls on
@@ -21585,14 +21670,14 @@ Defaulting to \`null\`.`;
                        into it the way the cluster's own 4px would. */
       className: "ms-auto [[data-slot=meta-row-end]+&]:-ms-1",
       onClick: onClear,
-      children: (0, import_jsx_runtime90.jsx)(X, {})
-    }) }), (0, import_jsx_runtime90.jsx)(TooltipContent3, { children: clearLabel })] }) : null] });
+      children: (0, import_jsx_runtime91.jsx)(X, {})
+    }) }), (0, import_jsx_runtime91.jsx)(TooltipContent3, { children: clearLabel })] }) : null] });
   }
   function MetaRowCount({ className, children, ...props }) {
-    return (0, import_jsx_runtime90.jsx)(Typography, { element: "span", textStyle: "body14", textColor: "secondary", className: cn("shrink-0 whitespace-nowrap", className), ...props, children });
+    return (0, import_jsx_runtime91.jsx)(Typography, { element: "span", textStyle: "body14", textColor: "secondary", className: cn("shrink-0 whitespace-nowrap", className), ...props, children });
   }
   function MetaRowEnd({ className, ...props }) {
-    return (0, import_jsx_runtime90.jsx)("span", { "data-slot": "meta-row-end", className: cn("ms-auto inline-flex shrink-0 items-center gap-1", className), ...props });
+    return (0, import_jsx_runtime91.jsx)("span", { "data-slot": "meta-row-end", className: cn("ms-auto inline-flex shrink-0 items-center gap-1", className), ...props });
   }
   MetaRow.displayName = "MetaRow";
   MetaRowCount.displayName = "MetaRow.Count";
@@ -21609,11 +21694,11 @@ Defaulting to \`null\`.`;
 
   // dist/components/Modal/ModalBody.js
   init_define_import_meta_env();
-  var import_jsx_runtime92 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime93 = __toESM(require_react_shim(), 1);
 
   // dist/components/ScrollShadow/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime91 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime92 = __toESM(require_react_shim(), 1);
   var import_react62 = __toESM(require_react_shim(), 1);
 
   // dist/hooks/use-scroll-shadow/index.js
@@ -21745,7 +21830,7 @@ Defaulting to \`null\`.`;
       onVisibilityChange
     });
     const scrollPaddingStyle = orientation === "vertical" ? { scrollPaddingBlock: `${size4}px` } : { scrollPaddingInline: `${size4}px` };
-    return (0, import_jsx_runtime91.jsx)("div", { ref: (node) => {
+    return (0, import_jsx_runtime92.jsx)("div", { ref: (node) => {
       internalRef.current = node;
       if (typeof ref === "function") {
         ref(node);
@@ -21758,7 +21843,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/Modal/ModalBody.js
   function ModalBody({ className, shadowSize = 40, children, ...props }) {
-    return (0, import_jsx_runtime92.jsx)(ScrollShadow, { size: shadowSize, className: cn("-mr-4 flex min-h-0 flex-1 flex-col gap-3 pr-2", className), ...props, children });
+    return (0, import_jsx_runtime93.jsx)(ScrollShadow, { size: shadowSize, className: cn("-mr-4 flex min-h-0 flex-1 flex-col gap-3 pr-2", className), ...props, children });
   }
 
   // dist/components/Modal/ModalClose.js
@@ -21767,13 +21852,13 @@ Defaulting to \`null\`.`;
 
   // dist/components/Modal/ModalContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime94 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime95 = __toESM(require_react_shim(), 1);
 
   // dist/components/Modal/ModalOverlay.js
   init_define_import_meta_env();
-  var import_jsx_runtime93 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime94 = __toESM(require_react_shim(), 1);
   function ModalOverlay({ className, ref, ...props }) {
-    return (0, import_jsx_runtime93.jsx)(DialogOverlay, { ref, "data-modal-overlay": "", className: cn(
+    return (0, import_jsx_runtime94.jsx)(DialogOverlay, { ref, "data-modal-overlay": "", className: cn(
       "fixed inset-0 z-[100]",
       "bg-overlay-scrim",
       // Closed state
@@ -21806,7 +21891,7 @@ Defaulting to \`null\`.`;
   });
   function ModalContent({ ref, className, children, size: size4, isCloseButtonVisible = true, closeButtonProps, ...props }) {
     const { className: closeButtonClassName, "aria-label": closeLabel = DEFAULT_CLOSE_LABEL, ...restCloseButtonProps } = closeButtonProps ?? {};
-    return (0, import_jsx_runtime94.jsxs)(ModalPortal, { children: [(0, import_jsx_runtime94.jsx)(ModalOverlay, {}), (0, import_jsx_runtime94.jsxs)(DialogContent, { ref, "aria-describedby": void 0, className: cn(
+    return (0, import_jsx_runtime95.jsxs)(ModalPortal, { children: [(0, import_jsx_runtime95.jsx)(ModalOverlay, {}), (0, import_jsx_runtime95.jsxs)(DialogContent, { ref, "aria-describedby": void 0, className: cn(
       // `max-h-modal` — 80% of the window, from `--modal-max-h`. It was an
       // arbitrary `max-h-[90dvh]`: a number in a class rather than a token,
       // and 90% left so little page around a tall dialog that the dialog
@@ -21836,13 +21921,13 @@ Defaulting to \`null\`.`;
       "data-[state=open]:slide-in-from-top-[48%]",
       "data-[state=open]:animate-in",
       className
-    ), ...props, children: [children, (0, import_jsx_runtime94.jsx)(DialogTitleFallback, { children: props["aria-label"] }), isCloseButtonVisible && (0, import_jsx_runtime94.jsx)(TooltipProvider2, { children: (0, import_jsx_runtime94.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime94.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime94.jsx)(ModalClose, { asChild: true, children: (0, import_jsx_runtime94.jsx)(IconButton, { variant: "tertiary", size: "sm", rounded: "md", className: cn("absolute top-4 right-4", closeButtonClassName), ...restCloseButtonProps, "aria-label": closeLabel, children: (0, import_jsx_runtime94.jsx)(X, {}) }) }) }), (0, import_jsx_runtime94.jsx)(TooltipContent3, { side: "bottom", align: "end", className: "z-[110]", children: closeLabel })] }) })] })] });
+    ), ...props, children: [children, (0, import_jsx_runtime95.jsx)(DialogTitleFallback, { children: props["aria-label"] }), isCloseButtonVisible && (0, import_jsx_runtime95.jsx)(TooltipProvider2, { children: (0, import_jsx_runtime95.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime95.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime95.jsx)(ModalClose, { asChild: true, children: (0, import_jsx_runtime95.jsx)(IconButton, { variant: "tertiary", size: "sm", rounded: "md", className: cn("absolute top-4 right-4", closeButtonClassName), ...restCloseButtonProps, "aria-label": closeLabel, children: (0, import_jsx_runtime95.jsx)(X, {}) }) }) }), (0, import_jsx_runtime95.jsx)(TooltipContent3, { side: "bottom", align: "end", className: "z-[110]", children: closeLabel })] }) })] })] });
   }
   ModalContent.displayName = "ModalContent";
 
   // dist/components/Modal/ModalFooter.js
   init_define_import_meta_env();
-  var import_jsx_runtime95 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime96 = __toESM(require_react_shim(), 1);
   var modalFooterVariants = cva(cn("mt-4 flex flex-shrink-0 items-center gap-2", "-mx-4 border-stroke border-t px-4 pt-4"), {
     variants: {
       align: {
@@ -21863,13 +21948,13 @@ Defaulting to \`null\`.`;
     }
   });
   function ModalFooter({ className, align, ...props }) {
-    return (0, import_jsx_runtime95.jsx)("div", { className: cn(modalFooterVariants({ align }), className), ...props });
+    return (0, import_jsx_runtime96.jsx)("div", { className: cn(modalFooterVariants({ align }), className), ...props });
   }
   ModalFooter.displayName = "ModalFooter";
 
   // dist/components/Modal/ModalHeader.js
   init_define_import_meta_env();
-  var import_jsx_runtime96 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime97 = __toESM(require_react_shim(), 1);
   var modalHeaderVariants = cva("mb-3 flex flex-shrink-0 flex-col gap-1.5", {
     variants: {
       align: {
@@ -21883,15 +21968,15 @@ Defaulting to \`null\`.`;
     }
   });
   function ModalHeader({ className, align, ...props }) {
-    return (0, import_jsx_runtime96.jsx)("div", { className: cn(modalHeaderVariants({ align }), className), ...props });
+    return (0, import_jsx_runtime97.jsx)("div", { className: cn(modalHeaderVariants({ align }), className), ...props });
   }
   ModalHeader.displayName = "ModalHeader";
 
   // dist/components/Modal/ModalTitle.js
   init_define_import_meta_env();
-  var import_jsx_runtime97 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime98 = __toESM(require_react_shim(), 1);
   function ModalTitle({ className, ref, align, ...props }) {
-    return (0, import_jsx_runtime97.jsx)(DialogTitle, { asChild: true, children: (0, import_jsx_runtime97.jsx)(Typography, { ref, variant: "span", textStyle: "heading20", textColor: "primary", align, className, ...props }) });
+    return (0, import_jsx_runtime98.jsx)(DialogTitle, { asChild: true, children: (0, import_jsx_runtime98.jsx)(Typography, { ref, variant: "span", textStyle: "heading20", textColor: "primary", align, className, ...props }) });
   }
   ModalTitle.displayName = "ModalTitle";
 
@@ -21901,9 +21986,9 @@ Defaulting to \`null\`.`;
 
   // dist/components/PageHeader/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime98 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime99 = __toESM(require_react_shim(), 1);
   function PageHeader({ title, onBack, backLabel = "Back", actions, leading, badge, condensed, className, ...props }) {
-    return (0, import_jsx_runtime98.jsxs)("header", { "data-slot": "page-header", "data-condensed": condensed ? "" : void 0, className: cn(
+    return (0, import_jsx_runtime99.jsxs)("header", { "data-slot": "page-header", "data-condensed": condensed ? "" : void 0, className: cn(
       "flex shrink-0 items-center gap-3 px-6 py-5",
       // The padding is what shrinks, and it is animated: the row is on screen
       // while it changes, so a jump reads as the page flinching. The type is
@@ -21912,7 +21997,7 @@ Defaulting to \`null\`.`;
       "transition-[padding] duration-fast",
       condensed && "py-2.5",
       className
-    ), ...props, children: [leading, (0, import_jsx_runtime98.jsxs)("div", { className: "flex min-w-0 items-center gap-1", children: [onBack ? (0, import_jsx_runtime98.jsx)(IconButton, {
+    ), ...props, children: [leading, (0, import_jsx_runtime99.jsxs)("div", { className: "flex min-w-0 items-center gap-1", children: [onBack ? (0, import_jsx_runtime99.jsx)(IconButton, {
       "aria-label": backLabel,
       className: "me-0.5 shrink-0",
       onClick: onBack,
@@ -21923,57 +22008,57 @@ Defaulting to \`null\`.`;
          a control that outgrew it. */
       size: condensed ? "sm" : "md",
       variant: "tertiary",
-      children: (0, import_jsx_runtime98.jsx)(ArrowLeft, { className: condensed ? void 0 : "!size-6" })
-    }) : null, (0, import_jsx_runtime98.jsx)(Typography, { element: "h1", textStyle: condensed ? "title16" : "title24", textColor: "primary", className: "truncate", children: title }), badge ? (0, import_jsx_runtime98.jsx)("span", { className: "ms-2 flex shrink-0 items-center", children: badge }) : null] }), actions ? (0, import_jsx_runtime98.jsx)("div", { className: "ms-auto flex items-center gap-3", children: actions }) : null] });
+      children: (0, import_jsx_runtime99.jsx)(ArrowLeft, { className: condensed ? void 0 : "!size-6" })
+    }) : null, (0, import_jsx_runtime99.jsx)(Typography, { element: "h1", textStyle: condensed ? "title16" : "title24", textColor: "primary", className: "truncate", children: title }), badge ? (0, import_jsx_runtime99.jsx)("span", { className: "ms-2 flex shrink-0 items-center", children: badge }) : null] }), actions ? (0, import_jsx_runtime99.jsx)("div", { className: "ms-auto flex items-center gap-3", children: actions }) : null] });
   }
 
   // dist/components/Pagination/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime106 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime107 = __toESM(require_react_shim(), 1);
   var import_react63 = __toESM(require_react_shim(), 1);
 
   // dist/components/Pagination/EllipsisIndicator.js
   init_define_import_meta_env();
-  var import_jsx_runtime99 = __toESM(require_react_shim(), 1);
-  var EllipsisIndicator = () => (0, import_jsx_runtime99.jsx)("span", { "aria-hidden": true, className: "flex size-8 cursor-default items-center justify-center text-ink-inactive [&_svg]:size-4", children: (0, import_jsx_runtime99.jsx)(Ellipsis, {}) });
+  var import_jsx_runtime100 = __toESM(require_react_shim(), 1);
+  var EllipsisIndicator = () => (0, import_jsx_runtime100.jsx)("span", { "aria-hidden": true, className: "flex size-8 cursor-default items-center justify-center text-ink-inactive [&_svg]:size-4", children: (0, import_jsx_runtime100.jsx)(Ellipsis, {}) });
   EllipsisIndicator.displayName = "EllipsisIndicator";
 
   // dist/components/Pagination/FirstButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime101 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime102 = __toESM(require_react_shim(), 1);
 
   // dist/components/Pagination/NavButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime100 = __toESM(require_react_shim(), 1);
-  var NavButton = ({ isDisabled, label, children, onClick }) => (0, import_jsx_runtime100.jsx)(IconButton, { type: "button", variant: "secondary", size: "sm", rounded: "md", onClick, disabled: isDisabled, "aria-label": label, children });
+  var import_jsx_runtime101 = __toESM(require_react_shim(), 1);
+  var NavButton = ({ isDisabled, label, children, onClick }) => (0, import_jsx_runtime101.jsx)(IconButton, { type: "button", variant: "secondary", size: "sm", rounded: "md", onClick, disabled: isDisabled, "aria-label": label, children });
   NavButton.displayName = "NavButton";
 
   // dist/components/Pagination/FirstButton.js
-  var FirstButton = ({ onClick, isDisabled, label = "First page" }) => (0, import_jsx_runtime101.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime101.jsx)(ChevronsLeft, {}) });
+  var FirstButton = ({ onClick, isDisabled, label = "First page" }) => (0, import_jsx_runtime102.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime102.jsx)(ChevronsLeft, {}) });
   FirstButton.displayName = "FirstButton";
 
   // dist/components/Pagination/LastButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime102 = __toESM(require_react_shim(), 1);
-  var LastButton = ({ onClick, isDisabled, label = "Last page" }) => (0, import_jsx_runtime102.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime102.jsx)(ChevronsRight, {}) });
+  var import_jsx_runtime103 = __toESM(require_react_shim(), 1);
+  var LastButton = ({ onClick, isDisabled, label = "Last page" }) => (0, import_jsx_runtime103.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime103.jsx)(ChevronsRight, {}) });
   LastButton.displayName = "LastButton";
 
   // dist/components/Pagination/NextButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime103 = __toESM(require_react_shim(), 1);
-  var NextButton = ({ onClick, isDisabled, label = "Next page" }) => (0, import_jsx_runtime103.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime103.jsx)(ChevronRight, {}) });
+  var import_jsx_runtime104 = __toESM(require_react_shim(), 1);
+  var NextButton = ({ onClick, isDisabled, label = "Next page" }) => (0, import_jsx_runtime104.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime104.jsx)(ChevronRight, {}) });
   NextButton.displayName = "NextButton";
 
   // dist/components/Pagination/PageButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime104 = __toESM(require_react_shim(), 1);
-  var PageButton = ({ page, isActive, onClick }) => (0, import_jsx_runtime104.jsx)(Button, { type: "button", variant: isActive ? "primary" : "secondary", size: "sm", rounded: "md", onClick, "aria-current": isActive ? "page" : void 0, className: "size-8 px-0", children: page });
+  var import_jsx_runtime105 = __toESM(require_react_shim(), 1);
+  var PageButton = ({ page, isActive, onClick }) => (0, import_jsx_runtime105.jsx)(Button, { type: "button", variant: isActive ? "primary" : "secondary", size: "sm", rounded: "md", onClick, "aria-current": isActive ? "page" : void 0, className: "size-8 px-0", children: page });
   PageButton.displayName = "PageButton";
 
   // dist/components/Pagination/PrevButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime105 = __toESM(require_react_shim(), 1);
-  var PrevButton = ({ isDisabled, onClick, label = "Previous page" }) => (0, import_jsx_runtime105.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime105.jsx)(ChevronLeft, {}) });
+  var import_jsx_runtime106 = __toESM(require_react_shim(), 1);
+  var PrevButton = ({ isDisabled, onClick, label = "Previous page" }) => (0, import_jsx_runtime106.jsx)(NavButton, { onClick, isDisabled, label, children: (0, import_jsx_runtime106.jsx)(ChevronLeft, {}) });
   PrevButton.displayName = "PrevButton";
 
   // dist/components/Pagination/utils.js
@@ -22039,13 +22124,13 @@ Defaulting to \`null\`.`;
     }), [currentPage, totalPages, siblingCount, boundaryCount]);
     const isFirstPage = currentPage === 1;
     const isLastPage = currentPage === totalPages;
-    return (0, import_jsx_runtime106.jsxs)("div", { className: "flex items-center gap-2", children: [showFirstLast && (0, import_jsx_runtime106.jsx)(FirstButton, { onClick: () => onPageChange(1), isDisabled: isFirstPage, label: labels?.first }), showPrevNext && (0, import_jsx_runtime106.jsx)(PrevButton, { onClick: () => onPageChange(currentPage - 1), isDisabled: isFirstPage, label: labels?.previous }), showPageNumbers && paginationRange.map((item) => isEllipsisItem(item) ? (0, import_jsx_runtime106.jsx)(EllipsisIndicator, {}, item) : (0, import_jsx_runtime106.jsx)(PageButton, { page: item, isActive: currentPage === item, onClick: () => onPageChange(item) }, item)), showPrevNext && (0, import_jsx_runtime106.jsx)(NextButton, { onClick: () => onPageChange(currentPage + 1), isDisabled: isLastPage, label: labels?.next }), showFirstLast && (0, import_jsx_runtime106.jsx)(LastButton, { onClick: () => onPageChange(totalPages), isDisabled: isLastPage, label: labels?.last })] });
+    return (0, import_jsx_runtime107.jsxs)("div", { className: "flex items-center gap-2", children: [showFirstLast && (0, import_jsx_runtime107.jsx)(FirstButton, { onClick: () => onPageChange(1), isDisabled: isFirstPage, label: labels?.first }), showPrevNext && (0, import_jsx_runtime107.jsx)(PrevButton, { onClick: () => onPageChange(currentPage - 1), isDisabled: isFirstPage, label: labels?.previous }), showPageNumbers && paginationRange.map((item) => isEllipsisItem(item) ? (0, import_jsx_runtime107.jsx)(EllipsisIndicator, {}, item) : (0, import_jsx_runtime107.jsx)(PageButton, { page: item, isActive: currentPage === item, onClick: () => onPageChange(item) }, item)), showPrevNext && (0, import_jsx_runtime107.jsx)(NextButton, { onClick: () => onPageChange(currentPage + 1), isDisabled: isLastPage, label: labels?.next }), showFirstLast && (0, import_jsx_runtime107.jsx)(LastButton, { onClick: () => onPageChange(totalPages), isDisabled: isLastPage, label: labels?.last })] });
   };
   Pagination.displayName = "Pagination";
 
   // dist/components/PasswordInput/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime107 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime108 = __toESM(require_react_shim(), 1);
   var import_react64 = __toESM(require_react_shim(), 1);
   var TOGGLE_SIZE_BY_FIELD_SIZE = {
     xs: "xs",
@@ -22059,17 +22144,17 @@ Defaulting to \`null\`.`;
     const { startAddonClassName, endAddonClassName, inputClassName } = classNames || {};
     const [visible, setVisible] = (0, import_react64.useState)(false);
     const onToggleVisible = (0, import_react64.useCallback)(() => setVisible((visible2) => !visible2), []);
-    return (0, import_jsx_runtime107.jsxs)(InputGroup, { className: cn("min-w-0", className), size: size4, variant, isInvalid, errorText, label, inputId, children: [(0, import_jsx_runtime107.jsx)(InputGroupAddon, { align: "inline-start", className: startAddonClassName, children: (0, import_jsx_runtime107.jsx)(Lock, { "aria-hidden": true, className: "shrink-0" }) }), (0, import_jsx_runtime107.jsx)(InputGroupInput, { ref, ...inputProps, type: visible ? "text" : "password", className: inputClassName }), (0, import_jsx_runtime107.jsx)(InputGroupAddon, { align: "inline-end", className: endAddonClassName, children: (0, import_jsx_runtime107.jsx)(IconButton, { "aria-label": visible ? toggleHideLabel : toggleShowLabel, rounded: "sm", size: TOGGLE_SIZE_BY_FIELD_SIZE[size4 ?? "md"], type: "button", variant: "transparent", ...toggleButtonProps, onClick: onToggleVisible, children: visible ? (0, import_jsx_runtime107.jsx)(EyeOff, { "aria-hidden": true }) : (0, import_jsx_runtime107.jsx)(Eye, { "aria-hidden": true }) }) })] });
+    return (0, import_jsx_runtime108.jsxs)(InputGroup, { className: cn("min-w-0", className), size: size4, variant, isInvalid, errorText, label, inputId, children: [(0, import_jsx_runtime108.jsx)(InputGroupAddon, { align: "inline-start", className: startAddonClassName, children: (0, import_jsx_runtime108.jsx)(Lock, { "aria-hidden": true, className: "shrink-0" }) }), (0, import_jsx_runtime108.jsx)(InputGroupInput, { ref, ...inputProps, type: visible ? "text" : "password", className: inputClassName }), (0, import_jsx_runtime108.jsx)(InputGroupAddon, { align: "inline-end", className: endAddonClassName, children: (0, import_jsx_runtime108.jsx)(IconButton, { "aria-label": visible ? toggleHideLabel : toggleShowLabel, rounded: "sm", size: TOGGLE_SIZE_BY_FIELD_SIZE[size4 ?? "md"], type: "button", variant: "transparent", ...toggleButtonProps, onClick: onToggleVisible, children: visible ? (0, import_jsx_runtime108.jsx)(EyeOff, { "aria-hidden": true }) : (0, import_jsx_runtime108.jsx)(Eye, { "aria-hidden": true }) }) })] });
   }
 
   // dist/components/Popover/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime110 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime111 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-popover@1.1_ae9e7568a82c25f7d92fb22287e8659e/node_modules/@radix-ui/react-popover/dist/index.mjs
   init_define_import_meta_env();
   var React73 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime108 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime109 = __toESM(require_react_shim(), 1);
   var __defProp35 = Object.defineProperty;
   var __name34 = (target, value) => __defProp35(target, "name", { value, configurable: true });
   var POPOVER_NAME = "Popover";
@@ -22096,7 +22181,7 @@ Defaulting to \`null\`.`;
       onChange: onOpenChange,
       caller: POPOVER_NAME
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Root22, { ...popperScope, children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
       PopoverProvider,
       {
         scope: __scopePopover,
@@ -22124,7 +22209,7 @@ Defaulting to \`null\`.`;
         onCustomAnchorAdd();
         return () => onCustomAnchorRemove();
       }, [onCustomAnchorAdd, onCustomAnchorRemove]);
-      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Anchor, { ...popperScope, ...anchorProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Anchor, { ...popperScope, ...anchorProps, ref: forwardedRef });
     }, "PopoverAnchor")
   );
   var TRIGGER_NAME8 = "PopoverTrigger";
@@ -22134,7 +22219,7 @@ Defaulting to \`null\`.`;
       const context = usePopoverContext(TRIGGER_NAME8, __scopePopover);
       const popperScope = usePopperScope3(__scopePopover);
       const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef);
-      const trigger = /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
+      const trigger = /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -22147,7 +22232,7 @@ Defaulting to \`null\`.`;
           onClick: composeEventHandlers(props.onClick, context.onOpenToggle)
         }
       );
-      return context.hasCustomAnchor ? trigger : /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Anchor, { asChild: true, ...popperScope, children: trigger });
+      return context.hasCustomAnchor ? trigger : /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Anchor, { asChild: true, ...popperScope, children: trigger });
     }, "PopoverTrigger")
   );
   var PORTAL_NAME4 = "PopoverPortal";
@@ -22157,7 +22242,7 @@ Defaulting to \`null\`.`;
   var PopoverPortal = /* @__PURE__ */ __name34((props) => {
     const { __scopePopover, forceMount, children, container } = props;
     const context = usePopoverContext(PORTAL_NAME4, __scopePopover);
-    return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(PortalProvider4, { scope: __scopePopover, forceMount, children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Portal, { asChild: true, container, children }) }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(PortalProvider4, { scope: __scopePopover, forceMount, children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Presence, { present: forceMount || context.open, children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Portal, { asChild: true, container, children }) }) });
   }, "PopoverPortal");
   var CONTENT_NAME8 = "PopoverContent";
   var PopoverContent = /* @__PURE__ */ React73.forwardRef(
@@ -22166,7 +22251,7 @@ Defaulting to \`null\`.`;
       const portalContext = usePortalContext4(CONTENT_NAME8, props.__scopePopover);
       const { forceMount = portalContext.forceMount, ...contentProps } = props;
       const context = usePopoverContext(CONTENT_NAME8, props.__scopePopover);
-      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Presence, { present: forceMount || context.open, children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(PopoverContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(PopoverContentNonModal, { ...contentProps, ref: forwardedRef }) });
+      return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Presence, { present: forceMount || context.open, children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(PopoverContentModal, { ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(PopoverContentNonModal, { ...contentProps, ref: forwardedRef }) });
     }, "PopoverContent")
   );
   var Slot4 = createSlot("PopoverContent.RemoveScroll");
@@ -22181,7 +22266,7 @@ Defaulting to \`null\`.`;
         const content = contentRef.current;
         if (content) return hideOthers(content);
       }, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(Combination_default, { as: Slot4, allowPinchZoom: true, children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(Combination_default, { as: Slot4, allowPinchZoom: true, children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
         PopoverContentImpl,
         {
           ...props,
@@ -22217,7 +22302,7 @@ Defaulting to \`null\`.`;
       const context = usePopoverContext(CONTENT_NAME8, props.__scopePopover);
       const hasInteractedOutsideRef = React73.useRef(false);
       const hasPointerDownOutsideRef = React73.useRef(false);
-      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
         PopoverContentImpl,
         {
           ...props,
@@ -22270,7 +22355,7 @@ Defaulting to \`null\`.`;
       const context = usePopoverContext(CONTENT_NAME8, __scopePopover);
       const popperScope = usePopperScope3(__scopePopover);
       useFocusGuards();
-      return /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
         FocusScope,
         {
           asChild: true,
@@ -22278,7 +22363,7 @@ Defaulting to \`null\`.`;
           trapped: trapFocus,
           onMountAutoFocus: onOpenAutoFocus,
           onUnmountAutoFocus: onCloseAutoFocus,
-          children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
             DismissableLayer,
             {
               asChild: true,
@@ -22289,7 +22374,7 @@ Defaulting to \`null\`.`;
               onFocusOutside,
               onDismiss: () => context.onOpenChange(false),
               deferPointerDownOutside: true,
-              children: /* @__PURE__ */ (0, import_jsx_runtime108.jsx)(
+              children: /* @__PURE__ */ (0, import_jsx_runtime109.jsx)(
                 Content3,
                 {
                   "data-state": getState6(context.open),
@@ -22329,12 +22414,19 @@ Defaulting to \`null\`.`;
 
   // dist/components/Popover/PopoverContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime109 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime110 = __toESM(require_react_shim(), 1);
   var PopoverContent3 = ({ portalContainer, className, align = "center", sideOffset = 4, ref, ...props }) => {
     const container = usePortalContainer(portalContainer);
-    return (0, import_jsx_runtime109.jsx)(Portal5, { container, children: (0, import_jsx_runtime109.jsx)(Content25, { ref, align, sideOffset, className: cn(
+    return (0, import_jsx_runtime110.jsx)(Portal5, { container, children: (0, import_jsx_runtime110.jsx)(Content25, { ref, align, sideOffset, className: cn(
       "z-50 w-72 rounded-md border p-4 outline-none",
-      "border-stroke bg-surface-page text-ink-primary",
+      // Surface/Card, like every other floating panel in the system.
+      // It was Surface/Page: the colour the page itself is painted, so a
+      // popover opened over a page had no edge of its own — only the
+      // hairline border separated it from what it floated above, and on
+      // a card it read as a hole. `DropdownMenu` has always used Card;
+      // two overlays of the same family wearing different surfaces was
+      // the defect, not the shade.
+      "border-stroke bg-surface-card text-ink-primary",
       // Floating-surface elevation — theme-aware, unlike the stock shadows,
       // which are invisible against a dark card.
       "shadow-overlay-soft",
@@ -22370,28 +22462,45 @@ Defaulting to \`null\`.`;
   // dist/components/Popover/index.js
   var Popover2 = Root24;
   var PopoverAnchor3 = Anchor22;
-  var PopoverTrigger3 = ({ className, asChild, ...props }) => (0, import_jsx_runtime110.jsx)(Trigger5, { asChild, className: asChild ? className : cn(focusRing, className), ...props });
+  var PopoverTrigger3 = ({ className, asChild, ...props }) => (0, import_jsx_runtime111.jsx)(Trigger5, { asChild, className: asChild ? className : cn(focusRing, className), ...props });
   PopoverTrigger3.displayName = Trigger5.displayName;
 
   // dist/components/PortalContainer/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime111 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime112 = __toESM(require_react_shim(), 1);
   var import_react65 = __toESM(require_react_shim(), 1);
   function PortalContainerProvider({ children, className }) {
     const [container, setContainer] = (0, import_react65.useState)(null);
-    return (0, import_jsx_runtime111.jsx)("div", { className: cn("relative transform-gpu", className), ref: setContainer, children: (0, import_jsx_runtime111.jsx)(PortalContainerContext.Provider, { value: container, children }) });
+    return (0, import_jsx_runtime112.jsx)("div", { className: cn("relative transform-gpu", className), ref: setContainer, children: (0, import_jsx_runtime112.jsx)(PortalContainerContext.Provider, { value: container, children }) });
   }
+
+  // dist/components/PromoCard/index.js
+  init_define_import_meta_env();
+  var import_jsx_runtime113 = __toESM(require_react_shim(), 1);
+  function PromoCard({ icon, title, description, href, onSelect, onDismiss, dismissLabel = "Dismiss", className, ref, ...props }) {
+    const Surface = href ? "a" : "button";
+    return (0, import_jsx_runtime113.jsxs)("div", { ref, "data-slot": "promo-card", className: cn("relative w-full", className), ...props, children: [(0, import_jsx_runtime113.jsxs)(Surface, { className: cn(
+      "flex w-full items-start gap-2 rounded-md border p-2.5 pr-8 text-left",
+      "border-stroke bg-surface-card",
+      // The card hover is the package's card recipe, not a local one: no
+      // recolouring of the title, which would read as the heading turning
+      // into a link under the pointer.
+      "transition-colors hover:bg-state-hover",
+      "focus-visible:shadow-focus focus-visible:outline-none"
+    ), href, onClick: onSelect, type: href ? void 0 : "button", children: [icon ? (0, import_jsx_runtime113.jsx)("span", { "aria-hidden": "true", className: "mt-px flex shrink-0 text-brand-primary [&_svg]:size-5", children: icon }) : null, (0, import_jsx_runtime113.jsxs)("span", { className: "flex min-w-0 flex-col gap-0.5", children: [(0, import_jsx_runtime113.jsx)("span", { className: "font-semibold text-ink-primary text-xs leading-4", children: title }), description ? (0, import_jsx_runtime113.jsx)("span", { className: "font-normal text-ink-secondary text-xs leading-4", children: description }) : null] })] }), onDismiss ? (0, import_jsx_runtime113.jsx)("button", { "aria-label": dismissLabel, className: cn("absolute top-1 right-1 flex size-6 items-center justify-center rounded-sm", "text-ink-secondary hover:bg-state-hover hover:text-ink-body", "focus-visible:shadow-focus focus-visible:outline-none", "[&_svg]:size-3.5"), onClick: onDismiss, type: "button", children: (0, import_jsx_runtime113.jsxs)("svg", { "aria-hidden": "true", fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", viewBox: "0 0 24 24", children: [(0, import_jsx_runtime113.jsx)("path", { d: "M18 6 6 18" }), (0, import_jsx_runtime113.jsx)("path", { d: "m6 6 12 12" })] }) }) : null] });
+  }
+  PromoCard.displayName = "PromoCard";
 
   // dist/components/RadioButton/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime113 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime115 = __toESM(require_react_shim(), 1);
   var import_react66 = __toESM(require_react_shim(), 1);
 
   // dist/components/RadioButton/RadioGroup.js
   init_define_import_meta_env();
-  var import_jsx_runtime112 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime114 = __toESM(require_react_shim(), 1);
   var RadioGroup4 = ({ className, ...props }) => {
-    return (0, import_jsx_runtime112.jsx)(RadioGroup3, { className: cn("grid gap-2", className), ...props });
+    return (0, import_jsx_runtime114.jsx)(RadioGroup3, { className: cn("grid gap-2", className), ...props });
   };
   RadioGroup4.displayName = "RadioGroup";
 
@@ -22421,20 +22530,20 @@ Defaulting to \`null\`.`;
           // Unchecked state — same shell as Checkbox
           "bg-surface-card",
           "border-stroke-field-hover",
-          "hover:border-ink-secondary",
+          "enabled:hover:border-ink-secondary",
           // Checked state
           "data-[state=checked]:border-brand-primary",
           "data-[state=checked]:bg-brand-primary",
           "data-[state=checked]:text-content-on-solid",
-          "data-[state=checked]:hover:border-brand-hover",
-          "data-[state=checked]:hover:bg-brand-hover",
+          "enabled:data-[state=checked]:hover:border-brand-hover",
+          "enabled:data-[state=checked]:hover:bg-brand-hover",
           // Error state — mirrors Input / Checkbox; error fill wins over checked
           "aria-invalid:border-input-error",
-          "aria-invalid:hover:border-input-error",
+          "enabled:aria-invalid:hover:border-input-error",
           "aria-invalid:data-[state=checked]:border-input-error",
           "aria-invalid:data-[state=checked]:bg-input-error",
-          "aria-invalid:data-[state=checked]:hover:border-input-error",
-          "aria-invalid:data-[state=checked]:hover:bg-input-error"
+          "enabled:aria-invalid:data-[state=checked]:hover:border-input-error",
+          "enabled:aria-invalid:data-[state=checked]:hover:bg-input-error"
         )
       },
       size: {
@@ -22486,21 +22595,21 @@ Defaulting to \`null\`.`;
   var RadioButton = ({ id, className, variant, size: size4, label, labelPosition, gap, labelClassName, disabled, ...props }) => {
     const generatedId = (0, import_react66.useId)();
     const radioId = id ?? generatedId;
-    const radioElement = (0, import_jsx_runtime113.jsx)(RadioGroupItem, { id: radioId, disabled, className: cn(radioVariants({ variant, size: size4 }), !label && className), ...props, children: (0, import_jsx_runtime113.jsx)(RadioGroupIndicator, { className: cn(radioIndicatorVariants({ size: size4 })), children: (0, import_jsx_runtime113.jsx)(Circle, { className: "fill-current text-current" }) }) });
+    const radioElement = (0, import_jsx_runtime115.jsx)(RadioGroupItem, { id: radioId, disabled, className: cn(radioVariants({ variant, size: size4 }), !label && className), ...props, children: (0, import_jsx_runtime115.jsx)(RadioGroupIndicator, { className: cn(radioIndicatorVariants({ size: size4 })), children: (0, import_jsx_runtime115.jsx)(Circle, { className: "fill-current text-current" }) }) });
     if (!label) {
       return radioElement;
     }
-    return (0, import_jsx_runtime113.jsxs)("div", { className: cn(radioContainerVariants({ labelPosition, gap }), className), children: [radioElement, (0, import_jsx_runtime113.jsx)("label", { htmlFor: radioId, className: cn("font-medium text-ink-body text-sm", disabled ? "cursor-not-allowed opacity-disabled" : "cursor-pointer", labelClassName), children: label })] });
+    return (0, import_jsx_runtime115.jsxs)("div", { className: cn(radioContainerVariants({ labelPosition, gap }), className), children: [radioElement, (0, import_jsx_runtime115.jsx)("label", { htmlFor: radioId, className: cn("font-medium text-ink-body text-sm", disabled ? "cursor-not-allowed opacity-disabled" : "cursor-pointer", labelClassName), children: label })] });
   };
   RadioButton.displayName = "RadioButton";
 
   // dist/components/Resizable/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime115 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime117 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/react-resizable-panels@4.12_b08b154533ad610ac48f3061ea37aed7/node_modules/react-resizable-panels/dist/react-resizable-panels.js
   init_define_import_meta_env();
-  var import_jsx_runtime114 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime116 = __toESM(require_react_shim(), 1);
   var import_react67 = __toESM(require_react_shim(), 1);
   function St(e, t) {
     const n = getComputedStyle(e), o = parseFloat(n.fontSize);
@@ -24286,7 +24395,7 @@ Defaulting to \`null\`.`;
     ]), (0, import_react67.useEffect)(() => {
       const x = N.current;
       x && (x.mutableState.defaultLayout = n, x.mutableState.disableCursor = !!o);
-    }), /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(ct.Provider, { value: G, children: /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+    }), /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(ct.Provider, { value: G, children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
       "div",
       {
         ...S,
@@ -24423,7 +24532,7 @@ Defaulting to \`null\`.`;
       flexGrow: void 0,
       flexShrink: void 0,
       flexBasis: i
-    } : I = { flexGrow: 1 }, /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+    } : I = { flexGrow: 1 }, /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
       "div",
       {
         ...z,
@@ -24440,7 +24549,7 @@ Defaulting to \`null\`.`;
           overflow: "visible",
           ...I
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
           "div",
           {
             className: t,
@@ -24590,7 +24699,7 @@ Defaulting to \`null\`.`;
         default:
           z ? G = "focus" : G = p;
       }
-    return /* @__PURE__ */ (0, import_jsx_runtime114.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
       "div",
       {
         ...a,
@@ -24626,21 +24735,21 @@ Defaulting to \`null\`.`;
   nn.displayName = "Separator";
 
   // dist/components/Resizable/index.js
-  var ResizablePanelGroup = ({ className, ...props }) => (0, import_jsx_runtime115.jsx)(qt, { className: cn("flex h-full w-full", className), ...props });
+  var ResizablePanelGroup = ({ className, ...props }) => (0, import_jsx_runtime117.jsx)(qt, { className: cn("flex h-full w-full", className), ...props });
   var ResizablePanel = Qt;
-  var ResizableHandle = ({ withHandle, className, ...props }) => (0, import_jsx_runtime115.jsx)(nn, { className: cn("relative flex w-px items-center justify-center bg-stroke", "after:absolute after:inset-y-0 after:-right-1 after:-left-1", "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-1", "[&[data-resize-handle-state=drag]]:bg-brand-secondary/50", "[&[data-resize-handle-state=hover]]:bg-brand-secondary/30", className), ...props, children: withHandle && (0, import_jsx_runtime115.jsx)("div", { className: "z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-stroke bg-stroke", children: (0, import_jsx_runtime115.jsx)(GripVertical, { className: "size-2.5" }) }) });
+  var ResizableHandle = ({ withHandle, className, ...props }) => (0, import_jsx_runtime117.jsx)(nn, { className: cn("relative flex w-px items-center justify-center bg-stroke", "after:absolute after:inset-y-0 after:-right-1 after:-left-1", "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-1", "[&[data-resize-handle-state=drag]]:bg-brand-secondary/50", "[&[data-resize-handle-state=hover]]:bg-brand-secondary/30", className), ...props, children: withHandle && (0, import_jsx_runtime117.jsx)("div", { className: "z-10 flex h-4 w-3 items-center justify-center rounded-sm border border-stroke bg-stroke", children: (0, import_jsx_runtime117.jsx)(GripVertical, { className: "size-2.5" }) }) });
 
   // dist/components/SegmentedControl/index.js
   init_define_import_meta_env();
 
   // dist/components/SegmentedControl/SegmentedControl.js
   init_define_import_meta_env();
-  var import_jsx_runtime117 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime119 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-tabs@1.1.21_04c6baac77796ccddff1224aa92ba08b/node_modules/@radix-ui/react-tabs/dist/index.mjs
   init_define_import_meta_env();
   var React74 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime116 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime118 = __toESM(require_react_shim(), 1);
   var __defProp36 = Object.defineProperty;
   var __name35 = (target, value) => __defProp36(target, "name", { value, configurable: true });
   var TABS_NAME = "Tabs";
@@ -24669,7 +24778,7 @@ Defaulting to \`null\`.`;
         defaultProp: defaultValue ?? "",
         caller: TABS_NAME
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
         TabsProvider,
         {
           scope: __scopeTabs,
@@ -24679,7 +24788,7 @@ Defaulting to \`null\`.`;
           orientation,
           dir: direction,
           activationMode,
-          children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
             Primitive.div,
             {
               dir: direction,
@@ -24699,7 +24808,7 @@ Defaulting to \`null\`.`;
       const { __scopeTabs, loop = true, ...listProps } = props;
       const context = useTabsContext(TAB_LIST_NAME, __scopeTabs);
       const rovingFocusGroupScope = useRovingFocusGroupScope3(__scopeTabs);
-      return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
         Root4,
         {
           asChild: true,
@@ -24707,7 +24816,7 @@ Defaulting to \`null\`.`;
           orientation: context.orientation,
           dir: context.dir,
           loop,
-          children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
             Primitive.div,
             {
               role: "tablist",
@@ -24729,14 +24838,14 @@ Defaulting to \`null\`.`;
       const triggerId = makeTriggerId(context.baseId, value);
       const contentId = makeContentId(context.baseId, value);
       const isSelected = value === context.value;
-      return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
         Item2,
         {
           asChild: true,
           ...rovingFocusGroupScope,
           focusable: !disabled,
           active: isSelected,
-          children: /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
             Primitive.button,
             {
               type: "button",
@@ -24789,7 +24898,7 @@ Defaulting to \`null\`.`;
         const rAF = requestAnimationFrame(() => isMountAnimationPreventedRef.current = false);
         return () => cancelAnimationFrame(rAF);
       }, []);
-      return /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(Presence, { present: forceMount || isSelected, children: ({ present }) => /* @__PURE__ */ (0, import_jsx_runtime116.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(Presence, { present: forceMount || isSelected, children: ({ present }) => /* @__PURE__ */ (0, import_jsx_runtime118.jsx)(
         Primitive.div,
         {
           "data-state": isSelected ? "active" : "inactive",
@@ -24841,13 +24950,13 @@ Defaulting to \`null\`.`;
   // dist/components/SegmentedControl/SegmentedControl.js
   var SegmentedControl = ({ size: size4 = "md", variant = "default", rounded = "md", className, ...props }) => {
     const contextValue = (0, import_react69.useMemo)(() => ({ size: size4, variant, rounded }), [size4, variant, rounded]);
-    return (0, import_jsx_runtime117.jsx)(SegmentedControlContext.Provider, { value: contextValue, children: (0, import_jsx_runtime117.jsx)(Root25, { className, ...props }) });
+    return (0, import_jsx_runtime119.jsx)(SegmentedControlContext.Provider, { value: contextValue, children: (0, import_jsx_runtime119.jsx)(Root25, { className, ...props }) });
   };
   SegmentedControl.displayName = "SegmentedControl";
 
   // dist/components/SegmentedControl/SegmentedControlContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime118 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime120 = __toESM(require_react_shim(), 1);
   var segmentedControlContentVariants = cva(cn("focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"), {
     variants: {
       size: {
@@ -24861,13 +24970,13 @@ Defaulting to \`null\`.`;
   });
   var SegmentedControlContent = ({ className, ref, ...props }) => {
     const { size: size4 } = useSegmentedControl();
-    return (0, import_jsx_runtime118.jsx)(Content4, { ref, className: cn(segmentedControlContentVariants({ size: size4 }), className), ...props });
+    return (0, import_jsx_runtime120.jsx)(Content4, { ref, className: cn(segmentedControlContentVariants({ size: size4 }), className), ...props });
   };
   SegmentedControlContent.displayName = Content4.displayName;
 
   // dist/components/SegmentedControl/SegmentedControlList.js
   init_define_import_meta_env();
-  var import_jsx_runtime119 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime121 = __toESM(require_react_shim(), 1);
   var segmentedControlListVariants = cva(cn("inline-flex items-center gap-1 p-0.5"), {
     variants: {
       variant: {
@@ -24889,13 +24998,13 @@ Defaulting to \`null\`.`;
   });
   var SegmentedControlList = ({ className, ref, ...props }) => {
     const { variant, rounded } = useSegmentedControl();
-    return (0, import_jsx_runtime119.jsx)(List, { ref, className: cn(segmentedControlListVariants({ variant, rounded }), className), ...props });
+    return (0, import_jsx_runtime121.jsx)(List, { ref, className: cn(segmentedControlListVariants({ variant, rounded }), className), ...props });
   };
   SegmentedControlList.displayName = List.displayName;
 
   // dist/components/SegmentedControl/SegmentedControlTrigger.js
   init_define_import_meta_env();
-  var import_jsx_runtime120 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime122 = __toESM(require_react_shim(), 1);
   var segmentedControlTriggerVariants = cva(cn(
     "inline-flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap",
     "font-medium text-ink-secondary",
@@ -24903,9 +25012,9 @@ Defaulting to \`null\`.`;
     // Icon follows currentColor — no per-state icon override.
     "[&_svg]:shrink-0",
     // Hover (inactive only): half-step lift + neutral rim + primary text.
-    "data-[state=inactive]:hover:bg-segctrl-hover-bg",
-    "data-[state=inactive]:hover:text-ink-primary",
-    "data-[state=inactive]:hover:shadow-segctrl-hover",
+    "enabled:data-[state=inactive]:hover:bg-segctrl-hover-bg",
+    "enabled:data-[state=inactive]:hover:text-ink-primary",
+    "enabled:data-[state=inactive]:hover:shadow-segctrl-hover",
     // Active / selected: raised pill (Surface/Card light, Chips dark) + rim.
     "data-[state=active]:bg-surface-card",
     "dark:data-[state=active]:bg-surface-chips",
@@ -24971,20 +25080,20 @@ Defaulting to \`null\`.`;
   });
   var SegmentedControlTrigger = ({ className, tone, ref, ...props }) => {
     const { size: size4, rounded } = useSegmentedControl();
-    return (0, import_jsx_runtime120.jsx)(Trigger6, { ref, className: cn(segmentedControlTriggerVariants({ size: size4, rounded, tone }), className), ...props });
+    return (0, import_jsx_runtime122.jsx)(Trigger6, { ref, className: cn(segmentedControlTriggerVariants({ size: size4, rounded, tone }), className), ...props });
   };
   SegmentedControlTrigger.displayName = Trigger6.displayName;
 
   // dist/components/Sheet/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime121 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime123 = __toESM(require_react_shim(), 1);
   var DEFAULT_CLOSE_LABEL2 = "Close";
   var Sheet = Dialog;
   var SheetTrigger = DialogTrigger;
   var SheetClose = DialogClose;
   var SheetPortal = DialogPortal;
   function SheetOverlay({ className, ref, ...props }) {
-    return (0, import_jsx_runtime121.jsx)(DialogOverlay, { "data-modal-overlay": "", className: cn(
+    return (0, import_jsx_runtime123.jsx)(DialogOverlay, { "data-modal-overlay": "", className: cn(
       "fixed inset-0 z-50",
       "bg-overlay-scrim",
       // Closed state
@@ -25051,16 +25160,16 @@ Defaulting to \`null\`.`;
   });
   function SheetContent({ side = "right", className, children, ref, isCloseButtonVisible = true, sheetOverlayClassName, closeButtonProps, ...props }) {
     const { className: closeButtonClassName, "aria-label": closeLabel = DEFAULT_CLOSE_LABEL2, ...restCloseButtonProps } = closeButtonProps ?? {};
-    return (0, import_jsx_runtime121.jsxs)(SheetPortal, { children: [(0, import_jsx_runtime121.jsx)(SheetOverlay, { className: sheetOverlayClassName }), (0, import_jsx_runtime121.jsxs)(DialogContent, { ref, "aria-describedby": void 0, className: cn(sheetVariants({ side }), className), ...props, children: [children, (0, import_jsx_runtime121.jsx)(DialogTitleFallback, { children: props["aria-label"] }), isCloseButtonVisible && // The close control is an IconButton `tertiary` at the 24px
+    return (0, import_jsx_runtime123.jsxs)(SheetPortal, { children: [(0, import_jsx_runtime123.jsx)(SheetOverlay, { className: sheetOverlayClassName }), (0, import_jsx_runtime123.jsxs)(DialogContent, { ref, "aria-describedby": void 0, className: cn(sheetVariants({ side }), className), ...props, children: [children, (0, import_jsx_runtime123.jsx)(DialogTitleFallback, { children: props["aria-label"] }), isCloseButtonVisible && // The close control is an IconButton `tertiary` at the 24px
     // row-action size — hover, pressed and the focus ring are all
     // inherited from that variant; the Sheet adds no bespoke styling.
-    (0, import_jsx_runtime121.jsx)(DialogClose, { ...restCloseButtonProps, asChild: true, children: (0, import_jsx_runtime121.jsx)(IconButton, { variant: "tertiary", size: "2xs", className: cn("absolute top-5 right-4", closeButtonClassName), "aria-label": closeLabel, children: (0, import_jsx_runtime121.jsx)(X, {}) }) })] })] });
+    (0, import_jsx_runtime123.jsx)(DialogClose, { ...restCloseButtonProps, asChild: true, children: (0, import_jsx_runtime123.jsx)(IconButton, { variant: "tertiary", size: "2xs", className: cn("absolute top-5 right-4", closeButtonClassName), "aria-label": closeLabel, children: (0, import_jsx_runtime123.jsx)(X, {}) }) })] })] });
   }
   function SheetHeader({ className, ...props }) {
-    return (0, import_jsx_runtime121.jsx)("div", { className: cn("flex flex-col space-y-2 text-center sm:text-left", className), ...props });
+    return (0, import_jsx_runtime123.jsx)("div", { className: cn("flex flex-col space-y-2 text-center sm:text-left", className), ...props });
   }
   function SheetTitle({ className, ref, ...props }) {
-    return (0, import_jsx_runtime121.jsx)(DialogTitle, {
+    return (0, import_jsx_runtime123.jsx)(DialogTitle, {
       ref,
       // Title/16 — the drawer heading sits one step below a modal title.
       className: cn("font-semibold text-base text-ink-primary", className),
@@ -25068,24 +25177,24 @@ Defaulting to \`null\`.`;
     });
   }
   function SheetDescription({ className, ref, ...props }) {
-    return (0, import_jsx_runtime121.jsx)(DialogDescription, { ref, className: cn("text-ink-secondary text-sm", className), ...props });
+    return (0, import_jsx_runtime123.jsx)(DialogDescription, { ref, className: cn("text-ink-secondary text-sm", className), ...props });
   }
   function SheetBody({ className, ...props }) {
-    return (0, import_jsx_runtime121.jsx)("div", { className: cn("flex min-h-0 flex-1 flex-col overflow-y-auto", className), ...props });
+    return (0, import_jsx_runtime123.jsx)("div", { className: cn("flex min-h-0 flex-1 flex-col overflow-y-auto", className), ...props });
   }
   function SheetFooter({ className, ...props }) {
-    return (0, import_jsx_runtime121.jsx)("div", { className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className), ...props });
+    return (0, import_jsx_runtime123.jsx)("div", { className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className), ...props });
   }
 
   // dist/components/Sidebar/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime137 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime139 = __toESM(require_react_shim(), 1);
 
   // dist/components/Sidebar/SidebarBrand.js
   init_define_import_meta_env();
-  var import_jsx_runtime122 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime124 = __toESM(require_react_shim(), 1);
   function SidebarBrand({ className, ref, ...props }) {
-    return (0, import_jsx_runtime122.jsx)("div", { ref, "data-sidebar": "brand", className: cn(
+    return (0, import_jsx_runtime124.jsx)("div", { ref, "data-sidebar": "brand", className: cn(
       "flex h-8 min-w-0 items-center justify-between gap-2",
       // Collapsed to icons the row is 32px wide, and a 20px mark, a name and a
       // 24px control cannot share that. What survives is the TRAILING control,
@@ -25101,9 +25210,9 @@ Defaulting to \`null\`.`;
 
   // dist/components/Sidebar/SidebarContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime123 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime125 = __toESM(require_react_shim(), 1);
   function SidebarContent({ className, ref, ...props }) {
-    return (0, import_jsx_runtime123.jsx)("div", { ref, "data-sidebar": "content", className: cn(
+    return (0, import_jsx_runtime125.jsx)("div", { ref, "data-sidebar": "content", className: cn(
       // `px-2` is the nav column's own gutter, and without it the rail has
       // none: nothing between the sidebar edge and a row button supplies one,
       // so the icons sat on 8 while the brand mark sits on 16. With it the
@@ -25120,23 +25229,23 @@ Defaulting to \`null\`.`;
 
   // dist/components/Sidebar/SidebarFooter.js
   init_define_import_meta_env();
-  var import_jsx_runtime124 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime126 = __toESM(require_react_shim(), 1);
   function SidebarFooter({ className, ref, ...props }) {
-    return (0, import_jsx_runtime124.jsx)("div", { ref, "data-sidebar": "footer", className: cn("relative mt-auto flex flex-col gap-2 border-stroke border-t p-2", className), ...props });
+    return (0, import_jsx_runtime126.jsx)("div", { ref, "data-sidebar": "footer", className: cn("relative mt-auto flex flex-col gap-2 border-stroke border-t p-2", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarGroup.js
   init_define_import_meta_env();
-  var import_jsx_runtime125 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime127 = __toESM(require_react_shim(), 1);
   function SidebarGroup({ className, ref, ...props }) {
-    return (0, import_jsx_runtime125.jsx)("div", { ref, "data-sidebar": "group", className: cn("relative flex w-full min-w-0 flex-col", className), ...props });
+    return (0, import_jsx_runtime127.jsx)("div", { ref, "data-sidebar": "group", className: cn("relative flex w-full min-w-0 flex-col", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarHeader.js
   init_define_import_meta_env();
-  var import_jsx_runtime126 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime128 = __toESM(require_react_shim(), 1);
   function SidebarHeader({ className, ref, ...props }) {
-    return (0, import_jsx_runtime126.jsx)("div", { ref, "data-sidebar": "header", className: cn(
+    return (0, import_jsx_runtime128.jsx)("div", { ref, "data-sidebar": "header", className: cn(
       "flex flex-col gap-0 ps-4 pe-2 pt-3 pb-2 empty:pb-0",
       // Collapsed the rail is 48px and the asymmetric inset stops being an
       // inset: 16/8 puts the surviving control's centre on 28 while every nav
@@ -25150,9 +25259,9 @@ Defaulting to \`null\`.`;
 
   // dist/components/Sidebar/SidebarInset.js
   init_define_import_meta_env();
-  var import_jsx_runtime127 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime129 = __toESM(require_react_shim(), 1);
   function SidebarInset({ className, ref, ...props }) {
-    return (0, import_jsx_runtime127.jsx)("main", { ref, className: cn(
+    return (0, import_jsx_runtime129.jsx)("main", { ref, className: cn(
       "relative flex min-h-svh flex-1 flex-col",
       "bg-surface-page",
       "overflow-hidden",
@@ -25170,18 +25279,18 @@ Defaulting to \`null\`.`;
 
   // dist/components/Sidebar/SidebarMenu.js
   init_define_import_meta_env();
-  var import_jsx_runtime128 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime130 = __toESM(require_react_shim(), 1);
   function SidebarMenu({ className, ref, ...props }) {
-    return (0, import_jsx_runtime128.jsx)("ul", { ref, "data-sidebar": "menu", className: cn("flex w-full min-w-0 flex-col gap-0.5", className), ...props });
+    return (0, import_jsx_runtime130.jsx)("ul", { ref, "data-sidebar": "menu", className: cn("flex w-full min-w-0 flex-col gap-0.5", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarMenuButton.js
   init_define_import_meta_env();
-  var import_jsx_runtime130 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime132 = __toESM(require_react_shim(), 1);
 
   // dist/components/Sidebar/SidebarProvider.js
   init_define_import_meta_env();
-  var import_jsx_runtime129 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime131 = __toESM(require_react_shim(), 1);
   var import_react70 = __toESM(require_react_shim(), 1);
   var SidebarContext = (0, import_react70.createContext)(null);
   function useSidebar() {
@@ -25217,7 +25326,7 @@ Defaulting to \`null\`.`;
       setOpenMobile,
       toggleSidebar
     }), [state, open, isMobile, openMobile, setOpen, toggleSidebar]);
-    return (0, import_jsx_runtime129.jsx)(SidebarContext.Provider, { value: contextValue, children: (0, import_jsx_runtime129.jsx)(TooltipProvider2, { children: (0, import_jsx_runtime129.jsx)("div", { style, className: cn("group/sidebar-wrapper flex min-h-svh w-full", "has-[[data-variant=inset]]:bg-surface-card", className), ref, ...props, children }) }) });
+    return (0, import_jsx_runtime131.jsx)(SidebarContext.Provider, { value: contextValue, children: (0, import_jsx_runtime131.jsx)(TooltipProvider2, { children: (0, import_jsx_runtime131.jsx)("div", { style, className: cn("group/sidebar-wrapper flex min-h-svh w-full", "has-[[data-variant=inset]]:bg-surface-card", className), ref, ...props, children }) }) });
   }
 
   // dist/components/Sidebar/SidebarMenuButton.js
@@ -25313,32 +25422,32 @@ Defaulting to \`null\`.`;
   function SidebarMenuButton({ asChild = false, isActive = false, variant = "default", size: size4 = "default", tooltip, className, ref, ...props }) {
     const Comp = asChild ? Slot : "button";
     const { isMobile, state } = useSidebar();
-    const button = (0, import_jsx_runtime130.jsx)(Comp, { ref, "data-sidebar": "menu-button", "data-size": size4, "data-active": isActive, className: cn(sidebarMenuButtonVariants({ variant, size: size4 }), className), ...props });
+    const button = (0, import_jsx_runtime132.jsx)(Comp, { ref, "data-sidebar": "menu-button", "data-size": size4, "data-active": isActive, className: cn(sidebarMenuButtonVariants({ variant, size: size4 }), className), ...props });
     if (!tooltip) {
       return button;
     }
-    return (0, import_jsx_runtime130.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime130.jsx)(TooltipTrigger3, { asChild: true, children: button }), (0, import_jsx_runtime130.jsx)(TooltipContent3, { side: "right", align: "center", hidden: state !== "collapsed" || isMobile, ...tooltip })] });
+    return (0, import_jsx_runtime132.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime132.jsx)(TooltipTrigger3, { asChild: true, children: button }), (0, import_jsx_runtime132.jsx)(TooltipContent3, { side: "right", align: "center", hidden: state !== "collapsed" || isMobile, ...tooltip })] });
   }
 
   // dist/components/Sidebar/SidebarMenuItem.js
   init_define_import_meta_env();
-  var import_jsx_runtime131 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime133 = __toESM(require_react_shim(), 1);
   function SidebarMenuItem({ className, ref, ...props }) {
-    return (0, import_jsx_runtime131.jsx)("li", { ref, "data-sidebar": "menu-item", className: cn("group/menu-item relative", className), ...props });
+    return (0, import_jsx_runtime133.jsx)("li", { ref, "data-sidebar": "menu-item", className: cn("group/menu-item relative", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarMenuSub.js
   init_define_import_meta_env();
-  var import_jsx_runtime132 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime134 = __toESM(require_react_shim(), 1);
   function SidebarMenuSub({ className, ref, ...props }) {
-    return (0, import_jsx_runtime132.jsx)("ul", { ref, "data-sidebar": "menu-sub", className: cn("mt-1 flex min-w-0 flex-col gap-1", "ms-6 px-2.5 py-0 ps-2", "border-stroke border-l", "translate-x-px", "group-data-[collapsible=icon]:hidden", className), ...props });
+    return (0, import_jsx_runtime134.jsx)("ul", { ref, "data-sidebar": "menu-sub", className: cn("mt-1 flex min-w-0 flex-col gap-1", "ms-6 px-2.5 py-0 ps-2", "border-stroke border-l", "translate-x-px", "group-data-[collapsible=icon]:hidden", className), ...props });
   }
   function SidebarMenuSubItem({ ref, ...props }) {
-    return (0, import_jsx_runtime132.jsx)("li", { ref, ...props });
+    return (0, import_jsx_runtime134.jsx)("li", { ref, ...props });
   }
   function SidebarMenuSubButton({ asChild = false, size: size4 = "md", isActive, className, ref, ...props }) {
     const Comp = asChild ? Slot : "a";
-    return (0, import_jsx_runtime132.jsx)(Comp, { ref, "data-sidebar": "menu-sub-button", "data-size": size4, "data-active": isActive, className: cn(
+    return (0, import_jsx_runtime134.jsx)(Comp, { ref, "data-sidebar": "menu-sub-button", "data-size": size4, "data-active": isActive, className: cn(
       "flex h-7 min-w-0 items-center gap-2 rounded-md px-2",
       "-translate-x-px overflow-hidden",
       // Kit chat row: 13px Text/Secondary, no brand ink in any state.
@@ -25367,11 +25476,11 @@ Defaulting to \`null\`.`;
 
   // dist/components/Sidebar/SidebarNavigationItems.js
   init_define_import_meta_env();
-  var import_jsx_runtime134 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime136 = __toESM(require_react_shim(), 1);
 
   // dist/components/TruncatedTitleTooltip/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime133 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime135 = __toESM(require_react_shim(), 1);
   var import_react71 = __toESM(require_react_shim(), 1);
   var defaultGetTarget = (trigger) => trigger.querySelector(":scope > span:last-child");
   var isOverflowing = (node) => Boolean(node && node.scrollWidth > node.clientWidth);
@@ -25385,7 +25494,7 @@ Defaulting to \`null\`.`;
       const target = getTruncationTarget(trigger) ?? trigger;
       setIsTruncated(isOverflowing(target));
     }, [getTruncationTarget]);
-    return (0, import_jsx_runtime133.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime133.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime133.jsx)("span", { ref: wrapperRef, className: "flex w-full min-w-0", onPointerEnter: measure, onFocus: measure, children }) }), (0, import_jsx_runtime133.jsx)(Portal4, { children: (0, import_jsx_runtime133.jsx)(TooltipContent3, {
+    return (0, import_jsx_runtime135.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime135.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime135.jsx)("span", { ref: wrapperRef, className: "flex w-full min-w-0", onPointerEnter: measure, onFocus: measure, children }) }), (0, import_jsx_runtime135.jsx)(Portal4, { children: (0, import_jsx_runtime135.jsx)(TooltipContent3, {
       side,
       align: "center",
       hidden: !isTruncated,
@@ -25418,21 +25527,21 @@ Defaulting to \`null\`.`;
       if (renderLink) {
         return renderLink(item, options2);
       }
-      return (0, import_jsx_runtime134.jsxs)("a", { href: item.url, children: [item.icon && (0, import_jsx_runtime134.jsx)(item.icon, {}), (0, import_jsx_runtime134.jsx)("span", { className: "font-medium", children: item.title })] });
+      return (0, import_jsx_runtime136.jsxs)("a", { href: item.url, children: [item.icon && (0, import_jsx_runtime136.jsx)(item.icon, {}), (0, import_jsx_runtime136.jsx)("span", { className: "font-medium", children: item.title })] });
     };
     const renderViewAllLink = (item) => {
       if (renderLink) {
         return renderLink(item, {
           className: "flex items-center gap-0.5",
           onClick: stopMenuButtonPropagation,
-          trailingChildren: (0, import_jsx_runtime134.jsx)(ChevronRight, { className: "size-4 shrink-0" })
+          trailingChildren: (0, import_jsx_runtime136.jsx)(ChevronRight, { className: "size-4 shrink-0" })
         });
       }
-      return (0, import_jsx_runtime134.jsxs)("a", { href: item.url, className: "flex items-center gap-0.5", onClick: stopMenuButtonPropagation, children: [(0, import_jsx_runtime134.jsx)("span", { className: "font-medium", children: item.title }), (0, import_jsx_runtime134.jsx)(ChevronRight, { className: "size-4 shrink-0" })] });
+      return (0, import_jsx_runtime136.jsxs)("a", { href: item.url, className: "flex items-center gap-0.5", onClick: stopMenuButtonPropagation, children: [(0, import_jsx_runtime136.jsx)("span", { className: "font-medium", children: item.title }), (0, import_jsx_runtime136.jsx)(ChevronRight, { className: "size-4 shrink-0" })] });
     };
     const renderItem = (item) => {
       if (isNavigationItem(item)) {
-        return (0, import_jsx_runtime134.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime134.jsx)(SidebarMenuButton, { asChild: true, className: menuButtonClassName, tooltip: { children: item.title }, children: renderItemLink(item) }) }, item.id ?? item.title);
+        return (0, import_jsx_runtime136.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime136.jsx)(SidebarMenuButton, { asChild: true, className: menuButtonClassName, tooltip: { children: item.title }, children: renderItemLink(item) }) }, item.id ?? item.title);
       }
       if (isNavigationGroup(item)) {
         const Icon2 = item.icon;
@@ -25445,15 +25554,15 @@ Defaulting to \`null\`.`;
               icon: item.icon,
               title: item.title
             };
-            return (0, import_jsx_runtime134.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime134.jsx)(SidebarMenuButton, { asChild: true, isActive: item.isActive, className: menuButtonClassName, tooltip: { children: item.title }, children: renderItemLink(viewAllAsItem, { controlledActive: true }) }) }, collapsedKey);
+            return (0, import_jsx_runtime136.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime136.jsx)(SidebarMenuButton, { asChild: true, isActive: item.isActive, className: menuButtonClassName, tooltip: { children: item.title }, children: renderItemLink(viewAllAsItem, { controlledActive: true }) }) }, collapsedKey);
           }
-          return (0, import_jsx_runtime134.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime134.jsxs)(SidebarMenuButton, { isActive: item.isActive, className: menuButtonClassName, tooltip: { children: item.title }, children: [Icon2 && (0, import_jsx_runtime134.jsx)(Icon2, {}), (0, import_jsx_runtime134.jsx)("span", { className: "font-medium", children: item.title })] }) }, collapsedKey);
+          return (0, import_jsx_runtime136.jsx)(SidebarMenuItem, { children: (0, import_jsx_runtime136.jsxs)(SidebarMenuButton, { isActive: item.isActive, className: menuButtonClassName, tooltip: { children: item.title }, children: [Icon2 && (0, import_jsx_runtime136.jsx)(Icon2, {}), (0, import_jsx_runtime136.jsx)("span", { className: "font-medium", children: item.title })] }) }, collapsedKey);
         }
         return (
           // Key includes isEmpty so Collapsible remounts when items first arrive,
           // resetting defaultOpen to true. Without this the group starts collapsed
           // even after conversations are fetched.
-          (0, import_jsx_runtime134.jsx)(Collapsible3, { asChild: true, defaultOpen: item.defaultOpen ?? !isEmpty, className: "group/collapsible", children: (0, import_jsx_runtime134.jsxs)(SidebarMenuItem, { children: [(0, import_jsx_runtime134.jsxs)("div", { className: "group/trigger-row relative", children: [(0, import_jsx_runtime134.jsx)(CollapsibleTrigger3, { asChild: true, children: (0, import_jsx_runtime134.jsxs)(SidebarMenuButton, { isActive: item.isActive, className: cn("group/collapsible-trigger !pe-0", menuButtonClassName), children: [Icon2 && (0, import_jsx_runtime134.jsx)(Icon2, {}), (0, import_jsx_runtime134.jsx)("span", { className: "font-medium", children: item.title }), (0, import_jsx_runtime134.jsx)(ChevronRight, { className: "opacity-0 transition-transform duration-base group-hover/trigger-row:opacity-100 group-data-[state=open]/collapsible:rotate-90" })] }) }), item.viewAll && (0, import_jsx_runtime134.jsx)(SidebarMenuButton, { asChild: true, "data-sidebar": "menu-action", className: cn(
+          (0, import_jsx_runtime136.jsx)(Collapsible3, { asChild: true, defaultOpen: item.defaultOpen ?? !isEmpty, className: "group/collapsible", children: (0, import_jsx_runtime136.jsxs)(SidebarMenuItem, { children: [(0, import_jsx_runtime136.jsxs)("div", { className: "group/trigger-row relative", children: [(0, import_jsx_runtime136.jsx)(CollapsibleTrigger3, { asChild: true, children: (0, import_jsx_runtime136.jsxs)(SidebarMenuButton, { isActive: item.isActive, className: cn("group/collapsible-trigger !pe-0", menuButtonClassName), children: [Icon2 && (0, import_jsx_runtime136.jsx)(Icon2, {}), (0, import_jsx_runtime136.jsx)("span", { className: "font-medium", children: item.title }), (0, import_jsx_runtime136.jsx)(ChevronRight, { className: "opacity-0 transition-transform duration-base group-hover/trigger-row:opacity-100 group-data-[state=open]/collapsible:rotate-90" })] }) }), item.viewAll && (0, import_jsx_runtime136.jsx)(SidebarMenuButton, { asChild: true, "data-sidebar": "menu-action", className: cn(
             "!bg-transparent",
             "absolute end-0 top-1/2 -translate-y-1/2",
             "h-4 w-fit gap-0.5 p-0 text-sm",
@@ -25461,24 +25570,24 @@ Defaulting to \`null\`.`;
             "!text-brand-primary hover:!text-brand-hover",
             "opacity-0 transition-opacity duration-base",
             "group-hover/trigger-row:opacity-100"
-          ), children: renderViewAllLink(item.viewAll) })] }), (0, import_jsx_runtime134.jsx)(CollapsibleContent3, { children: (0, import_jsx_runtime134.jsx)(SidebarMenuSub, { children: isEmpty && item.emptyMessage ? (0, import_jsx_runtime134.jsx)(SidebarMenuSubItem, { className: "flex items-center py-1", children: (0, import_jsx_runtime134.jsx)("span", { className: "ps-2 text-ink-secondary text-xs", children: item.emptyMessage }) }) : item.items.map((subItem) => (0, import_jsx_runtime134.jsx)(SidebarMenuSubItem, { children: (0, import_jsx_runtime134.jsx)(TruncatedTitleTooltip, { title: subItem.title, children: (0, import_jsx_runtime134.jsx)(SidebarMenuSubButton, { asChild: true, className: "px-1.5", children: renderItemLink(subItem) }) }) }, subItem.id ?? subItem.title)) }) })] }) }, `${item.id ?? item.title}-${isEmpty ? "empty" : "filled"}`)
+          ), children: renderViewAllLink(item.viewAll) })] }), (0, import_jsx_runtime136.jsx)(CollapsibleContent3, { children: (0, import_jsx_runtime136.jsx)(SidebarMenuSub, { children: isEmpty && item.emptyMessage ? (0, import_jsx_runtime136.jsx)(SidebarMenuSubItem, { className: "flex items-center py-1", children: (0, import_jsx_runtime136.jsx)("span", { className: "ps-2 text-ink-secondary text-xs", children: item.emptyMessage }) }) : item.items.map((subItem) => (0, import_jsx_runtime136.jsx)(SidebarMenuSubItem, { children: (0, import_jsx_runtime136.jsx)(TruncatedTitleTooltip, { title: subItem.title, children: (0, import_jsx_runtime136.jsx)(SidebarMenuSubButton, { asChild: true, className: "px-1.5", children: renderItemLink(subItem) }) }) }, subItem.id ?? subItem.title)) }) })] }) }, `${item.id ?? item.title}-${isEmpty ? "empty" : "filled"}`)
         );
       }
     };
-    return (0, import_jsx_runtime134.jsx)(SidebarGroup, { children: (0, import_jsx_runtime134.jsx)(SidebarMenu, { children: items.map((item) => renderItem(item)) }) });
+    return (0, import_jsx_runtime136.jsx)(SidebarGroup, { children: (0, import_jsx_runtime136.jsx)(SidebarMenu, { children: items.map((item) => renderItem(item)) }) });
   }
 
   // dist/components/Sidebar/SidebarRail.js
   init_define_import_meta_env();
-  var import_jsx_runtime135 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime137 = __toESM(require_react_shim(), 1);
   function SidebarRail({ className, label = "Toggle Sidebar", ...props }) {
     const { toggleSidebar } = useSidebar();
-    return (0, import_jsx_runtime135.jsx)("button", { "data-sidebar": "rail", "data-slot": "sidebar-rail", "aria-label": label, tabIndex: -1, onClick: toggleSidebar, title: label, className: cn("absolute inset-y-0 z-20 hidden w-4", "transition-all ease-linear", "after:absolute after:inset-y-0 after:start-1/2 after:w-[2px]", "group-data-[side=left]:-right-4", "group-data-[side=right]:left-0", "sm:flex", "ltr:-translate-x-1/2", "rtl:-translate-x-1/2", "cursor-e-resize", "group-data-[collapsible=offcanvas]:translate-x-0", "group-data-[collapsible=offcanvas]:after:left-full", "[[data-side=left][data-collapsible=offcanvas]_&]:-right-2", "[[data-side=right][data-collapsible=offcanvas]_&]:-left-2", className), ...props });
+    return (0, import_jsx_runtime137.jsx)("button", { "data-sidebar": "rail", "data-slot": "sidebar-rail", "aria-label": label, tabIndex: -1, onClick: toggleSidebar, title: label, className: cn("absolute inset-y-0 z-20 hidden w-4", "transition-all ease-linear", "after:absolute after:inset-y-0 after:start-1/2 after:w-[2px]", "group-data-[side=left]:-right-4", "group-data-[side=right]:left-0", "sm:flex", "ltr:-translate-x-1/2", "rtl:-translate-x-1/2", "cursor-e-resize", "group-data-[collapsible=offcanvas]:translate-x-0", "group-data-[collapsible=offcanvas]:after:left-full", "[[data-side=left][data-collapsible=offcanvas]_&]:-right-2", "[[data-side=right][data-collapsible=offcanvas]_&]:-left-2", className), ...props });
   }
 
   // dist/components/Sidebar/SidebarTrigger.js
   init_define_import_meta_env();
-  var import_jsx_runtime136 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime138 = __toESM(require_react_shim(), 1);
   function SidebarTrigger({
     className,
     onClick,
@@ -25493,22 +25602,22 @@ Defaulting to \`null\`.`;
     ...props
   }) {
     const { toggleSidebar } = useSidebar();
-    return (0, import_jsx_runtime136.jsxs)(Button, { ref, "data-sidebar": "trigger", className: cn("h-7 w-7 p-0", className), variant, onClick: (event) => {
+    return (0, import_jsx_runtime138.jsxs)(Button, { ref, "data-sidebar": "trigger", className: cn("h-7 w-7 p-0", className), variant, onClick: (event) => {
       onClick?.(event);
       toggleSidebar();
-    }, ...props, children: [(0, import_jsx_runtime136.jsx)(PanelLeft, {}), (0, import_jsx_runtime136.jsx)("span", { className: "sr-only", children: label })] });
+    }, ...props, children: [(0, import_jsx_runtime138.jsx)(PanelLeft, {}), (0, import_jsx_runtime138.jsx)("span", { className: "sr-only", children: label })] });
   }
 
   // dist/components/Sidebar/index.js
   function Sidebar({ side = "left", variant = "sidebar", collapsible = "offcanvas", className, children, sheetClassname, ref, ...props }) {
     const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
     if (collapsible === "none") {
-      return (0, import_jsx_runtime137.jsx)("div", { className: cn("flex h-full w-[--sidebar-width] flex-col bg-surface-card text-ink-primary", className), ref, ...props, children });
+      return (0, import_jsx_runtime139.jsx)("div", { className: cn("flex h-full w-[--sidebar-width] flex-col bg-surface-card text-ink-primary", className), ref, ...props, children });
     }
     if (isMobile) {
-      return (0, import_jsx_runtime137.jsx)(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: (0, import_jsx_runtime137.jsx)(SheetContent, { "data-sidebar": "sidebar", "data-mobile": "true", side: "left", className: cn("w-[--sidebar-width] bg-surface-card p-0 [--sidebar-width:var(--sidebar-width-mobile)] [&>button]:hidden", "data-[state=closed]:duration-500", "data-[state=open]:duration-500", sheetClassname), children: (0, import_jsx_runtime137.jsx)("div", { className: "flex h-full w-full flex-col", children }) }) });
+      return (0, import_jsx_runtime139.jsx)(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: (0, import_jsx_runtime139.jsx)(SheetContent, { "data-sidebar": "sidebar", "data-mobile": "true", side: "left", className: cn("w-[--sidebar-width] bg-surface-card p-0 [--sidebar-width:var(--sidebar-width-mobile)] [&>button]:hidden", "data-[state=closed]:duration-500", "data-[state=open]:duration-500", sheetClassname), children: (0, import_jsx_runtime139.jsx)("div", { className: "flex h-full w-full flex-col", children }) }) });
     }
-    return (0, import_jsx_runtime137.jsxs)("div", { ref, className: "group peer hidden lg:block", "data-state": state, "data-collapsible": state === "collapsed" ? collapsible : "", "data-variant": variant, "data-side": side, children: [(0, import_jsx_runtime137.jsx)("div", { className: cn("relative w-[--sidebar-width]", "bg-transparent", "transition-[width] duration-base ease-linear", "group-data-[collapsible=offcanvas]:w-0", "group-data-[side=right]:rotate-180", variant === "floating" || variant === "inset" ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]" : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]") }), (0, import_jsx_runtime137.jsx)("div", { className: cn(
+    return (0, import_jsx_runtime139.jsxs)("div", { ref, className: "group peer hidden lg:block", "data-state": state, "data-collapsible": state === "collapsed" ? collapsible : "", "data-variant": variant, "data-side": side, children: [(0, import_jsx_runtime139.jsx)("div", { className: cn("relative w-[--sidebar-width]", "bg-transparent", "transition-[width] duration-base ease-linear", "group-data-[collapsible=offcanvas]:w-0", "group-data-[side=right]:rotate-180", variant === "floating" || variant === "inset" ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]" : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]") }), (0, import_jsx_runtime139.jsx)("div", { className: cn(
       "fixed inset-y-0 z-10",
       "hidden lg:flex",
       // Width only. The height comes from `inset-y-0`, which resolves
@@ -25524,12 +25633,12 @@ Defaulting to \`null\`.`;
       side === "left" ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]" : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
       variant === "floating" || variant === "inset" ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]" : "border-stroke group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
       className
-    ), ...props, children: (0, import_jsx_runtime137.jsx)("div", { "data-sidebar": "sidebar", className: cn("flex h-full w-full flex-col", "bg-surface-card", "group-data-[variant=floating]:rounded-md", "group-data-[variant=floating]:border", "group-data-[variant=floating]:border-stroke", "group-data-[variant=floating]:shadow"), children }) })] });
+    ), ...props, children: (0, import_jsx_runtime139.jsx)("div", { "data-sidebar": "sidebar", className: cn("flex h-full w-full flex-col", "bg-surface-card", "group-data-[variant=floating]:rounded-md", "group-data-[variant=floating]:border", "group-data-[variant=floating]:border-stroke", "group-data-[variant=floating]:shadow"), children }) })] });
   }
 
   // dist/components/StatTile/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime138 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime140 = __toESM(require_react_shim(), 1);
   var statTileVariants = cva("flex flex-col", {
     variants: {
       // The two rungs the rest of the system uses for a padded surface: `sm` is
@@ -25543,13 +25652,13 @@ Defaulting to \`null\`.`;
   });
   var VALUE_STYLE = { sm: "title20", md: "title24" };
   function StatTile({ label, value, description, rightSlot, size: size4, className, ...props }) {
-    return (0, import_jsx_runtime138.jsxs)(Card, { variant: "outline", className: cn(statTileVariants({ size: size4 }), className), ...props, children: [(0, import_jsx_runtime138.jsxs)("div", { className: "flex items-start justify-between gap-3", children: [(0, import_jsx_runtime138.jsx)(Typography, { element: "span", textStyle: "overline", textColor: "secondary", children: label }), rightSlot] }), (0, import_jsx_runtime138.jsx)(Typography, { element: "span", textStyle: VALUE_STYLE[size4 ?? "md"], textColor: "primary", className: "tabular-nums", children: value }), description ? (0, import_jsx_runtime138.jsx)(Typography, { element: "span", textStyle: "body12", textColor: "secondary", children: description }) : null] });
+    return (0, import_jsx_runtime140.jsxs)(Card, { variant: "outline", className: cn(statTileVariants({ size: size4 }), className), ...props, children: [(0, import_jsx_runtime140.jsxs)("div", { className: "flex items-start justify-between gap-3", children: [(0, import_jsx_runtime140.jsx)(Typography, { element: "span", textStyle: "overline", textColor: "secondary", children: label }), rightSlot] }), (0, import_jsx_runtime140.jsx)(Typography, { element: "span", textStyle: VALUE_STYLE[size4 ?? "md"], textColor: "primary", className: "tabular-nums", children: value }), description ? (0, import_jsx_runtime140.jsx)(Typography, { element: "span", textStyle: "body12", textColor: "secondary", children: description }) : null] });
   }
   StatTile.displayName = "StatTile";
 
   // dist/components/StatusView/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime139 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime141 = __toESM(require_react_shim(), 1);
   var containerVariants = cva("flex min-h-0 flex-1 flex-col items-center justify-center rounded-lg text-center", {
     variants: {
       /* `lg` and `sm` are the kit's two empty states, copied from
@@ -25620,21 +25729,21 @@ Defaulting to \`null\`.`;
     md: "body12",
     lg: "body14"
   };
-  var EmptyStateIllustration = ({ className }) => (0, import_jsx_runtime139.jsxs)("svg", { "aria-hidden": "true", className: cn("h-auto w-[150px] shrink-0", className), fill: "none", viewBox: "0 0 150 104", children: [(0, import_jsx_runtime139.jsxs)("g", { className: "[filter:drop-shadow(0_2px_5px_rgb(15_23_42/0.10))]", children: [(0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "26", rx: "8", width: "132", x: "9", y: "4" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/55", height: "12", rx: "4", width: "12", x: "18", y: "11" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "80", x: "36", y: "14" })] }), (0, import_jsx_runtime139.jsxs)("g", { opacity: "0.55", children: [(0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "26", rx: "8", width: "132", x: "9", y: "38" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/55", height: "12", rx: "4", width: "12", x: "18", y: "45" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "64", x: "36", y: "48" })] }), (0, import_jsx_runtime139.jsxs)("g", { opacity: "0.28", children: [(0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "26", rx: "8", width: "132", x: "9", y: "72" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/55", height: "12", rx: "4", width: "12", x: "18", y: "79" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "72", x: "36", y: "82" })] })] });
-  var EmptySearchIllustration = ({ className }) => (0, import_jsx_runtime139.jsxs)("svg", { "aria-hidden": "true", className: cn("h-auto w-[150px] shrink-0", className), fill: "none", viewBox: "0 0 150 104", children: [(0, import_jsx_runtime139.jsxs)("g", { className: "[filter:drop-shadow(0_2px_5px_rgb(15_23_42/0.10))]", children: [(0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "28", rx: "8", width: "132", x: "9", y: "4" }), (0, import_jsx_runtime139.jsx)("circle", { className: "stroke-ink-inactive/60", cx: "24", cy: "17", r: "5", strokeWidth: "1.5" }), (0, import_jsx_runtime139.jsx)("path", { className: "stroke-ink-inactive/60", d: "M27.8 20.8 L31 24", strokeLinecap: "round", strokeWidth: "1.5" }), (0, import_jsx_runtime139.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "52", x: "38", y: "15" })] }), (0, import_jsx_runtime139.jsx)("g", { opacity: "0.4", children: (0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "22", rx: "8", width: "132", x: "9", y: "44", strokeDasharray: "4 4" }) }), (0, import_jsx_runtime139.jsx)("g", { opacity: "0.2", children: (0, import_jsx_runtime139.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "22", rx: "8", width: "132", x: "9", y: "74", strokeDasharray: "4 4" }) })] });
+  var EmptyStateIllustration = ({ className }) => (0, import_jsx_runtime141.jsxs)("svg", { "aria-hidden": "true", className: cn("h-auto w-[150px] shrink-0", className), fill: "none", viewBox: "0 0 150 104", children: [(0, import_jsx_runtime141.jsxs)("g", { className: "[filter:drop-shadow(0_2px_5px_rgb(15_23_42/0.10))]", children: [(0, import_jsx_runtime141.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "26", rx: "8", width: "132", x: "9", y: "4" }), (0, import_jsx_runtime141.jsx)("rect", { className: "fill-ink-inactive/55", height: "12", rx: "4", width: "12", x: "18", y: "11" }), (0, import_jsx_runtime141.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "80", x: "36", y: "14" })] }), (0, import_jsx_runtime141.jsxs)("g", { opacity: "0.55", children: [(0, import_jsx_runtime141.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "26", rx: "8", width: "132", x: "9", y: "38" }), (0, import_jsx_runtime141.jsx)("rect", { className: "fill-ink-inactive/55", height: "12", rx: "4", width: "12", x: "18", y: "45" }), (0, import_jsx_runtime141.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "64", x: "36", y: "48" })] }), (0, import_jsx_runtime141.jsxs)("g", { opacity: "0.28", children: [(0, import_jsx_runtime141.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "26", rx: "8", width: "132", x: "9", y: "72" }), (0, import_jsx_runtime141.jsx)("rect", { className: "fill-ink-inactive/55", height: "12", rx: "4", width: "12", x: "18", y: "79" }), (0, import_jsx_runtime141.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "72", x: "36", y: "82" })] })] });
+  var EmptySearchIllustration = ({ className }) => (0, import_jsx_runtime141.jsxs)("svg", { "aria-hidden": "true", className: cn("h-auto w-[150px] shrink-0", className), fill: "none", viewBox: "0 0 150 104", children: [(0, import_jsx_runtime141.jsxs)("g", { className: "[filter:drop-shadow(0_2px_5px_rgb(15_23_42/0.10))]", children: [(0, import_jsx_runtime141.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "28", rx: "8", width: "132", x: "9", y: "4" }), (0, import_jsx_runtime141.jsx)("circle", { className: "stroke-ink-inactive/60", cx: "24", cy: "17", r: "5", strokeWidth: "1.5" }), (0, import_jsx_runtime141.jsx)("path", { className: "stroke-ink-inactive/60", d: "M27.8 20.8 L31 24", strokeLinecap: "round", strokeWidth: "1.5" }), (0, import_jsx_runtime141.jsx)("rect", { className: "fill-ink-inactive/35", height: "6", rx: "3", width: "52", x: "38", y: "15" })] }), (0, import_jsx_runtime141.jsx)("g", { opacity: "0.4", children: (0, import_jsx_runtime141.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "22", rx: "8", width: "132", x: "9", y: "44", strokeDasharray: "4 4" }) }), (0, import_jsx_runtime141.jsx)("g", { opacity: "0.2", children: (0, import_jsx_runtime141.jsx)("rect", { className: "fill-surface-card stroke-stroke", height: "22", rx: "8", width: "132", x: "9", y: "74", strokeDasharray: "4 4" }) })] });
   var TONE_DEFAULT_ICON = {
-    neutral: (0, import_jsx_runtime139.jsx)(Inbox, { "aria-hidden": "true" }),
-    muted: (0, import_jsx_runtime139.jsx)(Inbox, { "aria-hidden": "true" }),
-    error: (0, import_jsx_runtime139.jsx)(CircleAlert, { "aria-hidden": "true" }),
-    info: (0, import_jsx_runtime139.jsx)(Info, { "aria-hidden": "true" }),
-    success: (0, import_jsx_runtime139.jsx)(CircleCheck, { "aria-hidden": "true" }),
+    neutral: (0, import_jsx_runtime141.jsx)(Inbox, { "aria-hidden": "true" }),
+    muted: (0, import_jsx_runtime141.jsx)(Inbox, { "aria-hidden": "true" }),
+    error: (0, import_jsx_runtime141.jsx)(CircleAlert, { "aria-hidden": "true" }),
+    info: (0, import_jsx_runtime141.jsx)(Info, { "aria-hidden": "true" }),
+    success: (0, import_jsx_runtime141.jsx)(CircleCheck, { "aria-hidden": "true" }),
     transparent: null
   };
   var DEFAULT_RETRY_BUTTON = {
     variant: "secondary",
     size: "sm",
     rounded: "full",
-    leftSlot: (0, import_jsx_runtime139.jsx)(RefreshCw, {})
+    leftSlot: (0, import_jsx_runtime141.jsx)(RefreshCw, {})
   };
   var StatusView = ({ tone = "neutral", size: size4, surface, icon, withIconHalo = true, title, description, actions, actionsOrientation = "inline", retryLabel, retryButton, className, ref, onRetry, ...props }) => {
     const isError = tone === "error";
@@ -25642,8 +25751,8 @@ Defaulting to \`null\`.`;
     const titleStyle = TITLE_BY_SIZE[size4 ?? "md"];
     const resolvedIcon = icon === null ? null : icon ?? TONE_DEFAULT_ICON[tone];
     const { variant: retryVariant = DEFAULT_RETRY_BUTTON.variant, size: retrySize = DEFAULT_RETRY_BUTTON.size, rounded: retryRounded = DEFAULT_RETRY_BUTTON.rounded, leftSlot: retryLeftSlot = DEFAULT_RETRY_BUTTON.leftSlot } = retryButton ?? {};
-    const resolvedActions = actions ?? (onRetry && retryLabel ? (0, import_jsx_runtime139.jsx)(Button, { variant: retryVariant, size: retrySize, rounded: retryRounded, leftSlot: retryLeftSlot, onClick: onRetry, children: retryLabel }) : null);
-    return (0, import_jsx_runtime139.jsxs)("div", { ref, role: isError ? "alert" : void 0, "aria-live": isError ? "assertive" : void 0, className: cn(containerVariants({ size: size4, surface }), className), ...props, children: [resolvedIcon && (withIconHalo ? (0, import_jsx_runtime139.jsx)("span", { className: haloVariants({ tone, size: size4 }), children: resolvedIcon }) : resolvedIcon), (0, import_jsx_runtime139.jsxs)("div", { className: "flex max-w-md flex-col items-center gap-1.5", children: [(0, import_jsx_runtime139.jsx)(Typography, { align: "center", element: titleStyle.element, textColor: "primary", textStyle: titleStyle.textStyle, children: title }), description && (0, import_jsx_runtime139.jsx)(Typography, {
+    const resolvedActions = actions ?? (onRetry && retryLabel ? (0, import_jsx_runtime141.jsx)(Button, { variant: retryVariant, size: retrySize, rounded: retryRounded, leftSlot: retryLeftSlot, onClick: onRetry, children: retryLabel }) : null);
+    return (0, import_jsx_runtime141.jsxs)("div", { ref, role: isError ? "alert" : void 0, "aria-live": isError ? "assertive" : void 0, className: cn(containerVariants({ size: size4, surface }), className), ...props, children: [resolvedIcon && (withIconHalo ? (0, import_jsx_runtime141.jsx)("span", { className: haloVariants({ tone, size: size4 }), children: resolvedIcon }) : resolvedIcon), (0, import_jsx_runtime141.jsxs)("div", { className: "flex max-w-md flex-col items-center gap-1.5", children: [(0, import_jsx_runtime141.jsx)(Typography, { align: "center", element: titleStyle.element, textColor: "primary", textStyle: titleStyle.textStyle, children: title }), description && (0, import_jsx_runtime141.jsx)(Typography, {
       align: "center",
       /* `.empty-msg` in the kit: `max-width:32ch` and
                      `text-wrap:balance`, on every size. Both were conditional here —
@@ -25659,7 +25768,7 @@ Defaulting to \`null\`.`;
       textColor: "secondary",
       textStyle: DESCRIPTION_BY_SIZE[size4 ?? "md"],
       children: description
-    })] }), resolvedActions && (0, import_jsx_runtime139.jsx)("div", {
+    })] }), resolvedActions && (0, import_jsx_runtime141.jsx)("div", {
       /* One action or two, and no more. One is the thing the state is
                    missing; two is that plus its alternative — never two primaries,
                    and never a third, because an empty state that offers three ways
@@ -25675,7 +25784,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/StepSlider/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime141 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime143 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-slider@1.4._e1295421719f590fb34d57f497378fc2/node_modules/@radix-ui/react-slider/dist/index.mjs
   init_define_import_meta_env();
@@ -25708,7 +25817,7 @@ Defaulting to \`null\`.`;
   __name37(usePrevious, "usePrevious");
 
   // node_modules/.pnpm/@radix-ui+react-slider@1.4._e1295421719f590fb34d57f497378fc2/node_modules/@radix-ui/react-slider/dist/index.mjs
-  var import_jsx_runtime140 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime142 = __toESM(require_react_shim(), 1);
   var __defProp39 = Object.defineProperty;
   var __name38 = (target, value) => __defProp39(target, "name", { value, configurable: true });
   var PAGE_KEYS = ["PageUp", "PageDown"];
@@ -25807,7 +25916,7 @@ Defaulting to \`null\`.`;
         });
       }
       __name38(updateValues, "updateValues");
-      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
         SliderProvider,
         {
           scope: props.__scopeSlider,
@@ -25820,7 +25929,7 @@ Defaulting to \`null\`.`;
           values,
           orientation,
           form,
-          children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Collection4.Provider, { scope: props.__scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Collection4.Slot, { scope: props.__scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(Collection4.Provider, { scope: props.__scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(Collection4.Slot, { scope: props.__scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
             SliderOrientation,
             {
               "aria-disabled": disabled,
@@ -25909,7 +26018,7 @@ Defaulting to \`null\`.`;
         return value(pointerPosition - rect.left);
       }
       __name38(getValueFromPointer, "getValueFromPointer");
-      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
         SliderOrientationProvider,
         {
           scope: props.__scopeSlider,
@@ -25917,7 +26026,7 @@ Defaulting to \`null\`.`;
           endEdge: isSlidingFromLeft ? "right" : "left",
           direction: isSlidingFromLeft ? 1 : -1,
           size: "width",
-          children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
             SliderImpl,
             {
               dir: direction,
@@ -25976,7 +26085,7 @@ Defaulting to \`null\`.`;
         return value(pointerPosition - rect.top);
       }
       __name38(getValueFromPointer, "getValueFromPointer");
-      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
         SliderOrientationProvider,
         {
           scope: props.__scopeSlider,
@@ -25984,7 +26093,7 @@ Defaulting to \`null\`.`;
           endEdge: isSlidingFromBottom ? "top" : "bottom",
           size: "height",
           direction: isSlidingFromBottom ? 1 : -1,
-          children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
             SliderImpl,
             {
               "data-orientation": "vertical",
@@ -26030,7 +26139,7 @@ Defaulting to \`null\`.`;
         ...sliderProps
       } = props;
       const context = useSliderContext(SLIDER_NAME, __scopeSlider);
-      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
         Primitive.span,
         {
           ...sliderProps,
@@ -26114,7 +26223,7 @@ Defaulting to \`null\`.`;
       percent,
       size: size4
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(SliderThumbContextProvider, { scope: __scopeSlider, ...thumbContext, children: isFunction4(internal_do_not_use_render) ? internal_do_not_use_render(thumbContext) : children });
+    return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(SliderThumbContextProvider, { scope: __scopeSlider, ...thumbContext, children: isFunction4(internal_do_not_use_render) ? internal_do_not_use_render(thumbContext) : children });
   }
   __name38(SliderThumbProvider, "SliderThumbProvider");
   var THUMB_TRIGGER_NAME = "SliderThumbTrigger";
@@ -26132,7 +26241,7 @@ Defaulting to \`null\`.`;
       const label = getLabel(index2, context.values.length);
       const orientationSize = size4?.[orientation.size];
       const thumbInBoundsOffset = orientationSize ? getThumbInBoundsOffset(orientationSize, percent, orientation.direction) : 0;
-      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
         "span",
         {
           style: {
@@ -26140,7 +26249,7 @@ Defaulting to \`null\`.`;
             position: "absolute",
             [orientation.startEdge]: `calc(${percent}% + ${thumbInBoundsOffset}px)`
           },
-          children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(Collection4.ItemSlot, { scope: __scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(Collection4.ItemSlot, { scope: __scopeSlider, children: /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
             Primitive.span,
             {
               role: "slider",
@@ -26167,13 +26276,13 @@ Defaulting to \`null\`.`;
   var SliderThumb = /* @__PURE__ */ React76.forwardRef(
     /* @__PURE__ */ __name38(function SliderThumb2(props, forwardedRef) {
       const { __scopeSlider, name, ...thumbProps } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
         SliderThumbProvider,
         {
           __scopeSlider,
           name,
-          internal_do_not_use_render: ({ index: index2, isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime140.jsxs)(import_jsx_runtime140.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+          internal_do_not_use_render: ({ index: index2, isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime142.jsxs)(import_jsx_runtime142.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
               SliderThumbTrigger,
               {
                 ...thumbProps,
@@ -26181,7 +26290,7 @@ Defaulting to \`null\`.`;
                 __scopeSlider
               }
             ),
-            isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+            isFormControl ? /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
               SliderBubbleInput,
               {
                 __scopeSlider
@@ -26213,7 +26322,7 @@ Defaulting to \`null\`.`;
           input.dispatchEvent(event);
         }
       }, [prevValue, value]);
-      return /* @__PURE__ */ (0, import_jsx_runtime140.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime142.jsx)(
         Primitive.input,
         {
           style: { display: "none" },
@@ -26390,7 +26499,7 @@ Defaulting to \`null\`.`;
       if (nextStep && nextStep.value !== value)
         onValueChange?.(nextStep.value);
     };
-    return (0, import_jsx_runtime141.jsxs)(Slider, { ref, min: 0, max: maxIndex, step: 1, value: [selectedIndex], orientation: "horizontal", disabled, className: cn(stepSliderVariants({ size: size4 }), className), onValueChange: handleValueChange, ...props, children: [(0, import_jsx_runtime141.jsx)("div", { className: stepSliderStopsVariants({ size: size4 }), children: steps.map((step) => (0, import_jsx_runtime141.jsx)("span", { "aria-hidden": true, className: STEP_SLIDER_DOT_CLASSES }, step.value)) }), showStepTooltips && !disabled && (0, import_jsx_runtime141.jsx)("div", { "aria-hidden": true, className: cn(stepSliderStopsVariants({ size: size4 }), "pointer-events-auto z-10"), children: steps.map((step) => (0, import_jsx_runtime141.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime141.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime141.jsx)("span", { "data-slot": "step-slider-stop", className: STEP_SLIDER_HIT_CLASSES }) }), (0, import_jsx_runtime141.jsx)(TooltipContent3, { children: step.label })] }, step.value)) }), (0, import_jsx_runtime141.jsx)(SliderThumb, { "aria-label": ariaLabel, "aria-valuetext": steps[selectedIndex]?.label, className: stepSliderThumbVariants({ size: size4 }) })] });
+    return (0, import_jsx_runtime143.jsxs)(Slider, { ref, min: 0, max: maxIndex, step: 1, value: [selectedIndex], orientation: "horizontal", disabled, className: cn(stepSliderVariants({ size: size4 }), className), onValueChange: handleValueChange, ...props, children: [(0, import_jsx_runtime143.jsx)("div", { className: stepSliderStopsVariants({ size: size4 }), children: steps.map((step) => (0, import_jsx_runtime143.jsx)("span", { "aria-hidden": true, className: STEP_SLIDER_DOT_CLASSES }, step.value)) }), showStepTooltips && !disabled && (0, import_jsx_runtime143.jsx)("div", { "aria-hidden": true, className: cn(stepSliderStopsVariants({ size: size4 }), "pointer-events-auto z-10"), children: steps.map((step) => (0, import_jsx_runtime143.jsxs)(Tooltip2, { children: [(0, import_jsx_runtime143.jsx)(TooltipTrigger3, { asChild: true, children: (0, import_jsx_runtime143.jsx)("span", { "data-slot": "step-slider-stop", className: STEP_SLIDER_HIT_CLASSES }) }), (0, import_jsx_runtime143.jsx)(TooltipContent3, { children: step.label })] }, step.value)) }), (0, import_jsx_runtime143.jsx)(SliderThumb, { "aria-label": ariaLabel, "aria-valuetext": steps[selectedIndex]?.label, className: stepSliderThumbVariants({ size: size4 }) })] });
   };
   StepSlider.displayName = "StepSlider";
 
@@ -26462,24 +26571,24 @@ Defaulting to \`null\`.`;
 
   // dist/components/Stepper/StepperIndicator.js
   init_define_import_meta_env();
-  var import_jsx_runtime142 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime144 = __toESM(require_react_shim(), 1);
   var MARKER = {
     sm: "size-5 text-xs",
     md: "size-7 text-sm"
   };
   var GLYPH = { sm: 12, md: 14 };
   function StepperIndicator({ steps, current, orientation = "horizontal", navigable = "completed", onStepSelect, size: size4 = "md", "aria-label": ariaLabel = "Progress", className }) {
-    return (0, import_jsx_runtime142.jsx)("ol", { "aria-label": ariaLabel, className: cn("flex gap-2", orientation === "vertical" ? "flex-col items-start" : "flex-row flex-wrap items-center", className), children: steps.map((step, index2) => {
+    return (0, import_jsx_runtime144.jsx)("ol", { "aria-label": ariaLabel, className: cn("flex gap-2", orientation === "vertical" ? "flex-col items-start" : "flex-row flex-wrap items-center", className), children: steps.map((step, index2) => {
       const isDone = index2 < current;
       const isActive = index2 === current;
       const canGo = navigable === "all" || navigable === "completed" && (isDone || isActive);
       const interactive = canGo && Boolean(onStepSelect) && !isActive;
-      return (0, import_jsx_runtime142.jsxs)("li", { className: "flex items-center gap-2", children: [index2 > 0 ? (0, import_jsx_runtime142.jsx)("span", { "aria-hidden": true, className: cn("bg-stroke", orientation === "vertical" ? "ms-3 h-4 w-px" : "h-px w-6") }) : null, (0, import_jsx_runtime142.jsxs)("button", { type: "button", disabled: !interactive, "aria-current": isActive ? "step" : void 0, onClick: () => interactive && onStepSelect?.(index2), className: cn("flex items-center gap-2 rounded-md px-2 py-1", "transition-colors duration-fast", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page", interactive ? "cursor-pointer hover:bg-state-hover" : (
+      return (0, import_jsx_runtime144.jsxs)("li", { className: "flex items-center gap-2", children: [index2 > 0 ? (0, import_jsx_runtime144.jsx)("span", { "aria-hidden": true, className: cn("bg-stroke", orientation === "vertical" ? "ms-3 h-4 w-px" : "h-px w-6") }) : null, (0, import_jsx_runtime144.jsxs)("button", { type: "button", disabled: !interactive, "aria-current": isActive ? "step" : void 0, onClick: () => interactive && onStepSelect?.(index2), className: cn("flex items-center gap-2 rounded-md px-2 py-1", "transition-colors duration-fast", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-page", interactive ? "cursor-pointer hover:bg-state-hover" : (
         // A step you cannot go to is not a broken button — it is
         // not a button. No dimming, because the marker and the
         // label already carry the state.
         "cursor-default disabled:pointer-events-none"
-      )), children: [(0, import_jsx_runtime142.jsx)("span", { "aria-hidden": true, className: cn("flex shrink-0 items-center justify-center rounded-full font-medium", MARKER[size4], isActive && "bg-brand-primary text-content-on-solid", isDone && "bg-state-pressed text-ink-body", !isActive && !isDone && "bg-state-disabled text-ink-inactive"), children: isDone ? (0, import_jsx_runtime142.jsx)(Check, { size: GLYPH[size4] }) : index2 + 1 }), (0, import_jsx_runtime142.jsx)(Typography, {
+      )), children: [(0, import_jsx_runtime144.jsx)("span", { "aria-hidden": true, className: cn("flex shrink-0 items-center justify-center rounded-full font-medium", MARKER[size4], isActive && "bg-brand-primary text-content-on-solid", isDone && "bg-state-pressed text-ink-body", !isActive && !isDone && "bg-state-disabled text-ink-inactive"), children: isDone ? (0, import_jsx_runtime144.jsx)(Check, { size: GLYPH[size4] }) : index2 + 1 }), (0, import_jsx_runtime144.jsx)(Typography, {
         element: "span",
         textStyle: "label14",
         // `light` IS ink-inactive. There is no `inactive` key —
@@ -26494,12 +26603,12 @@ Defaulting to \`null\`.`;
 
   // dist/components/Switch/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime144 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime146 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-switch@1.3._6942ef4354d0381c1f398974c27bdc78/node_modules/@radix-ui/react-switch/dist/index.mjs
   init_define_import_meta_env();
   var React77 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime143 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime145 = __toESM(require_react_shim(), 1);
   var __defProp40 = Object.defineProperty;
   var __name39 = (target, value) => __defProp40(target, "name", { value, configurable: true });
   var SWITCH_NAME = "Switch";
@@ -26555,7 +26664,7 @@ Defaulting to \`null\`.`;
       bubbleInput,
       setBubbleInput
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(SwitchProviderImpl, { scope: __scopeSwitch, ...context, children: isFunction5(internal_do_not_use_render) ? internal_do_not_use_render(context) : children });
+    return /* @__PURE__ */ (0, import_jsx_runtime145.jsx)(SwitchProviderImpl, { scope: __scopeSwitch, ...context, children: isFunction5(internal_do_not_use_render) ? internal_do_not_use_render(context) : children });
   }
   __name39(SwitchProvider, "SwitchProvider");
   var TRIGGER_NAME10 = "SwitchTrigger";
@@ -26585,7 +26694,7 @@ Defaulting to \`null\`.`;
           return () => associatedForm.removeEventListener("reset", reset);
         }
       }, [control, form, setChecked]);
-      return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime145.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -26625,7 +26734,7 @@ Defaulting to \`null\`.`;
         form,
         ...switchProps
       } = props;
-      return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime145.jsx)(
         SwitchProvider,
         {
           __scopeSwitch,
@@ -26637,8 +26746,8 @@ Defaulting to \`null\`.`;
           name,
           form,
           value,
-          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime143.jsxs)(import_jsx_runtime143.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
+          internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime145.jsxs)(import_jsx_runtime145.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime145.jsx)(
               SwitchTrigger,
               {
                 ...switchProps,
@@ -26646,7 +26755,7 @@ Defaulting to \`null\`.`;
                 __scopeSwitch
               }
             ),
-            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
+            isFormControl && /* @__PURE__ */ (0, import_jsx_runtime145.jsx)(
               SwitchBubbleInput,
               {
                 __scopeSwitch
@@ -26662,7 +26771,7 @@ Defaulting to \`null\`.`;
     /* @__PURE__ */ __name39(function SwitchThumb2(props, forwardedRef) {
       const { __scopeSwitch, ...thumbProps } = props;
       const context = useSwitchContext(THUMB_NAME2, __scopeSwitch);
-      return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime145.jsx)(
         Primitive.span,
         {
           "data-state": getState7(context.checked),
@@ -26719,7 +26828,7 @@ Defaulting to \`null\`.`;
         }
       }, [bubbleInput, checked, hasConsumerStoppedPropagationRef, userInteractionCount]);
       const defaultCheckedRef = React77.useRef(checked);
-      return /* @__PURE__ */ (0, import_jsx_runtime143.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime145.jsx)(
         Primitive.input,
         {
           type: "checkbox",
@@ -26768,10 +26877,10 @@ Defaulting to \`null\`.`;
   var switchTrackClasses = cn(
     // Checked states
     "data-[state=checked]:bg-brand-primary",
-    "data-[state=checked]:hover:bg-brand-hover",
+    "enabled:data-[state=checked]:hover:bg-brand-hover",
     // Unchecked states — filled medium-grey track, no outline
     "data-[state=unchecked]:bg-switch-off-bg",
-    "data-[state=unchecked]:hover:bg-switch-off-bg-hover"
+    "enabled:data-[state=unchecked]:hover:bg-switch-off-bg-hover"
   );
   var switchVariants = cva([
     "relative",
@@ -26856,7 +26965,7 @@ Defaulting to \`null\`.`;
       },
       variant: {
         default: null,
-        tertiary: cn("cursor-pointer rounded", "transition-colors duration-fast", "hover:bg-state-hover", "active:bg-state-pressed", "has-[:disabled]:pointer-events-none")
+        tertiary: cn("cursor-pointer rounded", "transition-colors duration-fast", "enabled:hover:bg-state-hover", "active:bg-state-pressed", "has-[:disabled]:pointer-events-none")
       }
     },
     defaultVariants: {
@@ -26868,13 +26977,13 @@ Defaulting to \`null\`.`;
   var Switch3 = ({ className, variant, size: size4, rounded, label, labelPosition, gap, containerVariant, labelClassName, ...props }) => {
     const id = (0, import_react74.useId)();
     if (!label) {
-      return (0, import_jsx_runtime144.jsx)(Switch, { className: cn(switchVariants({ variant, size: size4, rounded, className })), ...props, children: (0, import_jsx_runtime144.jsx)(SwitchThumb, { className: cn(switchThumbVariants({ variant, size: size4 })) }) });
+      return (0, import_jsx_runtime146.jsx)(Switch, { className: cn(switchVariants({ variant, size: size4, rounded, className })), ...props, children: (0, import_jsx_runtime146.jsx)(SwitchThumb, { className: cn(switchThumbVariants({ variant, size: size4 })) }) });
     }
-    return (0, import_jsx_runtime144.jsxs)("div", { className: cn(switchContainerVariants({
+    return (0, import_jsx_runtime146.jsxs)("div", { className: cn(switchContainerVariants({
       labelPosition,
       gap,
       variant: containerVariant
-    }), className), children: [(0, import_jsx_runtime144.jsx)(Switch, { id, className: cn(switchVariants({ variant, size: size4, rounded })), ...props, children: (0, import_jsx_runtime144.jsx)(SwitchThumb, { className: cn(switchThumbVariants({ variant, size: size4 })) }) }), (0, import_jsx_runtime144.jsx)("label", {
+    }), className), children: [(0, import_jsx_runtime146.jsx)(Switch, { id, className: cn(switchVariants({ variant, size: size4, rounded })), ...props, children: (0, import_jsx_runtime146.jsx)(SwitchThumb, { className: cn(switchThumbVariants({ variant, size: size4 })) }) }), (0, import_jsx_runtime146.jsx)("label", {
       htmlFor: id,
       // Same recipe as Checkbox and RadioButton, the two sibling controls
       // with an inline label. It carried no ink token at all, so it
@@ -26888,17 +26997,17 @@ Defaulting to \`null\`.`;
 
   // dist/components/Table/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime153 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime155 = __toESM(require_react_shim(), 1);
 
   // dist/components/Table/TableActionsCell.js
   init_define_import_meta_env();
-  var import_jsx_runtime146 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime148 = __toESM(require_react_shim(), 1);
 
   // dist/components/Table/TableCell.js
   init_define_import_meta_env();
-  var import_jsx_runtime145 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime147 = __toESM(require_react_shim(), 1);
   function TableCell({ className, ...props }) {
-    return (0, import_jsx_runtime145.jsx)("td", { "data-slot": "table-cell", className: cn(
+    return (0, import_jsx_runtime147.jsx)("td", { "data-slot": "table-cell", className: cn(
       // One padding recipe, shared verbatim with TableHead: 10px/16px. The two
       // must stay identical or every column's header sits off its own body
       // text. Height comes from the padding, never from an `h-*` lock — a
@@ -26983,7 +27092,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/Table/TableActionsCell.js
   function TableActionsCell({ className, reveal = true, ...props }) {
-    return (0, import_jsx_runtime146.jsx)(TableCell, { "data-slot": "table-actions-cell", className: cn(
+    return (0, import_jsx_runtime148.jsx)(TableCell, { "data-slot": "table-actions-cell", className: cn(
       // TableCell clips its overflow to truncate text; an actions cell holds
       // controls, and a menu anchored here must not be cut off.
       "relative w-12 overflow-visible pe-2 text-right",
@@ -27006,9 +27115,9 @@ Defaulting to \`null\`.`;
 
   // dist/components/Table/TableBody.js
   init_define_import_meta_env();
-  var import_jsx_runtime147 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime149 = __toESM(require_react_shim(), 1);
   function TableBody({ className, ...props }) {
-    return (0, import_jsx_runtime147.jsx)("tbody", { "data-slot": "table-body", className: cn(
+    return (0, import_jsx_runtime149.jsx)("tbody", { "data-slot": "table-body", className: cn(
       // The divider lives here, on the child selector, rather than only on
       // TableRow: a consumer that writes a plain <tr> — which is valid, and
       // what a generator tends to do — would otherwise get a table with no
@@ -27023,29 +27132,29 @@ Defaulting to \`null\`.`;
 
   // dist/components/Table/TableCaption.js
   init_define_import_meta_env();
-  var import_jsx_runtime148 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime150 = __toESM(require_react_shim(), 1);
   function TableCaption({ className, ...props }) {
-    return (0, import_jsx_runtime148.jsx)("caption", { "data-slot": "table-caption", className: cn("mt-3 text-ink-secondary text-sm", className), ...props });
+    return (0, import_jsx_runtime150.jsx)("caption", { "data-slot": "table-caption", className: cn("mt-3 text-ink-secondary text-sm", className), ...props });
   }
 
   // dist/components/Table/TableFooter.js
   init_define_import_meta_env();
-  var import_jsx_runtime149 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime151 = __toESM(require_react_shim(), 1);
   function TableFooter({ className, ...props }) {
-    return (0, import_jsx_runtime149.jsx)("tfoot", { "data-slot": "table-footer", className: cn("border-stroke border-t font-medium", "[&>tr]:last:border-b-0", className), ...props });
+    return (0, import_jsx_runtime151.jsx)("tfoot", { "data-slot": "table-footer", className: cn("border-stroke border-t font-medium", "[&>tr]:last:border-b-0", className), ...props });
   }
 
   // dist/components/Table/TableHead.js
   init_define_import_meta_env();
-  var import_jsx_runtime150 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime152 = __toESM(require_react_shim(), 1);
   function SortIcon({ direction }) {
     if (!direction) {
-      return (0, import_jsx_runtime150.jsx)(ChevronsUpDown, { className: "size-3.5 text-ink-inactive transition-colors group-hover:text-ink-icon-hover" });
+      return (0, import_jsx_runtime152.jsx)(ChevronsUpDown, { className: "size-3.5 text-ink-inactive transition-colors group-hover:text-ink-icon-hover" });
     }
-    return (0, import_jsx_runtime150.jsx)(ChevronDown, { className: cn("size-3.5 text-ink-body transition-[transform,color] duration-base", "group-hover:text-ink-icon-hover", direction === "asc" && "rotate-180") });
+    return (0, import_jsx_runtime152.jsx)(ChevronDown, { className: cn("size-3.5 text-ink-body transition-[transform,color] duration-base", "group-hover:text-ink-icon-hover", direction === "asc" && "rotate-180") });
   }
   function TableHead({ className, children, width = "auto", sortable, sortDirection = void 0, onSort, ...props }) {
-    return (0, import_jsx_runtime150.jsx)("th", { "data-slot": "table-head", "aria-sort": sortable ? sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none" : void 0, className: cn(
+    return (0, import_jsx_runtime152.jsx)("th", { "data-slot": "table-head", "aria-sort": sortable ? sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none" : void 0, className: cn(
       // Same 10px/16px padding as TableCell, deliberately duplicated rather
       // than shortened: a header inset that differs from its column's body
       // inset is the single most visible table defect there is.
@@ -27085,7 +27194,7 @@ Defaulting to \`null\`.`;
       "font-medium text-ink-secondary text-xs leading-4",
       "[&:has([role=checkbox])]:pe-0",
       className
-    ), ...props, children: sortable ? (0, import_jsx_runtime150.jsxs)("button", { type: "button", onClick: onSort, className: cn(
+    ), ...props, children: sortable ? (0, import_jsx_runtime152.jsxs)("button", { type: "button", onClick: onSort, className: cn(
       "inline-flex items-center gap-1.5 rounded",
       /* The sort control is a label plus a standalone glyph — no box to
          fill — so hover and press are carried by colour alone, on the
@@ -27097,21 +27206,21 @@ Defaulting to \`null\`.`;
       "group transition-colors hover:text-ink-icon-hover",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-table-header-bg",
       sortDirection && "text-ink-body"
-    ), children: [children, (0, import_jsx_runtime150.jsx)(SortIcon, { direction: sortDirection })] }) : children });
+    ), children: [children, (0, import_jsx_runtime152.jsx)(SortIcon, { direction: sortDirection })] }) : children });
   }
 
   // dist/components/Table/TableHeader.js
   init_define_import_meta_env();
-  var import_jsx_runtime151 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime153 = __toESM(require_react_shim(), 1);
   function TableHeader({ className, ...props }) {
-    return (0, import_jsx_runtime151.jsx)("thead", { "data-slot": "table-header", className: cn("[&_tr]:border-stroke [&_tr]:border-b", className), ...props });
+    return (0, import_jsx_runtime153.jsx)("thead", { "data-slot": "table-header", className: cn("[&_tr]:border-stroke [&_tr]:border-b", className), ...props });
   }
 
   // dist/components/Table/TableRow.js
   init_define_import_meta_env();
-  var import_jsx_runtime152 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime154 = __toESM(require_react_shim(), 1);
   function TableRow({ className, nested, ...props }) {
-    return (0, import_jsx_runtime152.jsx)("tr", { "data-slot": "table-row", "data-nested": nested ? "" : void 0, className: cn(
+    return (0, import_jsx_runtime154.jsx)("tr", { "data-slot": "table-row", "data-nested": nested ? "" : void 0, className: cn(
       "group/row border-stroke border-b",
       // `data-interactive` already gets the hover fill (on the cells, see
       // TableCell) and the pressed fill and the focus fill. It did not get a
@@ -27127,12 +27236,12 @@ Defaulting to \`null\`.`;
 
   // dist/components/Table/index.js
   function Table({ className, wrapperClassName, layout = "auto", density = "comfortable", ...props }) {
-    return (0, import_jsx_runtime153.jsx)("div", {
+    return (0, import_jsx_runtime155.jsx)("div", {
       "data-slot": "table-container",
       // `overflow-x-auto` doubles as the clip that keeps the header band inside
       // the rounded corners.
       className: cn("relative w-full overflow-x-auto rounded-lg border border-stroke bg-surface-card", wrapperClassName),
-      children: (0, import_jsx_runtime153.jsx)("table", { "data-slot": "table", "data-layout": layout, "data-density": density === "compact" ? "compact" : void 0, className: cn(
+      children: (0, import_jsx_runtime155.jsx)("table", { "data-slot": "table", "data-layout": layout, "data-density": density === "compact" ? "compact" : void 0, className: cn(
         "caption-bottom text-sm",
         // A fixed table fills the frame; an auto table is allowed to outgrow
         // it and scroll, which is the whole point of the container.
@@ -27147,7 +27256,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/Tabs/Tabs.js
   init_define_import_meta_env();
-  var import_jsx_runtime154 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime156 = __toESM(require_react_shim(), 1);
   var import_react76 = __toESM(require_react_shim(), 1);
 
   // dist/components/Tabs/TabsContext.js
@@ -27165,15 +27274,15 @@ Defaulting to \`null\`.`;
   // dist/components/Tabs/Tabs.js
   var Tabs3 = ({ size: size4 = "md", className, ...props }) => {
     const contextValue = (0, import_react76.useMemo)(() => ({ size: size4 }), [size4]);
-    return (0, import_jsx_runtime154.jsx)(TabsContext.Provider, { value: contextValue, children: (0, import_jsx_runtime154.jsx)(Root25, { className, ...props }) });
+    return (0, import_jsx_runtime156.jsx)(TabsContext.Provider, { value: contextValue, children: (0, import_jsx_runtime156.jsx)(Root25, { className, ...props }) });
   };
   Tabs3.displayName = "Tabs";
 
   // dist/components/Tabs/TabsContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime155 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime157 = __toESM(require_react_shim(), 1);
   var TabsContent3 = ({ className, ref, ...props }) => {
-    return (0, import_jsx_runtime155.jsx)(Content4, { ref, className: cn(
+    return (0, import_jsx_runtime157.jsx)(Content4, { ref, className: cn(
       // Radix hides the inactive panel with the `hidden` attribute, and that
       // is only `display:none` from the UA stylesheet — any display class a
       // consumer passes (`flex`, `grid`, `block`) outranks it and brings the
@@ -27188,9 +27297,9 @@ Defaulting to \`null\`.`;
 
   // dist/components/Tabs/TabsList.js
   init_define_import_meta_env();
-  var import_jsx_runtime156 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime158 = __toESM(require_react_shim(), 1);
   var TabsList3 = ({ className, ref, ...props }) => {
-    return (0, import_jsx_runtime156.jsx)(List, {
+    return (0, import_jsx_runtime158.jsx)(List, {
       ref,
       // Shared bottom edge the active tab's underline overlaps (-mb-px on trigger).
       //
@@ -27207,7 +27316,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/Tabs/TabsTrigger.js
   init_define_import_meta_env();
-  var import_jsx_runtime157 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime159 = __toESM(require_react_shim(), 1);
   var tabsTriggerVariants = cva(cn(
     "relative inline-flex items-center justify-center gap-1.5 whitespace-nowrap",
     "-mb-px cursor-pointer rounded-t border-0 bg-transparent font-medium text-ink-secondary",
@@ -27216,7 +27325,7 @@ Defaulting to \`null\`.`;
     // Underline track — transparent until active.
     "after:absolute after:right-0 after:bottom-[-1px] after:left-0 after:h-0.5 after:rounded-[1px] after:bg-transparent after:transition-colors after:content-['']",
     // Hover (inactive only): body text shift only — no background change.
-    "data-[state=inactive]:hover:text-ink-body",
+    "enabled:data-[state=inactive]:hover:text-ink-body",
     // Active: highlight text + brand underline.
     "data-[state=active]:text-ink-highlight",
     "data-[state=active]:after:bg-ink-highlight",
@@ -27237,19 +27346,22 @@ Defaulting to \`null\`.`;
   });
   var TabsTrigger3 = ({ className, ref, ...props }) => {
     const { size: size4 } = useTabs();
-    return (0, import_jsx_runtime157.jsx)(Trigger6, { ref, className: cn(tabsTriggerVariants({ size: size4 }), className), ...props });
+    return (0, import_jsx_runtime159.jsx)(Trigger6, { ref, className: cn(tabsTriggerVariants({ size: size4 }), className), ...props });
   };
   TabsTrigger3.displayName = Trigger6.displayName;
 
   // dist/components/TextArea/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime158 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime160 = __toESM(require_react_shim(), 1);
   var import_react77 = __toESM(require_react_shim(), 1);
   var textAreaVariants = cva(cn(
     "block w-full min-w-0 resize-none",
     "outline-none",
-    //Disabled — real fill instead of opacity dimming
-    "disabled:pointer-events-none disabled:cursor-not-allowed",
+    // Disabled — a real fill instead of opacity dimming, and it KEEPS its pointer events: a
+    // disabled control is the one that most needs to explain itself, and pointer-events:none
+    // means it never emits mouseover, so a Tooltip on it is attached to a dead target. What goes
+    // instead is the hover STATE: every hover utility below is guarded with `enabled:`.
+    "disabled:cursor-not-allowed",
     "disabled:border-stroke disabled:bg-state-disabled",
     "disabled:text-ink-inactive disabled:placeholder:text-ink-inactive"
   ), {
@@ -27260,8 +27372,8 @@ Defaulting to \`null\`.`;
           "text-ink-primary placeholder:text-ink-inactive",
           //Transition
           "transition-[border-color,color,box-shadow]",
-          //Hover state
-          "hover:border-stroke-field-hover",
+          //Hover state — only while the control is enabled
+          "enabled:hover:border-stroke-field-hover",
           //Focus state — neutral border, no outer ring
           "focus-visible:border-input-focus"
         )
@@ -27342,20 +27454,20 @@ Defaulting to \`null\`.`;
     (0, import_react77.useLayoutEffect)(() => {
       resizeToContent();
     }, [resizeToContent, value]);
-    const textareaElement = (0, import_jsx_runtime158.jsx)("textarea", { ref: handleRef, id: resolvedId, rows, value, defaultValue, "aria-invalid": isInvalid || void 0, "aria-describedby": errorId, maxLength, onInput: (event) => {
+    const textareaElement = (0, import_jsx_runtime160.jsx)("textarea", { ref: handleRef, id: resolvedId, rows, value, defaultValue, "aria-invalid": isInvalid || void 0, "aria-describedby": errorId, maxLength, onInput: (event) => {
       resizeToContent();
       setUncontrolledCount(event.currentTarget.value.length);
       onInput?.(event);
     }, className: cn(
       textAreaVariants({ variant, size: size4, rounded }),
       //Error — red border in every state, no bg tint, no outer ring
-      isInvalid && "border-input-error hover:border-input-error focus-visible:border-input-error",
+      isInvalid && "border-input-error enabled:hover:border-input-error focus-visible:border-input-error",
       className
     ), ...props });
     if (!label && !errorText && !hasCount) {
       return textareaElement;
     }
-    return (0, import_jsx_runtime158.jsxs)("div", { className: cn("flex w-full flex-col gap-1", wrapperClassName), children: [label ? (0, import_jsx_runtime158.jsx)(Typography, { id: errorId, element: "label", variant: "span", textColor: "body", weight: "medium", htmlFor: resolvedId, "aria-live": "polite", className: "text-sm", children: label }) : null, textareaElement, isInvalid && errorText || hasCount || hintText ? (0, import_jsx_runtime158.jsxs)("div", { className: "flex items-start justify-between gap-4", children: [isInvalid && errorText ? (0, import_jsx_runtime158.jsx)(Typography, {
+    return (0, import_jsx_runtime160.jsxs)("div", { className: cn("flex w-full flex-col gap-1", wrapperClassName), children: [label ? (0, import_jsx_runtime160.jsx)(Typography, { id: errorId, element: "label", variant: "span", textColor: "body", weight: "medium", htmlFor: resolvedId, "aria-live": "polite", className: "text-sm", children: label }) : null, textareaElement, isInvalid && errorText || hasCount || hintText ? (0, import_jsx_runtime160.jsxs)("div", { className: "flex items-start justify-between gap-4", children: [isInvalid && errorText ? (0, import_jsx_runtime160.jsx)(Typography, {
       variant: "span",
       textColor: "destructive",
       // Helper text is text-xs / medium in Feedback/Red — matches Input.
@@ -27368,8 +27480,8 @@ Defaulting to \`null\`.`;
       // bolder than the sentence it belongs to, and bolder than the same
       // hint written by hand anywhere else in the product. A hint is body
       // copy; the named scale says so in one token.
-      (0, import_jsx_runtime158.jsx)(Typography, { element: "span", textStyle: "body12", textColor: "secondary", className: "min-w-0 flex-1", children: hintText })
-    ) : null, hasCount ? (0, import_jsx_runtime158.jsxs)(Typography, {
+      (0, import_jsx_runtime160.jsx)(Typography, { element: "span", textStyle: "body12", textColor: "secondary", className: "min-w-0 flex-1", children: hintText })
+    ) : null, hasCount ? (0, import_jsx_runtime160.jsxs)(Typography, {
       element: "span",
       textStyle: "body12",
       textColor: "secondary",
@@ -27388,29 +27500,29 @@ Defaulting to \`null\`.`;
 
   // dist/components/Timeline/Timeline.js
   init_define_import_meta_env();
-  var import_jsx_runtime159 = __toESM(require_react_shim(), 1);
-  var Timeline = ({ className, ref, ...props }) => (0, import_jsx_runtime159.jsx)(Root, { ref, "data-slot": "timeline", className: cn("flex w-full flex-col", className), ...props });
+  var import_jsx_runtime161 = __toESM(require_react_shim(), 1);
+  var Timeline = ({ className, ref, ...props }) => (0, import_jsx_runtime161.jsx)(Root, { ref, "data-slot": "timeline", className: cn("flex w-full flex-col", className), ...props });
   Timeline.displayName = "Timeline";
 
   // dist/components/Timeline/TimelineContent.js
   init_define_import_meta_env();
-  var import_jsx_runtime160 = __toESM(require_react_shim(), 1);
-  var TimelineContent = ({ className, children, ref, ...props }) => (0, import_jsx_runtime160.jsx)(Content, { ref, "data-slot": "timeline-content", className: cn("py-1", "overflow-hidden", "motion-reduce:animate-none", "data-[state=closed]:motion-safe:animate-collapsible-up", "data-[state=open]:motion-safe:animate-collapsible-down"), ...props, children: (0, import_jsx_runtime160.jsx)("div", { className: cn("flex flex-col pb-2", "[&>*:last-child_[data-slot=timeline-connector]]:hidden", className), children }) });
+  var import_jsx_runtime162 = __toESM(require_react_shim(), 1);
+  var TimelineContent = ({ className, children, ref, ...props }) => (0, import_jsx_runtime162.jsx)(Content, { ref, "data-slot": "timeline-content", className: cn("py-1", "overflow-hidden", "motion-reduce:animate-none", "data-[state=closed]:motion-safe:animate-collapsible-up", "data-[state=open]:motion-safe:animate-collapsible-down"), ...props, children: (0, import_jsx_runtime162.jsx)("div", { className: cn("flex flex-col pb-2", "[&>*:last-child_[data-slot=timeline-connector]]:hidden", className), children }) });
   TimelineContent.displayName = "TimelineContent";
 
   // dist/components/Timeline/TimelineHeader.js
   init_define_import_meta_env();
-  var import_jsx_runtime161 = __toESM(require_react_shim(), 1);
-  var TimelineHeader = ({ icon, className, children, ref, ...props }) => (0, import_jsx_runtime161.jsxs)(Trigger, { ref, "data-slot": "timeline-header", className: cn("group/timeline-header", "flex w-full items-center gap-2 py-2", "text-ink-secondary text-sm", "font-medium", "outline-none", "transition-colors", "hover:text-ink-primary", "focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-state-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card", className), ...props, children: [icon && (0, import_jsx_runtime161.jsx)("span", { className: "flex shrink-0 items-center [&_svg]:size-4", children: icon }), (0, import_jsx_runtime161.jsx)("span", { className: "truncate text-left", children }), (0, import_jsx_runtime161.jsx)(ChevronDown, { className: "pointer-events-none size-4 shrink-0 -rotate-90 transition-transform duration-base group-data-[state=open]/timeline-header:rotate-0" })] });
+  var import_jsx_runtime163 = __toESM(require_react_shim(), 1);
+  var TimelineHeader = ({ icon, className, children, ref, ...props }) => (0, import_jsx_runtime163.jsxs)(Trigger, { ref, "data-slot": "timeline-header", className: cn("group/timeline-header", "flex w-full items-center gap-2 py-2", "text-ink-secondary text-sm", "font-medium", "outline-none", "transition-colors", "hover:text-ink-primary", "focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-state-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card", className), ...props, children: [icon && (0, import_jsx_runtime163.jsx)("span", { className: "flex shrink-0 items-center [&_svg]:size-4", children: icon }), (0, import_jsx_runtime163.jsx)("span", { className: "truncate text-left", children }), (0, import_jsx_runtime163.jsx)(ChevronDown, { className: "pointer-events-none size-4 shrink-0 -rotate-90 transition-transform duration-base group-data-[state=open]/timeline-header:rotate-0" })] });
   TimelineHeader.displayName = "TimelineHeader";
 
   // dist/components/Timeline/TimelineStep.js
   init_define_import_meta_env();
-  var import_jsx_runtime163 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime165 = __toESM(require_react_shim(), 1);
 
   // dist/components/Timeline/TimelineStepMarker.js
   init_define_import_meta_env();
-  var import_jsx_runtime162 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime164 = __toESM(require_react_shim(), 1);
   var timelineStepMarkerVariants = cva(cn("relative z-10 flex size-4 shrink-0 items-center justify-center rounded-full", "bg-surface-card", "[&_svg]:size-4"), {
     variants: {
       status: {
@@ -27426,14 +27538,14 @@ Defaulting to \`null\`.`;
   });
   var TimelineStepMarker = ({ status }) => {
     if (status === "active") {
-      return (0, import_jsx_runtime162.jsx)("span", { className: cn(timelineStepMarkerVariants({ status })), children: (0, import_jsx_runtime162.jsx)(Spinner, { size: "xs", color: "secondary" }) });
+      return (0, import_jsx_runtime164.jsx)("span", { className: cn(timelineStepMarkerVariants({ status })), children: (0, import_jsx_runtime164.jsx)(Spinner, { size: "xs", color: "secondary" }) });
     }
-    return (0, import_jsx_runtime162.jsxs)("span", { className: cn(timelineStepMarkerVariants({ status })), children: [status === "success" && (0, import_jsx_runtime162.jsx)(CircleCheck, {}), status === "error" && (0, import_jsx_runtime162.jsx)(CircleAlert, {}), status === "pending" && (0, import_jsx_runtime162.jsx)(Circle, {})] });
+    return (0, import_jsx_runtime164.jsxs)("span", { className: cn(timelineStepMarkerVariants({ status })), children: [status === "success" && (0, import_jsx_runtime164.jsx)(CircleCheck, {}), status === "error" && (0, import_jsx_runtime164.jsx)(CircleAlert, {}), status === "pending" && (0, import_jsx_runtime164.jsx)(Circle, {})] });
   };
   TimelineStepMarker.displayName = "TimelineStepMarker";
 
   // dist/components/Timeline/TimelineStep.js
-  var TimelineStep = ({ status, title, icon, open, defaultOpen = false, toggleLabel, className, contentClassName, children, ref, onOpenChange, ...props }) => (0, import_jsx_runtime163.jsxs)(Root, { ref, open, defaultOpen, onOpenChange, "data-slot": "timeline-step", className: cn("relative flex flex-col", className), ...props, children: [(0, import_jsx_runtime163.jsx)("span", { "aria-hidden": true, "data-slot": "timeline-connector", className: "absolute top-3 -bottom-3 left-2 w-px -translate-x-1/2 bg-stroke" }), (0, import_jsx_runtime163.jsxs)(Trigger, { "aria-label": toggleLabel, "data-slot": "timeline-step-trigger", className: cn("group/timeline-step", "relative flex w-full items-center gap-2 py-2", "outline-none", "focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-state-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"), children: [(0, import_jsx_runtime163.jsx)(TimelineStepMarker, { status }), icon && (0, import_jsx_runtime163.jsx)("span", { className: "flex shrink-0 items-center text-ink-secondary [&_svg]:size-4", children: icon }), (0, import_jsx_runtime163.jsx)("span", { className: "min-w-0 flex-initial truncate text-left font-mono text-ink-body text-sm transition-colors group-hover/timeline-step:text-ink-primary", children: title }), (0, import_jsx_runtime163.jsx)(ChevronDown, { className: "pointer-events-none -ml-0.5 size-3 shrink-0 -rotate-90 text-ink-secondary transition-transform duration-base group-hover/timeline-step:text-ink-primary group-data-[state=open]/timeline-step:rotate-0" })] }), (0, import_jsx_runtime163.jsx)(Content, { "data-slot": "timeline-step-content", className: cn("overflow-hidden", "motion-reduce:animate-none", "data-[state=closed]:motion-safe:animate-collapsible-up", "data-[state=open]:motion-safe:animate-collapsible-down"), children: (0, import_jsx_runtime163.jsx)("div", { className: cn("flex flex-col gap-3 pt-1 pb-2 pl-6", contentClassName), children }) })] });
+  var TimelineStep = ({ status, title, icon, open, defaultOpen = false, toggleLabel, className, contentClassName, children, ref, onOpenChange, ...props }) => (0, import_jsx_runtime165.jsxs)(Root, { ref, open, defaultOpen, onOpenChange, "data-slot": "timeline-step", className: cn("relative flex flex-col", className), ...props, children: [(0, import_jsx_runtime165.jsx)("span", { "aria-hidden": true, "data-slot": "timeline-connector", className: "absolute top-3 -bottom-3 left-2 w-px -translate-x-1/2 bg-stroke" }), (0, import_jsx_runtime165.jsxs)(Trigger, { "aria-label": toggleLabel, "data-slot": "timeline-step-trigger", className: cn("group/timeline-step", "relative flex w-full items-center gap-2 py-2", "outline-none", "focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-state-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"), children: [(0, import_jsx_runtime165.jsx)(TimelineStepMarker, { status }), icon && (0, import_jsx_runtime165.jsx)("span", { className: "flex shrink-0 items-center text-ink-secondary [&_svg]:size-4", children: icon }), (0, import_jsx_runtime165.jsx)("span", { className: "min-w-0 flex-initial truncate text-left font-mono text-ink-body text-sm transition-colors group-hover/timeline-step:text-ink-primary", children: title }), (0, import_jsx_runtime165.jsx)(ChevronDown, { className: "pointer-events-none -ml-0.5 size-3 shrink-0 -rotate-90 text-ink-secondary transition-transform duration-base group-hover/timeline-step:text-ink-primary group-data-[state=open]/timeline-step:rotate-0" })] }), (0, import_jsx_runtime165.jsx)(Content, { "data-slot": "timeline-step-content", className: cn("overflow-hidden", "motion-reduce:animate-none", "data-[state=closed]:motion-safe:animate-collapsible-up", "data-[state=open]:motion-safe:animate-collapsible-down"), children: (0, import_jsx_runtime165.jsx)("div", { className: cn("flex flex-col gap-3 pt-1 pb-2 pl-6", contentClassName), children }) })] });
   TimelineStep.displayName = "TimelineStep";
 
   // dist/components/Toast/index.js
@@ -27441,7 +27553,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/Toast/Toaster.js
   init_define_import_meta_env();
-  var import_jsx_runtime164 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime166 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/sonner@2.0.8_@types+react@1_8915214fe78a3a9151a0586d1784340a/node_modules/sonner/dist/index.mjs
   init_define_import_meta_env();
@@ -28572,17 +28684,24 @@ Defaulting to \`null\`.`;
 
   // dist/components/Toast/Toaster.js
   function Toaster3({ position = "top-right", gap = 8, ...props }) {
-    return (0, import_jsx_runtime164.jsx)(Toaster, { position, gap, ...props });
+    return (0, import_jsx_runtime166.jsx)(Toaster, { position, gap, ...props });
   }
   Toaster3.displayName = "Toaster";
 
   // dist/components/Toast/ToastMessage/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime166 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime168 = __toESM(require_react_shim(), 1);
 
   // dist/components/Toast/ToastMessage/constants.js
   init_define_import_meta_env();
   var TOAST_DEFAULT_DURATION = 4e3;
+  function getUndoWindow() {
+    if (typeof window === "undefined" || typeof document === "undefined") {
+      return TOAST_DEFAULT_DURATION;
+    }
+    const ms = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--undo-window"));
+    return Number.isFinite(ms) && ms > 0 ? ms : TOAST_DEFAULT_DURATION;
+  }
   var TOAST_DEFAULT_POSITION = "top-right";
   var VARIANT_COLOR_MAP = {
     success: { icon: "text-fb-green", progress: "bg-fb-green" },
@@ -28611,7 +28730,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/Toast/ToastMessage/ToastProgress.js
   init_define_import_meta_env();
-  var import_jsx_runtime165 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime167 = __toESM(require_react_shim(), 1);
   var import_react79 = __toESM(require_react_shim(), 1);
   var ToastProgress = ({ progressColor, duration }) => {
     const [started, setStarted] = (0, import_react79.useState)(false);
@@ -28619,31 +28738,31 @@ Defaulting to \`null\`.`;
       const id = requestAnimationFrame(() => setStarted(true));
       return () => cancelAnimationFrame(id);
     }, []);
-    return (0, import_jsx_runtime165.jsx)("div", { className: cn("absolute bottom-0 left-0 h-[3px]", progressColor), style: {
+    return (0, import_jsx_runtime167.jsx)("div", { className: cn("absolute bottom-0 left-0 h-[3px]", progressColor), style: {
       width: started ? "0%" : "100%",
       transition: `width ${duration}ms linear`
     } });
   };
 
   // dist/components/Toast/ToastMessage/index.js
-  function ToastMessage({ className, variant = "info", message: message2, description, action, icon, duration = TOAST_DEFAULT_DURATION, onClose, closeLabel = "Close", ...props }) {
+  function ToastMessage({ className, variant = "info", message: message2, description, action, icon, duration = getUndoWindow(), onClose, closeLabel = "Close", ...props }) {
     const showProgress = Number.isFinite(duration);
     const { icon: iconColor, progress: progressColor } = VARIANT_COLOR_MAP[variant];
     const IconComponent = VARIANT_ICON_MAP[variant];
-    return (0, import_jsx_runtime166.jsxs)("div", { className: cn("relative", "flex w-full flex-col gap-3", "overflow-hidden", "rounded-lg", "border", VARIANT_BORDER_MAP[variant], "p-4", VARIANT_BG_MAP[variant], "shadow-lg", className), ...props, children: [(0, import_jsx_runtime166.jsxs)("div", { className: "flex flex-1 items-start justify-between gap-3", children: [(0, import_jsx_runtime166.jsxs)("div", { className: "flex min-w-0 flex-1 items-start gap-3", children: [icon ?? (0, import_jsx_runtime166.jsx)(IconComponent, { className: cn("mb-auto size-5 shrink-0", iconColor) }), (0, import_jsx_runtime166.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-0.5 text-left", children: [(0, import_jsx_runtime166.jsx)(Typography, { variant: "span", weight: "medium", className: "text-ink-primary", children: message2 }), description && (0, import_jsx_runtime166.jsx)("span", { className: "text-ink-secondary text-xs leading-snug", children: description })] })] }), onClose && (0, import_jsx_runtime166.jsx)(IconButton, { variant: "transparent", size: "sm", className: "mt-0.5 shrink-0 text-ink-body", "aria-label": closeLabel, onClick: onClose, children: (0, import_jsx_runtime166.jsx)(X, { className: "size-4" }) })] }), action && (0, import_jsx_runtime166.jsx)(Button, { variant: "outline", size: "xs", onClick: () => {
+    return (0, import_jsx_runtime168.jsxs)("div", { className: cn("relative", "flex w-full flex-col gap-3", "overflow-hidden", "rounded-lg", "border", VARIANT_BORDER_MAP[variant], "p-4", VARIANT_BG_MAP[variant], "shadow-lg", className), ...props, children: [(0, import_jsx_runtime168.jsxs)("div", { className: "flex flex-1 items-start justify-between gap-3", children: [(0, import_jsx_runtime168.jsxs)("div", { className: "flex min-w-0 flex-1 items-start gap-3", children: [icon ?? (0, import_jsx_runtime168.jsx)(IconComponent, { className: cn("mb-auto size-5 shrink-0", iconColor) }), (0, import_jsx_runtime168.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-0.5 text-left", children: [(0, import_jsx_runtime168.jsx)(Typography, { variant: "span", weight: "medium", className: "text-ink-primary", children: message2 }), description && (0, import_jsx_runtime168.jsx)("span", { className: "text-ink-secondary text-xs leading-snug", children: description })] })] }), onClose && (0, import_jsx_runtime168.jsx)(IconButton, { variant: "transparent", size: "sm", className: "mt-0.5 shrink-0 text-ink-body", "aria-label": closeLabel, onClick: onClose, children: (0, import_jsx_runtime168.jsx)(X, { className: "size-4" }) })] }), action && (0, import_jsx_runtime168.jsx)(Button, { variant: "outline", size: "xs", onClick: () => {
       action.onClick();
       onClose?.();
-    }, children: action.label }), showProgress && (0, import_jsx_runtime166.jsx)(ToastProgress, { progressColor, duration })] });
+    }, children: action.label }), showProgress && (0, import_jsx_runtime168.jsx)(ToastProgress, { progressColor, duration })] });
   }
   ToastMessage.displayName = "ToastMessage";
 
   // dist/components/Toast/toast.js
   init_define_import_meta_env();
-  var import_jsx_runtime167 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime169 = __toESM(require_react_shim(), 1);
   function createToast(variant, message2, options2) {
-    const duration = options2?.duration ?? TOAST_DEFAULT_DURATION;
+    const duration = options2?.duration ?? getUndoWindow();
     const position = options2?.position ?? TOAST_DEFAULT_POSITION;
-    return toast.custom((id) => (0, import_jsx_runtime167.jsx)(ToastMessage, { variant, message: message2, description: options2?.description, action: options2?.action, icon: options2?.icon, duration, onClose: () => toast.dismiss(options2?.id || id), closeLabel: options2?.closeLabel }), {
+    return toast.custom((id) => (0, import_jsx_runtime169.jsx)(ToastMessage, { variant, message: message2, description: options2?.description, action: options2?.action, icon: options2?.icon, duration, onClose: () => toast.dismiss(options2?.id || id), closeLabel: options2?.closeLabel }), {
       duration,
       position,
       ...options2?.id ? { id: options2.id } : {},
@@ -28666,12 +28785,12 @@ Defaulting to \`null\`.`;
 
   // dist/components/Toggle/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime169 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime171 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-toggle@1.1._079c4c215a61b46de879661b2bf941ff/node_modules/@radix-ui/react-toggle/dist/index.mjs
   init_define_import_meta_env();
   var React79 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime168 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime170 = __toESM(require_react_shim(), 1);
   var __defProp41 = Object.defineProperty;
   var __name40 = (target, value) => __defProp41(target, "name", { value, configurable: true });
   var NAME = "Toggle";
@@ -28684,7 +28803,7 @@ Defaulting to \`null\`.`;
         defaultProp: defaultPressed ?? false,
         caller: NAME
       });
-      return /* @__PURE__ */ (0, import_jsx_runtime168.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
         Primitive.button,
         {
           type: "button",
@@ -28705,8 +28824,8 @@ Defaulting to \`null\`.`;
   var Root9 = Toggle;
 
   // dist/components/Toggle/index.js
-  var TOGGLE_ON_CHIP = cn("data-[state=on]:cursor-default", "data-[state=on]:border-ink-highlight data-[state=on]:bg-state-pressed", "data-[state=on]:text-ink-highlight", "data-[state=on]:hover:border-ink-highlight", "data-[state=on]:hover:bg-state-pressed data-[state=on]:hover:text-ink-highlight", "data-[state=on]:active:border-ink-highlight", "data-[state=on]:active:bg-state-pressed data-[state=on]:active:text-ink-highlight");
-  var TOGGLE_ON_BADGE = cn("data-[state=on]:border-transparent data-[state=on]:bg-badge-primary-bg", "data-[state=on]:text-badge-primary-text", "data-[state=on]:hover:border-transparent data-[state=on]:hover:bg-badge-primary-bg", "data-[state=on]:hover:text-badge-primary-text", "data-[state=on]:active:border-transparent data-[state=on]:active:bg-badge-primary-bg", "data-[state=on]:active:text-badge-primary-text");
+  var TOGGLE_ON_CHIP = cn("data-[state=on]:cursor-default", "data-[state=on]:border-ink-highlight data-[state=on]:bg-state-pressed", "data-[state=on]:text-ink-highlight", "enabled:data-[state=on]:hover:border-ink-highlight", "enabled:data-[state=on]:hover:bg-state-pressed enabled:data-[state=on]:hover:text-ink-highlight", "data-[state=on]:active:border-ink-highlight", "data-[state=on]:active:bg-state-pressed data-[state=on]:active:text-ink-highlight");
+  var TOGGLE_ON_BADGE = cn("data-[state=on]:border-transparent data-[state=on]:bg-badge-primary-bg", "data-[state=on]:text-badge-primary-text", "enabled:data-[state=on]:hover:border-transparent enabled:data-[state=on]:hover:bg-badge-primary-bg", "enabled:data-[state=on]:hover:text-badge-primary-text", "data-[state=on]:active:border-transparent data-[state=on]:active:bg-badge-primary-bg", "data-[state=on]:active:text-badge-primary-text");
   var toggleVariants = cva(cn(
     "inline-flex items-center justify-center gap-1.5",
     "whitespace-nowrap font-medium",
@@ -28722,10 +28841,10 @@ Defaulting to \`null\`.`;
   ), {
     variants: {
       variant: {
-        outline: cn("border-brand-secondary bg-transparent text-ink-body", "hover:border-brand-hover hover:bg-brand-primary/6", "active:border-brand-hover active:bg-brand-primary/8", "disabled:border-ink-inactive disabled:bg-transparent", "disabled:text-ink-inactive", TOGGLE_ON_CHIP),
-        stroke: cn("border-stroke bg-surface-card text-ink-body", "hover:bg-state-hover", "active:border-stroke active:bg-state-pressed", "disabled:border-stroke disabled:bg-state-disabled", "disabled:text-ink-inactive", TOGGLE_ON_CHIP),
-        ghost: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover active:bg-state-pressed", "disabled:bg-transparent disabled:text-ink-inactive", TOGGLE_ON_CHIP),
-        badge: cn("border-transparent bg-transparent text-ink-body", "hover:bg-state-hover active:bg-state-pressed", "disabled:bg-transparent disabled:text-ink-inactive", TOGGLE_ON_BADGE)
+        outline: cn("border-brand-secondary bg-transparent text-ink-body", "enabled:hover:border-brand-hover enabled:hover:bg-brand-primary/6", "active:border-brand-hover active:bg-brand-primary/8", "disabled:border-ink-inactive disabled:bg-transparent", "disabled:text-ink-inactive", TOGGLE_ON_CHIP),
+        stroke: cn("border-stroke bg-surface-card text-ink-body", "enabled:hover:bg-state-hover", "active:border-stroke active:bg-state-pressed", "disabled:border-stroke disabled:bg-state-disabled", "disabled:text-ink-inactive", TOGGLE_ON_CHIP),
+        ghost: cn("border-transparent bg-transparent text-ink-body", "enabled:hover:bg-state-hover active:bg-state-pressed", "disabled:bg-transparent disabled:text-ink-inactive", TOGGLE_ON_CHIP),
+        badge: cn("border-transparent bg-transparent text-ink-body", "enabled:hover:bg-state-hover active:bg-state-pressed", "disabled:bg-transparent disabled:text-ink-inactive", TOGGLE_ON_BADGE)
       },
       size: {
         xs: "h-7 px-2.5 text-xs [&_svg]:size-3",
@@ -28751,18 +28870,18 @@ Defaulting to \`null\`.`;
     }
   });
   var Toggle3 = ({ className, variant, size: size4, rounded, ref, ...props }) => {
-    return (0, import_jsx_runtime169.jsx)(Root9, { ref, className: cn(toggleVariants({ variant, size: size4, rounded, className })), ...props });
+    return (0, import_jsx_runtime171.jsx)(Root9, { ref, className: cn(toggleVariants({ variant, size: size4, rounded, className })), ...props });
   };
   Toggle3.displayName = Root9.displayName;
 
   // dist/components/ToggleGroup/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime172 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime174 = __toESM(require_react_shim(), 1);
 
   // node_modules/.pnpm/@radix-ui+react-toggle-grou_c75615c28d2de6bf606eddb668a7fbe3/node_modules/@radix-ui/react-toggle-group/dist/index.mjs
   init_define_import_meta_env();
   var React80 = __toESM(require_react_shim(), 1);
-  var import_jsx_runtime170 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime172 = __toESM(require_react_shim(), 1);
   var __defProp42 = Object.defineProperty;
   var __name41 = (target, value) => __defProp42(target, "name", { value, configurable: true });
   var TOGGLE_GROUP_NAME = "ToggleGroup";
@@ -28774,11 +28893,11 @@ Defaulting to \`null\`.`;
     const { type, ...toggleGroupProps } = props;
     if (type === "single") {
       const singleProps = toggleGroupProps;
-      return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupImplSingle, { role: "radiogroup", ...singleProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(ToggleGroupImplSingle, { role: "radiogroup", ...singleProps, ref: forwardedRef });
     }
     if (type === "multiple") {
       const multipleProps = toggleGroupProps;
-      return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupImplMultiple, { role: "toolbar", ...multipleProps, ref: forwardedRef });
+      return /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(ToggleGroupImplMultiple, { role: "toolbar", ...multipleProps, ref: forwardedRef });
     }
     throw new Error(`Missing prop \`type\` expected on \`${TOGGLE_GROUP_NAME}\``);
   }, "ToggleGroup"));
@@ -28797,7 +28916,7 @@ Defaulting to \`null\`.`;
       onChange: onValueChange,
       caller: TOGGLE_GROUP_NAME
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(
       ToggleGroupValueProvider,
       {
         scope: props.__scopeToggleGroup,
@@ -28805,7 +28924,7 @@ Defaulting to \`null\`.`;
         value: React80.useMemo(() => value ? [value] : [], [value]),
         onItemActivate: setValue,
         onItemDeactivate: React80.useCallback(() => setValue(""), [setValue]),
-        children: /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupImpl, { ...toggleGroupSingleProps, ref: forwardedRef })
+        children: /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(ToggleGroupImpl, { ...toggleGroupSingleProps, ref: forwardedRef })
       }
     );
   }, "ToggleGroupImplSingle"));
@@ -28831,7 +28950,7 @@ Defaulting to \`null\`.`;
       (itemValue) => setValue((prevValue = []) => prevValue.filter((value2) => value2 !== itemValue)),
       [setValue]
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(
       ToggleGroupValueProvider,
       {
         scope: props.__scopeToggleGroup,
@@ -28839,7 +28958,7 @@ Defaulting to \`null\`.`;
         value,
         onItemActivate: handleButtonActivate,
         onItemDeactivate: handleButtonDeactivate,
-        children: /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupImpl, { ...toggleGroupMultipleProps, ref: forwardedRef })
+        children: /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(ToggleGroupImpl, { ...toggleGroupMultipleProps, ref: forwardedRef })
       }
     );
   }, "ToggleGroupImplMultiple"));
@@ -28859,7 +28978,7 @@ Defaulting to \`null\`.`;
       const rovingFocusGroupScope = useRovingFocusGroupScope4(__scopeToggleGroup);
       const direction = useDirection(dir);
       const commonProps = { dir: direction, ...toggleGroupProps };
-      return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupContext, { scope: __scopeToggleGroup, rovingFocus, disabled, children: rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(ToggleGroupContext, { scope: __scopeToggleGroup, rovingFocus, disabled, children: rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(
         Root4,
         {
           asChild: true,
@@ -28867,9 +28986,9 @@ Defaulting to \`null\`.`;
           orientation,
           dir: direction,
           loop,
-          children: /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(Primitive.div, { ...commonProps, ref: forwardedRef })
+          children: /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(Primitive.div, { ...commonProps, ref: forwardedRef })
         }
-      ) : /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(Primitive.div, { ...commonProps, ref: forwardedRef }) });
+      ) : /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(Primitive.div, { ...commonProps, ref: forwardedRef }) });
     }, "ToggleGroupImpl")
   );
   var ITEM_NAME4 = "ToggleGroupItem";
@@ -28883,7 +29002,7 @@ Defaulting to \`null\`.`;
       const disabled = context.disabled || props.disabled;
       const commonProps = { ...props, pressed, disabled };
       const ref = React80.useRef(null);
-      return context.rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+      return context.rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(
         Item2,
         {
           asChild: true,
@@ -28891,9 +29010,9 @@ Defaulting to \`null\`.`;
           focusable: !disabled,
           active: pressed,
           ref,
-          children: /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupItemImpl, { ...commonProps, ref: forwardedRef })
+          children: /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(ToggleGroupItemImpl, { ...commonProps, ref: forwardedRef })
         }
-      ) : /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(ToggleGroupItemImpl, { ...commonProps, ref: forwardedRef });
+      ) : /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(ToggleGroupItemImpl, { ...commonProps, ref: forwardedRef });
     }, "ToggleGroupItem")
   );
   var ToggleGroupItemImpl = /* @__PURE__ */ React80.forwardRef(
@@ -28903,7 +29022,7 @@ Defaulting to \`null\`.`;
       const valueContext = useToggleGroupValueContext(ITEM_NAME4, __scopeToggleGroup);
       const singleProps = { role: "radio", "aria-checked": props.pressed, "aria-pressed": void 0 };
       const typeProps = valueContext.type === "single" ? singleProps : void 0;
-      return /* @__PURE__ */ (0, import_jsx_runtime170.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime172.jsx)(
         Toggle,
         {
           ...typeProps,
@@ -28938,7 +29057,7 @@ Defaulting to \`null\`.`;
 
   // dist/components/ToggleGroup/ToggleGroupItem.js
   init_define_import_meta_env();
-  var import_jsx_runtime171 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime173 = __toESM(require_react_shim(), 1);
   var ToggleGroupItem3 = ({ className, variant, size: size4, rounded, ref, onClick, ...props }) => {
     const group = useToggleGroup();
     const handleClick = (event) => {
@@ -28951,7 +29070,7 @@ Defaulting to \`null\`.`;
       }
       onClick?.(event);
     };
-    return (0, import_jsx_runtime171.jsx)(ToggleGroupItem, { ref, className: cn(focusRing, toggleVariants({
+    return (0, import_jsx_runtime173.jsx)(ToggleGroupItem, { ref, className: cn(focusRing, toggleVariants({
       variant: variant ?? group.variant,
       size: size4 ?? group.size,
       rounded: rounded ?? group.rounded,
@@ -28968,13 +29087,13 @@ Defaulting to \`null\`.`;
       rounded: rounded ?? "md",
       scrollIntoGroup
     }), [variant, size4, rounded, scrollIntoGroup]);
-    return (0, import_jsx_runtime172.jsx)(ToggleGroupContext2.Provider, { value: contextValue, children: (0, import_jsx_runtime172.jsx)(ToggleGroup, { className: cn("flex flex-wrap items-center gap-2", className), ...props, children }) });
+    return (0, import_jsx_runtime174.jsx)(ToggleGroupContext2.Provider, { value: contextValue, children: (0, import_jsx_runtime174.jsx)(ToggleGroup, { className: cn("flex flex-wrap items-center gap-2", className), ...props, children }) });
   };
   ToggleGroup3.displayName = ToggleGroup.displayName;
 
   // dist/components/UploadTray/index.js
   init_define_import_meta_env();
-  var import_jsx_runtime173 = __toESM(require_react_shim(), 1);
+  var import_jsx_runtime175 = __toESM(require_react_shim(), 1);
   var import_react82 = __toESM(require_react_shim(), 1);
   var uploadTrayVariants = cva(cn(
     /* A WIDTH, not a cap. `w-full max-w-[26rem]` measures against the parent,
@@ -29008,9 +29127,9 @@ Defaulting to \`null\`.`;
      * say, and a ring standing in an open batch reads as a loader that stalled.
      * The title already states the count, so the slot simply goes.
      */
-    uploading: spinner ? (0, import_jsx_runtime173.jsx)(LoaderCircle, { "aria-hidden": "true", className: "animate-spin motion-reduce:animate-none" }) : null,
-    complete: (0, import_jsx_runtime173.jsx)(CircleCheck, { "aria-hidden": "true" }),
-    failed: (0, import_jsx_runtime173.jsx)(CircleAlert, { "aria-hidden": "true" })
+    uploading: spinner ? (0, import_jsx_runtime175.jsx)(LoaderCircle, { "aria-hidden": "true", className: "animate-spin motion-reduce:animate-none" }) : null,
+    complete: (0, import_jsx_runtime175.jsx)(CircleCheck, { "aria-hidden": "true" }),
+    failed: (0, import_jsx_runtime175.jsx)(CircleAlert, { "aria-hidden": "true" })
   });
   var headIconVariants = cva("flex size-4 shrink-0 items-center justify-center [&_svg]:size-4", {
     variants: {
@@ -29051,13 +29170,13 @@ Defaulting to \`null\`.`;
         return;
       setLeaving(true);
     }, [autoDismiss, liveRows, children]);
-    return (0, import_jsx_runtime173.jsxs)("div", { className: cn(uploadTrayVariants(), leaving && cn("animate-panel-out", "motion-reduce:[animation-duration:1ms]"), className), "data-leaving": leaving ? "" : void 0, "data-slot": "upload-tray", "data-status": status, onAnimationEnd: (event) => {
+    return (0, import_jsx_runtime175.jsxs)("div", { className: cn(uploadTrayVariants(), leaving && cn("animate-panel-out", "motion-reduce:[animation-duration:1ms]"), className), "data-leaving": leaving ? "" : void 0, "data-slot": "upload-tray", "data-status": status, onAnimationEnd: (event) => {
       if (!leaving)
         return;
       if (event.target !== event.currentTarget)
         return;
       onDismiss?.();
-    }, ...props, children: [(0, import_jsx_runtime173.jsxs)("div", { className: "flex items-center gap-1 px-2 py-1.5", children: [(0, import_jsx_runtime173.jsxs)("button", { "aria-expanded": isOpen, className: cn("flex min-w-0 flex-1 items-center gap-2.5 px-1 py-1", "cursor-pointer rounded-md border-none bg-transparent text-left", "font-medium text-ink-primary text-sm", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-inset"), "data-slot": "upload-tray-head", onClick: toggle, type: "button", children: [HEAD_ICON(spinner)[status] ? (0, import_jsx_runtime173.jsx)("span", { className: headIconVariants({ status }), children: HEAD_ICON(spinner)[status] }) : null, (0, import_jsx_runtime173.jsx)("span", { className: "min-w-0 flex-1 truncate", children: title })] }), (0, import_jsx_runtime173.jsx)(IconButton, { "aria-label": isOpen ? collapseLabel : expandLabel, className: "shrink-0", "data-slot": "upload-tray-toggle", onClick: toggle, size: "xs", variant: "tertiary", children: (0, import_jsx_runtime173.jsx)(ChevronDown, { "aria-hidden": "true", className: cn("transition-transform duration-base", !isOpen && "rotate-180") }) }), onDismiss ? (0, import_jsx_runtime173.jsx)(IconButton, { "aria-label": dismissLabel, className: "shrink-0", "data-slot": "upload-tray-dismiss", onClick: onDismiss, size: "xs", variant: "tertiary", children: (0, import_jsx_runtime173.jsx)(X, { "aria-hidden": "true" }) }) : null] }), (0, import_jsx_runtime173.jsx)("div", { className: "scrollbar-thin max-h-56 overflow-y-auto border-stroke border-t p-1", "data-slot": "upload-tray-list", hidden: !isOpen, children: (0, import_jsx_runtime173.jsx)(AutoDismissContext.Provider, { value: {
+    }, ...props, children: [(0, import_jsx_runtime175.jsxs)("div", { className: "flex items-center gap-1 px-2 py-1.5", children: [(0, import_jsx_runtime175.jsxs)("button", { "aria-expanded": isOpen, className: cn("flex min-w-0 flex-1 items-center gap-2.5 px-1 py-1", "cursor-pointer rounded-md border-none bg-transparent text-left", "font-medium text-ink-primary text-sm", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-inset"), "data-slot": "upload-tray-head", onClick: toggle, type: "button", children: [HEAD_ICON(spinner)[status] ? (0, import_jsx_runtime175.jsx)("span", { className: headIconVariants({ status }), children: HEAD_ICON(spinner)[status] }) : null, (0, import_jsx_runtime175.jsx)("span", { className: "min-w-0 flex-1 truncate", children: title })] }), (0, import_jsx_runtime175.jsx)(IconButton, { "aria-label": isOpen ? collapseLabel : expandLabel, className: "shrink-0", "data-slot": "upload-tray-toggle", onClick: toggle, size: "xs", variant: "tertiary", children: (0, import_jsx_runtime175.jsx)(ChevronDown, { "aria-hidden": "true", className: cn("transition-transform duration-base", !isOpen && "rotate-180") }) }), onDismiss ? (0, import_jsx_runtime175.jsx)(IconButton, { "aria-label": dismissLabel, className: "shrink-0", "data-slot": "upload-tray-dismiss", onClick: onDismiss, size: "xs", variant: "tertiary", children: (0, import_jsx_runtime175.jsx)(X, { "aria-hidden": "true" }) }) : null] }), (0, import_jsx_runtime175.jsx)("div", { className: "scrollbar-thin max-h-56 overflow-y-auto border-stroke border-t p-1", "data-slot": "upload-tray-list", hidden: !isOpen, children: (0, import_jsx_runtime175.jsx)(AutoDismissContext.Provider, { value: {
       enabled: autoDismiss,
       delay: autoDismissDelay,
       onRowGone: () => setLiveRows((n) => n - 1)
@@ -29089,8 +29208,8 @@ Defaulting to \`null\`.`;
   };
   var STATUS_MARK = {
     uploading: null,
-    done: (0, import_jsx_runtime173.jsx)(CircleCheck, { "aria-hidden": "true", className: "size-4 text-fb-green" }),
-    failed: (0, import_jsx_runtime173.jsx)(CircleAlert, { "aria-hidden": "true", className: "size-4 text-fb-red-text" })
+    done: (0, import_jsx_runtime175.jsx)(CircleCheck, { "aria-hidden": "true", className: "size-4 text-fb-green" }),
+    failed: (0, import_jsx_runtime175.jsx)(CircleAlert, { "aria-hidden": "true", className: "size-4 text-fb-red-text" })
   };
   function UploadTrayItem({ status, name, icon, progress, meta, error, action, statusLabel, onRowClick, className, ...props }) {
     const hasSecondLine = error !== void 0 || status === "uploading" && progress !== void 0;
@@ -29112,7 +29231,7 @@ Defaulting to \`null\`.`;
     }, [retires, auto?.delay]);
     if (gone)
       return null;
-    return (0, import_jsx_runtime173.jsxs)("div", { className: cn(itemVariants({ status }), hasSecondLine ? "items-start" : "items-center", "relative cursor-pointer", "transition-colors duration-fast", "hover:bg-state-hover", "active:bg-state-pressed", leaving && cn(
+    return (0, import_jsx_runtime175.jsxs)("div", { className: cn(itemVariants({ status }), hasSecondLine ? "items-start" : "items-center", "relative cursor-pointer", "transition-colors duration-fast", "hover:bg-state-hover", "active:bg-state-pressed", leaving && cn(
       "animate-row-out overflow-hidden",
       // NOT `motion-reduce:animate-none`: the row retires on
       // `animationend`, so removing the animation removes the
@@ -29127,7 +29246,7 @@ Defaulting to \`null\`.`;
         return;
       setGone(true);
       auto?.onRowGone();
-    }, ref, ...props, children: [icon ? (0, import_jsx_runtime173.jsx)("span", { className: cn(itemIconVariants(), hasSecondLine && "mt-0.5"), children: icon }) : null, (0, import_jsx_runtime173.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1", children: [(0, import_jsx_runtime173.jsx)("button", { className: cn("truncate text-left text-ink-body text-sm", "cursor-pointer border-none bg-transparent p-0", "after:absolute after:inset-0", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-inset"), onClick: onRowClick, type: "button", children: name }), status === "uploading" && progress !== void 0 ? (0, import_jsx_runtime173.jsx)(ProgressBar, { className: "w-full", size: "md", value: progress }) : null, error ? (0, import_jsx_runtime173.jsx)("span", { className: "text-balance text-fb-red-text text-xs", children: error }) : null] }), meta ? (0, import_jsx_runtime173.jsx)("span", { className: "relative shrink-0 text-ink-secondary text-xs tabular-nums", children: meta }) : null, action ? (0, import_jsx_runtime173.jsx)("span", { className: "relative flex shrink-0 items-center text-xs", children: action }) : null, statusLabel ? (0, import_jsx_runtime173.jsx)("span", { className: cn("flex shrink-0 items-center", hasSecondLine && "self-start"), "data-slot": "upload-tray-item-status", children: (0, import_jsx_runtime173.jsx)(Badge, { rounded: "full", size: "sm", variant: STATUS_BADGE_VARIANT[status], children: statusLabel }) }) : null, !statusLabel && STATUS_MARK[status] ? (0, import_jsx_runtime173.jsx)("span", { className: cn(
+    }, ref, ...props, children: [icon ? (0, import_jsx_runtime175.jsx)("span", { className: cn(itemIconVariants(), hasSecondLine && "mt-0.5"), children: icon }) : null, (0, import_jsx_runtime175.jsxs)("div", { className: "flex min-w-0 flex-1 flex-col gap-1", children: [(0, import_jsx_runtime175.jsx)("button", { className: cn("truncate text-left text-ink-body text-sm", "cursor-pointer border-none bg-transparent p-0", "after:absolute after:inset-0", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring-brand focus-visible:ring-inset"), onClick: onRowClick, type: "button", children: name }), status === "uploading" && progress !== void 0 ? (0, import_jsx_runtime175.jsx)(ProgressBar, { className: "w-full", size: "md", value: progress }) : null, error ? (0, import_jsx_runtime175.jsx)("span", { className: "text-balance text-fb-red-text text-xs", children: error }) : null] }), meta ? (0, import_jsx_runtime175.jsx)("span", { className: "relative shrink-0 text-ink-secondary text-xs tabular-nums", children: meta }) : null, action ? (0, import_jsx_runtime175.jsx)("span", { className: "relative flex shrink-0 items-center text-xs", children: action }) : null, statusLabel ? (0, import_jsx_runtime175.jsx)("span", { className: cn("flex shrink-0 items-center", hasSecondLine && "self-start"), "data-slot": "upload-tray-item-status", children: (0, import_jsx_runtime175.jsx)(Badge, { rounded: "full", size: "sm", variant: STATUS_BADGE_VARIANT[status], children: statusLabel }) }) : null, !statusLabel && STATUS_MARK[status] ? (0, import_jsx_runtime175.jsx)("span", { className: cn(
       "flex shrink-0 items-center",
       /* Aligned to the name’s line when the row has a second one, the
          same rule the leading glyph follows. */

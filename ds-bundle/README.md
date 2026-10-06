@@ -337,7 +337,7 @@ Library components carry the design language; the agent's own glue (`flex`,
 # DevartUI (@devart/ui-react@1.0.0)
 
 This design system is the published @devart/ui-react React library, bundled as a single
-browser global. All 58 components are the real upstream code.
+browser global. All 61 components are the real upstream code.
 
 ## Where things are
 
@@ -374,7 +374,7 @@ Wrap the tree in the provider — most components read theme/i18n from context:
 
 ## Tokens
 
-359 CSS custom properties from @devart/ui-react. Names are
+360 CSS custom properties from @devart/ui-react. Names are
 preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (this DS ships one compiled stylesheet rather than separate token files).
 
 - **color** (51): `--surface-card`, `--surface-card2`, `--surface-chips`, …
@@ -382,7 +382,7 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - **typography** (33): `--font-sans`, `--font-size-xxs`, `--font-size-xs`, …
 - **radius** (7): `--radius-sm`, `--radius`, `--radius-md`, …
 - **shadow** (18): `--shadow-thumb`, `--shadow-thumb-hover`, `--shadow-modal`, …
-- **other** (247): `--modal-max-h`, `--modal-w-sm`, `--modal-w-md`, …
+- **other** (248): `--modal-max-h`, `--modal-w-sm`, `--modal-w-md`, …
 
 ## Components
 
@@ -400,6 +400,7 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `CodeBlock` — A block of code with the one control it always needs.
 - `Collapsible` — The root container that manages the open/closed state.
 - `ConnectorLogo` — The brand mark for a data-source connector, at one of four tile sizes.
+- `Counter`
 - `DataSourceCard` — A catalog tile for a data source that is not connected yet.
 - `DropdownMenu` — The root component that manages the open/closed state of the dropdown.
 - `File`
@@ -415,6 +416,7 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `PasswordInput` — Password field using link InputGroup + addons: lock icon, input, visibility toggle.
 - `Popover` — The root component that manages the open/closed state of the popover.
 - `ProgressBar`
+- `PromoCard`
 - `RadioButton`
 - `ResizablePanelGroup` — Horizontal or vertical group of resizable panels.
 - `ScrollShadow` — A scrollable container component that automatically displays fade-in/fade-out shadows
@@ -444,6 +446,7 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 
 ### foundations
 - `Colors` — Every semantic and component-scoped colour token, by role  Layers 2 and 3,
+- `Motion`
 - `Radius` — The radius scale, each step shown at its real value.
 - `Shadows` — Elevation as roles rather than sizes  pick by what the surface is doing.
-- `Spacing` — The 4px step. The step number is the unit: 4 is 16px, so p-4,
+- `Spacing`
