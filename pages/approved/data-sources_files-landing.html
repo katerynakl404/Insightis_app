@@ -62,10 +62,11 @@
   /* Sits WITH the title, not in the row's general gap — a mark that belongs to a word has to be
      the width of a space away from it. The page head gaps at .75rem, so -.25rem lands the mark at
      8px: on the 4px grid, where every other distance in the kit is. */
+  /* NO hover colour. The mark is a glyph inside the page title, not a control with a surface
+     of its own — and the hover already has an answer: the popover opens. Darkening it as well made
+     the glyph look like it was changing state (user directive 2026-10-06). */
   .dsf-quota-mark{display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;padding:0;border:none;background:none;cursor:pointer;color:var(--ink-secondary);flex:none;align-self:center;margin-left:-.25rem}
-  .dsf-quota-mark:hover{color:var(--ink-body)}
   .dsf-quota-mark.is-over{color:var(--fb-attention)}
-  .dsf-quota-mark.is-over:hover{color:var(--fb-attention-text)}
   .dsf-quota-ic{width:var(--icon-sm);height:var(--icon-sm)}
   /* The detail panel reuses the upgrade popover's shell; its meter is the kit ProgressBar. */
   .dsf-quota-val{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-body);font-variant-numeric:tabular-nums}
