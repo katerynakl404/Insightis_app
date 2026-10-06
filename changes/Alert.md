@@ -125,3 +125,31 @@ at 20px. It was dropped the same day: prod draws every UI glyph at one weight, a
 glyph is lighter than the button beside it reads as a different icon set, not as a smaller alert.
 Only the BOX steps — 16px at S, 20px at M — and the stroke stays `--icon-stroke`. The Devart UI
 Alert made the same move in the same pass, so the package and the kit agree.
+
+## Illustration — the opt-in leading mark (2026-10-06)
+
+`.alert-illu` wraps the glyph in a round plate of its own colour. It is for an alert that names a
+**thing** — credits, connections, metrics — rather than a severity: a warning triangle says only
+"something is wrong", while the plate puts the subject first and the title says what happened to it.
+Prod's *"You've run out of credits"* notice is the reference.
+
+| | S | M |
+|---|---|---|
+| Plate | 32px | 40px |
+| Glyph | `--icon-sm` | `--icon-lg` |
+
+- **Fill only.** No border, no shadow — both were tried and rejected the same day.
+- **The fill is the glyph's own colour at `--tint-15`**, composed from `currentColor` on the plate.
+  No per-variant fill map and no new token: it follows `--alert-accent` and the theme by itself.
+- **The glyph keeps the size it has bare.** The plate is the new thing, not a bigger mark, and the
+  stroke stays `--icon-stroke` at both sizes.
+- **The row centres on the plate** (`.alert:has(.alert-illu){align-items:center}`), because a plate
+  is taller than the title's line box and top-aligning hangs the text off its edge.
+- **Decorative** — `aria-hidden`, like the bare glyph. The title has to name the condition itself.
+
+Devart UI ships the same thing as Alert's `illustration` prop (the caller passes only the glyph,
+never a colour; `illustration` wins if `icon` is also passed).
+
+**Consumers.** The three read-only notices: connections paused on the Connections page and inside
+the chat that used them, and metrics read-only on the Metrics page. Each carries its own subject
+glyph — `#mi-connections`, `#mi-metrics` — not the warning triangle they shared before.

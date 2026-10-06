@@ -5344,6 +5344,19 @@
      alone carries the step. A 1.5/2 pair lived here until 2026-10-06 and was dropped so the Alert
      glyph weighs what every other glyph weighs — the Devart UI Alert made the same move. */
   .alert-ic{flex:none;width:var(--icon-sm);height:var(--icon-sm);stroke-width:var(--icon-stroke);color:var(--alert-accent)}
+  /* ILLUSTRATION — the opt-in leading mark: the same glyph, on a round plate of its own colour.
+     For an alert that names a THING (credits, connections) rather than a severity — the plate puts
+     the subject first, the way prod's "You've run out of credits" notice does. Fill ONLY: no
+     border, no shadow (both were tried and rejected 2026-10-06). The fill is the glyph's own
+     colour at one tint step, so it follows the variant and the theme with no per-variant map and
+     no second token. The glyph keeps the size it would have bare — the plate is what is new, not
+     a bigger mark. Devart UI ships it as Alert's `illustration` prop; aria-hidden there and here,
+     so the title has to name the condition itself. */
+  .alert-illu{flex:none;display:flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:var(--radius-full);color:var(--alert-accent);background:color-mix(in srgb, currentColor var(--tint-15), transparent)}
+  .alert-illu svg{width:var(--icon-sm);height:var(--icon-sm);stroke-width:var(--icon-stroke)}
+  /* A plate is taller than the title's line box, so the row centres on it rather than hanging the
+     text off its top edge. */
+  .alert:has(.alert-illu){align-items:center}
   .alert-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .alert-t{font-size:var(--ts-title-12-size);line-height:var(--ts-title-12-lh);font-weight:var(--ts-title-12-weight);color:var(--ink-primary)}
   .alert-d{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
@@ -5354,10 +5367,10 @@
      one rung together — type, glyph and padding — so it is a size, not a bigger font. */
   .alert.is-md{gap:.75rem;padding:.75rem .875rem}
   .alert.is-md .alert-ic{width:var(--icon-lg);height:var(--icon-lg)}
+  .alert.is-md .alert-illu{width:2.5rem;height:2.5rem}
+  .alert.is-md .alert-illu svg{width:var(--icon-lg);height:var(--icon-lg)}
   .alert.is-md .alert-t{font-size:var(--ts-title-14-size);line-height:var(--ts-title-14-lh);font-weight:var(--ts-title-14-weight)}
   .alert.is-md .alert-d{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
-  /* The actions line up with the GLYPH and the title, not with the middle of the block: a
-     two-line alert pushed them half a line below the thing they answer. The offset is the two
   /* Centred on the block, not aligned to the glyph. Tried top-aligned so the control sat on the
      title line it answers; it read as the button having slipped upward, and on a two-line alert
      the block is what the eye measures against. Reverted 2026-09-30. */
