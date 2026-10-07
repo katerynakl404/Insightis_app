@@ -1,0 +1,750 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Upgrade-точки для Free</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F6F6; --surface:#FFFFFF; --ink:#101B21; --ink2:#44545C; --muted:#6A7A82; --line:#DCE4E6; --line2:#C9D4D7;
+  --accent:#07807E; --accent-soft:#E3F1F0; --accent-ink:#055F5E;
+  --warn:#A15C07; --warn-soft:#FDF1DE; --neutral:#475569; --neutral-soft:#EEF1F4; --danger:#B42318;
+  --code-bg:#EEF3F3;
+  --m-page:#F6F8FA; --m-card:#FFFFFF; --m-line:#E2E8F0; --m-line2:#CBD5E1; --m-text:#0F172A; --m-text2:#64748B; --m-body:#374151;
+  --m-brand:#07807E; --m-brand-hover:#148F8D; --m-chip:#F1F5F9; --m-accent:#F0F6F8; --m-focus:#475569;
+  --m-lock-bg:#E6F4F3; --m-lock-ink:#066867; --m-overlay:rgba(15,23,42,.35);
+  --font:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0D1113; --surface:#151B1E; --ink:#E6EDEF; --ink2:#B8C5CA; --muted:#8C9CA3; --line:#26323A; --line2:#34424B;
+    --accent:#2FA29B; --accent-soft:#12302E; --accent-ink:#7FD3CC; --warn:#E6AE5A; --warn-soft:#33240F; --neutral:#A3B1BF; --neutral-soft:#1E262D; --danger:#F08A80;
+    --code-bg:#1B2327;
+    --m-page:#0F0F14; --m-card:#17171E; --m-line:#2A2834; --m-line2:#334155; --m-text:#FFFFFF; --m-text2:#97979A; --m-body:#DEDEDE;
+    --m-brand:#148F8D; --m-brand-hover:#2FA29B; --m-chip:#2A2834; --m-accent:#111A1C; --m-focus:#64748B;
+    --m-lock-bg:#123331; --m-lock-ink:#7FD3CC; --m-overlay:rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0D1113; --surface:#151B1E; --ink:#E6EDEF; --ink2:#B8C5CA; --muted:#8C9CA3; --line:#26323A; --line2:#34424B;
+  --accent:#2FA29B; --accent-soft:#12302E; --accent-ink:#7FD3CC; --warn:#E6AE5A; --warn-soft:#33240F; --neutral:#A3B1BF; --neutral-soft:#1E262D; --danger:#F08A80;
+  --code-bg:#1B2327;
+  --m-page:#0F0F14; --m-card:#17171E; --m-line:#2A2834; --m-line2:#334155; --m-text:#FFFFFF; --m-text2:#97979A; --m-body:#DEDEDE;
+  --m-brand:#148F8D; --m-brand-hover:#2FA29B; --m-chip:#2A2834; --m-accent:#111A1C; --m-focus:#64748B;
+  --m-lock-bg:#123331; --m-lock-ink:#7FD3CC; --m-overlay:rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55;margin:0;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1120px;margin:0 auto}
+a{color:var(--accent-ink)}
+h1,h2,h3,h4{text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,4.2vw,40px);font-weight:700;letter-spacing:-.02em}
+h2{font-size:24px;font-weight:600;letter-spacing:-.01em}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+.prose{max-width:72ch;display:flex;flex-direction:column;gap:10px}
+.prose ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:var(--mono);font-size:.84em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+header.top{padding-block:40px 28px;display:flex;flex-direction:column;gap:16px;border-bottom:1px solid var(--line)}
+.lede{font-size:17px;color:var(--ink2);max-width:70ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:3px 10px;border-radius:999px;border:1px solid var(--line2);background:var(--surface);color:var(--ink2)}
+.tag b{color:var(--ink);font-weight:600}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px;overflow-x:auto;white-space:nowrap}
+nav.toc .in{max-width:1120px;margin:0 auto;display:flex;gap:4px}
+nav.toc a{font-size:13px;text-decoration:none;color:var(--ink2);padding:4px 10px;border-radius:6px}
+nav.toc a:hover{background:var(--surface);color:var(--ink)}
+section{padding-block:44px 8px;display:flex;flex-direction:column;gap:18px;scroll-margin-top:56px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head .eyebrow{color:var(--accent-ink)}
+.sub{color:var(--ink2);max-width:75ch}
+.callout{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;max-width:85ch}
+.callout.key{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));background:var(--accent-soft)}
+.callout.warn{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));background:var(--warn-soft)}
+.callout h4{font-size:14px;font-weight:600}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.rule .n{font-family:var(--mono);font-size:12px;color:var(--accent-ink)}
+.rule h3{font-size:15px}
+.rule p{color:var(--ink2);font-size:14px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:12px;color:var(--muted);background:color-mix(in srgb,var(--bg) 60%,var(--surface));white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tr.grp td{background:color-mix(in srgb,var(--accent-soft) 60%,var(--surface));font-weight:600;color:var(--accent-ink);font-size:12.5px;letter-spacing:.02em}
+td.copy{font-family:var(--mono);font-size:12px}
+.u{font-family:var(--mono);font-size:11.5px;background:var(--accent-soft);color:var(--accent-ink);padding:1px 6px;border-radius:5px;white-space:nowrap}
+.req{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.req.must{background:var(--accent-soft);color:var(--accent-ink)}
+.req.prop{background:var(--neutral-soft);color:var(--neutral)}
+.req.del{background:var(--danger-soft);color:var(--danger)}
+.req.new{background:var(--info-soft);color:var(--info)}
+/* A struck block stays on the page: the reader has to see what was asked for and that it is
+   gone, otherwise the correction is just a different document. */
+.is-del > .desc h3,.is-del > .desc .kv dd,.state.is-del .copyline,.rule.is-del h3,.rule.is-del > p{text-decoration:line-through;text-decoration-thickness:1px}
+tr.is-del td:not(:last-child){text-decoration:line-through;text-decoration-thickness:1px}
+.is-del{opacity:.72}
+.is-del .mock{filter:grayscale(1);opacity:.5}
+.fix{background:var(--info-soft);border-left:3px solid var(--info);border-radius:0 8px 8px 0;padding:10px 13px;margin-top:10px;font-size:13.5px;color:var(--ink2);opacity:1;text-decoration:none}
+.is-del .fix,tr.is-del .fix{opacity:1;text-decoration:none}
+.fix b{color:var(--info)}
+.fix .lbl{display:block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--info);margin-bottom:3px}
+td .fix{margin-top:6px}
+.legend{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:9px;font-size:13.5px;color:var(--ink2);margin-top:18px}
+.legend .row{display:flex;gap:10px;align-items:baseline}
+.legend .row .req{flex:none}
+.group-title{display:flex;align-items:baseline;gap:10px;margin-top:10px}
+.group-title .gid{font-family:var(--mono);font-size:13px;color:var(--accent-ink);background:var(--accent-soft);padding:2px 8px;border-radius:6px}
+.state{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+@media (max-width:900px){.state{grid-template-columns:1fr}}
+.state .desc{display:flex;flex-direction:column;gap:10px;font-size:14px}
+.sid{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sid code{font-size:12px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;margin:0}
+.kv dt{color:var(--muted);font-size:12.5px;padding-top:1px}
+.kv dd{margin:0;color:var(--ink2)}
+.kv ul{margin:0;padding-left:18px}
+.copyline{font-family:var(--mono);font-size:12px;background:var(--code-bg);border-radius:6px;padding:6px 8px;color:var(--ink);margin-top:3px}
+
+/* ---------- mock ---------- */
+.mock{background:var(--m-page);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;color:var(--m-text);font-size:13px;position:relative;min-width:0;overflow:hidden}
+.mock .cap{position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:10.5px;color:var(--m-text2);letter-spacing:.04em;z-index:3}
+svg.i{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+svg.s12{width:12px;height:12px} svg.s18{width:18px;height:18px} svg.s22{width:22px;height:22px}
+.btn{height:28px;border-radius:8px;padding:0 10px;font-size:12.5px;font-family:inherit;display:inline-flex;gap:6px;align-items:center;justify-content:center;border:1px solid var(--m-line);background:var(--m-card);color:var(--m-text);white-space:nowrap;cursor:default}
+.btn.primary{background:var(--m-brand);border-color:var(--m-brand);color:#fff}
+.btn.outline{border-color:var(--m-brand);color:var(--m-text);background:transparent}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--m-text2)}
+.btn.sm{height:24px;padding:0 8px;font-size:12px}
+.btn.full{width:100%;height:32px}
+.btn[disabled]{opacity:.45}
+.lock{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;letter-spacing:.02em;color:var(--m-lock-ink);background:var(--m-lock-bg);border-radius:5px;padding:1px 6px;white-space:nowrap}
+.lock.lg{font-size:11.5px;padding:2px 8px}
+.pop{background:var(--m-card);border:1px solid var(--m-line);border-radius:10px;padding:4px;box-shadow:0 10px 28px rgba(15,23,42,.18);display:flex;flex-direction:column;gap:1px;width:100%;max-width:290px}
+.pop .hd{font-size:11.5px;color:var(--m-text2);padding:6px 10px 4px}
+.mi{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 10px;border-radius:7px}
+.mi.hov{background:var(--m-chip)}
+.mi b{font-weight:500;display:block;color:var(--m-text)}
+.mi span.d{font-size:11.5px;color:var(--m-text2)}
+.mi.locked b{color:var(--m-text2)}
+.mi .ck{color:var(--m-brand)}
+.sep{height:1px;background:var(--m-line);margin:3px -4px}
+.upop{background:var(--m-card);border:1px solid var(--m-line2);border-radius:12px;padding:12px;box-shadow:0 12px 30px rgba(15,23,42,.22);display:flex;flex-direction:column;gap:8px;max-width:260px;font-size:12.5px}
+.upop h5{margin:0;font-size:13px;font-weight:600;color:var(--m-text);display:flex;align-items:center;gap:6px}
+.upop ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;color:var(--m-body)}
+.upop li{display:flex;gap:6px;align-items:flex-start}
+.upop li svg{color:var(--m-brand);margin-top:2px}
+.muted{color:var(--m-text2)}
+.row{display:flex;align-items:center;gap:8px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.m-comp{border:1px solid var(--m-line);border-radius:16px;background:var(--m-card);padding:8px;display:flex;flex-direction:column;gap:8px}
+.m-comp .field{padding:3px 8px;min-height:22px}
+.m-comp .field.ph{color:var(--m-text2)}
+.ctl{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--m-body);padding:3px 7px;border-radius:6px}
+.ctl.on{background:var(--m-chip)}
+.pill{align-self:center;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--m-line2);border-radius:999px;padding:3px 12px;font-size:12px;color:var(--m-text2);background:var(--m-card)}
+.pill a{color:var(--m-brand);font-weight:600;text-decoration:none}
+.pill .bar{width:1px;height:12px;background:var(--m-line2)}
+.m-user{align-self:flex-end;background:var(--m-chip);padding:7px 12px;border-radius:14px 14px 4px 14px;max-width:85%}
+.m-asst{color:var(--m-body)}
+.notice{border:1px solid var(--m-line);background:var(--m-card);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center}
+.notice .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:var(--m-lock-bg);color:var(--m-lock-ink)}
+.notice b{display:block;font-size:13px}
+.notice span{font-size:12px;color:var(--m-text2)}
+@media (max-width:520px){.notice{grid-template-columns:auto minmax(0,1fr)}.notice .btn{grid-column:1/-1}}
+.banner{border:1px solid color-mix(in srgb,var(--m-brand) 35%,var(--m-line));background:var(--m-accent);border-radius:10px;padding:9px 12px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center}
+.banner .ic{color:var(--m-lock-ink)}
+.banner b{font-size:13px;display:block}
+.banner span{font-size:12px;color:var(--m-text2)}
+@media (max-width:520px){.banner{grid-template-columns:auto minmax(0,1fr)}.banner .btn{grid-column:1/-1}}
+.pagehd{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pagehd h4{font-size:16px;font-weight:600}
+.tabs{display:flex;gap:2px;background:var(--m-chip);border-radius:8px;padding:2px;align-self:flex-start;font-size:12px}
+.tabs span{padding:3px 10px;border-radius:6px;color:var(--m-text2)}
+.tabs span.on{background:var(--m-card);color:var(--m-text);font-weight:500}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ccard{border:1px solid var(--m-line);background:var(--m-card);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.logo{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+.mt{border:1px solid var(--m-line);border-radius:10px;background:var(--m-card);overflow:hidden}
+.mt .tr{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--m-line);font-size:12.5px}
+.mt .tr:last-child{border-bottom:0}
+.mt .th{font-size:11px;color:var(--m-text2);background:var(--m-chip)}
+.ro{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;color:var(--m-text2);border:1px solid var(--m-line);border-radius:5px;padding:0 6px}
+.sw{width:26px;height:15px;border-radius:999px;background:var(--m-brand);position:relative;flex:none;opacity:.5}
+.sw::after{content:"";position:absolute;right:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#fff}
+.sw.off{background:var(--m-line2)} .sw.off::after{right:auto;left:2px}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--m-line);font-size:12.5px}
+.mrow:last-child{border-bottom:0}
+.alias{font-family:var(--mono);font-size:11px;color:var(--m-text2)}
+.overlay{position:relative;border-radius:10px;padding:18px 12px;background:var(--m-overlay);display:grid;place-items:center}
+.modal{background:var(--m-card);border:1px solid var(--m-line);border-radius:14px;width:100%;max-width:360px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 40px rgba(15,23,42,.25)}
+.modal .art{height:84px;border-radius:10px;background:linear-gradient(135deg,var(--m-lock-bg),var(--m-accent));display:grid;place-items:center;color:var(--m-lock-ink);position:relative}
+.modal .art .chips{display:flex;gap:6px}
+.modal .art .chips span{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+.modal h5{margin:0;font-size:16px;font-weight:600;color:var(--m-text)}
+.modal p{font-size:12.5px;color:var(--m-text2)}
+.modal ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--m-body)}
+.modal li{display:flex;gap:8px;align-items:flex-start}
+.modal li svg{color:var(--m-brand);margin-top:2px}
+.modal .foot{display:flex;gap:8px;justify-content:flex-end}
+.modal .x{position:absolute;top:8px;right:8px;color:var(--m-text2)}
+.plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.plan-grid{grid-template-columns:1fr}}
+.pc{border:1px solid var(--m-line);border-radius:10px;background:var(--m-card);padding:10px;display:flex;flex-direction:column;gap:6px;font-size:12px;position:relative}
+.pc.rec{border-color:var(--m-brand);box-shadow:0 0 0 1px var(--m-brand)}
+.pc b{font-size:13px}
+.pc .price{font-size:18px;font-weight:700}
+.pc .unl{font-size:11px;color:var(--m-lock-ink);background:var(--m-lock-bg);border-radius:5px;padding:2px 6px;align-self:flex-start}
+.toast{align-self:center;background:var(--m-text);color:var(--m-card);font-size:12px;border-radius:8px;padding:7px 12px;display:flex;gap:8px;align-items:center}
+.side{display:flex;flex-direction:column;gap:2px;font-size:12.5px;background:var(--m-card);border:1px solid var(--m-line);border-radius:10px;padding:6px;max-width:240px}
+.side .it{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:5px 8px;border-radius:6px;color:var(--m-body)}
+.side .it .l{display:flex;align-items:center;gap:8px}
+.side .it.on{background:var(--m-chip);color:var(--m-text)}
+.side .user{border-top:1px solid var(--m-line);margin-top:4px;padding:8px 8px 4px;display:flex;flex-direction:column;gap:6px}
+.side .bar{height:4px;border-radius:2px;background:var(--m-line);overflow:hidden}
+.side .bar i{display:block;height:100%;width:62%;background:var(--m-brand)}
+.anno{font-size:11.5px;color:var(--m-text2);border-left:2px solid var(--m-brand);padding-left:8px}
+ul.checklist{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;max-width:88ch}
+ul.checklist li{display:grid;grid-template-columns:18px 1fr;gap:8px}
+ul.checklist li::before{content:"";width:14px;height:14px;border:1.5px solid var(--line2);border-radius:4px;margin-top:4px}
+.refs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:860px){.refs{grid-template-columns:1fr}}
+.ref{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:6px}
+.ref b{font-size:14px}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></symbol>
+  <symbol id="i-flow" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect x="13" y="13" width="8" height="8" rx="2"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+  <symbol id="i-sigma" viewBox="0 0 24 24"><path d="M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-at" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-set" viewBox="0 0 24 24"><path d="M20 7h-9M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+</svg>
+
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">ТЗ для дизайна · Insightis · монетизация</span>
+  <h1>Upgrade-точки для Free</h1>
+  <p class="lede" style="color:var(--info);font-weight:500">Исправленная редакция — после того, как экраны были собраны. Структура, разделы и нумерация прежние.</p>
+  <p class="lede">На плане Free будет недоступна большая часть продукта. Нужен один узнаваемый способ сказать пользователю «это есть, это на платном плане, вот как открыть» — в чате, на Data Sources, на Metrics и везде, где он натыкается на закрытую функцию. Каждая такая точка ведёт на выбор плана в приложении.</p>
+<div class="legend">
+  <div class="row"><span class="req must">обязательно</span><span>Требование из исходного ТЗ, оставлено как есть.</span></div>
+  <div class="row"><span class="req del">удалено</span><span>Требование из исходного ТЗ, которое <b>не реализовано</b>. Текст оставлен на странице зачёркнутым, под ним причина. Ничего не убрано молча.</span></div>
+  <div class="row"><span class="req new">добавлено</span><span>Решение, которого в исходном ТЗ не было, а продукту оно понадобилось.</span></div>
+  <div class="row"><span class="req prop">предложение</span><span>Было предложением автора ТЗ; где оно принято или отклонено — сказано на месте.</span></div>
+</div>
+  <div class="meta">
+    <span class="tag"><b>Jira</b> тикет ещё не заведён</span>
+    <span class="tag"><b>Цель дизайна</b> единая система + карта всех точек</span>
+    <span class="tag"><b>Где</b> app.insightis.ai · repo <code>insightis/frontend</code></span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Разделы"><div class="in">
+  <a href="#ctx">Контекст</a><a href="#principles">Принципы</a><a href="#system">Система</a><a href="#map">Карта точек</a>
+  <a href="#screens">Экраны</a><a href="#flow">После Upgrade</a><a href="#copy">Тексты</a><a href="#refs">Референсы</a>
+  <a href="#out">Вне рамок</a><a href="#deliver">Что сдать</a><a href="#questions">Вопросы</a>
+</div></nav>
+
+<section id="ctx">
+  <div class="sec-head"><span class="eyebrow">01 · Контекст</span><h2>Кто такой Free-пользователь и что у него закрыто</h2></div>
+  <div class="grid2">
+    <div class="prose">
+      <p>Каждый новый аккаунт начинается с <b>14-дневного триала топ-плана</b>: все модели, все коннекторы, метрики. Когда триал заканчивается (или человек отменяет подписку), аккаунт переходит на <b>Free</b>, а не блокируется. Поэтому у типичного Free-пользователя уже есть подключённые источники и метрики, созданные за триал.</p>
+      <p><b>На Free остаётся:</b> AI Chat по загруженным файлам, модель Insightis Light, дневной лимит кредитов, Files.</p>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Закрыто на Free</th><th>Как должно выглядеть</th></tr></thead>
+      <tbody>
+        <tr><td>Коннекторы в чате (контрол «Connections» в композере)</td><td>Контрол виден, внутри объяснение и Upgrade</td></tr>
+        <tr><td>Все модели, кроме Insightis Light</td><td>Модели видны в списке с меткой плана, выбрать нельзя</td></tr>
+        <tr><td>Data Sources: Catalog и My Connections</td><td>Страница открывается. Своё видно в режиме только чтения. Любое действие открывает Upgrade</td></tr>
+        <tr><td>Metrics, включая <code>@</code>-упоминания в чате</td><td>То же: смотреть можно, менять и использовать нельзя</td></tr>
+      </tbody></table></div>
+  </div>
+  <div class="callout key">
+    <h4>Главная мысль</h4>
+    <p>Закрытое <b>не прячем</b>, а показываем запертым. Пользователь должен видеть, что продукт умеет больше, и понимать, как это получить. Но просмотр не блокируем: всё, что у него уже есть, он может открыть и прочитать. Upgrade появляется в момент, когда он пытается <b>что-то сделать</b>.</p>
+  </div>
+</section>
+
+<section id="principles">
+  <div class="sec-head"><span class="eyebrow">02 · Принципы</span><h2>Правила единого стиля</h2></div>
+  <div class="grid3">
+    <div class="rule"><span class="n">P1</span><h3>Видно, но заперто</h3><p>Недоступные модели, коннекторы, кнопки остаются на своих местах. Их не удаляем и не делаем серыми без объяснения.</p></div>
+    <div class="rule"><span class="n">P2</span><h3>Один маркер</h3><p>Везде одна метка закрытой функции: иконка замка + название минимального плана («Starter», «Pro»). Один цвет, одна форма, во всех местах.</p></div>
+    <div class="rule"><span class="n">P3</span><h3>Одна формула текста</h3><p>Что это → что это даёт → на каком плане. Коротко, без давления, без восклицательных знаков и обратного отсчёта.</p></div>
+    <div class="rule"><span class="n">P4</span><h3>Один путь</h3><p>Любое Upgrade-окно ведёт в одно место: Settings → Manage plan в приложении. План, который открывает функцию, там подсвечен.</p></div>
+    <div class="rule"><span class="n">P5</span><h3>Читать можно</h3><p>Свои подключения и метрики пользователь открывает и читает. Upgrade показываем на действие: создать, изменить, включить, использовать.</p></div>
+    <div class="rule"><span class="n">P6</span><h3>Не терять работу</h3><p>Upgrade-окно не стирает набранный вопрос, открытую форму, выбранный файл. Закрыл окно — продолжил с того же места.</p></div>
+    <div class="rule"><span class="n">P7</span><h3>Только по действию</h3><p>Большие окна не всплывают сами. Модалка появляется только после клика пользователя. Постоянные подсказки: небольшие и закрываемые.</p></div>
+    <div class="rule"><span class="n">P8</span><h3>Вернуть назад</h3><p>После успешной оплаты пользователь возвращается туда, откуда пришёл, и функция сразу доступна (подробнее в разделе 06).</p></div>
+    <div class="rule"><span class="n">P9</span><h3>Одинаково в двух темах</h3><p>Метка, баннер и окно нормально читаются в светлой и тёмной теме. На мобильной ширине тоже.</p></div>
+  </div>
+</section>
+
+<section id="system">
+  <div class="sec-head"><span class="eyebrow">03 · Система</span><h2>Шесть компонентов, из которых собирается всё</h2>
+  <p class="sub">Дизайнер проектирует эти компоненты один раз, а потом применяет по карте из раздела 04. Мокапы ниже собраны на токенах Insightis. Они показывают, <b>что</b> должно быть на экране, а не финальный визуал.</p></div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><span class="u">U1</span><h3>Метка плана (Lock badge)</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Где</dt><dd>Пункты меню (модели, коннекторы), навигация, кнопки действий, заголовки секций.</dd>
+      <dt>Что</dt><dd>Замок + минимальный план, на котором функция есть. Две варианта размера: в строке меню и рядом с кнопкой.</dd>
+      <dt>Нельзя</dt><dd>Цены и значки $$$ в метке (у Julius так сделано, нам не нужно: цена живёт в Manage plan).</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">U1</span>
+      <div class="row" style="flex-wrap:wrap;gap:10px"><span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span><span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Pro</span><span class="lock lg"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span></div>
+      <div class="row" style="flex-wrap:wrap;gap:10px"><button class="btn"><svg class="i"><use href="#i-plus"/></svg>Add Metric<span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span></button><button class="btn outline sm">Connect <svg class="i s12"><use href="#i-lock"/></svg></button></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><span class="u">U2</span><h3>Upgrade-поповер</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Наведение или клик по закрытому пункту в небольшом меню: модель, коннектор, <code>@</code>-метрика. Как в референсе Julius (скрин 1).</dd>
+      <dt>Что</dt><dd>Заголовок функции, 2–3 выгоды одной строкой, кнопка «See plans». На touch открывается по тапу.</dd>
+      <dt>Поведение</dt><dd>Не закрывает родительское меню. Esc закрывает поповер.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">U2</span>
+      <div class="upop"><h5><svg class="i"><use href="#i-cpu"/></svg>Insightis Pro</h5><ul><li><svg class="i s12"><use href="#i-check"/></svg>Deeper reasoning for multi-step analysis</li><li><svg class="i s12"><use href="#i-check"/></svg>Better with large tables and joins</li></ul><span class="muted" style="font-size:11.5px">Available on the Pro plan</span><button class="btn primary full">See plans</button></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><span class="u">U3</span><h3>Upgrade-окно (модалка)</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Когда</dt><dd>Клик по действию, которое на Free недоступно: Connect, Create connection, Add Metric, Edit, Duplicate, Test connection, включить метрику и т. д.</dd>
+      <dt>Что</dt><dd>Иллюстрация функции, заголовок, одна фраза пользы, 3 пункта, подсказка про план, «See plans» (основная) и «Not now».</dd>
+      <dt>Варианты</dt><dd>Один шаблон, 4 набора контента: Data connectors, Metrics, AI models, Connections in chat (раздел 05, S9).</dd>
+      <dt>Контекст</dt><dd><span class="req prop">предложение</span> Если действие про конкретный объект, называем его: «Connect HubSpot», «Edit “Net revenue”».</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">U3</span>
+      <div class="overlay"><div class="modal" style="position:relative"><svg class="i x"><use href="#i-x"/></svg>
+        <div class="art"><div class="chips"><span style="background:#FF7A59">Hs</span><span style="background:#00A1E0">Sf</span><span style="background:#635BFF">St</span><span style="background:#34A853">Ga</span></div></div>
+        <h5>Connect HubSpot and 200+ data sources</h5>
+        <p>Ask questions about live data from your business tools, not just uploaded files.</p>
+        <ul><li><svg class="i s12"><use href="#i-check"/></svg>Live queries — no exports, no sync</li><li><svg class="i s12"><use href="#i-check"/></svg>Built-in metrics for each source</li><li><svg class="i s12"><use href="#i-check"/></svg>Read-only access, credentials never reach the AI</li></ul>
+        <span class="lock lg" style="align-self:flex-start"><svg class="i s12"><use href="#i-lock"/></svg>Available on Starter and Pro</span>
+        <div class="foot"><button class="btn ghost">Not now</button><button class="btn primary">See plans</button></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><span class="u">U4</span><h3>Баннер «только чтение»</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Где</dt><dd>Вверху страниц Data Sources и Metrics, если у пользователя там что-то есть.</dd>
+      <dt>Что</dt><dd>Говорит, почему нельзя менять, и что с данными всё в порядке: ничего не удалено. Кнопка «See plans». Не закрывается навсегда, но может сворачиваться.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">U4</span>
+      <div class="banner"><svg class="i s18 ic"><use href="#i-eye"/></svg><div><b>View only on the Free plan</b><span>Your 3 connections are saved. Upgrade to use them in chat and make changes.</span></div><button class="btn primary sm">See plans</button></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><span class="u">U5</span><h3>Пустое состояние с апселлом</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Где</dt><dd>Когда у Free-пользователя в разделе ничего нет: пустой список коннекторов в чате, My Connections, Metrics.</dd>
+      <dt>Что</dt><dd>Вместо «Connect your first data source» объясняем, что функция на платном плане, и что она даёт. Основано на существующем <code>StatusView</code>.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">U5</span>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:14px 6px">
+        <div class="notice" style="display:grid;place-items:center;width:44px;height:44px;padding:0;border-radius:12px;background:var(--m-lock-bg);color:var(--m-lock-ink);border:0"><svg class="i s22"><use href="#i-sigma"/></svg></div>
+        <b style="font-size:14px">Metrics are on paid plans</b>
+        <span class="muted" style="max-width:34ch">Define terms like MRR or win rate once, and mention them with @ in any question.</span>
+        <button class="btn primary">See plans</button></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><span class="u">U6</span><h3>Карточка в чате</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Где</dt><dd>В ленте чата. Строится как уже существующий <code>ChatBlockedPanel</code> («You've run out of credits»), чтобы это был один стиль.</dd>
+      <dt>Когда</dt><dd>Старый чат, где использовались подключения или @-метрики: ассистент теперь может работать только с файлами.</dd>
+      <dt>Отличие</dt><dd>Не блокирует ввод. Отправить вопрос по файлам можно.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">U6</span>
+      <div class="notice"><span class="ic"><svg class="i"><use href="#i-flow"/></svg></span><div><b>Connections are paused in this chat</b><span>On Free, the assistant can only use uploaded files. Salesforce and HubSpot are still saved.</span></div><button class="btn sm primary">See plans</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="map">
+  <div class="sec-head"><span class="eyebrow">04 · Карта</span><h2>Все точки интеграции в продукте</h2>
+  <p class="sub">Собрано по коду <code>apps/web/src/features</code> и строкам <code>public/locales/en</code>. Для каждой точки: что там сейчас, что должно быть на Free и какой компонент использовать. Если найдёте точку, которой здесь нет, добавьте в дизайн и в эту таблицу.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>ID</th><th>Где</th><th>Элемент сейчас</th><th>На Free</th><th>Компонент</th></tr></thead>
+    <tbody>
+      <tr class="grp"><td colspan="5">Чат (features/chat)</td></tr>
+      <tr><td><code>C1</code></td><td>Композер</td><td>Кнопка «Connections» (<code>ConnectorsPopover</code>)</td><td>Видна, с меткой. Открывает поповер со списком подключений, все переключатели заперты, внизу объяснение и «See plans». Если подключений нет, пустое состояние U5</td><td><span class="u">U1</span> <span class="u">U2</span> <span class="u">U5</span></td></tr>
+      <tr><td><code>C2</code></td><td>Поповер Connections</td><td>Переключатель у каждого подключения (<code>ConnectorSwitch</code>)</td><td>Выключен и заперт. Клик открывает U2</td><td><span class="u">U2</span></td></tr>
+      <tr><td><code>C3</code></td><td>Поповер Connections</td><td>«Manage Connections» → /sources</td><td>Остаётся, ведёт на страницу в режиме чтения</td><td>—</td></tr>
+      <tr><td><code>C4</code></td><td>Композер</td><td>Выбор модели: Insightis Light / Medium / Pro</td><td>В списке все модели. Light выбран и доступен. Medium и Pro с меткой плана, наведение/клик открывает U2</td><td><span class="u">U1</span> <span class="u">U2</span></td></tr>
+      <tr><td><code>C4b</code></td><td>Меню модели</td><td>Переключатель «Thinking» и ползунок «Reasoning effort» (Low / Medium / High), подсказка «…higher credit usage»</td><td>Решает PM (Q9). Если закрыто: переключатель заперт, клик → U2. Если открыто: без изменений</td><td><span class="u">U2</span></td></tr>
+      <tr><td><code>C5</code></td><td>Композер</td><td><code>@</code>-упоминание метрик (<code>MetricMentionPopover</code>)</td><td>Ввод <code>@</code> показывает поповер: метрики на платных планах + «See plans». Список метрик не показываем</td><td><span class="u">U2</span></td></tr>
+      <tr><td><code>C6</code></td><td>Лента старого чата</td><td>Нет</td><td>Карточка, что подключения/метрики на паузе, ассистент работает с файлами</td><td><span class="u">U6</span></td></tr>
+      <tr class="is-del"><td><code>C7</code> <span class="req del">удалено</span></td><td>Экран нового чата</td><td>Нет</td><td><span class="req prop">предложение</span> Небольшая плашка над композером «Free plan | Upgrade» (как у Julius)
+<div class="fix"><span class="lbl">Заменено · согласовано</span>Вместо плашки над композером — <b>промокарточка в сайдбаре</b>, над подвалом. Плашка над композером занимает место на самом используемом экране ради сообщения, которое не меняется от чата к чату; сайдбар — то место, куда человек и так смотрит, чтобы понять, что у него за аккаунт. Карточка видна только на Free и закрывается на сессию.</div></td><td><span class="u">U1</span></td></tr>
+      <tr><td><code>C8</code></td><td>Ошибка модели</td><td>«The selected model is not available for your plan…» (<code>model_not_allowed_error</code>)</td><td>Не должна возникать, т. к. закрытую модель нельзя выбрать. Если модель была выбрана в чате до перехода на Free, чат переключается на Light с короткой подсказкой</td><td><span class="u">U6</span></td></tr>
+      <tr class="grp"><td colspan="5">Data Sources · Catalog (features/sources/catalog)</td></tr>
+      <tr><td><code>D1</code></td><td>Шапка страницы (вкладка My Connections)</td><td>«Create Connection»</td><td>С меткой. Клик → U3 (Data connectors)</td><td><span class="u">U1</span> <span class="u">U3</span></td></tr>
+      <tr><td><code>D2</code></td><td>Карточка коннектора в Catalog</td><td>Вся карточка кликабельна («Connect {name}») + кнопка Connect</td><td>Каталог полностью виден, поиск и категории работают. Клик по карточке или Connect → U3 с именем коннектора</td><td><span class="u">U3</span></td></tr>
+      <tr><td><code>D3</code></td><td>Страница</td><td>Нет</td><td>Баннер, что подключение источников на платных планах</td><td><span class="u">U4</span></td></tr>
+      <tr class="grp"><td colspan="5">Data Sources · My Connections (features/sources/connections)</td></tr>
+      <tr><td><code>D4</code></td><td>Вкладка</td><td>Выключена с подсказкой «Connect a data source first», если подключений нет</td><td>Если подключения были: вкладка открыта, баннер U4. Если не было: как сейчас</td><td><span class="u">U4</span></td></tr>
+      <tr><td><code>D5</code></td><td>Таблица подключений</td><td>Строки + меню действий (<code>ConnectionDropdown</code>): Edit, Test connection, Disconnect</td><td>Строки видны, метка «View only». Edit и Test → U3. Disconnect: см. Q2</td><td><span class="u">U1</span> <span class="u">U3</span></td></tr>
+      <tr><td><code>D6</code></td><td>Карточка подключения</td><td><code>ConnectionDetailSheet</code>: поля + Test connection, Disconnect, Edit</td><td>Поля читаются. Кнопки действий с меткой, клик → U3</td><td><span class="u">U1</span> <span class="u">U3</span></td></tr>
+      <tr class="is-del"><td><code>D7</code> <span class="req del">удалено</span></td><td>Модалки</td><td>Update, Re-authorize connection</td><td>Не открываются на Free. Вместо них U3
+<div class="fix"><span class="lbl">Не требуется</span>Этих модалок в продукте нет, поэтому и закрывать нечего: точка интеграции описывала экран, которого не существует. Если Update / Re-authorize появятся, они попадут под то же правило, что и остальные действия над подключением (<code>connection-edit</code>, Starter) — отдельного решения это не потребует.</div></td><td><span class="u">U3</span></td></tr>
+      <tr><td><code>D8</code></td><td>Тост после подключения</td><td>«Manage in My Connections»</td><td>На Free не возникает</td><td>—</td></tr>
+      <tr class="grp"><td colspan="5">Metrics (features/metrics)</td></tr>
+      <tr><td><code>M1</code></td><td>Пустой Metrics (нет подключений)</td><td>Каталог встроенных метрик, баннер «Explore your metrics library» + «Create Connection», карточки источников с «Connect»</td><td>Каталог можно смотреть. «Create Connection» и «Connect» → U3. Баннер заменяется на U4-вариант про платный план</td><td><span class="u">U3</span> <span class="u">U4</span></td></tr>
+      <tr><td><code>M2</code></td><td>Заполненный Metrics</td><td>Фильтры All / Built-in / Custom, «Active only», группы по источникам (сворачиваются)</td><td>Фильтры и раскрытие групп работают (это чтение). Баннер U4</td><td><span class="u">U4</span></td></tr>
+      <tr><td><code>M3</code></td><td>Шапка и каждая группа</td><td>«Create Metric» в шапке, «Add Metric» в каждой группе источника</td><td>С меткой, клик → U3 (Metrics)</td><td><span class="u">U1</span> <span class="u">U3</span></td></tr>
+      <tr><td><code>M4</code></td><td>Строка метрики</td><td>Переключатель «Toggle {name}», «View {name} details», «More actions»</td><td>Details открывается (чтение). Переключатель заперт, состояние не меняется, клик → U2</td><td><span class="u">U2</span></td></tr>
+      <tr><td><code>M5</code></td><td>Меню строки</td><td>Edit, Duplicate, Delete (<code>MetricCardDropdown</code>)</td><td>Edit, Duplicate → U3. Delete: см. Q2</td><td><span class="u">U3</span></td></tr>
+      <tr><td><code>M6</code></td><td>Карточка метрики</td><td><code>MetricDetailsSheet</code>: определение, alias; кнопки Edit, Duplicate &amp; customize, Delete, Connect {provider}</td><td>Всё читается. Кнопки действий с меткой → U3</td><td><span class="u">U1</span> <span class="u">U3</span></td></tr>
+      <tr><td><code>M7</code></td><td>Группа источника</td><td>«Connect» у недоступного источника + тултип</td><td>→ U3 (Data connectors)</td><td><span class="u">U3</span></td></tr>
+      <tr><td><code>M8</code></td><td>Баннер внизу</td><td>«Connect more data sources» + «Browse Data Sources»</td><td>Убрать или заменить на U4, чтобы не было двух баннеров</td><td><span class="u">U4</span></td></tr>
+      <tr class="grp"><td colspan="5">Навигация и настройки</td></tr>
+      <tr><td><code>N1</code></td><td>Сайдбар</td><td>New Chat, Data Sources, Metrics, Files</td><td>Пункты на месте и открываются. <span class="req prop">предложение</span> небольшая метка замка у Data Sources и Metrics</td><td><span class="u">U1</span></td></tr>
+      <tr><td><code>N2</code></td><td>Сайдбар, низ</td><td>«Balance · {n} left» и блок пользователя «Owner · Trial» (открывает Settings)</td><td>«Owner · Free» + ссылка «Upgrade» рядом</td><td><span class="u">U1</span></td></tr>
+      <tr><td><code>N3</code></td><td>Settings → Manage plan (<code>?user_profile=plan</code>)</td><td>Карточка Free в живом приложении: «Up to 3 data connectors», «500 AI credits / month»</td><td>Исправить тексты карточки под новые правила (Q5). Подсветка рекомендуемого плана, когда пришли из U2/U3</td><td>—</td></tr>
+      <tr><td><code>N4</code></td><td>Settings → Balance</td><td>«Upgrade Plan»</td><td>Без изменений, тот же путь</td><td>—</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="screens">
+  <div class="sec-head"><span class="eyebrow">05 · Экраны</span><h2>Как это выглядит в продукте</h2></div>
+
+  <div class="group-title"><span class="gid">Чат</span><h3>Композер и лента</h3></div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>S1</code><h3>Выбор модели на Free</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Точки</dt><dd>C4, C4b</dd>
+      <dt>Что видно</dt><dd>Порядок как в приложении: Light, Medium, Pro. Light выбран, остальные с меткой плана, текст приглушён. Наведение на Pro показывает U2 рядом со списком. Блок Thinking / Effort под моделями: доступность зависит от Q9.</dd>
+      <dt>Меняет правило</dt><dd>Сейчас в документации продукта: модель, которой нет в плане, <b>отсутствует</b> в меню. Здесь мы её показываем запертой (Q1).</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">S1 · C4</span>
+      <div class="row" style="align-items:flex-end;gap:10px;flex-wrap:wrap">
+        <div class="pop"><div class="hd">Model</div>
+          <div class="mi"><div><b>Insightis Light</b></div><svg class="i ck"><use href="#i-check"/></svg></div>
+          <div class="mi locked"><div><b>Insightis Medium</b></div><span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span></div>
+          <div class="mi hov locked"><div><b>Insightis Pro</b></div><span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Pro</span></div>
+          <div class="sep"></div>
+          <div class="mi"><div><b>Thinking</b><span class="d">Effort (Medium)</span></div><span class="row" style="gap:6px"><span class="d">Q9</span><span class="sw off"></span></span></div>
+        </div>
+        <div class="upop"><h5><svg class="i"><use href="#i-cpu"/></svg>Insightis Pro</h5><ul><li><svg class="i s12"><use href="#i-check"/></svg>Deeper reasoning for multi-step analysis</li><li><svg class="i s12"><use href="#i-check"/></svg>Better with large tables</li></ul><span class="muted" style="font-size:11.5px">Available on the Pro plan</span><button class="btn primary full">See plans</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>S2</code><h3>Connections в композере</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Точки</dt><dd>C1, C2, C3</dd>
+      <dt>Что видно</dt><dd>Кнопка с меткой. Внутри подключения, сделанные за триал: видны, но выключены и заперты. Сверху строка-объяснение, внизу «See plans» и «Manage Connections».</dd>
+      <dt>Нет подключений</dt><dd>Вместо «No connections yet / Connect a source» показываем U5: подключения на платных планах.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">S2 · C1–C3</span>
+      <div class="pop" style="max-width:300px">
+        <div class="hd" style="display:flex;gap:6px;align-items:flex-start"><svg class="i s12" style="margin-top:2px;color:var(--m-lock-ink)"><use href="#i-lock"/></svg><span>Using connections in chat is available on Starter and Pro.</span></div>
+        <div class="mi"><div class="row"><span class="logo" style="background:#00A1E0">Sf</span><b>Salesforce</b></div><span class="sw off"></span></div>
+        <div class="mi"><div class="row"><span class="logo" style="background:#FF7A59">Hs</span><b>HubSpot</b></div><span class="sw off"></span></div>
+        <div style="padding:6px"><button class="btn primary full">See plans</button></div>
+        <div class="sep"></div>
+        <div class="mi"><div class="row" style="color:var(--m-brand)"><svg class="i"><use href="#i-set"/></svg><b style="color:var(--m-brand)">Manage Connections</b></div></div>
+      </div>
+      <div class="m-comp"><div class="field ph">Ask about your data…</div>
+        <div class="between"><div class="row" style="gap:2px"><span class="ctl"><svg class="i"><use href="#i-clip"/></svg></span><span class="ctl on"><svg class="i"><use href="#i-flow"/></svg>Connections<svg class="i s12" style="color:var(--m-lock-ink)"><use href="#i-lock"/></svg></span><span class="ctl"><svg class="i"><use href="#i-cpu"/></svg>Insightis Light<svg class="i s12"><use href="#i-down"/></svg></span></div><button class="btn primary sm" disabled><svg class="i"><use href="#i-send"/></svg>Send</button></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>S3</code><h3>@-метрики в вопросе</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Точки</dt><dd>C5</dd>
+      <dt>Что видно</dt><dd>Пользователь ввёл <code>@</code>: вместо списка метрик поповер про Metrics. Символ <code>@</code> остаётся в тексте, ввод не ломается. Esc закрывает.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">S3 · C5</span>
+      <div class="upop" style="max-width:300px"><h5><svg class="i"><use href="#i-sigma"/></svg>Metrics are on paid plans</h5><ul><li><svg class="i s12"><use href="#i-check"/></svg>Write a definition once, reuse it with @</li><li><svg class="i s12"><use href="#i-check"/></svg>50+ built-in metrics for popular sources</li></ul><button class="btn primary full">See plans</button></div>
+      <div class="m-comp"><div class="field">what is our @</div>
+        <div class="between"><div class="row" style="gap:2px"><span class="ctl"><svg class="i"><use href="#i-clip"/></svg></span><span class="ctl"><svg class="i"><use href="#i-flow"/></svg>Connections<svg class="i s12" style="color:var(--m-lock-ink)"><use href="#i-lock"/></svg></span></div><button class="btn primary sm"><svg class="i"><use href="#i-send"/></svg>Send</button></div></div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>S4</code><h3>Новый чат и старый чат</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Точки</dt><dd>C6, C7</dd>
+      <dt>Новый чат</dt><dd style="text-decoration:line-through;text-decoration-thickness:1px"><span class="req prop">предложение</span> Плашка «Free plan | Upgrade to connect your data» над заголовком, как у Julius (скрин 1).<div class="fix"><span class="lbl">Заменено · согласовано</span>Плашки над композером нет. То же сообщение несёт <b>промокарточка в сайдбаре</b> — см. C7.</div></dd>
+      <dt>Старый чат</dt><dd>Если в чате использовались подключения, после последнего сообщения показываем U6. Ввод открыт: вопрос по файлам отправить можно.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">S4 · C6, C7</span>
+      <span class="pill">Free plan<span class="bar"></span><a>Upgrade to connect your data</a></span>
+      <div class="m-user">What was pipeline coverage last month?</div>
+      <div class="m-asst">Coverage was <b>3.1×</b> against the $2.4M target…</div>
+      <div class="notice"><span class="ic"><svg class="i"><use href="#i-flow"/></svg></span><div><b>Connections are paused in this chat</b><span>On Free, the assistant can only use uploaded files. Salesforce is still saved.</span></div><button class="btn sm primary">See plans</button></div>
+    </div>
+  </div>
+
+  <div class="group-title"><span class="gid">Data Sources</span><h3>Catalog и My Connections</h3></div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>S5</code><h3>Catalog на Free</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Точки</dt><dd>D1, D2, D3</dd>
+      <dt>Что видно</dt><dd>Каталог полностью, поиск и категории работают. Баннер сверху. «Create connection» с меткой. «Connect» на карточке: обычный вид, <span class="req prop">предложение</span> с небольшим замком; клик → U3 с названием коннектора.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">S5 · D1–D3</span>
+      <div class="pagehd"><h4>Data Sources</h4></div>
+      <div class="tabs"><span class="on">Catalog</span><span>My Connections</span></div>
+      <div class="banner"><svg class="i s18 ic"><use href="#i-lock"/></svg><div><b>Connecting data sources is on paid plans</b><span>Browse all 200+ connectors. Upgrade to connect one and ask about live data.</span></div><button class="btn primary sm">See plans</button></div>
+      <div class="cards">
+        <div class="ccard"><span class="logo" style="background:#00A1E0">Sf</span><b>Salesforce</b><button class="btn outline sm">Connect <svg class="i s12"><use href="#i-lock"/></svg></button></div>
+        <div class="ccard"><span class="logo" style="background:#FF7A59">Hs</span><b>HubSpot</b><button class="btn outline sm">Connect <svg class="i s12"><use href="#i-lock"/></svg></button></div>
+        <div class="ccard"><span class="logo" style="background:#635BFF">St</span><b>Stripe</b><button class="btn outline sm">Connect <svg class="i s12"><use href="#i-lock"/></svg></button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>S6</code><h3>My Connections только для чтения</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Точки</dt><dd>D4, D5, D6, <s>D7</s></dd>
+      <dt>Что видно</dt><dd>Список подключений, сделанных за триал. Баннер U4. Меню действий открывается, но пункты с меткой, клик → U3. Карточка подключения читается.</dd>
+      <dt>Важно</dt><dd>Явно сказать, что подключения сохранены и ничего не удалено. Это главный страх после окончания триала.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">S6 · D1, D4–D6</span>
+      <div class="pagehd"><h4>Data Sources</h4><button class="btn sm"><svg class="i s12"><use href="#i-plus"/></svg>Create Connection<span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span></button></div>
+      <div class="tabs"><span>Catalog</span><span class="on">My Connections</span></div>
+      <div class="banner"><svg class="i s18 ic"><use href="#i-eye"/></svg><div><b>View only on the Free plan</b><span>Your 2 connections are saved. Upgrade to use them in chat and make changes.</span></div><button class="btn primary sm">See plans</button></div>
+      <div class="mt">
+        <div class="tr th"><span>Connection name</span><span>Data Source</span><span>Actions</span></div>
+        <div class="tr"><span class="row"><span class="logo" style="background:#00A1E0;width:20px;height:20px;font-size:9px">Sf</span>Sales pipeline</span><span>Salesforce</span><span class="row"><span class="ro"><svg class="i s12"><use href="#i-eye"/></svg>View only</span><svg class="i"><use href="#i-dots"/></svg></span></div>
+        <div class="tr"><span class="row"><span class="logo" style="background:#FF7A59;width:20px;height:20px;font-size:9px">Hs</span>Marketing</span><span>HubSpot</span><span class="row"><span class="ro"><svg class="i s12"><use href="#i-eye"/></svg>View only</span><svg class="i"><use href="#i-dots"/></svg></span></div>
+      </div>
+      <div class="pop" style="align-self:flex-end;max-width:220px">
+        <div class="mi"><b>Edit</b><span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span></div>
+        <div class="mi"><b>Test connection</b><span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span></div>
+        <div class="sep"></div>
+        <div class="mi"><b style="color:var(--danger)">Disconnect</b><span class="d">Q2</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="group-title"><span class="gid">Metrics</span><h3>Библиотека метрик</h3></div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>S7</code><h3>Metrics только для чтения</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Точки</dt><dd>M2–M8</dd>
+      <dt>Что видно</dt><dd>Библиотека с поиском и фильтрами. Баннер U4 (вместо нижнего «Connect more data sources»). «Add Metric» с меткой. Переключатели заперты. Меню строки: Edit, Duplicate с меткой.</dd>
+      <dt>Решить</dt><dd>Как показать, что метрика сейчас не используется в чате, хотя переключатель включён. <span class="req prop">предложение</span> переключатели на Free всегда выглядят приглушёнными.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">S7 · M2–M8</span>
+      <div class="pagehd"><h4>Metrics</h4><button class="btn sm"><svg class="i s12"><use href="#i-plus"/></svg>Create Metric<span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span></button></div>
+      <div class="banner"><svg class="i s18 ic"><use href="#i-eye"/></svg><div><b>View only on the Free plan</b><span>Your 24 metrics are saved. Upgrade to use them with @ in chat and edit them.</span></div><button class="btn primary sm">See plans</button></div>
+      <div class="mt">
+        <div class="mrow"><div><b>Monthly recurring revenue</b><div class="alias">@mrr · Built-in</div></div><span class="ro"><svg class="i s12"><use href="#i-eye"/></svg>View only</span><span class="sw"></span><svg class="i"><use href="#i-dots"/></svg></div>
+        <div class="mrow"><div><b>Win rate by value</b><div class="alias">@win_rate_value · Built-in</div></div><span class="ro"><svg class="i s12"><use href="#i-eye"/></svg>View only</span><span class="sw"></span><svg class="i"><use href="#i-dots"/></svg></div>
+        <div class="mrow"><div><b>Net revenue</b><div class="alias">@net_revenue · Custom</div></div><span class="ro"><svg class="i s12"><use href="#i-eye"/></svg>View only</span><span class="sw off"></span><svg class="i"><use href="#i-dots"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>S8</code><h3>Metrics, если ничего не было</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Точки</dt><dd>M1</dd>
+      <dt>Что видно</dt><dd>Каталог встроенных метрик остаётся витриной: его можно смотреть. Баннер «Explore your metrics library» получает вариант для Free. «Create Connection» и «Connect» → U3.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">S8 · M1</span>
+      <div class="banner"><svg class="i s18 ic"><use href="#i-sigma"/></svg><div><b>Explore 50+ built-in metrics</b><span>Metrics come with paid plans. Browse definitions below, upgrade to connect a source and use them.</span></div><button class="btn primary sm">See plans</button></div>
+      <div class="cards">
+        <div class="ccard"><span class="logo" style="background:#00A1E0">Sf</span><b>Salesforce</b><span class="muted" style="font-size:11.5px">20 metrics</span><button class="btn outline sm">Connect <svg class="i s12"><use href="#i-lock"/></svg></button></div>
+        <div class="ccard"><span class="logo" style="background:#635BFF">St</span><b>Stripe</b><span class="muted" style="font-size:11.5px">14 metrics</span><button class="btn outline sm">Connect <svg class="i s12"><use href="#i-lock"/></svg></button></div>
+        <div class="ccard"><span class="logo" style="background:#34A853">Ga</span><b>Google Ads</b><span class="muted" style="font-size:11.5px">9 metrics</span><button class="btn outline sm">Connect <svg class="i s12"><use href="#i-lock"/></svg></button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="group-title"><span class="gid">U3</span><h3>Контент Upgrade-окна по функциям</h3></div>
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>S9</code><h3>Четыре варианта одного окна</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Что</dt><dd>Один шаблон U3, разное содержимое. Меняются иллюстрация, заголовок, выгоды и план.</dd>
+      <dt>План</dt><dd>Какой план указывать для каждой функции, решает PM (Q4). Ниже предположение.</dd></dl>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Вариант</th><th>Заголовок</th><th>Выгоды</th><th>План</th></tr></thead>
+      <tbody>
+        <tr><td>Data connectors</td><td class="copy">Connect {name} and 200+ data sources</td><td>Live queries · built-in metrics · read-only access</td><td>Starter+</td></tr>
+        <tr><td>Connections in chat</td><td class="copy">Ask about live data in chat</td><td>Pick which sources each chat can query · answers from current data</td><td>Starter+</td></tr>
+        <tr><td>Metrics</td><td class="copy">Define your metrics once</td><td>Mention with @ · built-in for each source · custom definitions</td><td>Starter+</td></tr>
+        <tr><td>AI models</td><td class="copy">Use {model} for harder questions</td><td>Deeper reasoning · larger data · switch any time</td><td>Medium: Starter+, Pro: Pro</td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<section id="flow">
+  <div class="sec-head"><span class="eyebrow">06 · Путь</span><h2>Куда ведёт «See plans» и что после оплаты</h2></div>
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>F1</code><h3>Manage plan с подсветкой</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Куда</dt><dd>Settings → Manage plan. У экрана есть прямая ссылка: параметр <code>?user_profile=plan</code> на любой странице. В коде это <code>openUserProfile({ path: ['menu','plan'] })</code>, так уже открывается экран из карточки «You've run out of credits». Settings открывается поверх текущей страницы, поэтому после закрытия пользователь там же, где был.</dd>
+      <dt>Что добавить</dt><dd>Если пришли из U2/U3, подсвечиваем минимальный план, который открывает функцию, и пишем на нём, что он открывает. Остальное как на текущем экране (скрин 3).</dd>
+      <dt>Уточнить</dt><dd>Карточка Free сейчас обещает «Up to 3 data connectors» (Q5).</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">F1 · N3</span>
+      <div class="plan-grid">
+        <div class="pc"><b>Free</b><span class="muted">For getting started</span><span class="price">$0</span><span class="muted">Current plan</span></div>
+        <div class="pc rec"><b>Starter Monthly</b><span class="unl">Unlocks data connectors</span><span class="price">$9.99</span><button class="btn primary sm">Upgrade to Starter</button></div>
+        <div class="pc"><b>Pro Monthly</b><span class="muted">15,000 credits / month</span><span class="price">$19.99</span><button class="btn outline sm">Upgrade to Pro</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>F2</code><h3>Возврат после оплаты</h3><span class="req must">обязательно</span></div>
+      <dl class="kv"><dt>Что</dt><dd>Оплата идёт через 2Checkout и возвращается в приложение (есть <code>checkout-return-marker</code>). После возврата: пользователь там, откуда нажал «See plans», метки пропали, тост подтверждает.</dd>
+      <dt>Бонус</dt><dd><span class="req prop">предложение</span> Если нажал «Connect HubSpot», после оплаты сразу открывается подключение HubSpot.</dd>
+      <dt>Отмена</dt><dd>Если оплату не завершили, возвращаемся без ошибок, всё как было.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">F2</span>
+      <div class="toast"><svg class="i"><use href="#i-check"/></svg>You're on Starter. Connections and metrics are unlocked.</div>
+      <div class="cards"><div class="ccard"><span class="logo" style="background:#FF7A59">Hs</span><b>HubSpot</b><button class="btn primary sm">Connect</button></div><div class="ccard"><span class="logo" style="background:#00A1E0">Sf</span><b>Salesforce</b><button class="btn outline sm">Connect</button></div><div class="ccard"><span class="logo" style="background:#635BFF">St</span><b>Stripe</b><button class="btn outline sm">Connect</button></div></div>
+    </div>
+  </div>
+  <div class="state">
+    <div class="desc">
+      <div class="sid"><code>F3</code><h3>Навигация и блок пользователя</h3><span class="req prop">предложение</span></div>
+      <dl class="kv"><dt>Точки</dt><dd>N1, N2</dd>
+      <dt>Что</dt><dd>Пункты Data Sources и Metrics с маленьким замком. Внизу план «Free» и ссылка «Upgrade» рядом с расходом кредитов.</dd></dl>
+    </div>
+    <div class="mock"><span class="cap">F3 · N1, N2</span>
+      <div class="side">
+        <div class="it on"><span class="l"><svg class="i"><use href="#i-chat"/></svg>New Chat</span></div>
+        <div class="it"><span class="l"><svg class="i"><use href="#i-db"/></svg>Data Sources</span><svg class="i s12" style="color:var(--m-lock-ink)"><use href="#i-lock"/></svg></div>
+        <div class="it"><span class="l"><svg class="i"><use href="#i-sigma"/></svg>Metrics</span><svg class="i s12" style="color:var(--m-lock-ink)"><use href="#i-lock"/></svg></div>
+        <div class="it"><span class="l"><svg class="i"><use href="#i-file"/></svg>Files</span></div>
+        <div class="user"><div class="between muted" style="font-size:11.5px"><span>Balance</span><span>310 left</span></div><div class="between"><span>Owner · Free</span><a style="color:var(--m-brand);font-weight:600;font-size:12px">Upgrade</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="copy">
+  <div class="sec-head"><span class="eyebrow">07 · Тексты</span><h2>Черновик текстов интерфейса</h2>
+  <p class="sub">Интерфейс на английском. Это черновик: можно менять формулировки, смысл нужен. Слова из продукта: Data Sources, Connections, Metrics, credits, Manage plan. Модели называем тирами (Insightis Light / Medium / Pro), без имён вендоров.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Где</th><th>Текст</th><th>ID</th></tr></thead>
+    <tbody>
+      <tr><td>Основная кнопка во всех компонентах</td><td class="copy"><s>See plans</s> · See Plans / Upgrade to Unlock</td><td>U2–U6
+<div class="fix"><span class="lbl">Уточнено, одна кнопка стала двумя</span><b>«See Plans» осталась там, где человек ни во что не упёрся</b> — в баннере каталога (D3): там рассказывают, что подключения на платных, и вести на страницу тарифов уместно. Везде, где человек <b>уже нажал на закрытое</b> — поповер, окно, баннер «только чтение», карточка в чате — кнопка называет действие: <b>Upgrade to Unlock</b> (и адресно: <i>Upgrade to Starter</i>, <i>Upgrade to Pro</i>). «See Plans» описывает страницу, «Upgrade to Unlock» — то, ради чего нажимают; что именно закрыто, человек уже знает — он только что в это упёрся. Все ведут в одно место, Settings → Manage plan (P4).</div></td></tr>
+      <tr><td>Вторичная кнопка окна</td><td class="copy">Not now</td><td>U3</td></tr>
+      <tr><td>Метка</td><td class="copy">Starter · Pro</td><td>U1</td></tr>
+      <tr><td>Подсказка плана</td><td class="copy">Available on Starter and Pro · Available on the Pro plan</td><td>U2, U3</td></tr>
+      <tr><td>Баннер Data Sources, есть подключения</td><td class="copy">View only on the Free plan · Your {n} connections are saved. Upgrade to use them in chat and make changes.</td><td>D4</td></tr>
+      <tr><td>Баннер Catalog</td><td class="copy">Connecting data sources is on paid plans · Browse all 200+ connectors. Upgrade to connect one and ask about live data.</td><td>D3</td></tr>
+      <tr><td>Баннер Metrics, есть метрики</td><td class="copy">View only on the Free plan · Your {n} metrics are saved. Upgrade to use them with @ in chat and edit them.</td><td>M2</td></tr>
+      <tr><td>Баннер Metrics, пусто</td><td class="copy">Explore 50+ built-in metrics · Metrics come with paid plans. Browse definitions below, upgrade to connect a source and use them.</td><td>M1</td></tr>
+      <tr><td>Метка строки</td><td class="copy">View only</td><td>D5, M4</td></tr>
+      <tr><td>Поповер Connections</td><td class="copy">Using connections in chat is available on Starter and Pro.</td><td>C1</td></tr>
+      <tr><td>Пустой Connections в чате</td><td class="copy">Connections are on paid plans · Ask about live data from Salesforce, HubSpot, Stripe and 200+ more.</td><td>C1</td></tr>
+      <tr><td>@ в композере</td><td class="copy">Metrics are on paid plans · Write a definition once, reuse it with @</td><td>C5</td></tr>
+      <tr><td>Карточка старого чата</td><td class="copy">Connections are paused in this chat · On Free, the assistant can only use uploaded files. {names} are still saved.</td><td>C6</td></tr>
+      <tr><td>Смена модели на Light</td><td class="copy">Switched to Insightis Light — {model} is on the {plan} plan.</td><td>C8</td></tr>
+      <tr><td>Плашка нового чата</td><td class="copy">Free plan | Upgrade to connect your data</td><td>C7</td></tr>
+      <tr><td>Карточка плана в Manage plan</td><td class="copy">Unlocks data connectors · Unlocks metrics · Unlocks Insightis Pro</td><td>F1</td></tr>
+      <tr><td>Тост после оплаты</td><td class="copy">You're on {plan}. {feature} is unlocked.</td><td>F2</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="refs">
+  <div class="sec-head"><span class="eyebrow">08 · Референсы</span><h2>Что взять из присланных скринов</h2></div>
+  <div class="refs">
+    <div class="ref"><b>Скрин 1 · Julius: Reasoning levels</b><span>Поповер у запертого контрола: заголовок, 2 выгоды с галочками, одна кнопка. Берём как основу для U2. Плашка «Free plan | Upgrade» над композером — основа для C7.</span></div>
+    <div class="ref"><b>Скрин 2 · Julius: выбор модели</b><span>Все модели в списке, у старших метка плана. Берём принцип «видно, но заперто». Не берём значки стоимости $$$$ и отдельный раздел «general models».</span></div>
+    <div class="ref"><b>Скрин 3 · Insightis: Manage plan</b><span>Наш текущий экран выбора плана, сюда ведут все «See plans». Добавляем подсветку рекомендуемого плана и строку «Unlocks…» (F1).</span></div>
+  </div>
+  <p class="sub">Julius — конкурент. Приёмы берём, фирменный стиль и тексты не копируем.</p>
+</section>
+
+<section id="out">
+  <div class="sec-head"><span class="eyebrow">09 · Границы</span><h2>Что не проектируем сейчас</h2></div>
+  <div class="grid2">
+    <div class="prose"><ul>
+      <li>Сами планы, цены и их содержимое. Это решение PM и биллинга.</li>
+      <li>Экран оплаты 2Checkout.</li>
+      <li>Лимиты кредитов на Free: для них уже есть «You've run out of credits» и «Daily limit reached».</li></ul></div>
+    <div class="prose"><ul>
+      <li>Письма и маркетинговые рассылки об апгрейде.</li>
+      <li>Страница цен на сайте insightis.ai.</li>
+      <li>Изменения в общем ките <code>devart.ui.react</code>: делаем на компонентах приложения. Если без этого никак, отдельная задача.<div class="fix"><span class="lbl">Граница перейдена сознательно</span>Без изменений в ките обойтись не удалось, и они сделаны <b>в ките, а не поверх него</b>: Alert получил размеры S/M и слот иллюстрации, появился <code>PromoCard</code>, толщина глифов сведена к одной (2), disabled перестал гасить события указателя. Каждое — отдельным changeset в <code>devart.ui.react</code>. Локальных обходов в приложении нет: это и был смысл границы.</div></li></ul></div>
+  </div>
+</section>
+
+<section id="deliver">
+  <div class="sec-head"><span class="eyebrow">10 · Результат</span><h2>Что сдать</h2></div>
+  <div class="callout key"><h4>Дизайн делаем в Claude</h4><p>Как и для очереди сообщений: артефакт типа <b>Design</b> в Claude с артбордами на токенах Insightis (<code>packages/ui/src/globals.css</code>) плюс интерактивный HTML-прототип основного пути. Откройте эту страницу в Claude и попросите собрать Design-артефакт по разделам 03 и 05.</p></div>
+  <ul class="checklist">
+    <li>Компоненты U1–U6 со всеми вариантами (размеры метки, 4 набора контента U3, баннер с данными и без).</li>
+    <li>Артборды экранов S1–S9 и F1–F3 с теми же ID, в светлой и тёмной теме.</li>
+    <li>Мобильная ширина для композера (S1–S3), страниц (S5–S8) и окна U3.</li>
+    <li>Прототип пути: запертый Connect → U3 → See plans → Manage plan с подсветкой → возврат с тостом.</li>
+    <li>Проверка по карте из раздела 04: у каждой точки есть решение. Новые найденные точки добавлены.</li>
+    <li>Финальные тексты на макетах.</li>
+    <li>Ссылка на артефакт в тикете, приёмка PM.</li>
+  </ul>
+</section>
+
+<section id="questions">
+  <div class="sec-head"><span class="eyebrow">11 · Открыто</span><h2>Вопросы к PM</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Вопрос</th><th>Моё предложение</th></tr></thead>
+    <tbody>
+      <tr><td>Q1</td><td>Показывать закрытые модели? Сейчас в документации продукта записано, что их в меню просто нет.</td><td>Показывать с меткой, как у Julius. Поправить <code>reference/product-capabilities.md</code>.</td><div class="fix"><span class="lbl">Решено</span>Закрыт как предложено: закрытые модели видны и помечены замком с названием плана.</div></tr>
+      <tr><td>Q2</td><td>Можно ли на Free удалять свои подключения (Disconnect) и метрики (Delete)?</td><td>Разрешить. Удаление не даёт платную функцию, а невозможность удалить свои данные выглядит как удержание силой.</td><div class="fix"><span class="lbl">Решено</span>Закрыт как предложено: Disconnect и Delete на Free открыты — удаление своего не открывает платную функцию.</div></tr>
+      <tr><td>Q3</td><td>Test connection и Re-authorize на Free: Upgrade или разрешить?</td><td>Upgrade. Это действие с подключением, а подключения на Free не работают.</td><div class="fix"><span class="lbl">Решено</span>Закрыт как предложено: Test connection требует апгрейда (<code>connection-test</code>, Starter).</div></tr>
+      <tr><td>Q4</td><td>Какой минимальный план открывает каждую функцию (метка «Starter» или «Pro»)? Нужна матрица.</td><td>Connectors и Metrics — Starter, Insightis Medium — Starter, Insightis Pro — Pro.</td><div class="fix"><span class="lbl">Решено</span>Закрыт как предложено: подключения, метрики, правка и тест подключения, Insightis Medium — Starter; Insightis Pro — Pro. Матрица лежит в одном месте, <code>pages/kit-plans.js</code>.</div></tr>
+      <tr><td>Q5</td><td>Карточка Free в живом приложении обещает «Up to 3 data connectors», а на Free коннекторов не будет. Там же «500 AI credits / month», а по документации продукта у Free нет месячного лимита, только дневной. Метрики на карточке Free не упомянуты, на Starter есть «Built-in + custom metrics».</td><td>Исправить карточку Free до релиза, иначе Upgrade-окна спорят с экраном планов. Добавить на Free строку «Uploaded files only».</td></tr>
+      <tr><td>Q6</td><td>Нужен ли разовый экран в момент окончания триала: «Your trial ended — here's what changed»?</td><td>Да, отдельной задачей: это первое место, где человек видит все замки сразу.</td></tr>
+      <tr><td>Q7</td><td>Показывать ли плашку C7 на каждом новом чате или её можно закрыть?</td><td>Закрываемая, возвращается через 7 дней.</td></tr>
+      <tr><td>Q8</td><td>Нужна ли аналитика показов и кликов по Upgrade-точкам?</td><td>Да: событие с полями feature и surface (ID из карты), чтобы видеть, какие точки конвертят.</td></tr>
+      <tr><td>Q9</td><td>В меню модели есть «Thinking» и «Reasoning effort» (Low / Medium / High). Это доступно на Free с Insightis Light?</td><td>Если это только дороже по кредитам, оставить на Free: кредиты и так ограничивают. Если это функция тарифа, запереть так же, как модели (C4b).</td></tr>
+      <tr><td>Q10</td><td>Какой план открывает Insightis Medium? На карточке Pro написано «access to the most powerful AI models», про Medium на карточках ничего нет.</td><td>Medium — Starter, Pro — Pro. Дописать это на карточки планов.</td><div class="fix"><span class="lbl">Решено</span>Закрыт как предложено: Insightis Medium открывает Starter, Insightis Pro — Pro.</div></tr>
+    </tbody></table></div>
+</section>
+
+<footer>
+  <span>Источники: код <code>insightis/frontend/apps/web</code> (ChatControls, ModelPopover, ConnectorsPopover, MetricMentionPopover, sources/*, metrics/*, user-profile/ManagePlan, ChatBlockedPanel), строки <code>public/locales/en</code>, <code>reference/product-capabilities.md</code>, три присланных скриншота. Черновик от 28.09.2026.</span>
+  <span>Карта сверена с живым app.insightis.ai на аккаунте в статусе Trial (все функции открыты). Живое приложение новее локальной копии кода: в нём уже есть Thinking и Reasoning effort. Как интерфейс ведёт себя на настоящем Free-аккаунте, не проверялось, это стоит пройти руками.</span>
+</footer>
+</div>
+
+</body></html>
