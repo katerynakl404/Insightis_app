@@ -4,7 +4,7 @@ Screen: [`../pages/concept/chat_page-queue.html`](../pages/concept/chat_page-que
 
 This is **the chat screen**, not a feature mockup: the shell, sidebar, chat header, thread and composer are the approved `chat_page-landing.html`, and the queue is layered onto them. A **State** picker in the review strip above the page drives this same page into 19 states, and `Live` leaves it free to interact with — type during a reply, queue, reorder, edit, remove with Undo, Stop, Resume, and every pause.
 
-Everything visual comes from the kit. New components: [QueueBand](../changes/QueueBand.md) · [QueueItem](../changes/QueueItem.md) · [Alert](../changes/Alert.md) · [Radio](../changes/Radio.md) · [SortableList](../changes/SortableList.md). Changed on prod: [AskUserPanel](../changes/AskUserPanel.md) · [ThinkingIndicator](../changes/ThinkingIndicator.md). Composer change: [Button → Composer action slot](../changes/Button.md) — **one button, two faces**, overriding the spec's R4 on the design owner's call (2026-09-29).
+Everything visual comes from the kit. New components: [QueueBand](../changes/QueueBand.md) · [QueueItem](../changes/QueueItem.md) · [Alert](../changes/Alert.md) · [SortableList](../changes/SortableList.md). Changed on prod: [AskUserPanel](../changes/AskUserPanel.md) · [ThinkingIndicator](../changes/ThinkingIndicator.md). Composer change: [Button → Composer action slot](../changes/Button.md) — **one button, two faces**, overriding the spec's R4 on the design owner's call (2026-09-29).
 
 ## The state list
 
@@ -44,7 +44,7 @@ The app has **no bespoke keyframes for messages**, so the queue does not invent 
 | Between the thread and the composer | nothing | the Queue Band, rendered only when the queue is non-empty |
 | Composer placeholder during a reply | unchanged from idle | `Ask a follow-up — it will wait its turn` |
 | A stopped reply | the reply stops | the reply stops **and** the queue pauses with a named reason and a Resume |
-| AskUserPanel options | a row of buttons; "Other" unboxed | still buttons — pressing one answers; "Other" is boxed like the rest — see [AskUserPanel](../changes/AskUserPanel.md) |
+| AskUserPanel options | a row of buttons; "Other" unboxed | still buttons — pressing one answers; "Other" is boxed like the rest and opens a field for your own answer — see [AskUserPanel](../changes/AskUserPanel.md) |
 | Waiting for a reply | "Thinking" + dots | the same, with the label itself carrying the wait — see [ThinkingIndicator](../changes/ThinkingIndicator.md) |
 | Leaving with work pending | — | a system dialog at size S; **Leave is destructive**, because it throws away queued text and its attachments |
 

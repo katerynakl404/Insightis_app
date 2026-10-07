@@ -1142,63 +1142,136 @@
   else promoApply();
 
   /* ==========================================================================================
-     11. ASKUSERPANEL (.cfc) — question tabs and the Submit gate
+     11. ASKUSERPANEL (.cfc) — answering, steps, "Other" and the Submit gate
 
-     Part of the .cfc contract, not of a page: every card that asks several questions or takes
-     several answers needs the same two things, so they live here once.
-       · Tabs (.cfc-top-tabs [role="tab"]) switch which .cfc-panel shows; ← / → / Home / End move
-         between them, with roving tabindex.
-       · Each .cfc-opts is one question. Its tab's .cfc-tab-pend (and the ", unanswered" .sr-only
-         text) shows while the question has no checked input.
-       · [data-cfc-submit] is enabled once every question in the card has an answer, and
-         .cfc-foot-note says how many are left — the disabled button is never unexplained.
-     A single-select card has neither, and nothing here touches it.
+     Part of the .cfc contract, not of a page, so it lives here once.
+       · A <button class="cfc-opt"> is an answer. It is marked (aria-pressed) so a step remembers
+         it when you come Back; then the next step shows (.cfc-panel), or — on the last step, or
+         in a single-question card — the card is answered.
+       · Answered = the card fires `cfc:answer` (bubbles), detail.answers = [{question, answer}];
+         a skipped question's answer is null, a multi-select one is an array. The consumer closes
+         the card on it — the kit never removes it.
+       · "Other" (data-cfc-other) opens its .cfc-other field instead of answering. The field's
+         [data-cfc-send] (or Enter; Shift+Enter breaks the line) answers with the typed text, and
+         stays disabled while the field is empty.
+       · Back / Skip (data-cfc-back / data-cfc-skip) move between steps; Back hides on step one.
+         The stepper (.cfc-step, .cfc-step-label) follows the step, and focus moves to the new
+         question when the keyboard was in the card — otherwise it would fall to <body>.
+       · [data-cfc-submit] (multi select) is enabled once something is ticked, and answers.
      ========================================================================================== */
-  function cfcSync(card) {
-    var left = 0;
-    card.querySelectorAll('.cfc-opts').forEach(function (q) {
-      var done = !!q.querySelector('input:checked');
-      if (!done) left++;
-      var panel = q.closest('.cfc-panel');
-      var tab = panel && panel.id && card.querySelector('[role="tab"][aria-controls="' + panel.id + '"]');
-      if (!tab) return;
-      tab.querySelectorAll('.cfc-tab-pend, .sr-only').forEach(function (el) { el.hidden = done; });
-    });
-    var btn = card.querySelector('[data-cfc-submit]');
-    if (btn) btn.disabled = left > 0;
-    var note = card.querySelector('.cfc-foot-note');
-    if (note) {
-      note.hidden = left === 0;
-      note.textContent = left + (left === 1 ? ' question' : ' questions') + ' left to answer';
-    }
+  function cfcPanels(card) { return Array.prototype.slice.call(card.querySelectorAll('.cfc-panel')); }
+  function cfcIndex(card) {
+    var p = cfcPanels(card);
+    for (var i = 0; i < p.length; i++) if (!p[i].hidden) return i;
+    return 0;
   }
-
-  function cfcSelect(tab, focus) {
-    tab.closest('[role="tablist"]').querySelectorAll('[role="tab"]').forEach(function (t) {
-      var on = t === tab;
-      t.classList.toggle('is-active', on);
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
-      t.tabIndex = on ? 0 : -1;
-      var panel = document.getElementById(t.getAttribute('aria-controls'));
-      if (panel) panel.hidden = !on;
+  function cfcLabel(opt) {
+    var t = opt.querySelector('.cfc-opt-t');
+    return (t && t.firstChild ? t.firstChild.textContent : opt.textContent).trim();
+  }
+  function cfcAnswers(card) {
+    var scopes = cfcPanels(card);
+    if (!scopes.length) scopes = [card];
+    return scopes.map(function (p) {
+      var q = p.querySelector('.cfc-q'), answer = null;
+      var ticked = p.querySelectorAll('.cbx-in:checked');
+      var on = p.querySelector('.cfc-opt[aria-pressed="true"], .cfc-opt[aria-expanded="true"]');
+      if (ticked.length) answer = Array.prototype.map.call(ticked, function (i) { return cfcLabel(i.closest('.cfc-opt')); });
+      else if (on && on.hasAttribute('data-cfc-other')) { var ta = p.querySelector('.cfc-other .ta'); answer = ta ? ta.value.trim() : null; }
+      else if (on) answer = cfcLabel(on);
+      return { question: q ? q.textContent.trim() : '', answer: answer };
     });
-    if (focus) tab.focus();
+  }
+  function cfcGo(card, i) {
+    var p = cfcPanels(card);
+    if (!p.length) return;
+    var hadFocus = card.contains(document.activeElement) && document.activeElement !== document.body;
+    p.forEach(function (el, j) { el.hidden = j !== i; });
+    card.querySelectorAll('.cfc-step').forEach(function (s, j) { s.classList.toggle('is-done', j <= i); });
+    var label = card.querySelector('.cfc-step-label');
+    if (label) label.textContent = 'Question ' + (i + 1) + ' of ' + p.length;
+    var back = card.querySelector('[data-cfc-back]');
+    if (back) back.hidden = i === 0;
+    var q = p[i].querySelector('.cfc-q');
+    if (hadFocus && q) q.focus();
+    if (window.kitSyncFades) window.kitSyncFades(card);
+  }
+  function cfcNext(card) {
+    var p = cfcPanels(card), i = cfcIndex(card);
+    if (p.length && i < p.length - 1) { cfcGo(card, i + 1); return; }
+    card.dispatchEvent(new CustomEvent('cfc:answer', { bubbles: true, detail: { answers: cfcAnswers(card) } }));
+  }
+  /* Clear what a list has chosen: marks off, "Other" folded. */
+  function cfcClear(list, keep) {
+    list.querySelectorAll('button.cfc-opt').forEach(function (b) {
+      if (b === keep) return;
+      b.removeAttribute('aria-pressed');
+      if (b.hasAttribute('data-cfc-other')) b.setAttribute('aria-expanded', 'false');
+    });
+    list.querySelectorAll('.cfc-other').forEach(function (f) { if (!keep || f.previousElementSibling !== keep) f.hidden = true; });
+  }
+  function cfcSendState(field) {
+    var send = field.querySelector('[data-cfc-send]'), ta = field.querySelector('.ta');
+    if (send && ta) send.disabled = !ta.value.trim();
+  }
+  function cfcSync(card) {
+    var btn = card.querySelector('[data-cfc-submit]');
+    if (btn) btn.disabled = !card.querySelector('.cbx-in:checked');
+    card.querySelectorAll('.cfc-other').forEach(cfcSendState);
   }
 
   document.addEventListener('click', function (e) {
-    var tab = e.target.closest && e.target.closest('.cfc-top-tabs [role="tab"]');
-    if (tab) cfcSelect(tab, false);
+    var card = e.target.closest && e.target.closest('.cfc');
+    if (!card) return;
+    var opt = e.target.closest('button.cfc-opt');
+    if (opt) {
+      var list = opt.closest('.cfc-opts');
+      if (opt.hasAttribute('data-cfc-other')) {
+        var open = opt.getAttribute('aria-expanded') !== 'true';
+        cfcClear(list, opt);
+        opt.setAttribute('aria-expanded', open ? 'true' : 'false');
+        var field = opt.nextElementSibling;
+        if (field && field.classList.contains('cfc-other')) {
+          field.hidden = !open;
+          /* Focus scrolls the field into view but not the send under it; at the card's ceiling that
+             left the send behind the bottom fade. Bring the whole field in. */
+          if (open) {
+            cfcSendState(field);
+            var ta = field.querySelector('.ta');
+            if (ta) ta.focus({ preventScroll: true });
+            field.scrollIntoView({ block: 'nearest' });
+          }
+        }
+        if (window.kitSyncFades) window.kitSyncFades(card);
+        return;
+      }
+      cfcClear(list, null);
+      opt.setAttribute('aria-pressed', 'true');
+      cfcNext(card);
+      return;
+    }
+    if (e.target.closest('[data-cfc-send]') || e.target.closest('[data-cfc-submit]')) { cfcNext(card); return; }
+    if (e.target.closest('[data-cfc-skip]')) {
+      var cur = cfcPanels(card)[cfcIndex(card)];
+      var curList = cur && cur.querySelector('.cfc-opts');
+      if (curList) cfcClear(curList, null);
+      cfcNext(card);
+      return;
+    }
+    if (e.target.closest('[data-cfc-back]')) cfcGo(card, Math.max(0, cfcIndex(card) - 1));
+  });
+
+  document.addEventListener('input', function (e) {
+    var field = e.target.closest && e.target.closest('.cfc-other');
+    if (field) cfcSendState(field);
   });
 
   document.addEventListener('keydown', function (e) {
-    if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].indexOf(e.key) < 0) return;
-    var tab = e.target.closest && e.target.closest('.cfc-top-tabs [role="tab"]');
-    if (!tab) return;
-    var tabs = Array.prototype.slice.call(tab.closest('[role="tablist"]').querySelectorAll('[role="tab"]'));
-    var i = tabs.indexOf(tab), n = tabs.length;
-    var j = e.key === 'Home' ? 0 : e.key === 'End' ? n - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + n) % n;
+    if (e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
+    var ta = e.target.closest && e.target.closest('.cfc-other .ta');
+    if (!ta || !ta.value.trim()) return;
     e.preventDefault();
-    cfcSelect(tabs[j], true);
+    cfcNext(ta.closest('.cfc'));
   });
 
   document.addEventListener('change', function (e) {
@@ -1206,7 +1279,12 @@
     if (card) cfcSync(card);
   });
 
-  function cfcInit() { document.querySelectorAll('.cfc').forEach(cfcSync); }
+  function cfcInit() {
+    document.querySelectorAll('.cfc').forEach(function (card) {
+      cfcSync(card);
+      if (cfcPanels(card).length) cfcGo(card, cfcIndex(card));
+    });
+  }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', cfcInit, { once: true });
   else cfcInit();
 

@@ -47,6 +47,7 @@ Horizontal padding climbs the **same 4px ladder** as Button, Input and Selector 
 | Focus | border `accent` (cyan-teal), no ring | — | 1 px solid neutral border via `--input-focus` (light `Slate-600 #475569` / dark `Slate-500 #64748B`), no outer ring | matches [Input](Input.md) focus exactly. Brand colour intentionally **not** used on form-control focus. **Amended this iteration:** `--input-focus` softened from `--focus-ring` (Slate-900 / Slate-100) through `--ink-secondary` (Slate-550 / Grey-400) to Slate-600 light / Slate-500 dark — see [Input](Input.md) for rationale. |
 | Error | ⚠ undefined | — | **new** — 1 px solid `--input-error` border (theme-adaptive: light `red-700 #B91C1C` / dark `red-500 #EF4444`), red helper text below; no bg tint | matches [Input](Input.md) error; theme-adaptive so dark-mode text reaches AA (4.5 : 1). Pairs colour with text → WCAG 1.4.1 |
 | Disabled | opacity 50% | — | bg `State/Disabled`, text `Text/Inactive`, `cursor:not-allowed` | replaces opacity with a real disabled fill — matches [Input](Input.md) |
+| Block *(new)* | `w-full` | — | `.ta.is-block` — `width:100%`, no max-width | the kit caps `.ta` at 260px for its demos; a field that must fill its container says so with `.is-block`, the modifier InputGroup already uses. First consumer: [AskUserPanel](AskUserPanel.md) “Other”. |
 
 ## Not a TextArea
 

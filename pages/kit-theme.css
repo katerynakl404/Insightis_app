@@ -1269,6 +1269,9 @@
   .ta.is-md{min-height:2.25rem}
   .ta.is-lg{min-height:2.5rem;padding:.5rem .75rem;font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
   .ta.is-xl{min-height:2.75rem;padding:.625rem .75rem;font-size:var(--ts-body-l-size);line-height:var(--ts-body-l-lh)}
+  /* Block — fills its container instead of stopping at the default 260px; InputGroup's .is-block for
+     the same need. */
+  .ta.is-block{width:100%;max-width:none}
   /* Character counter — opt-in, rendered after the field. Just the two numbers: how many used of
      how many allowed. aria-live="polite" so a screen reader hears the count change without being
      interrupted mid-typing. Was an inline-styled div on Metrics; the treatment lives here now. */
@@ -1403,7 +1406,7 @@
      two that carry the meaning: the box is a circle and the mark is a dot. Size, border weight,
      colours, hover, focus and disabled are the checkbox's, deliberately — a radio that differed in
      any of those would read as a different family rather than as "pick exactly one".
-       <label class="cfc-opt"><input type="radio" class="rdo-in" name="g"><span class="rdo"></span>…</label>
+       <label><input type="radio" class="rdo-in" name="g"><span class="rdo"></span>…</label>
      The real <input> stays in the DOM (visually hidden, never display:none) so the group keeps its
      arrow-key behaviour, its name/value and its screen-reader role for free; .rdo is only the skin,
      and :checked / :focus-visible on the input drive it. */
@@ -5424,95 +5427,100 @@
      The WHOLE card: .cfc carries its own surface, it is not a block of content
      dropped into some other card. Shown when the assistant needs a decision before
      it can continue; the consumer positions it (.cp-cfc-layer on the chat page).
-     Height follows the content: no min-height, no reserved rows, no padding holding
-     space for options that are not there — N options, N rows.
+     Height follows the content — no min-height, no reserved rows — up to HALF the
+     window. Below that nothing scrolls; past it only the options do.
 
-       <div class="cfc" role="group" aria-label="…">
-         <div class="cfc-top"><p class="cfc-q">…question…</p>
+     ONE option row (.cfc-opt) in every variant; what sits inside it is the variant:
+       Single select     — the row IS a <button>: pressing it is the answer.
+       Several questions — single select, one question per step (.cfc-panel). A
+                           stepper takes the question's place on the top line;
+                           Back / Skip in .cfc-foot. An answer moves on, the last
+                           one sends.
+       Multi select      — .cbx-in + .cbx inside the row; Submit in .cfc-foot.
+     "Other" (data-cfc-other) is an answer like the rest — boxed the same — and
+     pressing it opens .cfc-other: a field for the person's own words + a send.
+     Behaviour, and the `cfc:answer` event the consumer closes the card on:
+     pages/kit-kit.js §11.
+
+       <div class="cfc scroll-fade" role="group" aria-labelledby="q">
+         <div class="cfc-top"><p class="cfc-q" id="q">…question…</p>
            <span class="cfc-top-r"><span class="cfc-esc">Esc to cancel</span>
              <button class="iconbtn iconbtn-tertiary iconbtn-xs" aria-label="Dismiss">✕</button></span></div>
-         <div class="cfc-opts">
+         <div class="cfc-opts" data-scroll-fade>
            <button class="cfc-opt" type="button"><span class="cfc-opt-b"><span class="cfc-opt-t">Net revenue
              <span class="badge badge-sm badge-primary">Recommended</span></span><span class="cfc-opt-d">…</span></span></button>
-           <button class="cfc-opt" type="button"><span class="cfc-opt-b"><span class="cfc-opt-t">Other</span></span></button>
+           <button class="cfc-opt" type="button" data-cfc-other aria-expanded="false">…Other…</button>
+           <div class="cfc-other" hidden><textarea class="ta is-block" rows="2" placeholder="Write your answer…"></textarea>
+             <button class="btn btn-primary btn-sm" type="button" data-cfc-send disabled>Submit</button></div>
          </div>
        </div>
 
-     "Other" is one of the N — an answer to the same question — so it is boxed like
-     the rest. (It was unboxed while it was read as an escape hatch. It is not one.)
-
-     Three variants, ONE option row. Only the control inside the row and what wraps
-     the list change:
-       Single select    — the row IS a <button>, no control, no footer: pressing it is
-                          the answer, so there is nothing to mark and nothing to submit.
-                          (a .cfc-opt with a radio inside is for the step that is NOT
-                          the whole answer — several questions.)
-       Multi select     — .cbx-in + .cbx in a role="group", plus .cfc-foot with Submit.
-       Several questions— .cfc-top-tabs (a .tabset.var-flush) replaces the question on
-                          the top line; one .cfc-panel per question, each a radio
-                          group; .cfc-foot with Submit + .cfc-foot-note ("N questions
-                          left to answer"). Behaviour: pages/kit-kit.js §11.
-         <div class="cfc-top cfc-top-tabs">
-           <div class="tabset var-flush" role="tablist">
-             <button class="tab is-active" role="tab" aria-selected="true" aria-controls="q1">Time period
-               <span class="cfc-tab-pend" aria-hidden="true"></span><span class="sr-only">, unanswered</span></button>…</div>
-           <span class="cfc-top-r">…Esc + dismiss…</span></div>
-         <div class="cfc-panel" id="q1" role="tabpanel"><p class="cfc-q">…</p><div class="cfc-opts" role="radiogroup">…</div></div>
-         <div class="cfc-foot"><button class="btn btn-primary btn-sm" data-cfc-submit disabled>Submit</button>
-           <span class="cfc-foot-note" aria-live="polite">3 questions left to answer</span></div>
+     Several questions — the top line and the steps:
+         <div class="cfc-top"><div class="cfc-stepper"><span class="cfc-steps" aria-hidden="true">
+             <span class="cfc-step is-done"></span><span class="cfc-step"></span>…</span>
+             <span class="cfc-step-label" aria-live="polite">Question 1 of 3</span></div>
+           <span class="cfc-top-r">…</span></div>
+         <div class="cfc-panel scroll-fade" role="group" aria-labelledby="q1"><p class="cfc-q" id="q1" tabindex="-1">…</p>
+           <div class="cfc-opts" data-scroll-fade>…</div></div>
+         <div class="cfc-foot"><button class="btn btn-tertiary btn-sm" data-cfc-back hidden>Back</button>
+           <button class="btn btn-tertiary btn-sm" data-cfc-skip>Skip</button></div>
      ========================================================================= */
   .cfc,.cfc-panel{display:flex;flex-direction:column;gap:.75rem}
   /* The card's own surface. A question the queue is waiting on must not scroll away with the
      conversation: one you have to scroll back to find reads as optional, and the queue then looks
      stuck for no visible reason — so the card floats over the thread, and shadow, not a heavier
-     border, is what says it sits OVER it. */
-  .cfc{box-sizing:border-box;padding:1rem;background:var(--surface-card);border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-overlay-soft)}
-  .cfc-panel[hidden],.cfc-tab-pend[hidden]{display:none}
-  /* Question and the dismiss affordance share ONE line: the escape hatch belongs beside what it
-     escapes from, not stacked above it in a row of its own. */
+     border, is what says it sits OVER it.
+       Half the window is the ceiling. Under it the card is as tall as its options and nothing
+     scrolls — a scrollbar beside four options that fit is a list pretending to be longer than it
+     is. Over it the options scroll and the top line and the footer stay put. */
+  .cfc{box-sizing:border-box;max-height:50vh;max-height:50dvh;padding:1rem;background:var(--surface-card);border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-overlay-soft)}
+  .cfc [hidden]{display:none}
+  .cfc-panel{min-height:0}
   /* The dismiss group sits on the question's FIRST line, not in the middle of the block: a
      two-line question centred it between the lines, where it belonged to neither. The group is one
      question line tall (Title/14's line-height) and the 28px button overhangs it evenly, so it
-     centres on that line without a negative margin. In the tabs row it is centred on the tabs. */
+     centres on that line without a negative margin. */
+  .cfc-top,.cfc-foot{flex:none}
   .cfc-top{display:flex;align-items:flex-start;gap:.75rem}
   .cfc-top-r{flex:none;display:flex;align-items:center;gap:.5rem;height:var(--ts-title-14-lh);color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   .cfc-esc{white-space:nowrap}
-  .cfc-q{flex:1;min-width:0;margin:0;font-size:var(--ts-title-14-size);line-height:var(--ts-title-14-lh);font-weight:var(--ts-title-14-weight);color:var(--ink-primary)}
-  /* Several questions: the tabs take the question's place on the top line, and the dismiss stays
-     beside them — it escapes ALL the questions, so it sits with the control that spans them. The
-     ROW draws the one hairline (the tabset is .var-flush), so it runs under the dismiss as well
-     instead of stopping where the tabs end. */
-  .cfc-top-tabs{align-items:center;border-bottom:var(--border-width) solid var(--stroke-border)}
-  /* A tab label never wraps — a two-line tab stands taller than its neighbours. When the tabs do
-     not fit they scroll sideways on one line, the chip row's recipe. The 2px of padding is the
-     active underline's own height: it hangs below the tab onto the row's hairline, and without the
-     room the scroller would clip it; the matching negative margin puts it back on the hairline. */
-  .cfc-top-tabs .tabset{flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-bottom:-2px}
-  .cfc-top-tabs .tabset::-webkit-scrollbar{display:none}
-  .cfc-top-tabs .tab{flex:none;white-space:nowrap}
-  /* Unanswered marker. Presence, not colour, carries it — answered tabs simply drop it — and the
-     tab's accessible name says it in words (.sr-only). Same accent as the active underline. */
-  .cfc-tab-pend{display:inline-block;width:.375rem;height:.375rem;margin-left:.375rem;border-radius:var(--radius-full);background:var(--ink-highlight);vertical-align:middle}
-  .cfc-opts{display:flex;flex-direction:column;gap:.5rem}
+  .cfc-q{flex:none;margin:0;font-size:var(--ts-title-14-size);line-height:var(--ts-title-14-lh);font-weight:var(--ts-title-14-weight);color:var(--ink-primary)}
+  .cfc-top .cfc-q{flex:1;min-width:0}
+  .cfc-q:focus{outline:none}
+  /* Several questions: a stepper takes the question's place on the top line, so the dismiss
+     still sits beside what it escapes — all of the questions. Segments say how far along at a
+     glance, the label says it exactly (and is what a screen reader hears). ProgressBar's own
+     recipe: track --surface-chips, done --brand-primary. */
+  .cfc-stepper{flex:1;min-width:0;display:flex;align-items:center;gap:.75rem;height:var(--ts-title-14-lh)}
+  .cfc-steps{flex:none;display:flex;gap:.25rem}
+  .cfc-step{width:1.5rem;height:.25rem;border-radius:var(--radius-full);background:var(--surface-chips);transition:background-color var(--motion-fast) var(--motion-ease)}
+  .cfc-step.is-done{background:var(--brand-primary)}
+  .cfc-step-label{white-space:nowrap;color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
+  /* The list is the part that scrolls once the card hits its ceiling. The .25rem of padding, taken
+     back by the margin, is the focus ring's room: without it the scroller clips the ring on the
+     first and last rows. The fade (data-scroll-fade on the list, .scroll-fade on the card or the
+     step) only shows while something is actually hidden. */
+  .cfc-opts{display:flex;flex-direction:column;gap:.5rem;min-height:0;overflow-y:auto;padding:.25rem;margin:-.25rem}
   .cfc-opt{position:relative;display:flex;align-items:flex-start;gap:.625rem;width:100%;box-sizing:border-box;text-align:left;padding:.625rem .75rem;border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-lg);background:var(--surface-card);cursor:pointer;font-family:inherit;transition:background-color var(--motion-fast) var(--motion-ease),border-color var(--motion-fast) var(--motion-ease)}
-  /* The radio centres on the TITLE LINE — not on the row (a two-line option would drop it into the
-     middle of the paragraph) and not on the line's top edge either, which is where it sat. The
-     offset is the two boxes: (24px title line − 18px control) / 2. Off the 4px step on purpose, the
-     same way a 1.5px border is: it is an optical centring derived from two grid-legal values, not a
-     spacing decision. */
-  .cfc-opt .rdo,.cfc-opt .cbx{margin-top:.1875rem}
+  /* The checkbox centres on the TITLE LINE — not on the row (a two-line option would drop it into
+     the middle of the paragraph) and not on the line's top edge either. The offset is the two
+     boxes: (24px title line − 18px control) / 2. Off the 4px step on purpose, the same way a 1.5px
+     border is: it is an optical centring derived from two grid-legal values, not a spacing
+     decision. */
+  .cfc-opt .cbx{margin-top:.1875rem}
   .cfc-opt-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .cfc-opt:hover,.cfc-opt.s-hover{background:var(--state-hover);border-color:var(--card-border-hover)}
-  /* Single select: the row is the button, so it carries a button's press and focus. */
+  /* A button row carries a button's press and focus. */
   button.cfc-opt:active,.cfc-opt.s-pressed{background:var(--state-pressed)}
   button.cfc-opt:focus-visible,.cfc-opt.s-focus{outline:none;box-shadow:var(--shadow-focus)}
-  /* Focus follows the real input — but only when the KEYBOARD put it there. :focus-within also
-     fires on a mouse click, so choosing an option painted a full focus ring around the row on top
-     of the selected state, and the two together read as an error. And the ring goes on the ROW
-     only: the control inside it would otherwise draw a second one for the same focus. */
-  .cfc-opt:has(.rdo-in:focus-visible),.cfc-opt:has(.cbx-in:focus-visible){outline:none;box-shadow:var(--shadow-focus)}
-  .cfc-opt .rdo-in:focus-visible + .rdo,.cfc-opt .cbx-in:focus-visible + .cbx{box-shadow:none}
-  .cfc-opt:has(.rdo-in:checked),.cfc-opt:has(.cbx-in:checked){border-color:var(--brand-primary);background:color-mix(in srgb, var(--brand-primary) var(--tint-5), transparent)}
+  /* A checkbox row: focus follows the real input — but only when the KEYBOARD put it there.
+     :focus-within also fires on a mouse click, so ticking painted a full focus ring on top of the
+     selected state, and the two together read as an error. The ring goes on the ROW only. */
+  .cfc-opt:has(.cbx-in:focus-visible){outline:none;box-shadow:var(--shadow-focus)}
+  .cfc-opt .cbx-in:focus-visible + .cbx{box-shadow:none}
+  /* Chosen: a ticked checkbox, the answer a step remembers when you come Back to it
+     (aria-pressed), and an open "Other" (aria-expanded). One recipe for all three. */
+  .cfc-opt:has(.cbx-in:checked),.cfc-opt[aria-pressed="true"],.cfc-opt[aria-expanded="true"],.cfc-opt.s-selected{border-color:var(--brand-primary);background:color-mix(in srgb, var(--brand-primary) var(--tint-5), transparent)}
   /* Text/Body, not Text/Primary: the QUESTION is the primary voice here; an option label that
      matches it flattens the card into one shouting block. Three steps — question, label,
      description — and each sits a token apart. */
@@ -5522,14 +5530,14 @@
      Text/Body: the title is already on the darkest ink, so the only way to make it read as MORE
      contrasting is to open the gap below it. Body sat one step away and the two flattened. */
   .cfc-opt-d{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);font-weight:var(--ts-body-m-weight);color:var(--ink-secondary)}
-  /* Submit row — only where one pick is NOT the whole answer (multi select, several questions).
-     Submit stays disabled until every question has an answer; the note beside it says how many
-     are left, so the disabled button is never unexplained. */
-  .cfc-foot{display:flex;align-items:center;flex-wrap:wrap;gap:.75rem}
-  .cfc-foot-note{color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
+  /* "Other": the person's own answer, written under the row that asked for it and sent with its
+     own button — the action sits with the thing it sends. Send is disabled while the field is
+     empty; Enter sends too, Shift+Enter breaks the line. */
+  .cfc-other{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem}
+  /* Footer — Submit for multi select, Back / Skip between steps. */
+  .cfc-foot{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
   @media (max-width: 600px){
-    /* A phone has no Esc key, so the hint goes and the dismiss stays — and the tabs of the
-       several-questions variant get the room. */
+    /* A phone has no Esc key, so the hint goes and the dismiss stays. */
     .cfc-esc{display:none}
   }
   /* The escape hatch: same hit area and states, no box. */
