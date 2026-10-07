@@ -4,6 +4,8 @@ Baseline: [`../current/Radio.md`](../current/Radio.md) — **port of the design 
 
 The **Insightis kit** had a [Checkbox](Checkbox.md) and no radio, so a one-of-N choice that has to stay marked had no control that said so.
 
+**It stays in the kit with no consumer.** Nothing on the screens uses it at the moment, and that is not a reason to remove it: it is the design system's own control, and the next one-of-N choice that has to stay marked takes it from here instead of inventing one.
+
 **The design system already ships one.** `RadioButton` exists in `@devart/ui-react`; what was missing was its CSS-class counterpart in this kit. So this is a **port, not a new component**, and the parity is deliberate and exact — same shell as Checkbox, 1.5px border, `radius-full`, `Surface/Card` on `Stroke/Field_Hover`, hover to `Text/Secondary`, checked `Brand/Primary` with a `Content/On_Solid` mark, checked-hover `Brand/Hover`, `--input-error` for error, the neutral focus ring (brand colour never visualises form-control focus) and the opacity disabled recipe. Anything that changes here changes there.
 
 ## The whole design is one sentence
