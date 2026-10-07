@@ -314,6 +314,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-si
       <dl class="kv"><dt>Где</dt><dd>Пункты меню (модели, коннекторы), навигация, кнопки действий, заголовки секций.</dd>
       <dt>Что</dt><dd>Замок + минимальный план, на котором функция есть. Две варианта размера: в строке меню и рядом с кнопкой.</dd>
       <dt>Нельзя</dt><dd>Цены и значки $$$ в метке (у Julius так сделано, нам не нужно: цена живёт в Manage plan).</dd></dl>
+<div class="fix"><span class="lbl">Уточнено · место метки зависит от вида контрола</span>Одной метки «везде одинаково» оказалось мало: замок, поставленный всегда слева, прыгал между краями одинаковых на вид контролов. Правило теперь по <b>виду контрола</b>, а не по компоненту: на <b>кнопке и в обычной строке</b> — замок в ведущем слоте; там, где ведущий слот занят <b>логотипом источника</b> (строка подключения, @-метрика), логотип остаётся, а замок уходит в конец строки — потерять марку источника дороже; <b>рядом с переключателем метки нет вообще</b> — выключенный и приглушённый свитч уже это говорит, вторая метка повторяет факт. Название плана — <code>.badge</code>, и только в строках меню: на кнопке его несёт то, что открывается по нажатию. Строки контекстного меню при этом <b>выглядят выключенными</b>, а кнопки сохраняют полный цвет: кнопка остаётся нажимаемой, потому что её нажатие и есть способ узнать, почему она закрыта. Таблица решений — <code>changes/UpgradePopover.md</code>.</div>
     </div>
     <div class="mock"><span class="cap">U1</span>
       <div class="row" style="flex-wrap:wrap;gap:10px"><span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span><span class="lock"><svg class="i s12"><use href="#i-lock"/></svg>Pro</span><span class="lock lg"><svg class="i s12"><use href="#i-lock"/></svg>Starter</span></div>
@@ -327,6 +328,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-si
       <dl class="kv"><dt>Когда</dt><dd>Наведение или клик по закрытому пункту в небольшом меню: модель, коннектор, <code>@</code>-метрика. Как в референсе Julius (скрин 1).</dd>
       <dt>Что</dt><dd>Заголовок функции, 2–3 выгоды одной строкой, кнопка «See plans». На touch открывается по тапу.</dd>
       <dt>Поведение</dt><dd>Не закрывает родительское меню. Esc закрывает поповер.</dd></dl>
+<div class="fix"><span class="lbl">Уточнено</span>Кнопка — <b>Upgrade to Unlock</b>, не «See plans» (см. раздел 07). Содержимое всех поповеров и окон лежит в одном месте, <code>pages/kit-plans.js</code>: семь функций, у каждой план, название, фраза пользы и выгоды — поэтому один и тот же замок в чате и в Data Sources говорит одно и то же. Бренд приходит <b>градиентом, который гаснет</b>, а не заливкой во всю панель. Заголовок — это имя функции цветом, без полосы и <b>без глифа</b> (глиф снят 06.10.2026: он повторял заголовок и съедал треть ширины). Открывается <b>сбоку</b>, если есть место — панель снизу закрывает ровно то, что человек читал. Задержка та же, что у тултипа (300 мс, читается из его же константы), закрытие через 160 мс — указателю нужно это время, чтобы дойти до кнопки. Родительское меню никогда не закрывает.</div>
     </div>
     <div class="mock"><span class="cap">U2</span>
       <div class="upop"><h5><svg class="i"><use href="#i-cpu"/></svg>Insightis Pro</h5><ul><li><svg class="i s12"><use href="#i-check"/></svg>Deeper reasoning for multi-step analysis</li><li><svg class="i s12"><use href="#i-check"/></svg>Better with large tables and joins</li></ul><span class="muted" style="font-size:11.5px">Available on the Pro plan</span><button class="btn primary full">See plans</button></div>
@@ -340,6 +342,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-si
       <dt>Что</dt><dd>Иллюстрация функции, заголовок, одна фраза пользы, 3 пункта, подсказка про план, «See plans» (основная) и «Not now».</dd>
       <dt>Варианты</dt><dd>Один шаблон, 4 набора контента: Data connectors, Metrics, AI models, Connections in chat (раздел 05, S9).</dd>
       <dt>Контекст</dt><dd><span class="req prop">предложение</span> Если действие про конкретный объект, называем его: «Connect HubSpot», «Edit “Net revenue”».</dd></dl>
+<div class="fix"><span class="lbl">Исправлено · иллюстрации нет</span><b>Иллюстрация убрана.</b> Первый вариант нёс бренд-градиентную полосу с логотипами источников — читалось как стоковая картинка, а не как этот продукт; и решение об апгрейде принимают не из-за картинки. Вместо неё <b>глиф функции в той же иконочной плитке, которой кит метит источники</b> (<code>--icon-wrapper-bg</code> + волосяная рамка), так что закрытая функция помечена здесь так же, как источник помечен везде. Само окно — <b>обычный диалог кита</b> (<code>.dlg-overlay → .dlg → .dlg-hdr → .dlg-content.is-stack → .dlg-ftr</code>), а не новая поверхность. План не сноска: собраны <b>два варианта</b> — фразой под заголовком и бейджем на строке заголовка, — и они переключаются на месте. Подвал: <b>Not Now</b> + <b>Upgrade to Unlock</b>.</div>
     </div>
     <div class="mock"><span class="cap">U3</span>
       <div class="overlay"><div class="modal" style="position:relative"><svg class="i x"><use href="#i-x"/></svg>
@@ -358,6 +361,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div class="sid"><span class="u">U4</span><h3>Баннер «только чтение»</h3><span class="req must">обязательно</span></div>
       <dl class="kv"><dt>Где</dt><dd>Вверху страниц Data Sources и Metrics, если у пользователя там что-то есть.</dd>
       <dt>Что</dt><dd>Говорит, почему нельзя менять, и что с данными всё в порядке: ничего не удалено. Кнопка «See plans». Не закрывается навсегда, но может сворачиваться.</dd></dl>
+<div class="fix"><span class="lbl">Исправлено · это Alert, а не баннер</span>Собран на компоненте <b>Alert</b> (<code>.alert.alert-warn</code>, размер M), а не на отдельном баннере: то же самое «внимание, но ничего не сломано» уже есть в системе, и второй такой элемент был бы вторым голосом для одного сообщения. Ведущая метка — <b>круглая подложка с глифом предмета</b> (подключения, метрики), а не предупреждающий треугольник: треугольник говорит только «что-то не так», а первым читать надо то, о чём речь. Выход — <b>ссылка внутри фразы</b> (<i>Upgrade to Starter</i>), не кнопка: баннер стоит над таблицей, где кнопка стала бы третьим контролом в ряду. Есть <b>крестик</b>: он закрывает сообщение, а не состояние, и на следующем заходе оно вернётся, потому что состояние осталось прежним. Тексты говорят, что подписка закончилась и пользоваться нельзя, — а не что «перестало работать»: ничего не сломано и ничего не удалено.</div>
     </div>
     <div class="mock"><span class="cap">U4</span>
       <div class="banner"><svg class="i s18 ic"><use href="#i-eye"/></svg><div><b>View only on the Free plan</b><span>Your 3 connections are saved. Upgrade to use them in chat and make changes.</span></div><button class="btn primary sm">See plans</button></div>
@@ -369,6 +373,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div class="sid"><span class="u">U5</span><h3>Пустое состояние с апселлом</h3><span class="req must">обязательно</span></div>
       <dl class="kv"><dt>Где</dt><dd>Когда у Free-пользователя в разделе ничего нет: пустой список коннекторов в чате, My Connections, Metrics.</dd>
       <dt>Что</dt><dd>Вместо «Connect your first data source» объясняем, что функция на платном плане, и что она даёт. Основано на существующем <code>StatusView</code>.</dd></dl>
+<div class="fix"><span class="lbl">Уточнено</span>Кнопка — <b>Upgrade to Unlock</b> (раздел 07). Пустое состояние собрано на ките (<code>.empty-state</code>) и не придумывает своей картинки: тот же глиф, та же типографика, что у остальных пустых состояний продукта.</div>
     </div>
     <div class="mock"><span class="cap">U5</span>
       <div style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:14px 6px">
@@ -385,9 +390,30 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-si
       <dl class="kv"><dt>Где</dt><dd>В ленте чата. Строится как уже существующий <code>ChatBlockedPanel</code> («You've run out of credits»), чтобы это был один стиль.</dd>
       <dt>Когда</dt><dd>Старый чат, где использовались подключения или @-метрики: ассистент теперь может работать только с файлами.</dd>
       <dt>Отличие</dt><dd>Не блокирует ввод. Отправить вопрос по файлам можно.</dd></dl>
+<div class="fix"><span class="lbl">Уточнено</span>Тоже <b>Alert</b> (<code>.alert.alert-warn.cl-u6</code>), но размера <b>S</b>: заметка внутри разговора — это сноска, а не обращение ко всему экрану. С той же круглой подложкой и глифом подключений. Выход здесь — <b>настоящая кнопка</b> (<i>Upgrade to Unlock</i>), а не ссылка в предложении: человек читает ленту, и ссылка внутри фразы прочитается как часть текста. Карточка стоит <b>последней в ленте, прямо над композером</b>, в том чате, который подключениями пользовался, — контраст с ответами выше и есть смысл. Ввод не блокирует.</div>
     </div>
     <div class="mock"><span class="cap">U6</span>
       <div class="notice"><span class="ic"><svg class="i"><use href="#i-flow"/></svg></span><div><b>Connections are paused in this chat</b><span>On Free, the assistant can only use uploaded files. Salesforce and HubSpot are still saved.</span></div><button class="btn sm primary">See plans</button></div>
+    </div>
+  </div>
+
+  <div class="state" style="grid-template-columns:1fr">
+    <div class="desc">
+      <div class="sid"><span class="u">U7</span><h3>Meter</h3><span class="req new">добавлено</span></div>
+      <dl class="kv"><dt>Зачем</dt><dd>Подпись, цифра, полоса: сколько от лимита израсходовано. В исходном ТЗ такого компонента не было, а понадобился он дважды — кредиты в поповере баланса и хранилище на странице Files. Две одинаковые полосы, собранные порознь, разошлись бы на первой же правке.</dd>
+      <dt>Состояние</dt><dd>«За пределом» — это <b>состояние компонента</b>, а не цвет, который рисует страница: заливка уходит в тот же <code>Feedback/Attention</code>, которым говорит предупреждающий Alert, потому что это одно и то же утверждение.</dd>
+      <dt>Где описан</dt><dd><code>changes/Meter.md</code></dd></dl>
+    </div>
+  </div>
+
+  <div class="state" style="grid-template-columns:1fr">
+    <div class="desc">
+      <div class="sid"><span class="u">U8</span><h3>Promo card</h3><span class="req new">добавлено</span></div>
+      <dl class="kv"><dt>Зачем</dt><dd>То, чем заменили плашку над композером (C7). Экран может вообще не содержать закрытых контролов — экран нового чата такой, — и тогда план невидим, пока что-нибудь не откажется работать. Карточка — единственное постоянное упоминание плана.</dd>
+      <dt>Где</dt><dd>Подвал сайдбара, над строкой баланса и пользователя: туда человек и так смотрит, чтобы понять, что у него за аккаунт.</dd>
+      <dt>Поведение</dt><dd>Только на Free. Крестик закрывает её <b>на сессию</b>, и переключение плана не возвращает её обратно. Показ и закрытие принадлежат <b>киту</b> (<code>pages/kit-kit.js</code>), а не странице: пока это правило копировалось в каждую страницу, три сайдбара остались без карточки вообще.</dd>
+      <dt>Название</dt><dd>Карточка <b>промо</b>, а не «карточка плана»: предлагать можно не только план. В <code>devart.ui.react</code> компонент называется так же — <code>PromoCard</code>.</dd>
+      <dt>Где описан</dt><dd><code>changes/PromoCard.md</code></dd></dl>
     </div>
   </div>
 </section>
@@ -439,6 +465,17 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-si
 
 <section id="screens">
   <div class="sec-head"><span class="eyebrow">05 · Экраны</span><h2>Как это выглядит в продукте</h2></div>
+  <div class="fix" style="max-width:80ch"><span class="lbl">Макеты ниже — исходные наброски, а не финальный дизайн</span>
+  Эскизы в этом разделе рисовались <b>до</b> сборки и оставлены как запись того, что просили. Там, где собранное от них отличается, разница названа словами в разделе 03 и в карте 04. <b>Финальный дизайн — это прототип</b>, и он один:
+  <ul style="margin:8px 0 0;padding-left:18px">
+    <li><a href="https://katerynakl404.github.io/Insightis_app/pages/approved/chat-landing.html">Новый чат</a> — S4, C7 (вместо плашки — промокарточка в сайдбаре)</li>
+    <li><a href="https://katerynakl404.github.io/Insightis_app/pages/approved/chat_page-landing.html?chat=Jira%20%C2%B7%20first%205%20AIINS%20issues">Страница чата</a> — S1, S2, S3, S4 (C6): модели, Connections в композере, @-метрики, карточка в ленте</li>
+    <li><a href="https://katerynakl404.github.io/Insightis_app/pages/approved/data-sources_connections-landing.html">Data Sources</a> — S5, S6 (D1–D6)</li>
+    <li><a href="https://katerynakl404.github.io/Insightis_app/pages/approved/metrics-landing.html">Metrics</a> — S7, S8 (M1–M8)</li>
+    <li><a href="https://katerynakl404.github.io/Insightis_app/pages/approved/data-sources_files-landing.html">Files</a> — хранилище и отказ при переполнении; в исходном ТЗ этого экрана не было</li>
+  </ul>
+  <p style="margin-top:8px">На каждом экране сверху переключатель <b>Paid / Free</b> (на Files ещё <b>Within limit / Over limit</b>), выбор плана держится между страницами. Компоненты по отдельности, во всех состояниях и обеих темах — в <a href="https://katerynakl404.github.io/Insightis_app/insightis-preview-kit.html">ките</a>.</p>
+  </div>
 
   <div class="group-title"><span class="gid">Чат</span><h3>Композер и лента</h3></div>
 
