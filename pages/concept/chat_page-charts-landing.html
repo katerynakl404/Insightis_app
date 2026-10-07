@@ -155,6 +155,16 @@
         <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="clSetPopState('scroll',this)">Scrolling</button>
       </div>
     </div>
+    <div class="tb-concept" role="group" aria-label="AskUserPanel variant (concept)" title="Show the AskUserPanel over the composer in each of its variants">
+      <span class="tb-concept-lbl">AskUserPanel</span>
+      <div class="segctrl is-sm" role="tablist" aria-label="AskUserPanel variant" style="width:auto" id="cp-ask-switch">
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="true" onclick="cpAsk('off',this)">Off</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="cpAsk('single',this)">Single Select</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="cpAsk('steps',this)">Several Questions</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="cpAsk('multi',this)">Multi Select</button>
+        <button class="segctrl-btn" type="button" role="tab" aria-selected="false" onclick="cpAsk('long',this)">Long List</button>
+      </div>
+    </div>
     <button onclick="document.documentElement.classList.toggle('dark')" class="btn btn-outline btn-xs">Light / Dark</button>
   </div>
 </div>
@@ -561,6 +571,10 @@ XLSX file: random_data.xlsx</div></div></div></div><div style="display:flex;flex
       </div>
     </div>
 
+
+    <!-- AskUserPanel sheet — kit .cp-cfc-layer. Covers the chat AND the composer while the assistant
+         waits for an answer. Filled by cpAsk() from the AskUserPanel switch in the review strip. -->
+    <div id="cp-cfc-layer" class="cp-cfc-layer"></div>
   </main>
 
   <!-- ── File preview split panel — opens when a result file chip is clicked (JS-wired below). ── -->
@@ -1427,6 +1441,70 @@ document.addEventListener('click', function(e){
     var btn = document.querySelector('.cp-title-btn');
     if (btn && !e.target.closest('.cp-title-menu-wrap')) btn.setAttribute('aria-expanded','false');
   }, true);
+})();
+</script>
+<script>
+/* AskUserPanel — kit component (.cfc); behaviour (steps, Other, Back / Skip, cfc:answer) is
+   pages/kit-kit.js §11. This page only puts the card on screen and takes it away: the review-strip
+   switch picks the variant, answering or dismissing closes it. */
+(function(){
+  var X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+  var TICK='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>';
+  var TOPR='<span class="cfc-top-r"><span class="cfc-esc">Esc to cancel</span><button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Dismiss" data-tip="Dismiss" data-cp-ask-dismiss>'+X+'</button></span>';
+  function body(t,d,badge){ return '<span class="cfc-opt-b"><span class="cfc-opt-t">'+t+(badge?' <span class="badge badge-sm badge-primary">'+badge+'</span>':'')+'</span>'+(d?'<span class="cfc-opt-d">'+d+'</span>':'')+'</span>'; }
+  function opt(t,d,badge){ return '<button class="cfc-opt" type="button">'+body(t,d,badge)+'</button>'; }
+  function other(send){ return '<button class="cfc-opt" type="button" data-cfc-other aria-expanded="false">'+body('Other','')+'</button>'
+    + '<div class="cfc-other" hidden><textarea class="ta is-block" rows="2" placeholder="Write your answer…" aria-label="Your answer"></textarea>'
+    + '<button class="btn btn-primary btn-sm" type="button" data-cfc-send disabled>'+send+'</button></div>'; }
+  function cbx(t,d,on){ return '<label class="cfc-opt"><input type="checkbox" class="cbx-in" name="cp-ask-m"'+(on?' checked':'')+'><span class="cbx" aria-hidden="true">'+TICK+'</span>'+body(t,d)+'</label>'; }
+  function list(items){ return '<div class="cfc-opts" data-scroll-fade>'+items.join('')+'</div>'; }
+  function card(id,q,items){ return '<div class="cfc scroll-fade" role="group" aria-labelledby="'+id+'"><div class="cfc-top"><p class="cfc-q" id="'+id+'">'+q+'</p>'+TOPR+'</div>'+list(items)+'</div>'; }
+  function step(id,q,items,first){ return '<div class="cfc-panel scroll-fade" role="group" aria-labelledby="'+id+'"'+(first?'':' hidden')+'><p class="cfc-q" id="'+id+'" tabindex="-1">'+q+'</p>'+list(items)+'</div>'; }
+
+  var V={
+    single: function(){ return card('cp-ask-q','Which chart type would you prefer for monthly revenue?',[
+      opt('Line','Shows the trend over time — best for spotting direction and patterns across months','Recommended'),
+      opt('Bar','Each month as a separate bar — better for comparing exact values month to month'),
+      opt('Area','A line with the area below filled — emphasises magnitude and volume over time'),
+      other('Submit')]); },
+    steps: function(){ return '<div class="cfc" role="group" aria-label="Report planning questions">'
+      + '<div class="cfc-top"><div class="cfc-stepper"><span class="cfc-steps" aria-hidden="true"><span class="cfc-step is-done"></span><span class="cfc-step"></span><span class="cfc-step"></span></span><span class="cfc-step-label" aria-live="polite">Question 1 of 3</span></div>'+TOPR+'</div>'
+      + step('cp-ask-s1','What time period should the report cover?',[opt('Last month','The most recent complete month'),opt('Last quarter','The last three months'),opt('Year to date','From January 1 to today'),opt('Custom period','Specify your own date range')],true)
+      + step('cp-ask-s2','Who is this report for?',[opt('Team','Operational detail for contributors and team leads'),opt('Management','Summary and KPIs for directors and executives'),opt('Clients','Polished, high-level insight for external stakeholders'),other('Next')],false)
+      + step('cp-ask-s3','Which format should the report use?',[opt('Table','Exact values, easy to scan and compare'),opt('Chart','Trends and proportions at a glance'),opt('Text','A written summary of the findings')],false)
+      + '<div class="cfc-foot"><button class="btn btn-tertiary btn-sm" type="button" data-cfc-back hidden>Back</button><button class="btn btn-tertiary btn-sm" type="button" data-cfc-skip>Skip</button></div></div>'; },
+    multi: function(){ return '<div class="cfc scroll-fade" role="group" aria-labelledby="cp-ask-m"><div class="cfc-top"><p class="cfc-q" id="cp-ask-m">Which Jira data should the analysis include? Select one or more.</p>'+TOPR+'</div>'
+      + '<div class="cfc-opts" role="group" aria-labelledby="cp-ask-m" data-scroll-fade>'
+      + cbx('Issues','Status, assignee, priority, dates, descriptions and custom fields',false)
+      + cbx('Sprints','Sprint names, start and end dates, state (active / closed)',false)
+      + cbx('Worklogs','Hours logged, who logged them, when, and on which issues',false)
+      + cbx('Comments','Comment text, author, timestamps and discussion history',false)
+      + '</div><div class="cfc-foot"><button class="btn btn-primary btn-sm" type="button" data-cfc-submit disabled>Submit</button></div></div>'; },
+    long: function(){ var m=['January','February','March','April','May','June','July','August','September','October','November','December'];
+      return card('cp-ask-l','Which month should the comparison start from?',m.map(function(x){ return opt(x,'Compare from '+x+' 1 to today'); })); }
+  };
+
+  var host=document.getElementById('cp-cfc-layer');
+  function setSwitch(v){
+    document.querySelectorAll('#cp-ask-switch .segctrl-btn').forEach(function(b){
+      b.setAttribute('aria-selected', b.getAttribute('onclick').indexOf("'"+v+"'")>-1 ? 'true' : 'false');
+    });
+  }
+  window.cpAsk=function(v,btn){
+    host.innerHTML = V[v] ? V[v]() : '';
+    setSwitch(V[v] ? v : 'off');
+    if(window.kitSyncFades) window.kitSyncFades(host);
+  };
+  function close(){ host.innerHTML=''; setSwitch('off'); }
+  /* Answered or dismissed — the card goes, the conversation is back. */
+  document.addEventListener('cfc:answer', function(e){
+    if(!host.contains(e.target)) return;
+    var a=e.detail.answers.map(function(x){ return x.answer===null ? 'skipped' : [].concat(x.answer).join(', '); });
+    close();
+    if(window.kitToast) window.kitToast('Answered', a.join(' · '));
+  });
+  document.addEventListener('click', function(e){ if(e.target.closest && e.target.closest('[data-cp-ask-dismiss]')) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && host.firstChild) close(); });
 })();
 </script>
 </body>

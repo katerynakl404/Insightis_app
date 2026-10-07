@@ -11,6 +11,7 @@ changed on that screen and links to the relevant `changes/` files.
 | Data Sources (Connections) | [data-sources_connections-landing.md](data-sources_connections-landing.md) | Tabs, Banner |
 | Data Sources (Files) | [data-sources_files-landing.md](data-sources_files-landing.md) | Table (sortable Modified column), Chip (filter), Badge (status) |
 | Account modal (Balance + Manage plan + Buy credits) | [user_profile-modal.md](user_profile-modal.md) | AccountModal (Balance V2/V3, Manage plan V1 cards / V2 comparison table — current plan Starter, 50% OFF ribbons on paid plans, plan-change dialogs, Buy-credits packs), SegmentedControl (version toggle), Switch, Table |
+| Chat — charts (Generate two charts using random data) | [chat_page-charts-landing.md](chat_page-charts-landing.md) | AskUserPanel (all variants, review-strip switch), Checkbox, TextArea |
 | Chat — message queue | [chat_page-queue.md](chat_page-queue.md) | QueueBand (new), QueueItem (new), Alert (new), Button (Stop + Queue composer pair), Badge, TextArea, IconButton, Dropdown |
 | Auth flow (sign-up &amp; password) | [auth-flow-landing.md](auth-flow-landing.md) | Multi-page click-through in `pages/concept/auth/` — kit components, dark-only, header screen-switcher, current sidebar logo; no kit deltas |
 

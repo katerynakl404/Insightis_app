@@ -5656,7 +5656,7 @@
      than the field once the viewport was wide enough for the cap to bite. */
   .cp-composer-inner{position:relative;max-width:var(--chat-max-w);padding:0 1.5rem;box-sizing:border-box;margin:0 auto;display:flex;flex-direction:column;gap:.5rem}
 
-  /* ── Confirmation-Card sheet ────────────────────────────────────────────── */
+  /* ── AskUserPanel sheet ───────────────────────────────────────────────── */
   /* When the assistant needs an answer before it can go on, the card is a SHEET over the chat,
      not a block above it. It covers the thread AND the composer: it is the thing the conversation
      stopped for, and a question you can type past reads as optional. Anchored to the bottom so it
