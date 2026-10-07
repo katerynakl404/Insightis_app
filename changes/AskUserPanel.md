@@ -40,10 +40,10 @@ Prod scrolls the option list inside the panel even when every option would fit �
 
 ## Three type steps, each a token apart
 
-The question is the primary voice here. An option label at the same weight flattens the card into one shouting block, so:
+The question is the primary voice here. An option label set bigger than the question it answers outshouts it, and one at the same weight and ink flattens the card into one block — so the three sit at one size and step down by weight and ink:
 
 - question → `Title/14` on `Text/Primary`
-- option label → `Title/16` on `Text/Body` — **not** Text/Primary
+- option label → `Label/L` (weight 500) on `Text/Body` — a button's label, because the row is a button
 - description → `Body/M` at weight 400 on `Text/Secondary`
 
 The description was `Body/L` and read as a second paragraph competing with the label; one step down settles it. Weight 400 is explicit because it inherits nothing from the button it sits in — a button's own `font-weight` was making the prose read bold.
@@ -52,7 +52,7 @@ The description was `Body/L` and read as a second paragraph competing with the l
 
 **The dismiss sits on the question's first line.** The group is one question line tall and the 28px button overhangs it evenly, so a two-line question no longer centres it between the lines, where it belonged to neither.
 
-**The checkbox centres on the title LINE, not on the row.** The offset is `(24px title line − 18px control) / 2` — off the 4px step on purpose, an optical centring derived from two grid-legal values.
+**The checkbox centres on the title LINE, not on the row.** The offset is `(20px title line − 18px control) / 2` — off the 4px step on purpose, an optical centring derived from two grid-legal values.
 
 **The focus ring is keyboard-only and drawn once.** `:focus-visible` on a button row, `:has(.cbx-in:focus-visible)` on a checkbox row — never `:focus-within`, which fires on a mouse click too and painted a ring on top of the chosen state. The list keeps `.25rem` of room so the scroller never clips the ring.
 
@@ -73,7 +73,7 @@ It carries `--shadow-overlay-soft` rather than a heavier border: it sits OVER th
 | option row | `--stroke-border` on `--surface-card`; hover `--state-hover` + `--card-border-hover`; pressed `--state-pressed` |
 | chosen row | `--brand-primary` border + `color-mix(--brand-primary, --tint-5, transparent)` |
 | question | `Title/14` · `Text/Primary` |
-| option label | `Title/16` · `Text/Body` |
+| option label | `Label/L` · `Text/Body` |
 | description | `Body/M` · `Text/Secondary` |
 | dismiss | `.iconbtn.iconbtn-tertiary.iconbtn-xs` |
 | stepper | segments `--surface-chips` / `--brand-primary`; label `Body/M` · `Text/Secondary` |

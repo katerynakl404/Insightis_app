@@ -5504,10 +5504,10 @@
   .cfc-opt{position:relative;display:flex;align-items:flex-start;gap:.625rem;width:100%;box-sizing:border-box;text-align:left;padding:.625rem .75rem;border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-lg);background:var(--surface-card);cursor:pointer;font-family:inherit;transition:background-color var(--motion-fast) var(--motion-ease),border-color var(--motion-fast) var(--motion-ease)}
   /* The checkbox centres on the TITLE LINE — not on the row (a two-line option would drop it into
      the middle of the paragraph) and not on the line's top edge either. The offset is the two
-     boxes: (24px title line − 18px control) / 2. Off the 4px step on purpose, the same way a 1.5px
+     boxes: (20px title line − 18px control) / 2. Off the 4px step on purpose, the same way a 1.5px
      border is: it is an optical centring derived from two grid-legal values, not a spacing
      decision. */
-  .cfc-opt .cbx{margin-top:.1875rem}
+  .cfc-opt .cbx{margin-top:.0625rem}
   .cfc-opt-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .cfc-opt:hover,.cfc-opt.s-hover{background:var(--state-hover);border-color:var(--card-border-hover)}
   /* A button row carries a button's press and focus. */
@@ -5521,10 +5521,12 @@
   /* Chosen: a ticked checkbox, the answer a step remembers when you come Back to it
      (aria-pressed), and an open "Other" (aria-expanded). One recipe for all three. */
   .cfc-opt:has(.cbx-in:checked),.cfc-opt[aria-pressed="true"],.cfc-opt[aria-expanded="true"],.cfc-opt.s-selected{border-color:var(--brand-primary);background:color-mix(in srgb, var(--brand-primary) var(--tint-5), transparent)}
-  /* Text/Body, not Text/Primary: the QUESTION is the primary voice here; an option label that
-     matches it flattens the card into one shouting block. Three steps — question, label,
-     description — and each sits a token apart. */
-  .cfc-opt-t{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--ts-title-16-size);line-height:var(--ts-title-16-lh);font-weight:var(--ts-title-16-weight);color:var(--ink-body)}
+  /* Label/L on Text/Body — a button's label, because the row is a button, and one size with the
+     question rather than above it: an option label set bigger than the question it answers
+     outshouts it. The QUESTION is the primary voice, so the steps run by weight and ink —
+     question Title/14 on Text/Primary, label 500 on Text/Body, description 400 on
+     Text/Secondary — each a token apart. */
+  .cfc-opt-t{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-body)}
   /* Explicitly Body/M at weight 400 — supporting prose, and it inherits nothing from the button it
      sits in (a button's own font-weight was making it read as bold). Text/Secondary, not
      Text/Body: the title is already on the darkest ink, so the only way to make it read as MORE
