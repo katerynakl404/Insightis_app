@@ -43,6 +43,12 @@ of re-declaring it.
 
 **Six rules were deleted rather than moved.** `.cp-inner`, `.cp-metric-grid`, `.cp-metric-card`, `.cp-chart-wrap`, `.cp-chart-svg`, `.cp-actions` were declared in two page `<style>` blocks and used in no markup anywhere. Lifting dead code into the kit would have made it look maintained.
 
+## The thread, measured and opened by the kit
+
+**The thread opens at its newest message**, as the product does — a chat is reopened where it ends, not at the top of a conversation. It is scrolled to the end once the DOM is in and again once images (charts) have set their height.
+
+**The scrollbar gutter is measured by the kit, not by each page.** `.cp-thread` reserves its gutter on the right and pads its left by `--sb-w` so its centre matches the composer's. Only one page measured it; on the others the messages sat 5px left of the composer and of the [AskUserPanel](AskUserPanel.md) over it. Both now live in `pages/kit-kit.js` (1c), for every chat page.
+
 ## Composition
 
 `.cl-composer` is composed with `.card-panel`: the panel brings the border, the composer brings the surface and the typing behaviour. Pages own only what is theirs — which turns are in the thread, and page furniture such as the design-review state picker. No page may restate a rule from this section.

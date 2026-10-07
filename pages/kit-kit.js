@@ -191,6 +191,32 @@
   else bindScrollBtns();
 
   /* ==========================================================================================
+     1c. THREAD — --sb-w, so the thread and the composer share one centre line; open at the end
+
+     .cp-thread reserves its scrollbar gutter on the right (scrollbar-gutter:stable) and pads its
+     left by --sb-w to put its centre back where the composer's is. The width is the platform's,
+     so it is measured, once per load and on resize; 0 where scrollbars overlay. Every chat page
+     needs it — a page that did not measure drew its messages 5px left of the composer and of the
+     AskUserPanel over it.
+     ========================================================================================== */
+  function measureGutter() {
+    var t = document.querySelector('.cp-thread');
+    if (!t) return;
+    document.documentElement.style.setProperty('--sb-w', (t.offsetWidth - t.clientWidth) + 'px');
+  }
+  /* A chat opens at its newest message, as the product does — not at the top of a conversation
+     the person was last at the bottom of. Once at load and once more when images (charts) have
+     set their height. */
+  function threadsToEnd() {
+    document.querySelectorAll('.cp-thread').forEach(function (t) { t.scrollTop = t.scrollHeight; });
+  }
+  function threadBoot() { measureGutter(); threadsToEnd(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', threadBoot, { once: true });
+  else threadBoot();
+  window.addEventListener('load', threadsToEnd, { once: true });
+  window.addEventListener('resize', measureGutter);
+
+  /* ==========================================================================================
      2. MENU PLACEMENT — down by default, .menu.is-up when the trigger sits too low
 
      Anchored menus (.chat-row-menu, .sbx-chat-menu, .kbp-menu, …) are shown purely by CSS:
@@ -1145,19 +1171,22 @@
      11. ASKUSERPANEL (.cfc) — answering, steps, "Other" and the Submit gate
 
      Part of the .cfc contract, not of a page, so it lives here once.
-       · A <button class="cfc-opt"> is an answer. It is marked (aria-pressed) so a step remembers
-         it when you come Back; then the next step shows (.cfc-panel), or — on the last step, or
-         in a single-question card — the card is answered.
+       · A <button class="cfc-opt"> is an answer: it is marked (aria-pressed) and the question is
+         settled at once — the card is answered, or the next open step shows. [data-cfc-submit] —
+         the footer's primary, always shown, disabled until the question on screen has an answer —
+         sends what cannot send itself: ticked boxes and a typed "Other". It also re-sends a step
+         you came back to. Between steps it reads Next, on the last open question Submit.
+       · Several questions (.cfc-panel steps): the stepper (data-cfc-goto — a bar and the question's short name per
+         step) moves between questions freely. An answer, Next or Skip settles the question on screen and jumps to the
+         next one still open; when none is left, the card is answered. A step's bar fills once
+         answered (.is-done) or while on screen (.is-current).
        · Answered = the card fires `cfc:answer` (bubbles), detail.answers = [{question, answer}];
          a skipped question's answer is null, a multi-select one is an array. The consumer closes
          the card on it — the kit never removes it.
-       · "Other" (data-cfc-other) opens its .cfc-other field instead of answering. The field's
-         [data-cfc-send] (or Enter; Shift+Enter breaks the line) answers with the typed text, and
-         stays disabled while the field is empty.
-       · Back / Skip (data-cfc-back / data-cfc-skip) move between steps; Back hides on step one.
-         The stepper (.cfc-step, .cfc-step-label) follows the step, and focus moves to the new
-         question when the keyboard was in the card — otherwise it would fall to <body>.
-       · [data-cfc-submit] (multi select) is enabled once something is ticked, and answers.
+       · "Other" (data-cfc-other, the head of a .cfc-opt-other box) opens the .cfc-other field in
+         the same box instead of answering. Typed text is the answer, sent by the footer's primary
+         (Submit / Next) or by Enter (Shift+Enter breaks the line); neither works while it is empty.
+       · Skip (data-cfc-skip) resolves the question with no answer.
      ========================================================================================== */
   function cfcPanels(card) { return Array.prototype.slice.call(card.querySelectorAll('.cfc-panel')); }
   function cfcIndex(card) {
@@ -1174,11 +1203,13 @@
     if (!scopes.length) scopes = [card];
     return scopes.map(function (p) {
       var q = p.querySelector('.cfc-q'), answer = null;
-      var ticked = p.querySelectorAll('.cbx-in:checked');
-      var on = p.querySelector('.cfc-opt[aria-pressed="true"], .cfc-opt[aria-expanded="true"]');
-      if (ticked.length) answer = Array.prototype.map.call(ticked, function (i) { return cfcLabel(i.closest('.cfc-opt')); });
-      else if (on && on.hasAttribute('data-cfc-other')) { var ta = p.querySelector('.cfc-other .ta'); answer = ta ? ta.value.trim() : null; }
-      else if (on) answer = cfcLabel(on);
+      if (p.getAttribute('data-cfc-done') !== 'skipped') {
+        var ticked = p.querySelectorAll('.cbx-in:checked');
+        var on = p.querySelector('.cfc-opt[aria-pressed="true"], [data-cfc-other][aria-expanded="true"]');
+        if (ticked.length) answer = Array.prototype.map.call(ticked, function (i) { return cfcLabel(i.closest('.cfc-opt')); });
+        else if (on && on.hasAttribute('data-cfc-other')) { var ta = p.querySelector('.cfc-other .ta'); answer = ta && ta.value.trim() ? ta.value.trim() : null; }
+        else if (on) answer = cfcLabel(on);
+      }
       return { question: q ? q.textContent.trim() : '', answer: answer };
     });
   }
@@ -1187,83 +1218,110 @@
     if (!p.length) return;
     var hadFocus = card.contains(document.activeElement) && document.activeElement !== document.body;
     p.forEach(function (el, j) { el.hidden = j !== i; });
-    card.querySelectorAll('.cfc-step').forEach(function (s, j) { s.classList.toggle('is-done', j <= i); });
-    var label = card.querySelector('.cfc-step-label');
-    if (label) label.textContent = 'Question ' + (i + 1) + ' of ' + p.length;
-    var back = card.querySelector('[data-cfc-back]');
-    if (back) back.hidden = i === 0;
+    card.querySelectorAll('.cfc-step').forEach(function (s, j) {
+      var done = !!(p[j] && p[j].getAttribute('data-cfc-done') === 'answered');
+      s.classList.toggle('is-done', done);
+      s.classList.toggle('is-current', j === i);
+      if (j === i) s.setAttribute('aria-current', 'step'); else s.removeAttribute('aria-current');
+      var name = s.querySelector('.cfc-step-name');
+      s.setAttribute('aria-label', (name ? name.textContent.trim() + ', ' : '') + 'question ' + (j + 1) + ' of ' + p.length + (done ? ', answered' : ''));
+    });
     var q = p[i].querySelector('.cfc-q');
-    if (hadFocus && q) q.focus();
+    if (hadFocus && q && !(document.activeElement && document.activeElement.closest('.cfc-stepper'))) q.focus();
+    cfcSync(card);
     if (window.kitSyncFades) window.kitSyncFades(card);
   }
-  function cfcNext(card) {
-    var p = cfcPanels(card), i = cfcIndex(card);
-    if (p.length && i < p.length - 1) { cfcGo(card, i + 1); return; }
+  function cfcSend(card) {
     card.dispatchEvent(new CustomEvent('cfc:answer', { bubbles: true, detail: { answers: cfcAnswers(card) } }));
+  }
+  /* The current question is settled (answered or skipped): go to the next one still open, after it
+     first and then from the top; if none is left, the card is answered. */
+  function cfcResolve(card, how) {
+    var p = cfcPanels(card);
+    if (!p.length) { cfcSend(card); return; }
+    var i = cfcIndex(card), n = p.length;
+    p[i].setAttribute('data-cfc-done', how);
+    for (var k = 1; k < n; k++) {
+      var j = (i + k) % n;
+      if (!p[j].hasAttribute('data-cfc-done')) { cfcGo(card, j); return; }
+    }
+    cfcGo(card, i);
+    cfcSend(card);
   }
   /* Clear what a list has chosen: marks off, "Other" folded. */
   function cfcClear(list, keep) {
-    list.querySelectorAll('button.cfc-opt').forEach(function (b) {
+    list.querySelectorAll('button.cfc-opt, [data-cfc-other]').forEach(function (b) {
       if (b === keep) return;
       b.removeAttribute('aria-pressed');
       if (b.hasAttribute('data-cfc-other')) b.setAttribute('aria-expanded', 'false');
     });
     list.querySelectorAll('.cfc-other').forEach(function (f) { if (!keep || f.previousElementSibling !== keep) f.hidden = true; });
   }
-  function cfcSendState(field) {
-    var send = field.querySelector('[data-cfc-send]'), ta = field.querySelector('.ta');
-    if (send && ta) send.disabled = !ta.value.trim();
+  /* The question on screen: the visible step, or the whole card when there are no steps. */
+  function cfcScope(card) { var p = cfcPanels(card); return p.length ? p[cfcIndex(card)] : card; }
+  function cfcHasAnswer(scope) {
+    if (scope.querySelector('.cbx-in:checked, .cfc-opt[aria-pressed="true"]')) return true;
+    var other = scope.querySelector('[data-cfc-other][aria-expanded="true"]');
+    var ta = other && other.parentNode.querySelector('.cfc-other .ta');
+    return !!(ta && ta.value.trim());
   }
+  /* The footer's primary: enabled once the question on screen has an answer; in a stepped card it
+     says Next while another question is still open, Submit when this one is the last. */
   function cfcSync(card) {
     var btn = card.querySelector('[data-cfc-submit]');
-    if (btn) btn.disabled = !card.querySelector('.cbx-in:checked');
-    card.querySelectorAll('.cfc-other').forEach(cfcSendState);
+    if (!btn) return;
+    btn.disabled = !cfcHasAnswer(cfcScope(card));
+    var p = cfcPanels(card), i = cfcIndex(card);
+    if (p.length) btn.textContent = p.some(function (el, j) { return j !== i && !el.hasAttribute('data-cfc-done'); }) ? 'Next' : 'Submit';
   }
 
   document.addEventListener('click', function (e) {
     var card = e.target.closest && e.target.closest('.cfc');
     if (!card) return;
+    var other = e.target.closest('[data-cfc-other]');
+    if (other) {
+      var open = other.getAttribute('aria-expanded') !== 'true';
+      cfcClear(other.closest('.cfc-opts'), other);
+      other.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var field = other.nextElementSibling;
+      if (field && field.classList.contains('cfc-other')) {
+        field.hidden = !open;
+        /* Focus scrolls the field into view but not the send under it; at the card's ceiling that
+           left the send behind the bottom fade. Bring the whole box in. */
+        if (open) {
+          var ta = field.querySelector('.ta');
+          if (ta) ta.focus({ preventScroll: true });
+          other.parentNode.scrollIntoView({ block: 'nearest' });
+        }
+      }
+      cfcSync(card);
+      if (window.kitSyncFades) window.kitSyncFades(card);
+      return;
+    }
     var opt = e.target.closest('button.cfc-opt');
     if (opt) {
-      var list = opt.closest('.cfc-opts');
-      if (opt.hasAttribute('data-cfc-other')) {
-        var open = opt.getAttribute('aria-expanded') !== 'true';
-        cfcClear(list, opt);
-        opt.setAttribute('aria-expanded', open ? 'true' : 'false');
-        var field = opt.nextElementSibling;
-        if (field && field.classList.contains('cfc-other')) {
-          field.hidden = !open;
-          /* Focus scrolls the field into view but not the send under it; at the card's ceiling that
-             left the send behind the bottom fade. Bring the whole field in. */
-          if (open) {
-            cfcSendState(field);
-            var ta = field.querySelector('.ta');
-            if (ta) ta.focus({ preventScroll: true });
-            field.scrollIntoView({ block: 'nearest' });
-          }
-        }
-        if (window.kitSyncFades) window.kitSyncFades(card);
-        return;
-      }
-      cfcClear(list, null);
+      cfcClear(opt.closest('.cfc-opts'), null);
       opt.setAttribute('aria-pressed', 'true');
-      cfcNext(card);
+      cfcResolve(card, 'answered');
       return;
     }
-    if (e.target.closest('[data-cfc-send]') || e.target.closest('[data-cfc-submit]')) { cfcNext(card); return; }
+    var send = e.target.closest('[data-cfc-submit]');
+    if (send) { if (!send.disabled) cfcResolve(card, 'answered'); return; }
     if (e.target.closest('[data-cfc-skip]')) {
-      var cur = cfcPanels(card)[cfcIndex(card)];
-      var curList = cur && cur.querySelector('.cfc-opts');
-      if (curList) cfcClear(curList, null);
-      cfcNext(card);
+      var scope = cfcScope(card);
+      scope.querySelectorAll('.cfc-opts').forEach(function (l) { cfcClear(l, null); });
+      scope.querySelectorAll('.cbx-in:checked').forEach(function (i) { i.checked = false; });
+      if (scope === card) card.setAttribute('data-cfc-done', 'skipped');
+      cfcResolve(card, 'skipped');
       return;
     }
-    if (e.target.closest('[data-cfc-back]')) cfcGo(card, Math.max(0, cfcIndex(card) - 1));
+    var go = e.target.closest('[data-cfc-goto]');
+    if (go) cfcGo(card, Array.prototype.indexOf.call(card.querySelectorAll('[data-cfc-goto]'), go));
   });
 
   document.addEventListener('input', function (e) {
     var field = e.target.closest && e.target.closest('.cfc-other');
-    if (field) cfcSendState(field);
+    if (field) cfcSync(field.closest('.cfc'));
   });
 
   document.addEventListener('keydown', function (e) {
@@ -1271,7 +1329,8 @@
     var ta = e.target.closest && e.target.closest('.cfc-other .ta');
     if (!ta || !ta.value.trim()) return;
     e.preventDefault();
-    cfcNext(ta.closest('.cfc'));
+    var card = ta.closest('.cfc'), gate = card.querySelector('[data-cfc-submit]');
+    if (!gate || !gate.disabled) cfcResolve(card, 'answered');
   });
 
   document.addEventListener('change', function (e) {
@@ -1279,13 +1338,15 @@
     if (card) cfcSync(card);
   });
 
-  function cfcInit() {
-    document.querySelectorAll('.cfc').forEach(function (card) {
+  function cfcInit(root) {
+    (root || document).querySelectorAll('.cfc').forEach(function (card) {
       cfcSync(card);
       if (cfcPanels(card).length) cfcGo(card, cfcIndex(card));
     });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', cfcInit, { once: true });
+  /* A card a page puts on screen after load (the chat sheet) is set up the same way. */
+  window.kitCfcInit = function (root) { cfcInit(root); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { cfcInit(); }, { once: true });
   else cfcInit();
 
 })();

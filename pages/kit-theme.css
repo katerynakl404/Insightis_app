@@ -1931,11 +1931,11 @@
      track channel, Stroke/Border thumb darkening to Text/Inactive on hover. Written once for the
      composer's menu and then not applied to the dialog body, which meant one product with two
      scrollbars — the slim one inside menus and the OS default inside dialogs. */
-  .scroll-thin,.cl-menu-scroll,.dlg-content{scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
-  .scroll-thin::-webkit-scrollbar,.cl-menu-scroll::-webkit-scrollbar,.dlg-content::-webkit-scrollbar{width:10px}
-  .scroll-thin::-webkit-scrollbar-track,.cl-menu-scroll::-webkit-scrollbar-track,.dlg-content::-webkit-scrollbar-track{background:transparent}
-  .scroll-thin::-webkit-scrollbar-thumb,.cl-menu-scroll::-webkit-scrollbar-thumb,.dlg-content::-webkit-scrollbar-thumb{background:var(--stroke-border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
-  .scroll-thin:hover::-webkit-scrollbar-thumb,.cl-menu-scroll:hover::-webkit-scrollbar-thumb,.dlg-content:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
+  .scroll-thin,.cl-menu-scroll,.dlg-content,.cfc-opts{scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
+  .scroll-thin::-webkit-scrollbar,.cl-menu-scroll::-webkit-scrollbar,.dlg-content::-webkit-scrollbar,.cfc-opts::-webkit-scrollbar{width:10px}
+  .scroll-thin::-webkit-scrollbar-track,.cl-menu-scroll::-webkit-scrollbar-track,.dlg-content::-webkit-scrollbar-track,.cfc-opts::-webkit-scrollbar-track{background:transparent}
+  .scroll-thin::-webkit-scrollbar-thumb,.cl-menu-scroll::-webkit-scrollbar-thumb,.dlg-content::-webkit-scrollbar-thumb,.cfc-opts::-webkit-scrollbar-thumb{background:var(--stroke-border);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  .scroll-thin:hover::-webkit-scrollbar-thumb,.cl-menu-scroll:hover::-webkit-scrollbar-thumb,.dlg-content:hover::-webkit-scrollbar-thumb,.cfc-opts:hover::-webkit-scrollbar-thumb{background:var(--ink-inactive);background-clip:padding-box}
   /* Stacked form fields — the common case. Top padding stays 0 because .dlg-hdr already carries
      .5rem below the title. */
   .dlg-content.is-stack{display:flex;flex-direction:column;gap:1rem}
@@ -5427,18 +5427,23 @@
      The WHOLE card: .cfc carries its own surface, it is not a block of content
      dropped into some other card. Shown when the assistant needs a decision before
      it can continue; the consumer positions it (.cp-cfc-layer on the chat page).
-     Height follows the content — no min-height, no reserved rows — up to HALF the
-     window. Below that nothing scrolls; past it only the options do.
+     Height follows the content — no min-height, no reserved rows — up to three
+     quarters of the window. Below that nothing scrolls; past it only the options do.
 
      ONE option row (.cfc-opt) in every variant; what sits inside it is the variant:
        Single select     — the row IS a <button>: pressing it is the answer.
-       Several questions — single select, one question per step (.cfc-panel). A
-                           stepper takes the question's place on the top line;
-                           Back / Skip in .cfc-foot. An answer moves on, the last
-                           one sends.
-       Multi select      — .cbx-in + .cbx inside the row; Submit in .cfc-foot.
-     "Other" (data-cfc-other) is an answer like the rest — boxed the same — and
-     pressing it opens .cfc-other: a field for the person's own words + a send.
+       Several questions — one question per step (.cfc-panel), each single or
+                           multi select. A stepper of named bars takes the question's
+                           place on the top line; a pick moves on (except
+                           "Other", which waits for Next); Skip + Next in .cfc-foot.
+       Multi select      — .cbx-in + .cbx inside the row (on its right); Skip +
+                           Submit in .cfc-foot.
+     Every variant ends in .cfc-foot: Skip, then the primary (Submit / Next), always shown and
+     disabled until the question on screen has an answer. In single select a plain option still
+     answers on press — Submit is what sends a typed "Other".
+     "Other" is an answer like the rest — boxed the same — but its box holds a
+     button head (data-cfc-other) and, once pressed, the field for the person's own
+     words with its send, inside the same box (.cfc-opt-other).
      Behaviour, and the `cfc:answer` event the consumer closes the card on:
      pages/kit-kit.js §11.
 
@@ -5449,31 +5454,33 @@
          <div class="cfc-opts" data-scroll-fade>
            <button class="cfc-opt" type="button"><span class="cfc-opt-b"><span class="cfc-opt-t">Net revenue
              <span class="badge badge-sm badge-primary">Recommended</span></span><span class="cfc-opt-d">…</span></span></button>
-           <button class="cfc-opt" type="button" data-cfc-other aria-expanded="false">…Other…</button>
-           <div class="cfc-other" hidden><textarea class="ta is-block" rows="2" placeholder="Write your answer…"></textarea>
-             <button class="btn btn-primary btn-sm" type="button" data-cfc-send disabled>Submit</button></div>
+           <div class="cfc-opt cfc-opt-other">
+             <button class="cfc-opt-head" type="button" data-cfc-other aria-expanded="false">…Other…</button>
+             <div class="cfc-other" hidden><textarea class="ta is-block" rows="2" placeholder="Write your answer…"></textarea></div></div>
          </div>
        </div>
 
      Several questions — the top line and the steps:
-         <div class="cfc-top"><div class="cfc-stepper"><span class="cfc-steps" aria-hidden="true">
-             <span class="cfc-step is-done"></span><span class="cfc-step"></span>…</span>
-             <span class="cfc-step-label" aria-live="polite">Question 1 of 3</span></div>
+         <div class="cfc-top"><div class="cfc-stepper" role="group" aria-label="Questions">
+             <button class="cfc-step is-current" type="button" data-cfc-goto aria-current="step">
+               <span class="cfc-step-bar"></span><span class="cfc-step-name">Time period</span></button>…</div>
            <span class="cfc-top-r">…</span></div>
          <div class="cfc-panel scroll-fade" role="group" aria-labelledby="q1"><p class="cfc-q" id="q1" tabindex="-1">…</p>
            <div class="cfc-opts" data-scroll-fade>…</div></div>
-         <div class="cfc-foot"><button class="btn btn-tertiary btn-sm" data-cfc-back hidden>Back</button>
-           <button class="btn btn-tertiary btn-sm" data-cfc-skip>Skip</button></div>
+         <div class="cfc-foot"><button class="btn btn-tertiary btn-sm" data-cfc-skip>Skip</button>
+           <button class="btn btn-primary btn-sm" data-cfc-submit disabled>Next</button></div>
      ========================================================================= */
   .cfc,.cfc-panel{display:flex;flex-direction:column;gap:.75rem}
   /* The card's own surface. A question the queue is waiting on must not scroll away with the
      conversation: one you have to scroll back to find reads as optional, and the queue then looks
      stuck for no visible reason — so the card floats over the thread, and shadow, not a heavier
      border, is what says it sits OVER it.
-       Half the window is the ceiling. Under it the card is as tall as its options and nothing
-     scrolls — a scrollbar beside four options that fit is a list pretending to be longer than it
-     is. Over it the options scroll and the top line and the footer stay put. */
-  .cfc{box-sizing:border-box;max-height:50vh;max-height:50dvh;padding:1rem;background:var(--surface-card);border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-overlay-soft)}
+       Three quarters of the window is the ceiling. Under it the card is as tall as its options
+     and nothing scrolls — a scrollbar beside four options that fit is a list pretending to be
+     longer than it is. Over it the options scroll and the top line and the footer stay put. Half
+     the window was tried and was too low: four options with descriptions and a footer already
+     hit it on a laptop screen. */
+  .cfc{box-sizing:border-box;max-height:75vh;max-height:75dvh;padding:1rem;background:var(--surface-card);border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-overlay-soft)}
   .cfc [hidden]{display:none}
   .cfc-panel{min-height:0}
   /* The dismiss group sits on the question's FIRST line, not in the middle of the block: a
@@ -5488,26 +5495,36 @@
   .cfc-top .cfc-q{flex:1;min-width:0}
   .cfc-q:focus{outline:none}
   /* Several questions: a stepper takes the question's place on the top line, so the dismiss
-     still sits beside what it escapes — all of the questions. Segments say how far along at a
-     glance, the label says it exactly (and is what a screen reader hears). ProgressBar's own
-     recipe: track --surface-chips, done --brand-primary. */
-  .cfc-stepper{flex:1;min-width:0;display:flex;align-items:center;gap:.75rem;height:var(--ts-title-14-lh)}
-  .cfc-steps{flex:none;display:flex;gap:.25rem}
-  .cfc-step{width:1.5rem;height:.25rem;border-radius:var(--radius-full);background:var(--surface-chips);transition:background-color var(--motion-fast) var(--motion-ease)}
-  .cfc-step.is-done{background:var(--brand-primary)}
-  .cfc-step-label{white-space:nowrap;color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
+     still sits beside what it escapes — all of the questions. One step per question: a bar, and
+     the question's short name under it. Bars fill as questions are answered, the name of the one
+     on screen is the strongest, and every step is a button that takes you to its question —
+     progress, position and the way between questions in one control. The track is
+     --stroke-border, not ProgressBar's --surface-chips: on a white card a chips track vanished. */
+  /* A step is as wide as its name — not a share of the line: stretched across the card, four
+     bars took the whole top line to say "2 of 4". Capped so a long name truncates instead. */
+  .cfc-stepper{flex:1;min-width:0;display:flex;gap:.5rem}
+  .cfc-step{flex:0 1 auto;min-width:2.5rem;max-width:7.5rem;display:flex;flex-direction:column;gap:.375rem;padding:.25rem 0;border:0;border-radius:var(--radius-inner);background:none;font:inherit;text-align:left;cursor:pointer}
+  .cfc-step:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .cfc-step-bar{height:.25rem;border-radius:var(--radius-full);background:var(--stroke-border);transition:background-color var(--motion-fast) var(--motion-ease)}
+  .cfc-step.is-done .cfc-step-bar,.cfc-step.is-current .cfc-step-bar{background:var(--brand-primary)}
+  .cfc-step-name{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);color:var(--ink-secondary)}
+  .cfc-step:hover .cfc-step-name,.cfc-step.is-done .cfc-step-name{color:var(--ink-body)}
+  .cfc-step.is-current .cfc-step-name{color:var(--ink-primary)}
   /* The list is the part that scrolls once the card hits its ceiling. The .25rem of padding, taken
      back by the margin, is the focus ring's room: without it the scroller clips the ring on the
      first and last rows. The fade (data-scroll-fade on the list, .scroll-fade on the card or the
      step) only shows while something is actually hidden. */
   .cfc-opts{display:flex;flex-direction:column;gap:.5rem;min-height:0;overflow-y:auto;padding:.25rem;margin:-.25rem}
   .cfc-opt{position:relative;display:flex;align-items:flex-start;gap:.625rem;width:100%;box-sizing:border-box;text-align:left;padding:.625rem .75rem;border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-lg);background:var(--surface-card);cursor:pointer;font-family:inherit;transition:background-color var(--motion-fast) var(--motion-ease),border-color var(--motion-fast) var(--motion-ease)}
-  /* The checkbox centres on the TITLE LINE — not on the row (a two-line option would drop it into
+  /* The checkbox sits on the RIGHT of the row — the label leads, as on every other row, and the
+     tick is read as the row's state rather than as a bullet. It stays after .cbx-in in the DOM
+     (the skin follows the input with +), so it moves by order, not by markup.
+     It centres on the TITLE LINE — not on the row (a two-line option would drop it into
      the middle of the paragraph) and not on the line's top edge either. The offset is the two
      boxes: (20px title line − 18px control) / 2. Off the 4px step on purpose, the same way a 1.5px
      border is: it is an optical centring derived from two grid-legal values, not a spacing
      decision. */
-  .cfc-opt .cbx{margin-top:.0625rem}
+  .cfc-opt .cbx{order:1;margin-top:.0625rem}
   .cfc-opt-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
   .cfc-opt:hover,.cfc-opt.s-hover{background:var(--state-hover);border-color:var(--card-border-hover)}
   /* A button row carries a button's press and focus. */
@@ -5520,13 +5537,13 @@
   .cfc-opt .cbx-in:focus-visible + .cbx{box-shadow:none}
   /* Chosen: a ticked checkbox, the answer a step remembers when you come Back to it
      (aria-pressed), and an open "Other" (aria-expanded). One recipe for all three. */
-  .cfc-opt:has(.cbx-in:checked),.cfc-opt[aria-pressed="true"],.cfc-opt[aria-expanded="true"],.cfc-opt.s-selected{border-color:var(--brand-primary);background:color-mix(in srgb, var(--brand-primary) var(--tint-5), transparent)}
-  /* Label/L on Text/Body — a button's label, because the row is a button, and one size with the
-     question rather than above it: an option label set bigger than the question it answers
-     outshouts it. The QUESTION is the primary voice, so the steps run by weight and ink —
-     question Title/14 on Text/Primary, label 500 on Text/Body, description 400 on
-     Text/Secondary — each a token apart. */
-  .cfc-opt-t{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-body)}
+  .cfc-opt:has(.cbx-in:checked),.cfc-opt[aria-pressed="true"],.cfc-opt:has(> [data-cfc-other][aria-expanded="true"]),.cfc-opt.s-selected{border-color:var(--brand-primary);background:color-mix(in srgb, var(--brand-primary) var(--tint-5), transparent)}
+  /* Label/L on Text/Primary — a button's label, because the row is a button, and one size with
+     the question rather than above it: an option label set bigger than the question it answers
+     outshouts it. The label takes the darkest ink because the description sits right under it at
+     the same size: on Text/Body the two were one step of grey apart and read as one paragraph.
+     The question keeps the lead by weight — Title/14 at 600 against the label's 500. */
+  .cfc-opt-t{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-primary)}
   /* Explicitly Body/M at weight 400 — supporting prose, and it inherits nothing from the button it
      sits in (a button's own font-weight was making it read as bold). Text/Secondary, not
      Text/Body: the title is already on the darkest ink, so the only way to make it read as MORE
@@ -5535,12 +5552,26 @@
   /* "Other": the person's own answer, written under the row that asked for it and sent with its
      own button — the action sits with the thing it sends. Send is disabled while the field is
      empty; Enter sends too, Shift+Enter breaks the line. */
-  .cfc-other{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem}
-  /* Footer — Submit for multi select, Back / Skip between steps. */
-  .cfc-foot{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
+  .cfc-opt-other{flex-direction:column;align-items:stretch;gap:0;padding:0;cursor:default}
+  .cfc-opt-head{display:flex;align-items:flex-start;gap:.625rem;width:100%;box-sizing:border-box;padding:.625rem .75rem;border:0;border-radius:inherit;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+  .cfc-opt-head:focus-visible{outline:none}
+  .cfc-opt-other:has(> .cfc-opt-head:focus-visible){box-shadow:var(--shadow-focus)}
+  .cfc-opt-other:has(> .cfc-opt-head:active){background:var(--state-pressed)}
+  /* The field opens INSIDE the Other box, under its label — the answer stays in the row that
+     asked for it. It has no button of its own: the card's Submit (or Next) sends it, from the one
+     place every answer is sent from. */
+  .cfc-other{display:flex;flex-direction:column;gap:.5rem;padding:0 .75rem .75rem}
+  /* Footer — on the right, as in every dialog: Skip, then the primary (Submit; Next between
+     steps). The primary is always there and disabled until the question on screen has an
+     answer, so the way on never appears out of nowhere. */
+  .cfc-foot{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:.5rem}
+
   @media (max-width: 600px){
     /* A phone has no Esc key, so the hint goes and the dismiss stays. */
     .cfc-esc{display:none}
+    /* The step names go; the bars stay, and keep a 24px target. */
+    .cfc-step-name{display:none}
+    .cfc-step{padding:.625rem 0}
   }
   /* The escape hatch: same hit area and states, no box. */
   /* Folded: the band is carrying an Alert and nothing else should compete with it. The list is
@@ -5627,7 +5658,7 @@
     -webkit-mask-image:linear-gradient(to bottom,transparent 0,var(--black) .625rem,var(--black) calc(100% - 2rem),transparent 100%);
     mask-image:linear-gradient(to bottom,transparent 0,var(--black) .625rem,var(--black) calc(100% - 2rem),transparent 100%)}
   /* The gutter is reserved on the right only, so an equal left padding puts the scroller's centre
-     back where the composer's is. --sb-w is measured at load by the page; 0 where scrollbars
+     back where the composer's is. --sb-w is measured by pages/kit-kit.js (1c); 0 where scrollbars
      overlay. */
   .cp-thread{height:100%;overflow-y:auto;scrollbar-gutter:stable;padding-left:var(--sb-w, 0px);display:flex;flex-direction:column;align-items:stretch;padding-bottom:2rem;scrollbar-width:thin;scrollbar-color:var(--stroke-border) transparent}
   .cp-thread::-webkit-scrollbar{width:10px}

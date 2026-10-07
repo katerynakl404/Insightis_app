@@ -1825,8 +1825,8 @@ document.addEventListener('click', function(e){
   }
   /* Typed out over an invisible sizer, exactly as prod does it, so the card never reflows. */
   /* AskUserPanel — kit component (.cfc), single select. Question and the dismiss affordance share
-     one line. Each option row IS the button: pressing it is the answer. "Other" opens a field for
-     the person's own words. The kit fires cfc:answer either way; this page closes the card on it. */
+     one line. Each option row IS the button: pressing it is the answer. "Other" opens a field inside
+     its box; the footer's Submit sends it. The kit fires cfc:answer either way; this page closes the card on it. */
   function cfcOpt(label,badge,desc){
     return '<button class="cfc-opt" type="button">'
       + '<span class="cfc-opt-b"><span class="cfc-opt-t">'+esc(label)
@@ -1836,6 +1836,7 @@ document.addEventListener('click', function(e){
   function floatCard(on){
     var host=$('cp-cfc-layer'); if(!host) return;
     host.innerHTML = on ? askUserPanelHtml() : '';
+    if(on && window.kitCfcInit) window.kitCfcInit(host);
     if(on && window.kitSyncFades) window.kitSyncFades(host);
   }
   /* Answered — the kit says so; the page closes the card and the queue moves on, as on dismiss. */
@@ -1848,10 +1849,11 @@ document.addEventListener('click', function(e){
       + '<div class="cfc-opts" data-scroll-fade>'
       + cfcOpt('Net revenue','Recommended','Revenue after deductions — profit-generating revenue and financial health.')
       + cfcOpt('Gross revenue','','Revenue before deductions (costs, returns, discounts) — top-line sales volume and reach.')
-      + '<button class="cfc-opt" type="button" data-cfc-other aria-expanded="false"><span class="cfc-opt-b"><span class="cfc-opt-t">Other</span></span></button>'
-      + '<div class="cfc-other" hidden><textarea class="ta is-block" rows="2" placeholder="Write your answer…" aria-label="Your answer"></textarea>'
-      + '<button class="btn btn-primary btn-sm" type="button" data-cfc-send disabled>Submit</button></div>'
-      + '</div></div>';
+      + '<div class="cfc-opt cfc-opt-other"><button class="cfc-opt-head" type="button" data-cfc-other aria-expanded="false"><span class="cfc-opt-b"><span class="cfc-opt-t">Other</span></span></button>'
+      + '<div class="cfc-other" hidden><textarea class="ta is-block" rows="2" placeholder="Write your answer…" aria-label="Your answer"></textarea></div></div>'
+      + '</div>'
+      + '<div class="cfc-foot"><button class="btn btn-tertiary btn-sm" type="button" data-cfc-skip>Skip</button><button class="btn btn-primary btn-sm" type="button" data-cfc-submit disabled>Submit</button></div>'
+      + '</div>';
   }
   function thinkingHtml(){
     /* The label IS the indicator: a highlight sweeps the word while the dots step. The skeleton
@@ -1968,17 +1970,8 @@ document.addEventListener('click', function(e){
   }
 
   /* ── Boot ──────────────────────────────────────────────────────────────── */
-  /* Measure the scrollbar once so the composer column can be padded by exactly the width the
-     thread reserves for its own. */
-  function measureScrollbar(){
-    var t=thread(); if(!t) return;
-    var w=t.offsetWidth-t.clientWidth;
-    document.documentElement.style.setProperty('--sb-w', w+'px');
-  }
   function boot(){
     if(!document.getElementById('mq-band')) return;
-    measureScrollbar();
-    window.addEventListener('resize', measureScrollbar);
     BASE_THREAD = thread().innerHTML;
     var live=document.createElement('p'); live.id='mq-live'; live.className='sr-only'; live.setAttribute('role','status'); live.setAttribute('aria-live','polite');
     document.querySelector('.cp-composer-inner').appendChild(live);
