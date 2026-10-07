@@ -12,12 +12,12 @@ The assistant asking for a decision before it can continue. The component is the
 | Card height | the option list scrolls inside the panel even when it fits | follows the content up to **three quarters of the window**; nothing scrolls below that, past it only the options do, on the kit's thin scrollbar |
 | Single select — options | a bordered `<button>` per choice; pressing one submits | — the row stays a button and pressing it is the answer |
 | "Other" | unboxed, below the real choices; a field appears below once it is chosen | **one of the choices**, boxed like the rest; the field opens **inside its own box**, and the footer's Submit sends it |
-| Several questions | tabs (a dot on each unanswered tab), radio rows, Submit gated with "N questions left to answer" | **one question at a time**, each single or multi select; a stepper of **named bars** on the top line, every step clickable; a pick moves on; Skip + Next |
+| Several questions | tabs (a dot on each unanswered tab), radio rows, Submit gated with "N questions left to answer" | **one question at a time**, each single or multi select; a stepper — short bars + "Question N of M" — on the top line, every bar clickable; a pick moves on; Back on the left, Skip + Next on the right |
 | Multi select — options | unboxed checkbox rows | the **same option row** with an input-backed [Checkbox](Checkbox.md) (`.cbx-in`) **on its right** |
-| Footer | Submit (multi select, several questions) | **every variant**: Skip, then the primary (Submit; Next between steps), bottom-right — always shown, disabled until the question on screen has an answer |
+| Footer | Submit (multi select, several questions) | **every variant**: Skip, then the primary (Submit; Next between steps), bottom-right — always shown, disabled until the question on screen has an answer; between steps Back bottom-left, disabled on the first question |
 | Description | Body/L | Body/M |
 | Question + dismiss | stacked | **one line**; the dismiss sits on the question's first line |
-| Mobile (≤ 600px) | — | "Esc to cancel" hides (no Esc key on a phone); the stepper keeps its bars and drops their names |
+| Mobile (≤ 600px) | — | "Esc to cancel" hides (no Esc key on a phone); the dismiss stays |
 
 ## Three variants, one option row
 
@@ -27,9 +27,9 @@ Single select, several questions and multi select are the same card asking in th
 
 Tabs are peers you browse in any order; these questions are a sequence to answer. Tabs also spread one fact — "not done yet" — over three signals: a dot per tab, a counter and a disabled Submit. One step at a time says it once.
 
-**A pick moves on.** Pressing an option answers the question and the next one still open shows — exactly as single select answers on press. "Other" and a multi-select step cannot answer themselves, so they wait for **Next**. Next is always there, disabled until the question on screen has an answer, and reads **Submit** on the last open question. **Skip** moves on without an answer — sent as `null`, so the assistant knows the question was seen and passed rather than missed. When no question is left open, the card is answered.
+**A pick moves on.** Pressing an option answers the question and the next one still open shows — exactly as single select answers on press. "Other" and a multi-select step cannot answer themselves, so they wait for **Next**. Next is always there, disabled until the question on screen has an answer, and reads **Submit** on the last open question. **Skip** moves on without an answer — sent as `null`, so the assistant knows the question was seen and passed rather than missed. **Back**, bottom-left, returns to the previous question — disabled on the first, so it never appears out of nowhere. When no question is left open, the card is answered.
 
-**The stepper is a bar per question with its short name under it.** A bar fills once its question is answered, the name of the one on screen is the strongest, and every step is a button that takes you to its question — progress, position and the way between questions in one control. Each step is as wide as its name, not a share of the line: stretched across the card, four bars took the whole top line to say "2 of 4". The track is `--stroke-border`; ProgressBar's `--surface-chips` vanished on a white card. On a phone the names go and the bars stay, each still a 24px target.
+**The stepper is a short bar per question with "Question N of M" beside them.** A bar fills once its question is answered (and while on screen), the label says exactly where you are, and every bar is a button — a 24px target, the bar its mark — that takes you to its question. Bars stretched across the card or carrying names under them took the whole top line to say "2 of 4". The track is `--stroke-border`; ProgressBar's `--surface-chips` vanished on a white card.
 
 ## Why "Other" is a peer, and why its field opens inside it
 
@@ -81,8 +81,8 @@ It carries `--shadow-overlay-soft` rather than a heavier border: it sits OVER th
 | option label | `Label/L` · `Text/Primary` |
 | description | `Body/M` · `Text/Secondary` |
 | dismiss | `.iconbtn.iconbtn-tertiary.iconbtn-xs` |
-| stepper | bar `--stroke-border` / `--brand-primary`; name `Label/M` · `Text/Secondary` → `Text/Body` (answered) → `Text/Primary` (on screen) |
-| footer | Skip `.btn.btn-tertiary.btn-sm`, primary `.btn.btn-primary.btn-sm` |
+| stepper | bar `--stroke-border` / `--brand-primary`; label `Body/M` · `Text/Secondary` |
+| footer | Back and Skip `.btn.btn-tertiary.btn-sm`, primary `.btn.btn-primary.btn-sm` |
 | "Other" field | `.ta.is-block` ([TextArea](TextArea.md)) |
 | multi-select control | `.cbx-in` + `.cbx` ([Checkbox](Checkbox.md)) |
 | scrollbar | the kit's thin scrollbar (`.scroll-thin` recipe) |
@@ -96,7 +96,7 @@ Card padding, the dismiss affordance and the "Esc to cancel" hint keep their pro
 ## Accessibility self-check
 
 - Single select and each step: the options are real `<button>`s in a `role="group"` labelled by the question; the whole row — title and description — is the click target and the accessible name.
-- Several questions: the stepper is a `role="group"` of buttons; each is named "<name>, question N of M", with ", answered" once answered, and the one on screen carries `aria-current="step"`. When the step changes, focus moves to the new question (`tabindex="-1"`) so it is never dropped to the page.
+- Several questions: the bars are a `role="group"` of buttons; each is named "<short title>, question N of M", with ", answered" once answered, and the one on screen carries `aria-current="step"`; the label beside them is `aria-live`. When the step changes, focus moves to the new question (`tabindex="-1"`) so it is never dropped to the page.
 - The chosen state — a picked option, an open "Other", a ticked checkbox — is carried by the border and the wash together, and by `aria-pressed` / `aria-expanded` / `:checked` for assistive tech, never by colour alone (WCAG 1.4.1).
 - The footer primary is a real `disabled` button until there is an answer; Enter in the "Other" field sends only when it is enabled.
 - Multi select: the options are a `role="group"` of real checkboxes, labelled by the question.

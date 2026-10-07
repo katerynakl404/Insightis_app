@@ -1176,8 +1176,8 @@
          the footer's primary, always shown, disabled until the question on screen has an answer —
          sends what cannot send itself: ticked boxes and a typed "Other". It also re-sends a step
          you came back to. Between steps it reads Next, on the last open question Submit.
-       · Several questions (.cfc-panel steps): the stepper (data-cfc-goto — a bar and the question's short name per
-         step) moves between questions freely. An answer, Next or Skip settles the question on screen and jumps to the
+       · Several questions (.cfc-panel steps): the stepper (a bar per question, data-cfc-goto, and "Question N of M"
+         beside them) moves between questions freely. An answer, Next or Skip settles the question on screen and jumps to the
          next one still open; when none is left, the card is answered. A step's bar fills once
          answered (.is-done) or while on screen (.is-current).
        · Answered = the card fires `cfc:answer` (bubbles), detail.answers = [{question, answer}];
@@ -1186,7 +1186,8 @@
        · "Other" (data-cfc-other, the head of a .cfc-opt-other box) opens the .cfc-other field in
          the same box instead of answering. Typed text is the answer, sent by the footer's primary
          (Submit / Next) or by Enter (Shift+Enter breaks the line); neither works while it is empty.
-       · Skip (data-cfc-skip) resolves the question with no answer.
+       · Skip (data-cfc-skip) resolves the question with no answer. Back (data-cfc-back) goes to
+         the previous question; disabled on the first.
      ========================================================================================== */
   function cfcPanels(card) { return Array.prototype.slice.call(card.querySelectorAll('.cfc-panel')); }
   function cfcIndex(card) {
@@ -1223,9 +1224,13 @@
       s.classList.toggle('is-done', done);
       s.classList.toggle('is-current', j === i);
       if (j === i) s.setAttribute('aria-current', 'step'); else s.removeAttribute('aria-current');
-      var name = s.querySelector('.cfc-step-name');
-      s.setAttribute('aria-label', (name ? name.textContent.trim() + ', ' : '') + 'question ' + (j + 1) + ' of ' + p.length + (done ? ', answered' : ''));
+      var name = s.getAttribute('data-name');
+      s.setAttribute('aria-label', (name ? name + ', ' : '') + 'question ' + (j + 1) + ' of ' + p.length + (done ? ', answered' : ''));
     });
+    var label = card.querySelector('.cfc-step-label');
+    if (label) label.textContent = 'Question ' + (i + 1) + ' of ' + p.length;
+    var back = card.querySelector('[data-cfc-back]');
+    if (back) back.disabled = i === 0;
     var q = p[i].querySelector('.cfc-q');
     if (hadFocus && q && !(document.activeElement && document.activeElement.closest('.cfc-stepper'))) q.focus();
     cfcSync(card);
@@ -1315,6 +1320,8 @@
       cfcResolve(card, 'skipped');
       return;
     }
+    var back = e.target.closest('[data-cfc-back]');
+    if (back) { if (!back.disabled) cfcGo(card, cfcIndex(card) - 1); return; }
     var go = e.target.closest('[data-cfc-goto]');
     if (go) cfcGo(card, Array.prototype.indexOf.call(card.querySelectorAll('[data-cfc-goto]'), go));
   });

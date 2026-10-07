@@ -7,7 +7,7 @@ This page is where the [AskUserPanel](../changes/AskUserPanel.md) is reviewed in
 | Area | Current (prod) | Expected | Component ref |
 |---|---|---|---|
 | AskUserPanel — single select | bordered buttons; the list scrolls inside the panel even when it fits | button rows; "Other" opens a field inside its box; Skip + Submit in the footer | [AskUserPanel](../changes/AskUserPanel.md) |
-| AskUserPanel — several questions | tabs with a dot per unanswered question, radio rows, gated Submit | one question at a time, single and multi select mixed: named clickable bars, a pick moves on, Skip + Next | [AskUserPanel](../changes/AskUserPanel.md) |
+| AskUserPanel — several questions | tabs with a dot per unanswered question, radio rows, gated Submit | one question at a time, single and multi select mixed: clickable bars + "Question N of M", a pick moves on, Back · Skip + Next | [AskUserPanel](../changes/AskUserPanel.md) |
 | AskUserPanel — multi select | unboxed checkbox rows + Submit | checkbox on the right of the shared option row; Skip + Submit, Submit disabled while nothing is ticked | [AskUserPanel](../changes/AskUserPanel.md) · [Checkbox](../changes/Checkbox.md) |
 | AskUserPanel — long list | — | capped at three quarters of the window; only the options scroll, on the thin scrollbar, with the scroll fade | [AskUserPanel](../changes/AskUserPanel.md) |
 

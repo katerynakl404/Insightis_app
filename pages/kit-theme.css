@@ -5433,9 +5433,10 @@
      ONE option row (.cfc-opt) in every variant; what sits inside it is the variant:
        Single select     — the row IS a <button>: pressing it is the answer.
        Several questions — one question per step (.cfc-panel), each single or
-                           multi select. A stepper of named bars takes the question's
+                           multi select. A stepper — bars + "Question N of M" — takes the question's
                            place on the top line; a pick moves on (except
-                           "Other", which waits for Next); Skip + Next in .cfc-foot.
+                           "Other", which waits for Next); Back on the left,
+                           Skip + Next on the right of .cfc-foot.
        Multi select      — .cbx-in + .cbx inside the row (on its right); Skip +
                            Submit in .cfc-foot.
      Every variant ends in .cfc-foot: Skip, then the primary (Submit / Next), always shown and
@@ -5461,13 +5462,15 @@
        </div>
 
      Several questions — the top line and the steps:
-         <div class="cfc-top"><div class="cfc-stepper" role="group" aria-label="Questions">
-             <button class="cfc-step is-current" type="button" data-cfc-goto aria-current="step">
-               <span class="cfc-step-bar"></span><span class="cfc-step-name">Time period</span></button>…</div>
+         <div class="cfc-top"><div class="cfc-stepper"><span class="cfc-steps" role="group" aria-label="Questions">
+             <button class="cfc-step is-current" type="button" data-cfc-goto data-name="Time period" aria-current="step">
+               <span class="cfc-step-bar"></span></button>…</span>
+             <span class="cfc-step-label" aria-live="polite">Question 1 of 4</span></div>
            <span class="cfc-top-r">…</span></div>
          <div class="cfc-panel scroll-fade" role="group" aria-labelledby="q1"><p class="cfc-q" id="q1" tabindex="-1">…</p>
            <div class="cfc-opts" data-scroll-fade>…</div></div>
-         <div class="cfc-foot"><button class="btn btn-tertiary btn-sm" data-cfc-skip>Skip</button>
+         <div class="cfc-foot"><button class="btn btn-tertiary btn-sm" data-cfc-back disabled>Back</button>
+           <button class="btn btn-tertiary btn-sm" data-cfc-skip>Skip</button>
            <button class="btn btn-primary btn-sm" data-cfc-submit disabled>Next</button></div>
      ========================================================================= */
   .cfc,.cfc-panel{display:flex;flex-direction:column;gap:.75rem}
@@ -5495,21 +5498,20 @@
   .cfc-top .cfc-q{flex:1;min-width:0}
   .cfc-q:focus{outline:none}
   /* Several questions: a stepper takes the question's place on the top line, so the dismiss
-     still sits beside what it escapes — all of the questions. One step per question: a bar, and
-     the question's short name under it. Bars fill as questions are answered, the name of the one
-     on screen is the strongest, and every step is a button that takes you to its question —
-     progress, position and the way between questions in one control. The track is
-     --stroke-border, not ProgressBar's --surface-chips: on a white card a chips track vanished. */
-  /* A step is as wide as its name — not a share of the line: stretched across the card, four
-     bars took the whole top line to say "2 of 4". Capped so a long name truncates instead. */
-  .cfc-stepper{flex:1;min-width:0;display:flex;gap:.5rem}
-  .cfc-step{flex:0 1 auto;min-width:2.5rem;max-width:7.5rem;display:flex;flex-direction:column;gap:.375rem;padding:.25rem 0;border:0;border-radius:var(--radius-inner);background:none;font:inherit;text-align:left;cursor:pointer}
+     still sits beside what it escapes — all of the questions. A short bar per question and the
+     step in words beside them: the bars fill as questions are answered (and for the one on
+     screen), the label says exactly where you are, and every bar is a button to its question.
+     The track is --stroke-border, not ProgressBar's --surface-chips: on a white card a chips
+     track vanished. */
+  .cfc-stepper{flex:1;min-width:0;display:flex;align-items:center;gap:.75rem;height:var(--ts-title-14-lh)}
+  .cfc-steps{flex:none;display:flex}
+  /* The button is the 24px target; the bar inside it is the mark. */
+  .cfc-step{flex:none;display:flex;align-items:center;padding:.625rem .125rem;border:0;border-radius:var(--radius-inner);background:none;cursor:pointer}
   .cfc-step:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
-  .cfc-step-bar{height:.25rem;border-radius:var(--radius-full);background:var(--stroke-border);transition:background-color var(--motion-fast) var(--motion-ease)}
+  .cfc-step-bar{width:1.5rem;height:.25rem;border-radius:var(--radius-full);background:var(--stroke-border);transition:background-color var(--motion-fast) var(--motion-ease)}
+  .cfc-step:hover .cfc-step-bar{background:var(--ink-inactive)}
   .cfc-step.is-done .cfc-step-bar,.cfc-step.is-current .cfc-step-bar{background:var(--brand-primary)}
-  .cfc-step-name{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:var(--ts-label-m-size);line-height:var(--ts-label-m-lh);font-weight:var(--ts-label-m-weight);color:var(--ink-secondary)}
-  .cfc-step:hover .cfc-step-name,.cfc-step.is-done .cfc-step-name{color:var(--ink-body)}
-  .cfc-step.is-current .cfc-step-name{color:var(--ink-primary)}
+  .cfc-step-label{white-space:nowrap;color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   /* The list is the part that scrolls once the card hits its ceiling. The .25rem of padding, taken
      back by the margin, is the focus ring's room: without it the scroller clips the ring on the
      first and last rows. The fade (data-scroll-fade on the list, .scroll-fade on the card or the
@@ -5561,17 +5563,16 @@
      asked for it. It has no button of its own: the card's Submit (or Next) sends it, from the one
      place every answer is sent from. */
   .cfc-other{display:flex;flex-direction:column;gap:.5rem;padding:0 .75rem .75rem}
-  /* Footer — on the right, as in every dialog: Skip, then the primary (Submit; Next between
-     steps). The primary is always there and disabled until the question on screen has an
-     answer, so the way on never appears out of nowhere. */
+  /* Footer — the way on at the right, as in every dialog: Skip, then the primary (Submit; Next
+     between steps). Between steps, Back sits alone on the left. Back and the primary are always
+     there, disabled when they cannot act — on the first question, before an answer — so neither
+     appears out of nowhere. */
   .cfc-foot{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:.5rem}
+  .cfc-foot [data-cfc-back]{margin-right:auto}
 
   @media (max-width: 600px){
     /* A phone has no Esc key, so the hint goes and the dismiss stays. */
     .cfc-esc{display:none}
-    /* The step names go; the bars stay, and keep a 24px target. */
-    .cfc-step-name{display:none}
-    .cfc-step{padding:.625rem 0}
   }
   /* The escape hatch: same hit area and states, no box. */
   /* Folded: the band is carrying an Alert and nothing else should compete with it. The list is
