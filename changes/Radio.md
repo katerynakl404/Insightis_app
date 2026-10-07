@@ -1,8 +1,8 @@
 # Radio — prod → expected
 
-Baseline: [`../current/Radio.md`](../current/Radio.md) — **port of the design system’s `RadioButton` into this kit; nothing on prod to diff against.** Storybook: [`#radio`](../insightis-preview-kit.html#radio). First consumer: [Confirmation Card](ConfirmationCard.md).
+Baseline: [`../current/Radio.md`](../current/Radio.md) — **port of the design system’s `RadioButton` into this kit; nothing on prod to diff against.** Storybook: [`#radio`](../insightis-preview-kit.html#radio). First consumer: [AskUserPanel](AskUserPanel.md).
 
-The **Insightis kit** had a [Checkbox](Checkbox.md) and no radio, so a one-of-N choice had no control that said so — the [Confirmation Card](ConfirmationCard.md) was answering its question with a row of buttons, which says "several things you could press", not "pick exactly one".
+The **Insightis kit** had a [Checkbox](Checkbox.md) and no radio, so a one-of-N choice had no control that said so — the [AskUserPanel](AskUserPanel.md) was answering its question with a row of buttons, which says "several things you could press", not "pick exactly one".
 
 **The design system already ships one.** `RadioButton` exists in `@devart/ui-react`; what was missing was its CSS-class counterpart in this kit. So this is a **port, not a new component**, and the parity is deliberate and exact — same shell as Checkbox, 1.5px border, `radius-full`, `Surface/Card` on `Stroke/Field_Hover`, hover to `Text/Secondary`, checked `Brand/Primary` with a `Content/On_Solid` mark, checked-hover `Brand/Hover`, `--input-error` for error, the neutral focus ring (brand colour never visualises form-control focus) and the opacity disabled recipe. Anything that changes here changes there.
 

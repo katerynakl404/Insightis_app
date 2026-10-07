@@ -665,7 +665,7 @@
       </div>
     </div>
 
-    <!-- The Confirmation Card covers the chat AND the composer. It is what the queue is waiting
+    <!-- The AskUserPanel covers the chat AND the composer. It is what the queue is waiting
          on, so while it is open there is nothing else to do on this screen. -->
     <div id="cp-cfc-layer" class="cp-cfc-layer"></div>
   </main>
@@ -1824,7 +1824,7 @@ document.addEventListener('click', function(e){
     addTurn(aiRow('<p class="cp-ai-prose">'+esc(REPLY)+'</p>'));
   }
   /* Typed out over an invisible sizer, exactly as prod does it, so the card never reflows. */
-  /* Confirmation Card — kit component (.cfc). Question and the dismiss affordance share one line.
+  /* AskUserPanel — kit component (.cfc). Question and the dismiss affordance share one line.
      The options are a RADIO GROUP: the assistant is asking for one of N, and a radio is the control
      that says so. "Other" is one of the N — an answer to the same question — so it is a peer, with
      the same box and the same mark. */
@@ -1838,9 +1838,9 @@ document.addEventListener('click', function(e){
   }
   function floatCard(on){
     var host=$('cp-cfc-layer'); if(!host) return;
-    host.innerHTML = on ? '<div class="cfc-float">'+confirmCardHtml()+'</div>' : '';
+    host.innerHTML = on ? askUserPanelHtml() : '';
   }
-  function confirmCardHtml(){
+  function askUserPanelHtml(){
     return '<div class="cfc" role="radiogroup" aria-label="Which revenue field to use">'
       + '<div class="cfc-top"><p class="cfc-q">Which revenue field best represents the business performance you want to track?</p>'
       + '<span class="cfc-top-r"><span class="cfc-esc">Esc to cancel</span>'
@@ -1873,7 +1873,7 @@ document.addEventListener('click', function(e){
     ['B4','B4 · Messages leaving one by one', function(){ streamTail(1); MQ.streaming=true; q(10); loopB4(); }],
     /* The card FLOATS over the thread rather than sitting in it. It is the thing the queue is
        waiting on, so it must not be something you scroll back to find. */
-    ['D1','D1 · Waiting on a Confirmation Card', function(){ streamTail(0); floatCard(true); q(2); MQ.paused='confirm'; }],
+    ['D1','D1 · Waiting on an AskUserPanel', function(){ streamTail(0); floatCard(true); q(2); MQ.paused='confirm'; }],
     ['D2','D2 · Last reply failed', function(){ streamTail(0); addTurn(aiRow('<div class="cp-errline">'+I.alert.replace('b-ic','')+'Couldn’t finish this answer</div>')); q(2); MQ.paused='error'; }],
     ['D3','D3 · Out of credits', function(){ streamTail(0); q(2); MQ.paused='credits'; }],
     ['D4','D4 · You pressed Stop', function(){ streamTail(0); var b=thread().querySelector('.cp-turn:last-child .cp-ai-bubble'); var s=document.createElement('div'); s.className='cp-stopped'; s.textContent='Stopped'; b.appendChild(s); q(2); MQ.paused='stopped'; }],

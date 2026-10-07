@@ -37,7 +37,7 @@ Open `../insightis-preview-kit.html` for the visual side-by-side; each component
 - [QueueItem](QueueItem.md) — new component; same feature
 - [Alert](Alert.md) — new component; the generic inline notice the queue needed (supersedes the queue-private QueuePause)
 - [Radio](Radio.md) — new component; Checkbox’s one-of-N sibling, the kit had none
-- [ConfirmationCard](ConfirmationCard.md) — exists on prod; options became a real radio group
+- [AskUserPanel](AskUserPanel.md) — exists on prod; the whole card, three variants (single select · multi select · several questions) on one radio/checkbox option row
 - [SortableList](SortableList.md) — new kit BEHAVIOUR (kit-kit.js § 4); drag + Alt+↑/↓ reorder
 - [ThinkingIndicator](ThinkingIndicator.md) — exists on prod; the skeleton went, the label carries the wait
 - [Counter](Counter.md) — new component; one small round count, in the queue row and the sidebar alike

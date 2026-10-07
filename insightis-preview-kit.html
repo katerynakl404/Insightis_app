@@ -132,7 +132,7 @@
     <a href="#queueband">Queue Band</a>
     <a href="#queueitem">Queue Item</a>
     <a href="#alert">Alert</a>
-    <a href="#confirmcard">Confirmation Card</a>
+    <a href="#askuserpanel">AskUserPanel</a>
     <a href="#sortable">Sortable List</a>
     <a href="#thinking">Thinking Indicator</a>
     <a href="pages/concept/chat_page-queue.html" target="_blank">↗ Message queue — states &amp; prototype</a>
@@ -1016,6 +1016,7 @@
           <tr><td class="stname">Indeterminate <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="ministage"><span class="cbx is-indeterminate"></span></span><div class="cspec">bg + border <code>Brand/Primary</code>, mark = 10 × 2 px horizontal bar (<code>Content/On_Solid</code>). Single position (tri-state contract).</div></td></tr>
           <tr><td class="stname">Error (unchecked &amp; checked) <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="ministage" style="gap:.75rem"><span class="cbx s-error"></span><span class="cbx on s-error"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></span><div class="cspec">unchecked → border <code>--input-error</code>, bg unchanged. checked → bg + border <code>--input-error</code>, mark <code>Content/On_Solid</code>. Mirrors <a href="#input" style="color:var(--brand-primary)">Input</a> <code>.s-error</code>.</div></td></tr>
           <tr><td class="stname">Disabled (unchecked &amp; checked)</td><td class="stcell"><span class="ministage" style="gap:.75rem"><span class="cbx s-disabled"></span><span class="cbx on s-disabled"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></span><div class="cspec"><code>opacity:--opacity-disabled</code> (.65) + <code>pointer-events:none</code> + <code>cursor:not-allowed</code> — each position fades from its own base; no colour override. Unifies with Switch / Button / IconButton / Tabs.</div></td></tr>
+          <tr><td class="stname">Input-backed — <code>.cbx-in</code> <span class="pend" style="font-weight:700">new</span></td><td class="stcell"><span class="ministage" style="gap:.75rem"><label><input type="checkbox" class="cbx-in" aria-label="Unchecked"><span class="cbx" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></label><label><input type="checkbox" class="cbx-in" checked aria-label="Checked"><span class="cbx" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></label></span><div class="cspec">Radio’s pairing, for a checkbox that is a form field: a real <code>&lt;input type="checkbox" class="cbx-in"&gt;</code>, visually hidden (never <code>display:none</code>), followed by the <code>.cbx</code> skin. <code>:checked</code> / <code>:focus-visible</code> on the input drive the same checked, hover, focus and disabled recipes as <code>.on</code>; name, value and role come from the platform. <code>.on</code> stays for toggles that are not form fields. First consumer: <a href="#askuserpanel" style="color:var(--brand-primary)">AskUserPanel</a> multi select.</div></td></tr>
         </tbody></table>
       </div></div>
     </section>
@@ -1419,7 +1420,7 @@
       <div class="block" id="tbl-metrics"><div class="block-h">Metrics table — molecule anatomy (Expected-only)</div><div class="block-b" style="padding:0;overflow-x:auto">
         <div class="mx-tbl" style="border-radius:0;border-left:none;border-right:none;border-top:none;pointer-events:none">
           <table class="tbl" style="table-layout:fixed;width:100%;min-width:560px">
-            <colgroup><col style="width:4.25rem"><col style="width:22%"><col style="width:9.5rem"><col><col style="width:5rem"><col style="width:5rem"></colgroup>
+            <colgroup><col style="width:4rem"><col style="width:22%"><col style="width:9.5rem"><col><col style="width:5rem"><col style="width:5rem"></colgroup>
             <thead><tr>
               <th></th><th>Metric name</th><th>Alias</th><th>Description</th><th>Badge</th><th class="mx-tbl-actions">Actions</th>
             </tr></thead>
@@ -1502,7 +1503,7 @@
         <div style="background:var(--surface-page);padding:1rem;border-radius:.5rem;overflow-x:auto">
         <div class="mx-tbl mx-tbl-sections" style="pointer-events:none;min-width:560px">
           <table class="tbl" style="table-layout:fixed;width:100%">
-            <colgroup><col style="width:4.25rem"><col style="width:22%"><col style="width:9.5rem"><col><col style="width:5rem"><col style="width:5rem"></colgroup>
+            <colgroup><col style="width:4rem"><col style="width:22%"><col style="width:9.5rem"><col><col style="width:5rem"><col style="width:5rem"></colgroup>
             <tbody>
               <!-- Collapsed provider group -->
               <tr class="mx-prov-group is-collapsed">
@@ -3739,12 +3740,12 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
       </div></div>
     </section>
 
-    <!-- ===== CONFIRMATION CARD ===== -->
-    <section class="comp" id="confirmcard" data-spec-sel=".cfc">
-      <h2>Confirmation Card</h2>
-      <div class="sub">The assistant asking for a decision before it can continue, rendered inside the answer card. Height follows the content: N options, N rows — no min-height, no reserved rows.</div>
-      <div><a class="chg" href="changes/ConfirmationCard.md">Changes ↗</a></div>
-      <div class="block"><div class="block-h">Preview — click an option</div><div class="block-b">
+    <!-- ===== ASKUSERPANEL ===== -->
+    <section class="comp" id="askuserpanel" data-spec-sel=".cfc">
+      <h2>AskUserPanel</h2>
+      <div class="sub">The assistant asking for a decision before it can continue. Three variants share ONE option row — <b>single select</b> (radio, one pick is the answer), <b>multi select</b> (checkbox + Submit) and <b>several questions</b> (tabs, one radio group per tab, + Submit). It is the <b>whole card</b>, not a block of content inside another one: <code>.cfc</code> carries its own surface — <code>Surface/Card</code>, <code>--radius-xl</code>, <code>--shadow-overlay-soft</code> — because it floats over the thread, and depth is what says so. Positioning belongs to the consumer (<code>.cp-cfc-layer</code> on the chat page). Height follows the content: N options, N rows — no min-height, no reserved rows.</div>
+      <div><a class="chg" href="changes/AskUserPanel.md">Changes ↗</a></div>
+      <div class="block"><div class="block-h">Single select — click an option</div><div class="block-b">
         <div class="ce ce-1">
           <div class="ce-cell"><div class="stage"><div style="width:100%;max-width:38rem">
             <div class="cfc" role="radiogroup" aria-label="Which revenue field to use">
@@ -3760,22 +3761,56 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
           </div></div><div style="padding:.5rem .7rem"><div class="cspec">The options are a <b>radio group</b>, not a row of buttons: this is one-of-N and <a href="#radio" style="color:var(--brand-primary)">Radio</a> is the control that says so. “Other” is one of the N — an answer to the same question — so it is boxed and marked like the rest. The question and the dismiss affordance share <b>one line</b>: the escape hatch belongs beside what it escapes from, not stacked above it.</div></div></div>
         </div>
       </div></div>
-      <div class="block"><div class="block-h">Floating — <code>.cfc-float</code></div><div class="block-b">
+      <div class="block"><div class="block-h">Multi select — tick several, then Submit</div><div class="block-b">
         <div class="ce ce-1">
-          <div class="ce-cell"><div class="stage"><div style="width:100%;max-width:38rem"><div class="cfc-float">
-            <div class="cfc" role="radiogroup" aria-label="Which revenue field to use">
-              <div class="cfc-top"><p class="cfc-q">Which revenue field best represents the business performance you want to track?</p>
+          <div class="ce-cell"><div class="stage"><div style="width:100%;max-width:38rem">
+            <div class="cfc" role="group" aria-labelledby="kit-cfc-m-q">
+              <div class="cfc-top"><p class="cfc-q" id="kit-cfc-m-q">Which Jira data should the analysis include? Select one or more.</p>
                 <span class="cfc-top-r"><span class="cfc-esc">Esc to cancel</span>
                 <button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Dismiss" data-tip="Dismiss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span></div>
-              <div class="cfc-opts">
-                <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-f"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Net revenue <span class="badge badge-sm badge-primary">Recommended</span></span><span class="cfc-opt-d">Revenue after deductions.</span></span></label>
-                <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-f"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Other</span></span></label>
+              <div class="cfc-opts" role="group" aria-labelledby="kit-cfc-m-q">
+                <label class="cfc-opt"><input type="checkbox" class="cbx-in" name="kit-cfc-m" checked><span class="cbx" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span class="cfc-opt-b"><span class="cfc-opt-t">Issues</span><span class="cfc-opt-d">Status, assignee, priority, dates, descriptions and custom fields</span></span></label>
+                <label class="cfc-opt"><input type="checkbox" class="cbx-in" name="kit-cfc-m" checked><span class="cbx" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span class="cfc-opt-b"><span class="cfc-opt-t">Sprints</span><span class="cfc-opt-d">Sprint names, start and end dates, state (active / closed)</span></span></label>
+                <label class="cfc-opt"><input type="checkbox" class="cbx-in" name="kit-cfc-m"><span class="cbx" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span class="cfc-opt-b"><span class="cfc-opt-t">Worklogs</span><span class="cfc-opt-d">Hours logged, who logged them, when, and on which issues</span></span></label>
+                <label class="cfc-opt"><input type="checkbox" class="cbx-in" name="kit-cfc-m"><span class="cbx" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span class="cfc-opt-b"><span class="cfc-opt-t">Comments</span><span class="cfc-opt-d">Comment text, author, timestamps and discussion history</span></span></label>
               </div>
+              <div class="cfc-foot"><button class="btn btn-primary btn-sm" type="button" data-cfc-submit>Submit</button></div>
             </div>
-          </div></div></div><div style="padding:.5rem .7rem"><div class="cspec">By default the card sits <b>inside</b> the answer card and borrows its surface. <code>.cfc-float</code> gives it one of its own — <code>Surface/Card</code>, <code>--radius-xl</code>, <code>--shadow-overlay-soft</code> — for when it is lifted out of the thread and floated above the composer, covering the tail of the conversation. A question the queue is waiting on must not scroll away: one you have to scroll back to find reads as optional, and the queue then looks stuck for no visible reason. <b>Shadow, not a heavier border</b> — it sits over the thread, and depth is what says so. Positioning belongs to the consumer (<code>.cp-cfc-layer</code> on the chat page); this variant only makes it a panel.</div></div></div>
+          </div></div><div style="padding:.5rem .7rem"><div class="cspec">Same row, a <a href="#checkbox" style="color:var(--brand-primary)">Checkbox</a> in place of the radio — input-backed (<code>.cbx-in</code>), so the options are real form fields. The list is a <code>role="group"</code>, not a radiogroup. Picking is no longer the whole answer, so a <code>.cfc-foot</code> with <b>Submit</b> (<code>btn-primary btn-sm</code>) closes the card; it is disabled while nothing is ticked. A ticked row takes the single-select selected recipe unchanged.</div></div></div>
         </div>
       </div></div>
-
+      <div class="block"><div class="block-h">Several questions — switch tabs, answer each, then Submit</div><div class="block-b">
+        <div class="ce ce-1">
+          <div class="ce-cell"><div class="stage"><div style="width:100%;max-width:38rem">
+            <div class="cfc" role="group" aria-label="Report planning questions">
+              <div class="cfc-top cfc-top-tabs"><div class="tabset var-flush" role="tablist" aria-label="Questions"><button class="tab is-active" type="button" role="tab" id="kit-cfc-t1-tab" aria-selected="true" aria-controls="kit-cfc-t1">Time period<span class="cfc-tab-pend" aria-hidden="true"></span><span class="sr-only">, unanswered</span></button><button class="tab" type="button" role="tab" id="kit-cfc-t2-tab" aria-selected="false" aria-controls="kit-cfc-t2" tabindex="-1">Audience<span class="cfc-tab-pend" aria-hidden="true"></span><span class="sr-only">, unanswered</span></button><button class="tab" type="button" role="tab" id="kit-cfc-t3-tab" aria-selected="false" aria-controls="kit-cfc-t3" tabindex="-1">Format<span class="cfc-tab-pend" aria-hidden="true"></span><span class="sr-only">, unanswered</span></button></div>
+                <span class="cfc-top-r"><span class="cfc-esc">Esc to cancel</span>
+                <button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Dismiss" data-tip="Dismiss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span></div>
+              <div class="cfc-panel" id="kit-cfc-t1" role="tabpanel" aria-labelledby="kit-cfc-t1-tab"><p class="cfc-q" id="kit-cfc-t1-q">What time period should the report cover?</p>
+                <div class="cfc-opts" role="radiogroup" aria-labelledby="kit-cfc-t1-q">
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t1r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Last month</span><span class="cfc-opt-d">The most recent complete month</span></span></label>
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t1r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Last quarter</span><span class="cfc-opt-d">The last three months</span></span></label>
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t1r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Year to date</span><span class="cfc-opt-d">From January 1 to today</span></span></label>
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t1r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Custom period</span><span class="cfc-opt-d">Specify your own date range</span></span></label>
+                </div></div>
+              <div class="cfc-panel" id="kit-cfc-t2" role="tabpanel" aria-labelledby="kit-cfc-t2-tab" hidden><p class="cfc-q" id="kit-cfc-t2-q">Who is this report for?</p>
+                <div class="cfc-opts" role="radiogroup" aria-labelledby="kit-cfc-t2-q">
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t2r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Team</span><span class="cfc-opt-d">Operational detail for contributors and team leads</span></span></label>
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t2r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Management</span><span class="cfc-opt-d">Summary and KPIs for directors and executives</span></span></label>
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t2r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Clients</span><span class="cfc-opt-d">Polished, high-level insight for external stakeholders</span></span></label>
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t2r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Other</span></span></label>
+                </div></div>
+              <div class="cfc-panel" id="kit-cfc-t3" role="tabpanel" aria-labelledby="kit-cfc-t3-tab" hidden><p class="cfc-q" id="kit-cfc-t3-q">Which format should the report use?</p>
+                <div class="cfc-opts" role="radiogroup" aria-labelledby="kit-cfc-t3-q">
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t3r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Table</span><span class="cfc-opt-d">Exact values, easy to scan and compare</span></span></label>
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t3r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Chart</span><span class="cfc-opt-d">Trends and proportions at a glance</span></span></label>
+                  <label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-t3r"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Text</span><span class="cfc-opt-d">A written summary of the findings</span></span></label>
+                </div></div>
+              <div class="cfc-foot"><button class="btn btn-primary btn-sm" type="button" data-cfc-submit disabled aria-describedby="kit-cfc-t-note">Submit</button><span class="cfc-foot-note" id="kit-cfc-t-note" aria-live="polite">3 questions left to answer</span></div>
+            </div>
+          </div></div><div style="padding:.5rem .7rem"><div class="cspec">A <a href="#tabs" style="color:var(--brand-primary)">Tabs</a> row takes the question’s place on the top line; the dismiss stays beside it, because it escapes <b>all</b> the questions. The row draws the one hairline (<code>.tabset.var-flush</code>) so it runs under the dismiss too. Each tab owns a <code>.cfc-panel</code> holding a question and its radio group — the single-select card, unchanged. An unanswered tab carries a dot (<code>.cfc-tab-pend</code>, <code>--ink-highlight</code>) and says “unanswered” to a screen reader; answering drops both. Submit stays disabled until every question has an answer, and <code>.cfc-foot-note</code> says how many are left — a disabled button is never unexplained. Tab switching, arrow keys and the Submit gate live in <code>pages/kit-kit.js</code> §11.</div></div></div>
+        </div>
+      </div></div>
       <div class="block"><div class="block-h">States</div><div class="block-b" style="padding:0">
         <table class="stbl"><thead><tr><th>State</th><th>Expected</th></tr></thead><tbody>
           <tr><td class="stname">Option — rest</td><td class="stcell"><span class="ministage"><div style="width:24rem"><label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-s1"><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Gross revenue</span><span class="cfc-opt-d">Revenue before deductions.</span></span></label></div></span><div class="cspec">border <code>Stroke/Border</code> on <code>Surface/Card</code>. Label <code>Title/16</code> on <code>Text/Body</code> — <b>not</b> Text/Primary: the question is the primary voice, and an option that matches it flattens the card into one shouting block. Description <code>Body/M</code> at weight 400 on <code>Text/Secondary</code>.</div></td></tr>
@@ -3783,6 +3818,10 @@ document.getElementById('my-ov').classList.remove('is-open'); // close</pre>
           <tr><td class="stname">Option — selected</td><td class="stcell"><span class="ministage"><div style="width:24rem"><label class="cfc-opt"><input type="radio" class="rdo-in" name="kit-cfc-s3" checked><span class="rdo" aria-hidden="true"></span><span class="cfc-opt-b"><span class="cfc-opt-t">Net revenue <span class="badge badge-sm badge-primary">Recommended</span></span></span></label></div></span><div class="cspec">border <code>Brand/Primary</code> + the sanctioned tint wash. Driven by <code>:has(.rdo-in:checked)</code>, so the state follows the real input and never needs a class.</div></td></tr>
           <tr><td class="stname">Option — keyboard focus</td><td class="stcell"><div class="cspec">Ring on the ROW, via <code>:has(.rdo-in:focus-visible)</code>. <b>Not</b> <code>:focus-within</code> — that fires on a mouse click too, so choosing an option painted a full focus ring on top of the selected state and the two together read as an error. The control inside suppresses its own ring so one focus is drawn once.</div></td></tr>
           <tr><td class="stname">Anatomy</td><td class="stcell"><div class="cspec">Radio centres on the <b>title line</b>, not on the row — offset <code>(24px title line − 18px control) / 2</code>. Off the 4px step on purpose, the same way a 1.5px border is: an optical centring derived from two grid-legal values, not a spacing decision. A two-line option keeps the control beside the label instead of dropping it into the middle of the paragraph.</div></td></tr>
+          <tr><td class="stname">Option — checked (multi select)</td><td class="stcell"><span class="ministage"><div style="width:24rem"><label class="cfc-opt"><input type="checkbox" class="cbx-in" name="kit-cfc-s4" checked><span class="cbx" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span class="cfc-opt-b"><span class="cfc-opt-t">Sprints</span><span class="cfc-opt-d">Sprint names, dates and state</span></span></label></div></span><div class="cspec">The single-select selected recipe, driven by <code>:has(.cbx-in:checked)</code>. The checkbox keeps the radio’s title-line offset, so the two variants line up.</div></td></tr>
+          <tr><td class="stname">Tab — unanswered / answered</td><td class="stcell"><span class="ministage"><div class="tabset var-flush"><button class="tab is-active" type="button">Time period<span class="cfc-tab-pend" aria-hidden="true"></span></button><button class="tab" type="button">Audience</button><button class="tab" type="button">Format<span class="cfc-tab-pend" aria-hidden="true"></span></button></div></span><div class="cspec">Dot = no answer yet; an answered tab drops it (Audience). Presence carries the state, not colour, and the tab’s accessible name adds “, unanswered”. Accent <code>--ink-highlight</code> — the active underline’s.</div></td></tr>
+          <tr><td class="stname">Submit — waiting / ready</td><td class="stcell"><span class="ministage" style="flex-direction:column;align-items:flex-start;gap:.75rem"><span class="cfc-foot"><button class="btn btn-primary btn-sm" type="button" disabled>Submit</button><span class="cfc-foot-note">2 questions left to answer</span></span><span class="cfc-foot"><button class="btn btn-primary btn-sm" type="button">Submit</button></span></span><div class="cspec">Disabled until every question in the card has an answer — the Button disabled recipe, unchanged. The note (<code>Body/M</code> on <code>Text/Secondary</code>, <code>aria-live="polite"</code>) counts what is left and disappears at zero. Multi select carries no note: its one question is on screen.</div></td></tr>
+          <tr><td class="stname">Mobile (≤ 600px)</td><td class="stcell"><span class="ministage"><div style="width:20rem"><div class="cfc-top cfc-top-tabs"><div class="tabset var-flush"><button class="tab is-active" type="button">Time period<span class="cfc-tab-pend" aria-hidden="true"></span></button><button class="tab" type="button">Audience<span class="cfc-tab-pend" aria-hidden="true"></span></button></div><span class="cfc-top-r"><button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Dismiss" data-tip="Dismiss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span></div></div></span><div class="cspec">A phone has no Esc key, so <code>.cfc-esc</code> hides and the dismiss stays, giving the tabs the room. A tab label never wraps — a two-line tab stands taller than its neighbours; when the tabs still do not fit they scroll sideways on one line (the chip row’s recipe). Everything else is already fluid: rows fill the width, the footer wraps.</div></td></tr>
         </tbody></table>
       </div></div>
     </section>

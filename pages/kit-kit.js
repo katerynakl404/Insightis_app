@@ -1141,4 +1141,73 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', promoApply, { once: true });
   else promoApply();
 
+  /* ==========================================================================================
+     11. ASKUSERPANEL (.cfc) — question tabs and the Submit gate
+
+     Part of the .cfc contract, not of a page: every card that asks several questions or takes
+     several answers needs the same two things, so they live here once.
+       · Tabs (.cfc-top-tabs [role="tab"]) switch which .cfc-panel shows; ← / → / Home / End move
+         between them, with roving tabindex.
+       · Each .cfc-opts is one question. Its tab's .cfc-tab-pend (and the ", unanswered" .sr-only
+         text) shows while the question has no checked input.
+       · [data-cfc-submit] is enabled once every question in the card has an answer, and
+         .cfc-foot-note says how many are left — the disabled button is never unexplained.
+     A single-select card has neither, and nothing here touches it.
+     ========================================================================================== */
+  function cfcSync(card) {
+    var left = 0;
+    card.querySelectorAll('.cfc-opts').forEach(function (q) {
+      var done = !!q.querySelector('input:checked');
+      if (!done) left++;
+      var panel = q.closest('.cfc-panel');
+      var tab = panel && panel.id && card.querySelector('[role="tab"][aria-controls="' + panel.id + '"]');
+      if (!tab) return;
+      tab.querySelectorAll('.cfc-tab-pend, .sr-only').forEach(function (el) { el.hidden = done; });
+    });
+    var btn = card.querySelector('[data-cfc-submit]');
+    if (btn) btn.disabled = left > 0;
+    var note = card.querySelector('.cfc-foot-note');
+    if (note) {
+      note.hidden = left === 0;
+      note.textContent = left + (left === 1 ? ' question' : ' questions') + ' left to answer';
+    }
+  }
+
+  function cfcSelect(tab, focus) {
+    tab.closest('[role="tablist"]').querySelectorAll('[role="tab"]').forEach(function (t) {
+      var on = t === tab;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !on;
+    });
+    if (focus) tab.focus();
+  }
+
+  document.addEventListener('click', function (e) {
+    var tab = e.target.closest && e.target.closest('.cfc-top-tabs [role="tab"]');
+    if (tab) cfcSelect(tab, false);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].indexOf(e.key) < 0) return;
+    var tab = e.target.closest && e.target.closest('.cfc-top-tabs [role="tab"]');
+    if (!tab) return;
+    var tabs = Array.prototype.slice.call(tab.closest('[role="tablist"]').querySelectorAll('[role="tab"]'));
+    var i = tabs.indexOf(tab), n = tabs.length;
+    var j = e.key === 'Home' ? 0 : e.key === 'End' ? n - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + n) % n;
+    e.preventDefault();
+    cfcSelect(tabs[j], true);
+  });
+
+  document.addEventListener('change', function (e) {
+    var card = e.target.closest && e.target.closest('.cfc');
+    if (card) cfcSync(card);
+  });
+
+  function cfcInit() { document.querySelectorAll('.cfc').forEach(cfcSync); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', cfcInit, { once: true });
+  else cfcInit();
+
 })();
