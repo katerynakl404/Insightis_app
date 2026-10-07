@@ -1784,7 +1784,7 @@ document.addEventListener('click', function(e){
     else if(a==='retry') retry();
     else if(a==='edit') edit(id);
     else if(a==='buy') window.location.href='../approved/user_profile-modal.html?section=balance';
-    else if(a==='dismiss'){ floatCard(false); MQ.paused=null; render(); }
+    else if(a==='dismiss'||a==='answer'){ floatCard(false); MQ.paused=null; render(); }
     else if(a==='remove') remove(id);
     else if(a==='undo') undo(+t.getAttribute('data-key'));
     else if(a==='clear'){ clearAllUndo(); MQ.queue=[]; MQ.removed=[]; MQ.paused=null; render(); announce('Queue cleared'); }
@@ -1824,31 +1824,28 @@ document.addEventListener('click', function(e){
     addTurn(aiRow('<p class="cp-ai-prose">'+esc(REPLY)+'</p>'));
   }
   /* Typed out over an invisible sizer, exactly as prod does it, so the card never reflows. */
-  /* AskUserPanel — kit component (.cfc). Question and the dismiss affordance share one line.
-     The options are a RADIO GROUP: the assistant is asking for one of N, and a radio is the control
-     that says so. "Other" is one of the N — an answer to the same question — so it is a peer, with
-     the same box and the same mark. */
-  function cfcOpt(val,label,badge,desc){
-    return '<label class="cfc-opt">'
-      + '<input type="radio" class="rdo-in" name="cfc-revenue" value="'+val+'">'
-      + '<span class="rdo" aria-hidden="true"></span>'
+  /* AskUserPanel — kit component (.cfc), single select. Question and the dismiss affordance share
+     one line. Each option row IS the button: pressing it is the answer, so there is nothing to mark
+     and nothing to submit. "Other" is an answer to the same question, so it is boxed like the rest. */
+  function cfcOpt(label,badge,desc){
+    return '<button class="cfc-opt" type="button" data-mq="answer">'
       + '<span class="cfc-opt-b"><span class="cfc-opt-t">'+esc(label)
       + (badge?' <span class="badge badge-sm badge-primary">'+esc(badge)+'</span>':'')+'</span>'
-      + (desc?'<span class="cfc-opt-d">'+esc(desc)+'</span>':'')+'</span></label>';
+      + (desc?'<span class="cfc-opt-d">'+esc(desc)+'</span>':'')+'</span></button>';
   }
   function floatCard(on){
     var host=$('cp-cfc-layer'); if(!host) return;
     host.innerHTML = on ? askUserPanelHtml() : '';
   }
   function askUserPanelHtml(){
-    return '<div class="cfc" role="radiogroup" aria-label="Which revenue field to use">'
-      + '<div class="cfc-top"><p class="cfc-q">Which revenue field best represents the business performance you want to track?</p>'
+    return '<div class="cfc" role="group" aria-labelledby="cp-cfc-q">'
+      + '<div class="cfc-top"><p class="cfc-q" id="cp-cfc-q">Which revenue field best represents the business performance you want to track?</p>'
       + '<span class="cfc-top-r"><span class="cfc-esc">Esc to cancel</span>'
       + '<button class="iconbtn iconbtn-tertiary iconbtn-xs" type="button" aria-label="Dismiss" data-tip="Dismiss" data-mq="dismiss">'+I.x+'</button></span></div>'
       + '<div class="cfc-opts">'
-      + cfcOpt('net','Net revenue','Recommended','Revenue after deductions — profit-generating revenue and financial health.')
-      + cfcOpt('gross','Gross revenue','','Revenue before deductions (costs, returns, discounts) — top-line sales volume and reach.')
-      + cfcOpt('other','Other','','')
+      + cfcOpt('Net revenue','Recommended','Revenue after deductions — profit-generating revenue and financial health.')
+      + cfcOpt('Gross revenue','','Revenue before deductions (costs, returns, discounts) — top-line sales volume and reach.')
+      + cfcOpt('Other','','')
       + '</div></div>';
   }
   function thinkingHtml(){

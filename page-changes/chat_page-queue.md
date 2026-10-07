@@ -44,7 +44,7 @@ The app has **no bespoke keyframes for messages**, so the queue does not invent 
 | Between the thread and the composer | nothing | the Queue Band, rendered only when the queue is non-empty |
 | Composer placeholder during a reply | unchanged from idle | `Ask a follow-up — it will wait its turn` |
 | A stopped reply | the reply stops | the reply stops **and** the queue pauses with a named reason and a Resume |
-| AskUserPanel options | a row of buttons; "Other" unboxed | a **radio group**; "Other" is one of the answers — see [AskUserPanel](../changes/AskUserPanel.md) |
+| AskUserPanel options | a row of buttons; "Other" unboxed | still buttons — pressing one answers; "Other" is boxed like the rest — see [AskUserPanel](../changes/AskUserPanel.md) |
 | Waiting for a reply | "Thinking" + dots | the same, with the label itself carrying the wait — see [ThinkingIndicator](../changes/ThinkingIndicator.md) |
 | Leaving with work pending | — | a system dialog at size S; **Leave is destructive**, because it throws away queued text and its attachments |
 

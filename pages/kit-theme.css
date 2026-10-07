@@ -5432,21 +5432,21 @@
            <span class="cfc-top-r"><span class="cfc-esc">Esc to cancel</span>
              <button class="iconbtn iconbtn-tertiary iconbtn-xs" aria-label="Dismiss">✕</button></span></div>
          <div class="cfc-opts">
-           <button class="cfc-opt"><span class="cfc-opt-t">Net revenue <span class="badge badge-sm badge-primary">Recommended</span></span>
-                                   <span class="cfc-opt-d">…</span></button>
-           <label class="cfc-opt"><input type="radio" class="rdo-in" name="rev"><span class="rdo"></span>
-             <span class="cfc-opt-b"><span class="cfc-opt-t">Other</span></span></label>
+           <button class="cfc-opt" type="button"><span class="cfc-opt-b"><span class="cfc-opt-t">Net revenue
+             <span class="badge badge-sm badge-primary">Recommended</span></span><span class="cfc-opt-d">…</span></span></button>
+           <button class="cfc-opt" type="button"><span class="cfc-opt-b"><span class="cfc-opt-t">Other</span></span></button>
          </div>
        </div>
 
-     The options are a RADIO GROUP, not a row of buttons: this is one-of-N, the
-     control that says so is a radio, and "Other" is one of the N — an answer to
-     the same question, so it is boxed and marked like the rest. (It was unboxed
-     while it was read as an escape hatch. It is not one.)
+     "Other" is one of the N — an answer to the same question — so it is boxed like
+     the rest. (It was unboxed while it was read as an escape hatch. It is not one.)
 
      Three variants, ONE option row. Only the control inside the row and what wraps
      the list change:
-       Single select    — .rdo-in + .rdo, no footer: one pick is the whole answer.
+       Single select    — the row IS a <button>, no control, no footer: pressing it is
+                          the answer, so there is nothing to mark and nothing to submit.
+                          (a .cfc-opt with a radio inside is for the step that is NOT
+                          the whole answer — several questions.)
        Multi select     — .cbx-in + .cbx in a role="group", plus .cfc-foot with Submit.
        Several questions— .cfc-top-tabs (a .tabset.var-flush) replaces the question on
                           the top line; one .cfc-panel per question, each a radio
@@ -5470,15 +5470,19 @@
   .cfc-panel[hidden],.cfc-tab-pend[hidden]{display:none}
   /* Question and the dismiss affordance share ONE line: the escape hatch belongs beside what it
      escapes from, not stacked above it in a row of its own. */
-  .cfc-top{display:flex;align-items:center;gap:.75rem}
-  .cfc-top-r{flex:none;display:flex;align-items:center;gap:.5rem;color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
+  /* The dismiss group sits on the question's FIRST line, not in the middle of the block: a
+     two-line question centred it between the lines, where it belonged to neither. The group is one
+     question line tall (Title/14's line-height) and the 28px button overhangs it evenly, so it
+     centres on that line without a negative margin. In the tabs row it is centred on the tabs. */
+  .cfc-top{display:flex;align-items:flex-start;gap:.75rem}
+  .cfc-top-r{flex:none;display:flex;align-items:center;gap:.5rem;height:var(--ts-title-14-lh);color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   .cfc-esc{white-space:nowrap}
   .cfc-q{flex:1;min-width:0;margin:0;font-size:var(--ts-title-14-size);line-height:var(--ts-title-14-lh);font-weight:var(--ts-title-14-weight);color:var(--ink-primary)}
   /* Several questions: the tabs take the question's place on the top line, and the dismiss stays
      beside them — it escapes ALL the questions, so it sits with the control that spans them. The
      ROW draws the one hairline (the tabset is .var-flush), so it runs under the dismiss as well
      instead of stopping where the tabs end. */
-  .cfc-top-tabs{border-bottom:var(--border-width) solid var(--stroke-border)}
+  .cfc-top-tabs{align-items:center;border-bottom:var(--border-width) solid var(--stroke-border)}
   /* A tab label never wraps — a two-line tab stands taller than its neighbours. When the tabs do
      not fit they scroll sideways on one line, the chip row's recipe. The 2px of padding is the
      active underline's own height: it hangs below the tab onto the row's hairline, and without the
@@ -5498,7 +5502,10 @@
      spacing decision. */
   .cfc-opt .rdo,.cfc-opt .cbx{margin-top:.1875rem}
   .cfc-opt-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:.125rem}
-  .cfc-opt:hover{background:var(--state-hover);border-color:var(--card-border-hover)}
+  .cfc-opt:hover,.cfc-opt.s-hover{background:var(--state-hover);border-color:var(--card-border-hover)}
+  /* Single select: the row is the button, so it carries a button's press and focus. */
+  button.cfc-opt:active,.cfc-opt.s-pressed{background:var(--state-pressed)}
+  button.cfc-opt:focus-visible,.cfc-opt.s-focus{outline:none;box-shadow:var(--shadow-focus)}
   /* Focus follows the real input — but only when the KEYBOARD put it there. :focus-within also
      fires on a mouse click, so choosing an option painted a full focus ring around the row on top
      of the selected state, and the two together read as an error. And the ring goes on the ROW
