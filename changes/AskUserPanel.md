@@ -9,7 +9,7 @@ The assistant asking for a decision before it can continue. The component is the
 | | Current (prod) | Expected |
 |---|---|---|
 | Card | sits inside the answer card, on its surface | **its own card**, floated over the thread — `.cfc` is the whole panel |
-| Card height | the option list scrolls inside the panel even when it fits | follows the content up to **three quarters of the window**; nothing scrolls below that, past it only the options do, on the kit's thin scrollbar |
+| Card height | the option list scrolls inside the panel even when it fits | follows the content: a question offers **at most six options** ("Other" counted) and the card fits them — **nothing scrolls**; a 75dvh ceiling is only a guard for a screen too short for six |
 | Single select — options | a bordered `<button>` per choice; pressing one submits | — the row stays a button and pressing it is the answer |
 | "Other" | unboxed, below the real choices; a field appears below once it is chosen | **one of the choices**, boxed like the rest; the field opens **inside its own box**, and the footer's Submit sends it |
 | Several questions | tabs (a dot on each unanswered tab), radio rows, Submit gated with "N questions left to answer" | **one question at a time**, each single or multi select; a stepper — short bars + "Question N of M" — on the top line, every bar clickable; a pick moves on; Back on the left, Next on the right |
@@ -29,15 +29,15 @@ Tabs are peers you browse in any order; these questions are a sequence to answer
 
 **A pick moves on.** Pressing an option answers the question and the next one still open shows — exactly as single select answers on press. "Other" and a multi-select step cannot answer themselves, so they wait for **Next**. Next is always there, disabled until the question on screen has an answer, and reads **Submit** on the last open question. **Back**, bottom-left, returns to the previous question. It appears from the second question on — on the first there is nowhere to go back to, and a dead button there is noise. When no question is left open, the card is answered.
 
-**The stepper is a short bar per question with "Question N of M" beside them.** A bar fills once its question is answered (and while on screen), the label says exactly where you are, and every bar is a button — a 24px target, the bar its mark — that takes you to its question. Bars stretched across the card or carrying names under them took the whole top line to say "2 of 4". The track is `--stroke-border`; ProgressBar's `--surface-chips` vanished on a white card.
+**The stepper is a short bar per question with "Question N of M" beside them.** A bar fills once its question is answered (and while on screen), the label says exactly where you are, and every bar is a button — a 24px target, the bar its mark — that takes you to its question and, on hover, shows the question's short title in the kit's tooltip (`data-tip`). Bars stretched across the card or carrying names under them took the whole top line to say "2 of 4". The track is `--stroke-border`; ProgressBar's `--surface-chips` vanished on a white card.
 
 ## Why "Other" is a peer, and why its field opens inside it
 
 It was unboxed while it was read as an escape hatch — *not a real answer, just a way out*. It is not one. "Other" is an answer to the same question, so it is boxed like the rest. But it is the one answer the card cannot know, so pressing it opens a field for the person's own words — **inside its own box**, under its label, so the answer stays in the row that asked for it. It has no button of its own: the footer's Submit (Next between steps) sends it, from the one place every answer is sent from. Enter sends too; Shift+Enter breaks the line.
 
-## Three quarters of the window is the ceiling
+## Six options at most, and no scroll
 
-Prod scrolls the option list inside the panel even when every option would fit — a scrollbar beside four options is a list pretending to be longer than it is. Expected grows with its options up to three quarters of the window (`dvh`, so it follows a phone's real screen) and nothing scrolls below that. Half the window was too low: four options with descriptions and a footer already hit it on a laptop screen. Past the ceiling the options scroll on the kit's thin scrollbar, the top line and the footer stay put, and the scroll fade shows only while something is actually hidden.
+Prod scrolls the option list inside the panel even when every option would fit — a scrollbar beside four options is a list pretending to be longer than it is. In Expected a question offers **at most six options**, "Other" counted, and the card is as tall as its options: it fits six, so nothing scrolls. A question that needs more than six is two questions. The `75dvh` ceiling stays only as a guard for a screen too short for six — there the options scroll on the kit's thin scrollbar, the top line and the footer stay put, and the scroll fade shows only while something is actually hidden.
 
 ## Three type steps, each a token apart
 

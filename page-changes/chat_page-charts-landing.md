@@ -9,7 +9,7 @@ This page is where the [AskUserPanel](../changes/AskUserPanel.md) is reviewed in
 | AskUserPanel — single select | bordered buttons; the list scrolls inside the panel even when it fits | button rows; "Other" opens a field inside its box; Submit in the footer | [AskUserPanel](../changes/AskUserPanel.md) |
 | AskUserPanel — several questions | tabs with a dot per unanswered question, radio rows, gated Submit | one question at a time, single and multi select mixed: clickable bars + "Question N of M", a pick moves on, Back · Next | [AskUserPanel](../changes/AskUserPanel.md) |
 | AskUserPanel — multi select | unboxed checkbox rows + Submit | checkbox on the right of the shared option row; Submit, disabled while nothing is ticked | [AskUserPanel](../changes/AskUserPanel.md) · [Checkbox](../changes/Checkbox.md) |
-| AskUserPanel — long list | — | capped at three quarters of the window; only the options scroll, on the thin scrollbar, with the scroll fade | [AskUserPanel](../changes/AskUserPanel.md) |
+| AskUserPanel — six options | the list scrolls inside the panel | six options, the most a question offers ("Other" counted); the card fits them, nothing scrolls; Submit in the footer as in single select | [AskUserPanel](../changes/AskUserPanel.md) |
 
 Answering or dismissing (✕ or Esc) closes the panel and returns the switch to **Off** — no toast, the reply starting is the feedback. The chat opens at its newest message. The panel sits in the kit's `.cp-cfc-layer`, as on [chat_page-queue](chat_page-queue.md).
 
