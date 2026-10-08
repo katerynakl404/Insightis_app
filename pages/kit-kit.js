@@ -1177,17 +1177,17 @@
          sends what cannot send itself: ticked boxes and a typed "Other". It also re-sends a step
          you came back to. Between steps it reads Next, on the last open question Submit.
        · Several questions (.cfc-panel steps): the stepper (a bar per question, data-cfc-goto, and "Question N of M"
-         beside them) moves between questions freely. An answer, Next or Skip settles the question on screen and jumps to the
+         beside them) moves between questions freely. An answer or Next settles the question on screen and jumps to the
          next one still open; when none is left, the card is answered. A step's bar fills once
          answered (.is-done) or while on screen (.is-current).
        · Answered = the card fires `cfc:answer` (bubbles), detail.answers = [{question, answer}];
-         a skipped question's answer is null, a multi-select one is an array. The consumer closes
+         a multi-select answer is an array. The consumer closes
          the card on it — the kit never removes it.
        · "Other" (data-cfc-other, the head of a .cfc-opt-other box) opens the .cfc-other field in
          the same box instead of answering. Typed text is the answer, sent by the footer's primary
          (Submit / Next) or by Enter (Shift+Enter breaks the line); neither works while it is empty.
-       · Skip (data-cfc-skip) resolves the question with no answer. Back (data-cfc-back) goes to
-         the previous question; hidden on the first, where there is none.
+       · Back (data-cfc-back) goes to the previous question; hidden on the first, where there is
+         none.
      ========================================================================================== */
   function cfcPanels(card) { return Array.prototype.slice.call(card.querySelectorAll('.cfc-panel')); }
   function cfcIndex(card) {
@@ -1204,13 +1204,11 @@
     if (!scopes.length) scopes = [card];
     return scopes.map(function (p) {
       var q = p.querySelector('.cfc-q'), answer = null;
-      if (p.getAttribute('data-cfc-done') !== 'skipped') {
-        var ticked = p.querySelectorAll('.cbx-in:checked');
-        var on = p.querySelector('.cfc-opt[aria-pressed="true"], [data-cfc-other][aria-expanded="true"]');
-        if (ticked.length) answer = Array.prototype.map.call(ticked, function (i) { return cfcLabel(i.closest('.cfc-opt')); });
-        else if (on && on.hasAttribute('data-cfc-other')) { var ta = p.querySelector('.cfc-other .ta'); answer = ta && ta.value.trim() ? ta.value.trim() : null; }
-        else if (on) answer = cfcLabel(on);
-      }
+      var ticked = p.querySelectorAll('.cbx-in:checked');
+      var on = p.querySelector('.cfc-opt[aria-pressed="true"], [data-cfc-other][aria-expanded="true"]');
+      if (ticked.length) answer = Array.prototype.map.call(ticked, function (i) { return cfcLabel(i.closest('.cfc-opt')); });
+      else if (on && on.hasAttribute('data-cfc-other')) { var ta = p.querySelector('.cfc-other .ta'); answer = ta && ta.value.trim() ? ta.value.trim() : null; }
+      else if (on) answer = cfcLabel(on);
       return { question: q ? q.textContent.trim() : '', answer: answer };
     });
   }
@@ -1239,7 +1237,7 @@
   function cfcSend(card) {
     card.dispatchEvent(new CustomEvent('cfc:answer', { bubbles: true, detail: { answers: cfcAnswers(card) } }));
   }
-  /* The current question is settled (answered or skipped): go to the next one still open, after it
+  /* The current question is answered: go to the next one still open, after it
      first and then from the top; if none is left, the card is answered. */
   function cfcResolve(card, how) {
     var p = cfcPanels(card);
@@ -1312,14 +1310,6 @@
     }
     var send = e.target.closest('[data-cfc-submit]');
     if (send) { if (!send.disabled) cfcResolve(card, 'answered'); return; }
-    if (e.target.closest('[data-cfc-skip]')) {
-      var scope = cfcScope(card);
-      scope.querySelectorAll('.cfc-opts').forEach(function (l) { cfcClear(l, null); });
-      scope.querySelectorAll('.cbx-in:checked').forEach(function (i) { i.checked = false; });
-      if (scope === card) card.setAttribute('data-cfc-done', 'skipped');
-      cfcResolve(card, 'skipped');
-      return;
-    }
     var back = e.target.closest('[data-cfc-back]');
     if (back) { cfcGo(card, Math.max(0, cfcIndex(card) - 1)); return; }
     var go = e.target.closest('[data-cfc-goto]');

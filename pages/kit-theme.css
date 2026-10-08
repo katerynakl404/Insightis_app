@@ -5436,10 +5436,10 @@
                            multi select. A stepper — bars + "Question N of M" — takes the question's
                            place on the top line; a pick moves on (except
                            "Other", which waits for Next); Back on the left,
-                           Skip + Next on the right of .cfc-foot.
-       Multi select      — .cbx-in + .cbx inside the row (on its right); Skip +
-                           Submit in .cfc-foot.
-     Every variant ends in .cfc-foot: Skip, then the primary (Submit / Next), always shown and
+                           Next on the right of .cfc-foot.
+       Multi select      — .cbx-in + .cbx inside the row (on its right); Submit in
+                           .cfc-foot.
+     Every variant ends in .cfc-foot with the primary (Submit / Next), always shown and
      disabled until the question on screen has an answer. In single select a plain option still
      answers on press — Submit is what sends a typed "Other".
      "Other" is an answer like the rest — boxed the same — but its box holds a
@@ -5470,7 +5470,6 @@
          <div class="cfc-panel scroll-fade" role="group" aria-labelledby="q1"><p class="cfc-q" id="q1" tabindex="-1">…</p>
            <div class="cfc-opts" data-scroll-fade>…</div></div>
          <div class="cfc-foot"><button class="btn btn-tertiary btn-sm" data-cfc-back hidden>Back</button>
-           <button class="btn btn-tertiary btn-sm" data-cfc-skip>Skip</button>
            <button class="btn btn-primary btn-sm" data-cfc-submit disabled>Next</button></div>
      ========================================================================= */
   .cfc,.cfc-panel{display:flex;flex-direction:column;gap:.75rem}
@@ -5565,8 +5564,8 @@
      asked for it. It has no button of its own: the card's Submit (or Next) sends it, from the one
      place every answer is sent from. */
   .cfc-other{display:flex;flex-direction:column;gap:.5rem;padding:0 .75rem .75rem}
-  /* Footer — the way on at the right, as in every dialog: Skip, then the primary (Submit; Next
-     between steps). The primary is always there, disabled until there is an answer, so it never
+  /* Footer — the way on at the right, as in every dialog: the primary (Submit; Next between
+     steps). The primary is always there, disabled until there is an answer, so it never
      appears out of nowhere. Between steps Back sits alone on the left — from the second question
      on; on the first there is nowhere to go back to, and a dead button there is just noise. */
   .cfc-foot{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:.5rem}
