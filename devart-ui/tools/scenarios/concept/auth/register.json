@@ -1,0 +1,11 @@
+[
+ {"name":"Strength hint — empty focus","steps":[{"do":"click","target":{"sel":"input[type=password]"}}]},
+ {"name":"Strength hint — weak","steps":[{"do":"fill","target":{"sel":"input[type=password]"},"text":"abc"}]},
+ {"name":"Strength hint — fair","steps":[{"do":"fill","target":{"sel":"input[type=password]"},"text":"abcdefg1"}]},
+ {"name":"Strength hint — strong","steps":[{"do":"fill","target":{"sel":"input[type=password]"},"text":"Abcdefg1!"}]},
+ {"name":"Strength hint — phone","viewport":"phone","steps":[{"do":"fill","target":{"sel":"input[type=password]"},"text":"abcdefg1"}]},
+ {"name":"Terms checked","steps":[{"do":"click","target":{"sel":"[role=checkbox]"}}]},
+ {"name":"Terms link hover","steps":[{"do":"hover","target":{"text":"Terms of Service"}}]},
+ {"name":"Terms toggled by keyboard (Space)","steps":[{"do":"click","target":{"sel":"input[type=password]"}},{"do":"key","key":"Tab"},{"do":"key","key":"Tab"},{"do":"key","key":" "}]},
+ {"name":"Password shown","steps":[{"do":"fill","target":{"sel":"input[type=password]"},"text":"Abcdefg1!"},{"do":"click","target":{"sel":"button[aria-label*=assword]"}}]}
+]

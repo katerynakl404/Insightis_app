@@ -1,0 +1,61 @@
+/* DsCatalog — what DevartUI's DataSourceCard / FilterChips cannot express on their own: the catalog
+   grid (≤ 8 tiles a row), the popular flame on a tile's logo, the touch reveal, the narrow-screen
+   chip scroller. Colours are tokens. */
+
+/* Capped at 8 per row: the max() min-track grows once 8 tiles would each clear 7rem, so auto-fill
+   never places a 9th; below that the 7rem floor reflows down (original .ds-v3 .ds-grid). */
+.ik-dsc-grid {
+  display: grid;
+  gap: .75rem;
+  grid-template-columns: repeat(auto-fill, minmax(max(7rem, (100% - 7 * .75rem) / 8), 1fr));
+}
+.ik-dsc-sentinel { grid-column: 1 / -1; height: 1px; }
+
+/* The flame — an 18px disc on Surface/Card with a 1.5px ring of the same, carrying the flame in
+   red-500 (the kit's --popular-flame). Positioned by DsCatalog.js from the logo's own box. */
+.ik-dsc-flame {
+  position: absolute; z-index: 0;
+  width: 18px; height: 18px; box-sizing: border-box;
+  border-radius: 50%;
+  background: hsl(var(--surface-card));
+  border: 1.5px solid hsl(var(--surface-card));
+  display: flex; align-items: center; justify-content: center;
+  color: hsl(var(--red-500));
+  pointer-events: none;
+}
+
+/* A tile coming back into the catalog after its connection was removed. */
+.ik-dsc-tile.is-entering { animation: ik-dsc-in .35s cubic-bezier(.15, 0, .1, 1) .04s both; }
+@keyframes ik-dsc-in {
+  from { opacity: 0; transform: scale(.9) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Touch has no hover: the first tap reveals the tile's Connect scrim (DsCatalogTile sets
+   .is-active), as the original's dsCardTap does. */
+@media (hover: none) {
+  .ik-dsc-tile.is-active [data-slot="data-source-card"] > span:last-child { opacity: 1; }
+  .ik-dsc-tile.is-active [data-slot="data-source-card"] > span:last-child > * { transform: translateY(0); }
+}
+
+/* ≤ 767px: one line that scrolls sideways; edge fades only while it overflows (data-chip-scroll). */
+.ik-dsc-chips { padding-bottom: 2px; }
+.ik-dsc-chips::-webkit-scrollbar { display: none; }
+@media (max-width: 767px) {
+  .ik-dsc-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; min-width: 0; }
+  .ik-dsc-chips[data-chip-scroll="start"],
+  .ik-dsc-chips[data-chip-scroll="middle"],
+  .ik-dsc-chips[data-chip-scroll="end"] { padding-inline-end: 2.5rem; }
+  .ik-dsc-chips[data-chip-scroll="start"] {
+    -webkit-mask-image: linear-gradient(to right, hsl(var(--ink-primary)) calc(100% - 2.5rem), transparent 100%);
+    mask-image: linear-gradient(to right, hsl(var(--ink-primary)) calc(100% - 2.5rem), transparent 100%);
+  }
+  .ik-dsc-chips[data-chip-scroll="middle"] {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, hsl(var(--ink-primary)) 2rem, hsl(var(--ink-primary)) calc(100% - 2.5rem), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, hsl(var(--ink-primary)) 2rem, hsl(var(--ink-primary)) calc(100% - 2.5rem), transparent 100%);
+  }
+  .ik-dsc-chips[data-chip-scroll="end"] {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, hsl(var(--ink-primary)) 2rem, hsl(var(--ink-primary)) 100%);
+    mask-image: linear-gradient(to right, transparent 0, hsl(var(--ink-primary)) 2rem, hsl(var(--ink-primary)) 100%);
+  }
+}

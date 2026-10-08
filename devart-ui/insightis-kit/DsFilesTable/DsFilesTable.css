@@ -1,0 +1,28 @@
+/* DsFilesTable — the checkbox column shrinks to its control; the previewed row's name takes
+   Text/Highlight (the row fill is the Table's own selected state). Below 768px the list is a card
+   stack (original table.dsf-tbl responsive card form): [☐ while selecting] · info · badge · ⋮. */
+.ik-dsft-cbcol { width: 1px; white-space: nowrap; }
+.ik-dsft-preview .ik-dsft-name,
+.ik-dsft-card.is-preview .ik-dsft-name { color: hsl(var(--ink-highlight)); }
+
+.ik-dsft-cards { display: flex; flex-direction: column; gap: .5rem; }
+.ik-dsft-card {
+  position: relative;
+  display: grid; grid-template-columns: 1fr auto auto; column-gap: .625rem; align-items: center;
+  padding: 1rem 1.125rem;
+  background: hsl(var(--surface-card)); border: 1px solid hsl(var(--stroke-border)); border-radius: .75rem;
+  box-shadow: var(--shadow-rest); cursor: pointer;
+  transition: box-shadow var(--motion-base), border-color var(--motion-base), transform var(--motion-base);
+}
+.ik-dsft-card:hover { box-shadow: var(--shadow-lift-hover); border-color: var(--card-lift-border); transform: translateY(-1px); }
+.ik-dsft-card:active:not(:has(button:active)) { transform: scale(.99); box-shadow: var(--shadow-rest); }
+.ik-dsft-card.is-selected, .ik-dsft-card.is-preview {
+  background: var(--tbl-row-pressed);
+  border-color: color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-25), transparent);
+}
+.ik-dsft-card:has([aria-expanded="true"]) { z-index: 20; transform: none; }
+/* The checkbox column only exists while selecting; a selected card keeps its tick in place. */
+.ik-dsft-cb { display: none; }
+.ik-dsft-cards.is-editing .ik-dsft-card { grid-template-columns: 2rem 1fr auto auto; }
+.ik-dsft-cards.is-editing .ik-dsft-cb { display: inline-flex; align-items: center; }
+.ik-dsft-act { display: inline-flex; }

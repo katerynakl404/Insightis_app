@@ -1,0 +1,19 @@
+/* Insightis custom kit — base layer. Page base + the two glyph helpers from ik-core.js.
+   Token rule (same as everywhere in devart-ui/): colours come from DS tokens only.
+   globals.css stores most colours as bare HSL triplets → read them as hsl(var(--x));
+   a token whose value is already a colour (color-mix …, e.g. --state-hover) → var(--x).  */
+
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
+body {
+  margin: 0;
+  background: hsl(var(--surface-page));
+  color: hsl(var(--ink-body));
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ik-icon { flex: none; display: inline-block; }
+.ik-tip-wrap { display: inline-flex; }
+.ik-logo { flex: none; display: block; color: hsl(var(--logo-ink)); }
+.ik-logo .ik-logo-mark { fill: hsl(var(--logo-mark)); }

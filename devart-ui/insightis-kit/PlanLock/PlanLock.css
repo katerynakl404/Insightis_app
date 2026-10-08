@@ -1,0 +1,5 @@
+/* PlanLock — the two plan markers. Both only stop shrinking inside a flex row; colour comes from
+   the Badge variant (IK.PlanLock) or from the control the glyph sits in (IK.LockGlyph,
+   currentColor — white on a primary button, body ink on a tertiary one). */
+.ik-plan-lock { flex: none; }
+.ik-lock-glyph { flex: none; }

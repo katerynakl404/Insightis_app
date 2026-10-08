@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Email already registered</title>
+<link rel="stylesheet" href="../../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../../insightis-kit/insightis-kit.css">
+<script src="../../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../../insightis-kit/insightis-kit.js"></script>
+<script>InsightisKit.AuthLayout.initTheme();</script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
+  /* the form-level error glyph — lucide circle-alert, verbatim from the original */
+  IK.defineIcons({ 'auth-circle-alert': '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>' });
+  function App() {
+    return h(IK.AuthLayout, { screen: 'register-error.html' },
+      h(IK.AuthCard, { title: 'Create your account' },
+        h(IK.AuthCard.Form, { next: 'check-email.html', submit: 'Continue' },
+          h(D.Alert, {
+            variant: 'error', size: 'md', icon: h(IK.Icon, { name: 'auth-circle-alert' }),
+            title: 'This email is already registered. Sign in instead'
+          }),
+          h(IK.AuthField, { kind: 'email', id: 'reg-email', defaultValue: 'you@example.com' }),
+          h(IK.AuthField, { kind: 'password', id: 'reg-pw', autoComplete: 'new-password', strength: true }),
+          h(IK.AuthTerms)),
+        h(IK.AuthCard.Foot, null, 'Already have an account? ', h(D.LinkButton, { href: 'login.html' }, 'Sign in')),
+        h(IK.AuthCard.Divider),
+        h(IK.AuthCard.Actions, null, h(IK.AuthGoogleButton, { href: '../../approved/chat-landing.html' }))));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

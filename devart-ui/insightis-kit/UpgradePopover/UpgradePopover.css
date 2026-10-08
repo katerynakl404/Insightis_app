@@ -1,0 +1,22 @@
+/* UpgradePopover — the brand skin over DevartUI's PopoverContent.
+   The brand arrives as a wash that FADES into the card by 55%, not as a flat fill (the original's
+   --grad-accent-wash: a flat tint reads as a 2015 "info box"; a card with a light on it does not).
+   Mixed over Surface/Card, never over transparent — the panel floats over arbitrary content.
+   The hairline is the border token with a quarter of Brand/Tertiary in it (--upop-border).
+   Both halves of every mix are tokens; the strength is a --tint-N step (DS rule).
+   Declared once here and read by the UpgradeModal too — one gradient idea, not two.           */
+:root {
+  --ik-upgrade-wash: linear-gradient(180deg,
+    color-mix(in srgb, hsl(var(--brand-tertiary)) var(--tint-10), hsl(var(--surface-card))) 0%,
+    hsl(var(--surface-card)) 55%);
+  --ik-upgrade-border: color-mix(in srgb, hsl(var(--brand-tertiary)) var(--tint-25), hsl(var(--stroke-border)));
+}
+.ik-upop {
+  background: var(--ik-upgrade-wash);
+  border-color: var(--ik-upgrade-border);
+}
+/* The same shell reporting an ALLOWANCE (Files storage) — a fact, not an offer: plain card. */
+.ik-upop.is-plain {
+  background: hsl(var(--surface-card));
+  border-color: hsl(var(--stroke-border));
+}

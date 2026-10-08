@@ -1,0 +1,20 @@
+/* AcctBalance — the two pieces utilities cannot express.
+   Pack tray: 3-up, one column at ≤600px (the original's own breakpoint, not a DS rung).
+   Combined bar (retired V2): one 8px bar, two zones sized by pool (flex-basis is data, inline),
+   a 2px seam between them; each zone a soft "available" track — the pool's hue 18% into
+   Surface/Card2, the original's --balance-*-track recipe — holding a solid "used" fill. */
+.ik-acct-tray { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; border-radius: .75rem; padding: 1rem; }
+.ik-acct-tray.is-empty { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 600px) { .ik-acct-tray { grid-template-columns: minmax(0, 1fr); } }
+
+.ik-acct-combo { display: flex; gap: 2px; height: .5rem; border-radius: 9999px; overflow: hidden; }
+.ik-acct-zone { position: relative; flex-grow: 0; flex-shrink: 0; height: 100%; overflow: hidden; }
+.ik-acct-zone:first-child { border-radius: 9999px 0 0 9999px; }
+.ik-acct-zone:last-child { border-radius: 0 9999px 9999px 0; }
+.ik-acct-zone:only-child { border-radius: 9999px; }
+.ik-acct-zone.is-sub { background: color-mix(in srgb, hsl(var(--brand-tertiary)) 18%, hsl(var(--surface-card2))); }
+.ik-acct-zone.is-pur { background: color-mix(in srgb, hsl(var(--fb-green)) 18%, hsl(var(--surface-card2))); }
+.ik-acct-fill { position: absolute; inset: 0 auto 0 0; height: 100%; border-radius: inherit; }
+.ik-acct-fill.is-sub { background: hsl(var(--brand-tertiary)); }
+.ik-acct-fill.is-pur { background: hsl(var(--fb-green)); }
+.ik-acct-fill.is-red { background: hsl(var(--fb-red-text)); }

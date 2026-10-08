@@ -1,0 +1,14 @@
+/* AcctPlans — what utilities cannot express.
+   Ribbon row: straddles the card's top border, 8px above it, 16px in (.acct-plan-ribbon-row).
+   Solid ribbon: the credit pack's filled "Most popular" (.acct-plan-ribbon base) — Title/12 on a
+   Brand/Primary fill. Featured card: the DS plan-card wash is a gradient token (no utility).
+   Eyebrow: the "CURRENT PLAN" label's .05em caps tracking (DS tracking-caps is .08em). */
+.ik-acct-ribbons { position: absolute; top: -.5rem; left: 1rem; display: flex; align-items: center; gap: .5rem; }
+.ik-acct-ribbon {
+  display: inline-flex; align-items: center; white-space: nowrap;
+  padding: .125rem .5rem; border-radius: .375rem;
+  font-size: .75rem; line-height: 1rem; font-weight: 600;
+  background: hsl(var(--brand-primary)); color: hsl(var(--content-on-solid));
+}
+.ik-acct-plan-featured { background: var(--plan-card-featured-bg); box-shadow: var(--plan-card-featured-shadow); }
+.ik-acct-eyebrow { letter-spacing: .05em; }

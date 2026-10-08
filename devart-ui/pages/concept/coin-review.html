@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Coin — 8 versions review (Style 1 chosen)</title>
+<!-- No ds-bundle/styles.css and no viewport meta, on purpose (README rule 1a): the original
+     (pages/concept/coin-review.html) loads no kit-theme.css and has no viewport meta, so it renders
+     with browser defaults — system-ui at 16px, its own hex colours, every var(--ts-*) / --icon-md
+     undefined (those declarations fall back to inherit / auto), no dark theme, a 980px layout on a
+     phone. This sheet reproduces that rendering; it uses no DevartUI component, only IK.Coin. -->
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<script>
+/* No theme here, as in the original: ik-core has just applied the stored theme to <html> —
+   take it back off (without writing the store). */
+document.documentElement.classList.remove('dark');
+document.documentElement.style.colorScheme = '';
+/* The original's own hex colours — this review sheet sits outside the token set (rule 1a). */
+(function (s) {
+  s.setProperty('--pg-page', '#f4f6f7');    // ik-allow-raw
+  s.setProperty('--pg-card', '#fff');       // ik-allow-raw
+  s.setProperty('--pg-line', '#e2e6e8');    // ik-allow-raw
+  s.setProperty('--pg-chosen', '#0d9488');  // ik-allow-raw
+  s.setProperty('--pg-intro', '#374151');   // ik-allow-raw
+  s.setProperty('--pg-title', '#111827');   // ik-allow-raw
+  s.setProperty('--pg-note', '#6b7280');    // ik-allow-raw
+  s.setProperty('--pg-size', '#9ca3af');    // ik-allow-raw
+})(document.documentElement.style);
+</script>
+<style>
+  /* The original's own sheet, as it computes without kit-theme.css. Its font-size / line-height /
+     font-weight declarations all read undefined --ts-* tokens, i.e. they inherit — written here
+     as `inherit`. The "16px" coin's width / height read the undefined --icon-md, so the SVG
+     draws at its intrinsic 200px (IK.Coin size 200 below). Colours: the original's hex values,
+     set as --pg-* in the script above. */
+  html, html.dark { color-scheme: normal; }
+  body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; background: var(--pg-page); margin: 0; padding: 2rem; -webkit-font-smoothing: auto; }
+  .pg-h1 { font-size: inherit; line-height: inherit; margin: 0 0 1.5rem; }
+  .pg-intro { font-size: .8125rem; color: var(--pg-intro); margin: -1rem 0 1.5rem; }
+  .pg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1200px; }
+  .pg-cell { background: var(--pg-card); border: 1px solid var(--pg-line); border-radius: .75rem; padding: 1.25rem; text-align: center; position: relative; }
+  .pg-cell.is-chosen { border-color: var(--pg-chosen); box-shadow: 0 0 0 1px var(--pg-chosen); }
+  .pg-chosen { position: absolute; top: -.625rem; left: 50%; transform: translateX(-50%); letter-spacing: .02em; text-transform: uppercase; color: var(--pg-card); background: var(--pg-chosen); border-radius: .25rem; padding: .125rem .5rem; }
+  .pg-h2 { font-size: inherit; line-height: inherit; font-weight: inherit; margin: .75rem 0 0; color: var(--pg-title); }
+  .pg-note { font-size: inherit; line-height: inherit; color: var(--pg-note); margin: .125rem 0 0; }
+  .pg-row { display: flex; justify-content: center; gap: 1.5rem; margin-top: .75rem; align-items: center; }
+  .pg-size { font-size: inherit; line-height: inherit; color: var(--pg-size); margin-top: .25rem; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Coin review — the eight coin artworks (4 styles × brand / green) side by side, each at 120px with
+   its 36px (balance icon) and "16px" (smallest popover size) renditions. Style 1 (Flat) is the
+   chosen, shipped coin for both colours; 2–4 stay as parked concepts. Rebuilt from
+   pages/concept/coin-review.html on IK.Coin (the artwork is the same SVG files). */
+(function () {
+  var IK = window.InsightisKit, h = IK.h;
+
+  var STYLES = [
+    { v: 1, name: 'Flat', note: 'Matte disc, no bevel', chosen: true },
+    { v: 2, name: 'Flat', note: 'Modern flat badge' },
+    { v: 3, name: 'Glossy', note: 'Sphere / glass highlight' },
+    { v: 4, name: 'Deep 3D', note: 'Bezel ring + extruded edge' }
+  ];
+  var TONES = [{ tone: 'brand', label: 'Brand' }, { tone: 'green', label: 'Green' }];
+  /* label → drawn size: the "16px" rendition draws at the SVG's intrinsic 200px, as in the original */
+  var SMALL = [{ label: '36px', size: 36 }, { label: '16px', size: 200 }];
+
+  function Cell(p) {
+    var s = p.style, t = p.tone;
+    return h('div', { className: IK.cx('pg-cell', s.chosen && 'is-chosen') },
+      s.chosen ? h('span', { className: 'pg-chosen' }, 'Chosen') : null,
+      h(IK.Coin, { tone: t.tone, variant: s.v, size: 120 }),
+      h('h2', { className: 'pg-h2' }, 'Style ' + s.v + ' — ' + s.name + ' · ' + t.label),
+      h('p', { className: 'pg-note' }, s.note),
+      h('div', { className: 'pg-row' },
+        SMALL.map(function (x) {
+          return h('div', { key: x.label },
+            h(IK.Coin, { tone: t.tone, variant: s.v, size: x.size }),
+            h('div', { className: 'pg-size' }, x.label));
+        })));
+  }
+
+  function App() {
+    return h(IK.Fragment, null,
+      h('h1', { className: 'pg-h1' },
+        'Insightis coin — 4 styles × 2 colours (brand / green) — 120px large, 36px (balance icon), 16px (smallest popover size, .coin.sm)'),
+      h('p', { className: 'pg-intro' },
+        'Style 1 (Flat) chosen for both colours — now live in ', h('code', null, 'pages/kit-theme.css'),
+        ' (.sbx-pop-tok-meter .coin / .coin.sm) and the per-pool rows in ', h('code', null, 'pages/approved/user_profile-modal.html'),
+        ' (.acct-balb-coin). The balance hero total no longer shows a coin (removed 2026-07-22). Styles 2–4 kept here as parked concepts.'),
+      h('div', { className: 'pg-grid' },
+        TONES.map(function (t) {
+          return STYLES.map(function (s) { return h(Cell, { key: t.tone + s.v, tone: t, style: s }); });
+        })));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

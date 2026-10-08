@@ -1,0 +1,5 @@
+[
+ { "name": "Resend countdown done", "viewport": "desktop", "steps": [ { "do": "wait", "ms": 46500 } ] },
+ { "name": "Resend clicked (countdown restarts)", "viewport": "desktop", "steps": [ { "do": "wait", "ms": 46500 }, { "do": "click", "target": { "text": "Resend email", "tag": "button" } } ] },
+ { "name": "Resend hover when available", "viewport": "desktop", "steps": [ { "do": "wait", "ms": 46500 }, { "do": "hover", "target": { "text": "Resend email", "tag": "button" } } ] }
+]

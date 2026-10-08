@@ -1,0 +1,13 @@
+/* DsStorageMark — a 20px glyph button with no box, sitting WITH the title (8px from it: the head's
+   12px gap less 4). Icon pair at rest / hover; over the limit the feedback pair — the hover step is
+   the original --fb-attention-hover (orange-600), which the DS does not carry, so it is drawn as
+   Feedback/Attention deepened 12% toward slate-900. */
+.ik-dssm {
+  flex: none; align-self: center; margin-left: -.25rem;
+  width: 1.25rem; height: 1.25rem; padding: 0; border: none; background: none; border-radius: .25rem;
+  display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+  color: hsl(var(--ink-icon));
+}
+.ik-dssm:hover { color: hsl(var(--ink-icon-hover)); }
+.ik-dssm.is-over { color: hsl(var(--fb-attention)); }
+.ik-dssm.is-over:hover { color: color-mix(in srgb, hsl(var(--fb-attention)) 88%, hsl(var(--slate-900))); }

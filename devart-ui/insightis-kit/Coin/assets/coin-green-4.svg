@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Style 4 — Modern deep 3D coin, Green -->
+  <defs>
+    <radialGradient id="s4g-face" cx="0.4" cy="0.3" r="0.95">
+      <stop offset="0"    stop-color="#7CE8C0"/>
+      <stop offset="0.45" stop-color="#009966"/>
+      <stop offset="0.85" stop-color="#065F46"/>
+      <stop offset="1"    stop-color="#02231C"/>
+    </radialGradient>
+    <linearGradient id="s4g-side" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0"   stop-color="#22B584"/>
+      <stop offset="1"   stop-color="#02231C"/>
+    </linearGradient>
+    <radialGradient id="s4g-rim" cx="0.5" cy="0" r="0.5">
+      <stop offset="0" stop-color="#6EE7B7" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#6EE7B7" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="s4g-bezel" x1="0.15" y1="0.1" x2="0.85" y2="0.9">
+      <stop offset="0"   stop-color="#E8FBF1"/>
+      <stop offset="0.5" stop-color="#22B584"/>
+      <stop offset="1"   stop-color="#02231C"/>
+    </linearGradient>
+    <radialGradient id="s4g-gloss" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="s4g-drop" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3.5"/>
+      <feOffset dy="5"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.5"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="s4g-mark-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="0.9" result="b"/>
+      <feOffset in="b" dx="0" dy="1.4"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#s4g-drop)">
+    <!-- Slim soft rim — smooth light/dark diagonal, no hard metal band -->
+    <ellipse cx="100" cy="96" rx="90" ry="86" fill="none" stroke="#02231C" stroke-opacity="0.3" stroke-width="1"/>
+    <ellipse cx="100" cy="96" rx="86" ry="82" fill="none" stroke="url(#s4g-bezel)" stroke-width="5"/>
+
+    <g>
+      <!-- Smooth extruded edge (13px) — clean gradient, no reeding, for a modern thick-badge feel -->
+      <path d="M 18 96 A 82 78 0 0 0 182 96 L 182 109 A 82 78 0 0 1 18 109 Z" fill="url(#s4g-side)"/>
+      <ellipse cx="100" cy="96" rx="82" ry="78" fill="url(#s4g-face)"/>
+      <ellipse cx="100" cy="96" rx="82" ry="78" fill="url(#s4g-rim)" transform="rotate(180 100 96)"/>
+      <!-- Soft seam between rim and face — gentle, not a hard groove -->
+      <ellipse cx="100" cy="96" rx="82" ry="78" fill="none" stroke="#02231C" stroke-opacity="0.22" stroke-width="1"/>
+      <!-- Soft gloss — subtle modern sheen, smaller/quieter than Style 3's glass highlight -->
+      <ellipse cx="76" cy="50" rx="30" ry="18" fill="url(#s4g-gloss)"/>
+    </g>
+  </g>
+
+  <!-- Insightis mark — solid white, single crisp shadow for depth -->
+  <g transform="translate(33 30) scale(5.25 5.05)">
+    <path fill="#000000" fill-opacity="0.35" filter="url(#s4g-mark-shadow)" d="M25.4928 10.4153L21.6736 12.7515L25.4928 15.077L12.7464 22.8373L0 15.077L3.81921 12.7515L0 10.4153L5.73562 6.92364L7.64785 8.08772L3.82392 10.4153L12.7464 15.8475L21.6689 10.4153L17.845 8.08772L19.7572 6.92364L25.4928 10.4153ZM12.7464 18.1757L5.72881 13.9033L3.8234 15.077L12.7464 20.5097L21.6694 15.077L19.7635 13.9033L12.7464 18.1757ZM17.845 10.4212L12.7464 13.5252L7.64785 10.4212L9.56426 9.25445L12.7464 11.1918L15.9286 9.25445L17.845 10.4212ZM17.845 5.75956L12.7464 8.86359L7.64785 5.75956L12.7464 2.65552L17.845 5.75956ZM11.4718 5.75903L12.7464 6.53543L14.0211 5.75903L12.7464 4.98315L11.4718 5.75903Z"/>
+    <path fill="#FFFFFF" stroke="#000000" stroke-opacity="0.3" stroke-width="0.4" stroke-linejoin="round" d="M25.4928 10.4153L21.6736 12.7515L25.4928 15.077L12.7464 22.8373L0 15.077L3.81921 12.7515L0 10.4153L5.73562 6.92364L7.64785 8.08772L3.82392 10.4153L12.7464 15.8475L21.6689 10.4153L17.845 8.08772L19.7572 6.92364L25.4928 10.4153ZM12.7464 18.1757L5.72881 13.9033L3.8234 15.077L12.7464 20.5097L21.6694 15.077L19.7635 13.9033L12.7464 18.1757ZM17.845 10.4212L12.7464 13.5252L7.64785 10.4212L9.56426 9.25445L12.7464 11.1918L15.9286 9.25445L17.845 10.4212ZM17.845 5.75956L12.7464 8.86359L7.64785 5.75956L12.7464 2.65552L17.845 5.75956ZM11.4718 5.75903L12.7464 6.53543L14.0211 5.75903L12.7464 4.98315L11.4718 5.75903Z"/>
+  </g>
+</svg>

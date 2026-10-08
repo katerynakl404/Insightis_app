@@ -1,0 +1,43 @@
+/* AcctModal — the account settings window. Size and the phone layout only; everything else is
+   utilities on DevartUI parts. Values are the original's (.acct-modal: 960px, 90dvh capped at
+   40rem; ≤767px a full-height page under a hairline). */
+.ik-acct-modal { max-width: 60rem; height: 90dvh; max-height: 40rem; }
+
+/* Trailing glyphs ride in a span so SidebarMenuButton's [&>svg]:size-4 leaves them at 14px. */
+.ik-acct-trail { display: inline-flex; flex: none; margin-left: auto; }
+.ik-acct-chev { display: none; }
+
+/* .acct-section */
+.ik-acct-section { display: flex; flex-direction: column; gap: .75rem; padding-top: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid hsl(var(--stroke-border)); }
+.ik-acct-section:first-child { padding-top: 0; }
+.ik-acct-section:last-child { border-bottom: 0; padding-bottom: 0; }
+.ik-acct-section.is-gap-4 { gap: 1rem; }
+.ik-acct-section.no-divider { border-bottom: 0; }
+.ik-acct-section.is-pb-0, .ik-acct-section.is-pb-0:last-child { padding-bottom: 0; }
+.ik-acct-section.is-pb-3, .ik-acct-section.is-pb-3:last-child { padding-bottom: .75rem; }
+.ik-acct-section.is-pt-5, .ik-acct-section.is-pt-5:first-child { padding-top: 1.25rem; }
+.ik-acct-section.is-row { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+
+@media (max-width: 767px) {
+  .ik-acct-overlay { background: transparent; }
+  .ik-acct-modal { max-width: none; height: 100%; max-height: none; border-radius: 0; box-shadow: none; border-width: 1px 0 0; flex-direction: column; }
+
+  /* menu state — the nav becomes the page: a settings list, 44px rows in a bordered shell */
+  .ik-acct-modal[data-mobile-state="menu"] .ik-acct-nav { width: 100%; border-right: 0; flex: 1 1 0%; gap: 1rem; padding: 1rem 1rem 1.5rem; }
+  .ik-acct-modal[data-mobile-state="menu"] .ik-acct-body { display: none; }
+  .ik-acct-modal[data-mobile-state="menu"] .ik-acct-chev { display: inline-flex; }
+  .ik-acct-modal[data-mobile-state="menu"] .ik-acct-foot { margin-top: 0; padding-top: 0; border-top: 0; }
+  .ik-acct-modal[data-mobile-state="menu"] .ik-acct-label { padding: 0 .25rem; margin-bottom: .25rem; }
+  .ik-acct-list { gap: 0; border: 1px solid hsl(var(--stroke-border)); border-radius: .5rem; overflow: hidden; }
+  .ik-acct-list [data-sidebar="menu-button"] { height: 2.75rem; padding: .5rem .875rem; border-radius: 0; border-bottom: 1px solid hsl(var(--stroke-border)); }
+  .ik-acct-list > li:last-child [data-sidebar="menu-button"] { border-bottom: 0; }
+  /* The rows are a card-surface list: no hover / press wash (the original's rows variation paints
+     Surface/Card over them); the open row reads State/Pressed + Brand/Primary. Log out keeps its
+     red wash, as in the original. */
+  .ik-acct-list [data-sidebar="menu-button"]:not(.ik-acct-danger) { background: hsl(var(--surface-card)); }
+  .ik-acct-modal.is-legacy .ik-acct-list .ik-acct-danger { background: hsl(var(--surface-card)); }
+  .ik-acct-list [data-sidebar="menu-button"][data-active="true"] { background: var(--state-pressed); color: hsl(var(--brand-primary)); }
+
+  /* section state — the section alone */
+  .ik-acct-modal[data-mobile-state="section"] .ik-acct-nav { display: none; }
+}

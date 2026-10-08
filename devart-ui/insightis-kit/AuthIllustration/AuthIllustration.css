@@ -1,0 +1,14 @@
+/* AuthIllustration — the Halo status artwork. Mirrors .au-illu2 in pages/concept/auth/auth-concept.css:
+   the accent flows through --ik-acc per tone; the two discs are tint-scale washes of it. */
+.ik-auth-illu { display: block; flex: none; }
+.ik-auth-illu.is-error   { --ik-acc: hsl(var(--fb-red)); }
+.ik-auth-illu.is-info    { --ik-acc: hsl(var(--brand-primary)); }
+.ik-auth-illu.is-success { --ik-acc: hsl(var(--fb-green)); }
+.ik-auth-illu-h1 { fill: color-mix(in srgb, var(--ik-acc) var(--tint-6), transparent); }
+.ik-auth-illu-h2 { fill: color-mix(in srgb, var(--ik-acc) var(--tint-12), transparent); }
+.ik-auth-illu-glyph {
+  fill: none; stroke: var(--ik-acc); stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+/* The glyph is scaled ×2 — keep its stroke at 2 screen px, as the original does. */
+.ik-auth-illu-glyph * { vector-effect: non-scaling-stroke; }

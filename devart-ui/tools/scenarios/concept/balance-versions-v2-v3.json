@@ -1,0 +1,20 @@
+[
+ {"name":"Version 2 — Pro (trial)","viewport":"desktop","steps":[{"do":"click","target":{"orig":{"sel":"[data-plan-btn=pro]"},"new":{"sel":"[data-ik-review] [aria-label=\"Plan state\"] [role=tab]","nth":1}}}]},
+ {"name":"Version 2 — Limit reached","viewport":"desktop","steps":[{"do":"click","target":{"orig":{"sel":"[data-plan-btn=exhausted]"},"new":{"sel":"[data-ik-review] [aria-label=\"Plan state\"] [role=tab]","nth":2}}}]},
+ {"name":"Version 3 — Pro (trial)","viewport":"desktop","steps":[{"do":"click","target":{"orig":{"sel":"[data-ver-btn=v3]"},"new":{"sel":"[data-ik-review] [aria-label=\"Concept version\"] [role=tab]","nth":1}}},{"do":"click","target":{"orig":{"sel":"[data-plan-btn=pro]"},"new":{"sel":"[data-ik-review] [aria-label=\"Plan state\"] [role=tab]","nth":1}}}]},
+ {"name":"Version 3 — Limit reached","viewport":"desktop","steps":[{"do":"click","target":{"orig":{"sel":"[data-ver-btn=v3]"},"new":{"sel":"[data-ik-review] [aria-label=\"Concept version\"] [role=tab]","nth":1}}},{"do":"click","target":{"orig":{"sel":"[data-plan-btn=exhausted]"},"new":{"sel":"[data-ik-review] [aria-label=\"Plan state\"] [role=tab]","nth":2}}}]},
+ {"name":"Version B — Pro (trial)","viewport":"desktop","steps":[{"do":"click","target":{"orig":{"sel":"[data-ver-btn=vb]"},"new":{"sel":"[data-ik-review] [aria-label=\"Concept version\"] [role=tab]","nth":2}}},{"do":"click","target":{"orig":{"sel":"[data-plan-btn=pro]"},"new":{"sel":"[data-ik-review] [aria-label=\"Plan state\"] [role=tab]","nth":1}}}]},
+ {"name":"Version B — Limit reached","viewport":"desktop","steps":[{"do":"click","target":{"orig":{"sel":"[data-ver-btn=vb]"},"new":{"sel":"[data-ik-review] [aria-label=\"Concept version\"] [role=tab]","nth":2}}},{"do":"click","target":{"orig":{"sel":"[data-plan-btn=exhausted]"},"new":{"sel":"[data-ik-review] [aria-label=\"Plan state\"] [role=tab]","nth":2}}}]},
+ {"name":"Balance — Upgrade Plan opens Manage plan","viewport":"desktop","steps":[{"do":"click","target":{"text":"Upgrade Plan","tag":"button"}}]},
+ {"name":"Section — Manage plan","viewport":"desktop","steps":[{"do":"click","target":{"text":"Manage plan","tag":"button"}}]},
+ {"name":"Manage plan — Yearly","viewport":"desktop","steps":[{"do":"click","target":{"text":"Manage plan","tag":"button"}},{"do":"click","target":{"text":"Yearly"}}]},
+ {"name":"Section — My account","viewport":"desktop","steps":[{"do":"click","target":{"text":"My account","tag":"button"}}]},
+ {"name":"Section — Change password, shown","viewport":"desktop","steps":[{"do":"click","target":{"text":"My account","tag":"button"}},{"do":"click","target":{"text":"Change Password","tag":"button"}},{"do":"fill","target":{"sel":"#chpw-new"},"text":"hunter22"},{"do":"click","target":{"sel":"button[aria-label=\"Show new password\"]"}}]},
+ {"name":"Section — Billing","viewport":"desktop","steps":[{"do":"click","target":{"text":"Billing","tag":"button"}}]},
+ {"name":"Section — Leave feedback","viewport":"desktop","steps":[{"do":"click","target":{"text":"Leave feedback","tag":"button"}}]},
+ {"name":"Light / Dark button","viewport":"desktop","steps":[{"do":"click","target":{"text":"Light / Dark","tag":"button"},"ms":500}]},
+ {"name":"Phone — menu","viewport":"phone","steps":[]},
+ {"name":"Phone — Balance V2 (CTA row under the bar)","viewport":"phone","steps":[{"do":"click","target":{"text":"Balance","tag":"button"}}]},
+ {"name":"Phone — Balance Version B","viewport":"phone","steps":[{"do":"click","target":{"text":"Balance","tag":"button"}},{"do":"click","target":{"orig":{"sel":"[data-ver-btn=vb]"},"new":{"sel":"[data-ik-review] [aria-label=\"Concept version\"] [role=tab]","nth":2}}}]},
+ {"name":"Phone — Manage plan","viewport":"phone","steps":[{"do":"click","target":{"text":"Manage plan","tag":"button"}}]}
+]

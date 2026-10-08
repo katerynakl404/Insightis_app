@@ -1,0 +1,8 @@
+/* ChatHeader — 48px row, 24px side padding; below 1024px the drawer trigger leads it at 12px. */
+.ik-chat-head { flex: none; display: flex; align-items: center; gap: .5rem; height: 3rem; padding: 0 1.5rem; box-sizing: border-box; }
+.ik-chat-title-wrap { position: relative; flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: .25rem; }
+.ik-chat-title {
+  margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: var(--font-size-sm); line-height: var(--line-height-sm); font-weight: 600; color: hsl(var(--ink-primary));
+}
+@media (max-width: 1023px) { .ik-chat-head { padding-left: .75rem; } }

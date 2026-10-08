@@ -1,0 +1,32 @@
+/* MxProviderCard — what DevartUI utilities cannot say. DS tokens only. */
+
+/* The metric chip (".chip-meta"): 2px/8px, 6px radius, Label/12. */
+.ik-mx-chip {
+  display: inline-flex; align-items: center; gap: .25rem;
+  padding: .125rem .5rem; border-radius: var(--radius-md);
+  font: inherit; font-size: .75rem; line-height: 1rem; font-weight: 500;
+  white-space: nowrap; cursor: pointer;
+  color: hsl(var(--ink-secondary));
+  background: hsl(var(--surface-page));
+  border: 1px solid hsl(var(--stroke-border));
+  transition: color 120ms, background-color 120ms, border-color 120ms, box-shadow 120ms;
+}
+.dark .ik-mx-chip { background: hsl(var(--surface-card2)); }
+.ik-mx-chip:hover {
+  color: hsl(var(--ink-primary));
+  background: var(--state-hover);
+  /* 35% brand — the kit's chip-meta hover border, composed from the tint scale */
+  border-color: color-mix(in srgb, hsl(var(--brand-primary)) calc(var(--tint-25) + var(--tint-10)), transparent);
+}
+.dark .ik-mx-chip:hover { background: hsl(var(--surface-chips)); }
+.ik-mx-chip-arrow { color: hsl(var(--brand-primary)); }
+
+/* "Explore more" tile: its glyph well — a 40px dashed circle, 12px above the copy. The compass
+   fills the well (the original sets no glyph size, so the svg takes the whole box). */
+.ik-mx-browse-ic {
+  width: 2.5rem; height: 2.5rem; margin: 0 auto .75rem; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 9999px; color: hsl(var(--ink-secondary));
+  border: 1.5px dashed color-mix(in srgb, hsl(var(--ink-secondary)) calc(var(--tint-40) + var(--tint-5)), transparent);
+}
+.ik-mx-browse-ic > svg { width: 100%; height: 100%; }

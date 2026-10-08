@@ -1,0 +1,17 @@
+/* ReviewBar — prototype chrome. Mirrors .topbar in pages/kit-theme.css. */
+.ik-rb {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  padding: .75rem 1.25rem;
+  background: hsl(var(--surface-card));
+  border-bottom: 1px solid hsl(var(--stroke-border));
+  overflow-x: auto; scrollbar-width: thin;
+}
+.ik-rb > * { flex: none; }
+.ik-rb-title { display: flex; align-items: center; gap: .5rem; }
+.ik-rb-controls { display: flex; align-items: center; gap: .625rem; }
+.ik-rb-seg { width: auto; }
+/* size="sm" — the chat pages slim their .topbar to a 40px strip (6px 16px), is-sm switches. */
+.ik-rb.is-sm { padding: .375rem 1rem; height: 2.5rem; box-sizing: border-box; }
+/* showLabel — "Plan [Paid|Free]": the original .tb-concept, label 6px before its switch. */
+.ik-rb-group { display: flex; align-items: center; gap: .375rem; }

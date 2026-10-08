@@ -1,0 +1,7 @@
+/* UpgradeModal — the same brand wash and tinted hairline as the UpgradePopover
+   (--ik-upgrade-wash / --ik-upgrade-border, declared in UpgradePopover.css), over DevartUI's
+   ModalContent. Nothing else is restyled: header, title, footer and close are the Modal's own. */
+.ik-upmodal {
+  background: var(--ik-upgrade-wash);
+  border-color: var(--ik-upgrade-border);
+}

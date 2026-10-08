@@ -1177,7 +1177,8 @@
          sends what cannot send itself: ticked boxes and a typed "Other". It also re-sends a step
          you came back to. Between steps it reads Next, on the last open question Submit.
        · Several questions (.cfc-panel steps): the stepper (a bar per question, data-cfc-goto, and "Question N of M"
-         beside them) moves between questions freely. An answer or Next settles the question on screen and jumps to the
+         beside them) moves between questions freely; a bar's data-tip — the question's short title —
+         shows on hover through the tooltip engine above and names the button. An answer or Next settles the question on screen and jumps to the
          next one still open; when none is left, the card is answered. A step's bar fills once
          answered (.is-done) or while on screen (.is-current).
        · Answered = the card fires `cfc:answer` (bubbles), detail.answers = [{question, answer}];
@@ -1222,7 +1223,7 @@
       s.classList.toggle('is-done', done);
       s.classList.toggle('is-current', j === i);
       if (j === i) s.setAttribute('aria-current', 'step'); else s.removeAttribute('aria-current');
-      var name = s.getAttribute('data-name');
+      var name = s.getAttribute('data-tip');
       s.setAttribute('aria-label', (name ? name + ', ' : '') + 'question ' + (j + 1) + ' of ' + p.length + (done ? ', answered' : ''));
     });
     var label = card.querySelector('.cfc-step-label');

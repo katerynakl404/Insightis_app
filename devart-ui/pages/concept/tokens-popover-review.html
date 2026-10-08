@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Tokens popover — variation review</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<script>
+/* Like the original (html class="", no theme harness), this review sheet always OPENS light,
+   whatever theme was picked elsewhere; ik-core has just applied the stored one — undo it here,
+   without writing the store. */
+document.documentElement.classList.remove('dark');
+document.documentElement.style.colorScheme = 'light';
+</script>
+<style>
+  /* layout only: the original's fixed 250px columns (.rev-col) */
+  .pg-col { width: 15.625rem; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Review-only page — not a product screen. Every Subscription-credits popover iteration lined up
+   next to its real trigger (the sidebar Balance row), pinned open, so they compare side by side.
+   Rebuilt from pages/concept/tokens-popover-review.html on IK.BalancePanel / IK.BalanceRow — the
+   same components the live sidebar uses (IK.BalancePopover). Iteration 3 is what ships.
+   Frozen comparison record: the 2026-09-09 daily-limit meter was deliberately NOT retrofitted here
+   (page-changes/user_profile-modal.md). */
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
+
+  var FREE = { planName: 'Free', pool: { used: 213, cap: 500 }, purchased: 540 };
+  var PRO = { planName: 'Pro', trialDays: 14, pool: { used: 3200, cap: 10000 }, purchased: 0 };
+
+  var ITERATIONS = [
+    { n: 1, tag: 'Current', shipped: true,
+      text: "Current live popover — mirrors what's shipped on all pages + the kit. Subscription: coin meter + progress bar. Purchased: remaining-only row (\"N left\"), no bar — the bought total is unknown, so a usage % can't be computed. Keep this block in sync with the live popover; the iterations below are explored alternatives.",
+      cols: [
+        { label: 'Iteration 1 · Free', note: 'All pages + kit', panel: FREE, left: 287 },
+        { label: 'Iteration 1 · Pro — in trial', note: 'Trial badge: Pro only', panel: PRO, left: '6,800' }
+      ] },
+    { n: 2, tag: 'Parked',
+      text: 'Combined bar. Single bar; legend breaks down by pool. Hero number = credits left, matching Balance; bottom-right = total credits (not "N left").',
+      cols: [
+        { label: 'Iteration 2 · Free', panel: { variant: 'combined', planName: 'Free', left: 827, pool: { used: 213, cap: 500 }, purchasedTotal: 540, purchasedUsed: 0 }, left: 827 },
+        { label: 'Iteration 2 · Pro — in trial', panel: { variant: 'combined', planName: 'Pro', trialDays: 14, left: 6800, pool: { used: 3200, cap: 10000 }, purchasedTotal: 0, purchasedUsed: 0 }, left: '6,800' }
+      ] },
+    { n: 3, tag: 'Shipped', shipped: true,
+      text: "Purchased usage isn't trackable (the bought total is unknown) — Purchased is a remaining-only row (\"N left\"), no bar. Subscription keeps the coin meter. Trigger bar reads the subscription pool only (213 / 500).",
+      cols: [
+        { label: 'Iteration 3 · Free', note: 'All pages + kit', panel: FREE, left: 287 },
+        { label: 'Iteration 3 · Pro — in trial', note: 'Trial badge: Pro only', panel: PRO, left: '6,800' }
+      ] },
+    { n: 4, tag: 'Concept',
+      text: 'Bar removed. The popover leads with the total remaining balance (Subscription left + Purchased left, summed) — same figure and framing as the account Balance hero. The two pools sit beneath as a plain remaining-count breakdown, no progress bar.',
+      cols: [
+        { label: 'Iteration 4 · Free', note: 'Mirrors the Balance hero', panel: { variant: 'summed', planName: 'Free', left: 827, pool: { used: 213, cap: 500 }, purchased: 540 }, left: 287 },
+        { label: 'Iteration 4 · Pro — in trial', note: 'Trial badge: Pro only', panel: { variant: 'summed', planName: 'Pro', trialDays: 14, left: 6800, pool: { used: 3200, cap: 10000 }, purchased: 0 }, left: '6,800' }
+      ] }
+  ];
+
+  /* Trigger + panel stacked in real context, the panel pinned open (in flow, not floating) — the
+     panel shell is the PopoverContent's own (card, hairline, radius, padding, overlay shadow);
+     the trigger is an inert IK.BalanceRow (a <div> in the original, not a focus stop). */
+  function Column(c) {
+    return h('div', { className: 'pg-col flex flex-none flex-col gap-3' },
+      h('div', { className: 'flex flex-col gap-1' },
+        h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary' }, c.label),
+        c.note ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, c.note) : null),
+      h('div', { className: 'mt-auto flex flex-col gap-2 rounded-lg border border-stroke bg-surface-page p-3' },
+        h('div', { className: 'rounded-md border border-stroke bg-surface-card p-4 text-ink-primary shadow-overlay-soft', role: 'dialog', 'aria-label': 'Subscription credits' },
+          h(IK.BalancePanel, Object.assign({ links: false }, c.panel))),
+        h(IK.BalanceRow, { as: 'div', left: c.left })));
+  }
+
+  /* The original's own small Light / Dark switch, top right of the heading row: it flips the
+     dark class on <html> for this visit only — the page always opens light and the choice is
+     not stored (the original loads no theme harness). */
+  function toggleTheme() {
+    var on = document.documentElement.classList.toggle('dark');
+    document.documentElement.style.colorScheme = on ? 'dark' : 'light';
+  }
+
+  function App() {
+    return h('main', { className: 'p-8' },
+      h('div', { className: 'mb-6 flex items-center justify-between gap-4' },
+        h(D.Typography, { element: 'h1', textStyle: 'title20', textColor: 'primary' }, 'Subscription credits popover — variations'),
+        h(D.Button, { variant: 'outline', size: 'xs', onClick: toggleTheme }, 'Light / Dark')),
+      ITERATIONS.map(function (it, i) {
+        return h('section', { key: it.n },
+          h('div', { className: IK.cx('mb-2 flex items-center gap-2.5', i && 'mt-10') },
+            h(D.Typography, { element: 'h2', textStyle: 'title24', textColor: 'primary' }, 'Iteration ' + it.n),
+            h(D.Badge, { variant: it.shipped ? 'success' : 'secondary', size: 'sm', className: 'uppercase tracking-caps' }, it.tag)),
+          h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'mb-3' }, it.text),
+          h('div', { className: 'flex flex-wrap items-stretch gap-6' },
+            it.cols.map(function (c, k) { return h(Column, Object.assign({ key: k }, c)); })));
+      }));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

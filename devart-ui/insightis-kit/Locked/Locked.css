@@ -1,0 +1,31 @@
+/* Locked — the "locked" state DevartUI does not have yet (reports/2026-10-02-devart-ui-plan-gating.md
+   §2 asks the library for a `locked` prop). Locked is NOT disabled: the control keeps its own
+   colours, its hover and press, and a pointer cursor. Only three things change, by shape:          */
+
+.ik-locked { cursor: pointer; }
+
+/* 1. A ROW in a menu or list dims its label one rung (Text/Secondary) and KEEPS its hover — the
+      pointer reaches the explanation by running down the list the way it always does. */
+.ik-locked[role="menuitem"],
+.ik-locked[role="menuitemradio"],
+.ik-locked[role="menuitemcheckbox"],
+.ik-locked[role="option"] { color: hsl(var(--ink-secondary)); }
+
+/* 2. The control INSIDE a locked row — the switch, checkbox, radio or slider the row exists to
+      operate — is inert at disabled opacity. Lock the WRAP, never the switch itself. */
+.ik-locked [role="switch"],
+.ik-locked [role="checkbox"],
+.ik-locked [role="radio"],
+.ik-locked [role="slider"] {
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
+}
+
+/* 3. look="disabled" — the composer's Connections control only: its menu leads nowhere on Free, so
+      it reads disabled (Text/Inactive, not-allowed) and takes NO surface on hover, on press, or
+      while its own popover is open. The one thing it still does is explain itself. */
+.ik-locked.ik-locked-disabled { color: hsl(var(--ink-inactive)); cursor: not-allowed; }
+.ik-locked.ik-locked-disabled:hover,
+.ik-locked.ik-locked-disabled:active,
+.ik-locked.ik-locked-disabled[aria-expanded="true"],
+.ik-locked.ik-locked-disabled[data-upgrade-open] { background: transparent; }

@@ -1,0 +1,4 @@
+[
+ { "name": "Light / Dark toggled", "steps": [ { "do": "click", "target": { "text": "Light / Dark", "tag": "button" } } ] },
+ { "name": "Balance row hover", "steps": [ { "do": "hover", "target": { "text": "Balance", "closest": ".sbx-tok, .cursor-pointer" } } ] }
+]

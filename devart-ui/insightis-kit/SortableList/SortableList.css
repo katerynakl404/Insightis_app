@@ -1,0 +1,14 @@
+/* SortableList — the grab cursor, the lifted row's own surface (it leaves the flow, so it needs one:
+   the card family's hover-lift elevation), and the gap it will land in — dashed and brand-tinted so
+   it reads as "this is where it lands", not as a broken empty row. 45% has no --tint step. */
+.ik-sort-list { list-style: none; margin: 0; padding: 0; }
+.ik-sort-item:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--focus-ring-brand)); border-radius: var(--radius-md); }
+[data-sort-handle] { cursor: grab; touch-action: none; }
+[data-sort-handle]:active { cursor: grabbing; }
+.ik-sort-item.is-dragging { background: hsl(var(--surface-card)); box-shadow: var(--shadow-lift-hover); cursor: grabbing; border-radius: var(--radius-md); }
+.ik-sort-ph {
+  list-style: none; box-sizing: border-box;
+  border-radius: var(--radius-md);
+  border: 1px dashed color-mix(in srgb, hsl(var(--brand-primary)) 45%, transparent);
+  background: color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-5), transparent);
+}

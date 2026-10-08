@@ -1,0 +1,14 @@
+/* MxMetricSheet — the original panel's geometry over DevartUI's SheetContent: 420px (max 90vw),
+   and three bands with their own insets and hairlines. DS tokens only. */
+.ik-mx-sheet.ik-mx-sheet { width: 26.25rem; max-width: 90vw; }
+.ik-mx-sheet-head { padding: 1.25rem 1.5rem; border-bottom: 1px solid hsl(var(--stroke-border)); }
+.ik-mx-sheet-body { padding: 1.25rem 1.5rem; }
+.ik-mx-sheet-foot { padding: 1.5rem; border-top: 1px solid hsl(var(--stroke-border)); }
+
+/* "This metric is designed for …" — the info wash the original builds from the toast tokens. */
+.ik-mx-connect {
+  padding: 1rem 1.125rem; border-radius: var(--radius-lg);
+  background: var(--toast-bg-info); border: 1px solid var(--toast-border-info);
+}
+.ik-mx-connect-ic { margin-top: .125rem; color: hsl(var(--brand-primary)); }
+.ik-mx-connect-copy { line-height: 1.5; }

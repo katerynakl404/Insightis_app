@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Password updated</title>
+<link rel="stylesheet" href="../../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../../insightis-kit/insightis-kit.css">
+<script src="../../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../../insightis-kit/insightis-kit.js"></script>
+<script>InsightisKit.AuthLayout.initTheme();</script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  var IK = window.InsightisKit, h = IK.h;
+  function App() {
+    return h(IK.AuthLayout, { screen: 'reset-done.html' },
+      h(IK.AuthCard, null,
+        h(IK.AuthStatus, { glyph: 'shield-check', tone: 'success', title: 'Password updated' },
+          'You\'re all set — sign in to continue.'),
+        h(IK.AuthCard.Actions, null, h(IK.AuthCard.Cta, { href: 'login.html' }, 'Sign in'))));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

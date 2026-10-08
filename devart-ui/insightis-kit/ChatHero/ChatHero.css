@@ -1,0 +1,24 @@
+/* ChatHero — the landing column, the hero stack, the greeting and the pill row. */
+.ik-hero-col {
+  position: relative; flex: 1 1 auto; min-height: 0; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 1.25rem 1.5rem; overflow: hidden;
+}
+.ik-hero { display: flex; flex-direction: column; align-items: center; gap: 1.75rem; width: 100%; max-width: 680px; margin: 0 auto; }
+.ik-hero-title {
+  margin: 0; max-width: 20.75rem; text-align: center;
+  font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); font-weight: 500;
+  letter-spacing: var(--tracking-tight); color: hsl(var(--ink-primary));
+}
+.ik-hero-kw { color: hsl(var(--ink-highlight)); font-weight: 600; }
+.ik-suggest { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-top: -.25rem; }
+
+@media (min-width: 768px) {
+  .ik-hero-title { font-size: var(--font-size-4xl); line-height: var(--line-height-4xl); }
+}
+@media (max-width: 639px) {
+  .ik-hero-col { padding: .75rem 1rem 3rem; }
+  .ik-hero { gap: 1.25rem; }
+  .ik-hero-title { font-size: var(--font-size-2xl); line-height: var(--line-height-2xl); }
+  .ik-suggest { margin-top: 0; gap: .375rem; }
+}

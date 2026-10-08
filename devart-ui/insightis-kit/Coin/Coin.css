@@ -1,0 +1,12 @@
+/* Coin — the artwork is the original coin SVGs, copied verbatim into ./assets (illustrations with
+   their own baked gradients, the same files pages/kit-theme.css paints .coin with). Square, 1:1,
+   never stretched to fit anything. */
+.ik-coin { display: inline-block; flex: none; background: center / contain no-repeat; }
+.ik-coin-brand-1 { background-image: url(assets/coin-brand-1.svg); }
+.ik-coin-brand-2 { background-image: url(assets/coin-brand-2.svg); }
+.ik-coin-brand-3 { background-image: url(assets/coin-brand-3.svg); }
+.ik-coin-brand-4 { background-image: url(assets/coin-brand-4.svg); }
+.ik-coin-green-1 { background-image: url(assets/coin-green-1.svg); }
+.ik-coin-green-2 { background-image: url(assets/coin-green-2.svg); }
+.ik-coin-green-3 { background-image: url(assets/coin-green-3.svg); }
+.ik-coin-green-4 { background-image: url(assets/coin-green-4.svg); }

@@ -153,3 +153,15 @@ never a colour; `illustration` wins if `icon` is also passed).
 **Consumers.** The three read-only notices: connections paused on the Connections page and inside
 the chat that used them, and metrics read-only on the Metrics page. Each carries its own subject
 glyph — `#mi-connections`, `#mi-metrics` — not the warning triangle they shared before.
+
+## The dismiss aligns to the top; an action does not (2026-10-08)
+
+Both live in `.alert-acts`, and the group is centred on the block — right for a button, wrong for
+a ✕. A dismiss is a **corner affordance**: it belongs level with the top of the message, which is
+where [Banner](Banner.md)'s `.banner-close` already sits. Centred on a two-line alert it drifts
+into the middle of the paragraph and stops reading as the thing that closes it.
+
+`.alert-x` marks the dismiss and `.alert-acts:has(> .alert-x)` lifts the group. An action button
+keeps the centring: it answers the whole alert, and top-aligning it reads as having slipped upward
+— that was tried and reverted on 2026-09-30, and this rule does not undo it, because the two cases
+are told apart by the class rather than by the alert.

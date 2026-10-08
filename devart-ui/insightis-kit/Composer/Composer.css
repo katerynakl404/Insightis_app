@@ -1,0 +1,71 @@
+/* Composer — the card, the prompt and the tools row (the original .cl-composer + composer-menu set).
+   The surface is the card colour at 72% over a 10px blur, so the tail of the last answer stays
+   faintly visible under the thing you are typing; a focused composer does NOT take the hover
+   border. --ik-tint-72 is the kit's tint step the DS scale does not carry yet. */
+:root { --ik-tint-72: 72%; }
+
+.ik-composer {
+  position: relative; width: 100%; box-sizing: border-box;
+  display: flex; flex-direction: column; gap: .5rem; padding: .5rem;
+  border: 1px solid hsl(var(--stroke-border)); border-radius: 1rem;
+  background: color-mix(in srgb, hsl(var(--surface-card)) var(--ik-tint-72), transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  transition: border-color var(--motion-base) ease, box-shadow var(--motion-base) ease;
+}
+.ik-composer:hover:not(:focus-within) { border-color: hsl(var(--field-border-hover)); }
+.ik-composer:focus-within { border-color: hsl(var(--input-focus)); }
+
+/* The prompt: a chromeless field — the card is the control. */
+.ik-cmp-prompt {
+  display: block; width: 100%; box-sizing: border-box; margin: 0;
+  min-height: 2rem; max-height: 300px; overflow-y: auto; resize: none;
+  padding: .25rem .5rem; border: 0; outline: none; background: transparent;
+  font-family: inherit; font-size: var(--font-size-sm); line-height: var(--line-height-sm);
+  color: hsl(var(--ink-primary)); white-space: pre-wrap; word-break: break-word;
+}
+.ik-cmp-prompt::placeholder { color: hsl(var(--ink-inactive)); }
+
+.ik-cmp-foot { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.ik-cmp-tools { display: flex; align-items: center; gap: .25rem; min-width: 0; }
+.ik-cmp-send { flex: none; }
+
+/* Attached-file chip: hugs its content, above the prompt. */
+.ik-cmp-chip { align-self: flex-start; min-width: 10rem; max-width: 13rem; }
+
+/* Trigger: the level in "Insightis Light (Medium)" is supporting text; the chevron turns while open. */
+.ik-cmp-trigger-val { color: hsl(var(--ink-secondary)); font-weight: 400; }
+.ik-cmp-chev { transition: transform var(--motion-fast); }
+.ik-cmp-trigger[aria-expanded="true"] .ik-cmp-chev { transform: rotate(180deg); }
+
+/* < 480px the composer goes icon-only — its own behaviour, not each screen's decision. */
+@media (max-width: 479px) {
+  .ik-cmp-trigger-lbl, .ik-cmp-send-lbl { display: none; }
+  .ik-cmp-trigger.ik-cmp-trigger { padding-left: .25rem; padding-right: .25rem; }
+}
+
+/* Menus: compact connection rows (24px logo → 4px rail), the gear in the logos' 24px column. */
+.ik-cmp-conn-row { padding-top: .25rem; padding-bottom: .25rem; }
+.ik-cmp-conn-sep { margin-top: .375rem; }
+.ik-cmp-lead { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; }
+.ik-cmp-scroll { max-height: min(16rem, 40vh); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: hsl(var(--stroke-border)) transparent; }
+
+/* Skeleton rows — the loaded rows' rail and height, so loading → loaded never resizes. */
+.ik-cmp-skel-row { display: flex; align-items: center; gap: .5rem; padding: .375rem .75rem; pointer-events: none; }
+.ik-cmp-skel-row.is-conn { padding-top: .25rem; padding-bottom: .25rem; }
+.ik-cmp-skel-text { flex: 1 1 auto; min-width: 0; min-height: 1.25rem; display: flex; align-items: center; }
+.ik-cmp-skel-bar { display: block; height: .625rem; }
+.ik-cmp-skel-swt { flex: none; width: 1.75rem; height: 1rem; }
+.ik-cmp-skel-ic { flex: none; width: 0; height: 0; }
+
+/* Model settings rows: a label plus its own control — no hover surface. Effort is gated by
+   Thinking: disabled in place (Text/Inactive), never hidden, so the menu does not jump. */
+.ik-cmp-opt { min-height: 2rem; }
+.ik-cmp-opt-lbl { display: inline-flex; align-items: center; gap: .25rem; white-space: nowrap; font-weight: 500; color: hsl(var(--ink-primary)); }
+.ik-cmp-opt-val { font-size: var(--font-size-xs); line-height: var(--line-height-xs); font-weight: 400; color: hsl(var(--ink-secondary)); }
+.ik-cmp-opt.is-disabled .ik-cmp-opt-lbl, .ik-cmp-opt.is-disabled .ik-cmp-opt-val { color: hsl(var(--ink-inactive)); cursor: not-allowed; }
+.ik-cmp-info { display: inline-flex; color: hsl(var(--ink-inactive)); cursor: default; transition: color var(--motion-fast); }
+.ik-cmp-info:hover { color: hsl(var(--ink-body)); }
+.ik-cmp-steps { flex: none; }
+
+/* Connection / model names: Label/L in Text/Primary; a locked row drops its name a rung. */
+.ik-locked .ik-cmp-name { color: hsl(var(--ink-secondary)); }

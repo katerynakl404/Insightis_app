@@ -1,0 +1,54 @@
+/* SidebarChats — only what DevartUI's Sidebar primitives cannot express: the reveal choreography of
+   the section header and of the row's right-hand slot (Sidebar.md). Rows, menus and dialogs are
+   DevartUI's own. Timings are the motion tokens; colours are tokens. */
+
+.ik-chats { min-width: 0; }
+
+/* ── Section header ─────────────────────────────────────────────────────────────────────
+   The whole row toggles. The chevron is hidden at rest and appears on intent; collapsed, it stays
+   and turns -90°. The label brightens to Text/Primary on hover. "See all" is hover-revealed on
+   desktop. */
+.ik-chat-sect-chev { opacity: 0; transition: opacity var(--motion-fast), transform var(--motion-base); }
+.ik-chat-sect-head:hover .ik-chat-sect-chev,
+.ik-chat-sect-toggle:focus-visible .ik-chat-sect-chev { opacity: 1; }
+.ik-chat-sect[data-state="closed"] .ik-chat-sect-chev { opacity: 1; transform: rotate(-90deg); }
+.ik-chat-sect-label { transition: color var(--motion-fast); }
+.ik-chat-sect-head:hover .ik-chat-sect-label { color: hsl(var(--ink-primary)); }
+.ik-chat-sect-link { flex: none; opacity: 0; transition: opacity var(--motion-fast); }
+.ik-chat-sect-head:hover .ik-chat-sect-link,
+.ik-chat-sect-link:focus-within { opacity: 1; }
+/* Touch and narrow screens have no hover to reveal on. */
+@media (max-width: 767px), (hover: none) { .ik-chat-sect-chev { opacity: 1; } }
+@media (max-width: 1023px), (hover: none) { .ik-chat-sect-link { opacity: 1; } }
+
+/* ── Row: the right-hand slot ───────────────────────────────────────────────────────────
+   One slot, two occupants: the status (new dot / spinner) or the queue counter at rest, the ⋮
+   menu button on hover, keyboard focus, or while its menu is open. Centred with auto margins,
+   not a transform, so the IconButton's own press transform is left alone. */
+.ik-chat-more,
+.ik-chat-trail { position: absolute; top: 0; bottom: 0; margin: auto 0; transition: opacity var(--motion-fast); }
+.ik-chat-more { right: .25rem; opacity: 0; }
+.ik-chat-trail { right: .5rem; height: 1rem; min-width: 1rem; display: inline-flex; align-items: center; justify-content: center; }
+.ik-chat-row:hover .ik-chat-more,
+.ik-chat-row:focus-within .ik-chat-more,
+.ik-chat-row.is-menu-open .ik-chat-more { opacity: 1; }
+.ik-chat-row:hover .ik-chat-trail,
+.ik-chat-row:focus-within .ik-chat-trail,
+.ik-chat-row.is-menu-open .ik-chat-trail { opacity: 0; pointer-events: none; }
+/* The row holds its hover for as long as its menu is up — the pointer has left for the menu. */
+.ik-chat-row.is-menu-open > .ik-chat-link:not([data-active="true"]) { background: var(--state-hover); }
+
+/* Touch, and below 768px (the drawer): the ⋮ is always there, as the original's .iconbtn[data-kbp]
+   card rule makes it; the status keeps its own spot under it rather than stepping aside. */
+@media (max-width: 767px), (hover: none) {
+  .ik-chat-more { opacity: 1; }
+  .ik-chat-trail,
+  .ik-chat-row:hover .ik-chat-trail,
+  .ik-chat-row:focus-within .ik-chat-trail { opacity: 1; }
+}
+
+/* Room for the trailing slot: only while the ⋮ shows, or for a status / counter at rest. */
+.ik-chat-link.has-trail,
+.ik-chat-row.has-menu:hover > .ik-chat-link,
+.ik-chat-row.has-menu:focus-within > .ik-chat-link,
+.ik-chat-row.has-menu.is-menu-open > .ik-chat-link { padding-right: 2rem; }

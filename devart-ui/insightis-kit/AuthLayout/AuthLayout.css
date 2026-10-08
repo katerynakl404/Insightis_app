@@ -1,0 +1,21 @@
+/* AuthLayout — the pre-auth surface: a restrained brand wash behind the centred card.
+   Verbatim recipe of .au-page in pages/concept/auth/auth-concept.css, on DS tokens. */
+.ik-auth-page {
+  background-image: linear-gradient(155deg,
+    hsl(var(--surface-page)) 0%,
+    color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-15), transparent) 45%,
+    color-mix(in srgb, hsl(var(--brand-secondary)) var(--tint-10), transparent) 72%,
+    hsl(var(--surface-page)) 100%);
+}
+/* The original's quirk, kept on purpose (README rule 1a): .au-page is the viewport minus 49px
+   while the nav above it is 53px, so the page overflows the viewport by 4px (44px on a phone,
+   where the nav wraps) and the card sits exactly where the original's does. */
+.ik-auth-page-fill { min-height: calc(100vh - 49px); }
+/* The nav wraps at the original's breakpoint (.au-topnav at max-width:600px), not at sm. */
+@media (max-width: 600px) {
+  .ik-auth-nav { flex-wrap: wrap; }
+}
+/* The brand logo of the auth flow (nav and card): the width follows the viewBox exactly, as the
+   original's height-only .au-logo (83.6px at 20px tall, 100.3px at 24px) — IK.Logo's rounded
+   width attribute would make it 84 / 100. */
+.ik-auth-logo { width: auto; aspect-ratio: 418 / 100; }

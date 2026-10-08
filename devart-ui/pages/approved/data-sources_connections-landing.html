@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Data Sources</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<style>
+  /* Page layout only. The saved connections slide open once there is something to list and
+     collapse when the last one goes (original .ds-conn-section). */
+  .pg-conn-section { display: flex; flex-direction: column; overflow: hidden; max-height: 0; opacity: 0;
+    transition: max-height .32s cubic-bezier(.4, 0, .2, 1), opacity .25s ease; }
+  .pg-conn-section.is-open { max-height: 60rem; opacity: 1; }
+  .pg-conn-section:has([aria-expanded="true"]) { overflow: visible; }
+  /* DevartUI's Alert drops its actions under the copy below 640px (max-sm:w-full) but its row does
+     not wrap, so the copy collapsed to one word per line; the wrap lets the ✕ go under, as in the
+     original. */
+  @media (max-width: 639px) { .pg-alert { flex-wrap: wrap; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Data Sources → Connections, rebuilt from pages/approved/data-sources_connections-landing.html.
+   Locked rules: page-changes/data-sources_connections-landing.md (apply here unchanged).
+   Two tabs — Catalog (IK.DsCatalog) and My Connections (IK.DsConnections, disabled until something
+   is connected) — over the app shell; the connection flows are IK.DsConnectDialog (the New
+   connection wizard), IK.DsConnectionPanel (Connection Details), IK.DsEditConnectionDialog and
+   IK.DsDisconnectDialog. Review switches, as in the original topbar: Plan · Empty/Connected ·
+   Loaded/Skeleton · Theme. */
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+
+  IK.defineIcons({
+    'pg-link': '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+    'pg-x': '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'
+  });
+
+  var CATEGORIES = ['All', 'Business Intelligence', 'Commerce', 'Communication', 'IT Operations', 'Marketing', 'Productivity', 'Sales & CRM', 'Storage & Files', 'Support', 'Other'];
+  /* Verbatim from the original's CONNECTORS (name, categories, popular). */
+  var CONNECTORS = [
+    ['PostgreSQL', ['IT Operations'], true], ['MySQL', ['IT Operations'], true], ['Snowflake', ['IT Operations', 'Business Intelligence'], true],
+    ['BigQuery', ['IT Operations', 'Business Intelligence']], ['Redshift', ['IT Operations']], ['MongoDB', ['IT Operations']],
+    ['MariaDB', ['IT Operations']], ['Oracle', ['IT Operations']], ['SQL Server', ['IT Operations']],
+    ['Elasticsearch', ['IT Operations', 'Business Intelligence']], ['Databricks', ['IT Operations', 'Business Intelligence']],
+    ['GitHub', ['IT Operations'], true], ['GitLab', ['IT Operations']], ['Bitbucket', ['IT Operations']],
+    ['Salesforce', ['Sales & CRM', 'Business Intelligence'], true], ['HubSpot', ['Sales & CRM', 'Marketing'], true],
+    ['Pipedrive', ['Sales & CRM']], ['Zoho CRM', ['Sales & CRM']], ['Freshsales', ['Sales & CRM', 'Support']],
+    ['Insightly', ['Sales & CRM']], ['Keap', ['Sales & CRM', 'Marketing']], ['SugarCRM', ['Sales & CRM']],
+    ['Mailchimp', ['Marketing'], true], ['Marketo', ['Marketing']], ['ActiveCampaign', ['Marketing', 'Sales & CRM']],
+    ['Constant Contact', ['Marketing']], ['Google Ads', ['Marketing', 'Business Intelligence']], ['LinkedIn Ads', ['Marketing']],
+    ['TikTok Ads', ['Marketing']], ['Microsoft Ads', ['Marketing']], ['Pinterest', ['Marketing']], ['SendPulse', ['Marketing']],
+    ['Stripe', ['Commerce', 'Business Intelligence'], true], ['QuickBooks', ['Commerce']], ['Xero', ['Commerce']],
+    ['FreshBooks', ['Commerce']], ['Shopify', ['Commerce', 'Business Intelligence'], true], ['WooCommerce', ['Commerce']],
+    ['Magento', ['Commerce']], ['BigCommerce', ['Commerce']], ['NetSuite', ['Commerce']], ['Sage Accounting', ['Commerce']],
+    ['Google Analytics', ['Business Intelligence', 'Marketing'], true], ['Looker Studio', ['Business Intelligence']],
+    ['Amplitude', ['Business Intelligence']], ['Zoho Analytics', ['Business Intelligence']],
+    ['Zendesk', ['Support'], true], ['Intercom', ['Support', 'Sales & CRM']], ['Freshdesk', ['Support']], ['ServiceNow', ['Support', 'IT Operations']],
+    ['Jira', ['Productivity', 'IT Operations'], true], ['Asana', ['Productivity'], true], ['Monday.com', ['Productivity']],
+    ['Notion', ['Productivity']], ['SmartSuite', ['Productivity']], ['BambooHR', ['Productivity']], ['SurveyMonkey', ['Productivity']],
+    ['Slack', ['Communication'], true], ['Zoom', ['Communication'], true], ['Yammer', ['Communication']],
+    ['Amazon S3', ['Storage & Files'], true], ['Google Drive', ['Storage & Files']], ['OneDrive', ['Storage & Files']],
+    ['Dropbox', ['Storage & Files']], ['Box', ['Storage & Files']], ['SharePoint Files', ['Storage & Files']],
+    ['Google Sheets', ['Storage & Files', 'Business Intelligence']], ['Excel Online', ['Storage & Files']], ['Azure Blob Storage', ['Storage & Files']],
+    ['Airtable', ['Other', 'Productivity'], true], ['OpenAI', ['Other']], ['Gemini', ['Other']], ['WordPress', ['Other']],
+    ['REST API', ['Other']], ['GraphQL', ['Other']], ['OData', ['Other']]
+  ].map(function (r) { return { name: r[0], cats: r[1], popular: !!r[2] }; });
+
+  var NOW = Date.now();
+  var SEED = [
+    { name: 'PostgreSQL', label: 'Production DB', status: 'active', desc: 'Main analytics warehouse, syncs every 6 h', lastSync: NOW - 2 * 3600e3 },
+    { name: 'Salesforce', label: 'Main CRM', status: 'active', desc: 'Deals, contacts & pipeline metrics', lastSync: NOW - 32 * 60e3 },
+    { name: 'Stripe', label: 'Stripe Payments', status: 'error', desc: 'Revenue and subscription data', lastSync: NOW - 26 * 3600e3, willFail: true, error: 'API key expired or revoked (HTTP 401)' },
+    { name: 'HubSpot', label: 'Marketing Hub', status: 'active', desc: 'Campaign performance & lead scoring', lastSync: NOW - 5 * 3600e3 }
+  ];
+  var TOAST_MS = 5000;
+
+  function initialCat() {
+    var c = new URLSearchParams(location.search).get('cat');
+    return c && CATEGORIES.indexOf(c) !== -1 ? c : 'All';
+  }
+
+  function App() {
+    var plan = IK.usePlan()[0], free = plan === 'free';
+    var seg = IK.useQueryState('state', 'connected');
+    var load = IK.useQueryState('load', 'loaded');
+    var loading = load[0] === 'skeleton';
+
+    var conns = R.useState(SEED), list = conns[0], setList = conns[1];
+    var hc = R.useState(seg[0] === 'connected'), hasConn = hc[0], setHasConn = hc[1];
+    var tb = R.useState(seg[0] === 'connected' ? 'connections' : 'catalog'), tab = tb[0], setTab = tb[1];
+    var ct = R.useState(initialCat()), cat = ct[0], setCat = ct[1];
+    var qq = R.useState(''), query = qq[0], setQuery = qq[1];
+    var pn = R.useState(null), panel = pn[0], setPanel = pn[1];
+    var ed = R.useState(null), edit = ed[0], setEdit = ed[1];
+    var dc = R.useState(null), disc = dc[0], setDisc = dc[1];
+    var cn = R.useState(null), connectFor = cn[0], setConnectFor = cn[1];
+    var cw = R.useState(false), wizOpen = cw[0], setWizOpen = cw[1];
+    var lv = R.useState(null), leaving = lv[0], setLeaving = lv[1];
+    var en = R.useState(null), entering = en[0], setEntering = en[1];
+    var u4 = R.useState(false), u4Off = u4[0], setU4Off = u4[1];
+    var cb = R.useState(false), catOff = cb[0], setCatOff = cb[1];
+    var um = R.useState(false), upModal = um[0], setUpModal = um[1];
+    var timers = R.useRef({});
+
+    var connTabDisabled = !hasConn;
+    function find(name) { return list.find(function (c) { return c.name === name; }) || null; }
+    function patch(name, fn) { setList(function (l) { return l.map(function (c) { return c.name === name ? Object.assign({}, c, fn(c)) : c; }); }); }
+
+    /* The Empty / Connected switch is the single source of the demo's state (original dsSegState):
+       it shows or collapses the list and enables or disables My Connections. It keeps the seed. */
+    function setSeg(v) {
+      seg[1](v);
+      var on = v === 'connected';
+      setHasConn(on);
+      if (!on && tab === 'connections') setTab('catalog');
+    }
+    function switchTab(v) { if (v === 'connections' && connTabDisabled) return; setTab(v); }
+
+    function bold(label, rest) { return h(IK.Fragment, null, h('strong', null, label), rest); }
+    function errToast(name) {
+      var c = find(name); if (!c) return;
+      D.toast.error(h(IK.Fragment, null, 'Last check failed — ', h('strong', null, c.label || c.name)),
+        { description: 'Check failed: ' + IK.dsFailReason(c), id: name, duration: TOAST_MS });
+    }
+    function test(name) {
+      var c = find(name); if (!c || c.busy) return;
+      var label = c.label || c.name;
+      patch(name, function () { return { busy: true }; });
+      clearTimeout(timers.current[name]);
+      timers.current[name] = setTimeout(function () {
+        var ok = !c.willFail;
+        var next = { busy: false, status: ok ? 'active' : 'error', lastSync: Date.now(),
+                     error: !ok && !c.error ? 'Connection test failed — check credentials and try again' : c.error };
+        patch(name, function () { return next; });
+        var done = Object.assign({}, c, next);
+        if (ok) D.toast.success(bold(label, ' checked successfully'), { description: 'Last check just now', id: name, duration: TOAST_MS });
+        else D.toast.error(h(IK.Fragment, null, 'Check failed for ', h('strong', null, label)),
+          { description: 'Check failed: ' + IK.dsFailReason(done), id: name, duration: TOAST_MS });
+      }, 1500);
+    }
+    function remove(name) {
+      setLeaving(name);
+      setTimeout(function () {
+        setLeaving(null);
+        setList(function (l) {
+          var next = l.filter(function (c) { return c.name !== name; });
+          if (!next.length) setHasConn(false);
+          return next;
+        });
+        setEntering(name);
+      }, 250);
+    }
+    function create(r) {
+      setWizOpen(false);
+      setList(function (l) { return l.concat([{ name: r.connector, label: r.label, status: 'active', desc: r.desc, lastSync: Date.now() }]); });
+      setHasConn(true);
+      D.toast.success(bold(r.label, ' connected.'), {
+        duration: TOAST_MS,
+        description: h('a', {
+          href: '#', className: 'text-ink-primary underline',
+          onClick: function (e) { e.preventDefault(); setTab('connections'); }
+        }, 'Manage in My Connections')
+      });
+    }
+
+    var panelConn = panel ? find(panel) : null;
+    var editConn = edit ? find(edit) : null;
+    var discConn = disc ? find(disc) : null;
+
+    var connTrigger = h(D.TabsTrigger, { value: 'connections', disabled: connTabDisabled }, 'My Connections');
+    return h(IK.Fragment, null,
+      h(IK.ReviewBar, { title: 'Data Sources', status: 'approved', size: 'sm', plan: true, controls: [
+        { label: 'Data state', value: seg[0], onChange: setSeg,
+          options: [{ value: 'empty', label: 'Empty' }, { value: 'connected', label: 'Connected' }] },
+        { label: 'Page state', value: load[0], onChange: load[1],
+          options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] }
+      ] }),
+      h(IK.AppShell, { nav: 'data-sources', burger: false },
+        h(IK.DsPage, null,
+          h(IK.DsPageHead, {
+            title: 'Data Sources',
+            /* Rule 5: Create Connection lives on My Connections only, and it OPENS THE CATALOG. */
+            actions: tab === 'connections' ? h(D.Button, {
+              variant: 'primary', size: 'sm', rounded: 'full', type: 'button',
+              leftSlot: h(IK.Icon, { name: 'pg-link' }), onClick: function () { setTab('catalog'); }
+            }, 'Create Connection') : null
+          }),
+          h(D.Tabs, { value: tab, onValueChange: switchTab, className: 'flex flex-col gap-4' },
+            h(D.TabsList, { className: 'mb-0 flex w-full' },
+              h(D.TabsTrigger, { value: 'catalog' }, 'Catalog'),
+              list.length === 0 ? h(IK.Tip, { tip: 'Connect a data source first', side: 'bottom', wrap: true }, connTrigger) : connTrigger),
+
+            /* ── Catalog ── */
+            h(D.TabsContent, { value: 'catalog', className: 'flex flex-col gap-4' },
+              free && !catOff ? h(D.Banner, {
+                variant: 'diagonalAiry', size: 'sm', role: 'note',
+                icon: h(IK.Icon, { name: 'connections' }),
+                title: 'Look around as much as you like',
+                description: 'Every source here is free to browse. Connecting one to your account starts on Starter.',
+                action: h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setUpModal(true); } }, 'See Plans'),
+                onDismiss: function () { setCatOff(true); }, dismissLabel: 'Collapse'
+              }) : null,
+              h(IK.DsCatalog, {
+                connectors: CONNECTORS, categories: CATEGORIES,
+                category: cat, onCategoryChange: setCat, query: query, onQueryChange: setQuery,
+                loading: loading, entering: entering,
+                onConnect: function (name) { setConnectFor(name); setWizOpen(true); }
+              })),
+
+            /* ── My Connections ── */
+            h(D.TabsContent, { value: 'connections', className: 'flex flex-col gap-4' },
+              free && hasConn && !u4Off ? h(D.Alert, {
+                variant: 'warning', size: 'md', role: 'note', className: 'pg-alert',
+                icon: h(IK.Icon, { name: 'connections' }),
+                title: 'Your subscription ended, so these connections can\'t be used',
+                description: h(IK.Fragment, null, 'Nothing was deleted. ',
+                  h(IK.Locked, { feature: 'connections', clickOnly: true, marker: 'none', locked: true },
+                    h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); } }, 'Upgrade to Starter')),
+                  ' to switch them back on and edit them.'),
+                actions: h(IK.Tip, { tip: 'Dismiss' },
+                  h(D.IconButton, { variant: 'tertiary', size: '2xs', 'aria-label': 'Dismiss', onClick: function () { setU4Off(true); } },
+                    h(IK.Icon, { name: 'pg-x' })))
+              }) : null,
+              list.length === 0 ? h(D.Banner, {
+                variant: 'diagonalAiry', role: 'note',
+                icon: h(IK.Icon, { name: 'pg-link' }),
+                title: free ? 'Connecting a source starts on Starter' : 'Connect your first data source',
+                description: free
+                  ? 'The whole catalogue is free to read. Connecting one and asking about live data is on Starter and Pro.'
+                  : h(IK.Fragment, null, 'Browse the ', h('b', null, 'Catalog'), ' and click Connect to get started in about ', h('b', null, '2 minutes'), '.'),
+                action: h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setTab('catalog'); } }, 'Browse Catalog')
+              }) : null,
+              h('div', { className: IK.cx('pg-conn-section', hasConn && 'is-open') },
+                h(IK.DsConnections, {
+                  connections: list, loading: loading, selected: panel, leaving: leaving,
+                  onOpen: setPanel, onEdit: setEdit, onTest: test, onDisconnect: setDisc, onDetails: errToast
+                }))))),
+        h(IK.DsConnectionPanel, {
+          connection: panelConn,
+          onOpenChange: function (o) { if (!o) setPanel(null); },
+          onEdit: function (n) { setPanel(null); setEdit(n); },
+          onDisconnect: function (n) { setPanel(null); setDisc(n); },
+          onTest: test, onDetails: errToast
+        })),
+      h(IK.DsConnectDialog, { open: wizOpen, connector: connectFor, onOpenChange: setWizOpen, onCreate: create }),
+      h(IK.DsEditConnectionDialog, {
+        open: !!editConn, label: editConn && (editConn.label || editConn.name), desc: editConn && (editConn.description || ''),
+        onOpenChange: function (o) { if (!o) setEdit(null); },
+        onSave: function (v) { var n = edit; setEdit(null); patch(n, function () { return { label: v.label, description: v.desc }; }); }
+      }),
+      h(IK.DsDisconnectDialog, {
+        open: !!discConn, label: discConn && (discConn.label || discConn.name),
+        onOpenChange: function (o) { if (!o) setDisc(null); },
+        onConfirm: function () { var n = disc; setDisc(null); remove(n); }
+      }),
+      h(IK.UpgradeModal, { feature: 'connections', open: upModal, onOpenChange: setUpModal }),
+      h(D.Toaster, { position: 'top-right' }));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

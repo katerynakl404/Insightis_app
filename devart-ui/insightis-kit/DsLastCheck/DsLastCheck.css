@@ -1,0 +1,8 @@
+/* DsLastCheck — the block keeps a 24px floor (the original .ds-sync min-height) so a pill turning
+   into "Testing…" can never shrink the row it sits in. The failed pill is a bare <button> around
+   the DevartUI Badge: no box of its own, the Badge is what is seen. */
+.ik-dslc { display: flex; align-items: center; gap: .5rem; min-width: 0; min-height: 1.5rem; }
+.ik-dslc-btn {
+  display: inline-flex; padding: 0; margin: 0; border: 0; background: none;
+  font: inherit; color: inherit; cursor: pointer; border-radius: 9999px;
+}

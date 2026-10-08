@@ -1,0 +1,35 @@
+/* DsConnections — the phone card stack (original .ds-conn-list / .ds-conn-row.hov-card) and the
+   row that fades out after Disconnect. The desktop table is DevartUI's Table as it ships. */
+.ik-dscn-list { display: grid; grid-template-columns: 1fr; gap: .5rem; padding-top: .25rem; }
+.ik-dscn-row {
+  position: relative;
+  display: flex; align-items: center; gap: .75rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid hsl(var(--stroke-border));
+  border-radius: .75rem;
+  background: hsl(var(--surface-card));
+  box-shadow: var(--shadow-rest);
+  cursor: pointer;
+  transition: box-shadow var(--motion-base), border-color var(--motion-base), transform var(--motion-base);
+}
+@media (hover: hover) {
+  .ik-dscn-row:hover { box-shadow: var(--shadow-lift-hover); border-color: var(--card-lift-border); transform: translateY(-1px); }
+}
+.ik-dscn-row.is-selected {
+  background: var(--tbl-row-pressed);
+  border-color: color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-25), transparent);
+}
+/* The ⋮ sits in the top-right corner, always shown (no hover on touch). */
+.ik-dscn-act { align-self: flex-start; flex: none; display: inline-flex; }
+/* An open menu lifts its row above the next one. */
+.ik-dscn-row:has([aria-expanded="true"]) { z-index: 20; }
+
+/* Disconnect: the row fades out before it leaves the list (original dsRemove, .22s). */
+.ik-dscn-leaving { opacity: 0; transition: opacity .18s ease; pointer-events: none; }
+
+/* Phone skeleton — frameless ghost lines (see DsConnectionsSkeleton). */
+.ik-dscn-skel { overflow: hidden; }
+.ik-dscn-skel-row { display: flex; align-items: center; min-height: 2.8125rem; box-sizing: border-box; border-bottom: 1px solid hsl(var(--stroke-border)); }
+.ik-dscn-skel-row:last-child { border-bottom: none; }
+.ik-dscn-skel-cell { flex: none; padding: .625rem 1rem; }
+.ik-dscn-skel-cell:nth-child(3) .skeleton { width: 0 !important; }

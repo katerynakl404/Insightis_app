@@ -1,0 +1,11 @@
+/* DsFileMark — 1:1 always (locked). Overline type on a token fill. */
+.ik-dsfm {
+  flex: none; box-sizing: border-box;
+  width: 2rem; height: 2rem; border-radius: .375rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: var(--font-size-xxs); line-height: 1rem; font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: hsl(var(--content-on-solid));
+  background: hsl(var(--brand-tertiary));
+}
+.ik-dsfm.is-green { background: hsl(var(--fb-green)); }
+.ik-dsfm.is-sm { width: 1.5rem; height: 1.5rem; }

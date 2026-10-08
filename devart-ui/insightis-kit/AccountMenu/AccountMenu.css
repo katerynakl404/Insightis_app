@@ -1,0 +1,4 @@
+/* AccountMenu — the theme switch lives inside a DropdownMenuItem (so the menu's roving focus can
+   reach it), and a menu item sizes every svg in it to 16px. The SegmentedControl's sm step is a
+   12px glyph in a 20px segment (the original .sbx-pop-theme-btn) — restored here, nothing else. */
+.ik-theme-item .ik-icon { width: 12px; height: 12px; }

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Chat page</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Chat page — one open conversation: the live "first 5 Jira issues with AIINS" chat, the header
+   menu that mirrors its sidebar row, and the composer with @-metric mentions (one token, @mrr,
+   ships in the prompt). Review switches, as the original topbar: Plan Paid / Free · Popover
+   state Loading / Empty / Filled / Scrolling · Light / Dark.
+   ?chat=<name> — every sidebar row opens this page with its own name: the header says which chat
+   is open and that row is the current one. Free: a chat that used connections (any name that is
+   not a file) carries the U6 notice under its answer; the composer's paid parts lock. */
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+
+  var CHAT = new URLSearchParams(location.search).get('chat') || 'Jira · first 5 AIINS issues';
+
+  var GROUP_A = [
+    { name: 'Jira_Test_Connection', op: 'Execute', status: 'error',
+      args: ['{', '  "query": "SELECT * FROM jira_issues LIMIT 5"', '}'],
+      output: 'Error: table "jira_issues" was not found in the available data sources.' }
+  ];
+  var GROUP_B = [
+    { name: 'Jira_Test_Connection', op: 'Objects', status: 'ok',
+      args: ['{', '  "responseFormat": "Markdown"', '}'],
+      output: '| fullName | name | queryable |\n| --- | --- | --- |\n| AdvancedSettings | AdvancedSettings | true |\n| Althera_Code_Autotest_Design._Issues | Althera_Code_Autotest_Design._Issues | true |\n| Althera_Code_Bug._Issues | Althera_Code_Bug._Issues | true |\n| Althera_Code_Epic_Issues | Althera_Code_Epic_Issues | true |\n| Althera_Code_Feature_Issues | Althera_Code_Feature_Issues | true |\n| AIINS_Issues | AIINS_Issues | true |' },
+    { name: 'Jira_Test_Connection', op: 'Execute', status: 'error',
+      args: ['{', '  "query": "SELECT * FROM AIINS_Issues LIMIT 5"', '}'],
+      output: 'Error: unknown column selection — retry with the resolved object name.' },
+    { name: 'Jira_Test_Connection', op: 'ObjectInfo', status: 'ok',
+      args: ['{', '  "objectName": "AIINS_Issues"', '}'],
+      output: '| column | type |\n| --- | --- |\n| Id | number |\n| Key | string |\n| Summary | string |\n| Status_Name | string |\n| Priority_Name | string |' },
+    { name: 'Jira_Test_Connection', op: 'Execute', status: 'ok',
+      args: ['{', '  "query": "SELECT Id, Key, Summary FROM AIINS_Issues ORDER BY Id DESC LIMIT 5"', '}'],
+      output: 'Returned 5 rows.' }
+  ];
+  var COLUMNS = ['Id', 'Key', 'Summary', 'Status_Name', 'Priority_Name', 'CreatedDate', 'UpdatedDate'];
+  var ROWS = [
+    ['285876', 'AIINS-1085', 'Testing - Показывать пользователю причину не загрузки файла', 'Reopened', 'Medium', '2026-07-07T07:29:20Z', '2026-07-07T11:26:24Z'],
+    ['285871', 'AIINS-1084', 'Testing - Нет превью у файлов xls и xlsx', 'Closed (done)', 'Medium', '2026-07-07T07:06:37Z', '2026-07-07T07:26:17Z'],
+    ['285869', 'AIINS-1083', 'Прикрепление файла на Mac', 'Closed (Won\'t fix)', 'Medium', '2026-07-07T06:55:09Z', '2026-07-07T08:39:51Z'],
+    ['285714', 'AIINS-1082', 'Testing - Баги по Resource pages', 'Reopened', 'Medium', '2026-07-06T13:10:09Z', '2026-07-06T14:26:26Z'],
+    ['285713', 'AIINS-1081', 'Testing - При переходе по попап меню с помощью клавиатуры не видно куда перешли', 'Closed (done)', 'Medium', '2026-07-06T12:58:37Z', '2026-07-06T13:26:26Z']
+  ];
+
+  function App() {
+    var pop = IK.useQueryState('pop', 'filled');
+    var plan = IK.usePlan()[0];
+    var t = R.useState(CHAT), title = t[0], setTitle = t[1];
+    var chats = IK.useChats({
+      onRenamed: function (c, name) { if (c.title === title) setTitle(name); },
+      onDeleted: function (c) { if (c.title === title) location.href = IK.pageHref('approved/chat-landing.html'); }
+    });
+    var open = chats.find(title);
+    /* U6 — only in a chat that HAD connections: the file chats never used one. */
+    var usedConnections = !/\.(xlsx|csv|pdf|docx)\b/i.test(CHAT);
+    return h(IK.Fragment, null,
+      h(IK.ReviewBar, {
+        title: 'Chat page', status: 'approved', size: 'sm', plan: { showLabel: true },
+        controls: [{
+          label: 'Popover state', showLabel: true, value: pop[0], onChange: pop[1],
+          options: [{ value: 'loading', label: 'Loading' }, { value: 'empty', label: 'Empty' },
+                    { value: 'filled', label: 'Filled' }, { value: 'scroll', label: 'Scrolling' }]
+        }]
+      }),
+      h(IK.AppShell, { chats: chats, currentChat: open ? open.id : title, burger: false, scroll: false, classic: true },
+        h(IK.ChatHeader, { title: title, chats: chats, id: open && open.id }),
+        h(IK.ChatThread, { endKey: plan },
+          h(IK.ChatTurn, null,
+            h(IK.ChatUserMessage, { time: 'Jul 7, 3:14 PM' }, 'give me first 5 jira issues with prefix AIINS, no confirm needed, limit query by 5'),
+            h(IK.ChatAnswer, { time: 'Jul 7, 3:15 PM' },
+              h(IK.ChatAnswerGroup, null,
+                h(IK.ChatToolCalls, { calls: GROUP_A }),
+                h(IK.ChatProse, null, 'I could not find a table named "jira_issues" in the available data sources. Let me first check which Jira-related data sources are available to locate the issue data with the AIINS prefix.')),
+              h(IK.ChatAnswerGroup, null,
+                h(IK.ChatToolCalls, { calls: GROUP_B }),
+                h(IK.ChatResultTable, { title: 'First 5 Jira Issues with Prefix AIINS', columns: COLUMNS, rows: ROWS }),
+                h(IK.ChatProse, null, 'These are the first 5 issues with the prefix "AIINS" from the available Jira issues dataset. Let me know if you need further details or analysis!')))),
+          plan === 'free' && usedConnections ? h(IK.ChatPausedNotice, { sources: 'Salesforce and HubSpot' }) : null),
+        h(IK.ChatComposerArea, null,
+          h(IK.Composer, { prompt: 'rich', seed: ['mrr'], popState: pop[0], sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' }))),
+      h(D.Toaster));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

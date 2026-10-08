@@ -1,0 +1,30 @@
+/* DsPage — the Data Sources content column + its title row (original: .cl-main/.cl-page +
+   .cl-page-head). Layout only; the 75rem cap is the original's --content-max-wide (1200px). */
+.ik-ds-page {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 2.25rem 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+.ik-ds-head { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+.ik-ds-title { margin: 0; min-width: 0; }
+.ik-ds-head-actions { margin-left: auto; flex: none; display: flex; align-items: center; gap: .5rem; }
+
+@media (max-width: 1023px) {
+  .ik-ds-page { padding-top: 0; }
+  .ik-ds-head {
+    position: sticky; top: 0; z-index: 20;
+    background: hsl(var(--surface-page));
+    margin: 0 -2rem; padding: .625rem 2rem;
+    transition: padding var(--motion-base);
+  }
+  .ik-ds-head.is-scrolled { padding-top: .375rem; padding-bottom: .375rem; }
+}
+@media (max-width: 767px) {
+  .ik-ds-page { padding-left: .75rem; padding-right: .75rem; }
+  .ik-ds-head { margin: 0 -.75rem; padding-left: .75rem; padding-right: .75rem; }
+}

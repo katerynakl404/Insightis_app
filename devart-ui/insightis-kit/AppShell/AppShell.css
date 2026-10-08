@@ -1,0 +1,30 @@
+/* AppShell — the app frame.
+
+   Height: the shell fills what the ReviewBar leaves of the viewport and never scrolls; the main
+   column scrolls inside it (README "Page shells"). #root becomes a column only when it holds a
+   shell, so other pages are untouched. min-height:0 here overrides SidebarProvider's min-h-svh
+   (same specificity, later in the cascade).
+
+   Containment: DevartUI's desktop Sidebar panel is `position:fixed; inset-y-0` — against the
+   VIEWPORT it would run under the sticky ReviewBar. Layout containment makes the shell the
+   containing block for fixed descendants, so the panel spans the shell exactly (the case the
+   library's own comment anticipates: "the app shell when one exists"). Overlays portal to <body>
+   and are unaffected. */
+#root:has(> .ik-shell) { display: flex; flex-direction: column; height: 100svh; overflow: hidden; }
+.ik-shell { flex: 1 1 0; min-height: 0; overflow: hidden; contain: layout; }
+
+/* scroll: 'document' — the originals that scroll as a document (.topbar sticky, .cl-side sticky at
+   the bar's height and 100vh tall, the main column as tall as its content). #root is no longer
+   pinned; without layout containment the sidebar's fixed panel is placed against the viewport
+   again, so it starts under the bar (--ik-bar-h, measured by AppShell.js) and ends at the bottom. */
+#root:has(> .ik-shell.is-doc) { display: block; height: auto; overflow: visible; }
+.ik-shell.is-doc { min-height: calc(100svh - var(--ik-bar-h, 0px)); overflow: visible; contain: none; }
+.ik-shell.is-doc div:has(> [data-sidebar="sidebar"]) { top: var(--ik-bar-h, 0px); bottom: auto; height: calc(100vh - var(--ik-bar-h, 0px)); }
+.ik-shell.is-doc > main { min-height: 0; }
+
+/* Glow (chat landing) — reproduced as the original RENDERS it (README rule 1a), not as its source
+   reads: in chat-landing.html a stray declaration left in its <style> swallows the light-theme
+   .cl-shell background and the ::before pool rule, and the dark ::before has no content — so the
+   screen is flat Surface/Page in light, and in dark carries only the radial brand-tertiary tint
+   at the top (4% → Surface/Page by 55%, the DS --chat-shell-bg). No blurred pool in either theme. */
+html.dark .ik-shell-glow { background: var(--chat-shell-bg); }

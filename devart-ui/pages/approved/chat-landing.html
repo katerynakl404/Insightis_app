@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Chat landing</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Chat landing — the new-chat screen: the app shell, the greeting, the composer and three
+   suggestion pills. Rules: page-changes/chat-landing.md. Review switches (the original topbar,
+   one for one): Plan Paid / Free · Popover state Loading / Empty / Filled / Scrolling (what the
+   composer's Recent files + Connections lists resolve to when opened) · Light / Dark.
+   ?attach=<file> pre-fills the composer's file chip (Files → "Add to Chat"). */
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+
+  function App() {
+    var pop = IK.useQueryState('pop', 'filled');
+    var t = R.useState(''), text = t[0], setText = t[1];
+    var promptRef = R.useRef(null);
+    var attach = R.useMemo(function () { return new URLSearchParams(location.search).get('attach'); }, []);
+    /* This page's sidebar marks "Jira · first 5 AIINS issues" with the new-activity dot. */
+    var chats = IK.useChats({ initial: IK.chatsWith({ 'jira-aiins': { status: 'new' } }) });
+    return h(IK.Fragment, null,
+      h(IK.ReviewBar, {
+        title: 'Chat landing', status: 'approved', size: 'sm', plan: { showLabel: true },
+        controls: [{
+          label: 'Popover state', showLabel: true, value: pop[0], onChange: pop[1],
+          options: [{ value: 'loading', label: 'Loading' }, { value: 'empty', label: 'Empty' },
+                    { value: 'filled', label: 'Filled' }, { value: 'scroll', label: 'Scrolling' }]
+        }]
+      }),
+      h(IK.AppShell, { glow: true, scroll: false, chats: chats },
+        h(IK.ChatHero, null,
+          h(IK.Composer, {
+            value: text, onValueChange: setText, promptRef: promptRef, popState: pop[0],
+            attachment: attach || null, sendHref: IK.pageHref('approved/chat_page-landing.html')
+          }),
+          h(IK.ChatSuggestions, {
+            onPick: function (label) { setText(label); if (promptRef.current) promptRef.current.focus(); }
+          }))),
+      h(D.Toaster));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

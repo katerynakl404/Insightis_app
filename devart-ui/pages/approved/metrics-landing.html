@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Metrics</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<style>
+  /* Page layout only. The main column (.cl-main / .cl-page in the original): 36px above the
+     title (none below 1024px, where the title row is sticky), 64px below, a 1200px column with
+     a 32px gutter (12px on a phone), 12px between blocks. */
+  .pg-main { padding: 2.25rem 0 4rem; }
+  .pg-page { width: 100%; max-width: 75rem; margin: 0 auto; padding: 0 2rem; display: flex; flex-direction: column; gap: .75rem; }
+  @media (max-width: 1023px) { .pg-main { padding-top: 0; } }
+  @media (max-width: 767px) { .pg-page { padding: 0 .75rem; } }
+
+  /* Empty state: hero, then "Top 5 Data Sources for" 20px lower, then the card grid. */
+  .pg-empty { display: flex; flex-direction: column; gap: .75rem; }
+  .pg-cat { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; margin-top: 1.25rem; }
+  .pg-cat-chips { width: 100%; }
+  /* phone: the category row scrolls sideways from the column edge */
+  @media (max-width: 767px) { .pg-cat-chips { margin: 0 -.75rem; padding-left: .75rem; width: auto; max-width: calc(100% + 1.5rem); } }
+  .pg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: .875rem; }
+
+  /* Filled state: 16px between every block. */
+  .pg-filled { display: flex; flex-direction: column; gap: 1rem; }
+  .pg-toolbar { display: flex; flex-direction: column; gap: 1rem; }
+  .pg-filters { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .375rem; }
+  .pg-connect { margin-top: 2.25rem; }
+  @media (max-width: 767px) { .pg-connect { margin-top: 1.5rem; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Metrics — rebuilt from pages/approved/metrics-landing.html (page-changes/metrics-landing.md).
+   Two demo states: Empty (no connection yet — the library previewed as data-source cards) and
+   Filled (the user's metrics, one card per data source). Plan switch: Free reads everything and
+   locks every action (see the Mx* components' headers for which). */
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+
+  IK.defineIcons({
+    /* verbatim from pages/approved/metrics-landing.html */
+    'pg-sun': '<circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>',
+    'pg-plug': '<path d="M12 22v-4"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8H6a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2Z"/>',
+    'pg-search': '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',
+    'pg-plus': '<path d="M5 12h14"/><path d="M12 5v14"/>',
+    'pg-x': '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'
+  });
+
+  var CATS = ['Business Intelligence', 'Commerce', 'Communication', 'IT Operations', 'Marketing', 'Productivity', 'Sales & CRM', 'Storage & Files', 'Support', 'Other'];
+
+  /* The metric library, card by card: [chip label, metric name, alias, data-source key, definition]. */
+  var CARDS = [
+    { name: 'Jira Software Cloud', cats: ['IT Operations', 'Productivity'], metrics: [
+      ['Issues created', 'Issues created', '@issues_created', 'jira', 'Number of issues created in the selected period. Includes all issue types: bugs, tasks, stories, and epics. Does not filter by status or assignee.'],
+      ['Issues resolved', 'Issues resolved', '@issues_resolved', 'jira', 'Number of issues resolved (closed) in the selected period. An issue counts as resolved when its status transitions to Done or a custom closed state. Reopened issues are not subtracted from the total.'],
+      ['Sprint velocity', 'Sprint velocity', '@sprint_velocity', 'jira', 'Average number of story points completed per sprint. Calculated across all sprints that ended within the selected period. Only counts points from issues in Done status at sprint close.'],
+      ['Bug count', 'Bug count', '@bug_count', 'jira', 'Number of open bugs at the end of the selected period. Counts issues with issue type Bug that have not been resolved. Provides a snapshot of backlog health at the period boundary.'],
+      ['Story points', 'Story points completed', '@story_pts_completed', 'jira', 'Total story points completed across all sprints in the selected period. Counts only issues in Done status at sprint close. Use alongside Sprint velocity to compare team throughput over time.']] },
+    { name: 'GitLab', cats: ['IT Operations'], metrics: [
+      ['Work items', 'Work items completed', '@work_items_completed', 'gitlab', 'Number of work items moved to a completed state in the selected period.'],
+      ['Build success rate', 'Build success rate', '@build_success_rate', 'gitlab', 'Percentage of pipeline builds that completed successfully.'],
+      ['Pipeline runs', 'Pipeline runs', '@pipeline_runs', 'gitlab', 'Total number of CI/CD pipeline executions in the selected period.'],
+      ['Code coverage', 'Code coverage', '@code_coverage', 'gitlab', 'Percentage of codebase covered by automated tests.'],
+      ['Deployment freq.', 'Deployment frequency', '@deployment_freq', 'gitlab', 'Number of successful deployments to production per week.']] },
+    { name: 'GitHub', cats: ['IT Operations'], metrics: [
+      ['PRs opened', 'Pull requests opened', '@prs_opened', 'github', 'Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count.'],
+      ['PRs merged', 'Pull requests merged', '@prs_merged', 'github', 'Number of pull requests merged into the main branch in the selected period. Only counts merges into the repository\'s default branch. PRs closed without merging are not included.'],
+      ['Commits per day', 'Commits per day', '@commits_per_day', 'github', 'Average number of commits pushed per calendar day in the selected period. Counts commits across all branches; merge commits are included. Weekends and holidays are not excluded from the daily average.'],
+      ['Code review time', 'Code review time', '@code_review_time', 'github', 'Average time from pull request creation to first review comment. Measured in hours across all PRs that received at least one review in the selected period. PRs with no review comments are excluded from the calculation.'],
+      ['Issues closed', 'Issues closed', '@issues_closed', 'github', 'Number of GitHub issues closed in the selected period. Counts issues whose state changed to closed, including those auto-closed by a linked pull request. Issues that were reopened and closed again within the same period are counted once.']] },
+    { name: 'Bitbucket', cats: ['IT Operations', 'Productivity'], metrics: [
+      ['PRs opened', 'Pull requests opened', '@bb_prs_opened', 'bitbucket', 'Number of pull requests opened across all repositories in the selected period.'],
+      ['Merge time', 'Merge time', '@bb_merge_time', 'bitbucket', 'Average time from pull request open to merge.'],
+      ['Commits', 'Commits', '@bb_commits', 'bitbucket', 'Total commits pushed across all repositories in the selected period.'],
+      ['Build success rate', 'Build success rate', '@bb_build_success', 'bitbucket', 'Percentage of Pipelines builds that passed in the selected period.']] },
+    { name: 'Elasticsearch', cats: ['IT Operations'], metrics: [
+      ['Search latency', 'Search latency', '@es_search_latency', 'elasticsearch', 'Average query response time across the cluster in the selected period.'],
+      ['Indexing rate', 'Indexing rate', '@es_indexing_rate', 'elasticsearch', 'Documents indexed per second across the cluster.'],
+      ['Search rate', 'Search rate', '@es_search_rate', 'elasticsearch', 'Search queries served per second in the selected period.'],
+      ['Cluster uptime', 'Cluster uptime', '@es_uptime', 'elasticsearch', 'Percentage of time the cluster was available in the selected period.']] },
+    { name: 'HubSpot', cats: ['Marketing', 'Sales & CRM'], metrics: [
+      ['Contacts created', 'Contacts created', '@contacts_created', 'hubspot', 'New contacts added in the period.'],
+      ['Deals closed', 'Deals closed', '@deals_closed', 'hubspot', 'Number of deals moved to closed-won.'],
+      ['Email open rate', 'Email open rate', '@email_open_rate', 'hubspot', 'Percentage of sent emails that were opened.']] },
+    { name: 'Google Analytics', cats: ['Business Intelligence', 'Marketing'], metrics: [
+      ['Sessions', 'Sessions', '@sessions', 'ga4', 'Total sessions in the selected period.'],
+      ['Bounce rate', 'Bounce rate', '@bounce_rate', 'ga4', 'Percentage of sessions with no interaction.'],
+      ['Conversions', 'Conversions', '@conversions', 'ga4', 'Goal completions tracked in GA4.']] },
+    { name: 'Mailchimp', cats: ['Marketing', 'Communication'], metrics: [
+      ['Subscribers', 'Subscribers', '@subscribers', 'mailchimp', 'Total active subscribers on the list.'],
+      ['Click rate', 'Click rate', '@click_rate', 'mailchimp', 'Percentage of delivered emails that received a click.'],
+      ['Unsubscribes', 'Unsubscribes', '@unsubscribes', 'mailchimp', 'Total unsubscribes in the period.']] },
+    { name: 'Salesforce', cats: ['Sales & CRM'], metrics: [
+      ['Leads generated', 'Leads generated', '@leads_generated', 'salesforce', 'Total leads created in the period.'],
+      ['Win rate', 'Win rate', '@win_rate', 'salesforce', 'Percentage of opportunities closed as won.'],
+      ['Pipeline value', 'Pipeline value', '@pipeline_value', 'salesforce', 'Total value of open opportunities.']] },
+    { name: 'Meta Ads', cats: ['Marketing', 'Business Intelligence'], metrics: [
+      ['Impressions', 'Impressions', '@impressions', 'meta', 'Total ad impressions served.'],
+      ['CTR', 'CTR', '@ctr', 'meta', 'Click-through rate across all ads.'],
+      ['Cost per click', 'Cost per click', '@cpc', 'meta', 'Average cost per click across campaigns.']] },
+    { name: 'Google Ads', cats: ['Marketing'], metrics: [
+      ['Impressions', 'Impressions', '@impressions_gads', 'googleads', 'Total ad impressions served across campaigns.'],
+      ['Clicks', 'Clicks', '@clicks_gads', 'googleads', 'Total clicks on ads in the selected period.'],
+      ['Cost per click', 'Cost per click', '@cpc_gads', 'googleads', 'Average cost per click across all campaigns.']] },
+    { name: 'Microsoft Ads', cats: ['Marketing'], metrics: [
+      ['Impressions', 'Impressions', '@impressions_msads', 'microsoftads', 'Total ad impressions on the Microsoft Search Network.'],
+      ['Clicks', 'Clicks', '@clicks_msads', 'microsoftads', 'Total clicks on Microsoft ads in the selected period.'],
+      ['Spend', 'Spend', '@spend_msads', 'microsoftads', 'Total ad spend in the selected period.']] },
+    { name: 'LinkedIn Ads', cats: ['Marketing'], metrics: [
+      ['Impressions', 'Impressions', '@impressions_li', 'linkedinads', 'Total ad impressions served on LinkedIn.'],
+      ['Clicks', 'Clicks', '@clicks_li', 'linkedinads', 'Total clicks on LinkedIn ads in the selected period.'],
+      ['CTR', 'CTR', '@ctr_li', 'linkedinads', 'Click-through rate across all LinkedIn ads.']] },
+    { name: 'Pinterest', cats: ['Marketing'], metrics: [
+      ['Impressions', 'Impressions', '@impressions_pin', 'pinterest', 'Times Pins appeared in users\' feeds.'],
+      ['Saves', 'Saves', '@saves_pin', 'pinterest', 'Number of times Pins were saved.'],
+      ['Outbound clicks', 'Outbound clicks', '@outbound_clicks_pin', 'pinterest', 'Clicks to the destination URL from Pins.']] },
+    { name: 'TikTok Ads', cats: ['Marketing'], metrics: [
+      ['Video views', 'Video views', '@video_views_tt', 'tiktokads', 'Total ad video views in the selected period.'],
+      ['Clicks', 'Clicks', '@clicks_tt', 'tiktokads', 'Total clicks on TikTok ads in the selected period.'],
+      ['CTR', 'CTR', '@ctr_tt', 'tiktokads', 'Click-through rate across all TikTok ads.']] },
+    { name: 'QuickBooks', cats: ['Commerce'], metrics: [
+      ['Revenue', 'Revenue', '@revenue', 'qbo', 'Total invoiced revenue in the period.'],
+      ['Expenses', 'Expenses', '@expenses', 'qbo', 'Total recorded expenses in the period.'],
+      ['Net profit', 'Net profit', '@net_profit', 'qbo', 'Revenue minus expenses.']] },
+    { name: 'Stripe', cats: ['Commerce'], metrics: [
+      ['MRR', 'MRR', '@mrr', 'stripe', 'Monthly recurring revenue from subscriptions.'],
+      ['Churn rate', 'Churn rate', '@churn_rate', 'stripe', 'Monthly subscription churn rate.'],
+      ['Successful charges', 'Successful charges', '@successful_charges', 'stripe', 'Count of successful payment charges.']] },
+    { name: 'Xero', cats: ['Commerce'], metrics: [
+      ['Accounts payable', 'Accounts payable', '@accounts_payable', 'xero', 'Total outstanding supplier invoices.'],
+      ['Accounts receivable', 'Accounts receivable', '@accounts_receivable', 'xero', 'Total outstanding customer invoices.'],
+      ['Cash flow', 'Cash flow', '@cash_flow', 'xero', 'Net cash flow in the period.']] },
+    { name: 'Shopify', cats: ['Commerce'], metrics: [
+      ['Orders', 'Orders', '@orders_shopify', 'shopify', 'Number of orders placed in the selected period.'],
+      ['Gross sales', 'Gross sales', '@gross_sales_shopify', 'shopify', 'Total sales volume before refunds and discounts.'],
+      ['Refund rate', 'Refund rate', '@refund_rate_shopify', 'shopify', 'Percentage of orders refunded in the selected period.']] },
+    { name: 'NetSuite', cats: ['Commerce'], metrics: [
+      ['ARR', 'ARR', '@arr', 'netsuite', 'Annual recurring revenue.'],
+      ['Days sales outstanding', 'Days sales outstanding', '@dso', 'netsuite', 'Average days to collect payment after sale.'],
+      ['Gross margin', 'Gross margin', '@gross_margin', 'netsuite', 'Gross profit as a percentage of revenue.']] },
+    { name: 'BambooHR', cats: ['Productivity'], metrics: [
+      ['Headcount', 'Headcount', '@headcount', 'bamboohr', 'Total active employees at end of period.'],
+      ['Attrition rate', 'Attrition rate', '@attrition_rate', 'bamboohr', 'Percentage of employees who left in the period.'],
+      ['Time to hire', 'Time to hire', '@time_to_hire', 'bamboohr', 'Average days from job open to offer accepted.']] },
+    { name: 'SurveyMonkey', cats: ['Productivity'], metrics: [
+      ['Responses', 'Responses', '@responses_sm', 'surveymonkey', 'Total survey responses collected in the period.'],
+      ['Completion rate', 'Completion rate', '@completion_rate_sm', 'surveymonkey', 'Percentage of started surveys that were completed.'],
+      ['Avg score', 'Avg score', '@avg_score_sm', 'surveymonkey', 'Average rating across scored questions.']] },
+    { name: 'SmartSuite', cats: ['Productivity'], metrics: [
+      ['Tasks completed', 'Tasks completed', '@tasks_completed_ss', 'smartsuite', 'Number of tasks marked done in the period.'],
+      ['Active projects', 'Active projects', '@active_projects_ss', 'smartsuite', 'Projects currently in progress.'],
+      ['Overdue items', 'Overdue items', '@overdue_items_ss', 'smartsuite', 'Tasks past their due date.']] },
+    { name: 'Sage Accounting', cats: ['Commerce'], metrics: [
+      ['Revenue', 'Revenue', '@revenue_sage', 'sageaccounting', 'Total invoiced revenue in the period.'],
+      ['Expenses', 'Expenses', '@expenses_sage', 'sageaccounting', 'Total recorded expenses in the period.'],
+      ['Profit margin', 'Profit margin', '@profit_margin_sage', 'sageaccounting', 'Net profit as a percentage of revenue.']] },
+    { name: 'Insightly', cats: ['Sales & CRM'], metrics: [
+      ['New leads', 'New leads', '@leads_insightly', 'insightly', 'New leads created in the period.'],
+      ['Conversion rate', 'Conversion rate', '@conversion_rate_insightly', 'insightly', 'Percentage of leads converted to opportunities.'],
+      ['Open opportunities', 'Open opportunities', '@open_opps_insightly', 'insightly', 'Active opportunities across all stages.']] },
+    { name: 'Zoho CRM', connector: 'zoho', cats: ['Sales & CRM', 'Marketing'], metrics: [
+      ['Opportunities', 'Opportunities created', '@opps_created', 'zoho', 'New opportunities created in the period.'],
+      ['Avg deal size', 'Average deal size', '@avg_deal_size', 'zoho', 'Mean value of closed-won deals.'],
+      ['Win rate', 'Win rate', '@win_rate_crm', 'zoho', 'Percentage of opportunities closed as won.']] },
+    { name: 'HubSpot CRM', connector: 'hubspot', cats: ['Sales & CRM', 'Marketing'], metrics: [
+      ['Deals in pipeline', 'Deals in pipeline', '@deals_pipeline', 'hubcrm', 'Active deals across all pipeline stages.'],
+      ['Revenue won', 'Revenue won', '@revenue_won', 'hubcrm', 'Total closed-won deal value.'],
+      ['Sales cycle', 'Sales cycle length', '@sales_cycle', 'hubcrm', 'Average time from first contact to close.']] },
+    { name: 'Pipedrive', cats: ['Sales & CRM'], metrics: [
+      ['Activities', 'Activities completed', '@activities_completed', 'pipedrive', 'Sales activities logged as done.'],
+      ['Won deals', 'Won deals', '@won_deals', 'pipedrive', 'Number of deals marked as won.'],
+      ['Lost deals', 'Lost deals', '@lost_deals', 'pipedrive', 'Number of deals marked as lost.']] },
+    { name: 'Freshsales', cats: ['Sales & CRM'], metrics: [
+      ['Contacts added', 'Contacts added', '@contacts_added_fs', 'freshsales', 'New contacts added to the CRM in the period.'],
+      ['Deals won', 'Deals won', '@deals_won_fs', 'freshsales', 'Number of deals marked as won in the period.'],
+      ['Revenue won', 'Revenue won', '@revenue_won_fs', 'freshsales', 'Total value of closed-won deals.']] },
+    { name: 'Keap', cats: ['Sales & CRM'], metrics: [
+      ['Emails sent', 'Emails sent', '@emails_sent_keap', 'keap', 'Total marketing emails sent via campaigns.'],
+      ['Reply rate', 'Reply rate', '@reply_rate_keap', 'keap', 'Percentage of contacts who replied.'],
+      ['Meetings booked', 'Meetings booked', '@meetings_booked_keap', 'keap', 'Meetings scheduled through Keap automations.']] },
+    { name: 'Amplitude', cats: ['Business Intelligence', 'Productivity'], metrics: [
+      ['DAU', 'DAU', '@dau', 'amplitude', 'Daily active users.'],
+      ['Retention D7', 'Retention D7', '@retention_d7', 'amplitude', '7-day user retention rate.'],
+      ['Feature adoption', 'Feature adoption', '@feature_adoption', 'amplitude', 'Share of users who used a key feature.']] },
+    { name: 'Zoho Analytics', cats: ['Business Intelligence'], metrics: [
+      ['Reports created', 'Reports created', '@reports_created_za', 'zohoanalytics', 'Reports created in the selected period.'],
+      ['Dashboard views', 'Dashboard views', '@dashboard_views_za', 'zohoanalytics', 'Total dashboard views in the selected period.'],
+      ['Active viewers', 'Active viewers', '@active_viewers_za', 'zohoanalytics', 'Users who viewed a report or dashboard.']] },
+    { name: 'Snowflake', cats: ['IT Operations', 'Business Intelligence'], metrics: [
+      ['Queries run', 'Queries run', '@queries_run_sf', 'snowflake', 'Total queries executed in the selected period.'],
+      ['Storage used', 'Storage used', '@storage_used_sf', 'snowflake', 'Total data stored across databases.'],
+      ['Credits consumed', 'Credits consumed', '@credits_consumed_sf', 'snowflake', 'Compute credits consumed in the selected period.']] },
+    { name: 'BigQuery', cats: ['IT Operations', 'Business Intelligence'], metrics: [
+      ['Queries run', 'Queries run', '@queries_run_bq', 'bigquery', 'Total queries executed in the selected period.'],
+      ['Bytes processed', 'Bytes processed', '@bytes_processed_bq', 'bigquery', 'Total bytes scanned by queries in the period.'],
+      ['Active datasets', 'Active datasets', '@active_datasets_bq', 'bigquery', 'Datasets queried in the selected period.']] },
+    { name: 'Databricks', cats: ['IT Operations', 'Business Intelligence'], metrics: [
+      ['Jobs run', 'Jobs run', '@jobs_run_dbx', 'databricks', 'Total jobs executed in the selected period.'],
+      ['Notebook runs', 'Notebook runs', '@notebook_runs_dbx', 'databricks', 'Notebook executions in the selected period.'],
+      ['Active clusters', 'Active clusters', '@active_clusters_dbx', 'databricks', 'Clusters running in the selected period.']] },
+    { name: 'Looker Studio', cats: ['Business Intelligence'], metrics: [
+      ['Report views', 'Report views', '@report_views_ls', 'looker-studio', 'Total report views in the selected period.'],
+      ['Active viewers', 'Active viewers', '@active_viewers_ls', 'looker-studio', 'Users who viewed a report in the period.'],
+      ['Data sources', 'Data sources', '@data_sources_ls', 'looker-studio', 'Connected data sources used across reports.']] },
+    { name: 'Slack', cats: ['Communication'], metrics: [
+      ['Messages sent', 'Messages sent', '@messages_sent', 'slack', 'Total messages sent across all channels.'],
+      ['Active members', 'Active members', '@active_members_slack', 'slack', 'Members who posted at least once.'],
+      ['Channels created', 'Channels created', '@channels_created', 'slack', 'New channels created in the period.']] },
+    { name: 'Zoom', cats: ['Communication'], metrics: [
+      ['Meetings hosted', 'Meetings hosted', '@meetings_hosted_zoom', 'zoom', 'Total meetings hosted in the selected period.'],
+      ['Participants', 'Participants', '@participants_zoom', 'zoom', 'Total meeting participants in the period.'],
+      ['Avg duration', 'Avg duration', '@avg_duration_zoom', 'zoom', 'Average meeting duration in the period.']] },
+    { name: 'Intercom', cats: ['Communication', 'Support'], metrics: [
+      ['New conversations', 'New conversations', '@new_conversations', 'intercom', 'Conversations opened in the period.'],
+      ['Avg. response time', 'Avg. response time', '@avg_response_time', 'intercom', 'Median first response time.'],
+      ['CSAT score', 'CSAT score', '@csat_intercom', 'intercom', 'Customer satisfaction rating.']] },
+    { name: 'SendPulse', cats: ['Marketing', 'Communication'], metrics: [
+      ['Emails delivered', 'Emails delivered', '@emails_delivered_sp', 'sendpulse', 'Total emails successfully delivered.'],
+      ['Open rate', 'Open rate', '@email_open_rate_sp', 'sendpulse', 'Percentage of emails opened.'],
+      ['Bounce rate', 'Bounce rate', '@bounce_rate_sp', 'sendpulse', 'Percentage of emails bounced.']] },
+    { name: 'Dropbox', cats: ['Storage & Files'], metrics: [
+      ['Files shared', 'Files shared', '@files_shared', 'dropbox', 'Files shared with other users.'],
+      ['Storage used', 'Storage used', '@storage_used_gb', 'dropbox', 'Total storage consumed.'],
+      ['Active users', 'Active users', '@active_users_dropbox', 'dropbox', 'Users active in the period.']] },
+    { name: 'Google Drive', cats: ['Storage & Files'], metrics: [
+      ['Files created', 'Files created', '@files_created_gdrive', 'googledrive', 'New files created in Drive.'],
+      ['Shared drives', 'Shared drives', '@shared_drives', 'googledrive', 'Number of shared drives.'],
+      ['Storage used', 'Storage used', '@storage_used_gdrive', 'googledrive', 'Total storage across all users.']] },
+    { name: 'OneDrive', cats: ['Storage & Files'], metrics: [
+      ['Files synced', 'Files synced', '@files_synced', 'onedrive', 'Files synced across devices.'],
+      ['Active users', 'Active users', '@active_users_onedrive', 'onedrive', 'Users with sync activity.'],
+      ['Storage used', 'Storage used', '@storage_used_od', 'onedrive', 'Total storage consumed.']] },
+    { name: 'Box', cats: ['Storage & Files'], metrics: [
+      ['Files uploaded', 'Files uploaded', '@files_uploaded_box', 'box', 'Files uploaded in the period.'],
+      ['Collaborators', 'Collaborators', '@collaborators_box', 'box', 'External collaborators added.'],
+      ['Shared links', 'Shared links', '@shared_links_box', 'box', 'Shared links created.']] },
+    { name: 'SharePoint', cats: ['Storage & Files'], metrics: [
+      ['Site visits', 'Site visits', '@site_visits_sp', 'sharepoint', 'Total page views across sites.'],
+      ['Documents shared', 'Documents shared', '@docs_shared_sp', 'sharepoint', 'Documents shared externally.'],
+      ['Active sites', 'Active sites', '@active_sites_sp', 'sharepoint', 'Sites with activity this period.']] },
+    { name: 'Zendesk', cats: ['Support'], metrics: [
+      ['Tickets opened', 'Tickets opened', '@tickets_opened', 'zendesk', 'New support tickets in the period.'],
+      ['Tickets resolved', 'Tickets resolved', '@tickets_resolved', 'zendesk', 'Tickets closed in the period.'],
+      ['CSAT score', 'CSAT score', '@csat_zendesk', 'zendesk', 'Customer satisfaction rating.']] },
+    { name: 'Freshdesk', cats: ['Support'], metrics: [
+      ['Tickets created', 'Tickets created', '@tickets_created_fd', 'freshdesk', 'Support tickets created.'],
+      ['Resolution time', 'Resolution time', '@resolution_time_fd', 'freshdesk', 'Average time to resolve tickets.'],
+      ['Agent responses', 'Agent responses', '@agent_responses_fd', 'freshdesk', 'Total agent replies sent.']] },
+    { name: 'ServiceNow', cats: ['Support'], metrics: [
+      ['Incidents opened', 'Incidents opened', '@incidents_opened', 'servicenow', 'New incidents logged.'],
+      ['Requests fulfilled', 'Requests fulfilled', '@requests_fulfilled', 'servicenow', 'Service requests completed.'],
+      ['SLA compliance', 'SLA compliance', '@sla_compliance', 'servicenow', 'Percentage of tickets meeting SLA.']] },
+    { name: 'Freshcaller', cats: ['Support'], metrics: [
+      ['Calls handled', 'Calls handled', '@calls_handled_fc', 'freshcaller', 'Total support calls handled in the period.'],
+      ['Avg. wait time', 'Avg. wait time', '@avg_wait_time_fc', 'freshcaller', 'Average caller wait time before answer.'],
+      ['Resolution rate', 'Resolution rate', '@resolution_rate_fc', 'freshcaller', 'Percentage of calls resolved on first contact.']] },
+    { name: 'Notion', cats: ['Other'], metrics: [
+      ['Pages created', 'Pages created', '@pages_created_notion', 'notion', 'New pages created in the workspace.'],
+      ['Active users', 'Active users', '@active_users_notion', 'notion', 'Members who edited at least one page.'],
+      ['Database entries', 'Database entries', '@db_entries_notion', 'notion', 'Records added to databases.']] },
+    { name: 'Asana', cats: ['Other'], metrics: [
+      ['Tasks completed', 'Tasks completed', '@tasks_completed_asana', 'asana', 'Tasks marked complete in the period.'],
+      ['Projects active', 'Projects active', '@projects_active_asana', 'asana', 'Projects with recent activity.'],
+      ['Overdue tasks', 'Overdue tasks', '@overdue_tasks_asana', 'asana', 'Tasks past their due date.']] },
+    { name: 'Monday.com', cats: ['Other'], metrics: [
+      ['Items created', 'Items created', '@items_created_monday', 'mondaydotcom', 'Board items created.'],
+      ['Boards active', 'Boards active', '@boards_active_monday', 'mondaydotcom', 'Boards with updates this period.'],
+      ['Updates posted', 'Updates posted', '@updates_posted_monday', 'mondaydotcom', 'Item update messages posted.']] },
+    { name: 'REST API', cats: ['Other'], metrics: [
+      ['Requests', 'Requests', '@requests_rest', 'rest', 'Total API requests in the selected period.'],
+      ['Avg latency', 'Avg latency', '@avg_latency_rest', 'rest', 'Average response time across requests.'],
+      ['Error rate', 'Error rate', '@error_rate_rest', 'rest', 'Percentage of requests returning an error.']] },
+    { name: 'Airtable', cats: ['Other'], metrics: [
+      ['Records created', 'Records created', '@records_created_at', 'airtable', 'Records added to bases.'],
+      ['Automations run', 'Automations run', '@automations_run_at', 'airtable', 'Automation triggers fired.'],
+      ['Active bases', 'Active bases', '@active_bases_at', 'airtable', 'Bases with activity this period.']] }
+  ];
+
+  /* The user's library (the original's #mx-filled-body, row for row). */
+  var JIRA = 'Jira Software Cloud';
+  var ROWS = [
+    { kind: 'group', prov: 'jira', name: JIRA, connector: 'Jira' },
+    { kind: 'metric', id: 'custom-1', prov: 'jira', name: 'MRR growth', alias: '@mrr_growth', provider: JIRA, connector: 'Skyvia Jira', custom: true, active: true,
+      summary: 'Month-over-month growth rate of MRR derived from Jira billing data.',
+      desc: 'Month-over-month growth rate of MRR derived from Jira billing data. Calculated as (MRR this month − MRR last month) ÷ MRR last month × 100. Positive values indicate revenue expansion; negative values signal churn or contraction.' },
+    { kind: 'metric', id: 'b-issues_created', prov: 'jira', name: 'Issues created', alias: '@issues_created', provider: JIRA, active: true,
+      summary: 'Number of issues created in the selected period.',
+      desc: 'Number of issues created in the selected period. Includes all issue types: bugs, tasks, stories, and epics. Does not filter by status or assignee.' },
+    { kind: 'metric', id: 'b-issues_resolved', prov: 'jira', name: 'Issues resolved', alias: '@issues_resolved', provider: JIRA, active: true,
+      summary: 'Number of issues resolved (closed) in the selected period.',
+      desc: 'Number of issues resolved (closed) in the selected period. An issue counts as resolved when its status transitions to Done or a custom closed state. Reopened issues are not subtracted from the total.' },
+    { kind: 'metric', id: 'b-sprint_velocity', prov: 'jira', name: 'Sprint velocity', alias: '@sprint_velocity', provider: JIRA, active: true,
+      summary: 'Average number of story points completed per sprint.',
+      desc: 'Average number of story points completed per sprint. Calculated across all sprints that ended within the selected period. Only counts points from issues in Done status at sprint close.' },
+    { kind: 'metric', id: 'b-bug_count', prov: 'jira', name: 'Bug count', alias: '@bug_count', provider: JIRA, active: false,
+      summary: 'Number of open bugs at the end of the selected period.',
+      desc: 'Number of open bugs at the end of the selected period. Counts issues with issue type Bug that have not been resolved. Provides a snapshot of backlog health at the period boundary.' },
+    { kind: 'metric', id: 'b-story_pts_completed', prov: 'jira', name: 'Story points completed', alias: '@story_pts_completed', provider: JIRA, active: true,
+      summary: 'Total story points completed across all sprints in the selected period.',
+      desc: 'Total story points completed across all sprints in the selected period. Counts only issues in Done status at sprint close. Use alongside Sprint velocity to compare team throughput over time.' },
+    { kind: 'conn', id: 'Skyvia Jira', name: 'Skyvia Jira' },
+    { kind: 'metric', id: 'custom-skyvia-1', prov: 'jira', conn: 'Skyvia Jira', name: 'Jira ticket sync lag', alias: '@jira_sync_lag', provider: JIRA, connector: 'Skyvia Jira', custom: true, active: true,
+      summary: 'Average delay between a Jira issue update and its appearance in Insightis.',
+      desc: 'Average delay (in minutes) between a Jira issue update and its appearance in Insightis. Measured via Skyvia Jira connector sync timestamps. Spikes indicate connector throttling or API rate-limit events.' },
+    { kind: 'group', prov: 'azure', name: 'Azure DevOps' },
+    { kind: 'empty', prov: 'azure', name: 'Azure DevOps' },
+    { kind: 'group', prov: 'github', name: 'GitHub' },
+    { kind: 'metric', id: 'b-prs_opened', prov: 'github', name: 'Pull requests opened', alias: '@prs_opened', provider: 'GitHub', active: true,
+      summary: 'Number of pull requests opened in the selected period.',
+      desc: 'Number of pull requests opened in the selected period. Includes PRs targeting any branch, not just the default branch. Draft pull requests are excluded from the count.' },
+    { kind: 'metric', id: 'b-prs_merged', prov: 'github', name: 'Pull requests merged', alias: '@prs_merged', provider: 'GitHub', active: true,
+      summary: 'Number of pull requests merged into the main branch in the selected period.',
+      desc: "Number of pull requests merged into the main branch in the selected period. Only counts merges into the repository's default branch. PRs closed without merging are not included." },
+    { kind: 'metric', id: 'b-commits_per_day', prov: 'github', name: 'Commits per day', alias: '@commits_per_day', provider: 'GitHub', active: false,
+      summary: 'Average number of commits pushed per calendar day in the selected period.',
+      desc: 'Average number of commits pushed per calendar day in the selected period. Counts commits across all branches; merge commits are included. Weekends and holidays are not excluded from the daily average.' },
+    { kind: 'metric', id: 'b-code_review_time', prov: 'github', name: 'Code review time', alias: '@code_review_time', provider: 'GitHub', active: true,
+      summary: 'Average time from pull request creation to first review comment.',
+      desc: 'Average time from pull request creation to first review comment. Measured in hours across all PRs that received at least one review in the selected period. PRs with no review comments are excluded from the calculation.' },
+    { kind: 'metric', id: 'b-issues_closed', prov: 'github', name: 'Issues closed', alias: '@issues_closed', provider: 'GitHub', active: false,
+      summary: 'Number of GitHub issues closed in the selected period.',
+      desc: 'Number of GitHub issues closed in the selected period. Counts issues whose state changed to closed, including those auto-closed by a linked pull request. Issues that were reopened and closed again within the same period are counted once.' }
+  ];
+  var CONNECTIONS = [{ id: 'Skyvia Jira', label: 'Skyvia Jira (Jira Software Cloud)' }];
+  var CATALOG = 'approved/data-sources_connections-landing.html';
+
+  function go(rel) { location.href = IK.pageHref(rel); }
+  function norm(v) { return (v || '').trim().toLowerCase(); }
+
+  function App() {
+    var stQ = IK.useQueryState('state', 'empty'), state = stQ[0], setState = stQ[1];
+    var plan = IK.usePlan()[0], free = plan === 'free';
+
+    var rs = R.useState(ROWS), rows = rs[0], setRows = rs[1];
+    var cs = R.useState(CATS[0]), cat = cs[0], setCat = cs[1];
+    var qs = R.useState(''), query = qs[0], setQuery = qs[1];
+    var ts = R.useState('all'), type = ts[0], setType = ts[1];
+    var as = R.useState(false), activeOnly = as[0], setActiveOnly = as[1];
+    var ap = R.useState(false), applied = ap[0], setApplied = ap[1];   /* any filter touched yet */
+    var cl = R.useState({}), collapsed = cl[0], setCollapsed = cl[1];
+    var ds1 = R.useState(false), u4Gone = ds1[0], setU4Gone = ds1[1];
+    var ds2 = R.useState(false), moreGone = ds2[0], setMoreGone = ds2[1];
+    /* the details sheet: a library chip (metric) or one of the user's rows (rowId) */
+    var ss = R.useState({ open: false }), sheet = ss[0], setSheet = ss[1];
+    var cd = R.useState({ open: false, source: '' }), conn = cd[0], setConn = cd[1];
+    var md = R.useState({ open: false }), dlg = md[0], setDlg = md[1];
+    var counter = R.useRef(2);
+
+    var filled = state === 'filled';
+    function changeState(v) { setSheet(function (s) { return Object.assign({}, s, { open: false }); }); setState(v); }
+
+    /* ── rows ── */
+    function rowById(id) { for (var i = 0; i < rows.length; i++) if (rows[i].id === id && rows[i].kind === 'metric') return rows[i]; return null; }
+    function patch(id, o) { setRows(function (list) { return list.map(function (r) { return r.kind === 'metric' && r.id === id ? Object.assign({}, r, o) : r; }); }); }
+    function remove(id) { setRows(function (list) { return list.filter(function (r) { return !(r.kind === 'metric' && r.id === id); }); }); }
+    function duplicate(src) {
+      var alias = (src.alias || '').replace(/^@/, '') + '_copy';
+      var copy = {
+        kind: 'metric', id: 'custom-' + (counter.current++), prov: src.prov, conn: src.conn,
+        name: src.name + ' (Copy)', alias: alias ? '@' + alias : '', provider: src.provider,
+        connector: src.connector || src.provider, desc: src.desc, summary: src.desc, custom: true, active: false
+      };
+      setRows(function (list) {
+        var i = list.indexOf(list.filter(function (r) { return r.kind === 'metric' && r.id === src.id; })[0]);
+        var next = list.slice(); next.splice(i + 1, 0, copy); return next;
+      });
+      setState('filled');
+    }
+    function findDuplicates(name, alias) {
+      var hit = { name: null, alias: null }, n = norm(name), a = norm(alias).replace(/^@/, '');
+      rows.forEach(function (r) {
+        if (r.kind !== 'metric' || (dlg.editId && r.id === dlg.editId)) return;
+        if (n && norm(r.name) === n) hit.name = r.name;
+        if (a && norm(r.alias).replace(/^@/, '') === a) hit.alias = r.alias;
+      });
+      return hit;
+    }
+    function saveMetric(v) {
+      if (dlg.mode === 'edit') {
+        patch(dlg.editId, { name: v.name, alias: v.alias, desc: v.def, summary: v.def, connector: v.connector, provider: v.connector || 'Custom' });
+        return;
+      }
+      setRows(function (list) {
+        return list.concat([{ kind: 'metric', id: 'custom-' + (counter.current++), prov: 'custom', name: v.name, alias: v.alias,
+          provider: v.connector || 'Custom', connector: v.connector, desc: v.def, summary: v.def, custom: true, active: false }]);
+      });
+      setState('filled');
+    }
+
+    /* ── surfaces ── */
+    function openRow(r) { setSheet({ open: true, rowId: r.id }); }
+    function openChip(card, m) {
+      setSheet({ open: true, metric: { kind: 'library', name: m[1], alias: m[2], prov: m[3], desc: m[4], provider: card.name, logo: card.connector } });
+    }
+    function openCreate() { setDlg({ open: true, mode: 'create', initial: {} }); }
+    function openEdit(r) {
+      setSheet(function (s) { return Object.assign({}, s, { open: false }); });
+      setDlg({ open: true, mode: 'edit', editId: r.id, initial: { name: r.name, alias: (r.alias || '').replace(/^@/, ''), def: r.desc, connector: r.connector || '' } });
+    }
+    function openConnect(source) { setConn({ open: true, source: source }); }
+    function connected(label) {
+      D.toast.success(h(IK.Fragment, null, h('strong', null, label), ' connected successfully'), { id: 'mx-conn' });
+      setState('filled');
+    }
+
+    var sheetRow = sheet.rowId ? rowById(sheet.rowId) : null;
+    var sheetMetric = sheetRow ? Object.assign({}, sheetRow, { kind: sheetRow.custom ? 'custom' : 'builtin' }) : sheet.metric;
+    var sheetOpen = sheet.open && !!sheetMetric;
+
+    var f = IK.mxFilterMetrics(rows, { query: query, type: type, activeOnly: activeOnly, applied: applied });
+
+    /* ── empty state ── */
+    var shown = CARDS.filter(function (c) { return c.cats.indexOf(cat) >= 0; }).slice(0, 5);
+    var empty = h('div', { className: 'pg-empty' },
+      h(D.Banner, {
+        variant: 'horizontalWide', role: 'note',
+        icon: h(IK.Icon, { name: 'pg-sun' }),
+        title: 'Explore your metrics library',
+        description: free
+          ? 'Browse 50+ ready-made metrics for free. To see your own numbers in them, connect a source — that starts on Starter.'
+          : '50+ built-in metrics across popular data sources. Browse below to explore definitions — connect a source to activate any metric.',
+        action: h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { go(CATALOG); } }, 'Create Connection')
+      }),
+      h('div', { className: 'pg-cat' },
+        h(D.Typography, { element: 'span', textStyle: 'title20', textColor: 'primary', className: 'whitespace-nowrap' }, 'Top 5 Data Sources for'),
+        h(D.ScrollShadow, { orientation: 'horizontal', className: 'pg-cat-chips' },
+          h(D.FilterChips, { value: cat, onValueChange: function (v) { if (v) setCat(v); }, size: 'sm', 'aria-label': 'Data source category', className: 'gap-1.5 max-md:flex-nowrap' },
+            CATS.map(function (c) { return h(D.FilterChip, { key: c, value: c, size: 'sm' }, c); })))),
+      h('div', { className: 'pg-grid' },
+        shown.map(function (c) {
+          return h(IK.MxProviderCard, {
+            key: c.name, name: c.name, connector: c.connector,
+            metrics: c.metrics.map(function (m) { return { label: m[0], m: m }; }),
+            onMetric: function (x) { openChip(c, x.m); },
+            onConnect: function () { openConnect(c.name); }
+          });
+        }),
+        h(IK.MxBrowseCard, {
+          label: 'Explore more ' + cat + ' data sources', sub: '200+ integrations available to connect',
+          onClick: function () { go(CATALOG + '?cat=' + encodeURIComponent(cat)); }
+        })));
+
+    /* ── filled state ── */
+    var filledView = h('div', { className: 'pg-filled' },
+      free && !u4Gone ? h(D.Alert, {
+        variant: 'warning', size: 'md', role: 'note', className: 'max-sm:flex-wrap',
+        icon: h(IK.Icon, { name: 'metrics' }),
+        title: 'Your subscription ended, so these metrics can no longer be edited',
+        description: h(IK.Fragment, null, 'Nothing was deleted. ',
+          h(IK.Locked, { feature: 'metrics', clickOnly: true, marker: 'none' },
+            h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); } }, 'Upgrade to Starter')),
+          ' to edit them and ask about them in chat.'),
+        actions: h(IK.Tip, { tip: 'Dismiss' },
+          h(D.IconButton, { variant: 'tertiary', size: '2xs', type: 'button', 'aria-label': 'Dismiss', onClick: function () { setU4Gone(true); } }, h(IK.Icon, { name: 'pg-x' })))
+      }) : null,
+      h('div', { className: 'pg-toolbar' },
+        h(D.InputGroup, { size: 'lg', role: 'search' },
+          h(D.InputGroupAddon, { align: 'inline-start' }, h(IK.Icon, { name: 'pg-search' })),
+          h(D.InputGroupInput, { type: 'search', placeholder: 'Search metrics...', value: query, onChange: function (e) { setApplied(true); setQuery(e.target.value); } }),
+          query ? h(IK.Tip, { tip: 'Clear search' },
+            h(D.InputGroupAction, { 'aria-label': 'Clear search', onClick: function () { setApplied(true); setQuery(''); } }, h(IK.Icon, { name: 'mx-x' }))) : null),
+        h('div', { className: 'pg-filters' },
+          h(D.FilterChips, { value: type, onValueChange: function (v) { setApplied(true); if (v) setType(v); }, size: 'sm', 'aria-label': 'Metric type', className: 'gap-1.5' },
+            [['all', 'All'], ['builtin', 'Built-in'], ['custom', 'Custom']].map(function (t) {
+              return h(D.FilterChip, {
+                key: t[0], value: t[0], size: 'sm',
+                /* pressing the active Built-in / Custom chip goes back to All */
+                onClick: function () { setApplied(true); if (t[0] !== 'all' && type === t[0]) setType('all'); }
+              }, t[1]);
+            })),
+          h(D.Switch, { size: 'sm', label: 'Active only', labelPosition: 'left', gap: 'sm', className: 'ms-auto', checked: activeOnly, onCheckedChange: function (v) { setApplied(true); setActiveOnly(v); } }))),
+      f.any
+        ? h(IK.MxMetricsTable, {
+            rows: rows, hidden: f.hidden, collapsed: collapsed,
+            onToggleGroup: function (prov) { setCollapsed(function (c) { var n = Object.assign({}, c); n[prov] = !n[prov]; return n; }); },
+            selected: sheetOpen && sheet.rowId,
+            onOpen: openRow,
+            onActive: function (r, on) { patch(r.id, { active: on }); },
+            onAdd: openCreate, onEdit: openEdit,
+            onDuplicate: duplicate,
+            onDelete: function (r) { remove(r.id); }
+          })
+        : h(D.StatusView, {
+            size: 'lg', surface: 'embedded', role: 'status', withIconHalo: false,
+            icon: h(D.EmptyStateIllustration),
+            title: 'No matches found',
+            description: 'No metrics match your search or filters — try a different term or clear them'
+          }),
+      !free && !moreGone ? h('div', { className: 'pg-connect' },
+        h(D.Banner, {
+          variant: 'horizontalWide', size: 'sm', role: 'note',
+          icon: h(IK.Icon, { name: 'pg-plug' }),
+          title: 'Connect more data sources',
+          description: '50+ data sources available — add connections to unlock more built-in metrics for your library.',
+          action: h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { go(CATALOG); } }, 'Browse Data Sources'),
+          onDismiss: function () { setMoreGone(true); }
+        })) : null);
+
+    return h(IK.Fragment, null,
+      h(IK.ReviewBar, { title: 'Metrics', status: 'approved', plan: true, size: 'sm', controls: [
+        { label: 'Demo state', value: state, onChange: changeState,
+          options: [{ value: 'empty', label: 'Empty' }, { value: 'filled', label: 'Filled' }] }] }),
+      h(IK.AppShell, { nav: 'metrics', burger: false },
+        h('div', { className: 'pg-main' },
+          h('div', { className: 'pg-page' },
+            h(IK.MxPageHead, {
+              title: 'Metrics',
+              actions: filled ? h(IK.Locked, { feature: 'metrics', surface: 'modal' },
+                h(D.Button, { variant: 'primary', size: 'sm', rounded: 'full', type: 'button', leftSlot: h(IK.Icon, { name: 'pg-plus' }), onClick: openCreate }, 'Create Metric')) : null
+            }),
+            filled ? filledView : empty))),
+      h(IK.MxMetricSheet, {
+        open: sheetOpen, metric: sheetMetric || {},
+        onOpenChange: function (v) { setSheet(function (s) { return Object.assign({}, s, { open: v }); }); },
+        onActive: function (on) { if (sheetRow) patch(sheetRow.id, { active: on }); },
+        onConnect: function () { setSheet({ open: false }); openConnect(sheetMetric.prov); },
+        onDuplicate: function () { setSheet({ open: false }); if (sheetRow) duplicate(sheetRow); },
+        onEdit: function () { if (sheetRow) openEdit(sheetRow); },
+        onDelete: function () { if (sheetRow) remove(sheetRow.id); setSheet({ open: false }); }
+      }),
+      h(IK.MxConnectDialog, {
+        open: conn.open, source: conn.source,
+        onOpenChange: function (v) { setConn(function (c) { return Object.assign({}, c, { open: v }); }); },
+        onCreate: connected
+      }),
+      h(IK.MxMetricDialog, {
+        open: !!dlg.open, mode: dlg.mode, initial: dlg.initial, options: CONNECTIONS,
+        findDuplicates: findDuplicates, onSave: saveMetric,
+        onOpenChange: function (v) { setDlg(function (d) { return Object.assign({}, d, { open: v }); }); }
+      }),
+      h(D.Toaster));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

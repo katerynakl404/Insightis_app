@@ -1,0 +1,12 @@
+/* AuthField — the strength hint above the field (≤960px) takes the field's own width, as the
+   original's left:0 / right:0. Radix publishes the anchor's width on the popper wrapper. */
+.ik-auth-strength-top { width: var(--radix-popper-anchor-width); }
+/* Strength checklist rows — the original's .au-req-list li: 14px at line-height 1.2 (no compiled
+   utility carries 1.2), led by its own text tick: a bold "✓" in a 16px column, inactive until the
+   rule is met, then green. */
+.ik-auth-req-item { font-size: var(--font-size-sm); line-height: 1.2; }
+.ik-auth-req-item::before {
+  content: "\2713"; flex: none; width: 1rem; text-align: center; font-weight: 700;
+  color: hsl(var(--ink-inactive));
+}
+.ik-auth-req-item.is-met::before { color: hsl(var(--fb-green)); }

@@ -1,0 +1,47 @@
+/* ChatRow — what DevartUI's Card variant="row" leaves to the chat row: the selected state, the
+   name / pin / time / ⋮ slots and the ⋮ reveal. Original kit .chat-row family. */
+.ik-chatrow-list { display: flex; flex-direction: column; gap: .5rem; }
+
+/* Selected wins over hover (declared after the Card's hover utilities, same specificity). */
+.ik-chatrow.is-selected,
+.ik-chatrow.is-selected:hover {
+  background: var(--state-pressed);
+  border-color: hsl(var(--brand-primary));
+  box-shadow: var(--shadow-rest);
+}
+
+.ik-chatrow-name { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: inherit; }
+.ik-chatrow.is-preview .ik-chatrow-name { color: hsl(var(--ink-highlight)); }
+.ik-chatrow-input {
+  flex: 1 1 auto; min-width: 0; height: 1.5rem; padding: 0 .375rem; box-sizing: border-box;
+  font: inherit; font-size: .875rem; color: hsl(var(--ink-primary));
+  background: hsl(var(--surface-card)); border: 1px solid hsl(var(--brand-primary)); border-radius: .25rem; outline: none;
+}
+
+.ik-chatrow-time {
+  margin-left: auto; flex: none;
+  font-size: .75rem; line-height: 1rem; font-weight: 400; font-variant-numeric: tabular-nums;
+  color: hsl(var(--ink-secondary));
+}
+
+/* The pin: Brand/Primary, tilted 30°, straightens on hover / focus. Its hover wash is brand-tinted
+   on purpose — the row under it is already on State/Hover, so a neutral one would vanish. */
+.ik-chatrow-pin {
+  flex: none; width: 1.25rem; height: 1.25rem; margin-left: -.125rem; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: none; border-radius: .25rem; background: transparent; cursor: pointer;
+  color: hsl(var(--brand-primary));
+  transition: background-color var(--motion-fast);
+}
+.ik-chatrow-pin svg { transform: rotate(30deg); transition: transform var(--motion-base); }
+.ik-chatrow-pin:hover { background: color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-8), transparent); }
+.ik-chatrow-pin:hover svg, .ik-chatrow-pin:focus-visible svg { transform: rotate(0deg); }
+
+/* ⋮ — revealed on hover, keyboard focus and while open; always on touch. */
+.ik-chatrow-more { flex: none; opacity: 0; transition: opacity var(--motion-fast); }
+.ik-chatrow:not(:has(.ik-chatrow-time)) .ik-chatrow-more { margin-left: auto; }
+.ik-chatrow:hover .ik-chatrow-more,
+.ik-chatrow:focus-within .ik-chatrow-more,
+.ik-chatrow.is-menu-open .ik-chatrow-more { opacity: 1; }
+@media (hover: none) { .ik-chatrow-more { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ik-chatrow-pin svg { transition: none; } }

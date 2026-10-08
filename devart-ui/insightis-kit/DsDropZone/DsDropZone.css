@@ -1,0 +1,21 @@
+/* DsDropZone — the kit DropZone (.dsf-drop). Fill is Surface/Card 2 on light, Surface/Card on dark
+   (the original --dropzone-fill); the hover wash is 4% brand (--tint-4) over that fill, the hover
+   border 45% brand over --dropzone-border (the original recipe; 45 has no --tint step in the DS). */
+.ik-dsdz {
+  --ik-dsdz-fill: hsl(var(--surface-card2));
+  display: flex; flex-direction: column; align-items: center; gap: .25rem;
+  padding: 1.25rem 1.5rem; text-align: center; cursor: pointer;
+  border: 1.5px dashed hsl(var(--dropzone-border)); border-radius: .75rem;
+  background: var(--ik-dsdz-fill);
+  transition: background var(--motion-base), border-color var(--motion-base);
+}
+html.dark .ik-dsdz { --ik-dsdz-fill: hsl(var(--surface-card)); }
+.ik-dsdz:hover, .ik-dsdz.s-hover, .ik-dsdz:focus-within, .ik-dsdz.s-focus {
+  border-color: color-mix(in srgb, hsl(var(--brand-primary)) 45%, hsl(var(--dropzone-border)));
+  background: color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-4), var(--ik-dsdz-fill));
+}
+.ik-dsdz.is-dragover { background: var(--state-hover); border-style: solid; border-color: hsl(var(--brand-primary)); }
+.ik-dsdz-head { display: flex; align-items: center; gap: .5rem; }
+.ik-dsdz-ic { color: hsl(var(--ink-secondary)); transition: color var(--motion-base); }
+.ik-dsdz:hover .ik-dsdz-ic, .ik-dsdz.s-hover .ik-dsdz-ic, .ik-dsdz:focus-within .ik-dsdz-ic,
+.ik-dsdz.s-focus .ik-dsdz-ic, .ik-dsdz.is-dragover .ik-dsdz-ic { color: hsl(var(--brand-primary)); }

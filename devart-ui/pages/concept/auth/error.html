@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Error</title>
+<link rel="stylesheet" href="../../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../../insightis-kit/insightis-kit.css">
+<script src="../../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../../insightis-kit/insightis-kit.js"></script>
+<script>InsightisKit.AuthLayout.initTheme();</script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
+  function App() {
+    return h(IK.AuthLayout, { screen: 'error.html' },
+      h(IK.AuthCard, null,
+        h(IK.AuthStatus, { glyph: 'triangle-alert', tone: 'error', title: 'Error' }),
+        /* neutral on purpose — the red art above already says "error"; only the code is tinted */
+        h(D.Alert, { variant: 'neutral', size: 'md', title: h(IK.Fragment, null,
+          'Sorry, there was an error: ',
+          h(D.Typography, { element: 'code', variant: 'code', textColor: 'destructive' }, 'invalid_request_uri')) }),
+        h(D.Typography, { element: 'p', textStyle: 'body12', textColor: 'light', align: 'center' },
+          'Request Id: ',
+          h(D.Typography, { element: 'code', variant: 'code', weight: 'normal', textColor: 'secondary' }, '0HNN9F7LRFMBP:00000001')),
+        h(IK.AuthCard.Actions, null, h(IK.AuthCard.Cta, { href: 'login.html' }, 'Back to sign in'))));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

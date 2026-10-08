@@ -1,0 +1,7 @@
+[
+ { "name": "Email focused", "steps": [ { "do": "click", "target": { "sel": "input[type=email]" } } ] },
+ { "name": "Email typed", "steps": [ { "do": "fill", "target": { "sel": "input[type=email]" }, "text": "you@example.com" } ] },
+ { "name": "Password typed", "steps": [ { "do": "fill", "target": { "sel": "input[type=password]" }, "text": "Secret123" } ] },
+ { "name": "Password shown", "steps": [ { "do": "fill", "target": { "sel": "input[type=password]" }, "text": "Secret123" }, { "do": "click", "target": { "sel": "button[aria-label*=assword]" } } ] },
+ { "name": "Keyboard focus on Sign in", "steps": [ { "do": "click", "target": { "sel": "input[type=password]" } }, { "do": "key", "key": "Tab" }, { "do": "key", "key": "Tab" }, { "do": "key", "key": "Tab" } ] }
+]

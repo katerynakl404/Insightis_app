@@ -1,0 +1,4 @@
+/* AppSidebar — one thing the package's menu button does differently: the original's active nav row
+   (State/Pressed) steps BACK to State/Hover under the pointer — its hover rule outranks .active
+   (.sbx-nav-item:not(…):hover). The package keeps the pressed fill, so the step is restored here. */
+.ik-nav-row[data-active="true"]:hover { background: var(--state-hover); }

@@ -1,0 +1,90 @@
+/* MxMetricsTable — the column grid every card shares, the row geometry DevartUI Table leaves to
+   the consumer (first-cell indentation, the fixed 46px metric row), and the phone reflow.
+   Colours: DS tokens only. */
+
+/* One grid for every card (the original is ONE table, so its cards line up column for column). */
+.ik-mx-col-switch  { width: 4rem; }
+.ik-mx-col-name    { width: 22%; }
+.ik-mx-col-alias   { width: 9.5rem; }
+.ik-mx-col-badge   { width: 5rem; }
+.ik-mx-col-actions { width: 5rem; }
+
+/* The shared left line: header padding (16) + chevron (12) + gap (8) — the provider logo, the
+   switches, the connection sub-header and the empty-row text all start on it. */
+.ik-mx-table { --ik-mx-indent: calc(1rem + .75rem + .5rem); }
+
+/* The badge may run past its 5rem column into the actions column (the original does) — no clip,
+   no ellipsis. Scoped under the card to outrank TableCell's fixed-layout clamp. */
+.ik-mx-card td.ik-mx-cell-badge { overflow: visible; text-overflow: clip; }
+
+/* Every metric row is the same 46px, whatever it holds. */
+tr.ik-mx-row > td { height: 2.875rem; box-sizing: border-box; }
+td.ik-mx-cell-switch { padding-inline-start: var(--ik-mx-indent); padding-inline-end: 0; }
+/* switch → its own label: 12px, measured off prod */
+td.ik-mx-cell-name { padding-inline-start: .75rem; }
+
+/* A row whose ⋮ menu is open keeps its hover fill for as long as the menu is up (the menu takes
+   the pointer, so :hover alone would drop it). */
+tr.ik-mx-row:has([aria-expanded="true"]) > td { background: var(--tbl-row-hover); }
+
+/* Header band: the whole row toggles the group (no hover fill — it is a band, not a row). */
+tr.ik-mx-group { cursor: pointer; }
+.ik-mx-collapse {
+  display: flex; align-items: center; flex: none; padding: 0; border: 0; background: none;
+  line-height: 0; cursor: pointer; color: hsl(var(--ink-secondary));
+}
+.ik-mx-collapse > svg { transition: transform 200ms; }
+tr.ik-mx-group.is-collapsed .ik-mx-collapse > svg { transform: rotate(-90deg); }
+
+/* Add Metric shows on the hovered header / sub-header only (always on a phone). */
+.ik-mx-add { opacity: 0; transition: opacity 150ms; }
+tr:hover .ik-mx-add, .ik-mx-add:focus-within, .ik-mx-add:has([data-upgrade-open]) { opacity: 1; }
+
+/* Connection sub-header: same 46px as a metric row, label on the shared left line. */
+td.ik-mx-sub-cell { height: 2.875rem; box-sizing: border-box; padding-block: .25rem; padding-inline-start: var(--ik-mx-indent); }
+.ik-mx-sub-ic { opacity: .55; }
+
+/* "No built-in metrics" row. */
+td.ik-mx-none-cell { padding-inline-start: var(--ik-mx-indent); }
+.ik-mx-none-ic { color: hsl(var(--ink-secondary)); opacity: .6; }
+
+/* ── Phone: each card stacks its rows ─────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .ik-mx-card table, .ik-mx-card tbody { display: flex; flex-direction: column; }
+  .ik-mx-card colgroup { display: none; }
+  .ik-mx-card tr.ik-mx-group,
+  .ik-mx-card tr.ik-mx-sub,
+  .ik-mx-card tr.ik-mx-none { display: block; }
+  .ik-mx-card tr.ik-mx-group > td,
+  .ik-mx-card tr.ik-mx-sub > td,
+  .ik-mx-card tr.ik-mx-none > td { display: block; }
+  .ik-mx-card tr.ik-mx-sub > td.ik-mx-sub-cell { display: flex; align-items: center; }
+  .ik-mx-card td.ik-mx-none-cell { padding: .875rem; padding-inline-start: var(--ik-mx-indent); }
+
+  /* metric row → switch · name · badge · ⋮ */
+  .ik-mx-card tr.ik-mx-row {
+    display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; column-gap: .625rem;
+    padding: 1rem 1.125rem 1rem var(--ik-mx-indent);
+  }
+  /* !important: TableCell paints its hover / selected fill on the cell (group-hover/row:…), which on
+     a grid row would draw one box per cell */
+  .ik-mx-card tr.ik-mx-row > td { display: block; height: auto; padding: 0 !important; background: transparent !important; }
+  /* the original keeps both desktop insets on a card — the switch cell's 36px and the name's 12px —
+     so the switch sits a second indent in; kept (and the !important: TableCell pads nested rows) */
+  .ik-mx-card tr.ik-mx-row > td.ik-mx-cell-switch { grid-column: 1; grid-row: 1; padding-inline-start: var(--ik-mx-indent) !important; }
+  .ik-mx-card tr.ik-mx-row > td.ik-mx-cell-name {
+    grid-column: 2; grid-row: 1; padding-inline-start: .75rem !important; font-size: .875rem; line-height: 1.25rem; font-weight: 600; color: hsl(var(--ink-primary));
+  }
+  .ik-mx-card tr.ik-mx-row > td.ik-mx-cell-alias,
+  .ik-mx-card tr.ik-mx-row > td.ik-mx-cell-desc { display: none; }
+  .ik-mx-card tr.ik-mx-row > td.ik-mx-cell-badge { grid-column: 3; grid-row: 1; }
+  .ik-mx-card tr.ik-mx-row > td.ik-mx-cell-actions { grid-column: 4; grid-row: 1; align-self: start; width: auto; overflow: visible; }
+
+  /* the row's state fill goes on the whole row — cells are grid boxes now */
+  .ik-mx-card tr.ik-mx-row:active:not(:has(button:active)) { background: var(--tbl-row-pressed); }
+  .ik-mx-card tr.ik-mx-row.is-selected { background: var(--tbl-row-pressed); }
+  .ik-mx-add { opacity: 1; }
+}
+@media (max-width: 767px) and (hover: hover) {
+  .ik-mx-card tr.ik-mx-row:hover { background: var(--tbl-row-hover); }
+}

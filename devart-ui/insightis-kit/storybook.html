@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis custom kit</title>
+<link rel="stylesheet" href="../../ds-bundle/styles.css">
+<link rel="stylesheet" href="insightis-kit.css">
+<script src="../../ds-bundle/_vendor/react.js"></script>
+<script src="../../ds-bundle/_ds_bundle.js"></script>
+<script src="insightis-kit.js" data-stories></script>
+<style>
+  /* storybook layout only */
+  .pg-sb { display: grid; grid-template-columns: 14rem minmax(0, 1fr); min-height: calc(100svh - 3.5rem); }
+  .pg-sb-nav { position: sticky; top: 3.5rem; align-self: start; max-height: calc(100svh - 3.5rem); overflow-y: auto;
+               padding: 1rem .75rem; border-right: 1px solid hsl(var(--stroke-border)); }
+  .pg-sb-main { padding: 1.5rem 2rem 4rem; display: flex; flex-direction: column; gap: 2.5rem; min-width: 0; }
+  .pg-sb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: 1rem; }
+  .pg-sb-sect { scroll-margin-top: 5rem; }
+  .pg-sb-cell.is-wide { grid-column: 1 / -1; }
+  .pg-sb-stage { padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid hsl(var(--stroke-border));
+                 background: hsl(var(--surface-page)); overflow: auto; }
+  @media (max-width: 767px) { .pg-sb { grid-template-columns: 1fr; } .pg-sb-nav { display: none; } .pg-sb-main { padding: 1rem; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
+
+  function groups() {
+    var by = {};
+    IK.stories.forEach(function (s) { (by[s.component] = by[s.component] || []).push(s); });
+    return Object.keys(by).sort().map(function (k) { return { name: k, stories: by[k] }; });
+  }
+
+  function App() {
+    var gs = groups();
+    return h(IK.Fragment, null,
+      h(IK.ReviewBar, { title: 'Insightis custom kit', status: 'concept' }),
+      h('div', { className: 'pg-sb' },
+        h('nav', { className: 'pg-sb-nav', 'aria-label': 'Components' },
+          h(D.Typography, { element: 'p', textStyle: 'overline', className: 'text-ink-secondary px-2 pb-2' }, 'Components'),
+          h('ul', { className: 'flex flex-col gap-0.5' },
+            gs.map(function (g) {
+              return h('li', { key: g.name },
+                h('a', { href: '#' + g.name, className: 'block rounded-md px-2 py-1.5 text-sm text-ink-body hover:bg-state-hover' }, g.name));
+            }))),
+        h('main', { className: 'pg-sb-main' },
+          gs.length ? null : h(D.StatusView, { title: 'No components yet', description: 'Add a folder under insightis-kit/ and run tools/build-index.mjs' }),
+          gs.map(function (g) {
+            return h('section', { key: g.name, id: g.name, className: 'pg-sb-sect flex flex-col gap-4' },
+              h(D.Typography, { element: 'h2', textStyle: 'title20', className: 'text-ink-primary' }, g.name),
+              h('div', { className: 'pg-sb-grid' },
+                g.stories.map(function (s, i) {
+                  return h('figure', { key: i, className: IK.cx('pg-sb-cell flex flex-col gap-2 m-0', s.wide && 'is-wide') },
+                    h('figcaption', { className: 'flex flex-col gap-0.5' },
+                      h(D.Typography, { element: 'span', textStyle: 'label14', className: 'text-ink-primary' }, s.title),
+                      s.description ? h(D.Typography, { element: 'span', textStyle: 'body12', className: 'text-ink-secondary' }, s.description) : null),
+                    h('div', { className: 'pg-sb-stage' }, h(s.render)));
+                })));
+          }))));
+  }
+
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

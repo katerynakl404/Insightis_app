@@ -5397,6 +5397,11 @@
      title line it answers; it read as the button having slipped upward, and on a two-line alert
      the block is what the eye measures against. Reverted 2026-09-30. */
   .alert-acts{flex:none;display:flex;align-items:center;gap:.375rem;align-self:center}
+  /* The DISMISS is a corner affordance, not an action, so it sits level with the top of the
+     message — the same place the banner's .banner-close sits. An action button keeps the
+     centring above: it answers the whole block, and on a two-line alert a top-aligned button
+     reads as having slipped upward (tried and reverted 2026-09-30). */
+  .alert-acts:has(> .alert-x){align-self:flex-start}
   /* The roster and the accents are Toast's, token for token — Alert is the same feedback family
      standing still instead of floating, and a family that changes colour when it stops moving is
      two families. The one deliberate difference: Info is Brand/Tertiary where Toast uses
@@ -5427,8 +5432,8 @@
      The WHOLE card: .cfc carries its own surface, it is not a block of content
      dropped into some other card. Shown when the assistant needs a decision before
      it can continue; the consumer positions it (.cp-cfc-layer on the chat page).
-     Height follows the content — no min-height, no reserved rows — up to three
-     quarters of the window. Below that nothing scrolls; past it only the options do.
+     Height follows the content — no min-height, no reserved rows. A question offers
+     at most six options ("Other" counted) and the card fits them without a scroll.
 
      ONE option row (.cfc-opt) in every variant; what sits inside it is the variant:
        Single select     — the row IS a <button>: pressing it is the answer.
@@ -5463,7 +5468,7 @@
 
      Several questions — the top line and the steps:
          <div class="cfc-top"><div class="cfc-stepper"><span class="cfc-steps" role="group" aria-label="Questions">
-             <button class="cfc-step is-current" type="button" data-cfc-goto data-name="Time period" aria-current="step">
+             <button class="cfc-step is-current" type="button" data-cfc-goto data-tip="Time period" aria-current="step">
                <span class="cfc-step-bar"></span></button>…</span>
              <span class="cfc-step-label" aria-live="polite">Question 1 of 4</span></div>
            <span class="cfc-top-r">…</span></div>
@@ -5477,11 +5482,9 @@
      conversation: one you have to scroll back to find reads as optional, and the queue then looks
      stuck for no visible reason — so the card floats over the thread, and shadow, not a heavier
      border, is what says it sits OVER it.
-       Three quarters of the window is the ceiling. Under it the card is as tall as its options
-     and nothing scrolls — a scrollbar beside four options that fit is a list pretending to be
-     longer than it is. Over it the options scroll and the top line and the footer stay put. Half
-     the window was tried and was too low: four options with descriptions and a footer already
-     hit it on a laptop screen. */
+       Six options is the most a question offers ("Other" counted), and the card is as tall as its
+     options: nothing scrolls. The 75dvh ceiling is only a guard for a screen too short for six —
+     there the options scroll and the top line and the footer stay put. */
   .cfc{box-sizing:border-box;max-height:75vh;max-height:75dvh;padding:1rem;background:var(--surface-card);border:var(--border-width) solid var(--stroke-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-overlay-soft)}
   .cfc [hidden]{display:none}
   .cfc-panel{min-height:0}
@@ -5499,7 +5502,8 @@
   /* Several questions: a stepper takes the question's place on the top line, so the dismiss
      still sits beside what it escapes — all of the questions. A short bar per question and the
      step in words beside them: the bars fill as questions are answered (and for the one on
-     screen), the label says exactly where you are, and every bar is a button to its question.
+     screen), the label says exactly where you are, and every bar is a button to its question, with the question's short title as
+     its tooltip (data-tip, the kit's engine).
      The track is --stroke-border, not ProgressBar's --surface-chips: on a white card a chips
      track vanished. */
   .cfc-stepper{flex:1;min-width:0;display:flex;align-items:center;gap:.75rem;height:var(--ts-title-14-lh)}

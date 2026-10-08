@@ -1,0 +1,14 @@
+/* BalancePopover — only the parked "combined" iteration needs CSS: one 8px bar split into two
+   zones (subscription | purchased), each zone a tinted track with its own fill. Every other part
+   is IK.Meter / DevartUI. Zone and fill WIDTHS are data (inline); colours are tokens here.
+   Track = the pool's own hue a fifth of the way into Surface/Card2 (the meter track). */
+.ik-bal-bar { display: flex; gap: 1px; height: .5rem; border-radius: 9999px; overflow: hidden; }
+.ik-bal-zone { position: relative; flex-grow: 0; flex-shrink: 0; height: 100%; overflow: hidden; }
+.ik-bal-zone.is-sub { background: color-mix(in srgb, hsl(var(--brand-tertiary)) var(--tint-20), hsl(var(--surface-card2))); }
+.ik-bal-zone.is-pur { background: color-mix(in srgb, hsl(var(--fb-green)) var(--tint-20), hsl(var(--surface-card2))); }
+.ik-bal-fill { position: absolute; inset: 0 auto 0 0; height: 100%; }
+.ik-bal-fill.is-sub { background: hsl(var(--brand-tertiary)); }
+.ik-bal-fill.is-pur { background: hsl(var(--fb-green)); }
+/* BalanceRow — the wallet disc IS the glyph: a 12px svg with 3px content-box padding → 18px
+   (the original .sbx-tok-val svg); no compiled padding utility lands on 3px. */
+.ik-bal-wallet { box-sizing: content-box; padding: .1875rem; }

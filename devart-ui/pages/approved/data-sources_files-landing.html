@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Data Sources (Files)</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<style>
+  /* Page layout only. The main column and the preview split the shell side by side (the preview is
+     a third column, so the list narrows); the column is the scroller. The upload tray docks
+     bottom-right of the viewport, under the dialogs. */
+  .pg-split { position: relative; display: flex; flex: 1 1 0; min-height: 0; min-width: 0; }
+  .pg-scroll { position: relative; display: flex; flex-direction: column; flex: 1 1 0; min-width: 0; min-height: 0; overflow-y: auto; }
+  .pg-meta-sticky { position: sticky; top: 0; z-index: 5; }
+  .pg-upl-dock { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 40; width: min(26rem, calc(100vw - 2.5rem)); }
+  @media (max-width: 600px) { .pg-upl-dock { left: 1rem; right: 1rem; bottom: 1rem; width: auto; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Data Sources → Files, rebuilt from pages/approved/data-sources_files-landing.html.
+   Locked rules: page-changes/data-sources_files-landing.md (apply here unchanged).
+   Title + storage mark (IK.DsStorageMark) · drop zone (IK.DsDropZone) · source chips (DevartUI
+   FilterChips) · meta row (DevartUI MetaRow: count, or the selection and its bulk actions) · the
+   library (IK.DsFilesTable, 20 at a time + Load more) · the preview split panel (IK.DsFilePreview)
+   · uploads in DevartUI's UploadTray · Rename / Delete (IK.DsRenameFileDialog, IK.DsDeleteFilesDialog).
+   Review switches, as in the original topbar: Within limit/Over limit · Plan · Filled/Empty ·
+   Loaded/Skeleton · Theme. */
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+
+  IK.defineIcons({
+    'pg-download': '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/>',
+    'pg-trash': '<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>',
+    'pg-chev': '<polyline points="6 9 12 15 18 9"/>',
+    'pg-doc': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>'
+  });
+
+  /* Verbatim seed — 24 rows (> one page), newest first. */
+  var SEED = [
+    ['quarterly-report.csv', 'csv', 'artifact', '2.4 MB', '3d ago'], ['customer-data.xlsx', 'xlsx', 'uploaded', '890 KB', 'last week'],
+    ['sales-metrics.xls', 'xls', 'uploaded', '1.1 MB', '2 weeks ago'], ['revenue-forecast.xlsx', 'xlsx', 'artifact', '1.6 MB', '3 weeks ago'],
+    ['churn-analysis.csv', 'csv', 'artifact', '512 KB', 'last month'], ['marketing-spend.xlsx', 'xlsx', 'uploaded', '2.1 MB', 'last month'],
+    ['user-signups.csv', 'csv', 'uploaded', '340 KB', 'last month'], ['cohort-retention.xls', 'xls', 'artifact', '780 KB', '2 months ago'],
+    ['nps-survey.csv', 'csv', 'uploaded', '220 KB', '2 months ago'], ['support-tickets.xlsx', 'xlsx', 'uploaded', '1.9 MB', '2 months ago'],
+    ['ad-performance.csv', 'csv', 'artifact', '610 KB', '2 months ago'], ['inventory-snapshot.xlsx', 'xlsx', 'uploaded', '3.2 MB', '3 months ago'],
+    ['pricing-experiments.csv', 'csv', 'artifact', '145 KB', '3 months ago'], ['web-traffic.xls', 'xls', 'uploaded', '990 KB', '3 months ago'],
+    ['feature-usage.csv', 'csv', 'artifact', '830 KB', '3 months ago'], ['payroll-summary.xlsx', 'xlsx', 'uploaded', '470 KB', '4 months ago'],
+    ['vendor-list.csv', 'csv', 'uploaded', '88 KB', '4 months ago'], ['budget-2026.xlsx', 'xlsx', 'uploaded', '1.3 MB', '4 months ago'],
+    ['lead-scoring.csv', 'csv', 'artifact', '560 KB', '5 months ago'], ['region-breakdown.xls', 'xls', 'artifact', '720 KB', '5 months ago'],
+    ['email-campaigns.csv', 'csv', 'uploaded', '410 KB', '5 months ago'], ['product-catalog.xlsx', 'xlsx', 'uploaded', '2.7 MB', '6 months ago'],
+    ['subscription-mrr.csv', 'csv', 'artifact', '275 KB', '6 months ago'], ['exit-survey.xlsx', 'xlsx', 'uploaded', '640 KB', '6 months ago']
+  ].map(function (r, i) { return { id: 'f' + (i + 1), name: r[0], type: r[1], origin: r[2], size: r[3], date: r[4], sortIdx: i, selected: false }; });
+
+  var PAGE_SIZE = 20;
+  /* Storage: the plan sets the SIZE of the box; over the limit is a ratio (cap × 1.05), so it reads
+     as over on both caps (52.5 MB of 50 MB, 1.1 GB of 1 GB). */
+  var CAP = { free: { label: '50 MB', mb: 50 }, paid: { label: '1 GB', mb: 1024 } };
+  var USED_WITHIN = 38.6, OVER_RATIO = 1.05;
+  var BROWSE = [['q2-report.csv', 'csv', '3.1 MB'], ['new-customers.xlsx', 'xlsx', '1.2 MB'], ['budget-2026.xls', 'xls', '456 KB'], ['pipeline.csv', 'csv', '780 KB']];
+
+  function App() {
+    var plan = IK.usePlan(), free = plan[0] === 'free';
+    var quota = IK.useQueryState('storage', 'within');
+    var data = IK.useQueryState('data', 'filled');
+    var load = IK.useQueryState('load', 'loaded');
+    var phone = D.useMaxWidth(768);
+
+    var fs = R.useState(function () { return data[0] === 'empty' ? [] : SEED; }), files = fs[0], setFiles = fs[1];
+    var bk = R.useRef(data[0] === 'empty' ? SEED : null);
+    var em = R.useState(false), editing = em[0], setEditing = em[1];
+    var fl = R.useState('all'), filter = fl[0], setFilter = fl[1];
+    var sd = R.useState('desc'), sortDir = sd[0], setSortDir = sd[1];
+    var sc = R.useState(PAGE_SIZE), shown = sc[0], setShown = sc[1];
+    var pv = R.useState(null), previewId = pv[0], setPreviewId = pv[1];
+    var pw = R.useState(null), previewW = pw[0], setPreviewW = pw[1];
+    var rn = R.useState(null), renameId = rn[0], setRenameId = rn[1];
+    var dl = R.useState(null), delTarget = dl[0], setDelTarget = dl[1];
+    var up = R.useState([]), upl = up[0], setUpl = up[1];
+    var uplRef = R.useRef([]);
+    function setUplBoth(next) { uplRef.current = next; setUpl(next); }
+    var uo = R.useState(false), uplOpen = uo[0], setUplOpen = uo[1];
+    var nextIdx = R.useRef(-1);
+
+    var empty = files.length === 0;
+    var cap = free ? CAP.free : CAP.paid;
+    var used = empty ? 0 : (quota[0] === 'over' ? cap.mb * OVER_RATIO : USED_WITHIN);
+    var overLimit = used > cap.mb;
+
+    var vis = (filter === 'all' ? files : files.filter(function (f) { return f.origin === filter; }))
+      .slice().sort(function (a, b) { return sortDir === 'asc' ? b.sortIdx - a.sortIdx : a.sortIdx - b.sortIdx; });
+    var selectedCount = vis.filter(function (f) { return f.selected; }).length;
+    var allSel = vis.length > 0 && selectedCount === vis.length;
+    var page = vis.slice(0, shown);
+    var remaining = vis.length - page.length;
+
+    function update(fn) { setFiles(function (l) { return l.map(fn); }); }
+    function clearSel() { update(function (f) { return f.selected ? Object.assign({}, f, { selected: false }) : f; }); }
+    function setAllVisible(on) {
+      var ids = {}; vis.forEach(function (f) { ids[f.id] = 1; });
+      update(function (f) { return ids[f.id] ? Object.assign({}, f, { selected: on }) : f; });
+    }
+    function changeFilter(v) { setFilter(v); setShown(PAGE_SIZE); setEditing(false); clearSel(); }
+    function setData(v) {
+      data[1](v);
+      var base;
+      if (v === 'empty') { if (files.length) bk.current = files; base = []; }
+      else { base = bk.current || files; bk.current = null; }
+      setFiles(base.map(function (f) { return Object.assign({}, f, { selected: false }); }));
+      setEditing(false); setPreviewId(null); setShown(PAGE_SIZE);
+    }
+    function find(id) { return files.find(function (f) { return f.id === id; }) || null; }
+
+    function onAction(a, id) {
+      var f = find(id); if (!f) return;
+      if (a === 'rename') setRenameId(id);
+      else if (a === 'delete') setDelTarget(id);
+      else if (a === 'add-to-chat') location.href = IK.pageHref('approved/chat-landing.html?attach=' + encodeURIComponent(f.name));
+    }
+    function confirmDelete() {
+      var t = delTarget; setDelTarget(null);
+      if (t === 'selected') { setFiles(function (l) { return l.filter(function (f) { return !f.selected; }); }); setEditing(false); return; }
+      if (previewId === t) setPreviewId(null);
+      setFiles(function (l) {
+        var next = l.filter(function (f) { return f.id !== t; });
+        if (!next.some(function (f) { return f.selected; })) setEditing(false);
+        return next;
+      });
+    }
+
+    /* Uploads: each queued file ticks up to 100% (or to a seeded failure — anything that is not a
+       spreadsheet / CSV); a file joins the library only when its OWN upload completes. Over the
+       limit nothing is accepted, and the refusal arrives where the action was (a toast). */
+    function queue(items) {
+      if (overLimit) {
+        D.toast.error('Storage is full', {
+          id: 'dsf-over-limit', duration: 5000,
+          description: free ? 'Nothing was uploaded. Delete some files, or upgrade to Pro for 1 GB.' : 'Nothing was uploaded. Delete some files to make room.'
+        });
+        return;
+      }
+      setUplBoth(uplRef.current.concat(items.map(function (it) {
+        var ext = (it.name.split('.').pop() || '').toLowerCase();
+        var ok = ['csv', 'xls', 'xlsx'].indexOf(ext) !== -1;
+        return { name: it.name, pct: 0, state: 'uploading', ok: ok, err: ok ? '' : 'Unsupported format — upload a .csv, .xls or .xlsx file', file: it };
+      })));
+    }
+    function browse() {
+      var r = BROWSE[files.length % BROWSE.length];
+      queue([{ id: 'f' + (files.length + 10), name: r[0], type: r[1], size: r[2] }]);
+    }
+    function drop(list) {
+      var items = [];
+      for (var i = 0; i < list.length; i++) {
+        var n = list[i].name, ext = (n.split('.').pop() || '').toLowerCase();
+        items.push({ id: 'fd' + Date.now() + '-' + i, name: n, type: ['csv', 'xls', 'xlsx'].indexOf(ext) !== -1 ? ext : 'other',
+                     size: list[i].size ? (list[i].size / 1024 / 1024).toFixed(1) + ' MB' : '—' });
+      }
+      if (items.length) queue(items);
+    }
+    var live = upl.some(function (u) { return u.state === 'uploading'; });
+    R.useEffect(function () {
+      if (!live) return;
+      var t = setInterval(function () {
+        var landed = [];
+        var next = uplRef.current.map(function (u) {
+          if (u.state !== 'uploading') return u;
+          var pct = Math.min(100, u.pct + 12 + Math.floor(u.name.length % 7));
+          if (pct < 100) return Object.assign({}, u, { pct: pct });
+          if (!u.ok) return Object.assign({}, u, { pct: pct, state: 'failed' });
+          landed.push(u.file);
+          return Object.assign({}, u, { pct: pct, state: 'done' });
+        });
+        setUplBoth(next);
+        if (landed.length) setFiles(function (l) {
+          return l.concat(landed.map(function (x) {
+            return { id: x.id, name: x.name, type: x.type, origin: 'uploaded', size: x.size, date: 'just now', sortIdx: nextIdx.current--, selected: false };
+          }));
+        });
+      }, 300);
+      return function () { clearInterval(t); };
+    }, [live]);
+    var upUploading = upl.filter(function (u) { return u.state === 'uploading'; }).length;
+    var upFailed = upl.filter(function (u) { return u.state === 'failed'; }).length;
+    var trayStatus = upUploading ? 'uploading' : upFailed ? 'failed' : 'complete';
+    var trayTitle = upUploading ? upUploading + ' uploading'
+      : upFailed ? upFailed + ' of ' + upl.length + (upl.length === 1 ? ' upload failed' : ' uploads failed')
+      : upl.length + (upl.length === 1 ? ' upload complete' : ' uploads complete');
+
+    /* Esc: a dialog or a menu answers first (Radix); with neither open it closes the preview. */
+    R.useEffect(function () {
+      function k(e) {
+        if (e.key !== 'Escape') return;
+        if (document.querySelector('[role="dialog"][data-state="open"],[role="menu"]')) return;
+        setPreviewId(null);
+      }
+      window.addEventListener('keydown', k, true);
+      return function () { window.removeEventListener('keydown', k, true); };
+    }, []);
+
+    var previewFile = previewId ? find(previewId) : null;
+    var renameFile = renameId ? find(renameId) : null;
+    var noMatch = !empty && vis.length === 0;
+
+    var meta = null;
+    if (!(noMatch && !editing)) {
+      meta = editing
+        ? h(D.MetaRow, { className: 'pg-meta-sticky bg-surface-page', role: 'toolbar', 'aria-label': 'File actions', onClear: function () { setEditing(false); clearSel(); }, clearLabel: 'Exit selection' },
+            h(D.MetaRowCount, null, selectedCount + ' selected'),
+            h(D.LinkButton, { asChild: true, 'aria-disabled': vis.length === 0 || undefined },
+              h('button', { type: 'button', onClick: function () { if (vis.length) setAllVisible(!allSel); } }, allSel ? 'Deselect all' : 'Select all')),
+            h(D.MetaRowEnd, null,
+              h(D.Button, { variant: 'tertiary', size: 'sm', type: 'button', 'aria-disabled': selectedCount === 0 || undefined, leftSlot: h(IK.Icon, { name: 'pg-download' }) }, 'Download'),
+              h(D.Button, {
+                variant: 'destructiveTertiary', size: 'sm', type: 'button', 'aria-disabled': selectedCount === 0 || undefined,
+                leftSlot: h(IK.Icon, { name: 'pg-trash' }), onClick: function () { if (selectedCount) setDelTarget('selected'); }
+              }, 'Delete')))
+        : h(D.MetaRow, { role: 'toolbar', 'aria-label': 'File actions' },
+            h(D.MetaRowCount, null, vis.length + ' ' + (vis.length === 1 ? 'file' : 'files')),
+            phone ? h(D.LinkButton, { asChild: true },
+              h('button', { type: 'button', onClick: function () { setEditing(true); setAllVisible(true); } }, 'Select all')) : null,
+            phone ? h(IK.Tip, { tip: 'Sort by date' },
+              h('button', {
+                type: 'button', 'aria-label': 'Sort by date', className: IK.cx('ms-auto inline-flex items-center gap-1 rounded text-xs text-ink-secondary', D.focusRing),
+                onClick: function () { setSortDir(sortDir === 'asc' ? 'desc' : 'asc'); }
+              }, sortDir === 'asc' ? 'Oldest' : 'Newest',
+                h(IK.Icon, { name: 'pg-chev', size: 12, style: sortDir === 'asc' ? { transform: 'rotate(180deg)' } : undefined }))) : null);
+    }
+
+    return h(IK.Fragment, null,
+      h(IK.ReviewBar, { title: 'Data Sources (Files)', status: 'approved', size: 'sm', controls: [
+        { label: 'Storage state', value: quota[0], onChange: quota[1],
+          options: [{ value: 'within', label: 'Within limit' }, { value: 'over', label: 'Over limit' }] },
+        { label: 'Plan', value: plan[0], onChange: plan[1],
+          options: [{ value: 'paid', label: 'Paid' }, { value: 'free', label: 'Free' }] },
+        { label: 'Data state', value: data[0], onChange: setData,
+          options: [{ value: 'filled', label: 'Filled' }, { value: 'empty', label: 'Empty' }] },
+        { label: 'Page state', value: load[0], onChange: load[1],
+          options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] }
+      ] }),
+      h(IK.AppShell, { nav: 'files', burger: false, scroll: false },
+        h('div', { className: 'pg-split' },
+          h('div', { className: 'pg-scroll' },
+            h(IK.DsPage, null,
+              h(IK.DsPageHead, {
+                title: 'Files',
+                after: h(IK.DsStorageMark, { usedMb: used, capMb: cap.mb, capLabel: cap.label, planName: free ? 'Free' : 'Pro', cta: free })
+              }),
+              h('div', { className: 'flex flex-col gap-4' },
+                h(IK.DsDropZone, { onBrowse: browse, onFiles: drop }),
+                load[0] === 'skeleton' ? h(IK.DsFilesSkeleton) : h('div', { className: 'flex flex-col gap-2' },
+                  h(D.FilterChips, { value: filter, onValueChange: changeFilter, size: 'sm', className: 'gap-1.5', 'aria-label': 'Filter files by source' },
+                    h(D.FilterChip, { value: 'all', size: 'sm' }, 'All'),
+                    h(D.FilterChip, { value: 'artifact', size: 'sm' }, 'Artifacts'),
+                    h(D.FilterChip, { value: 'uploaded', size: 'sm' }, 'Uploaded')),
+                  meta,
+                  noMatch ? h(D.StatusView, {
+                    size: 'lg', surface: 'embedded', withIconHalo: false, icon: h(D.EmptyStateIllustration),
+                    title: 'No matches found', description: 'No files match this filter — switch back to All to see every file'
+                  }) : h(IK.DsFilesTable, {
+                    files: page, empty: empty, editing: editing, previewId: previewId, sortDir: sortDir,
+                    allState: allSel ? true : selectedCount ? 'indeterminate' : false,
+                    onSort: function () { setSortDir(sortDir === 'asc' ? 'desc' : 'asc'); },
+                    onToggle: function (id) { update(function (f) { return f.id === id ? Object.assign({}, f, { selected: !f.selected }) : f; }); setEditing(true); },
+                    onToggleAll: function () { setAllVisible(!allSel); setEditing(!allSel); },
+                    onOpen: setPreviewId, onAction: onAction, onBrowse: browse
+                  }),
+                  remaining > 0 && !noMatch ? h('div', { className: 'mt-1 flex justify-center' },
+                    h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setShown(shown + PAGE_SIZE); } },
+                      'Load more ', h('span', { className: 'font-medium tabular-nums text-ink-inactive' }, remaining))) : null)))),
+          h(IK.DsFilePreview, {
+            file: previewFile, width: previewW, onWidthChange: setPreviewW,
+            onClose: function () { setPreviewId(null); setPreviewW(null); }, onDownload: function () {}
+          }))),
+      upl.length ? h('div', { className: 'pg-upl-dock' },
+        h(D.UploadTray, {
+          status: trayStatus, title: trayTitle, open: uplOpen, onOpenChange: setUplOpen,
+          onDismiss: function () { setUplBoth([]); setUplOpen(false); }, dismissLabel: 'Dismiss uploads',
+          'aria-label': 'File uploads', role: 'region'
+        }, upl.map(function (u, i) {
+          return h(D.UploadTrayItem, {
+            key: u.name + i, status: u.state, name: u.name, icon: h(IK.Icon, { name: 'pg-doc' }),
+            progress: u.state === 'uploading' ? u.pct : undefined,
+            meta: u.state === 'uploading' ? u.pct + '%' : undefined,
+            error: u.state === 'failed' ? u.err : undefined,
+            action: u.state === 'failed' ? h(D.LinkButton, { asChild: true },
+              h('button', { type: 'button', onClick: function (e) {
+                e.stopPropagation();
+                setUplBoth(uplRef.current.map(function (x) { return x.name === u.name ? Object.assign({}, x, { state: 'uploading', pct: 0, ok: true, err: '' }) : x; }));
+              } }, 'Retry')) : undefined
+          });
+        }))) : null,
+      h(IK.DsRenameFileDialog, {
+        open: !!renameFile, name: renameFile && renameFile.name,
+        onOpenChange: function (o) { if (!o) setRenameId(null); },
+        onSave: function (n) { var id = renameId; setRenameId(null); update(function (f) { return f.id === id ? Object.assign({}, f, { name: n }) : f; }); }
+      }),
+      h(IK.DsDeleteFilesDialog, {
+        open: !!delTarget, count: delTarget === 'selected' ? selectedCount : 1,
+        onOpenChange: function (o) { if (!o) setDelTarget(null); }, onConfirm: confirmDelete
+      }),
+      h(D.Toaster, { position: 'top-right' }));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

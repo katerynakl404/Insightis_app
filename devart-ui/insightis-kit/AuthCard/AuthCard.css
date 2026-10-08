@@ -1,0 +1,7 @@
+/* AuthCard — the pre-auth card width. 27rem (432px, on the 4px step) is the original's
+   .au-card max-width; no compiled max-w-* utility lands on it (max-w-md is 448). */
+.ik-auth-card { max-width: 27rem; }
+/* ≤600px: 20px padding — the original's own breakpoint (.au-card in its max-width:600px block). */
+@media (max-width: 600px) {
+  .ik-auth-card { padding: 1.25rem; }
+}

@@ -1,0 +1,55 @@
+[
+ { "name": "Header chat menu", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 400 } ] },
+ { "name": "Header chevron tooltip", "steps": [
+   { "do": "hover", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 600 } ] },
+ { "name": "Header menu — Pin moves the chat to Pinned", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Pin" }, "ms": 400 },
+   { "do": "click", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 400 } ] },
+ { "name": "Header menu — Rename dialog", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Rename" }, "ms": 500 } ] },
+ { "name": "Tool calls expanded + a call opened", "steps": [
+   { "do": "eval", "orig": "document.getElementById('cp-thread').scrollTop=0", "new": "document.querySelector('.ik-thread').scrollTop=0" },
+   { "do": "click", "target": { "text": "Tool calls", "nth": 0 }, "ms": 300 },
+   { "do": "click", "target": { "text": "Jira_Test_Connection Execute", "nth": 0 }, "ms": 300 } ] },
+ { "name": "Tool call — copy arguments", "steps": [
+   { "do": "eval", "orig": "document.getElementById('cp-thread').scrollTop=0", "new": "document.querySelector('.ik-thread').scrollTop=0" },
+   { "do": "click", "target": { "text": "Tool calls", "nth": 0 }, "ms": 300 },
+   { "do": "click", "target": { "text": "Jira_Test_Connection Execute", "nth": 0 }, "ms": 300 },
+   { "do": "click", "target": { "sel": "button[aria-label=\"Copy arguments\"]" }, "ms": 600 } ] },
+ { "name": "Scrolled up — scroll-to-bottom button", "steps": [
+   { "do": "eval", "orig": "document.getElementById('cp-thread').scrollTop=0", "new": "document.querySelector('.ik-thread').scrollTop=0", "ms": 400 } ] },
+ { "name": "User message hover — copy + time", "steps": [
+   { "do": "eval", "orig": "document.getElementById('cp-thread').scrollTop=0", "new": "document.querySelector('.ik-thread').scrollTop=0", "ms": 300 },
+   { "do": "hover", "target": { "text": "give me first 5 jira issues with prefix AIINS, no confirm needed, limit query by 5" }, "ms": 400 } ] },
+ { "name": "Mention token card", "steps": [
+   { "do": "hover", "target": { "orig": { "sel": ".cl-mention-tag" }, "new": { "sel": ".ik-mention-tag" } }, "ms": 500 } ] },
+ { "name": "Mention list — typing @c", "steps": [
+   { "do": "fill", "target": { "orig": { "sel": "#cl-prompt" }, "new": { "sel": ".ik-chat-prompt" } }, "text": " @c", "ms": 400 } ] },
+ { "name": "Mention list — arrow + Enter inserts", "steps": [
+   { "do": "fill", "target": { "orig": { "sel": "#cl-prompt" }, "new": { "sel": ".ik-chat-prompt" } }, "text": " @c", "ms": 400 },
+   { "do": "key", "key": "ArrowDown" },
+   { "do": "key", "key": "Enter", "ms": 400 } ] },
+ { "name": "Free — U6 notice + locked mention list", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" }, "ms": 600 },
+   { "do": "fill", "target": { "orig": { "sel": "#cl-prompt" }, "new": { "sel": ".ik-chat-prompt" } }, "text": " @c", "ms": 400 } ] },
+ { "name": "Free — no metric matches", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" }, "ms": 600 },
+   { "do": "fill", "target": { "orig": { "sel": "#cl-prompt" }, "new": { "sel": ".ik-chat-prompt" } }, "text": " @zzz", "ms": 400 } ] },
+ { "name": "Free — U6 Upgrade to Unlock popover", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" }, "ms": 600 },
+   { "do": "click", "target": { "text": "Upgrade to Unlock", "tag": "button" }, "ms": 500 } ] },
+ { "name": "Attach menu — filled", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 900 } ] },
+ { "name": "Connections menu — scrolling", "steps": [
+   { "do": "click", "target": { "text": "Scrolling", "tag": "button" } },
+   { "do": "click", "target": { "text": "Connections", "tag": "button" }, "ms": 900 } ] },
+ { "name": "Model menu", "steps": [
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 } ] },
+ { "name": "Account menu", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Kateryna K." }, "ms": 400 } ] },
+ { "name": "Phone — sidebar drawer", "viewport": "phone", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Open sidebar\"]" }, "ms": 700 } ] }
+]

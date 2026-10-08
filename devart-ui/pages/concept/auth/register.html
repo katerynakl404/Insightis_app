@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Create account</title>
+<link rel="stylesheet" href="../../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../../insightis-kit/insightis-kit.css">
+<script src="../../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../../insightis-kit/insightis-kit.js"></script>
+<script>InsightisKit.AuthLayout.initTheme();</script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
+  function App() {
+    return h(IK.AuthLayout, { screen: 'register.html' },
+      h(IK.AuthCard, { title: 'Create your account' },
+        h(IK.AuthCard.Form, { next: 'check-email.html', submit: 'Continue' },
+          h(IK.AuthField, { kind: 'email', id: 'reg-email' }),
+          h(IK.AuthField, { kind: 'password', id: 'reg-pw', autoComplete: 'new-password', strength: true }),
+          h(IK.AuthTerms)),
+        h(IK.AuthCard.Foot, null, 'Already have an account? ', h(D.LinkButton, { href: 'login.html' }, 'Sign in')),
+        h(IK.AuthCard.Divider),
+        h(IK.AuthCard.Actions, null, h(IK.AuthGoogleButton, { href: '../../approved/chat-landing.html' }))));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

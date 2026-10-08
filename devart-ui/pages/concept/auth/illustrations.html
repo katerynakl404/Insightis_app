@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Illustration styles</title>
+<link rel="stylesheet" href="../../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../../insightis-kit/insightis-kit.css">
+<script src="../../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../../insightis-kit/insightis-kit.js"></script>
+<script>InsightisKit.AuthLayout.initTheme();</script>
+<style>
+  /* layout only: the showcase column (the original's .il-wrap / .il-intro p widths) and its
+     auto-fill grid of 150px-min tiles (.il-grid) */
+  .pg-il { max-width: 60rem; margin: 0 auto; }
+  .pg-il-intro { max-width: 44rem; }
+  .pg-il-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
+  /* the set, in the original's IL_ITEMS order */
+  var ITEMS = [
+    ['triangle-alert', 'error', 'Error (generic)'],
+    ['mail-x', 'error', 'Email link error'],
+    ['shield-alert', 'error', 'Reset link error'],
+    ['mail', 'info', 'Check your email'],
+    ['mail-check', 'info', 'Confirm email'],
+    ['circle-check', 'success', 'Email confirmed'],
+    ['shield-check', 'success', 'Password updated']
+  ];
+  function App() {
+    return h(IK.AuthLayout, { screen: 'illustrations.html', align: 'start' },
+      h('div', { className: 'pg-il w-full' },
+        h('div', { className: 'mb-2 flex flex-col items-center gap-2' },
+          h(D.Typography, { element: 'h1', textStyle: 'heading24', textColor: 'primary', align: 'center' }, 'Illustration styles'),
+          h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', align: 'center', className: 'pg-il-intro' },
+            'The refined glyph set used across every status screen, in the ', h(IK.AuthStatus.Strong, null, 'Halo'), ' style used by the flow.')),
+        h('section', { className: 'mt-8 flex flex-col gap-4', 'aria-labelledby': 'il-halo' },
+          h('div', { className: 'flex items-baseline gap-2.5' },
+            h(D.Typography, { element: 'h2', id: 'il-halo', textStyle: 'title16', textColor: 'primary' }, 'Halo'),
+            /* 13px, as the original's .il-pack-h span — the DS 13px rung (text-compact) */
+            h('span', { className: 'text-compact font-normal text-ink-secondary' }, '· soft tinted disc + icon')),
+          h('div', { className: 'pg-il-grid grid gap-4' },
+            ITEMS.map(function (it) {
+              return h(D.Card, { key: it[0], variant: 'outline', rounded: 'xl', className: 'p-5' },
+                h('figure', { className: 'm-0 flex flex-col items-center gap-3' },
+                  h(IK.AuthIllustration, { glyph: it[0], tone: it[1], className: 'mb-1' }),
+                  h(D.Typography, { element: 'figcaption', textStyle: 'body12', textColor: 'secondary', align: 'center' }, it[2])));
+            })))));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

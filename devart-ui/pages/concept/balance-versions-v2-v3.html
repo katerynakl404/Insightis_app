@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Balance — Versions 2 &amp; 3 (retired concepts)</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<style>
+  /* Page layout only: the plan grid drops to one column below 768px (no tablet step here). */
+  @media (max-width: 767px) { .pg-plan-grid { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Retired Balance concepts — rebuilt from pages/concept/balance-versions-v2-v3.html on the same
+   account window as the shipped page (IK.AcctModal + AcctSettings / AcctBalance / AcctPlans).
+   Version 2 (one two-zone bar), Version 3 (a bar per pool) and Version B (wallet + allowance rows,
+   the layout that shipped) side by side, frozen as they were retired: Purchased still carries a
+   bar in V2/V3 — this file is the record of why that was dropped (page-changes/user_profile-modal.md
+   rule 2), not a candidate.
+
+   Review switches, as in the original topbar: Concept version (Version 2 / 3 / B) and Plan state
+   (Free / Pro (trial) / Limit reached) — Balance-only, hidden on every other section — and the
+   original's own "Light / Dark" button, which flips the theme for this visit only.
+   Quirk kept from the original: Version B has no pack tray — the buy layout only serves V2 / V3. */
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+
+  var START = (function () {
+    var s = new URLSearchParams(location.search).get('section');
+    return IK.ACCT_SECTIONS.indexOf(s) >= 0 ? s : 'balance';
+  })();
+
+  var NB = ' ';
+  var HEAD = {
+    free: { badges: [{ label: 'Free plan' }], wrap: false },
+    pro: { badges: [{ label: 'Pro plan' }, { label: 'Trial ends in 14 days', variant: 'attention' }] },
+    exhausted: { badges: [{ label: 'Free plan' }] }
+  };
+  var USED = {
+    free: { amount: '213', unit: ' / 1,040 used' },
+    pro: { amount: '3,200', unit: ' / 10,000 used' },
+    exhausted: { amount: '1,040', unit: ' / 1,040 used', icon: 'alert' }
+  };
+  var V2 = {
+    free: { legend: [{ name: 'Subscription', value: '213' + NB + 'of' + NB + '500' }, { tone: 'green', name: 'Purchased', value: '0' + NB + 'of' + NB + '540' }],
+      zones: [{ basis: '48.08%', fill: '42.6%' }, { tone: 'green', basis: '51.92%', fill: '0%' }],
+      label: '213 of 1,040 credits used: 213 of 500 subscription credits and 0 of 540 purchased credits',
+      summary: { full: '20% of total credits used', right: '827 left' } },
+    pro: { legend: [{ name: 'Subscription', value: '3,200' + NB + 'of' + NB + '10,000' }, { tone: 'green', name: 'Purchased', value: '0' + NB + 'of' + NB + '0' }],
+      zones: [{ basis: '100%', fill: '32%' }],
+      label: '3,200 of 10,000 credits used, all subscription, no purchased pool',
+      summary: { full: '32% of total credits used', right: '6,800 left' } },
+    exhausted: { exhausted: true,
+      legend: [{ name: 'Subscription', value: '500' + NB + 'of' + NB + '500', extra: '(resets Aug 1, 2026)' }, { tone: 'green', name: 'Purchased', value: '540' + NB + 'of' + NB + '540' }],
+      zones: [{ basis: '48.08%', fill: '100%' }, { tone: 'green', basis: '51.92%', fill: '100%' }],
+      label: '1,040 of 1,040 credits used: subscription and purchased pools both fully used',
+      summary: { full: '100% of total credits used', right: '0 left' } }
+  };
+  /* No `short` summary: on a phone the original shows NEITHER line — its .acct-show-mobile{display:none}
+     sits after the media query that was meant to reveal it (quirk kept, rule 1a). */
+  var V3 = {
+    free: [{ name: 'Subscription', left: '287', percent: 42.6, foot: ['213 of 500 used'], barLabel: 'Subscription: 213 of 500 credits used, 287 left' },
+           { name: 'Purchased', tone: 'green', left: '540', percent: 0, foot: ['0 of 540 used'], barLabel: 'Purchased: 0 of 540 credits used, 540 left' }],
+    pro: [{ name: 'Subscription', left: '6,800', percent: 32, foot: ['3,200 of 10,000 used'], barLabel: 'Subscription: 3,200 of 10,000 credits used, 6,800 left' },
+          { name: 'Purchased', tone: 'green', left: '0', percent: 0, foot: ['0 of 0 used'], barLabel: 'Purchased: 0 of 0 credits used, 0 left' }],
+    exhausted: [{ name: 'Subscription', left: '0', exhausted: true, percent: 100, foot: ['500 of 500 used', 'Resets Aug 1, 2026'], barLabel: 'Subscription: 500 of 500 credits used, 0 left' },
+                { name: 'Purchased', tone: 'green', left: '0', exhausted: true, percent: 100, foot: ['540 of 540 used'], barLabel: 'Purchased: 540 of 540 credits used, 0 left' }]
+  };
+  var NOTE = 'Never expire · used after plan credits';
+  var VB = {
+    free: { amount: '827', pools: [
+      { name: 'Subscription', coin: 'brand', amount: '287 left', percent: 42.6, foot: ['213 of 500 used', 'Renews Aug 1, 2026'], barLabel: 'Subscription: 213 of 500 credits used, 287 left' },
+      { name: 'Purchased', coin: 'green', amount: '540 left', note: NOTE }] },
+    pro: { amount: '6,800', pools: [
+      { name: 'Subscription', coin: 'brand', amount: '6,800 left', percent: 32, foot: ['3,200 of 10,000 used', 'Renews Aug 1, 2026'], barLabel: 'Subscription: 3,200 of 10,000 credits used, 6,800 left' },
+      { name: 'Purchased', coin: 'green', amount: '0 left', note: NOTE }] },
+    exhausted: { amount: '0', pools: [
+      { name: 'Subscription', coin: 'brand', amount: '0 left', percent: 100, foot: ['500 of 500 used', 'Resets Aug 1, 2026'], barLabel: 'Subscription: 500 of 500 credits used, 0 left, resets Aug 1, 2026' },
+      { name: 'Purchased', coin: 'green', amount: '0 left', note: NOTE }] }
+  };
+  var USAGE = [['Jan 29, 2026', 'Chat', '15'], ['Jan 29, 2026', 'Report', '20'], ['Jan 5, 2026', 'Chat', '3'],
+    ['Dec 5, 2025', 'Report', '5'], ['Nov 5, 2025', 'Chat', '16'], ['Oct 5, 2025', 'Insight', '4'], ['Sep 5, 2025', 'Insight', '50']];
+  var INVOICES = [['Jun 11, 2026', 'Starter — monthly', '$9.99'], ['May 11, 2026', 'Starter — monthly', '$9.99'],
+    ['Apr 11, 2026', 'Starter — monthly', '$9.99'], ['Mar 11, 2026', 'Credit pack — 5,000', '$45.00'],
+    ['Mar 11, 2026', 'Starter — monthly', '$9.99']];
+  var PRICES = { monthly: { starter: ['$7.99', '$19.99'], pro: ['$15.99', '$39.99'] }, yearly: { starter: ['$5.99', '$11.99'], pro: ['$11.99', '$23.99'] } };
+
+  /* The original's "Light / Dark" button: flips the class for this visit, stores nothing. */
+  function toggleTheme() {
+    var on = document.documentElement.classList.toggle('dark');
+    document.documentElement.style.colorScheme = on ? 'dark' : 'light';
+  }
+
+  function App() {
+    var sec = R.useState(START), section = sec[0], setSection = sec[1];
+    var vr = R.useState('v2'), ver = vr[0], setVer = vr[1];
+    var ps = R.useState('free'), planState = ps[0], setPlanState = ps[1];
+    var pr = R.useState('monthly'), period = pr[0], setPeriod = pr[1];
+    function toPlans() { setSection('manage-plan'); }
+
+    var controls = section !== 'balance' ? [] : [
+      { label: 'Concept version', value: ver, onChange: setVer,
+        options: [{ value: 'v2', label: 'Version 2' }, { value: 'v3', label: 'Version 3' }, { value: 'vb', label: 'Version B' }] },
+      { label: 'Plan state', value: planState, onChange: setPlanState,
+        options: [{ value: 'free', label: 'Free' }, { value: 'pro', label: 'Pro (trial)' }, { value: 'exhausted', label: 'Limit reached' }] }
+    ];
+
+    function panel() {
+      var hd = HEAD[planState], u = USED[planState];
+      var head = h(IK.AcctBalanceHead, { badges: hd.badges, wrap: hd.wrap });
+      var cta = h(IK.AcctBalanceCtaRow, { onUpgrade: toPlans });
+      if (ver === 'v2') return h('div', null, head,
+        h(IK.AcctBalanceHero, { amount: u.amount, unit: u.unit, icon: u.icon || null, gap: 3, ctaHideOnPhone: true, onUpgrade: toPlans }),
+        h(IK.AcctComboBar, V2[planState]), cta);
+      if (ver === 'v3') return h('div', null, head,
+        h(IK.AcctBalanceHero, { amount: u.amount, unit: u.unit, icon: u.icon || null, gap: 3, ctaHideOnPhone: true, onUpgrade: toPlans }),
+        h('div', { className: 'mt-3 flex flex-col gap-4' }, V3[planState].map(function (pl) { return h(IK.AcctPoolV3, Object.assign({ key: pl.name }, pl)); })),
+        cta);
+      var b = VB[planState];
+      return h('div', null, head,
+        h(IK.AcctBalanceHero, { amount: b.amount, gap: 3, ctaHideOnPhone: true, onUpgrade: toPlans }),
+        h('div', { className: 'mt-3 flex flex-col gap-4' }, b.pools.map(function (pl) { return h(IK.AcctPoolB, Object.assign({ key: pl.name }, pl)); })),
+        cta);
+    }
+
+    function balance() {
+      return h('div', null,
+        h(D.Typography, { element: 'div', textStyle: 'body14', textColor: 'secondary', className: 'mb-2' },
+          'Retired exploration — Version 1 (remaining-credits hero) was chosen and ships in ',
+          h('code', { className: 'font-mono text-ink-body' }, 'user_profile-modal.html'),
+          '. These two alternatives are kept here for reference only.'),
+        h('div', { key: ver }, h(IK.AcctSection, { divider: false, pb: 3 }, panel())),
+        h(IK.AcctBuyCredits, { id: 'acct-buy-block', tray: 'card2', hidden: ver === 'vb' }),
+        h(IK.AcctSection, null,
+          h(D.Typography, { element: 'div', textStyle: 'title14', textColor: 'primary' }, 'Credit usage'),
+          h(IK.AcctTable, { columns: [{ label: 'Date' }, { label: 'Request type' }, { label: 'Spent credits' }], rows: USAGE })));
+    }
+
+    function managePlan() {
+      var P = PRICES[period];
+      return h(IK.AcctSection, { gap: 4, divider: false, pb: 'none' },
+        h(IK.AcctPlanHead, { size: 'sm', toggle: h(IK.AcctPeriodToggle, { value: period, onChange: setPeriod, size: 'sm' }) }),
+        h('div', { className: 'pg-plan-grid grid grid-cols-3 gap-4' },
+          h(IK.AcctPlanCard, {
+            name: 'Free', tagline: 'For getting started', price: '$0', per: NB,
+            cta: { label: 'Current Plan', variant: 'outline', disabled: true },
+            features: ['1 user', '500 AI credits / month', 'Up to 3 data connectors', '24-hour data refresh', 'Community support']
+          }),
+          h(IK.AcctPlanCard, {
+            name: 'Starter', badges: ['50% OFF'], tagline: 'For small teams',
+            price: P.starter[0], was: P.starter[1], per: 'per user / month',
+            cta: { label: 'Upgrade to Starter', variant: 'outline' },
+            features: ['Up to 5 users', '5,000 AI credits / month', 'Unlimited data connectors', '1-hour data refresh', 'Custom semantic layer', 'Priority email support']
+          }),
+          h(IK.AcctPlanCard, {
+            name: 'Pro', badges: ['50% OFF'], ribbons: [{ tone: 'solid', label: 'Most popular' }], tagline: 'For growing teams',
+            price: P.pro[0], was: P.pro[1], per: 'per user / month',
+            cta: { label: 'Upgrade to Pro', variant: 'primary' },
+            features: ['Unlimited users', '25,000 AI credits / month', 'Unlimited data connectors', '15-minute data refresh', 'Full semantic-layer governance', 'Email + live-chat support', '99.5% SLA']
+          })));
+    }
+
+    var body;
+    if (section === 'my-account') body = h(IK.AcctMyAccount, { onChangePassword: function () { setSection('change-password'); } });
+    else if (section === 'manage-plan') body = managePlan();
+    else if (section === 'billing') body = h(IK.AcctBilling, {
+      plan: { name: 'Free', price: '$0 / month' }, next: { amount: '$9.99', date: 'Jul 11, 2026' }, rows: INVOICES, onChangePlan: toPlans });
+    else if (section === 'balance') body = balance();
+    else if (section === 'leave-feedback') body = h(IK.AcctFeedback);
+    else if (section === 'change-password') body = h(IK.AcctChangePassword, { onCancel: function () { setSection('my-account'); } });
+
+    return h('div', { className: 'flex h-svh flex-col overflow-hidden' },
+      h(IK.ReviewBar, {
+        title: h(IK.Fragment, null, 'Balance — Versions 2 & 3 (retired concepts)',
+          h(D.Badge, { variant: 'attention', size: 'sm', className: 'ms-2 uppercase tracking-caps' }, 'Retired — V1 shipped')),
+        size: 'sm', theme: false, controls: controls
+      }, h(D.Button, { variant: 'outline', size: 'xs', onClick: toggleTheme }, 'Light / Dark')),
+      h('main', { className: 'relative min-h-0 flex-1 bg-surface-page', 'aria-label': 'Account modal' },
+        h(IK.AcctModal, { section: section, onSection: setSection, legacy: true }, h('div', { key: section }, body))));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

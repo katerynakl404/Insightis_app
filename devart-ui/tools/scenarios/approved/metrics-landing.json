@@ -1,0 +1,209 @@
+[
+ { "name": "Empty — provider card hover (lift)", "viewport": "desktop", "steps": [
+   { "do": "hover", "target": { "orig": { "sel": "#mx-card-grid .prov-card:not([style*=none]) .prov-card-name" }, "new": { "text": "Google Analytics", "tag": "span" } } },
+   { "do": "wait", "ms": 300 } ] },
+ { "name": "Empty — metric chip hover", "viewport": "desktop", "steps": [
+   { "do": "hover", "target": { "orig": { "sel": "#mx-card-grid .prov-card:not([style*=none]) .chip-meta" }, "new": { "sel": ".ik-mx-chip" } } },
+   { "do": "wait", "ms": 300 } ] },
+ { "name": "Empty — Explore more tile hover", "viewport": "desktop", "steps": [
+   { "do": "hover", "target": { "orig": { "sel": ".prov-card.is-browse" }, "new": { "sel": "[role=button].border-dashed" } } },
+   { "do": "wait", "ms": 300 } ] },
+ { "name": "Empty — category Commerce", "steps": [
+   { "do": "click", "target": { "text": "Commerce", "tag": "button" } },
+   { "do": "wait", "ms": 400 } ] },
+ { "name": "Empty — category Storage & Files", "steps": [
+   { "do": "click", "target": { "text": "Storage & Files", "tag": "button" } },
+   { "do": "wait", "ms": 400 } ] },
+ { "name": "Empty — chip opens Metric Details (library metric)", "steps": [
+   { "do": "click", "target": { "orig": { "sel": "#mx-card-grid .prov-card:not([style*=none]) .chip-meta" }, "new": { "sel": ".ik-mx-chip" } } },
+   { "do": "wait", "ms": 900 } ] },
+ { "name": "Empty — Connect opens New connection (step 1)", "steps": [
+   { "do": "click", "target": { "text": "Connect", "tag": "button" } },
+   { "do": "wait", "ms": 800 } ] },
+ { "name": "Empty — New connection: Save → Saving…", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Connect", "tag": "button" } },
+   { "do": "wait", "ms": 800 },
+   { "do": "click", "target": { "text": "Save", "tag": "button" } },
+   { "do": "wait", "ms": 200 } ] },
+ { "name": "Empty — New connection: step 2", "steps": [
+   { "do": "click", "target": { "text": "Connect", "tag": "button" } },
+   { "do": "wait", "ms": 800 },
+   { "do": "click", "target": { "text": "Save", "tag": "button" } },
+   { "do": "wait", "ms": 2000 } ] },
+ { "name": "Empty — New connection: Save Connection → toast + Filled", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Connect", "tag": "button" } },
+   { "do": "wait", "ms": 800 },
+   { "do": "click", "target": { "text": "Save", "tag": "button" } },
+   { "do": "wait", "ms": 2000 },
+   { "do": "click", "target": { "text": "Save Connection", "tag": "button" } },
+   { "do": "wait", "ms": 900 } ] },
+ { "name": "Empty — Free: Connect → upgrade modal", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Connect", "tag": "button" } },
+   { "do": "wait", "ms": 800 } ] },
+
+ { "name": "Filled — metric row hover (⋮ revealed)", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "hover", "target": { "text": "MRR growth", "tag": "td" } },
+   { "do": "wait", "ms": 300 } ] },
+ { "name": "Filled — group header hover (Add Metric revealed)", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "hover", "target": { "orig": { "sel": ".mx-prov-group-name" }, "new": { "text": "Jira Software Cloud", "tag": "span" } } },
+   { "do": "wait", "ms": 300 } ] },
+ { "name": "Filled — ⋮ menu, custom metric", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "hover", "target": { "text": "MRR growth", "tag": "td" } },
+   { "do": "wait", "ms": 300 },
+   { "do": "click", "target": { "orig": { "sel": ".mx-metric-child [data-kbp]" }, "new": { "sel": ".ik-mx-row button[aria-haspopup=menu]" } } },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — ⋮ menu, built-in metric", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "hover", "target": { "text": "Issues created", "tag": "td" } },
+   { "do": "wait", "ms": 300 },
+   { "do": "click", "target": { "orig": { "sel": ".mx-metric-child [data-kbp]" }, "new": { "sel": ".ik-mx-row button[aria-haspopup=menu]" } } },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — ⋮ Duplicate adds a copy", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "hover", "target": { "text": "Issues created", "tag": "td" } },
+   { "do": "wait", "ms": 300 },
+   { "do": "click", "target": { "orig": { "sel": ".mx-metric-child [data-kbp]" }, "new": { "sel": ".ik-mx-row button[aria-haspopup=menu]" } } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "orig": { "sel": ".kbp-menu .mi" }, "new": { "text": "Duplicate", "tag": "[role=menuitem]" } } },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — Metric Details, custom metric", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "MRR growth", "tag": "td" } },
+   { "do": "wait", "ms": 900 } ] },
+ { "name": "Filled — Metric Details, built-in metric", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Issues created", "tag": "td" } },
+   { "do": "wait", "ms": 900 } ] },
+ { "name": "Filled — Metric Details, connection metric", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Jira ticket sync lag", "tag": "td" } },
+   { "do": "wait", "ms": 900 } ] },
+ { "name": "Filled — Create metric dialog", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Create Metric", "tag": "button" } },
+   { "do": "wait", "ms": 700 } ] },
+ { "name": "Filled — Create metric: duplicate name → toast + field", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Create Metric", "tag": "button" } },
+   { "do": "wait", "ms": 700 },
+   { "do": "fill", "target": { "orig": { "sel": "#mx-name-inp" }, "new": { "sel": "#ik-mx-name" } }, "text": "MRR growth" },
+   { "do": "click", "target": { "text": "Save", "tag": "button" } },
+   { "do": "wait", "ms": 700 } ] },
+ { "name": "Filled — Create metric: name AND alias taken", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Create Metric", "tag": "button" } },
+   { "do": "wait", "ms": 700 },
+   { "do": "fill", "target": { "orig": { "sel": "#mx-name-inp" }, "new": { "sel": "#ik-mx-name" } }, "text": "Bug count" },
+   { "do": "fill", "target": { "orig": { "sel": "#mx-alias-inp" }, "new": { "sel": "#ik-mx-alias" } }, "text": "mrr_growth" },
+   { "do": "click", "target": { "text": "Save", "tag": "button" } },
+   { "do": "wait", "ms": 700 } ] },
+ { "name": "Filled — Create metric: data source picker open", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Create Metric", "tag": "button" } },
+   { "do": "wait", "ms": 700 },
+   { "do": "click", "target": { "orig": { "sel": "#mx-connector-trig" }, "new": { "sel": "#ik-mx-connector" } } },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — Create metric: Link to Connection", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Create Metric", "tag": "button" } },
+   { "do": "wait", "ms": 700 },
+   { "do": "click", "target": { "text": "Connection", "tag": "button" } },
+   { "do": "wait", "ms": 400 } ] },
+ { "name": "Filled — Edit metric (⋮ → Edit)", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "hover", "target": { "text": "MRR growth", "tag": "td" } },
+   { "do": "wait", "ms": 300 },
+   { "do": "click", "target": { "orig": { "sel": ".mx-metric-child [data-kbp]" }, "new": { "sel": ".ik-mx-row button[aria-haspopup=menu]" } } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Edit" } },
+   { "do": "wait", "ms": 800 } ] },
+ { "name": "Filled — search with no match → empty state", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "fill", "target": { "orig": { "sel": "#mx-c3-search" }, "new": { "sel": "input[type=search]" } }, "text": "zzz" },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — search 'issues'", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "fill", "target": { "orig": { "sel": "#mx-c3-search" }, "new": { "sel": "input[type=search]" } }, "text": "issues" },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — Custom filter", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Custom", "tag": "button" } },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — Active only", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "orig": { "sel": ".mx-active-toggle .swt" }, "new": { "text": "Active only", "tag": "label" } } },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — Jira group collapsed", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "orig": { "sel": ".mx-prov-collapse-btn" }, "new": { "sel": ".ik-mx-collapse" } } },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — Connect more banner dismissed", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "eval", "orig": "document.querySelector('.cl-main').scrollTop = 9999", "new": "document.querySelector('.pg-main').parentElement.scrollTop = 9999" },
+   { "do": "wait", "ms": 300 },
+   { "do": "click", "target": { "orig": { "sel": ".mx-connect-banner .banner-close" }, "new": { "sel": "[data-slot=banner-close]" } } },
+   { "do": "wait", "ms": 700 } ] },
+ { "name": "Filled — Free: read-only alert, switch hover → upgrade popover", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" } },
+   { "do": "wait", "ms": 400 },
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "hover", "target": { "orig": { "sel": ".mx-metric-child .mx-swt-wrap" }, "new": { "sel": ".ik-mx-row [data-locked]" } } },
+   { "do": "wait", "ms": 800 } ] },
+ { "name": "Filled — Free: Create Metric → upgrade modal", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" } },
+   { "do": "wait", "ms": 400 },
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Create Metric", "tag": "button" } },
+   { "do": "wait", "ms": 800 } ] },
+ { "name": "Filled — Free: ⋮ menu (locked Edit / Duplicate)", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" } },
+   { "do": "wait", "ms": 400 },
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "hover", "target": { "text": "MRR growth", "tag": "td" } },
+   { "do": "wait", "ms": 300 },
+   { "do": "click", "target": { "orig": { "sel": ".mx-metric-child [data-kbp]" }, "new": { "sel": ".ik-mx-row button[aria-haspopup=menu]" } } },
+   { "do": "wait", "ms": 500 } ] },
+ { "name": "Filled — Free: Upgrade to Starter link → popover", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" } },
+   { "do": "wait", "ms": 400 },
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "click", "target": { "text": "Upgrade to Starter" } },
+   { "do": "wait", "ms": 600 } ] },
+ { "name": "Phone — sidebar drawer open", "viewport": "phone", "steps": [
+   { "do": "click", "target": { "orig": { "sel": ".cl-burger" }, "new": { "sel": "[aria-label='Open sidebar']" } } },
+   { "do": "wait", "ms": 900 } ] },
+ { "name": "Phone — Filled cards, scrolled (condensed title)", "viewport": "phone", "steps": [
+   { "do": "click", "target": { "text": "Filled", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
+   { "do": "eval", "orig": "document.querySelector('.cl-main').scrollTop = 400", "new": "document.querySelector('.pg-main').parentElement.scrollTop = 400" },
+   { "do": "wait", "ms": 500 } ] }
+]

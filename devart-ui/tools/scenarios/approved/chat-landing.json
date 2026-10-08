@@ -1,0 +1,101 @@
+[
+ { "name": "Attach menu — filled", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 900 } ] },
+ { "name": "Attach menu — loading", "steps": [
+   { "do": "click", "target": { "text": "Loading", "tag": "button" } },
+   { "do": "click", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 250 } ] },
+ { "name": "Attach menu — empty", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "click", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 900 } ] },
+ { "name": "Attach menu — scrolling", "steps": [
+   { "do": "click", "target": { "text": "Scrolling", "tag": "button" } },
+   { "do": "click", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 900 } ] },
+ { "name": "Attach tooltip", "steps": [
+   { "do": "hover", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 600 } ] },
+ { "name": "File attached — chip, attach disabled", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 900 },
+   { "do": "click", "target": { "text": "Q3-revenue.csv" }, "ms": 300 },
+   { "do": "hover", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 600 } ] },
+ { "name": "File attached — then removed", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 900 },
+   { "do": "click", "target": { "text": "Choose File" }, "ms": 300 },
+   { "do": "click", "target": { "sel": "button[aria-label=\"Remove file\"]" }, "ms": 300 } ] },
+ { "name": "Connections menu — filled", "steps": [
+   { "do": "click", "target": { "text": "Connections", "tag": "button" }, "ms": 900 } ] },
+ { "name": "Connections menu — loading", "steps": [
+   { "do": "click", "target": { "text": "Loading", "tag": "button" } },
+   { "do": "click", "target": { "text": "Connections", "tag": "button" }, "ms": 250 } ] },
+ { "name": "Connections menu — empty", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "click", "target": { "text": "Connections", "tag": "button" }, "ms": 900 } ] },
+ { "name": "Connections menu — scrolling", "steps": [
+   { "do": "click", "target": { "text": "Scrolling", "tag": "button" } },
+   { "do": "click", "target": { "text": "Connections", "tag": "button" }, "ms": 900 } ] },
+ { "name": "Connections — Marketing Hub switched on", "steps": [
+   { "do": "click", "target": { "text": "Connections", "tag": "button" }, "ms": 900 },
+   { "do": "click", "target": { "text": "Marketing Hub" }, "ms": 300 } ] },
+ { "name": "Model menu", "steps": [
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 } ] },
+ { "name": "Model menu — Thinking info tooltip", "steps": [
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 },
+   { "do": "hover", "target": { "orig": { "sel": ".cl-opt-info" }, "new": { "sel": ".ik-cmp-info" } }, "ms": 600 } ] },
+ { "name": "Model menu — Thinking off gates Effort", "steps": [
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 },
+   { "do": "click", "target": { "sel": "[role=switch][aria-label=\"Thinking\"]" }, "ms": 300 },
+   { "do": "hover", "target": { "text": "Effort (Medium)" }, "ms": 600 } ] },
+ { "name": "Model menu — Effort High", "steps": [
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 },
+   { "do": "click", "target": { "orig": { "sel": ".stps-step", "nth": 2 }, "new": { "sel": "[role=slider]" } }, "ms": 200 },
+   { "do": "eval", "orig": "0", "new": "document.querySelector('[role=slider]').focus()" },
+   { "do": "key", "key": "ArrowRight", "ms": 300 } ] },
+ { "name": "Model menu — Insightis Medium chosen", "steps": [
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Insightis Medium" }, "ms": 400 } ] },
+ { "name": "Typed prompt — Send enabled", "steps": [
+   { "do": "fill", "target": { "orig": { "sel": "textarea.cl-prompt" }, "new": { "sel": "textarea.ik-cmp-prompt" } }, "text": "Show me revenue by region" } ] },
+ { "name": "Suggestion pill fills the prompt", "steps": [
+   { "do": "click", "target": { "text": "Analyze user churn", "tag": "button" }, "ms": 300 } ] },
+ { "name": "Free — model menu, locked rows", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" }, "ms": 300 },
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 } ] },
+ { "name": "Free — locked model row popover", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" }, "ms": 300 },
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 },
+   { "do": "hover", "target": { "text": "Insightis Pro" }, "ms": 700 } ] },
+ { "name": "Free — Connections trigger popover", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" }, "ms": 300 },
+   { "do": "hover", "target": { "text": "Connections", "tag": "button" }, "ms": 700 } ] },
+ { "name": "Free — C8 toast after a paid model", "steps": [
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Insightis Medium" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Free", "tag": "button" }, "ms": 600 } ] },
+ { "name": "Account menu", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Kateryna K." }, "ms": 400 } ] },
+ { "name": "Balance popover — Paid", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Balance" }, "ms": 400 } ] },
+ { "name": "Balance popover — Free", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Free", "tag": "button" }, "ms": 300 },
+   { "do": "click", "target": { "text": "Balance" }, "ms": 400 } ] },
+ { "name": "Chat row menu", "viewport": "desktop", "steps": [
+   { "do": "hover", "target": { "text": "HubSpot · onboarding cohort" }, "ms": 300 },
+   { "do": "click", "target": { "sel": "button[aria-label=\"More actions\"]" }, "ms": 400 } ] },
+ { "name": "Rename chat dialog", "viewport": "desktop", "steps": [
+   { "do": "hover", "target": { "text": "HubSpot · onboarding cohort" }, "ms": 300 },
+   { "do": "click", "target": { "sel": "button[aria-label=\"More actions\"]" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Rename" }, "ms": 500 } ] },
+ { "name": "Delete chat dialog", "viewport": "desktop", "steps": [
+   { "do": "hover", "target": { "text": "HubSpot · onboarding cohort" }, "ms": 300 },
+   { "do": "click", "target": { "sel": "button[aria-label=\"More actions\"]" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Delete" }, "ms": 500 } ] },
+ { "name": "Pinned section collapsed", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Pinned" }, "ms": 300 } ] },
+ { "name": "Icon rail", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "orig": { "sel": ".sbx-collapse" }, "new": { "sel": "[data-sidebar=trigger]" } }, "ms": 500 },
+   { "do": "hover", "target": { "orig": { "sel": ".sbx-nav-item", "nth": 1 }, "new": { "sel": "[data-sidebar=menu-button]", "nth": 1 } }, "ms": 600 } ] },
+ { "name": "Logo tooltip", "viewport": "desktop", "steps": [
+   { "do": "hover", "target": { "orig": { "sel": ".sbx-brand-id" }, "new": { "sel": "a[aria-label=\"New Chat\"]" } }, "ms": 600 } ] },
+ { "name": "Phone — sidebar drawer", "viewport": "phone", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Open sidebar\"]" }, "ms": 700 } ] },
+ { "name": "Phone — composer model menu", "viewport": "phone", "steps": [
+   { "do": "click", "target": { "orig": { "sel": ".cl-dropdown", "nth": 1 }, "new": { "sel": ".ik-cmp-trigger", "nth": 1 } }, "ms": 400 } ] }
+]

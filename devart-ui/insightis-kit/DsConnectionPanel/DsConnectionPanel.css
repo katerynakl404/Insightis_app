@@ -1,0 +1,6 @@
+/* DsConnectionPanel — the three bands inside DevartUI's Sheet (original #ds-panel): a header and a
+   footer on hairlines, a body that scrolls between them. The Sheet's own width, height and ✕ are
+   DevartUI's; only the inner padding moves into the bands so the hairlines run edge to edge. */
+.ik-dscp-head { flex: none; display: flex; align-items: center; gap: .75rem; padding: 1.25rem 3.5rem 1.25rem 1.5rem; border-bottom: 1px solid hsl(var(--stroke-border)); }
+.ik-dscp-body { flex: 1; min-height: 0; overflow-y: auto; padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: .75rem; }
+.ik-dscp-foot { flex: none; display: flex; align-items: center; gap: .5rem; padding: 1rem 1.5rem; border-top: 1px solid hsl(var(--stroke-border)); }

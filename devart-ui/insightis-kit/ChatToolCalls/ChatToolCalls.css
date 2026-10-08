@@ -1,0 +1,59 @@
+/* ChatToolCalls — Minimal: no plate; the spine and the status glyphs carry the structure.
+   --ik-tint-55-spine: the spine is the border token at 55% (the DS --tint-55 step). */
+/* The plate is gone (Minimal) but its 1px border stays, transparent — the block keeps its 38px box. */
+.ik-tc { position: relative; border: 1px solid transparent; }
+.ik-tc-head {
+  display: flex; align-items: center; gap: .5rem; width: 100%; padding: .5rem .75rem .5rem 0;
+  border: 0; background: transparent; cursor: pointer; font-family: inherit; text-align: left;
+  color: hsl(var(--ink-secondary)); transition: color var(--motion-fast);
+}
+.ik-tc-head:hover { color: hsl(var(--ink-primary)); }
+.ik-tc-chev { transform: rotate(-90deg); transition: transform var(--motion-base); }
+.ik-tc-head[aria-expanded="true"] .ik-tc-chev { transform: rotate(0deg); }
+
+.ik-tc-row { position: relative; }
+/* The spine: from this row's status glyph to the next one's — owned per row, so it reaches the
+   next icon whether any row is open or shut; the last row has nothing to connect to. */
+.ik-tc-row:not(:last-child)::after {
+  content: ""; position: absolute; left: .5rem; top: 1.25rem; bottom: -12px; width: 1px; margin-left: -.5px;
+  background: color-mix(in srgb, hsl(var(--stroke-border)) var(--tint-55), transparent);
+}
+.ik-tc-row-head {
+  position: relative; display: flex; align-items: center; gap: .5rem; width: 100%;
+  padding: .5rem .75rem .5rem 0; border: 0; background: transparent; cursor: pointer;
+  font-family: inherit; text-align: left; transition: color var(--motion-fast);
+}
+.ik-tc-status { position: relative; z-index: 1; flex: none; display: inline-flex; border-radius: 9999px; background: hsl(var(--surface-card)); }
+.ik-tc-row.is-ok .ik-tc-status { color: hsl(var(--fb-green)); }
+.ik-tc-row.is-error .ik-tc-status { color: hsl(var(--fb-red-text)); }
+.ik-tc-name {
+  flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--font-size-sm); line-height: var(--line-height-sm); color: hsl(var(--ink-body));
+}
+.ik-tc-op { color: hsl(var(--ink-secondary)); }
+.ik-tc-row-chev { flex: none; display: inline-flex; margin-left: -.25rem; color: hsl(var(--ink-secondary)); }
+.ik-tc-row-chev .ik-icon { transform: rotate(-90deg); transition: transform var(--motion-base); }
+.ik-tc-row-head[aria-expanded="true"] .ik-tc-row-chev .ik-icon { transform: rotate(0deg); }
+.ik-tc-row-head:hover .ik-tc-name, .ik-tc-row-head:hover .ik-tc-op, .ik-tc-row-head:hover .ik-tc-row-chev { color: hsl(var(--ink-primary)); }
+.ik-tc-row-panel { padding: .5rem .75rem .75rem 1.5rem; }
+
+/* Arguments + Output: peer cards — a head row over the content. */
+.ik-tc-card { border: 1px solid hsl(var(--stroke-border)); border-radius: .5rem; overflow: hidden; }
+.ik-tc-card + .ik-tc-card { margin-top: .75rem; }
+.ik-tc-card-head { display: flex; align-items: center; gap: .5rem; padding: .5rem .75rem; border-bottom: 1px solid hsl(var(--stroke-border)); }
+.ik-tc-code, .ik-tc-out {
+  margin: 0; padding: .5rem .75rem; background: hsl(var(--surface-page));
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--font-size-xs); color: hsl(var(--ink-body));
+}
+.ik-tc-code { line-height: 1.65; overflow-x: auto; counter-reset: ik-ln; }
+.ik-tc-line { display: block; white-space: pre; position: relative; padding-left: 1.25rem; }
+.ik-tc-line::before { counter-increment: ik-ln; content: counter(ik-ln); position: absolute; left: 0; color: hsl(var(--ink-inactive)); }
+.ik-tc-out {
+  max-height: 12rem; overflow: auto; line-height: 1.5; white-space: pre-wrap; word-break: break-word;
+  scrollbar-width: thin; scrollbar-color: hsl(var(--stroke-border)) transparent;
+}
+.ik-tc-row.is-error .ik-tc-out { background: color-mix(in srgb, hsl(var(--fb-red-text)) var(--tint-8), hsl(var(--surface-page))); }
+.ik-tc-label { font-size: var(--font-size-sm); line-height: var(--line-height-sm); font-weight: 500; }
+.ik-tc-panel { position: relative; }

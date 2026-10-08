@@ -1,0 +1,3 @@
+[
+ { "name": "Password typed", "steps": [ { "do": "fill", "target": { "sel": "input[type=password]" }, "text": "abcdefg1" } ] }
+]

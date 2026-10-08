@@ -14,6 +14,8 @@ Quick rules:
 - No change → `—`. Links stay relative so a clone never breaks.
 - Per-screen **change pages** live in **`page-changes/`** (one md per `pages/*.html`, **only Current vs Expected differences**). Naming + how-to: single source in [`page-changes/INDEX.md`](page-changes/INDEX.md).
 
+**`devart-ui/` — the prototypes rebuilt on `@devart/ui-react`** (the vendored `ds-bundle/`). Same pages, every state, built from DevartUI components; what DevartUI lacks lives once in the **Insightis custom kit** (`devart-ui/insightis-kit/<Name>/`, React, `window.InsightisKit`). Its own rules, page template and progress table: [`devart-ui/README.md`](devart-ui/README.md) — read it before touching anything there. Run `node devart-ui/tools/check.mjs` before committing it. The originals in `pages/` stay the reference.
+
 **Page files AND the kit show Expected state only** — never add a "Current / Expected" toggle button or `.sb-cur` / `.prod` scoping to `pages/*.html` or to `insightis-preview-kit.html`. The current prod state already exists on the live product; these files are Expected-only design references.
 
 **Archive folder rules (`archive/`)** — `archive/` is the local graveyard for retired design iterations. Three hard rules apply:
