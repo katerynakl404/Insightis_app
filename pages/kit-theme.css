@@ -5469,7 +5469,7 @@
            <span class="cfc-top-r">…</span></div>
          <div class="cfc-panel scroll-fade" role="group" aria-labelledby="q1"><p class="cfc-q" id="q1" tabindex="-1">…</p>
            <div class="cfc-opts" data-scroll-fade>…</div></div>
-         <div class="cfc-foot"><button class="btn btn-tertiary btn-sm" data-cfc-back disabled>Back</button>
+         <div class="cfc-foot"><button class="btn btn-tertiary btn-sm" data-cfc-back hidden>Back</button>
            <button class="btn btn-tertiary btn-sm" data-cfc-skip>Skip</button>
            <button class="btn btn-primary btn-sm" data-cfc-submit disabled>Next</button></div>
      ========================================================================= */
@@ -5509,8 +5509,11 @@
   .cfc-step{flex:none;display:flex;align-items:center;padding:.625rem .125rem;border:0;border-radius:var(--radius-inner);background:none;cursor:pointer}
   .cfc-step:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
   .cfc-step-bar{width:1.5rem;height:.25rem;border-radius:var(--radius-full);background:var(--stroke-border);transition:background-color var(--motion-fast) var(--motion-ease)}
-  .cfc-step:hover .cfc-step-bar{background:var(--ink-inactive)}
   .cfc-step.is-done .cfc-step-bar,.cfc-step.is-current .cfc-step-bar{background:var(--brand-primary)}
+  /* Hover takes the design system's own hover pair for each fill: an empty bar the option row's
+     hover border (--card-border-hover), a filled one Brand/Primary_Hover. */
+  .cfc-step:hover .cfc-step-bar{background:var(--card-border-hover)}
+  .cfc-step.is-done:hover .cfc-step-bar,.cfc-step.is-current:hover .cfc-step-bar{background:var(--brand-hover)}
   .cfc-step-label{white-space:nowrap;color:var(--ink-secondary);font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh)}
   /* The list is the part that scrolls once the card hits its ceiling. The .25rem of padding, taken
      back by the margin, is the focus ring's room: without it the scroller clips the ring on the
@@ -5546,11 +5549,10 @@
      the same size: on Text/Body the two were one step of grey apart and read as one paragraph.
      The question keeps the lead by weight — Title/14 at 600 against the label's 500. */
   .cfc-opt-t{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--ts-label-l-size);line-height:var(--ts-label-l-lh);font-weight:var(--ts-label-l-weight);color:var(--ink-primary)}
-  /* Explicitly Body/M at weight 400 — supporting prose, and it inherits nothing from the button it
-     sits in (a button's own font-weight was making it read as bold). Text/Secondary, not
-     Text/Body: the title is already on the darkest ink, so the only way to make it read as MORE
-     contrasting is to open the gap below it. Body sat one step away and the two flattened. */
-  .cfc-opt-d{font-size:var(--ts-body-m-size);line-height:var(--ts-body-m-lh);font-weight:var(--ts-body-m-weight);color:var(--ink-secondary)}
+  /* Body/S at weight 400 on Text/Secondary — supporting prose, a size step under the label so the
+     two read as title and note rather than two lines of one paragraph. Weight is explicit because
+     it inherits nothing from the button it sits in (a button's own font-weight made it read bold). */
+  .cfc-opt-d{font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);font-weight:var(--ts-body-s-weight);color:var(--ink-secondary)}
   /* "Other": the person's own answer, written under the row that asked for it and sent with its
      own button — the action sits with the thing it sends. Send is disabled while the field is
      empty; Enter sends too, Shift+Enter breaks the line. */
@@ -5564,9 +5566,9 @@
      place every answer is sent from. */
   .cfc-other{display:flex;flex-direction:column;gap:.5rem;padding:0 .75rem .75rem}
   /* Footer — the way on at the right, as in every dialog: Skip, then the primary (Submit; Next
-     between steps). Between steps, Back sits alone on the left. Back and the primary are always
-     there, disabled when they cannot act — on the first question, before an answer — so neither
-     appears out of nowhere. */
+     between steps). The primary is always there, disabled until there is an answer, so it never
+     appears out of nowhere. Between steps Back sits alone on the left — from the second question
+     on; on the first there is nowhere to go back to, and a dead button there is just noise. */
   .cfc-foot{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:.5rem}
   .cfc-foot [data-cfc-back]{margin-right:auto}
 

@@ -1187,7 +1187,7 @@
          the same box instead of answering. Typed text is the answer, sent by the footer's primary
          (Submit / Next) or by Enter (Shift+Enter breaks the line); neither works while it is empty.
        · Skip (data-cfc-skip) resolves the question with no answer. Back (data-cfc-back) goes to
-         the previous question; disabled on the first.
+         the previous question; hidden on the first, where there is none.
      ========================================================================================== */
   function cfcPanels(card) { return Array.prototype.slice.call(card.querySelectorAll('.cfc-panel')); }
   function cfcIndex(card) {
@@ -1230,7 +1230,7 @@
     var label = card.querySelector('.cfc-step-label');
     if (label) label.textContent = 'Question ' + (i + 1) + ' of ' + p.length;
     var back = card.querySelector('[data-cfc-back]');
-    if (back) back.disabled = i === 0;
+    if (back) back.hidden = i === 0;
     var q = p[i].querySelector('.cfc-q');
     if (hadFocus && q && !(document.activeElement && document.activeElement.closest('.cfc-stepper'))) q.focus();
     cfcSync(card);
@@ -1321,7 +1321,7 @@
       return;
     }
     var back = e.target.closest('[data-cfc-back]');
-    if (back) { if (!back.disabled) cfcGo(card, cfcIndex(card) - 1); return; }
+    if (back) { cfcGo(card, Math.max(0, cfcIndex(card) - 1)); return; }
     var go = e.target.closest('[data-cfc-goto]');
     if (go) cfcGo(card, Array.prototype.indexOf.call(card.querySelectorAll('[data-cfc-goto]'), go));
   });

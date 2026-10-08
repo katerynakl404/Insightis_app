@@ -14,8 +14,8 @@ The assistant asking for a decision before it can continue. The component is the
 | "Other" | unboxed, below the real choices; a field appears below once it is chosen | **one of the choices**, boxed like the rest; the field opens **inside its own box**, and the footer's Submit sends it |
 | Several questions | tabs (a dot on each unanswered tab), radio rows, Submit gated with "N questions left to answer" | **one question at a time**, each single or multi select; a stepper — short bars + "Question N of M" — on the top line, every bar clickable; a pick moves on; Back on the left, Skip + Next on the right |
 | Multi select — options | unboxed checkbox rows | the **same option row** with an input-backed [Checkbox](Checkbox.md) (`.cbx-in`) **on its right** |
-| Footer | Submit (multi select, several questions) | **every variant**: Skip, then the primary (Submit; Next between steps), bottom-right — always shown, disabled until the question on screen has an answer; between steps Back bottom-left, disabled on the first question |
-| Description | Body/L | Body/M |
+| Footer | Submit (multi select, several questions) | **every variant**: Skip, then the primary (Submit; Next between steps), bottom-right — always shown, disabled until the question on screen has an answer; between steps Back bottom-left, from the second question on |
+| Description | Body/L | Body/S |
 | Question + dismiss | stacked | **one line**; the dismiss sits on the question's first line |
 | Mobile (≤ 600px) | — | "Esc to cancel" hides (no Esc key on a phone); the dismiss stays |
 
@@ -27,7 +27,7 @@ Single select, several questions and multi select are the same card asking in th
 
 Tabs are peers you browse in any order; these questions are a sequence to answer. Tabs also spread one fact — "not done yet" — over three signals: a dot per tab, a counter and a disabled Submit. One step at a time says it once.
 
-**A pick moves on.** Pressing an option answers the question and the next one still open shows — exactly as single select answers on press. "Other" and a multi-select step cannot answer themselves, so they wait for **Next**. Next is always there, disabled until the question on screen has an answer, and reads **Submit** on the last open question. **Skip** moves on without an answer — sent as `null`, so the assistant knows the question was seen and passed rather than missed. **Back**, bottom-left, returns to the previous question — disabled on the first, so it never appears out of nowhere. When no question is left open, the card is answered.
+**A pick moves on.** Pressing an option answers the question and the next one still open shows — exactly as single select answers on press. "Other" and a multi-select step cannot answer themselves, so they wait for **Next**. Next is always there, disabled until the question on screen has an answer, and reads **Submit** on the last open question. **Skip** moves on without an answer — sent as `null`, so the assistant knows the question was seen and passed rather than missed. **Back**, bottom-left, returns to the previous question. It appears from the second question on — on the first there is nowhere to go back to, and a dead button there is noise. When no question is left open, the card is answered.
 
 **The stepper is a short bar per question with "Question N of M" beside them.** A bar fills once its question is answered (and while on screen), the label says exactly where you are, and every bar is a button — a 24px target, the bar its mark — that takes you to its question. Bars stretched across the card or carrying names under them took the whole top line to say "2 of 4". The track is `--stroke-border`; ProgressBar's `--surface-chips` vanished on a white card.
 
@@ -41,15 +41,15 @@ Prod scrolls the option list inside the panel even when every option would fit �
 
 ## Three type steps, each a token apart
 
-The question is the primary voice here. An option label set bigger than the question it answers outshouts it, so the three sit at one size:
+The question is the primary voice here. An option label set bigger than the question it answers outshouts it, so the label sits at the question's size and the description a step under:
 
 - question → `Title/14` on `Text/Primary`
 - option label → `Label/L` (weight 500) on `Text/Primary` — a button's label, because the row is a button
-- description → `Body/M` at weight 400 on `Text/Secondary`
+- description → `Body/S` at weight 400 on `Text/Secondary`
 
-The label takes the darkest ink because the description sits right under it at the same size: on `Text/Body` the two were one step of grey apart and read as one paragraph. The question keeps the lead by weight — 600 against the label's 500.
+The label takes the darkest ink because the description sits right under it: on `Text/Body` the two were one step of grey apart and read as one paragraph. The question keeps the lead by weight — 600 against the label's 500.
 
-The description was `Body/L` and read as a second paragraph competing with the label; one step down settles it. Weight 400 is explicit because it inherits nothing from the button it sits in — a button's own `font-weight` was making the prose read bold.
+The description was `Body/L` and read as a second paragraph competing with the label; at `Body/S` it reads as the label's note. Weight 400 is explicit because it inherits nothing from the button it sits in — a button's own `font-weight` was making the prose read bold.
 
 ## Alignment and focus
 
@@ -79,9 +79,9 @@ It carries `--shadow-overlay-soft` rather than a heavier border: it sits OVER th
 | chosen row | `--brand-primary` border + `color-mix(--brand-primary, --tint-5, transparent)` |
 | question | `Title/14` · `Text/Primary` |
 | option label | `Label/L` · `Text/Primary` |
-| description | `Body/M` · `Text/Secondary` |
+| description | `Body/S` · `Text/Secondary` |
 | dismiss | `.iconbtn.iconbtn-tertiary.iconbtn-xs` |
-| stepper | bar `--stroke-border` / `--brand-primary`; label `Body/M` · `Text/Secondary` |
+| stepper | bar `--stroke-border` / `--brand-primary`, hover `--card-border-hover` / `--brand-hover`; label `Body/M` · `Text/Secondary` |
 | footer | Back and Skip `.btn.btn-tertiary.btn-sm`, primary `.btn.btn-primary.btn-sm` |
 | "Other" field | `.ta.is-block` ([TextArea](TextArea.md)) |
 | multi-select control | `.cbx-in` + `.cbx` ([Checkbox](Checkbox.md)) |
