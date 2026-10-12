@@ -13,5 +13,7 @@
 .ik-rb-seg { width: auto; }
 /* size="sm" — the chat pages slim their .topbar to a 40px strip (6px 16px), is-sm switches. */
 .ik-rb.is-sm { padding: .375rem 1rem; height: 2.5rem; box-sizing: border-box; }
+/* autoHeight — the Data Sources pages slim the padding but set no height (39px strip). */
+.ik-rb.is-sm.is-auto { height: auto; }
 /* showLabel — "Plan [Paid|Free]": the original .tb-concept, label 6px before its switch. */
 .ik-rb-group { display: flex; align-items: center; gap: .375rem; }

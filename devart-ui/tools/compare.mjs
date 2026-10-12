@@ -65,7 +65,7 @@ const pairs = walk(path.join(repo, 'devart-ui/pages')).filter(f => f.endsWith('.
   .sort();
 if (!pairs.length) { console.log('nothing to compare'); process.exit(0); }
 
-const stamp = new Date().toISOString().replace(/[:T]/g, '-').slice(0, 16);
+const stamp = new Date().toISOString().replace(/[:T]/g, '-').slice(0, 19) + '-' + process.pid; // unique: parallel runs never share a folder
 const outDir = path.join(repo, 'working/devart-compare', stamp);
 fs.mkdirSync(path.join(outDir, 'img'), { recursive: true });
 const cdp = await launch();

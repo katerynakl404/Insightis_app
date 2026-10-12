@@ -5,7 +5,7 @@
 
    IK.MxProviderCard — DevartUI Card `elevated` (rounded xl: the 12px card, lift on hover)
      name        'Google Analytics'            title, one line, ellipsis
-     connector   logo key for D.ConnectorLogo (default: name) — 48px (lg)
+     connector   logo key for IK.ConnectorMark (default: name) — 48px (lg)
      status      'Not connected'               grey dot + Body/12 secondary
      metrics     [{ label, … }]                the preview chips — ALL of them, wrapping freely
                                                (locked rule: never hide a chip, never nowrap)
@@ -52,7 +52,7 @@
     var metrics = p.metrics || [];
     return h(D.Card, { variant: 'elevated', rounded: 'xl', className: p.className },
       h('div', { className: 'flex items-center gap-2' },
-        h(D.ConnectorLogo, { connector: p.connector || p.name, size: 'lg' }),
+        h(IK.ConnectorMark, { connector: p.connector || p.name, size: 'lg' }),
         h('div', { className: 'flex min-w-0 flex-1 flex-col items-start' },
           h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', className: 'mb-0.5 max-w-full truncate' }, p.name),
           h('div', { className: 'inline-flex items-center gap-1' },

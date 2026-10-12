@@ -19,6 +19,7 @@
      variant     'meter' (shipped) | 'combined' | 'summed' — the parked iterations, for review
      open / onOpenChange / defaultOpen    optional control
      side 'top' · align 'start'           placement (above the footer row)
+     dailySuffix false → "12 of 20" (no " today") on the Daily Limit meter → IK.BalancePanel
      links       false → CTAs are inert buttons (review pages / stories)
 
    IK.BalanceRow              the trigger alone: "Balance  [wallet] N left". Spreads props + ref,
@@ -28,7 +29,8 @@
 
    IK.BalancePanel            the panel content alone (static, for the review page / stories)
      planName, trialDays, variant, pool {used, cap}, daily {used, cap}, purchased (left),
-     purchasedTotal (combined only), left (hero total, combined / summed), links
+     purchasedTotal (combined only), left (hero total, combined / summed), links,
+     dailySuffix (false → no " today" after the Daily Limit figure)
 
    <IK.BalancePopover />                                        // sidebar footer, plan-driven
    <IK.BalancePanel planName="Pro" trialDays={14} pool={{ used: 3200, cap: 10000 }} purchased={0} />
@@ -99,10 +101,12 @@
         h('strong', { className: 'font-semibold text-ink-body' }, p.value)));
   }
 
+  /* Box for box the original .sbx-pop-tok-usage: one line of text, the figure a <strong> INSIDE
+     the Title/20 run — "bolder" than its 600, so 900 — then " left" in Body/12. */
   function Hero(p) {
-    return h('div', { className: 'flex items-baseline gap-1' },
-      h(D.Typography, { element: 'strong', textStyle: 'title20', textColor: 'primary', className: 'tabular-nums' }, n(p.left)),
-      h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, 'left'));
+    return h('div', null,
+      h(D.Typography, { element: 'span', textStyle: 'title20', textColor: 'primary' }, h('strong', null, n(p.left))),
+      h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, ' left'));
   }
 
   IK.BalancePanel = function BalancePanel(p) {
@@ -124,12 +128,14 @@
       if (p.daily) body.push(h(IK.Meter, { key: 'day', layout: 'inline', label: 'Daily Limit', value: n(p.daily.used) + ' of ' + n(p.daily.cap) + (p.dailySuffix === false ? '' : ' today'), percent: pct(p.daily) }));
       body.push(h(IK.Meter, { key: 'pur', layout: 'inline', coin: 'green', label: 'Purchased Credits', value: n(p.purchased) + ' left' }));
     }
-    return h('div', { className: IK.cx('flex w-full flex-col gap-3', p.className), role: p.role, 'aria-label': p['aria-label'] },
+    /* .sbx-pop.is-open: every section 14px apart (head · meters, or hero · legend · bar · CTAs);
+       the CTA stack 10px apart and 2px further down (.sbx-pop-tok-actions) */
+    return h('div', { className: IK.cx('flex w-full flex-col gap-3.5', p.className), role: p.role, 'aria-label': p['aria-label'] },
       h('div', { className: 'flex min-w-0 items-center gap-2 px-1' },
         h(D.Typography, { element: 'span', textStyle: 'title20', textColor: 'primary' }, p.planName),
         p.trialDays ? h(D.Badge, { variant: 'attention', size: 'sm' }, 'Trial ends in ' + p.trialDays + ' days') : null),
-      h('div', { className: 'flex flex-col gap-3 px-1' }, body),
-      h('div', { className: 'mt-0.5 flex flex-col gap-2' },
+      h('div', { className: 'flex flex-col gap-3.5 px-1' }, body),
+      h('div', { className: 'mt-0.5 flex flex-col gap-2.5' },
         h(Cta, { variant: 'primary', href: links ? IK.pageHref('approved/user_profile-modal.html?section=balance') : null, onClick: p.onBuy }, 'Buy Credits'),
         h(Cta, { variant: 'secondary', href: links ? IK.pageHref('approved/user_profile-modal.html?section=manage-plan') : null, onClick: p.onUpgrade }, 'Upgrade Plan')));
   };
@@ -139,7 +145,8 @@
     var plan = p.plan || planS;
     var c = p.credits || IK.CREDITS[plan === 'free' ? 'free' : 'paid'];
     /* Open state kept here too, so the panel can hang 4px above the sidebar FOOTER (not above the
-       row) — measured when it opens (IK.sidebarFooterOffset, AccountMenu.js). */
+       row) and span the footer less .5rem a side — measured when it opens (IK.sidebarFooterOffset /
+       IK.sidebarFooterWidth, AccountMenu.js). */
     var trig = R.useRef(null);
     var os = R.useState(!!p.defaultOpen), ownOpen = os[0], setOwnOpen = os[1];
     var open = p.open != null ? p.open : ownOpen;
@@ -150,10 +157,11 @@
       h(D.PopoverTrigger, { asChild: true }, h(IK.BalanceRow, { ref: trig, left: c.balance, className: p.className })),
       h(D.PopoverContent, {
         side: side, align: p.align || 'start', sideOffset: off,
-        className: 'w-60 p-4', 'aria-label': 'Subscription credits'
+        className: 'w-60 p-4', 'aria-label': 'Subscription credits',
+        style: side === 'top' && open && IK.sidebarFooterWidth && IK.sidebarFooterWidth(trig.current) ? { width: IK.sidebarFooterWidth(trig.current) + 'px' } : undefined
       },
         h(IK.BalancePanel, {
-          planName: c.planName, trialDays: p.trialDays, variant: p.variant,
+          planName: c.planName, trialDays: p.trialDays, variant: p.variant, dailySuffix: p.dailySuffix,
           pool: c.pool, daily: c.daily, purchased: c.purchased, left: c.balance, links: p.links
         })));
   };

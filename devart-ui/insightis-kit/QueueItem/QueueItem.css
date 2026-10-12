@@ -1,0 +1,45 @@
+/* QueueItem — the row (original .mqi). It sits inside an IK.SortableList <li> (the focus stop and the
+   drag target): the li carries focus, the row carries the look. 2rem tall at one line; wrapped
+   rows grow with their text. */
+.ik-qi {
+  position: relative; display: flex; align-items: flex-start; gap: .5rem; min-height: 2rem; box-sizing: border-box;
+  padding: .375rem; border-radius: var(--radius-md); background: transparent; color: hsl(var(--ink-body));
+  font-size: var(--font-size-sm); line-height: var(--line-height-sm); cursor: default;
+  transition: background-color var(--motion-fast);
+}
+.ik-qi:hover, .ik-sort-item:focus-within > .ik-qi { background: var(--state-hover); }
+/* Keyboard focus on the row: an inset ring — a row sits flush in a scroller that would clip an outer one. */
+.ik-qb-list > .ik-sort-item:focus-visible { box-shadow: none; }
+.ik-qb-list > .ik-sort-item:focus-visible > .ik-qi { box-shadow: inset 0 0 0 2px hsl(var(--focus-ring-brand)); }
+/* The number and the grip share one 20px box on the FIRST line; the grip replaces the number on hover. */
+.ik-qi-lead { position: relative; flex: none; align-self: flex-start; display: flex; align-items: center; justify-content: center; width: 1.25rem; height: var(--line-height-sm); }
+.ik-qi-num { position: relative; transition: opacity var(--motion-fast); }
+.ik-qi-grip {
+  position: absolute; inset: 0; display: inline-flex; align-items: center; justify-content: center; width: 100%; height: 100%;
+  padding: 0; border: 0; background: transparent; color: hsl(var(--ink-icon)); cursor: grab; opacity: 0;
+  transition: opacity var(--motion-fast);
+}
+.ik-qi-grip:active { cursor: grabbing; }
+.ik-qi-grip:focus-visible { outline: none; opacity: 1; box-shadow: inset 0 0 0 2px hsl(var(--focus-ring-brand)); }
+.ik-qi-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: .25rem; }
+.ik-qi-text { max-width: 100%; overflow-wrap: anywhere; }
+.ik-qi-file { flex: none; min-width: 0; max-width: 11rem; }
+.ik-qi-acts {
+  flex: none; align-self: flex-start; height: var(--line-height-sm); display: flex; align-items: center; gap: .125rem;
+  opacity: 0; pointer-events: none; transition: opacity var(--motion-fast);
+}
+.ik-qi:hover .ik-qi-grip, .ik-sort-item:focus-within > .ik-qi .ik-qi-grip { opacity: 1; }
+.ik-qi:hover .ik-qi-num, .ik-sort-item:focus-within > .ik-qi .ik-qi-num { opacity: 0; }
+.ik-qi:hover .ik-qi-acts, .ik-sort-item:focus-within > .ik-qi .ik-qi-acts { opacity: 1; pointer-events: auto; }
+/* Below 1024px the actions stay out (prod's lg: rule — covers every touch device too). */
+@media (max-width: 1023px) { .ik-qi-acts { opacity: 1; pointer-events: auto; } }
+
+/* Arriving / leaving for the thread — prod's tailwindcss-animate enter / exit: 150ms, 4px. */
+@keyframes ik-qi-enter { from { opacity: 0; transform: translate3d(0, .25rem, 0); } to { opacity: 1; transform: none; } }
+@keyframes ik-qi-exit { from { opacity: 1; transform: none; } to { opacity: 0; transform: translate3d(0, -.25rem, 0); } }
+.ik-qi.is-entering { animation: ik-qi-enter .15s; }
+.ik-qi.is-sending { animation: ik-qi-exit .15s forwards; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ik-qi { transition: none; }
+  .ik-qi.is-entering, .ik-qi.is-sending { animation: none; }
+}

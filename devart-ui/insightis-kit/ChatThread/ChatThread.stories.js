@@ -37,4 +37,42 @@
   IK.story('ChatThread', { title: 'U6 — paused-connections notice (Free)', wide: true,
     description: 'In a chat that used connections, on Free: a warning Alert under the answer; "Upgrade to Unlock" opens the connections popover.',
     render: function () { return h(IK.ChatPausedNotice, { sources: 'Salesforce and HubSpot' }); } });
+
+  /* ── Rich answers (chat_page-charts-landing) ── */
+  IK.story('ChatThread', { title: 'Answer — an analysis plan (heading, lead lines, lists)', wide: true,
+    render: function () {
+      return h(IK.ChatAnswer, { time: 'Jul 7, 3:08 PM' },
+        h(IK.ChatProse, null, 'Step 2: Present Analysis Plan for generating charts with random data.'),
+        h(IK.ChatHeading, null, 'Generate Bar and Line Charts with Random Data'),
+        h(IK.ChatProse, null, h('strong', null, 'Objective'), h('br'), 'Create two charts using synthetic random data.'),
+        h(IK.ChatProse, null, h('strong', null, 'Steps')),
+        h(IK.ChatList, { ordered: true, items: ['Generate a random dataset.', 'Plot it with matplotlib.', 'Save charts as PNG files.'] }),
+        h(IK.ChatList, { items: ['Two image files.', 'Summary of generated data statistics.'] }),
+        h(IK.ChatProse, null, 'The run failed on the missing ', h(IK.ChatCode, null, 'xlwt'), ' engine.'));
+    } });
+  IK.story('ChatThread', { title: 'Answer — result files + a data card', wide: true,
+    description: 'Result files are DevartUI File chips that open the file (onOpen); ChatDataCard is a titled table 8px off what precedes it.',
+    render: function () {
+      return h(IK.ChatAnswer, { time: 'Jul 7, 3:09 PM' },
+        h(IK.ChatAnswerGroup, null,
+          h(IK.ChatFileChips, { files: ['random_data.xlsx', 'random_data.xls'] }),
+          h(IK.ChatDataCard, { title: 'Random Bar Chart Data', columns: ['Category', 'Value'], rows: [['A', '61'], ['B', '24'], ['C', '81']] })));
+    } });
+  IK.story('ChatThread', { title: 'Footer variants — none / in the row', wide: true,
+    description: 'foot: false — a message appended live (the queue’s turns) has no footer at all; foot: "row" — the footer 4px under the card (the charts chat’s last two answers).',
+    render: function () {
+      return h('div', { className: 'flex flex-col gap-2' },
+        h(IK.ChatUserMessage, { foot: false }, 'and compare to Q3'),
+        h(IK.ChatAnswer, { foot: false }, h(IK.ChatProse, null, 'Revenue for Q2 was $4.82M, up 6% on Q1.')),
+        h(IK.ChatAnswer, { foot: 'row', time: 'Jul 7, 5:14 PM' }, h(IK.ChatProse, null, 'The file was saved as test_sales_1.json.')));
+    } });
+  IK.story('ChatThread', { title: 'Turn states — streaming, tool, stopped, failed', wide: true,
+    description: 'The reply being written (a blinking 1px caret in the text colour), a tool still running after the text, a stopped reply (the only italic) and a failed one.',
+    render: function () {
+      return h('div', { className: 'flex flex-col gap-2' },
+        h(IK.ChatAnswer, { foot: false }, h(IK.ChatProse, null, 'Revenue for Q2 was $4.82M, up', h(IK.ChatStreamCaret))),
+        h(IK.ChatAnswer, { foot: false }, h(IK.ChatProse, null, 'Revenue for Q2 was $4.82M.'), h(IK.ChatTurnState, { kind: 'tool' }, 'Running Python…')),
+        h(IK.ChatAnswer, { foot: false }, h(IK.ChatProse, null, 'Revenue for Q2 was $4.82M.'), h(IK.ChatTurnState, { kind: 'stopped' })),
+        h(IK.ChatAnswer, { foot: false }, h(IK.ChatTurnState, { kind: 'error' }, 'Couldn’t finish this answer')));
+    } });
 })();

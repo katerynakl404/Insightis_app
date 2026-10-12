@@ -1,6 +1,6 @@
 /* ChatRow — what DevartUI's Card variant="row" leaves to the chat row: the selected state, the
    name / pin / time / ⋮ slots and the ⋮ reveal. Original kit .chat-row family. */
-.ik-chatrow-list { display: flex; flex-direction: column; gap: .5rem; }
+.ik-chatrow-list { display: flex; flex-direction: column; gap: .375rem; }
 
 /* Selected wins over hover (declared after the Card's hover utilities, same specificity). */
 .ik-chatrow.is-selected,
@@ -9,13 +9,23 @@
   border-color: hsl(var(--brand-primary));
   box-shadow: var(--shadow-rest);
 }
+/* …except while its own menu is open: the original's menu-open hover rule
+   (.chat-row:has([data-kbp][aria-expanded=true])) out-specifies its selected rule, so a selected
+   row with its menu open shows the hover surface. */
+.ik-chatrow.is-selected.is-menu-open {
+  background: var(--state-hover);
+  border-color: var(--card-border-hover);
+  box-shadow: var(--shadow-card-hover);
+}
 
-.ik-chatrow-name { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: inherit; }
+.ik-chatrow-name { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ik-chatrow.is-preview .ik-chatrow-name { color: hsl(var(--ink-highlight)); }
+/* Inline rename — the original's field: its own intrinsic width (not the row's), 24px tall,
+   Body/14 in Text/Primary on Surface/Card, a 1px Input/Focus border, 4px radius, 6px inset. */
 .ik-chatrow-input {
-  flex: 1 1 auto; min-width: 0; height: 1.5rem; padding: 0 .375rem; box-sizing: border-box;
-  font: inherit; font-size: .875rem; color: hsl(var(--ink-primary));
-  background: hsl(var(--surface-card)); border: 1px solid hsl(var(--brand-primary)); border-radius: .25rem; outline: none;
+  flex: 0 1 auto; min-width: 0; height: 1.5rem; padding: 0 .375rem; box-sizing: border-box;
+  font: inherit; font-size: .875rem; font-weight: 400; line-height: 1.25rem; color: hsl(var(--ink-primary));
+  background: hsl(var(--surface-card)); border: 1px solid hsl(var(--input-focus)); border-radius: .25rem; outline: none;
 }
 
 .ik-chatrow-time {
@@ -37,11 +47,12 @@
 .ik-chatrow-pin:hover { background: color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-8), transparent); }
 .ik-chatrow-pin:hover svg, .ik-chatrow-pin:focus-visible svg { transform: rotate(0deg); }
 
-/* ⋮ — revealed on hover, keyboard focus and while open; always on touch. */
+/* ⋮ — revealed on hover, keyboard focus and while open; always on phones and touch. */
 .ik-chatrow-more { flex: none; opacity: 0; transition: opacity var(--motion-fast); }
 .ik-chatrow:not(:has(.ik-chatrow-time)) .ik-chatrow-more { margin-left: auto; }
 .ik-chatrow:hover .ik-chatrow-more,
 .ik-chatrow:focus-within .ik-chatrow-more,
 .ik-chatrow.is-menu-open .ik-chatrow-more { opacity: 1; }
-@media (hover: none) { .ik-chatrow-more { opacity: 1; } }
+@media (hover: none), (max-width: 767px) { .ik-chatrow-more { opacity: 1; } }
+.ik-chatrow.is-touch .ik-chatrow-more { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .ik-chatrow-pin svg { transition: none; } }

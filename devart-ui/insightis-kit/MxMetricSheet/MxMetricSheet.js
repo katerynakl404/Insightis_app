@@ -39,7 +39,7 @@
   }
   function Source(p) {
     return h('span', { className: 'inline-flex items-center gap-1.5 text-ink-primary' },
-      h(D.ConnectorLogo, { connector: p.logo || p.name, size: 'xs' }), p.name);
+      h(IK.ConnectorMark, { connector: p.logo || p.name, size: 'xs' }), p.name);
   }
 
   IK.MxMetricSheet = function MxMetricSheet(p) {

@@ -1,0 +1,22 @@
+/* ThinkingIndicator — the sweep is two inks that already exist: Text/Secondary with a Text/Primary crest.
+   The gradient TILES (both ends the same ink), so the word is always fully painted mid-sweep. */
+.ik-thinking {
+  display: flex; align-items: baseline; text-align: left;
+  font-size: var(--font-size-sm); line-height: var(--line-height-sm); font-weight: 400; color: hsl(var(--ink-secondary));
+}
+.ik-thinking-t {
+  background-image: linear-gradient(100deg, hsl(var(--ink-secondary)) 35%, hsl(var(--ink-primary)) 50%, hsl(var(--ink-secondary)) 65%);
+  background-size: 300% 100%; background-repeat: repeat;
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  animation: ik-thinking-sweep 1.8s linear infinite;
+}
+@keyframes ik-thinking-sweep { from { background-position: 300% 0; } to { background-position: 0 0; } }
+.ik-thinking-dots { display: inline-flex; }
+.ik-thinking-dots i { font-style: normal; animation: ik-thinking-dot 1.4s infinite; }
+.ik-thinking-dots i:nth-child(2) { animation-delay: .2s; }
+.ik-thinking-dots i:nth-child(3) { animation-delay: .4s; }
+@keyframes ik-thinking-dot { 0%, 60%, 100% { opacity: .25; } 30% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .ik-thinking-dots i { animation: none; opacity: 1; }
+  .ik-thinking-t { animation: none; background-image: none; color: hsl(var(--ink-secondary)); -webkit-text-fill-color: currentColor; }
+}

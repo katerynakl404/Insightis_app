@@ -45,3 +45,15 @@
   .ik-dsfp { position: absolute; inset: 0; z-index: 30; width: auto !important; border-left: none; }
   .ik-dsfp-grip { display: none; }
 }
+
+/* A document-scrolling shell (IK.AppShell scroll: 'document' — the Files page, as its original):
+   the panel stays in the viewport while the page scrolls — sticky under the review bar, the
+   viewport's height below it (original .dsf-preview: sticky, top = the bar, 100vh − the bar);
+   below 1024px it covers everything under the bar (fixed, over the page head, z 70 as there). */
+.ik-shell.is-doc .ik-dsfp {
+  position: sticky; top: var(--ik-bar-h, 0px); align-self: flex-start;
+  height: calc(100vh - var(--ik-bar-h, 0px));
+}
+@media (max-width: 1023px) {
+  .ik-shell.is-doc .ik-dsfp { position: fixed; inset: var(--ik-bar-h, 0px) 0 0 0; height: auto; align-self: stretch; z-index: 70; }
+}

@@ -1,0 +1,134 @@
+[
+ { "name": "Header chat menu", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 400 } ] },
+ { "name": "Header chevron tooltip", "steps": [
+   { "do": "hover", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 600 } ] },
+ { "name": "Header menu — Pin moves the chat to Pinned", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Pin" }, "ms": 400 },
+   { "do": "click", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 400 } ] },
+ { "name": "Header menu — Rename dialog", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Chat options\"]" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Rename" }, "ms": 500 } ] },
+ { "name": "Scrolled up — scroll-to-bottom button", "steps": [
+   { "do": "eval", "orig": "document.getElementById('cp-thread').scrollTop=0", "new": "document.querySelector('.ik-thread').scrollTop=0", "ms": 400 } ] },
+ { "name": "User message hover — copy + time", "steps": [
+   { "do": "eval", "orig": "document.getElementById('cp-thread').scrollTop=0", "new": "document.querySelector('.ik-thread').scrollTop=0", "ms": 300 },
+   { "do": "hover", "target": { "text": "generate 2 charts with random data" }, "ms": 400 } ] },
+ { "name": "Analysis plan — lists and headings", "steps": [
+   { "do": "eval", "orig": "document.getElementById('cp-thread').scrollTop=520", "new": "document.querySelector('.ik-thread').scrollTop=520", "ms": 400 } ] },
+ { "name": "Code run — open (Python + Output)", "steps": [
+   { "do": "click", "target": { "text": "Generate random bar and line charts" }, "ms": 400 } ] },
+ { "name": "Code run — copy code", "steps": [
+   { "do": "click", "target": { "text": "Generate random bar and line charts" }, "ms": 400 },
+   { "do": "click", "target": { "sel": "button[aria-label=\"Copy code\"]" }, "ms": 600 } ] },
+ { "name": "Code run — failed run open (Error output)", "steps": [
+   { "do": "click", "target": { "text": "Generate CSV, XLS, XLSX with random data" }, "ms": 400 } ] },
+ { "name": "Code run — head hover", "steps": [
+   { "do": "hover", "target": { "text": "Generate XLS and XLSX with random data" }, "ms": 400 } ] },
+ { "name": "Chart plates — hover", "steps": [
+   { "do": "hover", "target": { "text": "random_line_chart.png" }, "ms": 400 } ] },
+ { "name": "Preview — bar chart", "steps": [
+   { "do": "click", "target": { "text": "random_bar_chart.png" }, "ms": 600 } ] },
+ { "name": "Preview — line chart", "steps": [
+   { "do": "click", "target": { "text": "random_line_chart.png" }, "ms": 600 } ] },
+ { "name": "Preview — csv table", "steps": [
+   { "do": "click", "target": { "text": "random_data.csv" }, "ms": 600 } ] },
+ { "name": "Preview — json, truncated banner", "steps": [
+   { "do": "click", "target": { "text": "test_sales_1.json" }, "ms": 600 } ] },
+ { "name": "Preview — pdf, no preview", "steps": [
+   { "do": "click", "target": { "text": "test_sales_1_table.pdf" }, "ms": 600 } ] },
+ { "name": "Preview — Download tooltip", "steps": [
+   { "do": "click", "target": { "text": "random_data.xlsx" }, "ms": 600 },
+   { "do": "hover", "target": { "sel": "button[aria-label=\"Download file\"]" }, "ms": 600 } ] },
+ { "name": "Preview — Esc closes", "steps": [
+   { "do": "click", "target": { "text": "random_data.xls" }, "ms": 600 },
+   { "do": "key", "key": "Escape", "ms": 400 } ] },
+ { "name": "Preview — resized by its separator", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "random_data.csv" }, "ms": 600 },
+   { "do": "eval", "orig": "document.querySelector('.cl-shell').style.setProperty('--cp-fp-w','600px')", "new": "document.querySelector('.ik-fp').style.setProperty('--ik-fp-w','600px')", "ms": 300 } ] },
+ { "name": "AskUserPanel — single select", "steps": [
+   { "do": "click", "target": { "text": "Single Select", "tag": "button" }, "ms": 500 } ] },
+ { "name": "AskUserPanel — single, option hover", "steps": [
+   { "do": "click", "target": { "text": "Single Select", "tag": "button" }, "ms": 500 },
+   { "do": "hover", "target": { "text": "Bar" }, "ms": 300 } ] },
+ { "name": "AskUserPanel — single, Other opened + typed", "steps": [
+   { "do": "click", "target": { "text": "Single Select", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "text": "Other" }, "ms": 400 },
+   { "do": "fill", "target": { "sel": "textarea[aria-label=\"Your answer\"]" }, "text": "A stacked column chart", "ms": 300 } ] },
+ { "name": "AskUserPanel — single, an answer closes it", "steps": [
+   { "do": "click", "target": { "text": "Single Select", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "text": "Area" }, "ms": 500 } ] },
+ { "name": "AskUserPanel — dismiss tooltip", "steps": [
+   { "do": "click", "target": { "text": "Single Select", "tag": "button" }, "ms": 500 },
+   { "do": "hover", "target": { "sel": "button[aria-label=\"Dismiss\"]" }, "ms": 600 } ] },
+ { "name": "AskUserPanel — Esc dismisses", "steps": [
+   { "do": "click", "target": { "text": "Multi Select", "tag": "button" }, "ms": 500 },
+   { "do": "key", "key": "Escape", "ms": 400 } ] },
+ { "name": "AskUserPanel — several questions, step 2 (a pick moves on)", "steps": [
+   { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "text": "Last quarter" }, "ms": 400 } ] },
+ { "name": "AskUserPanel — several questions, Other on step 2", "steps": [
+   { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "text": "Last quarter" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Other" }, "ms": 400 },
+   { "do": "fill", "target": { "sel": "textarea[aria-label=\"Your answer\"]" }, "text": "Investors", "ms": 300 } ] },
+ { "name": "AskUserPanel — several questions, step 3 multi ticked", "steps": [
+   { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "text": "Last quarter" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Management" }, "ms": 400 },
+   { "do": "click", "target": { "text": "KPIs" }, "ms": 300 },
+   { "do": "click", "target": { "text": "Trends" }, "ms": 300 } ] },
+ { "name": "AskUserPanel — several questions, last step reads Submit", "steps": [
+   { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "text": "Last quarter" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Management" }, "ms": 400 },
+   { "do": "click", "target": { "text": "KPIs" }, "ms": 300 },
+   { "do": "click", "target": { "text": "Next", "tag": "button" }, "ms": 400 } ] },
+ { "name": "AskUserPanel — several questions, Back", "steps": [
+   { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "text": "Last quarter" }, "ms": 400 },
+   { "do": "click", "target": { "text": "Back", "tag": "button" }, "ms": 400 } ] },
+ { "name": "AskUserPanel — several questions, bar tooltip", "steps": [
+   { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
+   { "do": "hover", "target": { "orig": { "sel": ".cfc-step", "nth": 2 }, "new": { "sel": ".ik-ask-step", "nth": 2 } }, "ms": 600 } ] },
+ { "name": "AskUserPanel — several questions, bar jumps", "steps": [
+   { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "orig": { "sel": ".cfc-step", "nth": 3 }, "new": { "sel": ".ik-ask-step", "nth": 3 } }, "ms": 400 } ] },
+ { "name": "AskUserPanel — multi select, ticked", "steps": [
+   { "do": "click", "target": { "text": "Multi Select", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "text": "Sprints" }, "ms": 300 },
+   { "do": "click", "target": { "text": "Comments" }, "ms": 300 } ] },
+ { "name": "AskUserPanel — six options", "steps": [
+   { "do": "click", "target": { "text": "Six Options", "tag": "button" }, "ms": 500 } ] },
+ { "name": "Mention list — typing @c (text-only rows)", "steps": [
+   { "do": "fill", "target": { "orig": { "sel": "#cl-prompt" }, "new": { "sel": ".ik-chat-prompt" } }, "text": "@c", "ms": 400 } ] },
+ { "name": "Mention list — arrow + Enter inserts", "steps": [
+   { "do": "fill", "target": { "orig": { "sel": "#cl-prompt" }, "new": { "sel": ".ik-chat-prompt" } }, "text": "@c", "ms": 400 },
+   { "do": "key", "key": "ArrowDown" },
+   { "do": "key", "key": "Enter", "ms": 400 } ] },
+ { "name": "Attach menu — filled", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 900 } ] },
+ { "name": "Attach — file picked (chip)", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Attach file\"]" }, "ms": 900 },
+   { "do": "click", "target": { "text": "customers-export.xlsx" }, "ms": 500 } ] },
+ { "name": "Connections menu — empty", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "click", "target": { "text": "Connections", "tag": "button" }, "ms": 900 } ] },
+ { "name": "Connections menu — scrolling", "steps": [
+   { "do": "click", "target": { "text": "Scrolling", "tag": "button" } },
+   { "do": "click", "target": { "text": "Connections", "tag": "button" }, "ms": 900 } ] },
+ { "name": "Model menu", "steps": [
+   { "do": "click", "target": { "text": "Insightis Light (Medium)", "tag": "button" }, "ms": 400 } ] },
+ { "name": "Account menu", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Kateryna K." }, "ms": 400 } ] },
+ { "name": "Balance popover", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Balance" }, "ms": 400 } ] },
+ { "name": "Phone — sidebar drawer", "viewport": "phone", "steps": [
+   { "do": "click", "target": { "sel": "button[aria-label=\"Open sidebar\"]" }, "ms": 700 } ] },
+ { "name": "Phone — preview covers the chat", "viewport": "phone", "steps": [
+   { "do": "click", "target": { "text": "random_data.csv" }, "ms": 600 } ] },
+ { "name": "Phone — several questions", "viewport": "phone", "steps": [
+   { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
+   { "do": "click", "target": { "text": "Last month" }, "ms": 400 } ] }
+]

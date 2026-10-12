@@ -7,7 +7,7 @@
   function Frame(p) {
     return h(D.SidebarProvider, { defaultOpen: !p.collapsed, className: 'ik-shell', style: { height: 600 } },
       h(IK.Providers, null,
-        h(IK.AppSidebar, { nav: p.nav, plan: p.plan, currentChat: p.currentChat, badges: p.badges }),
+        h(IK.AppSidebar, { nav: p.nav, plan: p.plan, currentChat: p.currentChat, badges: p.badges, brandLink: p.brandLink, accountIcons: p.accountIcons }),
         h(D.SidebarInset, { className: 'min-h-0' })));
   }
 
@@ -15,6 +15,8 @@
   IK.story('AppSidebar', { title: 'Expanded — Free (promo, Admin · Free)', render: function () { return h(Frame, { nav: 'data-sources', plan: 'free' }); } });
   IK.story('AppSidebar', { title: 'Nav count badge', description: 'badges: { metrics: 3 } — a pill at the row end; not shown in the rail.',
     render: function () { return h(Frame, { nav: 'data-sources', plan: 'paid', badges: { metrics: 3 } }); } });
+  IK.story('AppSidebar', { title: 'Plain logo + older account glyphs (Data Sources, Files, Metrics)', description: 'brandLink: false — the logo is a mark, not the New Chat link; accountIcons "classic" — open the account menu.',
+    render: function () { return h(Frame, { nav: 'data-sources', plan: 'paid', brandLink: false, accountIcons: 'classic' }); } });
   IK.story('AppSidebar', { title: 'Icon rail — Paid', render: function () { return h(Frame, { nav: 'metrics', plan: 'paid', collapsed: true }); } });
   IK.story('AppSidebar', { title: 'Icon rail — Free', render: function () { return h(Frame, { nav: 'files', plan: 'free', collapsed: true }); } });
   IK.story('AppSidebar', { title: 'Phone drawer', description: 'Below 1024px the sidebar is a DevartUI Sheet from the left over the scrim — open it with IK.SidebarBurger (resize the window under 1024px and use the button).',

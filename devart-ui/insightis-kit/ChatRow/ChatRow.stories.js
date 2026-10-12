@@ -37,6 +37,11 @@
   } });
   IK.story('ChatRow', { title: 'Renaming inline — Enter / blur commits, Esc cancels', wide: true,
     render: function () { return h(IK.ChatRow, { title: 'Top movers — weekly', time: '3d ago', defaultRenaming: true, onRename: log('rename') }); } });
+  IK.story('ChatRow', { title: 'Phone (below 768px) — ⋮ always shown, IconButton md (36px); the row stays 44px', render: function () {
+    return h('div', { style: { maxWidth: '351px' } }, h(IK.ChatRowList, { 'aria-label': 'Chats' },
+      h(IK.ChatRow, { title: 'Q1 revenue commentary draft', time: '2h ago', pinned: true, touch: true }),
+      h(IK.ChatRow, { title: 'Top movers — weekly', time: '3d ago', touch: true })));
+  } });
   IK.story('ChatRow', { title: 'No time, no menu', wide: true,
     render: function () { return h(IK.ChatRow, { title: 'A bare row', menu: false }); } });
 })();

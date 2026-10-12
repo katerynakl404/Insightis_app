@@ -46,7 +46,7 @@
               h(D.Typography, { element: 'span', textStyle: 'title16', textColor: 'primary' }, c.label || c.name)),
             h(IK.DsDetailField, { label: 'Data source' },
               h('div', { className: 'flex min-w-0 items-center gap-1.5 text-sm text-ink-primary' },
-                h(D.ConnectorLogo, { connector: c.connector || c.name, size: 'sm', label: c.name + ' logo' }),
+                h(IK.ConnectorMark, { connector: c.connector || c.name, size: 'sm', label: c.name + ' logo' }),
                 h('span', null, c.name))),
             h(IK.DsDetailField, { label: 'Last check' },
               h('div', { className: 'flex flex-wrap items-center gap-2' },

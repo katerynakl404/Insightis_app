@@ -37,13 +37,12 @@
 (function () {
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
 
-  /* ORIGINAL QUIRK, reproduced (rule 1a): the three plan dialogs (Cancel plan, Switch to Free,
-     yearly-billing request) never appear in the original — each overlay carries an inline
-     display:none that its open handler (which only flips `hidden`) never clears. The triggers
-     still "open" them: the invisible dialog swallows the next Esc, Request Yearly Billing still
-     upgrades + toasts. The dialogs are built (IK.AcctConfirmDialog / IK.AcctYearlyDialog, see the
-     storybook); true here shows them as page-changes/user_profile-modal.md describes. */
-  var SHOW_PLAN_DIALOGS = false;
+  /* The three plan dialogs (Cancel plan, Switch to Free, yearly-billing request) are SHOWN, as
+     page-changes/user_profile-modal.md describes them — decided 2026-10-08. The original never
+     shows them: each overlay carries an inline display:none its open handler never clears (a bug
+     in the original, not a design). false reproduces that bug: the triggers "open" an invisible
+     dialog that swallows the next Esc. */
+  var SHOW_PLAN_DIALOGS = true;
 
   var START = (function () {
     var s = new URLSearchParams(location.search).get('section');
@@ -211,9 +210,12 @@
       }),
       !SHOW_PLAN_DIALOGS ? null : h(IK.AcctConfirmDialog, {
         open: !!dlg.downgrade, onOpenChange: function (o) { if (!o) closeDlg('downgrade'); },
-        title: 'Switch to Free?', items: STARTER_FEATS,
+        title: h(IK.Fragment, null, 'Switch to ', h('span', null, 'Free'), '?'), items: STARTER_FEATS,
         text: 'You will lose access to these at the end of the current billing period:',
-        cancelLabel: 'Keep Current Plan', confirmLabel: 'Switch to Free', confirmVariant: 'primary'
+        cancelLabel: 'Keep Current Plan', confirmVariant: 'primary',
+        /* the plan name is its own <span> in the original's title and .btn — in the button (a flex row,
+           gap 8px) it sits 8px after 'to', not a space — reproduced (rule 1a) */
+        confirmLabel: h(IK.Fragment, null, 'Switch to ', h('span', null, 'Free'))
       }),
       !SHOW_PLAN_DIALOGS ? null : h(IK.AcctYearlyDialog, {
         open: !!dlg.yearly, sent: yearlySent, onSend: function () { setYearlySent(true); },

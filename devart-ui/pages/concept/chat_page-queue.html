@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · AI Chat — message queue</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Chat page — message queue (AIINS-1808; page-changes/chat_page-queue.md). The approved chat screen
+   with the queue layered on: type during a reply and Send queues it into the band above the composer;
+   rows reorder (drag / Alt+↑↓), Edit moves a message back into the composer, Remove leaves an Undo in
+   its gap; Stop pauses the queue, and every pause (an AskUserPanel, a failed reply, no credits, Stop,
+   a reload) states its cause in the band with its way out.
+   Review strip, as the original: a State picker (Live · A1–A3 · B1 B2 B2f B4 · D1–D4 · E2 E3 E3b ·
+   Q2) + Reset, then Light / Dark. ?state=<id> opens a state directly. Every state drives THIS page;
+   motion values are prod's. The sidebar footer is the original's static Free copy. */
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+
+  var FREE_CREDITS = { planName: 'Free', pool: { used: 213, cap: 500 }, daily: { used: 32, cap: 50 }, purchased: 540, balance: 287 };
+  var REPLY = 'Revenue for Q2 was $4.82M, up 6% on Q1. EMEA led with $1.9M, followed by North America at $1.6M.';
+  var ASK = 'what was revenue by region last quarter?';
+  var SRC = ['now split that by channel', 'and compare to Q3', 'which channel grew fastest in EMEA and was the growth driven by new customers or by existing ones?', 'show top 5 products', 'also show margin by region', 'break out EMEA by country', 'compare with last year', 'show the same for net revenue', 'which segment churned most', 'add a forecast for Q4'];
+  var UNDO_MS = 4000;   /* the Toast's own duration — an undo in the list gives the same time */
+  var PH_IDLE = 'Ask anything about your data, or type @ to reference a metric…';
+  var PH_BUSY = 'Ask a follow-up — it will wait its turn';
+
+  /* The base thread — the approved chat page's Jira turn. */
+  var GROUP_A = [
+    { name: 'Jira_Test_Connection', op: 'Execute', status: 'error',
+      args: ['{', '  "query": "SELECT * FROM jira_issues LIMIT 5"', '}'],
+      output: 'Error: table "jira_issues" was not found in the available data sources.' }
+  ];
+  var GROUP_B = [
+    { name: 'Jira_Test_Connection', op: 'Objects', status: 'ok',
+      args: ['{', '  "responseFormat": "Markdown"', '}'],
+      output: '| fullName | name | queryable |\n| --- | --- | --- |\n| AdvancedSettings | AdvancedSettings | true |\n| Althera_Code_Autotest_Design._Issues | Althera_Code_Autotest_Design._Issues | true |\n| Althera_Code_Bug._Issues | Althera_Code_Bug._Issues | true |\n| Althera_Code_Epic_Issues | Althera_Code_Epic_Issues | true |\n| Althera_Code_Feature_Issues | Althera_Code_Feature_Issues | true |\n| AIINS_Issues | AIINS_Issues | true |' },
+    { name: 'Jira_Test_Connection', op: 'Execute', status: 'error',
+      args: ['{', '  "query": "SELECT * FROM AIINS_Issues LIMIT 5"', '}'],
+      output: 'Error: unknown column selection — retry with the resolved object name.' },
+    { name: 'Jira_Test_Connection', op: 'ObjectInfo', status: 'ok',
+      args: ['{', '  "objectName": "AIINS_Issues"', '}'],
+      output: '| column | type |\n| --- | --- |\n| Id | number |\n| Key | string |\n| Summary | string |\n| Status_Name | string |\n| Priority_Name | string |' },
+    { name: 'Jira_Test_Connection', op: 'Execute', status: 'ok',
+      args: ['{', '  "query": "SELECT Id, Key, Summary FROM AIINS_Issues ORDER BY Id DESC LIMIT 5"', '}'],
+      output: 'Returned 5 rows.' }
+  ];
+  var COLUMNS = ['Id', 'Key', 'Summary', 'Status_Name', 'Priority_Name', 'CreatedDate', 'UpdatedDate'];
+  var ROWS = [
+    ['285876', 'AIINS-1085', 'Testing - Показывать пользователю причину не загрузки файла', 'Reopened', 'Medium', '2026-07-07T07:29:20Z', '2026-07-07T11:26:24Z'],
+    ['285871', 'AIINS-1084', 'Testing - Нет превью у файлов xls и xlsx', 'Closed (done)', 'Medium', '2026-07-07T07:06:37Z', '2026-07-07T07:26:17Z'],
+    ['285869', 'AIINS-1083', 'Прикрепление файла на Mac', 'Closed (Won\'t fix)', 'Medium', '2026-07-07T06:55:09Z', '2026-07-07T08:39:51Z'],
+    ['285714', 'AIINS-1082', 'Testing - Баги по Resource pages', 'Reopened', 'Medium', '2026-07-06T13:10:09Z', '2026-07-06T14:26:26Z'],
+    ['285713', 'AIINS-1081', 'Testing - При переходе по попап меню с помощью клавиатуры не видно куда перешли', 'Closed (done)', 'Medium', '2026-07-06T12:58:37Z', '2026-07-06T13:26:26Z']
+  ];
+  function BaseTurn() {
+    return h(IK.ChatTurn, null,
+      h(IK.ChatUserMessage, { time: 'Jul 7, 3:14 PM' }, 'give me first 5 jira issues with prefix AIINS, no confirm needed, limit query by 5'),
+      h(IK.ChatAnswer, { time: 'Jul 7, 3:15 PM' },
+        h(IK.ChatAnswerGroup, null,
+          h(IK.ChatToolCalls, { calls: GROUP_A }),
+          h(IK.ChatProse, null, 'I could not find a table named "jira_issues" in the available data sources. Let me first check which Jira-related data sources are available to locate the issue data with the AIINS prefix.')),
+        h(IK.ChatAnswerGroup, null,
+          h(IK.ChatToolCalls, { calls: GROUP_B }),
+          h(IK.ChatResultTable, { title: 'First 5 Jira Issues with Prefix AIINS', columns: COLUMNS, rows: ROWS }),
+          h(IK.ChatProse, null, 'These are the first 5 issues with the prefix "AIINS" from the available Jira issues dataset. Let me know if you need further details or analysis!'))));
+  }
+
+  /* The state list: [id, picker label, setup]. */
+  var STATES = [
+    ['live', 'Live — free interaction'], ['A1', 'A1 · No reply running'], ['A2', 'A2 · Reply running, composer empty'],
+    ['A3', 'A3 · Reply running, text entered'], ['B1', 'B1 · One message waiting'], ['B2', 'B2 · Several messages'],
+    ['B2f', 'B2 · A queued message with a file'], ['B4', 'B4 · Messages leaving one by one'], ['D1', 'D1 · Waiting on an AskUserPanel'],
+    ['D2', 'D2 · Last reply failed'], ['D3', 'D3 · Out of credits'], ['D4', 'D4 · You pressed Stop'], ['E2', 'E2 · After a reload'],
+    ['E3', 'E3 · A queue in another chat — running'], ['E3b', 'E3b · A queue in another chat — stopped'],
+    ['Q2', 'Q2 alt · after a reload, queue continues']
+  ];
+  function stateLabel(id) { var s = STATES.filter(function (x) { return x[0] === id; })[0]; return s ? s[1] : STATES[0][1]; }
+
+  function StatePicker(p) {
+    return h('div', { className: 'flex flex-none items-center gap-2' },
+      h(D.Typography, { element: 'span', textStyle: 'label12', textColor: 'secondary', className: 'max-md:hidden' }, 'State'),
+      h(D.DropdownMenu, { modal: false },
+        h(D.DropdownMenuTrigger, { asChild: true },
+          h(D.Button, { variant: 'secondary', size: 'xs', type: 'button', className: 'max-md:max-w-36', rightSlot: h(IK.Icon, { name: 'qb-chev' }) },
+            h('span', { className: 'truncate' }, stateLabel(p.value)))),
+        h(D.DropdownMenuContent, { side: 'bottom', align: 'end', sideOffset: 6, className: 'w-72 max-h-96 overflow-y-auto' },
+          STATES.map(function (s) {
+            var on = s[0] === p.value, parts = s[1].split(' · ');
+            return h(D.DropdownMenuItem, { key: s[0], onSelect: function () { p.onChange(s[0]); } },
+              h('span', { className: IK.cx('w-8 flex-none font-medium tabular-nums', on ? 'text-brand-primary' : 'text-ink-secondary') }, s[0] === 'live' ? '—' : s[0]),
+              parts[1] || parts[0]);
+          }))),
+      h(D.Button, { variant: 'tertiary', size: 'xs', type: 'button', onClick: p.onReset }, 'Reset'));
+  }
+
+  /* ── The chat screen + its queue — the original's MQ flow, one mutable model, re-rendered on change ── */
+  function useQueue(ctl) {
+    var M = R.useRef(null);
+    if (!M.current) M.current = { queue: [], seq: 1, streaming: false, paused: null, removed: [], pausedOpen: false, scrollTall: false,
+      restoredRunning: false, turns: [], tseq: 1, timers: [], undo: {}, removedSeq: 0, motion: {}, card: false, flag: null, state: 'live', scroll: 0 };
+    var t = R.useState(0), setTick = t[1];
+    var m = M.current;
+    function render() { setTick(function (n) { return n + 1; }); }
+    function later(fn, ms) { m.timers.push(setTimeout(fn, ms)); }
+    function clearTimers() { m.timers.forEach(clearTimeout); m.timers = []; }
+    function clearAllUndo() { for (var k in m.undo) clearTimeout(m.undo[k]); m.undo = {}; }
+    function announce(s) { ctl.announce(s); }
+    function scrollDown() { m.scroll++; }
+    function addTurn(turn) { turn.id = m.tseq++; m.turns.push(turn); scrollDown(); return turn; }
+    function lastAi() { for (var i = m.turns.length - 1; i >= 0; i--) if (m.turns[i].ai) return m.turns[i]; return null; }
+
+    function streamInto(turn, text, done) {
+      var words = text.split(' '), i = 0;
+      (function burst() {
+        if (m.turns.indexOf(turn) < 0) return;
+        i += 3 + Math.floor(Math.random() * 5);              /* 3–7 words per burst */
+        var partial = i < words.length;
+        turn.ai.text = words.slice(0, i).join(' '); turn.ai.caret = partial;
+        scrollDown(); render();
+        if (partial) { later(burst, 110 + Math.floor(Math.random() * 170)); return; }
+        if (done) { turn.ai.text = text; turn.ai.caret = false; done(); render(); return; }
+        turn.ai.text = text; turn.ai.caret = true; render();
+      })();
+    }
+    function startTurn(text, file) {
+      m.streaming = true; m.paused = null;
+      addTurn({ user: { text: text, file: file } });
+      var turn = addTurn({ ai: { thinking: true } });
+      render();
+      later(function () {
+        if (!m.streaming) return;
+        turn.ai.thinking = false; turn.ai.text = '';
+        streamInto(turn, REPLY, function () {
+          if (!m.streaming) return;
+          turn.ai.tool = 'Running Python…'; scrollDown();
+          later(function () {
+            if (!m.streaming) return;
+            turn.ai.tool = null; m.streaming = false; render(); next();
+          }, 1800);
+        });
+      }, 1100);
+    }
+    function next() {
+      if (m.paused || m.streaming || !m.queue.length) { render(); return; }
+      var q = m.queue[0];
+      m.motion[q.id] = 'sending';
+      m.queue.shift();
+      render();
+      later(function () { delete m.motion[q.id]; announce('Sent: ' + q.text); startTurn(q.text, q.file); }, 160);
+    }
+
+    var api = {
+      model: m,
+      render: render,
+      send: function () {
+        var text = ctl.getText(); if (!text) return;
+        if (m.streaming || m.paused || m.queue.length) {
+          var file = ctl.getFile();
+          var it = { id: m.seq++, text: text, file: file || null };
+          m.queue.push(it);
+          if (file) ctl.setFile(null);
+          ctl.setText('');
+          m.motion[it.id] = 'entering';
+          setTimeout(function () { if (m.motion[it.id] === 'entering') { delete m.motion[it.id]; render(); } }, 200);
+          render();
+          ctl.focus();
+          announce('Queued, ' + m.queue.length + ' waiting');
+        } else { ctl.setText(''); startTurn(text, null); }
+      },
+      stop: function () {
+        clearTimers(); m.streaming = false;
+        var a = lastAi();
+        if (a) { a.ai.tool = null; a.ai.caret = false; if (!a.ai.stopped) a.ai.stopped = true; }
+        if (m.queue.length) { m.paused = 'stopped'; announce('Queue paused because you stopped the reply'); }
+        render();
+      },
+      resume: function () { m.paused = null; render(); if (!m.streaming) next(); },
+      retry: function () {
+        m.paused = null;
+        m.turns = m.turns.filter(function (x) { return !(x.ai && x.ai.err); });
+        render();
+        startTurn(ASK, null);
+      },
+      edit: function (id) {
+        var i = m.queue.map(function (x) { return x.id; }).indexOf(id); if (i < 0) return;
+        var q = m.queue.splice(i, 1)[0];
+        if (q.file) ctl.setFile(q.file);
+        ctl.setText(q.text);
+        render();
+        ctl.focus();
+        announce('Moved back to the composer: ' + q.text);
+      },
+      remove: function (id) {
+        var i = m.queue.map(function (x) { return x.id; }).indexOf(id); if (i < 0) return;
+        var gone = m.queue[i], key = ++m.removedSeq;
+        announce('Removed from the queue: ' + gone.text);
+        IK.queueMotion.swap(IK.queueMotion.row(id), function () {
+          var j = m.queue.indexOf(gone); if (j < 0) return;
+          m.queue.splice(j, 1);
+          m.removed.push({ key: key, index: j, item: gone });
+          armUndo(key);
+          if (!m.queue.length) { m.removed = []; clearAllUndo(); }
+          render();
+        }, function () { return IK.queueMotion.note(key); });
+      },
+      undo: function (key) {
+        var n = noteAt(key); if (n < 0) return;
+        clearTimeout(m.undo[key]); delete m.undo[key];
+        var r = m.removed[n];
+        IK.queueMotion.swap(IK.queueMotion.note(key), function () {
+          var at = noteAt(key); if (at >= 0) m.removed.splice(at, 1);
+          m.queue.splice(Math.min(r.index, m.queue.length), 0, r.item);
+          render();
+        }, function () { return IK.queueMotion.row(r.item.id); });
+      },
+      clear: function () { clearAllUndo(); m.queue = []; m.removed = []; m.paused = null; render(); announce('Queue cleared'); },
+      fold: function () { m.pausedOpen = !m.pausedOpen; render(); },
+      tall: function () { m.scrollTall = !m.scrollTall; render(); },
+      reorder: function (items) { m.queue = items; render(); },
+      closeCard: function () { m.card = false; m.paused = null; render(); },
+      apply: applyState
+    };
+    function noteAt(key) { for (var k = 0; k < m.removed.length; k++) if (m.removed[k].key === key) return k; return -1; }
+    function armUndo(key) {
+      m.undo[key] = setTimeout(function () {
+        delete m.undo[key];
+        IK.queueMotion.collapse(IK.queueMotion.note(key), function () {
+          var n = noteAt(key); if (n < 0) return;
+          m.removed.splice(n, 1); render();
+        });
+      }, UNDO_MS);
+    }
+
+    function q(n, file) {
+      m.queue = []; m.seq = 1;
+      for (var i = 0; i < n; i++) m.queue.push({ id: m.seq++, text: SRC[i % SRC.length], file: (file && i === 0) ? 'targets_2026.xlsx' : null });
+    }
+    function streamTail(live) {
+      addTurn({ user: { text: ASK } });
+      if (live) addTurn({ ai: { thinking: true } });
+      else addTurn({ ai: { text: REPLY } });
+    }
+    function loopB4() {
+      if (m.state !== 'B4') return;
+      later(function () {
+        if (m.state !== 'B4') return;
+        if (!m.queue.length) { q(10); render(); loopB4(); return; }
+        var first = m.queue[0];
+        m.motion[first.id] = 'sending'; render();
+        later(function () {
+          if (m.state !== 'B4') return;
+          delete m.motion[first.id];
+          var q0 = m.queue.shift();
+          addTurn({ user: { text: q0.text } });
+          addTurn({ ai: { tool: 'Querying sales…' } });
+          render(); loopB4();
+        }, 200);
+      }, 1800);
+    }
+    var SETUP = {
+      live: function () {}, A1: function () {},
+      A2: function () { streamTail(1); m.streaming = true; },
+      A3: function () { streamTail(1); m.streaming = true; ctl.setText('now split that by channel'); },
+      B1: function () { streamTail(1); m.streaming = true; q(1); },
+      B2: function () { streamTail(1); m.streaming = true; q(5); },
+      B2f: function () { streamTail(1); m.streaming = true; q(2, 'file'); },
+      B4: function () { streamTail(1); m.streaming = true; q(10); loopB4(); },
+      D1: function () { streamTail(0); m.card = true; q(2); m.paused = 'confirm'; },
+      D2: function () { streamTail(0); addTurn({ ai: { err: true } }); q(2); m.paused = 'error'; },
+      D3: function () { streamTail(0); q(2); m.paused = 'credits'; },
+      D4: function () { streamTail(0); lastAi().ai.stopped = true; q(2); m.paused = 'stopped'; },
+      E2: function () { streamTail(0); q(2); m.queue[0].file = 'targets_2026.xlsx'; m.paused = 'restored'; },
+      E3: function () { streamTail(0); q(2); m.flag = 'running'; },
+      E3b: function () { streamTail(0); q(2); m.flag = 'stopped'; },
+      Q2: function () { streamTail(0); q(2); m.queue[0].file = 'targets_2026.xlsx'; m.paused = 'restored'; m.restoredRunning = true; }
+    };
+    function applyState(id) {
+      if (!SETUP[id]) id = 'live';
+      clearTimers(); clearAllUndo();
+      m.queue = []; m.seq = 1; m.streaming = false; m.paused = null; m.removed = []; m.state = id;
+      m.pausedOpen = false; m.scrollTall = false; m.restoredRunning = false; m.card = false; m.flag = null; m.motion = {};
+      m.turns = [];
+      ctl.setText('');
+      SETUP[id]();
+      scrollDown();
+      render();
+    }
+    R.useEffect(function () { return function () { clearTimers(); clearAllUndo(); }; }, []);
+    return api;
+  }
+
+  /* What the band says while paused — the cause, in a person's words, and its way out. */
+  function pauseOf(m, A) {
+    if (!m.paused) return null;
+    var n = m.queue.length, held = (n === 1 ? '1 message is' : n + ' messages are') + ' on hold';
+    var P = {
+      confirm: { variant: 'info', title: 'Waiting for your answer', actions: [] },
+      error: { variant: 'error', title: 'The last reply didn’t finish', actions: [{ label: 'Retry', primary: true, icon: 'retry', onClick: A.retry }, { label: 'Resume', icon: 'resume', onClick: A.resume }] },
+      credits: { variant: 'warning', title: 'You’re out of credits', description: held + ' — nothing was charged',
+        actions: [{ label: 'Buy Credits', primary: true, icon: 'buy', onClick: function () { location.href = IK.pageHref('approved/user_profile-modal.html?section=balance'); } }] },
+      stopped: { variant: 'neutral', title: 'You stopped the reply', actions: [{ label: 'Resume', primary: true, icon: 'resume', onClick: A.resume }] },
+      restored: m.restoredRunning
+        ? { variant: 'neutral', title: (n === 1 ? '1 message restored' : n + ' messages restored'), description: 'Sending after this reply', actions: [] }
+        : { variant: 'neutral', title: (n === 1 ? '1 message restored' : n + ' messages restored'), description: 'Nothing sends until you resume', actions: [{ label: 'Resume', primary: true, icon: 'resume', onClick: A.resume }] }
+    }[m.paused];
+    if (!P.description) P.description = held;
+    /* Clear Queue only on the NEUTRAL pauses — nothing is wrong there, the queue is simply parked. */
+    if (n && P.variant === 'neutral') P.actions = [{ label: 'Clear Queue', icon: 'clear', onClick: A.clear }].concat(P.actions);
+    return P;
+  }
+
+  function AiTurn(p) {
+    var a = p.ai;
+    return h(IK.ChatTurn, null,
+      h(IK.ChatAnswer, { foot: false },
+        a.thinking ? h(IK.ThinkingIndicator) : null,
+        a.err ? h(IK.ChatTurnState, { kind: 'error' }, 'Couldn’t finish this answer') : null,
+        a.text != null && !a.thinking ? h(IK.ChatProse, null, a.text, a.caret ? h(IK.ChatStreamCaret) : null) : null,
+        a.tool ? h(IK.ChatTurnState, { kind: 'tool' }, a.tool) : null,
+        a.stopped ? h(IK.ChatTurnState, { kind: 'stopped' }) : null));
+  }
+  function UserTurn(p) {
+    var u = p.user;
+    return h(IK.ChatTurn, null,
+      h(IK.ChatUserMessage, { foot: false }, u.text, u.file ? [' ', h(IK.QueueFileBadge, { key: 'f', name: u.file })] : null));
+  }
+
+  function App() {
+    var st = IK.useQueryState('state', 'live');
+    var storedPlan = IK.usePlan()[0];
+    var t = R.useState('Message queue'), title = t[0], setTitle = t[1];
+    var fs = R.useState(null), file = fs[0], setFile = fs[1];
+    var lv = R.useState(''), live = lv[0], setLive = lv[1];
+    var apiRef = R.useRef(null), fileRef = R.useRef(null); fileRef.current = file;
+    var chatsBase = IK.useChats({
+      initial: IK.chatsWith({
+        /* the original's quirk: its pinned Message queue reads 'Pin' in both menus, and choosing it
+           moves the row to the end of Pinned */
+        'message-queue': { menu: true, pinLabel: 'Pin', pinAction: 'move-last' }, 'jira-aiins': { menu: false } }),
+      onRenamed: function (c, name) { if (c.id === 'message-queue') setTitle(name); },
+      onDeleted: function (c) { if (c.id === 'message-queue') location.href = IK.pageHref('approved/chat-landing.html'); }
+    });
+    var Q = useQueue({
+      getText: function () { return apiRef.current ? apiRef.current.getText() : ''; },
+      setText: function (s) { if (apiRef.current) apiRef.current.setText(s); },
+      focus: function () { if (apiRef.current) apiRef.current.focus(); },
+      getFile: function () { return fileRef.current; },
+      setFile: setFile,
+      announce: setLive
+    });
+    var m = Q.model;
+    R.useEffect(function () { Q.apply(st[0]); }, []);
+    function pick(id) { st[1](id); Q.apply(id); }
+
+    /* E3 / E3b — a queue waiting in ANOTHER chat: the counter goes on the first row that is not open. */
+    var chats = chatsBase;
+    if (m.flag) {
+      var done = false;
+      var tag = function (list) { return list.map(function (c) { if (done || c.id === 'message-queue') return c; done = true; return Object.assign({}, c, { queue: { count: 2, active: m.flag === 'running' } }); }); };
+      chats = Object.assign({}, chatsBase, { pinned: tag(chatsBase.pinned) });
+      chats.recent = tag(chatsBase.recent);
+    }
+
+    var n = m.queue.length;
+    var band = h(IK.QueueBand, {
+      items: m.queue, notes: m.removed.map(function (r) { return { key: r.key, index: r.index }; }),
+      head: n + ' queued · sends after this reply',
+      pause: pauseOf(m, Q), folded: !m.pausedOpen, onToggleFold: Q.fold, tall: m.scrollTall, onToggleTall: Q.tall,
+      motion: m.motion, onEdit: Q.edit, onRemove: Q.remove, onUndo: Q.undo, onReorder: Q.reorder
+    });
+
+    return h(IK.Fragment, null,
+      h(IK.ReviewBar, {
+        title: ['Chat page — message queue', h(D.Badge, { key: 'b', variant: 'secondary', size: 'sm', className: 'ms-2 align-middle' }, 'AIINS-1808')],
+        size: 'sm'
+      }, h(StatePicker, { value: m.state, onChange: pick, onReset: function () { pick('live'); } })),
+      h(IK.AppShell, {
+        chats: chats, currentChat: 'message-queue', burger: false, scroll: false, classic: true,
+        plan: 'free', credits: FREE_CREDITS, promo: storedPlan === 'free', dailySuffix: false
+      },
+        h('div', { className: 'relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden' },
+          h(IK.ChatHeader, { title: title, chats: chatsBase, id: 'message-queue' }),
+          h(IK.ChatThread, { endKey: m.scroll },
+            h(BaseTurn),
+            m.turns.map(function (tn) { return tn.user ? h(UserTurn, { key: tn.id, user: tn.user }) : h(AiTurn, { key: tn.id, ai: tn.ai }); })),
+          h(IK.ChatComposerArea, null,
+            h('div', { role: 'region', 'aria-label': 'Queued messages' }, band),
+            h(IK.Composer, {
+              prompt: 'rich', apiRef: apiRef, plan: 'paid', modelIcon: 'model-brain', sendLabelCollapse: false,
+              streaming: m.streaming, onStop: Q.stop, onSend: Q.send, actionSlot: true,
+              placeholder: m.streaming ? PH_BUSY : PH_IDLE,
+              attachment: file, onAttachmentChange: setFile
+            }),
+            h('p', { className: 'sr-only', role: 'status', 'aria-live': 'polite' }, live)),
+          m.card ? h(IK.AskUserLayer, null,
+            h(IK.AskUserPanel, Object.assign({}, IK.ASK_VARIANTS.revenue, { escape: false, onAnswer: Q.closeCard, onDismiss: Q.closeCard }))) : null)));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

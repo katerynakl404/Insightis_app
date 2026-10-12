@@ -3042,7 +3042,10 @@
      composer chrome take the padlock alone; the popover they open names the plan.
      Colour is `currentColor` on purpose: the marker belongs to the control it sits in, so it is
      white on a primary button and body ink on a tertiary one, with no per-variant rule. */
-  .lock-glyph{width:var(--icon-xs);height:var(--icon-xs);flex:none;color:currentColor}
+  /* vertical-align is ignored in the flex rows this usually lives in, and does the work in the
+     one place it does not: inside a text link, where an inline svg otherwise sits ON the baseline
+     and hangs below the letters. The glyph takes the link's colour through currentColor. */
+  .lock-glyph{width:var(--icon-xs);height:var(--icon-xs);flex:none;color:currentColor;vertical-align:-.1875em}
 
   /* ── Upgrade modal (.dlg.dlg-upgrade) — U3 ─────────────────────────────────────────────
      The popover answers a hover; this answers an ACTION. Someone pressed Connect, Edit or
@@ -4563,7 +4566,10 @@
   .mx-no-builtin-row:hover td,.mx-no-builtin-row:active td{background:inherit !important}
   .tbl .mx-no-builtin-row td{padding:.625rem 1rem;padding-left:var(--mx-prov-indent);border-bottom:1px solid var(--stroke-border);min-height:2.875rem}
   .mx-no-builtin-msg{display:flex;align-items:center;gap:.5rem;font-size:var(--ts-body-s-size);line-height:var(--ts-body-s-lh);color:var(--ink-secondary)}
-  .mx-no-builtin-msg svg{color:var(--ink-secondary);opacity:.6;flex:none}
+  /* The row's OWN glyph only. A descendant selector here also caught the padlock kitLock puts
+     inside the "Create a custom metric" link, painting it grey at 60% inside a brand-coloured
+     link it is part of. */
+  .mx-no-builtin-msg > svg{color:var(--ink-secondary);opacity:.6;flex:none}
   /* The "Create a custom metric →" trigger reuses the kit .link component
      (colour = --ink-highlight); no bespoke link rule here. */
 

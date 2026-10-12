@@ -26,7 +26,8 @@
      scroll: true,                   // main column is a scroll container (false: page manages it;
                                      // 'document': the page scrolls as a document — see above)
      defaultCollapsed: false,        // start desktop in the icon rail
-     plan, user, credits, trialDays, promo, badges, classic   → IK.AppSidebar (see AppSidebar.js)
+     plan, user, credits, trialDays, promo, badges, classic, brandLink, accountIcons, chevronStroke,
+     dailySuffix                     → IK.AppSidebar (see AppSidebar.js)
      mainClassName,                  // layout classes for the main column (pg-* or utilities)
      className, style                // the shell itself (stories give it a height)
    }, …the page's main column…)
@@ -94,7 +95,8 @@
       h(IK.Providers, null,
         h(IK.AppSidebar, {
           nav: p.nav, currentChat: p.currentChat, chats: p.chats, plan: p.plan, user: p.user,
-          credits: p.credits, trialDays: p.trialDays, promo: p.promo, badges: p.badges, classic: p.classic
+          credits: p.credits, trialDays: p.trialDays, promo: p.promo, badges: p.badges, classic: p.classic,
+          brandLink: p.brandLink, accountIcons: p.accountIcons, chevronStroke: p.chevronStroke, dailySuffix: p.dailySuffix
         }),
         h(D.SidebarInset, { className: IK.cx('min-h-0', p.glow && 'ik-shell-glow', p.mainClassName) },
           p.burger === false ? null : h('div', { className: 'absolute left-3 top-3 z-10 lg:hidden' }, h(IK.SidebarBurger)),

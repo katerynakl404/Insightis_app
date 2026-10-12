@@ -15,6 +15,8 @@
                                               // override: 6px 16px padding, is-sm switches)
    >{optional extra nodes, right side}</IK.ReviewBar>
 
+   autoHeight (with size="sm") drops the fixed 40px: the Data Sources pages' strip is padding-only (39px).
+
    A control may carry showLabel: true → its label is written beside it, as the original's
    .tb-concept-lbl ("Plan", "Popover state"). `plan` accepts { showLabel: true } for the same.
 */
@@ -56,7 +58,7 @@
     }]);
 
     var sm = p.size === 'sm';
-    return h('header', { className: IK.cx('ik-rb', sm && 'is-sm'), 'data-ik-review': '' },
+    return h('header', { className: IK.cx('ik-rb', sm && 'is-sm', sm && p.autoHeight && 'is-auto'), 'data-ik-review': '' },
       h('div', { className: 'ik-rb-title' },
         h(D.Typography, { element: 'span', textStyle: 'label14', className: 'whitespace-nowrap text-ink-primary' }, p.title),
         st ? h(D.Badge, { variant: st.variant, size: 'sm', className: 'uppercase tracking-caps' }, st.label) : null),

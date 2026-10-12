@@ -107,7 +107,7 @@
               'aria-expanded': col ? 'false' : 'true',
               onClick: function (e) { e.stopPropagation(); p.onToggle(r.prov); }
             }, h(IK.Icon, { name: 'mx-group-chevron', size: 12 }))),
-          h(D.ConnectorLogo, { connector: r.connector || r.name, size: 'xs' }),
+          h(IK.ConnectorMark, { connector: r.connector || r.name, size: 'xs' }),
           h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', className: 'min-w-0 flex-1 truncate' }, r.name),
           h(AddMetric, { phone: p.phone, onAdd: p.onAdd }))));
   }

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Chat page (charts)</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Chat page (charts) — the chat "Generate two charts using random data": plain answers, an analysis
+   plan, code runs (Python + Output), chart plates, data tables and result files; a file or a chart
+   opens the preview split panel. This is where the AskUserPanel is reviewed in a real chat.
+   Review switches, as the original topbar: Popover state Loading / Empty / Filled / Scrolling ·
+   AskUserPanel Off / Single Select / Several Questions / Multi Select / Six Options · Light / Dark.
+   No plan switch (the original has none): the composer is never gated here, and the sidebar footer is
+   the original's static copy — "Admin · Free", 287 left, the Free credits panel — whatever the plan;
+   only the promo card follows the stored plan (kit-kit.js §10). */
+(function () {
+  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+
+  var TITLE = 'Generate two charts using random data';
+  /* The original sidebar footer is static markup: the Free panel with these figures. */
+  var FREE_CREDITS = { planName: 'Free', pool: { used: 213, cap: 500 }, daily: { used: 32, cap: 50 }, purchased: 540, balance: 287 };
+  var CODE = {
+    charts: "import matplotlib.pyplot as plt\nimport numpy as np\n\nnp.random.seed(42)\n\n# Generate random data for bar chart\ncategories = ['A', 'B', 'C', 'D', 'E']\nvalues = np.random.randint(10, 100, size=len(categories))\n\n# Plot bar chart\nplt.figure(figsize=(8, 5))\nplt.bar(categories, values, color='skyblue')\nplt.title('Random Bar Chart')\nplt.xlabel('Category')\nplt.ylabel('Value')\nplt.savefig('random_bar_chart.png')\nplt.close()\n\n# Generate random data for line chart\nx = np.arange(1, 11)\ny = np.random.randn(10).cumsum()\n\n# Plot line chart\nplt.figure(figsize=(8, 5))\nplt.plot(x, y, marker='o', linestyle='-', color='coral')\nplt.title('Random Line Chart')\nplt.xlabel('Index')\nplt.ylabel('Cumulative Value')\nplt.grid(True)\nplt.savefig('random_line_chart.png')\nplt.close()",
+    csv: "import pandas as pd\nimport numpy as np\n\nnp.random.seed(123)\n\n# Generate random dataframe\ndata = {\n    'ID': np.arange(1, 11),\n    'Value': np.random.randint(100, 200, size=10),\n    'Score': np.round(np.random.rand(10)*100, 2)\n}\ndf = pd.DataFrame(data)\n\n# Save CSV\ncsv_filename = 'random_data.csv'\ndf.to_csv(csv_filename, index=False)\n\n# Save XLS\nxls_filename = 'random_data.xls'\ndf.to_excel(xls_filename, index=False, engine='xlwt')\n\n# Save XLSX\nxlsx_filename = 'random_data.xlsx'\ndf.to_excel(xlsx_filename, index=False, engine='openpyxl')\n\nprint('CSV File:', csv_filename)\nprint('XLS File:', xls_filename)\nprint('XLSX File:', xlsx_filename)",
+    xlsx: "import pandas as pd\nimport numpy as np\n\nnp.random.seed(123)\n\ndata = {\n    'ID': np.arange(1, 11),\n    'Value': np.random.randint(100, 200, size=10),\n    'Score': np.round(np.random.rand(10)*100, 2)\n}\ndf = pd.DataFrame(data)\n\nxls_filename = 'random_data.xls'\nxlsx_filename = 'random_data.xlsx'\n\ndf.to_excel(xlsx_filename, index=False, engine='openpyxl')\ndf.to_excel(xls_filename, index=False, engine='openpyxl')\n\nprint('XLS file:', xls_filename)\nprint('XLSX file:', xlsx_filename)"
+  };
+  var BAR_ROWS = IK.CHART_BARS.map(function (r) { return [r[0], String(r[1])]; });
+  var LINE_ROWS = IK.CHART_LINE.map(function (v, i) { return [String(i + 1), v.toFixed(3)]; });
+
+  function Turn(p) {
+    return h(IK.ChatTurn, null,
+      h(IK.ChatUserMessage, { time: p.time }, p.ask),
+      h(IK.ChatAnswer, { time: p.aTime || p.time, foot: p.foot }, p.children));
+  }
+  function P(t) { return h(IK.ChatProse, null, t); }
+  function Lead(label, rest) { return h(IK.ChatProse, null, h('strong', null, label), rest ? [h('br', { key: 'b' }), rest] : null); }
+
+  function Thread(p) {
+    var open = p.onOpen;
+    return h(IK.ChatThread, null,
+      h(Turn, { ask: 'generate 2 charts with random data', time: 'Jul 7, 3:07 PM' },
+        P('Could you please specify what kind of charts you want? For example, do you want bar charts, line charts, pie charts, etc.? Any preferred metrics or data characteristics?')),
+      h(Turn, { ask: 'any data, give bar charts and line charts', time: 'Jul 7, 3:07 PM' },
+        P('Step 1 is to check data sources for relevant data for charts.'),
+        P('In this case, since you want charts with random data, you want me to generate synthetic data locally instead of querying a database source.'),
+        P('There are no relevant external data sources needed here because the request is for random data for simple bar and line charts.'),
+        P('Confirm that you want me to generate synthetic random data and create the two charts (bar chart and line chart) — or if you want me to pull actual data from your available sources?'),
+        P('Please confirm how you want to proceed! 🤘')),
+      h(Turn, { ask: 'yes', time: 'Jul 7, 3:08 PM' },
+        P('Step 2: Present Analysis Plan for generating charts with random data.'),
+        h(IK.ChatHeading, null, 'Generate Bar and Line Charts with Random Data'),
+        Lead('Objective', 'Create two charts using synthetic random data: one bar chart and one line chart.'),
+        Lead('Steps'),
+        h(IK.ChatList, { ordered: true, items: [
+          'Generate a random dataset suitable for a bar chart (e.g., categories with numeric values).',
+          'Generate a random dataset suitable for a line chart (e.g., a series of numeric values over an index).',
+          'Use Python’s matplotlib to create a bar chart from the first dataset and a line chart from the second.',
+          'Save charts as PNG files.'] }),
+        Lead('Expectations'),
+        h(IK.ChatList, { items: ['Two image files containing the bar chart and line chart.', 'Summary of generated data statistics.'] }),
+        Lead('Data Sources', 'Synthetic random data generated within the analysis.'),
+        P('Confirm the analysis plan to proceed! 🤘')),
+      /* The code-run answers keep EVERYTHING in one group (8px rhythm): the original never closes
+         its .cp-ai-group before the plates / files / prose, and that is how it renders. */
+      h(Turn, { ask: 'yes', time: 'Jul 7, 3:08 PM' },
+        h(IK.ChatAnswerGroup, null,
+          h(IK.ChatCodeRun, { title: 'Generate random bar and line charts', code: CODE.charts, output: 'Saved random_bar_chart.png\nSaved random_line_chart.png' }),
+          h(IK.ChatImagePlates, { onOpen: open, items: [{ file: 'random_bar_chart.png', kind: 'bar' }, { file: 'random_line_chart.png', kind: 'line' }] }),
+          h(IK.ChatDataCard, { title: 'Random Bar Chart Data', columns: ['Category', 'Value'], rows: BAR_ROWS }),
+          h(IK.ChatDataCard, { title: 'Random Line Chart Data', columns: ['Index', 'Cumulative Value'], rows: LINE_ROWS }),
+          P('Two charts with random data have been generated: a bar chart (random_bar_chart.png) and a line chart (random_line_chart.png). Let me know if you want to proceed with anything else.'))),
+      h(Turn, { ask: 'generate 3 types of file: csv, xls and xlsx — they should be with random data, no confirmation', time: 'Jul 7, 3:08 PM' },
+        h(IK.ChatAnswerGroup, null,
+          h(IK.ChatCodeRun, { title: 'Generate CSV, XLS, XLSX with random data', status: 'error', code: CODE.csv, output: 'ImportError: Missing optional dependency \'xlwt\'. Install xlwt >= 1.3.0 for Excel support.' }),
+          h(IK.ChatFileChips, { files: ['random_data.csv'], onOpen: open }),
+          h(IK.ChatProse, null, 'The attempt to generate an XLS file failed due to missing ', h(IK.ChatCode, null, 'xlwt'), ' engine support in the environment.'),
+          P('However, I have successfully created a CSV file (random_data.csv) and an XLSX file (random_data.xlsx). If you want, I can retry generating the XLS file with another method, or just provide the two files above. Please advise.'))),
+      h(Turn, { ask: 'retry to create XLSX and XLS files', time: 'Jul 7, 3:09 PM' },
+        h(IK.ChatAnswerGroup, null,
+          h(IK.ChatCodeRun, { title: 'Generate XLS and XLSX with random data', code: CODE.xlsx, output: 'XLS file: random_data.xls\nXLSX file: random_data.xlsx' }),
+          h(IK.ChatFileChips, { files: ['random_data.xlsx', 'random_data.xls'], onOpen: open }),
+          P('Two files with random data have been generated: an XLS file (random_data.xls) and an XLSX file (random_data.xlsx). These files contain random IDs, values, and scores.'),
+          P('If you want, I can also generate the CSV file again or assist with anything else.'))),
+      h(Turn, { ask: 'Convert CSV file to JSON', time: 'Jul 7, 5:14 PM', foot: 'row' },
+        h(IK.ChatFileChips, { files: ['test_sales_1.json'], onOpen: open }),
+        P('A JSON file with the data from test_sales_1.csv has been generated. It contains 10 records.'),
+        P('The file was saved as test_sales_1.json.'),
+        P('Let me know if you need anything else!')),
+      h(Turn, { ask: 'Generate PDF with full data table from CSV', time: 'Jul 7, 5:15 PM', foot: 'row' },
+        h(IK.ChatFileChips, { files: ['test_sales_1_table.pdf'], onOpen: open }),
+        P('A PDF file with the full tabular version of the data from the CSV has been generated.'),
+        P('The file was saved as test_sales_1_table.pdf.'),
+        P('If there\'s anything else, let me know!')));
+  }
+
+  function App() {
+    var pop = IK.useQueryState('pop', 'filled');
+    var ask = IK.useQueryState('ask', 'off');
+    var t = R.useState(TITLE), title = t[0], setTitle = t[1];
+    var f = R.useState(null), file = f[0], setFile = f[1];
+    var chats = IK.useChats({
+      initial: IK.chatsWith({ 'two-charts': { menu: true } }),
+      onRenamed: function (c, name) { if (c.id === 'two-charts') setTitle(name); },
+      onDeleted: function (c) { if (c.id === 'two-charts') location.href = IK.pageHref('approved/chat-landing.html'); }
+    });
+    var storedPlan = IK.usePlan()[0];
+    var variant = IK.ASK_VARIANTS[ask[0]];
+    function closeAsk() { ask[1]('off'); }
+    return h(IK.Fragment, null,
+      h(IK.ReviewBar, {
+        title: 'Chat page', status: 'wip', size: 'sm',
+        controls: [
+          { label: 'Popover state', showLabel: true, value: pop[0], onChange: pop[1],
+            options: [{ value: 'loading', label: 'Loading' }, { value: 'empty', label: 'Empty' },
+                      { value: 'filled', label: 'Filled' }, { value: 'scroll', label: 'Scrolling' }] },
+          { label: 'AskUserPanel', showLabel: true, value: ask[0], onChange: ask[1],
+            options: [{ value: 'off', label: 'Off' }, { value: 'single', label: 'Single Select' },
+                      { value: 'steps', label: 'Several Questions' }, { value: 'multi', label: 'Multi Select' },
+                      { value: 'six', label: 'Six Options' }] }
+        ]
+      }),
+      h(IK.AppShell, {
+        chats: chats, currentChat: 'two-charts', burger: false, scroll: false, classic: true,
+        plan: 'free', credits: FREE_CREDITS, promo: storedPlan === 'free', dailySuffix: false
+      },
+        h('div', { className: 'relative flex min-h-0 flex-1' },
+          h('div', { className: 'relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden' },
+            h(IK.ChatHeader, { title: title, chats: chats, id: 'two-charts' }),
+            h(Thread, { onOpen: setFile }),
+            h(IK.ChatComposerArea, null,
+              h(IK.Composer, { prompt: 'rich', plan: 'paid', mentionLogos: false, popState: pop[0], sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' })),
+            variant ? h(IK.AskUserLayer, null,
+              h(IK.AskUserPanel, Object.assign({ key: ask[0] }, variant, { onAnswer: closeAsk, onDismiss: closeAsk }))) : null),
+          h(IK.ChatFilePreview, { file: file, onClose: function () { setFile(null); } }))));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

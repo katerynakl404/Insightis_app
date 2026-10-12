@@ -28,7 +28,25 @@
    IK.ChatPausedNotice { sources }                U6 (Free): "Your subscription ended, so this chat
                                                   can't use its connections" — a warning Alert in
                                                   the thread with "Upgrade to Unlock" (the
-                                                  connections popover, on click) */
+                                                  connections popover, on click)
+
+   Rich answers (chat_page-charts-landing):
+   IK.ChatUserMessage { foot: false }             no footer at all (a message the page appends live —
+                                                  the queue's turns carry no Copy / time)
+   IK.ChatAnswer { foot: false | 'row' }          false: no footer; 'row': the footer sits in the
+                                                  message row, 4px under the card instead of 8 (the
+                                                  original's last two charts turns close their card
+                                                  one level early — reproduced)
+   IK.ChatHeading { children }                    a section title inside an answer (Title/16)
+   IK.ChatList { ordered, items }                 an ol / ul in the answer's prose voice
+   IK.ChatCode { children }                       an inline code chip inside prose
+   IK.ChatFileChips { files, onOpen }             result files: a wrapping row of DevartUI File chips;
+                                                  each one is a button that opens the file (onOpen(name))
+   IK.ChatDataCard { title, columns, rows }       a titled data table, 8px off what precedes it
+   IK.ChatTurnState { kind, children }            what a turn shows when it is not prose:
+                                                  'tool' (spinner + "Running Python…"), 'stopped'
+                                                  (italic "Stopped"), 'error' (circled ! in red)
+   IK.ChatStreamCaret                             the reply being written: a blinking 1px caret */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
@@ -108,18 +126,63 @@
     var bubble = R.useRef(null);
     return h('div', { className: 'ik-msg is-user' },
       h('div', { ref: bubble, className: 'ik-bubble' }, p.children),
-      h('div', { className: 'ik-msg-foot' },
+      p.foot === false ? null : h('div', { className: 'ik-msg-foot' },
         h(IK.ChatCopyButton, { getText: function () { return bubble.current ? bubble.current.textContent : ''; } }),
         p.time ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'tabular-nums' }, p.time) : null));
   };
 
   IK.ChatAnswer = function ChatAnswer(p) {
     /* The answer and its time sit in their own column, 8px apart (.cp-ai-wrap) — not the row's 4px. */
+    var foot = p.foot === false ? null : h('div', { className: 'ik-msg-foot' },
+      p.time ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'tabular-nums' }, p.time) : null);
     return h('div', { className: 'ik-msg is-ai' },
       h('div', { className: 'ik-answer-wrap' },
         h('div', { className: 'ik-answer' }, p.children),
-        h('div', { className: 'ik-msg-foot' },
-          p.time ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'tabular-nums' }, p.time) : null)));
+        p.foot === 'row' ? null : foot),
+      p.foot === 'row' ? foot : null);
+  };
+
+  IK.ChatHeading = function ChatHeading(p) {
+    return h(D.Typography, { element: 'h3', textStyle: 'title16', textColor: 'primary', className: 'm-0' }, p.children);
+  };
+
+  IK.ChatList = function ChatList(p) {
+    return h(p.ordered ? 'ol' : 'ul', { className: 'ik-list' },
+      (p.items || []).map(function (it, i) { return h('li', { key: i }, it); }));
+  };
+
+  IK.ChatCode = function ChatCode(p) { return h('code', { className: 'ik-code-chip' }, p.children); };
+
+  IK.defineIcons({
+    'chat-file': '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/>',
+    'chat-err': '<circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/>'
+  });
+
+  /* Result files — the composer's file chip, without the size and the ✕, opening the file. */
+  IK.ChatFileChips = function ChatFileChips(p) {
+    return h('div', { className: 'ik-file-chips' },
+      (p.files || []).map(function (f) {
+        return h('div', { key: f, className: 'ik-file-chip' },
+          h(D.File, {
+            name: f,
+            icon: h(IK.Icon, { name: 'chat-file', size: 20, className: 'shrink-0 text-brand-primary' }),
+            onClick: p.onOpen ? function () { p.onOpen(f); } : undefined
+          }));
+      }));
+  };
+
+  IK.ChatDataCard = function ChatDataCard(p) {
+    return h('div', { className: 'ik-data-card' },
+      h(IK.ChatResultTable, { title: p.title, columns: p.columns, rows: p.rows, wrapColumn: p.wrapColumn }));
+  };
+
+  /* Prod's streaming caret: a 1px hairline in the text's own colour, one line tall, blinking. */
+  IK.ChatStreamCaret = function ChatStreamCaret() { return h('span', { className: 'ik-caret', 'aria-hidden': 'true' }); };
+
+  IK.ChatTurnState = function ChatTurnState(p) {
+    if (p.kind === 'tool') return h('div', { className: 'ik-turn-tool' }, h(D.Spinner, { size: 'xs', color: 'inherit', 'aria-hidden': true }), p.children);
+    if (p.kind === 'error') return h('div', { className: 'ik-turn-err' }, h(IK.Icon, { name: 'chat-err', size: 16 }), p.children);
+    return h('div', { className: 'ik-turn-stopped' }, p.children || 'Stopped');
   };
 
   IK.ChatAnswerGroup = function ChatAnswerGroup(p) { return h('div', { className: 'ik-answer-group' }, p.children); };

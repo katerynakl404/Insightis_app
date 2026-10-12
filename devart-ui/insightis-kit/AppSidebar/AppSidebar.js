@@ -33,6 +33,15 @@
      classic      true → chat_page-landing's older copy of the sidebar, reproduced as it renders: the
                   logo is a plain mark (no New Chat link / tooltip), 2px section chevrons, the older
                   account-menu glyphs (AccountMenu iconSet 'classic')
+     brandLink    false → the logo is a plain mark (no New Chat link, no tooltip, no Tab stop) — the
+                  Data Sources, Files and Metrics originals; only chat-landing's logo is a New Chat
+                  button. Default true (classic implies false).
+     accountIcons 'classic' → the older account-menu glyphs (the Data Sources, Files and Metrics
+                  originals draw chat_page-landing's set too). classic implies 'classic'.
+     dailySuffix  false → the balance panel's Daily Limit reads "32 of 50", not "… today"
+     chevronStroke  the Pinned / Recent section chevrons' stroke — default 2.5 (classic: 2); a page
+                  whose copy is otherwise classic but keeps the 2.5px chevron passes 2.5
+                  (chats-landing).
 */
 (function () {
   'use strict';
@@ -112,8 +121,8 @@
     return h(IK.Fragment, null, h(D.Sidebar, { collapsible: 'icon', className: p.className },
       h(D.SidebarHeader, null,
         h(D.SidebarBrand, null,
-          /* classic: chat_page-landing's older copy — the logo is a plain mark, not the New Chat link */
-          p.classic
+          /* classic / brandLink false: the logo is a plain mark, not the New Chat link */
+          p.classic || p.brandLink === false
             ? h('div', { className: 'flex min-w-0 items-center' }, h(IK.Logo, { variant: 'full', height: 24, label: 'Insightis' }))
             : h(IK.Tip, { tip: 'New Chat' },
                 h('a', { href: IK.pageHref('approved/chat-landing.html'), 'aria-label': 'New Chat',
@@ -134,7 +143,7 @@
                   h(D.SidebarMenuButton, { tooltip: { children: 'Chats' }, 'aria-label': 'Chats', onClick: function () { sb.setOpen(true); } },
                     h(IK.Icon, { name: 'nav-chats', size: 16 }), h('span', null, 'Chats')))))
           : h('div', { className: 'pt-2 group-data-[collapsible=icon]:hidden' },
-              h(IK.SidebarChats, { chats: chats, current: p.currentChat, chevronStroke: p.classic ? 2 : undefined }))),
+              h(IK.SidebarChats, { chats: chats, current: p.currentChat, chevronStroke: p.chevronStroke != null ? p.chevronStroke : (p.classic ? 2 : undefined) }))),
       showPromo ? h('div', { className: 'px-2 pb-2 group-data-[collapsible=icon]:hidden' },
         h(D.PromoCard, {
           icon: h(IK.Icon, { name: 'sparkles', size: 20 }),
@@ -144,9 +153,9 @@
           onDismiss: function () { promoOff = true; setPromoHidden(true); }
         })) : null,
       h(D.SidebarFooter, null,
-        collapsed ? null : h(IK.BalancePopover, { plan: plan, credits: p.credits, trialDays: p.trialDays }),
+        collapsed ? null : h(IK.BalancePopover, { plan: plan, credits: p.credits, trialDays: p.trialDays, dailySuffix: p.dailySuffix }),
         h(IK.AccountMenu, {
-          plan: plan, collapsed: collapsed, iconSet: p.classic ? 'classic' : undefined,
+          plan: plan, collapsed: collapsed, iconSet: p.classic ? 'classic' : p.accountIcons,
           name: user.name, initial: user.initial, role: user.role,
           className: collapsed ? 'mx-auto' : undefined
         }))),

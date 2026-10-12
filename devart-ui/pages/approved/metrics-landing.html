@@ -10,13 +10,8 @@
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
 <script src="../../insightis-kit/insightis-kit.js"></script>
 <style>
-  /* Page layout only. The main column (.cl-main / .cl-page in the original): 36px above the
-     title (none below 1024px, where the title row is sticky), 64px below, a 1200px column with
-     a 32px gutter (12px on a phone), 12px between blocks. */
-  .pg-main { padding: 2.25rem 0 4rem; }
-  .pg-page { width: 100%; max-width: 75rem; margin: 0 auto; padding: 0 2rem; display: flex; flex-direction: column; gap: .75rem; }
-  @media (max-width: 1023px) { .pg-main { padding-top: 0; } }
-  @media (max-width: 767px) { .pg-page { padding: 0 .75rem; } }
+  /* Page layout only. The main column is IK.Page + IK.PageHead (the original .cl-page /
+     .cl-page-head); like the original it scrolls inside the column, not as a document. */
 
   /* Empty state: hero, then "Top 5 Data Sources for" 20px lower, then the card grid. */
   .pg-empty { display: flex; flex-direction: column; gap: .75rem; }
@@ -507,15 +502,14 @@
       h(IK.ReviewBar, { title: 'Metrics', status: 'approved', plan: true, size: 'sm', controls: [
         { label: 'Demo state', value: state, onChange: changeState,
           options: [{ value: 'empty', label: 'Empty' }, { value: 'filled', label: 'Filled' }] }] }),
-      h(IK.AppShell, { nav: 'metrics', burger: false },
-        h('div', { className: 'pg-main' },
-          h('div', { className: 'pg-page' },
-            h(IK.MxPageHead, {
-              title: 'Metrics',
-              actions: filled ? h(IK.Locked, { feature: 'metrics', surface: 'modal' },
-                h(D.Button, { variant: 'primary', size: 'sm', rounded: 'full', type: 'button', leftSlot: h(IK.Icon, { name: 'pg-plus' }), onClick: openCreate }, 'Create Metric')) : null
-            }),
-            filled ? filledView : empty))),
+      h(IK.AppShell, { nav: 'metrics', burger: false, brandLink: false, accountIcons: 'classic' },
+        h(IK.Page, null,
+          h(IK.PageHead, {
+            title: 'Metrics', wrap: true,
+            actions: filled ? h(IK.Locked, { feature: 'metrics', surface: 'modal' },
+              h(D.Button, { variant: 'primary', size: 'sm', rounded: 'full', type: 'button', leftSlot: h(IK.Icon, { name: 'pg-plus' }), onClick: openCreate }, 'Create Metric')) : null
+          }),
+          filled ? filledView : empty)),
       h(IK.MxMetricSheet, {
         open: sheetOpen, metric: sheetMetric || {},
         onOpenChange: function (v) { setSheet(function (s) { return Object.assign({}, s, { open: v }); }); },
@@ -525,10 +519,10 @@
         onEdit: function () { if (sheetRow) openEdit(sheetRow); },
         onDelete: function () { if (sheetRow) remove(sheetRow.id); setSheet({ open: false }); }
       }),
-      h(IK.MxConnectDialog, {
-        open: conn.open, source: conn.source,
+      h(IK.ConnectDialog, {
+        open: conn.open, connector: conn.source || 'New Connection', mark: 'letter',
         onOpenChange: function (v) { setConn(function (c) { return Object.assign({}, c, { open: v }); }); },
-        onCreate: connected
+        onCreate: function (r) { connected(r.label); }
       }),
       h(IK.MxMetricDialog, {
         open: !!dlg.open, mode: dlg.mode, initial: dlg.initial, options: CONNECTIONS,

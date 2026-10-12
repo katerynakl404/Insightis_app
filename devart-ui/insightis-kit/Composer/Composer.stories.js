@@ -2,9 +2,11 @@
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
   IK.UPGRADE_NAVIGATES = false;
 
-  /* Room above the trigger: every composer menu opens upward. */
-  function Stage(p) { return h('div', { className: 'flex flex-col justify-end' }, p.children); }
-  function Room(p) { return h('div', { className: 'flex flex-col justify-end pt-80' }, p.children); }
+  /* Room above the trigger: every composer menu opens upward. Every overlay a story opens is portalled
+     INTO its own stage (D.PortalContainerProvider — a transformed box, so the menu is positioned and
+     clipped inside it): an open menu never floats over the storybook page once its story scrolls away. */
+  function Stage(p) { return h(D.PortalContainerProvider, { className: 'flex flex-col justify-end' }, p.children); }
+  function Room(p) { return h(D.PortalContainerProvider, { className: 'flex flex-col justify-end pt-80' }, p.children); }
   function Tools(p) { return h(Room, null, h('div', { className: 'flex items-center gap-1' }, p.children)); }
 
   function ModelDemo(p) {
@@ -30,6 +32,12 @@
   IK.story('Composer', { title: 'In a conversation — empty', wide: true,
     description: 'An empty prompt keeps Send’s brand fill but makes it inert (the chat page).',
     render: function () { return h(Stage, null, h(IK.Composer, { plan: 'paid', prompt: 'rich', sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' })); } });
+  IK.story('Composer', { title: 'A reply is running — Stop on an empty field', wide: true,
+    description: 'streaming, actionSlot (the message queue): ONE control, two faces — Stop (secondary, square glyph, "Stop the reply") while the field is empty; type and it is Send again (it queues the message). Below 768px either face is a 40×40 icon-only square.',
+    render: function () { return h(Stage, null, h(IK.Composer, { plan: 'paid', prompt: 'rich', streaming: true, actionSlot: true, placeholder: 'Ask a follow-up — it will wait its turn', modelIcon: 'model-brain' })); } });
+  IK.story('Composer', { title: 'Text-only @-mention rows (mentionLogos false)', wide: true,
+    description: 'The charts chat’s older copy of the list: no source logo. Type "@" to open it.',
+    render: function () { return h(Room, null, h(IK.Composer, { plan: 'paid', prompt: 'rich', mentionLogos: false, sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' })); } });
   IK.story('Composer', { title: 'Free plan', wide: true,
     description: 'Connections reads disabled with the padlock in its glyph slot; hover or click opens the connections upgrade popover and the menu never opens. Medium / Pro are locked rows in the model menu. Attach, the prompt and Send are untouched.',
     render: function () { return h(Stage, null, h(IK.Composer, { plan: 'free' })); } });

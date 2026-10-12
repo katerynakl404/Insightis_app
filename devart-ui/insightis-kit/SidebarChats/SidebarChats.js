@@ -4,12 +4,13 @@
 
    ── The store ─────────────────────────────────────────────────────────────────────────────
    var chats = IK.useChats({ onRenamed, onDeleted, onPinToggled, initial })
-   IK.chatsWith({ id: { status, menu } })   DEFAULT_CHATS with per-chat changes, for `initial` — the
+   IK.chatsWith({ id: { status, menu, pinLabel, pinAction } })   DEFAULT_CHATS with per-chat changes, for `initial` — the
      originals differ per page (chat-landing: Jira has the new dot; a chat page gives its chat a ⋮)
      chats.pinned / chats.recent          arrays of chat objects (see IK.DEFAULT_CHATS)
      chats.find(idOrTitle)                → chat | null
      chats.isPinned(id)
      chats.togglePin(id)                  Pin ⇄ Unpin — the row moves to the END of the other section
+                                          (pinAction 'move-last': to the end of its OWN section)
      chats.rename(id, title) · chats.remove(id)
      chats.requestRename(id) · chats.requestDelete(id)   open the shared dialogs (IK.ChatDialogs)
    Pass the same store to IK.AppShell({ chats }) when the page needs to mirror a row elsewhere —
@@ -18,7 +19,11 @@
    onPinToggled tell the page (rename the header, leave the page after deleting the open chat).
 
    A chat: { id, title, href, status: 'new' | 'loading' | null, queue: { count, active } | null,
-             menu: false (no row menu) }
+             menu: false (no row menu),
+             pinLabel: 'Pin' | 'Unpin'  overrides the menu's first label (else Unpin when pinned),
+             pinAction: 'move-last'    the pin item moves the row to the END of its own section
+             — chat_page-queue's quirk: its pinned "Message queue" reads "Pin" in both menus and
+             choosing it sends the row to the end of Pinned (once — then it reads "Unpin" as usual) }
      href     pages-root relative ('approved/chat_page-landing.html?chat=…'); default = the chat page
      status   'new' → 6px brand dot + "New activity" (never shown on the current chat — it is open);
               'loading' → spinner + aria-busy + "In progress"
@@ -92,6 +97,21 @@
     function isPinned(id) { return st.pinned.some(function (c) { return c.id === id; }); }
     function togglePin(id) {
       var c = find(id); if (!c) return;
+      if (c.pinAction === 'move-last') {
+        var inPinned = isPinned(c.id);
+        setSt(function (prev) {
+          var list = inPinned ? prev.pinned : prev.recent;
+          var row = list.filter(function (x) { return x.id === c.id; })[0];
+          if (!row) return prev;
+          /* one shot, as the original: its handler re-labels the item "Unpin" afterwards, so from
+             then on the row pins / unpins like any other */
+          row = Object.assign({}, row); delete row.pinLabel; delete row.pinAction;
+          var nl = list.filter(function (x) { return x.id !== c.id; }).concat([row]);
+          return inPinned ? { pinned: nl, recent: prev.recent } : { pinned: prev.pinned, recent: nl };
+        });
+        if (cb.current.onPinToggled) cb.current.onPinToggled(c, true);
+        return;
+      }
       var toPinned = !isPinned(c.id);
       setSt(function (prev) {
         var from = toPinned ? prev.recent : prev.pinned, to = toPinned ? prev.pinned : prev.recent;
@@ -128,10 +148,10 @@
   IK.ChatMenuItems = function ChatMenuItems(p) {
     var chats = p.chats, c = chats.find(p.id);
     if (!c) return null;
-    var pinned = chats.isPinned(c.id);
+    var label = c.pinLabel || (chats.isPinned(c.id) ? 'Unpin' : 'Pin');
     return h(IK.Fragment, null,
       h(D.DropdownMenuItem, { onSelect: function () { chats.togglePin(c.id); } },
-        h(IK.Icon, { name: pinned ? 'unpin' : 'pin', size: 16 }), pinned ? 'Unpin' : 'Pin'),
+        h(IK.Icon, { name: label === 'Unpin' ? 'unpin' : 'pin', size: 16 }), label),
       h(D.DropdownMenuItem, { onSelect: function () { chats.requestRename(c.id); } },
         h(IK.Icon, { name: 'rename', size: 16 }), 'Rename'),
       h(D.DropdownMenuItem, { variant: 'danger', onSelect: function () { chats.requestDelete(c.id); } },
@@ -222,7 +242,10 @@
           h(D.DropdownMenuTrigger, { asChild: true },
             h(D.IconButton, { variant: 'tertiary', size: '2xs', 'aria-label': 'More actions', className: 'ik-chat-more' },
               h(IK.Icon, { name: 'kebab-vertical' })))),
-        h(D.DropdownMenuContent, { side: 'bottom', align: 'end', sideOffset: 8 },
+        /* font-medium: the original's row menu sits INSIDE the .sbx-chat row and inherits its 500
+           label weight (DevartUI's items set none and portal out, so they read 400) — reproduced by
+           giving the content the weight its items inherit, as in the original (rule 1a) */
+        h(D.DropdownMenuContent, { side: 'bottom', align: 'end', sideOffset: 8, className: 'font-medium' },
           h(IK.ChatMenuItems, { chats: chats, id: c.id }))));
   }
 

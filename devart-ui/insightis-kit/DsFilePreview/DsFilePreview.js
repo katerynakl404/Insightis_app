@@ -11,7 +11,8 @@
 
    The panel is the THIRD column of the screen (the list narrows), 28rem wide by default and
    resizable from its left edge (320–720px, and never past viewport − 360px). Below 1024px it covers
-   the main column instead of splitting it, and does not resize.
+   the main column instead of splitting it, and does not resize. In a document-scrolling shell
+   (AppShell scroll: 'document') it stays in the viewport while the page scrolls (DsFilePreview.css).
 
    h(IK.DsFilePreview, {
      file: { id, name, size, origin, date },

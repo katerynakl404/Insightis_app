@@ -164,7 +164,7 @@
  { "name": "Filled — Connect more banner dismissed", "viewport": "desktop", "steps": [
    { "do": "click", "target": { "text": "Filled", "tag": "button" } },
    { "do": "wait", "ms": 500 },
-   { "do": "eval", "orig": "document.querySelector('.cl-main').scrollTop = 9999", "new": "document.querySelector('.pg-main').parentElement.scrollTop = 9999" },
+   { "do": "eval", "orig": "document.querySelector('.cl-main').scrollTop = 9999", "new": "document.querySelector('.ik-page').parentElement.scrollTop = 9999" },
    { "do": "wait", "ms": 300 },
    { "do": "click", "target": { "orig": { "sel": ".mx-connect-banner .banner-close" }, "new": { "sel": "[data-slot=banner-close]" } } },
    { "do": "wait", "ms": 700 } ] },
@@ -204,6 +204,6 @@
  { "name": "Phone — Filled cards, scrolled (condensed title)", "viewport": "phone", "steps": [
    { "do": "click", "target": { "text": "Filled", "tag": "button" } },
    { "do": "wait", "ms": 500 },
-   { "do": "eval", "orig": "document.querySelector('.cl-main').scrollTop = 400", "new": "document.querySelector('.pg-main').parentElement.scrollTop = 400" },
+   { "do": "eval", "orig": "document.querySelector('.cl-main').scrollTop = 400", "new": "document.querySelector('.ik-page').parentElement.scrollTop = 400" },
    { "do": "wait", "ms": 500 } ] }
 ]

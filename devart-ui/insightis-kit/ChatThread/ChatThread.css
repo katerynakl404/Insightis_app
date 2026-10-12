@@ -67,3 +67,31 @@
   .ik-paused-notice > [role] { flex-wrap: wrap; }
   .ik-paused-notice .ik-paused-notice-acts { width: 100%; align-self: flex-start; padding-left: 1.5rem; }
 }
+
+/* ── Rich answers (chat_page-charts-landing) ── */
+/* 'row' footer: under the card in the message row's own 4px rhythm, not the answer column's 8. */
+.ik-msg.is-ai > .ik-msg-foot { align-self: stretch; }
+/* Prose lists: the answer's voice, 20px of indent, 4px between items (the DS reset strips list markers). */
+.ik-list { list-style: revert; margin: .125rem 0 0; padding-left: 1.25rem; font-size: var(--font-size-sm); line-height: var(--line-height-sm); color: hsl(var(--ink-primary)); }
+.ik-list > li { margin-bottom: .25rem; }
+.ik-list > li:last-child { margin-bottom: 0; }
+/* Inline code inside prose: mono at the prose size on Surface/Card2 — a 1px hairline of vertical
+   room so the chip never pushes the line-height (the original's own off-step value). */
+.ik-code-chip {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--font-size-sm); line-height: var(--line-height-sm); color: hsl(var(--ink-primary));
+  background: hsl(var(--surface-card2)); padding: 1px .25rem; border-radius: var(--radius);
+}
+/* Result files: a wrapping row; each chip runs as wide as its name (the composer's chip caps at 13rem). */
+.ik-file-chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.ik-file-chip { flex: none; min-width: 10rem; }
+.ik-data-card { display: flex; flex-direction: column; gap: .5rem; margin-top: .5rem; }
+
+/* Turn states — a turn reporting on itself, quieter than an answer. */
+.ik-turn-tool { display: flex; align-items: center; gap: .375rem; font-size: var(--font-size-xs); line-height: var(--line-height-xs); color: hsl(var(--ink-secondary)); }
+.ik-turn-stopped { margin-top: .5rem; font-size: var(--font-size-xs); line-height: var(--line-height-xs); color: hsl(var(--ink-secondary)); font-style: italic; }
+.ik-turn-err { display: flex; align-items: center; gap: .375rem; font-size: var(--font-size-sm); line-height: var(--line-height-sm); color: hsl(var(--fb-red-text)); }
+/* The streaming caret — prod's own: 1px in the text's colour, 1em tall, nudged onto the baseline. */
+@keyframes ik-caret-blink { 0%, 70%, 100% { opacity: 1; } 20%, 50% { opacity: 0; } }
+.ik-caret { display: inline-block; width: 1px; height: 1em; margin-left: 1px; transform: translateY(.15em); background: currentColor; animation: ik-caret-blink 1.25s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .ik-caret { animation: none; } }

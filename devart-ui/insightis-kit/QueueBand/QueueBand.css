@@ -1,0 +1,54 @@
+/* QueueBand — the band (original .mqb). A ceiling of 50vh so Expand can never eat the screen; the list
+   inside shrinks and scrolls rather than pushing past it. */
+.ik-qb {
+  display: flex; flex-direction: column; gap: .25rem; width: 100%; max-height: 50vh; box-sizing: border-box;
+  padding: .5rem; border-radius: 1rem; background: hsl(var(--surface-card)); border: 1px solid hsl(var(--stroke-border));
+}
+/* Head: the glyph centred in the rows' 20px lead column, so the label and every row's text share an edge. */
+.ik-qb-head {
+  display: flex; align-items: center; gap: .5rem; padding: .125rem .375rem;
+  font-size: var(--font-size-xs); line-height: var(--line-height-xs); font-weight: 500; color: hsl(var(--ink-secondary));
+}
+.ik-qb-head-ic { flex: none; margin: 0 2px; color: hsl(var(--ink-inactive)); }
+.ik-qb-head-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ik-qb-head-act { margin-left: auto; flex: none; }
+/* Expand exists only while the list is clipped (measured), or already expanded. */
+.ik-qb:not(.has-expand) .ik-qb-head-act { display: none; }
+.ik-qb-head-act svg { transition: transform var(--motion-fast); }
+.ik-qb-head-act[aria-expanded="false"] svg { transform: rotate(180deg); }
+
+/* The list: three rows tall, scrolls; Expanded takes the band's ceiling. */
+.ik-qb .ik-qb-list {
+  display: flex; flex-direction: column; gap: .125rem; list-style: none; margin: 0; padding: 0 .25rem 0 0;
+  flex: 1 1 auto; min-height: 0; max-height: calc(2rem * 3 + .5rem); overflow-y: auto; overflow-x: hidden;
+  scrollbar-width: thin; scrollbar-color: hsl(var(--stroke-border)) transparent;
+}
+.ik-qb .ik-qb-list.is-tall { max-height: none; }
+.ik-qb-row { flex: none; border-radius: var(--radius-md); }
+.ik-qb.is-folded .ik-qb-list { display: none; }
+/* Both edges fade (a mask on the scroller), only while there is more that way. */
+.ik-qb.ik-fade .ik-qb-list {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, hsl(var(--black)) var(--ik-fade-t), hsl(var(--black)) calc(100% - var(--ik-fade-b)), transparent);
+  mask-image: linear-gradient(to bottom, transparent, hsl(var(--black)) var(--ik-fade-t), hsl(var(--black)) calc(100% - var(--ik-fade-b)), transparent);
+}
+
+/* "Message removed · Undo" — the band's meta line, in the gap the message left (Label/M, Text/Secondary). */
+.ik-qb-note {
+  display: flex; align-items: center; gap: .5rem; padding: .25rem .375rem;
+  font-size: var(--font-size-xs); line-height: var(--line-height-xs); font-weight: 500; color: hsl(var(--ink-secondary));
+}
+/* The fold toggle's label starts where the alert's glyph does. */
+.ik-qb-fold { align-self: flex-start; margin-left: .25rem; }
+/* Below 768px the Alert's actions drop under its copy, past the glyph (the original's breakpoint; the
+   package's own max-sm rule is not compiled into the bundle). */
+@media (max-width: 767px) {
+  .ik-qb > [role="status"] { flex-wrap: wrap; }
+  .ik-qb .ik-qb-acts { width: 100%; align-self: flex-start; padding-left: 1.625rem; }
+}
+@media (max-width: 767px) { .ik-qb { padding: .375rem; border-radius: var(--radius-lg); } }
+
+/* One slot, two contents: the half you are not meant to watch (DS row-swap-in is the other half). */
+@keyframes ik-row-swap-out { from { opacity: 1; } to { opacity: 0; } }
+.ik-row-swap-out { animation: ik-row-swap-out var(--motion-fast) ease-in-out forwards; pointer-events: none; }
+.ik-qb-list > .animate-row-out, .ik-qb-list > .animate-row-swap-in { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .ik-row-swap-out, .ik-qb-list > .animate-row-out, .ik-qb-list > .animate-row-swap-in { animation-duration: 1ms; } }

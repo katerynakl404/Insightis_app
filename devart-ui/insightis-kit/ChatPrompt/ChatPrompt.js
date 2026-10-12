@@ -18,6 +18,8 @@
      placeholder,                 shown while empty
      metrics,                     default IK.CHAT_METRICS ({ name, alias, source, desc })
      seed: ['mrr'],               aliases inserted as tokens on mount
+     logos: false,                text-only rows — no source logo (chat_page-charts-landing's older
+                                  copy of the list)
      plan,                        default IK.usePlan()
      onContentChange(hasText)     fires on every edit (drives Send)
    })   ref → the editable element.
@@ -85,7 +87,7 @@
       onMouseEnter: p.locked ? undefined : p.onHover,
       onClick: p.locked ? undefined : p.onPick
     },
-      h(D.ConnectorLogo, { connector: m.source, size: 'sm', label: m.source + ' logo' }),
+      p.logos === false ? null : h(IK.ConnectorMark, { connector: m.source, size: 'sm', label: m.source + ' logo' }),
       h('span', { className: 'ik-mention-text' },
         h('span', { className: 'ik-mention-alias' }, h(Highlight, { prefix: '@', text: m.alias, query: p.query })),
         h('span', { className: 'ik-mention-name' }, m.name)));
@@ -193,7 +195,7 @@
     } else {
       listBody = hits.map(function (m, i) {
         return h(Row, {
-          key: m.alias, metric: m, query: query, locked: free, active: !free && i === active,
+          key: m.alias, metric: m, query: query, locked: free, active: !free && i === active, logos: p.logos,
           onHover: function () { setActive(i); }, onPick: function () { insert(m); }
         });
       });

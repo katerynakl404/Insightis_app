@@ -150,10 +150,20 @@
   /* The sidebar footer's two panels (this menu and IK.BalancePopover) hang 4px above the FOOTER,
      not above their own row (.sbx-pop-account / .sbx-pop-tokens: bottom calc(100% + 4px) of
      .sbx-foot) — so the Balance row stays in view under the account menu. Offset = the trigger's
-     distance below the footer's top edge + 4. Outside a sidebar footer: 4. */
+     distance below the footer's PADDING-box top (inside its 1px top rule, as calc(100% + 4px)
+     measures) + 4. Outside a sidebar footer: 4.
+     Width: the original panels span the footer less .5rem each side (left/right .5rem) — 239px in
+     the 255px footer; IK.sidebarFooterWidth gives that (null outside a footer → the w-60 class). */
+  function footerOf(el) { return el && el.closest ? el.closest('[data-sidebar=footer]') : null; }
   IK.sidebarFooterOffset = function (el) {
-    var f = el && el.closest && el.closest('[data-sidebar=footer]');
-    return f ? Math.round(el.getBoundingClientRect().top - f.getBoundingClientRect().top) + 4 : 4;
+    var f = footerOf(el);
+    if (!f) return 4;
+    var inner = f.getBoundingClientRect().top + (parseFloat(getComputedStyle(f).borderTopWidth) || 0);
+    return Math.round(el.getBoundingClientRect().top - inner) + 4;
+  };
+  IK.sidebarFooterWidth = function (el) {
+    var f = footerOf(el);
+    return f ? f.clientWidth - 16 : null;
   };
 
   IK.AccountMenu = function AccountMenu(p) {
@@ -173,7 +183,8 @@
       h(D.DropdownMenuContent, {
         side: side, align: p.align || (p.collapsed ? 'end' : 'start'),
         sideOffset: p.sideOffset != null ? p.sideOffset : (side === 'top' && open ? IK.sidebarFooterOffset(trig.current) : 4),
-        className: 'w-60', 'aria-label': 'Account'
+        className: 'w-60', style: side === 'top' && open && IK.sidebarFooterWidth(trig.current) ? { width: IK.sidebarFooterWidth(trig.current) + 'px' } : undefined,
+        'aria-label': 'Account'
       },
         h(D.DropdownMenuGroup, null,
           h(D.DropdownMenuLabel, null, 'Account'),

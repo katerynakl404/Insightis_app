@@ -28,10 +28,10 @@
 /* Data Sources → Connections, rebuilt from pages/approved/data-sources_connections-landing.html.
    Locked rules: page-changes/data-sources_connections-landing.md (apply here unchanged).
    Two tabs — Catalog (IK.DsCatalog) and My Connections (IK.DsConnections, disabled until something
-   is connected) — over the app shell; the connection flows are IK.DsConnectDialog (the New
-   connection wizard), IK.DsConnectionPanel (Connection Details), IK.DsEditConnectionDialog and
-   IK.DsDisconnectDialog. Review switches, as in the original topbar: Plan · Empty/Connected ·
-   Loaded/Skeleton · Theme. */
+   is connected) — over the app shell, scrolling as a document like the original; the connection
+   flows are IK.ConnectDialog (the shared New connection wizard, logo mark), IK.DsConnectionPanel
+   (Connection Details), IK.DsEditConnectionDialog and IK.DsDisconnectDialog. Review switches, as in
+   the original topbar: Plan · Empty/Connected · Loaded/Skeleton · Theme. */
 (function () {
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
 
@@ -174,15 +174,15 @@
 
     var connTrigger = h(D.TabsTrigger, { value: 'connections', disabled: connTabDisabled }, 'My Connections');
     return h(IK.Fragment, null,
-      h(IK.ReviewBar, { title: 'Data Sources', status: 'approved', size: 'sm', plan: true, controls: [
+      h(IK.ReviewBar, { title: 'Data Sources', status: 'approved', size: 'sm', autoHeight: true, plan: true, controls: [
         { label: 'Data state', value: seg[0], onChange: setSeg,
           options: [{ value: 'empty', label: 'Empty' }, { value: 'connected', label: 'Connected' }] },
         { label: 'Page state', value: load[0], onChange: load[1],
           options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] }
       ] }),
-      h(IK.AppShell, { nav: 'data-sources', burger: false },
-        h(IK.DsPage, null,
-          h(IK.DsPageHead, {
+      h(IK.AppShell, { nav: 'data-sources', burger: false, scroll: 'document', brandLink: false, accountIcons: 'classic' },
+        h(IK.Page, null,
+          h(IK.PageHead, {
             title: 'Data Sources',
             /* Rule 5: Create Connection lives on My Connections only, and it OPENS THE CATALOG. */
             actions: tab === 'connections' ? h(D.Button, {
@@ -247,7 +247,7 @@
           onDisconnect: function (n) { setPanel(null); setDisc(n); },
           onTest: test, onDetails: errToast
         })),
-      h(IK.DsConnectDialog, { open: wizOpen, connector: connectFor, onOpenChange: setWizOpen, onCreate: create }),
+      h(IK.ConnectDialog, { open: wizOpen, connector: connectFor, mark: 'logo', onOpenChange: setWizOpen, onCreate: create }),
       h(IK.DsEditConnectionDialog, {
         open: !!editConn, label: editConn && (editConn.label || editConn.name), desc: editConn && (editConn.description || ''),
         onOpenChange: function (o) { if (!o) setEdit(null); },

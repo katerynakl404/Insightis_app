@@ -39,7 +39,16 @@
      sendIdle: 'disabled' | 'filled' an empty prompt: the disabled Send (landing) or Send keeping
                                      its brand fill, inert (the chat page)
      modelIcon: 'model' | 'model-brain'   the trigger glyph (the two chat pages draw different ones)
-     className
+     mentionLogos: false,            rich only: text-only @-mention rows (IK.ChatPrompt logos)
+     className,
+     ── the message-queue composer (chat_page-queue; changes/Button.md "one button, two faces") ──
+     streaming,                      a reply is running: with an EMPTY field the action is Stop
+                                     (secondary, square glyph, "Stop the reply"); typed → Send
+     onStop,                         Stop pressed
+     actionSlot: true,               the queue's action slot: below 768px the action is a 40×40
+                                     icon-only square (Send and Stop alike)
+     apiRef                          filled with { getText, setText(text), focus } — the page moves a
+                                     queued message back into the prompt, or takes it out to queue it
    })
 
    Parts, for stories and other hosts: IK.ComposerAttach, IK.ComposerConnections,
@@ -60,6 +69,7 @@
     'cmp-x': '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
     'cmp-gear': '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
     'cmp-check': '<polyline points="20 6 9 17 4 12"/>',
+    'cmp-stop': '<rect x="3" y="3" width="18" height="18" rx="2"/>',
     /* chat_page-landing's model trigger draws lucide's newer brain */
     'model-brain': '<path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/>'
   });
@@ -205,7 +215,7 @@
       className: 'ik-cmp-conn-row',
       onSelect: function (e) { e.preventDefault(); if (!p.locked) p.onToggle(c.name); }
     },
-      h(D.ConnectorLogo, { connector: c.logo, size: 'xs', label: c.logo + ' logo' }),
+      h(IK.ConnectorMark, { connector: c.logo, size: 'xs', label: c.logo + ' logo' }),
       h('span', { className: 'ik-cmp-name min-w-0 flex-1 truncate font-medium text-ink-primary' }, c.name),
       h(D.Switch, { size: 'sm', checked: !p.locked && !!p.on, tabIndex: -1, 'aria-label': 'Use ' + c.name + ' in this chat', className: 'ms-auto', onClick: function (e) { e.preventDefault(); } }));
     if (!p.locked) return item;
@@ -322,15 +332,25 @@
   IK.ComposerSend = function ComposerSend(p) {
     var empty = !p.ready;
     var filledIdle = p.idle === 'filled';
+    /* The queue's slot: one control, two faces — Stop only while a reply runs and the field is empty. */
+    if (p.streaming && empty) {
+      return h(D.Button, {
+        variant: 'secondary', size: 'sm', type: 'button', 'aria-label': 'Stop the reply',
+        className: IK.cx('ik-cmp-send', p.slot && 'ik-cmp-act'), leftSlot: h(IK.Icon, { name: 'cmp-stop' }), onClick: p.onStop
+      }, h('span', { className: 'ik-cmp-act-lbl' }, 'Stop'));
+    }
     var props = {
       variant: 'primary', size: 'sm', type: 'button', 'aria-label': 'Send message',
-      className: IK.cx('ik-cmp-send', empty && filledIdle && 'pointer-events-none'),
+      className: IK.cx('ik-cmp-send', p.slot && 'ik-cmp-act', empty && filledIdle && 'pointer-events-none'),
       disabled: empty && !filledIdle ? true : undefined,
       'aria-disabled': empty && filledIdle ? 'true' : undefined,
+      /* the original's idle Send is a real disabled button kept in its fill: not a Tab stop */
+      tabIndex: empty && filledIdle ? -1 : undefined,
       leftSlot: h(IK.Icon, { name: 'cmp-send' }),
       onClick: empty ? undefined : function (e) { if (p.onClick) p.onClick(e); if (p.href) location.href = p.href; }
     };
-    var label = p.collapse === false ? 'Send' : h('span', { className: 'ik-cmp-send-lbl' }, 'Send');
+    var label = p.slot ? h('span', { className: 'ik-cmp-act-lbl' }, 'Send')
+      : p.collapse === false ? 'Send' : h('span', { className: 'ik-cmp-send-lbl' }, 'Send');
     return h(D.Button, props, label);
   };
 
@@ -362,10 +382,28 @@
     }, [plan]);
 
     var placeholder = p.placeholder || (rich ? 'Ask anything about your data, or type @ to reference a metric…' : 'Ask anything about your data…');
+    var elRef = R.useRef(null);
+    function setPromptRef(n) {
+      elRef.current = n;
+      if (typeof p.promptRef === 'function') p.promptRef(n); else if (p.promptRef) p.promptRef.current = n;
+    }
+    if (p.apiRef) p.apiRef.current = {
+      getText: function () { var el = elRef.current; return el ? (rich ? el.textContent : el.value).trim() : ''; },
+      setText: function (t) {
+        if (!rich) { setText(t || ''); return; }
+        var el = elRef.current; if (!el) return;
+        el.textContent = t || ''; setRichHas(!!(t && t.trim()));
+      },
+      focus: function () {
+        var el = elRef.current; if (!el) return;
+        el.focus();
+        if (rich) { var r = document.createRange(); r.selectNodeContents(el); r.collapse(false); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+      }
+    };
     var prompt = rich
-      ? h(IK.ChatPrompt, { ref: p.promptRef, placeholder: placeholder, metrics: p.metrics, seed: p.seed, plan: plan, onContentChange: setRichHas })
+      ? h(IK.ChatPrompt, { ref: setPromptRef, placeholder: placeholder, metrics: p.metrics, seed: p.seed, plan: plan, logos: p.mentionLogos, onContentChange: setRichHas })
       : h('textarea', {
-          ref: p.promptRef, className: 'ik-cmp-prompt', rows: 2, placeholder: placeholder, value: text,
+          ref: setPromptRef, className: 'ik-cmp-prompt', rows: 2, placeholder: placeholder, value: text,
           onChange: function (e) { setText(e.target.value); }
         });
     var ready = rich ? richHas : !!(text && text.trim());
@@ -383,7 +421,8 @@
           })),
         h(IK.ComposerSend, {
           ready: ready, idle: p.sendIdle, collapse: p.sendLabelCollapse !== false,
-          href: p.sendHref, onClick: p.onSend
+          href: p.sendHref, onClick: p.onSend,
+          streaming: p.streaming, onStop: p.onStop, slot: p.actionSlot
         })));
   };
 })();

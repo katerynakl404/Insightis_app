@@ -110,7 +110,9 @@ prototypes (`../concept/chats-landing.html`) keep working unchanged.
    Sentence case, as the original already has them.
 7. **Icons are copied verbatim** from the original's SVG into `IK.defineIcons({...})` in the
    file that needs them (shared ones in `ik-core.js`). Connector / product logos are
-   `D.ConnectorLogo`, never an `<img>`.
+   `IK.ConnectorMark` (same props as `D.ConnectorLogo`) — never `D.ConnectorLogo` directly,
+   never a hand-written `<img>`: it uses DevartUI's mark where the library has one and the
+   original prototype's logo otherwise (decided 2026-10-08).
 8. **Tooltips** are `IK.Tip` / `D.Tooltip` — never a `title=` attribute. `IK.Providers` fixes
    the timing (300 ms on every hover, no warm-up).
 9. **Overlays portal to `<body>`**, so dark theme lives on `<html>` (`IK.setTheme`) — never a
@@ -162,15 +164,21 @@ Component APIs: no `.d.ts` ships with the bundle — read the source, it is unmi
 
 | Page | Status | Custom kit components it brought | Notes |
 |---|---|---|---|
-| concept/auth/* (14) | Rebuilt | AuthLayout, AuthScreenSwitch, AuthCard, AuthStatus, AuthIllustration, AuthField, AuthResendButton, AuthGoogleButton, AuthTerms | Screen `<select>` → DropdownMenu; Card / Alert / Checkbox / PasswordInput look is DevartUI's; status titles `heading20` (18px is off the scale); opens dark until a theme has been chosen anywhere |
+| concept/auth/* (14) | Rebuilt · verified | AuthLayout, AuthScreenSwitch, AuthCard, AuthStatus, AuthIllustration, AuthField, AuthResendButton, AuthGoogleButton, AuthTerms | always dark and 804/856px tall like the original; Screen `<select>` → DropdownMenu (A10); 0.2–4% pixel diff, all group A |
 
-| concept/tokens-popover-review | Rebuilt | BalancePopover, Meter, Coin | own Light/Dark toggle → ReviewBar |
-| concept/coin-review | Rebuilt | Coin (8 SVGs copied to `Coin/assets/`) | the original loads no kit-theme.css (tokens undefined); the rebuild draws its stated sizes |
-| app shell (for 9 pages) | Kit ready | AppShell, AppSidebar, SidebarChats, AccountMenu, PlanFeatures, Locked, PlanLock, UpgradePopover, UpgradeModal | API in each file's header; `AppShell` is a direct child of `#root` after the ReviewBar |
+| concept/tokens-popover-review | Rebuilt · verified | BalancePopover, Meter, Coin | keeps the original's own Light/Dark button (no ReviewBar), opens light, not stored |
+| concept/coin-review | Rebuilt · verified | Coin (8 SVGs in `Coin/assets/`) | reproduces the original as it renders (no kit-theme.css): 0% pixel diff |
+| app shell (for 9 pages) | Kit ready | AppShell, AppSidebar, SidebarChats, AccountMenu, PlanFeatures, Locked, PlanLock, UpgradePopover, UpgradeModal, ConnectorMark | API in each file's header; `AppShell` is a direct child of `#root` after the ReviewBar; `scroll: 'document'` for originals that scroll as a document; `IK.chatsWith()` for per-page chat lists |
 
-| approved/data-sources_connections-landing | Rebuilt | DsPage, DsCatalog, DsLastCheck, DsConnections, DsConnectionDialogs, DsConnectionPanel | ConnectorLogo letter tiles for 47 of 76 connectors (A32) |
+| approved/data-sources_connections-landing | Rebuilt | PageHead (shared), ConnectDialog (shared), DsCatalog, DsLastCheck, DsConnections, DsConnectionDialogs, DsConnectionPanel | logos via ConnectorMark (original logos where DevartUI has none) |
 | approved/data-sources_files-landing | Rebuilt | DsDropZone, DsFileMark, DsFilesTable, DsFilePreview, DsFileDialogs, DsStorageMark, ChatRow, SortableList | |
-| approved/user_profile-modal | Rebuilt | AcctModal, AcctSettings, AcctBalance, AcctPlans | AcctModal is an in-page panel, not `D.Modal` (the original sits over the main column only) |
+| approved/user_profile-modal | Rebuilt | AcctModal, AcctSettings, AcctBalance, AcctPlans | AcctModal is an in-page panel, not `D.Modal` (the original sits over the main column only); the three plan dialogs are SHOWN (the original hides them by a bug) |
 | concept/balance-versions-v2-v3 | Rebuilt | (Acct* retired variants) | |
+| approved/chat-landing | Rebuilt | Composer, ChatPrompt, ChatHero | |
+| approved/chat_page-landing | Rebuilt | ChatHeader, ChatThread, ChatToolCalls | `AppShell classic` (older sidebar copy) |
+| approved/metrics-landing | Rebuilt | MxProviderCard, MxMetricsTable, MxMetricSheet, MxMetricDialog (+ shared PageHead, ConnectDialog) | |
+| concept/chats-landing | Rebuilt | ChatLibrary (+ ChatRow extended) | the original's row-menu items ignore a mouse click (a bug) — they work here |
+| concept/chat_page-charts-landing | Rebuilt | AskUserPanel, ChatChart, ChatFilePreview, ChatCodeRun (in ChatToolCalls) | review switches: Popover state, AskUserPanel; `?pop=` / `?ask=` deep links |
+| concept/chat_page-queue | Rebuilt | QueueBand, QueueItem, ThinkingIndicator | the 16-state picker + Reset in the ReviewBar; `?state=` deep link; drag reorder checked by hand (the scripts cannot drag) |
 
 Gotcha: `D.LinkButton` forces every `svg` inside it to 16px — a logo link is a plain `<a>`.

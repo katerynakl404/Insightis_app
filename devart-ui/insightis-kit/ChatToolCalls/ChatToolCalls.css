@@ -57,3 +57,50 @@
 .ik-tc-row.is-error .ik-tc-out { background: color-mix(in srgb, hsl(var(--fb-red-text)) var(--tint-8), hsl(var(--surface-page))); }
 .ik-tc-label { font-size: var(--font-size-sm); line-height: var(--line-height-sm); font-weight: 500; }
 .ik-tc-panel { position: relative; }
+
+/* ── Code run (.cp-code) — the tool-calls head's recipe: Text/Secondary, chevron beside the title,
+   hover darkens text and glyphs only. The head reaches 8px past the answer's edge on both sides
+   (padding + matching negative margin) so its text stays flush with the prose. ── */
+.ik-code { position: relative; }
+.ik-code-head {
+  display: flex; align-items: center; gap: .5rem; width: calc(100% + 1rem); margin: 0 -.5rem; padding: .5rem;
+  border: 0; border-radius: var(--radius-lg); background: transparent; cursor: pointer; font-family: inherit; text-align: left;
+  color: hsl(var(--ink-secondary)); transition: color var(--motion-fast);
+}
+.ik-code-head:hover { color: hsl(var(--ink-primary)); }
+.ik-code-title { font-size: var(--font-size-sm); line-height: var(--line-height-sm); font-weight: 500; color: inherit; }
+.ik-code-status { flex: none; display: inline-flex; color: hsl(var(--fb-red-text)); }
+.ik-code-chev { flex: none; transform: rotate(-90deg); transition: transform var(--motion-base); }
+.ik-code-head[aria-expanded="true"] .ik-code-chev { transform: rotate(0deg); }
+.ik-code-panel { padding-top: .5rem; }
+.ik-code-box { border: 1px solid hsl(var(--stroke-border)); border-radius: var(--radius-lg); overflow: hidden; }
+.ik-code-box + .ik-code-box { margin-top: .75rem; }
+.ik-code-bar {
+  display: flex; align-items: center; gap: .375rem; padding: .5rem .75rem; border-bottom: 1px solid hsl(var(--stroke-border));
+  background: hsl(var(--surface-card)); font-size: var(--font-size-sm); line-height: var(--line-height-sm); color: hsl(var(--ink-primary));
+}
+.ik-code-lang { display: inline-flex; align-items: center; gap: .375rem; font-weight: 500; }
+/* Source: line numbers in a 44px gutter (Text/Inactive), the code in Text/Body; scrolls past 14rem. */
+.ik-code-pre {
+  margin: 0; padding: .625rem 0; max-height: 14rem; overflow: auto; background: hsl(var(--surface-page));
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: var(--font-size-xs); line-height: var(--line-height-xs);
+  scrollbar-width: thin; scrollbar-color: hsl(var(--stroke-border)) transparent;
+}
+.ik-code-pre ol { margin: 0; padding: 0; list-style: none; counter-reset: ik-code-ln; min-width: 100%; width: max-content; }
+.ik-code-pre li { counter-increment: ik-code-ln; position: relative; white-space: pre; padding: 0 1rem 0 3.5rem; color: hsl(var(--ink-body)); }
+.ik-code-pre li::before { content: counter(ik-code-ln); position: absolute; left: 0; width: 2.75rem; text-align: right; color: hsl(var(--ink-inactive)); user-select: none; }
+.ik-code-out {
+  margin: 0; padding: .5rem .75rem; max-height: 12rem; overflow: auto; background: hsl(var(--surface-page));
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: var(--font-size-xs); line-height: var(--line-height-xs);
+  color: hsl(var(--ink-body)); white-space: pre-wrap; word-break: break-word;
+  scrollbar-width: thin; scrollbar-color: hsl(var(--stroke-border)) transparent;
+}
+.ik-code-box.is-error .ik-code-out { background: color-mix(in srgb, hsl(var(--fb-red-text)) var(--tint-8), hsl(var(--surface-page))); }
+/* Syntax colours — the code's own palette (GitHub's light / dark), not product colour: the DS has no
+   code tokens, so they are carried here as raw values. */
+:root { --ik-code-kw: #8250df; --ik-code-str: #0a7c42; --ik-code-num: #0550ae; } /* ik-allow-raw */
+.dark { --ik-code-kw: #d2a8ff; --ik-code-str: #7ee787; --ik-code-num: #79c0ff; } /* ik-allow-raw */
+.ik-tok-kw { color: var(--ik-code-kw); }
+.ik-tok-str { color: var(--ik-code-str); }
+.ik-tok-num { color: var(--ik-code-num); }
+.ik-tok-com { color: hsl(var(--ink-inactive)); font-style: italic; }

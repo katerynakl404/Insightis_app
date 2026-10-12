@@ -1,0 +1,1686 @@
+[
+ {
+  "name": "State menu open",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "name": "State A1",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 1
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 1
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State A2",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 2
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 2
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State A3",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 3
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 3
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State B1",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 4
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 4
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State B2",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State B2f",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 6
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 6
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State B4",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 7
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 7
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State D1",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 8
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 8
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State D2",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 9
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 9
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State D3",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 10
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 10
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State D4",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 11
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 11
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State E2",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 12
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 12
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State E3",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 13
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 13
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State E3b",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 14
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 14
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "State Q2",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 15
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 15
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "B2 — row hover: grip + Edit / Remove",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "hover",
+    "target": {
+     "orig": {
+      "sel": "#mq-band .mqi",
+      "nth": 1
+     },
+     "new": {
+      "sel": ".ik-qb-list > li",
+      "nth": 1
+     }
+    },
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "name": "B2 — Edit tooltip",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "hover",
+    "target": {
+     "orig": {
+      "sel": "#mq-band .mqi",
+      "nth": 1
+     },
+     "new": {
+      "sel": ".ik-qb-list > li",
+      "nth": 1
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "hover",
+    "target": {
+     "sel": "button[aria-label=\"Edit queued message\"]",
+     "nth": 0
+    },
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "name": "B2 — Edit moves the message back into the composer",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "hover",
+    "target": {
+     "orig": {
+      "sel": "#mq-band .mqi",
+      "nth": 1
+     },
+     "new": {
+      "sel": ".ik-qb-list > li",
+      "nth": 1
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Edit queued message\"]",
+     "nth": 0
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "B2 — Remove leaves an Undo in the gap",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "hover",
+    "target": {
+     "orig": {
+      "sel": "#mq-band .mqi",
+      "nth": 0
+     },
+     "new": {
+      "sel": ".ik-qb-list > li",
+      "nth": 0
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Remove from queue\"]",
+     "nth": 0
+    },
+    "ms": 900
+   }
+  ]
+ },
+ {
+  "name": "B2 — Undo puts it back",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "hover",
+    "target": {
+     "orig": {
+      "sel": "#mq-band .mqi",
+      "nth": 0
+     },
+     "new": {
+      "sel": ".ik-qb-list > li",
+      "nth": 0
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Remove from queue\"]",
+     "nth": 0
+    },
+    "ms": 900
+   },
+   {
+    "do": "click",
+    "target": {
+     "text": "Undo",
+     "tag": "button"
+    },
+    "ms": 900
+   }
+  ]
+ },
+ {
+  "name": "B2 — Expand the queue",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Expand the queue\"]"
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "B2 — Expand tooltip",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "hover",
+    "target": {
+     "sel": "button[aria-label=\"Expand the queue\"]"
+    },
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "name": "B2 — Alt+ArrowDown reorders",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "eval",
+    "orig": "(function(){var r=document.querySelectorAll('#mq-band .mqi')[0];r.focus();r.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',altKey:true,bubbles:true}));})()",
+    "new": "(function(){var r=document.querySelectorAll('.ik-qb-list > li')[0];r.focus();r.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',altKey:true,bubbles:true}));})()",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "B2 — Delete key removes the focused row",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "eval",
+    "orig": "(function(){var r=document.querySelectorAll('#mq-band .mqi')[2];r.focus();r.dispatchEvent(new KeyboardEvent('keydown',{key:'Delete',bubbles:true}));})()",
+    "new": "(function(){var r=document.querySelectorAll('.ik-qb-list > li')[2];r.focus();r.dispatchEvent(new KeyboardEvent('keydown',{key:'Delete',bubbles:true}));})()",
+    "ms": 900
+   }
+  ]
+ },
+ {
+  "name": "B2f — attachment badge",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 6
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 6
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "hover",
+    "target": {
+     "orig": {
+      "sel": "#mq-band .mqi",
+      "nth": 0
+     },
+     "new": {
+      "sel": ".ik-qb-list > li",
+      "nth": 0
+     }
+    },
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "name": "A2 — Stop pressed (no queue)",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 2
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 2
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Stop the reply\"]"
+    },
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "name": "B1 — Stop pauses the queue",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 4
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 4
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Stop the reply\"]"
+    },
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "name": "B1 — typed during a reply, Send queues it",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 4
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 4
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "fill",
+    "target": {
+     "orig": {
+      "sel": "#cl-prompt"
+     },
+     "new": {
+      "sel": ".ik-chat-prompt"
+     }
+    },
+    "text": "and compare to Q3",
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Send message\"]"
+    },
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "name": "D1 — panel option hover",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 8
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 8
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "hover",
+    "target": {
+     "text": "Gross revenue"
+    },
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "name": "D1 — Other opened + typed",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 8
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 8
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "text": "Other"
+    },
+    "ms": 400
+   },
+   {
+    "do": "fill",
+    "target": {
+     "sel": "textarea[aria-label=\"Your answer\"]"
+    },
+    "text": "Recurring revenue",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "name": "D1 — an answer closes the panel",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 8
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 8
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "text": "Revenue after deductions — profit-generating revenue and financial health."
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "D1 — Dismiss closes the panel",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 8
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 8
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Dismiss\"]"
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "D2 — Retry starts the reply again",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 9
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 9
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "text": "Retry",
+     "tag": "button"
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "D4 — Show queued messages",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 11
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 11
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "text": "Show 2 Queued Messages",
+     "tag": "button"
+    },
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "name": "D4 — Clear Queue",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 11
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 11
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "text": "Clear Queue",
+     "tag": "button"
+    },
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "name": "E2 — Resume",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 12
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 12
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "text": "Resume",
+     "tag": "button"
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "E3 — sidebar counter tooltip",
+  "viewport": "desktop",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 13
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 13
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "hover",
+    "target": {
+     "orig": {
+      "sel": ".mq-sb-count"
+     },
+     "new": {
+      "sel": ".ik-chat-trail [tabindex]"
+     }
+    },
+    "ms": 700
+   }
+  ]
+ },
+ {
+  "name": "Live — Send starts a reply (Thinking)",
+  "steps": [
+   {
+    "do": "fill",
+    "target": {
+     "orig": {
+      "sel": "#cl-prompt"
+     },
+     "new": {
+      "sel": ".ik-chat-prompt"
+     }
+    },
+    "text": "what about Q4?",
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Send message\"]"
+    },
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "name": "Live — typed during the reply: Send queues",
+  "steps": [
+   {
+    "do": "fill",
+    "target": {
+     "orig": {
+      "sel": "#cl-prompt"
+     },
+     "new": {
+      "sel": ".ik-chat-prompt"
+     }
+    },
+    "text": "what about Q4?",
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Send message\"]"
+    },
+    "ms": 300
+   },
+   {
+    "do": "fill",
+    "target": {
+     "orig": {
+      "sel": "#cl-prompt"
+     },
+     "new": {
+      "sel": ".ik-chat-prompt"
+     }
+    },
+    "text": "and by channel",
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Send message\"]"
+    },
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "name": "Header chat menu",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Chat options\"]"
+    },
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "name": "Mention list — typing @c (logo rows)",
+  "steps": [
+   {
+    "do": "fill",
+    "target": {
+     "orig": {
+      "sel": "#cl-prompt"
+     },
+     "new": {
+      "sel": ".ik-chat-prompt"
+     }
+    },
+    "text": "@c",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "name": "Attach — file picked, then queued with it",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 4
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 4
+     }
+    },
+    "ms": 500
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Attach file\"]"
+    },
+    "ms": 900
+   },
+   {
+    "do": "click",
+    "target": {
+     "text": "customers-export.xlsx"
+    },
+    "ms": 400
+   },
+   {
+    "do": "fill",
+    "target": {
+     "orig": {
+      "sel": "#cl-prompt"
+     },
+     "new": {
+      "sel": ".ik-chat-prompt"
+     }
+    },
+    "text": "use this file",
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Send message\"]"
+    },
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "name": "Model menu",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "text": "Insightis Light (Medium)",
+     "tag": "button"
+    },
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "name": "Phone — sidebar drawer",
+  "viewport": "phone",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "sel": "button[aria-label=\"Open sidebar\"]"
+    },
+    "ms": 700
+   }
+  ]
+ },
+ {
+  "name": "Phone — B2 actions always shown",
+  "viewport": "phone",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 5
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 5
+     }
+    },
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "name": "Phone — D2 actions under the copy",
+  "viewport": "phone",
+  "steps": [
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": ".mq-state-trig"
+     },
+     "new": {
+      "sel": "[data-ik-review] button[aria-haspopup=menu]"
+     }
+    },
+    "ms": 300
+   },
+   {
+    "do": "click",
+    "target": {
+     "orig": {
+      "sel": "#mq-state-menu .mi",
+      "nth": 9
+     },
+     "new": {
+      "sel": "[role=menuitem]",
+      "nth": 9
+     }
+    },
+    "ms": 500
+   }
+  ]
+ }
+]

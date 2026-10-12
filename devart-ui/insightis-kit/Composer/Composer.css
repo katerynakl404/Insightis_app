@@ -26,7 +26,7 @@
 .ik-cmp-prompt::placeholder { color: hsl(var(--ink-inactive)); }
 
 .ik-cmp-foot { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
-.ik-cmp-tools { display: flex; align-items: center; gap: .25rem; min-width: 0; }
+.ik-cmp-tools { display: flex; align-items: center; gap: .25rem; }
 .ik-cmp-send { flex: none; }
 
 /* Attached-file chip: hugs its content, above the prompt. */
@@ -69,3 +69,9 @@
 
 /* Connection / model names: Label/L in Text/Primary; a locked row drops its name a rung. */
 .ik-locked .ik-cmp-name { color: hsl(var(--ink-secondary)); }
+
+/* The queue's action slot (actionSlot): below 768px Send and Stop alike are a 40×40 icon-only square. */
+@media (max-width: 767px) {
+  .ik-cmp-act .ik-cmp-act-lbl { display: none; }
+  .ik-cmp-act.ik-cmp-act { width: 2.5rem; height: 2.5rem; padding: 0; gap: 0; }
+}
