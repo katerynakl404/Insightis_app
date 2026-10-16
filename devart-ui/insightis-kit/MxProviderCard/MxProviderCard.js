@@ -63,8 +63,10 @@
           return h(IK.MxMetricChip, { key: i, onClick: function (e) { if (p.onMetric) p.onMetric(m, e); } }, m.label);
         })),
       h('div', { className: 'flex items-center justify-end gap-2' },
+        /* w-full, not fullWidth: fullWidth puts the label in a flex-1 box and pushes the locked
+           padlock (leftSlot) to the edge; the original keeps glyph and label centred together */
         h(IK.Locked, { feature: 'connections', surface: 'modal' },
-          h(D.Button, { variant: 'secondary', size: 'sm', fullWidth: true, type: 'button', onClick: p.onConnect }, p.connectLabel || 'Connect'))));
+          h(D.Button, { variant: 'secondary', size: 'sm', className: 'w-full', type: 'button', onClick: p.onConnect }, p.connectLabel || 'Connect'))));
   };
 
   IK.MxBrowseCard = function MxBrowseCard(p) {
