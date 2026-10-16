@@ -42,6 +42,10 @@
    card rule makes it; the status keeps its own spot under it rather than stepping aside. */
 @media (max-width: 767px), (hover: none) {
   .ik-chat-more { opacity: 1; }
+  /* The ⋮ is permanently there in this branch, so the room for it has to be permanent too.
+     The rule below only reserves it on hover / focus / menu-open, which never happen without a
+     pointer — so without this line the chat name runs straight under the button. */
+  .ik-chat-row.has-menu > .ik-chat-link { padding-right: 2rem; }
   .ik-chat-trail,
   .ik-chat-row:hover .ik-chat-trail,
   .ik-chat-row:focus-within .ik-chat-trail { opacity: 1; }
