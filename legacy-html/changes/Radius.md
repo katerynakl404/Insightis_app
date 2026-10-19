@@ -47,7 +47,7 @@ These are real literal values in the CSS; they're documented here so a reproduct
 
 ## Spacing scale — 4px step
 
-Spacing follows a single **4px design-system step** (per [`../CLAUDE.md`](../CLAUDE.md)). There is no spacing token scale; values are authored directly at valid 4px multiples. Storybook prints the numbered scale:
+Spacing follows a single **4px design-system step** (per [`../../CLAUDE.md`](../../CLAUDE.md)). There is no spacing token scale; values are authored directly at valid 4px multiples. Storybook prints the numbered scale:
 
 | Step | px | rem | Typical use |
 |---|---|---|---|
@@ -83,4 +83,4 @@ Sub-step fractional values used inside controls (`.375rem` = 6px, `.625rem` = 10
 - [x] Intermediate `.25rem` (4) and `.625rem` (10) values noted as variations, not separate steps, with their consuming components.
 - [x] Spacing documented as a single 4px step with the rem values actually authored in the kit; locked `.cl-page` gap rule restated.
 - [x] Foundation framing — no prod Current/Expected columns; only the `--ui-radius` correction is called out as a change from prior docs.
-- [x] All links relative (`../insightis-preview-kit.html`, `../pages/kit-theme.css`, `../CLAUDE.md`) so a clone never breaks.
+- [x] All links relative (`../insightis-preview-kit.html`, `../pages/kit-theme.css`, `../../CLAUDE.md`) so a clone never breaks.

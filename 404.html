@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moved</title>
+<script>
+/* GitHub Pages serves this for any address that does not exist. The HTML/CSS prototypes and
+   their docs moved into legacy-html/ on 2026-10-16 (see legacy-html/README.md) — an old link
+   to one of them lands here and is sent on to the same file in its new place.               */
+(function () {
+  var MOVED = ['pages/', 'changes/', 'current/', 'page-changes/', 'components/', 'skeletons/',
+    'claude-code/', 'reports/', 'specs/', 'insightis-preview-kit.html', 'CHANGELOG.md',
+    'dark-token-changelog.md', 'dark-token-changelog.html', 'basic.svg', 'achievement-shield.svg'];
+  var p = location.pathname;
+  if (p.indexOf('/legacy-html/') >= 0 || p.indexOf('/devart-ui/') >= 0) return;
+  for (var i = 0; i < MOVED.length; i++) {
+    var at = p.indexOf('/' + MOVED[i]);
+    if (at < 0) continue;
+    var rest = p.slice(at + 1);
+    if (MOVED[i].slice(-1) !== '/' && rest !== MOVED[i]) continue;
+    location.replace(p.slice(0, at + 1) + 'legacy-html/' + rest + location.search + location.hash);
+    return;
+  }
+})();
+</script>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; margin: 3rem auto; max-width: 36rem; padding: 0 1rem; }
+</style>
+</head>
+<body>
+<h1>Not found</h1>
+<p>Nothing lives at this address. The prototypes are in <a data-root href="devart-ui/README.md">devart-ui/</a>;
+the previous HTML/CSS version is archived in <a data-root href="legacy-html/README.md">legacy-html/</a>.</p>
+<script>
+/* this page answers ANY missing address, so links are resolved from the site root, not from here */
+(function () {
+  var root = /\.github\.io$/.test(location.hostname) ? '/' + location.pathname.split('/')[1] + '/' : '/';
+  document.querySelectorAll('a[data-root]').forEach(function (a) { a.setAttribute('href', root + a.getAttribute('href')); });
+})();
+</script>
+</body>
+</html>

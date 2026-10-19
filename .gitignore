@@ -9,7 +9,7 @@ dist/
 .claude/
 
 # Build-prompt task files (not part of the handoff artifact)
-claude-code/task-*.md
+legacy-html/claude-code/task-*.md
 
 # Local release notes (kept local, never pushed)
 release-notes/
@@ -39,3 +39,6 @@ Insightis web/
 
 # Local editor backups — never committed.
 *.bak
+
+# Retired Claude Code commands and skills of the HTML/CSS approach (local-only, like .claude/)
+legacy-html/claude-tooling/
