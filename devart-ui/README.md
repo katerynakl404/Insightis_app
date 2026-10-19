@@ -49,8 +49,8 @@ devart-ui/
     review-kit.css|.js         ← GENERATED index — tools/build-index.mjs
   pages/                       ← mirrors legacy-html/pages/: approved/, concept/, concept/auth/;
                                  <page>.rules.md beside a page = its rules locked since the move
-  ds-bridge/                   ← TEMPORARY, only while it is needed (none at the moment — the last one
-                                 was retired 2026-10-19 with the bundle rebuilt from дизайн DevartUI):
+  ds-bridge/                   ← TEMPORARY, only while it is needed (now: one CSS fix of Spotlight — the JS ones
+                                 were retired 2026-10-19 with the bundle rebuilt from дизайн DevartUI):
                                  components or fixes of дизайн DevartUI the vendored ds-bundle/ lacks,
                                  as JS ports of the same API, loaded first by insightis-kit.js; delete
                                  the folder + re-run build-index.mjs once a rebuilt bundle ships them
@@ -230,7 +230,7 @@ Component APIs: no `.d.ts` ships with the bundle — read the source, it is unmi
 | approved/metrics-landing | Rebuilt · verified | MxProviderCard, MxMetricsTable, MxMetricSheet, MxMetricDialog (+ shared ListPage, ConnectDialog) | |
 | concept/chats-landing | Rebuilt · verified | ChatLibrary (+ ChatRow extended) | the original's row-menu items ignore a mouse click (a bug) — they work here |
 | concept/chat_page-charts-landing | Rebuilt · verified | AskUserPanel, ChatChart, ChatFilePreview, ChatCodeRun (in ChatToolCalls) | review switches: Popover state, AskUserPanel; `?pop=` / `?ask=` deep links |
-| concept/onboarding | Built · browser-checked (no legacy original) | OnbSetup, OnbSourcePicker, OnbTour, Onboarding (store + data) · design DevartUI (TSX in the repo, §117–§123, uncommitted; bridged in ds-bridge/ until the bundle is rebuilt): StepProgress, ChoiceGroup/ChoiceCard, Spotlight, Coachmark, AnnotationGroup/Annotation, Tour, CardFooter `sticky` | steps 1–3 here; steps 4–5 overlay approved/metrics-landing + chat-landing (`?onb=`); AskUserPanel now on D.StepProgress + D.ChoiceCard; rules: `pages/concept/onboarding.rules.md` |
+| concept/onboarding | Built · browser-checked (no legacy original) | OnbSetup, OnbSourcePicker, OnbTour, Onboarding (store + data) · design DevartUI (§117–§123, committed and published 2026-10-19; in the vendored bundle): StepProgress, ChoiceGroup/ChoiceCard, Spotlight, Coachmark, AnnotationGroup/Annotation, Tour, CardFooter `sticky` | steps 1–3 here; steps 4–5 overlay approved/metrics-landing + chat-landing (`?onb=`); AskUserPanel now on D.StepProgress + D.ChoiceCard; rules: `pages/concept/onboarding.rules.md` |
 | concept/chat_page-queue | Rebuilt · verified | QueueBand, QueueItem, ThinkingIndicator | the 16-state picker + Reset in the ReviewBar; `?state=` deep link; drag reorder checked by hand (the scripts cannot drag) |
 
 "Verified" = `compare.mjs` + `interact.mjs` (every theme, viewport, review state and scenario):

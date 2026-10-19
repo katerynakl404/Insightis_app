@@ -1,0 +1,11 @@
+/* ds-bridge (TEMPORARY) — fixes of дизайн DevartUI the vendored ds-bundle/ does not ship yet.
+   Each rule is the repo's own, verbatim in effect; check.mjs warns once the bundle ships it
+   ("ships-when"), then delete this file and re-run tools/build-index.mjs. */
+
+/* Spotlight (дизайн DevartUI, src/components/Spotlight): what pops out of a lit control — a
+   tooltip, a menu, a popover (Radix's popper wrapper, z-50 inline, hence !important) — goes one
+   step over the scrim, under the coachmark; under it, it read as a half-transparent grey box.
+   ships-when: [data-radix-popper-content-wrapper]{z-index:calc(var(--spotlight-z) + 1)!important} */
+:root:has([data-slot="spotlight"]) [data-radix-popper-content-wrapper] {
+  z-index: calc(var(--spotlight-z) + 1) !important;
+}

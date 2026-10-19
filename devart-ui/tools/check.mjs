@@ -108,6 +108,15 @@ if (fs.existsSync(bridgeFile)) {
   console.log(`ds-bridge: ${names.length - shipped.length} bridged (${names.filter(n => !shipped.includes(n)).join(', ') || '—'})`);
   for (const n of shipped) console.log(`WARNING ds-bridge: the bundle now ships ${n} — remove its bridge`);
 }
+//    A CSS fix names, in a "ships-when:" comment, the bundle selector that will replace it.
+const bridgeCss = path.join(root, 'ds-bridge', 'ds-bridge.css');
+if (fs.existsSync(bridgeCss)) {
+  const bundleCss = fs.readFileSync(path.join(repo, 'ds-bundle/_ds_bundle.css'), 'utf8');
+  for (const [, needle] of fs.readFileSync(bridgeCss, 'utf8').matchAll(/ships-when: (.+?) \*\//g)) {
+    if (bundleCss.includes(needle)) console.log(`WARNING ds-bridge: the bundle now ships ${needle} — remove its CSS bridge`);
+    else console.log(`ds-bridge: 1 CSS fix bridged (${needle.slice(0, 48)}…)`);
+  }
+}
 
 // 3. index freshness
 const indexes = ['insightis-kit', 'review-kit'].flatMap(k => ['css', 'js'].map(x => path.join(root, k, `${k}.${x}`)));
