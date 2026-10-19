@@ -94,7 +94,7 @@ try {
     for (const theme of THEMES) {
       const res = { orig: [], new: [] };
       for (const side of ['orig', 'new']) {
-        await open(cdp, `${BASE}/${side === 'orig' ? 'pages' : 'devart-ui/pages'}/${page}`, theme, VP[vpName]);
+        await open(cdp, `${BASE}/${side === 'orig' ? 'legacy-html/pages' : 'devart-ui/pages'}/${page}`, theme, VP[vpName]);
         await evaluate(cdp, `document.documentElement.classList.toggle('dark', ${JSON.stringify(theme)} === 'dark')`);
         for (const s of list) res[side].push(await evaluate(cdp, PROBE(s[side])));
       }

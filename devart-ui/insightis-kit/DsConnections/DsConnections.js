@@ -25,14 +25,10 @@
      layout: 'table' | 'cards',             // optional — default follows the viewport (< 768px = cards)
      locked                                 // optional — default IK.usePlan()[0] === 'free'
    })
-   IK.DsConnectionMenu { name, onEdit, onTest, onDisconnect, locked, defaultOpen, size: '2xs' | 'md' (cards: 36px / 16px) } — the ⋮ and its menu alone.                                                                                             */
+   IK.DsConnectionMenu { name, onEdit, onTest, onDisconnect, locked, defaultOpen } — the ⋮ and its menu alone (DevartUI RowMenuButton).                                                                                             */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
-
-  IK.defineIcons({
-    'ds-kebab': { fill: true, inner: '<circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/>' }
-  });
 
   var COLS = [
     { label: 'Connection name', w: '22%' },
@@ -44,20 +40,15 @@
 
   /* The row menu — shared by the table, the card and any host that wants it. */
   IK.DsConnectionMenu = function DsConnectionMenu(p) {
-    var o = R.useState(!!p.defaultOpen), open = o[0], setOpen = o[1];
     var name = p.name;
     function run(fn) { return function () { if (fn) fn(name); }; }
-    return h(D.DropdownMenu, { open: open, onOpenChange: setOpen, modal: false },
-      h(IK.Tip, { tip: 'More actions' },
-        h(D.DropdownMenuTrigger, { asChild: true },
-          h(D.IconButton, { variant: 'tertiary', size: p.size || '2xs', 'aria-label': 'More actions', className: p.triggerClassName },
-            h(IK.Icon, { name: 'ds-kebab', size: p.size === 'md' ? 16 : 14 })))),
-      h(D.DropdownMenuContent, { side: 'bottom', align: 'end', sideOffset: 8, onClick: function (e) { e.stopPropagation(); } },
+    /* DevartUI RowMenuButton, shown at rest (reveal: false) as the table and the cards show it */
+    return h(D.RowMenuButton, { reveal: false, defaultOpen: p.defaultOpen, className: p.triggerClassName },
         h(IK.Locked, { feature: 'connection-edit', locked: p.locked },
           h(D.DropdownMenuItem, { onSelect: run(p.onEdit) }, h(IK.Icon, { name: 'rename', size: 16 }), 'Edit')),
         h(IK.Locked, { feature: 'connection-test', locked: p.locked },
           h(D.DropdownMenuItem, { onSelect: run(p.onTest) }, h(IK.Icon, { name: 'test-conn', size: 16 }), 'Test Connection')),
-        h(D.DropdownMenuItem, { variant: 'danger', onSelect: run(p.onDisconnect) }, h(IK.Icon, { name: 'disconnect', size: 16 }), 'Disconnect')));
+        h(D.DropdownMenuItem, { variant: 'danger', onSelect: run(p.onDisconnect) }, h(IK.Icon, { name: 'disconnect', size: 16 }), 'Disconnect'));
   };
 
   function stop(e) { e.stopPropagation(); }
@@ -106,7 +97,7 @@
           h('div', { className: 'mt-0.5' },
             h(IK.DsLastCheck, { lastSync: c.lastSync, status: c.status, error: c.error, busy: c.busy, onDetails: function () { if (p.onDetails) p.onDetails(c.name); } }))),
         h('div', { className: 'ik-dscn-act', onClick: stop },
-          h(IK.DsConnectionMenu, Object.assign({ name: c.name, size: 'md' }, p.handlers))));
+          h(IK.DsConnectionMenu, Object.assign({ name: c.name }, p.handlers))));
     }));
   }
 

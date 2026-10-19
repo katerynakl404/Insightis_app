@@ -5,9 +5,9 @@
      head     wrench · "Tool calls" · › — hover darkens text and glyphs only (no fill)
      rows     one per call, joined by a vertical spine: status (green check / red alert, on a card
               disc that masks the spine) · monospace name + its operation in Text/Secondary · ›
-              Each row is itself a disclosure → Arguments (line-numbered JSON + Copy) and Output
-              (Badge Done / Error + Copy; an error output sits on a red-tinted ground).
-     Copy     IconButton tertiary xs, "Copy" → check + "Copied" for 1.4 s (IK.ChatCopyButton).
+              Each row is itself a disclosure → Arguments and Output, each a D.CodeBlock with a
+              header: Arguments line-numbered, Output wrapped under Badge Done / Error and tinted
+              red on error (variant "error"). Copy is the block's own.
 
    h(IK.ChatToolCalls, {
      defaultOpen: false,
@@ -18,12 +18,13 @@
 
    IK.ChatCodeRun — the same disclosure for a code run (".cp-code" in chat_page-charts-landing): the
    task's title (a red alert glyph before it when the run failed) and the › chevron beside it; open,
-   two peer boxes — the source (language bar: Python mark + "Python" + Copy; line-numbered,
-   syntax-highlighted, scrolls past 14rem) and its Output (badge Done / Error + Copy; red-tinted on
-   error).
+   two D.CodeBlocks — the source (header: Python mark + "Python"; line-numbered, syntax colours,
+   scrolls past 14rem) and its Output (header: "Output" + Badge Done / Error; wrapped, scrolls past
+   12rem, variant "error" on a failed run).
    h(IK.ChatCodeRun, { title, status: 'ok' | 'error', lang: 'Python', code: '…\n…', output: '…',
                        defaultOpen: false })
-   IK.highlightPython(line) → nodes: keywords / strings / comments / numbers in their token colours */
+   IK.highlightPython(line) → nodes: keywords / strings / comments / numbers, coloured with DevartUI
+   codeSyntaxVariants (the --code-* tokens); the tokenising is the kit's, the palette the system's. */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
@@ -38,13 +39,9 @@
 
   function lines(v) { return Array.isArray(v) ? v : String(v || '').split('\n'); }
 
-  function Card(p) {
-    return h('div', { className: 'ik-tc-card' },
-      h('div', { className: IK.cx('ik-tc-card-head', p.spread && 'justify-between') },
-        h(D.Typography, { element: 'span', textStyle: 'label14', textColor: 'primary' }, p.title),
-        p.badge || null,
-        h(IK.ChatCopyButton, { size: 'xs', label: p.copyLabel, getText: p.getText, className: p.spread ? undefined : 'ms-auto' })),
-      p.children);
+  /* The Output header: the label, then Done / Error. */
+  function output(err) {
+    return ['Output', h(D.Badge, { key: 'b', variant: err ? 'error' : 'green', size: 'sm' }, err ? 'Error' : 'Done')];
   }
 
   function Row(p) {
@@ -60,12 +57,11 @@
           h('span', { className: 'ik-tc-row-chev', 'aria-hidden': 'true' }, h(IK.Icon, { name: 'tc-chevron', size: 12 })))),
       h(D.CollapsibleContent, null,
         h('div', { className: 'ik-tc-row-panel' },
-          h(Card, { title: 'Arguments', spread: true, copyLabel: 'Copy arguments', getText: function () { return argText; } },
-            h('div', { className: 'ik-tc-code' }, lines(c.args).map(function (l, i) { return h('span', { key: i, className: 'ik-tc-line' }, l); }))),
-          h(Card, {
-            title: 'Output', copyLabel: 'Copy output', getText: function () { return c.output; },
-            badge: h(D.Badge, { variant: err ? 'error' : 'green', size: 'sm' }, err ? 'Error' : 'Done')
-          }, h('div', { className: 'ik-tc-out' }, c.output)))));
+          h(D.CodeBlock, { code: argText, lineNumbers: true, header: 'Arguments', copyLabel: 'Copy arguments' }),
+          h(D.CodeBlock, {
+            code: String(c.output || ''), wrap: true, maxHeight: '12rem', variant: err ? 'error' : 'default',
+            copyLabel: 'Copy output', header: output(err)
+          }))));
   }
 
   /* ── Code run ─────────────────────────────────────────────────────────────────────────── */
@@ -80,8 +76,8 @@
     TOKRE.lastIndex = 0;
     while ((m = TOKRE.exec(line))) {
       if (m.index > last) out.push(line.slice(last, m.index));
-      var cls = m[1] ? 'ik-tok-str' : m[2] ? 'ik-tok-com' : m[3] ? 'ik-tok-num' : 'ik-tok-kw';
-      out.push(h('span', { key: k++, className: cls }, m[0]));
+      var v = m[1] ? 'string' : m[2] ? 'comment' : m[3] ? 'number' : 'keyword';
+      out.push(h('span', { key: k++, className: D.codeSyntaxVariants({ variant: v }) }, m[0]));
       last = m.index + m[0].length;
     }
     if (last < line.length) out.push(line.slice(last));
@@ -100,18 +96,16 @@
           h(IK.Icon, { name: 'tc-chevron', size: 16, className: 'ik-code-chev' }))),
       h(D.CollapsibleContent, null,
         h('div', { className: 'ik-code-panel' },
-          h('div', { className: 'ik-code-box' },
-            h('div', { className: 'ik-code-bar' },
-              h('span', { className: 'ik-code-lang' }, h(IK.Icon, { name: 'code-python', size: 14 }), p.lang || 'Python'),
-              h(IK.ChatCopyButton, { size: 'xs', label: 'Copy code', className: 'ms-auto', getText: function () { return code; } })),
-            h('div', { className: 'ik-code-pre' },
-              h('ol', null, code.split('\n').map(function (l, i) { return h('li', { key: i }, IK.highlightPython(l)); })))),
-          h('div', { className: IK.cx('ik-code-box', err && 'is-error') },
-            h('div', { className: 'ik-code-bar' },
-              h('span', { className: 'ik-code-lang' }, 'Output'),
-              h(D.Badge, { variant: err ? 'error' : 'green', size: 'sm' }, err ? 'Error' : 'Done'),
-              h(IK.ChatCopyButton, { size: 'xs', label: 'Copy output', className: 'ms-auto', getText: function () { return p.output; } })),
-            h('div', { className: 'ik-code-out' }, p.output)))));
+          h(D.CodeBlock, {
+            code: code, lineNumbers: true, maxHeight: '14rem', copyLabel: 'Copy code',
+            header: [h(IK.Icon, { key: 'i', name: 'code-python', size: 14 }), p.lang || 'Python']
+          }, code.split('\n').map(function (l, i) {
+            return h(R.Fragment, { key: i }, i ? '\n' : null, IK.highlightPython(l));
+          })),
+          h(D.CodeBlock, {
+            code: String(p.output || ''), wrap: true, maxHeight: '12rem', variant: err ? 'error' : 'default',
+            copyLabel: 'Copy output', header: output(err)
+          }))));
   };
 
   IK.ChatToolCalls = function ChatToolCalls(p) {

@@ -21,9 +21,9 @@
               Either one leaves selection mode — the selection itself is kept (as in the original).
 
    Spacing (original .cl-page rhythm): blocks 12px apart, the list 2px under the block above it —
-   the meta row and its list read as one unit. While selecting, the meta row is sticky under the
-   ReviewBar (--ik-bar-h) on the page colour — inert inside an overflow:hidden main column, which is
-   how chats-landing renders it.
+   the meta row and its list read as one unit. While selecting, the meta row sticks to the top of
+   the page's scroller on the page colour (DevartUI MetaRow sticky), under the sticky title row
+   where there is one (ListPageLayout's --list-header-height, set below 1024px).
 
    h(IK.ChatLibrary, {
      initial: [{ id, title, time, pinned }],     // the seed (the component owns the list after that)
@@ -116,7 +116,7 @@
     if (visible.length) {
       var noun = visible.length === 1 ? 'conversation' : 'conversations';
       meta = selecting
-        ? h(D.MetaRow, { className: 'ik-chatlib-meta is-selecting', onClear: exitSelecting, clearLabel: 'Exit selection' },
+        ? h(D.MetaRow, { sticky: true, stickyOffset: 'var(--list-header-height, 0px)', onClear: exitSelecting, clearLabel: 'Exit selection' },
             h(D.MetaRowCount, null, selectedCount + ' selected'),
             h(D.LinkButton, { asChild: true },
               h('button', { type: 'button', onClick: toggleAll }, allVisibleSelected ? 'Deselect all' : 'Select all')),
@@ -125,7 +125,7 @@
                 variant: 'destructiveTertiary', size: 'sm', type: 'button', 'aria-disabled': selectedCount === 0 || undefined,
                 leftSlot: h(IK.Icon, { name: 'delete' }), onClick: deleteSelected
               }, 'Delete')))
-        : h(D.MetaRow, { className: 'ik-chatlib-meta' },
+        : h(D.MetaRow, null,
             h(D.MetaRowCount, null, visible.length + ' ' + noun),
             h(D.LinkButton, { asChild: true },
               h('button', { type: 'button', onClick: function () { setSelecting(true); } }, 'Select')));
@@ -148,7 +148,7 @@
         actions: h(D.Button, { variant: 'secondary', size: 'md', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }), onClick: newChat }, 'New Chat')
       });
     } else {
-      list = h(IK.ChatRowList, { 'aria-label': 'Conversations' }, sorted.map(function (c) {
+      list = h(IK.ChatRowList, { 'aria-label': 'Conversations', selecting: selecting }, sorted.map(function (c) {
         return h(IK.ChatRow, {
           key: c.id, title: c.title, time: c.time, pinned: c.pinned, selected: c.selected, selecting: selecting,
           onOpen: function () { if (p.onOpen) p.onOpen(c); },

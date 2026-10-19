@@ -3,64 +3,354 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insightis custom kit</title>
+<title>Insightis kit · Storybook</title>
 <link rel="stylesheet" href="../../ds-bundle/styles.css">
 <link rel="stylesheet" href="insightis-kit.css">
+<link rel="stylesheet" href="../review-kit/review-kit.css">
 <script src="../../ds-bundle/_vendor/react.js"></script>
 <script src="../../ds-bundle/_ds_bundle.js"></script>
 <script src="insightis-kit.js" data-stories></script>
+<script src="../review-kit/review-kit.js" data-stories></script>
 <style>
   /* storybook layout only */
-  .pg-sb { display: grid; grid-template-columns: 14rem minmax(0, 1fr); min-height: calc(100svh - 3.5rem); }
+  .pg-sb { display: grid; grid-template-columns: 15rem minmax(0, 1fr); min-height: calc(100svh - 3.5rem); }
   .pg-sb-nav { position: sticky; top: 3.5rem; align-self: start; max-height: calc(100svh - 3.5rem); overflow-y: auto;
-               padding: 1rem .75rem; border-right: 1px solid hsl(var(--stroke-border)); }
-  .pg-sb-main { padding: 1.5rem 2rem 4rem; display: flex; flex-direction: column; gap: 2.5rem; min-width: 0; }
+               padding: 1rem .75rem 2rem; border-right: 1px solid hsl(var(--stroke-border)); }
+  .pg-sb-nav > * { flex-shrink: 0; }   /* a capped-height flex column would squeeze its rows instead of scrolling */
+  .pg-sb-main { padding: 1.5rem 2rem 4rem; display: flex; flex-direction: column; gap: 1.5rem; min-width: 0; }
   .pg-sb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: 1rem; }
-  .pg-sb-sect { scroll-margin-top: 5rem; }
   .pg-sb-cell.is-wide { grid-column: 1 / -1; }
   .pg-sb-stage { padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid hsl(var(--stroke-border));
                  background: hsl(var(--surface-page)); overflow: auto; }
-  @media (max-width: 767px) { .pg-sb { grid-template-columns: 1fr; } .pg-sb-nav { display: none; } .pg-sb-main { padding: 1rem; } }
+  .pg-sb-phones { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; }
+  .pg-sb-phone { width: calc(375px + 2px); flex: none; }
+  /* content-box: the story inside gets exactly a 375px viewport, the 1px frame sits outside it */
+  .pg-sb-frame { display: block; box-sizing: content-box; width: 375px; border: 1px solid hsl(var(--stroke-border)); border-radius: var(--radius-lg); }
+  .pg-sb-ov { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: .5rem; }
+  .pg-frame { padding: 1rem; min-height: 100svh; box-sizing: border-box; background: hsl(var(--surface-page)); }
+  @media (max-width: 767px) { .pg-sb { grid-template-columns: 1fr; } .pg-sb-nav { position: static; max-height: none; border-right: 0; }
+                              .pg-sb-main { padding: 1rem; } }
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
-(function () {
-  var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
+/* The storybook of the Insightis kit — the React layer on top of DevartUI. It shows ONLY what the
+   kit adds; DevartUI's own components live in the Storybook of дизайн DevartUI.
 
-  function groups() {
-    var by = {};
-    IK.stories.forEach(function (s) { (by[s.component] = by[s.component] || []).push(s); });
-    return Object.keys(by).sort().map(function (k) { return { name: k, stories: by[k] }; });
+     storybook.html                     the Insightis kit (product components)
+     storybook.html?kit=review          the review kit (prototype chrome), kept apart
+     #/<Component>                      one component: its stories, or its docs
+     ?frame=<Component>/<n>             story n alone, no chrome — what the Phone viewport loads
+                                        in a 375px iframe, so media queries see a real phone
+
+   Stories come from each folder's <Name>.stories.js (IK.story / RK.story). Docs come from the
+   header comment of <Name>/<Name>.js, read over http (not on file://).                         */
+(function () {
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var Q = new URLSearchParams(location.search);
+  var KIT = Q.get('kit') === 'review' ? 'review' : 'product';
+  var FRAME = Q.get('frame');
+
+  /* Two sections. COMPONENTS — used by more than one page (directly or inside another component).
+     PAGE ELEMENTS — found on one page only (or on its concept variant), grouped by that page.
+     Once a second page uses a page element, move its name up into Components. A component
+     missing from both lists lands in "Other", so a new folder shows up without editing this.     */
+  var C = 'Components', P = 'Page elements';
+  var GROUPS = {
+    product: [
+      { section: C, title: 'App shell', items: ['AppShell', 'AppSidebar', 'SidebarChats', 'AccountMenu', 'BalancePopover', 'ListPage'] },
+      { section: C, title: 'Chat', items: ['Composer', 'ChatPrompt', 'ChatThread', 'ChatHeader', 'ChatToolCalls', 'AskUserPanel'] },
+      { section: C, title: 'Connections', items: ['ConnectDialog', 'ConnectorMark'] },
+      { section: C, title: 'Onboarding', items: ['OnbTour'] },
+      { section: C, title: 'Plan gating', items: ['PlanFeatures', 'Locked', 'PlanLock', 'UpgradePopover', 'UpgradeModal'] },
+      { section: C, title: 'Credits', items: ['Meter', 'Coin'] },
+      { section: C, title: 'Auth flow', items: ['AuthLayout', 'AuthCard', 'AuthField', 'AuthStatus', 'AuthIllustration',
+                                                 'AuthResendButton', 'AuthGoogleButton', 'AuthTerms'] },
+      { section: P, title: 'Data Sources · Connections', page: 'approved/data-sources_connections-landing.html',
+        items: ['DsCatalog', 'DsConnections', 'DsConnectionPanel', 'DsConnectionDialogs', 'DsLastCheck'] },
+      { section: P, title: 'Data Sources · Files', page: 'approved/data-sources_files-landing.html',
+        items: ['DsDropZone', 'DsFilesTable', 'DsFileMark', 'DsFilePreview', 'DsFileDialogs', 'DsStorageMark'] },
+      { section: P, title: 'Metrics', page: 'approved/metrics-landing.html',
+        items: ['MxProviderCard', 'MxMetricsTable', 'MxMetricSheet', 'MxMetricDialog'] },
+      { section: P, title: 'Account', page: 'approved/user_profile-modal.html',
+        items: ['AcctModal', 'AcctSettings', 'AcctBalance', 'AcctPlans'] },
+      { section: P, title: 'Chat landing', page: 'approved/chat-landing.html', items: ['ChatHero'] },
+      { section: P, title: 'Onboarding', page: 'concept/onboarding.html', items: ['OnbSetup', 'OnbSourcePicker'] },
+      { section: P, title: 'Chats library', page: 'concept/chats-landing.html', items: ['ChatLibrary', 'ChatRow'] },
+      { section: P, title: 'Chat with charts', page: 'concept/chat_page-charts-landing.html', items: ['ChatChart', 'ChatFilePreview'] },
+      { section: P, title: 'Message queue', page: 'concept/chat_page-queue.html',
+        items: ['QueueBand', 'QueueItem', 'SortableList', 'ThinkingIndicator'] }
+    ],
+    review: [
+      { section: 'Review chrome', title: 'Review chrome', items: ['ReviewBar', 'AuthReviewNav', 'AuthScreenSwitch', 'OnbReview'] }
+    ]
+  };
+  var SECTION_NOTE = {
+    Components: 'Used by more than one page',
+    'Page elements': 'Found on one page only, grouped by that page — once a second page needs one, it becomes a component'
+  };
+  var KITS = {
+    product: { name: 'Insightis kit', blurb: 'The React layer on top of DevartUI: what the design system does not have, built once from its primitives.', dir: '' },
+    review: { name: 'Review kit', blurb: 'Prototype chrome — what a reviewer uses to flip a page\'s states. Not part of the product.', dir: '../review-kit/' }
+  };
+
+  var mine = IK.stories.filter(function (s) { return (s.kit || 'product') === KIT; });
+  var byName = {};
+  mine.forEach(function (s) { (byName[s.component] = byName[s.component] || []).push(s); });
+  var shelves = GROUPS[KIT].map(function (g) {
+    return Object.assign({}, g, { items: g.items.filter(function (n) { return byName[n]; }) });
+  });
+  var listed = {};
+  shelves.forEach(function (g) { g.items.forEach(function (n) { listed[n] = true; }); });
+  var other = Object.keys(byName).filter(function (n) { return !listed[n]; }).sort();
+  if (other.length) {   /* unlisted folders join the first section, after its last group */
+    var first = shelves[0].section, at = 0;
+    shelves.forEach(function (g, i) { if (g.section === first) at = i + 1; });
+    shelves.splice(at, 0, { section: first, title: 'Other', items: other });
+  }
+  shelves = shelves.filter(function (g) { return g.items.length; });
+  /* consecutive groups of one section, for the section headings */
+  var sections = [];
+  shelves.forEach(function (g) {
+    var last = sections[sections.length - 1];
+    if (!last || last.title !== g.section) sections.push(last = { title: g.section, groups: [] });
+    last.groups.push(g);
+  });
+  function shelfOf(name) { for (var i = 0; i < shelves.length; i++) if (shelves[i].items.indexOf(name) >= 0) return shelves[i]; return null; }
+  function pageHref(g) { return g && g.page ? '../pages/' + g.page : null; }
+  function kitQuery(extra) { var q = []; if (KIT === 'review') q.push('kit=review'); if (extra) q.push(extra); return q.length ? '?' + q.join('&') : ''; }
+
+  /* ── frame mode: one story, nothing else ─────────────────────────────────────────────────── */
+  if (FRAME) {
+    var fp = FRAME.split('/'), fs = (byName[fp[0]] || [])[+fp[1]];
+    var Frame = function Frame() {
+      var ref = R.useRef(null);
+      R.useEffect(function () {
+        function post() { parent.postMessage({ ikFrame: FRAME, height: Math.min(document.documentElement.scrollHeight, 2000) }, '*'); }
+        var ro = new ResizeObserver(post); ro.observe(ref.current); post();
+        /* the parent's Light / Dark reaches the frame as a message — no reload */
+        function on(e) { if (e.data && e.data.ikTheme) IK.setTheme(e.data.ikTheme); }
+        window.addEventListener('message', on);
+        return function () { ro.disconnect(); window.removeEventListener('message', on); };
+      }, []);
+      return h('div', { ref: ref, className: 'pg-frame' }, fs ? h(fs.render) : h(D.StatusView, { size: 'sm', title: 'No such story', description: FRAME }));
+    };
+    IK.mount(Frame);
+    return;
+  }
+
+  function useRoute() {
+    var read = function () { return decodeURIComponent(location.hash.replace(/^#\/?/, '')); };
+    var s = R.useState(read()), route = s[0], set = s[1];
+    R.useEffect(function () {
+      function on() { set(read()); window.scrollTo(0, 0); }
+      window.addEventListener('hashchange', on);
+      return function () { window.removeEventListener('hashchange', on); };
+    }, []);
+    return byName[route] ? route : '';
+  }
+
+  /* The component's own file: its header comment is the docs; what it calls says what it is made of. */
+  var sources = {};
+  function useSource(name) {
+    var s = R.useState(sources[name] || null), src = s[0], set = s[1];
+    R.useEffect(function () {
+      if (sources[name]) { set(sources[name]); return; }
+      set(null);
+      var dead = false;
+      fetch(KITS[KIT].dir + name + '/' + name + '.js').then(function (r) { if (!r.ok) throw r; return r.text(); })
+        .then(function (t) { sources[name] = { text: t }; if (!dead) set(sources[name]); })
+        .catch(function () { sources[name] = { error: true }; if (!dead) set(sources[name]); });
+      return function () { dead = true; };
+    }, [name]);
+    return src;
+  }
+  function uniq(a) { return a.filter(function (x, i) { return a.indexOf(x) === i; }); }
+  var PARTS = /^(Content|Trigger|Item|Separator|Label|List|Header|Footer|Title|Description|Close|Anchor|Body|Row|Cell|Head|Addon|Action|ActionsCell|Input|RadioGroup|RadioItem|Sub|SubButton|Menu|MenuButton|MenuItem|Provider|Inset|Brand|Count|End|Portal|Overlay|Chip)$/;
+  /* every DevartUI export a part can fold into — for…in, not Object.keys: while ds-bridge fixes a
+     component, window.DevartUI is an overlay over the bundle and only the fixed ones are its own keys */
+  var ROOTS = [];
+  for (var dk in D) if (/^[A-Z][a-z]/.test(dk)) ROOTS.push(dk);
+  function anatomy(name, text) {
+    var head = text.match(/^\s*\/\*([\s\S]*?)\*\//);
+    /* the comment is indented to sit under "/* " — drop that 3-space hang so it reads flush */
+    var doc = head ? head[1].replace(/\s+$/, '').split('\n').map(function (l, i) { return i ? l.replace(/^ {3}/, '') : l.trim(); })
+      .join('\n').replace(/^\n+/, '') : '';
+    /* what it is made of = what the CODE calls; comments name other components without using them */
+    var code = text.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"])\/\/.*$/gm, '$1');
+    var d = uniq((code.match(/\bD\.[A-Z][a-z][A-Za-z0-9]*/g) || []).map(function (x) { return x.slice(2); })).sort();
+    /* a compound's parts fold into it: DropdownMenuItem / …Trigger → DropdownMenu, TableCell → Table */
+    var root = function (n) {
+      var best = n;
+      ROOTS.forEach(function (r) { if (r !== n && n.indexOf(r) === 0 && PARTS.test(n.slice(r.length)) && r.length < best.length) best = r; });
+      return best === n ? n : root(best);
+    };
+    d = uniq(d.map(root));
+    var ik = uniq((code.match(/\b(?:IK|RK)\.[A-Z][A-Za-z0-9]*/g) || []).map(function (x) { return x.slice(3); }))
+      .filter(function (n) { return n !== name && IK.stories.some(function (s) { return s.component === n; }); }).sort();
+    return { doc: doc, devart: d, kit: ik };
+  }
+
+  function NavLink(p) {
+    return h('a', {
+      href: p.href, 'aria-current': p.active ? 'page' : undefined,
+      className: IK.cx('block truncate rounded-md px-2 py-1.5 text-sm', p.active ? 'bg-state-hover text-ink-primary font-medium' : 'text-ink-body hover:bg-state-hover')
+    }, p.children);
+  }
+
+  function Nav(p) {
+    var q = R.useState(''), query = q[0], setQuery = q[1];
+    var needle = query.trim().toLowerCase();
+    var other = KIT === 'review' ? 'product' : 'review';
+    return h('nav', { className: 'pg-sb-nav flex flex-col gap-4', 'aria-label': 'Components' },
+      h('div', { className: 'flex flex-col gap-0.5 px-2' },
+        h(D.Typography, { element: 'p', textStyle: 'label14', className: 'text-ink-primary' }, KITS[KIT].name),
+        h(D.Typography, { element: 'p', textStyle: 'body12', className: 'text-ink-secondary' },
+          Object.keys(byName).length + ' components · ' + mine.length + ' stories')),
+      h(D.InputGroup, { size: 'sm', role: 'search' },
+        h(D.InputGroupAddon, { align: 'inline-start' }, h(IK.Icon, { name: 'ds-search', size: 16 })),
+        h(D.InputGroupInput, { type: 'search', value: query, placeholder: 'Find a component', 'aria-label': 'Find a component',
+          onChange: function (e) { setQuery(e.target.value); } })),
+      needle ? null : h(NavLink, { href: '#/', active: !p.route }, 'Overview'),
+      sections.map(function (sec) {
+        var groups = sec.groups.map(function (g) {
+          var items = g.items.filter(function (n) { return !needle || n.toLowerCase().indexOf(needle) >= 0; });
+          if (!items.length) return null;
+          return h('div', { key: g.title, className: 'flex flex-col gap-1' },
+            h(D.Typography, { element: 'p', textStyle: 'overline', className: 'text-ink-secondary px-2' }, g.title),
+            h('ul', { className: 'flex flex-col gap-0.5' },
+              items.map(function (n) {
+                return h('li', { key: n }, h(NavLink, { href: '#/' + n, active: p.route === n }, n));
+              })));
+        }).filter(Boolean);
+        if (!groups.length) return null;
+        return h('div', { key: sec.title, className: 'flex flex-col gap-4 border-t border-stroke pt-4' },
+          sections.length > 1 ? h(D.Typography, { element: 'p', textStyle: 'label14', className: 'text-ink-primary px-2' }, sec.title) : null,
+          groups);
+      }),
+      h('div', { className: 'border-t border-stroke pt-4 px-2' },
+        h(D.LinkButton, { href: 'storybook.html' + (other === 'review' ? '?kit=review' : '') },
+          (other === 'review' ? 'Review kit' : 'Insightis kit') + ' →')));
+  }
+
+  function Overview() {
+    return h(IK.Fragment, null,
+      h('header', { className: 'flex flex-col gap-1' },
+        h(D.Typography, { element: 'h1', textStyle: 'title24', className: 'text-ink-primary' }, KITS[KIT].name),
+        h(D.Typography, { element: 'p', textStyle: 'body14', className: 'text-ink-secondary' }, KITS[KIT].blurb)),
+      sections.map(function (sec) {
+        return h('section', { key: sec.title, className: 'flex flex-col gap-4 border-t border-stroke pt-6' },
+          sections.length > 1 ? h('div', { className: 'flex flex-col gap-0.5' },
+            h(D.Typography, { element: 'h2', textStyle: 'title20', className: 'text-ink-primary' }, sec.title),
+            SECTION_NOTE[sec.title] ? h(D.Typography, { element: 'p', textStyle: 'body14', className: 'text-ink-secondary' }, SECTION_NOTE[sec.title]) : null) : null,
+          sec.groups.map(function (g) { return h(OverviewGroup, { key: g.title, group: g }); }));
+      }));
+  }
+
+  function OverviewGroup(p) {
+    var g = p.group;
+    return h('div', { className: 'flex flex-col gap-2' },
+      h('div', { className: 'flex items-center gap-3' },
+        h(D.Typography, { element: 'h3', textStyle: 'overline', className: 'text-ink-secondary' }, g.title),
+        pageHref(g) ? h(D.LinkButton, { href: pageHref(g) }, 'Open the page') : null),
+      h('div', { className: 'pg-sb-ov' },
+        g.items.map(function (n) {
+          return h('a', { key: n, href: '#/' + n,
+            className: 'flex items-center justify-between gap-2 rounded-md border border-stroke px-3 py-2 text-sm text-ink-body hover:bg-state-hover' },
+            h('span', { className: 'truncate font-medium' }, n),
+            h('span', { className: 'flex-none tabular-nums text-ink-secondary' }, byName[n].length));
+        })));
+  }
+
+  function Story(p) {
+    var s = p.story;
+    return h('figure', { className: IK.cx('pg-sb-cell flex flex-col gap-2 m-0', s.wide && 'is-wide') },
+      h('figcaption', { className: 'flex flex-col gap-0.5' },
+        h(D.Typography, { element: 'span', textStyle: 'label14', className: 'text-ink-primary' }, s.title),
+        s.description ? h(D.Typography, { element: 'span', textStyle: 'body12', className: 'text-ink-secondary' }, s.description) : null),
+      p.children);
+  }
+
+  function PhoneStories(p) {
+    var hs = R.useState({}), heights = hs[0], setHeights = hs[1];
+    R.useEffect(function () {
+      function on(e) { if (e.data && e.data.ikFrame) setHeights(function (o) { var n = Object.assign({}, o); n[e.data.ikFrame] = e.data.height; return n; }); }
+      window.addEventListener('message', on);
+      return function () { window.removeEventListener('message', on); };
+    }, []);
+    var box = R.useRef(null);
+    R.useEffect(function () {
+      box.current.querySelectorAll('iframe').forEach(function (f) { if (f.contentWindow) f.contentWindow.postMessage({ ikTheme: p.theme }, '*'); });
+    }, [p.theme]);
+    return h('div', { ref: box, className: 'pg-sb-phones' },
+      p.stories.map(function (s, i) {
+        var id = p.name + '/' + i;
+        return h('div', { key: id, className: 'pg-sb-phone' },
+          h(Story, { story: s },
+            h('iframe', { className: 'pg-sb-frame', title: s.title, src:'storybook.html' + kitQuery('frame=' + encodeURIComponent(id)),
+              style: { height: (heights[id] || 240) + 'px' } })));
+      }));
+  }
+
+  function Component(p) {
+    var name = p.name, stories = byName[name];
+    var t = R.useState('stories'), tab = t[0], setTab = t[1];
+    var v = R.useState('desktop'), vp = v[0], setVp = v[1];
+    var theme = IK.useTheme()[0];
+    var src = useSource(name);
+    var a = src && src.text ? anatomy(name, src.text) : null;
+    R.useEffect(function () { setTab('stories'); }, [name]);
+    var shelf = shelfOf(name);
+    return h(IK.Fragment, null,
+      h('header', { className: 'flex flex-col gap-3' },
+        h('div', { className: 'flex flex-col gap-1' },
+          h(D.Typography, { element: 'p', textStyle: 'overline', className: 'text-ink-secondary' },
+            shelf ? (sections.length > 1 ? shelf.section + ' · ' : '') + shelf.title : ''),
+          h('div', { className: 'flex flex-wrap items-baseline gap-3' },
+            h(D.Typography, { element: 'h1', textStyle: 'title24', className: 'text-ink-primary' }, name),
+            pageHref(shelf) ? h(D.LinkButton, { href: pageHref(shelf) }, 'Only on ' + shelf.title + ' — open the page') : null)),
+        a ? h('dl', { className: 'flex flex-col gap-2 m-0' },
+          a.devart.length ? h('div', { className: 'flex flex-wrap items-center gap-1.5' },
+            h('dt', { className: 'text-sm text-ink-secondary me-1' }, 'Built on DevartUI'),
+            a.devart.map(function (n) { return h('dd', { key: n, className: 'm-0' }, h(D.Badge, { variant: 'secondary', size: 'sm' }, n)); })) : null,
+          a.kit.length ? h('div', { className: 'flex flex-wrap items-center gap-1.5' },
+            h('dt', { className: 'text-sm text-ink-secondary me-1' }, 'Uses from the kit'),
+            a.kit.map(function (n) {
+              return h('dd', { key: n, className: 'm-0' }, h('a', { href: '#/' + n }, h(D.Badge, { variant: 'brand', size: 'sm' }, n)));
+            })) : null) : null),
+      h(D.Tabs, { value: tab, onValueChange: setTab, className: 'flex flex-col gap-4' },
+        h('div', { className: 'flex flex-wrap items-end justify-between gap-3' },
+          h(D.TabsList, { className: 'mb-0' },
+            h(D.TabsTrigger, { value: 'stories' }, 'Stories · ' + stories.length),
+            h(D.TabsTrigger, { value: 'docs' }, 'Docs')),
+          tab === 'stories' ? h(D.SegmentedControl, { value: vp, onValueChange: setVp, size: 'sm' },
+            h(D.SegmentedControlList, { 'aria-label': 'Viewport' },
+              h(D.SegmentedControlTrigger, { value: 'desktop', size: 'sm' }, 'Desktop'),
+              h(D.SegmentedControlTrigger, { value: 'phone', size: 'sm' }, 'Phone'))) : null),
+        h(D.TabsContent, { value: 'stories' },
+          vp === 'phone'
+            ? h(PhoneStories, { name: name, stories: stories, theme: theme })
+            : h('div', { className: 'pg-sb-grid' },
+                stories.map(function (s, i) { return h(Story, { key: name + i, story: s }, h('div', { className: 'pg-sb-stage' }, h(s.render))); }))),
+        h(D.TabsContent, { value: 'docs' },
+          !src ? h(D.Spinner, { size: 'sm', label: 'Loading' })
+            : src.error ? h(D.StatusView, { size: 'sm', title: 'Docs need a server',
+                description: 'The header comment of ' + name + '/' + name + '.js is read over http — open the storybook from a local server or GitHub Pages' })
+            : a.doc ? h(D.CodeBlock, { code: a.doc, copyable: false }, a.doc)
+            : h(D.StatusView, { size: 'sm', title: 'No header comment', description: name + '/' + name + '.js starts without one' }))));
   }
 
   function App() {
-    var gs = groups();
+    var route = useRoute();
+    R.useEffect(function () { document.title = (route ? route + ' · ' : '') + KITS[KIT].name + ' · Storybook'; }, [route]);
     return h(IK.Fragment, null,
-      h(IK.ReviewBar, { title: 'Insightis custom kit', status: 'concept' }),
+      h(RK.ReviewBar, { title: KITS[KIT].name + ' · Storybook' }),
       h('div', { className: 'pg-sb' },
-        h('nav', { className: 'pg-sb-nav', 'aria-label': 'Components' },
-          h(D.Typography, { element: 'p', textStyle: 'overline', className: 'text-ink-secondary px-2 pb-2' }, 'Components'),
-          h('ul', { className: 'flex flex-col gap-0.5' },
-            gs.map(function (g) {
-              return h('li', { key: g.name },
-                h('a', { href: '#' + g.name, className: 'block rounded-md px-2 py-1.5 text-sm text-ink-body hover:bg-state-hover' }, g.name));
-            }))),
+        h(Nav, { route: route }),
         h('main', { className: 'pg-sb-main' },
-          gs.length ? null : h(D.StatusView, { title: 'No components yet', description: 'Add a folder under insightis-kit/ and run tools/build-index.mjs' }),
-          gs.map(function (g) {
-            return h('section', { key: g.name, id: g.name, className: 'pg-sb-sect flex flex-col gap-4' },
-              h(D.Typography, { element: 'h2', textStyle: 'title20', className: 'text-ink-primary' }, g.name),
-              h('div', { className: 'pg-sb-grid' },
-                g.stories.map(function (s, i) {
-                  return h('figure', { key: i, className: IK.cx('pg-sb-cell flex flex-col gap-2 m-0', s.wide && 'is-wide') },
-                    h('figcaption', { className: 'flex flex-col gap-0.5' },
-                      h(D.Typography, { element: 'span', textStyle: 'label14', className: 'text-ink-primary' }, s.title),
-                      s.description ? h(D.Typography, { element: 'span', textStyle: 'body12', className: 'text-ink-secondary' }, s.description) : null),
-                    h('div', { className: 'pg-sb-stage' }, h(s.render)));
-                })));
-          }))));
+          !mine.length ? h(D.StatusView, { title: 'No components yet', description: 'Add a folder and run tools/build-index.mjs' })
+            : route ? h(Component, { key: route, name: route }) : h(Overview))));
   }
 
   IK.mount(App);

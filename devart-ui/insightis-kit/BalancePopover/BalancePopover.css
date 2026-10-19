@@ -9,6 +9,3 @@
 .ik-bal-fill { position: absolute; inset: 0 auto 0 0; height: 100%; }
 .ik-bal-fill.is-sub { background: hsl(var(--brand-tertiary)); }
 .ik-bal-fill.is-pur { background: hsl(var(--fb-green)); }
-/* BalanceRow — the wallet disc IS the glyph: a 12px svg with 3px content-box padding → 18px
-   (the original .sbx-tok-val svg); no compiled padding utility lands on 3px. */
-.ik-bal-wallet { box-sizing: content-box; padding: .1875rem; }

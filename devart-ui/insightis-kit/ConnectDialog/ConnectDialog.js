@@ -8,7 +8,9 @@
                   depicted (IK.IntegrationForm). Footer: Save → "Saving…" (disabled) for 1.4 s →
      Step 2 of 2  Connection name (prefilled with the source, focused) + Description (optional).
                   Footer: Save Connection → the dialog closes, then onCreate.
-   "Step N of 2" over a 4px DevartUI ProgressBar (50% → 100%). Re-opening starts again at step 1.
+   "Step N of 2" over one bar per step — DevartUI StepProgress, the same atom as every other
+   multi-step flow (the chat's question card, the onboarding). Footer, as DevartUI's Modal sets it:
+   Cancel (secondary, closes) first, the step's confirming action last. Re-opening starts again at step 1.
 
    h(IK.ConnectDialog, {
      open, onOpenChange,
@@ -18,7 +20,10 @@
                                 //            on the icon-wrapper wash
                                 //   'letter' (Metrics) the source's initial, Title/12 in
                                 //            Text/Secondary on Surface/Card
-     onCreate: function ({ connector, label, desc }) {}   // label falls back to the connector
+     onCreate: function ({ connector, label, desc }) {},  // label falls back to the connector
+     authError: false           // the provider refuses the first Save (an expired or declined
+                                //   authorization): step 1 turns into the error with Retry, which
+                                //   returns to the form; the second Save goes through
    })
 
    IK.IntegrationForm — the depiction of a provider's form alone (Account / API Key / two ticked
@@ -28,9 +33,9 @@
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
 
-  function Label(p) {
-    return h('label', { htmlFor: p.htmlFor, className: 'mb-1.5 block text-sm font-medium text-ink-primary' },
-      p.children, p.optional ? h('span', { className: 'font-normal text-ink-secondary' }, ' (optional)') : null);
+  /* Field labels are DevartUI's own (InputGroup / TextArea `label`); this only adds the quiet suffix */
+  function optional(text) {
+    return h(IK.Fragment, null, text, h('span', { className: 'font-normal text-ink-secondary' }, ' (optional)'));
   }
 
   IK.IntegrationForm = function IntegrationForm() {
@@ -72,16 +77,19 @@
     var sv = R.useState(false), saving = sv[0], setSaving = sv[1];
     var ls = R.useState(''), label = ls[0], setLabel = ls[1];
     var ds = R.useState(''), desc = ds[0], setDesc = ds[1];
+    var fs = R.useState(false), failed = fs[0], setFailed = fs[1];
+    var tries = R.useRef(0);
     var nameRef = R.useRef(null), timer = R.useRef(0);
     var name = p.connector || '';
     R.useEffect(function () {
       if (!p.open) return;
-      setStep(1); setSaving(false); setLabel(name); setDesc('');
+      setStep(1); setSaving(false); setLabel(name); setDesc(''); setFailed(false); tries.current = 0;
       return function () { clearTimeout(timer.current); };
     }, [p.open, name]);
     function next() {
       setSaving(true);
       timer.current = setTimeout(function () {
+        if (p.authError && tries.current++ === 0) { setSaving(false); setFailed(true); return; }
         setStep(2); setSaving(false);
         setTimeout(function () { if (nameRef.current) nameRef.current.focus(); }, 50);
       }, 1400);
@@ -96,29 +104,35 @@
         /* the original header row is the 32px close button's height: 10px under the title */
         h(D.ModalHeader, { className: 'mb-2.5' }, h(D.ModalTitle, null, 'New connection')),
         h('div', { className: 'ik-cw-progress' },
-          h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, 'Step ' + step + ' of 2'),
-          h(D.ProgressBar, { value: step === 1 ? 50 : 100, 'aria-label': 'Step ' + step + ' of 2' })),
+          h(D.StepProgress, { fill: true, size: 'sm', current: step - 1, 'aria-label': 'New connection steps',
+            steps: [{ id: 'connect', label: 'Connection' }, { id: 'details', label: 'Details' }] })),
         h('div', { className: 'ik-cw-body' },
+          step === 1 && failed ? h('div', { className: 'ik-cw-step ik-cw-fail' },
+            h(D.StatusView, {
+              size: 'md', surface: 'embedded', role: 'alert',
+              icon: h(IK.Icon, { name: 'warning' }),
+              title: name ? 'Couldn’t connect to ' + name : 'Couldn’t connect',
+              description: 'The authorization expired or access was declined. Try again to sign in.'
+            })) :
           step === 1 ? h('div', { className: 'ik-cw-step' },
             h('div', { className: 'flex items-center gap-3' },
               h(SourceMark, { mark: p.mark, name: name }),
               h(D.Typography, { element: 'span', textStyle: 'label14', textColor: 'primary' }, name ? name + ' connection' : 'New connection')),
             h(IK.IntegrationForm)) :
           h('div', { className: 'ik-cw-step' },
-            h('div', { className: 'flex flex-col' },
-              h(Label, { htmlFor: 'ik-cw-name' }, 'Connection name'),
-              h(D.InputGroup, null, h(D.InputGroupInput, {
-                id: 'ik-cw-name', ref: nameRef, value: label, placeholder: 'Connection name', autoComplete: 'off',
-                onChange: function (e) { setLabel(e.target.value); }
-              }))),
-            h('div', { className: 'flex flex-col' },
-              h(Label, { htmlFor: 'ik-cw-desc', optional: true }, 'Description'),
-              h(D.TextArea, {
-                id: 'ik-cw-desc', rows: 4, value: desc, placeholder: 'What is this connection used for?',
-                onChange: function (e) { setDesc(e.target.value); }
-              })))),
+            h(D.InputGroup, { label: 'Connection name', inputId: 'ik-cw-name' }, h(D.InputGroupInput, {
+              id: 'ik-cw-name', ref: nameRef, value: label, placeholder: 'Connection name', autoComplete: 'off',
+              onChange: function (e) { setLabel(e.target.value); }
+            })),
+            h(D.TextArea, {
+              id: 'ik-cw-desc', rows: 4, value: desc, label: optional('Description'), placeholder: 'What is this connection used for?',
+              onChange: function (e) { setDesc(e.target.value); }
+            }))),
         h(D.ModalFooter, { className: 'mt-0' },
-          step === 1
+          h(D.ModalClose, { asChild: true }, h(D.Button, { variant: 'secondary', size: 'sm', type: 'button' }, 'Cancel')),
+          step === 1 && failed
+            ? h(D.Button, { variant: 'primary', size: 'sm', type: 'button', onClick: function () { setFailed(false); } }, 'Retry')
+            : step === 1
             ? h(D.Button, { variant: 'primary', size: 'sm', type: 'button', disabled: saving, onClick: next }, saving ? 'Saving…' : 'Save')
             : h(D.Button, { variant: 'primary', size: 'sm', type: 'button', onClick: create }, 'Save Connection'))));
   };

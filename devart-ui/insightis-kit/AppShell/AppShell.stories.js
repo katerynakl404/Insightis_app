@@ -28,7 +28,7 @@
     } });
 
   IK.story('AppShell', { title: 'Chat landing — background glow', wide: true,
-    description: 'glow: as chat-landing renders it — flat Surface/Page in light; in dark the radial --chat-shell-bg tint at the top. Switch the theme to see it.',
+    description: 'glow: the radial --chat-shell-bg tint at the top and the blurred --chat-glow-fill pool behind the composer — light and dark. Switch the theme to see both',
     render: function () {
       return h(IK.AppShell, { glow: true, scroll: false, style: frame },
         h('div', { className: 'flex flex-1 items-center justify-center p-6' },

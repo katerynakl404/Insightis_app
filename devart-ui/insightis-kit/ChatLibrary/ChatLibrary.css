@@ -4,6 +4,3 @@
    meta row is gone) — the original's ".meta-row + .chat-list{margin-top:calc(-.75rem + 2px)}",
    which applies even while its meta row is display:none. */
 .ik-chatlib-list { margin-top: calc(-.75rem + 2px); min-width: 0; }
-/* Selecting: the toolbar pins under the ReviewBar on the page colour, so rows scrolling under it
-   cannot show through (.cl-meta-sticky). Inert when an ancestor clips overflow — as in the page. */
-.ik-chatlib-meta.is-selecting { position: sticky; top: var(--ik-bar-h, 0px); z-index: 5; background: hsl(var(--surface-page)); }

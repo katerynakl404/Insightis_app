@@ -63,13 +63,13 @@
               }))))));
   };
 
+  /* The label is the field's own (InputGroup label via inputGroupProps), as DevartUI draws it */
   function Pw(p) {
-    return h('div', { className: 'flex flex-col gap-1.5' },
-      h(D.Typography, { element: 'label', htmlFor: p.id, textStyle: 'body14', textColor: 'secondary' }, p.label),
-      h(D.PasswordInput, {
-        id: p.id, placeholder: p.placeholder, autoComplete: p.autoComplete,
-        toggleShowLabel: 'Show ' + p.which + ' password', toggleHideLabel: 'Hide ' + p.which + ' password'
-      }));
+    return h(D.PasswordInput, {
+      id: p.id, placeholder: p.placeholder, autoComplete: p.autoComplete,
+      toggleShowLabel: 'Show ' + p.which + ' password', toggleHideLabel: 'Hide ' + p.which + ' password',
+      inputGroupProps: { label: p.label, inputId: p.id }
+    });
   }
 
   IK.AcctChangePassword = function AcctChangePassword(p) {
@@ -83,9 +83,7 @@
 
   IK.AcctFeedback = function AcctFeedback() {
     return h(IK.AcctSection, { divider: false, pb: 'none' },
-      h('div', null,
-        h(D.Typography, { element: 'label', htmlFor: 'fb-msg', textStyle: 'title14', textColor: 'primary', className: 'mb-1.5 block' }, 'Your feedback'),
-        h(D.TextArea, { id: 'fb-msg', rows: 5 })),
+      h(D.TextArea, { id: 'fb-msg', rows: 5, label: 'Your feedback' }),
       h('div', { className: 'flex items-center justify-end gap-2' },
         h(D.Button, { variant: 'secondary', size: 'sm', leftSlot: h(IK.Icon, { name: 'accts-clip' }) }, 'Attach File'),
         h(D.Button, { variant: 'primary', size: 'sm' }, 'Send Feedback')));

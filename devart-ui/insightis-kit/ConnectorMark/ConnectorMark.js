@@ -9,9 +9,12 @@
    the very same frame (connectorLogoVariants: size, rounded-md, object-contain) — so the
    page keeps every brand logo the original showed. Only a connector with neither falls back
    to DevartUI's letter tile — except where the original drew its own brand monogram tile
-   (MONOGRAMS below: Azure DevOps), which is reproduced. The originals are also registered in
-   D.CONNECTOR_LOGOS for the keys DevartUI lacks, so D.DataSourceCard's built-in logo draws them.
+   (MONOGRAMS below: Azure DevOps), which is reproduced. A catalog tile (D.IconCard) is handed a
+   ConnectorMark as its icon, so it draws the same logo.
    `slug` forces a specific asset file name (without .svg).
+   `sprite` (+ `spriteDark`) — the connector's id in the APP's own logo sprite (./sprite.svg, the
+   product's public/connectors/sprite.svg): used when neither DevartUI nor ./assets has its logo,
+   before the letter tile. The onboarding catalog passes it for all 204 of its sources.
    DevartUI's gap is recorded for the library in working/devart-compare/DIFFERENCES.md (A32). */
 (function () {
   'use strict';
@@ -65,7 +68,7 @@
   var byNorm = {};
   ASSETS.forEach(function (f) { byNorm[toSlug(f)] = f; });
 
-  /* DevartUI's OWN marks — snapshotted before the originals are registered below. */
+  /* DevartUI's OWN marks. */
   var MARKS = D.CONNECTOR_LOGOS || {};
   var OWN = {};
   Object.keys(MARKS).forEach(function (k) { OWN[k] = true; });
@@ -74,19 +77,6 @@
     return !!OWN[DS_ALIASES[s] || s];
   }
 
-  /* D.DataSourceCard draws its OWN ConnectorLogo and takes no logo prop, so a catalog tile cannot
-     be handed a ConnectorMark. ConnectorLogo looks its mark up in D.CONNECTOR_LOGOS; every key
-     DevartUI has NO mark for is filled here with the original logo — never one DevartUI has — so
-     the tile (and any bare ConnectorLogo) draws the same original logo ConnectorMark does. */
-  if (Object.isExtensible(MARKS)) {
-    var reg = function (key, file) { if (key && !MARKS[key]) MARKS[key] = BASE + 'assets/' + file + '.svg'; };
-    ASSETS.forEach(function (f) { reg(toSlug(f), f); });
-    Object.keys(ASSET_ALIASES).forEach(function (k) { reg(DS_ALIASES[k] || k, ASSET_ALIASES[k]); });
-    Object.keys(NAME_ALIASES).forEach(function (k) {
-      var t = toSlug(NAME_ALIASES[k]);
-      if (!MARKS[k] && MARKS[DS_ALIASES[t] || t]) MARKS[k] = MARKS[DS_ALIASES[t] || t];
-    });
-  }
   function assetFor(connector, slug) {
     if (slug && ASSETS.indexOf(slug) >= 0) return slug;
     var s = toSlug(connector);
@@ -106,12 +96,19 @@
   IK.ConnectorMark = function ConnectorMark(p) {
     var name = canon(p.connector);
     if (name !== p.connector) p = Object.assign({}, p, { connector: name });
-    if (dsHas(p.connector)) return h(D.ConnectorLogo, p);
+    if (dsHas(p.connector)) { var own = Object.assign({}, p); delete own.sprite; delete own.spriteDark; return h(D.ConnectorLogo, own); }
     var file = assetFor(p.connector, p.slug);
     var mono = file ? null : MONOGRAMS[toSlug(p.slug || p.connector)];
-    if (!file && !mono) return h(D.ConnectorLogo, p);
     var rest = Object.assign({}, p);
     delete rest.connector; delete rest.slug; delete rest.size; delete rest.label; delete rest.className;
+    delete rest.sprite; delete rest.spriteDark;
+    if (!file && !mono && p.sprite) {
+      var spriteCls = 'ik-sprite ik-sprite-' + p.sprite + (p.spriteDark ? ' is-dark' : '');
+      return h('span', Object.assign({
+        className: (D.cn || IK.cx)(D.connectorLogoVariants({ size: p.size }), spriteCls, p.className)
+      }, p.label ? { role: 'img', 'aria-label': p.label } : { 'aria-hidden': true }, rest));
+    }
+    if (!file && !mono) { var ds = Object.assign({}, p); delete ds.sprite; delete ds.spriteDark; return h(D.ConnectorLogo, ds); }
     return h('span', Object.assign({
       /* D.cn (tailwind-merge), as ConnectorLogo does: a size class passed in (size-3.5) must REPLACE
          the variant's size-6, not sit beside it */

@@ -91,10 +91,10 @@
    { "do": "click", "target": { "text": "Back", "tag": "button" }, "ms": 400 } ] },
  { "name": "AskUserPanel — several questions, bar tooltip", "steps": [
    { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
-   { "do": "hover", "target": { "orig": { "sel": ".cfc-step", "nth": 2 }, "new": { "sel": ".ik-ask-step", "nth": 2 } }, "ms": 600 } ] },
+   { "do": "hover", "target": { "orig": { "sel": ".cfc-step", "nth": 2 }, "new": { "sel": "[data-slot=step-progress-step]", "nth": 2 } }, "ms": 600 } ] },
  { "name": "AskUserPanel — several questions, bar jumps", "steps": [
    { "do": "click", "target": { "text": "Several Questions", "tag": "button" }, "ms": 500 },
-   { "do": "click", "target": { "orig": { "sel": ".cfc-step", "nth": 3 }, "new": { "sel": ".ik-ask-step", "nth": 3 } }, "ms": 400 } ] },
+   { "do": "click", "target": { "orig": { "sel": ".cfc-step", "nth": 3 }, "new": { "sel": "[data-slot=step-progress-step]", "nth": 3 } }, "ms": 400 } ] },
  { "name": "AskUserPanel — multi select, ticked", "steps": [
    { "do": "click", "target": { "text": "Multi Select", "tag": "button" }, "ms": 500 },
    { "do": "click", "target": { "text": "Sprints" }, "ms": 300 },

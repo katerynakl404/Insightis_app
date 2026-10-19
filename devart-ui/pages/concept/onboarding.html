@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Onboarding</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
+<script>
+  /* The setup screens are always dark, like sign-up (AuthLayout). The app after them opens dark
+     too — the product's default — so the stored theme is set once here; the app pages' ReviewBar
+     still flips it. */
+  InsightisKit.setTheme('dark');
+  /* A new account starts on the free trial: everything is open, nothing is gated. */
+  InsightisKit.setPlan('paid');
+  InsightisKit.AuthLayout.initTheme();
+</script>
+<style>
+  /* Page layout only: the setup page fills the viewport under the review strip. */
+  /* the card hangs from a fixed top, so a step of another height only moves its bottom edge — never
+     the logo and the progress above it (a centred card re-centres and drifts at every step) */
+  .pg-onb { min-height: calc(100dvh - 2.5rem); padding-top: clamp(2.5rem, 8vh, 5rem); }
+  /* phone: the setup takes the whole screen (OnbSetup's sheet), so the page adds no frame */
+  @media (max-width: 639px) { .pg-onb { padding: 0; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Onboarding — the new user's first run (the brief: "ТЗ: Онбординг нового пользователя Insightis";
+   kit: IK.OnbSetup, IK.OnbSourcePicker, IK.Onboarding). Steps 1–3 live here; step 3 hands off to
+   the real app, where IK.OnbTour explains Metrics (step 4, approved/metrics-landing.html) and the
+   new chat (step 5, approved/chat-landing.html).
+
+   No plan gating anywhere in it: a new account starts on the free trial.
+   Review switches: Onboarding (any step, any page); on step 3 also Files (seeded file rows:
+   uploading / uploaded / failed) and Authorization (the connect wizard's error). Deep links:
+   ?step=role|goals|source&path=&source=&role=&files=&auth=. */
+(function () {
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var STEPS = ['role', 'goals', 'source'];
+  var SAMPLES = [{ name: 'sales_pipeline_q3_2026.xlsx', size: 2480000 }, { name: 'customers.csv', size: 812000 }, { name: 'events.json', size: 5400000 }];
+
+  function seedFiles(mode) {
+    if (mode === 'uploading') return [Object.assign({ progress: 38 }, SAMPLES[0])];
+    if (mode === 'uploaded') return [Object.assign({ done: true }, SAMPLES[0])];
+    if (mode === 'failed') return [Object.assign({ error: true }, SAMPLES[2])];
+    return [];
+  }
+
+  function App() {
+    var q = RK.onbQuery();
+    var stepQ = RK.useQueryState('step', 'role'), step = STEPS.indexOf(stepQ[0]) >= 0 ? stepQ[0] : 'role';
+    var filesQ = RK.useQueryState('files', 'none');
+    var authQ = RK.useQueryState('auth', 'ok');
+    var ob = IK.useOnboarding(), st = ob[0], set = ob[1];
+
+    var fs = R.useState(function () { return seedFiles(filesQ[0]); }), files = fs[0], setFiles = fs[1];
+    var cs = R.useState({ open: false, source: null }), conn = cs[0], setConn = cs[1];
+    var ls = R.useState(false), leaving = ls[0], setLeaving = ls[1];
+    var pick = R.useRef(null), timers = R.useRef({}), finished = R.useRef(false);
+
+    R.useEffect(function () { if (st.status === 'not_started') set({ status: 'in_progress' }); }, []);
+    R.useEffect(function () { set({ step: step }); }, [step]);
+    R.useEffect(function () { setFiles(seedFiles(filesQ[0])); }, [filesQ[0]]);
+    /* a seeded "uploading" row runs to the end, like a real one */
+    R.useEffect(function () { files.forEach(function (f, i) { if (!f.done && !f.error) run(i, f.name); }); }, [filesQ[0]]);
+
+    function go(next) {
+      stepQ[1](next);
+      if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function enter(path, source) {
+      setLeaving(true);
+      var role = st.role || q.role;
+      setTimeout(function () {
+        location.assign(IK.onbHref(path === 'conn' ? 'metrics' : 'chat', { path: path, source: source, role: role }));
+      }, 280);
+    }
+
+    /* ── files: the link opens the system picker; each file uploads in place. A failure is only
+       ever the seeded "Failed" row (the review switch): a file picked through the link — also next
+       to a failed one — uploads, so the link is a real way out of the error. ── */
+    function run(i, name) {
+      clearInterval(timers.current[name]);
+      timers.current[name] = setInterval(function () {
+        setFiles(function (list) {
+          var f = list[i]; if (!f || f.done || f.error) { clearInterval(timers.current[name]); return list; }
+          var p = Math.min(100, (f.progress || 0) + 9 + Math.random() * 16);
+          var next = list.slice();
+          next[i] = Object.assign({}, f, { progress: p, done: p >= 100 });
+          if (p >= 100) { clearInterval(timers.current[name]); finished.current = true; }
+          return next;
+        });
+      }, 110);
+    }
+    function addFiles(list) {
+      setFiles(function (cur) {
+        var start = cur.length, next = cur.concat(list.map(function (f) {
+          return { name: f.name, size: f.size || 1, progress: 0 };
+        }));
+        setTimeout(function () { list.forEach(function (f, k) { run(start + k, f.name); }); }, 0);
+        return next;
+      });
+    }
+    function retry(i) {
+      setFiles(function (cur) { var n = cur.slice(); n[i] = Object.assign({}, n[i], { error: false, progress: 0, done: false }); return n; });
+      setTimeout(function () { run(i, files[i].name); }, 0);
+    }
+    var anyDone = files.some(function (f) { return f.done; });
+    var anyError = files.some(function (f) { return f.error; });
+    function goFiles() {
+      set({ sourceKind: 'files', source: null, files: files.filter(function (f) { return f.done; }).map(function (f) { return f.name; }) });
+      enter('files');
+    }
+    /* an upload that finishes here moves straight on to the chat once every file is in (a seeded
+       review state does not: nothing finished on this visit); a failed file waits for Retry,
+       removal, or Continue with the ones that made it */
+    R.useEffect(function () {
+      if (!finished.current || !files.length || leaving) return;
+      if (files.every(function (f) { return f.done; })) {
+        var t = setTimeout(goFiles, 700);
+        return function () { clearTimeout(t); };
+      }
+    }, [files]);
+
+    /* ── the screens ── */
+    var progress = IK.onbProgress('conn');
+    var card;
+    if (step === 'role') {
+      card = h(IK.OnbSetup, {
+        progress: progress, current: 0, leaving: leaving,
+        title: 'What best describes your role?',
+        subtitle: 'We\'ll tailor suggested questions and metrics to the work you do.',
+        onSkip: function () { set({ role: null }); go('goals'); },
+        onContinue: function () { go('goals'); }, canContinue: !!st.role
+      },
+        /* a setup step, not an inline question: pick, then Continue — the same rhythm as Goals, where
+           several answers need Continue anyway. The radio says "one answer" beside step 2's checkboxes. */
+        h(D.ChoiceGroup, { type: 'single', columns: 2, value: st.role || '', 'aria-label': 'Role',
+          onValueChange: function (v) { set({ role: v }); } },
+          IK.ONB_ROLES.map(function (r) {
+            return h(D.ChoiceCard, { key: r[0], value: r[0], indicator: 'radio', title: r[1], description: r[2], icon: h(IK.Icon, { name: r[3] }) });
+          })));
+    } else if (step === 'goals') {
+      card = h(IK.OnbSetup, {
+        progress: progress, current: 1, leaving: leaving,
+        title: 'What do you want Insightis to help with?',
+        subtitle: 'Pick all that apply. You can change this later.',
+        onBack: function () { go('role'); },
+        onSkip: function () { set({ goals: [] }); go('source'); },
+        onContinue: function () { go('source'); }, canContinue: st.goals.length > 0
+      },
+        h(D.ChoiceGroup, { type: 'multiple', columns: 2, value: st.goals, onValueChange: function (v) { set({ goals: v }); }, 'aria-label': 'Goals' },
+          IK.ONB_GOALS.map(function (g) {
+            return h(D.ChoiceCard, { key: g[0], value: g[0], title: g[1], description: g[2], icon: h(IK.Icon, { name: g[3] }) });
+          })));
+    } else {
+      card = h(IK.OnbSetup, {
+        progress: progress, current: 2, leaving: leaving,
+        title: 'Connect your first data source',
+        subtitle: h(IK.Fragment, null, 'Pick the source you want to start with and connect it in about ', h('b', { className: 'font-semibold text-ink-body' }, '2 minutes'),
+          '. Only have spreadsheets? ', h(IK.OnbUploadLink, { onClick: function () { if (pick.current) pick.current.click(); } })),
+        onBack: function () { go('goals'); },
+        onSkip: function () { set({ sourceKind: 'none', source: null, files: [] }); enter('skip'); }, skipLabel: 'Skip for Now',
+        onContinue: anyError && anyDone ? goFiles : undefined,
+        canContinue: true
+      },
+        h(IK.OnbSourcePicker, {
+          files: files,
+          onRetryFile: retry,
+          onRemoveFile: function (i) { setFiles(function (cur) { return cur.filter(function (x, k) { return k !== i; }); }); },
+          onConnect: function (s) { setConn({ open: true, source: s }); }
+        }));
+    }
+
+    return h(IK.Fragment, null,
+      /* the slim 40px strip, as on the Metrics and Chat pages the flow continues on */
+      h(RK.ReviewBar, { title: 'Onboarding', status: 'concept', size: 'sm', theme: false,
+        /* only what changes this screen: the step, and on step 3 its file rows and the wizard's error */
+        controls: RK.onboardingControls({ here: 'setup', step: step }).concat(step !== 'source' ? [] : [
+          { label: 'Files', showLabel: true, value: filesQ[0], onChange: filesQ[1],
+            options: [{ value: 'none', label: 'None' }, { value: 'uploading', label: 'Uploading' }, { value: 'uploaded', label: 'Uploaded' }, { value: 'failed', label: 'Failed' }] },
+          { label: 'Authorization', showLabel: true, value: authQ[0], onChange: authQ[1],
+            options: [{ value: 'ok', label: 'OK' }, { value: 'error', label: 'Error' }] }]) }),
+      h(IK.AuthLayout, { fullHeight: false, align: 'start', className: 'pg-onb' }, card),
+      h('input', {
+        ref: pick, type: 'file', multiple: true, hidden: true, accept: '.csv,.xlsx,.xls,.json',
+        onChange: function (e) { addFiles(Array.prototype.slice.call(e.target.files || [])); e.target.value = ''; }
+      }),
+      h(IK.ConnectDialog, {
+        open: conn.open, connector: conn.source ? conn.source.name : '', mark: 'logo', authError: authQ[0] === 'error',
+        onOpenChange: function (v) { setConn(function (c) { return Object.assign({}, c, { open: v }); }); },
+        onCreate: function (r) {
+          var s = conn.source;
+          set({ sourceKind: 'connector', source: { id: s.id, name: s.name, label: r.label }, files: [], justConnected: r.label });
+          enter('conn', s.id);
+        }
+      }),
+      h(D.Toaster));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

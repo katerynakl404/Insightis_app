@@ -28,8 +28,10 @@
   var NO_OPTIONS = [];
   function norm(v) { return (v || '').trim().toLowerCase(); }
 
-  function Label(p) {
-    return h(D.Typography, { element: p.htmlFor ? 'label' : 'span', htmlFor: p.htmlFor, textStyle: 'label14', textColor: 'primary', className: 'mb-1.5 block' }, p.children);
+  /* Fields carry DevartUI's own label (InputGroup / TextArea / Autocomplete `label`). A SegmentedControl
+     has none, so its caption is set the way InputGroup sets its label: Text/Body, medium, text-sm, 4px over it. */
+  function GroupLabel(p) {
+    return h(D.Typography, { element: 'span', variant: 'span', textColor: 'body', weight: 'medium', className: 'mb-1 block text-sm' }, p.children);
   }
 
   IK.MxMetricDialog = function MxMetricDialog(p) {
@@ -94,34 +96,26 @@
       },
         h(D.ModalHeader, { className: 'pe-10' }, h(D.ModalTitle, null, p.mode === 'edit' ? 'Edit metric' : 'Create metric')),
         h('div', { className: 'flex min-h-0 flex-col gap-4 overflow-y-auto' },
+          h(D.InputGroup, { size: 'md', isInvalid: !!err.name, label: 'Name', inputId: 'ik-mx-name' },
+            h(D.InputGroupInput, { id: 'ik-mx-name', ref: nameRef, type: 'text', placeholder: 'Net revenue', value: f.name || '', onChange: function (ev) { set('name', ev.target.value); } })),
+          h(D.InputGroup, { size: 'md', isInvalid: !!err.alias, label: 'Alias', inputId: 'ik-mx-alias' },
+            h(D.InputGroupAddon, { align: 'inline-start', 'aria-hidden': 'true' }, '@'),
+            h(D.InputGroupInput, { id: 'ik-mx-alias', ref: aliasRef, type: 'text', placeholder: 'net_revenue', value: f.alias || '', onChange: function (ev) { set('alias', ev.target.value); } })),
+          h(D.TextArea, {
+            id: 'ik-mx-def', rows: 4, maxLength: 1500, showCount: true, label: 'Definition', placeholder: 'Describe how to compute this metric…',
+            value: f.def || '', onChange: function (ev) { set('def', ev.target.value); }
+          }),
           h('div', null,
-            h(Label, { htmlFor: 'ik-mx-name' }, 'Name'),
-            h(D.InputGroup, { size: 'md', isInvalid: !!err.name },
-              h(D.InputGroupInput, { id: 'ik-mx-name', ref: nameRef, type: 'text', placeholder: 'Net revenue', value: f.name || '', onChange: function (ev) { set('name', ev.target.value); } }))),
-          h('div', null,
-            h(Label, { htmlFor: 'ik-mx-alias' }, 'Alias'),
-            h(D.InputGroup, { size: 'md', isInvalid: !!err.alias },
-              h(D.InputGroupAddon, { align: 'inline-start', 'aria-hidden': 'true' }, '@'),
-              h(D.InputGroupInput, { id: 'ik-mx-alias', ref: aliasRef, type: 'text', placeholder: 'net_revenue', value: f.alias || '', onChange: function (ev) { set('alias', ev.target.value); } }))),
-          h('div', null,
-            h(Label, { htmlFor: 'ik-mx-def' }, 'Definition'),
-            h(D.TextArea, {
-              id: 'ik-mx-def', rows: 4, maxLength: 1500, showCount: true, placeholder: 'Describe how to compute this metric…',
-              value: f.def || '', onChange: function (ev) { set('def', ev.target.value); }
-            })),
-          h('div', null,
-            h(Label, null, 'Link to'),
+            h(GroupLabel, null, 'Link to'),
             h(D.SegmentedControl, { size: 'md', value: link, onValueChange: setLink },
               h(D.SegmentedControlList, { 'aria-label': 'Link to', className: 'flex w-full' },
                 h(D.SegmentedControlTrigger, { value: 'datasource' }, 'Data Source'),
                 h(D.SegmentedControlTrigger, { value: 'connection' }, 'Connection')))),
-          h('div', null,
-            h(Label, { htmlFor: 'ik-mx-connector' }, isConn ? 'Connection' : 'Data Source'),
-            h(D.Autocomplete, {
-              id: 'ik-mx-connector', size: 'lg', options: options, value: selected,
-              placeholder: isConn ? 'Select a connection…' : 'Select a data source…',
-              onChange: function (ev, v) { set('connector', v ? v.id : ''); set('connectorLabel', v ? v.label : ''); }
-            }))),
+          h(D.Autocomplete, {
+            id: 'ik-mx-connector', size: 'lg', options: options, value: selected, label: isConn ? 'Connection' : 'Data Source',
+            placeholder: isConn ? 'Select a connection…' : 'Select a data source…',
+            onChange: function (ev, v) { set('connector', v ? v.id : ''); set('connectorLabel', v ? v.label : ''); }
+          })),
         h(D.ModalFooter, null,
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { onOpenChange(false); } }, 'Cancel'),
           h(D.Button, { variant: 'primary', size: 'sm', type: 'button', onClick: save }, 'Save'))));

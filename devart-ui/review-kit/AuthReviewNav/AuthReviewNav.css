@@ -1,0 +1,4 @@
+/* AuthReviewNav — the nav wraps at the original's breakpoint (.au-topnav at max-width:600px), not at sm. */
+@media (max-width: 600px) {
+  .ik-auth-nav { flex-wrap: wrap; }
+}

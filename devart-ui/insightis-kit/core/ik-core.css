@@ -5,6 +5,35 @@
 
 html { color-scheme: light; }
 html.dark { color-scheme: dark; }
+
+/* ── Insightis's own tokens ────────────────────────────────────────────────────────────────
+   Backgrounds that belong to Insightis screens, not to the design system — so they live here,
+   not in дизайн DevartUI (moved out of its globals.css 2026-10-16, user's call). Built on its
+   primitives (surface, brand, tint steps); `html.dark` outranks the vendored bundle's `.dark`.
+     --chat-shell-bg   chat landing: the radial brand-tertiary tint at the top     (IK.AppShell glow)
+     --chat-glow-fill  chat landing: the soft pool behind the composer, blurred      (IK.AppShell glow)
+     --auth-page-bg    auth flow + onboarding: the brand wash behind the card        (IK.AuthLayout) */
+:root {
+  --chat-shell-bg: radial-gradient(
+    at 50% 0%,
+    color-mix(in srgb, hsl(var(--brand-tertiary)) 2%, hsl(var(--surface-page))),
+    hsl(var(--surface-page)) 55%
+  );
+  --chat-glow-fill: color-mix(in srgb, hsl(var(--brand-tertiary)) var(--tint-8), transparent);
+  --auth-page-bg: linear-gradient(155deg,
+    hsl(var(--surface-page)) 0%,
+    color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-15), transparent) 45%,
+    color-mix(in srgb, hsl(var(--brand-secondary)) var(--tint-10), transparent) 72%,
+    hsl(var(--surface-page)) 100%);
+}
+html.dark {
+  --chat-shell-bg: radial-gradient(
+    at 50% 0%,
+    color-mix(in srgb, hsl(var(--brand-tertiary)) 4%, hsl(var(--surface-page))),
+    hsl(var(--surface-page)) 55%
+  );
+  --chat-glow-fill: color-mix(in srgb, hsl(var(--brand-tertiary)) var(--tint-20), transparent);
+}
 body {
   margin: 0;
   background: hsl(var(--surface-page));

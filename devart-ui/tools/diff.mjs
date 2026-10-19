@@ -67,6 +67,8 @@ export const TEXTS = `(() => {
     if (!t || !el || /^(SCRIPT|STYLE|NOSCRIPT|OPTION)$/.test(el.tagName) || !vis(el)) continue;
     const r = document.createRange(); r.selectNodeContents(n); const b = r.getBoundingClientRect();
     if (b.width <= 1 || b.height <= 1) continue;
+    /* parked off-canvas (a closed side panel at left: 100vw) — not on screen */
+    if (b.left + scrollX >= document.documentElement.clientWidth || b.right + scrollX <= 0) continue;
     const cs = getComputedStyle(el);
     out.push({ t, x: Math.round(b.x + scrollX), y: Math.round(b.y + scrollY), w: Math.round(b.width), fs: cs.fontSize, fw: cs.fontWeight, c: cs.color });
   }

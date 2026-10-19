@@ -29,8 +29,6 @@
 .ik-mention-alias, .ik-mention-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
 .ik-mention-alias { font-size: var(--font-size-sm); line-height: var(--line-height-sm); color: hsl(var(--ink-primary)); }
 .ik-mention-name { font-size: var(--font-size-xs); line-height: var(--line-height-xs); color: hsl(var(--ink-secondary)); }
-/* The typed run: same colour, heavier weight, no fill. */
-.ik-mention-hl { background: none; color: inherit; font-weight: 800; }
 /* Locked rows (Free): the alias drops a rung, the name two. */
 .ik-locked .ik-mention-alias { color: hsl(var(--ink-secondary)); }
 .ik-locked .ik-mention-name { color: hsl(var(--ink-inactive)); }

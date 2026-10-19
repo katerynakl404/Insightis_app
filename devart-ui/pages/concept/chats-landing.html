@@ -6,38 +6,39 @@
 <title>Insightis · Chats library</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
 <link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
 <script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
 </head>
 <body>
 <div id="root"></div>
 <script>
 /* Chats library, rebuilt from pages/concept/chats-landing.html.
    Locked rules: page-changes/chats-landing.md (apply here unchanged).
-   Title (IK.Page + IK.PageHead, wrap: the title keeps its 4px bottom margin on desktop) · search, meta row, chat rows and both empty states
+   Title (IK.ListPage, wrap: the title keeps its 4px bottom margin on desktop) · search, meta row, chat rows and both empty states
    (IK.ChatLibrary → IK.ChatRow). Review bar, as in the original topbar: "Chats library",
    In redesign, Light / Dark — no other switches.
-   As the original renders it: the page scrolls as a document; the main column clips overflow
-   (kit-theme.css .cl-main{overflow:hidden}), so neither the phone title row nor the selection
-   toolbar actually sticks. The sidebar is the older copy (plain logo, older account glyphs,
+   The original scrolls as a document and its main column clips overflow, so its phone title row
+   never sticks; on DevartUI's ListPageLayout the column scrolls and the title row sticks below
+   1024px, as the pattern was designed (2026-10-19). The sidebar is the older copy (plain logo, older account glyphs,
    2.5px section chevrons) and hard-codes a Free account — "Admin · Free", the 213 of 500 /
    32 of 50 balance — whatever the stored plan; only the promo card follows the stored plan. */
 (function () {
-  var IK = window.InsightisKit, R = window.React, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, R = window.React, h = IK.h;
 
   var CREDITS = { planName: 'Free', pool: { used: 213, cap: 500 }, daily: { used: 32, cap: 50 }, purchased: 540, balance: 287 };
 
   function App() {
     var plan = IK.usePlan()[0];
     return h(IK.Fragment, null,
-      h(IK.ReviewBar, { title: 'Chats library', status: 'wip', size: 'sm' }),
+      h(RK.ReviewBar, { title: 'Chats library', status: 'wip', size: 'sm' }),
       h(IK.AppShell, {
-        scroll: 'document', burger: false, classic: true, chevronStroke: 2.5, mainClassName: 'overflow-hidden',
+        scroll: false, burger: false, classic: true,
         plan: 'free', promo: plan === 'free', credits: CREDITS, dailySuffix: false
       },
-        h(IK.Page, null,
-          h(IK.PageHead, { title: 'Chats Library', wrap: true }),
+        h(IK.ListPage, { title: 'Chats Library', wrap: true },
           h(IK.ChatLibrary, {
             initial: IK.CHATLIB_DEMO,
             onOpen: function () { location.href = IK.pageHref('approved/chat_page-landing.html'); }

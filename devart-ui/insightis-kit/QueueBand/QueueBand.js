@@ -144,7 +144,7 @@
         icon: h(IK.Icon, { name: 'qb-v-' + pause.variant }), actions: acts, actionsClassName: 'ik-qb-acts'
       }) : null,
       pause ? h(D.Button, {
-        variant: 'tertiaryBrand', size: 'xs', type: 'button', className: 'ik-qb-fold', 'aria-expanded': folded ? 'false' : 'true',
+        variant: 'primaryTertiary', size: 'xs', type: 'button', className: 'ik-qb-fold', 'aria-expanded': folded ? 'false' : 'true',
         onClick: p.onToggleFold
       }, folded ? 'Show ' + count + (count === 1 ? ' Queued Message' : ' Queued Messages') : 'Hide Queue') : null,
       pause ? null : h('div', { className: 'ik-qb-head' },

@@ -46,3 +46,6 @@
   background: var(--ik-intg-accent); color: var(--ik-intg-on-accent);
 }
 .ik-cwf-check-lbl { font-size: .875rem; line-height: 1.25rem; font-weight: 400; color: var(--ik-intg-ink); }
+
+/* authError: the failed authorization, centred in the step's room */
+.ik-cw-fail { justify-content: center; }

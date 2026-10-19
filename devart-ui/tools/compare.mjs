@@ -5,7 +5,7 @@
        node devart-ui/tools/compare.mjs --only auth/login    # paths containing this text
        node devart-ui/tools/compare.mjs --no-states          # default state only
 
-   For each page pair (pages/<p>.html ↔ devart-ui/pages/<p>.html), each theme (light, dark),
+   For each page pair (legacy-html/pages/<p>.html ↔ devart-ui/pages/<p>.html), each theme (light, dark),
    each viewport (desktop 1280×800, phone 375×812) and each review state (every button of every
    non-theme switch group in the original's .topbar, one at a time — clicked by label on both
    sides), it captures a full-page screenshot and the page's visible text runs, then reports:
@@ -61,7 +61,7 @@ async function capture(cdp, url, theme, vp, state) {
 function walk(dir, out = []) { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const p = path.join(dir, e.name); e.isDirectory() ? walk(p, out) : out.push(p); } return out; }
 const pairs = walk(path.join(repo, 'devart-ui/pages')).filter(f => f.endsWith('.html'))
   .map(f => path.relative(path.join(repo, 'devart-ui/pages'), f).split(path.sep).join('/'))
-  .filter(rel => fs.existsSync(path.join(repo, 'pages', rel)) && (!ONLY || rel.includes(ONLY)))
+  .filter(rel => fs.existsSync(path.join(repo, 'legacy-html/pages', rel)) && (!ONLY || rel.includes(ONLY)))
   .sort();
 if (!pairs.length) { console.log('nothing to compare'); process.exit(0); }
 
@@ -72,7 +72,7 @@ const cdp = await launch();
 const results = [];
 try {
   for (const rel of pairs) {
-    const origUrl = `${BASE}/pages/${rel}`, newUrl = `${BASE}/devart-ui/pages/${rel}`;
+    const origUrl = `${BASE}/legacy-html/pages/${rel}`, newUrl = `${BASE}/devart-ui/pages/${rel}`;
     let states = [null];
     if (STATES) {
       await cdp.send('Page.navigate', { url: origUrl }); await cdp.once('Page.loadEventFired'); await evaluate(cdp, SETTLE);

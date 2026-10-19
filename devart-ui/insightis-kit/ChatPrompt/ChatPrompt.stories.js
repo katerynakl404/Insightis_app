@@ -11,7 +11,7 @@
     description: 'Hover or Tab to the token: its card (name + definition) opens above it.',
     render: function () { return h(Card, { plan: 'paid', seed: ['mrr'] }); } });
   IK.story('ChatPrompt', { title: 'Typing "@" — the metric list', wide: true,
-    description: 'Type "@c": rows whose alias contains "c", the typed run heavy; the first row is active. Up/Down move, Enter / Tab insert, Esc closes. No match: the list hides.',
+    description: 'Type "@c": rows whose alias contains "c", the typed run marked (D.HighlightText); the first row is active. Up/Down move, Enter / Tab insert, Esc closes. No match: the list hides.',
     render: function () { return h(Card, { plan: 'paid' }); } });
   IK.story('ChatPrompt', { title: 'Free — locked list', wide: true,
     description: 'Type "@c": the account keeps its metrics listed, every row locked (padlock trails, hover / click opens the Metrics popover). Type "@zzz": one locked row "Metrics are on paid plans".',

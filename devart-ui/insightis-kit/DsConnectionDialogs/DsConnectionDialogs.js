@@ -15,11 +15,10 @@
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
 
-  function Label(p) {
-    return h('label', { htmlFor: p.htmlFor, className: 'mb-1.5 block text-sm font-medium text-ink-primary' },
-      p.children, p.optional ? h('span', { className: 'font-normal text-ink-secondary' }, ' (optional)') : null);
+  /* Field labels are DevartUI's own (InputGroup / TextArea `label`); this only adds the quiet suffix */
+  function optional(text) {
+    return h(IK.Fragment, null, text, h('span', { className: 'font-normal text-ink-secondary' }, ' (optional)'));
   }
-  IK.DsFieldLabel = Label;
 
   IK.DsEditConnectionDialog = function DsEditConnectionDialog(p) {
     var ls = R.useState(''), label = ls[0], setLabel = ls[1];
@@ -38,18 +37,14 @@
       },
         h(D.ModalHeader, null, h(D.ModalTitle, null, 'Edit connection')),
         h('div', { className: 'flex flex-col gap-4' },
-          h('div', { className: 'flex flex-col' },
-            h(Label, { htmlFor: 'ik-dsed-name' }, 'Display name'),
-            h(D.InputGroup, null, h(D.InputGroupInput, {
-              id: 'ik-dsed-name', ref: nameRef, value: label, placeholder: 'Connection name', autoComplete: 'off',
-              onChange: function (e) { setLabel(e.target.value); }
-            }))),
-          h('div', { className: 'flex flex-col' },
-            h(Label, { htmlFor: 'ik-dsed-desc', optional: true }, 'Description'),
-            h(D.TextArea, {
-              id: 'ik-dsed-desc', rows: 3, value: desc, placeholder: 'Optional description',
-              onChange: function (e) { setDesc(e.target.value); }
-            }))),
+          h(D.InputGroup, { label: 'Display name', inputId: 'ik-dsed-name' }, h(D.InputGroupInput, {
+            id: 'ik-dsed-name', ref: nameRef, value: label, placeholder: 'Connection name', autoComplete: 'off',
+            onChange: function (e) { setLabel(e.target.value); }
+          })),
+          h(D.TextArea, {
+            id: 'ik-dsed-desc', rows: 3, value: desc, label: optional('Description'), placeholder: 'Optional description',
+            onChange: function (e) { setDesc(e.target.value); }
+          })),
         h(D.ModalFooter, null,
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { p.onOpenChange(false); } }, 'Cancel'),
           h(D.Button, { variant: 'primary', size: 'sm', type: 'button', onClick: save }, 'Save'))));

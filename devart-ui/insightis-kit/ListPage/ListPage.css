@@ -1,32 +1,7 @@
-/* PageHead — layout only. IK.Page is the content column (the original .cl-page inside .cl-main's
-   2.25rem / 4rem padding; the 75rem cap is the original --content-max-width, 1200px).
-   --ik-page-gutter is the column's side padding: the sticky head bleeds out to the column edge by
-   exactly that much and paints Surface/Page, so scrolled content passes under it. */
-.ik-page {
-  --ik-page-gutter: 2rem;
-  box-sizing: border-box; width: 100%; max-width: 75rem; margin: 0 auto;
-  padding: 2.25rem var(--ik-page-gutter) 4rem;
-  display: flex; flex-direction: column; gap: .75rem;
-}
-.ik-page-head { display: flex; align-items: center; gap: .75rem; min-width: 0; }
-.ik-page-head.is-wrap { flex-wrap: wrap; }
-.ik-page-title { margin: 0; min-width: 0; text-align: left; }
-.ik-page-head.is-wrap .ik-page-title { margin-bottom: .25rem; }
-.ik-page-head-actions { margin-left: auto; flex: none; display: flex; align-items: center; gap: .5rem; }
+/* ListPage — the Insightis choices on DevartUI's ListPageLayout (see ListPage.js). */
+.ik-list-page { max-width: 75rem; }
 
-@media (max-width: 1023px) {
-  .ik-page { padding-top: 0; }
-  .ik-page-head {
-    position: sticky; top: 0; z-index: 50;
-    background: hsl(var(--surface-page));
-    margin: 0 calc(-1 * var(--ik-page-gutter, 2rem)); padding: .625rem var(--ik-page-gutter, 2rem);
-    transition: padding var(--motion-base);
-  }
-  .ik-page-head.is-condensed { padding-top: .375rem; padding-bottom: .375rem; }
-  .ik-page-head.is-wrap .ik-page-title { margin-bottom: 0; }
-  /* a document-scrolling page: the original's head never sticks (its .cl-main clips) */
-  .ik-shell.is-doc .ik-page-head { position: relative; }
-}
-@media (max-width: 767px) {
-  .ik-page { --ik-page-gutter: .75rem; }
+/* the Metrics original: on desktop its title keeps .cl-page-title's own 4px under it */
+@media (min-width: 1024px) {
+  .ik-list-page-head.is-wrap [data-slot="page-header"] h2 { margin-bottom: .25rem; }
 }

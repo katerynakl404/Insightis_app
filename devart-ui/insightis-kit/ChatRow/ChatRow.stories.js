@@ -11,7 +11,7 @@
     var s = R.useState(p.rows || SEED), rows = s[0], setRows = s[1];
     var e = R.useState(!!p.selecting), selecting = e[0], setSelecting = e[1];
     function patch(id, ch) { setRows(rows.map(function (r) { return r.id === id ? Object.assign({}, r, ch) : r; })); }
-    return h(IK.ChatRowList, { 'aria-label': 'Chats' }, rows.map(function (r) {
+    return h(IK.ChatRowList, { 'aria-label': 'Chats', selecting: selecting }, rows.map(function (r) {
       return h(IK.ChatRow, {
         key: r.id, title: r.title, time: r.time, pinned: r.pinned, selected: r.selected, preview: r.preview, selecting: selecting,
         onOpen: log('open ' + r.id),
@@ -29,18 +29,27 @@
     render: function () { return h(IK.ChatRow, { title: 'Q1 revenue commentary', time: '2h ago', selected: true, selecting: true }); } });
   IK.story('ChatRow', { title: 'Preview — the open chat, name in Text/Highlight', wide: true,
     render: function () { return h(IK.ChatRow, { title: 'Q1 revenue commentary', time: '2h ago', preview: true }); } });
-  IK.story('ChatRow', { title: 'Menu open (paid row, unpinned)', wide: true, render: function () {
-    return h('div', { style: { minHeight: '12rem' } }, h(IK.ChatRow, { title: 'Top movers — weekly', time: '3d ago', defaultMenuOpen: true }));
+  /* The menu's state is RowMenuButton's own: the story opens it the way a keyboard does. */
+  function MenuOpen(p) {
+    var ref = R.useRef(null);
+    R.useEffect(function () {
+      var b = ref.current && ref.current.querySelector('[data-slot="row-menu-button"]');
+      if (b) b.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    }, []);
+    return h('div', { ref: ref, style: { minHeight: '12rem' } }, h(IK.ChatRow, p));
+  }
+  IK.story('ChatRow', { title: 'Menu open (unpinned row)', wide: true, render: function () {
+    return h(MenuOpen, { title: 'Top movers — weekly', time: '3d ago' });
   } });
   IK.story('ChatRow', { title: 'Menu open (pinned row — Unpin first)', wide: true, render: function () {
-    return h('div', { style: { minHeight: '12rem' } }, h(IK.ChatRow, { title: 'Churn drivers — enterprise', time: 'yesterday', pinned: true, defaultMenuOpen: true }));
+    return h(MenuOpen, { title: 'Churn drivers — enterprise', time: 'yesterday', pinned: true });
   } });
   IK.story('ChatRow', { title: 'Renaming inline — Enter / blur commits, Esc cancels', wide: true,
     render: function () { return h(IK.ChatRow, { title: 'Top movers — weekly', time: '3d ago', defaultRenaming: true, onRename: log('rename') }); } });
-  IK.story('ChatRow', { title: 'Phone (below 768px) — ⋮ always shown, IconButton md (36px); the row stays 44px', render: function () {
+  IK.story('ChatRow', { title: 'Narrow column — below 768px of window width (and on touch) the ⋮ shows at rest; the row stays 44px', render: function () {
     return h('div', { style: { maxWidth: '351px' } }, h(IK.ChatRowList, { 'aria-label': 'Chats' },
-      h(IK.ChatRow, { title: 'Q1 revenue commentary draft', time: '2h ago', pinned: true, touch: true }),
-      h(IK.ChatRow, { title: 'Top movers — weekly', time: '3d ago', touch: true })));
+      h(IK.ChatRow, { title: 'Q1 revenue commentary draft', time: '2h ago', pinned: true }),
+      h(IK.ChatRow, { title: 'Top movers — weekly', time: '3d ago' })));
   } });
   IK.story('ChatRow', { title: 'No time, no menu', wide: true,
     render: function () { return h(IK.ChatRow, { title: 'A bare row', menu: false }); } });

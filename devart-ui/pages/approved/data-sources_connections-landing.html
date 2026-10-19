@@ -6,9 +6,11 @@
 <title>Insightis · Data Sources</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
 <link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
 <script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
 <style>
   /* Page layout only. The saved connections slide open once there is something to list and
      collapse when the last one goes (original .ds-conn-section). */
@@ -33,7 +35,7 @@
    (Connection Details), IK.DsEditConnectionDialog and IK.DsDisconnectDialog. Review switches, as in
    the original topbar: Plan · Empty/Connected · Loaded/Skeleton · Theme. */
 (function () {
-  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
   IK.defineIcons({
     'pg-link': '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
@@ -86,8 +88,8 @@
 
   function App() {
     var plan = IK.usePlan()[0], free = plan === 'free';
-    var seg = IK.useQueryState('state', 'connected');
-    var load = IK.useQueryState('load', 'loaded');
+    var seg = RK.useQueryState('state', 'connected');
+    var load = RK.useQueryState('load', 'loaded');
     var loading = load[0] === 'skeleton';
 
     var conns = R.useState(SEED), list = conns[0], setList = conns[1];
@@ -174,22 +176,21 @@
 
     var connTrigger = h(D.TabsTrigger, { value: 'connections', disabled: connTabDisabled }, 'My Connections');
     return h(IK.Fragment, null,
-      h(IK.ReviewBar, { title: 'Data Sources', status: 'approved', size: 'sm', autoHeight: true, plan: true, controls: [
+      h(RK.ReviewBar, { title: 'Data Sources', status: 'approved', size: 'sm', autoHeight: true, plan: true, controls: [
         { label: 'Data state', value: seg[0], onChange: setSeg,
           options: [{ value: 'empty', label: 'Empty' }, { value: 'connected', label: 'Connected' }] },
         { label: 'Page state', value: load[0], onChange: load[1],
           options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] }
       ] }),
-      h(IK.AppShell, { nav: 'data-sources', burger: false, scroll: 'document', brandLink: false, accountIcons: 'classic' },
-        h(IK.Page, null,
-          h(IK.PageHead, {
+      h(IK.AppShell, { nav: 'data-sources', burger: false, scroll: false, brandLink: false, accountIcons: 'classic' },
+        h(IK.ListPage, {
             title: 'Data Sources',
             /* Rule 5: Create Connection lives on My Connections only, and it OPENS THE CATALOG. */
             actions: tab === 'connections' ? h(D.Button, {
               variant: 'primary', size: 'sm', rounded: 'full', type: 'button',
               leftSlot: h(IK.Icon, { name: 'pg-link' }), onClick: function () { setTab('catalog'); }
             }, 'Create Connection') : null
-          }),
+          },
           h(D.Tabs, { value: tab, onValueChange: switchTab, className: 'flex flex-col gap-4' },
             h(D.TabsList, { className: 'mb-0 flex w-full' },
               h(D.TabsTrigger, { value: 'catalog' }, 'Catalog'),

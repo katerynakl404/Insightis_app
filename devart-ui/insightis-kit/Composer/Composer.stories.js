@@ -78,4 +78,11 @@
     return h('div', { className: 'flex items-center gap-2' },
       h(IK.ComposerSend, { ready: false }), h(IK.ComposerSend, { ready: true }), h(IK.ComposerSend, { ready: false, idle: 'filled', collapse: false }));
   } });
+  IK.story('Composer', { title: 'Onboarding — only what step 3 brought', wide: true,
+    description: 'connections: the source just connected (on) · files: the uploaded file · [] → its empty state (IK.OnbTour, step 5).',
+    render: function () {
+      return h('div', { className: 'flex flex-col gap-4' },
+        h(IK.Composer, { connections: [{ logo: 'HubSpot', name: 'HubSpot', on: true }], files: [] }),
+        h(IK.Composer, { connections: [], files: ['sales_pipeline_q3_2026.xlsx'] }));
+    } });
 })();

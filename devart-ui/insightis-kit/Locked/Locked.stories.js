@@ -108,7 +108,7 @@
       return h('div', { className: 'grid w-96 grid-cols-3 gap-3' },
         ['Salesforce', 'HubSpot', 'PostgreSQL'].map(function (c) {
           return h(IK.Locked, { key: c, feature: 'connections', surface: 'modal', clickOnly: true, locked: true },
-            h(D.DataSourceCard, { connector: c }));
+            h(D.IconCard, { icon: h(IK.ConnectorMark, { connector: c, size: 'md' }), label: c, actionLabel: 'Connect' }));
         }));
     } });
 

@@ -6,9 +6,11 @@
 <title>Insightis · Chat page (charts)</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
 <link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
 <script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -22,7 +24,7 @@
    the original's static copy — "Admin · Free", 287 left, the Free credits panel — whatever the plan;
    only the promo card follows the stored plan (kit-kit.js §10). */
 (function () {
-  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
   var TITLE = 'Generate two charts using random data';
   /* The original sidebar footer is static markup: the Free panel with these figures. */
@@ -102,12 +104,11 @@
   }
 
   function App() {
-    var pop = IK.useQueryState('pop', 'filled');
-    var ask = IK.useQueryState('ask', 'off');
+    var pop = RK.useQueryState('pop', 'filled');
+    var ask = RK.useQueryState('ask', 'off');
     var t = R.useState(TITLE), title = t[0], setTitle = t[1];
     var f = R.useState(null), file = f[0], setFile = f[1];
     var chats = IK.useChats({
-      initial: IK.chatsWith({ 'two-charts': { menu: true } }),
       onRenamed: function (c, name) { if (c.id === 'two-charts') setTitle(name); },
       onDeleted: function (c) { if (c.id === 'two-charts') location.href = IK.pageHref('approved/chat-landing.html'); }
     });
@@ -115,7 +116,7 @@
     var variant = IK.ASK_VARIANTS[ask[0]];
     function closeAsk() { ask[1]('off'); }
     return h(IK.Fragment, null,
-      h(IK.ReviewBar, {
+      h(RK.ReviewBar, {
         title: 'Chat page', status: 'wip', size: 'sm',
         controls: [
           { label: 'Popover state', showLabel: true, value: pop[0], onChange: pop[1],

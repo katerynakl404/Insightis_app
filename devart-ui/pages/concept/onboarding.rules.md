@@ -1,0 +1,25 @@
+# Onboarding — locked rules
+
+Source brief: "ТЗ: Онбординг нового пользователя Insightis" (2026-10-07). The clickable concept
+(`Concepts/onboarding-stepper/copy/`, the artifact) was a sketch, not the original.
+
+| # | Rule |
+|---|---|
+| 1 | **Look comes from the design system first.** Design DevartUI and the agreed kit components decide how every piece looks (the option row and the "N of M" stepper are AskUserPanel's, now the atoms `ChoiceCard` / `StepProgress`). The concept only gives composition and flow; the brief gives copy and edge states. |
+| 2 | **Repeated → design DevartUI, onboarding-only → Insightis kit.** StepProgress, ChoiceGroup/ChoiceCard, Spotlight, Coachmark, AnnotationGroup/Annotation and Tour live in the design DevartUI repository (bridged in `devart-ui/ds-bridge/` until the bundle ships them); OnbSetup, OnbSourcePicker, OnbTour and the Onboarding store live in the kit. |
+| 3 | **One separate page for steps 1–3** (`concept/onboarding.html`); steps 4–5 are an **overlay on the existing pages** `approved/metrics-landing.html` and `approved/chat-landing.html` (`?onb=metrics|chat|done`) — never a copy of the app inside the onboarding page. After the tour the person is in the real prototype. |
+| 4 | **The tour never covers the ReviewBar.** Its scrim starts under it (`boundary: '.ik-shell'`), and in onboarding mode the ReviewBar carries the Onboarding step switch (RK.onboardingControls) so a reviewer can move between steps. |
+| 5 | **Every step opens dark** — the setup screens always (like sign-up), the app because dark is the product default; the ReviewBar's theme switch still flips the app pages. |
+| 6 | **The connection wizard is the existing `IK.ConnectDialog`** — no separate auth stand-in. |
+| 7 | **No plan gating in the onboarding** — a new account starts on the free trial (user, 2026-10-16), so the brief's "plan without CONNECT_SOURCE" banner is not shown and the onboarding page sets the plan to the trial. |
+| 8 | **Every other edge state of the brief is shown:** a failed file upload with Retry (Continue then goes on with the files that made it), an authorization error with Retry, a source with no built-in metrics (MySQL), Skip for Now → the chat with "No connections yet" and "Step 4 of 4". |
+| 9 | **A finished upload moves on by itself** to the chat (user, 2026-10-16); step 3 has no Continue except when a file failed. |
+| 10 | **Review switches only where they act** (user, 2026-10-16): the setup page shows Onboarding (+ Files and Authorization on step 3); Metrics shows Onboarding + Source; Chat shows Onboarding + Path + Source. No Plan anywhere in onboarding mode, no Popover state / Demo state while the tour runs. |
+| 11 | **No Back on the first tour step** (Metrics, or Chat when it is "4 of 4") — what step 3 connected is not undone (the brief). Back everywhere is a plain tertiary without a glyph, as in the chat's question card. |
+| 12 | **Role is one answer: radio + Continue** (user, 2026-10-16, superseding the radio-less, auto-advancing version tried the same day): in this setup wizard the radio says "one answer" beside Goals' checkboxes and every step moves on by Continue. (ChoiceCard's own default stays radio-less — the chat's inline question card.) Checkboxes and radios sit on the title line. The card keeps ChoiceCard's recipe (brand border + 5% brand wash), not SelectableListCard's state-pressed. |
+| 13 | **The setup card's actions stay in reach**: DevartUI CardFooter `sticky` pins the footer to the window's bottom while the card is taller than it. |
+| 14 | **The tour isolates its target**: the scrim is the modal scrim (60%) + blur, one layer with a rounded hole; the ring and the hole are concentric with the lit object (its radius + padding); annotation rings never touch each other and the suggestion pills step aside while the tour runs. |
+| 15 | **The tour fades out** (300ms) when it ends — Start Chatting, Skip, Esc, or the person's first touch on the composer (typing, a click in the prompt, a press on Attach / Connections / the model — that control just works and keeps the focus). |
+| 16 | **The connect wizard** shows its two steps as DevartUI StepProgress (two bars) and has Cancel (secondary) before its confirming action, as DevartUI Modal sets footers. |
+| 17 | **Steps change smoothly and with some life** (user, 2026-10-16): the leaving step drifts the way the flow goes, shrinks a little and fades; the new one builds up — heading first, then each answer rising into place one after another — while the card's height eases; the card hangs from a fixed top, so the logo and the progress never move; scrolling back to the top is smooth. |
+| 18 | **On a phone (< 640px) the setup is the screen** (user, 2026-10-16): edge to edge with no card frame, the footer on the bottom edge (safe area kept), the progress keeps "Step N of M" and its bars without the step's name (the brief). The step title is an `<h1>` on Typography's responsive heading scale (the h3 step: 20px on a phone, 24px from md), the same principle every h2 follows. No title icons. |

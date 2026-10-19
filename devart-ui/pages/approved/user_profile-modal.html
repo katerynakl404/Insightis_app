@@ -6,9 +6,11 @@
 <title>Insightis · Account modal</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
 <link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
 <script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
 <style>
   /* Page layout only. The plan grid goes 2-over-1 between 768 and 1024px (the original's own
      range, 1024 included) and one column below 768px. */
@@ -35,7 +37,7 @@
    and the billing period (Request Yearly Billing / Current Plan). An upgrade CTA stands in for the
    whole payment: the plan flips to Paid everywhere and a toast says which plan and what it opened. */
 (function () {
-  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
   /* The three plan dialogs (Cancel plan, Switch to Free, yearly-billing request) are SHOWN, as
      page-changes/user_profile-modal.md describes them — decided 2026-10-08. The original never
@@ -190,7 +192,7 @@
     else if (section === 'change-password') body = h(IK.AcctChangePassword, { onCancel: function () { setSection('my-account'); } });
 
     return h('div', { className: 'flex h-svh flex-col overflow-hidden' },
-      h(IK.ReviewBar, { title: 'Metrics · Account modal', status: 'approved', size: 'sm', plan: true, controls: controls }),
+      h(RK.ReviewBar, { title: 'Metrics · Account modal', status: 'approved', size: 'sm', plan: true, controls: controls }),
       h('main', { className: 'relative min-h-0 flex-1 bg-surface-page', 'aria-label': 'Account modal' },
         h(IK.AcctModal, {
           section: section, onSection: setSection,

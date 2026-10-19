@@ -6,9 +6,11 @@
 <title>Insightis · AI Chat — message queue</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
 <link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
 <script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -22,7 +24,7 @@
    Q2) + Reset, then Light / Dark. ?state=<id> opens a state directly. Every state drives THIS page;
    motion values are prod's. The sidebar footer is the original's static Free copy. */
 (function () {
-  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
   var FREE_CREDITS = { planName: 'Free', pool: { used: 213, cap: 500 }, daily: { used: 32, cap: 50 }, purchased: 540, balance: 287 };
   var REPLY = 'Revenue for Q2 was $4.82M, up 6% on Q1. EMEA led with $1.9M, followed by North America at $1.6M.';
@@ -334,17 +336,13 @@
   }
 
   function App() {
-    var st = IK.useQueryState('state', 'live');
+    var st = RK.useQueryState('state', 'live');
     var storedPlan = IK.usePlan()[0];
     var t = R.useState('Message queue'), title = t[0], setTitle = t[1];
     var fs = R.useState(null), file = fs[0], setFile = fs[1];
     var lv = R.useState(''), live = lv[0], setLive = lv[1];
     var apiRef = R.useRef(null), fileRef = R.useRef(null); fileRef.current = file;
     var chatsBase = IK.useChats({
-      initial: IK.chatsWith({
-        /* the original's quirk: its pinned Message queue reads 'Pin' in both menus, and choosing it
-           moves the row to the end of Pinned */
-        'message-queue': { menu: true, pinLabel: 'Pin', pinAction: 'move-last' }, 'jira-aiins': { menu: false } }),
       onRenamed: function (c, name) { if (c.id === 'message-queue') setTitle(name); },
       onDeleted: function (c) { if (c.id === 'message-queue') location.href = IK.pageHref('approved/chat-landing.html'); }
     });
@@ -378,7 +376,7 @@
     });
 
     return h(IK.Fragment, null,
-      h(IK.ReviewBar, {
+      h(RK.ReviewBar, {
         title: ['Chat page — message queue', h(D.Badge, { key: 'b', variant: 'secondary', size: 'sm', className: 'ms-2 align-middle' }, 'AIINS-1808')],
         size: 'sm'
       }, h(StatePicker, { value: m.state, onChange: pick, onReset: function () { pick('live'); } })),

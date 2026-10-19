@@ -3,7 +3,7 @@
    ".cl-mention-menu" + ".cl-mention-detail"). IK.Composer renders it for prompt: 'rich'.
 
      typing "@que…"   opens the metric list ABOVE the composer (its left edge + 8px): source logo,
-                      @alias (the typed run in heavy weight) over the metric name. Search matches
+                      @alias (the typed run marked by D.HighlightText) over the metric name. Search matches
                       the ALIAS. The first row is active on open; ↑/↓ move, Enter/Tab insert the
                       active row, Esc dismisses; the pointer moves the highlight too. No match →
                       the list hides (no empty state).
@@ -70,14 +70,6 @@
     return { node: node, start: r.startOffset - m[2].length - 1, end: r.startOffset, query: m[2] };
   }
 
-  /* The typed run in heavy weight; "@" rides with the text before it (one run, as the original). */
-  function Highlight(p) {
-    var t = p.text, q = p.query, pre = p.prefix || '';
-    var i = q ? t.toLowerCase().indexOf(q.toLowerCase()) : -1;
-    if (i < 0) return pre + t;
-    return [pre + t.slice(0, i), h('mark', { key: 'm', className: 'ik-mention-hl' }, t.slice(i, i + q.length)), t.slice(i + q.length)];
-  }
-
   function Row(p) {
     var m = p.metric;
     var row = h('div', {
@@ -89,7 +81,7 @@
     },
       p.logos === false ? null : h(IK.ConnectorMark, { connector: m.source, size: 'sm', label: m.source + ' logo' }),
       h('span', { className: 'ik-mention-text' },
-        h('span', { className: 'ik-mention-alias' }, h(Highlight, { prefix: '@', text: m.alias, query: p.query })),
+        h('span', { className: 'ik-mention-alias' }, '@', h(D.HighlightText, { text: m.alias, query: p.query })),
         h('span', { className: 'ik-mention-name' }, m.name)));
     return p.locked ? h(IK.Locked, { feature: 'metrics', locked: true, marker: 'trail' }, row) : row;
   }

@@ -3,16 +3,16 @@
    <optgroup> per flow; here it is DevartUI's DropdownMenu — a radio group of every screen,
    grouped under menu labels, the current one checked. Picking a screen navigates to it.
 
-   <IK.AuthScreenSwitch
+   <RK.AuthScreenSwitch
      current="login.html"     // file name of the screen on show (default: from location)
      base=""                  // prefix for the hrefs — the pages sit side by side, so ''
-     screens={…}              // default IK.AuthScreenSwitch.SCREENS
+     screens={…}              // default RK.AuthScreenSwitch.SCREENS
      onNavigate={fn}          // optional: replaces the navigation (storybook)
    />
 */
 (function () {
   'use strict';
-  var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, h = IK.h;
 
   /* verbatim from auth-concept.js AU_SCREENS */
   var SCREENS = [
@@ -45,7 +45,7 @@
     return null;
   }
 
-  IK.AuthScreenSwitch = function AuthScreenSwitch(p) {
+  RK.AuthScreenSwitch = function AuthScreenSwitch(p) {
     var screens = p.screens || SCREENS;
     var current = p.current || (location.pathname.split('/').pop() || 'login.html');
     var base = p.base || '';
@@ -75,5 +75,5 @@
                 }));
             })))));
   };
-  IK.AuthScreenSwitch.SCREENS = SCREENS;
+  RK.AuthScreenSwitch.SCREENS = SCREENS;
 })();

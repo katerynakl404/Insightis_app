@@ -22,8 +22,7 @@
         ],
         recent: [
           { id: 'c', title: 'Pipeline review', queue: { count: 2, active: true } },
-          { id: 'd', title: 'Churn by cohort', queue: { count: 2, active: false } },
-          { id: 'e', title: 'No menu on this row', menu: false }
+          { id: 'd', title: 'Churn by cohort', queue: { count: 2, active: false } }
         ] } });
     } });
   IK.story('SidebarChats', { title: 'Empty Pinned', description: 'Pin a Recent chat to fill it.',

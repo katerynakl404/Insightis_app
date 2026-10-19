@@ -61,7 +61,7 @@
             'This metric is designed for ', h('strong', { className: 'font-semibold text-ink-primary' }, m.provider),
             '. Adding a connection activates all its metrics at once — no manual setup needed.')),
         h(IK.Locked, { feature: 'metrics', surface: 'modal' },
-          h(D.Button, { variant: 'primary', size: 'md', fullWidth: true, type: 'button', onClick: p.onConnect }, 'Connect ' + m.provider)));
+          h(D.Button, { variant: 'primary', size: 'md', className: 'w-full', type: 'button', onClick: p.onConnect }, 'Connect ' + m.provider)));
     } else {
       footer = h('div', { className: 'flex items-start gap-3' },
         h('div', { className: 'min-w-0 flex-1' },

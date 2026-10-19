@@ -6,9 +6,16 @@
 <title>Insightis · Chat landing</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
 <link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
 <script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
+<script>
+  /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
+     dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
+  if (/[?&]onb=/.test(location.search)) InsightisKit.setTheme('dark');
+</script>
 </head>
 <body>
 <div id="root"></div>
@@ -17,35 +24,79 @@
    suggestion pills. Rules: page-changes/chat-landing.md. Review switches (the original topbar,
    one for one): Plan Paid / Free · Popover state Loading / Empty / Filled / Scrolling (what the
    composer's Recent files + Connections lists resolve to when opened) · Light / Dark.
-   ?attach=<file> pre-fills the composer's file chip (Files → "Add to Chat"). */
+   ?attach=<file> pre-fills the composer's file chip (Files → "Add to Chat").
+   Onboarding mode (?onb=chat|done&path=conn|files|skip&source=<id>&role=<id>): the new user's first
+   chat — the composer offers only what step 3 brought (the connected source, switched on, or the
+   uploaded files; otherwise "No connections yet"); onb=chat lays step 5 of the tour over it
+   (IK.OnbTour: the role's example questions type into the prompt), onb=done is the chat right after
+   it. The tour fades out when it ends — Start Chatting, Skip, Esc (the prompt takes the focus), or
+   the person's first touch on the composer: typing, a click in the prompt, a press on Attach /
+   Connections / the model (that control just works — its menu opens, the focus stays there). */
 (function () {
-  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
   function App() {
-    var pop = IK.useQueryState('pop', 'filled');
+    var pop = RK.useQueryState('pop', 'filled');
     var t = R.useState(''), text = t[0], setText = t[1];
     var promptRef = R.useRef(null);
     var attach = R.useMemo(function () { return new URLSearchParams(location.search).get('attach'); }, []);
     /* This page's sidebar marks "Jira · first 5 AIINS issues" with the new-activity dot. */
     var chats = IK.useChats({ initial: IK.chatsWith({ 'jira-aiins': { status: 'new' } }) });
+    var onbQ = RK.useQueryState('onb', ''), mode = onbQ[0], oq = RK.onbQuery();
+    var touring = mode === 'chat', onb = mode === 'chat' || mode === 'done';
+    var ob = IK.onboarding.get();
+    var src = onb && oq.path === 'conn' ? IK.onbSource(oq.source) : null;
+    var conns = onb ? (src ? [{ logo: src.name, name: (ob.source && ob.source.id === src.id && ob.source.label) || src.name, on: true }] : []) : undefined;
+    var files = onb ? (oq.path === 'files' ? (ob.files && ob.files.length ? ob.files : ['sales_pipeline_q3_2026.xlsx']) : []) : undefined;
+    var typed = IK.useTypedPlaceholder(IK.ONB_PROMPTS[oq.role] || IK.ONB_PROMPTS.other, touring);
+    var focusAfter = R.useRef(true);
+    R.useEffect(function () {
+      if (mode === 'done' && focusAfter.current && promptRef.current) promptRef.current.focus();
+    }, [mode]);
+    /* viaComposer: the tour ended because the person started using the composer — leave the focus
+       where they put it (an opening menu, the prompt they typed in) */
+    function endTour(reason, viaComposer) {
+      focusAfter.current = !viaComposer;
+      IK.onboarding.set({ status: reason === 'finish' ? 'completed' : 'skipped', step: 'tour_chat' });
+      onbQ[1]('done');
+    }
+    R.useEffect(function () {
+      if (!touring) return;
+      function touch(e) { if (e.target.closest && e.target.closest('[data-tour="composer"]')) endTour('finish', true); }
+      document.addEventListener('pointerdown', touch, true);
+      document.addEventListener('focusin', touch, true);
+      return function () { document.removeEventListener('pointerdown', touch, true); document.removeEventListener('focusin', touch, true); };
+    }, [touring]);
     return h(IK.Fragment, null,
-      h(IK.ReviewBar, {
-        title: 'Chat landing', status: 'approved', size: 'sm', plan: { showLabel: true },
-        controls: [{
+      h(RK.ReviewBar, {
+        /* onboarding mode: no Plan (a new account is on the free trial) and, while the tour runs, no
+           Popover state (no menu opens under it) — only the switches that change this screen */
+        title: 'Chat landing', status: 'approved', size: 'sm', plan: onb ? false : { showLabel: true },
+        controls: [touring ? null : {
           label: 'Popover state', showLabel: true, value: pop[0], onChange: pop[1],
           options: [{ value: 'loading', label: 'Loading' }, { value: 'empty', label: 'Empty' },
                     { value: 'filled', label: 'Filled' }, { value: 'scroll', label: 'Scrolling' }]
-        }]
+        }].concat(mode ? RK.onboardingControls({ here: 'chat', step: mode }) : [])
       }),
       h(IK.AppShell, { glow: true, scroll: false, chats: chats },
         h(IK.ChatHero, null,
           h(IK.Composer, {
-            value: text, onValueChange: setText, promptRef: promptRef, popState: pop[0],
-            attachment: attach || null, sendHref: IK.pageHref('approved/chat_page-landing.html')
+            /* the first thing typed under the tour ends it (it fades out) and stays in the prompt */
+            value: text, onValueChange: function (v) { setText(v); if (touring && v) endTour('finish', true); },
+            promptRef: promptRef, popState: pop[0],
+            attachment: attach || null, sendHref: IK.pageHref('approved/chat_page-landing.html'),
+            files: files, connections: conns, placeholder: touring && typed ? typed : undefined
           }),
-          h(IK.ChatSuggestions, {
-            onPick: function (label) { setText(label); if (promptRef.current) promptRef.current.focus(); }
-          }))),
+          /* under the tour the suggestions keep their room but step aside: the annotations sit there */
+          h('div', { className: touring ? 'invisible' : undefined, 'aria-hidden': touring ? 'true' : undefined },
+            h(IK.ChatSuggestions, {
+              onPick: function (label) { if (touring) return; setText(label); if (promptRef.current) promptRef.current.focus(); }
+            })))),
+      onb ? h(IK.OnbTour, {
+        open: touring, step: 'chat', path: oq.path, source: src,
+        onStep: function (id) { location.assign(IK.onbHref(id, oq)); },
+        onClose: endTour
+      }) : null,
       h(D.Toaster));
   }
   IK.mount(App);

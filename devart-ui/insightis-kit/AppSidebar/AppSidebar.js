@@ -3,13 +3,15 @@
    SidebarProvider it needs; render it yourself only inside a D.SidebarProvider.
 
      header   the Insightis logo (→ New Chat, tooltip "New Chat") + the collapse trigger
-              (DevartUI SidebarTrigger; tooltip "Collapse" / "Expand", label "Collapse sidebar" /
-              "Expand sidebar"; in the phone drawer it closes the drawer)
-     nav      New Chat · Data Sources · Metrics · Files — DevartUI SidebarMenuButton rows; the
-              active one is State/Pressed + Text/Body with aria-current="page" (no self-reload)
+              (DevartUI SidebarTrigger with its own tooltip — "Collapse sidebar" / "Expand
+              sidebar", none while it is the phone drawer; there it closes the drawer)
+     nav      New Chat · Data Sources · Metrics · Files — DevartUI SidebarNavItem rows; the
+              active one is State/Pressed + Text/Body with aria-current="page" (no self-reload);
+              a count rides at the row's end (badge), not on the rail
      chats    Pinned / Recent (IK.SidebarChats) — rows, ⋮ menu, Rename / Delete dialogs
-     promo    Free only: DevartUI PromoCard "Upgrade to Pro" above the footer rule, dismissible
-              for the session (the plan switch does not bring it back); hidden in the icon rail
+     promo    Free only: DevartUI PromoCard "Upgrade to Pro" in SidebarPromo (above the footer rule,
+              hidden on the rail), dismissible for the session (the plan switch does not bring it
+              back)
      footer   Balance row → IK.BalancePopover · user row → IK.AccountMenu ("Admin · Free" /
               "Admin · Pro" follows the plan)
 
@@ -17,7 +19,7 @@
    label to the RIGHT (only while collapsed — expanded, the label is visible); the chat sections,
    the promo and the Balance row go; the user row is the avatar alone; the Chats icon re-expands.
    Below 1024px DevartUI renders the sidebar as a left Sheet (the off-canvas drawer) on the scrim;
-   open it with IK.SidebarBurger.
+   open it with IK.SidebarBurger. Widening the window past it closes the drawer (SidebarProvider).
 
    Props (all optional)
      nav          'new-chat' | 'data-sources' | 'metrics' | 'files' | null   active nav row
@@ -39,9 +41,6 @@
      accountIcons 'classic' → the older account-menu glyphs (the Data Sources, Files and Metrics
                   originals draw chat_page-landing's set too). classic implies 'classic'.
      dailySuffix  false → the balance panel's Daily Limit reads "32 of 50", not "… today"
-     chevronStroke  the Pinned / Recent section chevrons' stroke — default 2.5 (classic: 2); a page
-                  whose copy is otherwise classic but keeps the 2.5px chevron passes 2.5
-                  (chats-landing).
 */
 (function () {
   'use strict';
@@ -67,37 +66,19 @@
      or the X reads as "hide until you touch anything" (kit-kit.js §10). */
   var promoOff = false;
 
-  /* The collapse trigger tips on HOVER only (the original's tooltip engine never answers focus):
-     opening the phone drawer moves focus into it, and a focus-opened "Collapse" bubble would sit
-     over the drawer's head for no pointer at all. */
-  function PointerTip(p) {
-    var o = R.useState(false), open = o[0], setOpen = o[1];
-    var over = R.useRef(false);
-    return h(D.Tooltip, { open: open, onOpenChange: function (v) { setOpen(v && over.current); } },
-      h(D.TooltipTrigger, {
-        asChild: true,
-        onPointerEnter: function () { over.current = true; },
-        onPointerLeave: function () { over.current = false; setOpen(false); }
-      }, p.children),
-      h(D.TooltipContent, { side: p.side || 'top' }, p.tip));
-  }
-
   function NavRow(p) {
     var it = p.item, active = p.active;
-    /* The optional count rides at the row's end as a pill (Sidebar.md "With badge / counter");
-       the rail has no room for it, so it is not rendered there — the label stays the last child,
-       which is what the rail's hide-the-label rule keys on. */
-    var badge = p.badge != null && !p.collapsed
-      ? h(D.Badge, { variant: 'brand', size: 'sm', rounded: 'full', className: 'ms-auto tabular-nums' }, p.badge) : null;
+    /* SidebarMenuItem: the list item the nav rows are; SidebarNavItem asChild puts the row on the
+       page link, which carries aria-current (the active paint) and the no-self-reload click. */
     return h(D.SidebarMenuItem, null,
-      /* px-2: the row's 8px inset (.sbx-nav-item 0 8px). The package's button has none at full
-       width — its own comment counts on one (the collapsed rail strips it with !px-0) — so the
-       icon sat flush on the hover pill's edge. */
-      h(D.SidebarMenuButton, { asChild: true, isActive: active, className: 'ik-nav-row px-2', tooltip: { children: it.label } },
+      h(D.SidebarNavItem, {
+        asChild: true, label: it.label, icon: h(IK.Icon, { name: it.icon, size: 16 }), withTooltip: p.collapsed,
+        badge: p.badge != null ? h(D.Badge, { variant: 'brand', size: 'sm', rounded: 'full', className: 'tabular-nums' }, p.badge) : undefined
+      },
         h('a', {
           href: IK.pageHref(it.href), 'aria-current': active ? 'page' : undefined,
           onClick: active ? function (e) { e.preventDefault(); } : undefined
-        }, h(IK.Icon, { name: it.icon, size: 16 }), h('span', { className: 'min-w-0 truncate' }, it.label), badge)));
+        })));
   }
 
   IK.AppSidebar = function AppSidebar(p) {
@@ -110,26 +91,29 @@
     var pr = R.useState(promoOff), promoHidden = pr[0], setPromoHidden = pr[1];
     var user = p.user || {};
 
-    /* Crossing back to desktop closes the phone drawer, so it does not reappear open the next
-       time the window narrows (the original's resize reset). */
-    R.useEffect(function () { if (!sb.isMobile && sb.openMobile) sb.setOpenMobile(false); }, [sb.isMobile]);
-
     var showPromo = plan === 'free' && !promoHidden && p.promo !== false;
 
     /* The dialogs sit OUTSIDE the Sidebar: below 1024px the Sidebar is a Sheet whose content only
        exists while it is open, and a chat page's header may ask for Rename with the drawer shut. */
     return h(IK.Fragment, null, h(D.Sidebar, { collapsible: 'icon', className: p.className },
       h(D.SidebarHeader, null,
-        h(D.SidebarBrand, null,
-          /* classic / brandLink false: the logo is a plain mark, not the New Chat link */
-          p.classic || p.brandLink === false
-            ? h('div', { className: 'flex min-w-0 items-center' }, h(IK.Logo, { variant: 'full', height: 24, label: 'Insightis' }))
-            : h(IK.Tip, { tip: 'New Chat' },
-                h('a', { href: IK.pageHref('approved/chat-landing.html'), 'aria-label': 'New Chat',
-                         className: IK.cx('flex min-w-0 items-center rounded-md', D.focusRing) },
-                  h(IK.Logo, { variant: 'full', height: 24 }))),
-          h(PointerTip, { tip: collapsed ? 'Expand' : 'Collapse', side: collapsed ? 'right' : 'bottom' },
-            h(D.SidebarTrigger, { label: collapsed ? 'Expand sidebar' : 'Collapse sidebar' })))),
+        /* Collapsed, the 20px mark holds the square and the trigger swaps in on hover / focus —
+           the original .sbx.is-collapsed .sbx-brand-id / .sbx-collapse, which SidebarPanelHeader is. */
+        h(D.SidebarPanelHeader, {
+          logoIcon: h('div', null,
+            /* classic / brandLink false: the logo is a plain mark, not the New Chat link */
+            p.classic || p.brandLink === false
+              ? h('div', { className: 'flex min-w-0 items-center' },
+                  h(IK.Logo, collapsed ? { variant: 'mark', height: 20, label: 'Insightis' } : { variant: 'full', height: 24, label: 'Insightis' }))
+              : h(IK.Tip, { tip: 'New Chat' },
+                  h('a', { href: IK.pageHref('approved/chat-landing.html'), 'aria-label': 'New Chat',
+                           className: IK.cx('flex min-w-0 items-center rounded-md', D.focusRing) },
+                    h(IK.Logo, collapsed ? { variant: 'mark', height: 20 } : { variant: 'full', height: 24 })))),
+          sidebarTrigger: h(D.SidebarTrigger, {
+            size: 'xs', className: 'shrink-0 p-0', label: collapsed ? 'Expand sidebar' : 'Collapse sidebar',
+            tooltip: true, tooltipSide: collapsed ? 'right' : 'bottom'
+          })
+        })),
       h(D.SidebarContent, null,
         h(D.SidebarGroup, null,
           h(D.SidebarMenu, null,
@@ -142,9 +126,8 @@
                 h(D.SidebarMenuItem, null,
                   h(D.SidebarMenuButton, { tooltip: { children: 'Chats' }, 'aria-label': 'Chats', onClick: function () { sb.setOpen(true); } },
                     h(IK.Icon, { name: 'nav-chats', size: 16 }), h('span', null, 'Chats')))))
-          : h('div', { className: 'pt-2 group-data-[collapsible=icon]:hidden' },
-              h(IK.SidebarChats, { chats: chats, current: p.currentChat, chevronStroke: p.chevronStroke != null ? p.chevronStroke : (p.classic ? 2 : undefined) }))),
-      showPromo ? h('div', { className: 'px-2 pb-2 group-data-[collapsible=icon]:hidden' },
+          : h(IK.SidebarChats, { chats: chats, current: p.currentChat })),
+      showPromo ? h(D.SidebarPromo, null,
         h(D.PromoCard, {
           icon: h(IK.Icon, { name: 'sparkles', size: 20 }),
           title: 'Upgrade to Pro',
@@ -156,8 +139,7 @@
         collapsed ? null : h(IK.BalancePopover, { plan: plan, credits: p.credits, trialDays: p.trialDays, dailySuffix: p.dailySuffix }),
         h(IK.AccountMenu, {
           plan: plan, collapsed: collapsed, iconSet: p.classic ? 'classic' : p.accountIcons,
-          name: user.name, initial: user.initial, role: user.role,
-          className: collapsed ? 'mx-auto' : undefined
+          name: user.name, initial: user.initial, role: user.role
         }))),
       h(IK.ChatDialogs, { chats: chats }));
   };

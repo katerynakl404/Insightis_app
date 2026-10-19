@@ -153,9 +153,7 @@
           : h('div', { className: 'flex flex-col gap-3.5' },
               h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'body' },
                 'Monthly plans can\'t switch to yearly automatically. Send a request and support will apply it to your Starter plan.'),
-              h('label', { className: 'flex flex-col gap-1.5' },
-                h(D.Typography, { element: 'span', textStyle: 'label14', textColor: 'body' }, 'Note for support (optional)'),
-                h(D.TextArea, { rows: 3, placeholder: 'Seat count, preferred start date, PO number…' }))),
+              h(D.TextArea, { rows: 3, label: 'Note for support (optional)', placeholder: 'Seat count, preferred start date, PO number…' })),
         h(D.ModalFooter, null,
           sent ? null : h(D.Button, { variant: 'secondary', size: 'md', onClick: close }, 'Cancel'),
           sent

@@ -189,8 +189,15 @@
      it was for kept the choosing in the wrong layer and left a scale nowhere to exist. Values are
      Tailwind now, so 400 or 700 drop in later without a stranger in the ramp — this moves
      --fb-green, #009966 -> #059669 on light and #03AF76 -> #10B981 on dark. */
+  --green-700: 162.9 93.5% 24.3%; /* #047857 — --code-string; Green-600 is 3.6:1 on Surface/Page */
   --green-600: 161.4 93.5% 30.4%; /* #059669 */
   --green-500: 160.1 84.1% 39.4%; /* #10B981 */
+  /* Violet (Tailwind), for --code-keyword. Chart Violet stops at 500, which is 4.6:1 on dark
+     Surface/Page — AA with nothing to spare — and a role that took its light step from one ramp
+     and its dark step from another would change hue between the themes. Two steps, the ones
+     --code-keyword uses. */
+  --violet-400: 255.1 91.7% 76.3%; /* #A78BFA */
+  --violet-600: 262.1 83.3% 57.8%; /* #7C3AED */
   --chart-teal-600: 173 82.2% 30.8%; /* #0E8F80 */
   --chart-teal-500: 175.6 80.7% 36.7%; /* #12A99E */
   --chart-orange-700: 27 95% 39%; /* #C25A05 */
@@ -228,17 +235,6 @@
   --surface-chips: var(--slate-50); /* #F8FAFC */
   --surface-page: var(--slate-50); /* #F8FAFC — page background */
   --surface-accent: var(--brand-50-soft); /* #F0F6F8 */
-  /* Chat landing shell — radial tint + ambient glow (kit .cl-shell) */
-  --chat-shell-bg: radial-gradient(
-    at 50% 0%,
-    color-mix(in srgb, hsl(var(--brand-tertiary)) 2%, hsl(var(--surface-page))),
-    hsl(var(--surface-page)) 55%
-  );
-  --chat-glow-fill: color-mix(
-    in srgb,
-    hsl(var(--brand-tertiary)) var(--tint-8),
-    transparent
-  );
   --stroke-border: var(--slate-200); /* #E2E8F0 */
   --stroke-border-hover: var(--slate-300); /* #CBD5E1 */
   /* Interaction states are RELATIVE OVERLAYS, not absolute colours.
@@ -287,6 +283,17 @@
   --chart-series-4: var(--green-600);
   --chart-series-5: var(--chart-blue-600);
   --chart-series-6: var(--red-700);
+
+  /* Code tokens — the syntax colours a caller's highlighter paints CodeBlock's
+     children with (`codeSyntaxVariants`). The package ships the palette, never
+     a parser. Each is AA on Surface/Page, the block's own fill: keyword 5.5,
+     string 5.2, number 4.9, comment 5.3. */
+  --code-keyword: var(--violet-600); /* #7C3AED */
+  --code-string: var(--green-700); /* #047857 */
+  --code-number: var(--blue-600); /* #2563EB */
+  /* A comment is supporting text, not disabled text: Ink/Secondary, not
+     Ink/Inactive (3.3:1). It aliases a role, so it needs no .dark line. */
+  --code-comment: var(--ink-secondary); /* #5A6A80 */
 
   /* ===== Layer 3: Component-scoped tokens ===== */
   --btn-primary-bg: var(--brand-600); /* #07807E */
@@ -651,6 +658,34 @@
     hsl(var(--brand-700)) 45%,
     color-mix(in srgb, hsl(var(--brand-700)) 0%, transparent) 100%
   );
+
+  /* ===== Tour family: Spotlight · Coachmark · AnnotationGroup ===== */
+  /* The scrim around a lit target is the modal scrim itself
+     (`bg-overlay-scrim`, --overlay-scrim) — no colour of its own — under
+     a 3px blur. */
+  --spotlight-blur: 3px;
+  /* The ring around the cutout: a 2px Brand/Primary edge, a 4px halo at
+     --tint-20 and a 28px glow at --tint-30. Both washes read --brand-primary,
+     so they (and the shadow built from them) are mirrored in .dark. */
+  --spotlight-halo: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) var(--tint-20),
+    transparent
+  );
+  --spotlight-glow: color-mix(
+    in srgb,
+    hsl(var(--brand-primary)) var(--tint-30),
+    transparent
+  );
+  --shadow-spotlight:
+    0 0 0 4px var(--spotlight-halo), 0 0 28px var(--spotlight-glow);
+  /* One move for the whole family — the veils, the ring and the coachmark
+     glide to the next target together. Duration and curve in one value,
+     read by a `transition` shorthand, so it is not a --motion-* step. */
+  --spotlight-move: 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* The tour's layer: the scrim at 70, annotations at +1, the coachmark at
+     +2 — above the package's z-50 overlays. */
+  --spotlight-z: 70;
 }
 
 .dark {
@@ -673,19 +708,9 @@
   --surface-chips: var(--grey-700); /* #2A2834 */
   --surface-page: var(--grey-950); /* #0F0E14 — page background */
   --surface-accent: var(--brand-900-soft); /* #111A1C */
-  /* Scrim behind modals and sheets */
-  --overlay-scrim: hsl(var(--slate-950) / 60%); /* #020617 @60% */
-  /* Chat landing shell — stronger tint/glow on dark (kit .cl-shell .dark) */
-  --chat-shell-bg: radial-gradient(
-    at 50% 0%,
-    color-mix(in srgb, hsl(var(--brand-tertiary)) 4%, hsl(var(--surface-page))),
-    hsl(var(--surface-page)) 55%
-  );
-  --chat-glow-fill: color-mix(
-    in srgb,
-    hsl(var(--brand-tertiary)) var(--tint-20),
-    transparent
-  );
+  /* Scrim behind modals, sheets and the tour — on the page's own neutral grey (§125): slate-950 is
+     a saturated navy, and over the grey surfaces it turned the whole page blue */
+  --overlay-scrim: hsl(var(--grey-950) / 60%); /* #0F0E14 @60% */
   --stroke-border: var(--grey-700); /* #2A2834 */
   --stroke-border-hover: var(--slate-700); /* #334155 */
   /* Dark's strengths are larger because its base is darker: it moves ~1.25
@@ -722,6 +747,12 @@
   --chart-series-4: var(--green-500);
   --chart-series-5: var(--chart-blue-500);
   --chart-series-6: var(--red-400);
+
+  /* Code tokens — each steps up its own ramp, the move --fb-info makes:
+     keyword 7.1, string 7.6, number 7.6 on dark Surface/Page. */
+  --code-keyword: var(--violet-400); /* #A78BFA */
+  --code-string: var(--green-500); /* #10B981 */
+  --code-number: var(--blue-400); /* #60A5FA */
 
   /* ===== Layer 3: Component-scoped tokens (dark) ===== */
   --btn-secondary-border: var(--grey-600); /* #525258 */
@@ -914,7 +945,7 @@
      here it keeps its light result under a scoped `.dark` (an auth layout,
      a preview panel, a DarkTheme story). The expressions are identical to
      :root, so document-level dark is unchanged; this only makes a scoped
-     .dark behave the same way. 40 tokens. */
+     .dark behave the same way. 44 tokens. */
   --ink-icon: var(--ink-secondary);
   --ink-icon-hover: var(--ink-primary);
   --state-hover: color-mix( in srgb, hsl(var(--state-overlay)) var(--tint-8), transparent );
@@ -923,6 +954,7 @@
   --chart-axis-label: var(--ink-secondary);
   --chart-grid: var(--stroke-border);
   --chart-surface: var(--surface-card);
+  --code-comment: var(--ink-secondary);
   --btn-secondary-bg: var(--surface-card);
   --btn-secondary-bg-hover: color-mix( in srgb, hsl(var(--brand-primary)) 5%, hsl(var(--surface-card)) );
   --ds-card-scrim: color-mix( in srgb, hsl(var(--surface-card)) var(--tint-80), transparent );
@@ -955,4 +987,7 @@
   --plan-card-featured-border: color-mix( in srgb, hsl(var(--brand-primary)) 40%, hsl(var(--stroke-border)) );
   --plan-card-featured-shadow: 0 6px 16px -8px color-mix(in srgb, hsl(var(--brand-primary)) 45%, transparent);
   --banner-ic-shadow: 0 6px 16px -4px color-mix(in srgb, hsl(var(--brand-primary)) 50%, transparent);
+  --spotlight-halo: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-20), transparent );
+  --spotlight-glow: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-30), transparent );
+  --shadow-spotlight: 0 0 0 4px var(--spotlight-halo), 0 0 28px var(--spotlight-glow);
 }

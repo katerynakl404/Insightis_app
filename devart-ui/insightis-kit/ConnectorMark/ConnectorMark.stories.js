@@ -13,4 +13,18 @@
       description: 'DS = DevartUI mark · original = the prototype\'s own logo in the same frame · original monogram = the brand tile the original drew itself · tile = none of these',
       render: function () { return h(Row, { size: s }); } });
   });
+  /* the app sprite: connectors neither DevartUI nor ./assets has (the onboarding catalog's long tail) */
+  var SPRITED = [['Affinity', 'hbr_affinity'], ['AfterShip', 'rst_aftership'], ['Brevo', 'hbr_brevo'], ['Calendly', 'rst_calendly'],
+                 ['ClickUp', 'hbr_clickup'], ['Confluence Cloud', 'hbr_confluence'], ['Chargebee', 'hbr_chargebee']];
+  IK.story('ConnectorMark', { title: 'App sprite fallback', wide: true,
+    description: '`sprite` — the connector\'s id in the app\'s own logo sprite, drawn when DevartUI and ./assets have no logo for it (md)',
+    render: function () {
+      return h('div', { className: 'flex flex-wrap items-center gap-4' }, SPRITED.map(function (x) {
+        var src = IK.onbSource ? IK.ONB_SOURCES.filter(function (s) { return s.name === x[0]; })[0] : null;
+        var id = src ? src.sprite : x[1];
+        return h('div', { key: x[0], className: 'flex flex-col items-center gap-1' },
+          h(IK.ConnectorMark, { connector: x[0], sprite: id, spriteDark: src && src.dark, size: 'md', label: x[0] + ' logo' }),
+          h('span', { className: 'text-xxs text-ink-secondary' }, x[0]));
+      }));
+    } });
 })();

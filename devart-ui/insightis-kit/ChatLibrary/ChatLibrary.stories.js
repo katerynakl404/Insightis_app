@@ -21,6 +21,6 @@
   IK.story('ChatLibrary', { title: 'One chat — "1 conversation"', wide: true,
     render: function () { return h(Lib, { initial: [{ id: 'n1', title: 'New conversation', time: 'Just now' }] }); } });
   IK.story('ChatLibrary', { title: 'Narrow column (phone width)', wide: true,
-    description: 'Below 768px of WINDOW width every row shows its ⋮ at 36px (IconButton md); open the storybook on a phone to see it.',
+    description: 'Below 768px of WINDOW width (and on touch) every row shows its ⋮ at rest (DevartUI RowMenuButton); narrow the window to see it.',
     render: function () { return h('div', { style: { maxWidth: '351px' } }, h(Lib)); } });
 })();

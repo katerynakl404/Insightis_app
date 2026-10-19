@@ -16,6 +16,8 @@
   --color-brand-900-soft: #111a1c;
   --color-blue-400: #60a5fa;
   --color-blue-600: #2563eb;
+  --color-violet-400: #a78bfa;
+  --color-violet-600: #7c3aed;
   --color-tbl-header-bg: #eaeff5;
   --color-mx-group-band: #eaeff5;
   --color-brand-primary: #07807e;
@@ -35,7 +37,6 @@
   --color-surface-chips: #f8fafc;
   --color-surface-page: #f8fafc;
   --color-surface-accent: #f0f6f8;
-  --color-chat-glow-fill: #0d8e9714;
   --color-stroke-border: #e2e8f0;
   --color-stroke-border-hover: #cbd5e1;
   --color-state-overlay: #46a6b9;
@@ -62,6 +63,10 @@
   --color-chart-series-4: #059669;
   --color-chart-series-5: #2f6fc0;
   --color-chart-series-6: #b91c1c;
+  --color-code-keyword: #7c3aed;
+  --color-code-string: #047857;
+  --color-code-number: #2563eb;
+  --color-code-comment: #5a6a80;
   --color-btn-primary-bg: #07807e;
   --color-btn-primary-bg-hover: #066867;
   --color-btn-primary-bg-press: #0e5862;
@@ -132,6 +137,8 @@
   --color-banner-grad-sub: #ffffffcc;
   --color-banner-grad-ic-bg: #ffffff33;
   --color-banner-grad-ic-border: #ffffff66;
+  --color-spotlight-halo: #07807e33;
+  --color-spotlight-glow: #07807e4d;
 }
 
 .dark {
@@ -139,6 +146,8 @@
   --color-brand-900-soft: #111a1c;
   --color-blue-400: #60a5fa;
   --color-blue-600: #2563eb;
+  --color-violet-400: #a78bfa;
+  --color-violet-600: #7c3aed;
   --color-tbl-header-bg: #2a2834;
   --color-mx-group-band: #2a2834;
   --color-brand-primary: #148f8d;
@@ -158,7 +167,6 @@
   --color-surface-chips: #2a2834;
   --color-surface-page: #0f0e14;
   --color-surface-accent: #111a1c;
-  --color-chat-glow-fill: #14a8af33;
   --color-stroke-border: #2a2834;
   --color-stroke-border-hover: #334155;
   --color-state-overlay: #94a3b8;
@@ -185,6 +193,10 @@
   --color-chart-series-4: #10b981;
   --color-chart-series-5: #4784d6;
   --color-chart-series-6: #f25555;
+  --color-code-keyword: #a78bfa;
+  --color-code-string: #10b981;
+  --color-code-number: #60a5fa;
+  --color-code-comment: #d1d5db;
   --color-btn-primary-bg: #07807e;
   --color-btn-primary-bg-hover: #066867;
   --color-btn-primary-bg-press: #0e5862;
@@ -255,4 +267,6 @@
   --color-banner-grad-sub: #ffffffcc;
   --color-banner-grad-ic-bg: #ffffff1f;
   --color-banner-grad-ic-border: #ffffff33;
+  --color-spotlight-halo: #148f8d33;
+  --color-spotlight-glow: #148f8d4d;
 }

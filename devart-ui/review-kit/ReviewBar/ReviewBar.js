@@ -2,7 +2,7 @@
    The sticky strip above every prototype page: page title, its review status, and the
    switches a reviewer flips to see each state (plan, data state, theme …).
 
-   <IK.ReviewBar
+   <RK.ReviewBar
      title="Data Sources"
      status="approved"                       // approved | concept | wip
      controls={[                              // page states, in the original's order
@@ -13,7 +13,7 @@
      theme                                    // adds the Light / Dark switch last (default true)
      size="sm"                                // the chat pages' slim 40px strip (their .topbar
                                               // override: 6px 16px padding, is-sm switches)
-   >{optional extra nodes, right side}</IK.ReviewBar>
+   >{optional extra nodes, right side}</RK.ReviewBar>
 
    autoHeight (with size="sm") drops the fixed 40px: the Data Sources pages' strip is padding-only (39px).
 
@@ -22,7 +22,7 @@
 */
 (function () {
   'use strict';
-  var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, h = IK.h;
 
   var STATUS = {
     approved: { label: 'Approved',    variant: 'success' },
@@ -43,7 +43,7 @@
       h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'whitespace-nowrap' }, c.label), seg);
   }
 
-  IK.ReviewBar = function ReviewBar(p) {
+  RK.ReviewBar = function ReviewBar(p) {
     var th = IK.useTheme(), theme = th[0], setTheme = th[1];
     var st = STATUS[p.status] || null;
     var pl = IK.usePlan(), plan = pl[0], setPlan = pl[1];

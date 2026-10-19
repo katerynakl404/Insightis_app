@@ -7,10 +7,12 @@
      Icon, defineIcons, ICONS — lucide 24×24 outlines, stored as inner SVG markup
      Logo                     — the Insightis wordmark / mark / text
      setTheme, useTheme       — `dark` class on <html>, the only theme switch DevartUI reads
-     setPlan, usePlan         — the review harness Paid / Free switch (persists across pages)
+     setPlan, usePlan         — the account's plan, Paid / Free (persists across pages)
      Providers, mount         — TooltipProvider (300 ms, no warm-up) + createRoot into #root
 
    Components live one per folder next to this one and register themselves on IK.<Name>.
+   Review chrome (ReviewBar, the auth nav, URL-seeded review states) is NOT here: it lives in
+   ../review-kit/ on window.ReviewKit, composes this kit, and this kit never refers to it.
    Component code references other components as IK.<Name> at RENDER time, never at load
    time, so script order between component files does not matter.
    ============================================================================================ */
@@ -133,9 +135,11 @@
     });
   };
 
-  /* ── Review harness stores: theme + plan ─────────────────────────────────────────────────
-     Both SURVIVE navigation, like the originals' kit-kit.js harness (same localStorage keys,
-     so a reviewer's choice carries between the original and the rebuilt page too).
+  /* ── App state stores: theme + plan ──────────────────────────────────────────────────────
+     Product components read them (AccountMenu's Theme, every plan-gated screen); the review
+     kit's ReviewBar only flips them. Both SURVIVE navigation, like the originals' kit-kit.js
+     harness (same localStorage keys, so a reviewer's choice carries between the original and
+     the rebuilt page too).
      Theme: DevartUI re-themes on a `dark` class; overlays portal to <body>, so the class
      always goes on <html> — set here, at load, so a page never paints light and flips.
      Plan: 'paid' | 'free' — the Free view of every gated screen.                            */
@@ -205,16 +209,4 @@
   IK.stories = IK.stories || [];
   IK.story = function (component, s) { IK.stories.push(Object.assign({ component: component }, s)); };
 
-  /* Query-string state: ?state=empty&plan=free — lets a link open a page in a given state. */
-  IK.useQueryState = function (key, fallback) {
-    var init = new URLSearchParams(location.search).get(key) || fallback;
-    var s = R.useState(init), v = s[0], set = s[1];
-    var update = R.useCallback(function (next) {
-      set(next);
-      var u = new URL(location.href);
-      if (next === fallback) u.searchParams.delete(key); else u.searchParams.set(key, next);
-      history.replaceState(null, '', u);
-    }, [key, fallback]);
-    return [v, update];
-  };
 })();

@@ -6,12 +6,19 @@
 <title>Insightis · Metrics</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
 <link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
 <script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
+<script>
+  /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
+     dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
+  if (/[?&]onb=/.test(location.search)) InsightisKit.setTheme('dark');
+</script>
 <style>
-  /* Page layout only. The main column is IK.Page + IK.PageHead (the original .cl-page /
-     .cl-page-head); like the original it scrolls inside the column, not as a document. */
+  /* Page layout only. The main column is IK.ListPage (DevartUI ListPageLayout + PageHeader; the
+     original .cl-page / .cl-page-head); like the original it scrolls inside the column. */
 
   /* Empty state: hero, then "Top 5 Data Sources for" 20px lower, then the card grid. */
   .pg-empty { display: flex; flex-direction: column; gap: .75rem; }
@@ -35,9 +42,12 @@
 /* Metrics — rebuilt from pages/approved/metrics-landing.html (page-changes/metrics-landing.md).
    Two demo states: Empty (no connection yet — the library previewed as data-source cards) and
    Filled (the user's metrics, one card per data source). Plan switch: Free reads everything and
-   locks every action (see the Mx* components' headers for which). */
+   locks every action (see the Mx* components' headers for which).
+   Onboarding mode (?onb=metrics&path=conn&source=<id>&role=<id>, from concept/onboarding.html): the
+   new user's library — only the source just connected, its built-in metrics, open — under step 4 of
+   the tour (IK.OnbTour); the ReviewBar adds the onboarding switches (RK.onboardingControls). */
 (function () {
-  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
   IK.defineIcons({
     /* verbatim from pages/approved/metrics-landing.html */
@@ -327,13 +337,26 @@
   var CATALOG = 'approved/data-sources_connections-landing.html';
 
   function go(rel) { location.href = IK.pageHref(rel); }
+
+  /* onboarding: the library of a user who has just connected their first source */
+  function onbRows(src) {
+    if (!src) return ROWS;
+    var b = IK.onbBuiltin(src.id), out = [{ kind: 'group', prov: src.id, name: src.name, connector: src.name }];
+    if (!b) return out.concat([{ kind: 'empty', prov: src.id, name: src.name }]);
+    return out.concat(b.metrics.map(function (m, i) {
+      return { kind: 'metric', id: 'onb-' + i, prov: src.id, name: m.name, alias: m.alias, provider: src.name, active: true, summary: m.desc, desc: m.desc };
+    }));
+  }
   function norm(v) { return (v || '').trim().toLowerCase(); }
 
   function App() {
-    var stQ = IK.useQueryState('state', 'empty'), state = stQ[0], setState = stQ[1];
+    var onbQ = RK.useQueryState('onb', ''), oq = RK.onbQuery();
+    var onbSrc = onbQ[0] === 'metrics' ? IK.onbSource(oq.source) : null;
+    var touring = !!onbSrc;
+    var stQ = RK.useQueryState('state', touring ? 'filled' : 'empty'), state = stQ[0], setState = stQ[1];
     var plan = IK.usePlan()[0], free = plan === 'free';
 
-    var rs = R.useState(ROWS), rows = rs[0], setRows = rs[1];
+    var rs = R.useState(function () { return touring ? onbRows(onbSrc) : ROWS; }), rows = rs[0], setRows = rs[1];
     var cs = R.useState(CATS[0]), cat = cs[0], setCat = cs[1];
     var qs = R.useState(''), query = qs[0], setQuery = qs[1];
     var ts = R.useState('all'), type = ts[0], setType = ts[1];
@@ -349,6 +372,22 @@
     var counter = R.useRef(2);
 
     var filled = state === 'filled';
+
+    /* onboarding: "{name} connected" on arrival, once; the tour ends in the new chat */
+    R.useEffect(function () {
+      var just = IK.onboarding.get().justConnected;
+      if (!touring || !just) return;
+      IK.onboarding.set({ justConnected: null, step: 'tour_metrics' });
+      D.toast.success(h(IK.Fragment, null, h('strong', null, just), ' connected.'), {
+        description: h('a', { href: IK.pageHref(CATALOG), className: 'text-ink-primary underline' }, 'Manage in My Connections')
+      });
+    }, []);
+    var lv = R.useState(false), leaving = lv[0], setLeaving = lv[1];
+    function endTour(reason) {
+      IK.onboarding.set({ status: reason === 'finish' ? 'completed' : 'skipped' });
+      setLeaving(true);   /* the tour fades out, then the new chat */
+      setTimeout(function () { location.assign(IK.onbHref('done', oq)); }, 300);
+    }
     function changeState(v) { setSheet(function (s) { return Object.assign({}, s, { open: false }); }); setState(v); }
 
     /* ── rows ── */
@@ -425,9 +464,12 @@
       }),
       h('div', { className: 'pg-cat' },
         h(D.Typography, { element: 'span', textStyle: 'title20', textColor: 'primary', className: 'whitespace-nowrap' }, 'Top 5 Data Sources for'),
-        h(D.ScrollShadow, { orientation: 'horizontal', className: 'pg-cat-chips' },
-          h(D.FilterChips, { value: cat, onValueChange: function (v) { if (v) setCat(v); }, size: 'sm', 'aria-label': 'Data source category', className: 'gap-1.5 max-md:flex-nowrap' },
-            CATS.map(function (c) { return h(D.FilterChip, { key: c, value: c, size: 'sm' }, c); })))),
+        /* FilterChips scrolls sideways below 768px with its own ScrollShadow */
+        h('div', { className: 'pg-cat-chips' },
+          h(D.FilterChips, {
+            value: cat, onValueChange: function (v) { if (v) setCat(v); },
+            items: CATS.map(function (c) { return { value: c, label: c }; })
+          }))),
       h('div', { className: 'pg-grid' },
         shown.map(function (c) {
           return h(IK.MxProviderCard, {
@@ -462,23 +504,22 @@
           query ? h(IK.Tip, { tip: 'Clear search' },
             h(D.InputGroupAction, { 'aria-label': 'Clear search', onClick: function () { setApplied(true); setQuery(''); } }, h(IK.Icon, { name: 'mx-x' }))) : null),
         h('div', { className: 'pg-filters' },
-          h(D.FilterChips, { value: type, onValueChange: function (v) { setApplied(true); if (v) setType(v); }, size: 'sm', 'aria-label': 'Metric type', className: 'gap-1.5' },
-            [['all', 'All'], ['builtin', 'Built-in'], ['custom', 'Custom']].map(function (t) {
-              return h(D.FilterChip, {
-                key: t[0], value: t[0], size: 'sm',
-                /* pressing the active Built-in / Custom chip goes back to All */
-                onClick: function () { setApplied(true); if (t[0] !== 'all' && type === t[0]) setType('all'); }
-              }, t[1]);
-            })),
+          /* FilterChips' root is w-full: the wrapper keeps the chips and "Active only" on one row */
+          h('div', { className: 'min-w-0 flex-1' }, h(D.FilterChips, {
+            value: type,
+            /* pressing the active Built-in / Custom chip goes back to All (the group clears it: '') */
+            onValueChange: function (v) { setApplied(true); setType(v || 'all'); },
+            items: [{ value: 'all', label: 'All' }, { value: 'builtin', label: 'Built-in' }, { value: 'custom', label: 'Custom' }]
+          })),
           h(D.Switch, { size: 'sm', label: 'Active only', labelPosition: 'left', gap: 'sm', className: 'ms-auto', checked: activeOnly, onCheckedChange: function (v) { setApplied(true); setActiveOnly(v); } }))),
       f.any
         ? h(IK.MxMetricsTable, {
             rows: rows, hidden: f.hidden, collapsed: collapsed,
-            onToggleGroup: function (prov) { setCollapsed(function (c) { var n = Object.assign({}, c); n[prov] = !n[prov]; return n; }); },
+            onToggleGroup: touring ? function () {} : function (prov) { setCollapsed(function (c) { var n = Object.assign({}, c); n[prov] = !n[prov]; return n; }); },
             selected: sheetOpen && sheet.rowId,
-            onOpen: openRow,
+            onOpen: touring ? null : openRow,
             onActive: function (r, on) { patch(r.id, { active: on }); },
-            onAdd: openCreate, onEdit: openEdit,
+            onAdd: touring ? null : openCreate, onEdit: openEdit,
             onDuplicate: duplicate,
             onDelete: function (r) { remove(r.id); }
           })
@@ -499,16 +540,16 @@
         })) : null);
 
     return h(IK.Fragment, null,
-      h(IK.ReviewBar, { title: 'Metrics', status: 'approved', plan: true, size: 'sm', controls: [
-        { label: 'Demo state', value: state, onChange: changeState,
-          options: [{ value: 'empty', label: 'Empty' }, { value: 'filled', label: 'Filled' }] }] }),
-      h(IK.AppShell, { nav: 'metrics', burger: false, brandLink: false, accountIcons: 'classic' },
-        h(IK.Page, null,
-          h(IK.PageHead, {
+      /* onboarding mode: no Plan (the free trial) and no Demo state (the library of the source just connected) */
+      h(RK.ReviewBar, { title: 'Metrics', status: 'approved', plan: !onbQ[0], size: 'sm', controls: [
+        onbQ[0] ? null : { label: 'Demo state', value: state, onChange: changeState,
+          options: [{ value: 'empty', label: 'Empty' }, { value: 'filled', label: 'Filled' }] }].concat(onbQ[0] ? RK.onboardingControls({ here: 'metrics', step: onbQ[0] }) : []) }),
+      h(IK.AppShell, { nav: 'metrics', burger: false, scroll: false, brandLink: false, accountIcons: 'classic' },
+        h(IK.ListPage, {
             title: 'Metrics', wrap: true,
             actions: filled ? h(IK.Locked, { feature: 'metrics', surface: 'modal' },
               h(D.Button, { variant: 'primary', size: 'sm', rounded: 'full', type: 'button', leftSlot: h(IK.Icon, { name: 'pg-plus' }), onClick: openCreate }, 'Create Metric')) : null
-          }),
+          },
           filled ? filledView : empty)),
       h(IK.MxMetricSheet, {
         open: sheetOpen, metric: sheetMetric || {},
@@ -529,6 +570,12 @@
         findDuplicates: findDuplicates, onSave: saveMetric,
         onOpenChange: function (v) { setDlg(function (d) { return Object.assign({}, d, { open: v }); }); }
       }),
+      touring ? h(IK.OnbTour, {
+        open: !leaving, step: 'metrics', path: 'conn', source: onbSrc, group: onbSrc.id,
+        metricCount: rows.filter(function (r) { return r.kind === 'metric' && r.prov === onbSrc.id; }).length,
+        onStep: function (id) { location.assign(IK.onbHref(id, oq)); },
+        onClose: endTour
+      }) : null,
       h(D.Toaster));
   }
   IK.mount(App);

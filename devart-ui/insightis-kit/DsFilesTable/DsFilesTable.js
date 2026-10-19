@@ -24,15 +24,11 @@
      empty: false, onBrowse,                      // first-run empty library
      layout: 'table' | 'cards'                    // optional — default follows the viewport (< 768px = cards)
    })
-   IK.DsFileMenu { id, onAction, defaultOpen, size } — the ⋮ and its menu alone.
+   IK.DsFileMenu { id, onAction, defaultOpen } — the ⋮ and its menu alone (DevartUI RowMenuButton).
    IK.DsFilesSkeleton — the loading library: 3 chip ghosts, a count ghost, the table with 5 ghost rows. */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
-
-  IK.defineIcons({
-    'ds-kebab': { fill: true, inner: '<circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/>' }
-  });
 
   function OriginBadge(p) {
     return p.origin === 'artifact'
@@ -40,19 +36,15 @@
       : h(D.Badge, { variant: 'secondary', size: 'sm' }, 'Uploaded');
   }
 
+  /* DevartUI RowMenuButton: the row ⋮, its tooltip and its menu; always shown here (reveal: false —
+     the table and the cards show it at rest). */
   IK.DsFileMenu = function DsFileMenu(p) {
-    var o = R.useState(!!p.defaultOpen), open = o[0], setOpen = o[1];
     function act(a) { return function () { if (p.onAction) p.onAction(a, p.id); }; }
-    return h(D.DropdownMenu, { open: open, onOpenChange: setOpen, modal: false },
-      h(IK.Tip, { tip: 'More actions' },
-        h(D.DropdownMenuTrigger, { asChild: true },
-          h(D.IconButton, { variant: 'tertiary', size: p.size || '2xs', 'aria-label': 'More actions', className: p.triggerClassName },
-            h(IK.Icon, { name: 'ds-kebab', size: p.size === 'md' ? 16 : 14 })))),
-      h(D.DropdownMenuContent, { side: 'bottom', align: 'end', sideOffset: 8, onClick: function (e) { e.stopPropagation(); } },
+    return h(D.RowMenuButton, { reveal: false, defaultOpen: p.defaultOpen, className: p.triggerClassName },
         h(D.DropdownMenuItem, { onSelect: act('add-to-chat') }, h(IK.Icon, { name: 'add-chat', size: 16 }), 'Add to Chat'),
         h(D.DropdownMenuItem, { onSelect: act('rename') }, h(IK.Icon, { name: 'rename', size: 16 }), 'Rename'),
         h(D.DropdownMenuItem, { onSelect: act('download') }, h(IK.Icon, { name: 'download', size: 16 }), 'Download'),
-        h(D.DropdownMenuItem, { variant: 'danger', onSelect: act('delete') }, h(IK.Icon, { name: 'delete', size: 16 }), 'Delete')));
+        h(D.DropdownMenuItem, { variant: 'danger', onSelect: act('delete') }, h(IK.Icon, { name: 'delete', size: 16 }), 'Delete'));
   };
 
   function stop(e) { e.stopPropagation(); }
@@ -122,7 +114,7 @@
             h('span', { className: 'ik-dsft-name min-w-0 truncate text-sm font-medium text-ink-primary' }, f.name),
             h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, f.date))),
         h(OriginBadge, { origin: f.origin }),
-        h('span', { className: 'ik-dsft-act', onClick: stop }, h(IK.DsFileMenu, { id: f.id, onAction: p.onAction, size: 'md' })));
+        h('span', { className: 'ik-dsft-act', onClick: stop }, h(IK.DsFileMenu, { id: f.id, onAction: p.onAction })));
     }));
   }
 

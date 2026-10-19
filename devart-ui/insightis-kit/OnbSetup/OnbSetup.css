@@ -1,0 +1,59 @@
+/* OnbSetup — the setup card: one width for every step, the footer rule runs edge to edge. */
+.ik-onb { max-width: 48rem; }
+/* the footer spans the card edge to edge and owns the card's bottom padding, so when it sticks to
+   the window the card surface under it reaches its rounded corners */
+.ik-onb-foot {
+  gap: .75rem; margin: 0 -1.5rem -1.5rem; padding: 1.25rem 1.5rem 1.5rem;
+  border-top: 1px solid hsl(var(--stroke-border)); border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+/* phone (< 640px, OnbSetup switches by useMaxWidth): the setup is the screen — edge to edge, the
+   full height under the review strip, the footer pushed to the bottom edge (safe area kept) */
+.ik-onb.is-sheet { max-width: none; width: 100%; box-sizing: border-box; min-height: calc(100dvh - 2.5rem); padding: 1.25rem 1rem 0; }
+.ik-onb.is-sheet .ik-onb-foot {
+  margin: auto -1rem 0; padding: .75rem 1rem calc(.75rem + env(safe-area-inset-bottom, 0px)); border-radius: 0;
+}
+/* the hand-off to the app */
+.ik-onb.is-leaving { animation: ik-onb-leave .28s cubic-bezier(.4, 0, .2, 1) forwards; }
+@keyframes ik-onb-leave { to { opacity: 0; transform: translateY(-8px) scale(.985); } }
+@media (prefers-reduced-motion: reduce) { .ik-onb.is-leaving { animation-duration: .01ms; } }
+/* Step to step. The leaving step (laid over the new one) drifts the way the flow goes, shrinks a
+   little and fades; the new step builds up: its title and subtitle first, then its answers rising
+   into place one after another (a 35ms stagger), while the stage's height eases from one step to
+   the other. 4px of room (given back by the margin) keeps a card's focus ring and hover lift
+   unclipped by the stage's overflow. */
+.ik-onb-stage {
+  box-sizing: content-box; margin: -.25rem; padding: .25rem; overflow: hidden;
+  transition: height .42s cubic-bezier(.4, 0, .2, 1);
+}
+.ik-onb-track { position: relative; }
+.ik-onb-step { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.ik-onb-step.is-out {
+  position: absolute; top: 0; left: 0; right: 0; pointer-events: none; transform-origin: 50% 0;
+  animation: ik-onb-out .22s cubic-bezier(.4, 0, 1, 1) forwards;
+}
+.ik-onb-step.is-out.is-back { animation-name: ik-onb-out-back; }
+@keyframes ik-onb-out { to { opacity: 0; transform: translateX(-1.5rem) scale(.98); } }
+@keyframes ik-onb-out-back { to { opacity: 0; transform: translateX(1.5rem) scale(.98); } }
+
+/* the new step: the heading block, then the body (a ChoiceGroup's cards each on their own beat) */
+.ik-onb-step.is-in > * { animation: ik-onb-rise .44s cubic-bezier(.2, .8, .2, 1) both; }
+.ik-onb-step.is-in > :first-child { animation-delay: .14s; }
+.ik-onb-step.is-in > :nth-child(2) { animation-delay: .2s; }
+.ik-onb-step.is-in [data-slot=choice-group] { animation: none; }
+.ik-onb-step.is-in [data-slot=choice-group] > * { animation: ik-onb-rise .44s cubic-bezier(.2, .8, .2, 1) both; }
+.ik-onb-step.is-in [data-slot=choice-group] > :nth-child(1) { animation-delay: .2s; }
+.ik-onb-step.is-in [data-slot=choice-group] > :nth-child(2) { animation-delay: .235s; }
+.ik-onb-step.is-in [data-slot=choice-group] > :nth-child(3) { animation-delay: .27s; }
+.ik-onb-step.is-in [data-slot=choice-group] > :nth-child(4) { animation-delay: .305s; }
+.ik-onb-step.is-in [data-slot=choice-group] > :nth-child(5) { animation-delay: .34s; }
+.ik-onb-step.is-in [data-slot=choice-group] > :nth-child(6) { animation-delay: .375s; }
+.ik-onb-step.is-in [data-slot=choice-group] > :nth-child(7) { animation-delay: .41s; }
+.ik-onb-step.is-in [data-slot=choice-group] > :nth-child(8) { animation-delay: .445s; }
+@keyframes ik-onb-rise { from { opacity: 0; transform: translateY(.625rem) scale(.985); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ik-onb-stage { transition: none; }
+  .ik-onb-step.is-in > *, .ik-onb-step.is-in [data-slot=choice-group] > * { animation: none; }
+  .ik-onb-step.is-out { display: none; }
+}

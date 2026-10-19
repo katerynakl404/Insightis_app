@@ -6,9 +6,11 @@
 <title>Insightis · Chat page</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
 <link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
 <script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -21,7 +23,7 @@
    is open and that row is the current one. Free: a chat that used connections (any name that is
    not a file) carries the U6 notice under its answer; the composer's paid parts lock. */
 (function () {
-  var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
   var CHAT = new URLSearchParams(location.search).get('chat') || 'Jira · first 5 AIINS issues';
 
@@ -54,7 +56,7 @@
   ];
 
   function App() {
-    var pop = IK.useQueryState('pop', 'filled');
+    var pop = RK.useQueryState('pop', 'filled');
     var plan = IK.usePlan()[0];
     var t = R.useState(CHAT), title = t[0], setTitle = t[1];
     var chats = IK.useChats({
@@ -65,7 +67,7 @@
     /* U6 — only in a chat that HAD connections: the file chats never used one. */
     var usedConnections = !/\.(xlsx|csv|pdf|docx)\b/i.test(CHAT);
     return h(IK.Fragment, null,
-      h(IK.ReviewBar, {
+      h(RK.ReviewBar, {
         title: 'Chat page', status: 'approved', size: 'sm', plan: { showLabel: true },
         controls: [{
           label: 'Popover state', showLabel: true, value: pop[0], onChange: pop[1],

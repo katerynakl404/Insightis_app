@@ -33,6 +33,10 @@
      onEdit(row) · onDuplicate(row) · onDelete(row)   the ⋮ menu
    Menu: custom metrics → Edit · Duplicate · Delete; built-in → Duplicate only (locked rule 5).
 
+   Tour hooks (IK.OnbTour lights them): data-tour="mx-group-<prov>" on a group header,
+   "mx-row-<prov>-<i>" on its i-th metric row (0-based, as shown), "mx-empty-<prov>" on its
+   no-built-in-metrics row.
+
    Plan (Free): Add Metric, the empty row's link and the menu's Edit / Duplicate are locked →
    UpgradeModal (metrics); the switch is locked → UpgradePopover on hover (no marker, the dimmed
    switch says it). Delete is never gated.
@@ -49,7 +53,6 @@
     'mx-group-chevron': '<polyline points="6 9 12 15 18 9"/>',
     'mx-add': '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
     'mx-link': '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
-    'mx-kebab': { fill: true, inner: '<circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/>' }
   });
 
   IK.mxRowKey = function (r) { return r.kind + ':' + (r.id || r.prov || r.name); };
@@ -98,7 +101,7 @@
   function GroupRow(p) {
     var r = p.row, col = !!p.collapsed;
     var tip = col ? 'Expand' : 'Collapse';
-    return h(D.TableRow, { className: IK.cx('ik-mx-group', col && 'is-collapsed'), onClick: function () { p.onToggle(r.prov); } },
+    return h(D.TableRow, { className: IK.cx('ik-mx-group', col && 'is-collapsed'), 'data-tour': 'mx-group-' + r.prov, onClick: function () { p.onToggle(r.prov); } },
       h(D.TableCell, { colSpan: 6, className: 'bg-table-header-bg' },
         h('div', { className: 'flex items-center gap-2' },
           h(IK.Tip, { tip: tip },
@@ -124,7 +127,7 @@
 
   function EmptyRow(p) {
     var r = p.row;
-    return h(D.TableRow, { className: 'ik-mx-none' },
+    return h(D.TableRow, { className: 'ik-mx-none', 'data-tour': 'mx-empty-' + r.prov },
       h(D.TableCell, { colSpan: 6, className: 'ik-mx-none-cell' },
         h('div', { className: 'flex items-center gap-2' },
           h(IK.Icon, { name: 'info', size: 14, className: 'ik-mx-none-ic' }),
@@ -142,18 +145,14 @@
     items.push(h(IK.Locked, { key: 'd', feature: 'metrics', surface: 'modal' },
       h(D.DropdownMenuItem, { onSelect: function () { p.onDuplicate && p.onDuplicate(r); } }, h(IK.Icon, { name: 'duplicate' }), 'Duplicate')));
     if (r.custom) items.push(h(D.DropdownMenuItem, { key: 'x', variant: 'danger', onSelect: function () { p.onDelete && p.onDelete(r); } }, h(IK.Icon, { name: 'delete' }), 'Delete'));
-    return h(D.DropdownMenu, null,
-      h(IK.Tip, { tip: 'More actions' },
-        h(D.DropdownMenuTrigger, { asChild: true },
-          h(D.IconButton, { variant: 'tertiary', size: p.phone ? 'md' : '2xs', type: 'button', 'aria-label': 'More actions', onClick: stop },
-            h(IK.Icon, { name: 'mx-kebab' })))),
-      h(D.DropdownMenuContent, { side: 'bottom', align: 'end', sideOffset: 8, onClick: stop }, items));
+    /* DevartUI RowMenuButton; TableActionsCell does the reveal, so the button itself never hides */
+    return h(D.RowMenuButton, { reveal: false }, items);
   }
 
   function MetricRow(p) {
     var r = p.row;
     return h(D.TableRow, {
-      nested: true, 'data-interactive': '', className: IK.cx('ik-mx-row', p.selected && 'is-selected'),
+      nested: true, 'data-interactive': '', className: IK.cx('ik-mx-row', p.selected && 'is-selected'), 'data-tour': p.tour,
       onClick: function () { p.onOpen && p.onOpen(r); }
     },
       h(D.TableCell, { className: 'ik-mx-cell-switch' },
@@ -175,7 +174,7 @@
   }
 
   function Section(p) {
-    var phone = p.phone;
+    var phone = p.phone, n = {};
     return h(D.Table, { layout: 'fixed', 'aria-label': p.label, wrapperClassName: 'ik-mx-card' },
       h('colgroup', null,
         h('col', { className: 'ik-mx-col-switch' }), h('col', { className: 'ik-mx-col-name' }),
@@ -183,11 +182,12 @@
         h('col', { className: 'ik-mx-col-badge' }), h('col', { className: 'ik-mx-col-actions' })),
       h(D.TableBody, null, p.rows.map(function (r) {
         var k = IK.mxRowKey(r), common = { key: k, row: r, phone: phone, onAdd: p.onAdd };
+        if (r.kind === 'metric') n[r.prov] = (n[r.prov] || 0) + 1;
         if (r.kind === 'group') return h(GroupRow, Object.assign(common, { collapsed: p.collapsed[r.prov], onToggle: p.onToggleGroup }));
         if (r.kind === 'conn') return h(ConnRow, common);
         if (r.kind === 'empty') return h(EmptyRow, common);
         return h(MetricRow, Object.assign(common, {
-          selected: p.selected === r.id, onOpen: p.onOpen, onActive: p.onActive,
+          selected: p.selected === r.id, onOpen: p.onOpen, onActive: p.onActive, tour: 'mx-row-' + r.prov + '-' + (n[r.prov] - 1),
           onEdit: p.onEdit, onDuplicate: p.onDuplicate, onDelete: p.onDelete
         }));
       })));

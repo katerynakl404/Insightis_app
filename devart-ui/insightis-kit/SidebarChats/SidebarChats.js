@@ -4,13 +4,12 @@
 
    ── The store ─────────────────────────────────────────────────────────────────────────────
    var chats = IK.useChats({ onRenamed, onDeleted, onPinToggled, initial })
-   IK.chatsWith({ id: { status, menu, pinLabel, pinAction } })   DEFAULT_CHATS with per-chat changes, for `initial` — the
-     originals differ per page (chat-landing: Jira has the new dot; a chat page gives its chat a ⋮)
+   IK.chatsWith({ id: { status, queue } })   DEFAULT_CHATS with per-chat changes, for `initial` — the
+     originals differ per page (chat-landing: Jira has the new dot)
      chats.pinned / chats.recent          arrays of chat objects (see IK.DEFAULT_CHATS)
      chats.find(idOrTitle)                → chat | null
      chats.isPinned(id)
      chats.togglePin(id)                  Pin ⇄ Unpin — the row moves to the END of the other section
-                                          (pinAction 'move-last': to the end of its OWN section)
      chats.rename(id, title) · chats.remove(id)
      chats.requestRename(id) · chats.requestDelete(id)   open the shared dialogs (IK.ChatDialogs)
    Pass the same store to IK.AppShell({ chats }) when the page needs to mirror a row elsewhere —
@@ -18,12 +17,8 @@
    gives Pin/Unpin · Rename · Delete wired to the SAME dialogs, and onRenamed / onDeleted /
    onPinToggled tell the page (rename the header, leave the page after deleting the open chat).
 
-   A chat: { id, title, href, status: 'new' | 'loading' | null, queue: { count, active } | null,
-             menu: false (no row menu),
-             pinLabel: 'Pin' | 'Unpin'  overrides the menu's first label (else Unpin when pinned),
-             pinAction: 'move-last'    the pin item moves the row to the END of its own section
-             — chat_page-queue's quirk: its pinned "Message queue" reads "Pin" in both menus and
-             choosing it sends the row to the end of Pinned (once — then it reads "Unpin" as usual) }
+   A chat: { id, title, href, status: 'new' | 'loading' | null, queue: { count, active } | null }
+     Its menu's first item follows where it is: Unpin in Pinned, Pin in Recent.
      href     pages-root relative ('approved/chat_page-landing.html?chat=…'); default = the chat page
      status   'new' → 6px brand dot + "New activity" (never shown on the current chat — it is open);
               'loading' → spinner + aria-busy + "In progress"
@@ -32,41 +27,39 @@
               status and counter step aside while the menu button is shown.
 
    ── Components ────────────────────────────────────────────────────────────────────────────
-   IK.SidebarChats   { chats, current, chevronStroke }   both sections (needs a DevartUI SidebarProvider);
-                                                    chevronStroke 2 = chat_page-landing's copy (default 2.5)
+   IK.SidebarChats   { chats, current }             both sections (needs a DevartUI SidebarProvider)
    IK.ChatMenuItems  { chats, id }                  the three menu items, for any DropdownMenuContent
    IK.ChatDialogs    { chats }                      Rename chat (md) / Delete chat? (sm)
 
-   Sections: the whole header row toggles (label + chevron, ↻ -90° when collapsed); "See all" →
-   the Chats library, hover-revealed on desktop, always shown below 1024px and on touch.
-   Rows: DevartUI SidebarMenuSubButton (28px, Text/Secondary, State/Hover → State/Pressed, current =
-   State/Pressed + Text/Body). The ⋮ menu button (IconButton tertiary 2xs) shows on row hover,
-   keyboard focus, and while its menu is open; always shown on touch. Its menu: Pin (Recent) /
-   Unpin (Pinned) · Rename · Delete (danger) — DevartUI DropdownMenu.
+   Sections: DevartUI SidebarSection — the whole label toggles, the chevron shows under the pointer
+   (and stays while closed), "See all" → the Chats library, revealed on hover / focus, always shown
+   below 1024px and on touch; hidden on the icon rail.
+   Rows: DevartUI SidebarChatItem — 28px, Text/Secondary, State/Hover → State/Pressed, current =
+   State/Pressed + Text/Body; the title fades at the edge. Status ('new' dot / 'loading' spinner)
+   or the queue Counter (its tooltip = countLabel) at the right; the ⋮ (its tooltip "More actions")
+   takes that spot on hover, focus and while open, and is always there below 1024px and on touch.
+   Its menu: Pin (Recent) / Unpin (Pinned) · Rename · Delete (danger).
 */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
 
-  IK.defineIcons({
-    'kebab-vertical': { fill: true, inner: '<circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/>' }
-  });
-
   function chatPage(title) { return 'approved/chat_page-landing.html?chat=' + encodeURIComponent(title); }
 
-  /* The same list on every page (the original repeats it verbatim on all eight). Message queue,
-     the charts chat and Q3 report.xlsx carry no ⋮ menu there — menu: false reproduces that. */
+  /* The same list on every page (the original repeats it verbatim on all eight). Every chat has
+     its ⋮ menu: the original leaves it off Message queue, the charts chat and Q3 report.xlsx, which
+     was never meant — not reproduced (owner's call, 2026-10-19). */
   IK.DEFAULT_CHATS = {
     pinned: [
-      { id: 'message-queue', title: 'Message queue', href: 'concept/chat_page-queue.html', menu: false },
+      { id: 'message-queue', title: 'Message queue', href: 'concept/chat_page-queue.html' },
       { id: 'salesforce-q1', title: 'Salesforce · Q1 revenue commentary' },
       { id: 'hubspot-onboarding', title: 'HubSpot · onboarding cohort' },
       { id: 'churn-deep-dive', title: 'churn.csv · deep-dive' }
     ],
     recent: [
       { id: 'jira-aiins', title: 'Jira · first 5 AIINS issues' },
-      { id: 'two-charts', title: 'Generate two charts using random data', href: 'concept/chat_page-charts-landing.html', menu: false },
-      { id: 'q3-report', title: 'Q3 report.xlsx', menu: false }
+      { id: 'two-charts', title: 'Generate two charts using random data', href: 'concept/chat_page-charts-landing.html' },
+      { id: 'q3-report', title: 'Q3 report.xlsx' }
     ]
   };
 
@@ -97,21 +90,6 @@
     function isPinned(id) { return st.pinned.some(function (c) { return c.id === id; }); }
     function togglePin(id) {
       var c = find(id); if (!c) return;
-      if (c.pinAction === 'move-last') {
-        var inPinned = isPinned(c.id);
-        setSt(function (prev) {
-          var list = inPinned ? prev.pinned : prev.recent;
-          var row = list.filter(function (x) { return x.id === c.id; })[0];
-          if (!row) return prev;
-          /* one shot, as the original: its handler re-labels the item "Unpin" afterwards, so from
-             then on the row pins / unpins like any other */
-          row = Object.assign({}, row); delete row.pinLabel; delete row.pinAction;
-          var nl = list.filter(function (x) { return x.id !== c.id; }).concat([row]);
-          return inPinned ? { pinned: nl, recent: prev.recent } : { pinned: prev.pinned, recent: nl };
-        });
-        if (cb.current.onPinToggled) cb.current.onPinToggled(c, true);
-        return;
-      }
       var toPinned = !isPinned(c.id);
       setSt(function (prev) {
         var from = toPinned ? prev.recent : prev.pinned, to = toPinned ? prev.pinned : prev.recent;
@@ -148,7 +126,7 @@
   IK.ChatMenuItems = function ChatMenuItems(p) {
     var chats = p.chats, c = chats.find(p.id);
     if (!c) return null;
-    var label = c.pinLabel || (chats.isPinned(c.id) ? 'Unpin' : 'Pin');
+    var label = chats.isPinned(c.id) ? 'Unpin' : 'Pin';
     return h(IK.Fragment, null,
       h(D.DropdownMenuItem, { onSelect: function () { chats.togglePin(c.id); } },
         h(IK.Icon, { name: label === 'Unpin' ? 'unpin' : 'pin', size: 16 }), label),
@@ -214,63 +192,37 @@
   };
 
   function ChatRow(p) {
-    var c = p.chat, chats = p.chats;
-    var m = R.useState(false), menuOpen = m[0], setMenuOpen = m[1];
-    var showStatus = c.status === 'loading' || (c.status === 'new' && !p.current);
-    /* The label runs the full row (the original's fade overlays the end); room for the ⋮ is made
-       only while it shows (hover / focus / menu open), and for a status that sits at rest. */
-    var hasMenu = c.menu !== false;
-    return h(D.SidebarMenuItem, { className: IK.cx('ik-chat-row', hasMenu && 'has-menu', menuOpen && 'is-menu-open') },
-      h(D.SidebarMenuSubButton, {
-        asChild: true, isActive: !!p.current, size: 'md',
-        className: IK.cx('ik-chat-link font-medium', (showStatus || c.queue) && 'has-trail')
-      },
-        h('a', {
-          href: IK.pageHref(c.href || chatPage(c.title)),
-          'aria-current': p.current ? 'true' : undefined,
-          'aria-busy': c.status === 'loading' ? 'true' : undefined,
-          onClick: p.current ? function (e) { e.preventDefault(); } : undefined
-        }, h('span', null, c.title))),
-      showStatus || c.queue ? h('span', { className: 'ik-chat-trail', 'aria-hidden': c.queue ? undefined : 'true' },
-        c.queue ? h(IK.Tip, { tip: c.queue.count + ' messages queued in this chat — ' + (c.queue.active ? 'still sending' : 'paused, waiting for you') },
-          h(D.Counter, { size: 'sm', active: !!c.queue.active, tabIndex: 0 }, c.queue.count)) : null,
-        !c.queue && c.status === 'loading' ? h(D.Spinner, { size: 'xs', color: 'accent', label: 'In progress' }) : null,
-        !c.queue && c.status === 'new' ? h('span', { className: 'size-1.5 rounded-full bg-brand-primary' }) : null) : null,
-      showStatus && c.status === 'new' ? h('span', { className: 'sr-only' }, 'New activity') : null,
-      c.menu === false ? null : h(D.DropdownMenu, { open: menuOpen, onOpenChange: setMenuOpen },
-        h(IK.Tip, { tip: 'More actions' },
-          h(D.DropdownMenuTrigger, { asChild: true },
-            h(D.IconButton, { variant: 'tertiary', size: '2xs', 'aria-label': 'More actions', className: 'ik-chat-more' },
-              h(IK.Icon, { name: 'kebab-vertical' })))),
-        /* font-medium: the original's row menu sits INSIDE the .sbx-chat row and inherits its 500
-           label weight (DevartUI's items set none and portal out, so they read 400) — reproduced by
-           giving the content the weight its items inherit, as in the original (rule 1a) */
-        h(D.DropdownMenuContent, { side: 'bottom', align: 'end', sideOffset: 8, className: 'font-medium' },
-          h(IK.ChatMenuItems, { chats: chats, id: c.id }))));
+    var c = p.chat, chats = p.chats, q = c.queue;
+    /* the new-activity dot is never shown on the open chat */
+    var status = c.status === 'loading' ? 'loading' : c.status === 'new' && !p.current ? 'new' : undefined;
+    return h(D.SidebarChatItem, {
+      href: IK.pageHref(c.href || chatPage(c.title)),
+      isActive: !!p.current,
+      'aria-current': p.current ? 'page' : undefined,
+      onClick: p.current ? function (e) { e.preventDefault(); } : undefined,
+      status: status,
+      count: q ? q.count : undefined,
+      countActive: q ? !!q.active : undefined,
+      countLabel: q ? q.count + ' messages queued in this chat — ' + (q.active ? 'still sending' : 'paused, waiting for you') : undefined,
+      menu: h(IK.ChatMenuItems, { chats: chats, id: c.id }),
+      menuLabel: 'More actions'
+    }, c.title);
   }
 
   function Section(p) {
-    var o = R.useState(true), open = o[0], setOpen = o[1];
-    return h(D.Collapsible, { open: open, onOpenChange: setOpen, className: 'ik-chat-sect flex flex-col' },
-      h('div', { className: 'ik-chat-sect-head flex h-6 items-center justify-between gap-2 rounded px-2' },
-        h(D.CollapsibleTrigger, { asChild: true },
-          h('button', { type: 'button', className: IK.cx('ik-chat-sect-toggle flex min-w-0 flex-1 items-center gap-1 rounded text-left', D.focusRing) },
-            h(D.Typography, { element: 'span', textStyle: 'overline', className: 'ik-chat-sect-label text-ink-inactive' }, p.label),
-            h(IK.Icon, { name: 'chevron-down', size: 10, strokeWidth: p.chevronStroke || 2.5, className: 'ik-chat-sect-chev text-brand-tertiary' }))),
-        h('span', { className: 'ik-chat-sect-link text-xs' },
-          h(D.LinkButton, { href: IK.pageHref('concept/chats-landing.html') }, 'See all'))),
-      h(D.CollapsibleContent, null,
-        h(D.SidebarMenu, { className: 'gap-px' },
-          p.list.map(function (c) {
-            return h(ChatRow, { key: c.id, chat: c, chats: p.chats, current: p.isCurrent(c) });
-          }))));
+    return h(D.SidebarSection, {
+      label: p.label,
+      action: h(D.LinkButton, { href: IK.pageHref('concept/chats-landing.html') }, 'See all')
+    }, p.list.map(function (c) {
+      return h(ChatRow, { key: c.id, chat: c, chats: p.chats, current: p.isCurrent(c) });
+    }));
   }
 
   IK.SidebarChats = function SidebarChats(p) {
     var chats = p.chats, cur = p.current;
     function isCurrent(c) { return !!cur && (c.id === cur || c.title === cur); }
-    return h('div', { className: 'ik-chats flex flex-col gap-3' },
-      h(Section, { label: 'Pinned', list: chats.pinned, chats: chats, isCurrent: isCurrent, chevronStroke: p.chevronStroke }),
-      h(Section, { label: 'Recent', list: chats.recent, chats: chats, isCurrent: isCurrent, chevronStroke: p.chevronStroke }));
+    return h(IK.Fragment, null,
+      h(Section, { label: 'Pinned', list: chats.pinned, chats: chats, isCurrent: isCurrent }),
+      h(Section, { label: 'Recent', list: chats.recent, chats: chats, isCurrent: isCurrent }));
   };
 })();

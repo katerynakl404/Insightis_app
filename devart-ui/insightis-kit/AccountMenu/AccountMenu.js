@@ -2,11 +2,12 @@
    ".sbx-pop-account"; changes/AccountPopover.md). DevartUI DropdownMenu above the row:
 
      ACCOUNT   My account · Manage plan · Billing · Balance      → user_profile-modal ?section=…
-     SUPPORT   Leave feedback · Resources ↗                       (Resources opens a new tab)
-     Theme     Light · Dark · System — DevartUI SegmentedControl (sm), bound to IK.setTheme.
-               System follows the OS (prefers-color-scheme) and keeps following it.
-               The whole control is ONE menu item: ↑/↓ reach it like any row, ←/→ (or Enter)
-               change the theme, so it is keyboard-reachable inside the menu's roving focus.
+     SUPPORT   Leave feedback · Resources ↗                       (Resources opens a new tab —
+                                                                 DropdownMenuItem isExternal)
+     Theme     Light · Dark · System — DevartUI DropdownMenuSegmentedItem, bound to IK.setTheme:
+               ONE menu item (↑/↓ reach it, ←/→ or Enter change it, the menu stays open), its
+               segments glyphs with their names as tooltips. System follows the OS
+               (prefers-color-scheme) and keeps following it.
      Log out
 
    IK.AccountMenu
@@ -19,8 +20,8 @@
                 feedback, Resources, Dark, System) — that page's copy of the menu drifted
      defaultOpen / open / onOpenChange
      sideOffset  default: 4px above the sidebar FOOTER when opening upward (IK.sidebarFooterOffset)
-   IK.UserRow   the trigger alone (avatar, name, meta, ⇕). Spreads props + ref (asChild-safe).
-     name, initial, meta, collapsed
+   IK.UserRow   the trigger alone — DevartUI SidebarUser (avatar, name, meta, ⇕; the avatar alone
+     on the icon rail). Spreads props + ref (asChild-safe).   name, initial, meta
 
    <IK.AccountMenu />                     // in the sidebar footer (IK.AppSidebar renders it)
    <IK.AccountMenu collapsed />           // icon rail
@@ -36,11 +37,9 @@
     'acct-billing': '<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>',
     'acct-feedback': '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M7.5 9.5c0 .687.265 1.383.697 1.844l3.009 3.264a1.14 1.14 0 0 0 .407.314 1 1 0 0 0 .783-.004 1.14 1.14 0 0 0 .398-.31l3.008-3.264A2.77 2.77 0 0 0 16.5 9.5 2.5 2.5 0 0 0 12 8a2.5 2.5 0 0 0-4.5 1.5"/>',
     'acct-resources': '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M12 17h.01"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/>',
-    'arrow-up-right': '<path d="M7 7h10v10"/><path d="m7 17 10-10"/>',
     'theme-dark': '<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>',
     'theme-system': '<path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/>',
     'log-out': '<path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>',
-    'chevrons-up-down': '<path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/>',
     /* iconSet 'classic' — verbatim from chat_page-landing.html's older copy of this menu */
     'acct-balance-classic': '<path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M3 5a2 2 0 0 0 2 2h15a1 1 0 0 1 1 1v4h-4a2 2 0 0 0 0 4h4v2a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/>',
     'acct-feedback-classic': '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M9 10h6"/><path d="M9 14h4"/>',
@@ -83,68 +82,31 @@
 
   IK.UserRow = function UserRow(p) {
     var rest = Object.assign({}, p);
-    ['name', 'initial', 'meta', 'collapsed', 'className'].forEach(function (k) { delete rest[k]; });
-    var avatar = h(D.Avatar, { size: 'xs', className: 'shrink-0' }, h(D.AvatarFallback, { rounded: 'full', className: 'text-xs font-semibold' }, p.initial));
-    if (p.collapsed) {
-      return h('button', Object.assign({ type: 'button', 'aria-label': p.name + ' — account' }, rest, {
-        className: IK.cx('inline-flex size-8 items-center justify-center rounded-md transition-colors duration-fast hover:bg-state-hover pressed:bg-state-pressed', D.focusRing, p.className)
-      }), avatar);
-    }
-    return h('button', Object.assign({ type: 'button' }, rest, {
-      className: IK.cx('flex w-full items-center gap-2 rounded-md p-1 text-left transition-colors duration-fast hover:bg-state-hover pressed:bg-state-pressed', D.focusRing, p.className)
-    }),
-      avatar,
-      /* name 12/600 over a 1px gap over the meta line 10/400 (.sbx-user-info / -meta) */
-      h('span', { className: 'flex min-w-0 flex-1 flex-col gap-px' },
-        h(D.Typography, { element: 'span', textStyle: 'title12', textColor: 'primary', className: 'truncate' }, p.name),
-        h('span', { className: 'truncate text-xxs leading-4 font-normal text-ink-secondary' }, p.meta)),
-      h(IK.Icon, { name: 'chevrons-up-down', size: 14, className: 'text-ink-body opacity-70' }));
+    ['name', 'initial', 'meta', 'collapsed'].forEach(function (k) { delete rest[k]; });
+    return h(D.SidebarUser, Object.assign({}, rest, {
+      avatar: h(D.Avatar, { size: 'xs' }, h(D.AvatarFallback, { rounded: 'full', className: 'text-xs font-semibold' }, p.initial)),
+      name: p.name, meta: p.meta
+    }));
   };
 
   function Row(p) {
     var inner = [h(IK.Icon, { key: 'i', name: glyph(p.set, p.icon), size: 16, className: 'text-ink-secondary' }), h('span', { key: 't', className: 'min-w-0 flex-1 truncate' }, p.label)];
-    if (p.ext) inner.push(h(IK.Icon, { key: 'x', name: 'arrow-up-right', size: 14, className: 'text-ink-secondary' }));
     if (p.href) {
-      return h(D.DropdownMenuItem, { asChild: true },
-        h('a', { href: p.href, target: p.ext ? '_blank' : undefined, rel: p.ext ? 'noopener' : undefined,
-                 'aria-label': p.ext ? p.label + ' (opens in new tab)' : undefined }, inner));
+      return h(D.DropdownMenuItem, { asChild: true, isExternal: !!p.ext },
+        h('a', { href: p.href, target: p.ext ? '_blank' : undefined, rel: p.ext ? 'noopener' : undefined }, inner));
     }
-    return h(D.DropdownMenuItem, { onSelect: p.onSelect, 'aria-label': p.ext ? p.label + ' (opens in new tab)' : undefined }, inner);
+    return h(D.DropdownMenuItem, { onSelect: p.onSelect, isExternal: !!p.ext }, inner);
   }
 
   /* The theme switch as ONE menu item — see the header. */
   function ThemeItem(tp) {
     var tm = IK.useThemeMode(), mode = tm[0], setMode = tm[1];
-    var i = Math.max(0, THEMES.map(function (t) { return t.value; }).indexOf(mode));
-    function step(d) { setMode(THEMES[(i + d + THEMES.length) % THEMES.length].value); }
-    /* Pointer on a segment selects THAT segment: its pointer events stop at the segment so the
-       row (a Radix menu item, which would treat the press as "select the item" → next theme)
-       never sees them. */
-    function own(e) { e.stopPropagation(); }
-    return h(D.DropdownMenuItem, {
-      className: 'ik-theme-item px-1 py-1',
-      'aria-label': 'Theme: ' + THEMES[i].label + '. Left and right arrows change it.',
-      onSelect: function (e) { e.preventDefault(); step(1); },
-      onKeyDown: function (e) {
-        if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
-        else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
-      }
-    },
-      h(D.SegmentedControl, { value: mode, onValueChange: setMode, size: 'sm', className: 'w-full' },
-        h(D.SegmentedControlList, { 'aria-hidden': 'true', className: 'flex w-full' },
-          THEMES.map(function (t) {
-            /* The tooltip hangs on a wrapper: a Tooltip trigger's own data-state would overwrite
-               the segment's data-state="active" and the active pill would never paint. */
-            return h(IK.Tip, { key: t.value, tip: t.label },
-              h('span', { className: 'flex flex-1' },
-                h(D.SegmentedControlTrigger, { value: t.value, tabIndex: -1, 'aria-label': t.label,
-                  onPointerDown: own, onPointerUp: own,
-                  /* No focus on press: focus stays on the menu item (the segments are a pointer
-                     shortcut inside an aria-hidden group; the item is what assistive tech reads). */
-                  onMouseDown: function (e) { e.preventDefault(); },
-                  onClick: function (e) { e.stopPropagation(); setMode(t.value); } },
-                  h(IK.Icon, { name: glyph(tp.set, t.icon), size: 12 }))));
-          }))));
+    return h(D.DropdownMenuSegmentedItem, {
+      label: 'Theme', value: mode, onValueChange: setMode, hint: 'Left and right arrows change it',
+      options: THEMES.map(function (t) {
+        return { value: t.value, label: t.label, icon: h(IK.Icon, { name: glyph(tp.set, t.icon), size: 12 }) };
+      })
+    });
   }
 
   /* The sidebar footer's two panels (this menu and IK.BalancePopover) hang 4px above the FOOTER,

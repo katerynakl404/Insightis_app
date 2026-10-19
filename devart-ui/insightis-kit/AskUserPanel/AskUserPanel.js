@@ -3,10 +3,11 @@
    it carries its own surface — and IK.AskUserLayer floats it over the thread, above the composer.
 
      top      the question (Title/14) · "Esc to cancel" (gone ≤ 600px) · Dismiss (IconButton xs, tip)
-              several questions: the stepper takes the question's place — a 24px bar per question
-              (tooltip = its short title; filled once answered and while on screen; a button to it)
-              + "Question N of M"
-     options  one row recipe for every variant (≤ 6 per question, "Other" counted — nothing scrolls):
+              several questions: the stepper takes the question's place — DevartUI StepProgress:
+              a 24px bar per question (tooltip = its short title; filled once answered and while on
+              screen; a button to it) + "Question N of M"
+     options  DevartUI ChoiceCard, one row recipe for every variant (≤ 6 per question, "Other"
+              counted — nothing scrolls):
               single  the row IS a button: pressing it is the answer (chosen = brand border + 5% wash)
               multi   label + description, a DevartUI Checkbox on the right
               Other   boxed like the rest; pressing it opens a field INSIDE its box (TextArea, 2 rows)
@@ -104,13 +105,8 @@
     return a.pick != null ? q.options[a.pick].label : null;
   }
 
-  function OptBody(p) {
-    return h('span', { className: 'ik-ask-opt-b' },
-      h('span', { className: 'ik-ask-opt-t' }, p.o.label, p.o.badge ? h(D.Badge, { variant: 'primary', size: 'sm' }, p.o.badge) : null),
-      p.o.description ? h('span', { className: 'ik-ask-opt-d' }, p.o.description) : null);
-  }
-
-  /* One question's option list. */
+  /* One question's option list — every row is DevartUI's ChoiceCard: a single answer is a button
+     (pressing it IS the answer), a multi answer a Checkbox row, Other an expandable card. */
   function Options(p) {
     var q = p.q, a = p.a, taRef = R.useRef(null);
     var ref = R.useRef(null), fade = IK.useScrollFade(ref, [q, a.other]);
@@ -118,28 +114,26 @@
     R.useEffect(function () {
       if (a.other && taRef.current) {
         taRef.current.focus({ preventScroll: true });
-        var box = taRef.current.closest('.ik-ask-opt'); if (box && box.scrollIntoView) box.scrollIntoView({ block: 'nearest' });
+        var box = taRef.current.closest('[data-slot="choice-card"]'); if (box && box.scrollIntoView) box.scrollIntoView({ block: 'nearest' });
       }
     }, [a.other]);
     var rows = q.options.map(function (o, i) {
       if (q.multi) {
-        return h('label', { key: i, className: IK.cx('ik-ask-opt', a.ticks[i] && 'is-on') },
-          h(OptBody, { o: o }),
-          h(D.Checkbox, { checked: !!a.ticks[i], name: p.name, className: 'ik-ask-cbx',
-            onCheckedChange: function (v) { var t = Object.assign({}, a.ticks); t[i] = !!v; p.onChange(Object.assign({}, a, { ticks: t })); } }));
+        return h(D.ChoiceCard, {
+          key: i, indicator: 'checkbox', name: p.name, selected: !!a.ticks[i], title: o.label, badge: o.badge, description: o.description,
+          onSelect: function (v) { var t = Object.assign({}, a.ticks); t[i] = !!v; p.onChange(Object.assign({}, a, { ticks: t })); }
+        });
       }
-      return h('button', {
-        key: i, type: 'button', className: 'ik-ask-opt', 'aria-pressed': a.pick === i && !a.other ? 'true' : undefined,
-        onClick: function () { p.onPick(i); }
-      }, h(OptBody, { o: o }));
+      return h(D.ChoiceCard, {
+        key: i, selected: a.pick === i && !a.other, title: o.label, badge: o.badge, description: o.description,
+        onSelect: function () { p.onPick(i); }
+      });
     });
     if (q.other) {
-      rows.push(h('div', { key: 'other', className: IK.cx('ik-ask-opt is-other', a.other && 'is-open') },
-        h('button', {
-          type: 'button', className: 'ik-ask-opt-head', 'aria-expanded': a.other ? 'true' : 'false',
-          onClick: function () { p.onChange(Object.assign({}, a, { other: !a.other, pick: null })); }
-        }, h(OptBody, { o: { label: 'Other' } })),
-        a.other ? h('div', { className: 'ik-ask-other' },
+      rows.push(h(D.ChoiceCard, {
+        key: 'other', title: 'Other', selected: !!a.other,
+        onSelect: function () { p.onChange(Object.assign({}, a, { other: !a.other, pick: null })); }
+      },
           h(D.TextArea, {
             ref: taRef, rows: 2, placeholder: 'Write your answer…', 'aria-label': 'Your answer', value: a.text,
             onChange: function (e) { p.onChange(Object.assign({}, a, { text: e.target.value })); },
@@ -148,7 +142,7 @@
               if (!a.text.trim()) return;
               e.preventDefault(); p.onSubmit();
             }
-          })) : null));
+          })));
     }
     return h('div', { ref: ref, className: 'ik-ask-opts', role: q.multi ? 'group' : undefined, 'aria-labelledby': q.multi ? p.qid : undefined }, rows);
   }
@@ -206,19 +200,17 @@
 
     var top = stepped
       ? h('div', { className: 'ik-ask-top' },
-          h('div', { className: 'ik-ask-stepper' },
-            h('span', { className: 'ik-ask-steps', role: 'group', 'aria-label': 'Questions' },
-              qs.map(function (s, j) {
-                var isDone = done[j];
-                return h(IK.Tip, { key: j, tip: s.title },
-                  h('button', {
-                    type: 'button', className: IK.cx('ik-ask-step', D.focusRing, isDone && 'is-done', j === cur && 'is-current'),
-                    'aria-current': j === cur ? 'step' : undefined,
-                    'aria-label': (s.title ? s.title + ', ' : '') + 'question ' + (j + 1) + ' of ' + qs.length + (isDone ? ', answered' : ''),
-                    onClick: function () { go(j); }
-                  }, h('span', { className: 'ik-ask-step-bar' })));
-              })),
-            h('span', { className: 'ik-ask-step-label', 'aria-live': 'polite' }, 'Question ' + (cur + 1) + ' of ' + qs.length)),
+          h(D.StepProgress, {
+            className: 'ik-ask-stepper', 'aria-label': 'Questions',
+            steps: qs.map(function (s, j) { return { id: String(j), label: s.title }; }),
+            current: cur,
+            isStepDone: function (j) { return done[j]; },
+            counter: function (n, t) { return 'Question ' + n + ' of ' + t; },
+            onStepSelect: go,
+            getStepAriaLabel: function (j, st) {
+              return (qs[j].title ? qs[j].title + ', ' : '') + 'question ' + (j + 1) + ' of ' + qs.length + (st.done ? ', answered' : '');
+            }
+          }),
           dismiss)
       : h('div', { className: 'ik-ask-top' }, h('p', { className: 'ik-ask-q', id: ids + '-q' }, q.question), dismiss);
 

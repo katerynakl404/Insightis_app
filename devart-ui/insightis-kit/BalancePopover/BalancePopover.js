@@ -52,24 +52,17 @@
   function n(v) { return typeof v === 'number' ? v.toLocaleString('en-US') : v; }
   function pct(a) { return a && a.cap ? Math.round(a.used / a.cap * 1000) / 10 : 0; }
 
-  /* Box for box the original .sbx-tok (kit-theme.css): a column (4px gap) holding one row
-     (label ⟷ value, 8px gap), 4px 6px padding → 26px tall; the wallet is a 12px glyph whose own
-     3px content-box padding makes the 18px state-hover disc (.sbx-tok-val svg), 6px from the figure.
+  /* DevartUI SidebarStat: "Balance" ⟷ the wallet on its State/Hover disc + "N left", tabular.
      `as` (optional, default 'button'): the review page's triggers are inert <div>s in the
-     original — same look and hover, not a focus stop. */
+     original — same look and hover, not a focus stop (SidebarStat asChild). */
   IK.BalanceRow = function BalanceRow(p) {
-    var rest = Object.assign({}, p); delete rest.left; delete rest.label; delete rest.className; delete rest.as;
-    var tag = p.as || 'button';
-    return h(tag, Object.assign(tag === 'button' ? { type: 'button' } : {}, rest, {
-      className: IK.cx('flex w-full cursor-pointer flex-col gap-1 rounded-md px-1.5 py-1 text-left',
-        'transition-colors duration-fast hover:bg-state-hover pressed:bg-state-pressed', D.focusRing, p.className)
-    }),
-      h('span', { className: 'flex items-center justify-between gap-2' },
-        h(D.Typography, { element: 'span', textStyle: 'label12', textColor: 'secondary' }, p.label || 'Balance'),
-        h('span', { className: 'inline-flex items-center gap-1.5' },
-          h(IK.Icon, { name: 'wallet', size: 12, className: 'ik-bal-wallet flex-none rounded-full bg-state-hover text-ink-primary' }),
-          h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'primary', className: 'tabular-nums' },
-            (p.left == null ? '' : p.left) + ' left'))));
+    var rest = Object.assign({}, p); delete rest.left; delete rest.label; delete rest.as;
+    var props = Object.assign(rest, {
+      label: p.label || 'Balance',
+      value: (p.left == null ? '' : p.left) + ' left',
+      icon: h(IK.Icon, { name: 'wallet', size: 12 })
+    });
+    return p.as === 'div' ? h(D.SidebarStat, Object.assign(props, { asChild: true }), h('div')) : h(D.SidebarStat, props);
   };
 
   function Cta(p) {

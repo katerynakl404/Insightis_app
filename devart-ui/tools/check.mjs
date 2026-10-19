@@ -11,7 +11,9 @@
    2. RAW COLOURS — no hex / rgb() / bare hsl() literals in CSS, inline styles or JS. Colours
       come from tokens. A line that must carry one (a third-party brand mark) ends with the
       comment  ik-allow-raw.
-   3. INDEX — insightis-kit.css / insightis-kit.js match the component folders on disk.
+   3. INDEX — insightis-kit.css|.js and review-kit.css|.js match the component folders on disk.
+   4. BOUNDARY — nothing under insightis-kit/ (the product) uses the review kit: no RK.* /
+      window.ReviewKit in its .js files. Review chrome composes the product, never the reverse.
    Exit code 1 on any finding. */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -52,7 +54,7 @@ const MARKERS = /^(is-|has-|js-|dark$|group$|peer$|sr-only$)/;
 
 const targets = process.argv.slice(2).length
   ? process.argv.slice(2).map(f => path.resolve(f))
-  : all.filter(f => /\.(js|html)$/.test(f) && !/insightis-kit\.js$/.test(f) && !f.includes(`${path.sep}tools${path.sep}`));
+  : all.filter(f => /\.(js|html)$/.test(f) && !/(insightis|review)-kit\.js$/.test(f) && !f.includes(`${path.sep}tools${path.sep}`));
 
 let problems = 0;
 const report = (f, line, msg) => { problems++; console.log(`${path.relative(repo, f)}:${line}  ${msg}`); };
@@ -76,6 +78,10 @@ for (const f of targets) {
       report(f, lineOf(text, idx), `unknown class "${c}" (not compiled in DevartUI, not defined in devart-ui CSS)`);
     }
   }
+  // 4. boundary — the product kit never reaches into the review kit
+  if (f.startsWith(path.join(root, 'insightis-kit') + path.sep) && f.endsWith('.js'))
+    for (const m of text.matchAll(/\bRK\.\w+|\bReviewKit\b/g))
+      report(f, lineOf(text, m.index), `"${m[0]}" — insightis-kit/ is the product; review chrome lives in review-kit/ and composes it, never the reverse`);
   // 2. raw colours
   text.split('\n').forEach((ln, i) => {
     if (/ik-allow-raw/.test(ln)) return;
@@ -92,12 +98,25 @@ for (const f of cssFiles) {
   });
 }
 
+// 5. bridges (warning only) — a ds-bridge/ component the vendored bundle now ships is dead weight:
+//    the guard already skips it; delete the bridge (ds-bridge.js header says how).
+const bridgeFile = path.join(root, 'ds-bridge', 'ds-bridge.js');
+if (fs.existsSync(bridgeFile)) {
+  const bundle = fs.readFileSync(path.join(repo, 'ds-bundle/_ds_bundle.js'), 'utf8');
+  const names = [...fs.readFileSync(bridgeFile, 'utf8').matchAll(/\bbridge\('(\w+)'/g)].map(m => m[1]);
+  const shipped = names.filter(n => new RegExp(`\\b${n}:\\s*\\(\\)\\s*=>`).test(bundle));
+  console.log(`ds-bridge: ${names.length - shipped.length} bridged (${names.filter(n => !shipped.includes(n)).join(', ') || '—'})`);
+  for (const n of shipped) console.log(`WARNING ds-bridge: the bundle now ships ${n} — remove its bridge`);
+}
+
 // 3. index freshness
-const kit = path.join(root, 'insightis-kit');
-const before = ['insightis-kit.css', 'insightis-kit.js'].map(n => fs.existsSync(path.join(kit, n)) ? fs.readFileSync(path.join(kit, n), 'utf8') : '');
+const indexes = ['insightis-kit', 'review-kit'].flatMap(k => ['css', 'js'].map(x => path.join(root, k, `${k}.${x}`)));
+const before = indexes.map(f => fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '');
 execFileSync(process.execPath, [path.join(here, 'build-index.mjs')], { stdio: 'ignore' });
-const after = ['insightis-kit.css', 'insightis-kit.js'].map(n => fs.readFileSync(path.join(kit, n), 'utf8'));
-if (before.some((b, i) => b !== after[i])) { problems++; console.log('insightis-kit index was stale — regenerated it; commit the result'); }
+const after = indexes.map(f => fs.readFileSync(f, 'utf8'));
+indexes.forEach((f, i) => {
+  if (before[i] !== after[i]) { problems++; console.log(`${path.relative(repo, f)} was stale — regenerated it; commit the result`); }
+});
 
 console.log(problems ? `\n${problems} problem(s)` : 'devart-ui check: clean');
 process.exit(problems ? 1 : 0);

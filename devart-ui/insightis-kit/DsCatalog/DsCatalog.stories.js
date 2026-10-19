@@ -23,6 +23,14 @@
     description: 'Scroll the stage: the next page loads when the sentinel comes within 200px.',
     render: function () { return h('div', { style: { maxHeight: '22rem', overflowY: 'auto' } }, h(IK.DsCatalog, { connectors: SAMPLE, categories: CATS, onConnect: onConnect, locked: false, pageSize: 4 })); } });
 
+  IK.story('DsCatalog', { title: 'Inner scroll — the grid scrolls in its own box (onboarding, step 3)', wide: true,
+    description: 'scroll: \'inner\' — search and chips stay put, the tiles scroll under them (max 26rem); popular sources first, app-sprite logos for the long tail.',
+    render: function () {
+      var cats = ['All'].concat(IK.ONB_CATS || []);
+      var list = (IK.ONB_SOURCES || []).map(function (s) { return { name: s.name, cats: [s.cat], popular: s.popular, sprite: s.sprite, dark: s.dark }; });
+      return h(IK.DsCatalog, { connectors: list, categories: cats, onConnect: onConnect, locked: false, scroll: 'inner' });
+    } });
+
   function Tiles(p) { return h('div', { className: 'ik-dsc-grid', style: { maxWidth: '36rem' } }, p.children); }
   IK.story('DsCatalog', { title: 'Tile — popular (flame), plain, no logo yet (monogram), two-line name',
     render: function () {

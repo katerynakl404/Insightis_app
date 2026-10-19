@@ -47,9 +47,13 @@
      onStop,                         Stop pressed
      actionSlot: true,               the queue's action slot: below 768px the action is a 40×40
                                      icon-only square (Send and Stop alike)
-     apiRef                          filled with { getText, setText(text), focus } — the page moves a
+     apiRef,                         filled with { getText, setText(text), focus } — the page moves a
                                      queued message back into the prompt, or takes it out to queue it
+     ── the onboarding tour (IK.OnbTour) ──
+     files,                          Recent files (names) — default IK.COMPOSER_FILES; [] → its empty state
+     connections                     [{ logo, name, on }] — default IK.COMPOSER_CONNECTIONS; [] → "No connections yet"
    })
+   Tour hooks: data-tour="composer" (the card), "cmp-attach", "cmp-connections", "cmp-model".
 
    Parts, for stories and other hosts: IK.ComposerAttach, IK.ComposerConnections,
    IK.ComposerModel, IK.ComposerFileChip, IK.ComposerSend, IK.composerFileSize(name).
@@ -177,11 +181,11 @@
     var disabled = !!p.disabled;
     var trigRef = R.useRef(null), menuRef = R.useRef(null), scRef = R.useRef(null);
     useFitScroll(scRef, menuRef, trigRef, [phase, open]);
-    var files = IK.COMPOSER_FILES;
+    var files = p.files || IK.COMPOSER_FILES;
     function pick(name) { setOpen(false); if (p.onPick) p.onPick(name); }
     var list;
     if (phase === 'loading') list = Skels({ row: SkelFileRow });
-    else if (phase === 'empty') list = h(MenuEmpty, { icon: 'cmp-file-row', title: 'No recent files', description: 'Upload a file to use it in this chat' });
+    else if (phase === 'empty' || !files.length) list = h(MenuEmpty, { icon: 'cmp-file-row', title: 'No recent files', description: 'Upload a file to use it in this chat' });
     else {
       var rows = (phase === 'scroll' ? files : files.slice(0, 3)).map(function (f) {
         return h(D.DropdownMenuItem, { key: f, onSelect: function () { pick(f); } },
@@ -191,7 +195,7 @@
       list = phase === 'scroll' ? h('div', { ref: scRef, className: 'ik-cmp-scroll' }, rows) : rows;
     }
     var btn = h(D.IconButton, {
-      ref: trigRef, variant: 'tertiary', size: 'sm', type: 'button',
+      ref: trigRef, variant: 'tertiary', size: 'sm', type: 'button', 'data-tour': 'cmp-attach',
       'aria-label': 'Attach file', 'aria-disabled': disabled ? 'true' : undefined,
       onClick: disabled ? function (e) { e.preventDefault(); } : undefined
     }, h(IK.Icon, { name: 'cmp-attach' }));
@@ -225,9 +229,10 @@
   IK.ComposerConnections = function ComposerConnections(p) {
     var plan = p.plan || IK.usePlan()[0];
     var free = plan === 'free';
+    var conns = p.connections || IK.COMPOSER_CONNECTIONS;
     var o = R.useState(!!p.defaultOpen), open = o[0], setOpen = o[1];
     var st = R.useState(function () {
-      var m = {}; IK.COMPOSER_CONNECTIONS.forEach(function (c) { m[c.name] = c.on; }); return m;
+      var m = {}; conns.forEach(function (c) { m[c.name] = c.on; }); return m;
     }), on = st[0], setOn = st[1];
     var phase = useListPhase(open, p.popState || 'filled');
     var trigRef = R.useRef(null), menuRef = R.useRef(null), scRef = R.useRef(null);
@@ -236,7 +241,7 @@
 
     var list, scrolling = phase === 'scroll';
     if (phase === 'loading') list = Skels({ row: SkelConnRow });
-    else if (phase === 'empty') {
+    else if (phase === 'empty' || !conns.length) {
       list = free
         /* U5 — on Free the empty state is not "you have none yet" but "this is what the paid plan
            does": the upsell names the feature and its button is the way to it. */
@@ -246,14 +251,14 @@
               h(D.Button, { variant: 'primary', size: 'sm', type: 'button' }, 'Upgrade to Unlock')) })
         : h(MenuEmpty, { icon: 'connections', title: 'No connections yet', description: 'Connect a source to use it in this chat' });
     } else {
-      var rows = (scrolling ? IK.COMPOSER_CONNECTIONS : IK.COMPOSER_CONNECTIONS.slice(0, 3)).map(function (c) {
+      var rows = (scrolling ? conns : conns.slice(0, 3)).map(function (c) {
         return h(ConnRow, { key: c.name, conn: c, on: on[c.name], locked: free, onToggle: toggle });
       });
       list = scrolling ? h('div', { ref: scRef, className: 'ik-cmp-scroll' }, rows) : rows;
     }
 
     function trigger(extra) {
-      return h(Trigger, Object.assign({ ref: trigRef, icon: 'connections', label: 'Connections' }, extra));
+      return h(Trigger, Object.assign({ ref: trigRef, icon: 'connections', label: 'Connections', 'data-tour': 'cmp-connections' }, extra));
     }
     var trig = free
       ? h(IK.Locked, { feature: 'connections', locked: true, menuTrigger: true, look: 'disabled', side: 'top' }, function (lock) {
@@ -303,7 +308,7 @@
 
     return h(D.DropdownMenu, { open: open, onOpenChange: setOpen, modal: false },
       h(D.DropdownMenuTrigger, { asChild: true },
-        h(Trigger, { icon: p.icon || 'model', label: [model, thinking ? h('span', { key: 'v', className: 'ik-cmp-trigger-val' }, ' (' + effort + ')') : null] })),
+        h(Trigger, { 'data-tour': 'cmp-model', icon: p.icon || 'model', label: [model, thinking ? h('span', { key: 'v', className: 'ik-cmp-trigger-val' }, ' (' + effort + ')') : null] })),
       h(D.DropdownMenuContent, { side: 'top', align: 'start', sideOffset: 8, className: 'w-64', onOpenAutoFocus: p.defaultOpen ? function (e) { e.preventDefault(); } : undefined },
         rows,
         h(D.DropdownMenuSeparator, null),
@@ -408,13 +413,13 @@
         });
     var ready = rich ? richHas : !!(text && text.trim());
 
-    return h('div', { className: IK.cx('ik-composer', p.className) },
+    return h('div', { className: IK.cx('ik-composer', p.className), 'data-tour': 'composer' },
       file ? h(IK.ComposerFileChip, { name: file, onRemove: function () { setFile(null); } }) : null,
       prompt,
       h('div', { className: 'ik-cmp-foot' },
         h('div', { className: 'ik-cmp-tools' },
-          h(IK.ComposerAttach, { popState: p.popState, disabled: !!file, onPick: setFile }),
-          h(IK.ComposerConnections, { popState: p.popState, plan: plan }),
+          h(IK.ComposerAttach, { popState: p.popState, disabled: !!file, onPick: setFile, files: p.files }),
+          h(IK.ComposerConnections, { popState: p.popState, plan: plan, connections: p.connections }),
           h(IK.ComposerModel, {
             plan: plan, icon: p.modelIcon, model: model, thinking: thinking, effort: effort,
             onModel: setModel, onThinking: setThinking, onEffort: setEffort

@@ -1,0 +1,3 @@
+/* OnbSourcePicker — only what the DevartUI parts cannot say: the link's 14px glyph and the done tick. */
+.ik-onb-upload { display: inline-flex; align-items: center; gap: .25rem; vertical-align: baseline; }
+.ik-onb-done { flex: none; color: hsl(var(--fb-green)); }

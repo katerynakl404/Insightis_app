@@ -215,7 +215,7 @@ async function scenario(cdp, url, theme, vp, sc, side) {
 function walk(dir, out = []) { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const p = path.join(dir, e.name); e.isDirectory() ? walk(p, out) : out.push(p); } return out; }
 const pairs = walk(path.join(repo, 'devart-ui/pages')).filter(f => f.endsWith('.html'))
   .map(f => path.relative(path.join(repo, 'devart-ui/pages'), f).split(path.sep).join('/'))
-  .filter(rel => fs.existsSync(path.join(repo, 'pages', rel)) && (!ONLY || rel.includes(ONLY))).sort();
+  .filter(rel => fs.existsSync(path.join(repo, 'legacy-html/pages', rel)) && (!ONLY || rel.includes(ONLY))).sort();
 if (!pairs.length) { console.log('nothing to compare'); process.exit(0); }
 
 const stamp = new Date().toISOString().replace(/[:T]/g, '-').slice(0, 19) + '-' + process.pid; // unique: parallel runs never share a folder
@@ -225,7 +225,7 @@ const cdp = await launch();
 const R = [];
 try {
   for (const rel of pairs) {
-    const o = `${BASE}/pages/${rel}`, n = `${BASE}/devart-ui/pages/${rel}`;
+    const o = `${BASE}/legacy-html/pages/${rel}`, n = `${BASE}/devart-ui/pages/${rel}`;
     const scFile = path.join(here, 'scenarios', rel.replace(/\.html$/, '.json'));
     const scenarios = DO.scen && fs.existsSync(scFile) ? JSON.parse(fs.readFileSync(scFile, 'utf8')) : [];
     for (const theme of THEMES) for (const vp of VPS) {
