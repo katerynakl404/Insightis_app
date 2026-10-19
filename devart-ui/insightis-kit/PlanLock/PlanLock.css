@@ -3,3 +3,7 @@
    currentColor — white on a primary button, body ink on a tertiary one). */
 .ik-plan-lock { flex: none; }
 .ik-lock-glyph { flex: none; }
+/* in a link that sits in a sentence (DevartUI LinkButton) the padlock follows the text: LinkButton sets every
+   svg in it to 16px (its [&_svg]:size-4), too big beside 12px text — 7/6 em gives 14px at 12px, 16px at 14px,
+   the icon ladder's pairs. svg + class outweighs LinkButton's rule, and this sheet loads after the bundle */
+svg.ik-lock-glyph-text { width: 1.1667em; height: 1.1667em; }
