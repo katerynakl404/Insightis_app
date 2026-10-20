@@ -6,7 +6,7 @@
               they sit on top (icons + ⋮, as the file preview's head — user, 2026-10-20: "екшени в панелі
               тримати зверху — як в файлі") · Close
      hero     the item's mark, its name (+ a pencil to rename it when that is its own action), one meta
-              line; what is wrong with it (the unavailable notice) right under the name
+              line; a warning mark by the name when it can't be used (the why sits in Access)
      about    the description, full width under the hero — it can be long (four lines, then Show More) or
               absent (nothing at all) (user, 2026-10-20: "опис може бути довгим — або відсутній")
      body     its properties, in one of three layouts (to compare — review switch Layout):
@@ -14,18 +14,19 @@
                 stacked  label above the value (Body/12, secondary), the action beside it
                 cards    the properties and Access each a card with its title
               a property's own action (Add Metric, re-test) is the glyph right after its value
-     access   last: the workspaces it is in (IK.WsWorkspaceList), or "Not shared yet"; how it is shared under
-              the title, the way to share it after the list
+     access   last: the workspaces it is in (IK.WsWorkspaceList) and the way to share it; in none, the button alone —
+              no "Not shared yet" above it (user, 2026-10-20: "сенс емпті стану?"); the empty line only when nothing
+              can be done ("Only in this workspace"); how it is shared under the title
      foot     the item's own actions when they sit at the bottom — destructive on the left, the main one on
               the right; nothing to do → no foot
 
    h(IK.DetailsPanel, {
      title, control, actions: node (head), inline, layout: 'rows' | 'stacked' | 'cards',
      open, onOpenChange,                  // the Sheet (when not inline)
-     mark, name, onRename, after, meta, notice, preview,
+     banner (full-bleed under the head), mark, name, onRename, after, meta, notice, preview,
      description: { label, text },
      rows: [{ label, value, action: { label, icon, onClick, locked, lockFeature }, hint }],   icon → a glyph after the value
-     access: { items: [{ name, href, owner, members }], empty, action: node, note: string | { label, text } },
+     access: { items: [{ name, href, owner, members }], empty, action: node, note: string | { label, text }, notice: node },
      extra: node (after Access), foot: { start: node, end: node }
    })                                                                                              */
 (function () {
@@ -38,7 +39,8 @@
     if (!a) return null;
     if (a.icon) {
       var ib = h(D.IconButton, { variant: 'tertiary', size: '2xs', type: 'button', 'aria-label': a.label, onClick: function () { if (a.onClick && !a.locked) a.onClick(); } }, h(IK.Icon, { name: a.icon, size: 14 }));
-      return a.lockFeature && a.locked ? h(IK.Locked, { feature: a.lockFeature, locked: true }, ib) : h(IK.Tip, { tip: a.label }, ib);
+      /* locked: the glyph stays, the upgrade popover explains it — never a padlock in its place */
+      return a.lockFeature && a.locked ? h(IK.Locked, { feature: a.lockFeature, locked: true, marker: 'none' }, ib) : h(IK.Tip, { tip: a.label }, ib);
     }
     var b = h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); if (a.onClick && !a.locked) a.onClick(); } }, a.label);
     return h('span', { className: 'shrink-0 text-sm' },
@@ -117,9 +119,12 @@
       p.preview || null,
       rows.length ? section(layout, layout === 'cards' ? 'Details' : null,
         h('div', { className: IK.cx('flex flex-col', ROW_GAP[layout] || ROW_GAP.rows) }, rows.map(function (r, i) { return h(Row, Object.assign({ key: i, layout: layout }, r)); }))) : null,
+      /* why it can't be used and what brings it back sits in Access — it is about access (user, 2026-10-20: "чому не
+         в доступі, воно ж до того належить"); the name carries only the warning mark */
       a ? section(layout, 'Access', h('div', { className: 'flex flex-col gap-3' },
+          a.notice || null,
           a.items && a.items.length ? h(IK.WsWorkspaceList, { items: a.items })
-            : h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' }, a.empty || 'Not shared yet'),
+            : a.action ? null : h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' }, a.empty || 'Not shared yet'),
           a.action ? h('div', { className: 'flex' }, a.action) : null), true, note) : null,
       p.extra || null);
   }
@@ -144,7 +149,8 @@
   }
 
   IK.DetailsPanel = function DetailsPanel(p) {
-    var inner = [h(Head, Object.assign({ key: 'h' }, p)),
+    /* banner — a full-bleed strip flush under the head (the file preview's "Preview truncated") */
+    var inner = [h(Head, Object.assign({ key: 'h' }, p)), p.banner ? h(R.Fragment, { key: 'n' }, p.banner) : null,
       h('div', { key: 'b', className: 'min-h-0 flex-1 overflow-y-auto scrollbar-thin' }, h(Body, p)),
       h(Foot, Object.assign({ key: 'f' }, p))];
     if (p.inline) return h(D.Card, { variant: 'outline', className: IK.cx('flex w-full flex-col overflow-hidden p-0', p.className), style: p.style, 'aria-label': p.title }, inner);

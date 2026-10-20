@@ -73,6 +73,21 @@
       p.onDownload ? h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: p.onDownload }, 'Download') : null);
   }
 
+  /* the preview's own content and its truncated strip, for another panel to show the same file the same way (the
+     details-panels concept — user, 2026-10-20: "превью в файлі мало бути реалістичним") */
+  IK.DsFilePreviewBanner = function DsFilePreviewBanner(p) {
+    if (!p.file || !truncated(p.file)) return null;
+    return h('div', { className: 'ik-dsfp-banner' },
+      h(IK.Icon, { name: 'ds-warn', size: 16, className: 'ik-dsfp-banner-ic' }),
+      h('span', null, 'Preview truncated. ',
+        h(D.LinkButton, { asChild: true }, h('button', { type: 'button', onClick: p.onDownload }, 'Download')),
+        ' to see the full file.'));
+  };
+  IK.DsFilePreviewContent = function DsFilePreviewContent(p) {
+    var kind = IK.dsPreviewKind(p.file.name);
+    return kind === 'table' ? h(Sample) : kind === 'text' ? h(Text) : h(None, { file: p.file, onDownload: p.onDownload });
+  };
+
   IK.DsFilePreview = function DsFilePreview(p) {
     var f = p.file;
     var ws = R.useState(null), wU = ws[0], setWU = ws[1];
