@@ -1,5 +1,6 @@
 /* ds-bridge (TEMPORARY) — fixes of дизайн DevartUI the vendored ds-bundle/ does not ship yet.
-   Delete this file and re-run tools/build-index.mjs once a rebuilt bundle ships them. */
+   Each rule is the repo's own, verbatim in effect; check.mjs warns once the bundle ships it
+   ("ships-when"), then delete this file and re-run tools/build-index.mjs. */
 
 /* Button primaryTertiary (дизайн DevartUI, src/components/Button): on dark the label is the link colour
    (--ink-highlight, Tertiary-400), not Brand/Primary — a darker teal that read as a second, dimmer green
@@ -7,4 +8,12 @@
    ships-when: dark\:disabled\:hover\:text-ink-inactive */
 .dark [data-variant="primaryTertiary"]:not(:disabled):not([aria-disabled="true"]) {
   color: hsl(var(--ink-highlight));
+}
+
+/* Spotlight (дизайн DevartUI, src/components/Spotlight): what pops out of a lit control — a
+   tooltip, a menu, a popover (Radix's popper wrapper, z-50 inline, hence !important) — goes one
+   step over the scrim, under the coachmark; under it, it read as a half-transparent grey box.
+   ships-when: [data-radix-popper-content-wrapper]{z-index:calc(var(--spotlight-z) + 1)!important} */
+:root:has([data-slot="spotlight"]) [data-radix-popper-content-wrapper] {
+  z-index: calc(var(--spotlight-z) + 1) !important;
 }

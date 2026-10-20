@@ -233,6 +233,7 @@
           h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'whitespace-normal', onClick: stop },
             'No built-in metrics for ' + r.name + '. ',
             h(IK.Locked, { feature: 'metrics', surface: 'modal' },
+              /* on the text's line: the padlock leads the link's inline-flex box, which would ride 4px high */
               h(D.LinkButton, { href: '#', role: 'button', className: 'align-text-top', onClick: function (e) { e.preventDefault(); e.stopPropagation(); p.onAdd && p.onAdd(); } }, 'Create a custom metric →'))))));
   }
 
