@@ -98,7 +98,7 @@
         onOpenAutoFocus: function (ev) { ev.preventDefault(); setTimeout(function () { if (nameRef.current) nameRef.current.focus(); }, 50); }
       },
         h(D.ModalHeader, { className: 'pe-10' }, h(D.ModalTitle, null, p.mode === 'edit' ? 'Edit metric' : 'Create metric')),
-        h('div', { className: 'flex min-h-0 flex-col gap-4 overflow-y-auto' },
+        h('div', { className: 'flex min-h-0 flex-col gap-4 overflow-y-auto scrollbar-thin' },
           h(D.InputGroup, { size: 'md', isInvalid: !!err.name, label: 'Name', inputId: 'ik-mx-name' },
             h(D.InputGroupInput, { id: 'ik-mx-name', ref: nameRef, type: 'text', placeholder: 'Net revenue', value: f.name || '', onChange: function (ev) { set('name', ev.target.value); } })),
           h('div', { className: 'flex flex-col gap-2' },

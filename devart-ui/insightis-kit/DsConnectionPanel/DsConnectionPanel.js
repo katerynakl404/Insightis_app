@@ -59,7 +59,7 @@
         onOpenAutoFocus: function (e) { e.preventDefault(); if (e.currentTarget && e.currentTarget.focus) e.currentTarget.focus(); } },
         h('div', { className: 'ik-dscp-head' },
           h(D.SheetTitle, null, 'Connection Details')),
-        c ? h('div', { className: 'ik-dscp-body' },
+        c ? h('div', { className: 'ik-dscp-body scrollbar-thin' },
           h('div', { className: 'flex flex-col gap-5' },
             /* an unavailable shared one: the warning right after the name, as on the rows */
             h(IK.DsDetailField, { label: 'Name' },

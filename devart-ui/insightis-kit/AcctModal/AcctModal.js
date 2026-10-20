@@ -161,7 +161,7 @@
     var slim = !!p.legacy;
 
     var nav = h(D.SidebarProvider, {
-      className: 'ik-acct-nav min-h-0 w-44 flex-none flex-col gap-3.5 overflow-y-auto border-r border-stroke px-3 py-4',
+      className: 'ik-acct-nav min-h-0 w-44 flex-none flex-col gap-3.5 overflow-y-auto scrollbar-thin border-r border-stroke px-3 py-4',
       role: 'navigation', 'aria-label': 'Account sections'
     },
       NAV.map(function (g) {
@@ -196,6 +196,6 @@
             h(IK.Tip, { tip: 'Close' },
               h(D.IconButton, { variant: 'tertiary', size: 'md', 'aria-label': 'Close account settings', onClick: close },
                 h(IK.Icon, { name: 'acctm-close' })))),
-          h('div', { className: 'flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-5 max-md:p-4' }, p.children))));
+          h('div', { className: 'flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto scrollbar-thin p-5 max-md:p-4' }, p.children))));
   };
 })();

@@ -96,7 +96,7 @@
           h(IK.Tip, { tip: 'Close' },
             h(D.SheetClose, { asChild: true },
               h(D.IconButton, { variant: 'tertiary', size: 'xs', type: 'button', 'aria-label': 'Close panel' }, h(IK.Icon, { name: 'mx-x' }))))),
-        h('div', { className: 'ik-mx-sheet-body flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto' },
+        h('div', { className: 'ik-mx-sheet-body flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto scrollbar-thin' },
           h('div', { className: 'flex flex-col gap-5' },
             h(Field, { label: 'Name' }, h('div', { className: 'flex min-w-0 items-center gap-2' },
               h(D.Typography, { element: 'span', textStyle: 'title16', textColor: 'primary', className: 'min-w-0 break-words' }, m.name),

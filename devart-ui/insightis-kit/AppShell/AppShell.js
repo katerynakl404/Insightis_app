@@ -72,6 +72,6 @@
         h(D.SidebarInset, { className: IK.cx('min-h-0', p.glow && 'ik-shell-glow', p.mainClassName) },
           p.burger === false ? null : h('div', { className: 'absolute left-3 top-3 z-10 lg:hidden' }, h(IK.SidebarBurger)),
           p.scroll === false ? p.children
-            : h('div', { className: 'relative flex min-h-0 flex-1 flex-col overflow-y-auto' }, p.children))));
+            : h('div', { className: 'relative flex min-h-0 flex-1 flex-col overflow-y-auto scrollbar-thin' }, p.children))));
   };
 })();

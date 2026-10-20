@@ -115,7 +115,7 @@
 
   IK.DetailsPanel = function DetailsPanel(p) {
     var inner = [h(Head, Object.assign({ key: 'h' }, p)),
-      h('div', { key: 'b', className: 'min-h-0 flex-1 overflow-y-auto' }, h(Body, p)),
+      h('div', { key: 'b', className: 'min-h-0 flex-1 overflow-y-auto scrollbar-thin' }, h(Body, p)),
       h(Foot, Object.assign({ key: 'f' }, p))];
     if (p.inline) return h(D.Card, { variant: 'outline', className: IK.cx('flex w-full flex-col overflow-hidden p-0', p.className), style: p.style, 'aria-label': p.title }, inner);
     return h(D.Sheet, { open: !!p.open, onOpenChange: p.onOpenChange },

@@ -833,7 +833,7 @@
       h(D.DropdownMenuTrigger, { asChild: true },
         h(D.Button, { variant: 'secondary', size: 'xs', rounded: 'full', type: 'button', className: 'min-w-0 max-w-64 shrink px-3',
           rightSlot: pillEnd(v !== 'all', p.label, function () { p.onChange('all'); }, menu) }, h('span', { className: 'min-w-0 truncate' }, p.label + ': ' + label))),
-      h(D.DropdownMenuContent, { align: 'start', className: 'max-h-80 w-72 overflow-y-auto' },
+      h(D.DropdownMenuContent, { align: 'start', className: 'max-h-80 w-72 overflow-y-auto scrollbar-thin' },
         item({ value: 'all', label: p.allLabel || 'All', count: total }),
         tree.length ? h(D.DropdownMenuSeparator, null) : null,
         tree.map(function (g) {
