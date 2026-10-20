@@ -8,6 +8,9 @@
      nav      New Chat · Data Sources · Metrics · Files — DevartUI SidebarNavItem rows; the
               active one is State/Pressed + Text/Body with aria-current="page" (no self-reload);
               a count rides at the row's end (badge), not on the rail
+              + Workspaces, right under New Chat, only when the page passes `workspaces` (shared workspaces,
+              AIINS-1852): it opens the Workspaces list (concept/workspaces.html), and every nav link
+              keeps the feature's review state (IK.wsHref) so the row stays from page to page
      chats    Pinned / Recent (IK.SidebarChats) — rows, ⋮ menu, Rename / Delete dialogs
      promo    Free only: DevartUI PromoCard "Upgrade to Pro" in SidebarPromo (above the footer rule,
               hidden on the rail), dismissible for the session (the plan switch does not bring it
@@ -22,7 +25,7 @@
    open it with IK.SidebarBurger. Widening the window past it closes the drawer (SidebarProvider).
 
    Props (all optional)
-     nav          'new-chat' | 'data-sources' | 'metrics' | 'files' | null   active nav row
+     nav          'new-chat' | 'data-sources' | 'metrics' | 'files' | 'workspaces' | null   active nav row
      currentChat  id or title of the chat that is open (row = current, no new-activity dot)
      chats        an IK.useChats() store — pass it when the page mirrors a chat elsewhere
                   (chat header menu); otherwise the sidebar keeps its own
@@ -32,6 +35,7 @@
      trialDays    → "Trial ends in N days" in the balance panel (Pro only)
      promo        false hides the Free-plan promo card even on Free
      badges       { 'data-sources': 3 } — a count pill at the end of a nav row (not in the rail)
+     workspaces   an IK.useWorkspaces(…) store → the Workspaces nav row; absent → no trace of it
      classic      true → chat_page-landing's older copy of the sidebar, reproduced as it renders: the
                   logo is a plain mark (no New Chat link / tooltip), 2px section chevrons, the older
                   account-menu glyphs (AccountMenu iconSet 'classic')
@@ -62,6 +66,9 @@
     { key: 'files', label: 'Files', icon: 'nav-files', href: 'approved/data-sources_files-landing.html' }
   ];
 
+  /* shared workspaces — the row the nav gains when the page passes a workspaces store */
+  var WS_NAV = { key: 'workspaces', label: 'Workspaces', icon: 'ws-layers', href: 'concept/workspaces.html' };
+
   /* Dismissed stays dismissed for the page session — flipping the plan must not bring it back,
      or the X reads as "hide until you touch anything" (kit-kit.js §10). */
   var promoOff = false;
@@ -76,7 +83,7 @@
         badge: p.badge != null ? h(D.Badge, { variant: 'brand', size: 'sm', rounded: 'full', className: 'tabular-nums' }, p.badge) : undefined
       },
         h('a', {
-          href: IK.pageHref(it.href), 'aria-current': active ? 'page' : undefined,
+          href: p.ws ? IK.wsHref(it.href) : IK.pageHref(it.href), 'aria-current': active ? 'page' : undefined,
           onClick: active ? function (e) { e.preventDefault(); } : undefined
         })));
   }
@@ -90,6 +97,10 @@
     var chats = p.chats || own;
     var pr = R.useState(promoOff), promoHidden = pr[0], setPromoHidden = pr[1];
     var user = p.user || {};
+    var ws = p.workspaces || null;
+    /* Workspaces sits right under New Chat (user, 2026-10-19) */
+    /* Workspaces last: New Chat · Data Sources · Metrics · Files · Workspaces (user, 2026-10-19) */
+    var nav = ws ? IK.APP_NAV.concat([WS_NAV]) : IK.APP_NAV;
 
     var showPromo = plan === 'free' && !promoHidden && p.promo !== false;
 
@@ -117,8 +128,8 @@
       h(D.SidebarContent, null,
         h(D.SidebarGroup, null,
           h(D.SidebarMenu, null,
-            IK.APP_NAV.map(function (it) {
-              return h(NavRow, { key: it.key, item: it, active: p.nav === it.key, collapsed: collapsed, badge: p.badges ? p.badges[it.key] : null });
+            nav.map(function (it) {
+              return h(NavRow, { key: it.key, item: it, ws: !!ws, active: p.nav === it.key, collapsed: collapsed, badge: p.badges ? p.badges[it.key] : null });
             }))),
         collapsed
           ? h(D.SidebarGroup, null,

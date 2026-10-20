@@ -36,6 +36,8 @@
   var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
   function App() {
+    /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
+    var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var pop = RK.useQueryState('pop', 'filled');
     var t = R.useState(''), text = t[0], setText = t[1];
     var promptRef = R.useRef(null);
@@ -47,6 +49,18 @@
     var ob = IK.onboarding.get();
     var src = onb && oq.path === 'conn' ? IK.onbSource(oq.source) : null;
     var conns = onb ? (src ? [{ logo: src.name, name: (ob.source && ob.source.id === src.id && ob.source.label) || src.name, on: true }] : []) : undefined;
+    /* shared workspaces (on): own + shared from every workspace, with who · which workspace; what the
+       plan can't use or a Blocked workspace holds is not offered (it just isn't in the list) */
+    if (!onb && wsOn && IK.getPlan() !== 'free') {
+      /* one row per connection, whatever number of workspaces bring it; its usable workspaces under it */
+      var sharedConns = IK.wsSharedConnections(ws.list).map(function (c) {
+        var open = c.wsIds.filter(function (id) { var w = ws.find(id); return w && w.status !== 'blocked'; });
+        if (!open.length) return null;
+        return { logo: c.name, name: c.label, on: true, by: c.by, wsName: open.map(function (id) { return ws.find(id).name; }).join(' · '), withBy: wsq.owner };
+      }).filter(Boolean);
+      if (sharedConns.length) conns = IK.COMPOSER_CONNECTIONS.concat(sharedConns);
+    }
+    /* no invitation banner anywhere (user, 2026-10-20: "банер запрошення ніде не треба") — the invitation is the email */
     var files = onb ? (oq.path === 'files' ? (ob.files && ob.files.length ? ob.files : ['sales_pipeline_q3_2026.xlsx']) : []) : undefined;
     var typed = IK.useTypedPlaceholder(IK.ONB_PROMPTS[oq.role] || IK.ONB_PROMPTS.other, touring);
     var focusAfter = R.useRef(true);
@@ -71,14 +85,14 @@
       h(RK.ReviewBar, {
         /* onboarding mode: no Plan (a new account is on the free trial) and, while the tour runs, no
            Popover state (no menu opens under it) — only the switches that change this screen */
-        title: 'Chat landing', status: 'approved', size: 'sm', plan: onb ? false : { showLabel: true },
+        title: 'Chat landing', status: 'approved', size: 'sm', plan: onb || RK.wsOwnsPlan(wsq) ? false : { showLabel: true },
         controls: [touring ? null : {
           label: 'Popover state', showLabel: true, value: pop[0], onChange: pop[1],
           options: [{ value: 'loading', label: 'Loading' }, { value: 'empty', label: 'Empty' },
                     { value: 'filled', label: 'Filled' }, { value: 'scroll', label: 'Scrolling' }]
-        }].concat(mode ? RK.onboardingControls({ here: 'chat', step: mode }) : [])
+        }].concat(mode ? RK.onboardingControls({ here: 'chat', step: mode }) : RK.workspaceControls({ here: 'chat' }))
       }),
-      h(IK.AppShell, { glow: true, scroll: false, chats: chats },
+      h(IK.AppShell, { glow: true, scroll: false, chats: chats, workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h(IK.ChatHero, null,
           h(IK.Composer, {
             /* the first thing typed under the tour ends it (it fades out) and stays in the prompt */

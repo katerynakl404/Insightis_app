@@ -12,7 +12,8 @@
     "AuthReviewNav/AuthReviewNav.js",
     "AuthScreenSwitch/AuthScreenSwitch.js",
     "OnbReview/OnbReview.js",
-    "ReviewBar/ReviewBar.js"
+    "ReviewBar/ReviewBar.js",
+    "WsReview/WsReview.js"
   ];
   var stories = [
     "AuthReviewNav/AuthReviewNav.stories.js",

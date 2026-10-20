@@ -1,0 +1,23 @@
+/* Workspaces — IK.WsNotice. DevartUI's Alert drops its actions under the copy below 640px
+   (max-sm:w-full) but its row does not wrap, so the copy collapsed to a word per line; the wrap lets
+   the actions go under the copy (the same fix as Data Sources' .pg-alert). */
+@media (max-width: 639px) { .ik-ws-notice { flex-wrap: wrap; } }
+
+/* WsAlertStack folded: a deck — the first notice on top, the next ones' cards behind it, each 8px lower and 12px
+   narrower a side (the 4px grid; user, 2026-10-20: "більше сховай"), so their bottom edges show; on hover they spread, and a click opens the pile (no
+   extra button — user, 2026-10-19). The notice is opaque, so it hides the rest of them. */
+.ik-ws-deck { position: relative; isolation: isolate; }
+.ik-ws-deck[data-count="1"] { padding-bottom: 8px; }
+.ik-ws-deck[data-count="2"] { padding-bottom: 16px; }
+.ik-ws-deck-top { position: relative; z-index: 2; }
+.ik-ws-deck-edge { position: absolute; bottom: 0; padding: 0; cursor: pointer; transition: transform 150ms ease; }
+.ik-ws-deck-edge[data-depth="1"] { top: 8px; inset-inline: 12px; z-index: 1; }
+.ik-ws-deck-edge[data-depth="2"] { top: 16px; inset-inline: 24px; z-index: 0; }
+.ik-ws-deck[data-count="2"] .ik-ws-deck-edge[data-depth="1"] { bottom: 8px; }
+/* no brightening: in the light theme it washed the edges out to white (user, 2026-10-20) — the spread is the cue */
+.ik-ws-deck:has(.ik-ws-deck-edge:hover) .ik-ws-deck-edge[data-depth="1"] { transform: translateY(4px); }
+.ik-ws-deck:has(.ik-ws-deck-edge:hover) .ik-ws-deck-edge[data-depth="2"] { transform: translateY(8px); }
+@media (prefers-reduced-motion: reduce) { .ik-ws-deck-edge { transition: none; } }
+
+/* IK.RowMark: the description in its popover stops at five lines (the row opens the whole of it) */
+.ik-rowmark-desc { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }

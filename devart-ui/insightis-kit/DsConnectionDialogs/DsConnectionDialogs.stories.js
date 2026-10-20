@@ -16,4 +16,9 @@
       return h(IK.DsDisconnectDialog, { open: o, onOpenChange: set, label: 'Main CRM', onConfirm: function () { set(false); } });
     } });
   } });
+  IK.story('DsConnectionDialogs', { title: 'Disconnect a shared connection — Shared into Sales and Support (no member count)', render: function () {
+    return h(Opener, { label: 'Disconnect "Main CRM"', render: function (o, set) {
+      return h(IK.DsDisconnectDialog, { open: o, onOpenChange: set, label: 'Main CRM', sharedIn: ['Sales', 'Support'], onConfirm: function () { set(false); } });
+    } });
+  } });
 })();

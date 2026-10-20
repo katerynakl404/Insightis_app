@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Workspaces</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
+</head>
+<style>
+  /* Page layout only: the file preview (IK.DsFilePreview) splits the main column as on Files — a third
+     column beside the list; below 1024px it covers the list (DsFilePreview.css) */
+  .pg-split { position: relative; display: flex; flex: 1 1 0; min-width: 0; min-height: 0; }
+</style>
+<body>
+<div id="root"></div>
+<script>
+/* Workspaces — one page, two screens, as the AI connectivity prototype keeps its list (#/) and an
+   opened workspace (#/w1) in one place (user, 2026-10-19). Shared workspaces, phase 1 (Claude Doc
+   «Дизайн: Shared workspaces, фаза 1», AIINS-1852 / 1858 / 1866 / 1887). Rules: concept/workspace.rules.md.
+   Reached from the sidebar's Workspaces row, under New Chat.
+
+   the list (no ?w)   ListView — the title row with Create Workspace (round, as Insightis title-row
+                      actions; under the title on a phone), the search (InputGroup lg, as Metrics /
+                      Catalog / Chats), DevartUI ListSelectionBar (count · Select all → the selection +
+                      bulk Delete, as Files), IK.WsList: own and invited workspaces in one list (the role
+                      is the workspace's), 20 at a time + Load more; a row opens the workspace (?w=).
+   a workspace (?w=)  WorkspaceView — "Back to workspaces" (PageHeader onBack) returns to the list in
+                      place; Overview first. Owner: Overview · Connections · Members · Files, the title
+                      row's action following the tab (Add Connection · Invite Members · Share Files);
+                      Blocked → IK.WsNotice + those locked. Invited: the same read-only — Overview ·
+                      Connections · Metrics · Files, every management control absent. ?do=add|invite
+                      opens that dialog once (the list's ⋮ links here).
+   Review switches (live, independent): Plan · Invited · Data · Names · Theme. */
+(function () {
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
+
+  /* this page is the feature: it is always on */
+  (function () {
+    var u = new URL(location.href);
+    if (!u.searchParams.get('ws')) { u.searchParams.set('ws', '1'); history.replaceState(null, '', u); }
+  })();
+
+  function strong(t) { return h('span', { className: 'font-medium text-ink-primary' }, t); }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function names(list) {
+    var n = list.slice(0, 3).map(function (w) { return w.name; });
+    return list.length > 3 ? n.concat([plural(list.length - 3, 'other', 'others')]) : n;
+  }
+
+  var MY_ALIASES = ['@mrr_growth', '@issues_created', '@issues_resolved', '@sprint_velocity', '@bug_count', '@prs_opened', '@prs_merged'];
+
+  function toFile(f) { return { id: f.id, name: f.name, type: f.type, origin: f.kind, size: f.size, date: IK.wsFmtDate(f.date), time: f.date }; }
+  function listHref(p) { return IK.wsHref('concept/workspaces.html', Object.assign({ w: null, tab: null, created: null }, p || {})); }
+
+  function Empty(p) {
+    return h(D.StatusView, {
+      size: 'lg', surface: 'embedded', withIconHalo: false, icon: h(D.EmptyStateIllustration),
+      title: p.title, description: p.description, actions: p.action
+    });
+  }
+
+  function ListView() {
+    var q = RK.useWsQuery();
+    var ws = IK.useWorkspaces(RK.wsStore(q));
+    var plan = IK.usePlan()[0], free = plan === 'free', trial = q.trial && !free;
+    var sq = RK.useQueryState('q', ''), query = sq[0], setQuery = sq[1];
+    /* own and shared apart (user, 2026-10-19): FilterChips All · My Workspaces · Shared, as Files */
+    var rf = RK.useQueryState('own', 'all'), roleF = rf[0], setRoleF = rf[1];
+    var cr = R.useState(false), creating = cr[0], setCreating = cr[1];
+    var rn = R.useState(null), renaming = rn[0], setRenaming = rn[1];
+    var dl = R.useState(null), deleting = dl[0], setDeleting = dl[1];
+    var fp = R.useState(null), filePrev = fp[0], setFilePrev = fp[1];
+    var lv = R.useState(null), leaving = lv[0], setLeaving = lv[1];
+    /* a connection opened from the list's menu: Connection Details, in place */
+    var cp = R.useState(null), conn = cp[0], setConn = cp[1];
+    var rc = R.useState(null), removing = rc[0], setRemoving = rc[1];
+    /* Invite / Add Connection / Share Files from the list: the dialog opens here, and only once it is
+       done does the page go to the workspace, on that tab (user, 2026-10-19) */
+    var ac = R.useState(null), acting = ac[0], setActing = ac[1];
+    var aw = acting && ws.find(acting.w.id);
+    function done(w, tab) { setActing(null); RK.setWs({ w: w.id, tab: tab }); }
+    var sl = R.useState([]), selected = sl[0], setSelected = sl[1];
+    var of = R.useState({}), off = of[0], setOff = of[1];
+    function dismiss(k) { return function () { var o = Object.assign({}, off); o[k] = true; setOff(o); }; }
+
+    /* Blocked → Active (the person's plan back, or the inviting Owner's) is the brief's "Restored":
+       confirmed once — nothing was lost */
+    var sig = ws.list.map(function (w) { return w.id + ':' + w.status; }).join(',');
+    var was = R.useRef(null);
+    R.useEffect(function () {
+      var prev = was.current || {};
+      var back = ws.list.filter(function (w) { return prev[w.id] === 'blocked' && w.status === 'active'; });
+      if (back.length) D.toast.success(h(IK.Fragment, null, strong(IK.wsJoin(names(back))), back.length > 1 ? ' are available again' : ' is available again'),
+        { description: 'Everything is where it was — nothing was lost' });
+      var now = {}; ws.list.forEach(function (w) { now[w.id] = w.status; }); was.current = now;
+    }, [sig]);
+
+    function create() { setCreating(true); }
+    var createBtn = h(IK.Locked, { feature: 'workspaces', locked: free, surface: 'modal', tip: 'Available on Pro' },
+      /* the first-run banner's action: secondary, as the Data Sources banner's Browse Catalog */
+      h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }), onClick: create }, 'Create Workspace'));
+    /* the title row's action is round, as every Insightis page's is (Create Connection, Create
+       Metric); on a phone it keeps its label and drops under the title (ListPage wrap, as Metrics) */
+    var headerAction = h(IK.Locked, { feature: 'workspaces', locked: free, surface: 'modal', tip: 'Available on Pro' },
+      h(D.Button, { variant: 'primary', size: 'sm', rounded: 'full', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }), onClick: create }, 'Create Workspace'));
+
+    var both = ws.owned.length > 0 && ws.shared.length > 0;
+    var all = ws.owned.concat(ws.shared);
+    /* review switch Shared: Tabs → My Workspaces · Shared as tabs, no All (user, 2026-10-19) */
+    var asTabs = both && q.share === 'tabs', role = asTabs && roleF === 'all' ? 'mine' : roleF;
+    var list = !both || role === 'all' ? all : role === 'mine' ? ws.owned : ws.shared;
+    var qq = query.trim().toLowerCase();
+    var vis = qq ? list.filter(function (w) { return w.name.toLowerCase().indexOf(qq) >= 0; }) : list;
+    /* every row can be picked (user, 2026-10-19): one's own to delete, an invited one to leave */
+    var mine = vis;
+    var sel = selected.filter(function (id) { return mine.some(function (w) { return w.id === id; }); });
+    var selOwn = sel.filter(function (id) { var w = ws.find(id); return w && w.role === 'owner'; });
+    var selInv = sel.filter(function (id) { var w = ws.find(id); return w && w.role !== 'owner'; });
+
+    /* the trial, said ahead: the Owner's workspaces stop for members, the Member's shared items stop */
+    var counts = { connections: 0, metrics: 0, files: 0 };
+    ws.shared.forEach(function (w) {
+      counts.connections += w.connections.length; counts.files += w.files.length;
+      w.connections.forEach(function (c) { counts.metrics += c.metrics.length; });
+    });
+    /* no invitation banner anywhere (user, 2026-10-20: "банер запрошення ніде не треба") — the invitation is the email */
+    var notices = [
+      trial && all.length && !off.t ? h(IK.WsNotice, { key: 't', kind: 'trial', owned: names(ws.owned), sharedFrom: names(ws.shared), counts: counts, onDismiss: dismiss('t') }) : null
+    ].filter(Boolean);
+
+    /* DevartUI ListSelectionBar, as Files: the count · Select all at rest; "N selected", Exit
+       selection and Delete once a row is ticked. Only the person's own workspaces can be picked. */
+    /* an action that can never happen is not shown: with none of the person's own rows in view there is
+       nothing to select, so the line is the count alone (DevartUI MetaRow, as Chats) */
+    /* a bulk action: disabled with the reason in its tooltip when the pick holds the other kind */
+    function bulkAct(label, icon, off, why, run) {
+      var btn = h(D.Button, { variant: 'destructiveTertiary', size: 'sm', type: 'button', disabled: off, leftSlot: h(IK.Icon, { name: icon }), onClick: off ? undefined : run }, label);
+      return off ? h(IK.Tip, { key: label, tip: why, wrap: true }, h('span', { className: 'inline-flex', tabIndex: 0 }, btn)) : h(IK.Fragment, { key: label }, btn);
+    }
+    var bar = !vis.length ? null : !mine.length ? h(D.MetaRow, null, h(D.MetaRowCount, null, plural(vis.length, 'workspace', 'workspaces'))) : h(D.ListSelectionBar, {
+      title: plural(vis.length, 'workspace', 'workspaces'),
+      selectedText: sel.length + ' selected',
+      selectedCount: sel.length,
+      allSelected: mine.length > 0 && sel.length === mine.length,
+      exitSelectionLabel: 'Exit selection',
+      onSelectAll: function () { setSelected(mine.map(function (w) { return w.id; })); },
+      onClearSelection: function () { setSelected([]); },
+      /* Leave is for the invited ones, Delete for the person's own: each is there whenever such rows are in the list,
+         and works only when the pick is all of its kind — otherwise it is disabled and says why (user, 2026-10-20:
+         'правильніше дізейблити з поясненням'); a pick changes, so the action comes back */
+      rightSlot: sel.length ? h('div', { className: 'flex items-center gap-1' },
+        vis.some(function (w) { return w.role !== 'owner'; }) ? bulkAct('Leave', 'ws-leave', !selInv.length || selOwn.length > 0,
+          'You can’t leave a workspace you own — deselect it, or delete it', function () { setLeaving({ ids: selInv }); }) : null,
+        vis.some(function (w) { return w.role === 'owner'; }) ? bulkAct('Delete', 'delete', !selOwn.length || selInv.length > 0,
+          'Only the owner can delete a workspace — deselect the ones shared with you', function () { setDeleting({ ids: selOwn }); }) : null) : undefined
+    });
+
+    var delList = deleting ? deleting.ids.map(function (id) { return ws.find(id); }).filter(Boolean) : [];
+    var leaveList = leaving ? leaving.ids.map(function (id) { return ws.find(id); }).filter(Boolean) : [];
+
+    return h(IK.Fragment, null,
+      h(RK.ReviewBar, { title: 'Workspaces', status: 'concept', size: 'sm', autoHeight: true, plan: false, controls: RK.workspaceControls({ here: 'workspaces' }) }),
+      h(IK.AppShell, { nav: 'workspaces', burger: false, scroll: false, workspaces: ws, trialDays: trial ? 3 : undefined },
+        h('div', { className: 'pg-split' }, h(IK.ListPage, { title: 'Workspaces', actions: headerAction, wrap: true },
+          notices.length ? h('div', { className: 'flex flex-col gap-3' }, notices) : null,
+          /* the Insightis search (Metrics, Catalog, Chats): InputGroup lg, the magnifier, Clear search */
+          asTabs ? h(D.Tabs, { value: role, onValueChange: function (v) { setRoleF(v); setSelected([]); } },
+            h(D.TabsList, { className: 'mb-0 flex w-full' },
+              h(D.TabsTrigger, { value: 'mine' }, 'My Workspaces'),
+              h(D.TabsTrigger, { value: 'shared' }, 'Shared'))) : null,
+          all.length ? h(D.InputGroup, { size: 'lg', role: 'search' },
+            h(D.InputGroupAddon, { align: 'inline-start' }, h(IK.Icon, { name: 'search', size: 20 })),
+            h(D.InputGroupInput, { type: 'search', placeholder: 'Search workspaces…', 'aria-label': 'Search workspaces', value: query,
+              onChange: function (e) { setQuery(e.target.value); } }),
+            query ? h(IK.Tip, { tip: 'Clear search' },
+              h(D.InputGroupAction, { 'aria-label': 'Clear search', onClick: function () { setQuery(''); } }, h(IK.Icon, { name: 'x' }))) : null) : null,
+          h('div', { className: 'flex flex-col gap-2' },
+            /* only when there are both: with one kind the chips would filter nothing */
+            both && q.share === 'owner' ? h('div', { className: 'flex' }, h(IK.WsOwnerFilter, {
+              value: roleF === 'mine' ? 'me' : roleF === 'shared' ? 'shared' : 'any',
+              onChange: function (v) { setRoleF(v === 'me' ? 'mine' : v === 'shared' ? 'shared' : 'all'); setSelected([]); },
+              counts: { me: ws.owned.length, shared: ws.shared.length }
+            })) : both && !asTabs ? h(D.FilterChips, {
+              value: roleF, onValueChange: function (v) { if (v) { setRoleF(v); setSelected([]); } },
+              items: [{ value: 'all', label: 'All' }, { value: 'mine', label: 'My Workspaces' }, { value: 'shared', label: 'Shared' }]
+            }) : null,
+            /* DevartUI's MetaRow (44px) and ListSelectionBar (37px) differ in height: one 44px slot for
+               either, so the table sits at the same place on My Workspaces and Shared */
+            bar ? h('div', { className: 'flex min-h-11 items-center' }, h('div', { className: 'min-w-0 flex-1' }, bar)) : null,
+            h(IK.WsList, {
+              workspaces: list, columnsOf: all, query: query, createButton: createBtn, compact: !!filePrev,
+              selected: sel, onSelect: setSelected,
+              onRename: setRenaming,
+              onDelete: function (w) { setDeleting({ ids: [w.id] }); },
+              onLeave: function (w) { setLeaving({ ids: [w.id] }); },
+              onConnection: function (w, c) { setConn({ w: w, c: c }); },
+              onAct: function (kind, w) { setActing({ kind: kind, w: w }); },
+              onFile: function (w, f) {
+                var x = toFile(f), own = w.role === 'owner';
+                setFilePrev(own ? Object.assign(x, { sharedWith: ws.owned.filter(function (o) { return o.files.some(function (y) { return y.id === f.id; }); }).map(function (o) { return o.name; }) })
+                  : Object.assign(x, { by: w.owner.name, wsNames: [w.name], links: IK.wsLinks([w]), locked: free, muted: w.status === 'blocked' }));
+              },
+              onRenew: function (w) { ws.requestRenewal(w.id); D.toast.success(h(IK.Fragment, null, 'Email sent to ', strong(w.owner.name)), { description: 'You’ll get access back once the plan is renewed' }); }
+            }))),
+          h(IK.DsFilePreview, { file: filePrev, onClose: function () { setFilePrev(null); }, onDownload: function () { D.toast('Download started'); } }))),
+      h(IK.WsCreateDialog, {
+        open: creating, onOpenChange: setCreating, taken: function (n) { return IK.wsNameTaken(ws.list, n); },
+        onCreate: function (n, d) { var id = ws.create(n, d); setCreating(false); location.assign(IK.wsHref('concept/workspaces.html', { w: id, created: '1', q: null })); }
+      }),
+      h(IK.WsRenameDialog, {
+        open: !!renaming, onOpenChange: function (o) { if (!o) setRenaming(null); }, name: renaming && renaming.name,
+        taken: function (n) { return IK.wsNameTaken(ws.list, n, renaming && renaming.id); },
+        onSave: function (n) { ws.rename(renaming.id, n); setRenaming(null); D.toast.success('Workspace renamed', { description: n }); }
+      }),
+      h(IK.WsConfirmDialog, {
+        open: !!leaving, onOpenChange: function (o) { if (!o) setLeaving(null); },
+        title: leaveList.length === 1 ? 'Leave ' + leaveList[0].name + '?' : 'Leave ' + leaveList.length + ' workspaces?',
+        text: (leaveList.length === 1 ? 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + leaveList[0].owner.name + ' to invite you.'
+                                      : 'You’ll lose access to everything in them. To rejoin, ask their owners to invite you.'),
+        confirmLabel: leaveList.length === 1 ? 'Leave Workspace' : 'Leave ' + leaveList.length + ' Workspaces',
+        onConfirm: function () {
+          var gone = leaveList; setLeaving(null); setSelected([]);
+          gone.forEach(function (w) { ws.leave(w.id); });
+          D.toast.success(gone.length === 1 ? h(IK.Fragment, null, 'You left ', strong(gone[0].name)) : 'You left ' + gone.length + ' workspaces');
+        }
+      }),
+      h(IK.WsConfirmDialog, {
+        open: !!deleting, onOpenChange: function (o) { if (!o) setDeleting(null); },
+        title: delList.length === 1 ? 'Delete ' + delList[0].name + '?' : 'Delete ' + delList.length + ' workspaces?',
+        text: (delList.length === 1 ? 'Members lose access to everything shared in it, and its pending invitations stop working.'
+                                    : 'Members lose access to everything shared in them, and their pending invitations stop working.') +
+              ' Your connections, metrics and files stay yours.',
+        confirmLabel: delList.length === 1 ? 'Delete Workspace' : 'Delete ' + delList.length + ' Workspaces',
+        onConfirm: function () {
+          var gone = delList; setDeleting(null); setSelected([]);
+          gone.forEach(function (w) { ws.remove(w.id); });
+          D.toast.success(gone.length === 1 ? h(IK.Fragment, null, strong(gone[0].name), ' deleted') : gone.length + ' workspaces deleted');
+        }
+      }),
+      /* a connection opened from the list's menu: Connection Details in place — the Owner's with
+         Remove from Workspace, an invited one read-only */
+      h(IK.DsConnectionPanel, (function () {
+        var w = conn && ws.find(conn.w.id), c = w && w.connections.filter(function (x) { return x.id === conn.c.id; })[0];
+        return {
+          mode: w && w.role === 'owner' ? 'workspace' : 'shared',
+          renewal: w && w.role !== 'owner' ? IK.wsRenewal(ws, [w.id]) : null,
+          connection: c ? { name: c.name, label: c.label, metrics: Array.isArray(c.metrics) ? c.metrics.length : c.metrics, by: w.owner.name, wsName: w.name,
+                            lastSync: c.lastSync, status: c.status, desc: c.desc,
+                            locked: w.role !== 'owner' && free, muted: w.role !== 'owner' && w.status === 'blocked',
+                            also: w.role === 'owner' ? IK.wsWhereShared(ws.list, c.id).filter(function (x) { return x.id !== w.id; }).map(function (x) { return x.name; }) : null, links: IK.wsLinks(IK.wsWhereShared(ws.list, c.id)) } : null,
+          onOpenChange: function (o) { if (!o) setConn(null); },
+          onRemove: function () { setRemoving({ w: w, c: c }); setConn(null); }
+        };
+      })()),
+      h(IK.WsConfirmDialog, {
+        open: !!removing, onOpenChange: function (o) { if (!o) setRemoving(null); },
+        title: removing ? 'Remove ' + removing.c.label + ' from ' + removing.w.name + '?' : '',
+        text: 'Members lose this connection and its metrics in their chats. The connection itself stays yours — nothing is deleted.',
+        confirmLabel: 'Remove',
+        onConfirm: function () {
+          var r = removing; setRemoving(null); ws.removeConnection(r.w.id, r.c.id);
+          D.toast.success(h(IK.Fragment, null, strong(r.c.label), ' removed from ', strong(r.w.name)), { description: 'Members can no longer use it' });
+        }
+      }),
+      aw ? h(IK.WsInviteDialog, {
+        open: acting.kind === 'invite', onOpenChange: function (o) { if (!o) setActing(null); }, ws: aw,
+        check: function (e) {
+          if (aw.members.some(function (m) { return m.email === e; })) return 'member';
+          if (aw.invites.some(function (i) { return i.email === e; })) return 'invited';
+          return null;
+        },
+        onInvite: function (e) { ws.invite(aw.id, e); done(aw, 'members'); D.toast.success(h(IK.Fragment, null, 'Invitation sent to ', strong(e)), { description: 'They get an email with a link to join' }); }
+      }) : null,
+      aw ? h(IK.WsAddConnectionsDialog, {
+        open: acting.kind === 'add', onOpenChange: function (o) { if (!o) setActing(null); }, ws: aw, connections: IK.WS_CONNECTIONS,
+        where: function (cid) { return IK.wsWhereShared(ws.list, cid).filter(function (x) { return x.id !== aw.id; }).map(function (x) { return x.name; }); },
+        onAdd: function (list) {
+          /* stays on the list — the toast says where it went (user, 2026-10-20) */
+          ws.addConnections(aw.id, list); setActing(null);
+          D.toast.success(list.length === 1 ? h(IK.Fragment, null, strong(list[0].label), ' added to ', strong(aw.name))
+                                            : h(IK.Fragment, null, plural(list.length, 'connection', 'connections') + ' added to ', strong(aw.name)),
+            { description: 'Members can use ' + (list.length === 1 ? 'it' : 'them') + ' in their chats now' });
+        }
+      }) : null,
+      aw ? h(IK.WsShareFilesDialog, {
+        open: acting.kind === 'files', onOpenChange: function (o) { if (!o) setActing(null); }, ws: aw, files: IK.WS_FILES,
+        onShare: function (list) {
+          list.forEach(function (f) { ws.shareFile(aw.id, f); }); done(aw, 'files');
+          D.toast.success(list.length === 1 ? h(IK.Fragment, null, strong(list[0].name), ' added to ', strong(aw.name))
+                                            : h(IK.Fragment, null, plural(list.length, 'file', 'files') + ' shared with ', strong(aw.name)),
+            { description: 'Members can view, download and add ' + (list.length === 1 ? 'it' : 'them') + ' to their chats' });
+        }
+      }) : null);
+
+  }
+
+  function WorkspaceView() {
+    var q = RK.useWsQuery();
+    var ws = IK.useWorkspaces(RK.wsStore(q));
+    var plan = IK.usePlan()[0], free = plan === 'free', trial = q.trial && !free;
+    var small = D.useMaxWidth(640);
+    var w = ws.find(q.w);
+    var owner = !!w && w.role === 'owner', blocked = !!w && w.status === 'blocked';
+    var tabQ = RK.useQueryState('tab', 'overview'), tab = tabQ[0], setTab = tabQ[1];
+    var dl = R.useState(null), dlg = dl[0], setDlg = dl[1];
+    var lvw = R.useState(false), leavingWs = lvw[0], setLeavingWs = lvw[1];
+    var dlw = R.useState(false), deletingWs = dlw[0], setDeletingWs = dlw[1];
+    var pn = R.useState(null), panel = pn[0], setPanel = pn[1];
+    var fpw = R.useState(null), filePrev = fpw[0], setFilePrev = fpw[1];
+    var of = R.useState({}), off = of[0], setOff = of[1];
+    function dismiss(k) { return function () { var o = Object.assign({}, off); o[k] = true; setOff(o); }; }
+    /* Blocked → Active is the brief's "Restored": the confirmation shows once, until dismissed */
+    var rs = R.useState(false), restored = rs[0], setRestored = rs[1];
+    var st = w ? w.id + ':' + w.status : '';
+    var was = R.useRef(st);
+    R.useEffect(function () {
+      var prev = was.current.split(':');
+      if (w && prev[0] === w.id && prev[1] === 'blocked' && w.status === 'active') setRestored(true);
+      if (w && w.status === 'blocked') { setRestored(false); setOff(Object.assign({}, off, { b: false })); }
+      if (w && prev[0] !== w.id) setRestored(false);
+      was.current = st;
+    }, [st]);
+
+    /* no such workspace (deleted, or another Data world) → the list, in place */
+    R.useEffect(function () { if (!w) RK.setWs({ w: null, tab: null }); }, [!w]);
+    /* a link from the list may ask for a dialog (do=add | invite): open it once, on the Owner's page */
+    R.useEffect(function () {
+      var u = new URL(location.href), act = u.searchParams.get('do');
+      if (!act) return;
+      u.searchParams.delete('do'); history.replaceState(null, '', u);
+      if (w && w.role === 'owner' && w.status !== 'blocked' && (act === 'add' || act === 'invite' || act === 'files')) setDlg({ kind: act });
+    }, []);
+    /* a workspace just created on the list lands here: say so once */
+    R.useEffect(function () {
+      if (new URLSearchParams(location.search).get('created') && w) {
+        D.toast.success(h(IK.Fragment, null, strong(w.name), ' created'), { description: 'Add a connection, then invite members' });
+        var u = new URL(location.href); u.searchParams.delete('created'); history.replaceState(null, '', u);
+      }
+    }, []);
+    if (!w) return null;
+
+    function close() { setDlg(null); }
+    var lockWs = { feature: 'workspaces', locked: blocked, surface: 'modal', tip: 'Available on Pro' };
+
+    /* ── owner actions ── */
+    function removeConn(c) {
+      setDlg({ kind: 'confirm', title: 'Remove ' + c.label + ' from ' + w.name + '?',
+        text: 'Members lose this connection and its ' + plural(c.metrics || 0, 'metric', 'metrics') + ' in their chats. The connection itself stays yours — nothing is deleted.',
+        confirm: 'Remove', run: function () {
+          ws.removeConnection(w.id, c.id);
+          D.toast.success(h(IK.Fragment, null, strong(c.label), ' removed from ', strong(w.name)), { description: 'Members can no longer use it' });
+        } });
+    }
+    function removeMember(m) {
+      setDlg({ kind: 'confirm', title: 'Remove ' + m.name + ' from ' + w.name + '?',
+        text: 'They lose access to its connections, metrics and files at once. Their chats stay — answers already given remain.',
+        confirm: 'Remove', run: function () {
+          ws.removeMember(w.id, m.email);
+          D.toast.success(h(IK.Fragment, null, strong(m.name), ' removed from ', strong(w.name)));
+        } });
+    }
+    function revoke(i) {
+      setDlg({ kind: 'confirm', title: 'Revoke the invitation?',
+        text: i.email + ' can’t join ' + w.name + ' with it any more. You can invite them again later.',
+        confirm: 'Revoke', run: function () {
+          ws.revoke(w.id, i.email);
+          D.toast.success('Invitation revoked', { description: i.email });
+        } });
+    }
+    function resend(i) {
+      ws.resend(w.id, i.email);
+      D.toast.success(h(IK.Fragment, null, 'Invitation sent again to ', strong(i.email)), { description: 'They get a new email with the link' });
+    }
+    function stopSharing(ids) {
+      var list = w.files.filter(function (x) { return ids.indexOf(x.id) >= 0; }); if (!list.length) return;
+      var one = list.length === 1;
+      /* the menu's words: Remove from Workspace (user, 2026-10-20: one wording) */
+      setDlg({ kind: 'confirm', title: one ? 'Remove ' + list[0].name + ' from ' + w.name + '?' : 'Remove ' + list.length + ' files from ' + w.name + '?',
+        text: 'Members of ' + w.name + ' lose access to ' + (one ? 'it' : 'them') + '. ' + (one ? 'The file stays' : 'The files stay') + ' in your Files.',
+        confirm: 'Remove', run: function () {
+          list.forEach(function (f) { ws.unshareFile(w.id, f.id); });
+          D.toast.success(one ? h(IK.Fragment, null, strong(list[0].name), ' removed from ' + w.name) : list.length + ' files removed from ' + w.name, { description: (one ? 'It stays' : 'They stay') + ' in your Files' });
+        } });
+    }
+    function shareFiles() { setDlg({ kind: 'files' }); }
+
+    /* ── the tabs ── */
+    var conns = w.connections.map(function (c) {
+      var n = Array.isArray(c.metrics) ? c.metrics.length : c.metrics;
+      /* its own check time, as Data Sources shows it (user, 2026-10-19: 'чому ласт чек різний') */
+      return { id: c.id, name: c.name, label: c.label, desc: c.desc, metrics: n, lastSync: c.lastSync, status: c.status, by: w.owner.name, wsName: w.name, locked: !owner && free, muted: !owner && blocked };
+    });
+    var files = w.files.map(toFile);
+    /* the preview: an invited workspace's file says who shared it (not where — this is the place) and its
+       state; the Owner's carries the row's ⋮ (Remove from Workspace) */
+    function openFile(id) {
+      var f = files.filter(function (x) { return x.id === id; })[0]; if (!f) { setFilePrev(null); return; }
+      setFilePrev(owner ? f : Object.assign({}, f, { by: w.owner.name, locked: free, muted: blocked }));
+    }
+    var overview = { value: 'overview', label: 'Overview', body: h(IK.WsOverview, {
+      ws: w, me: ws.me, owner: owner, addLocked: blocked, onTab: setTab, onLeave: function () { setLeavingWs(true); },
+      onRename: function () { setDlg({ kind: 'rename' }); }, onDelete: function () { setDeletingWs(true); }, onAdd: function () { setDlg({ kind: 'add' }); },
+      onInvite: function () { setDlg({ kind: 'invite' }); }, onShareFiles: shareFiles,
+      onConnection: function (c) { setPanel(c.id); } }) };
+    var tabs;
+    if (owner) {
+      var ownMx = IK.wsOwnMetricRows(w);
+      var addBtn = h(IK.Locked, lockWs,
+        h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }), onClick: function () { setDlg({ kind: 'add' }); } }, 'Add Connection'));
+      tabs = [overview,
+        { value: 'connections', label: 'Connections', body: conns.length
+          ? h(IK.WsConnections, { variant: 'workspace', connections: conns, label: 'Connections in ' + w.name,
+              onOpen: function (c) { setPanel(c.id); }, selected: panel,
+              menu: function (c) {
+                return h(D.RowMenuButton, { reveal: false },
+                  h(D.DropdownMenuItem, { variant: 'danger', onSelect: function () { removeConn(c); } }, h(IK.Icon, { name: 'ws-remove', size: 16 }), 'Remove from Workspace'));
+              } })
+          : h(Empty, { title: 'No connections yet', description: 'Add one so members can use it in their chats', action: addBtn }) },
+        /* what its connections share with it — read-only, managed on Metrics (user, 2026-10-19: "де таба метрик?") */
+        { value: 'metrics', label: 'Metrics', body: ownMx.some(function (r) { return r.kind === 'metric'; })
+          ? h(IK.WsMetrics, { rows: ownMx })
+          : h(Empty, { title: 'No metrics yet', description: 'Metrics come with the connections you add', action: addBtn }) },
+        { value: 'files', label: 'Files', body: files.length
+          ? h(IK.WsFiles, { files: files, owner: true, onOpen: openFile,
+              onAction: function (a, ids) { if (a === 'stop-sharing') stopSharing(ids); else D.toast(ids.length > 1 ? 'Downloading ' + ids.length + ' files' : 'Download started'); } })
+          : h(Empty, { title: 'No files yet', description: 'Add files here or from the Files page',
+              action: h(IK.Locked, lockWs, h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }), onClick: shareFiles }, 'Add Files')) }) },
+        { value: 'members', label: 'Members', body: h(IK.WsMembers, { ws: w, me: ws.me, onRemove: removeMember, onResend: resend, onRevoke: revoke,
+            emptyAction: h(IK.Locked, lockWs, h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-users' }), onClick: function () { setDlg({ kind: 'invite' }); } }, 'Invite Members')) }) },
+      ];
+    } else {
+      /* inside the workspace its own name is not repeated on each connection (user, 2026-10-19: 'ми і так на маркетингу') */
+      var rows = IK.wsMetricRows(ws.list, { own: MY_ALIASES, locked: free, only: w.id }).map(function (r) {
+        return r.kind === 'conn' ? Object.assign({}, r, { shared: Object.assign({}, r.shared, { names: [] }) }) : r;
+      });
+      var nMetrics = rows.filter(function (r) { return r.kind === 'metric'; }).length;
+      tabs = [overview,
+        { value: 'connections', label: 'Connections', body: conns.length
+          ? h(IK.WsConnections, { variant: 'shared', noWs: true, connections: conns, label: 'Connections shared in ' + w.name,
+              onOpen: function (c) { setPanel(c.id); }, selected: panel })
+          : h(Empty, { title: 'No connections yet', description: w.owner.name + ' hasn’t added any yet' }) },
+        { value: 'metrics', label: 'Metrics', body: nMetrics
+          ? h(IK.WsMetrics, { ws: ws, rows: rows })
+          : h(Empty, { title: 'No metrics yet', description: 'Metrics come with shared connections' }) },
+        { value: 'files', label: 'Files', body: files.length
+          ? h(IK.WsFiles, { files: files.map(function (f) { return Object.assign({}, f, { locked: free, muted: blocked, by: w.owner.name, wsName: w.name }); }),
+              onOpen: openFile,
+              onAction: function (a, ids) {
+                var f = w.files.filter(function (x) { return x.id === ids[0]; })[0];
+                if (a === 'view') openFile(ids[0]);
+                else if (a === 'add-to-chat') location.assign(IK.wsHref('approved/chat-landing.html', { w: null, tab: null }));
+                else D.toast(a === 'download' ? (ids.length > 1 ? 'Downloading ' + ids.length + ' files' : 'Download started') : 'Opening ' + (f ? f.name : 'the file'));
+              } })
+          : h(Empty, { title: 'No files yet', description: w.owner.name + ' hasn’t added any yet' }) },
+        /* who is in it, to look at (user, 2026-10-19: "чому до мемберів нема переходу") — no actions */
+        { value: 'members', label: 'Members', body: h(IK.WsMembers, { ws: w, me: ws.me, readOnly: true }) }
+      ];
+    }
+    var cur = tabs.some(function (t) { return t.value === tab; }) ? tab : 'overview';
+    /* the title row's action follows the tab, as on Data Sources (Create Connection on My Connections
+       only): round primary, locked while Blocked — the Overview's tiles carry their own "+" */
+    var TAB_ACTION = {
+      connections: ['Add Connection', 'plus', function () { setDlg({ kind: 'add' }); }],
+      members: ['Invite Members', 'ws-users', function () { setDlg({ kind: 'invite' }); }],
+      /* every Add takes the plus, as Add Connection (user, 2026-10-19: 'чому різні іконки') */
+      files: ['Add Files', 'plus', shareFiles]
+    };
+    var ta = owner ? TAB_ACTION[cur] : null;
+    var titleAction = ta ? h(IK.Locked, lockWs,
+      h(D.Button, { variant: 'primary', size: 'sm', rounded: 'full', type: 'button', leftSlot: h(IK.Icon, { name: ta[1] }), onClick: ta[2] }, ta[0]))
+      /* a Member leaves from the bottom of the Overview, where the Owner deletes (user, 2026-10-19) */
+      : null;
+
+    var restoredNote = restored && !off.r;
+    var trialNote = trial && !off.t;
+    var notices = [
+      blocked && !off.b ? h(IK.WsNotice, { key: 'b', kind: owner ? 'blocked-owner' : 'blocked-member', ws: w, inPage: true, onDismiss: dismiss('b'),
+        onRequest: function () { ws.requestRenewal(w.id); D.toast.success(h(IK.Fragment, null, 'Email sent to ', strong(w.owner.name)), { description: 'You’ll get access back once the plan is renewed' }); } }) : null,
+      restoredNote ? h(IK.WsNotice, { key: 'r', kind: 'restored', ws: w, inPage: true, onDismiss: dismiss('r') }) : null,
+      trialNote && owner ? h(IK.WsNotice, { key: 'to', kind: 'trial', owned: [w.name], onDismiss: dismiss('t') }) : null,
+      trialNote && !owner ? h(IK.WsNotice, { key: 't', kind: 'trial', sharedFrom: [w.name], onDismiss: dismiss('t'),
+        counts: { connections: w.connections.length, metrics: IK.wsMetricRows(ws.list, { only: w.id }).filter(function (r) { return r.kind === 'metric'; }).length, files: w.files.length } }) : null
+    ].filter(Boolean);
+
+    var other = function (cid) {
+      return IK.wsWhereShared(ws.list, cid).filter(function (x) { return x.id !== w.id; }).map(function (x) { return x.name; });
+    };
+
+    return h(IK.Fragment, null,
+      h(IK.WsConfirmDialog, {
+        open: deletingWs, onOpenChange: setDeletingWs,
+        title: 'Delete ' + w.name + '?',
+        text: 'Members lose access, and pending invitations stop working. Your connections and files aren’t affected.',
+        confirmLabel: 'Delete Workspace',
+        onConfirm: function () {
+          var name = w.name; setDeletingWs(false); ws.remove(w.id); RK.setWs({ w: null, tab: null });
+          D.toast.success(h(IK.Fragment, null, strong(name), ' deleted'));
+        }
+      }),
+      h(IK.WsConfirmDialog, {
+        open: leavingWs, onOpenChange: setLeavingWs,
+        title: 'Leave ' + w.name + '?',
+        text: 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + w.owner.name + ' to invite you.',
+        confirmLabel: 'Leave Workspace',
+        onConfirm: function () {
+          var name = w.name; setLeavingWs(false); ws.leave(w.id); RK.setWs({ w: null, tab: null });
+          D.toast.success(h(IK.Fragment, null, 'You left ', strong(name)));
+        }
+      }),
+      h(RK.ReviewBar, { title: 'Workspaces', status: 'concept', size: 'sm', autoHeight: true, plan: false, controls: RK.workspaceControls({ here: 'workspace', ws: ws, w: w, tab: cur }) }),
+      h(IK.AppShell, { nav: 'workspaces', burger: false, scroll: false, workspaces: ws, trialDays: trial ? 3 : undefined },
+        h('div', { className: 'pg-split' }, h(IK.ListPage, { title: w.name, actions: titleAction, wrap: true, backLabel: 'Back to workspaces', onBack: function () { RK.setWs({ w: null, tab: null }); } },
+          notices.length ? h('div', { className: 'flex flex-col gap-3' }, notices) : null,
+          h(D.Tabs, { value: cur, onValueChange: setTab, className: 'flex flex-col gap-4' },
+            /* the strip scrolls sideways on a phone; the scroller wraps the list (not the list itself) and
+               reaches 1px under it, so the active tab's underline — which overlaps the list's rule by 1px —
+               is not clipped */
+            h('div', { className: 'overflow-x-auto scrollbar-none pb-px -mb-px' },
+              h(D.TabsList, { className: 'mb-0 flex w-max min-w-full max-sm:gap-1' }, tabs.map(function (t) {
+              /* no counts, as Data Sources' tabs; below 640px the triggers take their sm size and the gap
+                 tightens to 4px; the Owner's five tabs still pass a phone's width, so the strip scrolls
+                 sideways there (no scrollbar), as FilterChips does */
+              return h(D.TabsTrigger, { key: t.value, value: t.value, size: small ? 'sm' : undefined, className: 'shrink-0' }, t.label);
+            }))),
+            tabs.map(function (t) { return h(D.TabsContent, { key: t.value, value: t.value, className: 'flex flex-col gap-4' }, t.body); }))),
+          h(IK.DsFilePreview, { file: filePrev, onClose: function () { setFilePrev(null); }, onDownload: function () { D.toast('Download started'); },
+            menu: owner && filePrev ? h(IK.DsFileMenu, { id: filePrev.id, items: ['stop-sharing'], onAction: function (a, id) { stopSharing([id]); setFilePrev(null); } }) : null,
+            accessIn: false, renewal: owner ? null : IK.wsRenewal(ws, [w.id]) }))),
+
+      owner ? h(IK.WsInviteDialog, {
+        open: !!dlg && dlg.kind === 'invite', onOpenChange: function (o) { if (!o) close(); }, ws: w,
+        check: function (e) {
+          if (w.members.some(function (m) { return m.email === e; })) return 'member';
+          if (w.invites.some(function (i) { return i.email === e; })) return 'invited';
+          return null;
+        },
+        onInvite: function (e) { ws.invite(w.id, e); close(); setTab('members'); D.toast.success(h(IK.Fragment, null, 'Invitation sent to ', strong(e)), { description: 'They get an email with a link to join' }); }
+      }) : null,
+      owner ? h(IK.WsAddConnectionsDialog, {
+        open: !!dlg && dlg.kind === 'add', onOpenChange: function (o) { if (!o) close(); }, ws: w,
+        connections: IK.WS_CONNECTIONS, where: other,
+        onAdd: function (list) {
+          ws.addConnections(w.id, list); close(); setTab('connections');
+          var m = list.reduce(function (s, c) { return s + (c.metrics || 0); }, 0);
+          var it = list.length === 1 ? 'it' : 'them';
+          D.toast.success(list.length === 1 ? h(IK.Fragment, null, strong(list[0].label), ' added to ', strong(w.name))
+                                            : h(IK.Fragment, null, plural(list.length, 'connection', 'connections') + ' added to ', strong(w.name)),
+            { description: m ? 'Members can use ' + it + ' and ' + plural(m, 'metric', 'metrics') + ' in their chats now' : 'Members can use ' + it + ' in their chats now' });
+        }
+      }) : null,
+      owner ? h(IK.WsShareFilesDialog, {
+        open: !!dlg && dlg.kind === 'files', onOpenChange: function (o) { if (!o) close(); }, ws: w, files: IK.WS_FILES,
+        onShare: function (list) {
+          list.forEach(function (f) { ws.shareFile(w.id, f); }); close(); setTab('files');
+          D.toast.success(list.length === 1 ? h(IK.Fragment, null, strong(list[0].name), ' added to ', strong(w.name))
+                                            : h(IK.Fragment, null, plural(list.length, 'file', 'files') + ' shared with ', strong(w.name)),
+            { description: 'Members can view, download and add ' + (list.length === 1 ? 'it' : 'them') + ' to their chats' });
+        }
+      }) : null,
+      h(IK.DsConnectionPanel, (function () {
+        var c = panel && w.connections.filter(function (x) { return x.id === panel; })[0];
+        return {
+          mode: owner ? 'workspace' : 'shared',
+          renewal: owner ? null : IK.wsRenewal(ws, [w.id]),
+          connection: c ? { name: c.name, label: c.label, desc: c.desc, metrics: Array.isArray(c.metrics) ? c.metrics.length : c.metrics, lastSync: c.lastSync, status: c.status,
+                            locked: !owner && free, muted: !owner && blocked,
+                            by: w.owner.name, wsName: w.name, also: owner ? other(c.id) : null, links: IK.wsLinks(IK.wsWhereShared(ws.list, c.id)) } : null,
+          onOpenChange: function (o) { if (!o) setPanel(null); },
+          onRemove: function () { setPanel(null); removeConn(c); }
+        };
+      })()),
+      owner ? h(IK.WsRenameDialog, {
+        open: !!dlg && dlg.kind === 'rename', onOpenChange: function (o) { if (!o) close(); }, name: w.name,
+        taken: function (n) { return IK.wsNameTaken(ws.list, n, w.id); },
+        onSave: function (n) { ws.rename(w.id, n); close(); D.toast.success('Workspace renamed', { description: n }); }
+      }) : null,
+      h(IK.WsConfirmDialog, {
+        open: !!dlg && dlg.kind === 'confirm', onOpenChange: function (o) { if (!o) close(); },
+        title: dlg && dlg.title, text: dlg && dlg.text, confirmLabel: dlg && dlg.confirm,
+        onConfirm: function () { var run = dlg && dlg.run; close(); if (run) run(); }
+      }),
+      null);
+  }
+
+  /* one page: the list, or the workspace ?w= names */
+  function App() {
+    var q = RK.useWsQuery();
+    /* one Toaster for both screens, so a toast survives the move from the list into a workspace */
+    return h(IK.Fragment, null, q.w ? h(WorkspaceView, { key: 'w-' + q.w }) : h(ListView), h(D.Toaster, { position: 'top-right' }));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

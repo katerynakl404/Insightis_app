@@ -39,6 +39,7 @@
     "Composer/Composer.js",
     "ConnectDialog/ConnectDialog.js",
     "ConnectorMark/ConnectorMark.js",
+    "DetailsPanel/DetailsPanel.js",
     "DsCatalog/DsCatalog.js",
     "DsConnectionDialogs/DsConnectionDialogs.js",
     "DsConnectionPanel/DsConnectionPanel.js",
@@ -61,6 +62,7 @@
     "OnbSetup/OnbSetup.js",
     "OnbSourcePicker/OnbSourcePicker.js",
     "OnbTour/OnbTour.js",
+    "PickRow/PickRow.js",
     "PlanFeatures/PlanFeatures.js",
     "PlanLock/PlanLock.js",
     "QueueBand/QueueBand.js",
@@ -69,7 +71,16 @@
     "SortableList/SortableList.js",
     "ThinkingIndicator/ThinkingIndicator.js",
     "UpgradeModal/UpgradeModal.js",
-    "UpgradePopover/UpgradePopover.js"
+    "UpgradePopover/UpgradePopover.js",
+    "Workspaces/Workspaces.js",
+    "WsConnections/WsConnections.js",
+    "WsDialogs/WsDialogs.js",
+    "WsEmail/WsEmail.js",
+    "WsFiles/WsFiles.js",
+    "WsList/WsList.js",
+    "WsMembers/WsMembers.js",
+    "WsMetrics/WsMetrics.js",
+    "WsOverview/WsOverview.js"
   ];
   var stories = [
     "AccountMenu/AccountMenu.stories.js",
@@ -102,6 +113,7 @@
     "Composer/Composer.stories.js",
     "ConnectDialog/ConnectDialog.stories.js",
     "ConnectorMark/ConnectorMark.stories.js",
+    "DetailsPanel/DetailsPanel.stories.js",
     "DsCatalog/DsCatalog.stories.js",
     "DsConnectionDialogs/DsConnectionDialogs.stories.js",
     "DsConnectionPanel/DsConnectionPanel.stories.js",
@@ -123,6 +135,7 @@
     "OnbSetup/OnbSetup.stories.js",
     "OnbSourcePicker/OnbSourcePicker.stories.js",
     "OnbTour/OnbTour.stories.js",
+    "PickRow/PickRow.stories.js",
     "PlanFeatures/PlanFeatures.stories.js",
     "PlanLock/PlanLock.stories.js",
     "QueueBand/QueueBand.stories.js",
@@ -131,7 +144,16 @@
     "SortableList/SortableList.stories.js",
     "ThinkingIndicator/ThinkingIndicator.stories.js",
     "UpgradeModal/UpgradeModal.stories.js",
-    "UpgradePopover/UpgradePopover.stories.js"
+    "UpgradePopover/UpgradePopover.stories.js",
+    "Workspaces/Workspaces.stories.js",
+    "WsConnections/WsConnections.stories.js",
+    "WsDialogs/WsDialogs.stories.js",
+    "WsEmail/WsEmail.stories.js",
+    "WsFiles/WsFiles.stories.js",
+    "WsList/WsList.stories.js",
+    "WsMembers/WsMembers.stories.js",
+    "WsMetrics/WsMetrics.stories.js",
+    "WsOverview/WsOverview.stories.js"
   ];
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
   for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '"><\/script>');

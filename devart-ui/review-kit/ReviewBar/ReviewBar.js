@@ -17,6 +17,7 @@
 
    autoHeight (with size="sm") drops the fixed 40px: the Data Sources pages' strip is padding-only (39px).
 
+   A control { label, node } is drawn as given (an action such as Reset Data), not as a switch.
    A control may carry showLabel: true → its label is written beside it, as the original's
    .tb-concept-lbl ("Plan", "Popover state"). `plan` accepts { showLabel: true } for the same.
 */
@@ -64,6 +65,7 @@
         st ? h(D.Badge, { variant: st.variant, size: 'sm', className: 'uppercase tracking-caps' }, st.label) : null),
       h('div', { className: 'ik-rb-controls' },
         p.children,
-        controls.map(function (c) { return h(Switch, Object.assign({ key: c.label, size: sm ? 'sm' : 'md' }, c)); })));
+        /* a control with { node } is an action, not a switch (e.g. Reset Data) — drawn as given */
+        controls.map(function (c) { return c.node ? h(IK.Fragment, { key: c.label }, c.node) : h(Switch, Object.assign({ key: c.label, size: sm ? 'sm' : 'md' }, c)); })));
   };
 })();

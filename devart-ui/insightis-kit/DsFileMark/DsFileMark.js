@@ -12,17 +12,21 @@
    h(IK.DsFileMark, { type: 'csv', size: 'sm' })   // 24px
      type   extension, lower-case ('csv', 'xls', 'xlsx', …) — the label is its upper-case
      label  override the text (e.g. a per-type short form)
-     size   'md' 32px (default) · 'sm' 24px                                                       */
+     size   'md' 32px (default) · 'sm' 24px — three letters at most there: xlsx → XLS, docx → DOC,
+            pptx → PPT, jpeg → JPG, json → JSN, html → HTM                                                       */
 (function () {
   'use strict';
   var IK = window.InsightisKit, h = IK.h;
   var GREEN = { xls: 1, xlsx: 1 };
+  /* the 24px mark holds three letters: a longer extension takes its short form there (CLAUDE.md —
+     the label changes, never the square) */
+  var SHORT = { xlsx: 'XLS', docx: 'DOC', pptx: 'PPT', jpeg: 'JPG', json: 'JSN', html: 'HTM' };
   IK.DsFileMark = function DsFileMark(p) {
     var t = String(p.type || '').toLowerCase();
     var small = p.size === 'sm';
     return h('span', {
       className: IK.cx('ik-dsfm', GREEN[t] && 'is-green', small && 'is-sm', p.className),
       'aria-hidden': p.label ? undefined : 'true'
-    }, p.label || t.toUpperCase());
+    }, p.label || (small && SHORT[t]) || t.toUpperCase());
   };
 })();

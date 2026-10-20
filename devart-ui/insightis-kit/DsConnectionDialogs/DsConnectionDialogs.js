@@ -10,7 +10,10 @@
 
    IK.DsDisconnectDialog — "Disconnect <label>?" (sm), the label in Text/Primary; Cancel ·
      Disconnect (destructive, focused on open).
-     { open, onOpenChange, label, onConfirm }                                                     */
+     { open, onOpenChange, label, onConfirm, sharedIn }
+     sharedIn — shared workspaces (the brief, AIINS-1882): the names of the workspaces it is shared into →
+       a warning Alert "Shared in Sales and Support" (no member count): members lose it and its
+       metrics, and after reconnecting it has to be added to them again. Unshared → as today.                                                     */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
@@ -58,8 +61,15 @@
         onOpenAutoFocus: function (e) { e.preventDefault(); setTimeout(function () { if (ref.current) ref.current.focus(); }, 50); }
       },
         h(D.ModalHeader, null, h(D.ModalTitle, null, 'Disconnect ', h('span', { className: 'text-ink-primary' }, p.label), '?')),
+        /* the sentence and the shared warning as one block, 12px apart (as the account's confirms) */
+        h('div', { className: 'flex flex-col gap-3' },
         h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' },
           'This connection will be removed. Your existing metric data will be preserved and a new connection can be created at any time.'),
+        p.sharedIn && p.sharedIn.length ? h(D.Alert, {
+          variant: 'warning', size: 'sm', role: 'note', icon: h(IK.Icon, { name: 'warning' }),
+          title: 'Shared in ' + IK.wsJoin(p.sharedIn),
+          description: 'Their members lose this connection and its metrics. If you connect it again, add it to these workspaces again.'
+        }) : null),
         h(D.ModalFooter, null,
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { p.onOpenChange(false); } }, 'Cancel'),
           h(D.Button, { ref: ref, variant: 'destructive', size: 'sm', type: 'button', onClick: p.onConfirm }, 'Disconnect'))));

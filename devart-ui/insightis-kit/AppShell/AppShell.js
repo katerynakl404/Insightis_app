@@ -15,7 +15,7 @@
    'document' mode that reproduced it went with IK.PageHead (2026-10-19).
 
    h(IK.AppShell, {
-     nav: 'data-sources',            // active nav row: 'new-chat' | 'data-sources' | 'metrics' | 'files'
+     nav: 'data-sources',            // active nav row: 'new-chat' | 'data-sources' | 'metrics' | 'files' | 'workspaces'
      currentChat: 'jira-aiins',      // id or title of the open chat (chat pages)
      chats: chatsStore,              // optional IK.useChats() store — share it with a chat header menu
      glow: true,                     // chat-landing's background: the radial top tint + the blurred brand-tertiary pool, both themes (see AppShell.css)
@@ -25,7 +25,7 @@
      scroll: true,                   // main column is a scroll container (false: page manages it)
      defaultCollapsed: false,        // start desktop in the icon rail
      plan, user, credits, trialDays, promo, badges, classic, brandLink, accountIcons,
-     dailySuffix                     → IK.AppSidebar (see AppSidebar.js)
+     dailySuffix, workspaces   → IK.AppSidebar (see AppSidebar.js)
      mainClassName,                  // layout classes for the main column (pg-* or utilities)
      className, style                // the shell itself (stories give it a height)
    }, …the page's main column…)
@@ -66,7 +66,8 @@
         h(IK.AppSidebar, {
           nav: p.nav, currentChat: p.currentChat, chats: p.chats, plan: p.plan, user: p.user,
           credits: p.credits, trialDays: p.trialDays, promo: p.promo, badges: p.badges, classic: p.classic,
-          brandLink: p.brandLink, accountIcons: p.accountIcons, dailySuffix: p.dailySuffix
+          brandLink: p.brandLink, accountIcons: p.accountIcons, dailySuffix: p.dailySuffix,
+          workspaces: p.workspaces
         }),
         h(D.SidebarInset, { className: IK.cx('min-h-0', p.glow && 'ik-shell-glow', p.mainClassName) },
           p.burger === false ? null : h('div', { className: 'absolute left-3 top-3 z-10 lg:hidden' }, h(IK.SidebarBurger)),

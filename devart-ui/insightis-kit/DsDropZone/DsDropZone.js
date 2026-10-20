@@ -45,7 +45,7 @@
       h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', align: 'center', className: 'm-0 text-balance' },
         p.sub || 'or click to browse — files you upload are available to query in chats'),
       h(D.Button, {
-        variant: 'outline', size: 'sm', type: 'button', className: 'mt-2',
+        variant: 'secondary', size: 'sm', type: 'button', className: 'mt-2',
         onClick: function (e) { e.stopPropagation(); if (p.onBrowse) p.onBrowse(); }
       }, p.buttonLabel || 'Browse Files'));
   };

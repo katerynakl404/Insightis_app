@@ -3,11 +3,12 @@
    locked rules 6 + "My Connections table" + "Mobile layout" in
    page-changes/data-sources_connections-landing.md.
 
-     ≥ 768px  DevartUI Table, layout fixed, 5 columns — Connection name 22% · Data Source 18% ·
-              Description 30% (one line, truncated) · Last check 22% (IK.DsLastCheck) · Actions 8%
+     ≥ 768px  DevartUI Table, layout fixed, 5 columns — Connection name 26% · Data Source 22% ·
+              Metrics 18% ("12 metrics" / "No metrics" — in place of Description, user 2026-10-19) ·
+              Last check 26% (IK.DsLastCheck) · Actions 8%
               (TableActionsCell: the ⋮ menu, revealed on row hover / focus / while open).
               Rows are interactive (open the detail panel); the open one is selected.
-     < 768px  a card stack: the connection label · logo + connector on one line, the description
+     < 768px  a card stack: the connection label · logo + connector on one line, the metric count
               (12px), the Last check pill; ⋮ pinned top-right, always visible. Lifts on hover
               (pointer devices only).
    No status column and no enable switch (rule 6): a listed connection is connected.
@@ -17,7 +18,7 @@
    Disconnect never is — removing what you already have is not a paid feature.
 
    h(IK.DsConnections, {
-     connections: [{ name: 'PostgreSQL', label: 'Production DB', desc, lastSync, status, error, busy }],
+     connections: [{ name: 'PostgreSQL', label: 'Production DB', desc, metrics, lastSync, status, error, busy }],
      selected: 'PostgreSQL',                // the row whose panel is open
      leaving: 'Stripe',                     // a row fading out after Disconnect
      loading: false,                        // skeleton table (3 ghost rows)
@@ -25,78 +26,276 @@
      layout: 'table' | 'cards',             // optional — default follows the viewport (< 768px = cards)
      locked                                 // optional — default IK.usePlan()[0] === 'free'
    })
-   IK.DsConnectionMenu { name, onEdit, onTest, onDisconnect, locked, defaultOpen } — the ⋮ and its menu alone (DevartUI RowMenuButton).                                                                                             */
+
+   Shared workspaces — `variant` swaps the columns; the default list above is untouched:
+     'workspace'  a workspace page, the Owner's view: Connection name · Data Source · Metrics
+                  ("12 metrics" — they are shared with it) · Actions = menu(c) (e.g. Remove from
+                  Workspace). Not interactive rows: nothing opens.
+     'shared'     a Member's Shared list: Connection name · Data Source · Shared by (IK.WsSharedBy —
+                  who · which workspace) · Metrics; no Actions column at all (read-only = absent).
+                  A row with `locked` (your plan) or `muted` (its owner's plan) reads as usual and opens; the
+                  warning after its name (IK.WsUnavailableMark) says why.
+     connections: [{ id, name, label, metrics: n | [], by, wsName, locked, lockProps, muted }]
+                  muted — a Blocked workspace's: greyed, no badge (the plan to fix is the Owner's)
+     menu: function (c) → node              // the ⋮ for 'workspace'
+     onOpen: function (c), selected: id     // a row opens IK.DsConnectionPanel (mode workspace / shared)
+     metricsHref: function (c) → href      // "12 metrics" links to Metrics with that connection chosen (IK.wsMetricsHref)
+
+   Shared rows in the default list (review switch Shared: Tag — user, 2026-10-19): a connection with
+   shared: { ws } and an id sits under the person's own, tagged "Shared" (its tooltip: from which
+   workspaces); its Last check shows, no ⋮ — read-only, absent; locked (unavailable on the plan) →
+   greyed + the plan's padlock in Metrics; muted (a Blocked workspace) → greyed. onOpen / selected
+   take its id (the connector name can repeat one of the person's own). sharedWith: ['Sales', …] on
+   one of the person's own = the workspaces it is shared in (the Workspaces column, the panel).
+   noWs (variant 'shared' on a workspace's own page): no Workspace column — it would repeat itself.
+   wsCol: a Workspaces column — where one's own is shared in, where a shared one comes from;
+   tag: the Shared tag beside a shared name (review switch Shared: Tag; the cards always keep it);
+   ownerCol (review switch Owner: Shown): an Owner column — "You" or who shared it.
+   Below 768px both are the card stack: label · logo + connector, the caption, the metric count.
+   IK.DsConnectionMenu { name, onEdit, onTest, onDisconnect, locked, defaultOpen, onAddToWorkspace, wsLocked }
+     onAddToWorkspace (shared workspaces): "Share via Workspace" after Test Connection — locked (wsLocked)
+     while the person's workspaces are Blocked, as Files' Share via Workspace — the ⋮ and its menu alone (DevartUI RowMenuButton).                                                                                             */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
 
+  /* Metrics in place of Description (user, 2026-10-19 — it says what the connection brings; the
+     description stays in the details panel) */
   var COLS = [
-    { label: 'Connection name', w: '22%' },
-    { label: 'Data Source', w: '18%' },
-    { label: 'Description', w: '30%' },
-    { label: 'Last check', w: '22%' },
+    { label: 'Connection name', w: '26%' },
+    { label: 'Data Source', w: '22%' },
+    { label: 'Metrics', w: '18%' },
+    { label: 'Last check', w: '26%' },
     { label: 'Actions', w: '8%', end: true }
   ];
+  /* shared workspaces: the Owner's list on a workspace page, and a Member's Shared list */
+  var VARIANT_COLS = {
+    workspace: [
+      { key: 'name', label: 'Connection name', w: '28%' },
+      { key: 'source', label: 'Data Source', w: '22%' },
+      { key: 'metrics', label: 'Metrics', w: '18%' },
+      { key: 'check', label: 'Last check', w: '24%' },
+      { key: 'menu', label: 'Actions', w: '8%', end: true }
+    ],
+    shared: [
+      { key: 'name', label: 'Connection name', w: '26%' },
+      { key: 'source', label: 'Data Source', w: '18%' },
+      { key: 'by', label: 'Workspace', w: '22%' },
+      { key: 'metrics', label: 'Metrics', w: '14%' },
+      { key: 'check', label: 'Last check', w: '20%' }
+    ]
+  };
+  /* a workspace's connection carries no check time of its own in the sample: an hour and a half ago */
+  var LAST_CHECK_FALLBACK = Date.now() - 95 * 60e3;
+  /* none: a quiet dash, as every empty cell (user, 2026-10-19: "використовуємо прочерк") */
+  function metricsText(n) { return !n ? h('span', { className: 'text-ink-inactive' }, '\u2014') : n === 1 ? '1 metric' : n + ' metrics'; }
+  function count(c) { return Array.isArray(c.metrics) ? c.metrics.length : (c.metrics || 0); }
+  /* a shared row that can't be used says so where a row's state lives — the Last check column — and its
+     Metrics keeps the count (user, 2026-10-19: "що в метриках забув план"): its workspace Blocked →
+     "Unavailable" (attention), the reason in the tooltip. Unavailable on the person's plan: muted, no plan
+     tag — the "needs a plan" notice says why ("не треба тегу стартер") */
+  function unavailable(c) {
+    var from = (c.wsNames || [c.shared && c.shared.ws]).filter(Boolean);
+    return h(IK.Tip, { tip: IK.wsUnavailableTip({ by: (c.shared && c.shared.by) || c.by, locked: !c.muted, noun: 'connections' }), wrap: true },
+      h('span', { tabIndex: 0, className: IK.cx('inline-flex rounded-full', D.focusRing) },
+        h(D.Badge, { variant: 'attention', size: 'sm', rounded: 'full', leftSlot: h(IK.Icon, { name: 'warning', size: 12 }) }, 'Unavailable')));
+  }
+  /* Last check stays the check; a shared row that can't be used says so at its end (IK.WsUnavailableMark) */
+  function status(c, lastCheck) { return lastCheck; }
+  function unusable(c) { return !!(c.shared || c.by) && !!(c.muted || c.locked); }
+  /* the row's mark: only the amber triangle, when a shared one can't be used — no description ⓘ, and a failed
+     check stays in Last check (user, 2026-10-20) */
+  function mark(c) {
+    return unusable(c) ? h(IK.WsUnavailableMark, { name: c.label || c.name, by: (c.shared && c.shared.by) || c.by, locked: !c.muted, noun: 'connections' }) : null;
+  }
+  function VariantTable(p) {
+    var cols = VARIANT_COLS[p.variant].filter(function (c) { return !(p.noWs && c.key === 'by'); });
+    return h(D.Table, { layout: 'fixed', 'aria-label': p['aria-label'] || 'Connections', wrapperClassName: 'ik-dscn-tbl' },
+      h(D.TableHeader, null, h(D.TableRow, null, cols.map(function (c) {
+        return h(D.TableHead, { key: c.key, style: { width: c.w }, className: c.end ? 'text-right' : null }, c.label);
+      }))),
+      h(D.TableBody, null, p.connections.map(function (c) {
+        var off = !!c.locked || !!c.muted;
+        return h(D.TableRow, {
+          key: c.id || c.name, 'data-name': c.name, 'data-interactive': p.onOpen ? '' : undefined,
+          className: p.selected && p.selected === (c.id || c.name) ? 'is-selected' : undefined,
+          onClick: p.onOpen ? function (e) { if (!fromMenu(e) && !(e.target.closest && e.target.closest('button'))) p.onOpen(c); } : undefined
+        }, cols.map(function (col) {
+          /* the tag right after the name: the tooltip's box (w-full) sits in one sized by the name */
+          if (col.key === 'name') return h(D.TableCell, { key: 'n' }, h('div', { className: 'flex min-w-0 items-center gap-2' },
+            h('span', { className: 'flex min-w-0' }, h(D.TruncatedTitleTooltip, { title: c.label || c.name, getTruncationTarget: function (t) { return t; } },
+              h('span', { className: 'min-w-0 truncate font-medium text-ink-body' }, c.label || c.name))),
+            p.tag ? h(IK.SharedBadge, { by: c.by || (c.shared && c.shared.by), ws: c.wsNames || (c.shared && c.shared.ws) || c.wsName }) : p.ownerMark ? h(IK.WsOwnerMark, { by: c.by || (c.shared && c.shared.by), ws: c.wsNames || (c.shared && c.shared.ws) || c.wsName }) : null,
+            mark(c)));
+          if (col.key === 'source') return h(D.TableCell, { key: 's' },
+            h('div', { className: 'flex min-w-0 items-center gap-1.5' },
+              h(IK.ConnectorMark, { connector: c.connector || c.name, size: 'xs', label: c.name + ' logo' }),
+              h('span', { className: 'min-w-0 truncate text-ink-secondary' }, c.name)));
+          if (col.key === 'by') return h(D.TableCell, { key: 'b' }, h(IK.WsNames, { names: c.wsNames || [c.wsName], links: c.links, className: 'text-sm text-ink-secondary' }));
+          if (col.key === 'check') return h(D.TableCell, { key: 'c' }, status(c, h(IK.DsLastCheck, { lastSync: c.lastSync || LAST_CHECK_FALLBACK, status: c.status || 'active', error: c.error })));
+          if (col.key === 'metrics') return h(D.TableCell, { key: 'm', className: 'whitespace-nowrap' },
+            (p.metricsHref && count(c) ? metricsLink(c, p.metricsHref(c), metricsText(count(c))) : h('span', { className: 'tabular-nums text-ink-secondary' }, metricsText(count(c)))));
+          return h(D.TableActionsCell, { key: 'a' }, unusable(c) ? null : p.menu ? p.menu(c) : null);
+        }));
+      })));
+  }
+  function VariantCards(p) {
+    return h('div', { className: 'ik-dscn-list', role: 'list' }, p.connections.map(function (c) {
+      var off = !!c.locked || !!c.muted;
+      return h('div', { key: c.id || c.name, role: 'listitem', 'data-name': c.name, className: 'ik-dscn-row',
+          onClick: p.onOpen ? function (e) { if (!fromMenu(e) && !(e.target.closest && e.target.closest('button'))) p.onOpen(c); } : undefined },
+        h('div', { className: 'flex min-w-0 flex-1 flex-col gap-1' },
+          h('div', { className: 'flex min-w-0 items-center gap-1 overflow-hidden whitespace-nowrap' },
+            h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', className: 'min-w-0 truncate' }, c.label || c.name),
+            mark(c),
+            h('span', { className: 'flex-none text-sm text-ink-inactive', 'aria-hidden': 'true' }, '·'),
+            h('span', { className: 'flex min-w-0 items-center gap-1 overflow-hidden text-sm text-ink-secondary' },
+              h(IK.ConnectorMark, { connector: c.connector || c.name, size: 'xs', label: c.name + ' logo', className: 'size-3.5' }),
+              h('span', { className: 'truncate' }, c.name))),
+          p.variant === 'shared' && !p.noWs ? h(IK.WsNames, { names: c.wsNames || [c.wsName], links: c.links, className: 'text-xs text-ink-secondary' }) : null,
+          h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'tabular-nums' }, metricsText(count(c))),
+          p.tag ? h('div', null, h(IK.SharedBadge, { by: c.by || (c.shared && c.shared.by), ws: c.wsNames || (c.shared && c.shared.ws) || c.wsName })) : null,
+          h('div', { className: 'mt-0.5' }, status(c, h(IK.DsLastCheck, { lastSync: c.lastSync || LAST_CHECK_FALLBACK, status: c.status || 'active', error: c.error })))),
+        !unusable(c) && p.menu ? h('div', { className: 'ik-dscn-act' }, p.menu(c)) : null);
+    }));
+  }
 
   /* The row menu — shared by the table, the card and any host that wants it. */
   IK.DsConnectionMenu = function DsConnectionMenu(p) {
     var name = p.name;
     function run(fn) { return function () { if (fn) fn(name); }; }
     /* DevartUI RowMenuButton, shown at rest (reveal: false) as the table and the cards show it */
+    /* in groups (user, 2026-10-20: "покращи ієрархію"): the connection itself — Edit · Test Connection · Add Metric —
+       then sharing, then Disconnect on its own */
     return h(D.RowMenuButton, { reveal: false, defaultOpen: p.defaultOpen, className: p.triggerClassName },
         h(IK.Locked, { feature: 'connection-edit', locked: p.locked },
           h(D.DropdownMenuItem, { onSelect: run(p.onEdit) }, h(IK.Icon, { name: 'rename', size: 16 }), 'Edit')),
         h(IK.Locked, { feature: 'connection-test', locked: p.locked },
           h(D.DropdownMenuItem, { onSelect: run(p.onTest) }, h(IK.Icon, { name: 'test-conn', size: 16 }), 'Test Connection')),
+        p.onAddMetric ? h(IK.Locked, { feature: 'metrics', surface: 'modal' },
+          h(D.DropdownMenuItem, { onSelect: run(p.onAddMetric) }, h(IK.Icon, { name: 'plus', size: 16 }), 'Add Metric')) : null,
+        p.onAddToWorkspace ? h(D.DropdownMenuSeparator, null) : null,
+        p.onAddToWorkspace ? h(IK.Locked, { feature: 'workspaces', locked: !!p.wsLocked, surface: 'modal', tip: 'Available on Pro' },
+          h(D.DropdownMenuItem, { onSelect: run(p.onAddToWorkspace) }, h(IK.Icon, { name: 'ws-share', size: 16 }), 'Share via Workspace')) : null,
+        h(D.DropdownMenuSeparator, null),
         h(D.DropdownMenuItem, { variant: 'danger', onSelect: run(p.onDisconnect) }, h(IK.Icon, { name: 'disconnect', size: 16 }), 'Disconnect'));
   };
 
+  /* the tag of a connection shared with the person — who and which workspace in its tooltip */
+  function sharedTag(c) {
+    return h(IK.SharedBadge, { by: c.shared.by, ws: c.wsNames ? IK.wsJoin(c.wsNames) : c.shared.ws });
+  }
+  function keyOf(c) { return c.shared ? c.id : c.name; }
+
+  /* metricsHref(c) → the count is a link to Metrics with that connection chosen (a click never opens the row) */
+  function metricsLink(c, href, text, cls) {
+    var n = count(c);
+    if (!n || !href) return text;
+    /* DevartUI LinkButton — the product's link (user, 2026-10-20: "на них є ж компонент") */
+    return h(D.LinkButton, { href: href, className: IK.cx('tabular-nums', cls), onClick: function (e) { e.stopPropagation(); } }, text);
+  }
   function stop(e) { e.stopPropagation(); }
+  /* + Add Metric where a connection has none (as the Workspaces list's "+ Add Connection"); locked on Free */
+  function addMetricCell(c, hd) {
+    return h(IK.Locked, { feature: 'metrics', surface: 'modal' },
+      /* xs, as the AI connectivity list's CellAction and the Workspaces list's cells — a button, not a link
+         (user, 2026-10-20: "чому ти змінив розмір і кнопку") */
+      h(D.Button, { variant: 'primaryTertiary', size: 'xs', type: 'button', className: '-mx-2', leftSlot: h(IK.Icon, { name: 'plus', size: 14 }),
+        onClick: function (e) { e.stopPropagation(); hd.onAddMetric(c.name); } }, 'Add Metric'));
+  }
   function fromMenu(e) { return e.target.closest && e.target.closest('[data-slot="table-actions-cell"],.ik-dscn-act,[role="menu"]'); }
 
+  var WS_COLS = [
+    /* Last check and Actions hold fixed things (the pill + re-test, the ⋮): fixed widths, so a wide screen opens no gap
+       between them (user, 2026-10-20); the name takes what is left */
+    { label: 'Connection name' },
+    { label: 'Data Source', w: '14%' },
+    { label: 'Workspaces', w: '18%' },
+    { label: 'Metrics', w: '10%' },
+    { label: 'Last check', w: '10.5rem' },
+    { label: 'Actions', w: '5.5rem', end: true }
+  ];
+  /* Last check holds the pill AND the re-test icon beside it: 19% keeps '2 hours ago' whole at 1280px */
+  var WS_OWNER_COLS = [
+    { label: 'Connection name', w: '18%' },
+    { label: 'Data Source', w: '15%' },
+    { label: 'Owner', w: '13%' },
+    { label: 'Workspaces', w: '16%' },
+    { label: 'Metrics', w: '11%' },
+    { label: 'Last check', w: '19%' },
+    { label: 'Actions', w: '8%', end: true }
+  ];
   function TableView(p) {
+    var oc = !!p.wsCol, own = oc && !!p.ownerCol;
     return h(D.Table, { layout: 'fixed', 'aria-label': 'Connected data sources', wrapperClassName: 'ik-dscn-tbl' },
       h(D.TableHeader, null,
-        h(D.TableRow, null, COLS.map(function (c) {
+        h(D.TableRow, null, (own ? WS_OWNER_COLS : oc ? WS_COLS : COLS).map(function (c) {
           return h(D.TableHead, { key: c.label, style: { width: c.w }, className: c.end ? 'text-right' : null }, c.label);
         }))),
       h(D.TableBody, null, p.connections.map(function (c) {
+        var k = keyOf(c), sh = !!c.shared, off = sh && (c.locked || c.muted), tag = sh && !!p.tag;
         return h(D.TableRow, {
-          key: c.name, 'data-interactive': '', 'data-name': c.name,
-          className: IK.cx(p.selected === c.name && 'is-selected', p.leaving === c.name && 'ik-dscn-leaving'),
-          onClick: function (e) { if (!fromMenu(e) && p.onOpen) p.onOpen(c.name); }
+          key: k, 'data-interactive': '', 'data-name': c.name,
+          className: IK.cx(p.selected === k && 'is-selected', p.leaving === c.name && 'ik-dscn-leaving'),
+          onClick: function (e) { if (!fromMenu(e) && p.onOpen) p.onOpen(k); }
         },
-          h(D.TableCell, null, h('span', { className: 'font-medium text-ink-body' }, c.label || c.name)),
+          h(D.TableCell, null, sh
+            ? h('div', { className: 'flex min-w-0 items-center gap-2' },
+                h('span', { className: 'min-w-0 truncate font-medium text-ink-body' }, c.label || c.name), tag ? sharedTag(c) : sh && p.ownerMark ? h(IK.WsOwnerMark, { by: c.shared.by, ws: c.wsNames || c.shared.ws }) : null,
+                mark(c))
+            : h('div', { className: 'flex min-w-0 items-center gap-2' }, h('span', { className: 'min-w-0 truncate font-medium text-ink-body' }, c.label || c.name), mark(c))),
           h(D.TableCell, null,
             h('div', { className: 'flex min-w-0 items-center gap-1.5' },
               h(IK.ConnectorMark, { connector: c.connector || c.name, size: 'xs', label: c.name + ' logo' }),
               h('span', { className: 'min-w-0 truncate text-ink-secondary' }, c.name))),
-          h(D.TableCell, { className: 'text-ink-secondary' }, c.desc || ''),
+          own ? h(D.TableCell, null,
+            h(D.TruncatedTitleTooltip, { title: sh ? c.shared.by : 'You', getTruncationTarget: function (t) { return t; } },
+              h('span', { className: 'block min-w-0 truncate text-ink-secondary' }, sh ? c.shared.by : 'You'))) : null,
+          oc ? h(D.TableCell, null, (function () {
+            var names = sh ? (c.wsNames || [c.shared.ws]) : (c.sharedWith || []);
+            return names.length ? h(IK.WsNames, { names: names, links: c.links, className: 'text-ink-secondary' })
+              : h('span', { className: 'text-ink-inactive' }, '—'); /* in no workspace: a quiet dash */
+          })()) : null,
+          h(D.TableCell, { className: 'whitespace-nowrap tabular-nums text-ink-secondary' },
+            !sh && !count(c) && p.handlers.onAddMetric ? addMetricCell(c, p.handlers) : p.metricsHref ? metricsLink(c, p.metricsHref(c), metricsText(count(c))) : metricsText(count(c))),
           h(D.TableCell, null,
-            h(IK.DsLastCheck, { lastSync: c.lastSync, status: c.status, error: c.error, busy: c.busy, onDetails: function () { if (p.onDetails) p.onDetails(c.name); } })),
-          h(D.TableActionsCell, { onClick: stop },
+            status(c, h(IK.DsLastCheck, { lastSync: c.lastSync, status: c.status, error: c.error, busy: c.busy, onDetails: function () { if (p.onDetails) p.onDetails(c.name); },
+              /* the re-test icon on one's own rows; not on a shared one (no menu either) nor on Free */
+              onTest: sh || p.handlers.locked || !p.handlers.onTest ? undefined : function () { p.handlers.onTest(c.name); } }))),
+          h(D.TableActionsCell, { onClick: stop }, sh ? null :
             h(IK.DsConnectionMenu, Object.assign({ name: c.name }, p.handlers))));
       })));
   }
 
   function CardView(p) {
     return h('div', { className: 'ik-dscn-list', role: 'list' }, p.connections.map(function (c) {
+      var k = keyOf(c), sh = !!c.shared;
       return h('div', {
-        key: c.name, role: 'listitem', 'data-name': c.name,
-        className: IK.cx('ik-dscn-row', p.selected === c.name && 'is-selected', p.leaving === c.name && 'ik-dscn-leaving'),
-        onClick: function (e) { if (!fromMenu(e) && p.onOpen) p.onOpen(c.name); }
+        key: k, role: 'listitem', 'data-name': c.name,
+        className: IK.cx('ik-dscn-row', p.selected === k && 'is-selected', p.leaving === c.name && 'ik-dscn-leaving'),
+        onClick: function (e) { if (!fromMenu(e) && p.onOpen) p.onOpen(k); }
       },
         h('div', { className: 'flex min-w-0 flex-1 flex-col gap-1' },
           h('div', { className: 'flex min-w-0 items-center gap-1 overflow-hidden whitespace-nowrap' },
             h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', className: 'min-w-0 truncate' }, c.label || c.name),
+            /* Owner: the people glyph after a shared one's name, as in the table (user, 2026-10-20) */
+            sh && p.ownerMark ? h(IK.WsOwnerMark, { by: c.shared.by, ws: c.wsNames || c.shared.ws }) : null,
+            mark(c),
             h('span', { className: 'flex-none text-sm text-ink-inactive', 'aria-hidden': 'true' }, '·'),
             h('span', { className: 'flex flex-none items-center gap-1 overflow-hidden text-sm text-ink-secondary' },
               h(IK.ConnectorMark, { connector: c.connector || c.name, size: 'xs', label: c.name + ' logo', className: 'size-3.5' }),
               c.name)),
-          c.desc ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, c.desc) : null,
+          h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'tabular-nums' }, metricsText(count(c))),
+          /* the workspaces on a phone too — where one's own is shared, where a shared one comes from (the table's
+             Workspaces column; user, 2026-10-19: the phone lost it) */
+          p.wsCol && (sh ? (c.wsNames || [c.shared.ws]) : (c.sharedWith || [])).length ? h(IK.WsNames, { names: sh ? (c.wsNames || [c.shared.ws]) : c.sharedWith, links: c.links, className: 'text-xs text-ink-secondary' }) : null,
+          /* Tabs / no owner glyph: the shared tag on the card, as before (Owner has its glyph by the name) */
+          sh && !p.ownerMark ? h('div', null, sharedTag(c)) : null,
           h('div', { className: 'mt-0.5' },
-            h(IK.DsLastCheck, { lastSync: c.lastSync, status: c.status, error: c.error, busy: c.busy, onDetails: function () { if (p.onDetails) p.onDetails(c.name); } }))),
-        h('div', { className: 'ik-dscn-act', onClick: stop },
+            status(c, h(IK.DsLastCheck, { lastSync: c.lastSync, status: c.status, error: c.error, busy: c.busy, onDetails: function () { if (p.onDetails) p.onDetails(c.name); },
+              /* the re-test icon on one's own rows; not on a shared one (no menu either) nor on Free */
+              onTest: sh || p.handlers.locked || !p.handlers.onTest ? undefined : function () { p.handlers.onTest(c.name); } })))),
+        sh ? null : h('div', { className: 'ik-dscn-act', onClick: stop },
           h(IK.DsConnectionMenu, Object.assign({ name: c.name }, p.handlers))));
     }));
   }
@@ -141,7 +340,12 @@
     var narrow = D.useMaxWidth(768);
     var phone = p.layout ? p.layout === 'cards' : narrow;
     if (p.loading) return h(IK.DsConnectionsSkeleton, { layout: p.layout });
-    var handlers = { onEdit: p.onEdit, onTest: p.onTest, onDisconnect: p.onDisconnect, locked: p.locked };
+    if (VARIANT_COLS[p.variant]) {
+      var v = Object.assign({}, p, { connections: p.connections || [] });
+      return phone ? h(VariantCards, v) : h(VariantTable, v);
+    }
+    var handlers = { onEdit: p.onEdit, onTest: p.onTest, onDisconnect: p.onDisconnect, locked: p.locked != null ? p.locked : IK.getPlan() === 'free',
+                     onAddToWorkspace: p.onAddToWorkspace, wsLocked: p.wsLocked, onAddMetric: p.onAddMetric };
     var q = Object.assign({}, p, { connections: p.connections || [], handlers: handlers });
     return phone ? h(CardView, q) : h(TableView, q);
   };

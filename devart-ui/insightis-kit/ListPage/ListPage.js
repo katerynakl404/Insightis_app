@@ -31,6 +31,8 @@
      after: node,      // PageHeader's badge, 12px after the title
      actions: node,    // PageHeader's actions, the right edge
      wrap: false,
+     onBack, backLabel, // PageHeader's back button before the title — a page one level down
+                       // (a workspace: "Back to workspaces", as the AI connectivity prototype has it)
      className         // the content column (ListPageLayout contentClassName)
    }, …blocks, 12px apart…)                                                                     */
 (function () {
@@ -47,6 +49,8 @@
       stickyHeader: function (s) {
         return h(D.PageHeader, {
           title: p.title,
+          onBack: p.onBack || undefined,
+          backLabel: p.backLabel || undefined,
           wrapTitle: true,
           /* the trigger never shrinks when a long title presses on it (the original .cl-burger is
              flex:none) */

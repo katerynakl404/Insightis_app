@@ -6,11 +6,14 @@
    <IK.MxMetricDialog
      open={bool} onOpenChange={fn}
      mode="create" | "edit"                 title "Create metric" / "Edit metric"
-     initial={{ name, alias, def, connector }}   prefill (edit) — alias without the @
+     initial={{ name, alias, def, connector, link }}   prefill (edit) — alias without the @; link: 'connection' opens
+                                                 on Connection (Data Sources' Add Metric for a connection)
      options={[{ id: 'Skyvia Jira', label: 'Skyvia Jira (Jira Software Cloud)' }]}
      findDuplicates={(name, alias) => ({ name: 'MRR growth' | null, alias: '@mrr_growth' | null })}
      onSave={({ name, alias, def, connector }) => …}   alias comes back WITH the @ ('' when empty)
-   />
+     sharedAlias={(alias) => ({ alias: '@revenue', long: '@revenue__a3f9c1', ws: 'Marketing' }) | null}
+   />   sharedAlias (shared workspaces): an alias already shared with the person → a warning Alert sm
+        under the field while typing — theirs will be @revenue, the shared one @revenue__a3f9c1
 
    Save with an empty Name puts focus in Name and does nothing else. A name or alias that already
    belongs to another of the user's metrics is NOT a sentence under the form: the colliding field
@@ -45,7 +48,7 @@
     R.useEffect(function () {
       if (!p.open) return;
       setF({ name: init.name || '', alias: (init.alias || '').replace(/^@/, ''), def: init.def || '', connector: init.connector || '', connectorLabel: init.connector || '' });
-      setErr({}); setLink('datasource');
+      setErr({}); setLink(init.link === 'connection' ? 'connection' : 'datasource');
     }, [p.open]);
 
     function set(k, v) {
@@ -98,9 +101,18 @@
         h('div', { className: 'flex min-h-0 flex-col gap-4 overflow-y-auto' },
           h(D.InputGroup, { size: 'md', isInvalid: !!err.name, label: 'Name', inputId: 'ik-mx-name' },
             h(D.InputGroupInput, { id: 'ik-mx-name', ref: nameRef, type: 'text', placeholder: 'Net revenue', value: f.name || '', onChange: function (ev) { set('name', ev.target.value); } })),
-          h(D.InputGroup, { size: 'md', isInvalid: !!err.alias, label: 'Alias', inputId: 'ik-mx-alias' },
-            h(D.InputGroupAddon, { align: 'inline-start', 'aria-hidden': 'true' }, '@'),
-            h(D.InputGroupInput, { id: 'ik-mx-alias', ref: aliasRef, type: 'text', placeholder: 'net_revenue', value: f.alias || '', onChange: function (ev) { set('alias', ev.target.value); } })),
+          h('div', { className: 'flex flex-col gap-2' },
+            h(D.InputGroup, { size: 'md', isInvalid: !!err.alias, label: 'Alias', inputId: 'ik-mx-alias' },
+              h(D.InputGroupAddon, { align: 'inline-start', 'aria-hidden': 'true' }, '@'),
+              h(D.InputGroupInput, { id: 'ik-mx-alias', ref: aliasRef, type: 'text', placeholder: 'net_revenue', value: f.alias || '', onChange: function (ev) { set('alias', ev.target.value); } })),
+            /* shared workspaces: the alias is already shared with the person — said while typing, not
+               an error: theirs wins the short form, the shared one keeps a long one */
+            (function () {
+              var hit = p.sharedAlias && !err.alias ? p.sharedAlias(f.alias) : null;
+              return hit ? h(D.Alert, { variant: 'warning', size: 'sm', role: 'status', icon: h(IK.Icon, { name: 'warning' }),
+                title: hit.alias + ' is already shared in ' + hit.ws,
+                description: 'Yours will be ' + hit.alias + '; the shared one stays available as ' + hit.long + '.' }) : null;
+            })()),
           h(D.TextArea, {
             id: 'ik-mx-def', rows: 4, maxLength: 1500, showCount: true, label: 'Definition', placeholder: 'Describe how to compute this metric…',
             value: f.def || '', onChange: function (ev) { set('def', ev.target.value); }

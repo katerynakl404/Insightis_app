@@ -22,15 +22,48 @@
      sortDir: 'desc' | 'asc', onSort,
      onToggle(id), onToggleAll(), onOpen(id), onAction(action, id),   // action: add-to-chat | rename | download | delete
      empty: false, onBrowse,                      // first-run empty library
-     layout: 'table' | 'cards'                    // optional — default follows the viewport (< 768px = cards)
+     layout: 'table' | 'cards',                   // optional — default follows the viewport (< 768px = cards)
+     // shared workspaces (all optional; the Files page itself passes none of them):
+     selectable: false,                           // no checkbox column (a workspace's files, Shared)
+     caption: function (f) → node,                // under the name — IK.WsSharedBy; the name then
+                                                  // truncates with its full text in a tooltip
+     menuItems: ['view', 'download', …],          // which ⋮ items, in order — keys below
+     menuLock: { share: lockedProps },            // IK.Locked props per item (a Blocked workspace)
+     // a file with shared: { ws } is shared with the person (review switch Shared: Tag): tagged "Shared"
+     // beside its name (tooltip: from which workspaces), no checkbox, its own menu (f.menu)
+     // wsCol: a Workspaces column after Name — where one's own is shared into (f.sharedWith), where a
+     // shared one comes from; tag: false → no Shared tag (review switch Shared: Tabs / Workspaces
+     // column); ownerCol (review switch Owner: Shown): an Owner column — "You" or f.by
+     // a file with locked: true is unavailable on the plan — greyed name, the plan's padlock badge
+     // (IK.Locked 'shared-files' → upgrade) in place of its origin, no ⋮; muted: true (a Blocked
+     // workspace's file) — greyed name, no ⋮, its origin badge stays
    })
-   IK.DsFileMenu { id, onAction, defaultOpen } — the ⋮ and its menu alone (DevartUI RowMenuButton).
+   IK.DsFileMenu { id, onAction, defaultOpen, items, lock } — the ⋮ and its menu alone (DevartUI
+     RowMenuButton). items (default add-to-chat · rename · download · delete) from: view ·
+     add-to-chat · share ("Share via Workspace") · rename · download · stop-sharing (danger) ·
+     delete (danger).
    IK.DsFilesSkeleton — the loading library: 3 chip ghosts, a count ghost, the table with 5 ghost rows. */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
 
+  /* a shared file the plan can't open: muted, no plan tag — the "needs a plan" notice says why (user,
+     2026-10-19: "не треба тегу стартер"); Type keeps the type ("як тут опинився план?") */
+
+  /* a shared file that can't be used: the warning right after its name, as everywhere (IK.WsUnavailableMark) */
+  function unavailableMark(f) {
+    return f.shared || f.by ? h(IK.WsUnavailableMark, { by: f.by || (f.shared && f.shared.by), locked: !f.muted, noun: 'files' }) : null;
+  }
+  function UnavailableBadge(p) {
+    var from = (p.file.wsNames || [p.file.shared && p.file.shared.ws]).filter(Boolean);
+    return h(IK.Tip, { tip: IK.wsUnavailableTip({ by: p.file.by || (p.file.shared && p.file.shared.by), locked: !p.file.muted, noun: 'files' }), wrap: true },
+      h('span', { tabIndex: 0, className: IK.cx('inline-flex shrink-0 rounded-full', D.focusRing) },
+        h(D.Badge, { variant: 'attention', size: 'sm', rounded: 'full', leftSlot: h(IK.Icon, { name: 'warning', size: 12 }) }, 'Unavailable')));
+  }
+
+  /* Tag mode (p.tag): a shared file's Type is Shared, beside Artifact and Uploaded (user, 2026-10-19) */
   function OriginBadge(p) {
+    if (p.shared) return h(IK.SharedBadge, { by: p.shared.by, ws: p.shared.ws });
     return p.origin === 'artifact'
       ? h(D.Badge, { variant: 'primary', size: 'sm' }, 'Artifact')
       : h(D.Badge, { variant: 'secondary', size: 'sm' }, 'Uploaded');
@@ -38,13 +71,25 @@
 
   /* DevartUI RowMenuButton: the row ⋮, its tooltip and its menu; always shown here (reveal: false —
      the table and the cards show it at rest). */
+  var MENU = {
+    'view': ['view-only', 'View'],
+    'add-to-chat': ['add-chat', 'Add to Chat'],
+    'share': ['ws-share', 'Share via Workspace'],
+    'rename': ['rename', 'Rename'],
+    'download': ['download', 'Download'],
+    'stop-sharing': ['ws-remove', 'Remove from Workspace', true],
+    'delete': ['delete', 'Delete', true]
+  };
+  var DEFAULT_ITEMS = ['add-to-chat', 'rename', 'download', 'delete'];
   IK.DsFileMenu = function DsFileMenu(p) {
     function act(a) { return function () { if (p.onAction) p.onAction(a, p.id); }; }
+    var items = (p.items || DEFAULT_ITEMS).filter(function (k) { return MENU[k]; });
     return h(D.RowMenuButton, { reveal: false, defaultOpen: p.defaultOpen, className: p.triggerClassName },
-        h(D.DropdownMenuItem, { onSelect: act('add-to-chat') }, h(IK.Icon, { name: 'add-chat', size: 16 }), 'Add to Chat'),
-        h(D.DropdownMenuItem, { onSelect: act('rename') }, h(IK.Icon, { name: 'rename', size: 16 }), 'Rename'),
-        h(D.DropdownMenuItem, { onSelect: act('download') }, h(IK.Icon, { name: 'download', size: 16 }), 'Download'),
-        h(D.DropdownMenuItem, { variant: 'danger', onSelect: act('delete') }, h(IK.Icon, { name: 'delete', size: 16 }), 'Delete'));
+      items.map(function (k) {
+        var m = MENU[k], item = h(D.DropdownMenuItem, { key: k, variant: m[2] ? 'danger' : undefined, onSelect: act(k) },
+          h(IK.Icon, { name: m[0], size: 16 }), m[1]);
+        return p.lock && p.lock[k] ? h(IK.Locked, Object.assign({ key: k }, p.lock[k]), item) : item;
+      }));
   };
 
   function stop(e) { e.stopPropagation(); }
@@ -52,7 +97,7 @@
 
   function EmptyRow(p) {
     return h(D.TableRow, null,
-      h(D.TableCell, { colSpan: 6, className: 'p-0' },
+      h(D.TableCell, { colSpan: 7, className: 'p-0' },
         h(D.StatusView, {
           size: 'lg', surface: 'embedded', withIconHalo: false, icon: h(D.EmptyStateIllustration),
           title: 'No files yet', description: 'Files you upload or create in chats will appear here',
@@ -60,18 +105,48 @@
         })));
   }
 
+  /* the name, and under it the caption a shared file carries (who shared it, from which workspace);
+     a captioned name truncates with the whole name in a tooltip (TruncatedTitleTooltip) */
+
+  function NameBlock(p) {
+    var f = p.noTag ? Object.assign({}, p.file, { shared: null }) : p.file, name = h('span', { className: IK.cx('ik-dsft-name min-w-0 truncate font-medium text-ink-primary', p.small && 'text-sm') }, f.name);
+    /* beside the name: the Owner mark (Shared: Owner) and, its workspace Blocked, Unavailable — in every mode */
+    var raw = p.file, extras = [
+      p.ownerMark && (raw.shared || raw.by) ? h(IK.WsOwnerMark, { key: 'o', by: raw.by || raw.shared.by, ws: raw.wsNames || (raw.shared && raw.shared.ws) || raw.wsName }) : null,
+      raw.locked || raw.muted ? h(IK.Fragment, { key: 'u' }, unavailableMark(raw)) : null
+    ].filter(Boolean);
+    if (!p.caption && !extras.length) return name;
+    var cap = p.caption ? p.caption(f) : null;
+    var line = h(D.TruncatedTitleTooltip, { title: f.name, getTruncationTarget: function (t) { return t; } }, name);
+    return h('div', { className: 'flex min-w-0 flex-1 flex-col gap-0.5' },
+      /* the tooltip's box fills its parent: a parent sized by the name keeps the mark right after it, as on
+         Connections (user, 2026-10-19: 'чому не біля імені') */
+      extras.length ? h('div', { className: 'flex min-w-0 items-center gap-2' }, h('span', { className: 'flex min-w-0' }, line), extras) : line,
+      cap);
+  }
+
   function TableView(p) {
-    var files = p.files || [];
-    return h(D.Table, { wrapperClassName: 'ik-dsft' },
+    var files = p.files || [], sel = p.selectable !== false;
+    /* with Owner / Workspaces the row has 7–8 columns: a fixed layout in proportion, the name truncating, so
+       the table never scrolls sideways (user, 2026-10-19); without them the original auto layout */
+    var fixed = !!(p.ownerCol || p.wsCol);
+    function w(pc) { return fixed ? { style: { width: pc } } : null; }
+    return h(D.Table, { wrapperClassName: 'ik-dsft', layout: fixed ? 'fixed' : undefined },
       h(D.TableHeader, null,
         h(D.TableRow, null,
-          h(D.TableHead, { className: 'ik-dsft-cbcol' },
-            h(D.Checkbox, { checked: p.allState || false, onCheckedChange: function () { if (p.onToggleAll) p.onToggleAll(); }, 'aria-label': 'Select all files' })),
+          /* fixed layout: the checkbox column takes DevartUI's control width (its 1px auto-fit would collapse) */
+          sel ? h(D.TableHead, fixed ? { width: 'control' } : { className: 'ik-dsft-cbcol' },
+            h(D.Checkbox, { checked: p.allState || false, onCheckedChange: function () { if (p.onToggleAll) p.onToggleAll(); }, 'aria-label': 'Select all files' })) : null,
+          /* Name takes what the others leave, so no spare width is spread onto the checkbox column (as the
+             Workspaces list: the control column stays 48px) */
           h(D.TableHead, null, 'Name'),
-          h(D.TableHead, null, 'Type'),
-          h(D.TableHead, null, 'Size'),
-          h(D.TableHead, { sortable: true, sortDirection: p.sortDir || 'desc', onSort: p.onSort }, 'Modified'),
-          h(D.TableHead, { className: 'text-right' }, 'Actions'))),
+          p.ownerCol ? h(D.TableHead, w('14%'), 'Owner') : null,
+          p.wsCol ? h(D.TableHead, w('14%'), 'Workspaces') : null,
+          h(D.TableHead, w('11%'), 'Type'),
+          h(D.TableHead, w('9%'), 'Size'),
+          p.onSort ? h(D.TableHead, Object.assign({ sortable: true, sortDirection: p.sortDir || 'desc', onSort: p.onSort }, w('12%')), 'Modified')
+            : h(D.TableHead, w('12%'), 'Modified'),
+          h(D.TableHead, Object.assign({ className: 'text-right' }, w('8%')), 'Actions'))),
       h(D.TableBody, null,
         p.empty ? h(EmptyRow, { onBrowse: p.onBrowse }) : files.map(function (f) {
           var preview = f.id === p.previewId;
@@ -80,17 +155,27 @@
             className: IK.cx((f.selected || preview) && 'is-selected', preview && 'ik-dsft-preview'),
             onClick: function (e) { if (!fromControl(e) && p.onOpen) p.onOpen(f.id); }
           },
-            h(D.TableCell, { className: 'ik-dsft-cbcol', onClick: stop },
-              h(D.Checkbox, { checked: !!f.selected, onCheckedChange: function () { if (p.onToggle) p.onToggle(f.id); }, 'aria-label': 'Select ' + f.name })),
+            sel ? h(D.TableCell, { className: 'ik-dsft-cbcol', onClick: stop }, f.shared
+              /* a shared file can't be picked (only its owner deletes or shares it): its checkbox is there,
+                 disabled, and says why — the column stays whole, as the Workspaces list (user, 2026-10-19) */
+              ? h(IK.Tip, { tip: 'Only ' + (f.by || (f.shared && f.shared.by) || 'its owner') + ' can delete or share it', wrap: true },
+                  h(D.Checkbox, { 'aria-label': f.name + ' — only ' + (f.by || (f.shared && f.shared.by) || 'its owner') + ' can delete or share it', checked: false, disabled: true })) :
+              h(D.Checkbox, { checked: !!f.selected, onCheckedChange: function () { if (p.onToggle) p.onToggle(f.id); }, 'aria-label': 'Select ' + f.name })) : null,
             h(D.TableCell, null,
               h('div', { className: 'flex min-w-0 items-center gap-2.5' },
                 h(IK.DsFileMark, { type: f.type }),
-                h('span', { className: 'ik-dsft-name min-w-0 truncate font-medium text-ink-primary' }, f.name))),
-            h(D.TableCell, null, h(OriginBadge, { origin: f.origin })),
+                h(NameBlock, { file: f, caption: p.caption, noTag: p.tag !== undefined, ownerMark: p.ownerMark }))),
+            p.ownerCol ? h(D.TableCell, { className: 'truncate text-ink-secondary' },
+              f.by || (f.shared && f.shared.by) || 'You') : null,
+            p.wsCol ? h(D.TableCell, { className: 'max-w-0 text-ink-secondary' }, (function () {
+              var names = f.wsNames || (f.sharedWith && f.sharedWith.length ? f.sharedWith : f.wsName ? [f.wsName] : []);
+              return names.length ? h(IK.WsNames, { names: names, links: f.links }) : h('span', { className: 'text-ink-inactive' }, '—'); /* in no workspace: a quiet dash */
+            })()) : null,
+            h(D.TableCell, null, h(OriginBadge, { origin: f.origin, shared: p.tag && (f.shared || f.by) ? { by: f.by || f.shared.by } : null })),
             h(D.TableCell, { className: 'whitespace-nowrap tabular-nums' }, f.size),
             h(D.TableCell, { className: 'whitespace-nowrap tabular-nums' }, f.date),
             h(D.TableActionsCell, { onClick: stop },
-              h(IK.DsFileMenu, { id: f.id, onAction: p.onAction })));
+              f.locked || f.muted ? null : h(IK.DsFileMenu, { id: f.id, onAction: p.onAction, items: f.menu || p.menuItems, lock: f.shared ? null : p.menuLock })));
         })));
   }
 
@@ -106,15 +191,21 @@
         className: IK.cx('ik-dsft-card', f.selected && 'is-selected', preview && 'is-preview'),
         onClick: function (e) { if (!fromControl(e) && p.onOpen) p.onOpen(f.id); }
       },
-        h('span', { className: 'ik-dsft-cb', onClick: stop },
-          h(D.Checkbox, { checked: !!f.selected, onCheckedChange: function () { if (p.onToggle) p.onToggle(f.id); }, 'aria-label': 'Select ' + f.name })),
+        p.selectable !== false && !f.shared ? h('span', { className: 'ik-dsft-cb', onClick: stop },
+          h(D.Checkbox, { checked: !!f.selected, onCheckedChange: function () { if (p.onToggle) p.onToggle(f.id); }, 'aria-label': 'Select ' + f.name })) : null,
         h('div', { className: 'flex min-w-0 items-center gap-2.5' },
           h(IK.DsFileMark, { type: f.type }),
-          h('div', { className: 'flex min-w-0 flex-1 flex-col gap-0.5' },
-            h('span', { className: 'ik-dsft-name min-w-0 truncate text-sm font-medium text-ink-primary' }, f.name),
-            h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, f.date))),
-        h(OriginBadge, { origin: f.origin }),
-        h('span', { className: 'ik-dsft-act', onClick: stop }, h(IK.DsFileMenu, { id: f.id, onAction: p.onAction })));
+          /* the name (with the owner glyph and Unavailable, as in the table), the date, and the workspaces — where
+             one's own is shared, where a shared one comes from (the table's Workspaces column; the phone lost it) */
+          h(NameBlock, { file: f, small: true, ownerMark: p.ownerMark, caption: function (x) {
+            var wsn = x.wsNames || x.sharedWith || null;
+            return h('div', { className: 'flex min-w-0 flex-col gap-0.5' },
+              h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, x.date),
+              /* the workspaces only where the table has its Workspaces column (Tabs' Shared tab); else the preview says it */
+              p.wsCol && wsn && wsn.length ? h(IK.WsNames, { names: wsn, links: x.links, className: 'text-xs text-ink-secondary' }) : null);
+          } })),
+        h(OriginBadge, { origin: f.origin, shared: p.tag && (f.shared || f.by) ? { by: f.by || f.shared.by } : null }),
+        f.locked || f.muted ? null : h('span', { className: 'ik-dsft-act', onClick: stop }, h(IK.DsFileMenu, { id: f.id, onAction: p.onAction, items: f.menu || p.menuItems, lock: f.shared ? null : p.menuLock })));
     }));
   }
 

@@ -4,8 +4,10 @@
 
 /* One grid for every card (the original is ONE table, so its cards line up column for column). */
 .ik-mx-col-switch  { width: 4rem; }
-.ik-mx-col-name    { width: 22%; }
-.ik-mx-col-alias   { width: 9.5rem; }
+/* the name and the alias get room the definition gave up: a namespaced alias (@sprint_velocity__e19b04) and a long
+   name no longer cut while the one-line definition kept most of the row (user, 2026-10-20) */
+.ik-mx-col-name    { width: 24%; }
+.ik-mx-col-alias   { width: 11rem; }
 .ik-mx-col-badge   { width: 5rem; }
 .ik-mx-col-actions { width: 5rem; }
 
@@ -22,6 +24,8 @@ tr.ik-mx-row > td { height: 2.875rem; box-sizing: border-box; }
 td.ik-mx-cell-switch { padding-inline-start: var(--ik-mx-indent); padding-inline-end: 0; }
 /* switch → its own label: 12px, measured off prod */
 td.ik-mx-cell-name { padding-inline-start: .75rem; }
+/* a read-only row (no switch) keeps the switch column, so its name starts where every metric name
+   does (user, 2026-10-19: "мало бути однаково") */
 
 /* A row whose ⋮ menu is open keeps its hover fill for as long as the menu is up (the menu takes
    the pointer, so :hover alone would drop it). */
@@ -36,13 +40,23 @@ tr.ik-mx-group { cursor: pointer; }
 .ik-mx-collapse > svg { transition: transform 200ms; }
 tr.ik-mx-group.is-collapsed .ik-mx-collapse > svg { transform: rotate(-90deg); }
 
+/* a connection sub-header is a row: its hover fill, as a metric row's — Add Metric shows on it (user, 2026-10-20) */
+tr.ik-mx-sub:hover > td { background: var(--tbl-row-hover); }
 /* Add Metric shows on the hovered header / sub-header only (always on a phone). */
 .ik-mx-add { opacity: 0; transition: opacity 150ms; }
 tr:hover .ik-mx-add, .ik-mx-add:focus-within, .ik-mx-add:has([data-upgrade-open]) { opacity: 1; }
 
 /* Connection sub-header: same 46px as a metric row, label on the shared left line. */
-td.ik-mx-sub-cell { height: 2.875rem; box-sizing: border-box; padding-block: .25rem; padding-inline-start: var(--ik-mx-indent); }
+td.ik-mx-sub-cell { position: relative; height: 2.875rem; box-sizing: border-box; padding-block: 0; padding-inline-start: var(--ik-mx-indent); }
+/* a sub-header's workspaces start on the alias line — the switch column + the name column + the alias cell's 16px —
+   and stop before Add Metric; the connection's name stops before them */
+.ik-mx-sub-ws { position: absolute; inset-block: 0; inset-inline-start: calc(4rem + 24% + 1rem); inset-inline-end: 7rem; display: flex; align-items: center; min-width: 0; }
+.ik-mx-sub-left { max-width: calc(4rem + 24% - var(--ik-mx-indent) - .5rem); }
 .ik-mx-sub-ic { opacity: .55; }
+/* a sub-header lines up with its group's header: the link glyph in a box the size of the group's logo (24px, the
+   glyph 16px), under it, and the name under the group's name — the logo's 8px gap is the row's 6px + 2px
+   (user, 2026-10-19: 'мали вирівнюватись іконками і текстами за рахунок однакового розміру іконок') */
+.ik-mx-sub-lead { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; margin-inline-end: .125rem; }
 
 /* "No built-in metrics" row. */
 td.ik-mx-none-cell { padding-inline-start: var(--ik-mx-indent); }
@@ -59,6 +73,9 @@ td.ik-mx-none-cell { padding-inline-start: var(--ik-mx-indent); }
   .ik-mx-card tr.ik-mx-sub > td,
   .ik-mx-card tr.ik-mx-none > td { display: block; }
   .ik-mx-card tr.ik-mx-sub > td.ik-mx-sub-cell { display: flex; align-items: center; }
+  /* no alias column on a phone: the workspaces follow the name */
+  .ik-mx-card .ik-mx-sub-ws { position: static; flex: 0 1 auto; margin-inline-start: .5rem; }
+  .ik-mx-card .ik-mx-sub-left { max-width: none; }
   .ik-mx-card td.ik-mx-none-cell { padding: .875rem; padding-inline-start: var(--ik-mx-indent); }
 
   /* metric row → switch · name · badge · ⋮ */
@@ -72,6 +89,9 @@ td.ik-mx-none-cell { padding-inline-start: var(--ik-mx-indent); }
   /* the original keeps both desktop insets on a card — the switch cell's 36px and the name's 12px —
      so the switch sits a second indent in; kept (and the !important: TableCell pads nested rows) */
   .ik-mx-card tr.ik-mx-row > td.ik-mx-cell-switch { grid-column: 1; grid-row: 1; padding-inline-start: var(--ik-mx-indent) !important; }
+  /* the switch's 28px whatever the cell holds — a switch, an Unavailable glyph or nothing (a read-only row) —
+     so every name stays on the names' line */
+  .ik-mx-card tr.ik-mx-row > td.ik-mx-cell-switch { min-width: calc(var(--ik-mx-indent) + 1.75rem); }
   .ik-mx-card tr.ik-mx-row > td.ik-mx-cell-name {
     grid-column: 2; grid-row: 1; padding-inline-start: .75rem !important; font-size: .875rem; line-height: 1.25rem; font-weight: 600; color: hsl(var(--ink-primary));
   }

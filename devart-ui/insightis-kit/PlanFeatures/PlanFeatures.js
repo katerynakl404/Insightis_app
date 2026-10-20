@@ -93,6 +93,29 @@
         'Keeps up with wide tables and data joined from several sources'
       ]
     },
+    /* Shared workspaces (AIINS-1852): only Pro carries the Workspaces module (PM, 2026-09-25). The
+       same words as the site's pricing row, which names the plans that include it. */
+    workspaces: {
+      plan: 'Pro',
+      name: 'Workspaces',
+      title: 'Share your data with your team',
+      lead: 'Put connections, metrics and files in a workspace and invite colleagues to use them in their own chats.',
+      benefits: [
+        'Invite colleagues by email — they use what you share, read-only',
+        'Workspaces are included in the Pro plan'
+      ]
+    },
+    /* a file shared with a Member whose plan has no Files module ("unavailable on your plan") */
+    'shared-files': {
+      plan: 'Starter',
+      name: 'Shared files',
+      title: 'Open files shared with you',
+      lead: 'Your plan doesn’t include Files, so files shared with you can’t be opened or added to a chat.',
+      benefits: [
+        'View and download files shared with you',
+        'Add them to a chat — the assistant reads them'
+      ]
+    },
     /* The chat's own summary: a Free account meets three limits at once, so this one panel names
        all three rather than sending the person round three separate explanations. */
     plan: {

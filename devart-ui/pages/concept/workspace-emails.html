@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Workspace emails</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Workspace emails — the two letters shared workspaces send (Claude Doc «Дизайн: Shared workspaces,
+   фаза 1»): the invitation (AIINS-1866) and the renewal request a Member sends the Owner of a Blocked
+   workspace (Ask … to Renew — an email, no in-app notice). IK.WsEmail. Rules: concept/workspace.rules.md.
+   Review switches: Email · Names · Theme. */
+(function () {
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, h = IK.h;
+  (function () {
+    var u = new URL(location.href);
+    if (!u.searchParams.get('ws')) { u.searchParams.set('ws', '1'); history.replaceState(null, '', u); }
+  })();
+
+  function App() {
+    var q = RK.useWsQuery();
+    var ws = IK.useWorkspaces(RK.wsStore(q));
+    var em = RK.useQueryState('email', 'invitation'), email = em[0], setEmail = em[1];
+    var inv = IK.wsInvitation(RK.wsStore(q));
+    /* the renewal request: the person asks Olena to renew Marketing */
+    var mk = ws.shared.filter(function (w) { return w.owner.email === 'olena.petrenko@northwind.io'; })[0] || inv;
+    return h('div', { className: 'flex min-h-svh flex-col bg-surface-page' },
+      h(RK.ReviewBar, { title: 'Workspace emails', status: 'concept', size: 'sm', autoHeight: true, plan: false,
+        controls: [{ label: 'Email', showLabel: true, value: email, onChange: setEmail,
+          options: [{ value: 'invitation', label: 'Invitation' }, { value: 'renewal', label: 'Renewal request' }] }]
+          .concat(RK.workspaceControls({ here: 'emails' })) }),
+      h('main', { className: 'flex flex-1 justify-center px-4 py-10' },
+        email === 'renewal'
+          ? h(IK.WsEmail, { kind: 'renewal', ws: mk, from: ws.me, to: mk.owner.email })
+          : h(IK.WsEmail, { kind: 'invitation', ws: inv, from: inv.owner, to: ws.me.email, expires: Date.now() + 14 * 864e5 })));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

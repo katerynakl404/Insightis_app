@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Details panels</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
+<link rel="stylesheet" href="../../review-kit/review-kit.css">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js"></script>
+<script src="../../review-kit/review-kit.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Details panels — the three side panels (a connection on Data Sources, a metric on Metrics, a file on
+   Files) on ONE anatomy, every state at once: a row per state, the three panels side by side (user,
+   2026-10-20: "уніфіковані з різними станами" · "логіку екшенів не забувай" · "ти не всі стани панелі показав").
+   Panels take their content's height, so every foot shows. IK.DetailsPanel.
+
+   The actions follow the item's own row and its state (the brief: what can't be done is absent; what a plan
+   brings back is locked):
+     Connection  own — Add Metric (+ after the count), re-test (after Last check), Share via Workspace,
+                 Disconnect · Test Connection · Edit · Free: Test, Edit, Add Metric, Share locked, Disconnect free
+                 · on its workspace page: Remove from Workspace · shared: nothing to change · unavailable: why
+     Metric      custom — Active, Delete · Duplicate · Edit · built-in — Active, Duplicate & Customize · not
+                 connected yet — Connect · it is shared with its connection, so Access shares the connection
+                 · shared: read-only, no switch, no foot
+     File        own — Rename (pencil), Share via Workspace, Delete · Add to Chat · Download · on its workspace
+                 page: Remove from Workspace · Download · shared: Add to Chat · Download · unavailable: why
+   Review switches: Layout (Rows · Stacked · Cards) · Theme. */
+(function () {
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var NOW = Date.now();
+  var MINE = [{ name: 'Sales', href: '#', owner: 'You', members: 3 }, { name: 'Support', href: '#', owner: 'You', members: 2 }];
+  var THEIRS = [{ name: 'Marketing', href: '#', owner: 'Olena Petrenko', members: 3 }, { name: 'Brand', href: '#', owner: 'Olena Petrenko', members: 2 }];
+  function toast(t) { return function () { D.toast(t); }; }
+  function lockable(feature, locked, node) { return locked ? h(IK.Locked, { feature: feature, locked: true, surface: 'modal' }, node) : node; }
+  function btn(variant, label, icon, onClick) { return h(D.Button, { variant: variant, size: 'sm', type: 'button', leftSlot: icon ? h(IK.Icon, { name: icon, size: 16 }) : undefined, onClick: onClick || toast(label) }, label); }
+  function share(free, label) { return lockable('workspaces', free, btn('secondary', label || 'Share via Workspace', 'ws-share')); }
+  function badges(alias, custom) {
+    return h('span', { className: 'flex flex-wrap items-center gap-2' }, h(D.Badge, { variant: 'secondary', size: 'sm' }, alias), h(D.Badge, { variant: custom ? 'primary' : 'secondary', size: 'sm' }, custom ? 'Custom' : 'Built-in'));
+  }
+  function activeSwitch(free) {
+    return h('div', { className: 'flex items-center gap-1.5' },
+      lockable('metrics', free, h('span', { className: 'inline-flex' }, h(D.Switch, { size: 'sm', checked: !free, disabled: free, 'aria-label': 'Toggle active' }))),
+      h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'secondary' }, free ? 'Inactive' : 'Active'));
+  }
+  function sample() {
+    return h(D.Card, { variant: 'outline', className: 'overflow-hidden p-0' },
+      h(D.Table, { density: 'compact', 'aria-label': 'Preview' },
+        h(D.TableHeader, null, h(D.TableRow, null, ['Date', 'Region', 'Revenue'].map(function (c) { return h(D.TableHead, { key: c }, c); }))),
+        h(D.TableBody, null, [['Jul 1', 'EMEA', '12,480'], ['Jul 1', 'AMER', '31,905'], ['Jul 2', 'APAC', '8,214']].map(function (r, i) {
+          return h(D.TableRow, { key: i }, r.map(function (c, j) { return h(D.TableCell, { key: j, className: 'tabular-nums' }, c); }));
+        }))));
+  }
+  function noPreview() { return h(D.StatusView, { size: 'sm', surface: 'embedded', withIconHalo: false, title: 'No preview for this file type', description: 'Download it to open' }); }
+
+  /* ── the cases: [row title, connection, metric, file] — a null cell has no such state ── */
+  function cases(o) {
+    var L = o.layout, renewal = o.renewal;
+    function P(x) { return h(IK.DetailsPanel, Object.assign({ inline: true, layout: L }, x)); }
+    function blocked(noun, feature) { return h(IK.WsUnavailableNote, { by: 'Olena Petrenko', renewal: renewal, noun: noun, feature: feature }); }
+    function noPlan(noun, feature) { return h(IK.WsUnavailableNote, { locked: true, noun: noun, feature: feature }); }
+
+    function connOwn(free, items) {
+      return P({ title: 'Connection details', mark: h(IK.ConnectorMark, { connector: 'Salesforce', size: 'md' }), name: 'Main CRM', meta: 'Salesforce',
+        rows: [
+          { label: 'Metrics', value: h(D.LinkButton, { href: '#' }, '12 metrics'), action: { icon: 'plus', label: 'Add Metric', onClick: toast('Create metric opens here'), locked: free, lockFeature: 'metrics' } },
+          { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: NOW - 32 * 60e3, status: 'active', onTest: free ? undefined : toast('Checking…') }) },
+          { label: 'Description', value: 'Deals, contacts & pipeline metrics' }],
+        access: { items: items || [], action: share(free) },
+        foot: { start: btn('destructiveOutline', 'Disconnect', 'disconnect'),
+          end: h(IK.Fragment, null, lockable('connection-test', free, btn('secondary', 'Test Connection', 'test-conn')), lockable('connection-edit', free, btn('primary', 'Edit', 'rename'))) } });
+    }
+    function connShared(note, links) {
+      return P({ title: 'Connection details', mark: h(IK.ConnectorMark, { connector: 'HubSpot', size: 'md' }), name: 'Campaigns HubSpot', meta: 'HubSpot', notice: note,
+        rows: [{ label: 'Metrics', value: links ? h(D.LinkButton, { href: '#' }, '4 metrics') : '4 metrics' },
+               { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: NOW - 60 * 60e3, status: 'active' }) }],
+        access: { items: THEIRS } });
+    }
+    function metricOwn(free, items, builtin) {
+      return P({ title: 'Metric details', control: activeSwitch(free), mark: h(IK.ConnectorMark, { connector: 'Salesforce', size: 'md' }),
+        name: builtin ? 'Win rate' : 'MRR growth', meta: badges(builtin ? '@win_rate' : '@mrr_growth', !builtin),
+        rows: [{ label: 'Linked to', value: 'Main CRM · Salesforce' },
+               { label: 'Definition', value: builtin ? 'Won deals as a share of closed deals' : 'Month-over-month change in MRR: (this month − last month) ÷ last month × 100' }],
+        access: { items: items || [], empty: 'Not shared yet — it goes with Main CRM', note: 'A metric is shared with its connection — every workspace Main CRM is in sees it', action: share(free, 'Share Main CRM') },
+        foot: builtin ? { end: lockable('metrics', free, btn('primary', 'Duplicate & Customize', 'copy')) }
+          : { start: btn('destructiveOutline', 'Delete', 'delete'), end: h(IK.Fragment, null, lockable('metrics', free, btn('secondary', 'Duplicate', 'copy')), lockable('metrics', free, btn('primary', 'Edit', 'rename'))) } });
+    }
+    function metricShared(note) {
+      return P({ title: 'Metric details', mark: h(IK.ConnectorMark, { connector: 'HubSpot', size: 'md' }), name: 'Revenue', meta: badges('@revenue__a3f9c1', true), notice: note,
+        rows: [{ label: 'Linked to', value: 'Campaigns HubSpot · HubSpot' }, { label: 'Definition', value: 'Closed-won amount, net of refunds' }],
+        access: { items: THEIRS } });
+    }
+    function fileOwn(free, items, kind) {
+      return P({ title: 'File details', mark: h(IK.DsFileMark, { type: kind === 'json' ? 'json' : 'csv' }), name: kind === 'json' ? 'pipeline-export.json' : 'quarterly-report.csv',
+        meta: kind === 'json' ? 'JSON · 84 KB · Uploaded' : 'CSV · 2.4 MB · Artifact', onRename: toast('Rename'),
+        preview: kind === 'json' ? h('pre', { className: 'm-0 overflow-x-auto rounded-lg border border-stroke p-3 text-xs' }, '{\n  "date": "2026-07-01",\n  "region": "EMEA",\n  "revenue": 12480\n}') : sample(),
+        rows: [{ label: 'Modified', value: 'Oct 16, 2026' }],
+        access: { items: items || [], action: share(free) },
+        foot: { start: btn('destructiveOutline', 'Delete', 'delete'), end: h(IK.Fragment, null, btn('secondary', 'Add to Chat', 'add-chat'), btn('primary', 'Download', 'download')) } });
+    }
+    function fileShared(note) {
+      var off = !!note;
+      return P({ title: 'File details', mark: h(IK.DsFileMark, { type: 'pdf' }), name: 'Campaign brief — autumn launch.pdf', meta: 'PDF · 1.1 MB · Uploaded', notice: note,
+        preview: off ? null : noPreview(),
+        rows: [{ label: 'Modified', value: 'Oct 15, 2026' }], access: { items: THEIRS },
+        foot: off ? null : { end: h(IK.Fragment, null, btn('secondary', 'Add to Chat', 'add-chat'), btn('primary', 'Download', 'download')) } });
+    }
+
+    return [
+      ['Own', connOwn(false), metricOwn(false), fileOwn(false)],
+      ['Own · on Free (a plan brings these back: locked)', connOwn(true), metricOwn(true), fileOwn(true)],
+      ['Own, shared in workspaces', connOwn(false, MINE), metricOwn(false, MINE), fileOwn(false, MINE.slice(0, 1))],
+      ['Own · other cases — no metrics and a failed check · built-in · a text preview',
+        P({ title: 'Connection details', mark: h(IK.ConnectorMark, { connector: 'Stripe', size: 'md' }), name: 'Stripe Payments', meta: 'Stripe',
+          rows: [{ label: 'Metrics', value: h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'secondary' }, 'No metrics'), action: { icon: 'plus', label: 'Add Metric', onClick: toast('Create metric opens here') } },
+                 { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: NOW - 26 * 3600e3, status: 'error', error: 'API key expired or revoked (HTTP 401)', onTest: toast('Checking…'), onDetails: toast('Check failed: API key expired or revoked (HTTP 401)') }) }],
+          access: { items: [], action: share(false) },
+          foot: { start: btn('destructiveOutline', 'Disconnect', 'disconnect'), end: h(IK.Fragment, null, btn('secondary', 'Test Connection', 'test-conn'), btn('primary', 'Edit', 'rename')) } }),
+        metricOwn(false, null, true), fileOwn(false, null, 'json')],
+      ['Not connected yet (a library metric)', null,
+        P({ title: 'Metric details', mark: h(IK.ConnectorMark, { connector: 'Google Analytics', size: 'md' }), name: 'Sessions', meta: badges('@sessions', false),
+          rows: [{ label: 'Linked to', value: 'Google Analytics' }, { label: 'Definition', value: 'Visits to the website' }],
+          foot: { end: btn('primary', 'Connect Google Analytics', 'connections') } }), null],
+      ['On its workspace page (the Owner)',
+        P({ title: 'Connection details', mark: h(IK.ConnectorMark, { connector: 'Salesforce', size: 'md' }), name: 'Main CRM', meta: 'Salesforce',
+          rows: [{ label: 'Metrics', value: h(D.LinkButton, { href: '#' }, '12 metrics') }, { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: NOW - 32 * 60e3, status: 'active' }) }],
+          access: { items: MINE.slice(1), empty: 'Only in this workspace' },
+          foot: { start: btn('destructiveOutline', 'Remove from Workspace', 'ws-remove') } }),
+        null,
+        P({ title: 'File details', mark: h(IK.DsFileMark, { type: 'csv' }), name: 'quarterly-report.csv', meta: 'CSV · 2.4 MB · Artifact', preview: sample(),
+          rows: [{ label: 'Modified', value: 'Oct 16, 2026' }], access: { items: [], empty: 'Only in this workspace' },
+          foot: { start: btn('destructiveOutline', 'Remove from Workspace', 'ws-remove'), end: btn('primary', 'Download', 'download') } })],
+      ['Shared with you', connShared(null, true), metricShared(null), fileShared(null)],
+      ['Unavailable — the owner’s plan lapsed', connShared(blocked('connections', 'connections')), metricShared(blocked('metrics', 'metrics')), fileShared(blocked('files', 'shared-files'))],
+      ['Not on your plan', connShared(noPlan('connections', 'connections')), metricShared(noPlan('metrics', 'metrics')), fileShared(noPlan('files', 'shared-files'))]
+    ];
+  }
+
+  function App() {
+    var ly = RK.useQueryState('layout', 'rows'), layout = ly[0], setLayout = ly[1];
+    var rq = R.useState(false), requested = rq[0], setRequested = rq[1];
+    var renewal = { blocked: true, owners: ['Olena Petrenko'], requested: requested,
+      request: function () { setRequested(true); D.toast.success(h(IK.Fragment, null, 'Email sent to ', h('span', { className: 'font-medium text-ink-primary' }, 'Olena Petrenko')), { description: 'You’ll get access back once the plan is renewed' }); } };
+    var rows = cases({ layout: layout, renewal: renewal });
+    return h('div', { className: 'flex min-h-svh flex-col bg-surface-page' },
+      h(RK.ReviewBar, { title: 'Details panels', status: 'concept', size: 'sm', autoHeight: true, plan: false, controls: [
+        { label: 'Layout', showLabel: true, value: layout, onChange: setLayout, options: [{ value: 'rows', label: 'Rows' }, { value: 'stacked', label: 'Stacked' }, { value: 'cards', label: 'Cards' }] }] }),
+      h('main', { className: 'flex flex-col gap-10 px-6 py-8' },
+        h('div', { className: 'grid gap-6 lg:grid-cols-3' }, ['Connection · Data Sources', 'Metric · Metrics', 'File · Files'].map(function (t) {
+          return h(D.Typography, { key: t, element: 'h2', textStyle: 'title16', textColor: 'primary', className: 'm-0' }, t);
+        })),
+        rows.map(function (r) {
+          return h('section', { key: r[0], className: 'flex flex-col gap-3' },
+            h(D.Typography, { element: 'h3', textStyle: 'label12', textColor: 'secondary', className: 'm-0 uppercase tracking-wider' }, r[0]),
+            h('div', { className: 'grid items-start gap-6 lg:grid-cols-3' },
+              [1, 2, 3].map(function (i) { return h('div', { key: i, className: 'min-w-0' }, r[i] || null); })));
+        })),
+      h(D.Toaster));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

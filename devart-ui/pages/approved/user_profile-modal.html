@@ -99,6 +99,9 @@
   }
 
   function App() {
+    /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
+    var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
+    var da = R.useState(false), delAcct = da[0], setDelAcct = da[1];
     var plan = IK.usePlan()[0];
     var free = plan === 'free';
     var sec = R.useState(START), section = sec[0], setSection = sec[1];
@@ -182,7 +185,9 @@
     }
 
     var body;
-    if (section === 'my-account') body = h(IK.AcctMyAccount, { onChangePassword: function () { setSection('change-password'); } });
+    /* the brief's screen 08: an Owner deleting the account deletes their workspaces too — said, with their names */
+    if (section === 'my-account') body = h(IK.AcctMyAccount, { onChangePassword: function () { setSection('change-password'); },
+      onDelete: wsOn && ws.owned.length ? function () { setDelAcct(true); } : undefined });
     else if (section === 'manage-plan') body = managePlan();
     else if (section === 'billing') body = h(IK.AcctBilling, {
       plan: { name: 'Starter', price: '$7.99 / user / month' }, next: { amount: '$7.99', date: 'Sep 30, 2026' }, rows: INVOICES,
@@ -192,7 +197,7 @@
     else if (section === 'change-password') body = h(IK.AcctChangePassword, { onCancel: function () { setSection('my-account'); } });
 
     return h('div', { className: 'flex h-svh flex-col overflow-hidden' },
-      h(RK.ReviewBar, { title: 'Metrics · Account modal', status: 'approved', size: 'sm', plan: true, controls: controls }),
+      h(RK.ReviewBar, { title: 'Metrics · Account modal', status: 'approved', size: 'sm', plan: !RK.wsOwnsPlan(wsq), controls: controls.concat(RK.workspaceControls({ here: 'account' })) }),
       h('main', { className: 'relative min-h-0 flex-1 bg-surface-page', 'aria-label': 'Account modal' },
         h(IK.AcctModal, {
           section: section, onSection: setSection,
@@ -223,6 +228,15 @@
         open: !!dlg.yearly, sent: yearlySent, onSend: function () { setYearlySent(true); },
         onOpenChange: function (o) { if (!o) closeDlg('yearly'); }
       }),
+      wsOn ? h(IK.AcctConfirmDialog, {
+        open: delAcct, onOpenChange: setDelAcct,
+        title: 'Delete your account?',
+        text: (ws.owned.length === 1 ? 'Your workspace is deleted with it, and its members lose access to everything shared there:'
+                                     : 'Your ' + ws.owned.length + ' workspaces are deleted with it, and their members lose access to everything shared there:'),
+        items: ws.owned.slice(0, 5).map(function (w) { return w.name; })
+          .concat(ws.owned.length > 5 ? ['and ' + (ws.owned.length - 5) + ' more'] : []),
+        cancelLabel: 'Cancel', confirmLabel: 'Delete Account', confirmVariant: 'destructive'
+      }) : null,
       h(D.Toaster));
   }
   IK.mount(App);

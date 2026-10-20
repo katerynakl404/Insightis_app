@@ -15,8 +15,14 @@
      status: 'active' | 'error',
      error: 'API key expired or revoked (HTTP 401)',
      busy: false,                      // a check is running
-     onDetails: function () {}         // failed pill click → the page's error toast
+     onDetails: function () {},        // failed pill click → the page's error toast
+     onTest: function () {}            // the re-test icon beside the pill (omit → none: Free, shared)
    })
+
+   The re-test icon is a DevartUI IconButton, tertiary 2xs (24px, the kebab's step), on every own
+   row, card and the panel — the locked design: always one click away, never a separate button.
+   While a check runs it is invisible but keeps its place, so the pill turning into Testing…
+   moves nothing.
 
    Helpers (shared with the page and the panel):
      IK.dsRelTime(ts)  → 'just now' · '32 min ago' · '2 hours ago' · '1 day ago' · 'Oct 2'
@@ -69,6 +75,12 @@
       pill = h(IK.Tip, { tip: IK.dsAbsTime(p.lastSync) },
         h(D.Badge, { variant: 'secondary', size: 'sm', rounded: 'full', leftSlot: h(IK.Icon, { name: 'ds-ok', size: 12 }) }, time));
     }
-    return h('div', { className: IK.cx('ik-dslc', p.className) }, pill);
+    var test = p.onTest ? h(IK.Tip, { tip: 'Test Connection' },
+      h(D.IconButton, {
+        variant: 'tertiary', size: '2xs', type: 'button', 'aria-label': 'Test connection',
+        disabled: !!p.busy, className: p.busy ? 'invisible' : undefined,
+        onClick: function (e) { e.stopPropagation(); p.onTest(); }
+      }, h(IK.Icon, { name: 'test-conn' }))) : null;
+    return h('div', { className: IK.cx('ik-dslc', p.className) }, pill, test);
   };
 })();

@@ -36,6 +36,8 @@
     var title = p.title != null ? p.title : ['What ', h(IK.ChatKeyword, { key: 'a' }, 'insight'), h('br', { key: 'b' }), 'are you ', h(IK.ChatKeyword, { key: 'c' }, 'looking for'), '?'];
     return h('div', { className: IK.cx('ik-hero-col', p.className) },
       h('section', { className: 'ik-hero' },
+        /* above the title, at the composer's width — e.g. a workspace invitation (IK.WsNotice) */
+        p.notice || null,
         h('h1', { className: 'ik-hero-title' }, title),
         p.children));
   };

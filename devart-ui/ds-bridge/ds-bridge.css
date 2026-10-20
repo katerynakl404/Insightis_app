@@ -1,0 +1,10 @@
+/* ds-bridge (TEMPORARY) — fixes of дизайн DevartUI the vendored ds-bundle/ does not ship yet.
+   Delete this file and re-run tools/build-index.mjs once a rebuilt bundle ships them. */
+
+/* Button primaryTertiary (дизайн DevartUI, src/components/Button): on dark the label is the link colour
+   (--ink-highlight, Tertiary-400), not Brand/Primary — a darker teal that read as a second, dimmer green
+   beside every link (user, 2026-10-19). Light is unchanged; a disabled one stays Text/Inactive.
+   ships-when: dark\:disabled\:hover\:text-ink-inactive */
+.dark [data-variant="primaryTertiary"]:not(:disabled):not([aria-disabled="true"]) {
+  color: hsl(var(--ink-highlight));
+}

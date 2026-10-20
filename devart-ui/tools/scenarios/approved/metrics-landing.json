@@ -1,36 +1,56 @@
 [
  { "name": "Empty — provider card hover (lift)", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "hover", "target": { "orig": { "sel": "#mx-card-grid .prov-card:not([style*=none]) .prov-card-name" }, "new": { "text": "Google Analytics", "tag": "span" } } },
    { "do": "wait", "ms": 300 } ] },
  { "name": "Empty — metric chip hover", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "hover", "target": { "orig": { "sel": "#mx-card-grid .prov-card:not([style*=none]) .chip-meta" }, "new": { "sel": ".ik-mx-chip" } } },
    { "do": "wait", "ms": 300 } ] },
  { "name": "Empty — Explore more tile hover", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "hover", "target": { "orig": { "sel": ".prov-card.is-browse" }, "new": { "sel": "[role=button].border-dashed" } } },
    { "do": "wait", "ms": 300 } ] },
  { "name": "Empty — category Commerce", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "click", "target": { "text": "Commerce", "tag": "button" } },
    { "do": "wait", "ms": 400 } ] },
  { "name": "Empty — category Storage & Files", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "click", "target": { "text": "Storage & Files", "tag": "button" } },
    { "do": "wait", "ms": 400 } ] },
  { "name": "Empty — chip opens Metric Details (library metric)", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "click", "target": { "orig": { "sel": "#mx-card-grid .prov-card:not([style*=none]) .chip-meta" }, "new": { "sel": ".ik-mx-chip" } } },
    { "do": "wait", "ms": 900 } ] },
  { "name": "Empty — Connect opens New connection (step 1)", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "click", "target": { "text": "Connect", "tag": "button" } },
    { "do": "wait", "ms": 800 } ] },
  { "name": "Empty — New connection: Save → Saving…", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "click", "target": { "text": "Connect", "tag": "button" } },
    { "do": "wait", "ms": 800 },
    { "do": "click", "target": { "text": "Save", "tag": "button" } },
    { "do": "wait", "ms": 200 } ] },
  { "name": "Empty — New connection: step 2", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "click", "target": { "text": "Connect", "tag": "button" } },
    { "do": "wait", "ms": 800 },
    { "do": "click", "target": { "text": "Save", "tag": "button" } },
    { "do": "wait", "ms": 2000 } ] },
  { "name": "Empty — New connection: Save Connection → toast + Filled", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "click", "target": { "text": "Connect", "tag": "button" } },
    { "do": "wait", "ms": 800 },
    { "do": "click", "target": { "text": "Save", "tag": "button" } },
@@ -38,6 +58,8 @@
    { "do": "click", "target": { "text": "Save Connection", "tag": "button" } },
    { "do": "wait", "ms": 900 } ] },
  { "name": "Empty — Free: Connect → upgrade modal", "viewport": "desktop", "steps": [
+   { "do": "click", "target": { "text": "Empty", "tag": "button" } },
+   { "do": "wait", "ms": 500 },
    { "do": "click", "target": { "text": "Free", "tag": "button" } },
    { "do": "wait", "ms": 500 },
    { "do": "click", "target": { "text": "Connect", "tag": "button" } },

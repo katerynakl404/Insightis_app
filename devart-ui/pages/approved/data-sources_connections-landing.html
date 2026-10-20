@@ -74,10 +74,10 @@
 
   var NOW = Date.now();
   var SEED = [
-    { name: 'PostgreSQL', label: 'Production DB', status: 'active', desc: 'Main analytics warehouse, syncs every 6 h', lastSync: NOW - 2 * 3600e3 },
-    { name: 'Salesforce', label: 'Main CRM', status: 'active', desc: 'Deals, contacts & pipeline metrics', lastSync: NOW - 32 * 60e3 },
-    { name: 'Stripe', label: 'Stripe Payments', status: 'error', desc: 'Revenue and subscription data', lastSync: NOW - 26 * 3600e3, willFail: true, error: 'API key expired or revoked (HTTP 401)' },
-    { name: 'HubSpot', label: 'Marketing Hub', status: 'active', desc: 'Campaign performance & lead scoring', lastSync: NOW - 5 * 3600e3 }
+    { name: 'PostgreSQL', label: 'Production DB', status: 'active', desc: 'Main analytics warehouse, syncs every 6 h', metrics: 0, lastSync: NOW - 2 * 3600e3 },
+    { name: 'Salesforce', label: 'Main CRM', status: 'active', desc: 'Deals, contacts & pipeline metrics', metrics: 12, lastSync: NOW - 32 * 60e3 },
+    { name: 'Stripe', label: 'Stripe Payments', status: 'error', desc: 'Revenue and subscription data', metrics: 8, lastSync: NOW - 26 * 3600e3, willFail: true, error: 'API key expired or revoked (HTTP 401)' },
+    { name: 'HubSpot', label: 'Marketing Hub', status: 'active', desc: 'Campaign performance & lead scoring', metrics: 3, lastSync: NOW - 5 * 3600e3 }
   ];
   var TOAST_MS = 5000;
 
@@ -87,6 +87,8 @@
   }
 
   function App() {
+    /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
+    var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var plan = IK.usePlan()[0], free = plan === 'free';
     var seg = RK.useQueryState('state', 'connected');
     var load = RK.useQueryState('load', 'loaded');
@@ -108,8 +110,50 @@
     var cb = R.useState(false), catOff = cb[0], setCatOff = cb[1];
     var um = R.useState(false), upModal = um[0], setUpModal = um[1];
     var timers = R.useRef({});
+    /* shared workspaces (on): what others shared, read-only, in one of three places to compare
+       (review switch Shared): Tag — in My Connections, tagged Shared · Tabs — a Shared tab · Owner
+       column — in My Connections with an Owner column. In the list, My Connections is never empty
+       while anything is shared. */
+    var sp = R.useState(null), sharedPanel = sp[0], setSharedPanel = sp[1];
+    /* Share via Workspace (a connection's ⋮): the connection being added */
+    var aw = R.useState(null), addWs = aw[0], setAddWs = aw[1];
+    function wsConn(c) {
+      var k = c && (IK.WS_CONNECTIONS || []).filter(function (x) { return x.label === (c.label || c.name); })[0];
+      return k || (c ? { id: 'c-' + String(c.label || c.name).toLowerCase().replace(/[^a-z0-9]+/g, '-'), name: c.name, label: c.label || c.name, metrics: c.metrics || 0 } : null);
+    }
+    /* Empty is empty: nothing shared either (user, 2026-10-19: 'емпті значить порожній повністю') */
+    var sharedRows = wsOn && seg[0] === 'connected' ? IK.wsSharedConnections(ws.list, { locked: free }).map(function (c) {
+      return Object.assign({}, c, { shared: { by: c.by, ws: c.wsName }, links: IK.wsLinks(c.wsIds.map(function (id) { return ws.find(id); }).filter(Boolean)) });
+    }) : [];
+    var hasShared = sharedRows.length > 0;
+    var shareTabs = wsq.share === 'tabs', inList = hasShared && !shareTabs;
+    /* one's own and what was shared apart (user, 2026-10-19): FilterChips All · Owned by Me · Shared, as the
+       Workspaces list — only while the one list holds both, else the chips would filter nothing */
+    var sc = R.useState('all'), scopeSet = sc[1];
+    var byOwner = wsq.share === 'owner';
+    var both = inList && hasConn && !byOwner, scope = both ? sc[0] : 'all';
+    /* Shared: Owner — one Owner filter instead of the chips */
+    var ofs = R.useState('any'), ownerF = byOwner && inList ? ofs[0] : 'any', setOwnerF = ofs[1];
+    var sharers = []; sharedRows.forEach(function (c) { if (sharers.indexOf(c.shared.by) < 0) sharers.push(c.shared.by); });
+    var curTab = tab === 'shared' && !(shareTabs && hasShared) ? (hasConn || inList ? 'connections' : 'catalog') : tab;
+    /* the person's own: where each is shared into (the Workspaces column, the details panel) */
+    /* one's own can be in workspaces too (user, 2026-10-19): the Workspaces column shows in every
+       option once anything is shared either way — Tag adds the tag, Workspaces column is the column alone */
+    var ownRows = wsOn ? list.map(function (c) { var w = sharedInto(c); return w.length ? Object.assign({}, c, { sharedWith: w.map(function (x) { return x.name; }), links: IK.wsLinks(w) }) : c; }) : list;
+    /* Add Metric (row ⋮, an empty Metrics cell, Connection Details): Create metric opens HERE, linked to this
+       connection — no move to Metrics (user, 2026-10-20: "при додаванні метрики не перекидати"); the
+       count on the row grows, and the toast offers the way to Metrics */
+    var am = R.useState(null), metricFor = am[0], setMetricFor = am[1];
+    function addMetric(name) { setMetricFor(name); }
+    function openRow(k) { if (sharedRows.some(function (c) { return c.id === k; })) { setPanel(null); setSharedPanel(k); } else { setSharedPanel(null); setPanel(k); } }
+    /* the person's own connection → the workspaces it is shared into (the Disconnect warning) */
+    function sharedInto(c) {
+      if (!wsOn || !c) return [];
+      var k = (IK.WS_CONNECTIONS || []).filter(function (x) { return x.label === (c.label || c.name); })[0];
+      return k ? IK.wsWhereShared(ws.list, k.id) : [];
+    }
 
-    var connTabDisabled = !hasConn;
+    var connTabDisabled = !hasConn && !inList;
     function find(name) { return list.find(function (c) { return c.name === name; }) || null; }
     function patch(name, fn) { setList(function (l) { return l.map(function (c) { return c.name === name ? Object.assign({}, c, fn(c)) : c; }); }); }
 
@@ -119,7 +163,7 @@
       seg[1](v);
       var on = v === 'connected';
       setHasConn(on);
-      if (!on && tab === 'connections') setTab('catalog');
+      if (!on && tab === 'connections' && !inList) setTab('catalog');
     }
     function switchTab(v) { if (v === 'connections' && connTabDisabled) return; setTab(v); }
 
@@ -159,7 +203,9 @@
     }
     function create(r) {
       setWizOpen(false);
-      setList(function (l) { return l.concat([{ name: r.connector, label: r.label, status: 'active', desc: r.desc, lastSync: Date.now() }]); });
+      /* a new connection brings its connector's built-in metrics (the same counts the workspaces know) */
+      var known = (IK.WS_CONNECTIONS || []).filter(function (c) { return c.name === r.connector; })[0];
+      setList(function (l) { return l.concat([{ name: r.connector, label: r.label, status: 'active', desc: r.desc, metrics: known ? known.metrics : 0, lastSync: Date.now() }]); });
       setHasConn(true);
       D.toast.success(bold(r.label, ' connected.'), {
         duration: TOAST_MS,
@@ -170,31 +216,34 @@
       });
     }
 
-    var panelConn = panel ? find(panel) : null;
+    var panelConn = panel ? ownRows.filter(function (c) { return c.name === panel; })[0] || find(panel) : null;
     var editConn = edit ? find(edit) : null;
     var discConn = disc ? find(disc) : null;
 
     var connTrigger = h(D.TabsTrigger, { value: 'connections', disabled: connTabDisabled }, 'My Connections');
     return h(IK.Fragment, null,
-      h(RK.ReviewBar, { title: 'Data Sources', status: 'approved', size: 'sm', autoHeight: true, plan: true, controls: [
+      h(RK.ReviewBar, { title: 'Data Sources', status: 'approved', size: 'sm', autoHeight: true, plan: !RK.wsOwnsPlan(wsq), controls: [
         { label: 'Data state', value: seg[0], onChange: setSeg,
           options: [{ value: 'empty', label: 'Empty' }, { value: 'connected', label: 'Connected' }] },
         { label: 'Page state', value: load[0], onChange: load[1],
           options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] }
-      ] }),
-      h(IK.AppShell, { nav: 'data-sources', burger: false, scroll: false, brandLink: false, accountIcons: 'classic' },
+      ].concat(RK.workspaceControls({ here: 'data-sources', sharedTab: curTab === 'shared' })) }),
+      h(IK.AppShell, { nav: 'data-sources', burger: false, scroll: false, brandLink: false, accountIcons: 'classic', workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h(IK.ListPage, {
             title: 'Data Sources',
             /* Rule 5: Create Connection lives on My Connections only, and it OPENS THE CATALOG. */
-            actions: tab === 'connections' ? h(D.Button, {
+            /* on Free connecting is a Starter feature: the button is locked, as Metrics' Create Metric (the locked page rule:
+               'Create Connection — locked + PlanLock Starter'; lost in the rebuild, restored 2026-10-19) */
+            actions: curTab === 'connections' ? h(IK.Locked, { feature: 'connections', surface: 'modal', locked: free }, h(D.Button, {
               variant: 'primary', size: 'sm', rounded: 'full', type: 'button',
               leftSlot: h(IK.Icon, { name: 'pg-link' }), onClick: function () { setTab('catalog'); }
-            }, 'Create Connection') : null
+            }, 'Create Connection')) : null
           },
-          h(D.Tabs, { value: tab, onValueChange: switchTab, className: 'flex flex-col gap-4' },
+          h(D.Tabs, { value: curTab, onValueChange: switchTab, className: 'flex flex-col gap-4' },
             h(D.TabsList, { className: 'mb-0 flex w-full' },
               h(D.TabsTrigger, { value: 'catalog' }, 'Catalog'),
-              list.length === 0 ? h(IK.Tip, { tip: 'Connect a data source first', side: 'bottom', wrap: true }, connTrigger) : connTrigger),
+              list.length === 0 && !inList ? h(IK.Tip, { tip: 'Connect a data source first', side: 'bottom', wrap: true }, connTrigger) : connTrigger,
+              shareTabs && hasShared ? h(D.TabsTrigger, { value: 'shared' }, 'Shared') : null),
 
             /* ── Catalog ── */
             h(D.TabsContent, { value: 'catalog', className: 'flex flex-col gap-4' },
@@ -215,19 +264,38 @@
 
             /* ── My Connections ── */
             h(D.TabsContent, { value: 'connections', className: 'flex flex-col gap-4' },
-              free && hasConn && !u4Off ? h(D.Alert, {
+              /* the notices first, as one stack (the plan's own, then what was shared), then the chips: the
+                 notices never depend on the chip, so filtering moves nothing (user, 2026-10-19) */
+              (function () {
+                var u4 = free && hasConn && !u4Off ? h(D.Alert, {
+                key: 'u4',
                 variant: 'warning', size: 'md', role: 'note', className: 'pg-alert',
-                icon: h(IK.Icon, { name: 'connections' }),
+                /* the warning glyph every warning notice carries (user, 2026-10-20: "дивний значок в алерті") */
+                icon: h(IK.Icon, { name: 'warning' }),
                 title: 'Your subscription ended, so these connections can\'t be used',
                 description: h(IK.Fragment, null, 'Nothing was deleted. ',
                   h(IK.Locked, { feature: 'connections', clickOnly: true, marker: 'none', locked: true },
                     h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); } }, 'Upgrade to Starter')),
-                  ' to switch them back on and edit them.'),
+                  /* with shared ones in the list, the same notice covers them (no second "Upgrade to Starter") */
+                  inList ? ' to switch them back on, edit them and use the ones shared with you.' : ' to switch them back on and edit them.'),
                 actions: h(IK.Tip, { tip: 'Dismiss' },
                   h(D.IconButton, { variant: 'tertiary', size: '2xs', 'aria-label': 'Dismiss', onClick: function () { setU4Off(true); } },
                     h(IK.Icon, { name: 'pg-x' })))
+              }) : null;
+                /* the invitation first: something shared waits for Accept (user, 2026-10-20) */
+                /* on a list only the invitation that waits for Accept; the others (another address, expired, unavailable)
+                   come after the sign-in, on the chat (rule 15; user, 2026-10-20) */
+                /* no invitation here (user, 2026-10-20: "інвайту не буде") — it shows on the chat and the Workspaces list */
+                return inList ? h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Connectors', feature: 'connections', before: [u4], planCovered: free && hasConn })
+                  : u4;
+              })(),
+              /* Shared: Owner — Connections filter by owner only (user, 2026-10-19), a pill where filters start */
+              byOwner && inList ? h('div', { className: 'flex' }, h(IK.WsOwnerFilter, { value: ownerF, onChange: setOwnerF, counts: { me: list.length, shared: sharedRows.length } })) : null,
+              both ? h(D.FilterChips, {
+                value: scope, onValueChange: function (v) { if (v) scopeSet(v); },
+                items: [{ value: 'all', label: 'All' }, { value: 'mine', label: 'Owned by Me' }, { value: 'shared', label: 'Shared' }]
               }) : null,
-              list.length === 0 ? h(D.Banner, {
+              list.length === 0 && !inList ? h(D.Banner, {
                 variant: 'diagonalAiry', role: 'note',
                 icon: h(IK.Icon, { name: 'pg-link' }),
                 title: free ? 'Connecting a source starts on Starter' : 'Connect your first data source',
@@ -236,28 +304,89 @@
                   : h(IK.Fragment, null, 'Browse the ', h('b', null, 'Catalog'), ' and click Connect to get started in about ', h('b', null, '2 minutes'), '.'),
                 action: h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setTab('catalog'); } }, 'Browse Catalog')
               }) : null,
-              h('div', { className: IK.cx('pg-conn-section', hasConn && 'is-open') },
-                h(IK.DsConnections, {
-                  connections: list, loading: loading, selected: panel, leaving: leaving,
-                  onOpen: setPanel, onEdit: setEdit, onTest: test, onDisconnect: setDisc, onDetails: errToast
-                }))))),
-        h(IK.DsConnectionPanel, {
+              h('div', { className: IK.cx('pg-conn-section', (hasConn || inList) && 'is-open') },
+                h(IK.DsConnections, { metricsHref: wsOn ? IK.wsMetricsHref : undefined,
+                  connections: (hasConn && scope !== 'shared' && IK.wsOwnerPass(ownerF, null) ? ownRows : []).concat(inList && scope !== 'mine' ? sharedRows.filter(function (c) { return IK.wsOwnerPass(ownerF, c.shared.by); }) : []), loading: loading, selected: sharedPanel || panel, leaving: leaving,
+                  /* no Workspaces column: where a connection is shared lives in its details panel (Access) only (user, 2026-10-20) */
+                  wsCol: false,
+                  tag: wsq.share === 'tag', ownerMark: byOwner,
+                  /* Owner only where the list mixes others' connections with one's own: alone, every row is You */
+                  /* no Owner column in the one list: who shared it is in the Shared tag's tooltip (user, 2026-10-19) */
+                  ownerCol: false,
+                  onOpen: openRow, onEdit: setEdit, onTest: test, onDisconnect: setDisc, onDetails: errToast, onAddMetric: addMetric,
+                  onAddToWorkspace: wsOn ? setAddWs : undefined, wsLocked: free
+                }))),
+
+            /* ── Shared (switch Shared: Tabs) ── from which workspace; no actions at all */
+            shareTabs && hasShared ? h(D.TabsContent, { value: 'shared', className: 'flex flex-col gap-4' },
+              h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Connectors', feature: 'connections' }),
+              /* the same table as My Connections — same columns, so switching tabs moves nothing */
+              h(IK.DsConnections, { metricsHref: IK.wsMetricsHref, connections: sharedRows, wsCol: true, ownerCol: wsq.owner, selected: sharedPanel, onOpen: openRow })) : null)),
+        h(IK.DsConnectionPanel, { metricsHref: wsOn ? IK.wsMetricsHref : undefined,
           connection: panelConn,
           onOpenChange: function (o) { if (!o) setPanel(null); },
           onEdit: function (n) { setPanel(null); setEdit(n); },
           onDisconnect: function (n) { setPanel(null); setDisc(n); },
-          onTest: test, onDetails: errToast
+          onTest: test, onDetails: errToast,
+          /* the panel stays open under the dialog: saving lands back on it, its Access updated */
+          onAddToWorkspace: wsOn ? function (n) { setAddWs(n); } : undefined, wsLocked: free, onAddMetric: addMetric
         })),
+      hasShared ? h(IK.DsConnectionPanel, (function () {
+        var c = sharedRows.filter(function (x) { return x.id === sharedPanel; })[0];
+        return { mode: 'shared', metricsHref: IK.wsMetricsHref, connection: c || null, renewal: c ? IK.wsRenewal(ws, c.wsIds) : null, onOpenChange: function (o) { if (!o) setSharedPanel(null); } };
+      })()) : null,
+      wsOn ? h(IK.WsAddToWorkspacesDialog, (function () {
+        var c = addWs ? wsConn(find(addWs)) : null;
+        return {
+          open: !!addWs, onOpenChange: function (o) { if (!o) setAddWs(null); }, connection: c, workspaces: ws.owned, createLocked: free,
+          taken: function (n) { return IK.wsNameTaken(ws.list, n); }, onCreate: function (n, d) { return ws.create(n, d); },
+          onAdd: function (ids, out) {
+            out = out || [];
+            ids.forEach(function (id) { ws.addConnections(id, [c]); });
+            out.forEach(function (id) { ws.removeConnection(id, c.id); });
+            setAddWs(null);
+            function names(l) { return IK.wsJoin(l.map(function (id) { var w = ws.find(id); return w ? w.name : ''; })); }
+            if (ids.length && out.length) D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' sharing updated'),
+              { description: 'Added to ' + names(ids) + ', removed from ' + names(out) });
+            else if (out.length) D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' removed from ' + names(out)));
+            else D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' added to ' + names(ids)),
+              { description: h('span', { className: 'flex flex-col items-start gap-1' }, h('span', null, c.metrics ? 'Members can use it and its ' + c.metrics + (c.metrics === 1 ? ' metric' : ' metrics') + ' in their chats now' : 'Members can use it in their chats now'), IK.wsGoLink(ws, ids)) });
+          }
+        };
+      })()) : null,
+      h(IK.MxMetricDialog, (function () {
+        var c = metricFor ? find(metricFor) : null;
+        return {
+          open: !!metricFor, mode: 'create',
+          initial: c ? { connector: c.label || c.name, link: 'connection' } : {},
+          options: list.map(function (x) { return { id: x.label || x.name, label: (x.label || x.name) + ' (' + x.name + ')' }; }),
+          findDuplicates: function () { return { name: null, alias: null }; },
+          onOpenChange: function (v) { if (!v) setMetricFor(null); },
+          onSave: function (v) {
+            var n = metricFor; setMetricFor(null);
+            patch(n, function (x) { return { metrics: (x.metrics || 0) + 1 }; });
+            D.toast.success(h(IK.Fragment, null, h('strong', null, v.name), ' is added to ', h('strong', null, (c && (c.label || c.name)) || n)), {
+              description: h('a', { href: IK.wsHref('approved/metrics-landing.html', {}), className: 'text-ink-primary underline' }, 'See it in Metrics')
+            });
+          }
+        };
+      })()),
       h(IK.ConnectDialog, { open: wizOpen, connector: connectFor, mark: 'logo', onOpenChange: setWizOpen, onCreate: create }),
       h(IK.DsEditConnectionDialog, {
-        open: !!editConn, label: editConn && (editConn.label || editConn.name), desc: editConn && (editConn.description || ''),
+        open: !!editConn, label: editConn && (editConn.label || editConn.name), desc: editConn && (editConn.desc || ''),
         onOpenChange: function (o) { if (!o) setEdit(null); },
-        onSave: function (v) { var n = edit; setEdit(null); patch(n, function () { return { label: v.label, description: v.desc }; }); }
+        onSave: function (v) { var n = edit; setEdit(null); patch(n, function () { return { label: v.label, desc: v.desc }; }); }
       }),
       h(IK.DsDisconnectDialog, {
         open: !!discConn, label: discConn && (discConn.label || discConn.name),
+        sharedIn: sharedInto(discConn).map(function (w) { return w.name; }),
         onOpenChange: function (o) { if (!o) setDisc(null); },
-        onConfirm: function () { var n = disc; setDisc(null); remove(n); }
+        /* a shared one leaves its workspaces too: members lose it and its metrics */
+        onConfirm: function () {
+          var n = disc, k = (IK.WS_CONNECTIONS || []).filter(function (x) { return discConn && x.label === (discConn.label || discConn.name); })[0];
+          sharedInto(discConn).forEach(function (w) { ws.removeConnection(w.id, k.id); });
+          setDisc(null); remove(n);
+        }
       }),
       h(IK.UpgradeModal, { feature: 'connections', open: upModal, onOpenChange: setUpModal }),
       h(D.Toaster, { position: 'top-right' }));

@@ -73,6 +73,8 @@
   var BROWSE = [['q2-report.csv', 'csv', '3.1 MB'], ['new-customers.xlsx', 'xlsx', '1.2 MB'], ['budget-2026.xls', 'xls', '456 KB'], ['pipeline.csv', 'csv', '780 KB']];
 
   function App() {
+    /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
+    var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var plan = IK.usePlan(), free = plan[0] === 'free';
     var quota = RK.useQueryState('storage', 'within');
     var data = RK.useQueryState('data', 'filled');
@@ -83,11 +85,35 @@
     var bk = R.useRef(data[0] === 'empty' ? SEED : null);
     var em = R.useState(false), editing = em[0], setEditing = em[1];
     var fl = R.useState('all'), filter = fl[0], setFilter = fl[1];
+    /* shared workspaces (on, invited to one at least): My Files · Shared — the shared ones view,
+       download and add to a chat; nothing to rename or delete */
+    /* what others shared, in one of three places (review switch Shared): Tag — in the one list,
+       tagged Shared · Tabs — My Files · Shared · Workspaces column — in the one list with a
+       Workspaces column (where one's own is shared into, where a shared one comes from) */
+    /* Empty is empty: nothing shared either (user, 2026-10-19) */
+    var sharedFiles = wsOn && data[0] !== 'empty' ? IK.wsSharedFiles(ws.list, { locked: free }) : [];
+    var hasShared = sharedFiles.length > 0, shareTabs = wsq.share === 'tabs', inList = hasShared && !shareTabs;
+    var ft = R.useState('mine'), fTab = shareTabs && hasShared ? ft[0] : 'mine', setFTab = ft[1];
+    /* own vs shared is a Type filter now — All · Artifacts · Uploaded · Shared (user, 2026-10-19), not a
+       "Hide shared" switch */
+    var mineOnly = false;
+    /* a shared file in the person's list: the page's own date words, placed by its date */
+    function rel(t) {
+      var d = Math.max(0, Math.round((Date.now() - t) / 864e5));
+      return d < 7 ? d + 'd ago' : d < 14 ? 'last week' : d < 30 ? Math.round(d / 7) + ' weeks ago' : d < 60 ? 'last month' : Math.round(d / 30) + ' months ago';
+    }
+    function relIdx(t) { var d = (Date.now() - t) / 864e5; return d <= 3 ? 0.5 : d <= 7 ? 1.5 : d <= 14 ? 2.5 : d <= 21 ? 3.5 : d <= 45 ? 6.5 : d <= 75 ? 10.5 : 12 + d / 30; }
+    var sharedInList = inList && !mineOnly ? sharedFiles.map(function (f) {
+      return { id: f.id, name: f.name, type: f.type, origin: f.origin, size: f.size, date: rel(f.time), sortIdx: relIdx(f.time),
+               shared: { ws: f.wsName, by: f.by }, by: f.by, wsNames: f.wsNames, wsIds: f.wsIds, links: f.links, menu: ['view', 'add-to-chat', 'download'], locked: f.locked, muted: f.muted };
+    }) : [];
     var sd = R.useState('desc'), sortDir = sd[0], setSortDir = sd[1];
     var sc = R.useState(PAGE_SIZE), shown = sc[0], setShown = sc[1];
     var pv = R.useState(null), previewId = pv[0], setPreviewId = pv[1];
     var pw = R.useState(null), previewW = pw[0], setPreviewW = pw[1];
     var rn = R.useState(null), renameId = rn[0], setRenameId = rn[1];
+    /* shared workspaces: the file being shared (Share via Workspace) */
+    var sw = R.useState(null), shareIds = sw[0], setShareIds = sw[1];
     var dl = R.useState(null), delTarget = dl[0], setDelTarget = dl[1];
     var up = R.useState([]), upl = up[0], setUpl = up[1];
     var uplRef = R.useRef([]);
@@ -100,10 +126,22 @@
     var used = empty ? 0 : (quota[0] === 'over' ? cap.mb * OVER_RATIO : USED_WITHIN);
     var overLimit = used > cap.mb;
 
-    var vis = (filter === 'all' ? files : files.filter(function (f) { return f.origin === filter; }))
+    /* one's own, with the workspaces each is shared into (the Workspaces column) */
+    var own = wsOn ? files.map(function (f) {
+      var inWs = ws.owned.filter(function (w) { return w.files.some(function (x) { return x.id === f.id; }); });
+      return inWs.length ? Object.assign({}, f, { sharedWith: inWs.map(function (w) { return w.name; }), links: IK.wsLinks(inWs) }) : f;
+    }) : files;
+    /* Shared: Owner — one Owner filter; the type chips stay about the type */
+    var byOwner = wsq.share === 'owner';
+    var ofs = R.useState('any'), ownerF = byOwner && inList ? ofs[0] : 'any', setOwnerF = ofs[1];
+    var sharers = []; sharedInList.forEach(function (f) { if (sharers.indexOf(f.by) < 0) sharers.push(f.by); });
+    var pool = own.filter(function () { return IK.wsOwnerPass(ownerF, null); }).concat(sharedInList.filter(function (f) { return IK.wsOwnerPass(ownerF, f.by); }));
+    var vis = (filter === 'all' ? pool : filter === 'shared' ? pool.filter(function (f) { return !!f.shared; })
+      : pool.filter(function (f) { return !f.shared && f.origin === filter; }))
       .slice().sort(function (a, b) { return sortDir === 'asc' ? b.sortIdx - a.sortIdx : a.sortIdx - b.sortIdx; });
     var selectedCount = vis.filter(function (f) { return f.selected; }).length;
-    var allSel = vis.length > 0 && selectedCount === vis.length;
+    var ownVis = vis.filter(function (f) { return !f.shared; }).length;
+    var allSel = ownVis > 0 && selectedCount === ownVis;
     var page = vis.slice(0, shown);
     var remaining = vis.length - page.length;
 
@@ -122,11 +160,14 @@
       setFiles(base.map(function (f) { return Object.assign({}, f, { selected: false }); }));
       setEditing(false); setPreviewId(null); setShown(PAGE_SIZE);
     }
-    function find(id) { return files.find(function (f) { return f.id === id; }) || null; }
+    function find(id) { return pool.find(function (f) { return f.id === id; }) || null; }
 
     function onAction(a, id) {
       var f = find(id); if (!f) return;
+      if (a === 'view') { setPreviewId(id); return; }
+      if (a === 'download') { D.toast('Download started'); return; }
       if (a === 'rename') setRenameId(id);
+      else if (a === 'share') setShareIds([id]);
       else if (a === 'delete') setDelTarget(id);
       else if (a === 'add-to-chat') location.href = IK.pageHref('approved/chat-landing.html?attach=' + encodeURIComponent(f.name));
     }
@@ -230,7 +271,12 @@
       onClearSelection: function () { setEditing(false); clearSel(); },
       rightSlot: selecting
         ? h(IK.Fragment, null,
-            h(D.Button, { variant: 'tertiary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'pg-download' }) }, 'Download'),
+            /* shared workspaces (on): the selection can be shared too — locked on Free (their workspaces are Blocked) */
+            wsOn && ws.owned.length ? h(IK.Locked, { feature: 'workspaces', locked: free, surface: 'modal', tip: 'Available on Pro' },
+              h(D.Button, { variant: 'tertiary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-share' }),
+                onClick: function () { setShareIds(vis.filter(function (f) { return f.selected; }).map(function (f) { return f.id; })); } }, 'Share via Workspace')) : null,
+            h(D.Button, { variant: 'tertiary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'pg-download' }),
+              onClick: function () { var n = vis.filter(function (f) { return f.selected; }).length; D.toast(n > 1 ? 'Downloading ' + n + ' files' : 'Download started'); } }, 'Download'),
             h(D.Button, {
               variant: 'destructiveTertiary', size: 'sm', type: 'button',
               leftSlot: h(IK.Icon, { name: 'pg-trash' }), onClick: function () { setDelTarget('selected'); }
@@ -244,52 +290,103 @@
         : undefined
     });
 
+    /* the person's own files: the drop zone and the library */
+    var myFiles = h('div', { className: 'flex flex-col gap-4' },
+                h(IK.DsDropZone, { onBrowse: browse, onFiles: drop }),
+                /* the invitation first: something shared waits for Accept (user, 2026-10-20) */
+                (function () {
+                /* on a list only the invitation that waits for Accept; the others (another address, expired, unavailable)
+                   come after the sign-in, on the chat (rule 15; user, 2026-10-20) */
+                /* no invitation here (user, 2026-10-20) — it shows on the chat and the Workspaces list */
+                return inList && !mineOnly ? h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Files', feature: 'shared-files' }) : null;
+                })(),
+                load[0] === 'skeleton' ? h(IK.DsFilesSkeleton) : h('div', { className: 'flex flex-col gap-2' },
+                  /* Shared: Owner — two filters as pills, Type and Owner, where the chips are (user, 2026-10-19) */
+                  byOwner ? h('div', { className: 'flex flex-wrap items-center gap-2' },
+                    h(IK.WsFilterMenu, { label: 'Type', value: filter, onChange: changeFilter,
+                      options: [['all', 'All'], ['artifact', 'Artifacts'], ['uploaded', 'Uploaded']] }),
+                    inList ? h(IK.WsOwnerFilter, { value: ownerF, onChange: function (v) { setOwnerF(v); setShown(PAGE_SIZE); }, counts: { me: own.length, shared: sharedFiles.length } }) : null,
+                    h(IK.WsClearFilters, { show: filter !== 'all' && ownerF !== 'any', onClear: function () { changeFilter('all'); setOwnerF('any'); } }))
+                  : h('div', { className: 'flex min-w-0 items-center gap-4' }, h('div', { className: 'min-w-0 flex-1' }, h(D.FilterChips, {
+                    value: filter,
+                    /* pressing the selected chip again keeps it (the single-select group would clear it) */
+                    onValueChange: function (v) { if (v) changeFilter(v); },
+                    items: [{ value: 'all', label: 'All' }, { value: 'artifact', label: 'Artifacts' }, { value: 'uploaded', label: 'Uploaded' }]
+                      .concat(inList && wsq.share === 'tag' ? [{ value: 'shared', label: 'Shared' }] : [])
+                  })),
+                  null),
+                  meta,
+                  noMatch ? h(D.StatusView, {
+                    size: 'lg', surface: 'embedded', withIconHalo: false, icon: h(D.EmptyStateIllustration),
+                    title: 'No matches found', description: 'No files match this filter — switch back to All to see every file'
+                  }) : h(IK.DsFilesTable, {
+                    files: page, empty: empty && !sharedInList.length, editing: editing, previewId: previewId, sortDir: sortDir, wsCol: false /* the workspaces in the preview's Access only (user, 2026-10-20) */, tag: wsq.share === 'tag', ownerMark: wsq.share === 'owner',
+                    /* Owner only where the list mixes others' files with one's own: on My Files it would say You on every row */
+                    /* no Owner column in the one list: who shared it is in the Shared type's tooltip (user, 2026-10-19) */
+                    ownerCol: false,
+                    allState: allSel ? true : selectedCount ? 'indeterminate' : false,
+                    onSort: function () { setSortDir(sortDir === 'asc' ? 'desc' : 'asc'); },
+                    onToggle: function (id) { update(function (f) { return f.id === id ? Object.assign({}, f, { selected: !f.selected }) : f; }); setEditing(true); },
+                    onToggleAll: function () { setAllVisible(!allSel); setEditing(!allSel); },
+                    onOpen: setPreviewId, onAction: onAction, onBrowse: browse,
+                    /* shared workspaces (on): "Share via Workspace" in the ⋮ of the person's files (locked on
+                       Free — their workspaces are Blocked) */
+                    menuItems: wsOn && ws.owned.length ? ['add-to-chat', 'share', 'rename', 'download', 'delete'] : undefined,
+                    menuLock: wsOn && free ? { share: { feature: 'workspaces', locked: true } } : undefined
+                  }),
+                  remaining > 0 && !noMatch ? h('div', { className: 'mt-1 flex justify-center' },
+                    h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setShown(shown + PAGE_SIZE); } },
+                      'Load more ', h('span', { className: 'font-medium tabular-nums text-ink-inactive' }, remaining))) : null));
+
     return h(IK.Fragment, null,
       h(RK.ReviewBar, { title: 'Data Sources (Files)', status: 'approved', size: 'sm', autoHeight: true, controls: [
         { label: 'Storage state', value: quota[0], onChange: quota[1],
           options: [{ value: 'within', label: 'Within limit' }, { value: 'over', label: 'Over limit' }] },
-        { label: 'Plan', value: plan[0], onChange: plan[1],
+        RK.wsOwnsPlan(wsq) ? null : { label: 'Plan', value: plan[0], onChange: plan[1],
           options: [{ value: 'paid', label: 'Paid' }, { value: 'free', label: 'Free' }] },
         { label: 'Data state', value: data[0], onChange: setData,
           options: [{ value: 'filled', label: 'Filled' }, { value: 'empty', label: 'Empty' }] },
         { label: 'Page state', value: load[0], onChange: load[1],
           options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] }
-      ] }),
-      h(IK.AppShell, { nav: 'files', burger: false, scroll: false, brandLink: false, accountIcons: 'classic' },
+      ].concat(RK.workspaceControls({ here: 'files', sharedTab: fTab === 'shared' })) }),
+      h(IK.AppShell, { nav: 'files', burger: false, scroll: false, brandLink: false, accountIcons: 'classic', workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h('div', { className: 'pg-split' },
           h('div', { className: 'pg-col' },
             h(IK.ListPage, {
                 title: 'Files',
                 after: h(IK.DsStorageMark, { usedMb: used, capMb: cap.mb, capLabel: cap.label, planName: free ? 'Free' : 'Pro', cta: free })
               },
-              h('div', { className: 'flex flex-col gap-4' },
-                h(IK.DsDropZone, { onBrowse: browse, onFiles: drop }),
-                load[0] === 'skeleton' ? h(IK.DsFilesSkeleton) : h('div', { className: 'flex flex-col gap-2' },
-                  h(D.FilterChips, {
-                    value: filter,
-                    /* pressing the selected chip again keeps it (the single-select group would clear it) */
-                    onValueChange: function (v) { if (v) changeFilter(v); },
-                    items: [{ value: 'all', label: 'All' }, { value: 'artifact', label: 'Artifacts' }, { value: 'uploaded', label: 'Uploaded' }]
-                  }),
-                  meta,
-                  noMatch ? h(D.StatusView, {
-                    size: 'lg', surface: 'embedded', withIconHalo: false, icon: h(D.EmptyStateIllustration),
-                    title: 'No matches found', description: 'No files match this filter — switch back to All to see every file'
-                  }) : h(IK.DsFilesTable, {
-                    files: page, empty: empty, editing: editing, previewId: previewId, sortDir: sortDir,
-                    allState: allSel ? true : selectedCount ? 'indeterminate' : false,
-                    onSort: function () { setSortDir(sortDir === 'asc' ? 'desc' : 'asc'); },
-                    onToggle: function (id) { update(function (f) { return f.id === id ? Object.assign({}, f, { selected: !f.selected }) : f; }); setEditing(true); },
-                    onToggleAll: function () { setAllVisible(!allSel); setEditing(!allSel); },
-                    onOpen: setPreviewId, onAction: onAction, onBrowse: browse
-                  }),
-                  remaining > 0 && !noMatch ? h('div', { className: 'mt-1 flex justify-center' },
-                    h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setShown(shown + PAGE_SIZE); } },
-                      'Load more ', h('span', { className: 'font-medium tabular-nums text-ink-inactive' }, remaining))) : null)))),
-          h(IK.DsFilePreview, {
-            file: previewFile, width: previewW, onWidthChange: setPreviewW,
-            onClose: function () { setPreviewId(null); setPreviewW(null); }, onDownload: function () {}
-          }))),
+              !(shareTabs && hasShared) ? myFiles
+              : h(D.Tabs, { value: fTab, onValueChange: setFTab, className: 'flex flex-col gap-4' },
+                  h(D.TabsList, { className: 'mb-0 flex w-full' },
+                    h(D.TabsTrigger, { value: 'mine' }, 'My Files'),
+                    h(D.TabsTrigger, { value: 'shared' }, 'Shared')),
+                  h(D.TabsContent, { value: 'mine' }, myFiles),
+                  h(D.TabsContent, { value: 'shared', className: 'flex flex-col gap-4' }, h(IK.Fragment, null,
+                    h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Files', feature: 'shared-files' }),
+                    h(IK.WsFiles, { files: sharedFiles, caption: true, ownerCol: wsq.owner, onAction: function (a, ids) {
+                        var f = sharedFiles.filter(function (x) { return x.id === ids[0]; })[0];
+                        if (a === 'add-to-chat') location.assign(IK.wsHref('approved/chat-landing.html', {}));
+                        else D.toast(a === 'download' ? (ids.length > 1 ? 'Downloading ' + ids.length + ' files' : 'Download started') : 'Opening ' + (f ? f.name : 'the file'));
+                      } })))))),
+          /* the preview offers what the file's row offers (user, 2026-10-20): its ⋮ (no View — it is open — and no
+             Download — the head's icon), Share via Workspace in Access for one's own, Ask to Renew for an unavailable one */
+          h(IK.DsFilePreview, (function () {
+            var pf = previewFile, mineF = pf && !pf.by;
+            var items = pf ? (pf.menu || (wsOn && ws.owned.length ? ['add-to-chat', 'share', 'rename', 'download', 'delete'] : ['add-to-chat', 'rename', 'download', 'delete']))
+              .filter(function (k) { return k !== 'view' && k !== 'download' && k !== 'share' && k !== 'add-to-chat'; }) : [];
+            /* Add to Chat as the head's icon (beside Download); the ⋮ only when something else is left in it */
+            var canChat = pf && (pf.menu || ['add-to-chat']).indexOf('add-to-chat') >= 0;
+            return {
+              file: pf, width: previewW, onWidthChange: setPreviewW,
+              onClose: function () { setPreviewId(null); setPreviewW(null); },
+              onDownload: function () { D.toast('Download started'); },
+              onAddToChat: canChat ? function (id) { onAction('add-to-chat', id); } : null,
+              menu: pf && items.length ? h(IK.DsFileMenu, { id: pf.id, onAction: onAction, items: items }) : null,
+              onShare: mineF && wsOn && ws.owned.length ? function (id) { onAction('share', id); } : null, shareLocked: free,
+              renewal: pf && pf.by ? IK.wsRenewal(ws, pf.wsIds || []) : null
+            };
+          })()))),
       upl.length ? h('div', { className: 'pg-upl-dock' },
         h(D.ActivityTray, {
           headerTitle: trayTitle,
@@ -326,6 +423,35 @@
         open: !!delTarget, count: delTarget === 'selected' ? selectedCount : 1,
         onOpenChange: function (o) { if (!o) setDelTarget(null); }, onConfirm: confirmDelete
       }),
+      wsOn ? h(IK.WsShareFileDialog, (function () {
+        /* the file(s) as the workspace store keeps them (the person's own, same ids) */
+        var files = (shareIds || []).map(function (id) {
+          var f = find(id); if (!f) return null;
+          return IK.WS_FILES.filter(function (x) { return x.id === id; })[0] || { id: f.id, name: f.name, type: f.type, kind: f.origin, size: f.size, date: Date.now() };
+        }).filter(Boolean);
+        return {
+          open: !!(shareIds && shareIds.length), onOpenChange: function (o) { if (!o) setShareIds(null); },
+          files: files, workspaces: ws.owned, createLocked: free,
+          taken: function (n) { return IK.wsNameTaken(ws.list, n); },
+          onCreate: function (n, d) { return ws.create(n, d); },
+          onShare: function (ids, out) {
+            out = out || [];
+            ids.forEach(function (wid) {
+              var w = ws.find(wid);
+              files.forEach(function (f) { if (!w || !w.files.some(function (x) { return x.id === f.id; })) ws.shareFile(wid, f); });
+            });
+            out.forEach(function (wid) { files.forEach(function (f) { ws.unshareFile(wid, f.id); }); });
+            setShareIds(null);
+            function names(l) { return IK.wsJoin(l.map(function (wid) { var w = ws.find(wid); return w ? w.name : ''; })); }
+            var what = files.length === 1 ? h('strong', null, files[0].name) : files.length + ' files';
+            if (ids.length && out.length) D.toast.success(h(IK.Fragment, null, what, ' sharing updated'), { description: 'Added to ' + names(ids) + ', removed from ' + names(out) });
+            else if (out.length) D.toast.success(h(IK.Fragment, null, what, ' removed from ' + names(out)));
+            else D.toast.success(h(IK.Fragment, null, what, ' added to ' + names(ids)),
+              { description: h('span', { className: 'flex flex-col items-start gap-1' },
+                  h('span', null, 'Members can view, download and add ' + (files.length === 1 ? 'it' : 'them') + ' to their chats'), IK.wsGoLink(ws, ids)) });
+          }
+        };
+      })()) : null,
       h(D.Toaster, { position: 'top-right' }));
   }
   IK.mount(App);

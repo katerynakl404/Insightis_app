@@ -16,7 +16,13 @@
       onDetails: function () { window.DevartUI.toast.error('Last check failed — Stripe Payments', { description: 'Check failed: API key expired or revoked (HTTP 401)' }); }
     });
   } });
-  IK.story('DsLastCheck', { title: 'Testing — the same pill with a spinner (the row cannot jump)', render: function () {
-    return h(IK.DsLastCheck, { lastSync: now, status: 'active', busy: true });
+  IK.story('DsLastCheck', { title: 'Testing — the same pill with a spinner (the re-test icon keeps its place; the row cannot jump)', render: function () {
+    return h(IK.DsLastCheck, { lastSync: now, status: 'active', busy: true, onTest: function () {} });
+  } });
+  IK.story('DsLastCheck', { title: 'With the re-test icon — own rows and the panel (paid plan)', render: function () {
+    var R = window.React, s = R.useState(false), busy = s[0], setBusy = s[1];
+    return h(Col, null,
+      h(IK.DsLastCheck, { lastSync: now - 2 * 3600e3, status: 'active', busy: busy, onTest: function () { setBusy(true); setTimeout(function () { setBusy(false); }, 1500); } }),
+      h(IK.DsLastCheck, { lastSync: now - 26 * 3600e3, status: 'error', error: 'API key expired or revoked (HTTP 401)', onTest: function () {} }));
   } });
 })();

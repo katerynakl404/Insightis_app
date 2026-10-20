@@ -52,6 +52,9 @@
      ── the onboarding tour (IK.OnbTour) ──
      files,                          Recent files (names) — default IK.COMPOSER_FILES; [] → its empty state
      connections                     [{ logo, name, on }] — default IK.COMPOSER_CONNECTIONS; [] → "No connections yet"
+                                     shared workspaces: a row with { by, wsName } is shared with the person —
+                                     its caption (IK.WsSharedBy) under the name; the list then shows them all,
+                                     own first, scrolling when long (unavailable / Blocked ones aren't passed)
    })
    Tour hooks: data-tour="composer" (the card), "cmp-attach", "cmp-connections", "cmp-model".
 
@@ -220,7 +223,10 @@
       onSelect: function (e) { e.preventDefault(); if (!p.locked) p.onToggle(c.name); }
     },
       h(IK.ConnectorMark, { connector: c.logo, size: 'xs', label: c.logo + ' logo' }),
-      h('span', { className: 'ik-cmp-name min-w-0 flex-1 truncate font-medium text-ink-primary' }, c.name),
+      c.by ? h('span', { className: 'flex min-w-0 flex-1 flex-col' },
+          h('span', { className: 'ik-cmp-name min-w-0 truncate font-medium text-ink-primary' }, c.name),
+          h(IK.WsSharedBy, { ws: c.wsName, by: c.by, withBy: !!c.withBy }))
+        : h('span', { className: 'ik-cmp-name min-w-0 flex-1 truncate font-medium text-ink-primary' }, c.name),
       h(D.Switch, { size: 'sm', checked: !p.locked && !!p.on, tabIndex: -1, 'aria-label': 'Use ' + c.name + ' in this chat', className: 'ms-auto', onClick: function (e) { e.preventDefault(); } }));
     if (!p.locked) return item;
     return h(IK.Locked, { feature: 'connections', locked: true }, item);
@@ -239,7 +245,9 @@
     useFitScroll(scRef, menuRef, trigRef, [phase, open]);
     function toggle(name) { setOn(function (prev) { var n = Object.assign({}, prev); n[name] = !prev[name]; return n; }); }
 
-    var list, scrolling = phase === 'scroll';
+    /* shared connections join the list: all of it, scrolling when long */
+    var withShared = conns.some(function (c) { return c.by; });
+    var list, scrolling = phase === 'scroll' || (phase === 'filled' && withShared);
     if (phase === 'loading') list = Skels({ row: SkelConnRow });
     else if (phase === 'empty' || !conns.length) {
       list = free
@@ -252,7 +260,7 @@
         : h(MenuEmpty, { icon: 'connections', title: 'No connections yet', description: 'Connect a source to use it in this chat' });
     } else {
       var rows = (scrolling ? conns : conns.slice(0, 3)).map(function (c) {
-        return h(ConnRow, { key: c.name, conn: c, on: on[c.name], locked: free, onToggle: toggle });
+        return h(ConnRow, { key: c.name + (c.wsName || ''), conn: c, on: on[c.name], locked: free, onToggle: toggle });
       });
       list = scrolling ? h('div', { ref: scRef, className: 'ik-cmp-scroll' }, rows) : rows;
     }

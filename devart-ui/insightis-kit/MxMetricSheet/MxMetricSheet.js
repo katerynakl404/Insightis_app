@@ -10,6 +10,9 @@
                         = "This metric is designed for <provider>…" + Connect <provider>
              'builtin'  a built-in row of the library: switch, footer = Duplicate & Customize
              'custom'   a custom row: switch, footer = Delete (left) · Edit (right)
+             'readonly' a metric from a workspace (shared with the person, or a workspace's own list):
+                        no switch, no footer — nothing to change here; wsNames → a Workspaces field,
+                        each name a link to its workspace (links: { name: href })
        connector set → "Data source" + "Linked to <connector>"; unset → "Linked to <provider>"
      onActive(on)  onConnect()  onDuplicate()  onEdit()  onDelete()
    />
@@ -45,12 +48,17 @@
   IK.MxMetricSheet = function MxMetricSheet(p) {
     var m = p.metric || {};
     var kind = m.kind || (m.custom ? 'custom' : 'builtin');
-    var showSwitch = kind !== 'library';
+    var showSwitch = kind !== 'library' && kind !== 'readonly';
 
-    var footer = null;
+    /* an unavailable shared metric: the warning by its name and, at the foot, why and what brings it back */
+    var off = kind === 'readonly' && !!(m.locked || m.muted);
+    var footer = off ? h(IK.WsUnavailableNote, { renewal: p.renewal, by: m.by || (m.ws && m.ws.owner && m.ws.owner.name), locked: !m.muted, noun: 'metrics', feature: 'metrics' }) : null;
     if (kind === 'custom') {
+      /* the row's ⋮ has Duplicate for a custom metric too — so does the sheet (user, 2026-10-20: the same actions) */
       footer = h('div', { className: 'flex w-full gap-2' },
         h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button', className: 'me-auto', leftSlot: h(IK.Icon, { name: 'delete' }), onClick: p.onDelete }, 'Delete'),
+        h(IK.Locked, { feature: 'metrics', surface: 'modal' },
+          h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: p.onDuplicate }, 'Duplicate')),
         h(IK.Locked, { feature: 'metrics', surface: 'modal' },
           h(D.Button, { variant: 'primary', size: 'sm', type: 'button', onClick: p.onEdit }, 'Edit')));
     } else if (kind === 'library') {
@@ -62,11 +70,11 @@
             '. Adding a connection activates all its metrics at once — no manual setup needed.')),
         h(IK.Locked, { feature: 'metrics', surface: 'modal' },
           h(D.Button, { variant: 'primary', size: 'md', className: 'w-full', type: 'button', onClick: p.onConnect }, 'Connect ' + m.provider)));
-    } else {
-      footer = h('div', { className: 'flex items-start gap-3' },
+    } else if (kind !== 'readonly') {
+      footer = h('div', { className: 'flex items-center gap-3' },
         h('div', { className: 'min-w-0 flex-1' },
           h(D.Typography, { element: 'p', textStyle: 'label14', textColor: 'primary', className: 'm-0 mb-0.5' }, 'Duplicate & Customize'),
-          h(D.Typography, { element: 'p', textStyle: 'body12', textColor: 'secondary', className: 'm-0 leading-normal' }, 'Create your own version with a custom formula.')),
+          h(D.Typography, { element: 'p', textStyle: 'body12', textColor: 'secondary', className: 'm-0 leading-normal' }, 'Your own copy with a custom formula')),
         h(IK.Locked, { feature: 'metrics', surface: 'modal' },
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', className: 'flex-none', onClick: p.onDuplicate }, 'Duplicate')));
     }
@@ -90,12 +98,18 @@
               h(D.IconButton, { variant: 'tertiary', size: 'xs', type: 'button', 'aria-label': 'Close panel' }, h(IK.Icon, { name: 'mx-x' }))))),
         h('div', { className: 'ik-mx-sheet-body flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto' },
           h('div', { className: 'flex flex-col gap-5' },
-            h(Field, { label: 'Name' }, h(D.Typography, { element: 'span', textStyle: 'title16', textColor: 'primary' }, m.name)),
+            h(Field, { label: 'Name' }, h('div', { className: 'flex min-w-0 items-center gap-2' },
+              h(D.Typography, { element: 'span', textStyle: 'title16', textColor: 'primary', className: 'min-w-0 break-words' }, m.name),
+              off ? h(IK.WsUnavailableMark, { by: m.by || (m.ws && m.ws.owner && m.ws.owner.name), locked: !m.muted, noun: 'metrics' }) : null)),
             m.connector ? h(Field, { label: 'Data source' }, h(Value, null, h(Source, { name: m.provider, logo: m.logo }))) : null,
             h(Field, { label: 'Linked to' }, h(Value, null, m.connector ? m.connector : h(Source, { name: m.provider, logo: m.logo }))),
             h(Field, { label: 'Alias' }, h(Value, null, h(D.Badge, { variant: 'secondary' }, m.alias || '—'))),
             h(Field, { label: 'Type' }, h(Value, null, h(D.Badge, { variant: m.custom ? 'primary' : 'secondary' }, m.custom ? 'Custom' : 'Built-in'))),
-            m.desc ? h(Field, { label: 'Definition' }, h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'body', className: 'm-0' }, m.desc)) : null)),
+            m.desc ? h(Field, { label: 'Definition' }, h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'body', className: 'm-0' }, m.desc)) : null,
+            /* Access, last, as in Connection Details (user, 2026-10-20): a shared metric — who shared it and where; one's
+               own in workspaces — where, and that it goes with its connection (it is shared from there) */
+            m.readOnly && m.ws && m.ws.owner ? h(IK.WsAccess, { by: m.ws.owner.name, names: m.wsNames, links: m.links })
+              : m.wsNames && m.wsNames.length ? h(IK.WsAccess, { names: m.wsNames, links: m.links, note: 'Shared with its connection — share or remove it on Data Sources' }) : null)),
         footer ? h('div', { className: 'ik-mx-sheet-foot flex-none' }, footer) : null));
   };
 })();

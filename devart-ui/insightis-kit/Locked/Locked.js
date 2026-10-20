@@ -220,7 +220,7 @@
     };
     if (t === D.DropdownMenuItem) next.onSelect = function (e) { e.preventDefault(); };
 
-    var glyph = h(IK.LockGlyph, { key: 'ik-lock' });
+    var glyph = h(IK.LockGlyph, { key: 'ik-lock', className: t === D.LinkButton ? 'ik-lock-glyph-text' : undefined });
     if (marker === 'lead') {
       if (isIcon) next.children = glyph;
       else if (t === D.Button) next.leftSlot = glyph;
