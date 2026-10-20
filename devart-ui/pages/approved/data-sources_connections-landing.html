@@ -92,6 +92,10 @@
     var plan = IK.usePlan()[0], free = plan === 'free';
     var seg = RK.useQueryState('state', 'connected');
     var load = RK.useQueryState('load', 'loaded');
+    /* Panels: New — the unified details panel tried on this page (IK.DetailsPanel, built from the page's own data by
+     IK.connectionDetails); Current, the default, is the prototype as approved (user, 2026-10-20: "потрібно нові приміряти на
+     сторінки — але ще не замінювати в прототипі") */
+    var panels = RK.useQueryState('panels', 'current'), newPanels = panels[0] === 'new';
     var loading = load[0] === 'skeleton';
 
     var conns = R.useState(SEED), list = conns[0], setList = conns[1];
@@ -226,7 +230,8 @@
         { label: 'Data state', value: seg[0], onChange: setSeg,
           options: [{ value: 'empty', label: 'Empty' }, { value: 'connected', label: 'Connected' }] },
         { label: 'Page state', value: load[0], onChange: load[1],
-          options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] }
+          options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] },
+        { label: 'Panels', value: panels[0], onChange: panels[1], options: [{ value: 'current', label: 'Current' }, { value: 'new', label: 'New' }] }
       ].concat(RK.workspaceControls({ here: 'data-sources', sharedTab: curTab === 'shared' })) }),
       h(IK.AppShell, { nav: 'data-sources', burger: false, scroll: false, brandLink: false, accountIcons: 'classic', workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h(IK.ListPage, {
@@ -270,8 +275,9 @@
                 var u4 = free && hasConn && !u4Off ? h(D.Alert, {
                 key: 'u4',
                 variant: 'warning', size: 'md', role: 'note', className: 'pg-alert',
-                /* the warning glyph every warning notice carries (user, 2026-10-20: "дивний значок в алерті") */
-                icon: h(IK.Icon, { name: 'warning' }),
+                /* the original's illustration slot: the connections glyph, not a warning sign (user, 2026-10-20: "тут
+                   здається була ілюстрація, а не знак оклику") */
+                icon: h(IK.Icon, { name: 'connections' }),
                 title: 'Your subscription ended, so these connections can\'t be used',
                 description: h(IK.Fragment, null, 'Nothing was deleted. ',
                   h(IK.Locked, { feature: 'connections', clickOnly: true, marker: 'none', locked: true },
@@ -322,6 +328,12 @@
               h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Connectors', feature: 'connections' }),
               /* the same table as My Connections — same columns, so switching tabs moves nothing */
               h(IK.DsConnections, { metricsHref: IK.wsMetricsHref, connections: sharedRows, wsCol: true, ownerCol: wsq.owner, selected: sharedPanel, onOpen: openRow })) : null)),
+        newPanels ? h(IK.DetailsSheet, { item: panelConn, onOpenChange: function (o) { if (!o) setPanel(null); },
+          build: function (c) {
+            return IK.connectionDetails(c, { free: free, metricsHref: wsOn ? IK.wsMetricsHref : null,
+              onEdit: function (n) { setPanel(null); setEdit(n); }, onDisconnect: function (n) { setPanel(null); setDisc(n); },
+              onTest: test, onDetails: errToast, onAddToWorkspace: wsOn ? function (n) { setAddWs(n); } : undefined, wsLocked: free, onAddMetric: addMetric });
+          } }) :
         h(IK.DsConnectionPanel, { metricsHref: wsOn ? IK.wsMetricsHref : undefined,
           connection: panelConn,
           onOpenChange: function (o) { if (!o) setPanel(null); },
@@ -331,6 +343,11 @@
           /* the panel stays open under the dialog: saving lands back on it, its Access updated */
           onAddToWorkspace: wsOn ? function (n) { setAddWs(n); } : undefined, wsLocked: free, onAddMetric: addMetric
         })),
+      hasShared && newPanels ? h(IK.DetailsSheet, (function () {
+        var c = sharedRows.filter(function (x) { return x.id === sharedPanel; })[0];
+        return { item: c || null, onOpenChange: function (o) { if (!o) setSharedPanel(null); },
+          build: function (x) { return IK.connectionDetails(x, { mode: 'shared', metricsHref: IK.wsMetricsHref, renewal: IK.wsRenewal(ws, x.wsIds) }); } };
+      })()) :
       hasShared ? h(IK.DsConnectionPanel, (function () {
         var c = sharedRows.filter(function (x) { return x.id === sharedPanel; })[0];
         return { mode: 'shared', metricsHref: IK.wsMetricsHref, connection: c || null, renewal: c ? IK.wsRenewal(ws, c.wsIds) : null, onOpenChange: function (o) { if (!o) setSharedPanel(null); } };

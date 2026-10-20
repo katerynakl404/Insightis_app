@@ -633,11 +633,19 @@
             h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'primary', className: 'ik-rowmark-desc m-0 break-words' }, desc)) : null,
           desc && problems.length ? h(D.Separator, null) : null,
           problems.length ? h('div', { className: 'flex flex-col gap-2' }, label(problems.length === 1 ? 'Problem' : 'Problems (' + problems.length + ')'),
-            problems.map(function (x) { return h(StatusLine, { key: x.text, kind: x.kind }, x.text); })) : null)));
+            problems.map(function (x) { return h(StatusLine, { key: x.text, kind: x.kind }, x.text); })) : null,
+          p.action ? h('div', { className: 'flex' }, p.action) : null)));
   };
   /* a shared item that can't be used: its row mark, the Problem saying why */
   IK.WsUnavailableMark = function WsUnavailableMark(p) {
-    return h(IK.RowMark, { name: p.name, description: p.description, problems: [{ kind: 'warning', text: IK.wsUnavailableTip(p) }] });
+    /* on a row: the warning glyph with a plain tooltip saying why — the Problem popover was too big for a row (user,
+       2026-10-20: "на макетах верни тут тултіп поки що") */
+    if (!p.withAction) return h(IK.Tip, { tip: IK.wsUnavailableTip(p), wrap: true },
+      h('span', { tabIndex: 0, role: 'img', 'aria-label': IK.wsUnavailableTip(p), className: IK.cx('inline-flex flex-none rounded-sm align-middle', TONE.warning.ink, D.focusRing) },
+        h(IK.Icon, { name: 'warning', size: 14 })));
+    /* withAction — a details panel's name: the Problem popover with the way back under it */
+    return h(IK.RowMark, { name: p.name, description: p.description, problems: [{ kind: 'warning', text: IK.wsUnavailableTip(p) }],
+      action: p.withAction ? IK.wsUnavailableAction(Object.assign({ size: 'sm' }, p)) : null });
   };
   /* IK.WsAccess({ by, names, links, inLabel, note, action }) — the one "Access" section every details panel ends
      with — Connection Details, Metric Details, the file preview (user, 2026-10-20): who shared it (a shared one),
@@ -659,6 +667,24 @@
       var w = world.filter(function (x) { return x.name === n; })[0];
       return { name: n, href: L[n] || (w ? IK.wsHrefFor(w) : null), owner: w ? (w.role === 'owner' ? 'You' : w.owner.name) : p.by, members: w ? w.members.length : null };
     });
+    /* blocks — each workspace a DevartUI Card "row" across the full width: the whole block opens it (its own rest
+       border, hover, focus, press), the name in plain ink, a chevron saying it leads on (the details-panels concept —
+       user, 2026-10-20: "попробуй на сторінці з панелями — не лінками, а блочками") */
+    if (p.blocks) return h('ul', { className: 'm-0 flex list-none flex-col gap-2 p-0' }, items.map(function (it) {
+      var meta = [it.owner, it.members != null ? it.members + (it.members === 1 ? ' member' : ' members') : null].filter(Boolean).join(' · ');
+      function go() { if (it.href) location.assign(it.href); }
+      return h('li', { key: it.name, className: 'flex min-w-0' },
+        h(D.Card, { variant: 'row', role: it.href ? 'link' : undefined, tabIndex: it.href ? 0 : undefined, 'aria-label': it.href ? 'Open ' + it.name : undefined,
+          className: 'w-full min-w-0', onClick: it.href ? go : undefined,
+          onKeyDown: it.href ? function (e) { if (e.key === 'Enter') { e.preventDefault(); go(); } } : undefined },
+          h('span', { className: 'flex size-8 shrink-0 items-center justify-center rounded-md border border-stroke text-ink-secondary', 'aria-hidden': 'true' },
+            h(IK.Icon, { name: 'ws-layers', size: 16 })),
+          h('span', { className: 'flex min-w-0 flex-1 flex-col' },
+            h(D.TruncatedTitleTooltip, { title: it.name, getTruncationTarget: function (t) { return t; } },
+              h('span', { className: 'min-w-0 truncate text-sm font-medium text-ink-primary' }, it.name)),
+            meta ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'min-w-0 truncate' }, meta) : null),
+          it.href ? h(IK.Icon, { name: 'chevron-right', size: 16, className: 'shrink-0 text-ink-secondary' }) : null));
+    }));
     /* no plaque — the mark, the name as the link (DevartUI LinkButton, at the text's 14px), its owner and members
        under it (user, 2026-10-20: "плашки забери фон — верни свою ідею з лінком") */
     return h('ul', { className: 'm-0 flex list-none flex-col gap-3 p-0' }, items.map(function (it) {
@@ -714,16 +740,25 @@
      ends with, as Metric Details ends a library metric with "Connect …" (user, 2026-10-19: "як по цьому зрозуміти
      що конекшн недоступний"): the sharer's plan lapsed → why, and Ask <Owner> to Renew (Request Sent once asked);
      the person's own plan → why, and Upgrade to Starter */
+  /* what brings an unavailable shared item back: Ask <owner> to Renew (Request Sent once asked) when its owner's plan
+     lapsed, Upgrade to Starter when one's own plan has no shared items — the Note's button and the mark's popover */
+  IK.wsUnavailableAction = function (p) {
+    var r = p.renewal || {}, lapsed = r.blocked || !p.locked;
+    var owner = (r.owners && r.owners[0]) || p.by || 'Its owner';
+    return lapsed
+      ? (r.requested
+          ? h(D.Button, { variant: 'secondary', size: p.size || 'sm', type: 'button', disabled: true, leftSlot: h(IK.Icon, { name: 'check' }) }, 'Request Sent')
+          : r.request ? h(D.Button, { variant: 'secondary', size: p.size || 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-send' }), onClick: r.request },
+              askLabel(r.owners && r.owners.length ? r.owners : [owner])) : null)
+      : h(IK.Locked, { feature: p.feature || 'connections', clickOnly: true, marker: 'none', locked: true },
+          h(D.Button, { variant: 'secondary', size: p.size || 'sm', type: 'button' }, 'Upgrade to Starter'));
+  };
   IK.WsUnavailableNote = function WsUnavailableNote(p) {
     var r = p.renewal || {}, lapsed = r.blocked || !p.locked;
     var owner = (r.owners && r.owners[0]) || p.by || 'Its owner', name = String(owner).split(' ')[0];
-    var action = lapsed
-      ? (r.requested
-          ? h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', disabled: true, leftSlot: h(IK.Icon, { name: 'check' }) }, 'Request Sent')
-          : r.request ? h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-send' }), onClick: r.request },
-              askLabel(r.owners && r.owners.length ? r.owners : [owner])) : null)
-      : h(IK.Locked, { feature: p.feature || 'connections', clickOnly: true, marker: 'none', locked: true },
-          h(D.Button, { variant: 'secondary', size: 'sm', type: 'button' }, 'Upgrade to Starter'));
+    var action = IK.wsUnavailableAction(p);
+    var text = lapsed ? owner + '’s plan no longer includes Workspaces. Access returns when ' + name + ' renews'
+                      : 'Your plan doesn’t include shared ' + (p.noun || 'items') + '. Nothing was deleted';
     return h(D.Alert, {
       variant: 'warning', size: 'md', role: 'note', className: 'w-full', icon: h(IK.Icon, { name: 'warning' }),
       title: 'Unavailable',

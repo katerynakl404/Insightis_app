@@ -23,8 +23,8 @@
    h(IK.DsFilePreview, {
      file: { id, name, size, origin, date, by?, wsNames?, sharedWith?, links?, locked?, muted? },
      width: 448, onWidthChange: function (px) {},     // optional — uncontrolled otherwise
-     onClose, onDownload, onAddToChat(id) (an icon beside Download), menu: node — only when it holds something
-     else (Rename, Delete), onShare, shareLocked, renewal, accessIn: false (no "Shared in")
+     onClose, onDownload, onAddToChat(id) (an icon beside Download), onDelete(id) (a red icon, first — when Delete
+     would be the ⋮'s only item), menu: node — only when it holds two or more, onShare, shareLocked, renewal, accessIn: false (no "Shared in")
    })                                                                                              */
 (function () {
   'use strict';
@@ -61,20 +61,26 @@
         return h(D.TableRow, { key: i }, r.map(function (v, j) { return h(D.TableCell, { key: j, className: 'whitespace-nowrap', style: j === 2 ? WIDE : undefined }, v); }));
       })));
   }
-  function Text() {
+  function Text(p) {
+    /* bare — as the product shows it: the file's text itself, straight on the panel's body, no box around it */
+    if (p && p.bare) return h('pre', { className: 'm-0 whitespace-pre-wrap break-all font-sans text-sm text-ink-body' },
+      '[' + ROWS.map(function (r) { return '{"date":"' + r[0] + '","region":"' + r[1] + '","revenue":' + r[2].replace(/,/g, '') + '}'; }).join(',') + ']');
     var lines = ROWS.map(function (r) { return '  {"date": "' + r[0] + '", "region": "' + r[1] + '", "revenue": ' + r[2].replace(/,/g, '') + '}'; });
     return h('pre', { className: 'ik-dsfp-json' }, '[\n' + lines.join(',\n') + '\n]');
   }
   function None(p) {
     return h('div', { className: 'ik-dsfp-empty' },
       h(IK.Icon, { name: 'ds-doc', size: 40, strokeWidth: 1.5, className: 'text-ink-inactive' }),
-      h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary' }, p.file.name),
-      h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0 max-w-64' }, 'There is no preview available for this file type'),
+      /* centred, as the original — Typography is text-left unless told (user, 2026-10-20: "тут було центральне вирівнювання") */
+      h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', align: 'center' }, p.file.name),
+      h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', align: 'center', className: 'm-0 max-w-64' }, 'There is no preview available for this file type'),
       p.onDownload ? h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: p.onDownload }, 'Download') : null);
   }
 
-  /* the preview's own content and its truncated strip, for another panel to show the same file the same way (the
+  /* the preview's own content and whether it is a truncated sample, for another panel to show the same file the same way (the
      details-panels concept — user, 2026-10-20: "превью в файлі мало бути реалістичним") */
+  IK.dsPreviewTruncated = truncated;
+  /* the "Preview truncated" strip — full-bleed, flush on top of the preview */
   IK.DsFilePreviewBanner = function DsFilePreviewBanner(p) {
     if (!p.file || !truncated(p.file)) return null;
     return h('div', { className: 'ik-dsfp-banner' },
@@ -83,9 +89,18 @@
         h(D.LinkButton, { asChild: true }, h('button', { type: 'button', onClick: p.onDownload }, 'Download')),
         ' to see the full file.'));
   };
+  /* a shared file that can't be used, in the preview's place: why, and the way back (Ask to Renew / Upgrade) */
+  IK.DsFileUnavailable = function DsFileUnavailable(p) {
+    var u = { by: p.by, locked: !!p.locked, noun: 'files', feature: 'shared-files', renewal: p.renewal };
+    return h('div', { className: 'ik-dsfp-empty' },
+      h(IK.Icon, { name: 'ds-doc', size: 40, strokeWidth: 1.5, className: 'text-ink-inactive' }),
+      h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', align: 'center' }, 'Unavailable'),
+      h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', align: 'center', className: 'm-0 max-w-64' }, IK.wsUnavailableTip(u)),
+      IK.wsUnavailableAction(Object.assign({ size: 'sm' }, u)));
+  };
   IK.DsFilePreviewContent = function DsFilePreviewContent(p) {
     var kind = IK.dsPreviewKind(p.file.name);
-    return kind === 'table' ? h(Sample) : kind === 'text' ? h(Text) : h(None, { file: p.file, onDownload: p.onDownload });
+    return kind === 'table' ? h(Sample) : kind === 'text' ? h(Text, { bare: p.bare }) : h(None, { file: p.file, onDownload: p.onDownload });
   };
 
   IK.DsFilePreview = function DsFilePreview(p) {
@@ -119,15 +134,14 @@
           off ? h(IK.WsUnavailableMark, { by: by, locked: !f.muted, noun: 'files' }) : null),
         h('div', { className: 'flex flex-none items-center gap-0.5' },
           /* Add to Chat is an icon beside Download, not the lone item of a ⋮ (user, 2026-10-20: "в чому сенс 3 крапок") */
+          /* a lone Delete is its own icon, first, away from Close — not a one-item ⋮ (user, 2026-10-20: "не пхай один
+             екшен в 3 крапки"), as in the details panels */
+          off || !p.onDelete ? null : h(IK.Tip, { tip: 'Delete' }, h(D.IconButton, { variant: 'destructiveTertiary', size: 'xs', 'aria-label': 'Delete', onClick: function () { p.onDelete(f.id); } }, h(IK.Icon, { name: 'delete' }))),
           off || !p.onAddToChat ? null : h(IK.Tip, { tip: 'Add to Chat' }, h(D.IconButton, { variant: 'tertiary', size: 'xs', 'aria-label': 'Add to Chat', onClick: function () { p.onAddToChat(f.id); } }, h(IK.Icon, { name: 'add-chat' }))),
           off ? null : h(IK.Tip, { tip: 'Download' }, h(D.IconButton, { variant: 'tertiary', size: 'xs', 'aria-label': 'Download', onClick: dl }, h(IK.Icon, { name: 'ds-download' }))),
           off ? null : p.menu || null,
           h(IK.Tip, { tip: 'Close' }, h(D.IconButton, { variant: 'tertiary', size: 'xs', 'aria-label': 'Close preview', onClick: p.onClose }, h(IK.Icon, { name: 'ds-close' }))))),
-      truncated(f) && !off ? h('div', { className: 'ik-dsfp-banner' },
-        h(IK.Icon, { name: 'ds-warn', size: 16, className: 'ik-dsfp-banner-ic' }),
-        h('span', null, 'Preview truncated. ',
-          h(D.LinkButton, { asChild: true }, h('button', { type: 'button', onClick: dl }, 'Download')),
-          ' to see the full file.')) : null,
+      off ? null : h(IK.DsFilePreviewBanner, { file: f, onDownload: dl }),
       h('div', { className: 'ik-dsfp-body' },
         kind === 'table' ? h(Sample) : kind === 'text' ? h(Text) : h(None, { file: f, onDownload: off ? null : dl }),
         h(D.Typography, { element: 'div', textStyle: 'body12', textColor: 'secondary', className: 'flex-none px-1' },

@@ -25,6 +25,7 @@
 @import "./Composer/Composer.css";
 @import "./ConnectDialog/ConnectDialog.css";
 @import "./ConnectorMark/ConnectorMark.css";
+@import "./DetailsPanel/DetailsPanel.css";
 @import "./DsCatalog/DsCatalog.css";
 @import "./DsConnectionPanel/DsConnectionPanel.css";
 @import "./DsConnections/DsConnections.css";

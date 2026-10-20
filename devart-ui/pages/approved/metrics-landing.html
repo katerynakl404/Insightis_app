@@ -353,6 +353,10 @@
     /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var onbQ = RK.useQueryState('onb', ''), oq = RK.onbQuery();
+    /* Panels: New — the unified details panel tried on this page (IK.DetailsPanel, built from the page's own data by
+     IK.metricDetails); Current, the default, is the prototype as approved (user, 2026-10-20: "потрібно нові приміряти на
+     сторінки — але ще не замінювати в прототипі") */
+    var panels = RK.useQueryState('panels', 'current');
     var onbSrc = onbQ[0] === 'metrics' ? IK.onbSource(oq.source) : null;
     var touring = !!onbSrc;
     /* the page opens Filled (user, 2026-10-19: "дефолтне філд"); Empty is a review state */
@@ -561,7 +565,8 @@
         var u4 = free && filled && !u4Gone ? h(D.Alert, {
           key: 'u4',
         variant: 'warning', size: 'md', role: 'note', className: 'max-sm:flex-wrap',
-        icon: h(IK.Icon, { name: 'warning' }),
+        /* the original's illustration: the metrics glyph, not a warning sign (user, 2026-10-20) */
+        icon: h(IK.Icon, { name: 'metrics' }),
         title: 'Your subscription ended, so these metrics can no longer be edited',
         description: h(IK.Fragment, null, 'Nothing was deleted. ',
           h(IK.Locked, { feature: 'metrics', clickOnly: true, marker: 'none' },
@@ -644,7 +649,7 @@
       /* onboarding mode: no Plan (the free trial) and no Demo state (the library of the source just connected) */
       h(RK.ReviewBar, { title: 'Metrics', status: 'approved', plan: !onbQ[0] && !RK.wsOwnsPlan(wsq), size: 'sm', controls: [
         onbQ[0] ? null : { label: 'Demo state', value: state, onChange: changeState,
-          options: [{ value: 'empty', label: 'Empty' }, { value: 'filled', label: 'Filled' }] }].concat(onbQ[0] ? RK.onboardingControls({ here: 'metrics', step: onbQ[0] }) : RK.workspaceControls({ here: 'metrics', sharedTab: mxTab === 'shared' })) }),
+          options: [{ value: 'empty', label: 'Empty' }, { value: 'filled', label: 'Filled' }] }, onbQ[0] ? null : { label: 'Panels', value: panels[0], onChange: panels[1], options: [{ value: 'current', label: 'Current' }, { value: 'new', label: 'New' }] }].concat(onbQ[0] ? RK.onboardingControls({ here: 'metrics', step: onbQ[0] }) : RK.workspaceControls({ here: 'metrics', sharedTab: mxTab === 'shared' })) }),
       h(IK.AppShell, { nav: 'metrics', burger: false, scroll: false, brandLink: false, accountIcons: 'classic', workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h(IK.ListPage, {
             title: 'Metrics', wrap: true,
@@ -661,6 +666,18 @@
                 h(D.TabsContent, { value: 'shared', className: 'flex flex-col gap-4' },
                   h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Metrics', feature: 'metrics' }),
                   h(IK.WsMetrics, { rows: sharedRows }))))),
+      panels[0] === 'new' ? h(IK.DetailsSheet, {
+        item: sheetOpen && sheetMetric && sheetMetric.name ? sheetMetric : null,
+        onOpenChange: function (v) { setSheet(function (s) { return Object.assign({}, s, { open: v }); }); },
+        build: function (m) {
+          return IK.metricDetails(m, { free: free,
+            renewal: m.readOnly && m.ws ? IK.wsRenewal(ws, [m.ws.id]) : null,
+            onActive: function (on) { if (sheetRow) patch(sheetRow.id, { active: on }); },
+            onConnect: function () { setSheet({ open: false }); openConnect(m.prov); },
+            onDuplicate: function () { setSheet({ open: false }); if (sheetRow) duplicate(sheetRow); },
+            onEdit: function () { if (sheetRow) openEdit(sheetRow); },
+            onDelete: function () { if (sheetRow) remove(sheetRow.id); setSheet({ open: false }); } });
+        } }) :
       h(IK.MxMetricSheet, {
         open: sheetOpen, metric: sheetMetric || {}, renewal: sheetMetric && sheetMetric.readOnly && sheetMetric.ws ? IK.wsRenewal(ws, [sheetMetric.ws.id]) : null,
         onOpenChange: function (v) { setSheet(function (s) { return Object.assign({}, s, { open: v }); }); },

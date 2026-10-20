@@ -1,0 +1,5 @@
+/* DetailsPanel — the folded Details bar under a file panel's head. Its Accordion trigger pads 12px; the bar adds
+   12px at the start, so "Details" starts on the head's 24px edge, and 18px at the end, so the chevron's centre sits
+   under Close's (IconButton xs, 28px, on the head's 24px edge) — one column of controls down the right
+   (user, 2026-10-20: "чому не вирівняти"). */
+.ik-dp-details { padding-inline: .75rem 1.125rem; }

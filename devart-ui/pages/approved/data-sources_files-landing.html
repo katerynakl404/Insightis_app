@@ -32,7 +32,7 @@
    Title + storage mark (IK.DsStorageMark) · drop zone (IK.DsDropZone) · source chips (DevartUI
    FilterChips) · the bar over the list (DevartUI ListSelectionBar: count + Select all, or the selection and its bulk actions) · the
    library (IK.DsFilesTable, 20 at a time + Load more) · the preview split panel (IK.DsFilePreview)
-   · uploads in DevartUI's ActivityTray · Rename / Delete (IK.DsRenameFileDialog, IK.DsDeleteFilesDialog).
+   · uploads in DevartUI's ActivityTray · Delete (IK.DsDeleteFilesDialog) — a file has no Rename (user, 2026-10-20: «забирай — його не буде»).
    Review switches, as in the original topbar: Within limit/Over limit · Plan · Filled/Empty ·
    Loaded/Skeleton · Theme. */
 (function () {
@@ -77,6 +77,10 @@
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var plan = IK.usePlan(), free = plan[0] === 'free';
     var quota = RK.useQueryState('storage', 'within');
+    /* Panels: New — the unified details panel tried on this page (IK.DetailsPanel, built from the page's own data by
+     IK.fileDetails); Current, the default, is the prototype as approved (user, 2026-10-20: "потрібно нові приміряти на
+     сторінки — але ще не замінювати в прототипі") */
+    var panels = RK.useQueryState('panels', 'current'), newPanels = panels[0] === 'new';
     var data = RK.useQueryState('data', 'filled');
     var load = RK.useQueryState('load', 'loaded');
     var phone = D.useMaxWidth(768);
@@ -111,7 +115,6 @@
     var sc = R.useState(PAGE_SIZE), shown = sc[0], setShown = sc[1];
     var pv = R.useState(null), previewId = pv[0], setPreviewId = pv[1];
     var pw = R.useState(null), previewW = pw[0], setPreviewW = pw[1];
-    var rn = R.useState(null), renameId = rn[0], setRenameId = rn[1];
     /* shared workspaces: the file being shared (Share via Workspace) */
     var sw = R.useState(null), shareIds = sw[0], setShareIds = sw[1];
     var dl = R.useState(null), delTarget = dl[0], setDelTarget = dl[1];
@@ -166,7 +169,6 @@
       var f = find(id); if (!f) return;
       if (a === 'view') { setPreviewId(id); return; }
       if (a === 'download') { D.toast('Download started'); return; }
-      if (a === 'rename') setRenameId(id);
       else if (a === 'share') setShareIds([id]);
       else if (a === 'delete') setDelTarget(id);
       else if (a === 'add-to-chat') location.href = IK.pageHref('approved/chat-landing.html?attach=' + encodeURIComponent(f.name));
@@ -253,7 +255,6 @@
     }, []);
 
     var previewFile = previewId ? find(previewId) : null;
-    var renameFile = renameId ? find(renameId) : null;
     var noMatch = !empty && vis.length === 0;
 
     /* The bar over the list is DevartUI's ListSelectionBar: the count with Select all at rest, the
@@ -331,7 +332,7 @@
                     onOpen: setPreviewId, onAction: onAction, onBrowse: browse,
                     /* shared workspaces (on): "Share via Workspace" in the ⋮ of the person's files (locked on
                        Free — their workspaces are Blocked) */
-                    menuItems: wsOn && ws.owned.length ? ['add-to-chat', 'share', 'rename', 'download', 'delete'] : undefined,
+                    menuItems: wsOn && ws.owned.length ? ['add-to-chat', 'share', 'download', 'delete'] : undefined,
                     menuLock: wsOn && free ? { share: { feature: 'workspaces', locked: true } } : undefined
                   }),
                   remaining > 0 && !noMatch ? h('div', { className: 'mt-1 flex justify-center' },
@@ -342,6 +343,7 @@
       h(RK.ReviewBar, { title: 'Data Sources (Files)', status: 'approved', size: 'sm', autoHeight: true, controls: [
         { label: 'Storage state', value: quota[0], onChange: quota[1],
           options: [{ value: 'within', label: 'Within limit' }, { value: 'over', label: 'Over limit' }] },
+        { label: 'Panels', value: panels[0], onChange: panels[1], options: [{ value: 'current', label: 'Current' }, { value: 'new', label: 'New' }] },
         RK.wsOwnsPlan(wsq) ? null : { label: 'Plan', value: plan[0], onChange: plan[1],
           options: [{ value: 'paid', label: 'Paid' }, { value: 'free', label: 'Free' }] },
         { label: 'Data state', value: data[0], onChange: setData,
@@ -371,9 +373,19 @@
                       } })))))),
           /* the preview offers what the file's row offers (user, 2026-10-20): its ⋮ (no View — it is open — and no
              Download — the head's icon), Share via Workspace in Access for one's own, Ask to Renew for an unavailable one */
+          /* New: the unified panel in the preview's own aside (its width and edge), no Sheet */
+          newPanels && previewFile ? h('aside', { className: 'ik-dsfp', 'aria-label': 'File preview' }, h(IK.DetailsPanel, (function () {
+            var pf = previewFile, mineF = !pf.by, canChat = (pf.menu || ['add-to-chat']).indexOf('add-to-chat') >= 0;
+            return Object.assign({ bare: true, onClose: function () { setPreviewId(null); setPreviewW(null); } }, IK.fileDetails(pf, {
+              onDownload: function () { D.toast('Download started'); },
+              onAddToChat: canChat ? function (id) { onAction('add-to-chat', id); } : null,
+              onDelete: mineF ? function (id) { onAction('delete', id); } : null,
+              onShare: mineF && wsOn && ws.owned.length ? function (id) { onAction('share', id); } : null, shareLocked: free,
+              renewal: pf.by ? IK.wsRenewal(ws, pf.wsIds || []) : null }));
+          })())) :
           h(IK.DsFilePreview, (function () {
             var pf = previewFile, mineF = pf && !pf.by;
-            var items = pf ? (pf.menu || (wsOn && ws.owned.length ? ['add-to-chat', 'share', 'rename', 'download', 'delete'] : ['add-to-chat', 'rename', 'download', 'delete']))
+            var items = pf ? (pf.menu || (wsOn && ws.owned.length ? ['add-to-chat', 'share', 'download', 'delete'] : ['add-to-chat', 'download', 'delete']))
               .filter(function (k) { return k !== 'view' && k !== 'download' && k !== 'share' && k !== 'add-to-chat'; }) : [];
             /* Add to Chat as the head's icon (beside Download); the ⋮ only when something else is left in it */
             var canChat = pf && (pf.menu || ['add-to-chat']).indexOf('add-to-chat') >= 0;
@@ -382,7 +394,9 @@
               onClose: function () { setPreviewId(null); setPreviewW(null); },
               onDownload: function () { D.toast('Download started'); },
               onAddToChat: canChat ? function (id) { onAction('add-to-chat', id); } : null,
-              menu: pf && items.length ? h(IK.DsFileMenu, { id: pf.id, onAction: onAction, items: items }) : null,
+              /* Delete alone is the head's red icon, not a one-item ⋮ */
+              menu: pf && items.length && !(items.length === 1 && items[0] === 'delete') ? h(IK.DsFileMenu, { id: pf.id, onAction: onAction, items: items }) : null,
+              onDelete: pf && items.length === 1 && items[0] === 'delete' ? function (id) { onAction('delete', id); } : null,
               onShare: mineF && wsOn && ws.owned.length ? function (id) { onAction('share', id); } : null, shareLocked: free,
               renewal: pf && pf.by ? IK.wsRenewal(ws, pf.wsIds || []) : null
             };
@@ -414,11 +428,6 @@
               : h(IK.Icon, { name: 'pg-upl-check', label: 'Done', className: 'text-fb-green' })
           });
         }))) : null,
-      h(IK.DsRenameFileDialog, {
-        open: !!renameFile, name: renameFile && renameFile.name,
-        onOpenChange: function (o) { if (!o) setRenameId(null); },
-        onSave: function (n) { var id = renameId; setRenameId(null); update(function (f) { return f.id === id ? Object.assign({}, f, { name: n }) : f; }); }
-      }),
       h(IK.DsDeleteFilesDialog, {
         open: !!delTarget, count: delTarget === 'selected' ? selectedCount : 1,
         onOpenChange: function (o) { if (!o) setDelTarget(null); }, onConfirm: confirmDelete

@@ -37,8 +37,9 @@
   function none(name) {
     return h('div', { className: 'ik-fp-empty' },
       h(IK.Icon, { name: 'fp-doc', size: 40, strokeWidth: 1.5, className: 'text-ink-inactive' }),
-      h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary' }, name),
-      h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0 max-w-64' }, 'Unfortunately, there’s no preview available for this file type.'),
+      /* centred — Typography is text-left unless told */
+      h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', align: 'center' }, name),
+      h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', align: 'center', className: 'm-0 max-w-64' }, 'Unfortunately, there’s no preview available for this file type.'),
       h(D.Button, { variant: 'secondary', size: 'sm', type: 'button' }, 'Download'));
   }
   IK.chatPreviewContent = function (name) {

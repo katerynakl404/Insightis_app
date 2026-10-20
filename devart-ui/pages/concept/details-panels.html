@@ -25,18 +25,18 @@
    One rule for the actions, every panel (user, 2026-10-20: "проаналізуй екшени, можливості уніфікації, але
    без шкоди юзабіліті"): each action once per panel.
      in place   an action that belongs to a property sits by it — Add Metric (+ after the count), re-test
-                (after Last check), Rename (pencil by the name), Share (in Access), Active (the head's switch)
+                (after Last check), Share (in Access), Active (the head's switch)
      item       what is done with the item itself — Actions switch:
-                  Top     as the file preview's head: the item's verbs as icons with tooltips; a lone destructive
-                          one a red icon, first, away from Close; ⋮ only for two or more; no foot
+                  Top     as the file preview's head: the item's verbs as icons with tooltips, the main one first,
+                          the destructive one last (a red icon; ⋮ only for two or more), no rules between (user, 2026-10-20: "з дівайдерами дуже погано"); no foot
                   Bottom  as Connection / Metric Details today: a foot, destructive left, the main one right
    Per state — what can't be done is absent, what a plan brings back is locked (the brief):
      Connection  own: Edit · Disconnect · Free: Edit, Add Metric, Share locked, no re-test, Disconnect free
                  · workspace page: Remove from Workspace · shared: nothing to change · unavailable: why
      Metric      custom: Active, Edit · Duplicate · Delete · built-in: Active, Duplicate & Customize · not
                  connected: Connect · shared with its connection, so Access shares the connection
-                 · shared: read-only, no switch · no workspace-page panel (a metric goes with its connection)
-     File        own: Rename, Share, Add to Chat · Download · Delete · workspace page: Download · Remove from
+                 · shared, and on a workspace page: read-only, no switch, nothing to do
+     File        own: Share, Add to Chat · Download · Delete (no Rename — a file has no Rename (user, 2026-10-20: «забирай — його не буде»)) · workspace page: Download · Remove from
                  Workspace · shared: Add to Chat · Download · unavailable: why
    Review switches: State · Actions (Top · Bottom) · Layout (Rows · Stacked · Cards) · Description (Short ·
    Long · None — a description can be long or absent: full width under the name, four lines then Show More). */
@@ -74,37 +74,22 @@
   }
   /* the file preview's own content — the same sample table, JSON and no-preview view, and the truncated strip
      under the head for a sample of a bigger file (user, 2026-10-20: "превью в файлі мало бути реалістичним") */
+  /* a previewed file folds its details: the meta line's facts become rows, as the other panels' properties */
+  function fileRows(type, size, origin, date) {
+    return [{ label: 'Type', value: type }, { label: 'Size', value: size }, { label: 'Origin', value: h(D.Badge, { variant: origin === 'Artifact' ? 'primary' : 'secondary', size: 'sm' }, origin) }, { label: 'Modified', value: date }];
+  }
   function real(name, size) {
     var f = { name: name, size: size };
-    return { banner: h(IK.DsFilePreviewBanner, { file: f, onDownload: toast('Download') }), preview: h(IK.DsFilePreviewContent, { file: f, onDownload: toast('Download') }) };
+    /* the file: the preview takes the room, its truncated strip flush on top — the file preview's own (user,
+       2026-10-20: "алерт був до верху прикріплений") — the details folded above it */
+    return { foldDetails: true, preview: h(IK.DsFilePreviewContent, { file: f, bare: true, onDownload: toast('Download') }),
+      previewBanner: h(IK.DsFilePreviewBanner, { file: f, onDownload: toast('Download') }) };
   }
 
   /* ── the item's own actions, placed by the Actions switch ── */
-  function A(label, icon, o) { return Object.assign({ label: label, icon: icon }, o || {}); }
-  function iconBtn(a) {
-    var b = h(D.IconButton, { key: a.label, variant: a.variant || 'tertiary', size: 'xs', type: 'button', 'aria-label': a.label, onClick: a.locked ? undefined : (a.onClick || toast(a.label)) }, h(IK.Icon, { name: a.icon }));
-    /* locked on Free: the glyph stays — a row of padlocks says nothing (user, 2026-10-20: "іконки не можуть замінюватись
-       на локери"); the upgrade popover on hover or a press says what it is and the plan that brings it */
-    return a.feature && a.locked ? h(IK.Locked, { key: a.label, feature: a.feature, locked: true, marker: 'none' }, b) : h(IK.Tip, { key: a.label, tip: a.tip || a.label }, b);
-  }
-  function place(acts, top) {
-    if (!acts) return {};
-    var main = acts.main || [], more = acts.more || [], danger = acts.danger || [];
-    /* a lone destructive action is its own red icon, first in the row, away from Close — a ⋮ only for two or more
-       (user, 2026-10-20: "не пхай один екшен в 3 крапки") */
-    if (top) return { actions: h(IK.Fragment, null,
-      danger.length === 1 ? iconBtn(Object.assign({ variant: 'destructiveTertiary' }, danger[0])) : null,
-      more.concat(main).map(iconBtn),
-      danger.length > 1 ? h(D.RowMenuButton, { reveal: false }, danger.map(function (a) {
-        return h(D.DropdownMenuItem, { key: a.label, variant: 'danger', onSelect: a.onClick || toast(a.label) }, h(IK.Icon, { name: a.icon, size: 16 }), a.label);
-      })) : null) };
-    if (!main.length && !more.length && !danger.length) return {};
-    return { foot: {
-      start: danger.length ? h(IK.Fragment, null, danger.map(function (a) { return h(R.Fragment, { key: a.label }, btn('destructiveOutline', a.label, a.icon)); })) : (acts.note || null),
-      end: more.length || main.length ? h(IK.Fragment, null,
-        more.map(function (a) { return h(R.Fragment, { key: a.label }, lockable(a.feature, a.locked, btn('secondary', a.label, a.icon))); }),
-        main.map(function (a) { return h(R.Fragment, { key: a.label }, lockable(a.feature, a.locked, btn(acts.mainVariant || 'primary', a.short || a.label, a.icon))); })) : null } };
-  }
+  /* the item's own actions — the kit's one model (IK.detailsPlace): Top → the head, Bottom → the foot */
+  function A(label, icon, o) { return Object.assign({ label: label, icon: icon, onClick: toast(label) }, o || {}); }
+  function place(acts, top) { return IK.detailsPlace(acts, top); }
 
   function placeholder(kind, text) {
     return h('div', { className: 'flex items-center justify-center rounded-lg border border-dashed border-stroke p-6 text-center', style: { width: WIDTH[kind], maxWidth: '100%', height: '12rem' } },
@@ -115,9 +100,12 @@
   function build(kind, s, o) {
     var top = o.actions === 'top', free = s === 'free', desc = o.desc;
     function about(label, key) { return desc === 'none' ? null : { label: label, text: TEXT[key][desc] }; }
-    function blocked(noun, feature) { return h(IK.WsUnavailableNote, { by: 'Olena Petrenko', renewal: o.renewal, noun: noun, feature: feature }); }
-    function noPlan(noun, feature) { return h(IK.WsUnavailableNote, { locked: true, noun: noun, feature: feature }); }
-    function mark(noun) { return h(IK.WsUnavailableMark, { by: 'Olena Petrenko', locked: s === 'plan', noun: noun }); }
+    /* the problem and the way back — Ask Olena to Renew / Upgrade — in the mark's popover by the name; no alert in Access
+       (user, 2026-10-20: "виглядає завеликою помилкою" · "можливо ріквест прям тут засунути?") */
+    function mark(noun, feature, quiet) { return h(IK.WsUnavailableMark, { by: 'Olena Petrenko', locked: s === 'plan', noun: noun, feature: feature, renewal: o.renewal, withAction: !quiet }); }
+    /* a file that can't be used: its preview's place says why and offers the way back — the file preview's own
+       no-preview view (.ik-dsfp-empty), so every file panel keeps one shape (user, 2026-10-20: "ти не всі файли поправив") */
+    function unavailableFile() { return h(IK.DsFileUnavailable, { by: 'Olena Petrenko', locked: s === 'plan', renewal: o.renewal }); }
     var off = s === 'blocked' ? 'blocked' : s === 'plan' ? 'plan' : null;
     var theirs = s === 'shared' || off;
     var p;
@@ -126,16 +114,16 @@
       if (s === 'library') return placeholder(kind, 'A connection has no such state — it is connected or it is not');
       if (theirs) {
         p = { title: 'Connection details', mark: h(IK.ConnectorMark, { connector: 'HubSpot', size: 'md' }), name: 'Campaigns HubSpot', meta: 'HubSpot',
-          after: off ? mark('connections') : null,
+          after: off ? mark('connections', 'connections') : null,
           description: about('Description', 'shared'),
           rows: [{ label: 'Metrics', value: off ? '4 metrics' : h(D.LinkButton, { href: '#' }, '4 metrics') },
                  { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: NOW - 60 * 60e3, status: 'active' }) }],
-          access: { items: THEIRS, notice: off === 'blocked' ? blocked('connections', 'connections') : off ? noPlan('connections', 'connections') : null } };
+          access: { items: THEIRS } };
       } else if (s === 'wspage') {
         p = Object.assign({ title: 'Connection details', mark: h(IK.ConnectorMark, { connector: 'Salesforce', size: 'md' }), name: 'Main CRM', meta: 'Salesforce',
           description: about('Description', 'conn'),
           rows: [{ label: 'Metrics', value: h(D.LinkButton, { href: '#' }, '12 metrics') }, { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: NOW - 32 * 60e3, status: 'active' }) }],
-          access: { items: MINE.slice(1), empty: 'Only in this workspace', note: { label: 'Also shared in' } } },
+          access: { items: MINE } },
           place({ danger: [A('Remove from Workspace', 'ws-remove')] }, top));
       } else {
         var other = s === 'other';
@@ -155,24 +143,32 @@
     }
 
     if (kind === 'metric') {
-      if (s === 'wspage') return placeholder(kind, 'No metric panel on a workspace page — a metric goes with its connection');
+      /* on a workspace page a metric opens read-only (IK.WsMetrics → kind 'readonly'): no switch, nothing to do — it
+         goes with its connection (user, 2026-10-20: "метрики також відкривають панель у воркспейсах") */
+      if (s === 'wspage') {
+        p = { title: 'Metric details', mark: h(IK.ConnectorMark, { connector: 'Salesforce', size: 'md' }), name: 'MRR growth', meta: badges('@mrr_growth', true),
+          description: about('Definition', 'def'),
+          rows: [{ label: 'Linked to', value: 'Main CRM · Salesforce' }],
+          access: { items: MINE, note: { label: 'Goes with its connection, Main CRM', text: 'Every workspace Main CRM is in sees this metric — share or remove the connection to change that' } } };
+        return h(IK.DetailsPanel, Object.assign({ inline: true, layout: o.layout, style: { width: WIDTH[kind], maxWidth: '100%', height: HEIGHT } }, p));
+      }
       if (theirs) {
         p = { title: 'Metric details', mark: h(IK.ConnectorMark, { connector: 'HubSpot', size: 'md' }), name: 'Revenue', meta: badges('@revenue__a3f9c1', true),
-          after: off ? mark('metrics') : null,
+          after: off ? mark('metrics', 'metrics') : null,
           description: about('Definition', 'rev'),
           rows: [{ label: 'Linked to', value: 'Campaigns HubSpot · HubSpot' }],
-          access: { items: THEIRS, notice: off === 'blocked' ? blocked('metrics', 'metrics') : off ? noPlan('metrics', 'metrics') : null } };
+          access: { items: THEIRS } };
       } else if (s === 'library') {
         p = { title: 'Metric details', mark: h(IK.ConnectorMark, { connector: 'Google Analytics', size: 'md' }), name: 'Sessions', meta: badges('@sessions', false),
           description: desc === 'none' ? null : { label: 'Definition', text: desc === 'long' ? 'Visits to the website — a session ends after 30 minutes without activity or at midnight; a visit that crosses midnight counts twice. Bots and internal traffic are filtered out by the property’s own settings.' : 'Visits to the website' },
           rows: [{ label: 'Linked to', value: 'Google Analytics' }],
-          extra: h('div', { className: 'ik-mx-connect flex flex-col gap-3' },
+          foot: { block: h('div', { className: 'ik-mx-connect flex flex-col gap-3' },
             h('div', { className: 'flex items-start gap-2.5' },
               h(IK.Icon, { name: 'info', size: 16, className: 'ik-mx-connect-ic' }),
               h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'body', className: 'ik-mx-connect-copy m-0 min-w-0 flex-1' },
                 'This metric is designed for ', h('strong', { className: 'font-semibold text-ink-primary' }, 'Google Analytics'),
                 '. Adding a connection activates all its metrics at once — no manual setup needed.')),
-            h(D.Button, { variant: 'primary', size: 'md', className: 'w-full', type: 'button', onClick: toast('Connect Google Analytics') }, 'Connect Google Analytics')) };
+            h(D.Button, { variant: 'primary', size: 'md', className: 'w-full', type: 'button', onClick: toast('Connect Google Analytics') }, 'Connect Google Analytics')) } };
       } else {
         var builtin = s === 'other';
         p = Object.assign({ title: 'Metric details', control: activeSwitch(free), mark: h(IK.ConnectorMark, { connector: 'Salesforce', size: 'md' }),
@@ -195,20 +191,20 @@
       if (s === 'library') return placeholder(kind, 'A file has no such state');
       if (theirs) {
         p = Object.assign({ title: 'File details', mark: h(IK.DsFileMark, { type: 'pdf' }), name: 'Campaign brief — autumn launch.pdf', meta: 'PDF · 1.1 MB · Uploaded',
-          after: off ? mark('files') : null,
-          rows: [{ label: 'Modified', value: 'Oct 15, 2026' }], access: { items: THEIRS, notice: off === 'blocked' ? blocked('files', 'shared-files') : off ? noPlan('files', 'shared-files') : null } },
-          off ? {} : real('Campaign brief — autumn launch.pdf', '1.1 MB'),
+          after: off ? mark('files', 'shared-files', true) : null,
+          rows: fileRows('PDF', '1.1 MB', 'Uploaded', 'Oct 15, 2026'), access: { items: THEIRS } },
+          off ? { foldDetails: true, preview: unavailableFile() } : real('Campaign brief — autumn launch.pdf', '1.1 MB'),
           off ? {} : place({ more: [A('Add to Chat', 'add-chat')], main: [A('Download', 'download')] }, top));
       } else if (s === 'wspage') {
         p = Object.assign({ title: 'File details', mark: h(IK.DsFileMark, { type: 'csv' }), name: 'quarterly-report.csv', meta: 'CSV · 2.4 MB · Artifact',
-          rows: [{ label: 'Modified', value: 'Oct 16, 2026' }], access: { items: [], empty: 'Only in this workspace', note: { label: 'Also shared in' } } },
+          rows: fileRows('CSV', '2.4 MB', 'Artifact', 'Oct 16, 2026'), access: { items: MINE.slice(0, 1) } },
           real('quarterly-report.csv', '2.4 MB'),
           place({ main: [A('Download', 'download')], danger: [A('Remove from Workspace', 'ws-remove')] }, top));
       } else {
         var json = s === 'other';
         p = Object.assign({ title: 'File details', mark: h(IK.DsFileMark, { type: json ? 'json' : 'csv' }), name: json ? 'pipeline-export.json' : 'quarterly-report.csv',
-          meta: json ? 'JSON · 84 KB · Uploaded' : 'CSV · 2.4 MB · Artifact', onRename: toast('Rename'),
-          rows: [{ label: 'Modified', value: 'Oct 16, 2026' }],
+          meta: json ? 'JSON · 84 KB · Uploaded' : 'CSV · 2.4 MB · Artifact',
+          rows: json ? fileRows('JSON', '84 KB', 'Uploaded', 'Oct 16, 2026') : fileRows('CSV', '2.4 MB', 'Artifact', 'Oct 16, 2026'),
           access: { items: s === 'inws' ? MINE.slice(0, 1) : [], action: share(free) } },
           json ? real('pipeline-export.json', '84 KB') : real('quarterly-report.csv', '2.4 MB'),
           place({ more: [A('Add to Chat', 'add-chat')], main: [A('Download', 'download')], danger: [A('Delete', 'delete')] }, top));

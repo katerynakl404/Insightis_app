@@ -12,7 +12,7 @@
      empty    the SAME table, one row: StatusView "No files yet" + Browse Files — the columns stay
               and nothing jumps when the first upload lands. (< 768px the original shows a blank
               card here — its card form hides the spanning cell — and so does this.)
-   The ⋮ menu: Add to Chat · Rename · Download · Delete (danger), each with its 16px glyph.
+   The ⋮ menu: Add to Chat · Download · Delete (danger), each with its 16px glyph — a file has no Rename (user, 2026-10-20: «забирай — його не буде»).
 
    h(IK.DsFilesTable, {
      files: [{ id, name, type, origin: 'artifact' | 'uploaded', size, date, selected }],
@@ -75,12 +75,11 @@
     'view': ['view-only', 'View'],
     'add-to-chat': ['add-chat', 'Add to Chat'],
     'share': ['ws-share', 'Share via Workspace'],
-    'rename': ['rename', 'Rename'],
     'download': ['download', 'Download'],
     'stop-sharing': ['ws-remove', 'Remove from Workspace', true],
     'delete': ['delete', 'Delete', true]
   };
-  var DEFAULT_ITEMS = ['add-to-chat', 'rename', 'download', 'delete'];
+  var DEFAULT_ITEMS = ['add-to-chat', 'download', 'delete'];
   IK.DsFileMenu = function DsFileMenu(p) {
     function act(a) { return function () { if (p.onAction) p.onAction(a, p.id); }; }
     var items = (p.items || DEFAULT_ITEMS).filter(function (k) { return MENU[k]; });
