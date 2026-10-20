@@ -142,11 +142,14 @@
      the rebuilt page too).
      Theme: DevartUI re-themes on a `dark` class; overlays portal to <body>, so the class
      always goes on <html> — set here, at load, so a page never paints light and flips.
-     Plan: 'paid' | 'free' — the Free view of every gated screen.                            */
-  function store(key, values, fallback, apply) {
+     Plan: 'paid' | 'free' — the Free view of every gated screen. It lives in sessionStorage: it carries
+     between pages in a tab, but a link opened anew always starts Paid (user, 2026-10-20: "дефолтний стан
+     паід мав бути" — a Free picked once in localStorage stuck for good).                     */
+  function store(key, values, fallback, apply, session) {
+    function box() { return session ? sessionStorage : localStorage; }
     var subs = [];
     function get() {
-      try { var v = localStorage.getItem(key); return values.indexOf(v) >= 0 ? v : fallback; }
+      try { var v = box().getItem(key); return values.indexOf(v) >= 0 ? v : fallback; }
       catch (e) { return fallback; }
     }
     var cur = get();
@@ -155,7 +158,7 @@
       get: function () { return cur; },
       set: function (v) {
         cur = v;
-        try { localStorage.setItem(key, v); } catch (e) {}
+        try { box().setItem(key, v); } catch (e) {}
         if (apply) apply(v);
         subs.slice().forEach(function (fn) { fn(v); });
       },
@@ -173,7 +176,7 @@
     document.documentElement.classList.toggle('dark', t === 'dark');
     document.documentElement.style.colorScheme = t;
   });
-  var plan = store('insightis.plan', ['paid', 'free'], 'paid', null);
+  var plan = store('insightis.plan', ['paid', 'free'], 'paid', null, true);
   IK.getTheme = theme.get; IK.setTheme = theme.set;
   IK.useTheme = function () { return [theme.use(), theme.set]; };
   IK.getPlan = plan.get; IK.setPlan = plan.set;
