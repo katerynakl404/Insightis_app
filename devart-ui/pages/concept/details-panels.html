@@ -140,11 +140,6 @@
       } else {
         var other = s === 'other';
         p = Object.assign({ title: 'Connection details', mark: h(IK.ConnectorMark, { connector: other ? 'Stripe' : 'Salesforce', size: 'md' }), name: other ? 'Stripe Payments' : 'Main CRM', meta: other ? 'Stripe' : 'Salesforce',
-          /* the fix is the obvious next step: why it failed and Edit Connection, under the name — not a red pill to
-             decode and an icon in the head (user, 2026-10-20: "десь потрібно екшени тримати більш очевидно") */
-          notice: other ? h(D.Alert, { variant: 'error', size: 'md', role: 'status', className: 'w-full', icon: h(IK.Icon, { name: 'warning' }), title: 'Last check failed',
-            description: h('div', { className: 'flex flex-col items-start gap-3' }, h('span', null, 'API key expired or revoked (HTTP 401). Chats can’t use it until it is fixed'),
-              btn('secondary', 'Edit Connection', 'rename')) }) : null,
           description: about('Description', 'conn'),
           rows: [
             /* none yet: Add Metric itself, labelled — the real panel's button, not "No metrics" and a glyph */
@@ -187,12 +182,7 @@
           access: { items: s === 'inws' ? MINE : [], empty: 'Not shared yet',
             note: { label: 'Goes with its connection, Main CRM', text: 'Every workspace Main CRM is in sees this metric — share or remove the connection to change that' },
             action: share(free, 'Share Main CRM') } },
-          builtin && top ? { preview: h('div', { className: 'flex items-center gap-3 border-y border-stroke py-4' },
-              h('div', { className: 'flex min-w-0 flex-1 flex-col' },
-                h(D.Typography, { element: 'span', textStyle: 'label14', textColor: 'primary' }, 'Duplicate & Customize'),
-                h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, 'Your own copy with a custom formula')),
-              lockable('metrics', free, btn('secondary', 'Duplicate', 'copy'))) }
-          : builtin
+          builtin
             ? place({ main: [A('Duplicate & Customize', 'copy', { short: 'Duplicate', tip: 'Duplicate & Customize — your own copy with a custom formula', feature: 'metrics', locked: free })], mainVariant: 'secondary',
                 note: h('div', { className: 'flex min-w-0 flex-col' },
                   h(D.Typography, { element: 'span', textStyle: 'label14', textColor: 'primary' }, 'Duplicate & Customize'),
