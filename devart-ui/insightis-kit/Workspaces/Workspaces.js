@@ -881,7 +881,8 @@
             meta ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'min-w-0 truncate' }, meta) : null),
           /* onRemove (one's own item): Remove from Workspace on hover, as a row's ⋮ reveals — at rest on a phone or a
              touch screen; it never opens the workspace (user, 2026-10-21: "в воркспейсах дати опцію видалення на ховер") */
-          p.onRemove ? h(IK.Tip, { tip: 'Remove from ' + it.name },
+          /* the action's own name, as the ⋮ and the confirm say it (user, 2026-10-23: 'назва мала бути дженерал'); which workspace stays in the aria-label */
+          p.onRemove ? h(IK.Tip, { tip: 'Remove from Workspace' },
             /* destructive — DevartUI's red ghost (user, 2026-10-21: "дія деструктивна") */
             h(D.IconButton, { variant: 'destructiveTertiary', size: 'xs', type: 'button', 'aria-label': 'Remove from ' + it.name,
               className: 'shrink-0 opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 focus-visible:opacity-100 max-md:opacity-100 [@media(hover:none)]:opacity-100',
