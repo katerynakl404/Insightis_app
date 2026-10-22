@@ -8,9 +8,9 @@
    and the rest are views over it. The set and its order stay put. One person, one world: they own
    some workspaces and were invited to others — the role is each workspace's; Role only picks which opens.
 
-   RK.useWsQuery() → { on, others, names, trial, data, w, share: 'owner', owner } — re-renders the page
+   RK.useWsQuery() → { on, others, names, trial, data, intro, w, share: 'owner', owner } — re-renders the page
                    when a switch moves (RK.wsQuery() reads it once)
-   RK.setWs(patch) → URL keys (ws, wothers, trial, wdata, wowner, w, tab …): null clears; the URL follows
+   RK.setWs(patch) → URL keys (ws, wothers, trial, wdata, wintro, wowner, w, tab …): null clears; the URL follows
                    (replaceState), every useWsQuery re-renders
    RK.wsStore(q)   → the options IK.useWorkspaces takes
    RK.wsOwnsPlan(q) → true while the feature is on: this kit's Plan switch (Paid · Trial · Free)
@@ -44,6 +44,8 @@
       names: q.get('names') || 'typical',
       trial: q.get('trial') === '1',
       data: q.get('wdata') || 'filled',
+      /* the look of the list before the first workspace (IK.WsIntro) — variants to choose from (user, 2026-10-23) */
+      intro: q.get('wintro') || 'cards',
       w: q.get('w') || '',
       /* Owner is the one way (user, 2026-10-20: Tag removed; Tabs turned down — "від таб відмовились") */
       share: 'owner',
@@ -102,6 +104,12 @@
       value: here === 'workspaces' ? (q.data === 'none' ? 'empty' : q.data === 'empty' ? 'filled' : q.data) : (q.data === 'none' ? 'empty' : q.data),
       options: [{ value: 'filled', label: 'Filled' }, { value: 'many', label: 'Many' }, { value: 'empty', label: 'Empty' }],
       onChange: function (v) { RK.setWs({ wdata: v === 'filled' ? null : v === 'empty' && here === 'workspaces' ? 'none' : v }); }
+    });
+    /* Intro — only where it acts: the list with no workspace */
+    if (here === 'workspaces' && q.data === 'none') out.push({
+      label: 'Intro', showLabel: true, value: q.intro,
+      options: [{ value: 'cards', label: 'Cards' }, { value: 'path', label: 'Path' }, { value: 'orbit', label: 'Orbit' }],
+      onChange: function (v) { RK.setWs({ wintro: v === 'cards' ? null : v }); }
     });
     /* no Shared switch: Owner is the one way (user, 2026-10-20: Tag removed, Tabs turned down) — the people glyph
        after a shared item's name and one Owner filter, on the lists; a switch with one option is none */

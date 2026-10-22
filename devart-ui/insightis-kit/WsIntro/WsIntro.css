@@ -1,51 +1,118 @@
-/* WsIntro — the first-workspace intro: the head in the chat landing's hero voice (IK.ChatHero), the scene on a soft brand
-   wash, three points, the action. Tokens only; the 4px steps. */
-.ik-wsi { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 1.5rem 0 1rem; text-align: center; }
-.ik-wsi-head { display: flex; flex-direction: column; align-items: center; gap: .75rem; max-width: 40rem; }
+/* WsIntro — the first-workspace intro: a centred head over three steps, on one of three backgrounds (the variant).
+   Tokens only; the 4px steps. The raw values are a mask's alpha and the kit's card shadow, each marked. */
+.ik-wsi {
+  position: relative; isolation: isolate; overflow: clip; container-type: inline-size;
+  display: flex; flex-direction: column; align-items: center; gap: 2.5rem; padding: 2.5rem 0 1.5rem; text-align: center;
+}
+.ik-wsi-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.ik-wsi-hero { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; width: 100%; max-width: 40rem; }
+.ik-wsi-head { display: flex; flex-direction: column; align-items: center; gap: .75rem; }
 .ik-wsi-title {
   margin: 0; text-wrap: balance;
   font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); font-weight: 500;
   letter-spacing: var(--tracking-tight); color: hsl(var(--ink-primary));
 }
-/* the stage: the scene on a soft wash of the brand, as the chat landing's hero sits on its own (concentric: 24px inside) */
-.ik-wsi-stage {
-  width: 100%; max-width: 52rem; padding: 1.5rem; border-radius: var(--radius-xl);
-  background:
-    radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, hsl(var(--brand-primary)) 10%, transparent) 0%, transparent 60%),
-    radial-gradient(120% 140% at 100% 100%, color-mix(in srgb, hsl(var(--brand-primary)) 7%, transparent) 0%, transparent 60%),
-    hsl(var(--surface-card2));
-  border: 1px solid hsl(var(--stroke-border));
-}
-.ik-wsi-scene { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 1rem; text-align: left; }
-.ik-wsi-card { box-shadow: 0 2px 6px -1px rgba(15, 23, 42, .08), 0 1px 2px 0 rgba(15, 23, 42, .04); } /* ik-allow-raw: the kit's card shadow recipe */
-.ik-wsi-arrow {
-  display: flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9999px;
-  background: hsl(var(--surface-card)); border: 1px solid hsl(var(--stroke-border)); color: hsl(var(--ink-highlight));
-}
-/* the colleague's question, as the chat's own message */
-.ik-wsi-ask {
-  max-width: 90%; padding: .5rem .75rem; border-radius: var(--radius-lg) var(--radius-lg) .25rem var(--radius-lg);
-  background: color-mix(in srgb, hsl(var(--brand-primary)) 10%, hsl(var(--surface-card)));
-}
-/* the people in it, a stack: each ringed in the card's own surface, 2px over the one before — the initials stay whole */
-.ik-wsi-face { box-shadow: 0 0 0 2px hsl(var(--surface-card)); border-radius: 9999px; }
-.ik-wsi-face + .ik-wsi-face { margin-inline-start: -.125rem; }
-.ik-wsi-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; width: 100%; max-width: 52rem; margin: 0; padding: 0; list-style: none; text-align: left; }
+.ik-wsi-lead { max-width: 34rem; text-wrap: balance; }
+.ik-wsi-steps { width: 100%; max-width: 56rem; margin: 0; padding: 0; list-style: none; text-align: left; }
 .ik-wsi-disc {
   display: inline-flex; flex: none; width: 2.25rem; height: 2.25rem; align-items: center; justify-content: center; border-radius: 9999px;
   background: color-mix(in srgb, hsl(var(--brand-primary)) 10%, transparent); color: hsl(var(--ink-highlight));
 }
-.ik-wsi-disc-sm { width: 1.5rem; height: 1.5rem; }
-
-@media (min-width: 768px) {
-  .ik-wsi-title { font-size: var(--font-size-4xl); line-height: var(--line-height-4xl); }
+.ik-wsi-badge {
+  display: inline-flex; flex: none; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; border-radius: 9999px;
+  font-size: var(--font-size-xs); line-height: 1; font-weight: 600; font-variant-numeric: tabular-nums;
+  background: hsl(var(--surface-card)); color: hsl(var(--ink-highlight));
+  border: 1px solid color-mix(in srgb, hsl(var(--brand-primary)) 45%, transparent);
 }
+
+/* ── path: a dot grid fading out from behind the head; icon nodes on a dashed line ── */
+.ik-wsi--path .ik-wsi-bg {
+  background-image:
+    radial-gradient(circle, color-mix(in srgb, hsl(var(--ink-secondary)) 40%, transparent) 1px, transparent 1.5px),
+    radial-gradient(ellipse 50% 40% at 50% 34%, color-mix(in srgb, hsl(var(--brand-primary)) 12%, transparent), transparent 70%);
+  background-size: 1rem 1rem, 100% 100%; background-repeat: repeat, no-repeat; background-position: center top, center;
+  -webkit-mask-image: radial-gradient(ellipse 60% 45% at 50% 45%, rgb(0 0 0) 30%, transparent 100%); /* ik-allow-raw: a mask's alpha */
+  mask-image: radial-gradient(ellipse 60% 45% at 50% 45%, rgb(0 0 0) 30%, transparent 100%); /* ik-allow-raw: a mask's alpha */
+}
+.ik-wsi--path .ik-wsi-steps { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; text-align: center; }
+/* the line runs from the first node's centre to the last one's, under the nodes */
+.ik-wsi--path .ik-wsi-steps::before {
+  content: ''; position: absolute; z-index: -1; top: 1.5rem; left: calc((100% - 3rem) / 6); right: calc((100% - 3rem) / 6);
+  border-top: 1px dashed color-mix(in srgb, hsl(var(--brand-primary)) 50%, transparent);
+}
+.ik-wsi-step { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.ik-wsi-step-text { max-width: 14rem; align-items: center; }
+.ik-wsi-step-text > * { text-align: center; }
+.ik-wsi-node {
+  position: relative; display: flex; flex: none; align-items: center; justify-content: center; width: 3rem; height: 3rem;
+  border-radius: var(--radius-xl); background: hsl(var(--surface-card)); color: hsl(var(--ink-highlight));
+  border: 1px solid color-mix(in srgb, hsl(var(--brand-primary)) 35%, hsl(var(--stroke-border)));
+  box-shadow: 0 0 0 4px color-mix(in srgb, hsl(var(--brand-primary)) 8%, transparent), 0 2px 6px -1px rgba(15, 23, 42, .08); /* ik-allow-raw: the kit's card shadow recipe */
+}
+.ik-wsi-badge-sm { position: absolute; top: -.375rem; right: -.375rem; width: 1.25rem; height: 1.25rem; font-size: .625rem; }
+
+/* ── cards: a soft brand glow behind the head, faded out inside the block — never cut by its edge (user, 2026-10-23:
+   "для чого зарізаний фон?"), no grid (user, 2026-10-23: "не настільки очевидна клітка — можливо просто
+   без неї"); numbered cards ── */
+.ik-wsi--cards .ik-wsi-bg {
+  background-image:
+    radial-gradient(45% 42% at 40% 38%, color-mix(in srgb, hsl(var(--brand-primary)) 16%, transparent), transparent 70%),
+    radial-gradient(35% 38% at 62% 40%, color-mix(in srgb, hsl(var(--ink-highlight)) 10%, transparent), transparent 70%);
+  background-repeat: no-repeat;
+}
+.ik-wsi--cards .ik-wsi-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.ik-wsi-num {
+  font-size: var(--font-size-2xl); line-height: var(--line-height-2xl); font-weight: 600; letter-spacing: var(--tracking-tight);
+  font-variant-numeric: tabular-nums; color: hsl(var(--ink-highlight));
+}
+
+/* ── orbit: rings around the head, the person's own marks on the middle one; one strip split in three ── */
+.ik-wsi--orbit { padding-top: 3.5rem; }
+.ik-wsi-orbit {
+  position: absolute; left: 50%; top: 50%; z-index: -1; width: 104cqw; height: 104cqw; translate: -50% -50%; pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-primary)) 12%, transparent), transparent 45%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 14%, rgb(0 0 0) 30%, rgb(0 0 0) 62%, transparent 76%); /* ik-allow-raw: a mask's alpha */
+  mask-image: linear-gradient(to bottom, transparent 14%, rgb(0 0 0) 30%, rgb(0 0 0) 62%, transparent 76%); /* ik-allow-raw: a mask's alpha */
+}
+.ik-wsi-ring { position: absolute; left: 50%; top: 50%; translate: -50% -50%; border-radius: 9999px; border: 1px solid hsl(var(--stroke-border)); }
+.ik-wsi-ring-1 { width: 56cqw; height: 56cqw; border: 1px dashed color-mix(in srgb, hsl(var(--brand-primary)) 45%, transparent); }
+.ik-wsi-ring-2 { width: 80cqw; height: 80cqw; }
+.ik-wsi-ring-3 { width: 104cqw; height: 104cqw; }
+/* a mark sits on the middle ring at its angle, upright */
+.ik-wsi-orb {
+  position: absolute; left: 50%; top: 50%; display: flex; width: 2.5rem; height: 2.5rem; margin: -1.25rem 0 0 -1.25rem;
+  align-items: center; justify-content: center; border-radius: var(--radius-lg);
+  background: hsl(var(--surface-card)); border: 1px solid hsl(var(--stroke-border));
+  box-shadow: 0 2px 6px -1px rgba(15, 23, 42, .08), 0 1px 2px 0 rgba(15, 23, 42, .04); /* ik-allow-raw: the kit's card shadow recipe */
+  transform: rotate(var(--ik-wsi-a)) translateX(40cqw) rotate(calc(-1 * var(--ik-wsi-a)));
+  animation: ik-wsi-float 6s ease-in-out infinite;
+}
+.ik-wsi-orb:nth-child(4) { --ik-wsi-a: -14deg; }
+.ik-wsi-orb:nth-child(5) { --ik-wsi-a: -1deg; animation-delay: -1.5s; }
+.ik-wsi-orb:nth-child(6) { --ik-wsi-a: 11deg; animation-delay: -3s; }
+.ik-wsi-orb:nth-child(7) { --ik-wsi-a: 193deg; animation-delay: -.75s; }
+.ik-wsi-orb:nth-child(8) { --ik-wsi-a: 180deg; animation-delay: -2.25s; }
+.ik-wsi-orb:nth-child(9) { --ik-wsi-a: 168deg; animation-delay: -3.75s; }
+@keyframes ik-wsi-float { 50% { translate: 0 -.25rem; } }
+@media (prefers-reduced-motion: reduce) { .ik-wsi-orb { animation: none; } }
+.ik-wsi-strip { max-width: 56rem; }
+.ik-wsi-strip .ik-wsi-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ik-wsi-strip li + li { border-left: 1px solid hsl(var(--stroke-border)); }
+
 @media (max-width: 767px) {
-  .ik-wsi { gap: 1.5rem; padding-top: .5rem; }
-  .ik-wsi-stage { padding: 1rem; }
-  .ik-wsi-scene { grid-template-columns: minmax(0, 1fr); }
-  .ik-wsi-arrow { justify-self: center; transform: rotate(90deg); }
-  .ik-wsi-points { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .ik-wsi { gap: 2rem; padding-top: 1.5rem; }
+  .ik-wsi--path .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; text-align: left; }
+  .ik-wsi--path .ik-wsi-steps::before {
+    top: 1.5rem; bottom: 1.5rem; left: 1.5rem; right: auto; border-top: 0;
+    border-left: 1px dashed color-mix(in srgb, hsl(var(--brand-primary)) 50%, transparent);
+  }
+  .ik-wsi-step { flex-direction: row; gap: 1rem; }
+  .ik-wsi-step-text { max-width: none; align-items: flex-start; }
+  .ik-wsi-step-text > * { text-align: left; }
+  .ik-wsi--cards .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
+  .ik-wsi-strip .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); }
+  .ik-wsi-strip li + li { border-left: 0; border-top: 1px solid hsl(var(--stroke-border)); }
+  .ik-wsi-orb { display: none; }
 }
 @media (max-width: 639px) {
   .ik-wsi-title { font-size: var(--font-size-2xl); line-height: var(--line-height-2xl); }
