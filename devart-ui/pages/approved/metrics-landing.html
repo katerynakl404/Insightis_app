@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Metrics</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=7b2a7e67db">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=7b2a7e67db">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=7c2557e123">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=7c2557e123">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=7b2a7e67db"></script>
-<script src="../../review-kit/review-kit.js?v=7b2a7e67db"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=7c2557e123"></script>
+<script src="../../review-kit/review-kit.js?v=7c2557e123"></script>
 <script>
   /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
      dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
@@ -526,6 +526,8 @@
     function rowById(id) { for (var i = 0; i < rows.length; i++) if (rows[i].id === id && rows[i].kind === 'metric') return rows[i]; return null; }
     function patch(id, o) { setRows(function (list) { return list.map(function (r) { return r.kind === 'metric' && r.id === id ? Object.assign({}, r, o) : r; }); }); }
     function remove(id) { setRows(function (list) { return list.filter(function (r) { return !(r.kind === 'metric' && r.id === id); }); }); }
+    /* Delete asks first, from the ⋮ and from the panel alike (IK.useMxDeleteConfirm) */
+    var del = IK.useMxDeleteConfirm();
     function duplicate(src) {
       var alias = (src.alias || '').replace(/^@/, '') + '_copy';
       var copy = {
@@ -700,7 +702,7 @@
             onActive: function (r, on) { patch(r.id, { active: on }); },
             onAdd: touring ? null : openCreate, onEdit: openEdit,
             onDuplicate: duplicate,
-            onDelete: function (r) { remove(r.id); }
+            onDelete: function (r) { del.ask(r, function () { remove(r.id); }); }
           })
         : h(D.StatusView, {
             size: 'lg', surface: 'embedded', role: 'status', withIconHalo: false,
@@ -746,7 +748,7 @@
             onConnect: function () { closeSheet(); openConnect(m && m.prov); },
             onDuplicate: function () { closeSheet(); if (sheetRow) duplicate(sheetRow); },
             onEdit: function () { if (sheetRow) openEdit(sheetRow); },
-            onDelete: function () { if (sheetRow) remove(sheetRow.id); closeSheet(); } });
+            onDelete: function () { var r = sheetRow; if (!r) return; closeSheet(); del.ask(r, function () { remove(r.id); }); } });
       })(),
       /* the connection's details over the metric's, whole, as on Data Sources: what it is, its last check, where it is shared
          (Share via Workspace, taking it out of one), Add Metric, Edit · Test Connection · Disconnect */
@@ -773,6 +775,7 @@
             } });
       })() : null,
       rm.dialog,
+      del.dialog,
       wsOn ? h(IK.DsEditConnectionDialog, {
         open: !!editC, label: editC && editC.label, desc: editC && (editC.desc || ''),
         onOpenChange: function (o) { if (!o) setEditC(null); },

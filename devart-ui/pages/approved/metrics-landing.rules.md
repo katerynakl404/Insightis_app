@@ -29,3 +29,4 @@ Table, the default, is the page as approved.
 
 - Favourites in the details sheet (Metric Details) — no star there yet.
 - Favourites in the chat (the composer's metric suggestions).
+| 9 | **Deleting a metric asks first** — the row's ⋮ and Metric details alike (and a workspace's Metrics tab): D.ConfirmationDialog "Delete <name>?" · "This action can't be undone. The metric will be permanently removed." · Cancel · Delete, then "<name> deleted" (IK.useMxDeleteConfirm; user, 2026-10-23: "видалення метрик через підтвердження"). |

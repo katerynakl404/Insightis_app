@@ -8,7 +8,7 @@
    and the rest are views over it. The set and its order stay put. One person, one world: they own
    some workspaces and were invited to others — the role is each workspace's; Role only picks which opens.
 
-   RK.useWsQuery() → { on, others, names, trial, invite, data, w, share: 'owner', owner } — re-renders the page
+   RK.useWsQuery() → { on, others, names, trial, data, w, share: 'owner', owner } — re-renders the page
                    when a switch moves (RK.wsQuery() reads it once)
    RK.setWs(patch) → URL keys (ws, wothers, trial, wdata, wowner, w, tab …): null clears; the URL follows
                    (replaceState), every useWsQuery re-renders
@@ -44,7 +44,6 @@
       others: q.get('wothers') === 'blocked' ? 'blocked' : 'active',
       names: q.get('names') || 'typical',
       trial: q.get('trial') === '1',
-      invite: q.get('invite') || 'off',
       data: q.get('wdata') || 'filled',
       w: q.get('w') || '',
       /* Owner is the one way (user, 2026-10-20: Tag removed; Tabs turned down — "від таб відмовились") */

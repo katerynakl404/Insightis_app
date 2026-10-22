@@ -132,4 +132,16 @@
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { onOpenChange(false); } }, 'Cancel'),
           h(D.Button, { variant: 'primary', size: 'sm', type: 'button', onClick: save }, 'Save'))));
   };
+
+  /* IK.useMxDeleteConfirm() — Delete a metric asks first, as a file's Delete does (user, 2026-10-23: "видалення метрик через
+     підтвердження"): the Metrics page's ⋮ and its panel, a workspace's Metrics tab; then "<name> deleted" (IK.wsToast).
+       var del = IK.useMxDeleteConfirm();  del.ask(metric, run);  …  del.dialog */
+  IK.useMxDeleteConfirm = function () {
+    var s = R.useState(null), q = s[0], set = s[1];
+    return { ask: function (m, run) { set({ m: m, run: run }); }, dialog: h(D.ConfirmationDialog, {
+      open: !!q, variant: 'destructive', cancelLabel: 'Cancel', confirmLabel: 'Delete',
+      title: q ? 'Delete ' + q.m.name + '?' : '', description: 'This action can’t be undone. The metric will be permanently removed.',
+      onOpenChange: function (o) { if (!o) set(null); },
+      onConfirm: function () { var x = q; set(null); x.run(); IK.wsToast.deleted([x.m.name]); } }) };
+  };
 })();

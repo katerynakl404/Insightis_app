@@ -25,15 +25,6 @@
         h(IK.WsNotice, { kind: 'shared-plan', module: 'Connectors', feature: 'connections', onDismiss: function () {} }));
     } });
   } });
-  IK.story('Workspaces', { title: 'The invitation: pending — a notice with Accept · another address · expired · the workspace unavailable — toasts with their action', render: function () {
-    return h(World, { render: function (ws) {
-      var inv = IK.wsInvitation({}), D = window.DevartUI;
-      function btn(label, state) { return h(D.Button, { key: state, variant: 'secondary', size: 'sm', type: 'button', onClick: function () { IK.wsInvitationToast(ws, inv, state); } }, label); }
-      return h(Col, null,
-        h(IK.WsNotice, { kind: 'invited', ws: inv, onAccept: function () {} }),
-        h('div', { className: 'flex flex-wrap gap-2' }, btn('Another address', 'wrong'), btn('Expired', 'expired'), btn('Unavailable', 'blocked')));
-    } });
-  } });
   IK.story('Workspaces', { title: 'WsSharedBy · WsNames — the workspace(s), each a link; long names truncate (the whole text in a tooltip)', render: function () {
     return h('div', { className: 'flex w-64 flex-col gap-2' },
       h(IK.WsSharedBy, { by: 'Olena Petrenko', ws: 'Marketing' }),

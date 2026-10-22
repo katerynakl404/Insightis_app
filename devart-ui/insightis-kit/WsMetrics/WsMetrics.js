@@ -88,6 +88,9 @@
       toggle(copy, false);
     }
     function remove(r) { change(function (x) { x.gone[r.id] = true; }); setOpen(null); }
+    /* Delete asks first, as on Metrics (IK.useMxDeleteConfirm) */
+    var del = IK.useMxDeleteConfirm();
+    function askDelete(r) { del.ask(r, function () { remove(r); }); }
     var options = rows.filter(function (r) { return r.kind === 'conn'; }).map(function (c) {
       var g = rows.filter(function (x) { return x.kind === 'group' && x.prov === c.prov; })[0];
       return { id: c.name, label: c.name + (g ? ' (' + g.name + ')' : '') };
@@ -145,7 +148,7 @@
           onAdd: p.owner ? function () { if (p.onCreate) p.onCreate(); else setDlg({ open: true, mode: 'create', initial: {} }); } : undefined,
           onEdit: p.owner ? function (r) { setDlg({ open: true, mode: 'edit', editId: r.id, initial: { name: r.name, alias: norm(r.alias), def: r.desc, connector: r.connector || '' } }); } : undefined,
           onDuplicate: p.owner ? duplicate : undefined,
-          onDelete: p.owner ? remove : undefined,
+          onDelete: p.owner ? askDelete : undefined,
           onOpen: function (r) { setOpen(r.id); },
           onToggleGroup: function (prov) { var x = Object.assign({}, collapsed); x[prov] = !x[prov]; setCollapsed(x); } })
         : h(D.StatusView, { size: 'lg', surface: 'embedded', withIconHalo: false, role: 'status', icon: h(D.EmptyStateIllustration),
@@ -157,10 +160,11 @@
               onActive: function (v) { toggle(m, v); },
               onEdit: function () { setDlg({ open: true, mode: 'edit', editId: m.id, initial: { name: m.name, alias: norm(m.alias), def: m.desc, connector: m.connector || '' } }); },
               onDuplicate: function () { duplicate(m); setOpen(null); },
-              onDelete: function () { remove(m); },
+              onDelete: function () { askDelete(m); },
               workspaces: !!p.owner, shareLocked: !!p.free,
               onOpenConnection: p.owner && cid && p.onOpenConnection ? function () { p.onOpenConnection(cid); } : undefined };
           })(item))),
+      p.owner ? del.dialog : null,
       p.owner ? h(IK.MxMetricDialog, {
         open: !!dlg.open, mode: dlg.mode, initial: dlg.initial, options: options, findDuplicates: findDuplicates, onSave: save,
         onOpenChange: function (v) { setDlg(function (d) { return Object.assign({}, d, { open: v }); }); }

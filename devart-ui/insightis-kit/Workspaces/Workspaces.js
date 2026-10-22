@@ -18,7 +18,7 @@
      (no names option: some sample names are always their long twin, side by side with typical ones)
    → { list, owned, shared, me, find(id), create(name, desc) → id, edit(id, name, desc), remove(id), leave(id),
        addConnections(id, conns), removeConnection(id, cid), invite(id, email), resend, revoke, removeMember,
-       shareFile(id, file), unshareFile(id, fid), accept(invitation), requestRenewal(id),
+       shareFile(id, file), unshareFile(id, fid), requestRenewal(id),
        and, in every workspace an item is in: updateConnection(cid, patch), addMetric(cid, metric) (a metric made
        on one's connection goes with it), disconnect(cid), deleteFile(fid) }
    One stored world per data state (sessionStorage): a workspace made on one page is there on the
@@ -40,7 +40,8 @@
                                 (approved/workspaces.html?w=), to Metrics on a connection
      IK.wsJoin(names)           "Sales", "Sales and Support", "Sales, Support and Finance"
      IK.wsFmtDate(t) · IK.wsAgo(t)   "Oct 19, 2026" · "1 minute ago", "4 hours ago"
-     IK.wsInvitation(o)         the workspace an invitation is for (Olena's Analytics guild), in the view
+     IK.wsInvitation(o)         the workspace an invitation is for (Olena's Analytics guild) — the invitation email's; the app
+                                shows no invitation (user, 2026-10-23: "запрошення не показуєм")
 
    Actions, one behaviour and one wording wherever they are done (user, 2026-10-22)
      IK.useWsPanelActions(ws, { free, seeMetrics })   what a page gives Connection details / File details opened
@@ -81,8 +82,6 @@
      trial           info · "Your trial ends in 3 days": members lose access to one's own workspaces ({ owned }),
                      what's shared ({ sharedFrom }) needs a paid plan — short, "See plans", dismissible
      shared-plan     warning · "Shared … need Starter" — the person's plan lacks the module, Upgrade to Starter
-     invited         info · "<by> invited you to <ws>" + Accept Invitation → onAccept (no page shows it since
-                     2026-10-20: the invitation is the email)
 */
 (function () {
   'use strict';
@@ -497,11 +496,6 @@
       }) }; }); },
       disconnect: function (cid) { everywhere(function (w) { return { connections: w.connections.filter(function (c) { return c.id !== cid; }) }; }); },
       deleteFile: function (fid) { everywhere(function (w) { return { files: w.files.filter(function (f) { return f.id !== fid; }) }; }); },
-      /* joining from an invitation (chat landing): the invitation's workspace joins the world */
-      accept: function (inv) {
-        var s = load(world);
-        if (!s.list.some(function (w) { return w.id === inv.id; })) write(world, Object.assign({}, s, { list: s.list.concat([inv]) }));
-      },
       requestRenewal: function (id) { patch(id, function () { return { requested: true }; }); }
     };
   };
@@ -747,50 +741,6 @@
     };
   };
 
-  /* the invitation a signed-in person sees (chat landing): Olena's Analytics guild, not joined yet */
-  /* IK.WsInvitationNotice({ ws: the store, invitation, state: 'pending'|'wrong'|'expired'|'blocked', onAccepted }) — the
-     invitation where shared things show (user, 2026-10-20: "повідомлення мало давати інформацію що пошерили
-     воркспейс і треба акцепт"): the chat (rule 15) and Data Sources, Files, Metrics. Accept joins it, says so,
-     and calls onAccepted (the page clears the review switch) */
-  /* IK.wsInvitationToast(ws, invitation, state) — an invitation that can't be accepted, said once as a toast with
-     the way forward (user, 2026-10-20: "тости краще б підійшли"): another address → Switch Account · expired →
-     Ask … to Resend · the workspace unavailable → Ask … to Renew */
-  IK.wsInvitationToast = function (ws, inv, state) {
-    var name = String(inv.owner.name).split(' ')[0];
-    function asked(desc) {
-      D.toast.success(h(IK.Fragment, null, 'Email sent to ', h('span', { className: 'font-medium text-ink-primary' }, inv.owner.name)), { description: desc });
-    }
-    var o = { id: 'ws-invitation', duration: 10000 };
-    if (state === 'wrong') D.toast.warning('This invitation is for another email address', Object.assign(o, {
-      description: 'It was sent to kateryna@gmail.com, and you’re signed in as ' + ws.me.email,
-      action: { label: 'Switch Account', onClick: function () { location.assign(IK.pageHref('concept/auth/login.html')); } } }));
-    else if (state === 'expired') D.toast.warning('This invitation has expired', Object.assign(o, {
-      description: 'Invitations are valid for 14 days',
-      action: { label: 'Ask Owner to Resend', onClick: function () { asked('You’ll get a new invitation by email'); } } }));
-    else if (state === 'blocked') D.toast.warning('You can’t join ' + inv.name + ' right now', Object.assign(o, {
-      description: 'The workspace is unavailable. The invitation stays valid until ' + fmtDate(NOW + 12 * DAY),
-      action: { label: 'Ask Owner to Renew', onClick: function () { asked('You can join once the plan is renewed'); } } }));
-  };
-
-  /* IK.WsInvitationNotice({ ws: the store, invitation, state: 'pending'|'wrong'|'expired'|'blocked', onAccepted }) — the
-     invitation where shared things show (user, 2026-10-20): the chat (rule 15) and Data Sources, Files, Metrics.
-     Pending: the notice with Accept Invitation (joins it, says so, calls onAccepted — the page clears the review
-     switch). Any other state: no notice — a toast with its action (IK.wsInvitationToast), once */
-  IK.WsInvitationNotice = function WsInvitationNotice(p) {
-    var inv = p.invitation, pending = !p.state || p.state === 'pending';
-    R.useEffect(function () { if (inv && !pending) IK.wsInvitationToast(p.ws, inv, p.state); }, [inv && inv.id, p.state]);
-    if (!inv || !pending) return null;
-    return h(IK.WsNotice, {
-      className: p.className, ws: inv, kind: 'invited',
-      onAccept: function () {
-        p.ws.accept(inv);
-        D.toast.success(h(IK.Fragment, null, 'You joined ', h('span', { className: 'font-medium text-ink-primary' }, inv.name)),
-          /* what joining brought — or that it brought nothing yet */
-          { description: inv.connections.length || inv.files.length ? 'Its connections, metrics and files are in your lists now, marked with the people icon' : 'Nothing is shared there yet — what ' + String(inv.owner.name).split(' ')[0] + ' adds will show in your lists' });
-        if (p.onAccepted) p.onAccepted();
-      }
-    });
-  };
   IK.wsInvitation = function (o) {
     var olena = person('olena', 'olena.petrenko@northwind.io'), me = person('me', 'kateryna.k@northwind.io');
     var inv = { id: 'guild', name: nm('guild'), role: 'member', owner: olena, status: 'active', members: [olena, me], invites: [],
@@ -1228,11 +1178,6 @@
             upgradeLink('Upgrade to Starter', p.feature || 'connections'), ' to use them in your chats'),
       actions: dismiss(p.onDismiss)
     };
-    else if (k === 'invited') a = {
-      variant: 'info', icon: 'ws-users', title: w.owner.name + ' invited you to ' + w.name,
-      description: 'Join to use the connections, metrics and files shared there in your own chats.',
-      actions: act('Accept Invitation', p.onAccept, { variant: 'primary' })
-    };
     if (!a) return null;
     /* the × never leaves the first line (user, 2026-10-22: "хрестик не мав переноситись на інший рядок"): DevartUI's
        Alert lays its actions full width under the copy below 640px — right for a button, wrong for a lone ×. So the ×
@@ -1292,10 +1237,9 @@
   /* IK.wsAlertStack(notices) — several notices as one group (user, 2026-10-19: "потрібне групування алертів"): DevartUI
      AlertStack — the first on top, the others' edges under it in their own colours, the edges open the pile. An edge's
      colour is its notice's variant; a WsNotice's comes from its kind (the invitation is info while it waits for Accept) */
-  var KIND_VARIANT = { trial: 'info', invited: 'info', restored: 'success' };
+  var KIND_VARIANT = { trial: 'info', restored: 'success' };
   function noticeVariant(el) {
     var q = (el && el.props) || {};
-    if (el && el.type === IK.WsInvitationNotice) return !q.state || q.state === 'pending' ? 'info' : 'warning';
     return q.variant || KIND_VARIANT[q.kind] || 'warning';
   }
   IK.wsAlertStack = function (list) {
