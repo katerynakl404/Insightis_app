@@ -13,11 +13,11 @@
                   більшою типографією і останній зроби простим проте сучасним"; "файли і сорси мали б мати ілюстративне
                   відображення"):
                     'cards'   (the default) a faint brand glow right under the title and lead; numbered cards
-                    'type'    larger type: a 36px title, an 18px lead, a large button, the steps as big numerals over a
-                              hairline
-                    'simple'  nothing behind; over the title a small drawing — the person's own sources (a stack of
+                    'type'    larger type: a 36px title, an 18px lead, a large button; the steps centred under big
+                              numerals that fade to the bottom
+                    'simple'  nothing behind; over the title a drawing as wide as the title — the person's own sources (a stack of
                               cards with their logos) and files (a fan of sheets with their type marks) meeting in a
-                              workspace; the steps in one row, an icon by each title, hairlines between them
+                              workspace; the steps centred in one row, numbered, joined by the drawing's dashed link
    Under 768px the steps stack.
 
    h(IK.WsIntro, { onCreate, locked, variant: 'cards'|'type'|'simple', connections: IK.WS_CONNECTIONS, files: IK.WS_FILES }) */
@@ -28,31 +28,35 @@
   IK.WS_INTRO_VARIANTS = ['cards', 'type', 'simple'];
   var LOOK = { cards: 'ik-wsi--cards', type: 'ik-wsi--type', simple: 'ik-wsi--simple' };
 
-  var LEAD = 'Connect a source once, and your whole team works with the same numbers';
+  /* one line on desktop, about the title's width — the head reads as one block, not a pyramid (user, 2026-10-23:
+     'виглядає пірамідкою'); no 'numbers' ('цифрами?') */
+  var LEAD = 'Connect sources once, and nobody on your team has to set them up again';
   var STEPS = [
     ['ws-layers', 'Create a workspace', 'One for each team or project'],
     ['ws-share', 'Add your data', 'Connections bring their metrics'],
-    ['ws-users', 'Invite your team', 'Shared data shows up in their chats']
+    ['ws-users', 'Invite your team', 'Members see it in their chats']
   ];
 
-  function desc(s, style) {
-    return h(D.Typography, { element: 'span', textStyle: style || 'body14', textColor: 'secondary', className: 'text-balance' }, s[2]);
+  function desc(s, style, cls) {
+    return h(D.Typography, { element: 'span', textStyle: style || 'body14', textColor: 'secondary', className: IK.cx('text-balance', cls) }, s[2]);
   }
-  function title(s, style) {
-    return h(D.Typography, { element: 'span', textStyle: style || 'title14', textColor: 'primary' }, s[1]);
+  function title(s, style, cls) {
+    return h(D.Typography, { element: 'span', textStyle: style || 'title14', textColor: 'primary', className: cls }, s[1]);
   }
 
   function Steps(p) {
+    /* centred like the head, the numerals large and fading to the bottom (user, 2026-10-23: '2 варіант не дуже') */
     if (p.variant === 'type') return h('ol', { className: 'ik-wsi-steps' }, STEPS.map(function (s, i) {
-      return h('li', { key: s[1], className: 'ik-wsi-rule flex flex-col gap-2' },
-        h('span', { className: 'ik-wsi-big', 'aria-hidden': 'true' }, i + 1),
-        title(s, 'title18'), desc(s, 'body16'));
+      return h('li', { key: s[1], className: 'flex min-w-0 flex-col items-center gap-2' },
+        h('span', { className: 'ik-wsi-big', 'aria-hidden': 'true' }, '0' + (i + 1)),
+        title(s, 'title18', 'text-center'), desc(s, 'body16', 'text-center'));
     }));
-    if (p.variant === 'simple') return h('ol', { className: 'ik-wsi-steps' }, STEPS.map(function (s) {
-      return h('li', { key: s[1], className: 'ik-wsi-flat flex min-w-0 flex-col gap-1' },
-        h('span', { className: 'flex items-center gap-2' },
-          h(IK.Icon, { name: s[0], size: 16, className: 'shrink-0 text-ink-highlight' }), title(s)),
-        desc(s));
+    /* centred under the centred head, numbered, joined by the drawing's own dashed link — read in order (user,
+       2026-10-23: "нижні степпери не збалансовані та не логічні") */
+    if (p.variant === 'simple') return h('ol', { className: 'ik-wsi-steps' }, STEPS.map(function (s, i) {
+      return h('li', { key: s[1], className: 'ik-wsi-flat flex min-w-0 flex-col items-center gap-3' },
+        h('span', { className: 'ik-wsi-badge', 'aria-hidden': 'true' }, i + 1),
+        h('span', { className: 'flex min-w-0 flex-col gap-1' }, title(s, 'title16', 'text-center'), desc(s, 'body14', 'text-center')));
     }));
     return h('ol', { className: 'ik-wsi-steps' }, STEPS.map(function (s, i) {
       return h('li', { key: s[1], className: 'flex' },
