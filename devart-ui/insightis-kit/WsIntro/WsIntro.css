@@ -2,7 +2,8 @@
    Tokens only; the 4px steps. The one raw value is the kit's card shadow, marked. */
 .ik-wsi {
   position: relative; isolation: isolate; overflow: clip;
-  display: flex; flex-direction: column; align-items: center; gap: 2.5rem; padding: 2.5rem 1.5rem 2rem; text-align: center;
+  /* room inside the panel (user, 2026-10-23: "затісно в фоні") */
+  display: flex; flex-direction: column; align-items: center; gap: 3rem; padding: 4rem 2rem 3.5rem; text-align: center;
 }
 .ik-wsi-hero { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; width: 100%; max-width: 40rem; }
 .ik-wsi-head { display: flex; flex-direction: column; align-items: center; gap: .75rem; }
@@ -11,6 +12,7 @@
   font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); font-weight: 500;
   letter-spacing: var(--tracking-tight); color: hsl(var(--ink-primary));
 }
+/* the lead in two balanced lines in every look (user, 2026-10-23: "опис в 2 рядка виглядає гармонійніше") */
 .ik-wsi-lead { max-width: 36rem; text-wrap: balance; }
 .ik-wsi-steps { width: 100%; max-width: 56rem; margin: 0; padding: 0; list-style: none; text-align: left; }
 
@@ -35,22 +37,8 @@
   background: color-mix(in srgb, hsl(var(--brand-primary)) 10%, transparent); color: hsl(var(--ink-highlight));
 }
 
-/* ── type: larger type — a 36px title, an 18px lead; the steps as big numerals over a hairline with a brand tick ── */
-.ik-wsi--type .ik-wsi-hero { max-width: 44rem; }
-.ik-wsi--type .ik-wsi-title { font-size: var(--font-size-4xl); line-height: var(--line-height-4xl); }
-/* the simple look keeps its lead in two lines (user, 2026-10-23: "описовий текст в 3му зроби в 2 рядка") */
-.ik-wsi--simple .ik-wsi-lead { max-width: 28rem; }
-.ik-wsi-lead-lg { max-width: 40rem; font-size: var(--font-size-lg); line-height: var(--line-height-lg); color: hsl(var(--ink-secondary)); }
-/* the steps no wider than the head needs — they read as its own row, not a band across the page (user, 2026-10-23) */
-.ik-wsi--type .ik-wsi-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; max-width: 52rem; }
-.ik-wsi-big {
-  font-size: var(--font-size-4xl); line-height: var(--line-height-4xl); font-weight: 600; letter-spacing: var(--tracking-tight);
-  font-variant-numeric: tabular-nums; color: transparent; -webkit-background-clip: text; background-clip: text;
-  background-image: linear-gradient(to bottom, hsl(var(--ink-highlight)) 30%, color-mix(in srgb, hsl(var(--ink-highlight)) 15%, transparent));
-}
-
 /* ── simple: nothing behind; a small drawing over the title — the person's sources (a stack of cards) and files (a fan
-   of sheets) meeting in a workspace; one row of steps with hairlines between ── */
+   of sheets) meeting in a workspace; no steps ── */
 .ik-wsi-art { display: flex; align-items: center; gap: .5rem; }
 .ik-wsi-stack, .ik-wsi-fan { position: relative; flex: none; width: 8.5rem; height: 5.25rem; }
 .ik-wsi-src, .ik-wsi-doc {
@@ -75,31 +63,13 @@
   box-shadow: 0 0 0 6px color-mix(in srgb, hsl(var(--brand-primary)) 8%, transparent);
 }
 .ik-wsi-link { flex: none; width: 2.5rem; border-top: 1px dashed color-mix(in srgb, hsl(var(--brand-primary)) 55%, transparent); }
-/* the steps: centred, numbered, the drawing's dashed link from one number to the next */
-.ik-wsi--simple .ik-wsi-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; max-width: 46rem; }
-.ik-wsi-badge {
-  display: inline-flex; flex: none; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; border-radius: 9999px;
-  font-size: var(--font-size-xs); line-height: 1; font-weight: 600; font-variant-numeric: tabular-nums; color: hsl(var(--ink-highlight));
-  background: color-mix(in srgb, hsl(var(--brand-primary)) 10%, hsl(var(--surface-card)));
-  border: 1px solid color-mix(in srgb, hsl(var(--brand-primary)) 40%, transparent);
-}
-.ik-wsi-flat { position: relative; }
-.ik-wsi-flat + .ik-wsi-flat::before {
-  content: ''; position: absolute; top: .875rem; right: calc(50% + 1.375rem); width: calc(100% - .75rem);
-  border-top: 1px dashed color-mix(in srgb, hsl(var(--brand-primary)) 55%, transparent);
-}
 
 @media (max-width: 767px) {
-  .ik-wsi { gap: 2rem; padding: 1.5rem 1rem 1.25rem; }
+  .ik-wsi { gap: 2rem; padding: 2rem 1rem 1.5rem; }
   .ik-wsi--cards .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
-  .ik-wsi--type .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
-  .ik-wsi--simple .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
-  .ik-wsi-flat + .ik-wsi-flat::before { top: auto; bottom: calc(100% + .25rem); right: auto; left: 50%; width: 0; height: 1rem; border-top: 0;
-    border-left: 1px dashed color-mix(in srgb, hsl(var(--brand-primary)) 55%, transparent); }
   .ik-wsi-art { scale: .8; margin-block: -.5rem; }
   .ik-wsi-link { width: 1rem; }
 }
 @media (max-width: 639px) {
   .ik-wsi-title { font-size: var(--font-size-2xl); line-height: var(--line-height-2xl); }
-  .ik-wsi--type .ik-wsi-title { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); }
 }

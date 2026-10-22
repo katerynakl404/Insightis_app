@@ -108,7 +108,7 @@
     /* Intro — only where it acts: the list with no workspace */
     if (here === 'workspaces' && q.data === 'none') out.push({
       label: 'Intro', showLabel: true, value: q.intro,
-      options: [{ value: 'cards', label: 'Cards' }, { value: 'type', label: 'Type' }, { value: 'simple', label: 'Simple' }],
+      options: [{ value: 'cards', label: 'Cards' }, { value: 'simple', label: 'Simple' }],
       onChange: function (v) { RK.setWs({ wintro: v === 'cards' ? null : v }); }
     });
     /* no Shared switch: Owner is the one way (user, 2026-10-20: Tag removed, Tabs turned down) — the people glyph
