@@ -21,8 +21,7 @@
      Role        an opened workspace: Owner · Member — opens the first of one's own / the first one they were
                  invited to (user, 2026-10-19: "немає перемикача чи це власник воркспейсу чи мембер"); the tab stays
      Invited     not on emails, nor on one's own workspace: Active · Blocked — the plan of the people who invited
-                 them (Olena's and Mark's lapse together, so the notices meet several owners). Blocked → Active,
-                 and Free → Paid, show the "available again" confirmation: the brief's Restored is that moment
+                 them (Olena's and Mark's lapse together, so the notices meet several owners).
      Data        the Workspaces list and a workspace: Filled · Many (every list past one page: Load more) · Empty
                  (the workspaces have nothing in them — each tab's empty state) · No workspaces (the list only)
      Owner       the chat only: Hidden · Shown — the shared row's caption "Olena Petrenko · Marketing"

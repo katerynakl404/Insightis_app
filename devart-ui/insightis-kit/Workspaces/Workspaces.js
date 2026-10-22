@@ -3,8 +3,8 @@
 
    A workspace is an Owner's set of connections, metrics and files, shared READ-ONLY with Members
    invited by email. Roles are Owner (the creator, one, never changes) and Member. Status follows
-   the Owner's plan: active | blocked (members lose access, nothing is deleted). Restored is not a
-   state: it is the moment blocked turns active again, confirmed once (WsNotice 'restored').
+   the Owner's plan: active | blocked (members lose access, nothing is deleted). Back to active is said nowhere
+   (user, 2026-10-23: "… is available again — не потрібен").
 
    ── Store ─────────────────────────────────────────────────────────────────────────────────────
    One person, one world: they own some workspaces and were invited to others — the role belongs to
@@ -78,7 +78,6 @@
                      (an email to the Owner); requested → Request Sent (disabled). { list: [ws, …] } groups
                      several into ONE notice (user, 2026-10-19: one per workspace looks bad at 3+)
      blocked-items   warning · on a list page: "N shared connections are unavailable", from where, Ask Owner to Renew
-     restored        success · "<ws> is available again", dismissible (onDismiss)
      trial           info · "Your trial ends in 3 days": members lose access to one's own workspaces ({ owned }),
                      what's shared ({ sharedFrom }) needs a paid plan — short, "See plans", dismissible
      shared-plan     warning · "Shared … need Starter" — the person's plan lacks the module, Upgrade to Starter
@@ -1148,13 +1147,6 @@
           dismiss(p.onDismiss))
       };
     }
-    else if (k === 'restored') a = {
-      variant: 'success', icon: 'check', title: (p.inPage ? 'This workspace' : w.name) + ' is available again',
-      description: w.role === 'owner'
-        ? 'Members have access again'
-        : undefined,
-      actions: dismiss(p.onDismiss)
-    };
     /* the trial, said ahead and once for both sides of the person: their own workspaces stop for
        members, what was shared with them needs a plan — a heads-up, never a threat */
     else if (k === 'trial') {
@@ -1173,8 +1165,11 @@
     else if (k === 'shared-plan') a = {
       /* the plan's notice: the wallet illustration, as "Your subscription ended" (user, 2026-10-21) */
       variant: 'warning', illu: 'wallet', title: 'Shared ' + ({ Connectors: 'connections', Files: 'files', Metrics: 'metrics', Workspaces: 'workspaces' }[p.module] || 'items') + ' need Starter',
+      /* module 'Workspace': one workspace's page, on a tab that holds all three (Overview, Members) */
       description: p.module === 'Workspaces'
         ? h(IK.Fragment, null, 'Your plan doesn’t include what’s shared in them. ', upgradeLink('Upgrade to Starter', p.feature || 'connections'), ' to use it in your chats')
+        : p.module === 'Workspace'
+        ? h(IK.Fragment, null, 'Your plan doesn’t include the connections, metrics and files shared here. ', upgradeLink('Upgrade to Starter', p.feature || 'connections'), ' to use them in your chats')
         : h(IK.Fragment, null, 'Your plan doesn’t include ' + (p.module || 'Connectors') + '. ',
             upgradeLink('Upgrade to Starter', p.feature || 'connections'), ' to use them in your chats'),
       actions: dismiss(p.onDismiss)
@@ -1238,7 +1233,7 @@
   /* IK.wsAlertStack(notices) — several notices as one group (user, 2026-10-19: "потрібне групування алертів"): DevartUI
      AlertStack — the first on top, the others' edges under it in their own colours, the edges open the pile. An edge's
      colour is its notice's variant; a WsNotice's comes from its kind (the invitation is info while it waits for Accept) */
-  var KIND_VARIANT = { trial: 'info', restored: 'success' };
+  var KIND_VARIANT = { trial: 'info' };
   function noticeVariant(el) {
     var q = (el && el.props) || {};
     return q.variant || KIND_VARIANT[q.kind] || 'warning';

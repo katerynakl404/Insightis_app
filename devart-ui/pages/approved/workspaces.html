@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Workspaces</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=46cf8d7f26">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=46cf8d7f26">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=fff804120d">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=fff804120d">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=46cf8d7f26"></script>
-<script src="../../review-kit/review-kit.js?v=46cf8d7f26"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=fff804120d"></script>
+<script src="../../review-kit/review-kit.js?v=fff804120d"></script>
 </head>
 <style>
   /* Page layout only: File details (IK.FileDetails) splits the main column as on Files — a third
@@ -97,17 +97,6 @@
     var of = R.useState({}), off = of[0], setOff = of[1];
     function dismiss(k) { return function () { var o = Object.assign({}, off); o[k] = true; setOff(o); }; }
 
-    /* Blocked → Active (the person's plan back, or the inviting Owner's) is the brief's "Restored":
-       confirmed once — nothing was lost */
-    var sig = ws.list.map(function (w) { return w.id + ':' + w.status; }).join(',');
-    var was = R.useRef(null);
-    R.useEffect(function () {
-      var prev = was.current || {};
-      var back = ws.list.filter(function (w) { return prev[w.id] === 'blocked' && w.status === 'active'; });
-      if (back.length) D.toast.success(h(IK.Fragment, null, strong(IK.wsJoin(names(back))), back.length > 1 ? ' are available again' : ' is available again'),
-        { description: 'Everything is where it was — nothing was lost' });
-      var now = {}; ws.list.forEach(function (w) { now[w.id] = w.status; }); was.current = now;
-    }, [sig]);
 
     function create() { setCreating(true); }
     var createBtn = h(IK.Locked, { feature: 'workspaces', locked: free, surface: 'modal', tip: 'Available on Pro' },
@@ -285,17 +274,9 @@
     var fpw = R.useState(null), filePrev = fpw[0], setFilePrev = fpw[1];
     var of = R.useState({}), off = of[0], setOff = of[1];
     function dismiss(k) { return function () { var o = Object.assign({}, off); o[k] = true; setOff(o); }; }
-    /* Blocked → Active is the brief's "Restored": the confirmation shows once, until dismissed */
-    var rs = R.useState(false), restored = rs[0], setRestored = rs[1];
+    /* no "available again" once it is back (user, 2026-10-23: "не потрібен"); Blocked again → its notice shows again */
     var st = w ? w.id + ':' + w.status : '';
-    var was = R.useRef(st);
-    R.useEffect(function () {
-      var prev = was.current.split(':');
-      if (w && prev[0] === w.id && prev[1] === 'blocked' && w.status === 'active') setRestored(true);
-      if (w && w.status === 'blocked') { setRestored(false); setOff(Object.assign({}, off, { b: false })); }
-      if (w && prev[0] !== w.id) setRestored(false);
-      was.current = st;
-    }, [st]);
+    R.useEffect(function () { if (w && w.status === 'blocked') setOff(function (o) { return Object.assign({}, o, { b: false }); }); }, [st]);
 
     /* no such workspace (deleted, or another Data world) → the list, in place */
     R.useEffect(function () { if (!w) RK.setWs({ w: null, tab: null }); }, [!w]);
@@ -457,12 +438,16 @@
       /* a Member leaves from the bottom of the Overview, where the Owner deletes (user, 2026-10-19) */
       : null;
 
-    var restoredNote = restored && !off.r;
     var trialNote = trial && !off.t;
+    /* a Member on Free: what is shared here needs Starter — the plan's notice, as Data Sources, Files and Metrics show it, saying
+       what this tab holds (user, 2026-10-23: "якщо в юзера нема доступу до метрик то показується саме сповіщення що в нього нема
+       доступу без відповідної підписки") */
+    var PLAN_OF = { connections: ['Connectors', 'connections'], metrics: ['Metrics', 'metrics'], files: ['Files', 'shared-files'] };
+    var planOf = PLAN_OF[cur] || ['Workspace', 'connections'];
     var notices = [
       blocked && !off.b ? h(IK.WsNotice, { key: 'b', kind: owner ? 'blocked-owner' : 'blocked-member', ws: w, inPage: true, onDismiss: dismiss('b'),
         onRequest: function () { IK.wsRenewal(ws, [w.id]).request(); } }) : null,
-      restoredNote ? h(IK.WsNotice, { key: 'r', kind: 'restored', ws: w, inPage: true, onDismiss: dismiss('r') }) : null,
+      !owner && free && !off.p ? h(IK.WsNotice, { key: 'p', kind: 'shared-plan', module: planOf[0], feature: planOf[1], onDismiss: dismiss('p') }) : null,
       trialNote && owner ? h(IK.WsNotice, { key: 'to', kind: 'trial', owned: [w.name], onDismiss: dismiss('t') }) : null,
       trialNote && !owner ? h(IK.WsNotice, { key: 't', kind: 'trial', sharedFrom: [w.name], onDismiss: dismiss('t'),
         counts: { connections: w.connections.length, metrics: IK.wsMetricRows(ws.list, { only: w.id }).filter(function (r) { return r.kind === 'metric'; }).length, files: w.files.length } }) : null

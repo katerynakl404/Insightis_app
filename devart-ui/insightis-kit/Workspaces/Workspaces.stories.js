@@ -3,12 +3,11 @@
   function Col(p) { return h('div', { className: 'flex max-w-3xl flex-col gap-3' }, p.children); }
   function World(p) { var ws = IK.useWorkspaces({ data: p.data || 'filled', names: p.names, others: p.others }); return p.render(ws); }
 
-  IK.story('Workspaces', { title: 'WsNotice — the Owner: Blocked (the upgrade in the sentence) · Restored · the trial heads-up', render: function () {
+  IK.story('Workspaces', { title: 'WsNotice — the Owner: Blocked (the upgrade in the sentence) · the trial heads-up', render: function () {
     return h(World, { render: function (ws) {
       var w = ws.owned[0];
       return h(Col, null,
         h(IK.WsNotice, { kind: 'blocked-owner', ws: w, onDismiss: function () {} }),
-        h(IK.WsNotice, { kind: 'restored', ws: w, onDismiss: function () {} }),
         h(IK.WsNotice, { kind: 'trial', owned: [w.name], sharedFrom: ['Marketing'], counts: { connections: 2, metrics: 6, files: 2 }, onDismiss: function () {} }));
     } });
   } });
@@ -44,8 +43,8 @@
   IK.story('Workspaces', { title: 'wsAlertStack — the notices in DevartUI AlertStack: a deck (the edges open it) · opened: Show Less', render: function () {
     return h(World, { others: 'blocked', render: function (ws) {
       var w = ws.owned[0];
-      var a = [h(IK.WsNotice, { key: 'r', kind: 'restored', ws: w, onDismiss: function () {} }), h(IK.WsNotice, { key: 'b', kind: 'blocked-owner', ws: w, onDismiss: function () {} })];
-      var b = a.concat([h(IK.WsNotice, { key: 't', kind: 'trial', owned: [w.name], sharedFrom: ['Marketing'], counts: { connections: 2, metrics: 6, files: 2 }, onDismiss: function () {} })]);
+      var a = [h(IK.WsNotice, { key: 'b', kind: 'blocked-owner', ws: w, onDismiss: function () {} }), h(IK.WsNotice, { key: 't', kind: 'trial', owned: [w.name], sharedFrom: ['Marketing'], onDismiss: function () {} })];
+      var b = a.concat([h(IK.WsNotice, { key: 'p', kind: 'shared-plan', module: 'Connectors', feature: 'connections', onDismiss: function () {} })]);
       return h(Col, null, IK.wsAlertStack(a), IK.wsAlertStack(b));
     } });
   } });

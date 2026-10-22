@@ -1,4 +1,5 @@
-/* WsFiles — files shared in a workspace, as the Files page lists them: the search (DevartUI SearchInput),
+/* WsFiles — files shared in a workspace, as the Files page lists them — no search, as Files has none (user, 2026-10-23:
+   "з файлів пошук забери"),
    FilterChips All · Artifacts · Uploaded, DevartUI ListSelectionBar (the count · Select all; once a file
    is ticked "N selected" + the bulk actions), IK.DsFilesTable, 20 at a time + Load more, "No matches
    found" (user, 2026-10-19: "бракує балкових екшенів та пошуку").
@@ -22,17 +23,15 @@
 
   IK.WsFiles = function WsFiles(p) {
     var owner = !!p.owner, all = p.files || [];
-    var qs = R.useState(''), q = qs[0], setQ = qs[1];
     var fs = R.useState('all'), filter = fs[0], setFilter = fs[1];
     var ss = R.useState([]), sel = ss[0], setSel = ss[1];
     var ps = R.useState(PAGE), shown = ps[0], setShown = ps[1];
     var sd = R.useState('desc'), sortDir = sd[0], setSortDir = sd[1];
     var phone = D.useMaxWidth(768);
-    R.useEffect(function () { setShown(PAGE); setSel([]); }, [q, filter]);
+    R.useEffect(function () { setShown(PAGE); setSel([]); }, [filter]);
 
-    var qq = q.trim().toLowerCase();
     var vis = all.filter(function (f) {
-      return (filter === 'all' || f.origin === filter) && (!qq || f.name.toLowerCase().indexOf(qq) >= 0);
+      return filter === 'all' || f.origin === filter;
     }).sort(function (a, b) { var d = (a.time || 0) - (b.time || 0); return sortDir === 'asc' ? d : -d; });
     var pickable = vis.filter(function (f) { return !f.locked && !f.muted; });
     var picked = sel.filter(function (id) { return pickable.some(function (f) { return f.id === id; }); });
@@ -64,7 +63,6 @@
     });
     var left = vis.length - page.length;
     return h('div', { className: 'flex flex-col gap-3' },
-      h(D.SearchInput, { value: q, onValueChange: setQ, onClear: function () { setQ(''); }, placeholder: 'Search files…', 'aria-label': 'Search files' }),
       h('div', { className: 'flex flex-col gap-2' },
         h(D.FilterChips, {
           value: filter, onValueChange: function (v) { if (v) setFilter(v); },
@@ -86,7 +84,7 @@
           /* a row opens the file's preview, as on Files (user, 2026-10-19: "файл натискається але нічого не відбувається") */
           onOpen: p.onOpen
         }) : h(D.StatusView, { size: 'lg', surface: 'embedded', withIconHalo: false, role: 'status', icon: h(D.EmptyStateIllustration), title: 'No matches found',
-          description: qq ? 'No files match your search or filters — try a different term or clear them' : 'No files match this filter — switch back to All to see every file' }),
+          description: 'No files match this filter — switch back to All to see every file' }),
         h(IK.LoadMore, { left: left, onClick: function () { setShown(shown + PAGE); } })));
   };
 })();
