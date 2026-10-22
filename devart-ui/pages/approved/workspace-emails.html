@@ -17,7 +17,7 @@
 <script>
 /* Workspace emails — the two letters shared workspaces send (Claude Doc «Дизайн: Shared workspaces,
    фаза 1»): the invitation (AIINS-1866) and the renewal request a Member sends the Owner of a Blocked
-   workspace (Ask … to Renew — an email, no in-app notice). IK.WsEmail. Rules: concept/workspace.rules.md.
+   workspace (Ask … to Renew — an email, no in-app notice). IK.WsEmail. Rules: approved/workspace.rules.md.
    Review switches: Email · Names · Theme. */
 (function () {
   var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, h = IK.h;
@@ -34,7 +34,7 @@
     /* the renewal request: the person asks Olena to renew Marketing */
     var mk = ws.shared.filter(function (w) { return w.owner.email === 'olena.petrenko@northwind.io'; })[0] || inv;
     return h('div', { className: 'flex min-h-svh flex-col bg-surface-page' },
-      h(RK.ReviewBar, { title: 'Workspace emails', status: 'concept', size: 'sm', autoHeight: true, plan: false,
+      h(RK.ReviewBar, { title: 'Workspace emails', status: 'approved', size: 'sm', autoHeight: true, plan: false,
         controls: [{ label: 'Email', showLabel: true, value: email, onChange: setEmail,
           options: [{ value: 'invitation', label: 'Invitation' }, { value: 'renewal', label: 'Renewal request' }] }]
           .concat(RK.workspaceControls({ here: 'emails' })) }),

@@ -128,8 +128,12 @@
     var files = p.files || [], sel = p.selectable !== false;
     /* with Owner / Workspaces the row has 7–8 columns: a fixed layout in proportion, the name truncating, so
        the table never scrolls sideways (user, 2026-10-19); without them the original auto layout */
-    var fixed = !!(p.ownerCol || p.wsCol);
-    function w(pc) { return fixed ? { style: { width: pc } } : null; }
+    /* and with the preview open beside it (previewId): the list is half the width, the name truncates as in the product,
+       the other columns keep fixed widths that hold their content — no sideways scroll (user, 2026-10-22: 'респонсив по
+       файлам виглядає невірно при відкритій панелі - подивись як на проді') */
+    var tight = !!p.previewId && !(p.ownerCol || p.wsCol);
+    var fixed = !!(p.ownerCol || p.wsCol) || tight;
+    function w(pc, rem) { return fixed ? { style: { width: tight && rem ? rem : pc } } : null; }
     return h(D.Table, { wrapperClassName: 'ik-dsft', layout: fixed ? 'fixed' : undefined },
       h(D.TableHeader, null,
         h(D.TableRow, null,
@@ -141,11 +145,12 @@
           h(D.TableHead, null, 'Name'),
           p.ownerCol ? h(D.TableHead, w('14%'), 'Owner') : null,
           p.wsCol ? h(D.TableHead, w('14%'), 'Workspaces') : null,
-          h(D.TableHead, w('11%'), 'Type'),
-          h(D.TableHead, w('9%'), 'Size'),
-          p.onSort ? h(D.TableHead, Object.assign({ sortable: true, sortDirection: p.sortDir || 'desc', onSort: p.onSort }, w('12%')), 'Modified')
-            : h(D.TableHead, w('12%'), 'Modified'),
-          h(D.TableHead, Object.assign({ className: 'text-right' }, w('8%')), 'Actions'))),
+          h(D.TableHead, w('11%', '7rem'), 'Type'),
+          h(D.TableHead, w('9%', '5.5rem'), 'Size'),
+          p.onSort ? h(D.TableHead, Object.assign({ sortable: true, sortDirection: p.sortDir || 'desc', onSort: p.onSort }, w('12%', '8.5rem')), 'Modified')
+            : h(D.TableHead, w('12%', '8.5rem'), 'Modified'),
+          /* Actions: its head's width, never a share that clips it */
+          h(D.TableHead, Object.assign({ className: 'text-right' }, w('5.5rem', '5.5rem')), 'Actions'))),
       h(D.TableBody, null,
         p.empty ? h(EmptyRow, { onBrowse: p.onBrowse }) : files.map(function (f) {
           var preview = f.id === p.previewId;

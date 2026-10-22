@@ -36,7 +36,7 @@
   var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
   function App() {
-    /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
+    /* shared workspaces (approved/workspace.rules.md): off unless the review switch turns it on */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var pop = RK.useQueryState('pop', 'filled');
     var t = R.useState(''), text = t[0], setText = t[1];

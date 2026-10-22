@@ -1,6 +1,6 @@
 /* Workspaces — the shared-workspaces feature's data, store and the two small pieces every surface
    of it repeats. Source: Claude Doc «Дизайн: Shared workspaces, фаза 1» (AIINS-1852); rules:
-   pages/concept/workspace.rules.md.
+   pages/approved/workspace.rules.md.
 
    A workspace is an Owner's set of connections, metrics and files, shared READ-ONLY with Members
    invited by email. Roles are Owner (the creator, one, never changes) and Member. Status follows
@@ -33,7 +33,7 @@
                                             workspaces, each with { ws, by }
      IK.wsHref(rel, patch)      a page URL that keeps the feature's review params (ws, wothers,
                                 names, shared, trial, wdata); patch { key: value | null }
-     IK.wsHrefFor(ws)           the workspace opened on the Workspaces page (concept/workspaces.html?w=) — the Owner's
+     IK.wsHrefFor(ws)           the workspace opened on the Workspaces page (approved/workspaces.html?w=) — the Owner's
                                 view or the read-only one
      IK.wsJoin(names)           "Sales", "Sales and Support", "Sales, Support and Finance"
      IK.wsMetricRows(list, o)   invited workspaces' metrics as IK.MxMetricsTable rows (below)
@@ -52,12 +52,12 @@
    "unavailable" reads as "a plan fixes it", never as lost data.
      blocked-owner   warning · "<ws> is unavailable to its members", "Upgrade to Pro" as a link in the
                      sentence (IK.Locked → upgrade), dismissible — the Insightis warning's shape
-     blocked-member  warning · "<ws> is unavailable" + Ask <first name> to Renew → onRequest
+     blocked-member  warning · "<ws> is unavailable" + Ask Owner to Renew → onRequest
                      (an email to the Owner); requested → Request Sent (disabled); dismissible.
                      { list: [ws, …] } groups several into ONE notice (user, 2026-10-19: one per
                      workspace looks bad at 3+): 2 → "Marketing and Brand are unavailable",
                      3+ → "3 workspaces are unavailable" with the names in the text; one owner →
-                     Ask <first name> to Renew, several → Ask Owners to Renew
+                     Ask Owner to Renew, one owner or several
      restored        success · "<ws> is available again", dismissible (onDismiss)
      trial           info · when the trial ends: the person's own workspaces ({ owned }) become
                      unavailable to members, and what invited workspaces ({ sharedFrom, counts })
@@ -116,7 +116,7 @@
   IK.WS_CONNECTIONS = [
     { id: 'c-pg', name: 'PostgreSQL', label: 'Production DB', desc: 'Main analytics warehouse, syncs every 6 h', metrics: 0, lastSync: NOW - 2 * 3600e3, status: 'active' },
     { id: 'c-sf', name: 'Salesforce', label: 'Main CRM', desc: 'Deals, contacts & pipeline metrics', metrics: 12, lastSync: NOW - 32 * 60e3, status: 'active' },
-    { id: 'c-st', name: 'Stripe', label: 'Stripe Payments', desc: 'Revenue and subscription data', metrics: 8, lastSync: NOW - 26 * 3600e3, status: 'error' },
+    { id: 'c-st', name: 'Stripe', label: 'Stripe Payments', desc: 'Revenue and subscription data', metrics: 8, lastSync: NOW - 26 * 3600e3, status: 'error', error: 'API key expired or revoked (HTTP 401)' },
     { id: 'c-hs', name: 'HubSpot', label: 'Marketing Hub', desc: 'Campaign performance & lead scoring', metrics: 3, lastSync: NOW - 5 * 3600e3, status: 'active' }
   ];
   function myConn(id) { return IK.WS_CONNECTIONS.filter(function (c) { return c.id === id; })[0]; }
@@ -137,19 +137,32 @@
   };
   /* a workspace of the person's own: the metrics its connections share with it, as IK.MxMetricsTable
      rows — read-only here (they are managed on the Metrics page), no Add Metric */
+  /* the Owner's metrics on a workspace page, in the Metrics page's own hierarchy — the source, its connections as
+     sub-headers, their metrics (user, 2026-10-21: "а де тут ділась ієрархія?"); switched on and off as on Metrics */
+  /* a connection's metrics: what it brings, then the ones made on it (Create metric — custom, off until switched on) */
+  function defsOf(c) { return (IK.WS_METRIC_DEFS[c.id] || []).concat((c.made || []).map(function (m) { return [m.name, m.alias, m.desc, true]; })); }
   IK.wsOwnMetricRows = function (w) {
-    var rows = [];
+    var rows = [], bySrc = {}, order = [];
     w.connections.forEach(function (c) {
-      var defs = IK.WS_METRIC_DEFS[c.id] || [], prov = 'own-' + c.id;
-      if (!defs.length) return;
-      rows.push({ kind: 'group', prov: prov, name: c.label, connector: c.name, readOnly: true });
-      defs.forEach(function (d, i) {
-        rows.push({ kind: 'metric', id: prov + '-' + i, prov: prov, name: d[0], alias: d[1], desc: d[2], summary: d[2],
-                    readOnly: true, active: true, provider: c.name, connector: c.label });
+      if (!defsOf(c).length) return;
+      if (!bySrc[c.name]) { bySrc[c.name] = []; order.push(c.name); }
+      bySrc[c.name].push(c);
+    });
+    order.forEach(function (src) {
+      var prov = 'own-' + bySrc[src][0].id;
+      rows.push({ kind: 'group', prov: prov, name: src, connector: src, readOnly: true });
+      bySrc[src].forEach(function (c) {
+        var cid = 'own-' + c.id;
+        rows.push({ kind: 'conn', id: cid, prov: prov, name: c.label, wsConn: c.id });
+        defsOf(c).forEach(function (d, i) {
+          rows.push({ kind: 'metric', id: cid + '-' + i, prov: prov, conn: cid, name: d[0], alias: d[1], desc: d[2], summary: d[2],
+                      readOnly: true, active: d[3] ? false : i % 4 !== 3, custom: !!d[3], provider: c.name, connector: c.label });
+        });
       });
     });
     return rows;
   };
+
 
   /* the person's own connections on the Metrics page (the Data Sources seed that brings metrics): a group per
      source, the connection a sub-header — wsConn: the page looks up which workspaces it is in — and its
@@ -213,7 +226,7 @@
         /* lastSync: each its own check time, read the same on Data Sources, a workspace and the details panel */
         { id: 'a3f9c1', name: 'HubSpot', label: 'Campaigns HubSpot', desc: 'Campaign performance and leads for the EMEA team', lastSync: NOW - 40 * 60e3, metrics: [
           { name: 'Deals won', alias: '@deals_won', desc: 'Closed-won deals in the period' },
-          { name: 'New contacts', alias: '@new_contacts', desc: 'Contacts created in the period' },
+          { name: 'New contacts', alias: '@new_contacts', desc: 'Contacts created in the period', active: false },
           { name: 'Revenue', alias: '@revenue', custom: true, desc: 'Closed-won amount, net of refunds' },
           { name: 'MRR growth', alias: '@mrr_growth', custom: true, desc: 'Month-over-month change in MRR' }] },
         { id: '7b21e0', name: 'Google Analytics', label: 'Website analytics', desc: 'Traffic and sign-ups on the marketing site', lastSync: NOW - 3 * 3600e3, metrics: [
@@ -317,7 +330,7 @@
 
   /* ── store ─────────────────────────────────────────────────────────────────────────────────── */
   /* One stored world per data state (sessionStorage); plan, Invited and Names never touch it. */
-  var KEY = 'insightis.wsw10.';
+  var KEY = 'insightis.wsw11.';
   var subs = [], cache = {};
   /* back to the sample data: every stored world dropped (created, renamed, deleted, left workspaces) */
   IK.wsResetData = function () {
@@ -403,7 +416,7 @@
         c.metrics.forEach(function (m, i) {
           var alias = seen[norm(m.alias)] > 1 ? m.alias + '__' + c.id : m.alias;
           rows.push({ kind: 'metric', id: cid + '-' + i, prov: prov, conn: cid, name: m.name, alias: alias, summary: m.desc, desc: m.desc,
-                      custom: !!m.custom, readOnly: true, locked: locked, muted: muted, active: true, provider: c.name, connector: c.label, ws: w,
+                      custom: !!m.custom, readOnly: true, locked: locked, muted: muted, active: m.active !== false, provider: c.name, connector: c.label, ws: w,
                       by: w.owner.name, wsNames: x.names, links: x.links });
         });
       });
@@ -427,6 +440,10 @@
       var s = load(world);
       write(world, Object.assign({}, s, { list: s.list.map(function (w) { return w.id === id ? Object.assign({}, w, fn(w)) : w; }) }));
     }
+    function everywhere(fn) {
+      var s = load(world);
+      write(world, Object.assign({}, s, { list: s.list.map(function (w) { return Object.assign({}, w, fn(w)); }) }));
+    }
     var meStored = person('me', 'kateryna.k@northwind.io');
     var me = wsView([{ name: '', role: 'owner', owner: meStored, members: [], files: [] }], o)[0].owner;
     return {
@@ -440,7 +457,8 @@
         write(world, Object.assign({}, s, { n: (s.n || 1) + 1, list: s.list.concat([w]) }));
         return id;
       },
-      rename: function (id, name) { patch(id, function () { return { name: name }; }); },
+      /* Edit workspace: the name and the description (an empty one clears it) */
+      edit: function (id, name, desc) { patch(id, function () { return { name: name, desc: String(desc || '').trim() || undefined }; }); },
       remove: function (id) { var s = load(world); write(world, Object.assign({}, s, { list: s.list.filter(function (w) { return w.id !== id; }) })); },
       /* a Member leaves a workspace they were invited to: it is gone from their list (the Owner's stays) */
       leave: function (id) { var s = load(world); write(world, Object.assign({}, s, { list: s.list.filter(function (w) { return w.id !== id; }) })); },
@@ -452,6 +470,14 @@
       removeMember: function (id, email) { patch(id, function (w) { return { members: w.members.filter(function (m) { return m.email !== email; }) }; }); },
       shareFile: function (id, file) { patch(id, function (w) { return { files: w.files.concat([file]) }; }); },
       unshareFile: function (id, fid) { patch(id, function (w) { return { files: w.files.filter(function (f) { return f.id !== fid; }) }; }); },
+      /* one connection / file in every workspace it is in: edited (its name, description, last check), disconnected, deleted */
+      updateConnection: function (cid, o) { everywhere(function (w) { return { connections: w.connections.map(function (c) { return c.id === cid ? Object.assign({}, c, o) : c; }) }; }); },
+      /* a metric made on one's connection (Create metric) goes with it into every workspace it is in */
+      addMetric: function (cid, m) { everywhere(function (w) { return { connections: w.connections.map(function (c) {
+        return c.id !== cid ? c : Object.assign({}, c, Array.isArray(c.metrics) ? { metrics: c.metrics.concat([m]) } : { metrics: (c.metrics || 0) + 1, made: (c.made || []).concat([m]) });
+      }) }; }); },
+      disconnect: function (cid) { everywhere(function (w) { return { connections: w.connections.filter(function (c) { return c.id !== cid; }) }; }); },
+      deleteFile: function (fid) { everywhere(function (w) { return { files: w.files.filter(function (f) { return f.id !== fid; }) }; }); },
       /* joining from an invitation (chat landing): the invitation's workspace joins the world */
       accept: function (inv) {
         var s = load(world);
@@ -460,6 +486,137 @@
       requestRenewal: function (id) { patch(id, function () { return { requested: true }; }); }
     };
   };
+  /* IK.useWsPanelActions(ws, { free }) — what a page gives Connection details and File details opened from a workspace,
+     so they are the very panels Data Sources and Files open (user, 2026-10-22: "всі панелі не залежно від місця мали
+     виглядати однаково!"): no "Remove from Workspace" of their own — a workspace is left from the panel's Workspaces
+     list (its ×), as everywhere; Edit · Test Connection · Disconnect · Share via Workspace · Add Metric for a connection,
+     Download · Add to Chat · Share · Delete for a file, through the same dialogs.
+       var pa = IK.useWsPanelActions(ws, { free });
+       var x = pa.connection(c, close); h(IK.ConnectionDetails, Object.assign({ connection: x.item, onOpenChange }, x.opts))
+       var y = pa.file(f, close);       h(IK.FileDetails, Object.assign({ file: y.item, onClose }, y.opts))
+       c: { id, label, name, … } as the store keeps it; the item gains where it is (sharedWith, links)
+       pa.createMetric(c | null)                           Create metric in place — Data Sources' Add Metric (c: preset)
+       pa.shareFiles(files) · pa.deleteFiles(files, close)  a selection, as Files' bulk bar
+       { seeMetrics() → fn | null }                        "See it in Metrics" after a metric is made (null: none)
+       pa.dialogs                                          rendered once by the page */
+  IK.useWsPanelActions = function (ws, o) {
+    var free = !!(o && o.free);
+    var es = R.useState(null), editC = es[0], setEditC = es[1];
+    var ds = R.useState(null), discC = ds[0], setDiscC = ds[1];
+    var ss = R.useState(null), shareC = ss[0], setShareC = ss[1];
+    var fs = R.useState(null), shareF = fs[0], setShareF = fs[1];
+    var xs = R.useState(null), delF = xs[0], setDelF = xs[1];
+    var ms = R.useState(null), mxFor = ms[0], setMxFor = ms[1];
+    var closeRef = R.useRef(null);
+    /* a file as the store keeps it (a list shows it reformatted) */
+    function stored(f) { var k = null; ws.list.some(function (w) { return w.files.some(function (x) { if (x.id === f.id) k = x; return !!k; }); }); return k || f; }
+    function where(pred) { return ws.list.filter(function (w) { return w.role === 'owner' && pred(w); }); }
+    function connIn(cid) { return where(function (w) { return w.connections.some(function (x) { return x.id === cid; }); }); }
+    function fileIn(fid) { return where(function (w) { return w.files.some(function (x) { return x.id === fid; }); }); }
+    function names(ids) { return IK.wsJoin(ids.map(function (id) { var w = ws.find(id); return w ? w.name : ''; })); }
+    function bold(t) { return h('strong', null, t); }
+    return {
+      /* Connection details' options for one's own connection, as Data Sources gives them */
+      connection: function (c, close) {
+        var inWs = connIn(c.id);
+        return { item: Object.assign({}, c, { sharedWith: inWs.map(function (w) { return w.name; }), links: IK.wsLinks(inWs) }), opts: {
+          free: free, wsLocked: free, metricsHref: IK.wsMetricsHref,
+          onEdit: function () { setEditC(c); },
+          onTest: function () {
+            ws.updateConnection(c.id, { busy: true });
+            setTimeout(function () {
+              ws.updateConnection(c.id, { busy: false, status: 'active', lastSync: Date.now() });
+              D.toast.success(h(IK.Fragment, null, bold(c.label), ' checked successfully'), { description: 'Last check just now', id: c.id });
+            }, 1500);
+          },
+          /* the failed check's Details: the error toast, as on Data Sources */
+          onDetails: function () {
+            D.toast.error(h(IK.Fragment, null, 'Last check failed — ', bold(c.label)), { description: 'Check failed: ' + IK.dsFailReason(c), id: c.id });
+          },
+          onDisconnect: function () { closeRef.current = close; setDiscC(c); },
+          /* Create metric in place, as on Data Sources */
+          onAddMetric: function () { setMxFor({ c: c }); },
+          /* the count, whatever form the store keeps its metrics in (a list on a workspace) */
+          onAddToWorkspace: function () { setShareC(Object.assign({}, c, { metrics: Array.isArray(c.metrics) ? c.metrics.length : c.metrics })); },
+          onRemoveFromWorkspace: function (it) {
+            ws.removeConnection(it.id, c.id);
+            D.toast.success(h(IK.Fragment, null, bold(c.label), ' removed from ' + it.name));
+          } } };
+      },
+      /* File details' options for one's own file, as Files gives them */
+      file: function (f, close) {
+        var inWs = fileIn(f.id);
+        return { item: Object.assign({}, f, { sharedWith: inWs.map(function (w) { return w.name; }), links: IK.wsLinks(inWs) }), opts: {
+          onDownload: function () { D.toast('Download started'); },
+          /* a new chat with the file in it, as Files' Add to Chat */
+          onAddToChat: function () { location.assign(IK.wsHref('approved/chat-landing.html', { attach: f.name, w: null, tab: null })); },
+          onDelete: function () { closeRef.current = close; setDelF([f]); },
+          onShare: function () { setShareF([stored(f)]); }, shareLocked: free,
+          onRemoveFromWorkspace: function (it) {
+            ws.unshareFile(it.id, f.id);
+            D.toast.success(h(IK.Fragment, null, bold(f.name), ' removed from ' + it.name));
+          } } };
+      },
+      shareFiles: function (list) { setShareF(list.map(stored)); },
+      deleteFiles: function (list, close) { closeRef.current = close || null; setDelF(list); },
+      createMetric: function (c) { setMxFor({ c: c || null }); },
+      dialogs: h(IK.Fragment, null,
+        h(IK.MxMetricDialog, {
+          open: !!mxFor, mode: 'create',
+          initial: mxFor && mxFor.c ? { connector: mxFor.c.label, link: 'connection' } : {},
+          options: IK.WS_CONNECTIONS.map(function (x) { return { id: x.label, label: x.label + ' (' + x.name + ')' }; }),
+          findDuplicates: function () { return { name: null, alias: null }; },
+          onOpenChange: function (v) { if (!v) setMxFor(null); },
+          onSave: function (v) {
+            var k = IK.WS_CONNECTIONS.filter(function (x) { return x.label === v.connector; })[0] || (mxFor && mxFor.c);
+            setMxFor(null);
+            if (k) ws.addMetric(k.id, { name: v.name, alias: v.alias, desc: v.def });
+            var see = o && o.seeMetrics ? o.seeMetrics() : null;
+            D.toast.success(h(IK.Fragment, null, bold(v.name), ' is added to ', bold(k ? k.label : 'Metrics')), see ? {
+              description: h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); see(); } }, 'See it in Metrics') } : undefined);
+          }
+        }),
+        h(IK.DsEditConnectionDialog, {
+          open: !!editC, label: editC && editC.label, desc: editC && (editC.desc || ''),
+          onOpenChange: function (v) { if (!v) setEditC(null); },
+          onSave: function (v) { var c = editC; setEditC(null); ws.updateConnection(c.id, { label: v.label, desc: v.desc }); }
+        }),
+        h(IK.DsDisconnectDialog, {
+          open: !!discC, label: discC && discC.label,
+          sharedIn: discC ? connIn(discC.id).map(function (w) { return w.name; }) : [],
+          onOpenChange: function (v) { if (!v) setDiscC(null); },
+          onConfirm: function () {
+            var c = discC; setDiscC(null); ws.disconnect(c.id); if (closeRef.current) closeRef.current();
+            D.toast.success(h(IK.Fragment, null, bold(c.label), ' disconnected'));
+          }
+        }),
+        h(IK.WsAddToWorkspacesDialog, {
+          open: !!shareC, onOpenChange: function (v) { if (!v) setShareC(null); }, connection: shareC, workspaces: ws.owned, createLocked: free,
+          taken: function (n) { return IK.wsNameTaken(ws.list, n); }, onCreate: function (n, d) { return ws.create(n, d); },
+          onAdd: function (ids) {
+            var c = shareC; ids.forEach(function (id) { ws.addConnections(id, [c]); }); setShareC(null);
+            D.toast.success(h(IK.Fragment, null, bold(c.label), ' added to ' + names(ids)), { description: IK.wsGoLink(ws, ids) });
+          }
+        }),
+        h(IK.WsShareFileDialog, {
+          open: !!shareF, onOpenChange: function (v) { if (!v) setShareF(null); }, files: shareF || [], workspaces: ws.owned, createLocked: free,
+          taken: function (n) { return IK.wsNameTaken(ws.list, n); }, onCreate: function (n, d) { return ws.create(n, d); },
+          onShare: function (ids) {
+            var list = shareF; setShareF(null);
+            ids.forEach(function (id) { var w = ws.find(id); list.forEach(function (f) { if (!w || !w.files.some(function (x) { return x.id === f.id; })) ws.shareFile(id, f); }); });
+            D.toast.success(h(IK.Fragment, null, list.length === 1 ? bold(list[0].name) : list.length + ' files', ' added to ' + names(ids)), { description: IK.wsGoLink(ws, ids) });
+          }
+        }),
+        h(IK.DsDeleteFilesDialog, {
+          open: !!delF, count: delF ? delF.length : 1, onOpenChange: function (v) { if (!v) setDelF(null); },
+          onConfirm: function () {
+            var list = delF; setDelF(null); list.forEach(function (f) { ws.deleteFile(f.id); }); if (closeRef.current) closeRef.current();
+            D.toast.success(list.length === 1 ? h(IK.Fragment, null, bold(list[0].name), ' deleted') : list.length + ' files deleted');
+          }
+        }))
+    };
+  };
+
   /* the invitation a signed-in person sees (chat landing): Olena's Analytics guild, not joined yet */
   /* IK.WsInvitationNotice({ ws: the store, invitation, state: 'pending'|'wrong'|'expired'|'blocked', onAccepted }) — the
      invitation where shared things show (user, 2026-10-20: "повідомлення мало давати інформацію що пошерили
@@ -479,10 +636,10 @@
       action: { label: 'Switch Account', onClick: function () { location.assign(IK.pageHref('concept/auth/login.html')); } } }));
     else if (state === 'expired') D.toast.warning('This invitation has expired', Object.assign(o, {
       description: 'Invitations are valid for 14 days',
-      action: { label: 'Ask ' + name + ' to Resend', onClick: function () { asked('You’ll get a new invitation by email'); } } }));
+      action: { label: 'Ask Owner to Resend', onClick: function () { asked('You’ll get a new invitation by email'); } } }));
     else if (state === 'blocked') D.toast.warning('You can’t join ' + inv.name + ' right now', Object.assign(o, {
       description: 'The workspace is unavailable. The invitation stays valid until ' + fmtDate(NOW + 12 * DAY),
-      action: { label: 'Ask ' + name + ' to Renew', onClick: function () { asked('You can join once the plan is renewed'); } } }));
+      action: { label: 'Ask Owner to Renew', onClick: function () { asked('You can join once the plan is renewed'); } } }));
   };
 
   /* IK.WsInvitationNotice({ ws: the store, invitation, state: 'pending'|'wrong'|'expired'|'blocked', onAccepted }) — the
@@ -512,14 +669,14 @@
   };
 
   /* ── hrefs ─────────────────────────────────────────────────────────────────────────────────── */
-  var KEEP = ['ws', 'wothers', 'names', 'shared', 'trial', 'wdata', 'wshare', 'wowner'];
+  var KEEP = ['ws', 'wothers', 'names', 'shared', 'trial', 'wdata', 'wshare', 'wowner', 'list', 'fav'];
   IK.wsHref = function (rel, p) {
     var u = new URL(IK.pageHref(rel)), q = new URLSearchParams(location.search);
     KEEP.forEach(function (k) { if (q.get(k) && !u.searchParams.has(k)) u.searchParams.set(k, q.get(k)); });
     Object.keys(p || {}).forEach(function (k) { if (p[k] == null) u.searchParams.delete(k); else u.searchParams.set(k, p[k]); });
     return u.href;
   };
-  IK.wsHrefFor = function (w) { return IK.wsHref('concept/workspaces.html', { w: w.id }); };
+  IK.wsHrefFor = function (w) { return IK.wsHref('approved/workspaces.html', { w: w.id }); };
   /* "12 metrics" as a way in (user, 2026-10-20: "має бути лінками з предвибраним фільтром"): Metrics with its
      Provider filter on this connection — one's own (by id or the name the person gave it) or a shared one */
   /* IK.wsGoLink(ws, ids) — the toast's way to what was just added to: "Open Support" for one workspace, "Open
@@ -528,7 +685,7 @@
     var list = (ids || []).map(function (id) { return ws.find(id); }).filter(Boolean);
     if (!list.length) return null;
     var one = list.length === 1;
-    return h(D.LinkButton, { href: one ? IK.wsHrefFor(list[0]) : IK.wsHref('concept/workspaces.html', { w: null, tab: null }) },
+    return h(D.LinkButton, { href: one ? IK.wsHrefFor(list[0]) : IK.wsHref('approved/workspaces.html', { w: null, tab: null }) },
       one ? 'Open ' + list[0].name : 'Open Workspaces');
   };
   IK.wsMetricsHref = function (c) {
@@ -584,67 +741,43 @@
   /* an unavailable shared item reads like any other — its text is not greyed (user, 2026-10-19: "не фарбувати все
      і не робити сторінку неживою") — and says why in a tooltip: the sharer's plan lapsed (muted), or the person's
      own plan doesn't include shared items (locked, { locked: true, noun: 'connections' }) */
+  /* both at once — the owner's plan lapsed AND the person's own plan has no shared items (Free): both are said, and that
+     they need to upgrade too, or a renewal alone would not bring it back (user, 2026-10-21: "якщо накладається і
+     відсутність плану і плану в користувача треба текстом прописати що користувачу потрібно і свій план оновити") */
+  function alsoMine(p) { return !p.locked && (p.free != null ? !!p.free : IK.getPlan() === 'free'); }
+  /* the person's own half, said whole: why and which plan (user, 2026-10-21: 'занадто скорочено не ясно що чому і на який план') */
+  /* short and said as a person would (user, 2026-10-22: 'задовгий текст і не людиночитний') */
+  function ownPlan() { return 'You’re on Free, so you’ll also need Starter'; }
   IK.wsUnavailableTip = function (p) {
     p = p || {};
-    return p.locked ? 'Your plan doesn’t include shared ' + (p.noun || 'items') : (p.by || 'Its owner') + '’s plan no longer includes Workspaces';
+    if (p.locked) return 'Your plan doesn’t include shared ' + (p.noun || 'items');
+    var lapsed = (p.by || 'Its owner') + '’s plan no longer includes Workspaces';
+    return alsoMine(p) ? lapsed + '. ' + ownPlan(p) : lapsed;
   };
   /* IK.WsUnavailableMark({ by, locked, noun }) — the one sign of a shared row that can't be used, the same on
      Connections, Files and Metrics (user, 2026-10-19: "чому тільки на метриках а не на всіх"): a warning glyph
      right after the name, always shown, as the Workspaces list marks a Blocked workspace ("консистентність"),
      the reason in its tooltip; the row itself reads and opens as usual */
-  /* IK.RowMark({ name, description, problems: [{ kind: 'error'|'warning'|'info', text }] }) — everything about a row,
-     said once beside its name, as the AI connectivity lists do (user, 2026-10-20: "подивись як тут реалізований
-     дескріпшн в поповері інфоіконки + ерор чи ворнінг"). One glyph, the worst wins: ⓘ when there is only a
-     description, the amber triangle for a warning, the red cross for an error; nothing when there is neither.
-     Hover (after 300ms) or focus opens a DevartUI Popover: Description (five lines), a rule, then Problem /
-     Problems (N), each a glyph and a sentence in its tone. A bare glyph, not a button box; opening moves no focus */
-  IK.defineIcons({
-    'rm-info': '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
-    'rm-error': '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>'
-  });
-  var TONE = { error: { ink: 'text-fb-red-text', icon: 'rm-error' }, warning: { ink: 'text-fb-attention', icon: 'warning' }, info: { ink: 'text-fb-info', icon: 'rm-info' } };
-  function StatusLine(p) {
-    var t = TONE[p.kind] || TONE.info;
-    return h('span', { className: 'flex items-start gap-2' },
-      h('span', { className: IK.cx('flex h-5 flex-none items-center', t.ink) }, h(IK.Icon, { name: t.icon, size: 14 })),
-      h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'primary', className: 'text-pretty' }, p.children));
-  }
-  IK.RowMark = function RowMark(p) {
-    var os = R.useState(false), open = os[0], setOpen = os[1];
-    var t = R.useRef({});
-    var problems = p.problems || [], desc = p.description;
-    if (!problems.length && !desc) return null;
-    function show() { clearTimeout(t.current.c); if (!open) t.current.o = setTimeout(function () { setOpen(true); }, 300); }
-    function hide() { clearTimeout(t.current.o); t.current.c = setTimeout(function () { setOpen(false); }, 150); }
-    function stop(e) { e.stopPropagation(); }
-    var worst = problems.some(function (x) { return x.kind === 'error'; }) ? 'error' : problems.length ? 'warning' : null;
-    var label = function (text) { return h(D.Typography, { element: 'span', textStyle: 'label12', textColor: 'secondary' }, text); };
-    return h(D.Popover, { open: open, onOpenChange: setOpen },
-      h(D.PopoverTrigger, { asChild: true },
-        h('button', { type: 'button', 'aria-label': worst ? 'What is wrong with ' + (p.name || 'it') : 'About ' + (p.name || 'it'),
-          className: IK.cx('inline-flex flex-none cursor-pointer rounded-sm border-0 bg-transparent p-0 align-middle', worst ? TONE[worst].ink : 'text-ink-secondary', D.focusRing),
-          onMouseEnter: show, onMouseLeave: hide, onFocus: show, onBlur: hide, onClick: stop },
-          h(IK.Icon, { name: worst ? TONE[worst].icon : 'rm-info', size: 14 }))),
-      h(D.PopoverContent, { align: 'start', className: 'w-80',
-        onOpenAutoFocus: function (e) { e.preventDefault(); }, onCloseAutoFocus: function (e) { e.preventDefault(); },
-        onMouseEnter: show, onMouseLeave: hide, onClick: stop },
-        h('div', { className: 'flex flex-col gap-3' },
-          desc ? h('div', { className: 'flex flex-col gap-1' }, label('Description'),
-            h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'primary', className: 'ik-rowmark-desc m-0 break-words' }, desc)) : null,
-          desc && problems.length ? h(D.Separator, null) : null,
-          problems.length ? h('div', { className: 'flex flex-col gap-2' }, label(problems.length === 1 ? 'Problem' : 'Problems (' + problems.length + ')'),
-            problems.map(function (x) { return h(StatusLine, { key: x.text, kind: x.kind }, x.text); })) : null,
-          p.action ? h('div', { className: 'flex' }, p.action) : null)));
-  };
+  /* the row mark's popover is IK.StatusMark (its own kit component since 2026-10-22) */
   /* a shared item that can't be used: its row mark, the Problem saying why */
+  /* IK.wsMarks — how every row's mark reads, set by the page: { popover, renewal(by) }. With the review switch Panels:
+     New the rows' marks open the new panels' Problem popover with the way back (user, 2026-10-21: "якщо нова панель, то
+     має бути і новий ворнінг-поповер на іконку ворнінга"); renewal(by) finds the renewal for that owner's workspaces */
+  IK.wsMarks = { popover: false, renewal: null };
   IK.WsUnavailableMark = function WsUnavailableMark(p) {
+    /* the person's own plan includes none of them (Free): every shared one is the same, the page's plan alert says it —
+       no mark on each (user, 2026-10-21: "в цьому кейсі коли фрі взагалі зайва позначка"); a mark is for the one that
+       differs — its owner's plan lapsed */
+    if (p.locked) return null;
+    var opt = IK.wsMarks || {};
+    if (!p.withAction && opt.popover) p = Object.assign({ withAction: true, renewal: !p.locked && opt.renewal ? opt.renewal(p.by) : undefined }, p);
     /* on a row: the warning glyph with a plain tooltip saying why — the Problem popover was too big for a row (user,
        2026-10-20: "на макетах верни тут тултіп поки що") */
     if (!p.withAction) return h(IK.Tip, { tip: IK.wsUnavailableTip(p), wrap: true },
-      h('span', { tabIndex: 0, role: 'img', 'aria-label': IK.wsUnavailableTip(p), className: IK.cx('inline-flex flex-none rounded-sm align-middle', TONE.warning.ink, D.focusRing) },
+      h('span', { tabIndex: 0, role: 'img', 'aria-label': IK.wsUnavailableTip(p), className: IK.cx('inline-flex flex-none rounded-sm align-middle', IK.statusTone.warning.ink, D.focusRing) },
         h(IK.Icon, { name: 'warning', size: 14 })));
     /* withAction — a details panel's name: the Problem popover with the way back under it */
-    return h(IK.RowMark, { name: p.name, description: p.description, problems: [{ kind: 'warning', text: IK.wsUnavailableTip(p) }],
+    return h(IK.StatusMark, { name: p.name, description: p.description, problems: [{ kind: 'warning', text: IK.wsUnavailableReason(p) }],
       action: p.withAction ? IK.wsUnavailableAction(Object.assign({ size: 'sm' }, p)) : null });
   };
   /* IK.WsAccess({ by, names, links, inLabel, note, action }) — the one "Access" section every details panel ends
@@ -665,10 +798,10 @@
     var world = IK._wsList || [], L = p.links || {};
     var items = p.items || (p.names || []).map(function (n) {
       var w = world.filter(function (x) { return x.name === n; })[0];
-      return { name: n, href: L[n] || (w ? IK.wsHrefFor(w) : null), owner: w ? (w.role === 'owner' ? 'You' : w.owner.name) : p.by, members: w ? w.members.length : null };
+      return { id: w ? w.id : null, name: n, href: L[n] || (w ? IK.wsHrefFor(w) : null), owner: w ? (w.role === 'owner' ? 'You' : w.owner.name) : p.by, members: w ? w.members.length : null };
     });
     /* blocks — each workspace a DevartUI Card "row" across the full width: the whole block opens it (its own rest
-       border, hover, focus, press), the name in plain ink, a chevron saying it leads on (the details-panels concept —
+       border, hover, focus, press), the name in plain ink, no arrow — the block itself is the way in (user, 2026-10-21) (the details-panels concept —
        user, 2026-10-20: "попробуй на сторінці з панелями — не лінками, а блочками") */
     if (p.blocks) return h('ul', { className: 'm-0 flex list-none flex-col gap-2 p-0' }, items.map(function (it) {
       var meta = [it.owner, it.members != null ? it.members + (it.members === 1 ? ' member' : ' members') : null].filter(Boolean).join(' · ');
@@ -683,7 +816,14 @@
             h(D.TruncatedTitleTooltip, { title: it.name, getTruncationTarget: function (t) { return t; } },
               h('span', { className: 'min-w-0 truncate text-sm font-medium text-ink-primary' }, it.name)),
             meta ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'min-w-0 truncate' }, meta) : null),
-          it.href ? h(IK.Icon, { name: 'chevron-right', size: 16, className: 'shrink-0 text-ink-secondary' }) : null));
+          /* onRemove (one's own item): Remove from Workspace on hover, as a row's ⋮ reveals — at rest on a phone or a
+             touch screen; it never opens the workspace (user, 2026-10-21: "в воркспейсах дати опцію видалення на ховер") */
+          p.onRemove ? h(IK.Tip, { tip: 'Remove from ' + it.name },
+            /* destructive — DevartUI's red ghost (user, 2026-10-21: "дія деструктивна") */
+            h(D.IconButton, { variant: 'destructiveTertiary', size: 'xs', type: 'button', 'aria-label': 'Remove from ' + it.name,
+              className: 'shrink-0 opacity-0 group-hover/row:opacity-100 group-focus-within/row:opacity-100 focus-visible:opacity-100 max-md:opacity-100 [@media(hover:none)]:opacity-100',
+              onClick: function (e) { e.stopPropagation(); p.onRemove(it); }, onKeyDown: function (e) { e.stopPropagation(); } },
+              h(IK.Icon, { name: 'ws-remove' }))) : null));
     }));
     /* no plaque — the mark, the name as the link (DevartUI LinkButton, at the text's 14px), its owner and members
        under it (user, 2026-10-20: "плашки забери фон — верни свою ідею з лінком") */
@@ -742,29 +882,42 @@
      the person's own plan → why, and Upgrade to Starter */
   /* what brings an unavailable shared item back: Ask <owner> to Renew (Request Sent once asked) when its owner's plan
      lapsed, Upgrade to Starter when one's own plan has no shared items — the Note's button and the mark's popover */
+  /* the way back follows the reason the tip gives (user, 2026-10-21: "якщо твій план не включає, то чому просити Олену
+     про ренью — треба апгрейднути план"): one's own plan without the module → Upgrade; the owner's plan lapsed → ask them */
+  /* IK.wsUnavailableReason(p) — the reason alone, where IK.wsUnavailableAction follows it and says the person's own
+     half itself (a popover, a panel's note, the file preview) */
+  IK.wsUnavailableReason = function (p) { return IK.wsUnavailableTip(Object.assign({}, p, { free: false })); };
+  /* both at once: Ask Owner to Renew is the action; one's own plan a quieter line under it, its link the way — a
+     second button read odd (user, 2026-10-21: "виглядає дивно - потрібно було б просто дати це інфо меседжем менш
+     контрастним") */
   IK.wsUnavailableAction = function (p) {
-    var r = p.renewal || {}, lapsed = r.blocked || !p.locked;
+    var r = p.renewal || {}, lapsed = !p.locked;
     var owner = (r.owners && r.owners[0]) || p.by || 'Its owner';
-    return lapsed
-      ? (r.requested
-          ? h(D.Button, { variant: 'secondary', size: p.size || 'sm', type: 'button', disabled: true, leftSlot: h(IK.Icon, { name: 'check' }) }, 'Request Sent')
-          : r.request ? h(D.Button, { variant: 'secondary', size: p.size || 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-send' }), onClick: r.request },
-              askLabel(r.owners && r.owners.length ? r.owners : [owner])) : null)
-      : h(IK.Locked, { feature: p.feature || 'connections', clickOnly: true, marker: 'none', locked: true },
-          h(D.Button, { variant: 'secondary', size: p.size || 'sm', type: 'button' }, 'Upgrade to Starter'));
+    var up = h(IK.Locked, { key: 'up', feature: p.feature || 'connections', clickOnly: true, marker: 'none', locked: true },
+      h(D.Button, { variant: 'secondary', size: p.size || 'sm', type: 'button' }, 'Upgrade to Starter'));
+    if (!lapsed) return up;
+    var ask = r.requested
+      ? h(D.Button, { key: 'ask', variant: 'secondary', size: p.size || 'sm', type: 'button', disabled: true, leftSlot: h(IK.Icon, { name: 'check' }) }, 'Request Sent')
+      : r.request ? h(D.Button, { key: 'ask', variant: 'secondary', size: p.size || 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-send' }), onClick: r.request },
+          askLabel(r.owners && r.owners.length ? r.owners : [owner])) : null;
+    if (!alsoMine(p)) return ask;
+    /* information, not a way: upgrading alone brings nothing back while the owner's plan is lapsed — short, no link
+       (user, 2026-10-21: "треба коротше - це інформативне") */
+    return h('div', { className: 'flex flex-col items-start gap-2' }, ask,
+      h(D.Typography, { element: 'p', textStyle: 'body12', textColor: 'secondary', className: 'm-0 text-pretty' }, ownPlan(p)));
   };
   IK.WsUnavailableNote = function WsUnavailableNote(p) {
-    var r = p.renewal || {}, lapsed = r.blocked || !p.locked;
+    var r = p.renewal || {}, lapsed = !p.locked;
     var owner = (r.owners && r.owners[0]) || p.by || 'Its owner', name = String(owner).split(' ')[0];
     var action = IK.wsUnavailableAction(p);
-    var text = lapsed ? owner + '’s plan no longer includes Workspaces. Access returns when ' + name + ' renews'
-                      : 'Your plan doesn’t include shared ' + (p.noun || 'items') + '. Nothing was deleted';
+    var text = !lapsed ? 'Your plan doesn’t include shared ' + (p.noun || 'items') + '. Nothing was deleted'
+      : alsoMine(p) ? owner + '’s plan no longer includes Workspaces'
+      : owner + '’s plan no longer includes Workspaces. Access returns when ' + name + ' renews';
     return h(D.Alert, {
       variant: 'warning', size: 'md', role: 'note', className: 'w-full', icon: h(IK.Icon, { name: 'warning' }),
       title: 'Unavailable',
       description: h('div', { className: 'flex flex-col items-start gap-3' },
-        h('span', null, lapsed ? owner + '’s plan no longer includes Workspaces. Access returns when ' + name + ' renews'
-                               : 'Your plan doesn’t include shared ' + (p.noun || 'items') + '. Nothing was deleted'),
+        h('span', null, text),
         action)
     });
   };
@@ -967,7 +1120,7 @@
   /* ── WsNotice ──────────────────────────────────────────────────────────────────────────────── */
   function first(name) { return String(name || '').split(' ')[0]; }
   /* whose plan lapsed: one owner by name, two by name ("Olena Petrenko’s and Mark Shevchenko’s plans"), more as
-     "their owners'" — and the ask: "Ask Olena to Renew" for one, "Ask Owners to Renew" for several (one click
+     "their owners'" — and the ask: "Ask Owner to Renew", one owner or several (one click
      asks them all; the toast names who got the email) */
   function whosePlan(owners) {
     return owners.length === 1 ? owners[0] + '’s plan no longer includes Workspaces'
@@ -976,7 +1129,9 @@
   }
   function askLabel(owners) {
     /* names can be long: with several owners the button says 'Owners', the sentence above names them (user, 2026-10-19) */
-    return owners.length === 1 ? 'Ask ' + first(owners[0]) + ' to Renew' : 'Ask Owners to Renew';
+    /* by role, not by name (user, 2026-10-21: "овнера — не Олену"): the sentence above names who */
+    /* one generic text everywhere, one owner or several (user, 2026-10-21: 'всюди кнопка мала мати дженерал текст') */
+    return 'Ask Owner to Renew';
   }
   function dismiss(fn) {
     return fn ? h(IK.Tip, { tip: 'Dismiss' },
@@ -1002,6 +1157,7 @@
   };
 
   IK.WsNotice = function WsNotice(p) {
+    var phone = D.useMaxWidth(640);
     var w = p.ws || {}, k = p.kind, a;
     /* the upgrade is a link in the sentence and the notice can be dismissed — the Insightis warning
        (Data Sources' and Metrics' "Your subscription ended …": Nothing was deleted. Upgrade to …) */
@@ -1043,7 +1199,8 @@
       a = {
         variant: 'warning', icon: 'warning',
         title: bn === 1 ? 'A shared ' + p.noun[0] + ' is unavailable' : bn + ' shared ' + p.noun[1] + ' are unavailable',
-        description: 'From ' + bfrom + '. ' + whosePlan(bowners),
+        /* on Free the person's own plan is the other half: said here too (user, 2026-10-21) */
+        description: 'From ' + bfrom + '. ' + whosePlan(bowners) + (p.free ? '. ' + ownPlan({ noun: p.noun[1] }) : ''),
         actions: h(IK.Fragment, null,
           bsent
             ? act('Request Sent', null, { disabled: true, leftSlot: h(IK.Icon, { name: 'check' }) })
@@ -1076,7 +1233,8 @@
     }
     /* a Member whose own plan lacks the module: what was shared stays listed, unusable — the plan fixes it */
     else if (k === 'shared-plan') a = {
-      variant: 'warning', icon: 'warning', title: 'Shared ' + ({ Connectors: 'connections', Files: 'files', Metrics: 'metrics' }[p.module] || 'items') + ' need Starter',
+      /* the plan's notice: the wallet illustration, as "Your subscription ended" (user, 2026-10-21) */
+      variant: 'warning', illu: 'wallet', title: 'Shared ' + ({ Connectors: 'connections', Files: 'files', Metrics: 'metrics', Workspaces: 'workspaces' }[p.module] || 'items') + ' need Starter',
       description: h(IK.Fragment, null, 'Your plan doesn’t include ' + (p.module || 'Connectors') + '. ',
         upgradeLink('Upgrade to Starter', p.feature || 'connections'), ' to use them in your chats'),
       actions: dismiss(p.onDismiss)
@@ -1087,9 +1245,19 @@
       actions: act('Accept Invitation', p.onAccept, { variant: 'primary' })
     };
     if (!a) return null;
+    /* the × never leaves the first line (user, 2026-10-22: "хрестик не мав переноситись на інший рядок"): DevartUI's
+       Alert lays its actions full width under the copy below 640px — right for a button, wrong for a lone ×. So the ×
+       keeps its own width there, and on a phone a button goes under the copy, in it, while the × stays up top */
+    var kids = !a.actions ? [] : a.actions.type === IK.Fragment ? R.Children.toArray(a.actions.props.children) : [a.actions];
+    var x = kids.filter(function (k) { return k && k.type === IK.Tip; }), btns = kids.filter(function (k) { return k && k.type !== IK.Tip; });
+    var below = phone && x.length && btns.length;
     return h(D.Alert, {
-      variant: a.variant, size: p.size || 'md', role: 'note', className: IK.cx('ik-ws-notice', p.className),
-      icon: h(IK.Icon, { name: a.icon }), title: a.title, description: a.description, actions: a.actions || undefined
+      variant: a.variant, size: p.size || 'md', role: 'note', className: IK.cx('ik-ws-notice', btns.length && !x.length && 'is-wrap', p.className),
+      icon: a.illu ? undefined : h(IK.Icon, { name: a.icon }), illustration: a.illu ? h(IK.Icon, { name: a.illu, size: 20 }) : undefined,
+      title: a.title,
+      description: below ? h(IK.Fragment, null, a.description, h('span', { className: 'mt-3 flex flex-wrap gap-2' }, btns)) : a.description,
+      actions: below ? h(IK.Fragment, null, x) : (a.actions || undefined),
+      actionsClassName: x.length ? 'max-sm:w-auto' : undefined
     });
   };
 
@@ -1191,7 +1359,9 @@
       /* planCovered: the page's own "Your subscription ended … Upgrade to Starter" already says it, shared ones
          included — one upgrade notice, not two (user, 2026-10-19: "можуть об'єднатись") */
       p.free && !p.planCovered && !off.plan ? h(IK.WsNotice, { key: 'plan', kind: 'shared-plan', module: p.module, feature: p.feature, onDismiss: dismiss('plan') }) : null
-    ].concat(deadN && blocked.length && !off.b ? [h(IK.WsNotice, { key: 'b', kind: 'blocked-items', count: deadN, noun: noun, list: blocked, onDismiss: dismiss('b'), onRequest: function () {
+    /* with the new panels the rows' warning marks say it, each with its way back in the popover — no notice on top
+       (user, 2026-10-21: 'з новою панеллю не потрібен алерт про недоступність чужих - це позначено трикутником') */
+    ].concat(deadN && blocked.length && !off.b && !(IK.wsMarks && IK.wsMarks.popover) ? [h(IK.WsNotice, { key: 'b', kind: 'blocked-items', count: deadN, noun: noun, list: blocked, free: p.free, onDismiss: dismiss('b'), onRequest: function () {
       var todo = blocked.filter(function (w) { return !w.requested; }), who = [];
       todo.forEach(function (w) { ws.requestRenewal(w.id); if (who.indexOf(w.owner.name) < 0) who.push(w.owner.name); });
       D.toast.success(h(IK.Fragment, null, who.length > 1 ? 'Emails sent to ' : 'Email sent to ', h('span', { className: 'font-medium text-ink-primary' }, IK.wsJoin(who))), { description: who.length > 1 ? 'You’ll get access back as each plan is renewed' : 'You’ll get access back once the plan is renewed' });

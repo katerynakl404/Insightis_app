@@ -1,0 +1,2 @@
+/* StatusMark — the description in its popover stops at five lines (the item's own panel holds the whole of it) */
+.ik-statusmark-desc { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }

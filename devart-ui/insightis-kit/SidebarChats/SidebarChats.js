@@ -196,7 +196,7 @@
     /* the new-activity dot is never shown on the open chat */
     var status = c.status === 'loading' ? 'loading' : c.status === 'new' && !p.current ? 'new' : undefined;
     return h(D.SidebarChatItem, {
-      href: IK.pageHref(c.href || chatPage(c.title)),
+      href: IK.wsHref(c.href || chatPage(c.title)),
       isActive: !!p.current,
       'aria-current': p.current ? 'page' : undefined,
       onClick: p.current ? function (e) { e.preventDefault(); } : undefined,
@@ -212,7 +212,7 @@
   function Section(p) {
     return h(D.SidebarSection, {
       label: p.label,
-      action: h(D.LinkButton, { href: IK.pageHref('concept/chats-landing.html') }, 'See all')
+      action: h(D.LinkButton, { href: IK.wsHref('concept/chats-landing.html') }, 'See all')
     }, p.list.map(function (c) {
       return h(ChatRow, { key: c.id, chat: c, chats: p.chats, current: p.isCurrent(c) });
     }));

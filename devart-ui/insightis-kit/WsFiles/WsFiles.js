@@ -3,14 +3,18 @@
    is ticked "N selected" + the bulk actions), IK.DsFilesTable, 20 at a time + Load more, "No matches
    found" (user, 2026-10-19: "бракує балкових екшенів та пошуку").
 
-     owner   a workspace page's Files tab: ⋮ Download · Remove from Workspace; bulk Download · Remove
+     owner   a workspace page's Files tab, as Files (user, 2026-10-22: "⋮ і клітинки як на власних сторінках"):
+             ⋮ Add to Chat · Share via Workspace · Download · Remove from Workspace · Delete; bulk Share via
+             Workspace · Download · Remove from Workspace · Delete; shareLocked → Share via Workspace locked (Free)
      member  a workspace a person was invited to, and the Shared tab of Files: ⋮ View · Add to Chat ·
              Download, bulk Add to Chat · Download; caption: true → a Workspaces column (which
              workspaces it comes from — rows keep one height; user, 2026-10-19). A file with locked (unavailable on the plan) or muted (a Blocked
              workspace) can't be ticked; with none to tick there is no bar.
+     Both: the open file's row marked (previewId), and on a phone the bar sorts by date (Newest / Oldest), as Files.
 
    h(IK.WsFiles, { files: [{ id, name, type, origin, size, date, time, by, wsName, locked, muted }],
-     owner: bool, caption: bool, ownerCol: bool, onAction(action, ids) })   ownerCol — who shared each    action: view | add-to-chat | download | stop-sharing */
+     owner: bool, caption: bool, ownerCol: bool, previewId, shareLocked, onAction(action, ids) })   ownerCol — who shared each
+     action: view | add-to-chat | share | download | stop-sharing | delete */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
@@ -23,6 +27,7 @@
     var ss = R.useState([]), sel = ss[0], setSel = ss[1];
     var ps = R.useState(PAGE), shown = ps[0], setShown = ps[1];
     var sd = R.useState('desc'), sortDir = sd[0], setSortDir = sd[1];
+    var phone = D.useMaxWidth(768);
     R.useEffect(function () { setShown(PAGE); setSel([]); }, [q, filter]);
 
     var qq = q.trim().toLowerCase();
@@ -39,7 +44,9 @@
     }
 
     var bulk = owner
-      ? [bulkBtn('download', 'Download', 'download'), bulkBtn('stop-sharing', 'Remove', 'ws-remove', 'destructiveTertiary')]
+      ? [h(IK.Locked, { key: 'share', feature: 'workspaces', locked: !!p.shareLocked, surface: 'modal', tip: 'Available on Pro' }, bulkBtn('share', 'Share via Workspace', 'ws-share')),
+         bulkBtn('download', 'Download', 'download'), bulkBtn('stop-sharing', 'Remove from Workspace', 'ws-remove', 'destructiveTertiary'),
+         bulkBtn('delete', 'Delete', 'delete', 'destructiveTertiary')]
       : [bulkBtn('add-to-chat', 'Add to Chat', 'add-chat'), bulkBtn('download', 'Download', 'download')];
     var bar = !vis.length || !pickable.length ? null : h(D.ListSelectionBar, {
       title: vis.length + (vis.length === 1 ? ' file' : ' files'),
@@ -47,7 +54,13 @@
       exitSelectionLabel: 'Exit selection',
       onSelectAll: function () { setSel(pickable.map(function (f) { return f.id; })); },
       onClearSelection: function () { setSel([]); },
-      rightSlot: picked.length ? h(IK.Fragment, null, bulk) : undefined
+      rightSlot: picked.length ? h(IK.Fragment, null, bulk)
+        /* a phone has no Modified header to sort by: the bar sorts, as on Files */
+        : phone ? h(IK.Tip, { tip: 'Sort by date' },
+            h('button', { type: 'button', 'aria-label': 'Sort by date', className: IK.cx('inline-flex items-center gap-1 rounded text-xs text-ink-secondary', D.focusRing),
+              onClick: function () { setSortDir(sortDir === 'asc' ? 'desc' : 'asc'); } }, sortDir === 'asc' ? 'Oldest' : 'Newest',
+              h(IK.Icon, { name: 'chevron-down', size: 12, style: sortDir === 'asc' ? { transform: 'rotate(180deg)' } : undefined })))
+        : undefined
     });
     var left = vis.length - page.length;
     return h('div', { className: 'flex flex-col gap-3' },
@@ -65,12 +78,14 @@
           onToggle: function (id) { setSel(picked.indexOf(id) >= 0 ? picked.filter(function (x) { return x !== id; }) : picked.concat([id])); },
           onToggleAll: function () { setSel(allSel ? [] : pickable.map(function (f) { return f.id; })); },
           sortDir: sortDir, onSort: function () { setSortDir(sortDir === 'asc' ? 'desc' : 'asc'); },
-          menuItems: owner ? ['download', 'stop-sharing'] : ['view', 'add-to-chat', 'download'],
+          menuItems: owner ? ['add-to-chat', 'share', 'download', 'stop-sharing', 'delete'] : ['view', 'add-to-chat', 'download'],
+          menuLock: owner && p.shareLocked ? { share: { feature: 'workspaces', locked: true } } : undefined,
+          previewId: p.previewId,
           wsCol: !!p.caption, ownerCol: !!p.ownerCol, tag: p.tag, ownerMark: p.ownerMark,
           onAction: function (a, id) { p.onAction(a, [id]); },
           /* a row opens the file's preview, as on Files (user, 2026-10-19: "файл натискається але нічого не відбувається") */
           onOpen: p.onOpen
-        }) : h(IK.WsNoMatch, { description: qq ? 'No files match “' + q.trim() + '” — try a different search' : 'No files match this filter — switch back to All' }),
+        }) : h(IK.WsNoMatch, { description: qq ? 'No files match your search or filters — try a different term or clear them' : 'No files match this filter — switch back to All to see every file' }),
         left > 0 ? h('div', { className: 'mt-1 flex justify-center' },
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setShown(shown + PAGE); } },
             'Load more ', h('span', { className: 'font-medium tabular-nums text-ink-inactive' }, left))) : null));

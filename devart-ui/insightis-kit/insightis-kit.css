@@ -35,8 +35,10 @@
 @import "./DsFilesTable/DsFilesTable.css";
 @import "./DsLastCheck/DsLastCheck.css";
 @import "./DsStorageMark/DsStorageMark.css";
+@import "./FavoriteToggle/FavoriteToggle.css";
 @import "./ListPage/ListPage.css";
 @import "./Locked/Locked.css";
+@import "./MxMetricList/MxMetricList.css";
 @import "./MxMetricSheet/MxMetricSheet.css";
 @import "./MxMetricsTable/MxMetricsTable.css";
 @import "./MxProviderCard/MxProviderCard.css";
@@ -47,6 +49,7 @@
 @import "./QueueBand/QueueBand.css";
 @import "./QueueItem/QueueItem.css";
 @import "./SortableList/SortableList.css";
+@import "./StatusMark/StatusMark.css";
 @import "./ThinkingIndicator/ThinkingIndicator.css";
 @import "./UpgradeModal/UpgradeModal.css";
 @import "./UpgradePopover/UpgradePopover.css";

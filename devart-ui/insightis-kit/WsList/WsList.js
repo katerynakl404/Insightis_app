@@ -1,4 +1,4 @@
-/* WsList — the Workspaces list (concept/workspaces.html), the AI connectivity prototype's list row
+/* WsList — the Workspaces list (approved/workspaces.html), the AI connectivity prototype's list row
    carried over (its WorkspacesIndex): DevartUI Table, auto layout, no Card around it (Table is
    one), the empty states INSIDE the table so the header, the field and the button stay put.
 
@@ -18,7 +18,7 @@
      Actions      the Insightis row menu — ⋮ (DevartUI RowMenuButton) revealed on row hover / focus /
                   while open, always shown below 768px. Own: Invite Members · Add Connection (each opens
                   the workspace with its dialog open) · Add Files (→ Files) — locked while Blocked —
-                  then Rename · Delete (danger). Invited and Blocked: Ask
+                  then Edit · Delete (danger). Invited and Blocked: Ask
                   <Owner> to Renew (→ Request Sent). Invited and Active: none. No column when no row
                   is the person's own.
    A row opens the workspace's own page (IK.wsHrefFor) — the Owner's view of it, or the read-only
@@ -39,7 +39,7 @@
    Invite Members / Add Connection / Add Files call onAct('invite' | 'add' | 'files', w): the page
    opens that dialog where the person is, and goes to the workspace once it is done.
 
-   h(IK.WsList, { workspaces, query, createButton, selected: [ids], onSelect(ids), onRename(w), onDelete(w), onRenew(w), onConnection(w, c), onAct(kind, w) }) */
+   h(IK.WsList, { workspaces, query, createButton, selected: [ids], onSelect(ids), onEdit(w), onDelete(w), onRenew(w), onConnection(w, c), onAct(kind, w) }) */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
@@ -52,7 +52,7 @@
       h('span', { className: IK.cx('min-w-0 truncate', cls) }, text));
   }
   /* a workspace's page on a tab, optionally opening a dialog there (do: add | invite) */
-  function to(w, tab, act) { return IK.wsHref('concept/workspaces.html', { w: w.id, tab: tab || null, do: act || null }); }
+  function to(w, tab, act) { return IK.wsHref('approved/workspaces.html', { w: w.id, tab: tab || null, do: act || null }); }
   var FILES = 'approved/data-sources_files-landing.html';
   function go(href) { return function () { location.assign(href); }; }
   /* an act on a workspace: the page opens its dialog in place (onAct) and only then goes to the
@@ -101,12 +101,18 @@
   }
   function first(n) { return String(n || '').split(' ')[0]; }
 
-  function mark(w) {
+  /* a Blocked workspace: the same warning popover as a shared connection's or metric's (IK.StatusMark — user,
+     2026-10-22: "як можуть бути різні тултіпи - на пошерених мав бути поповер як на сторінках метрик та сорсів"): why,
+     and the way back — one's own: Upgrade to Pro; an invited one: Ask Owner to Renew (Request Sent once asked), and on
+     Free that the person needs Starter too */
+  function mark(w, p) {
     if (w.status !== 'blocked') return null;
-    /* short, as Insightis tooltips are: the reason itself is the workspace's notice */
-    var why = w.role === 'owner' ? 'Unavailable to members' : 'Unavailable';
-    return h(IK.Tip, { tip: why },
-      h('span', { className: 'flex flex-none text-fb-attention', role: 'img', 'aria-label': why, tabIndex: 0 }, h(IK.Icon, { name: 'warning', size: 16 })));
+    if (w.role === 'owner') return h(IK.StatusMark, { name: w.name,
+      problems: [{ kind: 'warning', text: 'Your plan no longer includes Workspaces, so its members can’t use it' }],
+      action: h(IK.Locked, { feature: 'workspaces', clickOnly: true, marker: 'none', locked: true },
+        h(D.Button, { variant: 'secondary', size: 'sm', type: 'button' }, 'Upgrade to Pro')) });
+    return h(IK.WsUnavailableMark, { name: w.name, by: w.owner.name, noun: 'workspaces', feature: 'workspaces', withAction: true,
+      renewal: { blocked: true, owners: [w.owner.name], requested: !!w.requested, request: p.onRenew ? function () { p.onRenew(w); } : null } });
   }
 
   IK.WsList = function WsList(p) {
@@ -162,12 +168,17 @@
            COLS): the name the widest, a count the narrowest, the cell actions ("+ Add Connection") whole at 1280px, the ⋮ its own small column */
         /* compact: the name takes what the hidden columns leave */
         /* no Files column (user, 2026-10-20: "забери файли") — a workspace's files are on its Files tab */
-        h(D.TableHead, { style: p.compact ? undefined : { width: '26%' } }, 'Name'),
-        h(D.TableHead, { style: { width: '16%' }, className: hideCol }, 'Owner'),
+        /* narrow (a phone, or the preview open): the name takes all the hidden columns leave — at 26% the rest went to
+           the checkbox column (user, 2026-10-22: 'що це таке - в першу чергу виправ респонсив') */
+        /* the name takes what the rest leaves, as on Data Sources: percentages for the others and a fixed Actions — at 8%
+           its head no longer fitted at 1024 and the table ran past its frame (user, 2026-10-22: 'стовпчик екшнз не мав врізатись') */
+        h(D.TableHead, null, 'Name'),
+        h(D.TableHead, { style: { width: '15%' }, className: hideCol }, 'Owner'),
         h(D.TableHead, { style: { width: '9%' }, className: hideCol }, 'Members'),
-        h(D.TableHead, { style: { width: '21%' }, className: hideCol }, 'Connections'),
-        h(D.TableHead, { style: { width: '16%' }, className: hideCol }, 'Last activity'),
-        acts ? h(D.TableHead, { style: { width: '8%' }, className: 'text-right' }, 'Actions') : null)),
+        h(D.TableHead, { style: { width: '19%' }, className: hideCol }, 'Connections'),
+        h(D.TableHead, { style: { width: '14%' }, className: hideCol }, 'Last activity'),
+        /* narrow: the column is the ⋮ and its insets, its head for the screen reader only (a clipped 'Action' read broken) */
+        acts ? h(D.TableHead, { style: { width: small ? '3.5rem' : '5.5rem' }, className: 'text-right' }, small ? h('span', { className: 'sr-only' }, 'Actions') : 'Actions') : null)),
       h(D.TableBody, null, empty
         ? h(D.TableRow, null, h(D.TableCell, { colSpan: acts ? 7 : 5, className: 'py-12' }, empty))
         : page.map(function (w) {
@@ -191,7 +202,7 @@
                     h('span', { className: 'flex min-w-0' },
                       h(D.TruncatedTitleTooltip, { title: w.name, getTruncationTarget: function (t) { return t; } },
                         h('a', { href: href, className: IK.cx('min-w-0 truncate rounded-sm text-sm font-medium text-ink-primary', D.focusRing) }, w.name))),
-                    mark(w)),
+                    mark(w, p)),
                   small ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'flex min-w-0' },
                     fit(owner + ' · ' + plural(w.members.length, 'member', 'members') + ' · ' + plural(w.connections.length, 'connection', 'connections'))) : null)),
               h(D.TableCell, { className: hideCol + ' max-w-48' },
@@ -206,12 +217,12 @@
                     item('Add Connection', 'plus', act(p, 'add', w, 'connections'), blocked),
                     /* no Add Files here (user, 2026-10-20: "додавання файлу забери") — the Files tab and Files' ⋮ add them */
                     h(D.DropdownMenuSeparator, null),
-                    item('Rename', 'rename', function () { p.onRename(w); }),
+                    item('Edit', 'rename', function () { p.onEdit(w); }),
                     item('Delete', 'delete', function () { p.onDelete(w); }, false, true))
                 /* an invited workspace: Leave Workspace; while it is Blocked, Ask its Owner to Renew first */
                 : (blocked && p.onRenew) || p.onLeave ? h(D.RowMenuButton, { reveal: false },
                     blocked && p.onRenew ? (w.requested ? h(D.DropdownMenuItem, { key: 'rs', disabled: true }, h(IK.Icon, { name: 'check', size: 16 }), 'Request Sent')
-                      : item('Ask ' + first(w.owner.name) + ' to Renew', 'ws-send', function () { p.onRenew(w); })) : null,
+                      : item('Ask Owner to Renew', 'ws-send', function () { p.onRenew(w); })) : null,
                     blocked && p.onRenew && p.onLeave ? h(D.DropdownMenuSeparator, { key: 'sep' }) : null,
                     p.onLeave ? item('Leave Workspace', 'ws-leave', function () { p.onLeave(w); }, false, true) : null)
                 : null) : null);

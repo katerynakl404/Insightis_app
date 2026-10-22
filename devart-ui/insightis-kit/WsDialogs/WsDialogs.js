@@ -1,4 +1,4 @@
-/* WsDialogs — the dialogs of shared workspaces (rules: pages/concept/workspace.rules.md). DevartUI
+/* WsDialogs — the dialogs of shared workspaces (rules: pages/approved/workspace.rules.md). DevartUI
    Modal for every shell (ModalContent / ModalHeader + ModalTitle / ModalFooter, its own ✕, Esc and
    scrim close), the composition of the AI connectivity workspaces prototype where it fits.
 
@@ -8,8 +8,8 @@
      (InputGroup errorText); after a refusal the field re-checks as they type. Names stop at IK.WS_NAME_MAX.
      { open, onOpenChange, taken: function (name) → bool, onCreate: function (name, description) {} }
 
-   IK.WsRenameDialog — the same dialog, "Rename workspace", Save.
-     { open, onOpenChange, name, taken, onSave: function (name) {} }
+   IK.WsEditDialog — the same dialog, "Edit workspace": the name and the description, Save (user, 2026-10-21: "едіт мав міняти і текст і опис", "едіт а не ренейм").
+     { open, onOpenChange, name, desc, taken, onSave: function (name, description) {} }
 
    IK.WsInviteDialog — "Invite members" (sm): one email, no role picker (everyone invited is a
      Member). Refused under the field: not an email, already a member, already invited.
@@ -66,7 +66,7 @@
       h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: cancel }, 'Cancel'), main);
   }
 
-  /* ── Create / Rename ───────────────────────────────────────────────────────────────────────── */
+  /* ── Create / Edit ───────────────────────────────────────────────────────────────────────── */
   var DESC_MAX = 500;
   function NameDialog(p) {
     var vs = R.useState(''), val = vs[0], setVal = vs[1];
@@ -119,10 +119,11 @@
       onDone: p.onCreate
     });
   };
-  IK.WsRenameDialog = function WsRenameDialog(p) {
+  /* the name and the description, both — not a rename (user, 2026-10-21: "едіт мав міняти і текст і опис", "едіт а не ренейм") */
+  IK.WsEditDialog = function WsEditDialog(p) {
     return h(NameDialog, {
-      open: p.open, onOpenChange: p.onOpenChange, taken: p.taken, name: p.name,
-      title: 'Rename workspace', action: 'Save', onDone: p.onSave
+      open: p.open, onOpenChange: p.onOpenChange, taken: p.taken, name: p.name, desc: p.desc,
+      title: 'Edit workspace', action: 'Save', withDesc: true, onDone: p.onSave
     });
   };
 

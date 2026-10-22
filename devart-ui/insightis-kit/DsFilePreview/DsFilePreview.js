@@ -92,10 +92,12 @@
   /* a shared file that can't be used, in the preview's place: why, and the way back (Ask to Renew / Upgrade) */
   IK.DsFileUnavailable = function DsFileUnavailable(p) {
     var u = { by: p.by, locked: !!p.locked, noun: 'files', feature: 'shared-files', renewal: p.renewal };
+    /* the glyph in the warning tone of the mark by the name — grey read as "no preview", not as a problem (user,
+       2026-10-20: "іконка виглядає наче не того кольору") */
     return h('div', { className: 'ik-dsfp-empty' },
-      h(IK.Icon, { name: 'ds-doc', size: 40, strokeWidth: 1.5, className: 'text-ink-inactive' }),
+      h(IK.Icon, { name: 'ds-doc', size: 40, strokeWidth: 1.5, className: 'text-fb-attention' }),
       h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', align: 'center' }, 'Unavailable'),
-      h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', align: 'center', className: 'm-0 max-w-64' }, IK.wsUnavailableTip(u)),
+      h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', align: 'center', className: 'm-0 max-w-64' }, IK.wsUnavailableReason(u)),
       IK.wsUnavailableAction(Object.assign({ size: 'sm' }, u)));
   };
   IK.DsFilePreviewContent = function DsFilePreviewContent(p) {

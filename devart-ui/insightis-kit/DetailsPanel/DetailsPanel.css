@@ -3,3 +3,11 @@
    under Close's (IconButton xs, 28px, on the head's 24px edge) — one column of controls down the right
    (user, 2026-10-20: "чому не вирівняти"). */
 .ik-dp-details { padding-inline: .75rem 1.125rem; }
+
+/* every details Sheet one width — Connection and Metric alike (user, 2026-10-20: "ці панелі за логікою мали б мати
+   однакову ширину"): 26.25rem, the Metric Details width, where its head (switch + actions) and its three foot buttons
+   fit; DevartUI's Sheet caps the right side at 24rem, hence the doubled class */
+.ik-dp-sheet.ik-dp-sheet { width: 26.25rem; max-width: 90vw; }
+/* a phone: the whole width, as the file preview takes it — at 90vw Metric Details' Delete · Duplicate · Edit wrapped to two
+   rows (responsive check, 2026-10-22) */
+@media (max-width: 639px) { .ik-dp-sheet.ik-dp-sheet { max-width: 100vw; } }

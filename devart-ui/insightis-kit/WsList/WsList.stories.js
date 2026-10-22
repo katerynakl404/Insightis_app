@@ -3,7 +3,7 @@
   function World(p) { var ws = IK.useWorkspaces({ data: p.data || 'filled', names: p.names, others: p.others }); return p.render(ws); }
   function List(p) {
     var s = R.useState([]);
-    return h(IK.WsList, Object.assign({ selected: s[0], onSelect: s[1], onRename: function () {}, onDelete: function () {}, onConnection: function () {},
+    return h(IK.WsList, Object.assign({ selected: s[0], onSelect: s[1], onEdit: function () {}, onDelete: function () {}, onConnection: function () {},
       onAct: function () {}, onRenew: function () {},
       createButton: h(D.Button, { variant: 'primary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }) }, 'Create Workspace') }, p));
   }

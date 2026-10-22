@@ -73,14 +73,15 @@
   var BROWSE = [['q2-report.csv', 'csv', '3.1 MB'], ['new-customers.xlsx', 'xlsx', '1.2 MB'], ['budget-2026.xls', 'xls', '456 KB'], ['pipeline.csv', 'csv', '780 KB']];
 
   function App() {
-    /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
+    /* shared workspaces (approved/workspace.rules.md): off unless the review switch turns it on */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var plan = IK.usePlan(), free = plan[0] === 'free';
     var quota = RK.useQueryState('storage', 'within');
-    /* Panels: New — the unified details panel tried on this page (IK.DetailsPanel, built from the page's own data by
-     IK.fileDetails); Current, the default, is the prototype as approved (user, 2026-10-20: "потрібно нові приміряти на
-     сторінки — але ще не замінювати в прототипі") */
-    var panels = RK.useQueryState('panels', 'current'), newPanels = panels[0] === 'new';
+    /* File details is the unified panel (IK.DetailsPanel via IK.fileDetails), the only one — the product's old preview is
+       gone (user, 2026-10-22: "лишаєм нову панель всюди") */
+    IK.wsMarks = { popover: true, renewal: function (by) {
+      return IK.wsRenewal(ws, ws.list.filter(function (x) { return x.role === 'member' && x.owner.name === by; }).map(function (x) { return x.id; }));
+    } };
     var data = RK.useQueryState('data', 'filled');
     var load = RK.useQueryState('load', 'loaded');
     var phone = D.useMaxWidth(768);
@@ -343,7 +344,6 @@
       h(RK.ReviewBar, { title: 'Data Sources (Files)', status: 'approved', size: 'sm', autoHeight: true, controls: [
         { label: 'Storage state', value: quota[0], onChange: quota[1],
           options: [{ value: 'within', label: 'Within limit' }, { value: 'over', label: 'Over limit' }] },
-        { label: 'Panels', value: panels[0], onChange: panels[1], options: [{ value: 'current', label: 'Current' }, { value: 'new', label: 'New' }] },
         RK.wsOwnsPlan(wsq) ? null : { label: 'Plan', value: plan[0], onChange: plan[1],
           options: [{ value: 'paid', label: 'Paid' }, { value: 'free', label: 'Free' }] },
         { label: 'Data state', value: data[0], onChange: setData,
@@ -374,33 +374,19 @@
           /* the preview offers what the file's row offers (user, 2026-10-20): its ⋮ (no View — it is open — and no
              Download — the head's icon), Share via Workspace in Access for one's own, Ask to Renew for an unavailable one */
           /* New: the unified panel in the preview's own aside (its width and edge), no Sheet */
-          newPanels && previewFile ? h('aside', { className: 'ik-dsfp', 'aria-label': 'File preview' }, h(IK.DetailsPanel, (function () {
+          previewFile ? (function () {
             var pf = previewFile, mineF = !pf.by, canChat = (pf.menu || ['add-to-chat']).indexOf('add-to-chat') >= 0;
-            return Object.assign({ bare: true, onClose: function () { setPreviewId(null); setPreviewW(null); } }, IK.fileDetails(pf, {
+            return h(IK.FileDetails, { file: pf, onClose: function () { setPreviewId(null); setPreviewW(null); }, width: previewW, onWidthChange: setPreviewW,
               onDownload: function () { D.toast('Download started'); },
               onAddToChat: canChat ? function (id) { onAction('add-to-chat', id); } : null,
               onDelete: mineF ? function (id) { onAction('delete', id); } : null,
               onShare: mineF && wsOn && ws.owned.length ? function (id) { onAction('share', id); } : null, shareLocked: free,
-              renewal: pf.by ? IK.wsRenewal(ws, pf.wsIds || []) : null }));
-          })())) :
-          h(IK.DsFilePreview, (function () {
-            var pf = previewFile, mineF = pf && !pf.by;
-            var items = pf ? (pf.menu || (wsOn && ws.owned.length ? ['add-to-chat', 'share', 'download', 'delete'] : ['add-to-chat', 'download', 'delete']))
-              .filter(function (k) { return k !== 'view' && k !== 'download' && k !== 'share' && k !== 'add-to-chat'; }) : [];
-            /* Add to Chat as the head's icon (beside Download); the ⋮ only when something else is left in it */
-            var canChat = pf && (pf.menu || ['add-to-chat']).indexOf('add-to-chat') >= 0;
-            return {
-              file: pf, width: previewW, onWidthChange: setPreviewW,
-              onClose: function () { setPreviewId(null); setPreviewW(null); },
-              onDownload: function () { D.toast('Download started'); },
-              onAddToChat: canChat ? function (id) { onAction('add-to-chat', id); } : null,
-              /* Delete alone is the head's red icon, not a one-item ⋮ */
-              menu: pf && items.length && !(items.length === 1 && items[0] === 'delete') ? h(IK.DsFileMenu, { id: pf.id, onAction: onAction, items: items }) : null,
-              onDelete: pf && items.length === 1 && items[0] === 'delete' ? function (id) { onAction('delete', id); } : null,
-              onShare: mineF && wsOn && ws.owned.length ? function (id) { onAction('share', id); } : null, shareLocked: free,
-              renewal: pf && pf.by ? IK.wsRenewal(ws, pf.wsIds || []) : null
-            };
-          })()))),
+              renewal: pf.by ? IK.wsRenewal(ws, pf.wsIds || []) : null,
+              onRemoveFromWorkspace: mineF && wsOn ? function (it, f) {
+                if (it.id) ws.unshareFile(it.id, f.id);
+                D.toast.success(h(IK.Fragment, null, h('strong', null, f.name), ' removed from ' + it.name));
+              } : undefined });
+          })() : null)),
       upl.length ? h('div', { className: 'pg-upl-dock' },
         h(D.ActivityTray, {
           headerTitle: trayTitle,

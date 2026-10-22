@@ -213,7 +213,8 @@
     return h('div', { className: 'ik-paused-notice' },
       h(D.Alert, {
         variant: 'warning', role: 'note', actionsClassName: 'ik-paused-notice-acts',
-        icon: h(IK.Icon, { name: 'connections' }),
+        /* a subscription that ended: the wallet illustration, as on Data Sources and Metrics (user, 2026-10-21) */
+        illustration: h(IK.Icon, { name: 'wallet', size: 16 }),
         title: "Your subscription ended, so this chat can't use its connections",
         description: 'Answers here came from ' + (p.sources || 'Salesforce and HubSpot') + '. Now the assistant can only use files you upload.',
         actions: h(IK.Locked, { feature: 'connections', locked: true, clickOnly: true, marker: 'none' },

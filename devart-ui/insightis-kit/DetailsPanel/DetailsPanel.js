@@ -7,7 +7,7 @@
               тримати зверху — як в файлі") · Close
      hero     the item's mark, its name, one meta
               line; a warning mark by the name when it can't be used (the why sits in Access)
-     about    the description, full width under the hero — it can be long (four lines, then Show More) or
+     about    the description, full width under the hero — it can be long (five lines, then Show More — only when it runs past them) or
               absent (nothing at all) (user, 2026-10-20: "опис може бути довгим — або відсутній")
      body     its properties, in one of three layouts (to compare — review switch Layout):
                 rows     label on the left (Body/14, secondary, 7rem), the value, the value's own action
@@ -71,14 +71,26 @@
   IK.DetailsRow = Row;
 
   /* the description: full width whatever the layout — a long one beside a 7rem label would be a narrow column */
-  var LONG = 180;
+  /* five lines, then Show More — the button only when the text really runs past them, measured, not guessed from its
+     length (user, 2026-10-21: "кнопка мала бути тільки якщо більше 5ти рядків тексту"); re-measured as the panel resizes */
   function About(p) {
     var d = p.description, st = R.useState(false), open = st[0], setOpen = st[1];
-    if (!d || !d.text) return null;
-    var long = String(d.text).length > LONG;
+    var os = R.useState(false), over = os[0], setOver = os[1], ref = R.useRef(null);
+    var text = d && d.text;
+    R.useLayoutEffect(function () {
+      var el = ref.current;
+      if (!el || open) return;
+      function check() { setOver(el.scrollHeight > el.clientHeight + 1); }
+      check();
+      var ro = window.ResizeObserver ? new ResizeObserver(check) : null;
+      if (ro) ro.observe(el);
+      return function () { if (ro) ro.disconnect(); };
+    }, [text, open]);
+    if (!text) return null;
+    var long = over || open;
     return h('div', { className: 'flex min-w-0 flex-col gap-1' },
       d.label ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, d.label) : null,
-      h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'body', className: IK.cx('m-0 break-words', long && !open && 'line-clamp-4') }, d.text),
+      h(D.Typography, { ref: ref, element: 'p', textStyle: 'body14', textColor: 'body', className: IK.cx('m-0 break-words', !open && 'line-clamp-5') }, text),
       long ? h('span', { className: 'flex text-sm' },
         h(D.LinkButton, { asChild: true }, h('button', { type: 'button', onClick: function () { setOpen(!open); } }, open ? 'Show Less' : 'Show More'))) : null);
   }
@@ -125,7 +137,8 @@
            виглядає незбалансованим до тексту"); a 32px slot clipped it */
         p.mark ? h('span', { className: 'flex size-10 shrink-0 items-center justify-center' }, p.mark) : null,
         h('div', { className: 'flex min-w-0 flex-col gap-0.5' },
-          h('div', { className: 'flex min-w-0 items-center gap-1' },
+          /* the name's mark 8px off it, as on every other name (user, 2026-10-21: "замалий відступ") */
+          h('div', { className: 'flex min-w-0 items-center gap-2' },
             h(D.Typography, { element: 'span', textStyle: 'title16', textColor: 'primary', className: 'min-w-0 break-words' }, p.name),
             p.after || null),
           p.meta ? h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'secondary', className: 'min-w-0 break-words' }, p.meta) : null)),
@@ -133,15 +146,18 @@
   }
 
   function parts(p) {
-    var a = p.access, layout = p.layout || 'rows';
+    /* stacked by default — label above the value (user, 2026-10-21: "цей варіант панелі" — Stacked) */
+    var a = p.access, layout = p.layout || 'stacked';
     var rows = (p.rows || []).filter(Boolean);
     var note = a && a.note ? (typeof a.note === 'string' ? { label: 'How it is shared', text: a.note } : a.note) : null;
     var rowsNode = rows.length ? section(layout, layout === 'cards' ? 'Details' : null,
       h('div', { className: IK.cx('flex flex-col', ROW_GAP[layout] || ROW_GAP.rows) }, rows.map(function (r, i) { return h(Row, Object.assign({ key: i, layout: layout }, r)); }))) : null;
-    var accessNode = a ? section(layout, 'Access', h('div', { className: 'flex flex-col gap-3' },
+    /* titled by what it lists — the workspaces (user, 2026-10-20: "може воркспейси?") */
+    var accessNode = a ? section(layout, 'Workspaces', h('div', { className: 'flex flex-col gap-3' },
         a.notice || null,
-        (a.items && a.items.length) || (a.names && a.names.length) ? h(IK.WsWorkspaceList, { items: a.items, names: a.names, links: a.links, blocks: true })
-          : a.action ? null : h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' }, a.empty || 'Not shared yet'),
+        (a.items && a.items.length) || (a.names && a.names.length) ? h(IK.WsWorkspaceList, { items: a.items, names: a.names, links: a.links, onRemove: a.onRemove, blocks: true })
+          /* empty: false — nothing under the heading when it is in none (the note above says all) */
+          : a.action || a.empty === false ? null : h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' }, a.empty || 'Not shared yet'),
         a.action ? h('div', { className: 'flex' }, a.action) : null), true, note) : null;
     return { rows: rowsNode, access: accessNode };
   }
@@ -182,7 +198,9 @@
 
   IK.DetailsPanel = function DetailsPanel(p) {
     if (p.acts) {
-      var placed = IK.detailsPlace(p.acts, p.actionsAt !== 'bottom');
+      /* at the foot unless the page says otherwise (user, 2026-10-21: "екшени мали залишитись внизу"); a file keeps its
+         icons on top, the preview wants the room */
+      var placed = IK.detailsPlace(p.acts, p.actionsAt || (p.foldDetails ? 'kebab' : 'bottom'));
       p = Object.assign({}, p, placed.actions ? { actions: placed.actions } : {}, placed.foot && !p.foot ? { foot: placed.foot } : {});
     }
     /* folded, the facts are always compact rows — label beside value, whatever the Layout — and the bar grows
@@ -199,7 +217,7 @@
     if (p.inline) return h(D.Card, { variant: 'outline', className: IK.cx('flex w-full flex-col gap-0 overflow-hidden p-0', p.className), style: p.style, 'aria-label': p.title }, inner);
     if (p.bare) return h('div', { className: 'flex min-h-0 w-full flex-1 flex-col', 'aria-label': p.title }, inner);
     return h(D.Sheet, { open: !!p.open, onOpenChange: p.onOpenChange },
-      h(D.SheetContent, { side: 'right', isCloseButtonVisible: false, className: IK.cx('flex flex-col gap-0 p-0', p.sheetClassName), 'aria-describedby': undefined,
+      h(D.SheetContent, { side: 'right', isCloseButtonVisible: false, className: IK.cx('ik-dp-sheet flex flex-col gap-0 p-0', p.sheetClassName), 'aria-describedby': undefined,
         onOpenAutoFocus: function (e) { e.preventDefault(); if (e.currentTarget && e.currentTarget.focus) e.currentTarget.focus(); } }, inner));
   };
 
@@ -216,11 +234,58 @@
   function actBtn(variant, a, label) {
     return h(R.Fragment, { key: a.label }, lockBtn(a, h(D.Button, { variant: variant, size: 'sm', type: 'button', leftSlot: a.icon ? h(IK.Icon, { name: a.icon, size: 16 }) : undefined, onClick: a.onClick }, label || a.label)));
   }
-  IK.detailsPlace = function (acts, top) {
+  /* split — the general actions every item has (Edit, Duplicate, Delete / Disconnect) under a chevron in the head; what
+     is particular to this item or this page (Remove from Workspace, Duplicate & Customize, Connect) at the foot; a file
+     keeps its icons on top, the preview wants the room (user, 2026-10-20) */
+  function chevronMenu(general, danger) {
+    var items = general.map(function (a) {
+      var it = h(D.DropdownMenuItem, { key: a.label, onSelect: a.locked ? undefined : a.onClick }, h(IK.Icon, { name: a.icon, size: 16 }), a.label);
+      return a.feature && a.locked ? h(IK.Locked, { key: a.label, feature: a.feature, locked: true, surface: 'modal' }, it) : it;
+    });
+    if (general.length && danger.length) items.push(h(D.DropdownMenuSeparator, { key: 'sep' }));
+    danger.forEach(function (a) { items.push(h(D.DropdownMenuItem, { key: a.label, variant: 'danger', onSelect: a.onClick }, h(IK.Icon, { name: a.icon, size: 16 }), a.label)); });
+    return h(D.DropdownMenu, null,
+      h(IK.Tip, { tip: 'Actions' },
+        h(D.DropdownMenuTrigger, { asChild: true },
+          h(D.IconButton, { variant: 'tertiary', size: 'xs', type: 'button', 'aria-label': 'Actions' }, h(IK.Icon, { name: 'chevron-down' })))),
+      h(D.DropdownMenuContent, { align: 'end' }, items));
+  }
+  IK.detailsPlace = function (acts, at) {
     if (!acts) return {};
-    var main = acts.main || [], more = acts.more || [], danger = acts.danger || [];
+    at = at === true ? 'top' : at === false ? 'bottom' : at || 'split';
+    var main = acts.main || [], more = acts.more || [], danger = acts.danger || [], specific = acts.specific || [];
+    if (at === 'split') {
+      var general = main.concat(more), n = general.length + danger.length;
+      var mine = specific.filter(function (a) { return !a.danger; }), gone = specific.filter(function (a) { return a.danger; });
+      return {
+        /* a lone general action is its own icon — a chevron only for two or more */
+        actions: !n ? null : n === 1 ? actIcon(general.length ? general[0] : Object.assign({ variant: 'destructiveTertiary' }, danger[0])) : chevronMenu(general, danger),
+        foot: specific.length ? {
+          start: gone.length ? h(IK.Fragment, null, gone.map(function (a) { return actBtn('destructiveOutline', a); })) : (acts.note || null),
+          end: mine.length ? h(IK.Fragment, null, mine.map(function (a) { return actBtn(acts.mainVariant || 'primary', a, a.short); })) : null } : null
+      };
+    }
+    /* kebab — a file: the main one (Download) its icon, the rest in a ⋮ — Add to Chat, then the destructive one after a
+       rule; a lone one is its own icon (red if destructive), never a one-item ⋮ */
+    if (at === 'kebab') {
+      var rest = more.concat(specific.filter(function (a) { return !a.danger; })), bad = danger.concat(specific.filter(function (a) { return a.danger; }));
+      var lone = rest.length + bad.length === 1;
+      return { actions: h(IK.Fragment, null,
+        main.map(actIcon),
+        lone ? actIcon(rest.length ? rest[0] : Object.assign({ variant: 'destructiveTertiary' }, bad[0])) : null,
+        !lone && rest.length + bad.length ? h(D.RowMenuButton, { reveal: false }, rest.map(function (a) {
+          /* a locked one keeps its place and opens the upgrade, as in a row's ⋮ */
+          var it = h(D.DropdownMenuItem, { key: a.label, onSelect: a.locked ? undefined : a.onClick }, h(IK.Icon, { name: a.icon, size: 16 }), a.label);
+          return a.feature && a.locked ? h(IK.Locked, { key: a.label, feature: a.feature, locked: true, surface: 'modal' }, it) : it;
+        }).concat(rest.length && bad.length ? [h(D.DropdownMenuSeparator, { key: 'sep' })] : [], bad.map(function (a) {
+          return h(D.DropdownMenuItem, { key: a.label, variant: 'danger', onSelect: a.onClick }, h(IK.Icon, { name: a.icon, size: 16 }), a.label);
+        }))) : null) };
+    }
+    /* top / bottom: what is particular joins the rest */
+    main = main.concat(specific.filter(function (a) { return !a.danger; }));
+    danger = danger.concat(specific.filter(function (a) { return a.danger; }));
     if (!main.length && !more.length && !danger.length) return {};
-    if (top) return { actions: h(IK.Fragment, null,
+    if (at === 'top') return { actions: h(IK.Fragment, null,
       main.concat(more).map(actIcon),
       danger.length === 1 ? actIcon(Object.assign({ variant: 'destructiveTertiary' }, danger[0])) : null,
       danger.length > 1 ? h(D.RowMenuButton, { reveal: false }, danger.map(function (a) {
@@ -240,99 +305,9 @@
     return h(IK.Locked, { feature: 'workspaces', surface: 'modal', tip: 'Available on Pro', locked: !!locked }, b);
   }
 
-  /* ── The three panels from the products' own data — the "Panels: New" try-on on Data Sources, Metrics and Files
-     (user, 2026-10-20: "потрібно нові приміряти на сторінки — але ще не замінювати в прототипі"). Each returns the
-     props of IK.DetailsPanel; the host adds open / onOpenChange (a Sheet) or bare + onClose (an aside).          */
-
-  /* a connection — o: { mode: null | 'shared' | 'workspace', free, metricsHref(c), onEdit, onDisconnect, onTest,
-     onDetails, onAddMetric, onAddToWorkspace, wsLocked, onRemove(c), renewal }                                  */
-  IK.connectionDetails = function (c, o) {
-    o = o || {};
-    var mode = o.mode || null, free = !!o.free, off = mode === 'shared' && !!(c.locked || c.muted);
-    var n = c.metrics, href = o.metricsHref ? o.metricsHref(c) : null, canAdd = !mode && !!o.onAddMetric;
-    var count = n ? plural(n, 'metric', 'metrics') : null;
-    var metrics = n == null ? null : !n && canAdd
-      /* none yet: Add Metric itself, as the product's panel */
-      ? { label: 'Metrics', value: lockBtn({ feature: 'metrics', locked: free }, h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'plus', size: 16 }), onClick: call(o.onAddMetric, c.name) }, 'Add Metric')) }
-      : { label: 'Metrics', value: n ? (href && !off ? h(D.LinkButton, { href: href }, count) : count) : 'No metrics',
-          action: n && canAdd ? { icon: 'plus', label: 'Add Metric', onClick: call(o.onAddMetric, c.name), locked: free, lockFeature: 'metrics' } : null };
-    var check = c.lastSync == null ? null : { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: c.lastSync, status: c.status, error: c.error, busy: c.busy,
-      onDetails: call(o.onDetails, c.name), onTest: free || mode || !o.onTest ? undefined : call(o.onTest, c.name) }) };
-    var access = !mode ? (o.onAddToWorkspace || (c.sharedWith && c.sharedWith.length)
-        ? { names: c.sharedWith || [], links: c.links, action: o.onAddToWorkspace ? shareBtn('Share via Workspace', o.wsLocked, call(o.onAddToWorkspace, c.name)) : null } : null)
-      : mode === 'shared' ? { names: c.wsNames || (c.wsName ? [c.wsName] : []), links: c.links }
-      : mode === 'workspace' ? { names: c.also || [], links: c.links } : null;
-    return {
-      title: 'Connection details',
-      mark: h(IK.ConnectorMark, { connector: c.connector || c.name, size: 'md' }), name: c.label || c.name, meta: c.name,
-      after: off ? h(IK.WsUnavailableMark, { by: c.by, locked: !c.muted, noun: 'connections', feature: 'connections', renewal: o.renewal, withAction: true }) : null,
-      description: c.desc ? { label: 'Description', text: c.desc } : null,
-      rows: [metrics, check], access: access,
-      acts: !mode ? { main: [act('Edit', 'rename', { feature: 'connection-edit', locked: free, onClick: call(o.onEdit, c.name) })], danger: [act('Disconnect', 'disconnect', { onClick: call(o.onDisconnect, c.name) })] }
-        : mode === 'workspace' ? { danger: [act('Remove from Workspace', 'ws-remove', { onClick: call(o.onRemove, c) })] } : null
-    };
-  };
-
-  /* a metric — o: { free, renewal, onActive(on), onEdit, onDuplicate, onDelete, onConnect } */
-  IK.metricDetails = function (m, o) {
-    o = o || {};
-    var kind = m.kind || (m.custom ? 'custom' : 'builtin'), free = !!o.free;
-    var off = kind === 'readonly' && !!(m.locked || m.muted), by = m.by || (m.ws && m.ws.owner && m.ws.owner.name);
-    var control = kind === 'library' || kind === 'readonly' ? null : h('div', { className: 'flex items-center gap-1.5' },
-      h(IK.Locked, { feature: 'metrics', marker: 'none' },
-        h('span', { className: 'inline-flex items-center' }, h(D.Switch, { size: 'sm', checked: !!m.active, 'aria-label': m.name + ' — toggle active', onCheckedChange: o.onActive }))),
-      h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'secondary' }, m.active ? 'Active' : 'Inactive'));
-    var names = m.wsNames || [];
-    return {
-      title: 'Metric details', sheetClassName: 'ik-mx-sheet', control: control,
-      mark: h(IK.ConnectorMark, { connector: m.logo || m.provider, size: 'md' }), name: m.name,
-      meta: h('span', { className: 'flex flex-wrap items-center gap-2' },
-        h(D.Badge, { variant: 'secondary', size: 'sm' }, m.alias || '—'),
-        h(D.Badge, { variant: m.custom ? 'primary' : 'secondary', size: 'sm' }, m.custom ? 'Custom' : 'Built-in')),
-      after: off ? h(IK.WsUnavailableMark, { by: by, locked: !m.muted, noun: 'metrics', feature: 'metrics', renewal: o.renewal, withAction: true }) : null,
-      description: m.desc ? { label: 'Definition', text: m.desc } : null,
-      rows: [{ label: 'Linked to', value: m.connector ? m.connector + ' \u00b7 ' + m.provider : m.provider }],
-      access: kind === 'readonly' ? (names.length ? { names: names, links: m.links } : null)
-        : names.length ? { names: names, links: m.links, note: { label: 'Goes with its connection' + (m.connector ? ', ' + m.connector : ''), text: 'Every workspace its connection is in sees this metric — share or remove the connection on Data Sources' } } : null,
-      acts: kind === 'custom' ? { main: [act('Edit', 'rename', { feature: 'metrics', locked: free, onClick: o.onEdit })], more: [act('Duplicate', 'copy', { feature: 'metrics', locked: free, onClick: o.onDuplicate })], danger: [act('Delete', 'delete', { onClick: o.onDelete })] }
-        : kind === 'builtin' ? { main: [act('Duplicate & Customize', 'copy', { short: 'Duplicate', tip: 'Duplicate & Customize — your own copy with a custom formula', feature: 'metrics', locked: free, onClick: o.onDuplicate })], mainVariant: 'secondary',
-            note: h('div', { className: 'flex min-w-0 flex-col' },
-              h(D.Typography, { element: 'span', textStyle: 'label14', textColor: 'primary' }, 'Duplicate & Customize'),
-              h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, 'Your own copy with a custom formula')) } : null,
-      /* not connected yet: why and Connect, pinned at the bottom (the product's own block) */
-      foot: kind === 'library' ? { block: h('div', { className: 'ik-mx-connect flex flex-col gap-3' },
-        h('div', { className: 'flex items-start gap-2.5' },
-          h(IK.Icon, { name: 'info', size: 16, className: 'ik-mx-connect-ic' }),
-          h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'body', className: 'ik-mx-connect-copy m-0 min-w-0 flex-1' },
-            'This metric is designed for ', h('strong', { className: 'font-semibold text-ink-primary' }, m.provider),
-            '. Adding a connection activates all its metrics at once — no manual setup needed.')),
-        h(IK.Locked, { feature: 'metrics', surface: 'modal' },
-          h(D.Button, { variant: 'primary', size: 'md', className: 'w-full', type: 'button', onClick: o.onConnect }, 'Connect ' + m.provider))) } : null
-    };
-  };
-
-  /* a file — o: { onDownload(id), onAddToChat(id), onDelete(id), onShare(id), shareLocked, renewal } */
-  IK.fileDetails = function (f, o) {
-    o = o || {};
-    var by = f.by || (f.shared && f.shared.by), off = !!by && !!(f.locked || f.muted);
-    var names = f.wsNames || f.sharedWith || [];
-    var ext = (String(f.name).split('.').pop() || '').toUpperCase();
-    function dl() { if (o.onDownload) o.onDownload(f.id); }
-    return {
-      title: 'File details', name: f.name, foldDetails: true,
-      after: off ? h(IK.WsUnavailableMark, { by: by, locked: !f.muted, noun: 'files', feature: 'shared-files' }) : null,
-      rows: [{ label: 'Type', value: ext }, f.size ? { label: 'Size', value: f.size } : null,
-        /* Origin as the Files list's own tag (user, 2026-10-20: "чому не тег") */
-        { label: 'Origin', value: h(D.Badge, { variant: f.origin === 'artifact' ? 'primary' : 'secondary', size: 'sm' }, f.origin === 'artifact' ? 'Artifact' : 'Uploaded') }, f.date ? { label: 'Modified', value: f.date } : null],
-      access: by ? (names.length ? { names: names, links: f.links } : null)
-        : names.length || o.onShare ? { names: names, links: f.links, action: o.onShare ? shareBtn('Share via Workspace', o.shareLocked, call(o.onShare, f.id)) : null } : null,
-      previewBanner: off ? null : h(IK.DsFilePreviewBanner, { file: f, onDownload: dl }),
-      preview: off ? h(IK.DsFileUnavailable, { by: by, locked: !f.muted, renewal: o.renewal })
-        : h(IK.DsFilePreviewContent, { file: f, bare: true, onDownload: dl }),
-      acts: off ? null : { main: [act('Download', 'download', { onClick: dl })], more: o.onAddToChat ? [act('Add to Chat', 'add-chat', { onClick: call(o.onAddToChat, f.id) })] : [],
-        danger: !by && o.onDelete ? [act('Delete', 'delete', { onClick: call(o.onDelete, f.id) })] : [] }
-    };
-  };
+  /* the panels' content lives with each panel — IK.ConnectionDetails, IK.MetricDetails, IK.FileDetails, each in its own
+     folder (2026-10-22: "зроби ConnectionDetails, MetricDetails, FileDetails … компонентами"); what they share: */
+  IK.detailsKit = { act: act, call: call, plural: plural, shareBtn: shareBtn, lockBtn: lockBtn };
 
   /* a Sheet that keeps its last item while it slides out (as the product's panels) */
   IK.DetailsSheet = function DetailsSheet(p) {

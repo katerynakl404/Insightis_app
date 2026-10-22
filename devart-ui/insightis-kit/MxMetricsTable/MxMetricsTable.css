@@ -8,8 +8,10 @@
    name no longer cut while the one-line definition kept most of the row (user, 2026-10-20) */
 .ik-mx-col-name    { width: 24%; }
 .ik-mx-col-alias   { width: 11rem; }
-.ik-mx-col-badge   { width: 5rem; }
-.ik-mx-col-actions { width: 5rem; }
+/* the badge fits its column, the ⋮ column is the ⋮ and its insets — 5rem + 5rem left a gap the width of a badge between
+   them (user, 2026-10-21: "тут дивний геп між бейджом і екшенами") */
+.ik-mx-col-badge   { width: 5.5rem; }
+.ik-mx-col-actions { width: 3rem; }
 
 /* The shared left line: header padding (16) + chevron (12) + gap (8) — the provider logo, the
    switches, the connection sub-header and the empty-row text all start on it. */

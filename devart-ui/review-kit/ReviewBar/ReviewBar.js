@@ -59,7 +59,17 @@
     }]);
 
     var sm = p.size === 'sm';
-    return h('header', { className: IK.cx('ik-rb', sm && 'is-sm', sm && p.autoHeight && 'is-auto'), 'data-ik-review': '' },
+    /* the bar's height as --rk-bar-h on the root: overlays and side panels start under it (review-kit.css), so nothing
+       of the product covers the review chrome (user, 2026-10-21: "оверлей і панелі не мали б це перекривати") */
+    var bar = window.React.useRef(null);
+    window.React.useEffect(function () {
+      var el = bar.current; if (!el) return;
+      function set() { document.documentElement.style.setProperty('--rk-bar-h', el.getBoundingClientRect().bottom + 'px'); }
+      set();
+      var ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(set); if (ro) ro.observe(el);
+      return function () { if (ro) ro.disconnect(); document.documentElement.style.removeProperty('--rk-bar-h'); };
+    }, []);
+    return h('header', { ref: bar, className: IK.cx('ik-rb', sm && 'is-sm', sm && p.autoHeight && 'is-auto'), 'data-ik-review': '' },
       h('div', { className: 'ik-rb-title' },
         h(D.Typography, { element: 'span', textStyle: 'label14', className: 'whitespace-nowrap text-ink-primary' }, p.title),
         st ? h(D.Badge, { variant: st.variant, size: 'sm', className: 'uppercase tracking-caps' }, st.label) : null),

@@ -41,6 +41,7 @@
     return h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'primary', className: 'flex min-w-0 items-center gap-1.5' }, p.children);
   }
   function Source(p) {
+    if (!p.logo && !p.name) return null;
     return h('span', { className: 'inline-flex items-center gap-1.5 text-ink-primary' },
       h(IK.ConnectorMark, { connector: p.logo || p.name, size: 'xs' }), p.name);
   }

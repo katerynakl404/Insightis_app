@@ -1,7 +1,8 @@
 /* Workspaces — IK.WsNotice. DevartUI's Alert drops its actions under the copy below 640px
    (max-sm:w-full) but its row does not wrap, so the copy collapsed to a word per line; the wrap lets
-   the actions go under the copy (the same fix as Data Sources' .pg-alert). */
-@media (max-width: 639px) { .ik-ws-notice { flex-wrap: wrap; } }
+   a notice whose only action is a button put it under the copy. With a × the notice never wraps — the
+   × stays on the first line and a button goes into the copy (WsNotice) */
+@media (max-width: 639px) { .ik-ws-notice.is-wrap { flex-wrap: wrap; } }
 
 /* WsAlertStack folded: a deck — the first notice on top, the next ones' cards behind it, each 8px lower and 12px
    narrower a side (the 4px grid; user, 2026-10-20: "більше сховай"), so their bottom edges show; on hover they spread, and a click opens the pile (no
@@ -19,5 +20,3 @@
 .ik-ws-deck:has(.ik-ws-deck-edge:hover) .ik-ws-deck-edge[data-depth="2"] { transform: translateY(8px); }
 @media (prefers-reduced-motion: reduce) { .ik-ws-deck-edge { transition: none; } }
 
-/* IK.RowMark: the description in its popover stops at five lines (the row opens the whole of it) */
-.ik-rowmark-desc { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }

@@ -2,24 +2,25 @@
    (GeneralCard · StatTile row · Members card · Connections card), on DevartUI Card, StatTile,
    Avatar, Badge and LinkButton.
 
-     General      the name (title16) + Rename (pencil, the Owner only) · who made it / who shared it.
+     General      the name (title16) + Edit (pencil, the Owner only — the name and the description) · the description
+                  · who made it / who shared it.
                   No status line: Active needs no words, and Blocked is the page's IK.WsNotice
      tiles        Members · Connections · Files — DevartUI StatTiles, one column below 640px, each with a
-                  line that says something (user, 2026-10-19: "виглядає порожньо"): who is in it (or the
-                  invitations pending), the metrics the connections carry, when a file was last added.
-                  The Owner's carry a gear (rightSlot) that opens that tab to manage it; a Member's a
-                  chevron that opens it to look. Row: the Connections list two thirds wide, Members and
+                  line only when it says something: the invitations pending (no names, no "Just you" — user, 2026-10-22),
+                  the metrics the connections carry, when a file was last added; none, and the tile is shorter.
+                  The Owner's carry a "+" (rightSlot) that adds one in place — always, no gear to manage
+                  (user, 2026-10-21: "завжди + не треба налаштувань"); a Member's none ("забери стрілки"). Row: the Connections list two thirds wide, Members and
                   Files stacked beside it; Grid: the four tiles in a row, the list under them
      (no Metrics tile and no Connections list — user, 2026-10-20: "метрики забери, конекшени забери":
       their tabs hold them)
-     (no Members list: the tile names who is in it — user, 2026-10-19: "не приносить користі")
+     (no Members list — user, 2026-10-19: "не приносить користі"; the tile names nobody either — 2026-10-22)
      last         the Owner: Delete workspace; a Member: Leave workspace — the same destructive row
    Read-only for a Member: no pencil, no Add — absent, not disabled.
 
    One layout: three tiles in one row — Connections · Files · Members, in the tabs' order (one column on a
      phone) — then the destructive row.
 
-   h(IK.WsOverview, { ws, me, owner: bool, onRename, onTab(tab), onInvite, onAdd, onShareFiles, addLocked, onConnection(c), onDelete, onLeave })        */
+   h(IK.WsOverview, { ws, me, owner: bool, onEdit, onTab(tab), onInvite, onAdd, onShareFiles, addLocked, onConnection(c), onDelete, onLeave })        */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
@@ -37,14 +38,15 @@
       onAll ? h('span', { className: 'text-sm' }, h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); onAll(); } }, 'See all')) : null);
   }
 
-  /* a tile's own action (StatTile rightSlot, as the AI connectivity Connections tile has): with
-     something in it, the gear opens that tab to manage it (the composer's Manage Connections gear);
-     with nothing yet, "+" adds the first one in place (user, 2026-10-19) — locked while Blocked */
-  IK.defineIcons({ 'ws-open': '<polyline points="9 18 15 12 9 6"/>', 'ws-gear': '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>' });
+  /* a tile's own action (StatTile rightSlot, as the AI connectivity Connections tile has): "+" adds one in place,
+     whatever is in it already — no gear to manage it, its tab does that (user, 2026-10-21: "завжди + не треба
+     налаштувань") — locked while Blocked */
   function tileAction(label, onClick, icon, locked) {
     var add = icon === 'plus';
     var btn = h(D.IconButton, { variant: 'tertiary', size: '2xs', type: 'button', 'aria-label': label, onClick: onClick }, h(IK.Icon, { name: icon }));
-    return add && locked ? h(IK.Locked, { feature: 'workspaces', locked: true, surface: 'modal', tip: 'Available on Pro' }, btn) : h(IK.Tip, { tip: label }, btn);
+    /* locked, the + stays a + — an icon-only button that turned into a padlock no longer says what it does (user,
+       2026-10-21: 'якщо іконка була - вона не мала змінитись на замок'); its tooltip and the upgrade popover say why */
+    return add && locked ? h(IK.Locked, { feature: 'workspaces', locked: true, surface: 'modal', tip: 'Available on Pro', marker: 'none' }, btn) : h(IK.Tip, { tip: label }, btn);
   }
 
   IK.WsOverview = function WsOverview(p) {
@@ -53,8 +55,8 @@
       h('div', { className: 'flex flex-col gap-1' },
         h('div', { className: 'flex min-w-0 items-center gap-1' },
           h(D.Typography, { element: 'h2', textStyle: 'title16', textColor: 'primary', className: 'm-0 min-w-0 break-words' }, w.name),
-          owner ? h(IK.Tip, { tip: 'Rename' },
-            h(D.IconButton, { variant: 'tertiary', size: '2xs', type: 'button', 'aria-label': 'Rename ' + w.name, onClick: p.onRename },
+          owner ? h(IK.Tip, { tip: 'Edit' },
+            h(D.IconButton, { variant: 'tertiary', size: '2xs', type: 'button', 'aria-label': 'Edit ' + w.name, onClick: p.onEdit },
               h(IK.Icon, { name: 'rename', size: 14 }))) : null),
         /* what it is used for, as written when it was created (user, 2026-10-19) */
         w.desc ? h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'body', className: 'm-0 break-words' }, w.desc) : null,
@@ -63,23 +65,21 @@
                 : 'Shared with you by ' + w.owner.name)));
 
     /* the tiles are DevartUI StatTile sm — the dense row of tiles under a heading (user, 2026-10-19: 'компактніше') */
-    /* a tile's action: the Owner manages (gear) or adds the first one (+); a Member opens the tab to look (›) */
-    function act(n, tab, manage, addLabel, onAdd, view) {
-      if (!owner) return view ? tileAction(view, function () { p.onTab(tab); }, 'ws-open') : undefined;
-      return n ? tileAction(manage, function () { p.onTab(tab); }, 'ws-gear') : tileAction(addLabel, onAdd, 'plus', p.addLocked);
+    /* a tile's action: the Owner adds (+), always; a Member none — the tabs are right above (user, 2026-10-21: 'забери стрілки') */
+    function act(tab, addLabel, onAdd) {
+      if (!owner) return undefined;
+      return tileAction(addLabel, onAdd, 'plus', p.addLocked);
     }
     /* "Olena Petrenko, Andrii Melnyk and 2 more" */
-    function some(list) { return list.length > 2 ? list.slice(0, 2).join(', ') + ' and ' + (list.length - 2) + ' more' : IK.wsJoin(list); }
-    var meEmail = p.me ? p.me.email : (owner ? w.owner.email : null);
-    var others = w.members.filter(function (m) { return m.email !== meEmail; }).map(function (m) { return m.name; });
-    var nMembers = w.members.length - 1 + w.invites.length;
-    var tMembers = h(D.StatTile, { size: 'sm', label: 'Members', value: w.members.length, rightSlot: act(nMembers, 'members', 'Manage members', 'Invite Members', p.onInvite, 'View members'),
-      description: owner && w.invites.length ? plural(w.invites.length, 'invitation', 'invitations') + ' pending' : others.length ? some(others) : 'Just you' });
+    var tMembers = h(D.StatTile, { size: 'sm', label: 'Members', value: w.members.length, rightSlot: act('members', 'Invite Members', p.onInvite),
+      /* no names and no 'Just you' — the count says it, the Members tab lists them; only what waits: invitations
+         (user, 2026-10-22: 'нема сенсу в підпису тільки ти', 'перераховувати мемберів теж не треба') */
+      description: owner && w.invites.length ? plural(w.invites.length, 'invitation', 'invitations') + ' pending' : undefined });
     var lastFile = w.files.reduce(function (t, f) { return Math.max(t, f.date || 0); }, 0);
-    var tFiles = h(D.StatTile, { size: 'sm', label: 'Files', value: w.files.length, rightSlot: act(w.files.length, 'files', 'Manage files', 'Add Files', p.onShareFiles, w.files.length ? 'View files' : null),
+    var tFiles = h(D.StatTile, { size: 'sm', label: 'Files', value: w.files.length, rightSlot: act('files', 'Add Files', p.onShareFiles),
       description: lastFile ? 'Last added ' + IK.wsAgo(lastFile).toLowerCase() : undefined });
     function tConns(desc) {
-      return h(D.StatTile, { size: 'sm', label: 'Connections', value: w.connections.length, rightSlot: act(w.connections.length, 'connections', 'Manage connections', 'Add Connection', p.onAdd, w.connections.length ? 'View connections' : null),
+      return h(D.StatTile, { size: 'sm', label: 'Connections', value: w.connections.length, rightSlot: act('connections', 'Add Connection', p.onAdd),
         description: w.connections.length ? desc : undefined });
     }
     /* the four counts in one row (two by two below 1024px, one column on a phone), then the Connections list */
@@ -100,12 +100,13 @@
     /* a Member leaves from the same place, the same destructive row (user, 2026-10-19: "покинути на тому ж
        місці що і видалення", "дія деструктивна") */
     function lastRow(title, text, label, onClick) {
-      return h(D.Card, { variant: 'outline', className: 'flex flex-row items-center gap-4 p-6' },
-        /* the text shrinks, so the action stays beside it, centred, instead of wrapping under it */
-        h('div', { className: 'min-w-0 flex-1' },
+      /* the text keeps its own width; when the action no longer fits beside it, the action goes under it (user,
+         2026-10-22: 'кнопка мала опускатись під') */
+      return h(D.Card, { variant: 'outline', className: 'flex flex-row flex-wrap items-center gap-4 p-6' },
+        h('div', { className: 'min-w-0 flex-auto' },
           h(D.Typography, { element: 'div', textStyle: 'title14', textColor: 'primary' }, title),
           h(D.Typography, { element: 'div', textStyle: 'body14', textColor: 'secondary', className: 'mt-1' }, text)),
-        h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button', className: 'ms-auto flex-none', onClick: onClick }, label));
+        h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button', className: 'flex-none', onClick: onClick }, label));
     }
     var danger = owner
       ? (p.onDelete ? lastRow('Delete workspace', 'Members lose access, and pending invitations stop working. Your connections and files aren’t affected.', 'Delete Workspace', p.onDelete) : null)

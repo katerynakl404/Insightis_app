@@ -9,7 +9,7 @@
   IK.story('WsMembers', { title: 'Many — 20 at a time + Load more', render: function () {
     return h(World, { data: 'many', render: function (ws) { return M(ws, ws.owned[0]); } });
   } });
-  IK.story('WsMembers', { title: 'Blocked — invitations "Can’t be accepted now", Resend locked, Revoke / Remove work', render: function () {
+  IK.story('WsMembers', { title: 'Blocked — invitations stay Invited, Resend locked, Revoke / Remove work', render: function () {
     return h(World, { plan: 'free', render: function (ws) { return M(ws, ws.owned[0]); } });
   } });
   IK.story('WsMembers', { title: 'Only the Owner — "Only you so far" + Invite Members', render: function () {

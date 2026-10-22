@@ -17,3 +17,11 @@
 .ik-rb.is-sm.is-auto { height: auto; }
 /* showLabel — "Plan [Paid|Free]": the original .tb-concept, label 6px before its switch. */
 .ik-rb-group { display: flex; align-items: center; gap: .375rem; }
+
+/* Overlays and side panels start under the bar — it is review chrome, not the product, so nothing of the product
+   covers it (user, 2026-10-21: "оверлей і панелі не мали б це перекривати"). --rk-bar-h is the bar's bottom edge,
+   set by ReviewBar; a DevartUI Sheet is a dialog pinned top-to-bottom (inset-y-0). */
+[data-modal-overlay] { top: var(--rk-bar-h, 0px) !important; }
+[role="dialog"].inset-y-0 { top: var(--rk-bar-h, 0px) !important; height: auto !important; }
+/* …and it stays usable while one is open (a modal turns the page's pointer events off) */
+.ik-rb { pointer-events: auto; }

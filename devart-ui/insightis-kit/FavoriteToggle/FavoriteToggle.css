@@ -1,0 +1,18 @@
+/* FavoriteToggle — the star fills when on, as D.PinToggle's pin does (its [aria-pressed=true] svg rule). */
+.ik-fav[aria-pressed="true"] svg { fill: currentColor; }
+
+/* set: it pops — grows, tilts, overshoots back and settles; taken back: it dips and returns (DS motion tokens) */
+@keyframes ik-fav-set {
+  0%   { transform: scale(1) rotate(0); }
+  45%  { transform: scale(1.4) rotate(-15deg); }
+  75%  { transform: scale(.9) rotate(4deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+@keyframes ik-fav-unset {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(.6); }
+  100% { transform: scale(1); }
+}
+.ik-fav.is-set svg { animation: ik-fav-set calc(var(--motion-slow) * 1.5) ease-out; }
+.ik-fav.is-unset svg { animation: ik-fav-unset var(--motion-slow) ease-in-out; }
+@media (prefers-reduced-motion: reduce) { .ik-fav.is-set svg, .ik-fav.is-unset svg { animation: none; } }

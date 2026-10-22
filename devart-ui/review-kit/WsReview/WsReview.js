@@ -1,6 +1,6 @@
 /* WsReview — the shared-workspaces review switches. Not product: the feature is OFF on every
    approved page until a reviewer turns it on here, so those pages stay exactly as approved; every
-   switch lives in the URL, so a link opens any state (rules: pages/concept/workspace.rules.md).
+   switch lives in the URL, so a link opens any state (rules: pages/approved/workspace.rules.md).
 
    The switches are INDEPENDENT and LIVE (user, 2026-10-19): flipping one changes only what it names,
    with no reload, and nothing made on the way is lost — the store keeps one world per Data state,
@@ -131,7 +131,7 @@
     out.push({ label: 'Reset data', node: h(D.Button, { variant: 'tertiary', size: 'xs', type: 'button', className: 'shrink-0',
       onClick: function () { IK.wsResetData(); location.reload(); } }, 'Reset Data') });
     /* no Invitation switch: no invitation banner anywhere (user, 2026-10-20: "банер запрошення ніде не треба") —
-       the invitation is the email (concept/workspace-emails.html) */
+       the invitation is the email (approved/workspace-emails.html) */
     return out;
   };
 })();

@@ -45,7 +45,12 @@
    locks every action (see the Mx* components' headers for which).
    Onboarding mode (?onb=metrics&path=conn&source=<id>&role=<id>, from concept/onboarding.html): the
    new user's library — only the source just connected, its built-in metrics, open — under step 4 of
-   the tour (IK.OnbTour); the ReviewBar adds the onboarding switches (RK.onboardingControls). */
+   the tour (IK.OnbTour); the ReviewBar adds the onboarding switches (RK.onboardingControls).
+   List: Table · Rows — a concept tried on this page, not a page of its own (user, 2026-10-21: "запропонуй покращену
+   версію де метрики будуть не таблицею а більше рядками + буде опцію додавати в улюблені"; "в тебе роздвоїлись
+   сторінки?"): Rows is IK.MxMetricList (DevartUI Card rows) with Favorites — the star on every row and a Favorites
+   chip beside the filters that leaves only them, in their groups (no section of them on top: "складна логіка");
+   the review switch Favorites (Some · None) shows with it. Table, the default, is the page as approved. Rules: approved/metrics-landing.rules.md. */
 (function () {
   var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
@@ -335,6 +340,7 @@
   ];
   var CONNECTIONS = [{ id: 'Skyvia Jira', label: 'Skyvia Jira (Jira Software Cloud)' }];
   var CATALOG = 'approved/data-sources_connections-landing.html';
+  var T0 = Date.now();   /* the library's own connections were last checked a little before the page opened */
 
   function go(rel) { location.href = IK.pageHref(rel); }
 
@@ -350,13 +356,16 @@
   function norm(v) { return (v || '').trim().toLowerCase(); }
 
   function App() {
-    /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
+    /* shared workspaces (approved/workspace.rules.md): off unless the review switch turns it on */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var onbQ = RK.useQueryState('onb', ''), oq = RK.onbQuery();
-    /* Panels: New — the unified details panel tried on this page (IK.DetailsPanel, built from the page's own data by
-     IK.metricDetails); Current, the default, is the prototype as approved (user, 2026-10-20: "потрібно нові приміряти на
-     сторінки — але ще не замінювати в прототипі") */
-    var panels = RK.useQueryState('panels', 'current');
+    /* Metric details is the unified panel (IK.DetailsPanel via IK.metricDetails), the only one — the product's old sheet is
+       gone (user, 2026-10-22: "лишаєм нову панель всюди") */
+    /* List: Table (as approved) · Rows (the concept with Favorites) */
+    var listQ = RK.useQueryState('list', 'table'), rowsView = listQ[0] === 'rows';
+    IK.wsMarks = { popover: true, renewal: function (by) {
+      return IK.wsRenewal(ws, ws.list.filter(function (x) { return x.role === 'member' && x.owner.name === by; }).map(function (x) { return x.id; }));
+    } };
     var onbSrc = onbQ[0] === 'metrics' ? IK.onbSource(oq.source) : null;
     var touring = !!onbSrc;
     /* the page opens Filled (user, 2026-10-19: "дефолтне філд"); Empty is a review state */
@@ -366,6 +375,14 @@
     /* with workspaces, the person's own connections the workspaces know (Main CRM, Stripe Payments, Marketing Hub)
        join the library after the original's */
     var rs = R.useState(function () { return touring ? onbRows(onbSrc) : ROWS.concat(wsOn ? IK.wsMyMetricRows() : []); }), rows = rs[0], setRows = rs[1];
+    /* Favorites (Rows): Some (three starred) · None (nothing starred yet, no chip); a star sets it live */
+    var favQ = RK.useQueryState('fav', 'some');
+    function seedFavs(v) { return v === 'none' ? {} : { 'custom-1': true, 'b-sprint_velocity': true, 'b-prs_merged': true }; }
+    var fvs = R.useState(function () { return seedFavs(favQ[0]); }), favs = fvs[0], setFavs = fvs[1];
+    var fos = R.useState(false), favOnly = fos[0], setFavOnly = fos[1];
+    function setFavState(v) { favQ[1](v); setFavs(seedFavs(v)); setFavOnly(false); }
+    function star(r, on) { setFavs(function (x) { var n = Object.assign({}, x); if (on) n[r.id] = true; else delete n[r.id]; return n; }); }
+    var favCount = Object.keys(favs).length;
     var cs = R.useState(CATS[0]), cat = cs[0], setCat = cs[1];
     var qs = R.useState(''), query = qs[0], setQuery = qs[1];
     var ts = R.useState('all'), type = ts[0], setType = ts[1];
@@ -414,6 +431,60 @@
       var w = wsOn && id ? IK.wsWhereShared(ws.list, id) : [];
       return w.length ? { names: w.map(function (x) { return x.name; }), links: IK.wsLinks(w) } : null;
     }
+    /* the connection a metric goes with, as the workspaces know it: one of the person's own from Data Sources (wsConn), or
+       the library's own connection made into one, as Data Sources does (Skyvia Jira, or the source itself) */
+    function connOf(r) {
+      var label = r.connector || r.provider;
+      var k = (IK.WS_CONNECTIONS || []).filter(function (x) { return x.id === r.wsConn || x.label === label; })[0];
+      if (k) return k;
+      var n = rows.filter(function (x) { return x.kind === 'metric' && (x.connector || x.provider) === label; }).length;
+      return { id: 'c-' + String(label).toLowerCase().replace(/[^a-z0-9]+/g, '-'), name: r.provider, label: label, metrics: n,
+               lastSync: T0 - 2 * 3600e3, status: 'active' };
+    }
+    /* the connection open over a metric is the whole Connection details, as on Data Sources (user, 2026-10-22: "чому панель не
+       повноцінна з екшенами?"): its edits and checks kept here by its id, Edit / Disconnect through Data Sources' own dialogs */
+    var cxs = R.useState({}), cx = cxs[0], setCx = cxs[1];
+    function cxPatch(id, o) { setCx(function (m) { var n = Object.assign({}, m); n[id] = Object.assign({}, m[id], o); return n; }); }
+    var ecs = R.useState(null), editC = ecs[0], setEditC = ecs[1];
+    var dcs = R.useState(null), discC = dcs[0], setDiscC = dcs[1];
+    function connTest(c) {
+      cxPatch(c.id, { busy: true });
+      setTimeout(function () {
+        cxPatch(c.id, { busy: false, status: 'active', lastSync: Date.now() });
+        D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' checked successfully'), { description: 'Last check just now', id: c.id });
+      }, 1500);
+    }
+    /* Edit: the new name is the connection's everywhere in the library — what its metrics are linked to */
+    function connRename(c, v) {
+      setRows(function (list) { return list.map(function (r) {
+        if (r.kind === 'metric' && (r.connector || r.provider) === c.label) return Object.assign({}, r, { connector: v.label });
+        if (r.kind === 'conn' && r.name === c.label) return Object.assign({}, r, { name: v.label });
+        return r;
+      }); });
+      var next = Object.assign({}, c, { label: v.label, desc: v.desc, id: c.id });
+      cxPatch(c.id, { label: v.label, desc: v.desc });
+      setConnPrev(next);
+    }
+    /* Disconnect: it leaves its workspaces, its metrics leave the library, a source left with nothing goes too */
+    function connRemove(c) {
+      IK.wsWhereShared(ws.list, c.id).forEach(function (w) { ws.removeConnection(w.id, c.id); });
+      setRows(function (list) {
+        var kept = list.filter(function (r) { return !((r.kind === 'metric' && (r.connector || r.provider) === c.label) || (r.kind === 'conn' && r.name === c.label)); });
+        return kept.filter(function (r, i) {
+          if (r.kind !== 'group') return true;
+          for (var j = i + 1; j < kept.length && kept[j].kind !== 'group'; j++) if (kept[j].kind !== 'conn') return true;
+          return false;
+        });
+      });
+      setConnPrev(null); closeSheet();
+      D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' disconnected'), { description: c.metrics ? 'Its ' + c.metrics + (c.metrics === 1 ? ' metric' : ' metrics') + ' left the library' : undefined });
+    }
+    /* the connection's Share dialog (from its details, opened over a metric's), as on Data Sources */
+    var shs = R.useState(null), shareFor = shs[0], setShareFor = shs[1];
+    /* a metric is not added to or taken out of a workspace by itself: in Metric Details the connection's name in "Goes with
+       its connection, …" opens the connection's details over it, where that is done (user, 2026-10-22: "метрики не можна
+       видаляти напряму з воркспейсу …", then "лишаєм нову панель всюди (з лінком на сорс)") */
+    var cps = R.useState(null), connPrev = cps[0], setConnPrev = cps[1];
     /* one's own sub-headers name no workspaces either: the metric's details say where (Access) */
     var ownShown = rows;
     /* a shared connection sits in its source's group, beside the person's own connections of that source */
@@ -512,15 +583,25 @@
     }
 
     var sheetRow = sheet.rowId ? rowById(sheet.rowId) : null;
-    var sheetWs = sheetRow && inWsOf(sheetRow.wsConn);
+    var sheetWs = sheetRow && inWsOf(sheetRow.wsConn || (wsOn ? connOf(sheetRow).id : null));
     var sheetMetric = sheetRow ? Object.assign({}, sheetRow, { kind: sheetRow.custom ? 'custom' : 'builtin' }, sheetWs ? { wsNames: sheetWs.names, links: sheetWs.links } : {}) : sheet.metric;
     var sheetOpen = sheet.open && !!sheetMetric;
+    /* an action that closes the sheet (Duplicate, Delete, Connect) keeps what it shows, so it closes on it: dropping
+       the row emptied it mid-close and Duplicate took the page down (user, 2026-10-21: "не працює кнопка здублювати
+       метрику") */
+    function closeSheet() { var m = sheetMetric; setSheet({ open: false, metric: m }); }
 
     var f = IK.mxFilterMetrics(allRows, { query: query, type: type, activeOnly: activeOnly, applied: applied });
     /* Provider: a source, or one connection in it (user, 2026-10-20) */
     var srcTree = IK.mxSourceTree(allRows);
     var srcValid = provF === 'all' || srcTree.some(function (g) { return g.value === provF || g.children.some(function (c) { return c.value === provF; }); });
     f = IK.mxFilterSource(allRows, srcValid ? provF : 'all', f);
+    /* Rows: the Favorites chip leaves only the starred ones, in their groups */
+    var favOn = rowsView && favOnly && favCount > 0;
+    if (favOn) f = IK.mxFilterFavorites(allRows, favs, f);
+    /* a DevartUI Toggle as a chip, the filter pills' 28px; there once something is starred (nothing to filter before) */
+    var favChip = rowsView && favCount ? h(D.Toggle, { variant: 'stroke', size: 'xs', rounded: 'full', pressed: favOn, 'aria-label': 'Favorites only',
+      onPressedChange: function (v) { setApplied(true); setFavOnly(v); } }, h(IK.Icon, { name: 'fav-star' }), 'Favorites') : null;
     var provPill = srcTree.length > 1 || (srcTree[0] && srcTree[0].children.length) ? h(IK.WsTreeFilter, { label: 'Provider', value: srcValid ? provF : 'all', tree: srcTree,
       onChange: function (v) { setApplied(true); setProvF(v); } }) : null;
 
@@ -564,9 +645,11 @@
       (function () {
         var u4 = free && filled && !u4Gone ? h(D.Alert, {
           key: 'u4',
-        variant: 'warning', size: 'md', role: 'note', className: 'max-sm:flex-wrap',
-        /* the original's illustration: the metrics glyph, not a warning sign (user, 2026-10-20) */
-        icon: h(IK.Icon, { name: 'metrics' }),
+        /* the × stays on the first line on a phone (DevartUI lays actions full width there) */
+        variant: 'warning', size: 'md', role: 'note', actionsClassName: 'max-sm:w-auto',
+        /* a subscription, not a fault: the wallet illustration, as on Data Sources (user, 2026-10-21: "мав бути банер з гарною ілюстрацією про підписку з гаманцем") — DevartUI Alert's illustration:
+                   the wallet on a plate in the alert's own tone */
+        illustration: h(IK.Icon, { name: 'wallet', size: 20 }),
         title: 'Your subscription ended, so these metrics can no longer be edited',
         description: h(IK.Fragment, null, 'Nothing was deleted. ',
           h(IK.Locked, { feature: 'metrics', clickOnly: true, marker: 'none' },
@@ -597,16 +680,16 @@
               options: [['all', 'All'], ['builtin', 'Built-in'], ['custom', 'Custom']] }),
             inList ? h(IK.WsOwnerFilter, { value: ownerF, onChange: function (v) { setApplied(true); setOwnerF(v); },
               counts: { me: filled ? rows.filter(function (r) { return r.kind === 'metric'; }).length : 0, shared: sharedRows.filter(function (r) { return r.kind === 'metric'; }).length } }) : null,
-            provPill,
-            h(IK.WsClearFilters, { show: [type !== 'all', ownerF !== 'any', provF !== 'all'].filter(Boolean).length > 1,
-              onClear: function () { setApplied(true); setType('all'); setOwnerF('any'); setProvF('all'); } }))
+            provPill, favChip,
+            h(IK.WsClearFilters, { show: [type !== 'all', ownerF !== 'any', provF !== 'all', favOn].filter(Boolean).length > 1,
+              onClear: function () { setApplied(true); setType('all'); setOwnerF('any'); setProvF('all'); setFavOnly(false); } }))
           : h('div', { className: 'flex min-w-0 flex-1 items-center gap-2' }, h('div', { className: 'min-w-0 flex-1' }, h(D.FilterChips, {
             value: type,
             /* pressing the active Built-in / Custom chip goes back to All (the group clears it: '') */
             onValueChange: function (v) { setApplied(true); setType(v || 'all'); },
             items: [{ value: 'all', label: 'All' }, { value: 'builtin', label: 'Built-in' }, { value: 'custom', label: 'Custom' }]
               .concat(inList && shareMode === 'tag' ? [{ value: 'shared', label: 'Shared' }] : [])
-          })), provPill),
+          })), provPill, favChip),
           h('div', { className: 'ms-auto flex flex-none items-center gap-4' },
             /* shared metrics are always on — only their owner turns them off — so with only shared ones in view the switch
                has nothing to filter: disabled, saying why, and back as soon as one's own are in view (user, 2026-10-19:
@@ -618,8 +701,10 @@
             })(),
             null))),
       f.any
-        ? h(IK.MxMetricsTable, {
+        ? h(rowsView ? IK.MxMetricList : IK.MxMetricsTable, {
             rows: allRows, hidden: f.hidden, collapsed: collapsed,
+            /* Rows: the star on each row; the Favorites chip leaves only them (no section on top — user, 2026-10-21) */
+            favorites: rowsView ? favs : undefined, onFavorite: star,
             onToggleGroup: touring ? function () {} : function (prov) { setCollapsed(function (c) { var n = Object.assign({}, c); n[prov] = !n[prov]; return n; }); },
             /* a shared metric open in the sheet is the selected row too (it has no rowId, its id is on the metric) */
             selected: sheetOpen && (sheet.rowId || (sheet.metric && sheet.metric.id)),
@@ -649,7 +734,10 @@
       /* onboarding mode: no Plan (the free trial) and no Demo state (the library of the source just connected) */
       h(RK.ReviewBar, { title: 'Metrics', status: 'approved', plan: !onbQ[0] && !RK.wsOwnsPlan(wsq), size: 'sm', controls: [
         onbQ[0] ? null : { label: 'Demo state', value: state, onChange: changeState,
-          options: [{ value: 'empty', label: 'Empty' }, { value: 'filled', label: 'Filled' }] }, onbQ[0] ? null : { label: 'Panels', value: panels[0], onChange: panels[1], options: [{ value: 'current', label: 'Current' }, { value: 'new', label: 'New' }] }].concat(onbQ[0] ? RK.onboardingControls({ here: 'metrics', step: onbQ[0] }) : RK.workspaceControls({ here: 'metrics', sharedTab: mxTab === 'shared' })) }),
+          options: [{ value: 'empty', label: 'Empty' }, { value: 'filled', label: 'Filled' }] },
+        onbQ[0] ? null : { label: 'List', showLabel: true, value: listQ[0], onChange: function (v) { listQ[1](v); setFavOnly(false); }, options: [{ value: 'table', label: 'Table' }, { value: 'rows', label: 'Rows' }] },
+        /* Favorites only where it acts: with Rows */
+        onbQ[0] || !rowsView ? null : { label: 'Favorites', showLabel: true, value: favQ[0], onChange: setFavState, options: [{ value: 'some', label: 'Some' }, { value: 'none', label: 'None' }] }].concat(onbQ[0] ? RK.onboardingControls({ here: 'metrics', step: onbQ[0] }) : RK.workspaceControls({ here: 'metrics', sharedTab: mxTab === 'shared' })) }),
       h(IK.AppShell, { nav: 'metrics', burger: false, scroll: false, brandLink: false, accountIcons: 'classic', workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h(IK.ListPage, {
             title: 'Metrics', wrap: true,
@@ -666,27 +754,68 @@
                 h(D.TabsContent, { value: 'shared', className: 'flex flex-col gap-4' },
                   h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Metrics', feature: 'metrics' }),
                   h(IK.WsMetrics, { rows: sharedRows }))))),
-      panels[0] === 'new' ? h(IK.DetailsSheet, {
-        item: sheetOpen && sheetMetric && sheetMetric.name ? sheetMetric : null,
-        onOpenChange: function (v) { setSheet(function (s) { return Object.assign({}, s, { open: v }); }); },
-        build: function (m) {
-          return IK.metricDetails(m, { free: free,
-            renewal: m.readOnly && m.ws ? IK.wsRenewal(ws, [m.ws.id]) : null,
+      (function () {
+        var m = sheetOpen && sheetMetric && sheetMetric.name ? sheetMetric : null;
+        return h(IK.MetricDetails, { metric: m,
+          onOpenChange: function (v) { setSheet(function (s) { return Object.assign({}, s, { open: v }); }); },
+            free: free,
+            renewal: m && m.readOnly && m.ws ? IK.wsRenewal(ws, [m.ws.id]) : null,
+            /* one's own: Workspaces always — it goes with its connection (its name opens the connection's details), where that is */
+            workspaces: wsOn, shareLocked: free,
+            onOpenConnection: wsOn && sheetRow ? function () { setConnPrev(connOf(sheetRow)); } : undefined,
             onActive: function (on) { if (sheetRow) patch(sheetRow.id, { active: on }); },
-            onConnect: function () { setSheet({ open: false }); openConnect(m.prov); },
-            onDuplicate: function () { setSheet({ open: false }); if (sheetRow) duplicate(sheetRow); },
+            onConnect: function () { closeSheet(); openConnect(m && m.prov); },
+            onDuplicate: function () { closeSheet(); if (sheetRow) duplicate(sheetRow); },
             onEdit: function () { if (sheetRow) openEdit(sheetRow); },
-            onDelete: function () { if (sheetRow) remove(sheetRow.id); setSheet({ open: false }); } });
-        } }) :
-      h(IK.MxMetricSheet, {
-        open: sheetOpen, metric: sheetMetric || {}, renewal: sheetMetric && sheetMetric.readOnly && sheetMetric.ws ? IK.wsRenewal(ws, [sheetMetric.ws.id]) : null,
-        onOpenChange: function (v) { setSheet(function (s) { return Object.assign({}, s, { open: v }); }); },
-        onActive: function (on) { if (sheetRow) patch(sheetRow.id, { active: on }); },
-        onConnect: function () { setSheet({ open: false }); openConnect(sheetMetric.prov); },
-        onDuplicate: function () { setSheet({ open: false }); if (sheetRow) duplicate(sheetRow); },
-        onEdit: function () { if (sheetRow) openEdit(sheetRow); },
-        onDelete: function () { if (sheetRow) remove(sheetRow.id); setSheet({ open: false }); }
-      }),
+            onDelete: function () { if (sheetRow) remove(sheetRow.id); closeSheet(); } });
+      })(),
+      /* the connection's details over the metric's, whole, as on Data Sources: what it is, its last check, where it is shared
+         (Share via Workspace, taking it out of one), Add Metric, Edit · Test Connection · Disconnect */
+      wsOn ? (function () {
+          var c = connPrev ? Object.assign({}, connPrev, cx[connPrev.id]) : null;
+          var w = c ? IK.wsWhereShared(ws.list, c.id) : [];
+          return h(IK.ConnectionDetails, { connection: c ? Object.assign({}, c, { sharedWith: w.map(function (x) { return x.name; }), links: IK.wsLinks(w) }) : null,
+            onOpenChange: function (o) { if (!o) setConnPrev(null); },
+            free: free, wsLocked: free,
+            onEdit: function () { setEditC(c); },
+            onTest: function () { connTest(c); },
+            onDetails: function () {},
+            onDisconnect: function () { setDiscC(c); },
+            onAddMetric: function () { setDlg({ open: true, mode: 'create', initial: { connector: c.label, link: 'connection' } }); },
+            /* its metrics: here, the Provider filter on it (a sub-header of that name, or the source it is) */
+            onMetrics: function () {
+              var t = IK.mxSourceTree(allRows), v = null;
+              t.forEach(function (g) { g.children.forEach(function (k) { if (!v && k.label === c.label) v = k.value; }); if (!v && g.label === c.label) v = g.value; });
+              setApplied(true); setProvF(v || 'all'); setConnPrev(null); closeSheet();
+            },
+            onAddToWorkspace: function () { setShareFor(c); },
+            onRemoveFromWorkspace: function (it) {
+              ws.removeConnection(it.id, c.id);
+              D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' removed from ' + it.name), { description: 'Its metrics went with it' });
+            } });
+      })() : null,
+      wsOn ? h(IK.DsEditConnectionDialog, {
+        open: !!editC, label: editC && editC.label, desc: editC && (editC.desc || ''),
+        onOpenChange: function (o) { if (!o) setEditC(null); },
+        onSave: function (v) { var c = editC; setEditC(null); connRename(c, v); }
+      }) : null,
+      wsOn ? h(IK.DsDisconnectDialog, {
+        open: !!discC, label: discC && discC.label,
+        sharedIn: discC ? IK.wsWhereShared(ws.list, discC.id).map(function (x) { return x.name; }) : [],
+        onOpenChange: function (o) { if (!o) setDiscC(null); },
+        onConfirm: function () { var c = discC; setDiscC(null); connRemove(c); }
+      }) : null,
+      wsOn ? h(IK.WsAddToWorkspacesDialog, {
+        open: !!shareFor, onOpenChange: function (o) { if (!o) setShareFor(null); }, connection: shareFor, workspaces: ws.owned, createLocked: free,
+        taken: function (n) { return IK.wsNameTaken(ws.list, n); }, onCreate: function (n, d) { return ws.create(n, d); },
+        onAdd: function (ids) {
+          var c = shareFor;
+          ids.forEach(function (id) { ws.addConnections(id, [c]); });
+          setShareFor(null);
+          var names = IK.wsJoin(ids.map(function (id) { var w = ws.find(id); return w ? w.name : ''; }));
+          D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' added to ' + names),
+            { description: h('span', { className: 'flex flex-col items-start gap-1' }, h('span', null, c.metrics ? 'Members can use it and its ' + c.metrics + (c.metrics === 1 ? ' metric' : ' metrics') + ' in their chats now' : 'Members can use it in their chats now'), IK.wsGoLink(ws, ids)) });
+        } }) : null,
       h(IK.ConnectDialog, {
         open: conn.open, connector: conn.source || 'New Connection', mark: 'letter',
         onOpenChange: function (v) { setConn(function (c) { return Object.assign({}, c, { open: v }); }); },

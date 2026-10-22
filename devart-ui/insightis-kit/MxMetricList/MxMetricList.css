@@ -1,0 +1,36 @@
+/* MxMetricList — what DevartUI's Card row leaves to the metrics list: the section headings, the row's two
+   lines, the right-hand cluster and the phone tweaks. DS tokens only, 4px step. */
+
+.ik-mxl-section { display: flex; flex-direction: column; gap: .75rem; }
+.ik-mxl-rows { display: flex; flex-direction: column; gap: .5rem; }
+
+/* a group's heading: the whole line toggles the group; Add Metric on hover (always on touch / a phone) */
+.ik-mxl-head { display: flex; align-items: center; gap: .5rem; min-height: 2rem; cursor: pointer; }
+.ik-mxl-collapse {
+  display: inline-flex; flex: none; align-items: center; justify-content: center; width: 1rem; height: 1rem;
+  padding: 0; border: 0; border-radius: var(--radius-sm); background: transparent; color: hsl(var(--ink-secondary)); cursor: pointer;
+}
+.ik-mxl-collapse > svg { transition: transform 200ms; }
+.ik-mxl-head.is-collapsed .ik-mxl-collapse > svg { transform: rotate(-90deg); }
+
+.ik-mxl-add { opacity: 0; transition: opacity 150ms; }
+.ik-mxl-head:hover .ik-mxl-add, .ik-mxl-sub:hover .ik-mxl-add, .ik-mxl-add:focus-within, .ik-mxl-add:has([data-upgrade-open]) { opacity: 1; }
+@media (hover: none), (max-width: 767px) { .ik-mxl-add { opacity: 1; } }
+
+/* a connection's sub-heading inside its group: the link glyph in a 24px box, under the group's logo (the band's 16px +
+   the chevron's 16px + 8px) */
+.ik-mxl-sub { display: flex; align-items: center; gap: .375rem; min-height: 2rem; margin-top: .25rem; padding-inline-start: 2.5rem; }
+.ik-mxl-sub-lead { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; color: hsl(var(--ink-secondary)); }
+
+
+/* the row: switch · name over the definition · badge, star, ⋮ — the switch DevartUI's default, 36px */
+.ik-mxl-switch { display: inline-flex; flex: none; align-items: center; width: 2.25rem; }
+.ik-mxl-alias { flex: 0 1 auto; max-width: 50%; }
+.ik-mxl-def { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden; }
+.ik-mxl-end { display: inline-flex; flex: none; align-items: center; gap: .5rem; cursor: default; }
+/* a shared row has no ⋮: its 24px kept, so every badge and star stands in one column */
+.ik-mxl-menu-room { display: inline-block; flex: none; width: 1.5rem; }
+
+@media (max-width: 767px) {
+  .ik-mxl-def { -webkit-line-clamp: 2; }
+}

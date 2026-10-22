@@ -260,8 +260,13 @@
       nested: true, 'data-interactive': p.onOpen ? '' : undefined, className: IK.cx('ik-mx-row', p.selected && 'is-selected'),
       onClick: function () { if (p.onOpen) p.onOpen(r); }
     },
-      /* switchOn (Owner): the switch on and disabled, saying why on hover; else absent, as before */
-      h(D.TableCell, { className: 'ik-mx-cell-switch' }, r.switchOn ? h('span', { className: 'inline-flex items-center align-middle', onClick: stop },
+      /* switchable (the Owner on a workspace page): the metric's own Active, working — nothing else to change there;
+         switchOn (a Member): the switch on and disabled, saying why on hover; else absent, as before */
+      h(D.TableCell, { className: 'ik-mx-cell-switch' }, r.switchable ? h('span', { className: 'inline-flex items-center align-middle', onClick: stop },
+        h(IK.Locked, { feature: 'metrics', marker: 'none' },
+          h('span', { className: 'inline-flex items-center' },
+            h(D.Switch, { size: 'sm', checked: !!r.active, 'aria-label': r.name + ' — toggle active', onCheckedChange: function (v) { p.onActive && p.onActive(r, v); } }))))
+      : r.switchOn ? h('span', { className: 'inline-flex items-center align-middle', onClick: stop },
         h(IK.Tip, { tip: 'Shared metrics stay on — only ' + ((r.ws && r.ws.owner && r.ws.owner.name) || r.by || 'their owner') + ' can turn them off', wrap: true },
           h('span', { className: 'inline-flex items-center' }, h(D.Switch, { size: 'sm', checked: true, disabled: true, 'aria-label': r.name + ' — on, shared' })))) : null),
       /* unavailable: the warning right after the name, as everywhere */

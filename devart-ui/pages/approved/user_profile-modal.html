@@ -99,7 +99,7 @@
   }
 
   function App() {
-    /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
+    /* shared workspaces (approved/workspace.rules.md): off unless the review switch turns it on */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var da = R.useState(false), delAcct = da[0], setDelAcct = da[1];
     var plan = IK.usePlan()[0];

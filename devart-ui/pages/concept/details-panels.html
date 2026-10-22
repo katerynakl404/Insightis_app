@@ -19,14 +19,18 @@
    Files) on ONE anatomy, side by side at their real widths and the Sheet's full height (user, 2026-10-20:
    "уніфіковані з різними станами" · "мали бути реальні ширини" · "верни перемикач станів"). IK.DetailsPanel.
 
-   Widths are the products' own: Connection Details — DevartUI Sheet right (24rem, 384px); Metric Details —
-   26.25rem (420px, .ik-mx-sheet); the file preview — 28rem (448px, its default, resizable 320–720).
+   Widths: Connection and Metric Details — one Sheet width, 26.25rem (420px, .ik-dp-sheet; the product's Connection
+   Details is DevartUI's 24rem today); the file preview — 28rem (448px, its default, resizable 320–720).
 
    One rule for the actions, every panel (user, 2026-10-20: "проаналізуй екшени, можливості уніфікації, але
    без шкоди юзабіліті"): each action once per panel.
      in place   an action that belongs to a property sits by it — Add Metric (+ after the count), re-test
                 (after Last check), Share (in Access), Active (the head's switch)
      item       what is done with the item itself — Actions switch:
+                  Split   (default) the general ones — Edit, Duplicate, Delete / Disconnect — under a chevron in
+                          the head (one alone: its icon); what is particular to the item or the page — Remove from
+                          Workspace, Duplicate & Customize, Connect — at the foot; a file keeps its icons on top, the
+                          preview wants the room (user, 2026-10-20)
                   Top     as the file preview's head: the item's verbs as icons with tooltips, the main one first,
                           the destructive one last (a red icon; ⋮ only for two or more), no rules between (user, 2026-10-20: "з дівайдерами дуже погано"); no foot
                   Bottom  as Connection / Metric Details today: a foot, destructive left, the main one right
@@ -45,7 +49,9 @@
   var NOW = Date.now();
   var MINE = [{ name: 'Sales', href: '#', owner: 'You', members: 3 }, { name: 'Support', href: '#', owner: 'You', members: 2 }];
   var THEIRS = [{ name: 'Marketing', href: '#', owner: 'Olena Petrenko', members: 3 }, { name: 'Brand', href: '#', owner: 'Olena Petrenko', members: 2 }];
-  var WIDTH = { conn: '24rem', metric: '26.25rem', file: '28rem' };
+  /* Connection and Metric — one Sheet width, 420px (user, 2026-10-20: "мали б мати однакову ширину"); the file
+     preview is the Files page's split column, 448px by default */
+  var WIDTH = { conn: '26.25rem', metric: '26.25rem', file: '28rem' };
   var HEIGHT = 'min(48rem, calc(100svh - 9rem))';
   var TEXT = {
     conn: { short: 'Deals, contacts & pipeline metrics',
@@ -89,7 +95,7 @@
   /* ── the item's own actions, placed by the Actions switch ── */
   /* the item's own actions — the kit's one model (IK.detailsPlace): Top → the head, Bottom → the foot */
   function A(label, icon, o) { return Object.assign({ label: label, icon: icon, onClick: toast(label) }, o || {}); }
-  function place(acts, top) { return IK.detailsPlace(acts, top); }
+  function place(acts, at) { return IK.detailsPlace(acts, at); }
 
   function placeholder(kind, text) {
     return h('div', { className: 'flex items-center justify-center rounded-lg border border-dashed border-stroke p-6 text-center', style: { width: WIDTH[kind], maxWidth: '100%', height: '12rem' } },
@@ -98,9 +104,11 @@
 
   /* ── one panel per item and state ── */
   function build(kind, s, o) {
-    var top = o.actions === 'top', free = s === 'free', desc = o.desc;
+    /* the placement (Split · Top · Bottom); a file keeps its icons on top in Split — the preview wants the room */
+    /* a file always keeps Download its icon and the rest in a kebab — the preview wants the room (user, 2026-10-21) */
+    var top = o.actions, fileAt = 'kebab', free = s === 'free', desc = o.desc;
     function about(label, key) { return desc === 'none' ? null : { label: label, text: TEXT[key][desc] }; }
-    /* the problem and the way back — Ask Olena to Renew / Upgrade — in the mark's popover by the name; no alert in Access
+    /* the problem and the way back — Ask Owner to Renew / Upgrade — in the mark's popover by the name; no alert in Access
        (user, 2026-10-20: "виглядає завеликою помилкою" · "можливо ріквест прям тут засунути?") */
     function mark(noun, feature, quiet) { return h(IK.WsUnavailableMark, { by: 'Olena Petrenko', locked: s === 'plan', noun: noun, feature: feature, renewal: o.renewal, withAction: !quiet }); }
     /* a file that can't be used: its preview's place says why and offers the way back — the file preview's own
@@ -119,12 +127,6 @@
           rows: [{ label: 'Metrics', value: off ? '4 metrics' : h(D.LinkButton, { href: '#' }, '4 metrics') },
                  { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: NOW - 60 * 60e3, status: 'active' }) }],
           access: { items: THEIRS } };
-      } else if (s === 'wspage') {
-        p = Object.assign({ title: 'Connection details', mark: h(IK.ConnectorMark, { connector: 'Salesforce', size: 'md' }), name: 'Main CRM', meta: 'Salesforce',
-          description: about('Description', 'conn'),
-          rows: [{ label: 'Metrics', value: h(D.LinkButton, { href: '#' }, '12 metrics') }, { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: NOW - 32 * 60e3, status: 'active' }) }],
-          access: { items: MINE } },
-          place({ danger: [A('Remove from Workspace', 'ws-remove')] }, top));
       } else {
         var other = s === 'other';
         p = Object.assign({ title: 'Connection details', mark: h(IK.ConnectorMark, { connector: other ? 'Stripe' : 'Salesforce', size: 'md' }), name: other ? 'Stripe Payments' : 'Main CRM', meta: other ? 'Stripe' : 'Salesforce',
@@ -137,21 +139,15 @@
             { label: 'Last check', value: other
               ? h(IK.DsLastCheck, { lastSync: NOW - 26 * 3600e3, status: 'error', error: 'API key expired or revoked (HTTP 401)', onTest: toast('Checking…'), onDetails: toast('Check failed: API key expired or revoked (HTTP 401)') })
               : h(IK.DsLastCheck, { lastSync: NOW - 32 * 60e3, status: 'active', onTest: free ? undefined : toast('Checking…') }) }],
-          access: { items: s === 'inws' ? MINE : [], action: share(free) } },
-          place({ main: [A('Edit', 'rename', { feature: 'connection-edit', locked: free })], danger: [A('Disconnect', 'disconnect')] }, top));
+          access: { items: s === 'inws' || s === 'wspage' ? MINE : [], action: share(free), onRemove: function (it) { D.toast.success('Main CRM removed from ' + it.name); } } },
+          place({ main: [A('Edit', 'rename', { feature: 'connection-edit', locked: free })], danger: [A('Disconnect', 'disconnect')],
+            specific: s === 'wspage' ? [A('Remove from Workspace', 'ws-remove', { danger: true })] : [] }, top));
       }
     }
 
     if (kind === 'metric') {
       /* on a workspace page a metric opens read-only (IK.WsMetrics → kind 'readonly'): no switch, nothing to do — it
          goes with its connection (user, 2026-10-20: "метрики також відкривають панель у воркспейсах") */
-      if (s === 'wspage') {
-        p = { title: 'Metric details', mark: h(IK.ConnectorMark, { connector: 'Salesforce', size: 'md' }), name: 'MRR growth', meta: badges('@mrr_growth', true),
-          description: about('Definition', 'def'),
-          rows: [{ label: 'Linked to', value: 'Main CRM · Salesforce' }],
-          access: { items: MINE, note: { label: 'Goes with its connection, Main CRM', text: 'Every workspace Main CRM is in sees this metric — share or remove the connection to change that' } } };
-        return h(IK.DetailsPanel, Object.assign({ inline: true, layout: o.layout, style: { width: WIDTH[kind], maxWidth: '100%', height: HEIGHT } }, p));
-      }
       if (theirs) {
         p = { title: 'Metric details', mark: h(IK.ConnectorMark, { connector: 'HubSpot', size: 'md' }), name: 'Revenue', meta: badges('@revenue__a3f9c1', true),
           after: off ? mark('metrics', 'metrics') : null,
@@ -175,11 +171,11 @@
           name: builtin ? 'Win rate' : 'MRR growth', meta: badges(builtin ? '@win_rate' : '@mrr_growth', !builtin),
           description: about('Definition', builtin ? 'win' : 'def'),
           rows: [{ label: 'Linked to', value: 'Main CRM · Salesforce' }],
-          access: { items: s === 'inws' ? MINE : [], empty: 'Not shared yet',
+          access: { items: s === 'inws' || s === 'wspage' ? MINE : [], empty: 'Not shared yet',
             note: { label: 'Goes with its connection, Main CRM', text: 'Every workspace Main CRM is in sees this metric — share or remove the connection to change that' },
             action: share(free, 'Share Main CRM') } },
           builtin
-            ? place({ main: [A('Duplicate & Customize', 'copy', { short: 'Duplicate', tip: 'Duplicate & Customize — your own copy with a custom formula', feature: 'metrics', locked: free })], mainVariant: 'secondary',
+            ? place({ specific: [A('Duplicate & Customize', 'copy', { short: 'Duplicate', tip: 'Duplicate & Customize — your own copy with a custom formula', feature: 'metrics', locked: free })], mainVariant: 'secondary',
                 note: h('div', { className: 'flex min-w-0 flex-col' },
                   h(D.Typography, { element: 'span', textStyle: 'label14', textColor: 'primary' }, 'Duplicate & Customize'),
                   h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, 'Your own copy with a custom formula')) }, top)
@@ -194,20 +190,16 @@
           after: off ? mark('files', 'shared-files', true) : null,
           rows: fileRows('PDF', '1.1 MB', 'Uploaded', 'Oct 15, 2026'), access: { items: THEIRS } },
           off ? { foldDetails: true, preview: unavailableFile() } : real('Campaign brief — autumn launch.pdf', '1.1 MB'),
-          off ? {} : place({ more: [A('Add to Chat', 'add-chat')], main: [A('Download', 'download')] }, top));
-      } else if (s === 'wspage') {
-        p = Object.assign({ title: 'File details', mark: h(IK.DsFileMark, { type: 'csv' }), name: 'quarterly-report.csv', meta: 'CSV · 2.4 MB · Artifact',
-          rows: fileRows('CSV', '2.4 MB', 'Artifact', 'Oct 16, 2026'), access: { items: MINE.slice(0, 1) } },
-          real('quarterly-report.csv', '2.4 MB'),
-          place({ main: [A('Download', 'download')], danger: [A('Remove from Workspace', 'ws-remove')] }, top));
+          off ? {} : place({ more: [A('Add to Chat', 'add-chat')], main: [A('Download', 'download')] }, fileAt));
       } else {
         var json = s === 'other';
         p = Object.assign({ title: 'File details', mark: h(IK.DsFileMark, { type: json ? 'json' : 'csv' }), name: json ? 'pipeline-export.json' : 'quarterly-report.csv',
           meta: json ? 'JSON · 84 KB · Uploaded' : 'CSV · 2.4 MB · Artifact',
           rows: json ? fileRows('JSON', '84 KB', 'Uploaded', 'Oct 16, 2026') : fileRows('CSV', '2.4 MB', 'Artifact', 'Oct 16, 2026'),
-          access: { items: s === 'inws' ? MINE.slice(0, 1) : [], action: share(free) } },
+          access: { items: s === 'inws' || s === 'wspage' ? MINE.slice(0, 1) : [], action: share(free), onRemove: function (it) { D.toast.success('quarterly-report.csv removed from ' + it.name); } } },
           json ? real('pipeline-export.json', '84 KB') : real('quarterly-report.csv', '2.4 MB'),
-          place({ more: [A('Add to Chat', 'add-chat')], main: [A('Download', 'download')], danger: [A('Delete', 'delete')] }, top));
+          place({ more: [A('Add to Chat', 'add-chat')], main: [A('Download', 'download')], danger: [A('Delete', 'delete')],
+            specific: s === 'wspage' ? [A('Remove from Workspace', 'ws-remove', { danger: true })] : [] }, fileAt));
       }
     }
     return h(IK.DetailsPanel, Object.assign({ inline: true, layout: o.layout, style: { width: WIDTH[kind], maxWidth: '100%', height: HEIGHT } }, p));
@@ -222,18 +214,18 @@
 
   function App() {
     var st = RK.useQueryState('state', 'own'), s = st[0], setS = st[1];
-    var ac = RK.useQueryState('actions', 'top'), actions = ac[0], setActions = ac[1];
-    var ly = RK.useQueryState('layout', 'rows'), layout = ly[0], setLayout = ly[1];
+    var ac = RK.useQueryState('actions', 'bottom'), actions = ac[0], setActions = ac[1];
+    var ly = RK.useQueryState('layout', 'stacked'), layout = ly[0], setLayout = ly[1];
     var ds = RK.useQueryState('desc', 'short'), desc = ds[0], setDesc = ds[1];
     var rq = R.useState(false), requested = rq[0], setRequested = rq[1];
     var renewal = { blocked: true, owners: ['Olena Petrenko'], requested: requested,
       request: function () { setRequested(true); D.toast.success(h(IK.Fragment, null, 'Email sent to ', h('span', { className: 'font-medium text-ink-primary' }, 'Olena Petrenko')), { description: 'You’ll get access back once the plan is renewed' }); } };
     var o = { actions: actions, layout: layout, desc: desc, renewal: renewal };
-    var cols = [['conn', 'Connection · Data Sources', '384px'], ['metric', 'Metric · Metrics', '420px'], ['file', 'File · Files', '448px']];
+    var cols = [['conn', 'Connection · Data Sources', '420px'], ['metric', 'Metric · Metrics', '420px'], ['file', 'File · Files', '448px']];
     return h('div', { className: 'flex min-h-svh flex-col bg-surface-page' },
       h(RK.ReviewBar, { title: 'Details panels', status: 'concept', size: 'sm', autoHeight: true, plan: false, controls: [
         { label: 'State', showLabel: true, value: s, onChange: setS, options: STATES.map(function (x) { return { value: x[0], label: x[1] }; }) },
-        { label: 'Actions', showLabel: true, value: actions, onChange: setActions, options: [{ value: 'top', label: 'Top' }, { value: 'bottom', label: 'Bottom' }] },
+        { label: 'Actions', showLabel: true, value: actions, onChange: setActions, options: [{ value: 'split', label: 'Split' }, { value: 'top', label: 'Top' }, { value: 'bottom', label: 'Bottom' }] },
         { label: 'Layout', showLabel: true, value: layout, onChange: setLayout, options: [{ value: 'rows', label: 'Rows' }, { value: 'stacked', label: 'Stacked' }, { value: 'cards', label: 'Cards' }] },
         { label: 'Description', showLabel: true, value: desc, onChange: setDesc, options: [{ value: 'short', label: 'Short' }, { value: 'long', label: 'Long' }, { value: 'none', label: 'None' }] }] }),
       h('main', { className: 'flex flex-col gap-4 px-6 py-6' },

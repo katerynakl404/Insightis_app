@@ -21,7 +21,6 @@
   /* DevartUI's Alert drops its actions under the copy below 640px (max-sm:w-full) but its row does
      not wrap, so the copy collapsed to one word per line; the wrap lets the ✕ go under, as in the
      original. */
-  @media (max-width: 639px) { .pg-alert { flex-wrap: wrap; } }
 </style>
 </head>
 <body>
@@ -87,15 +86,16 @@
   }
 
   function App() {
-    /* shared workspaces (concept/workspace.rules.md): off unless the review switch turns it on */
+    /* shared workspaces (approved/workspace.rules.md): off unless the review switch turns it on */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var plan = IK.usePlan()[0], free = plan === 'free';
     var seg = RK.useQueryState('state', 'connected');
     var load = RK.useQueryState('load', 'loaded');
-    /* Panels: New — the unified details panel tried on this page (IK.DetailsPanel, built from the page's own data by
-     IK.connectionDetails); Current, the default, is the prototype as approved (user, 2026-10-20: "потрібно нові приміряти на
-     сторінки — але ще не замінювати в прототипі") */
-    var panels = RK.useQueryState('panels', 'current'), newPanels = panels[0] === 'new';
+    /* Connection details is the unified panel (IK.DetailsPanel via IK.connectionDetails), the only one — the product's
+       old one is gone (user, 2026-10-22: "лишаєм нову панель всюди") */
+    IK.wsMarks = { popover: true, renewal: function (by) {
+      return IK.wsRenewal(ws, ws.list.filter(function (x) { return x.role === 'member' && x.owner.name === by; }).map(function (x) { return x.id; }));
+    } };
     var loading = load[0] === 'skeleton';
 
     var conns = R.useState(SEED), list = conns[0], setList = conns[1];
@@ -230,8 +230,7 @@
         { label: 'Data state', value: seg[0], onChange: setSeg,
           options: [{ value: 'empty', label: 'Empty' }, { value: 'connected', label: 'Connected' }] },
         { label: 'Page state', value: load[0], onChange: load[1],
-          options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] },
-        { label: 'Panels', value: panels[0], onChange: panels[1], options: [{ value: 'current', label: 'Current' }, { value: 'new', label: 'New' }] }
+          options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] }
       ].concat(RK.workspaceControls({ here: 'data-sources', sharedTab: curTab === 'shared' })) }),
       h(IK.AppShell, { nav: 'data-sources', burger: false, scroll: false, brandLink: false, accountIcons: 'classic', workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h(IK.ListPage, {
@@ -274,10 +273,11 @@
               (function () {
                 var u4 = free && hasConn && !u4Off ? h(D.Alert, {
                 key: 'u4',
-                variant: 'warning', size: 'md', role: 'note', className: 'pg-alert',
-                /* the original's illustration slot: the connections glyph, not a warning sign (user, 2026-10-20: "тут
-                   здається була ілюстрація, а не знак оклику") */
-                icon: h(IK.Icon, { name: 'connections' }),
+                /* the × stays on the first line on a phone (DevartUI lays actions full width there) */
+                variant: 'warning', size: 'md', role: 'note', actionsClassName: 'max-sm:w-auto',
+                /* a subscription, not a fault: the wallet illustration, not a warning sign (user, 2026-10-21: "мав бути банер з гарною ілюстрацією про підписку з гаманцем") — DevartUI Alert's illustration:
+                   the wallet on a plate in the alert's own tone */
+                illustration: h(IK.Icon, { name: 'wallet', size: 20 }),
                 title: 'Your subscription ended, so these connections can\'t be used',
                 description: h(IK.Fragment, null, 'Nothing was deleted. ',
                   h(IK.Locked, { feature: 'connections', clickOnly: true, marker: 'none', locked: true },
@@ -328,30 +328,19 @@
               h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Connectors', feature: 'connections' }),
               /* the same table as My Connections — same columns, so switching tabs moves nothing */
               h(IK.DsConnections, { metricsHref: IK.wsMetricsHref, connections: sharedRows, wsCol: true, ownerCol: wsq.owner, selected: sharedPanel, onOpen: openRow })) : null)),
-        newPanels ? h(IK.DetailsSheet, { item: panelConn, onOpenChange: function (o) { if (!o) setPanel(null); },
-          build: function (c) {
-            return IK.connectionDetails(c, { free: free, metricsHref: wsOn ? IK.wsMetricsHref : null,
-              onEdit: function (n) { setPanel(null); setEdit(n); }, onDisconnect: function (n) { setPanel(null); setDisc(n); },
-              onTest: test, onDetails: errToast, onAddToWorkspace: wsOn ? function (n) { setAddWs(n); } : undefined, wsLocked: free, onAddMetric: addMetric });
-          } }) :
-        h(IK.DsConnectionPanel, { metricsHref: wsOn ? IK.wsMetricsHref : undefined,
-          connection: panelConn,
-          onOpenChange: function (o) { if (!o) setPanel(null); },
-          onEdit: function (n) { setPanel(null); setEdit(n); },
-          onDisconnect: function (n) { setPanel(null); setDisc(n); },
-          onTest: test, onDetails: errToast,
-          /* the panel stays open under the dialog: saving lands back on it, its Access updated */
-          onAddToWorkspace: wsOn ? function (n) { setAddWs(n); } : undefined, wsLocked: free, onAddMetric: addMetric
-        })),
-      hasShared && newPanels ? h(IK.DetailsSheet, (function () {
+        h(IK.ConnectionDetails, { connection: panelConn, onOpenChange: function (o) { if (!o) setPanel(null); },
+          free: free, metricsHref: wsOn ? IK.wsMetricsHref : null,
+          onEdit: function (n) { setPanel(null); setEdit(n); }, onDisconnect: function (n) { setPanel(null); setDisc(n); },
+          onTest: test, onDetails: errToast, onAddToWorkspace: wsOn ? function (n) { setAddWs(n); } : undefined, wsLocked: free, onAddMetric: addMetric,
+          onRemoveFromWorkspace: wsOn ? function (it, x) {
+            var cc = wsConn(find(x.name)); if (it.id && cc) ws.removeConnection(it.id, cc.id);
+            D.toast.success(h(IK.Fragment, null, h('strong', null, x.label || x.name), ' removed from ' + it.name));
+          } : undefined })),
+      hasShared ? (function () {
         var c = sharedRows.filter(function (x) { return x.id === sharedPanel; })[0];
-        return { item: c || null, onOpenChange: function (o) { if (!o) setSharedPanel(null); },
-          build: function (x) { return IK.connectionDetails(x, { mode: 'shared', metricsHref: IK.wsMetricsHref, renewal: IK.wsRenewal(ws, x.wsIds) }); } };
-      })()) :
-      hasShared ? h(IK.DsConnectionPanel, (function () {
-        var c = sharedRows.filter(function (x) { return x.id === sharedPanel; })[0];
-        return { mode: 'shared', metricsHref: IK.wsMetricsHref, connection: c || null, renewal: c ? IK.wsRenewal(ws, c.wsIds) : null, onOpenChange: function (o) { if (!o) setSharedPanel(null); } };
-      })()) : null,
+        return h(IK.ConnectionDetails, { connection: c || null, onOpenChange: function (o) { if (!o) setSharedPanel(null); },
+          mode: 'shared', metricsHref: IK.wsMetricsHref, renewal: c ? IK.wsRenewal(ws, c.wsIds) : null });
+      })() : null,
       wsOn ? h(IK.WsAddToWorkspacesDialog, (function () {
         var c = addWs ? wsConn(find(addWs)) : null;
         return {

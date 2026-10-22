@@ -9,7 +9,7 @@
               active one is State/Pressed + Text/Body with aria-current="page" (no self-reload);
               a count rides at the row's end (badge), not on the rail
               + Workspaces, right under New Chat, only when the page passes `workspaces` (shared workspaces,
-              AIINS-1852): it opens the Workspaces list (concept/workspaces.html), and every nav link
+              AIINS-1852): it opens the Workspaces list (approved/workspaces.html), and every nav link
               keeps the feature's review state (IK.wsHref) so the row stays from page to page
      chats    Pinned / Recent (IK.SidebarChats) — rows, ⋮ menu, Rename / Delete dialogs
      promo    Free only: DevartUI PromoCard "Upgrade to Pro" in SidebarPromo (above the footer rule,
@@ -67,7 +67,7 @@
   ];
 
   /* shared workspaces — the row the nav gains when the page passes a workspaces store */
-  var WS_NAV = { key: 'workspaces', label: 'Workspaces', icon: 'ws-layers', href: 'concept/workspaces.html' };
+  var WS_NAV = { key: 'workspaces', label: 'Workspaces', icon: 'ws-layers', href: 'approved/workspaces.html' };
 
   /* Dismissed stays dismissed for the page session — flipping the plan must not bring it back,
      or the X reads as "hide until you touch anything" (kit-kit.js §10). */
@@ -83,7 +83,8 @@
         badge: p.badge != null ? h(D.Badge, { variant: 'brand', size: 'sm', rounded: 'full', className: 'tabular-nums' }, p.badge) : undefined
       },
         h('a', {
-          href: p.ws ? IK.wsHref(it.href) : IK.pageHref(it.href), 'aria-current': active ? 'page' : undefined,
+          /* the review switches ride along on every link (Panels too, workspaces on or off — user, 2026-10-21: 'не мав скидатись між сторінками') */
+          href: IK.wsHref(it.href), 'aria-current': active ? 'page' : undefined,
           onClick: active ? function (e) { e.preventDefault(); } : undefined
         })));
   }
@@ -117,7 +118,7 @@
               ? h('div', { className: 'flex min-w-0 items-center' },
                   h(IK.Logo, collapsed ? { variant: 'mark', height: 20, label: 'Insightis' } : { variant: 'full', height: 24, label: 'Insightis' }))
               : h(IK.Tip, { tip: 'New Chat' },
-                  h('a', { href: IK.pageHref('approved/chat-landing.html'), 'aria-label': 'New Chat',
+                  h('a', { href: IK.wsHref('approved/chat-landing.html'), 'aria-label': 'New Chat',
                            className: IK.cx('flex min-w-0 items-center rounded-md', D.focusRing) },
                     h(IK.Logo, collapsed ? { variant: 'mark', height: 20 } : { variant: 'full', height: 24 })))),
           sidebarTrigger: h(D.SidebarTrigger, {

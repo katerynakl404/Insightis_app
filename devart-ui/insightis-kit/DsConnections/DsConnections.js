@@ -28,16 +28,20 @@
    })
 
    Shared workspaces — `variant` swaps the columns; the default list above is untouched:
-     'workspace'  a workspace page, the Owner's view: Connection name · Data Source · Metrics
-                  ("12 metrics" — they are shared with it) · Actions = menu(c) (e.g. Remove from
-                  Workspace). Not interactive rows: nothing opens.
+     'workspace'  a workspace page, the Owner's view: the columns and cells of the list above — Metrics
+                  ("12 metrics", + Add Metric where there are none), Last check (↻ Test Connection, the failed
+                  check's Details) — and its ⋮, DsConnectionMenu, with Remove from Workspace as one more
+                  action (onRemoveHere; user, 2026-10-22: "⋮ і клітинки як на власних сторінках"). The
+                  handlers get the row's id. Without handlers: menu(c) alone, as before.
      'shared'     a Member's Shared list: Connection name · Data Source · Shared by (IK.WsSharedBy —
                   who · which workspace) · Metrics; no Actions column at all (read-only = absent).
                   A row with `locked` (your plan) or `muted` (its owner's plan) reads as usual and opens; the
                   warning after its name (IK.WsUnavailableMark) says why.
      connections: [{ id, name, label, metrics: n | [], by, wsName, locked, lockProps, muted }]
                   muted — a Blocked workspace's: greyed, no badge (the plan to fix is the Owner's)
-     menu: function (c) → node              // the ⋮ for 'workspace'
+     menu: function (c) → node              // the ⋮ for 'workspace' without handlers
+     onEdit, onTest, onDetails, onDisconnect, onAddMetric, onAddToWorkspace, wsLocked, locked,
+     onRemoveHere                           // 'workspace' with Data Sources' handlers — each (id)
      onOpen: function (c), selected: id     // a row opens IK.DsConnectionPanel (mode workspace / shared)
      metricsHref: function (c) → href      // "12 metrics" links to Metrics with that connection chosen (IK.wsMetricsHref)
 
@@ -70,11 +74,12 @@
   ];
   /* shared workspaces: the Owner's list on a workspace page, and a Member's Shared list */
   var VARIANT_COLS = {
+    /* the widths of the list above (COLS) — the same table */
     workspace: [
-      { key: 'name', label: 'Connection name', w: '28%' },
+      { key: 'name', label: 'Connection name', w: '26%' },
       { key: 'source', label: 'Data Source', w: '22%' },
       { key: 'metrics', label: 'Metrics', w: '18%' },
-      { key: 'check', label: 'Last check', w: '24%' },
+      { key: 'check', label: 'Last check', w: '26%' },
       { key: 'menu', label: 'Actions', w: '8%', end: true }
     ],
     shared: [
@@ -108,7 +113,15 @@
   function mark(c) {
     return unusable(c) ? h(IK.WsUnavailableMark, { name: c.label || c.name, by: (c.shared && c.shared.by) || c.by, locked: !c.muted, noun: 'connections' }) : null;
   }
+  /* Last check; with the Owner's handlers, as on Data Sources: the re-test icon (not on Free) and the failed check's Details */
+  function lastCheck(c, hd) {
+    var k = c.id || c.name;
+    return h(IK.DsLastCheck, { lastSync: c.lastSync || LAST_CHECK_FALLBACK, status: c.status || 'active', error: c.error, busy: hd ? c.busy : undefined,
+      onDetails: hd && hd.onDetails ? function () { hd.onDetails(k); } : undefined,
+      onTest: hd && !hd.locked && hd.onTest ? function () { hd.onTest(k); } : undefined });
+  }
   function VariantTable(p) {
+    var hd = p.handlers;
     var cols = VARIANT_COLS[p.variant].filter(function (c) { return !(p.noWs && c.key === 'by'); });
     return h(D.Table, { layout: 'fixed', 'aria-label': p['aria-label'] || 'Connections', wrapperClassName: 'ik-dscn-tbl' },
       h(D.TableHeader, null, h(D.TableRow, null, cols.map(function (c) {
@@ -132,10 +145,12 @@
               h(IK.ConnectorMark, { connector: c.connector || c.name, size: 'xs', label: c.name + ' logo' }),
               h('span', { className: 'min-w-0 truncate text-ink-secondary' }, c.name)));
           if (col.key === 'by') return h(D.TableCell, { key: 'b' }, h(IK.WsNames, { names: c.wsNames || [c.wsName], links: c.links, className: 'text-sm text-ink-secondary' }));
-          if (col.key === 'check') return h(D.TableCell, { key: 'c' }, status(c, h(IK.DsLastCheck, { lastSync: c.lastSync || LAST_CHECK_FALLBACK, status: c.status || 'active', error: c.error })));
+          if (col.key === 'check') return h(D.TableCell, { key: 'c' }, status(c, lastCheck(c, hd)));
           if (col.key === 'metrics') return h(D.TableCell, { key: 'm', className: 'whitespace-nowrap' },
-            (p.metricsHref && count(c) ? metricsLink(c, p.metricsHref(c), metricsText(count(c))) : h('span', { className: 'tabular-nums text-ink-secondary' }, metricsText(count(c)))));
-          return h(D.TableActionsCell, { key: 'a' }, unusable(c) ? null : p.menu ? p.menu(c) : null);
+            hd && hd.onAddMetric && !count(c) ? addMetricCell(c, hd, c.id || c.name)
+              : (p.metricsHref && count(c) ? metricsLink(c, p.metricsHref(c), metricsText(count(c))) : h('span', { className: 'tabular-nums text-ink-secondary' }, metricsText(count(c)))));
+          return h(D.TableActionsCell, { key: 'a', onClick: hd ? stop : undefined }, unusable(c) ? null
+            : hd ? h(IK.DsConnectionMenu, Object.assign({ name: c.id || c.name }, hd)) : p.menu ? p.menu(c) : null);
         }));
       })));
   }
@@ -155,8 +170,9 @@
           p.variant === 'shared' && !p.noWs ? h(IK.WsNames, { names: c.wsNames || [c.wsName], links: c.links, className: 'text-xs text-ink-secondary' }) : null,
           h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'tabular-nums' }, metricsText(count(c))),
           p.tag ? h('div', null, h(IK.SharedBadge, { by: c.by || (c.shared && c.shared.by), ws: c.wsNames || (c.shared && c.shared.ws) || c.wsName })) : null,
-          h('div', { className: 'mt-0.5' }, status(c, h(IK.DsLastCheck, { lastSync: c.lastSync || LAST_CHECK_FALLBACK, status: c.status || 'active', error: c.error })))),
-        !unusable(c) && p.menu ? h('div', { className: 'ik-dscn-act' }, p.menu(c)) : null);
+          h('div', { className: 'mt-0.5' }, status(c, lastCheck(c, p.handlers)))),
+        unusable(c) ? null : p.handlers ? h('div', { className: 'ik-dscn-act', onClick: stop }, h(IK.DsConnectionMenu, Object.assign({ name: c.id || c.name }, p.handlers)))
+          : p.menu ? h('div', { className: 'ik-dscn-act' }, p.menu(c)) : null);
     }));
   }
 
@@ -178,6 +194,8 @@
         p.onAddToWorkspace ? h(IK.Locked, { feature: 'workspaces', locked: !!p.wsLocked, surface: 'modal', tip: 'Available on Pro' },
           h(D.DropdownMenuItem, { onSelect: run(p.onAddToWorkspace) }, h(IK.Icon, { name: 'ws-share', size: 16 }), 'Share via Workspace')) : null,
         h(D.DropdownMenuSeparator, null),
+        /* on a workspace page, one more: out of this workspace (the connection stays) — before Disconnect, the lesser of the two */
+        p.onRemoveHere ? h(D.DropdownMenuItem, { variant: 'danger', onSelect: run(p.onRemoveHere) }, h(IK.Icon, { name: 'ws-remove', size: 16 }), 'Remove from Workspace') : null,
         h(D.DropdownMenuItem, { variant: 'danger', onSelect: run(p.onDisconnect) }, h(IK.Icon, { name: 'disconnect', size: 16 }), 'Disconnect'));
   };
 
@@ -196,12 +214,12 @@
   }
   function stop(e) { e.stopPropagation(); }
   /* + Add Metric where a connection has none (as the Workspaces list's "+ Add Connection"); locked on Free */
-  function addMetricCell(c, hd) {
+  function addMetricCell(c, hd, key) {
     return h(IK.Locked, { feature: 'metrics', surface: 'modal' },
       /* xs, as the AI connectivity list's CellAction and the Workspaces list's cells — a button, not a link
          (user, 2026-10-20: "чому ти змінив розмір і кнопку") */
       h(D.Button, { variant: 'primaryTertiary', size: 'xs', type: 'button', className: '-mx-2', leftSlot: h(IK.Icon, { name: 'plus', size: 14 }),
-        onClick: function (e) { e.stopPropagation(); hd.onAddMetric(c.name); } }, 'Add Metric'));
+        onClick: function (e) { e.stopPropagation(); hd.onAddMetric(key != null ? key : c.name); } }, 'Add Metric'));
   }
   function fromMenu(e) { return e.target.closest && e.target.closest('[data-slot="table-actions-cell"],.ik-dscn-act,[role="menu"]'); }
 
@@ -342,6 +360,8 @@
     if (p.loading) return h(IK.DsConnectionsSkeleton, { layout: p.layout });
     if (VARIANT_COLS[p.variant]) {
       var v = Object.assign({}, p, { connections: p.connections || [] });
+      if (p.variant === 'workspace' && p.onEdit) v.handlers = { onEdit: p.onEdit, onTest: p.onTest, onDetails: p.onDetails, onDisconnect: p.onDisconnect,
+        locked: p.locked != null ? p.locked : IK.getPlan() === 'free', onAddToWorkspace: p.onAddToWorkspace, wsLocked: p.wsLocked, onAddMetric: p.onAddMetric, onRemoveHere: p.onRemoveHere };
       return phone ? h(VariantCards, v) : h(VariantTable, v);
     }
     var handlers = { onEdit: p.onEdit, onTest: p.onTest, onDisconnect: p.onDisconnect, locked: p.locked != null ? p.locked : IK.getPlan() === 'free',

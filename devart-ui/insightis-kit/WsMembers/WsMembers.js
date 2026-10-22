@@ -7,8 +7,7 @@
               long names / emails truncate, the whole text in a tooltip
      Role     "Owner" (Badge secondary, square; its tooltip: the owner can't leave) or "Member" — an
               invitation joins as a Member
-     Status   one badge: Active · Invited (attention) — while Blocked "Can't be accepted now" (not
-              cancelled: it still runs out after 14 days)
+     Status   one badge: Active · Invited (attention) — Invited while Blocked too
      Actions  ⋮ revealed on hover (always below 768px): a member → Remove from Workspace; an
               invitation → Resend Invitation (locked while Blocked) · Revoke Invitation; the Owner none
    20 rows at a time + Load more; nothing matching → "No matches found". Nobody but the Owner and
@@ -120,9 +119,8 @@
           ], null, true)),
         h(D.TableCell, { className: 'whitespace-nowrap max-sm:hidden' },
           h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'body' }, 'Member')),
-        /* while Blocked it can't be accepted now (not cancelled \u2014 it still runs out after 14 days) */
-        h(D.TableCell, { className: 'whitespace-nowrap max-md:hidden' },
-          blocked ? badge('Can\u2019t be accepted now', 'attention') : badge('Invited', 'attention')),
+        /* Invited, while Blocked too (user, 2026-10-20: "\u0442\u0430\u043c \u043c\u0430\u043b\u043e \u0431\u0443\u0442\u0438 \u0456\u043d\u0432\u0430\u0439\u0442\u0435\u0434") */
+        h(D.TableCell, { className: 'whitespace-nowrap max-md:hidden' }, badge('Invited', 'attention')),
         ro ? null : h(D.TableActionsCell, { reveal: !phone },
           h(D.RowMenuButton, menuProps('i:' + i.email),
             /* Resend is an invitation: while Blocked it is locked (a plan brings it back), Revoke works */

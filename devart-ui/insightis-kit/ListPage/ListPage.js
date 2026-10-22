@@ -16,6 +16,8 @@
                     `condensed` (heading30 / heading24 → heading20, animated).
      the drawer     while the phone drawer is open the row is hidden (visibility), as in the
                     original.
+     truncate       true: a long title the person named (a workspace's) keeps one line, cut with an ellipsis — the
+                    PageHeader default; without it the title wraps (the originals' short titles)
      wrap           true: the row wraps (actions drop under the title) and on desktop the title
                     keeps 4px under it — the Metrics original (.mx-page-head + .cl-page-title's own
                     margin).
@@ -51,7 +53,9 @@
           title: p.title,
           onBack: p.onBack || undefined,
           backLabel: p.backLabel || undefined,
-          wrapTitle: true,
+          /* truncate: a title the person typed (a workspace's name) — PageHeader's one-line truncation, as DevartUI
+             ships it; wrapping a long name beside its action broke it a word per line (user, 2026-10-22) */
+          wrapTitle: !p.truncate,
           /* the trigger never shrinks when a long title presses on it (the original .cl-burger is
              flex:none) */
           leading: h(IK.SidebarBurger, { className: 'flex-none' }),
