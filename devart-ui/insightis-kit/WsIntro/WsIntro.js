@@ -8,8 +8,9 @@
      the head     a large title, its key words in Text/Highlight (the chat landing's voice, IK.ChatHero), one line on
                   why, and 24px under it the action: Create Workspace, primary, round — the page's title action, which
                   hides while the list is empty; on Free locked (Pro) and a line under it says so
-     the steps    create a workspace · add your data · invite your team — each line about as long, so the three
-                  break the same way (user, 2026-10-23: "тексти мали бути вирівняні")
+     the steps    create a workspace · add your data · invite your team — said the way a person would (user,
+                  2026-10-23: "тексти якісь штучні"), each about as long, so the three break the same way ("тексти мали
+                  бути вирівняні")
      variant      two looks to choose from, on the review bar (user, 2026-10-23: 'лиши цей варіант', 'останній зроби простим
                   проте сучасним', 'файли і сорси мали б мати ілюстративне відображення'; the larger-type look went —
                   '2гий можеш забрати'):
@@ -31,9 +32,9 @@
      в 2 строки'); no 'numbers' ('цифрами?') */
   var LEAD = 'Connect your sources once and share them with your team. Nobody has to set up the same connection again or keep their own copy of a file';
   var STEPS = [
-    ['ws-layers', 'Create a workspace', 'Name it after a team or a project'],
-    ['ws-share', 'Add your data', 'Connections, their metrics and files'],
-    ['ws-users', 'Invite your team', 'Members use it in their chats']
+    ['ws-layers', 'Create a workspace', 'Name it after the team or project it’s for'],
+    ['ws-share', 'Add your data', 'Pick the connections and files to share'],
+    ['ws-users', 'Invite your team', 'Everyone can use them in their own chats']
   ];
 
   function desc(s, style, cls) {
