@@ -19,11 +19,11 @@
 /* ── cards: the chat landing's glow under the title and lead; numbered cards ── */
 .ik-wsi--cards .ik-wsi-head { position: relative; }
 .ik-wsi--cards .ik-wsi-head::before {
-  /* the chat landing's own pool (IK.AppShell .ik-shell-glow): --chat-glow-fill — brand-tertiary at tint-8 light, tint-20
-     dark — fading out at 65% and blurred 70px, so it spreads the same way in both themes (user, 2026-10-23: "засвіт має
-     слабке розходження - виглядає плямою", "будь консистентним в 2х темах", "пам'ятай що подібне є на чаті") */
+  /* the chat landing's pool (IK.AppShell .ik-shell-glow): brand-tertiary, fading out at 65%, blurred 70px — but one
+     strength, tint-30, in BOTH themes: the chat's light tint-8 vanishes on a white panel this size, so the two themes
+     would differ (user, 2026-10-23: "будь консистентним в 2х темах", "тут же взагалі свічення немає на світлій темі") */
   content: ''; position: absolute; inset: -3rem -9rem; z-index: -1; pointer-events: none;
-  background: radial-gradient(closest-side, var(--chat-glow-fill), transparent 65%);
+  background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-tertiary)) var(--tint-30), transparent), transparent 65%);
   filter: blur(70px);
 }
 .ik-wsi--cards .ik-wsi-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
