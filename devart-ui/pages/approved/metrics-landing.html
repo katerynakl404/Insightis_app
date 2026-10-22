@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Metrics</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
-<link rel="stylesheet" href="../../review-kit/review-kit.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d4917db40d">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d4917db40d">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js"></script>
-<script src="../../review-kit/review-kit.js"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=d4917db40d"></script>
+<script src="../../review-kit/review-kit.js?v=d4917db40d"></script>
 <script>
   /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
      dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
@@ -602,8 +602,8 @@
     /* a DevartUI Toggle as a chip, the filter pills' 28px; there once something is starred (nothing to filter before) */
     var favChip = rowsView && favCount ? h(D.Toggle, { variant: 'stroke', size: 'xs', rounded: 'full', pressed: favOn, 'aria-label': 'Favorites only',
       onPressedChange: function (v) { setApplied(true); setFavOnly(v); } }, h(IK.Icon, { name: 'fav-star' }), 'Favorites') : null;
-    var provPill = srcTree.length > 1 || (srcTree[0] && srcTree[0].children.length) ? h(IK.WsTreeFilter, { label: 'Provider', value: srcValid ? provF : 'all', tree: srcTree,
-      onChange: function (v) { setApplied(true); setProvF(v); } }) : null;
+    var provPill = srcTree.length > 1 || (srcTree[0] && srcTree[0].children.length) ? h(D.FilterMenu, { label: 'Provider', value: srcValid ? provF : 'all', options: IK.mxSourceOptions(srcTree),
+      onValueChange: function (v) { setApplied(true); setProvF(v); } }) : null;
 
     /* ── empty state ── */
     var shown = CARDS.filter(function (c) { return c.cats.indexOf(cat) >= 0; }).slice(0, 5);
@@ -667,19 +667,16 @@
           : u4;
       })(),
       h('div', { className: 'pg-toolbar' },
-        h(D.InputGroup, { size: 'lg', role: 'search' },
-          h(D.InputGroupAddon, { align: 'inline-start' }, h(IK.Icon, { name: 'pg-search' })),
-          h(D.InputGroupInput, { type: 'search', placeholder: 'Search metrics...', value: query, onChange: function (e) { setApplied(true); setQuery(e.target.value); } }),
-          query ? h(IK.Tip, { tip: 'Clear search' },
-            h(D.InputGroupAction, { 'aria-label': 'Clear search', onClick: function () { setApplied(true); setQuery(''); } }, h(IK.Icon, { name: 'mx-x' }))) : null),
+        /* DevartUI SearchInput (user, 2026-10-22: "треба по максимуму з деварт юа") */
+        h(D.SearchInput, { value: query, placeholder: 'Search metrics...', 'aria-label': 'Search metrics',
+          onValueChange: function (v) { setApplied(true); setQuery(v); }, onClear: function () { setApplied(true); setQuery(''); } }),
         h('div', { className: 'pg-filters' },
           /* FilterChips' root is w-full: the wrapper keeps the chips and "Active only" on one row */
           /* Shared: Owner — two filters as pills, Type and Owner, where the chips are (user, 2026-10-19) */
           byOwner ? h('div', { className: 'flex min-w-0 flex-1 flex-wrap items-center gap-2' },
-            h(IK.WsFilterMenu, { label: 'Type', value: type, onChange: function (v) { setApplied(true); setType(v); },
-              options: [['all', 'All'], ['builtin', 'Built-in'], ['custom', 'Custom']] }),
-            inList ? h(IK.WsOwnerFilter, { value: ownerF, onChange: function (v) { setApplied(true); setOwnerF(v); },
-              counts: { me: filled ? rows.filter(function (r) { return r.kind === 'metric'; }).length : 0, shared: sharedRows.filter(function (r) { return r.kind === 'metric'; }).length } }) : null,
+            h(D.FilterMenu, { label: 'Type', value: type, onValueChange: function (v) { setApplied(true); setType(v); },
+              options: [{ value: 'all', label: 'All' }, { value: 'builtin', label: 'Built-in' }, { value: 'custom', label: 'Custom' }] }),
+            inList ? h(D.FilterMenu, { label: 'Owner', value: ownerF, onValueChange: function (v) { setApplied(true); setOwnerF(v); }, options: IK.wsOwnerOptions({ me: filled ? rows.filter(function (r) { return r.kind === 'metric'; }).length : 0, shared: sharedRows.filter(function (r) { return r.kind === 'metric'; }).length }) }) : null,
             provPill, favChip,
             h(IK.WsClearFilters, { show: [type !== 'all', ownerF !== 'any', provF !== 'all', favOn].filter(Boolean).length > 1,
               onClear: function () { setApplied(true); setType('all'); setOwnerF('any'); setProvF('all'); setFavOnly(false); } }))

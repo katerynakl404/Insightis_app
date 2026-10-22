@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Workspaces</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
-<link rel="stylesheet" href="../../review-kit/review-kit.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d4917db40d">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d4917db40d">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js"></script>
-<script src="../../review-kit/review-kit.js"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=d4917db40d"></script>
+<script src="../../review-kit/review-kit.js?v=d4917db40d"></script>
 </head>
 <style>
   /* Page layout only: the file preview (IK.DsFilePreview) splits the main column as on Files — a third
@@ -178,23 +178,18 @@
         h('div', { className: 'pg-split' }, /* the standard head: the title wraps beside its action (wrap is Metrics' own original) — user, 2026-10-22 */
         h(IK.ListPage, { title: 'Workspaces', actions: headerAction },
           notices.length ? h('div', { className: 'flex flex-col gap-3' }, notices) : null,
-          /* the Insightis search (Metrics, Catalog, Chats): InputGroup lg, the magnifier, Clear search */
+          /* the Insightis search (Metrics, Catalog, Chats): DevartUI SearchInput */
           asTabs ? h(D.Tabs, { value: role, onValueChange: function (v) { setRoleF(v); setSelected([]); } },
             h(D.TabsList, { className: 'mb-0 flex w-full' },
               h(D.TabsTrigger, { value: 'mine' }, 'My Workspaces'),
               h(D.TabsTrigger, { value: 'shared' }, 'Shared'))) : null,
-          all.length ? h(D.InputGroup, { size: 'lg', role: 'search' },
-            h(D.InputGroupAddon, { align: 'inline-start' }, h(IK.Icon, { name: 'search', size: 20 })),
-            h(D.InputGroupInput, { type: 'search', placeholder: 'Search workspaces…', 'aria-label': 'Search workspaces', value: query,
-              onChange: function (e) { setQuery(e.target.value); } }),
-            query ? h(IK.Tip, { tip: 'Clear search' },
-              h(D.InputGroupAction, { 'aria-label': 'Clear search', onClick: function () { setQuery(''); } }, h(IK.Icon, { name: 'x' }))) : null) : null,
+          all.length ? h(D.SearchInput, { value: query, onValueChange: setQuery, onClear: function () { setQuery(''); }, placeholder: 'Search workspaces…', 'aria-label': 'Search workspaces' }) : null,
           h('div', { className: 'flex flex-col gap-2' },
             /* only when there are both: with one kind the chips would filter nothing */
-            both && q.share === 'owner' ? h('div', { className: 'flex' }, h(IK.WsOwnerFilter, {
-              value: roleF === 'mine' ? 'me' : roleF === 'shared' ? 'shared' : 'any',
-              onChange: function (v) { setRoleF(v === 'me' ? 'mine' : v === 'shared' ? 'shared' : 'all'); setSelected([]); },
-              counts: { me: ws.owned.length, shared: ws.shared.length }
+            both && q.share === 'owner' ? h('div', { className: 'flex' }, h(D.FilterMenu, {
+              label: 'Owner', value: roleF === 'mine' ? 'me' : roleF === 'shared' ? 'shared' : 'any',
+              onValueChange: function (v) { setRoleF(v === 'me' ? 'mine' : v === 'shared' ? 'shared' : 'all'); setSelected([]); },
+              options: IK.wsOwnerOptions({ me: ws.owned.length, shared: ws.shared.length })
             })) : both && !asTabs ? h(D.FilterChips, {
               value: roleF, onValueChange: function (v) { if (v) { setRoleF(v); setSelected([]); } },
               items: [{ value: 'all', label: 'All' }, { value: 'mine', label: 'My Workspaces' }, { value: 'shared', label: 'Shared' }]
@@ -231,10 +226,10 @@
         taken: function (n) { return IK.wsNameTaken(ws.list, n, renaming && renaming.id); },
         onSave: function (n, d) { ws.edit(renaming.id, n, d); setRenaming(null); D.toast.success('Workspace updated', { description: n }); }
       }),
-      h(IK.WsConfirmDialog, {
+      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
         open: !!leaving, onOpenChange: function (o) { if (!o) setLeaving(null); },
         title: leaveList.length === 1 ? 'Leave ' + leaveList[0].name + '?' : 'Leave ' + leaveList.length + ' workspaces?',
-        text: (leaveList.length === 1 ? 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + leaveList[0].owner.name + ' to invite you.'
+        description: (leaveList.length === 1 ? 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + leaveList[0].owner.name + ' to invite you.'
                                       : 'You’ll lose access to everything in them. To rejoin, ask their owners to invite you.'),
         confirmLabel: leaveList.length === 1 ? 'Leave Workspace' : 'Leave ' + leaveList.length + ' Workspaces',
         onConfirm: function () {
@@ -243,10 +238,10 @@
           D.toast.success(gone.length === 1 ? h(IK.Fragment, null, 'You left ', strong(gone[0].name)) : 'You left ' + gone.length + ' workspaces');
         }
       }),
-      h(IK.WsConfirmDialog, {
+      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
         open: !!deleting, onOpenChange: function (o) { if (!o) setDeleting(null); },
         title: delList.length === 1 ? 'Delete ' + delList[0].name + '?' : 'Delete ' + delList.length + ' workspaces?',
-        text: (delList.length === 1 ? 'Members lose access to everything shared in it, and its pending invitations stop working.'
+        description: (delList.length === 1 ? 'Members lose access to everything shared in it, and its pending invitations stop working.'
                                     : 'Members lose access to everything shared in them, and their pending invitations stop working.') +
               ' Your connections, metrics and files stay yours.',
         confirmLabel: delList.length === 1 ? 'Delete Workspace' : 'Delete ' + delList.length + ' Workspaces',
@@ -269,10 +264,10 @@
         if (item && own) { var y = pa.connection(item, function () { setConn(null); }); return h(IK.ConnectionDetails, Object.assign({ connection: y.item, onOpenChange: close }, y.opts)); }
         return h(IK.ConnectionDetails, { connection: item, onOpenChange: close, mode: 'shared', renewal: w ? IK.wsRenewal(ws, [w.id]) : null });
       })(),
-      h(IK.WsConfirmDialog, {
+      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
         open: !!removing, onOpenChange: function (o) { if (!o) setRemoving(null); },
         title: removing ? 'Remove ' + removing.c.label + ' from ' + removing.w.name + '?' : '',
-        text: 'Members lose this connection and its metrics in their chats. The connection itself stays yours — nothing is deleted.',
+        description: 'Members lose this connection and its metrics in their chats. The connection itself stays yours — nothing is deleted.',
         confirmLabel: 'Remove',
         onConfirm: function () {
           var r = removing; setRemoving(null); ws.removeConnection(r.w.id, r.c.id);
@@ -532,20 +527,20 @@
     };
 
     return h(IK.Fragment, null,
-      h(IK.WsConfirmDialog, {
+      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
         open: deletingWs, onOpenChange: setDeletingWs,
         title: 'Delete ' + w.name + '?',
-        text: 'Members lose access, and pending invitations stop working. Your connections and files aren’t affected.',
+        description: 'Members lose access, and pending invitations stop working. Your connections and files aren’t affected.',
         confirmLabel: 'Delete Workspace',
         onConfirm: function () {
           var name = w.name; setDeletingWs(false); ws.remove(w.id); RK.setWs({ w: null, tab: null });
           D.toast.success(h(IK.Fragment, null, strong(name), ' deleted'));
         }
       }),
-      h(IK.WsConfirmDialog, {
+      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
         open: leavingWs, onOpenChange: setLeavingWs,
         title: 'Leave ' + w.name + '?',
-        text: 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + w.owner.name + ' to invite you.',
+        description: 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + w.owner.name + ' to invite you.',
         confirmLabel: 'Leave Workspace',
         onConfirm: function () {
           var name = w.name; setLeavingWs(false); ws.leave(w.id); RK.setWs({ w: null, tab: null });
@@ -621,9 +616,9 @@
         taken: function (n) { return IK.wsNameTaken(ws.list, n, w.id); },
         onSave: function (n, d) { ws.edit(w.id, n, d); close(); D.toast.success('Workspace updated', { description: n }); }
       }) : null,
-      h(IK.WsConfirmDialog, {
+      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
         open: !!dlg && dlg.kind === 'confirm', onOpenChange: function (o) { if (!o) close(); },
-        title: dlg && dlg.title, text: dlg && dlg.text, confirmLabel: dlg && dlg.confirm,
+        title: (dlg && dlg.title) || '', description: (dlg && dlg.text) || '', confirmLabel: (dlg && dlg.confirm) || '',
         onConfirm: function () { var run = dlg && dlg.run; close(); if (run) run(); }
       }),
       null);

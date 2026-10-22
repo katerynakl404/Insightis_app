@@ -16,7 +16,7 @@
      { open, onOpenChange, ws, check: function (email) → null | 'member' | 'invited', onInvite }
 
    Pickers — the AI connectivity prototype's picker dialogs as they are: a title and a sentence under
-   it, SearchField sm (focused on open), IK.PickRow rows (checkbox on the name's line, description
+   it, SearchField sm (focused on open), DevartUI ChoiceCard rows (checkbox indicator, description
    under it), Cancel · the counted action; what is already there is not offered.
    IK.WsAddConnectionsDialog — "Add connections" / "Link connections to <ws>": rows = the name the
      person gave it, "Salesforce · 12 metrics · Shared in Support" (no new login). When the picks carry
@@ -39,7 +39,7 @@
      (user, 2026-10-20). The same action labels as the file's.
      { open, onOpenChange, connection: { id, name, label, metrics }, workspaces, onAdd(addIds, removeIds), onCreate(name) → id, taken(name), createLocked }
 
-   IK.WsConfirmDialog — a destructive confirm (sm): title, text, Cancel · <confirmLabel>
+   (a confirm is DevartUI ConfirmationDialog, variant destructive)
      (destructive, focused). Remove member, Revoke invitation, Remove from workspace, Stop
      sharing, Delete workspace.
      { open, onOpenChange, title, text, confirmLabel, onConfirm }                                  */
@@ -171,7 +171,7 @@
   /* ── Pickers ──────────────────────────────────────────────────────────────────────────────────
      The AI connectivity prototype's picker dialogs, as they are (user, 2026-10-19 — "той самий
      елемент, як в конектівіті"): the title + a sentence under it, a search (SearchField sm, focused
-     on open), a list of IK.PickRow (the checkbox on the name's line, the description under it),
+     on open), a list of DevartUI ChoiceCard (the checkbox indicator, the description under it),
      then the footer — Cancel · the counted action (disabled until a pick). What is already there
      is not offered. Empty: "Nothing left to …" / "No … matches “q”". */
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
@@ -185,7 +185,7 @@
         sub ? h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0 break-words' }, sub) : null));
   }
   function search(q, setQ, placeholder) {
-    return h(D.SearchField, { size: 'sm', variant: 'outline', autoFocus: true, placeholder: placeholder, 'aria-label': placeholder.replace('…', ''),
+    return h(D.SearchInput, { size: 'sm', variant: 'outline', autoFocus: true, placeholder: placeholder, 'aria-label': placeholder.replace('…', ''),
       value: q, onValueChange: setQ, onClear: function () { setQ(''); } });
   }
   function matches(q, parts) { q = String(q || '').trim().toLowerCase(); return !q || parts.join(' ').toLowerCase().indexOf(q) >= 0; }
@@ -200,7 +200,9 @@
       onClick: function () { location.assign(IK.wsHref(rel, { w: null, tab: null, do: null })); } }, label);
   }
   var CATALOG = 'approved/data-sources_connections-landing.html', FILES = 'approved/data-sources_files-landing.html';
-  function pickList(rows, label) { return h(IK.PickList, { 'aria-label': label, className: 'max-h-80' }, rows); }
+  /* the column of cards, 8px apart, scrolling inside the dialog when long, on DevartUI's scrollbar-thin set in the
+     side gutter so it never lies over the cards (the AI connectivity PickList's) */
+  function pickList(rows, label) { return h('div', { className: 'ik-pick-list scrollbar-thin flex min-h-0 flex-col gap-2 overflow-y-auto', role: 'group', 'aria-label': label }, rows); }
   function toggle(list, id, on) { return on ? list.concat([id]) : list.filter(function (x) { return x !== id; }); }
 
   /* ── Add connections (their metrics said in one line) ───────────────────────────────────────────────── */
@@ -229,8 +231,8 @@
       !offer.length ? nothing('Nothing left to add', 'Every connection you have is already in this workspace', toPage('Create Connection', 'connections', CATALOG))
         : !shown.length ? nothing('No connection matches “' + q.trim() + '”', 'Try a different term, or connect a new data source', toPage('Create Connection', 'connections', CATALOG))
         : pickList(shown.map(function (c) {
-            return h(IK.PickRow, { key: c.id, checked: picks.indexOf(c.id) >= 0, title: c.label, sub: sub(c),
-              onChange: function (on) { setPicks(toggle(picks, c.id, on)); } });
+            return h(D.ChoiceCard, { key: c.id, indicator: 'checkbox', selected: picks.indexOf(c.id) >= 0, title: c.label, description: sub(c),
+              onSelect: function (on) { setPicks(toggle(picks, c.id, on)); } });
           }), 'Your connections'),
       /* their metrics go with them — said here, not in a second step (user, 2026-10-20) */
       metrics > 0 ? h('div', { className: 'flex items-start gap-2' },
@@ -271,8 +273,10 @@
           !offer.length ? nothing('Nothing left to share', 'Every file you have is already shared here', toPage('Upload Files', 'ds-upload', FILES))
             : !shown.length ? nothing('No file matches “' + q.trim() + '”', 'Try a different term, or upload a new file', toPage('Upload Files', 'ds-upload', FILES))
             : pickList(shown.map(function (f) {
-                return h(IK.PickRow, { key: f.id, checked: picks.indexOf(f.id) >= 0, title: f.name, badge: originBadge(f), sub: fileDesc(f),
-                  onChange: function (on) { setPicks(toggle(picks, f.id, on)); } });
+                /* the origin is a Badge of its own (Artifact / Uploaded), not ChoiceCard's primary tag: it goes in the title */
+                return h(D.ChoiceCard, { key: f.id, indicator: 'checkbox', selected: picks.indexOf(f.id) >= 0,
+                  title: h(IK.Fragment, null, h('span', { className: 'min-w-0 break-words' }, f.name), originBadge(f)), description: fileDesc(f),
+                  onSelect: function (on) { setPicks(toggle(picks, f.id, on)); } });
               }), 'Your files')),
         footer(close, h(D.Button, { variant: 'primary', size: 'sm', type: 'button', disabled: !chosen.length,
           onClick: function () { p.onShare(chosen); } }, chosen.length > 1 ? 'Add ' + chosen.length + ' Files' : 'Add File'))));
@@ -290,6 +294,8 @@
      description as Create workspace (user: "чому створення без опису"), and the new one comes back ticked. */
   function AddToWorkspaces(p) {
     var ps = R.useState([]), picks = ps[0], setPicks = ps[1];
+    /* a workspace just created in place lands at the end of a long list, ticked — scrolled into view once */
+    var reveal = R.useCallback(function (el) { if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, []);
     var qs = R.useState(''), q = qs[0], setQ = qs[1];
     var vs = R.useState('pick'), view = vs[0], setView = vs[1];
     var ns = R.useState(''), name = ns[0], setName = ns[1];
@@ -334,9 +340,9 @@
             : !shown.length ? nothing('No workspace matches “' + q.trim() + '”', 'Try a different term, or create a new workspace')
             : pickList(shown.map(function (w) {
                 var blocked = w.status === 'blocked', there = p.has(w);
-                return h(IK.PickRow, { key: w.id, reveal: w.id === fresh, checked: there || picks.indexOf(w.id) >= 0, title: w.name, disabled: blocked || there,
-                  sub: there ? 'Already in it' : blocked ? 'Unavailable until you upgrade to Pro' : p.sub(w),
-                  onChange: function (on) { setPicks(toggle(picks, w.id, on)); } });
+                return h(D.ChoiceCard, { key: w.id, ref: w.id === fresh ? reveal : undefined, indicator: 'checkbox', selected: there || picks.indexOf(w.id) >= 0, title: w.name, disabled: blocked || there,
+                  description: there ? 'Already in it' : blocked ? 'Unavailable until you upgrade to Pro' : p.sub(w),
+                  onSelect: function (on) { setPicks(toggle(picks, w.id, on)); } });
               }), 'Your workspaces')),
         h(D.ModalFooter, null,
           p.onCreate ? h(IK.Locked, { feature: 'workspaces', locked: !!p.createLocked, surface: 'modal', tip: 'Available on Pro' },
@@ -369,15 +375,4 @@
       onAdd: function (added) { p.onAdd(added, []); } });
   };
 
-  /* ── Confirm ────────────────────────────────────────────────────────────────────────────────── */
-  IK.WsConfirmDialog = function WsConfirmDialog(p) {
-    var ref = R.useRef(null);
-    return h(D.Modal, { open: !!p.open, onOpenChange: p.onOpenChange },
-      h(D.ModalContent, { size: 'sm', onOpenAutoFocus: focusLater(ref) },
-        h(D.ModalHeader, { className: HEAD }, h(D.ModalTitle, { className: 'break-words' }, p.title)),
-        typeof p.text === 'string' ? lead(p.text) : p.text,
-        h(D.ModalFooter, null,
-          h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { p.onOpenChange(false); } }, 'Cancel'),
-          h(D.Button, { ref: ref, variant: 'destructive', size: 'sm', type: 'button', onClick: p.onConfirm }, p.confirmLabel))));
-  };
 })();

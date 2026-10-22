@@ -1,4 +1,4 @@
-/* WsFiles — files shared in a workspace, as the Files page lists them: the search (IK.WsSearch),
+/* WsFiles — files shared in a workspace, as the Files page lists them: the search (DevartUI SearchInput),
    FilterChips All · Artifacts · Uploaded, DevartUI ListSelectionBar (the count · Select all; once a file
    is ticked "N selected" + the bulk actions), IK.DsFilesTable, 20 at a time + Load more, "No matches
    found" (user, 2026-10-19: "бракує балкових екшенів та пошуку").
@@ -64,7 +64,7 @@
     });
     var left = vis.length - page.length;
     return h('div', { className: 'flex flex-col gap-3' },
-      h(IK.WsSearch, { value: q, onChange: setQ, placeholder: 'Search files…', label: 'Search files' }),
+      h(D.SearchInput, { value: q, onValueChange: setQ, onClear: function () { setQ(''); }, placeholder: 'Search files…', 'aria-label': 'Search files' }),
       h('div', { className: 'flex flex-col gap-2' },
         h(D.FilterChips, {
           value: filter, onValueChange: function (v) { if (v) setFilter(v); },
@@ -85,7 +85,8 @@
           onAction: function (a, id) { p.onAction(a, [id]); },
           /* a row opens the file's preview, as on Files (user, 2026-10-19: "файл натискається але нічого не відбувається") */
           onOpen: p.onOpen
-        }) : h(IK.WsNoMatch, { description: qq ? 'No files match your search or filters — try a different term or clear them' : 'No files match this filter — switch back to All to see every file' }),
+        }) : h(D.StatusView, { size: 'lg', surface: 'embedded', withIconHalo: false, role: 'status', icon: h(D.EmptyStateIllustration), title: 'No matches found',
+          description: qq ? 'No files match your search or filters — try a different term or clear them' : 'No files match this filter — switch back to All to see every file' }),
         left > 0 ? h('div', { className: 'mt-1 flex justify-center' },
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setShown(shown + PAGE); } },
             'Load more ', h('span', { className: 'font-medium tabular-nums text-ink-inactive' }, left))) : null));

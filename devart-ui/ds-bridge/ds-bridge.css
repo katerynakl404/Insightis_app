@@ -17,3 +17,15 @@
 :root:has([data-slot="spotlight"]) [data-radix-popper-content-wrapper] {
   z-index: calc(var(--spotlight-z) + 1) !important;
 }
+
+/* ── the component bridges' utilities the bundle has not compiled (ds-bridge.js) ── */
+/* SearchInput: the browser's own clear and decoration hidden — the field has its own ✕ */
+.ds-bridge-search::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; }
+.ds-bridge-search::-webkit-search-decoration { display: none; }
+/* AlertStack: the first notice over the edges (z-[2]); the edges hold still under reduced motion */
+.ds-bridge-stack-top { z-index: 2; }
+@media (prefers-reduced-motion: reduce) { .ds-bridge-stack-edge { transition: none; } }
+/* ConfirmationDialog: the header's 14px top, the footer's 14px top and bottom, the close button 14px down */
+.ds-bridge-confirm-head { padding-top: .875rem; }
+.ds-bridge-confirm-foot { padding-top: .875rem; padding-bottom: .875rem; }
+.ds-bridge-confirm-close { top: .875rem; }

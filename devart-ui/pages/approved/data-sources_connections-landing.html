@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Data Sources</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
-<link rel="stylesheet" href="../../review-kit/review-kit.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d4917db40d">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d4917db40d">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js"></script>
-<script src="../../review-kit/review-kit.js"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=d4917db40d"></script>
+<script src="../../review-kit/review-kit.js?v=d4917db40d"></script>
 <style>
   /* Page layout only. The saved connections slide open once there is something to list and
      collapse when the last one goes (original .ds-conn-section). */
@@ -296,7 +296,7 @@
                   : u4;
               })(),
               /* Shared: Owner — Connections filter by owner only (user, 2026-10-19), a pill where filters start */
-              byOwner && inList ? h('div', { className: 'flex' }, h(IK.WsOwnerFilter, { value: ownerF, onChange: setOwnerF, counts: { me: list.length, shared: sharedRows.length } })) : null,
+              byOwner && inList ? h('div', { className: 'flex' }, h(D.FilterMenu, { label: 'Owner', value: ownerF, onValueChange: setOwnerF, options: IK.wsOwnerOptions({ me: list.length, shared: sharedRows.length }) })) : null,
               both ? h(D.FilterChips, {
                 value: scope, onValueChange: function (v) { if (v) scopeSet(v); },
                 items: [{ value: 'all', label: 'All' }, { value: 'mine', label: 'Owned by Me' }, { value: 'shared', label: 'Shared' }]

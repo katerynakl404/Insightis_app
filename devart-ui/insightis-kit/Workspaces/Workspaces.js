@@ -696,22 +696,9 @@
   };
   /* { name: href } for the panel's workspace links */
   IK.wsLinks = function (ws) { var o = {}; ws.forEach(function (w) { o[w.name] = IK.wsHrefFor(w); }); return o; };
+  /* the lists' search and "No matches found" are DevartUI's own: D.SearchInput and D.StatusView (user, 2026-10-22:
+     "треба по максимуму з деварт юа") */
 
-  /* ── WsSearch · WsNoMatch ── the Insightis list search (Metrics, Catalog, Chats, Workspaces):
-     DevartUI InputGroup lg, the magnifier, Clear search; and its "No matches found" (StatusView).
-     h(IK.WsSearch, { value, onChange(text), placeholder, label }) · h(IK.WsNoMatch, { description }) */
-  IK.WsSearch = function WsSearch(p) {
-    return h(D.InputGroup, { size: 'lg', role: 'search' },
-      h(D.InputGroupAddon, { align: 'inline-start' }, h(IK.Icon, { name: 'search', size: 20 })),
-      h(D.InputGroupInput, { type: 'search', placeholder: p.placeholder, 'aria-label': p.label || p.placeholder, value: p.value,
-        onChange: function (e) { p.onChange(e.target.value); } }),
-      p.value ? h(IK.Tip, { tip: 'Clear search' },
-        h(D.InputGroupAction, { 'aria-label': 'Clear search', onClick: function () { p.onChange(''); } }, h(IK.Icon, { name: 'x' }))) : null);
-  };
-  IK.WsNoMatch = function WsNoMatch(p) {
-    return h(D.StatusView, { size: 'lg', surface: 'embedded', withIconHalo: false, role: 'status', icon: h(D.EmptyStateIllustration),
-      title: 'No matches found', description: p.description });
-  };
 
   /* ── WsNames ── workspace names wherever they are mentioned, each a link to its page (user,
      2026-10-19: "воркспейси з місць згадок мають вести на воркспейс"); one line, "A · B · C" — every one its own link,
@@ -945,97 +932,15 @@
       h('span', { tabIndex: 0, role: 'img', className: IK.cx('inline-flex shrink-0 rounded-sm text-ink-secondary', D.focusRing), 'aria-label': 'Shared by ' + by + (ws.length ? ' in ' + ws.join(', ') : '') },
         h(IK.Icon, { name: 'ws-users', size: 14 })));
   };
-  /* IK.WsFilterMenu({ label, value, options: [[value, text], …], onChange }) — a filter as a pill: "Type: All ▾",
-     "Owner: Anyone ▾". Shared: Owner gives Files and Metrics two of them — Type and Owner — and Connections the
-     Owner one (user, 2026-10-19). A DevartUI DropdownMenu, its trigger a secondary xs pill, the chips' size */
-  /* a set filter is easy to undo (user, 2026-10-20: "фільтри мають легко скидатись"): the pill names what is
-     chosen and its chevron becomes × — Clear <label> — which puts it back to its first choice (All / Anyone);
-     several set → IK.WsClearFilters after the pills */
-  /* the menus are controlled: a press on × marks "skip" first, so the trigger it sits in doesn't open its menu */
-  function useFilterMenu(p) {
-    var o = R.useState(!!p.defaultOpen), open = o[0], setOpen = o[1];
-    var skip = R.useRef(false);
-    return { open: open, skip: skip, props: { open: open, modal: p.defaultOpen ? false : undefined,
-      onOpenChange: function (v) { if (v && skip.current) { skip.current = false; return; } setOpen(v); } } };
-  }
-  function clearGlyph(label, onClear, menu) {
-    return h('span', { role: 'button', tabIndex: 0, 'aria-label': 'Clear ' + label, className: IK.cx('inline-flex rounded-full', D.focusRing),
-      onPointerDown: function (e) { if (menu) menu.skip.current = true; e.stopPropagation(); e.preventDefault(); },
-      onClick: function (e) { e.stopPropagation(); e.preventDefault(); onClear(); },
-      onKeyDown: function (e) { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); e.preventDefault(); onClear(); } } },
-      h(IK.Icon, { name: 'x', size: 14 }));
-  }
-  /* the chevron stays when a value is chosen — the pill still opens its menu (user, 2026-10-20: "чому зник шеврон");
-     × sits before it */
-  function pillEnd(set, label, onClear, menu) {
-    var chev = h(IK.Icon, { name: 'chevron-down', size: 14 });
-    return set ? h('span', { className: 'inline-flex items-center gap-1' }, clearGlyph(label, onClear, menu), chev) : chev;
-  }
+  /* the filters are DevartUI FilterMenu pills — "Type: All ▾", "Owner: Anyone ▾", "Provider: Main CRM ✕ ▾" — each choice
+     with its count, ✕ to undo one (user, 2026-10-20: "фільтри мають легко скидатись"); several set → IK.WsClearFilters
+     after them. IK.wsOwnerOptions(counts) — the Owner filter's choices: Anyone · Me · Shared with me (no list of people) */
   IK.WsClearFilters = function WsClearFilters(p) {
     return p.show ? h('span', { className: 'text-sm' }, h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); p.onClear(); } }, 'Clear Filters')) : null;
   };
-  IK.WsFilterMenu = function WsFilterMenu(p) {
-    var opts = p.options || [], v = p.value != null ? p.value : (opts[0] && opts[0][0]);
-    var cur = opts.filter(function (o) { return o[0] === v; })[0] || opts[0] || [null, ''];
-    var set = opts[0] && v !== opts[0][0];
-    var menu = useFilterMenu(p);
-    return h(D.DropdownMenu, menu.props,
-      h(D.DropdownMenuTrigger, { asChild: true },
-        /* the size of the FilterChips it stands for: 28px, 12px text, 12px sides (user, 2026-10-19: 'чому такі великі') */
-        h(D.Button, { variant: 'secondary', size: 'xs', rounded: 'full', type: 'button', className: 'shrink-0 px-3',
-          rightSlot: pillEnd(set, p.label, function () { p.onChange(opts[0][0]); }, menu) }, p.label + ': ' + cur[1])),
-      h(D.DropdownMenuContent, { align: 'start' },
-        /* the composer's model menu pattern: a plain item, the name, and a check on the chosen one (user,
-           2026-10-19: 'в нас був подібний патерн на моделі') */
-        opts.map(function (o) {
-          var on = o[0] === v;
-          /* o[2]: how many it would show — the menu says what each choice holds before it is picked */
-          return h(D.DropdownMenuItem, { key: o[0], role: 'menuitemradio', 'aria-checked': on ? 'true' : 'false', onSelect: function () { p.onChange(o[0]); } },
-            /* the count right after the name, in brackets, quieter — (0) too (user, 2026-10-20) */
-            h('span', { className: 'min-w-0 flex-1 truncate font-medium text-ink-primary' }, o[1],
-              o[2] != null ? h('span', { className: 'text-xs font-normal tabular-nums text-ink-secondary' }, ' (' + o[2] + ')') : null),
-            h(IK.Icon, { name: 'cmp-check', className: IK.cx('text-ink-highlight', !on && 'opacity-0') }));
-        })));
-  };
-  /* IK.WsTreeFilter({ label, value, tree, onChange, allLabel }) — a filter pill whose menu is a hierarchy (the
-     Provider filter on Metrics: each source, its connections under it): "All" first, then each source — its
-     mark, its name, the count — and its connections indented beneath; a check on the chosen one. The pill
-     says what is chosen ("Provider: Jira Software Cloud", "Provider: Skyvia Jira") */
-  IK.WsTreeFilter = function WsTreeFilter(p) {
-    var v = p.value || 'all', tree = p.tree || [], label = p.allLabel || 'All', total = 0;
-    tree.forEach(function (g) { total += g.count; if (g.value === v) label = g.label; g.children.forEach(function (c) { if (c.value === v) label = c.label; }); });
-    function item(o, nested, mark) {
-      var on = o.value === v;
-      /* one 20px slot for the mark on every row: a source's mark sits in it whatever its own size, and a
-         connection gets the slot empty — so its name starts exactly under its source's (user, 2026-10-20:
-         "ієрархія дуже стрибає") */
-      return h(D.DropdownMenuItem, { key: o.value, role: 'menuitemradio', 'aria-checked': on ? 'true' : 'false',
-        onSelect: function () { p.onChange(o.value); } },
-        mark || nested ? h('span', { className: 'flex size-5 shrink-0 items-center justify-center overflow-hidden', 'aria-hidden': nested ? 'true' : undefined }, mark || null) : null,
-        h('span', { className: IK.cx('min-w-0 flex-1 truncate', nested ? 'text-ink-body' : 'font-medium text-ink-primary') }, o.label,
-          o.count != null ? h('span', { className: 'text-xs font-normal tabular-nums text-ink-secondary' }, ' (' + o.count + ')') : null),
-        h(IK.Icon, { name: 'cmp-check', className: IK.cx('text-ink-highlight', !on && 'opacity-0') }));
-    }
-    var menu = useFilterMenu(p);
-    return h(D.DropdownMenu, menu.props,
-      h(D.DropdownMenuTrigger, { asChild: true },
-        h(D.Button, { variant: 'secondary', size: 'xs', rounded: 'full', type: 'button', className: 'min-w-0 max-w-64 shrink px-3',
-          rightSlot: pillEnd(v !== 'all', p.label, function () { p.onChange('all'); }, menu) }, h('span', { className: 'min-w-0 truncate' }, p.label + ': ' + label))),
-      h(D.DropdownMenuContent, { align: 'start', className: 'max-h-80 w-72 overflow-y-auto scrollbar-thin' },
-        item({ value: 'all', label: p.allLabel || 'All', count: total }),
-        tree.length ? h(D.DropdownMenuSeparator, null) : null,
-        tree.map(function (g) {
-          return h(IK.Fragment, { key: g.value },
-            item(g, false, h(IK.ConnectorMark, { connector: g.connector, size: 'xs' })),
-            g.children.map(function (c) { return item(c, true); }));
-        })));
-  };
-  /* IK.WsOwnerFilter({ value, onChange, counts: { me, shared } }) — "Owner: Anyone ▾": Anyone · Me · Shared with me
-     (no list of people), each with how many it holds */
-  IK.WsOwnerFilter = function WsOwnerFilter(p) {
-    var c = p.counts || null;
-    return h(IK.WsFilterMenu, { label: 'Owner', value: p.value || 'any', onChange: p.onChange,
-      options: [['any', 'Anyone', c ? c.me + c.shared : null], ['me', 'Me', c ? c.me : null], ['shared', 'Shared with me', c ? c.shared : null]] });
+  IK.wsOwnerOptions = function (c) {
+    return [{ value: 'any', label: 'Anyone', count: c ? c.me + c.shared : undefined }, { value: 'me', label: 'Me', count: c ? c.me : undefined },
+            { value: 'shared', label: 'Shared with me', count: c ? c.shared : undefined }];
   };
   /* does an item pass the Owner filter? by = who shared it (null for one's own) */
   IK.wsOwnerPass = function (v, by) { return !v || v === 'any' || (v === 'me' ? !by : v === 'shared' ? !!by : by === v); };
@@ -1218,16 +1123,14 @@
     /* the trial, said ahead and once for both sides of the person: their own workspaces stop for
        members, what was shared with them needs a plan — a heads-up, never a threat */
     else if (k === 'trial') {
-      var c = p.counts || {}, owned = p.owned || [], from = p.sharedFrom || [];
-      var parts = [c.connections && c.connections + (c.connections === 1 ? ' connection' : ' connections'),
-                   c.metrics && c.metrics + (c.metrics === 1 ? ' metric' : ' metrics'),
-                   c.files && c.files + (c.files === 1 ? ' file' : ' files')].filter(Boolean);
-      var mine = owned.length ? IK.wsJoin(owned) + (owned.length > 1 ? ' become' : ' becomes') + ' unavailable to members until you choose Pro' : '';
-      var theirs = from.length && parts.length ? 'the ' + IK.wsJoin(parts) + ' shared with you from ' + IK.wsJoin(from) + ' need a plan with Connectors, Metrics and Files' : '';
+      /* short (user, 2026-10-22: "задовгий текст"): what stops, not every name and count — no list of workspaces */
+      var owned = p.owned || [], from = p.sharedFrom || [];
+      var mine = owned.length ? 'members lose access to your workspaces' + (from.length ? '' : ' until you choose Pro') : '';
+      var theirs = from.length ? 'what’s shared with you needs a paid plan' : '';
       a = {
         variant: 'info', icon: 'info', title: 'Your trial ends in ' + (p.days || 3) + ' days',
         description: h(IK.Fragment, null, 'After that, ' + [mine, theirs].filter(Boolean).join(', and ') + '. Nothing will be deleted. ',
-          upgradeLink('See plans'), ' to keep them available.'),
+          upgradeLink('See plans')),
         actions: dismiss(p.onDismiss)
       };
     }
@@ -1300,43 +1203,17 @@
                date: fmtDate(f.date), time: f.date, locked: !!o.locked };
     });
   };
-  /* IK.WsAlertStack({ alerts }) — several notices as one group (user, 2026-10-19: "потрібне групування
-     алертів"): the first in full, the rest behind "Show N More Notices" (a DevartUI tertiary xs button with
-     a chevron) — the page keeps one notice's height until the person asks for the rest */
-  /* the notices as a deck (user, 2026-10-19: "об'єднувати накладаючи, а потім розгортати"): the first on top, the
-     others' edges peeking under it in their own colours; the edges open the pile, "Show Less" closes it */
+  /* IK.wsAlertStack(notices) — several notices as one group (user, 2026-10-19: "потрібне групування алертів"): DevartUI
+     AlertStack — the first on top, the others' edges under it in their own colours, the edges open the pile. An edge's
+     colour is its notice's variant; a WsNotice's comes from its kind (the invitation is info while it waits for Accept) */
   var KIND_VARIANT = { trial: 'info', invited: 'info', restored: 'success' };
-  /* the colour of the notice an edge stands for — the invitation is info while it waits for Accept (user, 2026-10-20:
-     the edge went orange under a blue one) */
-  function variantOf(el) {
+  function noticeVariant(el) {
     var q = (el && el.props) || {};
     if (el && el.type === IK.WsInvitationNotice) return !q.state || q.state === 'pending' ? 'info' : 'warning';
     return q.variant || KIND_VARIANT[q.kind] || 'warning';
   }
-  var EDGE = { warning: 'border-alert-border-warning bg-alert-bg-warning', info: 'border-alert-border-info bg-alert-bg-info',
-               success: 'border-alert-border-success bg-alert-bg-success', error: 'border-alert-border-error bg-alert-bg-error' };
-  IK.WsAlertStack = function WsAlertStack(p) {
-    var list = (p.alerts || []).filter(Boolean);
-    var os = R.useState(false), open = os[0], setOpen = os[1];
-    if (list.length < 2) return list[0] || null;
-    var rest = list.length - 1, more = 'Show ' + rest + ' more ' + (rest === 1 ? 'notice' : 'notices');
-    if (open) return h('div', { className: 'flex flex-col gap-3' }, list,
-      h('div', { className: 'flex' },
-        h(D.Button, { variant: 'tertiary', size: 'xs', type: 'button', className: '-my-1', 'aria-expanded': true,
-          rightSlot: h(IK.Icon, { name: 'chevron-down', size: 14, style: { transform: 'rotate(180deg)' } }),
-          onClick: function () { setOpen(false); } }, 'Show Less')));
-    /* the others' cards lie behind the first, each 6px lower and 12px narrower a side — only their bottom edges show
-       (user, 2026-10-19: 'погано накладаються'); an edge opens the pile (WsAlertStack in Workspaces.css) */
-    var edges = list.slice(1, 3);
-    return h('div', { className: 'ik-ws-deck', 'data-count': edges.length },
-      h('div', { className: 'ik-ws-deck-top' }, list[0]),
-      /* the edges open the pile — no extra button (user, 2026-10-19: 'кнопка виглядає зайвою'): they spread and
-         brighten on hover, the first takes the focus and names what it opens */
-      edges.map(function (el, i) {
-        return h('button', { key: i, type: 'button', 'data-depth': i + 1, onClick: function () { setOpen(true); },
-          'aria-expanded': i ? undefined : false, 'aria-label': i ? undefined : more, 'aria-hidden': i ? 'true' : undefined, tabIndex: i ? -1 : undefined,
-          className: IK.cx('ik-ws-deck-edge rounded-lg border', EDGE[variantOf(el)] || EDGE.warning, !i && D.focusRing) });
-      }));
+  IK.wsAlertStack = function (list) {
+    return h(D.AlertStack, null, (list || []).filter(Boolean).map(function (el) { return el.props.variant ? el : R.cloneElement(el, { variant: noticeVariant(el) }); }));
   };
 
   IK.WsSharedNotices = function WsSharedNotices(p) {
@@ -1369,6 +1246,6 @@
       p.trial && !p.free && !off.t ? h(IK.WsNotice, { key: 't', kind: 'trial', sharedFrom: shared.map(function (w) { return w.name; }).slice(0, 3), counts: counts, onDismiss: dismiss('t') }) : null
     ]).filter(Boolean);
     /* the page's own notices (p.before — e.g. "Your subscription ended") lead the stack */
-    return h(IK.WsAlertStack, { alerts: (p.before || []).filter(Boolean).concat(out) });
+    return IK.wsAlertStack((p.before || []).filter(Boolean).concat(out));
   };
 })();

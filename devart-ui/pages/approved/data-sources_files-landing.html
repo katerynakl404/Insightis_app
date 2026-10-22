@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Data Sources (Files)</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css">
-<link rel="stylesheet" href="../../review-kit/review-kit.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d4917db40d">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d4917db40d">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js"></script>
-<script src="../../review-kit/review-kit.js"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=d4917db40d"></script>
+<script src="../../review-kit/review-kit.js?v=d4917db40d"></script>
 <style>
   /* Page layout only. The list column (IK.ListPage — DevartUI ListPageLayout, its own scroller) and
      the preview split the main column side by side: the preview is a third column, so the list
@@ -305,9 +305,9 @@
                 load[0] === 'skeleton' ? h(IK.DsFilesSkeleton) : h('div', { className: 'flex flex-col gap-2' },
                   /* Shared: Owner — two filters as pills, Type and Owner, where the chips are (user, 2026-10-19) */
                   byOwner ? h('div', { className: 'flex flex-wrap items-center gap-2' },
-                    h(IK.WsFilterMenu, { label: 'Type', value: filter, onChange: changeFilter,
-                      options: [['all', 'All'], ['artifact', 'Artifacts'], ['uploaded', 'Uploaded']] }),
-                    inList ? h(IK.WsOwnerFilter, { value: ownerF, onChange: function (v) { setOwnerF(v); setShown(PAGE_SIZE); }, counts: { me: own.length, shared: sharedFiles.length } }) : null,
+                    h(D.FilterMenu, { label: 'Type', value: filter, onValueChange: changeFilter,
+                      options: [{ value: 'all', label: 'All' }, { value: 'artifact', label: 'Artifacts' }, { value: 'uploaded', label: 'Uploaded' }] }),
+                    inList ? h(D.FilterMenu, { label: 'Owner', value: ownerF, onValueChange: function (v) { setOwnerF(v); setShown(PAGE_SIZE); }, options: IK.wsOwnerOptions({ me: own.length, shared: sharedFiles.length }) }) : null,
                     h(IK.WsClearFilters, { show: filter !== 'all' && ownerF !== 'any', onClear: function () { changeFilter('all'); setOwnerF('any'); } }))
                   : h('div', { className: 'flex min-w-0 items-center gap-4' }, h('div', { className: 'min-w-0 flex-1' }, h(D.FilterChips, {
                     value: filter,

@@ -40,26 +40,22 @@
       h(IK.WsSharedBy, { ws: 'Marketing analytics and campaign performance — EMEA regional team' }),
       h(IK.WsNames, { names: ['Marketing', 'Brand'], links: { Marketing: '#', Brand: '#' }, className: 'text-sm' }));
   } });
-  IK.story('Workspaces', { title: 'WsSearch — the list search (InputGroup lg + Clear search)', render: function () {
-    function S() { var s = R.useState('Sales'); return h(IK.WsSearch, { value: s[0], onChange: s[1], placeholder: 'Search workspaces…' }); }
-    return h('div', { className: 'max-w-xl' }, h(S));
-  } });
 /* the shared-items parts added 2026-10-20 — every state */
-  IK.story('Workspaces', { title: 'WsFilterMenu · WsOwnerFilter — Type and Owner as pills; each choice with its count in brackets, (0) too', render: function () {
+  IK.story('Workspaces', { title: 'wsOwnerOptions — the Owner filter (DevartUI FilterMenu): Anyone · Me · Shared with me, each with its count, (0) too', render: function () {
+    var D = window.DevartUI;
     function noop() {}
     return h('div', { className: 'flex flex-col gap-6' },
       h('div', { className: 'flex flex-wrap items-center gap-2' },
-        h(IK.WsFilterMenu, { label: 'Type', value: 'all', onChange: noop, options: [['all', 'All'], ['artifact', 'Artifacts'], ['uploaded', 'Uploaded']] }),
-        h(IK.WsOwnerFilter, { value: 'any', onChange: noop, counts: { me: 4, shared: 4 } }),
-        h(IK.WsOwnerFilter, { value: 'shared', onChange: noop, counts: { me: 4, shared: 4 } })),
-      h('div', { className: 'min-h-40' }, h(IK.WsOwnerFilter, { value: 'any', onChange: noop, counts: { me: 6, shared: 0 }, defaultOpen: true })));
+        h(D.FilterMenu, { label: 'Owner', value: 'any', onValueChange: noop, options: IK.wsOwnerOptions({ me: 4, shared: 4 }) }),
+        h(D.FilterMenu, { label: 'Owner', value: 'shared', onValueChange: noop, options: IK.wsOwnerOptions({ me: 4, shared: 4 }) })),
+      h('div', { className: 'min-h-40' }, h(D.FilterMenu, { label: 'Owner', value: 'any', onValueChange: noop, options: IK.wsOwnerOptions({ me: 6, shared: 0 }), defaultOpen: true })));
   } });
-  IK.story('Workspaces', { title: 'WsAlertStack — two notices or more lie as a deck (the edges open it) · opened: Show Less', render: function () {
+  IK.story('Workspaces', { title: 'wsAlertStack — the notices in DevartUI AlertStack: a deck (the edges open it) · opened: Show Less', render: function () {
     return h(World, { others: 'blocked', render: function (ws) {
       var w = ws.owned[0];
       var a = [h(IK.WsNotice, { key: 'r', kind: 'restored', ws: w, onDismiss: function () {} }), h(IK.WsNotice, { key: 'b', kind: 'blocked-owner', ws: w, onDismiss: function () {} })];
       var b = a.concat([h(IK.WsNotice, { key: 't', kind: 'trial', owned: [w.name], sharedFrom: ['Marketing'], counts: { connections: 2, metrics: 6, files: 2 }, onDismiss: function () {} })]);
-      return h(Col, null, h(IK.WsAlertStack, { alerts: a }), h(IK.WsAlertStack, { alerts: b }));
+      return h(Col, null, IK.wsAlertStack(a), IK.wsAlertStack(b));
     } });
   } });
   IK.story('Workspaces', { title: 'WsAccess — the end of every details panel: one’s own (Shared in + Share via Workspace; not shared: —) · shared with you (Shared by · Shared in) · on its own workspace page (Shared by only)', render: function () {

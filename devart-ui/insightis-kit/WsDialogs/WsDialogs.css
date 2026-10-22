@@ -1,0 +1,4 @@
+/* WsDialogs — the pickers' column of ChoiceCards: the scrollbar sits in the dialog's side gutter, never over the
+   cards (the AI connectivity PickList's marginInlineEnd -12 / paddingInlineEnd 12). DevartUI has no negative
+   margin-end utility compiled, so the pair lives here. */
+.ik-pick-list { margin-inline-end: -.75rem; padding-inline-end: .75rem; }

@@ -11,7 +11,8 @@
    2. RAW COLOURS — no hex / rgb() / bare hsl() literals in CSS, inline styles or JS. Colours
       come from tokens. A line that must carry one (a third-party brand mark) ends with the
       comment  ik-allow-raw.
-   3. INDEX — insightis-kit.css|.js and review-kit.css|.js match the component folders on disk.
+   3. INDEX — insightis-kit.css|.js and review-kit.css|.js match the component folders on disk, and they
+      and every page carry the kits' current ?v= stamp (tools/kit-stamp.mjs).
    4. BOUNDARY — nothing under insightis-kit/ (the product) uses the review kit: no RK.* /
       window.ReviewKit in its .js files. Review chrome composes the product, never the reverse.
    Exit code 1 on any finding. */
@@ -121,7 +122,13 @@ if (fs.existsSync(bridgeCss)) {
 // 3. index freshness
 const indexes = ['insightis-kit', 'review-kit'].flatMap(k => ['css', 'js'].map(x => path.join(root, k, `${k}.${x}`)));
 const before = indexes.map(f => fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '');
+/* …and every page carries the kits' current stamp (build-index restamps them) */
+const htmls = all.filter(f => f.endsWith('.html'));
+const htmlBefore = htmls.map(f => fs.readFileSync(f, 'utf8'));
 execFileSync(process.execPath, [path.join(here, 'build-index.mjs')], { stdio: 'ignore' });
+htmls.forEach((f, i) => {
+  if (fs.readFileSync(f, 'utf8') !== htmlBefore[i]) { problems++; console.log(`${path.relative(repo, f)} carried an old kit stamp — restamped it; commit the result`); }
+});
 const after = indexes.map(f => fs.readFileSync(f, 'utf8'));
 indexes.forEach((f, i) => {
   if (before[i] !== after[i]) { problems++; console.log(`${path.relative(repo, f)} was stale — regenerated it; commit the result`); }

@@ -1,7 +1,7 @@
 /* WsMetrics — a workspace's metrics, in IK.MxMetricsTable groups — one per source, each connection a sub-header
    with its workspaces — under the Metrics page's own toolbar (user, 2026-10-22: "як на власних сторінках"): the
    search ("Search metrics...", by name — IK.mxFilterMetrics), FilterChips All · Built-in · Custom, the Provider
-   pill (IK.WsTreeFilter on IK.mxSourceTree), Active only (the Owner's — a Member's are all on), and the Metrics
+   pill (DevartUI FilterMenu on IK.mxSourceOptions), Active only (the Owner's — a Member's are all on), and the Metrics
    page's "No matches found". A collided alias reads in its long form (@revenue__a3f9c1).
 
    The Owner's rows are the Metrics page's own: the switch, the ⋮ (Edit · Duplicate · Delete), Add Metric on the
@@ -75,7 +75,7 @@
     var srcOk = provF === 'all' || tree.some(function (g) { return g.value === provF || g.children.some(function (c) { return c.value === provF; }); });
     f = IK.mxFilterSource(rows, srcOk ? provF : 'all', f);
     var hidden = f.hidden, any = f.any;
-    var provPill = tree.length > 1 || (tree[0] && tree[0].children.length) ? h(IK.WsTreeFilter, { label: 'Provider', value: srcOk ? provF : 'all', tree: tree, onChange: setProvF }) : null;
+    var provPill = tree.length > 1 || (tree[0] && tree[0].children.length) ? h(D.FilterMenu, { label: 'Provider', value: srcOk ? provF : 'all', options: IK.mxSourceOptions(tree), onValueChange: setProvF }) : null;
 
     /* ── the Owner's actions, as on Metrics ── */
     /* a copy is made of the row as the list keeps it, never of what a panel shows (its kind, logo, workspaces) */
@@ -130,7 +130,7 @@
     /* the Metrics page's toolbar: the search over the filters' row — the chips and the Provider, Active only at its end */
     return h('div', { className: 'flex flex-col gap-4' },
       h('div', { className: 'flex flex-col gap-4' },
-        h(IK.WsSearch, { value: q, onChange: setQ, placeholder: 'Search metrics...', label: 'Search metrics' }),
+        h(D.SearchInput, { value: q, onValueChange: setQ, onClear: function () { setQ(''); }, placeholder: 'Search metrics...', 'aria-label': 'Search metrics' }),
         h('div', { className: 'flex flex-wrap items-center gap-x-1.5 gap-y-2' },
           h('div', { className: 'flex min-w-0 flex-1 items-center gap-2' },
             h('div', { className: 'min-w-0 flex-1' }, h(D.FilterChips, {
@@ -148,7 +148,8 @@
           onDelete: p.owner ? remove : undefined,
           onOpen: function (r) { setOpen(r.id); },
           onToggleGroup: function (prov) { var x = Object.assign({}, collapsed); x[prov] = !x[prov]; setCollapsed(x); } })
-        : h(IK.WsNoMatch, { description: 'No metrics match your search or filters — try a different term or clear them' }),
+        : h(D.StatusView, { size: 'lg', surface: 'embedded', withIconHalo: false, role: 'status', icon: h(D.EmptyStateIllustration),
+            title: 'No matches found', description: 'No metrics match your search or filters — try a different term or clear them' }),
       /* the Metrics page's panel */
       h(IK.MetricDetails, Object.assign({ metric: item, onOpenChange: function (v) { if (!v) setOpen(null); } }, !item ? {} : (function (m) {
             var cid = connId(m);

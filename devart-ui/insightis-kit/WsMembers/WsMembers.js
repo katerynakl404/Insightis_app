@@ -1,5 +1,5 @@
 /* WsMembers — who is in a workspace, as ONE list (user, 2026-10-19: one list with statuses, search and
-   filtering), in the Insightis list parts: the search (InputGroup lg, as Metrics / Catalog), FilterChips
+   filtering), in the Insightis list parts: the search (DevartUI SearchInput, as Metrics / Catalog), FilterChips
    All · Members · Invited (as Files; only when something is pending), then a DevartUI Table — the
    invitations still pending first (they wait on someone), then the Owner, the members by name:
 
@@ -143,13 +143,8 @@
 
     var left2 = rows.length - page.length;
     return h('div', { className: 'flex flex-col gap-3' },
-      /* the Insightis list toolbar: InputGroup lg search (Metrics, Catalog), FilterChips (Files), the count */
-      h(D.InputGroup, { size: 'lg', role: 'search' },
-        h(D.InputGroupAddon, { align: 'inline-start' }, h(IK.Icon, { name: 'search', size: 20 })),
-        h(D.InputGroupInput, { type: 'search', placeholder: 'Search members…', 'aria-label': 'Search members', value: q,
-          onChange: function (e) { setQ(e.target.value); } }),
-        q ? h(IK.Tip, { tip: 'Clear search' },
-          h(D.InputGroupAction, { 'aria-label': 'Clear search', onClick: function () { setQ(''); } }, h(IK.Icon, { name: 'x' }))) : null),
+      /* the Insightis list toolbar: DevartUI SearchInput (Metrics, Catalog), FilterChips (Files), the count */
+      h(D.SearchInput, { value: q, onValueChange: setQ, onClear: function () { setQ(''); }, placeholder: 'Search members…', 'aria-label': 'Search members' }),
       h('div', { className: 'flex flex-col gap-2' },
         w.invites.length ? h(D.FilterChips, {
           value: filter, onValueChange: function (v) { if (v) setFilter(v); },

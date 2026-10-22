@@ -130,6 +130,14 @@
     });
     return out;
   };
+  /* IK.mxSourceOptions(tree) — the Provider filter's choices for DevartUI FilterMenu: All, then each source (its mark)
+     with its connections under it, each with how many metrics it holds */
+  IK.mxSourceOptions = function (tree) {
+    var total = 0; tree.forEach(function (g) { total += g.count; });
+    return [{ value: 'all', label: 'All', count: total }].concat(tree.map(function (g) {
+      return { value: g.value, label: g.label, count: g.count, icon: h(IK.ConnectorMark, { connector: g.connector, size: 'xs' }), children: g.children };
+    }));
+  };
   IK.mxFilterSource = function (rows, value, f) {
     if (!value || value === 'all') return f;
     var hidden = Object.assign({}, f.hidden), seen = {}, any = false;

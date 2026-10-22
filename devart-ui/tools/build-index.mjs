@@ -11,12 +11,17 @@
      <kit>/<kit>.css  — @import of core + every <Name>/<Name>.css
      <kit>/<kit>.js   — loader: core, every <Name>/<Name>.js, and with data-stories on its
                         <script> tag, every *.stories.js
+   Every file the loaders load, and every page's <script>/<link> of a kit, carries ?v=<stamp> — a hash of
+   the kits' files (tools/kit-stamp.mjs) — so a browser never mixes a new page with an old kit from its cache.
    Idempotent — safe to run from parallel sessions. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { kitStamp, stampPages } from './kit-stamp.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(here, '..');
+const stamp = kitStamp(root);
 
 const KITS = [
   { name: 'insightis-kit', core: 'core/ik-core', what: 'The Insightis custom kit',
@@ -45,7 +50,7 @@ for (const k of KITS) {
 
   fs.writeFileSync(path.join(kit, `${k.name}.css`),
     banner + `/* ${k.what} — one stylesheet entry, like ds-bundle/styles.css. */\n` +
-    css.map(f => `@import "./${f}";`).join('\n') + '\n');
+    css.map(f => `@import "./${f}?v=${stamp}";`).join('\n') + '\n');
 
   fs.writeFileSync(path.join(kit, `${k.name}.js`), banner +
 `/* ${k.what} — loader. Include it once, AFTER ${k.after}:
@@ -59,9 +64,13 @@ for (const k of KITS) {
   var files = ${JSON.stringify(js, null, 2).replace(/\n/g, '\n  ')};
   var stories = ${JSON.stringify(stories, null, 2).replace(/\n/g, '\n  ')};
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
-  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '"><\\/script>');
+  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=${stamp}"><\\/script>');
 })();
 `);
 
   console.log(`${k.name}: ${dirs.length} components, ${css.length} css, ${js.length} js, ${stories.length} stories`);
 }
+
+/* the pages' kit tags follow the stamp */
+const restamped = stampPages(root, stamp);
+console.log(`stamp ${stamp}${restamped.length ? ` — ${restamped.length} page(s) restamped` : ''}`);

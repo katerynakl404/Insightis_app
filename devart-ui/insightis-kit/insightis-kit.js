@@ -8,6 +8,7 @@
   var me = document.currentScript;
   var base = me.src.replace(/insightis-kit\.js(\?.*)?$/, '');
   var files = [
+    "../ds-bridge/ds-bridge.js",
     "core/ik-core.js",
     "AccountMenu/AccountMenu.js",
     "AcctBalance/AcctBalance.js",
@@ -67,7 +68,6 @@
     "OnbSetup/OnbSetup.js",
     "OnbSourcePicker/OnbSourcePicker.js",
     "OnbTour/OnbTour.js",
-    "PickRow/PickRow.js",
     "PlanFeatures/PlanFeatures.js",
     "PlanLock/PlanLock.js",
     "QueueBand/QueueBand.js",
@@ -146,7 +146,6 @@
     "OnbSetup/OnbSetup.stories.js",
     "OnbSourcePicker/OnbSourcePicker.stories.js",
     "OnbTour/OnbTour.stories.js",
-    "PickRow/PickRow.stories.js",
     "PlanFeatures/PlanFeatures.stories.js",
     "PlanLock/PlanLock.stories.js",
     "QueueBand/QueueBand.stories.js",
@@ -168,5 +167,5 @@
     "WsOverview/WsOverview.stories.js"
   ];
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
-  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '"><\/script>');
+  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=d4917db40d"><\/script>');
 })();
