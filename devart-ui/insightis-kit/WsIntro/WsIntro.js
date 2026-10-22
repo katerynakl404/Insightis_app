@@ -32,7 +32,7 @@
   var LEAD = 'Connect your sources once and share them with your team. Nobody has to set up the same connection again or keep their own copy of a file';
   var STEPS = [
     ['ws-layers', 'Create a workspace', 'Name it after a team or a project'],
-    ['ws-share', 'Add your data', 'Connections bring their metrics'],
+    ['ws-share', 'Add your data', 'Connections, their metrics and files'],
     ['ws-users', 'Invite your team', 'Members use it in their chats']
   ];
 
