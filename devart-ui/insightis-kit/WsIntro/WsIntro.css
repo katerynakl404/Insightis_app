@@ -39,20 +39,23 @@
 
 /* ── simple: nothing behind; a small drawing over the title — the person's sources (a stack of cards) and files (a fan
    of sheets) meeting in a workspace; no steps ── */
-.ik-wsi-art { display: flex; align-items: center; gap: .5rem; }
-.ik-wsi-stack, .ik-wsi-fan { position: relative; flex: none; width: 8.5rem; height: 5.25rem; }
+/* room around and inside the drawing (user, 2026-10-23: "ілюстрація виглядає тісно") */
+.ik-wsi-art { display: flex; align-items: center; gap: .5rem; margin-bottom: .5rem; }
+.ik-wsi-stack, .ik-wsi-fan { position: relative; flex: none; height: 5.5rem; }
+.ik-wsi-stack { width: 9rem; }
+.ik-wsi-fan { width: 10rem; }
 .ik-wsi-src, .ik-wsi-doc {
   position: absolute; display: flex; flex-direction: column; background: hsl(var(--surface-card)); border: 1px solid hsl(var(--stroke-border));
   box-shadow: 0 2px 6px -1px rgba(15, 23, 42, .08), 0 1px 2px 0 rgba(15, 23, 42, .04); /* ik-allow-raw: the kit's card shadow recipe */
 }
 /* the stack: the front card bottom-right, the two behind it a step up and left */
 .ik-wsi-src { right: 0; bottom: 0; width: 7.5rem; gap: .625rem; padding: .75rem; border-radius: var(--radius-lg); }
-.ik-wsi-src:nth-child(1) { translate: -1rem -1rem; opacity: .5; }
-.ik-wsi-src:nth-child(2) { translate: -.5rem -.5rem; opacity: .8; }
+.ik-wsi-src:nth-child(1) { translate: -1.5rem -1.25rem; opacity: .5; }
+.ik-wsi-src:nth-child(2) { translate: -.75rem -.625rem; opacity: .8; }
 /* the fan: three sheets turning from their bottom edge */
 .ik-wsi-doc { left: 50%; bottom: 0; width: 3.75rem; height: 5rem; margin-left: -1.875rem; gap: .375rem; padding: .5rem; border-radius: var(--radius-md); transform-origin: 50% 100%; }
-.ik-wsi-doc:nth-child(1) { rotate: -14deg; translate: -1rem 0; }
-.ik-wsi-doc:nth-child(2) { rotate: 12deg; translate: 1rem 0; }
+.ik-wsi-doc:nth-child(1) { rotate: -12deg; translate: -2rem 0; }
+.ik-wsi-doc:nth-child(2) { rotate: 12deg; translate: 2rem 0; }
 .ik-wsi-bar { display: block; flex: 1; height: .375rem; border-radius: 9999px; background: hsl(var(--stroke-border)); }
 .ik-wsi-src > .ik-wsi-bar, .ik-wsi-doc > .ik-wsi-bar { flex: none; width: 100%; }
 .ik-wsi-src > .ik-wsi-bar-short, .ik-wsi-doc > .ik-wsi-bar-short { width: 60%; }
@@ -62,13 +65,13 @@
   border: 1px solid color-mix(in srgb, hsl(var(--brand-primary)) 40%, transparent);
   box-shadow: 0 0 0 6px color-mix(in srgb, hsl(var(--brand-primary)) 8%, transparent);
 }
-.ik-wsi-link { flex: none; width: 2.5rem; border-top: 1px dashed color-mix(in srgb, hsl(var(--brand-primary)) 55%, transparent); }
+.ik-wsi-link { flex: none; width: 3rem; border-top: 1px dashed color-mix(in srgb, hsl(var(--brand-primary)) 55%, transparent); }
 
 @media (max-width: 767px) {
   .ik-wsi { gap: 2rem; padding: 2rem 1rem 1.5rem; }
   .ik-wsi--cards .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
-  .ik-wsi-art { scale: .8; margin-block: -.5rem; }
-  .ik-wsi-link { width: 1rem; }
+  .ik-wsi-art { scale: .75; margin-block: -.75rem 0; }
+  .ik-wsi-link { width: .75rem; }
 }
 @media (max-width: 639px) {
   .ik-wsi-title { font-size: var(--font-size-2xl); line-height: var(--line-height-2xl); }
