@@ -22,8 +22,8 @@
                  invited to (user, 2026-10-19: "немає перемикача чи це власник воркспейсу чи мембер"); the tab stays
      Invited     not on emails, nor on one's own workspace: Active · Blocked — the plan of the people who invited
                  them (Olena's and Mark's lapse together, so the notices meet several owners).
-     Data        the Workspaces list and a workspace: Filled · Many (every list past one page: Load more) · Empty
-                 (the workspaces have nothing in them — each tab's empty state) · No workspaces (the list only)
+     Data        the Workspaces list and a workspace: Filled · Many (every list past one page: Load more) · Empty — what
+                 the page shows, empty: the list without a workspace; a workspace with nothing in it (each tab's empty state)
      Owner       the chat only: Hidden · Shown — the shared row's caption "Olena Petrenko · Marketing"
      Reset Data  a button: back to the sample data (IK.wsResetData); the page reloads with its switches
    Gone: Workspaces (on/off), Shared (Tag · Tabs · Owner — Owner is the one way, 2026-10-20), Overview (Grid is
@@ -96,10 +96,12 @@
     /* Data acts on the Workspaces page only for now; No workspaces is a list state (an opened
        workspace can't have none) */
     if (here === 'workspaces' || here === 'workspace') out.push({
-      label: 'Data', showLabel: true, value: q.data === 'none' && here === 'workspace' ? 'empty' : q.data,
-      options: [{ value: 'filled', label: 'Filled' }, { value: 'many', label: 'Many' }, { value: 'empty', label: 'Empty' }]
-        .concat(here === 'workspaces' ? [{ value: 'none', label: 'No workspaces' }] : []),
-      onChange: function (v) { RK.setWs({ wdata: v === 'filled' ? null : v }); }
+      /* Empty is what this page shows, empty (user, 2026-10-23: 'як цей стан міг назватись емпті?'): on the list, no workspace
+         at all (wdata=none); on a workspace, nothing in it (wdata=empty) — the list has no 'workspaces with nothing in them' */
+      label: 'Data', showLabel: true,
+      value: here === 'workspaces' ? (q.data === 'none' ? 'empty' : q.data === 'empty' ? 'filled' : q.data) : (q.data === 'none' ? 'empty' : q.data),
+      options: [{ value: 'filled', label: 'Filled' }, { value: 'many', label: 'Many' }, { value: 'empty', label: 'Empty' }],
+      onChange: function (v) { RK.setWs({ wdata: v === 'filled' ? null : v === 'empty' && here === 'workspaces' ? 'none' : v }); }
     });
     /* no Shared switch: Owner is the one way (user, 2026-10-20: Tag removed, Tabs turned down) — the people glyph
        after a shared item's name and one Owner filter, on the lists; a switch with one option is none */

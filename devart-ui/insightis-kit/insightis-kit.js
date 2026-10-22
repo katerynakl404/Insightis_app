@@ -82,6 +82,7 @@
     "WsDialogs/WsDialogs.js",
     "WsEmail/WsEmail.js",
     "WsFiles/WsFiles.js",
+    "WsIntro/WsIntro.js",
     "WsList/WsList.js",
     "WsMembers/WsMembers.js",
     "WsMetrics/WsMetrics.js",
@@ -159,11 +160,12 @@
     "WsDialogs/WsDialogs.stories.js",
     "WsEmail/WsEmail.stories.js",
     "WsFiles/WsFiles.stories.js",
+    "WsIntro/WsIntro.stories.js",
     "WsList/WsList.stories.js",
     "WsMembers/WsMembers.stories.js",
     "WsMetrics/WsMetrics.stories.js",
     "WsOverview/WsOverview.stories.js"
   ];
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
-  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=fa1dfbd458"><\/script>');
+  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=7db68e1677"><\/script>');
 })();
