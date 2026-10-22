@@ -16,17 +16,16 @@
 .ik-wsi-lead { max-width: 36rem; text-wrap: balance; }
 .ik-wsi-steps { width: 100%; max-width: 56rem; margin: 0; padding: 0; list-style: none; text-align: left; }
 
-/* ── cards: one faint brand glow right under the title and lead, sized to them and faded out inside its own box — no
-   cut edge, no blot (user, 2026-10-23: "для чого зарізаний фон?", "виглядає плямою", "засвіт має бути під текстом");
-   numbered cards ── */
+/* ── cards: the chat landing's glow under the title and lead; numbered cards ── */
 .ik-wsi--cards .ik-wsi-head { position: relative; }
 .ik-wsi--cards .ik-wsi-head::before {
-  /* eased: the strength drops fast near the middle and slowly at the rim, then a blur takes the last edge off
-     (user, 2026-10-23: "засвіт мав плавніше розходитись під текстом а не бути плямою") */
-  content: ''; position: absolute; inset: -2.5rem -8rem; z-index: -1; pointer-events: none; filter: blur(1.5rem);
-  background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-primary)) 6%, transparent), color-mix(in srgb, hsl(var(--brand-primary)) 3%, transparent) 40%, color-mix(in srgb, hsl(var(--brand-primary)) 1%, transparent) 70%, transparent);
+  /* the chat landing's own pool (IK.AppShell .ik-shell-glow): --chat-glow-fill — brand-tertiary at tint-8 light, tint-20
+     dark — fading out at 65% and blurred 70px, so it spreads the same way in both themes (user, 2026-10-23: "засвіт має
+     слабке розходження - виглядає плямою", "будь консистентним в 2х темах", "пам'ятай що подібне є на чаті") */
+  content: ''; position: absolute; inset: -3rem -9rem; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, var(--chat-glow-fill), transparent 65%);
+  filter: blur(70px);
 }
-.dark .ik-wsi--cards .ik-wsi-head::before { background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-primary)) 36%, transparent), color-mix(in srgb, hsl(var(--brand-primary)) 18%, transparent) 40%, color-mix(in srgb, hsl(var(--brand-primary)) 6%, transparent) 70%, transparent); }
 .ik-wsi--cards .ik-wsi-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .ik-wsi-num {
   font-size: var(--font-size-2xl); line-height: var(--line-height-2xl); font-weight: 600; letter-spacing: var(--tracking-tight);
