@@ -58,10 +58,13 @@
   /* Tag mode (p.tag): a shared file's Type is Shared, beside Artifact and Uploaded (user, 2026-10-19) */
   function OriginBadge(p) {
     if (p.shared) return h(IK.SharedBadge, { by: p.shared.by, ws: p.shared.ws });
-    return p.origin === 'artifact'
-      ? h(D.Badge, { variant: 'primary', size: 'sm' }, 'Artifact')
-      : h(D.Badge, { variant: 'secondary', size: 'sm' }, 'Uploaded');
+    return h(IK.DsOriginBadge, { origin: p.origin });
   }
+  /* IK.DsOriginBadge({ origin }) — Artifact (primary) or Uploaded (secondary): a file's origin wherever it is listed or
+     detailed (the Files table, the Add files picker, File details) */
+  IK.DsOriginBadge = function DsOriginBadge(p) {
+    return p.origin === 'artifact' ? h(D.Badge, { variant: 'primary', size: 'sm' }, 'Artifact') : h(D.Badge, { variant: 'secondary', size: 'sm' }, 'Uploaded');
+  };
 
   /* DevartUI RowMenuButton: the row ⋮, its tooltip and its menu; always shown here (reveal: false —
      the table and the cards show it at rest). */

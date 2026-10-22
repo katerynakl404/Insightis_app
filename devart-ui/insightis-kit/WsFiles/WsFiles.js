@@ -87,8 +87,6 @@
           onOpen: p.onOpen
         }) : h(D.StatusView, { size: 'lg', surface: 'embedded', withIconHalo: false, role: 'status', icon: h(D.EmptyStateIllustration), title: 'No matches found',
           description: qq ? 'No files match your search or filters — try a different term or clear them' : 'No files match this filter — switch back to All to see every file' }),
-        left > 0 ? h('div', { className: 'mt-1 flex justify-center' },
-          h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setShown(shown + PAGE); } },
-            'Load more ', h('span', { className: 'font-medium tabular-nums text-ink-inactive' }, left))) : null));
+        h(IK.LoadMore, { left: left, onClick: function () { setShown(shown + PAGE); } })));
   };
 })();

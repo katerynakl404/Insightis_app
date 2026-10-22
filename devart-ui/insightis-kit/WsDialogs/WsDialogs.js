@@ -250,9 +250,7 @@
   /* ── Share files ───────────────────────────────────────────────────────────────────────────── */
   function fileDesc(f) { return [String(f.type || '').toUpperCase(), f.size].filter(Boolean).join(' · '); }
   /* the Files table's origin badge, beside the name */
-  function originBadge(f) {
-    return f.kind === 'artifact' ? h(D.Badge, { variant: 'primary', size: 'sm' }, 'Artifact') : h(D.Badge, { variant: 'secondary', size: 'sm' }, 'Uploaded');
-  }
+  function originBadge(f) { return h(IK.DsOriginBadge, { origin: f.kind }); }
 
   /* files → this workspace: the person's own files not shared here yet */
   IK.WsShareFilesDialog = function WsShareFilesDialog(p) {
@@ -375,4 +373,27 @@
       onAdd: function (added) { p.onAdd(added, []); } });
   };
 
+  /* ── Delete · Leave ── one text and one confirm wherever a workspace is deleted or left: the list (one or several),
+     its page, and the Overview's last row (IK.wsDeleteText / IK.wsLeaveText, without the full stop a description drops)
+       h(IK.WsDeleteConfirm, { open, onOpenChange, list: [w], onConfirm }) · h(IK.WsLeaveConfirm, { … }) */
+  IK.wsDeleteText = function (n) {
+    return (n > 1 ? 'Members lose access to everything shared in them, and their pending invitations stop working'
+                  : 'Members lose access to everything shared in it, and its pending invitations stop working') + '. Your connections, metrics and files stay yours';
+  };
+  IK.wsLeaveText = function (list) {
+    return list.length > 1 ? 'You’ll lose access to everything in them. To rejoin, ask their owners to invite you'
+      : 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + ((list[0] && list[0].owner.name) || 'its owner') + ' to invite you';
+  };
+  IK.WsDeleteConfirm = function WsDeleteConfirm(p) {
+    var l = p.list || [], one = l.length === 1;
+    return h(D.ConfirmationDialog, { open: !!p.open && l.length > 0, onOpenChange: p.onOpenChange, variant: 'destructive', cancelLabel: 'Cancel',
+      title: one ? 'Delete ' + l[0].name + '?' : 'Delete ' + l.length + ' workspaces?', description: IK.wsDeleteText(l.length) + '.',
+      confirmLabel: one ? 'Delete Workspace' : 'Delete ' + l.length + ' Workspaces', onConfirm: p.onConfirm });
+  };
+  IK.WsLeaveConfirm = function WsLeaveConfirm(p) {
+    var l = p.list || [], one = l.length === 1;
+    return h(D.ConfirmationDialog, { open: !!p.open && l.length > 0, onOpenChange: p.onOpenChange, variant: 'destructive', cancelLabel: 'Cancel',
+      title: one ? 'Leave ' + l[0].name + '?' : 'Leave ' + l.length + ' workspaces?', description: IK.wsLeaveText(l) + '.',
+      confirmLabel: one ? 'Leave Workspace' : 'Leave ' + l.length + ' Workspaces', onConfirm: p.onConfirm });
+  };
 })();

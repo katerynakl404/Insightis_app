@@ -22,5 +22,5 @@
     "ReviewBar/ReviewBar.stories.js"
   ];
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
-  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=05c3994ee1"><\/script>');
+  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=64c24ccc89"><\/script>');
 })();

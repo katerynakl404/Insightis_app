@@ -21,7 +21,7 @@
       after: off ? h(IK.WsUnavailableMark, { by: by, locked: !f.muted, noun: 'files', feature: 'shared-files' }) : null,
       rows: [{ label: 'Type', value: ext }, f.size ? { label: 'Size', value: f.size } : null,
         /* Origin as the Files list's own tag (user, 2026-10-20: "чому не тег") */
-        { label: 'Origin', value: h(D.Badge, { variant: f.origin === 'artifact' ? 'primary' : 'secondary', size: 'sm' }, f.origin === 'artifact' ? 'Artifact' : 'Uploaded') }, f.date ? { label: 'Modified', value: f.date } : null],
+        { label: 'Origin', value: h(IK.DsOriginBadge, { origin: f.origin }) }, f.date ? { label: 'Modified', value: f.date } : null],
       access: by ? (names.length ? { names: names, links: f.links } : null)
         : names.length || o.onShare ? { names: names, links: f.links, onRemove: o.onRemoveFromWorkspace ? function (it) { o.onRemoveFromWorkspace(it, f); } : undefined, action: o.onShare ? shareBtn('Share via Workspace', o.shareLocked, call(o.onShare, f.id)) : null } : null,
       previewBanner: off ? null : h(IK.DsFilePreviewBanner, { file: f, onDownload: dl }),

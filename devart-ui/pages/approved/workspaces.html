@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Workspaces</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=05c3994ee1">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=05c3994ee1">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=64c24ccc89">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=64c24ccc89">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=05c3994ee1"></script>
-<script src="../../review-kit/review-kit.js?v=05c3994ee1"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=64c24ccc89"></script>
+<script src="../../review-kit/review-kit.js?v=64c24ccc89"></script>
 </head>
 <style>
   /* Page layout only: the file preview (IK.DsFilePreview) splits the main column as on Files — a third
@@ -57,11 +57,9 @@
 
   function toFile(f) { return { id: f.id, name: f.name, type: f.type, origin: f.kind, size: f.size, date: IK.wsFmtDate(f.date), time: f.date }; }
 
-  function Empty(p) {
-    return h(D.StatusView, {
-      size: 'lg', surface: 'embedded', withIconHalo: false, icon: h(D.EmptyStateIllustration),
-      title: p.title, description: p.description, actions: p.action
-    });
+  /* a tab with nothing in it: DevartUI StatusView, the kit lists' own empty state */
+  function emptyState(o) {
+    return h(D.StatusView, { size: 'lg', surface: 'embedded', withIconHalo: false, icon: h(D.EmptyStateIllustration), title: o.title, description: o.description, actions: o.action });
   }
 
   function ListView() {
@@ -195,7 +193,7 @@
               onLeave: function (w) { setLeaving({ ids: [w.id] }); },
               onConnection: function (w, c) { setConn({ w: w, c: c }); },
               onAct: function (kind, w) { setActing({ kind: kind, w: w }); },
-              onRenew: function (w) { ws.requestRenewal(w.id); D.toast.success(h(IK.Fragment, null, 'Email sent to ', strong(w.owner.name)), { description: 'You’ll get access back once the plan is renewed' }); }
+              onRenew: function (w) { IK.wsRenewal(ws, [w.id]).request(); }
             }))))),
       pa.dialogs,
       h(IK.WsCreateDialog, {
@@ -207,25 +205,16 @@
         taken: function (n) { return IK.wsNameTaken(ws.list, n, renaming && renaming.id); },
         onSave: function (n, d) { ws.edit(renaming.id, n, d); setRenaming(null); D.toast.success('Workspace updated', { description: n }); }
       }),
-      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
+      h(IK.WsLeaveConfirm, { list: leaveList,
         open: !!leaving, onOpenChange: function (o) { if (!o) setLeaving(null); },
-        title: leaveList.length === 1 ? 'Leave ' + leaveList[0].name + '?' : 'Leave ' + leaveList.length + ' workspaces?',
-        description: (leaveList.length === 1 ? 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + leaveList[0].owner.name + ' to invite you.'
-                                      : 'You’ll lose access to everything in them. To rejoin, ask their owners to invite you.'),
-        confirmLabel: leaveList.length === 1 ? 'Leave Workspace' : 'Leave ' + leaveList.length + ' Workspaces',
         onConfirm: function () {
           var gone = leaveList; setLeaving(null); setSelected([]);
           gone.forEach(function (w) { ws.leave(w.id); });
           D.toast.success(gone.length === 1 ? h(IK.Fragment, null, 'You left ', strong(gone[0].name)) : 'You left ' + gone.length + ' workspaces');
         }
       }),
-      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
+      h(IK.WsDeleteConfirm, { list: delList,
         open: !!deleting, onOpenChange: function (o) { if (!o) setDeleting(null); },
-        title: delList.length === 1 ? 'Delete ' + delList[0].name + '?' : 'Delete ' + delList.length + ' workspaces?',
-        description: (delList.length === 1 ? 'Members lose access to everything shared in it, and its pending invitations stop working.'
-                                    : 'Members lose access to everything shared in them, and their pending invitations stop working.') +
-              ' Your connections, metrics and files stay yours.',
-        confirmLabel: delList.length === 1 ? 'Delete Workspace' : 'Delete ' + delList.length + ' Workspaces',
         onConfirm: function () {
           var gone = delList; setDeleting(null); setSelected([]);
           gone.forEach(function (w) { ws.remove(w.id); });
@@ -236,10 +225,7 @@
          Remove from Workspace, an invited one read-only */
       (function () {
         var w = conn && ws.find(conn.w.id), c = w && w.connections.filter(function (x) { return x.id === conn.c.id; })[0], own = w && w.role === 'owner';
-        var item = c ? { id: c.id, name: c.name, label: c.label, metrics: Array.isArray(c.metrics) ? c.metrics.length : c.metrics, by: w.owner.name, wsName: w.name,
-                             lastSync: c.lastSync, status: c.status, busy: c.busy, desc: c.desc, locked: !own && free, muted: !own && w.status === 'blocked',
-                             also: own ? IK.wsWhereShared(ws.list, c.id).filter(function (x) { return x.id !== w.id; }).map(function (x) { return x.name; }) : null,
-                             wsNames: [w.name], links: IK.wsLinks(IK.wsWhereShared(ws.list, c.id)) } : null;
+        var item = c ? IK.wsConnItem(ws, w, c, { owner: own, free: free, blocked: w.status === 'blocked' }) : null;
         var close = function (o) { if (!o) setConn(null); };
         /* one's own: Data Sources' panel, whole; an invited one: the shared panel, as on Data Sources */
         if (item && own) { var y = pa.connection(item, function () { setConn(null); }); return h(IK.ConnectionDetails, Object.assign({ connection: y.item, onOpenChange: close }, y.opts)); }
@@ -247,12 +233,8 @@
       })(),
       aw ? h(IK.WsInviteDialog, {
         open: acting.kind === 'invite', onOpenChange: function (o) { if (!o) setActing(null); }, ws: aw,
-        check: function (e) {
-          if (aw.members.some(function (m) { return m.email === e; })) return 'member';
-          if (aw.invites.some(function (i) { return i.email === e; })) return 'invited';
-          return null;
-        },
-        onInvite: function (e) { ws.invite(aw.id, e); done(aw, 'members'); D.toast.success(h(IK.Fragment, null, 'Invitation sent to ', strong(e)), { description: 'They get an email with a link to join' }); }
+        check: IK.wsInviteCheck(aw),
+        onInvite: function (e) { ws.invite(aw.id, e); done(aw, 'members'); IK.wsToast.invited(e); }
       }) : null,
       aw ? h(IK.WsAddConnectionsDialog, {
         open: acting.kind === 'add', onOpenChange: function (o) { if (!o) setActing(null); }, ws: aw, connections: IK.WS_CONNECTIONS,
@@ -401,12 +383,12 @@
         { value: 'connections', label: 'Connections', body: conns.length
           ? h(IK.WsConnections, Object.assign({ variant: 'workspace', connections: conns, label: 'Connections in ' + w.name,
               onOpen: function (c) { setPanel(c.id); }, selected: panel }, connActs()))
-          : h(Empty, { title: 'No connections yet', description: 'Add one so members can use it in their chats', action: addBtn }) },
+          : emptyState({ title: 'No connections yet', description: 'Add one so members can use it in their chats', action: addBtn }) },
         /* what its connections share with it — read-only, managed on Metrics (user, 2026-10-19: "де таба метрик?") */
         { value: 'metrics', label: 'Metrics', body: ownMx.some(function (r) { return r.kind === 'metric'; })
           /* Metric Details as on Metrics: its connection's name opens the connection's details over it */
           ? h(IK.WsMetrics, { rows: ownMx, owner: true, ws: ws, free: free, onOpenConnection: function (cid) { setPanel(cid); }, onCreate: function () { pa.createMetric(null); } })
-          : h(Empty, { title: 'No metrics yet', description: 'Metrics come with the connections you add', action: addBtn }) },
+          : emptyState({ title: 'No metrics yet', description: 'Metrics come with the connections you add', action: addBtn }) },
         { value: 'files', label: 'Files', body: files.length
           ? h(IK.WsFiles, { files: files, owner: true, onOpen: openFile, previewId: filePrev && filePrev.id, shareLocked: free,
               /* Files' actions on one's own files, + Remove from Workspace */
@@ -418,7 +400,7 @@
                 else if (a === 'add-to-chat') toChat(list[0]);
                 else D.toast(ids.length > 1 ? 'Downloading ' + ids.length + ' files' : 'Download started');
               } })
-          : h(Empty, { title: 'No files yet', description: 'Add files here or from the Files page',
+          : emptyState({ title: 'No files yet', description: 'Add files here or from the Files page',
               action: h(IK.Locked, lockWs, h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }), onClick: shareFiles }, 'Add Files')) }) },
         { value: 'members', label: 'Members', body: h(IK.WsMembers, { ws: w, me: ws.me, onRemove: removeMember, onResend: resend, onRevoke: revoke,
             emptyAction: h(IK.Locked, lockWs, h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-users' }), onClick: function () { setDlg({ kind: 'invite' }); } }, 'Invite Members')) }) },
@@ -433,10 +415,10 @@
         { value: 'connections', label: 'Connections', body: conns.length
           ? h(IK.WsConnections, { variant: 'shared', noWs: true, connections: conns, label: 'Connections shared in ' + w.name,
               onOpen: function (c) { setPanel(c.id); }, selected: panel })
-          : h(Empty, { title: 'No connections yet', description: w.owner.name + ' hasn’t added any yet' }) },
+          : emptyState({ title: 'No connections yet', description: w.owner.name + ' hasn’t added any yet' }) },
         { value: 'metrics', label: 'Metrics', body: nMetrics
           ? h(IK.WsMetrics, { ws: ws, rows: rows })
-          : h(Empty, { title: 'No metrics yet', description: 'Metrics come with shared connections' }) },
+          : emptyState({ title: 'No metrics yet', description: 'Metrics come with shared connections' }) },
         { value: 'files', label: 'Files', body: files.length
           ? h(IK.WsFiles, { files: files.map(function (f) { return Object.assign({}, f, { locked: free, muted: blocked, by: w.owner.name, wsName: w.name }); }),
               onOpen: openFile, previewId: filePrev && filePrev.id,
@@ -446,7 +428,7 @@
                 else if (a === 'add-to-chat') toChat(ids.length === 1 ? f : null);
                 else D.toast(a === 'download' ? (ids.length > 1 ? 'Downloading ' + ids.length + ' files' : 'Download started') : 'Opening ' + (f ? f.name : 'the file'));
               } })
-          : h(Empty, { title: 'No files yet', description: w.owner.name + ' hasn’t added any yet' }) },
+          : emptyState({ title: 'No files yet', description: w.owner.name + ' hasn’t added any yet' }) },
         /* who is in it, to look at (user, 2026-10-19: "чому до мемберів нема переходу") — no actions */
         { value: 'members', label: 'Members', body: h(IK.WsMembers, { ws: w, me: ws.me, readOnly: true }) }
       ];
@@ -472,7 +454,7 @@
     var trialNote = trial && !off.t;
     var notices = [
       blocked && !off.b ? h(IK.WsNotice, { key: 'b', kind: owner ? 'blocked-owner' : 'blocked-member', ws: w, inPage: true, onDismiss: dismiss('b'),
-        onRequest: function () { ws.requestRenewal(w.id); D.toast.success(h(IK.Fragment, null, 'Email sent to ', strong(w.owner.name)), { description: 'You’ll get access back once the plan is renewed' }); } }) : null,
+        onRequest: function () { IK.wsRenewal(ws, [w.id]).request(); } }) : null,
       restoredNote ? h(IK.WsNotice, { key: 'r', kind: 'restored', ws: w, inPage: true, onDismiss: dismiss('r') }) : null,
       trialNote && owner ? h(IK.WsNotice, { key: 'to', kind: 'trial', owned: [w.name], onDismiss: dismiss('t') }) : null,
       trialNote && !owner ? h(IK.WsNotice, { key: 't', kind: 'trial', sharedFrom: [w.name], onDismiss: dismiss('t'),
@@ -484,21 +466,15 @@
     };
 
     return h(IK.Fragment, null,
-      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
+      h(IK.WsDeleteConfirm, { list: [w],
         open: deletingWs, onOpenChange: setDeletingWs,
-        title: 'Delete ' + w.name + '?',
-        description: 'Members lose access to everything shared in it, and its pending invitations stop working. Your connections, metrics and files stay yours.',
-        confirmLabel: 'Delete Workspace',
         onConfirm: function () {
           var name = w.name; setDeletingWs(false); ws.remove(w.id); RK.setWs({ w: null, tab: null });
           D.toast.success(h(IK.Fragment, null, strong(name), ' deleted'));
         }
       }),
-      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
+      h(IK.WsLeaveConfirm, { list: [w],
         open: leavingWs, onOpenChange: setLeavingWs,
-        title: 'Leave ' + w.name + '?',
-        description: 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + w.owner.name + ' to invite you.',
-        confirmLabel: 'Leave Workspace',
         onConfirm: function () {
           var name = w.name; setLeavingWs(false); ws.leave(w.id); RK.setWs({ w: null, tab: null });
           D.toast.success(h(IK.Fragment, null, 'You left ', strong(name)));
@@ -528,12 +504,8 @@
 
       owner ? h(IK.WsInviteDialog, {
         open: !!dlg && dlg.kind === 'invite', onOpenChange: function (o) { if (!o) close(); }, ws: w,
-        check: function (e) {
-          if (w.members.some(function (m) { return m.email === e; })) return 'member';
-          if (w.invites.some(function (i) { return i.email === e; })) return 'invited';
-          return null;
-        },
-        onInvite: function (e) { ws.invite(w.id, e); close(); setTab('members'); D.toast.success(h(IK.Fragment, null, 'Invitation sent to ', strong(e)), { description: 'They get an email with a link to join' }); }
+        check: IK.wsInviteCheck(w),
+        onInvite: function (e) { ws.invite(w.id, e); close(); setTab('members'); IK.wsToast.invited(e); }
       }) : null,
       owner ? h(IK.WsAddConnectionsDialog, {
         open: !!dlg && dlg.kind === 'add', onOpenChange: function (o) { if (!o) close(); }, ws: w,
@@ -552,9 +524,7 @@
       }) : null,
       (function () {
         var c = panel && w.connections.filter(function (x) { return x.id === panel; })[0];
-        var item = c ? { id: c.id, name: c.name, label: c.label, desc: c.desc, metrics: Array.isArray(c.metrics) ? c.metrics.length : c.metrics, lastSync: c.lastSync, status: c.status, error: c.error, busy: c.busy,
-                             locked: !owner && free, muted: !owner && blocked, by: w.owner.name, wsName: w.name, wsNames: [w.name], also: owner ? other(c.id) : null,
-                             links: IK.wsLinks(IK.wsWhereShared(ws.list, c.id)) } : null;
+        var item = c ? IK.wsConnItem(ws, w, c, { owner: owner, free: free, blocked: blocked }) : null;
         var close = function (o) { if (!o) setPanel(null); };
         /* the Owner's connection: Data Sources' panel, whole — out of this workspace from its Workspaces list (×) */
         if (item && owner) { var y = pa.connection(item, function () { setPanel(null); }); return h(IK.ConnectionDetails, Object.assign({ connection: y.item, onOpenChange: close }, y.opts)); }

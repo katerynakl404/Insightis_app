@@ -544,6 +544,28 @@
       D.toast.error(h(IK.Fragment, null, 'Last check failed — ', h('strong', null, c.label || c.name)), { description: 'Check failed: ' + IK.dsFailReason(c), id: c.id || c.name });
     }
   };
+  /* an invitation sent (the Invite dialog, from the list or the workspace page) */
+  IK.wsToast.invited = function (email) {
+    D.toast.success(h(IK.Fragment, null, 'Invitation sent to ', h('strong', null, email)), { description: 'They get an email with a link to join' });
+  };
+  /* IK.wsInviteCheck(w) — the Invite dialog's check: an address already a member or already invited */
+  IK.wsInviteCheck = function (w) {
+    return function (e) {
+      if (w.members.some(function (m) { return m.email === e; })) return 'member';
+      if (w.invites.some(function (i) { return i.email === e; })) return 'invited';
+      return null;
+    };
+  };
+  /* IK.wsConnItem(ws, w, c, o) — a workspace's connection as Connection details shows it, from the list or its page:
+     o.owner (the person's own workspace), o.free (their plan), o.blocked (the workspace's) */
+  IK.wsConnItem = function (ws, w, c, o) {
+    if (!c) return null;
+    var own = !!o.owner, where = IK.wsWhereShared(ws.list, c.id);
+    return { id: c.id, name: c.name, label: c.label, desc: c.desc, metrics: Array.isArray(c.metrics) ? c.metrics.length : c.metrics,
+             lastSync: c.lastSync, status: c.status, error: c.error, busy: c.busy, willFail: c.willFail,
+             locked: !own && !!o.free, muted: !own && !!o.blocked, by: w.owner.name, wsName: w.name, wsNames: [w.name],
+             also: own ? where.filter(function (x) { return x.id !== w.id; }).map(function (x) { return x.name; }) : null, links: IK.wsLinks(where) };
+  };
   /* IK.wsTestOutcome(c) — a connection's test, as Data Sources runs it: one that will fail (willFail) fails, with its reason */
   IK.wsTestOutcome = function (c) {
     var ok = !c.willFail;
@@ -1287,9 +1309,7 @@
     /* with the new panels the rows' warning marks say it, each with its way back in the popover — no notice on top
        (user, 2026-10-21: 'з новою панеллю не потрібен алерт про недоступність чужих - це позначено трикутником') */
     ].concat(deadN && blocked.length && !off.b && !(IK.wsMarks && IK.wsMarks.popover) ? [h(IK.WsNotice, { key: 'b', kind: 'blocked-items', count: deadN, noun: noun, list: blocked, free: p.free, onDismiss: dismiss('b'), onRequest: function () {
-      var todo = blocked.filter(function (w) { return !w.requested; }), who = [];
-      todo.forEach(function (w) { ws.requestRenewal(w.id); if (who.indexOf(w.owner.name) < 0) who.push(w.owner.name); });
-      D.toast.success(h(IK.Fragment, null, who.length > 1 ? 'Emails sent to ' : 'Email sent to ', h('span', { className: 'font-medium text-ink-primary' }, IK.wsJoin(who))), { description: who.length > 1 ? 'You’ll get access back as each plan is renewed' : 'You’ll get access back once the plan is renewed' });
+      IK.wsRenewal(ws, blocked.map(function (w) { return w.id; })).request();
     } })] : []).concat([
       p.trial && !p.free && !off.t ? h(IK.WsNotice, { key: 't', kind: 'trial', sharedFrom: shared.map(function (w) { return w.name; }).slice(0, 3), counts: counts, onDismiss: dismiss('t') }) : null
     ]).filter(Boolean);

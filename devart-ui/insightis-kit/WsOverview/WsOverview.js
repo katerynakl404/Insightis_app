@@ -98,8 +98,8 @@
         h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button', className: 'flex-none', onClick: onClick }, label));
     }
     var danger = owner
-      ? (p.onDelete ? lastRow('Delete workspace', 'Members lose access to everything shared in it, and its pending invitations stop working. Your connections, metrics and files stay yours', 'Delete Workspace', p.onDelete) : null)
-      : (p.onLeave ? lastRow('Leave workspace', 'You’ll lose access to its connections, metrics and files. To rejoin, ask ' + w.owner.name + ' to invite you', 'Leave Workspace', p.onLeave) : null);
+      ? (p.onDelete ? lastRow('Delete workspace', IK.wsDeleteText(1), 'Delete Workspace', p.onDelete) : null)
+      : (p.onLeave ? lastRow('Leave workspace', IK.wsLeaveText([w]), 'Leave Workspace', p.onLeave) : null);
     return h('div', { className: 'flex flex-col gap-4' }, general, tiles, danger);
   };
 })();

@@ -226,8 +226,6 @@
                 : null) : null);
           })));
     return remaining > 0 ? h('div', { className: 'flex flex-col gap-2' }, table,
-      h('div', { className: 'mt-1 flex justify-center' },
-        h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setShown(shown + PAGE); } },
-          'Load more ', h('span', { className: 'font-medium tabular-nums text-ink-inactive' }, remaining)))) : table;
+      h(IK.LoadMore, { left: remaining, onClick: function () { setShown(shown + PAGE); } })) : table;
   };
 })();

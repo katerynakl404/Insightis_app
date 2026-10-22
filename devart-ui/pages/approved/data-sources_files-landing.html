@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Data Sources (Files)</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=05c3994ee1">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=05c3994ee1">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=64c24ccc89">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=64c24ccc89">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=05c3994ee1"></script>
-<script src="../../review-kit/review-kit.js?v=05c3994ee1"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=64c24ccc89"></script>
+<script src="../../review-kit/review-kit.js?v=64c24ccc89"></script>
 <style>
   /* Page layout only. The list column (IK.ListPage — DevartUI ListPageLayout, its own scroller) and
      the preview split the main column side by side: the preview is a third column, so the list
@@ -333,9 +333,7 @@
                     menuItems: wsOn && ws.owned.length ? ['add-to-chat', 'share', 'download', 'delete'] : undefined,
                     menuLock: wsOn && free ? { share: { feature: 'workspaces', locked: true } } : undefined
                   }),
-                  remaining > 0 && !noMatch ? h('div', { className: 'mt-1 flex justify-center' },
-                    h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setShown(shown + PAGE_SIZE); } },
-                      'Load more ', h('span', { className: 'font-medium tabular-nums text-ink-inactive' }, remaining))) : null));
+                  noMatch ? null : h(IK.LoadMore, { left: remaining, onClick: function () { setShown(shown + PAGE_SIZE); } })));
 
     return h(IK.Fragment, null,
       h(RK.ReviewBar, { title: 'Data Sources (Files)', status: 'approved', size: 'sm', autoHeight: true, controls: [

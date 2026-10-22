@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis kit · Storybook</title>
 <link rel="stylesheet" href="../../ds-bundle/styles.css">
-<link rel="stylesheet" href="insightis-kit.css?v=05c3994ee1">
-<link rel="stylesheet" href="../review-kit/review-kit.css?v=05c3994ee1">
+<link rel="stylesheet" href="insightis-kit.css?v=64c24ccc89">
+<link rel="stylesheet" href="../review-kit/review-kit.css?v=64c24ccc89">
 <script src="../../ds-bundle/_vendor/react.js"></script>
 <script src="../../ds-bundle/_ds_bundle.js"></script>
-<script src="insightis-kit.js?v=05c3994ee1" data-stories></script>
-<script src="../review-kit/review-kit.js?v=05c3994ee1" data-stories></script>
+<script src="insightis-kit.js?v=64c24ccc89" data-stories></script>
+<script src="../review-kit/review-kit.js?v=64c24ccc89" data-stories></script>
 <style>
   /* storybook layout only */
   .pg-sb { display: grid; grid-template-columns: 15rem minmax(0, 1fr); min-height: calc(100svh - 3.5rem); }
@@ -59,27 +59,31 @@
   var C = 'Components', P = 'Page elements';
   var GROUPS = {
     product: [
-      { section: C, title: 'App shell', items: ['AppShell', 'AppSidebar', 'SidebarChats', 'AccountMenu', 'BalancePopover', 'ListPage'] },
+      { section: C, title: 'App shell', items: ['AppShell', 'AppSidebar', 'SidebarChats', 'AccountMenu', 'BalancePopover', 'ListPage', 'LoadMore'] },
       { section: C, title: 'Chat', items: ['Composer', 'ChatPrompt', 'ChatThread', 'ChatHeader', 'ChatToolCalls', 'AskUserPanel'] },
       { section: C, title: 'Connections', items: ['ConnectDialog', 'ConnectorMark'] },
       /* one panel per item, the same wherever it opens (2026-10-22) */
       { section: C, title: 'Details panels', items: ['DetailsPanel', 'ConnectionDetails', 'MetricDetails', 'FileDetails', 'StatusMark'] },
+      /* the shared-workspaces parts every page with shared items uses, and the lists a workspace's tabs reuse */
+      { section: C, title: 'Shared workspaces', items: ['Workspaces', 'WsDialogs', 'WsConnections'] },
+      { section: C, title: 'Lists', items: ['DsConnections', 'DsFilesTable', 'MxMetricsTable'] },
       { section: C, title: 'Onboarding', items: ['OnbTour'] },
       { section: C, title: 'Plan gating', items: ['PlanFeatures', 'Locked', 'PlanLock', 'UpgradePopover', 'UpgradeModal'] },
       { section: C, title: 'Credits', items: ['Meter', 'Coin'] },
       { section: C, title: 'Auth flow', items: ['AuthLayout', 'AuthCard', 'AuthField', 'AuthStatus', 'AuthIllustration',
                                                  'AuthResendButton', 'AuthGoogleButton', 'AuthTerms'] },
       { section: P, title: 'Data Sources · Connections', page: 'approved/data-sources_connections-landing.html',
-        items: ['DsCatalog', 'DsConnections', 'DsConnectionDialogs', 'DsLastCheck'] },
+        items: ['DsCatalog', 'DsConnectionDialogs', 'DsLastCheck'] },
       { section: P, title: 'Data Sources · Files', page: 'approved/data-sources_files-landing.html',
-        items: ['DsDropZone', 'DsFilesTable', 'DsFileMark', 'DsFilePreview', 'DsFileDialogs', 'DsStorageMark'] },
+        items: ['DsDropZone', 'DsFileMark', 'DsFilePreview', 'DsFileDialogs', 'DsStorageMark'] },
       { section: P, title: 'Metrics', page: 'approved/metrics-landing.html',
-        items: ['MxProviderCard', 'MxMetricsTable', 'MxMetricList', 'FavoriteToggle', 'MxMetricDialog'] },
+        items: ['MxProviderCard', 'MxMetricList', 'FavoriteToggle', 'MxMetricDialog'] },
       { section: P, title: 'Account', page: 'approved/user_profile-modal.html',
         items: ['AcctModal', 'AcctSettings', 'AcctBalance', 'AcctPlans'] },
       { section: P, title: 'Chat landing', page: 'approved/chat-landing.html', items: ['ChatHero'] },
       { section: P, title: 'Workspaces', page: 'approved/workspaces.html',
-        items: ['Workspaces', 'WsList', 'WsOverview', 'WsMembers', 'WsConnections', 'WsMetrics', 'WsFiles', 'WsDialogs', 'WsEmail'] },
+        items: ['WsList', 'WsOverview', 'WsMembers', 'WsMetrics', 'WsFiles'] },
+      { section: P, title: 'Workspace emails', page: 'approved/workspace-emails.html', items: ['WsEmail'] },
       { section: P, title: 'Onboarding', page: 'concept/onboarding.html', items: ['OnbSetup', 'OnbSourcePicker'] },
       { section: P, title: 'Chats library', page: 'concept/chats-landing.html', items: ['ChatLibrary', 'ChatRow'] },
       { section: P, title: 'Chat with charts', page: 'concept/chat_page-charts-landing.html', items: ['ChatChart', 'ChatFilePreview'] },

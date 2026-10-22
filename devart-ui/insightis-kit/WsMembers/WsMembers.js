@@ -151,8 +151,6 @@
           items: [{ value: 'all', label: 'All' }, { value: 'members', label: 'Members' }, { value: 'invited', label: 'Invited' }]
         }) : null,
         table,
-        left2 > 0 ? h('div', { className: 'mt-1 flex justify-center' },
-          h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { setShown(shown + PAGE); } },
-            'Load more ', h('span', { className: 'font-medium tabular-nums text-ink-inactive' }, left2))) : null));
+        h(IK.LoadMore, { left: left2, onClick: function () { setShown(shown + PAGE); } })));
   };
 })();

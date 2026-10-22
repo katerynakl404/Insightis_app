@@ -55,6 +55,7 @@
     "FavoriteToggle/FavoriteToggle.js",
     "FileDetails/FileDetails.js",
     "ListPage/ListPage.js",
+    "LoadMore/LoadMore.js",
     "Locked/Locked.js",
     "Meter/Meter.js",
     "MetricDetails/MetricDetails.js",
@@ -132,6 +133,7 @@
     "FavoriteToggle/FavoriteToggle.stories.js",
     "FileDetails/FileDetails.stories.js",
     "ListPage/ListPage.stories.js",
+    "LoadMore/LoadMore.stories.js",
     "Locked/Locked.stories.js",
     "Meter/Meter.stories.js",
     "MetricDetails/MetricDetails.stories.js",
@@ -163,5 +165,5 @@
     "WsOverview/WsOverview.stories.js"
   ];
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
-  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=05c3994ee1"><\/script>');
+  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=64c24ccc89"><\/script>');
 })();
