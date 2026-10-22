@@ -19,10 +19,12 @@
    numbered cards ── */
 .ik-wsi--cards .ik-wsi-head { position: relative; }
 .ik-wsi--cards .ik-wsi-head::before {
-  content: ''; position: absolute; inset: -2.5rem -5rem; z-index: -1; pointer-events: none;
-  background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-primary)) 8%, transparent), transparent);
+  /* eased: the strength drops fast near the middle and slowly at the rim, then a blur takes the last edge off
+     (user, 2026-10-23: "засвіт мав плавніше розходитись під текстом а не бути плямою") */
+  content: ''; position: absolute; inset: -2.5rem -8rem; z-index: -1; pointer-events: none; filter: blur(1.5rem);
+  background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-primary)) 6%, transparent), color-mix(in srgb, hsl(var(--brand-primary)) 3%, transparent) 40%, color-mix(in srgb, hsl(var(--brand-primary)) 1%, transparent) 70%, transparent);
 }
-.dark .ik-wsi--cards .ik-wsi-head::before { background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-primary)) 18%, transparent), transparent); }
+.dark .ik-wsi--cards .ik-wsi-head::before { background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-primary)) 13%, transparent), color-mix(in srgb, hsl(var(--brand-primary)) 7%, transparent) 40%, color-mix(in srgb, hsl(var(--brand-primary)) 2.5%, transparent) 70%, transparent); }
 .ik-wsi--cards .ik-wsi-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .ik-wsi-num {
   font-size: var(--font-size-2xl); line-height: var(--line-height-2xl); font-weight: 600; letter-spacing: var(--tracking-tight);
