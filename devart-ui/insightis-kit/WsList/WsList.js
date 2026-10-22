@@ -24,8 +24,9 @@
    the workspace's, not the person's. Below 768px (or compact) Owner / Members / Connections fold into one line
    under the name.
    many    20 rows at a time, then IK.LoadMore under the table; a search starts over
-   empty   no table, the Insightis first-run banner (DevartUI Banner diagonalAiry, as Data Sources'
-           'Connect your first data source'): Share your data with your team + Create Workspace
+   empty   no table: DevartUI StatusView, the kit lists' empty state — Share your data with your team, three steps
+           (DevartUI Badge numbers) and Create Workspace (user, 2026-10-23: the banner was 'жахливий'; the bare
+           'No workspaces yet' did not draw anyone in, 2026-10-19)
    noMatch DevartUI StatusView "No matches found" — the Insightis copy (Chats, Files, Catalog), no buttons
 
    select  with onLeave every row can be picked — one's own to delete, an invited one to leave (header: all of
@@ -140,15 +141,19 @@
           actions: p.createButton
         })) : null;
 
-    /* no workspace at all: not an empty table under its column heads but a welcome (user, 2026-10-19:
-       the bare 'No workspaces yet' did not draw anyone in) — what a workspace is for, and Create Workspace */
-    if (!list.length && !q) return h(D.Banner, {
-      /* the Insightis first-run banner, as Data Sources' 'Connect your first data source' (user, 2026-10-19:
-         the welcome card with three tiles looked foreign) */
-      variant: 'diagonalAiry', role: 'note', icon: h(IK.Icon, { name: 'ws-layers' }),
+    /* no workspace at all: the kit's empty state (StatusView) with what a workspace is for, in three steps (user, 2026-10-23:
+       the first-run banner was 'жахливий'; 2026-10-19: the bare 'No workspaces yet' did not draw anyone in, the three tiles
+       looked foreign) — and Create Workspace, the page's only one while it is empty */
+    if (!list.length && !q) return h(D.StatusView, {
+      size: 'lg', surface: 'embedded', withIconHalo: false, icon: h(D.EmptyStateIllustration),
       title: 'Share your data with your team',
-      description: 'Add connections and files to a workspace, then invite colleagues to use them in their chats',
-      action: p.createButton
+      description: h('ol', { className: 'm-0 mt-1 inline-flex list-none flex-col items-start gap-2 p-0 text-left' },
+        ['Add connections and files', 'Invite colleagues', 'They use them in their chats'].map(function (t, i) {
+          return h('li', { key: i, className: 'flex items-center gap-2' },
+            h(D.Badge, { variant: 'secondary', size: 'sm', rounded: 'full', className: 'tabular-nums' }, String(i + 1)),
+            h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'secondary' }, t));
+        })),
+      actions: p.createButton
     });
 
     var table = h(D.Table, { layout: 'fixed', 'aria-label': 'Workspaces' },
