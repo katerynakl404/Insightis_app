@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Metrics</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=64c24ccc89">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=64c24ccc89">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=7b2a7e67db">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=7b2a7e67db">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=64c24ccc89"></script>
-<script src="../../review-kit/review-kit.js?v=64c24ccc89"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=7b2a7e67db"></script>
+<script src="../../review-kit/review-kit.js?v=7b2a7e67db"></script>
 <script>
   /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
      dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
@@ -50,7 +50,12 @@
    версію де метрики будуть не таблицею а більше рядками + буде опцію додавати в улюблені"; "в тебе роздвоїлись
    сторінки?"): Rows is IK.MxMetricList (DevartUI Card rows) with Favorites — the star on every row and a Favorites
    chip beside the filters that leaves only them, in their groups (no section of them on top: "складна логіка");
-   the review switch Favorites (Some · None) shows with it. Table, the default, is the page as approved. Rules: approved/metrics-landing.rules.md. */
+   the review switch Favorites (Some · None) shows with it. Table, the default, is the page as approved. Rules: approved/metrics-landing.rules.md.
+   A metric opens Metric details (IK.MetricDetails — the one panel, the same on a workspace's Metrics tab); its
+   connection's name opens Connection details over it (IK.ConnectionDetails, as on Data Sources).
+   Shared workspaces (on unless ?ws=0; rules: approved/workspace.rules.md): shared metrics sit in the person's own
+   groups (IK.mxMergeShared) with the people glyph on their connection and an Owner filter; with workspaces on,
+   Plan is RK.workspaceControls' (Paid · Trial · Free), + Invited · Reset Data. */
 (function () {
   var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
@@ -356,7 +361,7 @@
   function norm(v) { return (v || '').trim().toLowerCase(); }
 
   function App() {
-    /* shared workspaces (approved/workspace.rules.md): off unless the review switch turns it on */
+    /* shared workspaces (approved/workspace.rules.md): on unless ?ws=0 */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var onbQ = RK.useQueryState('onb', ''), oq = RK.onbQuery();
     /* Metric details is the unified panel (IK.DetailsPanel via IK.metricDetails), the only one — the product's old sheet is
@@ -400,26 +405,21 @@
     var counter = R.useRef(2);
 
     var filled = state === 'filled';
-    /* shared workspaces (on): the metrics shared with the person join the library as their own groups,
-       tagged Shared and read-only (user, 2026-10-19 — no tab of its own); with any of them the page
-       is never the empty library */
+    /* shared workspaces (on): the metrics shared with the person join the library in its groups,
+       read-only (user, 2026-10-19 — no tab of its own); with any of them the page is never the empty library */
     var myAliases = filled ? rows.filter(function (r) { return r.kind === 'metric' && r.alias; }).map(function (r) { return r.alias; }) : [];
     /* Empty is empty: nothing shared either (user, 2026-10-19) */
     var sharedRows = wsOn && !touring && filled ? IK.wsMetricRows(ws.list, { own: myAliases, locked: free }).map(function (r) {
-      /* Tag: Shared is each shared metric's type */
-      /* Owner: a shared metric shows its switch on, and disabled — only its owner turns it off (user, 2026-10-20) */
+      /* a shared metric shows its switch on, and disabled — only its owner turns it off (user, 2026-10-20) */
       if (r.kind === 'metric') return Object.assign({}, r, { switchOn: true });
       if (r.kind !== 'conn') return r;
-      /* a shared connection: Owner — the people glyph after its name; Tabs with Owner: Shown — its caption names
-         who shared it before the workspaces; Tag — who shared it is in the Shared tag's tooltip */
-      /* the one list names no workspaces on the sub-header — Metric Details says where (Access); Tabs' Shared tab keeps
-         them, as it had (user, 2026-10-20) */
+      /* a shared connection: the people glyph after its name, who shared it and where in its tooltip */
+      /* the one list names no workspaces on the sub-header — Metric details says where (user, 2026-10-20) */
       return Object.assign({}, r, { ownerMark: true, shared: Object.assign({}, r.shared, { withBy: false, names: [] }) });
     }) : [];
     var hasShared = sharedRows.some(function (r) { return r.kind === 'metric'; });
     var inList = hasShared;
-    /* own vs shared is a type filter now — All · Built-in · Custom · Shared (user, 2026-10-19), not a
-       "Hide shared" switch */
+    /* own vs shared is the Owner filter, not a "Hide shared" switch */
     var mineOnly = false;
     /* Shared: Owner — one Owner filter: Me keeps the person's own, Shared with me the shared connections */
     var ofs = R.useState('any'), ownerF = inList ? ofs[0] : 'any', setOwnerF = ofs[1];

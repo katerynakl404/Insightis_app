@@ -7,7 +7,7 @@
       mark: h(IK.ConnectorMark, { connector: 'Salesforce', size: 'md' }), name: 'Main CRM', meta: 'Salesforce',
       rows: [{ label: 'Metrics', value: '12 metrics', action: { label: 'Add Metric' } },
              { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: Date.now() - 32 * 60e3, status: 'active' }) }],
-      access: { names: ['Sales', 'Support'], links: LINKS, action: { label: 'Share via Workspace' } },
+      access: { names: ['Sales', 'Support'], links: LINKS, action: h(window.DevartUI.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-share' }) }, 'Share via Workspace') },
       foot: { start: h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button' }, 'Disconnect'),
               end: h(D.Button, { variant: 'primary', size: 'sm', type: 'button' }, 'Edit') } });
   } });

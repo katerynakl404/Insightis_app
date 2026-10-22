@@ -1,6 +1,5 @@
-/* Workspaces — the shared-workspaces feature's data, store and the two small pieces every surface
-   of it repeats. Source: Claude Doc «Дизайн: Shared workspaces, фаза 1» (AIINS-1852); rules:
-   pages/approved/workspace.rules.md.
+/* Workspaces — the shared-workspaces feature's data, store, and the parts every surface of it repeats.
+   Source: Claude Doc «Дизайн: Shared workspaces, фаза 1» (AIINS-1852); rules: pages/approved/workspace.rules.md.
 
    A workspace is an Owner's set of connections, metrics and files, shared READ-ONLY with Members
    invited by email. Roles are Owner (the creator, one, never changes) and Member. Status follows
@@ -10,35 +9,57 @@
    ── Store ─────────────────────────────────────────────────────────────────────────────────────
    One person, one world: they own some workspaces and were invited to others — the role belongs to
    the workspace, never to the person (user, 2026-10-19).
-   var ws = IK.useWorkspaces({ others, names, data, plan? })
-     others  'active' | 'blocked' — the invited workspaces' Owners' plan (Olena's Marketing lapses;
-             Mark's Finance stays Active). The person's OWN workspaces follow their own plan: Free →
-             Blocked (the brief: status follows the Owner's plan; plan defaults to IK.usePlan()).
-     names   'typical' | 'long' — every sample name 80+ characters long (truncation, wrapping)
+   var ws = IK.useWorkspaces({ others, data, plan? })
+     others  'active' | 'blocked' — the invited workspaces' Owners' plan (Olena's and Mark's lapse together).
+             The person's OWN workspaces follow their own plan: Free → Blocked (the brief: status follows
+             the Owner's plan; plan defaults to IK.usePlan()).
      data    'filled' | 'many' (every list past one page: Load more) | 'empty' (workspaces with nothing
              in them — each tab's empty state) | 'none' (no workspace at all)
-   → { list, owned, shared, me, find(id), create(name) → id, rename, remove, addConnections(id, conns),
-       removeConnection, invite(id, email), resend, revoke, removeMember, shareFile(id, file),
-       unshareFile, accept(ws), requestRenewal(id) }
+     (no names option: some sample names are always their long twin, side by side with typical ones)
+   → { list, owned, shared, me, find(id), create(name, desc) → id, edit(id, name, desc), remove(id), leave(id),
+       addConnections(id, conns), removeConnection(id, cid), invite(id, email), resend, revoke, removeMember,
+       shareFile(id, file), unshareFile(id, fid), accept(invitation), requestRenewal(id),
+       and, in every workspace an item is in: updateConnection(cid, patch), addMetric(cid, metric) (a metric made
+       on one's connection goes with it), disconnect(cid), deleteFile(fid) }
    One stored world per data state (sessionStorage): a workspace made on one page is there on the
-   next, and plan / Invited / Names are a view over it (wsView) — flipping them never drops an edit.
-   IK.wsInvitation(o) → the workspace an invitation is for (Olena's Analytics guild), in the view.
+   next, and plan / Invited are a view over it (wsView) — flipping them never drops an edit.
+   IK.wsResetData() drops every stored world (the review's Reset Data).
 
-   Helpers
-     IK.WS_CONNECTIONS          the person's own connections (the Data Sources seed), with metrics
-     IK.WS_FILES                the person's own files (the Files page's first ten, same ids)
+   Data and helpers
+     IK.WS_CONNECTIONS · IK.WS_FILES     the person's own connections (the Data Sources seed) and files (Files' first ten)
+     IK.WS_METRIC_DEFS · IK.wsOwnMetricRows(w) · IK.wsMyMetricRows()   the metrics the connections carry
+     IK.WS_NAME_MAX                      50 — a workspace name stops there (user, 2026-10-19)
      IK.wsNameTaken(list, name, exceptId)   duplicate among the person's OWN workspaces
      IK.wsWhereShared(list, connId)         owned workspaces a connection is in
-     IK.wsSharedItems(list, kind)           'connections' | 'metrics' | 'files' from invited
-                                            workspaces, each with { ws, by }
-     IK.wsHref(rel, patch)      a page URL that keeps the feature's review params (ws, wothers,
-                                names, shared, trial, wdata); patch { key: value | null }
-     IK.wsHrefFor(ws)           the workspace opened on the Workspaces page (approved/workspaces.html?w=) — the Owner's
-                                view or the read-only one
-     IK.wsJoin(names)           "Sales", "Sales and Support", "Sales, Support and Finance"
+     IK.wsSharedItems(list, kind)           'connections' | 'metrics' | 'files' from invited workspaces, each with { ws, by }
      IK.wsMetricRows(list, o)   invited workspaces' metrics as IK.MxMetricsTable rows (below)
-     IK.wsFmtDate(t)            "Oct 19, 2026"
-     IK.wsAgo(t)                "1 minute ago" · "4 hours ago" · "1 day ago"
+     IK.wsSharedConnections(list, o) · IK.wsSharedFiles(list, o)   shared rows, one per item whatever number of
+                                workspaces bring it
+     IK.wsHref(rel, patch)      a page URL that keeps the review params (KEEP); patch { key: value | null }
+     IK.wsHrefFor(ws) · IK.wsLinks(list) · IK.wsGoLink(ws, ids) · IK.wsMetricsHref(c)   the ways to a workspace
+                                (approved/workspaces.html?w=), to Metrics on a connection
+     IK.wsJoin(names)           "Sales", "Sales and Support", "Sales, Support and Finance"
+     IK.wsFmtDate(t) · IK.wsAgo(t)   "Oct 19, 2026" · "1 minute ago", "4 hours ago"
+     IK.wsInvitation(o)         the workspace an invitation is for (Olena's Analytics guild), in the view
+
+   Actions, one behaviour and one wording wherever they are done (user, 2026-10-22)
+     IK.useWsPanelActions(ws, { free, seeMetrics })   what a page gives Connection details / File details opened
+                                from a workspace, so they are the very panels Data Sources and Files open; plus
+                                askRemove, createMetric, shareFiles, deleteFiles and pa.dialogs
+     IK.useWsRemoveConfirm()    Remove from Workspace asks first — a row's ⋮ or a panel's ×
+     IK.wsToast.{added, removed, disconnected, deleted, metricCreated, checked, checkFailed, invited}
+     IK.wsConnItem(ws, w, c, o) · IK.wsTestOutcome(c) · IK.wsInviteCheck(w) · IK.wsMetricDuplicates(ws) ·
+     IK.wsSharedAlias(ws)       the item, a test, the Invite and Create metric checks, as the own pages do them
+
+   Marks, names, notices
+     IK.WsOwnerMark({ by, ws })        the people glyph after a shared item's name — who and where in its tooltip
+     IK.wsOwnerOptions(counts) · IK.wsOwnerPass(v, by) · IK.WsClearFilters   the Owner filter (DevartUI FilterMenu)
+     IK.WsNames({ names, links, by })  workspace names, each a link, "+N" when they don't fit
+     IK.WsWorkspaceList({ names, links, items })   the workspaces an item is in, as a details panel lists them
+     IK.WsUnavailableMark · IK.wsUnavailableTip / Reason / Action · IK.wsMarks · IK.wsRenewal(ws, ids)
+                                       a shared item that can't be used: the warning (IK.StatusMark), why, the way back
+     IK.SharedBadge · IK.InfoHint      the Shared tag (unused by the pages since 2026-10-20) · an info glyph
+     IK.wsAlertStack(list) · IK.WsSharedNotices(…)   notices as one DevartUI AlertStack; the shared lists' notices
 
    ── IK.WsSharedBy ─────────────────────────────────────────────────────────────────────────────
    h(IK.WsSharedBy, { ws: 'Marketing and Finance', by, withBy, size: 'body12' })
@@ -53,17 +74,15 @@
      blocked-owner   warning · "<ws> is unavailable to its members", "Upgrade to Pro" as a link in the
                      sentence (IK.Locked → upgrade), dismissible — the Insightis warning's shape
      blocked-member  warning · "<ws> is unavailable" + Ask Owner to Renew → onRequest
-                     (an email to the Owner); requested → Request Sent (disabled); dismissible.
-                     { list: [ws, …] } groups several into ONE notice (user, 2026-10-19: one per
-                     workspace looks bad at 3+): 2 → "Marketing and Brand are unavailable",
-                     3+ → "3 workspaces are unavailable" with the names in the text; one owner →
-                     Ask Owner to Renew, one owner or several
+                     (an email to the Owner); requested → Request Sent (disabled). { list: [ws, …] } groups
+                     several into ONE notice (user, 2026-10-19: one per workspace looks bad at 3+)
+     blocked-items   warning · on a list page: "N shared connections are unavailable", from where, Ask Owner to Renew
      restored        success · "<ws> is available again", dismissible (onDismiss)
-     trial           info · when the trial ends: the person's own workspaces ({ owned }) become
-                     unavailable to members, and what invited workspaces ({ sharedFrom, counts })
-                     shared needs a plan — one notice for both, "See plans", dismissible
-     invited         info · "<by> invited you to <ws>" + Accept Invitation → onAccept (another address, expired,
-                     unavailable: toasts — IK.wsInvitationToast)
+     trial           info · "Your trial ends in 3 days": members lose access to one's own workspaces ({ owned }),
+                     what's shared ({ sharedFrom }) needs a paid plan — short, "See plans", dismissible
+     shared-plan     warning · "Shared … need Starter" — the person's plan lacks the module, Upgrade to Starter
+     invited         info · "<by> invited you to <ws>" + Accept Invitation → onAccept (no page shows it since
+                     2026-10-20: the invitation is the email)
 */
 (function () {
   'use strict';
@@ -76,7 +95,7 @@
     'ws-send': '<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>',
     'ws-share': '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>',
     'ws-x': '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
-    /* lucide circle-minus: taken out of a workspace, nothing deleted (Remove from Workspace, Stop Sharing) */
+    /* lucide circle-minus: taken out of a workspace, nothing deleted (Remove from Workspace) */
     'ws-remove': '<circle cx="12" cy="12" r="10"/><path d="M8 12h8"/>',
     /* lucide "log-out" — leaving a workspace one was invited to */
     'ws-leave': '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>',
@@ -305,8 +324,8 @@
      own; Marketing, an invited one), a member, two files — so long and typical sit side by side with no
      switch (user, 2026-10-19); a name someone typed stays as typed. Status follows each Owner's plan (the brief): the person's OWN workspaces are
      Blocked while their plan has no Workspaces module (Free); the workspaces they were invited to
-     follow the "Invited" switch — Olena's Marketing (and, with Many, half of the invited ones) is
-     Blocked when her plan lapses, Mark's Finance stays Active, so both show side by side. */
+     follow the "Invited" switch — Blocked, Olena's and Mark's plans lapse together (Marketing, Brand, Finance),
+     so the notices meet several owners. */
   var LONG = {};
   ['product', 'marketing', 'iryna', 'f2', 'f4'].forEach(function (k) { LONG[NAMES[k].t] = NAMES[k].l; });
   function wsView(list, o) {
@@ -497,6 +516,7 @@
        c: { id, label, name, … } as the store keeps it; the item gains where it is (sharedWith, links)
        pa.createMetric(c | null)                           Create metric in place — Data Sources' Add Metric (c: preset)
        pa.shareFiles(files) · pa.deleteFiles(files, close)  a selection, as Files' bulk bar
+       pa.askRemove({ kind, name, count, metrics, wsName, run })   a row's ⋮ Remove from Workspace — the panel's × confirm
        { seeMetrics() → fn | null }                        "See it in Metrics" after a metric is made (null: none)
        pa.dialogs                                          rendered once by the page */
   /* ── IK.wsToast — one wording for one action, wherever it is done (user, 2026-10-22: "консистентність … тости"):
@@ -815,7 +835,8 @@
      truncated with the whole list in a tooltip; a click on a link never reaches the row under it.
      h(IK.WsNames, { names: ['Marketing', 'Brand'], links: { Marketing: href }, by, className })
      by — who shared it, before the workspaces: "Olena Petrenko · Marketing · Brand"               */
-  /* IK.SharedBadge — the one "Shared" mark on everything shared with the person (Tag mode, user 2026-10-19):
+  /* IK.SharedBadge — the "Shared" mark of the Tag mode (user 2026-10-19; unused by the pages since Tag was removed,
+     2026-10-20 — the Owner glyph, IK.WsOwnerMark, took its place):
      a connection's tag, a file's Type, a metric's type (beside Built-in / Custom). DevartUI Badge sm,
      neutral, with the people glyph so it never reads as Uploaded or Built-in (both neutral too).
      { by } → its tooltip says who shared it: "Shared by Olena Petrenko" (user, 2026-10-19: who shared it
@@ -833,8 +854,6 @@
       h('span', { tabIndex: 0, className: IK.cx('inline-flex shrink-0 rounded-full', D.focusRing, p.className) }, badge));
   };
 
-  /* IK.WsUnavailableBadge({ by }) — a shared item whose workspace is Blocked: 'Unavailable' (attention), the
-     reason in its tooltip, naming whose plan lapsed (Connections, Files and Metrics alike) */
   /* an unavailable shared item reads like any other — its text is not greyed (user, 2026-10-19: "не фарбувати все
      і не робити сторінку неживою") — and says why in a tooltip: the sharer's plan lapsed (muted), or the person's
      own plan doesn't include shared items (locked, { locked: true, noun: 'connections' }) */
@@ -857,8 +876,8 @@
      the reason in its tooltip; the row itself reads and opens as usual */
   /* the row mark's popover is IK.StatusMark (its own kit component since 2026-10-22) */
   /* a shared item that can't be used: its row mark, the Problem saying why */
-  /* IK.wsMarks — how every row's mark reads, set by the page: { popover, renewal(by) }. With the review switch Panels:
-     New the rows' marks open the new panels' Problem popover with the way back (user, 2026-10-21: "якщо нова панель, то
+  /* IK.wsMarks — how every row's mark reads, set by the page: { popover, renewal(by) }. popover (every page sets it):
+     the rows' marks open the panels' Problem popover with the way back (user, 2026-10-21: "якщо нова панель, то
      має бути і новий ворнінг-поповер на іконку ворнінга"); renewal(by) finds the renewal for that owner's workspaces */
   IK.wsMarks = { popover: false, renewal: null };
   IK.WsUnavailableMark = function WsUnavailableMark(p) {
@@ -877,9 +896,6 @@
     return h(IK.StatusMark, { name: p.name, description: p.description, problems: [{ kind: 'warning', text: IK.wsUnavailableReason(p) }],
       action: p.withAction ? IK.wsUnavailableAction(Object.assign({ size: 'sm' }, p)) : null });
   };
-  /* IK.WsAccess({ by, names, links, inLabel, note, action }) — the one "Access" section every details panel ends
-     with — Connection Details, Metric Details, the file preview (user, 2026-10-20): who shared it (a shared one),
-     the workspaces it is in (or a quiet dash), a note, and the action. Labels as the panels' own fields */
   /* IK.InfoHint({ text }) — the info glyph (14px, secondary) whose tooltip says the why of the line it sits on */
   IK.InfoHint = function InfoHint(p) {
     return h(IK.Tip, { tip: p.text, wrap: true },

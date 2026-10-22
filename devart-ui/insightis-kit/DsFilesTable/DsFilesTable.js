@@ -18,30 +18,29 @@
      files: [{ id, name, type, origin: 'artifact' | 'uploaded', size, date, selected }],
      allState: true | 'indeterminate' | false,   // header checkbox (over the whole filtered set)
      editing: false,                             // selection mode (cards show their checkbox)
-     previewId: 'f3',
+     previewId: 'f3',                            // the row whose File details is open
      sortDir: 'desc' | 'asc', onSort,
-     onToggle(id), onToggleAll(), onOpen(id), onAction(action, id),   // action: add-to-chat | rename | download | delete
+     onToggle(id), onToggleAll(), onOpen(id), onAction(action, id),   // action: a ⋮ key (below)
      empty: false, onBrowse,                      // first-run empty library
      layout: 'table' | 'cards',                   // optional — default follows the viewport (< 768px = cards)
-     // shared workspaces (all optional; the Files page itself passes none of them):
-     selectable: false,                           // no checkbox column (a workspace's files, Shared)
+     // shared workspaces (all optional):
+     selectable: false,                           // no checkbox column
      caption: function (f) → node,                // under the name — IK.WsSharedBy; the name then
                                                   // truncates with its full text in a tooltip
      menuItems: ['view', 'download', …],          // which ⋮ items, in order — keys below
-     menuLock: { share: lockedProps },            // IK.Locked props per item (a Blocked workspace)
-     // a file with shared: { ws } is shared with the person (review switch Shared: Tag): tagged "Shared"
-     // beside its name (tooltip: from which workspaces), no checkbox, its own menu (f.menu)
-     // wsCol: a Workspaces column after Name — where one's own is shared into (f.sharedWith), where a
-     // shared one comes from; tag: false → no Shared tag (review switch Shared: Tabs / Workspaces
-     // column); ownerCol (review switch Owner: Shown): an Owner column — "You" or f.by
-     // a file with locked: true is unavailable on the plan — greyed name, the plan's padlock badge
-     // (IK.Locked 'shared-files' → upgrade) in place of its origin, no ⋮; muted: true (a Blocked
-     // workspace's file) — greyed name, no ⋮, its origin badge stays
+     menuLock: { share: lockedProps },            // IK.Locked props per item (Share via Workspace on Free)
+     ownerMark: true,                             // a shared file: the people glyph after its name (IK.WsOwnerMark —
+                                                  // who shared it and where, in its tooltip; Files passes it)
+     // a file with shared: { by, ws } (or by) is shared with the person: no checkbox (disabled, with its reason),
+     // its own menu (f.menu); locked: true (unavailable on the person's plan) or muted: true (its workspace
+     // Blocked) — no ⋮, and a muted one the warning after its name (IK.WsUnavailableMark)
+     // kept, unused by the pages since 2026-10-20 (Owner is the one way): tag → the Shared tag in Type
+     // (IK.SharedBadge); wsCol → a Workspaces column; ownerCol → an Owner column — "You" or f.by
    })
    IK.DsFileMenu { id, onAction, defaultOpen, items, lock } — the ⋮ and its menu alone (DevartUI
-     RowMenuButton). items (default add-to-chat · rename · download · delete) from: view ·
-     add-to-chat · share ("Share via Workspace") · rename · download · stop-sharing (danger) ·
-     delete (danger).
+     RowMenuButton). items (default add-to-chat · download · delete) from: view · add-to-chat ·
+     share ("Share via Workspace") · download · stop-sharing ("Remove from Workspace", danger) · delete (danger).
+   IK.DsOriginBadge({ origin }) — Artifact (primary) or Uploaded (secondary), wherever a file's origin shows.
    IK.DsFilesSkeleton — the loading library: 3 chip ghosts, a count ghost, the table with 5 ghost rows. */
 (function () {
   'use strict';
@@ -55,7 +54,7 @@
     return f.shared || f.by ? h(IK.WsUnavailableMark, { by: f.by || (f.shared && f.shared.by), locked: !f.muted, noun: 'files' }) : null;
   }
 
-  /* Tag mode (p.tag): a shared file's Type is Shared, beside Artifact and Uploaded (user, 2026-10-19) */
+  /* the Tag mode (p.tag, unused since 2026-10-20): a shared file's Type is Shared, beside Artifact and Uploaded */
   function OriginBadge(p) {
     if (p.shared) return h(IK.SharedBadge, { by: p.shared.by, ws: p.shared.ws });
     return h(IK.DsOriginBadge, { origin: p.origin });

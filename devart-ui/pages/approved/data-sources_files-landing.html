@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Data Sources (Files)</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=64c24ccc89">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=64c24ccc89">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=7b2a7e67db">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=7b2a7e67db">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=64c24ccc89"></script>
-<script src="../../review-kit/review-kit.js?v=64c24ccc89"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=7b2a7e67db"></script>
+<script src="../../review-kit/review-kit.js?v=7b2a7e67db"></script>
 <style>
   /* Page layout only. The list column (IK.ListPage — DevartUI ListPageLayout, its own scroller) and
      the preview split the main column side by side: the preview is a third column, so the list
      narrows, and it keeps the full height while the list scrolls (the original scrolled as a
      document and stuck the preview to the viewport; DevartUI's layout scrolls the column — 2026-10-19).
-     Below 1024px the preview covers the split (DsFilePreview.css). The upload tray docks
+     Below 1024px the preview (IK.FileDetails) covers the split (DsFilePreview.css). The upload tray docks
      bottom-right of the viewport, under the dialogs. */
   .pg-split { position: relative; display: flex; flex: 1 1 0; min-width: 0; min-height: 0; }
   .pg-col { position: relative; display: flex; flex-direction: column; flex: 1 1 0; min-width: 0; min-height: 0; }
@@ -29,12 +29,15 @@
 <script>
 /* Data Sources → Files, rebuilt from pages/approved/data-sources_files-landing.html.
    Locked rules: page-changes/data-sources_files-landing.md (apply here unchanged).
-   Title + storage mark (IK.DsStorageMark) · drop zone (IK.DsDropZone) · source chips (DevartUI
-   FilterChips) · the bar over the list (DevartUI ListSelectionBar: count + Select all, or the selection and its bulk actions) · the
-   library (IK.DsFilesTable, 20 at a time + Load more) · the preview split panel (IK.DsFilePreview)
-   · uploads in DevartUI's ActivityTray · Delete (IK.DsDeleteFilesDialog) — a file has no Rename (user, 2026-10-20: «забирай — його не буде»).
+   Title + storage mark (IK.DsStorageMark) · drop zone (IK.DsDropZone) · the Type filter (DevartUI
+   FilterMenu; + Owner when something is shared) · the bar over the list (DevartUI ListSelectionBar: count + Select all, or the selection and its bulk actions) · the
+   library (IK.DsFilesTable, 20 at a time + IK.LoadMore) · File details beside it (IK.FileDetails — the one panel,
+   the same on a workspace's page) · uploads in DevartUI's ActivityTray · Delete (IK.DsDeleteFilesDialog) — a file has no Rename (user, 2026-10-20: «забирай — його не буде»).
+   Shared workspaces (on unless ?ws=0; rules: approved/workspace.rules.md): shared files in the one list with the
+   people glyph after the name; Share via Workspace (IK.WsShareFileDialog); Remove from Workspace asks first.
    Review switches, as in the original topbar: Within limit/Over limit · Plan · Filled/Empty ·
-   Loaded/Skeleton · Theme. */
+   Loaded/Skeleton · Theme; with workspaces on, Plan is RK.workspaceControls' (Paid · Trial · Free), + Invited ·
+   Reset Data. */
 (function () {
   var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
@@ -73,7 +76,7 @@
   var BROWSE = [['q2-report.csv', 'csv', '3.1 MB'], ['new-customers.xlsx', 'xlsx', '1.2 MB'], ['budget-2026.xls', 'xls', '456 KB'], ['pipeline.csv', 'csv', '780 KB']];
 
   function App() {
-    /* shared workspaces (approved/workspace.rules.md): off unless the review switch turns it on */
+    /* shared workspaces (approved/workspace.rules.md): on unless ?ws=0 */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var plan = IK.usePlan(), free = plan[0] === 'free';
     var quota = RK.useQueryState('storage', 'within');
@@ -90,16 +93,13 @@
     var bk = R.useRef(data[0] === 'empty' ? SEED : null);
     var em = R.useState(false), editing = em[0], setEditing = em[1];
     var fl = R.useState('all'), filter = fl[0], setFilter = fl[1];
-    /* shared workspaces (on, invited to one at least): My Files · Shared — the shared ones view,
-       download and add to a chat; nothing to rename or delete */
-    /* what others shared, in one of three places (review switch Shared): Tag — in the one list,
-       tagged Shared · Tabs — My Files · Shared · Workspaces column — in the one list with a
-       Workspaces column (where one's own is shared into, where a shared one comes from) */
+    /* shared workspaces (on, invited to one at least): the shared files sit in the one list with the people glyph
+       after the name and an Owner filter (Owner is the one way, 2026-10-20) — they view, download and add to a
+       chat; nothing to delete */
     /* Empty is empty: nothing shared either (user, 2026-10-19) */
     var sharedFiles = wsOn && data[0] !== 'empty' ? IK.wsSharedFiles(ws.list, { locked: free }) : [];
     var hasShared = sharedFiles.length > 0, inList = hasShared;
-    /* own vs shared is a Type filter now — All · Artifacts · Uploaded · Shared (user, 2026-10-19), not a
-       "Hide shared" switch */
+    /* own vs shared is the Owner filter, not a "Hide shared" switch */
     var mineOnly = false;
     /* a shared file in the person's list: the page's own date words, placed by its date */
     function rel(t) {
@@ -321,7 +321,7 @@
                   }) : h(IK.DsFilesTable, {
                     files: page, empty: empty && !sharedInList.length, editing: editing, previewId: previewId, sortDir: sortDir, wsCol: false /* the workspaces in the preview's Access only (user, 2026-10-20) */, ownerMark: true,
                     /* Owner only where the list mixes others' files with one's own: on My Files it would say You on every row */
-                    /* no Owner column in the one list: who shared it is in the Shared type's tooltip (user, 2026-10-19) */
+                    /* no Owner column in the one list: who shared it is in the people glyph's tooltip */
                     ownerCol: false,
                     allState: allSel ? true : selectedCount ? 'indeterminate' : false,
                     onSort: function () { setSortDir(sortDir === 'asc' ? 'desc' : 'asc'); },

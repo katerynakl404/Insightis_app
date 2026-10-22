@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Account modal</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=64c24ccc89">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=64c24ccc89">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=7b2a7e67db">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=7b2a7e67db">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=64c24ccc89"></script>
-<script src="../../review-kit/review-kit.js?v=64c24ccc89"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=7b2a7e67db"></script>
+<script src="../../review-kit/review-kit.js?v=7b2a7e67db"></script>
 <style>
   /* Page layout only. The plan grid goes 2-over-1 between 768 and 1024px (the original's own
      range, 1024 included) and one column below 768px. */
@@ -99,7 +99,7 @@
   }
 
   function App() {
-    /* shared workspaces (approved/workspace.rules.md): off unless the review switch turns it on */
+    /* shared workspaces (approved/workspace.rules.md): on unless ?ws=0 */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var da = R.useState(false), delAcct = da[0], setDelAcct = da[1];
     var plan = IK.usePlan()[0];

@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Workspaces</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=64c24ccc89">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=64c24ccc89">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=7b2a7e67db">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=7b2a7e67db">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=64c24ccc89"></script>
-<script src="../../review-kit/review-kit.js?v=64c24ccc89"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=7b2a7e67db"></script>
+<script src="../../review-kit/review-kit.js?v=7b2a7e67db"></script>
 </head>
 <style>
-  /* Page layout only: the file preview (IK.DsFilePreview) splits the main column as on Files — a third
+  /* Page layout only: File details (IK.FileDetails) splits the main column as on Files — a third
      column beside the list; below 1024px it covers the list (DsFilePreview.css) */
   .pg-split { position: relative; display: flex; flex: 1 1 0; min-width: 0; min-height: 0; }
 </style>
@@ -26,17 +26,24 @@
    Reached from the sidebar's Workspaces row, under New Chat.
 
    the list (no ?w)   ListView — the title row with Create Workspace (round, as Insightis title-row
-                      actions; under the title on a phone), the search (InputGroup lg, as Metrics /
-                      Catalog / Chats), DevartUI ListSelectionBar (count · Select all → the selection +
-                      bulk Delete, as Files), IK.WsList: own and invited workspaces in one list (the role
-                      is the workspace's), 20 at a time + Load more; a row opens the workspace (?w=).
+                      actions; under the title on a phone), the search (DevartUI SearchInput, as Metrics /
+                      Catalog / Chats), the Owner filter (DevartUI FilterMenu: Anyone · Me · Shared with me,
+                      when there are both), DevartUI ListSelectionBar (count · Select all → the selection +
+                      bulk Leave / Delete), IK.WsList: own and invited workspaces in one list (the role is
+                      the workspace's), 20 at a time + Load more; a row opens the workspace (?w=). Invite /
+                      Add Connection from a row's ⋮ open their dialogs here; a connection in its menu opens
+                      Connection details (IK.ConnectionDetails) here.
    a workspace (?w=)  WorkspaceView — "Back to workspaces" (PageHeader onBack) returns to the list in
-                      place; Overview first. Owner: Overview · Connections · Members · Files, the title
-                      row's action following the tab (Add Connection · Invite Members · Share Files);
-                      Blocked → IK.WsNotice + those locked. Invited: the same read-only — Overview ·
-                      Connections · Metrics · Files, every management control absent. ?do=add|invite
-                      opens that dialog once (the list's ⋮ links here).
-   Review switches (live, independent): Plan · Invited · Data · Names · Theme. */
+                      place. Owner and invited alike: Overview · Connections · Metrics · Files · Members. The
+                      Owner's tabs act as the own pages do (IK.useWsPanelActions: Data Sources' ⋮ and cells,
+                      Metrics' rows, Files' ⋮ and bulk bar, the same details panels and dialogs) + Remove from
+                      Workspace, which always asks first; the title row's action follows the tab (Add
+                      Connection · Create Metric · Add Files · Invite Members); Blocked → IK.WsNotice + those
+                      locked. Invited: read-only, every management control absent. ?do=add|invite|files
+                      opens that dialog once.
+   Details: IK.ConnectionDetails, IK.MetricDetails (in IK.WsMetrics), IK.FileDetails — the panels Data Sources,
+   Metrics and Files open. Review switches (live, independent): the list — Plan · Invited · Data · Reset Data ·
+   Theme; a workspace — Plan · Role · Invited · Data · Reset Data · Theme. */
 (function () {
   var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
@@ -73,7 +80,7 @@
       return IK.wsRenewal(ws, ws.list.filter(function (x) { return x.role === 'member' && x.owner.name === by; }).map(function (x) { return x.id; }));
     } };
     var sq = RK.useQueryState('q', ''), query = sq[0], setQuery = sq[1];
-    /* own and shared apart (user, 2026-10-19): FilterChips All · My Workspaces · Shared, as Files */
+    /* own and shared apart (user, 2026-10-19): the Owner filter — all · mine · shared */
     var rf = RK.useQueryState('own', 'all'), roleF = rf[0], setRoleF = rf[1];
     var cr = R.useState(false), creating = cr[0], setCreating = cr[1];
     var rn = R.useState(null), renaming = rn[0], setRenaming = rn[1];
@@ -81,8 +88,8 @@
     var lv = R.useState(null), leaving = lv[0], setLeaving = lv[1];
     /* a connection opened from the list's menu: Connection Details, in place */
     var cp = R.useState(null), conn = cp[0], setConn = cp[1];
-    /* Invite / Add Connection / Share Files from the list: the dialog opens here, and only once it is
-       done does the page go to the workspace, on that tab (user, 2026-10-19) */
+    /* Invite / Add Connection from the list: the dialog opens here (user, 2026-10-19); an invitation sent goes to
+       the workspace's Members tab, an added connection stays on the list, its toast linking there (2026-10-20) */
     var ac = R.useState(null), acting = ac[0], setActing = ac[1];
     var aw = acting && ws.find(acting.w.id);
     function done(w, tab) { setActing(null); RK.setWs({ w: w.id, tab: tab }); }
@@ -113,7 +120,7 @@
 
     var both = ws.owned.length > 0 && ws.shared.length > 0;
     var all = ws.owned.concat(ws.shared);
-    /* review switch Shared: Tabs → My Workspaces · Shared as tabs, no All (user, 2026-10-19) */
+    /* with one kind only there is nothing to filter: the whole list */
     var role = roleF;
     var list = !both || role === 'all' ? all : role === 'mine' ? ws.owned : ws.shared;
     var qq = query.trim().toLowerCase();
@@ -138,7 +145,7 @@
     ].filter(Boolean);
 
     /* DevartUI ListSelectionBar, as Files: the count · Select all at rest; "N selected", Exit
-       selection and Delete once a row is ticked. Only the person's own workspaces can be picked. */
+       selection and Leave / Delete once a row is ticked. */
     /* an action that can never happen is not shown: with none of the person's own rows in view there is
        nothing to select, so the line is the count alone (DevartUI MetaRow, as Chats) */
     /* a bulk action: disabled with the reason in its tooltip when the pick holds the other kind */

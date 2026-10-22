@@ -1,37 +1,34 @@
-/* WsReview — the shared-workspaces review switches. Not product: the feature is OFF on every
-   approved page until a reviewer turns it on here, so those pages stay exactly as approved; every
-   switch lives in the URL, so a link opens any state (rules: pages/approved/workspace.rules.md).
+/* WsReview — the shared-workspaces review switches (rules: pages/approved/workspace.rules.md). Not product.
+   The feature is ON on every approved page (user, 2026-10-19: the Off/On switch was noise); ?ws=0 turns it off
+   by address, and the page then renders exactly as approved. Every switch lives in the URL, so a link opens any
+   state.
 
    The switches are INDEPENDENT and LIVE (user, 2026-10-19): flipping one changes only what it names,
    with no reload, and nothing made on the way is lost — the store keeps one world per Data state,
    and the rest are views over it. The set and its order stay put. One person, one world: they own
-   some workspaces and were invited to others, so there is no Owner / Member switch — the role is
-   each workspace's.
+   some workspaces and were invited to others — the role is each workspace's; Role only picks which opens.
 
-   RK.useWsQuery() → { on, others, names, trial, invite, data, w, share, owner } — re-renders the page when a switch
-                   moves (RK.wsQuery() reads it once)
-   RK.setWs(patch) → { ws, wothers, names, trial, invite, wdata, w }: null clears; the URL follows
+   RK.useWsQuery() → { on, others, names, trial, invite, data, w, share: 'owner', owner } — re-renders the page
+                   when a switch moves (RK.wsQuery() reads it once)
+   RK.setWs(patch) → URL keys (ws, wothers, trial, wdata, wowner, w, tab …): null clears; the URL follows
                    (replaceState), every useWsQuery re-renders
    RK.wsStore(q)   → the options IK.useWorkspaces takes
    RK.wsOwnsPlan(q) → true while the feature is on: this kit's Plan switch (Paid · Trial · Free)
                    replaces the page's own, so the page passes plan: false
-   RK.workspaceControls({ here }) → ReviewBar controls, in this order:
-     Workspaces  no switch: the feature is always on (user, 2026-10-19); ?ws=0 turns it off by address
+   RK.workspaceControls({ here, ws, w }) → ReviewBar controls, in this order (the ReviewBar adds Theme):
      Plan        not on emails: Paid · Trial · Free — the person's own plan: Free also Blocks their OWN workspaces
                  (the brief: status follows the Owner's plan); Trial = paid with the trial running
-     Invited     Active · Blocked — the plan of the people who invited them (Olena's Marketing
-                 lapses; Mark's Finance stays Active). Blocked → Active, and Free → Paid, show the
-                 "available again" confirmation: the brief's Restored is that moment
-     Data        the Workspaces page: Filled · Many (every list past one page: Load more) · Empty (the
-                 workspaces have nothing in them — each tab's empty state) · No workspaces (list only)
-     Shared      Data Sources, Metrics, Files, the Workspaces list and page: Tag (in the one list, Shared as
-                 a type/tag) · Tabs (a Shared tab) · Owner (the sharer's avatar after the name + an Owner filter)
-     Owner       Data Sources, Metrics, Files, Chat: Hidden · Shown — an Owner column (You / who
-                 shared it), the metric group's and the chat row's caption "Olena Petrenko · Marketing"
-     Overview    an opened workspace: Row (three tiles, Members + Connections lists) · Grid (four
-                 tiles two by two, the Connections list beside them)
-     Names       Typical · Long
-     (no Invitation switch — no invitation banner anywhere, 2026-10-20)
+     Role        an opened workspace: Owner · Member — opens the first of one's own / the first one they were
+                 invited to (user, 2026-10-19: "немає перемикача чи це власник воркспейсу чи мембер"); the tab stays
+     Invited     not on emails, nor on one's own workspace: Active · Blocked — the plan of the people who invited
+                 them (Olena's and Mark's lapse together, so the notices meet several owners). Blocked → Active,
+                 and Free → Paid, show the "available again" confirmation: the brief's Restored is that moment
+     Data        the Workspaces list and a workspace: Filled · Many (every list past one page: Load more) · Empty
+                 (the workspaces have nothing in them — each tab's empty state) · No workspaces (the list only)
+     Owner       the chat only: Hidden · Shown — the shared row's caption "Olena Petrenko · Marketing"
+     Reset Data  a button: back to the sample data (IK.wsResetData); the page reloads with its switches
+   Gone: Workspaces (on/off), Shared (Tag · Tabs · Owner — Owner is the one way, 2026-10-20), Overview (Grid is
+   the one layout), Names (the sample mixes long and typical names), Invitation (no invitation banner, 2026-10-20).
    here: 'data-sources' | 'files' | 'metrics' | 'chat' | 'account' | 'workspaces' | 'workspace' | 'emails' */
 (function () {
   'use strict';
@@ -50,8 +47,7 @@
       invite: q.get('invite') || 'off',
       data: q.get('wdata') || 'filled',
       w: q.get('w') || '',
-      /* Owner is the concept (user, 2026-10-20: Tag removed); Tabs stays to compare */
-      /* Tabs were turned down (user, 2026-10-20: "від таб відмовились"): Owner is the one way */
+      /* Owner is the one way (user, 2026-10-20: Tag removed; Tabs turned down — "від таб відмовились") */
       share: 'owner',
       owner: q.get('wowner') === '1'
     };
@@ -107,18 +103,10 @@
         .concat(here === 'workspaces' ? [{ value: 'none', label: 'No workspaces' }] : []),
       onChange: function (v) { RK.setWs({ wdata: v === 'filled' ? null : v }); }
     });
-    /* where what is shared with the person shows, to compare (user, 2026-10-19): Tag — in the one list, Shared
-       as a type/tag · Tabs — a Shared tab of its own · Owner — the third way: the sharer's avatar after the name
-       and one Owner filter (an additional option, not a replacement) */
-    /* inside a workspace there is no Shared tab to split off: Tag and Owner only, and only on an invited
-       workspace's Connections, Metrics and Files — what is in one's own isn't shared with the person */
-    /* Owner (the people glyph + the Owner filter) or Tabs (a Shared tab), on the lists only: inside a workspace
-       everything is its Owner's, so there is nothing to tell apart (user, 2026-10-20: Tag removed) */
-    /* no Shared switch: with Tabs turned down (2026-10-20) Owner is the only way — a switch with one option is none */
-    /* who shared it (the brief: "who shared it and from which workspace, everywhere"), as its own
-       switch — the workspaces show either way (user, 2026-10-19) */
-    /* Tag: who shared it is in the Shared tag's tooltip, so the switch acts only on a Shared tab (Tabs) and
-       the chat row (user, 2026-10-19) */
+    /* no Shared switch: Owner is the one way (user, 2026-10-20: Tag removed, Tabs turned down) — the people glyph
+       after a shared item's name and one Owner filter, on the lists; a switch with one option is none */
+    /* Owner — who shared it (the brief: "who shared it and from which workspace, everywhere"), as its own switch:
+       on the chat row only — everywhere else the glyph's tooltip names them */
     if (here === 'chat') out.push({
       label: 'Owner', showLabel: true, value: q.owner ? 'shown' : 'hidden',
       options: [{ value: 'hidden', label: 'Hidden' }, { value: 'shown', label: 'Shown' }],

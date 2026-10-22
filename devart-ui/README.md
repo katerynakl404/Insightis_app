@@ -49,14 +49,19 @@ devart-ui/
     review-kit.css|.js         ← GENERATED index — tools/build-index.mjs
   pages/                       ← mirrors legacy-html/pages/: approved/, concept/, concept/auth/;
                                  <page>.rules.md beside a page = its rules locked since the move
-  ds-bridge/                   ← TEMPORARY, only while it is needed (now: one CSS fix of Spotlight — the JS ones
-                                 were retired 2026-10-19 with the bundle rebuilt from дизайн DevartUI):
+  ds-bridge/                   ← TEMPORARY, only while it is needed (now: four components — SearchInput,
+                                 AlertStack, ConfirmationDialog, FilterMenu, 2026-10-22 — and the CSS fixes
+                                 of Button primaryTertiary and Spotlight):
                                  components or fixes of дизайн DevartUI the vendored ds-bundle/ lacks,
-                                 as JS ports of the same API, loaded first by insightis-kit.js; delete
-                                 the folder + re-run build-index.mjs once a rebuilt bundle ships them
+                                 as JS ports of the same API (D.<Name>, each skipped once the bundle has
+                                 it), loaded first by insightis-kit.js; delete the folder + re-run
+                                 build-index.mjs once a rebuilt bundle ships them
   tools/
-    build-index.mjs            ← regenerate BOTH kit indexes after adding/removing a folder
-    check.mjs                  ← static check — run before every commit
+    build-index.mjs            ← regenerate BOTH kit indexes after adding/removing a folder; stamps every
+                                 kit file the loaders load, and every page's kit <script>/<link>, ?v=<stamp>
+    kit-stamp.mjs              ← that stamp: a hash of ds-bridge/, insightis-kit/, review-kit/ (so a browser
+                                 never mixes a new page with a cached old kit)
+    check.mjs                  ← static check — run before every commit (re-runs build-index: restamps)
 ```
 
 The `pages/` tree mirrors the original one (`legacy-html/pages/`) file for file, so relative links between
@@ -221,18 +226,18 @@ Component APIs: no `.d.ts` ships with the bundle — read the source, it is unmi
 | concept/coin-review | Rebuilt · verified | Coin (8 SVGs in `Coin/assets/`) | reproduces the original as it renders (no kit-theme.css): 0% pixel diff |
 | app shell (for 9 pages) | Kit ready | AppShell, AppSidebar, SidebarChats, AccountMenu, PlanFeatures, Locked, PlanLock, UpgradePopover, UpgradeModal, ConnectorMark | API in each file's header; `AppShell` is a direct child of `#root` after the ReviewBar; `IK.chatsWith()` for per-page chat lists |
 
-| approved/data-sources_connections-landing | Rebuilt · verified | ListPage (shared), ConnectDialog (shared), DsCatalog, DsLastCheck, DsConnections, DsConnectionDialogs, DsConnectionPanel | logos via ConnectorMark (original logos where DevartUI has none) |
-| approved/data-sources_files-landing | Rebuilt · verified | DsDropZone, DsFileMark, DsFilesTable, DsFilePreview, DsFileDialogs, DsStorageMark, ChatRow, SortableList | |
+| approved/data-sources_connections-landing | Rebuilt · verified | ListPage (shared), ConnectDialog (shared), DsCatalog, DsLastCheck, DsConnections, DsConnectionDialogs, ConnectionDetails (on DetailsPanel, shared) | logos via ConnectorMark (original logos where DevartUI has none); Connection details is the one panel since 2026-10-22 (the old DsConnectionPanel is gone) |
+| approved/data-sources_files-landing | Rebuilt · verified | DsDropZone, DsFileMark, DsFilesTable, FileDetails (on DetailsPanel; the preview parts from DsFilePreview), DsFileDialogs, DsStorageMark, LoadMore, ChatRow, SortableList | File details is the one panel since 2026-10-22 (the old DsFilePreview split panel is gone) |
 | approved/user_profile-modal | Rebuilt · verified | AcctModal, AcctSettings, AcctBalance, AcctPlans | AcctModal is an in-page panel, not `D.Modal` (the original sits over the main column only); the three plan dialogs are SHOWN (the original hides them by a bug) |
 | concept/balance-versions-v2-v3 | Rebuilt · verified | (Acct* retired variants) | |
 | approved/chat-landing | Rebuilt · verified | Composer, ChatPrompt, ChatHero | |
 | approved/chat_page-landing | Rebuilt · verified | ChatHeader, ChatThread, ChatToolCalls | `AppShell classic` (older sidebar copy) |
-| approved/metrics-landing | Rebuilt · verified | MxProviderCard, MxMetricsTable, MxMetricSheet, MxMetricDialog (+ shared ListPage, ConnectDialog) · MxMetricList, FavoriteToggle (concept) | review switch List: Table · Rows — Rows is a concept (Card rows + Favorites), browser-checked only; rules: `pages/approved/metrics-landing.rules.md` |
+| approved/metrics-landing | Rebuilt · verified | MxProviderCard, MxMetricsTable, MetricDetails + ConnectionDetails over it (on DetailsPanel), MxMetricDialog (+ shared ListPage, ConnectDialog) · MxMetricList, FavoriteToggle (concept) | review switch List: Table · Rows — Rows is a concept (Card rows + Favorites), browser-checked only; Metric details is the one panel since 2026-10-22 (the old MxMetricSheet is gone); rules: `pages/approved/metrics-landing.rules.md` |
 | concept/chats-landing | Rebuilt · verified | ChatLibrary (+ ChatRow extended) | the original's row-menu items ignore a mouse click (a bug) — they work here |
 | concept/chat_page-charts-landing | Rebuilt · verified | AskUserPanel, ChatChart, ChatFilePreview, ChatCodeRun (in ChatToolCalls) | review switches: Popover state, AskUserPanel; `?pop=` / `?ask=` deep links |
 | concept/onboarding | Built · browser-checked (no legacy original) | OnbSetup, OnbSourcePicker, OnbTour, Onboarding (store + data) · design DevartUI (§117–§123, committed and published 2026-10-19; in the vendored bundle): StepProgress, ChoiceGroup/ChoiceCard, Spotlight, Coachmark, AnnotationGroup/Annotation, Tour, CardFooter `sticky` | steps 1–3 here; steps 4–5 overlay approved/metrics-landing + chat-landing (`?onb=`); AskUserPanel now on D.StepProgress + D.ChoiceCard; rules: `pages/concept/onboarding.rules.md` |
 | concept/chat_page-queue | Rebuilt · verified | QueueBand, QueueItem, ThinkingIndicator | the 16-state picker + Reset in the ReviewBar; `?state=` deep link; drag reorder checked by hand (the scripts cannot drag) |
-| approved/workspaces + workspace-emails | Built · browser-checked (no legacy original) | Workspaces (store, WsNotice, WsSharedBy, WsSearch), WsList, WsOverview, WsMembers, WsConnections, WsMetrics, WsFiles, WsDialogs, PickRow, WsEmail (+ DsConnections / DsConnectionPanel / DsFilesTable / DsFileMark / MxMetricsTable / MxMetricDialog / DsConnectionDialogs / Composer / ChatHero / AcctSettings / AppSidebar / ListPage / PlanFeatures extended) | shared workspaces, phase 1; overlays approved Data Sources, Files, Metrics, Chat, Account behind `?ws=1` (off = as approved); rules: `pages/approved/workspace.rules.md` |
+| approved/workspaces + workspace-emails | Approved 2026-10-22 · browser-checked (no legacy original) | Workspaces (store, WsNotice, WsSharedBy, WsOwnerMark, WsNames, wsToast, useWsPanelActions, useWsRemoveConfirm …), WsList, WsOverview, WsMembers, WsConnections, WsMetrics, WsFiles, WsDialogs (+ WsDeleteConfirm / WsLeaveConfirm), WsEmail, LoadMore, StatusMark, ConnectionDetails / MetricDetails / FileDetails on DetailsPanel (+ DsConnections / DsFilesTable (DsOriginBadge) / DsFileMark / MxMetricsTable / MxMetricDialog / DsConnectionDialogs / Composer / ChatHero / AcctSettings / AppSidebar / ListPage / PlanFeatures extended) · DevartUI SearchInput, FilterMenu, AlertStack, ConfirmationDialog (via `ds-bridge/`), ChoiceCard, StatusView | shared workspaces, phase 1; overlays approved Data Sources, Files, Metrics, Chat, Account — on by default, `?ws=0` turns it off (= as approved); review kit: WsReview (`RK.workspaceControls`); rules: `pages/approved/workspace.rules.md` |
 
 "Verified" = `compare.mjs` + `interact.mjs` (every theme, viewport, review state and scenario):
 0 product text missing or extra, 0 JS errors, every remaining difference DevartUI's own (group A

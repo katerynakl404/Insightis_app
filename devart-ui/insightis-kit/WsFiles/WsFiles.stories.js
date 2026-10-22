@@ -5,8 +5,11 @@
   function own(w) {
     return w.files.map(function (f) { return { id: f.id, name: f.name, type: f.type, origin: f.kind, size: f.size, date: IK.wsFmtDate(f.date), time: f.date }; });
   }
-  IK.story('WsFiles', { title: 'Owner — search, All · Artifacts · Uploaded, Select all → Download · Stop Sharing', render: function () {
+  IK.story('WsFiles', { title: 'Owner — search, All · Artifacts · Uploaded; ⋮ and Select all → Share via Workspace · Download · Remove from Workspace · Delete', render: function () {
     return h(World, { data: 'many', render: function (ws) { return h(IK.WsFiles, { files: own(ws.owned[0]), owner: true, onAction: log }); } });
+  } });
+  IK.story('WsFiles', { title: 'Owner on Free — Share via Workspace locked (padlock)', render: function () {
+    return h(World, { render: function (ws) { return h(IK.WsFiles, { files: own(ws.owned[0]), owner: true, shareLocked: true, onAction: log }); } });
   } });
   IK.story('WsFiles', { title: 'Shared with you — who · which workspace; Add to Chat · Download', render: function () {
     return h(World, { render: function (ws) { return h(IK.WsFiles, { files: IK.wsSharedFiles(ws.list), caption: true, onAction: log }); } });

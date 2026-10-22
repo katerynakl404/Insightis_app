@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Data Sources</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=64c24ccc89">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=64c24ccc89">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=7b2a7e67db">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=7b2a7e67db">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=64c24ccc89"></script>
-<script src="../../review-kit/review-kit.js?v=64c24ccc89"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=7b2a7e67db"></script>
+<script src="../../review-kit/review-kit.js?v=7b2a7e67db"></script>
 <style>
   /* Page layout only. The saved connections slide open once there is something to list and
      collapse when the last one goes (original .ds-conn-section). */
@@ -30,9 +30,14 @@
    Locked rules: page-changes/data-sources_connections-landing.md (apply here unchanged).
    Two tabs — Catalog (IK.DsCatalog) and My Connections (IK.DsConnections, disabled until something
    is connected) — over the app shell, scrolling as a document like the original; the connection
-   flows are IK.ConnectDialog (the shared New connection wizard, logo mark), IK.DsConnectionPanel
-   (Connection Details), IK.DsEditConnectionDialog and IK.DsDisconnectDialog. Review switches, as in
-   the original topbar: Plan · Empty/Connected · Loaded/Skeleton · Theme. */
+   flows are IK.ConnectDialog (the shared New connection wizard, logo mark), IK.ConnectionDetails
+   (Connection details — the one panel, the same on Metrics, Files and a workspace's page),
+   IK.DsEditConnectionDialog, IK.DsDisconnectDialog and IK.MxMetricDialog (Add Metric, in place).
+   Shared workspaces (on unless ?ws=0; rules: approved/workspace.rules.md): what others shared sits in My
+   Connections with the people glyph after its name and an Owner filter; Share via Workspace in the ⋮ and the
+   panel (IK.WsAddToWorkspacesDialog). Review switches, as in the original topbar: Plan · Empty/Connected ·
+   Loaded/Skeleton · Theme; with workspaces on, Plan is RK.workspaceControls' (Paid · Trial · Free), + Invited
+   · Reset Data. */
 (function () {
   var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
@@ -86,7 +91,7 @@
   }
 
   function App() {
-    /* shared workspaces (approved/workspace.rules.md): off unless the review switch turns it on */
+    /* shared workspaces (approved/workspace.rules.md): on unless ?ws=0 */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var plan = IK.usePlan()[0], free = plan === 'free';
     var seg = RK.useQueryState('state', 'connected');
@@ -114,10 +119,8 @@
     var cb = R.useState(false), catOff = cb[0], setCatOff = cb[1];
     var um = R.useState(false), upModal = um[0], setUpModal = um[1];
     var timers = R.useRef({});
-    /* shared workspaces (on): what others shared, read-only, in one of three places to compare
-       (review switch Shared): Tag — in My Connections, tagged Shared · Tabs — a Shared tab · Owner
-       column — in My Connections with an Owner column. In the list, My Connections is never empty
-       while anything is shared. */
+    /* shared workspaces (on): what others shared, read-only, in My Connections with the people glyph after its name
+       and an Owner filter (Owner is the one way, 2026-10-20). My Connections is never empty while anything is shared. */
     var sp = R.useState(null), sharedPanel = sp[0], setSharedPanel = sp[1];
     /* Share via Workspace (a connection's ⋮): the connection being added */
     var aw = R.useState(null), addWs = aw[0], setAddWs = aw[1];
@@ -309,7 +312,7 @@
                   wsCol: false,
                   ownerMark: true,
                   /* Owner only where the list mixes others' connections with one's own: alone, every row is You */
-                  /* no Owner column in the one list: who shared it is in the Shared tag's tooltip (user, 2026-10-19) */
+                  /* no Owner column in the one list: who shared it is in the people glyph's tooltip */
                   ownerCol: false,
                   onOpen: openRow, onEdit: setEdit, onTest: test, onDisconnect: setDisc, onDetails: errToast, onAddMetric: addMetric,
                   onAddToWorkspace: wsOn ? setAddWs : undefined, wsLocked: free

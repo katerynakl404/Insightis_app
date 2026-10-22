@@ -12,37 +12,36 @@
      { open, onOpenChange, name, desc, taken, onSave: function (name, description) {} }
 
    IK.WsInviteDialog — "Invite members" (sm): one email, no role picker (everyone invited is a
-     Member). Refused under the field: not an email, already a member, already invited.
+     Member). Refused under the field: not an email, already a member, already invited (IK.wsInviteCheck).
      { open, onOpenChange, ws, check: function (email) → null | 'member' | 'invited', onInvite }
 
    Pickers — the AI connectivity prototype's picker dialogs as they are: a title and a sentence under
-   it, SearchField sm (focused on open), DevartUI ChoiceCard rows (checkbox indicator, description
-   under it), Cancel · the counted action; what is already there is not offered.
-   IK.WsAddConnectionsDialog — "Add connections" / "Link connections to <ws>": rows = the name the
-     person gave it, "Salesforce · 12 metrics · Shared in Support" (no new login). When the picks carry
-     metrics, one line under the list says they go with them — no second step (user, 2026-10-20).
-     Add Connection / Add N Connections.
+   it, DevartUI SearchInput sm (focused on open), DevartUI ChoiceCard rows (checkbox indicator, description
+   under it), Cancel · the counted action; empty → DevartUI StatusView with the way to what is missing.
+   IK.WsAddConnectionsDialog — "Add connections" / "Link connections to <ws>": what is already there is not
+     offered; rows = the name the person gave it, "Salesforce · 12 metrics · Shared in Support" (no new login).
+     When the picks carry metrics, one line under the list says they go with them — no second step (user,
+     2026-10-20). Add Connection / Add N Connections; nothing left → Create Connection (the Catalog).
      { open, onOpenChange, ws, connections, where: function (connId) → [names], onAdd(conns) }
-   IK.WsShareFilesDialog — "Add files" / "Add files to <ws>" (its trigger is Add Files): the person's own files not there
-     yet ("CSV · 2.4 MB · Artifact"), Add File / Add N Files (the workspace page's "Add Files").
+   IK.WsShareFilesDialog — "Add files" / "Add files to <ws>" (its trigger is Add Files): the person's own files not
+     there yet ("CSV · 2.4 MB" + the origin badge, IK.DsOriginBadge), Add File / Add N Files; nothing left → Upload Files.
      { open, onOpenChange, ws, files, onShare(files) }
-   IK.WsShareFileDialog — "Share <file>": every workspace of the person's, the ones it is in already ticked —
-     untick to take it out, so sharing is managed in one place (user, 2026-10-20); several files: only the
-     workspaces missing one of them, add only. A Blocked one disabled, the reason under it. + Create Workspace
-     at the footer's leading edge (an in-dialog step with Back; the new one comes back ticked). The action
-     only adds: the ones it is in are ticked and disabled ("Already in it"); Add to Workspace / Add to N Workspaces.
-     { open, onOpenChange, file | files: [several], workspaces, onShare(addIds, removeIds), onCreate(name) → id, taken(name), createLocked }
+   IK.WsShareFileDialog — "Share <file>" / "Share N files": every workspace of the person's; the ones it is in
+     already ticked and disabled ("Already in it"), a Blocked one disabled with the reason under it. It only ADDS
+     (user, 2026-10-20) — taking it out is a workspace's ⋮ or a details panel's × (IK.useWsRemoveConfirm).
+     + Create Workspace at the footer's leading edge: an in-dialog step with Back (name and description), the new
+     one comes back ticked. Add to Workspace / Add to N Workspaces.
+     { open, onOpenChange, file | files: [several], workspaces, onShare(addIds), onCreate(name, desc) → id, taken(name), createLocked }
+   IK.WsAddToWorkspacesDialog — the same picker for a connection (its ⋮ on Data Sources, Connection details):
+     "Share <label>"; when it carries metrics, the line under the title says they go with it.
+     { open, onOpenChange, connection: { id, name, label, metrics }, workspaces, onAdd(addIds), onCreate, taken, createLocked }
 
-   IK.WsAddToWorkspacesDialog — the same picker for a connection (its ⋮ on Data Sources, Connection Details):
-     "Share <label>", every workspace, the ones it is in ticked (untick to take it out); when it carries
-     metrics and goes somewhere new, one line under the list says they come with it — no second step
-     (user, 2026-10-20). The same action labels as the file's.
-     { open, onOpenChange, connection: { id, name, label, metrics }, workspaces, onAdd(addIds, removeIds), onCreate(name) → id, taken(name), createLocked }
-
-   (a confirm is DevartUI ConfirmationDialog, variant destructive)
-     (destructive, focused). Remove member, Revoke invitation, Remove from workspace, Stop
-     sharing, Delete workspace.
-     { open, onOpenChange, title, text, confirmLabel, onConfirm }                                  */
+   IK.WsDeleteConfirm / IK.WsLeaveConfirm — one confirm (DevartUI ConfirmationDialog, destructive) wherever a
+     workspace is deleted or left: the list (one or several), its page, the Overview's last row; their text is
+     IK.wsDeleteText(n) / IK.wsLeaveText(list), which the Overview's row says too.
+     { open, onOpenChange, list: [w, …], onConfirm }
+   Every other confirm is DevartUI ConfirmationDialog on the page (Remove member, Revoke invitation), or
+   IK.useWsRemoveConfirm (Workspaces.js) for Remove from Workspace.                                    */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
@@ -170,8 +169,8 @@
 
   /* ── Pickers ──────────────────────────────────────────────────────────────────────────────────
      The AI connectivity prototype's picker dialogs, as they are (user, 2026-10-19 — "той самий
-     елемент, як в конектівіті"): the title + a sentence under it, a search (SearchField sm, focused
-     on open), a list of DevartUI ChoiceCard (the checkbox indicator, the description under it),
+     елемент, як в конектівіті"): the title + a sentence under it, a search (DevartUI SearchInput sm,
+     focused on open), a list of DevartUI ChoiceCard (the checkbox indicator, the description under it),
      then the footer — Cancel · the counted action (disabled until a pick). What is already there
      is not offered. Empty: "Nothing left to …" / "No … matches “q”". */
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
@@ -280,14 +279,12 @@
           onClick: function () { p.onShare(chosen); } }, chosen.length > 1 ? 'Add ' + chosen.length + ' Files' : 'Add File'))));
   };
 
-  /* one file → the person's workspaces, AI connectivity's "Add workspaces": the workspaces it is not
-     in yet (taking one out: a workspace's Files tab ⋮ Remove from Workspace), + Create Workspace at the footer's
-     leading edge — an in-dialog create step with Back, the new workspace ticked on return. A Blocked
-     workspace can't take it: its row is disabled and says why. */
+  /* one file → the person's workspaces, AI connectivity's "Add workspaces". A Blocked workspace can't take it:
+     its row is disabled and says why. */
   /* Adding to workspaces — one picker for a file (or the Files selection) and a connection (user, 2026-10-20:
      "це розраховувалось як екшн додати в воркспейс — а не керувати наявністю в них"): it only ADDS. Every
      workspace is listed; the ones that already have it are ticked and disabled — "Already in it" — and taking
-     it out is elsewhere (a workspace's tab ⋮ Remove from Workspace). The button counts what is added: Add to
+     it out is elsewhere (a workspace's tab ⋮ Remove from Workspace, a details panel's ×). The button counts what is added: Add to
      Workspace / Add to N Workspaces. + Create Workspace at the footer's leading edge: the same name and
      description as Create workspace (user: "чому створення без опису"), and the new one comes back ticked. */
   function AddToWorkspaces(p) {

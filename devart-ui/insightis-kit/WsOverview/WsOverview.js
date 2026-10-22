@@ -1,26 +1,22 @@
 /* WsOverview — a workspace page's first tab, the AI connectivity prototype's Overview carried over
-   (GeneralCard · StatTile row · Members card · Connections card), on DevartUI Card, StatTile,
-   Avatar, Badge and LinkButton.
+   (GeneralCard · StatTile row), on DevartUI Card, StatTile, IconButton and Button.
 
      General      the name (title16) + Edit (pencil, the Owner only — the name and the description) · the description
                   · who made it / who shared it.
                   No status line: Active needs no words, and Blocked is the page's IK.WsNotice
-     tiles        Members · Connections · Files — DevartUI StatTiles, one column below 640px, each with a
-                  line only when it says something: the invitations pending (no names, no "Just you" — user, 2026-10-22),
-                  the metrics the connections carry, when a file was last added; none, and the tile is shorter.
+     tiles        Connections · Files · Members — DevartUI StatTiles sm, in the tabs' order, one row (one column on a
+                  phone), each with a line only when it says something: the invitations pending (no names, no "Just
+                  you" — user, 2026-10-22), when a file was last added; none, and the tile is shorter.
                   The Owner's carry a "+" (rightSlot) that adds one in place — always, no gear to manage
-                  (user, 2026-10-21: "завжди + не треба налаштувань"); a Member's none ("забери стрілки"). Row: the Connections list two thirds wide, Members and
-                  Files stacked beside it; Grid: the four tiles in a row, the list under them
+                  (user, 2026-10-21: "завжди + не треба налаштувань"); locked while Blocked (addLocked), the + stays a
+                  + with the padlock's tooltip. A Member's none ("забери стрілки").
      (no Metrics tile and no Connections list — user, 2026-10-20: "метрики забери, конекшени забери":
-      their tabs hold them)
-     (no Members list — user, 2026-10-19: "не приносить користі"; the tile names nobody either — 2026-10-22)
+      their tabs hold them; no Members list — user, 2026-10-19: "не приносить користі")
      last         the Owner: Delete workspace; a Member: Leave workspace — the same destructive row
-   Read-only for a Member: no pencil, no Add — absent, not disabled.
+                  (IK.wsDeleteText / IK.wsLeaveText, as the confirms say it)
+   Read-only for a Member: no pencil, no "+" — absent, not disabled.
 
-   One layout: three tiles in one row — Connections · Files · Members, in the tabs' order (one column on a
-     phone) — then the destructive row.
-
-   h(IK.WsOverview, { ws, me, owner: bool, onEdit, onTab(tab), onInvite, onAdd, onShareFiles, addLocked, onConnection(c), onDelete, onLeave })        */
+   h(IK.WsOverview, { ws, me, owner: bool, onEdit, onInvite, onAdd, onShareFiles, addLocked, onDelete, onLeave })        */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
@@ -59,7 +55,6 @@
       if (!owner) return undefined;
       return tileAction(addLabel, onAdd, 'plus', p.addLocked);
     }
-    /* "Olena Petrenko, Andrii Melnyk and 2 more" */
     var tMembers = h(D.StatTile, { size: 'sm', label: 'Members', value: w.members.length, rightSlot: act('members', 'Invite Members', p.onInvite),
       /* no names and no 'Just you' — the count says it, the Members tab lists them; only what waits: invitations
          (user, 2026-10-22: 'нема сенсу в підпису тільки ти', 'перераховувати мемберів теж не треба') */
@@ -71,18 +66,16 @@
       return h(D.StatTile, { size: 'sm', label: 'Connections', value: w.connections.length, rightSlot: act('connections', 'Add Connection', p.onAdd),
         description: w.connections.length ? desc : undefined });
     }
-    /* the four counts in one row (two by two below 1024px, one column on a phone), then the Connections list */
     /* Metrics and the Connections list are gone from here (user, 2026-10-20: "метрики забери, конекшени забери") —
-       their own tabs hold them; three counts stay: Connections · Files · Members */
+       their own tabs hold them; three counts stay, in one row (one column on a phone) */
     var tiles = h('div', { className: 'grid gap-4 sm:grid-cols-3' },
-      /* in the tabs' order — Connections · Metrics · Files · Members, the data first, the people last; the lists
-         below follow it (Connections, then Members) (user, 2026-10-19: 'не логічний порядок') */
-      /* the list right under it names them: the tile only counts (user, 2026-10-19: 'компактніше') */
+      /* in the tabs' order — Connections · Files · Members, the data first, the people last (user, 2026-10-19:
+         'не логічний порядок'); the Connections tile only counts (user, 2026-10-19: 'компактніше') */
       tConns(undefined),
       tFiles, tMembers);
 
     /* the Owner's last section: Delete — what it does, and the destructive outline action (as Connection
-       Details' Disconnect); a Member has Leave Workspace in the title row instead */
+       Details' Disconnect) */
     /* the same row as Account's 'Delete my account' (IK.AcctSection row): title, what happens, the
        destructive outline action at the end (user, 2026-10-19: 'щось подібне') */
     /* on a card like every Overview section (user, 2026-10-19: 'чому не на плашці?'), one centred row */

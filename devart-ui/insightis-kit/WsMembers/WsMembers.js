@@ -3,16 +3,16 @@
    All · Members · Invited (as Files; only when something is pending), then a DevartUI Table — the
    invitations still pending first (they wait on someone), then the Owner, the members by name:
 
-     Name     Avatar xs + name + email (an invitation: the mail glyph + the email + "Expires in 12 days");
-              long names / emails truncate, the whole text in a tooltip
-     Role     "Owner" (Badge secondary, square; its tooltip: the owner can't leave) or "Member" — an
-              invitation joins as a Member
+     Name     Avatar xs + name + email (an invitation: the mail glyph + the email + "Expires in 12 days",
+              attention-coloured at 3 days or fewer); long names / emails truncate, the whole text in a tooltip
+     Role     plain text for everyone (user, 2026-10-19: 'не консистентно'): "Owner" — its tooltip: the owner
+              can't be removed — or "Member"; an invitation joins as a Member
      Status   one badge: Active · Invited (attention) — Invited while Blocked too
-     Actions  ⋮ revealed on hover (always below 768px): a member → Remove from Workspace; an
-              invitation → Resend Invitation (locked while Blocked) · Revoke Invitation; the Owner none
-   20 rows at a time + Load more; nothing matching → "No matches found". Nobody but the Owner and
-   nothing pending → StatusView "Only you so far" + emptyAction (Invite Members). readOnly: no ⋮
-   column. Below 640px Role folds away, below 768px Status.
+     Actions  ⋮ revealed on hover (always below 768px; a click on the row opens it): a member → Remove from
+              Workspace; an invitation → Resend Invitation (locked while Blocked) · Revoke Invitation; the Owner none
+   20 rows at a time + IK.LoadMore; nothing matching → "No matches found" in the table. Nobody but the Owner and
+   nothing pending → StatusView "Only you so far" + emptyAction (Invite Members). readOnly (a Member's tab): no ⋮
+   column, no empty state. Below 640px Role folds away, below 768px Status.
 
    h(IK.WsMembers, { ws, me, readOnly, emptyAction, onRemove(member), onResend(invite), onRevoke(invite) })      */
 (function () {

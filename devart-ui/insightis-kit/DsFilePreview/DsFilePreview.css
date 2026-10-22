@@ -1,4 +1,5 @@
-/* DsFilePreview — the panel shell (original .dsf-preview + .cp-fp-*). Width is the panel's own
+/* DsFilePreview — the panel shell IK.FileDetails sits in (its aside), and the preview parts' styles (original
+   .dsf-preview + .cp-fp-*). Width is the panel's own
    (28rem default, set inline while resizing); the left-edge grip straddles the border and shows a
    Brand/Primary line on hover and while dragging. Below 1024px the panel covers the main column. */
 .ik-dsfp {

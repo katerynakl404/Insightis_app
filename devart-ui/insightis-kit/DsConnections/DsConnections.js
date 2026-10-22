@@ -4,25 +4,28 @@
    page-changes/data-sources_connections-landing.md.
 
      ≥ 768px  DevartUI Table, layout fixed, 5 columns — Connection name 26% · Data Source 22% ·
-              Metrics 18% ("12 metrics" / "No metrics" — in place of Description, user 2026-10-19) ·
+              Metrics 18% ("12 metrics" / "—" — in place of Description, user 2026-10-19) ·
               Last check 26% (IK.DsLastCheck) · Actions 8%
               (TableActionsCell: the ⋮ menu, revealed on row hover / focus / while open).
-              Rows are interactive (open the detail panel); the open one is selected.
+              Rows are interactive (open Connection details, IK.ConnectionDetails); the open one is selected.
      < 768px  a card stack: the connection label · logo + connector on one line, the metric count
               (12px), the Last check pill; ⋮ pinned top-right, always visible. Lifts on hover
               (pointer devices only).
    No status column and no enable switch (rule 6): a listed connection is connected.
 
-   The ⋮ menu: Edit · Test Connection · Disconnect (danger). On Free, Edit and Test Connection are
-   locked (IK.Locked → the 'connection-edit' / 'connection-test' upgrade popover, padlock trailing);
-   Disconnect never is — removing what you already have is not a paid feature.
+   The ⋮ menu (IK.DsConnectionMenu): Edit · Test Connection · Add Metric (onAddMetric) — Share via Workspace
+   (onAddToWorkspace) — Remove from Workspace (onRemoveHere, a workspace page) · Disconnect (danger). On Free, Edit
+   and Test Connection are locked (IK.Locked → the 'connection-edit' / 'connection-test' upgrade popover, padlock
+   trailing); Disconnect never is — removing what you already have is not a paid feature.
 
    h(IK.DsConnections, {
      connections: [{ name: 'PostgreSQL', label: 'Production DB', desc, metrics, lastSync, status, error, busy }],
      selected: 'PostgreSQL',                // the row whose panel is open
      leaving: 'Stripe',                     // a row fading out after Disconnect
      loading: false,                        // skeleton table (3 ghost rows)
-     onOpen, onEdit, onTest, onDisconnect, onDetails,  // each (name)
+     onOpen, onEdit, onTest, onDisconnect, onDetails, onAddMetric,  // each (name)
+     onAddToWorkspace, wsLocked,            // Share via Workspace in the ⋮ (locked while wsLocked — Free)
+     metricsHref: function (c) → href,      // "12 metrics" links to Metrics with that connection chosen (IK.wsMetricsHref)
      layout: 'table' | 'cards',             // optional — default follows the viewport (< 768px = cards)
      locked                                 // optional — default IK.usePlan()[0] === 'free'
    })
@@ -32,33 +35,28 @@
                   ("12 metrics", + Add Metric where there are none), Last check (↻ Test Connection, the failed
                   check's Details) — and its ⋮, DsConnectionMenu, with Remove from Workspace as one more
                   action (onRemoveHere; user, 2026-10-22: "⋮ і клітинки як на власних сторінках"). The
-                  handlers get the row's id. Without handlers: menu(c) alone, as before.
-     'shared'     a Member's Shared list: Connection name · Data Source · Shared by (IK.WsSharedBy —
-                  who · which workspace) · Metrics; no Actions column at all (read-only = absent).
+                  handlers get the row's id. Without handlers: menu(c) alone.
+     'shared'     a Member's view of a workspace: Connection name · Data Source · Workspace (IK.WsNames, each a
+                  link) · Metrics · Last check; no Actions column at all (read-only = absent). noWs (the
+                  workspace's own page): no Workspace column — it would repeat itself.
                   A row with `locked` (your plan) or `muted` (its owner's plan) reads as usual and opens; the
                   warning after its name (IK.WsUnavailableMark) says why.
-     connections: [{ id, name, label, metrics: n | [], by, wsName, locked, lockProps, muted }]
-                  muted — a Blocked workspace's: greyed, no badge (the plan to fix is the Owner's)
+     connections: [{ id, name, label, metrics: n | [], by, wsName, wsNames, links, locked, muted }]
      menu: function (c) → node              // the ⋮ for 'workspace' without handlers
      onEdit, onTest, onDetails, onDisconnect, onAddMetric, onAddToWorkspace, wsLocked, locked,
      onRemoveHere                           // 'workspace' with Data Sources' handlers — each (id)
-     onOpen: function (c), selected: id     // a row opens IK.DsConnectionPanel (mode workspace / shared)
-     metricsHref: function (c) → href      // "12 metrics" links to Metrics with that connection chosen (IK.wsMetricsHref)
+     onOpen: function (c), selected: id     // a row opens IK.ConnectionDetails (shared: read-only)
 
-   Shared rows in the default list (review switch Shared: Tag — user, 2026-10-19): a connection with
-   shared: { ws } and an id sits under the person's own, tagged "Shared" (its tooltip: from which
-   workspaces); its Last check shows, no ⋮ — read-only, absent; locked (unavailable on the plan) →
-   greyed + the plan's padlock in Metrics; muted (a Blocked workspace) → greyed. onOpen / selected
-   take its id (the connector name can repeat one of the person's own). sharedWith: ['Sales', …] on
-   one of the person's own = the workspaces it is shared in (the Workspaces column, the panel).
-   noWs (variant 'shared' on a workspace's own page): no Workspace column — it would repeat itself.
-   wsCol: a Workspaces column — where one's own is shared in, where a shared one comes from;
-   tag: the Shared tag beside a shared name (review switch Shared: Tag; the cards always keep it);
-   ownerCol (review switch Owner: Shown): an Owner column — "You" or who shared it.
+   Shared rows in the default list (Data Sources): a connection with shared: { by, ws } and an id sits among the
+   person's own; ownerMark → the people glyph after its name (IK.WsOwnerMark — who shared it and where, in its
+   tooltip; user, 2026-10-20: Owner is the one way). Its Last check shows, no ⋮ — read-only, absent; one that
+   can't be used carries the warning (IK.WsUnavailableMark). onOpen / selected take its id (the connector name can
+   repeat one of the person's own). sharedWith: ['Sales', …] on one of the person's own = the workspaces it is in.
+   Kept, unused by the pages since 2026-10-20: tag (the Shared tag, IK.SharedBadge), wsCol (a Workspaces column),
+   ownerCol (an Owner column) — where an item is shared lives in its details panel.
    Below 768px both are the card stack: label · logo + connector, the caption, the metric count.
-   IK.DsConnectionMenu { name, onEdit, onTest, onDisconnect, locked, defaultOpen, onAddToWorkspace, wsLocked }
-     onAddToWorkspace (shared workspaces): "Share via Workspace" after Test Connection — locked (wsLocked)
-     while the person's workspaces are Blocked, as Files' Share via Workspace — the ⋮ and its menu alone (DevartUI RowMenuButton).                                                                                             */
+   IK.DsConnectionMenu { name, onEdit, onTest, onDisconnect, onAddMetric, locked, defaultOpen, onAddToWorkspace,
+     wsLocked, onRemoveHere } — the ⋮ and its menu alone (DevartUI RowMenuButton).                         */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;

@@ -1,45 +1,42 @@
 /* WsList — the Workspaces list (approved/workspaces.html), the AI connectivity prototype's list row
-   carried over (its WorkspacesIndex): DevartUI Table, auto layout, no Card around it (Table is
+   carried over (its WorkspacesIndex): DevartUI Table, fixed layout, no Card around it (Table is
    one), the empty states INSIDE the table so the header, the field and the button stay put.
 
-     Name         the workspace name — the link that opens it — and, beside it, the row's one mark:
-                  a Blocked workspace's warning glyph with its reason in a tooltip (the ROW is marked,
-                  as the AI connectivity list does). Long names truncate, the whole name in a tooltip.
+     ☐            a checkbox column whenever the list has actions (below)
+     Name         the workspace name — the link that opens it — and, beside it, the row's one mark: a Blocked
+                  workspace's warning glyph opening IK.StatusMark — why, and the way back: one's own → Upgrade to
+                  Pro; an invited one → Ask Owner to Renew (Request Sent once asked; IK.WsUnavailableMark). Long
+                  names truncate, the whole name in a tooltip.
      Owner        "You", or the Owner's name (the person invited you)
      Members      how many people are in it (the AI connectivity list's Contributors)
      Connections  the AI connectivity list's cell: "2 connections ⌄" (tertiary xs) opens a menu of
-                  them — logo, name, metrics — each leading to the Connections tab, "Add Connection"
-                  (accent) at the foot on the person's own; none → "+ Add Connection" (primaryTertiary
-                  xs, brand), which opens the workspace with Add connections open; invited and none →
-                  "No connections". Locked while Blocked.
-     Files        the same: "2 files ⌄" (up to 8 listed, then "All N files") + "Add Files" at the
-                  foot; none → "+ Add Files" (→ Files); invited and none → "No files"
+                  them — logo, name, metrics — each opening Connection details in place (onConnection; without it,
+                  the workspace's Connections tab), "Add Connection" (accent) at the foot on the person's own;
+                  none → "+ Add Connection" (primaryTertiary xs, brand); invited and none → "—". Locked while Blocked.
      Last activity  "1 minute ago", "4 hours ago" (secondary)
      Actions      the Insightis row menu — ⋮ (DevartUI RowMenuButton) revealed on row hover / focus /
-                  while open, always shown below 768px. Own: Invite Members · Add Connection (each opens
-                  the workspace with its dialog open) · Add Files (→ Files) — locked while Blocked —
-                  then Edit · Delete (danger). Invited and Blocked: Ask
-                  <Owner> to Renew (→ Request Sent). Invited and Active: none. No column when no row
-                  is the person's own.
+                  while open, always shown below 768px. Own: Invite Members · Add Connection — locked while
+                  Blocked — then Edit · Delete (danger). Invited: Ask Owner to Renew while Blocked (→ Request
+                  Sent), then Leave Workspace (danger, onLeave). No column when no row has actions.
+   No Files column (user, 2026-10-20: "забери файли") — a workspace's files are on its Files tab.
    A row opens the workspace's own page (IK.wsHrefFor) — the Owner's view of it, or the read-only
    one for a workspace the person was invited to. Own and invited rows sit in one list: the role is
-   the workspace's, not the person's. Below 768px Owner / Members / Connections / Files fold into a line under the name.
-   many    20 rows at a time, then "Load more N" under the table (as Files); a search starts over
+   the workspace's, not the person's. Below 768px (or compact) Owner / Members / Connections fold into one line
+   under the name.
+   many    20 rows at a time, then IK.LoadMore under the table; a search starts over
    empty   no table, the Insightis first-run banner (DevartUI Banner diagonalAiry, as Data Sources'
            'Connect your first data source'): Share your data with your team + Create Workspace
-   noMatch "No matches found" — the Insightis copy (Chats, Files, Catalog), no buttons
+   noMatch DevartUI StatusView "No matches found" — the Insightis copy (Chats, Files, Catalog), no buttons
 
-   select  every row has a checkbox: the person's own rows can be picked (header: all of them on the
-           page); an invited row's is disabled with its reason in a tooltip ("Only <Owner> can delete
-           this workspace"). The page keeps the ids and shows DevartUI ListSelectionBar, as Files does
+   select  with onLeave every row can be picked — one's own to delete, an invited one to leave (header: all of
+           them on the page); without it only one's own, an invited row's checkbox disabled with its reason in a
+           tooltip ("Only the owner can delete it"). The page keeps the ids and shows DevartUI ListSelectionBar.
 
-   A connection in the Connections menu opens IK.DsConnectionPanel in place (onConnection); Add Files
-   opens the workspace with the file picker open.
+   Invite Members / Add Connection call onAct('invite' | 'add', w): the page opens that dialog where the person
+   is; without onAct the workspace page opens with it (?do=).
 
-   Invite Members / Add Connection / Add Files call onAct('invite' | 'add' | 'files', w): the page
-   opens that dialog where the person is, and goes to the workspace once it is done.
-
-   h(IK.WsList, { workspaces, query, createButton, selected: [ids], onSelect(ids), onEdit(w), onDelete(w), onRenew(w), onConnection(w, c), onAct(kind, w) }) */
+   h(IK.WsList, { workspaces, columnsOf, query, createButton, compact, selected: [ids], onSelect(ids), onEdit(w),
+     onDelete(w), onLeave(w), onRenew(w), onConnection(w, c), onAct(kind, w) }) */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
@@ -123,11 +120,10 @@
     var sh = R.useState(PAGE), shown = sh[0], setShown = sh[1];
     R.useEffect(function () { setShown(PAGE); }, [q, list.length > PAGE]);
     var page = rows.slice(0, shown), remaining = rows.length - page.length;
-    /* an Actions column only when some row has actions (a Member's rows have none); columnsOf — the
-       whole list the columns follow, so a tab of shared ones keeps the same grid (no jump on switching) */
-    /* an Actions column when some row has actions: one's own (manage), an invited one (Leave, Ask to Renew) */
+    /* an Actions column when some row has actions: one's own (manage), an invited one (Leave, Ask to Renew);
+       columnsOf — the whole list the columns follow, so a filtered view keeps the same grid */
     var acts = !!p.onLeave || (p.columnsOf || list).some(function (w) { return w.role === 'owner'; });
-    /* selection, as Files: a checkbox on the person's own rows (only those can be deleted) */
+    /* selection, as Files */
     var sel = p.selected || [];
     /* every row can be picked: one's own to delete, an invited one to leave (user, 2026-10-19: "але ти можеш покинути") */
     var mine = p.onLeave ? page : page.filter(function (w) { return w.role === 'owner'; });
@@ -145,9 +141,7 @@
         })) : null;
 
     /* no workspace at all: not an empty table under its column heads but a welcome (user, 2026-10-19:
-       the bare 'No workspaces yet' did not draw anyone in) — what a workspace is for, the three things
-       it gives, and Create Workspace. DevartUI StatusView (info halo) + three outline Cards with a
-       CardIcon each, in one outline Card where the table would be. */
+       the bare 'No workspaces yet' did not draw anyone in) — what a workspace is for, and Create Workspace */
     if (!list.length && !q) return h(D.Banner, {
       /* the Insightis first-run banner, as Data Sources' 'Connect your first data source' (user, 2026-10-19:
          the welcome card with three tiles looked foreign) */
