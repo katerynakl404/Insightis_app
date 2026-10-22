@@ -54,12 +54,6 @@
   function unavailableMark(f) {
     return f.shared || f.by ? h(IK.WsUnavailableMark, { by: f.by || (f.shared && f.shared.by), locked: !f.muted, noun: 'files' }) : null;
   }
-  function UnavailableBadge(p) {
-    var from = (p.file.wsNames || [p.file.shared && p.file.shared.ws]).filter(Boolean);
-    return h(IK.Tip, { tip: IK.wsUnavailableTip({ by: p.file.by || (p.file.shared && p.file.shared.by), locked: !p.file.muted, noun: 'files' }), wrap: true },
-      h('span', { tabIndex: 0, className: IK.cx('inline-flex shrink-0 rounded-full', D.focusRing) },
-        h(D.Badge, { variant: 'attention', size: 'sm', rounded: 'full', leftSlot: h(IK.Icon, { name: 'warning', size: 12 }) }, 'Unavailable')));
-  }
 
   /* Tag mode (p.tag): a shared file's Type is Shared, beside Artifact and Uploaded (user, 2026-10-19) */
   function OriginBadge(p) {

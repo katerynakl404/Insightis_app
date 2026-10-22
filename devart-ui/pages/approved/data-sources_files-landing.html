@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Data Sources (Files)</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=bb4b5060b9">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=bb4b5060b9">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=05c3994ee1">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=05c3994ee1">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=bb4b5060b9"></script>
-<script src="../../review-kit/review-kit.js?v=bb4b5060b9"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=05c3994ee1"></script>
+<script src="../../review-kit/review-kit.js?v=05c3994ee1"></script>
 <style>
   /* Page layout only. The list column (IK.ListPage — DevartUI ListPageLayout, its own scroller) and
      the preview split the main column side by side: the preview is a third column, so the list
@@ -97,8 +97,7 @@
        Workspaces column (where one's own is shared into, where a shared one comes from) */
     /* Empty is empty: nothing shared either (user, 2026-10-19) */
     var sharedFiles = wsOn && data[0] !== 'empty' ? IK.wsSharedFiles(ws.list, { locked: free }) : [];
-    var hasShared = sharedFiles.length > 0, shareTabs = wsq.share === 'tabs', inList = hasShared && !shareTabs;
-    var ft = R.useState('mine'), fTab = shareTabs && hasShared ? ft[0] : 'mine', setFTab = ft[1];
+    var hasShared = sharedFiles.length > 0, inList = hasShared;
     /* own vs shared is a Type filter now — All · Artifacts · Uploaded · Shared (user, 2026-10-19), not a
        "Hide shared" switch */
     var mineOnly = false;
@@ -138,8 +137,7 @@
       return inWs.length ? Object.assign({}, f, { sharedWith: inWs.map(function (w) { return w.name; }), links: IK.wsLinks(inWs) }) : f;
     }) : files;
     /* Shared: Owner — one Owner filter; the type chips stay about the type */
-    var byOwner = wsq.share === 'owner';
-    var ofs = R.useState('any'), ownerF = byOwner && inList ? ofs[0] : 'any', setOwnerF = ofs[1];
+    var ofs = R.useState('any'), ownerF = inList ? ofs[0] : 'any', setOwnerF = ofs[1];
     var sharers = []; sharedInList.forEach(function (f) { if (sharers.indexOf(f.by) < 0) sharers.push(f.by); });
     var pool = own.filter(function () { return IK.wsOwnerPass(ownerF, null); }).concat(sharedInList.filter(function (f) { return IK.wsOwnerPass(ownerF, f.by); }));
     var vis = (filter === 'all' ? pool : filter === 'shared' ? pool.filter(function (f) { return !!f.shared; })
@@ -311,25 +309,17 @@
                 })(),
                 load[0] === 'skeleton' ? h(IK.DsFilesSkeleton) : h('div', { className: 'flex flex-col gap-2' },
                   /* Shared: Owner — two filters as pills, Type and Owner, where the chips are (user, 2026-10-19) */
-                  byOwner ? h('div', { className: 'flex flex-wrap items-center gap-2' },
+                  h('div', { className: 'flex flex-wrap items-center gap-2' },
                     h(D.FilterMenu, { label: 'Type', value: filter, onValueChange: changeFilter,
                       options: [{ value: 'all', label: 'All' }, { value: 'artifact', label: 'Artifacts' }, { value: 'uploaded', label: 'Uploaded' }] }),
                     inList ? h(D.FilterMenu, { label: 'Owner', value: ownerF, onValueChange: function (v) { setOwnerF(v); setShown(PAGE_SIZE); }, options: IK.wsOwnerOptions({ me: own.length, shared: sharedFiles.length }) }) : null,
-                    h(IK.WsClearFilters, { show: filter !== 'all' && ownerF !== 'any', onClear: function () { changeFilter('all'); setOwnerF('any'); } }))
-                  : h('div', { className: 'flex min-w-0 items-center gap-4' }, h('div', { className: 'min-w-0 flex-1' }, h(D.FilterChips, {
-                    value: filter,
-                    /* pressing the selected chip again keeps it (the single-select group would clear it) */
-                    onValueChange: function (v) { if (v) changeFilter(v); },
-                    items: [{ value: 'all', label: 'All' }, { value: 'artifact', label: 'Artifacts' }, { value: 'uploaded', label: 'Uploaded' }]
-                      .concat(inList && wsq.share === 'tag' ? [{ value: 'shared', label: 'Shared' }] : [])
-                  })),
-                  null),
+                    h(IK.WsClearFilters, { show: filter !== 'all' && ownerF !== 'any', onClear: function () { changeFilter('all'); setOwnerF('any'); } })),
                   meta,
                   noMatch ? h(D.StatusView, {
                     size: 'lg', surface: 'embedded', withIconHalo: false, icon: h(D.EmptyStateIllustration),
                     title: 'No matches found', description: 'No files match this filter — switch back to All to see every file'
                   }) : h(IK.DsFilesTable, {
-                    files: page, empty: empty && !sharedInList.length, editing: editing, previewId: previewId, sortDir: sortDir, wsCol: false /* the workspaces in the preview's Access only (user, 2026-10-20) */, tag: wsq.share === 'tag', ownerMark: wsq.share === 'owner',
+                    files: page, empty: empty && !sharedInList.length, editing: editing, previewId: previewId, sortDir: sortDir, wsCol: false /* the workspaces in the preview's Access only (user, 2026-10-20) */, ownerMark: true,
                     /* Owner only where the list mixes others' files with one's own: on My Files it would say You on every row */
                     /* no Owner column in the one list: who shared it is in the Shared type's tooltip (user, 2026-10-19) */
                     ownerCol: false,
@@ -357,7 +347,7 @@
           options: [{ value: 'filled', label: 'Filled' }, { value: 'empty', label: 'Empty' }] },
         { label: 'Page state', value: load[0], onChange: load[1],
           options: [{ value: 'loaded', label: 'Loaded' }, { value: 'skeleton', label: 'Skeleton' }] }
-      ].concat(RK.workspaceControls({ here: 'files', sharedTab: fTab === 'shared' })) }),
+      ].concat(RK.workspaceControls({ here: 'files' })) }),
       h(IK.AppShell, { nav: 'files', burger: false, scroll: false, brandLink: false, accountIcons: 'classic', workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h('div', { className: 'pg-split' },
           h('div', { className: 'pg-col' },
@@ -365,19 +355,7 @@
                 title: 'Files',
                 after: h(IK.DsStorageMark, { usedMb: used, capMb: cap.mb, capLabel: cap.label, planName: free ? 'Free' : 'Pro', cta: free })
               },
-              !(shareTabs && hasShared) ? myFiles
-              : h(D.Tabs, { value: fTab, onValueChange: setFTab, className: 'flex flex-col gap-4' },
-                  h(D.TabsList, { className: 'mb-0 flex w-full' },
-                    h(D.TabsTrigger, { value: 'mine' }, 'My Files'),
-                    h(D.TabsTrigger, { value: 'shared' }, 'Shared')),
-                  h(D.TabsContent, { value: 'mine' }, myFiles),
-                  h(D.TabsContent, { value: 'shared', className: 'flex flex-col gap-4' }, h(IK.Fragment, null,
-                    h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Files', feature: 'shared-files' }),
-                    h(IK.WsFiles, { files: sharedFiles, caption: true, ownerCol: wsq.owner, onAction: function (a, ids) {
-                        var f = sharedFiles.filter(function (x) { return x.id === ids[0]; })[0];
-                        if (a === 'add-to-chat') location.assign(IK.wsHref('approved/chat-landing.html', {}));
-                        else D.toast(a === 'download' ? (ids.length > 1 ? 'Downloading ' + ids.length + ' files' : 'Download started') : 'Opening ' + (f ? f.name : 'the file'));
-                      } })))))),
+              myFiles)),
           /* the preview offers what the file's row offers (user, 2026-10-20): its ⋮ (no View — it is open — and no
              Download — the head's icon), Share via Workspace in Access for one's own, Ask to Renew for an unavailable one */
           /* New: the unified panel in the preview's own aside (its width and edge), no Sheet */

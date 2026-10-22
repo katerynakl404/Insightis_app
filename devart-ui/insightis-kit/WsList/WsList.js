@@ -53,7 +53,6 @@
   }
   /* a workspace's page on a tab, optionally opening a dialog there (do: add | invite) */
   function to(w, tab, act) { return IK.wsHref('approved/workspaces.html', { w: w.id, tab: tab || null, do: act || null }); }
-  var FILES = 'approved/data-sources_files-landing.html';
   function go(href) { return function () { location.assign(href); }; }
   /* an act on a workspace: the page opens its dialog in place (onAct) and only then goes to the
      workspace; without onAct, the workspace page opens with that dialog */
@@ -99,7 +98,6 @@
     var it = h(D.DropdownMenuItem, { key: label, variant: danger ? 'danger' : undefined, onSelect: onSelect }, h(IK.Icon, { name: icon, size: 16 }), label);
     return blocked ? h(IK.Locked, { key: label, feature: 'workspaces', locked: true }, it) : it;
   }
-  function first(n) { return String(n || '').split(' ')[0]; }
 
   /* a Blocked workspace: the same warning popover as a shared connection's or metric's (IK.StatusMark — user,
      2026-10-22: "як можуть бути різні тултіпи - на пошерених мав бути поповер як на сторінках метрик та сорсів"): why,

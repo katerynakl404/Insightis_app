@@ -11,10 +11,10 @@
       foot: { start: h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button' }, 'Disconnect'),
               end: h(D.Button, { variant: 'primary', size: 'sm', type: 'button' }, 'Edit') } });
   } });
-  IK.story('DetailsPanel', { title: 'Shared with you, unavailable — the notice under the name, Owner + Workspaces, no foot', render: function () {
+  IK.story('DetailsPanel', { title: 'Shared with you, unavailable — the warning by the name (its popover says why and the way back), Owner + Workspaces, no foot', render: function () {
     return h(IK.DetailsPanel, { inline: true, style: frame, title: 'Metric details',
       mark: h(IK.ConnectorMark, { connector: 'HubSpot', size: 'md' }), name: 'Revenue', meta: '@revenue__a3f9c1 · Custom',
-      notice: h(IK.WsUnavailableNote, { by: 'Olena Petrenko', renewal: { blocked: true, owners: ['Olena Petrenko'], request: function () {} }, noun: 'metrics', feature: 'metrics' }),
+      after: h(IK.WsUnavailableMark, { name: 'Revenue', by: 'Olena Petrenko', withAction: true, renewal: { blocked: true, owners: ['Olena Petrenko'], request: function () {} }, noun: 'metrics', feature: 'metrics' }),
       rows: [{ label: 'Linked to', value: 'Campaigns HubSpot · HubSpot' }],
       access: { owner: 'Olena Petrenko', names: ['Marketing', 'Brand'], links: LINKS } });
   } });

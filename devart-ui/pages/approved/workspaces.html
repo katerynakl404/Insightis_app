@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Workspaces</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=bb4b5060b9">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=bb4b5060b9">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=05c3994ee1">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=05c3994ee1">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=bb4b5060b9"></script>
-<script src="../../review-kit/review-kit.js?v=bb4b5060b9"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=05c3994ee1"></script>
+<script src="../../review-kit/review-kit.js?v=05c3994ee1"></script>
 </head>
 <style>
   /* Page layout only: the file preview (IK.DsFilePreview) splits the main column as on Files — a third
@@ -56,7 +56,6 @@
   var MY_ALIASES = ['@mrr_growth', '@issues_created', '@issues_resolved', '@sprint_velocity', '@bug_count', '@prs_opened', '@prs_merged'];
 
   function toFile(f) { return { id: f.id, name: f.name, type: f.type, origin: f.kind, size: f.size, date: IK.wsFmtDate(f.date), time: f.date }; }
-  function listHref(p) { return IK.wsHref('approved/workspaces.html', Object.assign({ w: null, tab: null, created: null }, p || {})); }
 
   function Empty(p) {
     return h(D.StatusView, {
@@ -81,7 +80,6 @@
     var cr = R.useState(false), creating = cr[0], setCreating = cr[1];
     var rn = R.useState(null), renaming = rn[0], setRenaming = rn[1];
     var dl = R.useState(null), deleting = dl[0], setDeleting = dl[1];
-    var fp = R.useState(null), filePrev = fp[0], setFilePrev = fp[1];
     var lv = R.useState(null), leaving = lv[0], setLeaving = lv[1];
     /* a connection opened from the list's menu: Connection Details, in place */
     var cp = R.useState(null), conn = cp[0], setConn = cp[1];
@@ -118,7 +116,7 @@
     var both = ws.owned.length > 0 && ws.shared.length > 0;
     var all = ws.owned.concat(ws.shared);
     /* review switch Shared: Tabs → My Workspaces · Shared as tabs, no All (user, 2026-10-19) */
-    var asTabs = both && q.share === 'tabs', role = asTabs && roleF === 'all' ? 'mine' : roleF;
+    var role = roleF;
     var list = !both || role === 'all' ? all : role === 'mine' ? ws.owned : ws.shared;
     var qq = query.trim().toLowerCase();
     var vis = qq ? list.filter(function (w) { return w.name.toLowerCase().indexOf(qq) >= 0; }) : list;
@@ -178,43 +176,27 @@
         h(IK.ListPage, { title: 'Workspaces', actions: headerAction },
           notices.length ? IK.wsAlertStack(notices) : null,
           /* the Insightis search (Metrics, Catalog, Chats): DevartUI SearchInput */
-          asTabs ? h(D.Tabs, { value: role, onValueChange: function (v) { setRoleF(v); setSelected([]); } },
-            h(D.TabsList, { className: 'mb-0 flex w-full' },
-              h(D.TabsTrigger, { value: 'mine' }, 'My Workspaces'),
-              h(D.TabsTrigger, { value: 'shared' }, 'Shared'))) : null,
           all.length ? h(D.SearchInput, { value: query, onValueChange: setQuery, onClear: function () { setQuery(''); }, placeholder: 'Search workspaces…', 'aria-label': 'Search workspaces' }) : null,
           h('div', { className: 'flex flex-col gap-2' },
             /* only when there are both: with one kind the chips would filter nothing */
-            both && q.share === 'owner' ? h('div', { className: 'flex' }, h(D.FilterMenu, {
+            both ? h('div', { className: 'flex' }, h(D.FilterMenu, {
               label: 'Owner', value: roleF === 'mine' ? 'me' : roleF === 'shared' ? 'shared' : 'any',
               onValueChange: function (v) { setRoleF(v === 'me' ? 'mine' : v === 'shared' ? 'shared' : 'all'); setSelected([]); },
               options: IK.wsOwnerOptions({ me: ws.owned.length, shared: ws.shared.length })
-            })) : both && !asTabs ? h(D.FilterChips, {
-              value: roleF, onValueChange: function (v) { if (v) { setRoleF(v); setSelected([]); } },
-              items: [{ value: 'all', label: 'All' }, { value: 'mine', label: 'My Workspaces' }, { value: 'shared', label: 'Shared' }]
-            }) : null,
+            })) : null,
             /* DevartUI's MetaRow (44px) and ListSelectionBar (37px) differ in height: one 44px slot for
                either, so the table sits at the same place on My Workspaces and Shared */
             bar ? h('div', { className: 'flex min-h-11 items-center' }, h('div', { className: 'min-w-0 flex-1' }, bar)) : null,
             h(IK.WsList, {
-              workspaces: list, columnsOf: all, query: query, createButton: createBtn, compact: !!filePrev,
+              workspaces: list, columnsOf: all, query: query, createButton: createBtn,
               selected: sel, onSelect: setSelected,
               onEdit: setRenaming,
               onDelete: function (w) { setDeleting({ ids: [w.id] }); },
               onLeave: function (w) { setLeaving({ ids: [w.id] }); },
               onConnection: function (w, c) { setConn({ w: w, c: c }); },
               onAct: function (kind, w) { setActing({ kind: kind, w: w }); },
-              onFile: function (w, f) {
-                var x = toFile(f), own = w.role === 'owner';
-                setFilePrev(own ? Object.assign(x, { sharedWith: ws.owned.filter(function (o) { return o.files.some(function (y) { return y.id === f.id; }); }).map(function (o) { return o.name; }) })
-                  : Object.assign(x, { by: w.owner.name, wsNames: [w.name], links: IK.wsLinks([w]), locked: free, muted: w.status === 'blocked' }));
-              },
               onRenew: function (w) { ws.requestRenewal(w.id); D.toast.success(h(IK.Fragment, null, 'Email sent to ', strong(w.owner.name)), { description: 'You’ll get access back once the plan is renewed' }); }
-            }))),
-          /* one's own: Files' panel, whole; an invited one's: as Files shows a shared file */
-          filePrev ? (filePrev.by
-            ? h(IK.FileDetails, { file: filePrev, onClose: function () { setFilePrev(null); }, onDownload: function () { D.toast('Download started'); }, onAddToChat: function () { D.toast('Added to a new chat'); } })
-            : (function () { var y = pa.file(filePrev, function () { setFilePrev(null); }); return h(IK.FileDetails, Object.assign({ file: y.item, onClose: function () { setFilePrev(null); } }, y.opts)); })()) : null)),
+            }))))),
       pa.dialogs,
       h(IK.WsCreateDialog, {
         open: creating, onOpenChange: setCreating, taken: function (n) { return IK.wsNameTaken(ws.list, n); },

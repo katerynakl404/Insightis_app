@@ -68,7 +68,6 @@
       h('div', { className: 'flex min-w-0 flex-1 flex-wrap items-center gap-x-1 gap-y-1' },
         valueNode(p), p.action ? h('span', { className: p.action.icon ? 'flex' : 'ms-auto flex' }, link(p.action)) : null));
   }
-  IK.DetailsRow = Row;
 
   /* the description: full width whatever the layout — a long one beside a 7rem label would be a narrow column */
   /* five lines, then Show More — the button only when the text really runs past them, measured, not guessed from its
@@ -309,12 +308,4 @@
      folder (2026-10-22: "зроби ConnectionDetails, MetricDetails, FileDetails … компонентами"); what they share: */
   IK.detailsKit = { act: act, call: call, plural: plural, shareBtn: shareBtn, lockBtn: lockBtn };
 
-  /* a Sheet that keeps its last item while it slides out (as the product's panels) */
-  IK.DetailsSheet = function DetailsSheet(p) {
-    var last = R.useRef(null);
-    if (p.item) last.current = p.item;
-    var it = p.item || last.current;
-    if (!it) return null;
-    return h(IK.DetailsPanel, Object.assign({ open: !!p.item, onOpenChange: p.onOpenChange }, p.build(it)));
-  };
 })();

@@ -26,17 +26,6 @@
   var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
 
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
-  function count(c) { return Array.isArray(c.metrics) ? c.metrics.length : (c.metrics || 0); }
-  function fit(text, cls) {
-    return h(D.TruncatedTitleTooltip, { title: text, getTruncationTarget: function (t) { return t; } },
-      h('span', { className: IK.cx('min-w-0 truncate', cls) }, text));
-  }
-  function head(title, onAll) {
-    return h('div', { className: 'flex items-center justify-between gap-3' },
-      h(D.Typography, { element: 'h3', textStyle: 'title16', textColor: 'primary', className: 'm-0' }, title),
-      /* a LinkButton takes the size of the text it sits in: 14px, the card's own rows (16px read heavy) */
-      onAll ? h('span', { className: 'text-sm' }, h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); onAll(); } }, 'See all')) : null);
-  }
 
   /* a tile's own action (StatTile rightSlot, as the AI connectivity Connections tile has): "+" adds one in place,
      whatever is in it already — no gear to manage it, its tab does that (user, 2026-10-21: "завжди + не треба

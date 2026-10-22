@@ -58,21 +58,11 @@
       return h(Col, null, IK.wsAlertStack(a), IK.wsAlertStack(b));
     } });
   } });
-  IK.story('Workspaces', { title: 'WsAccess — the end of every details panel: one’s own (Shared in + Share via Workspace; not shared: —) · shared with you (Shared by · Shared in) · on its own workspace page (Shared by only)', render: function () {
-    var share = h(IK.Locked, { feature: 'workspaces', locked: false }, h(window.DevartUI.Button, { variant: 'secondary', size: 'sm', type: 'button' }, 'Share via Workspace'));
-    return h('div', { className: 'flex max-w-sm flex-col gap-6' },
-      h(IK.WsAccess, { names: ['Sales', 'Support'], action: share }),
-      h(IK.WsAccess, { names: [], action: share }),
-      h(IK.WsAccess, { by: 'Olena Petrenko', names: ['Marketing analytics — EMEA regional team', 'Brand'] }),
-      h(IK.WsAccess, { by: 'Olena Petrenko', inLabel: false }));
-  } });
-  IK.story('Workspaces', { title: 'WsUnavailableMark · WsUnavailableNote — a shared item that can’t be used: the owner’s plan lapsed (Ask … to Renew → Request Sent) · not on your plan (Upgrade to Starter; no mark on the row — the page’s plan alert says it)', render: function () {
+  IK.story('Workspaces', { title: 'WsUnavailableMark — a shared item that can’t be used: the warning after its name, its popover says why and the way back', render: function () {
     return h('div', { className: 'flex max-w-sm flex-col gap-4' },
-      h('div', { className: 'flex items-center gap-2 text-sm font-medium' }, 'Campaigns HubSpot', h(IK.WsUnavailableMark, { by: 'Olena Petrenko' })),
-      h(IK.WsUnavailableNote, { by: 'Olena Petrenko', renewal: { blocked: true, owners: ['Olena Petrenko'], request: function () {} } }),
-      h(IK.WsUnavailableNote, { by: 'Olena Petrenko', renewal: { blocked: true, owners: ['Olena Petrenko'], requested: true } }),
-      h(IK.WsUnavailableNote, { locked: true, noun: 'connections', feature: 'connections' }),
-      /* both: the owner's plan lapsed and the person's own is Free — Ask Owner to Renew, one's own plan a quieter line */
-      h(IK.WsUnavailableNote, { by: 'Olena Petrenko', free: true, noun: 'connections', feature: 'connections', renewal: { blocked: true, owners: ['Olena Petrenko'], request: function () {} } }));
+      h('div', { className: 'flex items-center gap-2 text-sm font-medium' }, 'Campaigns HubSpot', h(IK.WsUnavailableMark, { name: 'Campaigns HubSpot', by: 'Olena Petrenko', noun: 'connections', withAction: true,
+        renewal: { blocked: true, owners: ['Olena Petrenko'], request: function () {} } })),
+      /* both: the owner's plan lapsed and the person's own is Free */
+      h(IK.WsUnavailableMark, { name: 'Website analytics', by: 'Olena Petrenko', noun: 'connections', withAction: true, free: true, feature: 'connections', renewal: { blocked: true, owners: ['Olena Petrenko'], request: function () {} } }));
   } });
 })();

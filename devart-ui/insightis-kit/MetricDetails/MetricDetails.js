@@ -7,7 +7,7 @@
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
   /* DetailsPanel's helpers, read when a panel is built (DetailsPanel.js may load after this file) */
   function k(n) { return function () { return IK.detailsKit[n].apply(null, arguments); }; }
-  var act = k('act'), call = k('call'), plural = k('plural'), shareBtn = k('shareBtn'), lockBtn = k('lockBtn');
+  var act = k('act'), shareBtn = k('shareBtn');
 
   /* a metric — o: { free, renewal, onActive(on), onEdit, onDuplicate, onDelete, onConnect, workspaces, onShare, shareLocked,
                       onOpenConnection }

@@ -1,0 +1,8 @@
+/* MetricDetails — a library metric's foot: "This metric is designed for …" in the info wash the Metrics original builds
+   from the toast tokens (it came over with the old sheet, MxMetricSheet, gone 2026-10-22). */
+.ik-mx-connect {
+  padding: 1rem 1.125rem; border-radius: var(--radius-lg);
+  background: var(--toast-bg-info); border: 1px solid var(--toast-border-info);
+}
+.ik-mx-connect-ic { margin-top: .125rem; color: hsl(var(--brand-primary)); }
+.ik-mx-connect-copy { line-height: 1.5; }

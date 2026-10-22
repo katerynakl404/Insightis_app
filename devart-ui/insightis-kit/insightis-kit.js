@@ -44,7 +44,6 @@
     "DetailsPanel/DetailsPanel.js",
     "DsCatalog/DsCatalog.js",
     "DsConnectionDialogs/DsConnectionDialogs.js",
-    "DsConnectionPanel/DsConnectionPanel.js",
     "DsConnections/DsConnections.js",
     "DsDropZone/DsDropZone.js",
     "DsFileDialogs/DsFileDialogs.js",
@@ -61,7 +60,6 @@
     "MetricDetails/MetricDetails.js",
     "MxMetricDialog/MxMetricDialog.js",
     "MxMetricList/MxMetricList.js",
-    "MxMetricSheet/MxMetricSheet.js",
     "MxMetricsTable/MxMetricsTable.js",
     "MxProviderCard/MxProviderCard.js",
     "Onboarding/Onboarding.js",
@@ -123,7 +121,6 @@
     "DetailsPanel/DetailsPanel.stories.js",
     "DsCatalog/DsCatalog.stories.js",
     "DsConnectionDialogs/DsConnectionDialogs.stories.js",
-    "DsConnectionPanel/DsConnectionPanel.stories.js",
     "DsConnections/DsConnections.stories.js",
     "DsDropZone/DsDropZone.stories.js",
     "DsFileDialogs/DsFileDialogs.stories.js",
@@ -140,7 +137,6 @@
     "MetricDetails/MetricDetails.stories.js",
     "MxMetricDialog/MxMetricDialog.stories.js",
     "MxMetricList/MxMetricList.stories.js",
-    "MxMetricSheet/MxMetricSheet.stories.js",
     "MxMetricsTable/MxMetricsTable.stories.js",
     "MxProviderCard/MxProviderCard.stories.js",
     "OnbSetup/OnbSetup.stories.js",
@@ -167,5 +163,5 @@
     "WsOverview/WsOverview.stories.js"
   ];
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
-  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=bb4b5060b9"><\/script>');
+  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=05c3994ee1"><\/script>');
 })();

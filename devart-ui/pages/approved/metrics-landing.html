@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Metrics</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=bb4b5060b9">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=bb4b5060b9">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=05c3994ee1">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=05c3994ee1">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=bb4b5060b9"></script>
-<script src="../../review-kit/review-kit.js?v=bb4b5060b9"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=05c3994ee1"></script>
+<script src="../../review-kit/review-kit.js?v=05c3994ee1"></script>
 <script>
   /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
      dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
@@ -404,28 +404,25 @@
        tagged Shared and read-only (user, 2026-10-19 — no tab of its own); with any of them the page
        is never the empty library */
     var myAliases = filled ? rows.filter(function (r) { return r.kind === 'metric' && r.alias; }).map(function (r) { return r.alias; }) : [];
-    var shareMode = wsq.share, shareTabs = shareMode === 'tabs';
     /* Empty is empty: nothing shared either (user, 2026-10-19) */
     var sharedRows = wsOn && !touring && filled ? IK.wsMetricRows(ws.list, { own: myAliases, locked: free }).map(function (r) {
       /* Tag: Shared is each shared metric's type */
       /* Owner: a shared metric shows its switch on, and disabled — only its owner turns it off (user, 2026-10-20) */
-      if (r.kind === 'metric') return Object.assign({}, r, { tag: shareMode === 'tag', switchOn: shareMode === 'owner' });
+      if (r.kind === 'metric') return Object.assign({}, r, { switchOn: true });
       if (r.kind !== 'conn') return r;
       /* a shared connection: Owner — the people glyph after its name; Tabs with Owner: Shown — its caption names
          who shared it before the workspaces; Tag — who shared it is in the Shared tag's tooltip */
       /* the one list names no workspaces on the sub-header — Metric Details says where (Access); Tabs' Shared tab keeps
          them, as it had (user, 2026-10-20) */
-      return Object.assign({}, r, { ownerMark: shareMode === 'owner', shared: Object.assign({}, r.shared, { withBy: wsq.owner && shareMode === 'tabs', names: shareTabs ? r.shared.names : [] }) });
+      return Object.assign({}, r, { ownerMark: true, shared: Object.assign({}, r.shared, { withBy: false, names: [] }) });
     }) : [];
     var hasShared = sharedRows.some(function (r) { return r.kind === 'metric'; });
-    var inList = hasShared && !shareTabs;
+    var inList = hasShared;
     /* own vs shared is a type filter now — All · Built-in · Custom · Shared (user, 2026-10-19), not a
        "Hide shared" switch */
     var mineOnly = false;
-    var mt = R.useState('mine'), mxTab = shareTabs && hasShared ? mt[0] : 'mine', setMxTab = mt[1];
     /* Shared: Owner — one Owner filter: Me keeps the person's own, Shared with me the shared connections */
-    var byOwner = shareMode === 'owner';
-    var ofs = R.useState('any'), ownerF = byOwner && inList ? ofs[0] : 'any', setOwnerF = ofs[1];
+    var ofs = R.useState('any'), ownerF = inList ? ofs[0] : 'any', setOwnerF = ofs[1];
     /* one's own connection is in workspaces too, its metrics with it (user, 2026-10-19): its sub-header names them */
     function inWsOf(id) {
       var w = wsOn && id ? IK.wsWhereShared(ws.list, id) : [];
@@ -674,26 +671,19 @@
         h('div', { className: 'pg-filters' },
           /* FilterChips' root is w-full: the wrapper keeps the chips and "Active only" on one row */
           /* Shared: Owner — two filters as pills, Type and Owner, where the chips are (user, 2026-10-19) */
-          byOwner ? h('div', { className: 'flex min-w-0 flex-1 flex-wrap items-center gap-2' },
+          h('div', { className: 'flex min-w-0 flex-1 flex-wrap items-center gap-2' },
             h(D.FilterMenu, { label: 'Type', value: type, onValueChange: function (v) { setApplied(true); setType(v); },
               options: [{ value: 'all', label: 'All' }, { value: 'builtin', label: 'Built-in' }, { value: 'custom', label: 'Custom' }] }),
             inList ? h(D.FilterMenu, { label: 'Owner', value: ownerF, onValueChange: function (v) { setApplied(true); setOwnerF(v); }, options: IK.wsOwnerOptions({ me: filled ? rows.filter(function (r) { return r.kind === 'metric'; }).length : 0, shared: sharedRows.filter(function (r) { return r.kind === 'metric'; }).length }) }) : null,
             provPill, favChip,
             h(IK.WsClearFilters, { show: [type !== 'all', ownerF !== 'any', provF !== 'all', favOn].filter(Boolean).length > 1,
-              onClear: function () { setApplied(true); setType('all'); setOwnerF('any'); setProvF('all'); setFavOnly(false); } }))
-          : h('div', { className: 'flex min-w-0 flex-1 items-center gap-2' }, h('div', { className: 'min-w-0 flex-1' }, h(D.FilterChips, {
-            value: type,
-            /* pressing the active Built-in / Custom chip goes back to All (the group clears it: '') */
-            onValueChange: function (v) { setApplied(true); setType(v || 'all'); },
-            items: [{ value: 'all', label: 'All' }, { value: 'builtin', label: 'Built-in' }, { value: 'custom', label: 'Custom' }]
-              .concat(inList && shareMode === 'tag' ? [{ value: 'shared', label: 'Shared' }] : [])
-          })), provPill, favChip),
+              onClear: function () { setApplied(true); setType('all'); setOwnerF('any'); setProvF('all'); setFavOnly(false); } })),
           h('div', { className: 'ms-auto flex flex-none items-center gap-4' },
             /* shared metrics are always on — only their owner turns them off — so with only shared ones in view the switch
                has nothing to filter: disabled, saying why, and back as soon as one's own are in view (user, 2026-10-19:
                'пошерені тільки активні?'); disabled, not hidden, so the row doesn't jump */
             (function () {
-              var onlyShared = ownerF === 'shared' || type === 'shared';
+              var onlyShared = ownerF === 'shared';
               var sw = h(D.Switch, { size: 'sm', label: 'Active only', labelPosition: 'left', gap: 'sm', disabled: onlyShared, checked: activeOnly && !onlyShared, onCheckedChange: function (v) { setApplied(true); setActiveOnly(v); } });
               return onlyShared ? h(IK.Tip, { tip: 'Shared metrics are always active — their owner turns them on or off', wrap: true }, h('span', { className: 'inline-flex' }, sw)) : sw;
             })(),
@@ -735,23 +725,14 @@
           options: [{ value: 'empty', label: 'Empty' }, { value: 'filled', label: 'Filled' }] },
         onbQ[0] ? null : { label: 'List', showLabel: true, value: listQ[0], onChange: function (v) { listQ[1](v); setFavOnly(false); }, options: [{ value: 'table', label: 'Table' }, { value: 'rows', label: 'Rows' }] },
         /* Favorites only where it acts: with Rows */
-        onbQ[0] || !rowsView ? null : { label: 'Favorites', showLabel: true, value: favQ[0], onChange: setFavState, options: [{ value: 'some', label: 'Some' }, { value: 'none', label: 'None' }] }].concat(onbQ[0] ? RK.onboardingControls({ here: 'metrics', step: onbQ[0] }) : RK.workspaceControls({ here: 'metrics', sharedTab: mxTab === 'shared' })) }),
+        onbQ[0] || !rowsView ? null : { label: 'Favorites', showLabel: true, value: favQ[0], onChange: setFavState, options: [{ value: 'some', label: 'Some' }, { value: 'none', label: 'None' }] }].concat(onbQ[0] ? RK.onboardingControls({ here: 'metrics', step: onbQ[0] }) : RK.workspaceControls({ here: 'metrics' })) }),
       h(IK.AppShell, { nav: 'metrics', burger: false, scroll: false, brandLink: false, accountIcons: 'classic', workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h(IK.ListPage, {
             title: 'Metrics', wrap: true,
-            actions: showList && mxTab === 'mine' ? h(IK.Locked, { feature: 'metrics', surface: 'modal' },
+            actions: showList ? h(IK.Locked, { feature: 'metrics', surface: 'modal' },
               h(D.Button, { variant: 'primary', size: 'sm', rounded: 'full', type: 'button', leftSlot: h(IK.Icon, { name: 'pg-plus' }), onClick: openCreate }, 'Create Metric')) : null
           },
-          !(shareTabs && hasShared) ? (showList ? filledView : empty)
-            /* Shared: Tabs — My Metrics · Shared */
-            : h(D.Tabs, { value: mxTab, onValueChange: setMxTab, className: 'flex flex-col gap-4' },
-                h(D.TabsList, { className: 'mb-0 flex w-full' },
-                  h(D.TabsTrigger, { value: 'mine' }, 'My Metrics'),
-                  h(D.TabsTrigger, { value: 'shared' }, 'Shared')),
-                h(D.TabsContent, { value: 'mine' }, showList ? filledView : empty),
-                h(D.TabsContent, { value: 'shared', className: 'flex flex-col gap-4' },
-                  h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Metrics', feature: 'metrics' }),
-                  h(IK.WsMetrics, { rows: sharedRows }))))),
+          showList ? filledView : empty)),
       (function () {
         var m = sheetOpen && sheetMetric && sheetMetric.name ? sheetMetric : null;
         return h(IK.MetricDetails, { metric: m,

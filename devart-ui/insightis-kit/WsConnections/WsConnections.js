@@ -9,7 +9,7 @@
      onEdit, onTest, onDetails, onDisconnect, onAddMetric, onAddToWorkspace, wsLocked, locked, onRemoveHere })   noWs: no Workspace column (a workspace's own page)                 */
 (function () {
   'use strict';
-  var IK = window.InsightisKit, R = window.React, h = IK.h;
+  var IK = window.InsightisKit, h = IK.h;
 
   IK.WsConnections = function WsConnections(p) {
     return h(IK.DsConnections, { metricsHref: p.metricsHref || IK.wsMetricsHref, variant: p.variant, noWs: p.noWs, tag: p.tag, ownerMark: p.ownerMark, connections: p.connections || [], 'aria-label': p.label, onOpen: p.onOpen, selected: p.selected, menu: p.menu,

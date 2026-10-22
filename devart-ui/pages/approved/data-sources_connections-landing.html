@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Data Sources</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=bb4b5060b9">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=bb4b5060b9">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=05c3994ee1">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=05c3994ee1">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=bb4b5060b9"></script>
-<script src="../../review-kit/review-kit.js?v=bb4b5060b9"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=05c3994ee1"></script>
+<script src="../../review-kit/review-kit.js?v=05c3994ee1"></script>
 <style>
   /* Page layout only. The saved connections slide open once there is something to list and
      collapse when the last one goes (original .ds-conn-section). */
@@ -130,16 +130,11 @@
       return Object.assign({}, c, { shared: { by: c.by, ws: c.wsName }, links: IK.wsLinks(c.wsIds.map(function (id) { return ws.find(id); }).filter(Boolean)) });
     }) : [];
     var hasShared = sharedRows.length > 0;
-    var shareTabs = wsq.share === 'tabs', inList = hasShared && !shareTabs;
-    /* one's own and what was shared apart (user, 2026-10-19): FilterChips All · Owned by Me · Shared, as the
-       Workspaces list — only while the one list holds both, else the chips would filter nothing */
-    var sc = R.useState('all'), scopeSet = sc[1];
-    var byOwner = wsq.share === 'owner';
-    var both = inList && hasConn && !byOwner, scope = both ? sc[0] : 'all';
+    var inList = hasShared;
     /* Shared: Owner — one Owner filter instead of the chips */
-    var ofs = R.useState('any'), ownerF = byOwner && inList ? ofs[0] : 'any', setOwnerF = ofs[1];
+    var ofs = R.useState('any'), ownerF = inList ? ofs[0] : 'any', setOwnerF = ofs[1];
     var sharers = []; sharedRows.forEach(function (c) { if (sharers.indexOf(c.shared.by) < 0) sharers.push(c.shared.by); });
-    var curTab = tab === 'shared' && !(shareTabs && hasShared) ? (hasConn || inList ? 'connections' : 'catalog') : tab;
+    var curTab = tab === 'shared' ? (hasConn || inList ? 'connections' : 'catalog') : tab;
     /* the person's own: where each is shared into (the Workspaces column, the details panel) */
     /* one's own can be in workspaces too (user, 2026-10-19): the Workspaces column shows in every
        option once anything is shared either way — Tag adds the tag, Workspaces column is the column alone */
@@ -248,8 +243,7 @@
           h(D.Tabs, { value: curTab, onValueChange: switchTab, className: 'flex flex-col gap-4' },
             h(D.TabsList, { className: 'mb-0 flex w-full' },
               h(D.TabsTrigger, { value: 'catalog' }, 'Catalog'),
-              list.length === 0 && !inList ? h(IK.Tip, { tip: 'Connect a data source first', side: 'bottom', wrap: true }, connTrigger) : connTrigger,
-              shareTabs && hasShared ? h(D.TabsTrigger, { value: 'shared' }, 'Shared') : null),
+              list.length === 0 && !inList ? h(IK.Tip, { tip: 'Connect a data source first', side: 'bottom', wrap: true }, connTrigger) : connTrigger),
 
             /* ── Catalog ── */
             h(D.TabsContent, { value: 'catalog', className: 'flex flex-col gap-4' },
@@ -298,11 +292,7 @@
                   : u4;
               })(),
               /* Shared: Owner — Connections filter by owner only (user, 2026-10-19), a pill where filters start */
-              byOwner && inList ? h('div', { className: 'flex' }, h(D.FilterMenu, { label: 'Owner', value: ownerF, onValueChange: setOwnerF, options: IK.wsOwnerOptions({ me: list.length, shared: sharedRows.length }) })) : null,
-              both ? h(D.FilterChips, {
-                value: scope, onValueChange: function (v) { if (v) scopeSet(v); },
-                items: [{ value: 'all', label: 'All' }, { value: 'mine', label: 'Owned by Me' }, { value: 'shared', label: 'Shared' }]
-              }) : null,
+              inList ? h('div', { className: 'flex' }, h(D.FilterMenu, { label: 'Owner', value: ownerF, onValueChange: setOwnerF, options: IK.wsOwnerOptions({ me: list.length, shared: sharedRows.length }) })) : null,
               list.length === 0 && !inList ? h(D.Banner, {
                 variant: 'diagonalAiry', role: 'note',
                 icon: h(IK.Icon, { name: 'pg-link' }),
@@ -314,22 +304,16 @@
               }) : null,
               h('div', { className: IK.cx('pg-conn-section', (hasConn || inList) && 'is-open') },
                 h(IK.DsConnections, { metricsHref: wsOn ? IK.wsMetricsHref : undefined,
-                  connections: (hasConn && scope !== 'shared' && IK.wsOwnerPass(ownerF, null) ? ownRows : []).concat(inList && scope !== 'mine' ? sharedRows.filter(function (c) { return IK.wsOwnerPass(ownerF, c.shared.by); }) : []), loading: loading, selected: sharedPanel || panel, leaving: leaving,
+                  connections: (hasConn && IK.wsOwnerPass(ownerF, null) ? ownRows : []).concat(inList ? sharedRows.filter(function (c) { return IK.wsOwnerPass(ownerF, c.shared.by); }) : []), loading: loading, selected: sharedPanel || panel, leaving: leaving,
                   /* no Workspaces column: where a connection is shared lives in its details panel (Access) only (user, 2026-10-20) */
                   wsCol: false,
-                  tag: wsq.share === 'tag', ownerMark: byOwner,
+                  ownerMark: true,
                   /* Owner only where the list mixes others' connections with one's own: alone, every row is You */
                   /* no Owner column in the one list: who shared it is in the Shared tag's tooltip (user, 2026-10-19) */
                   ownerCol: false,
                   onOpen: openRow, onEdit: setEdit, onTest: test, onDisconnect: setDisc, onDetails: errToast, onAddMetric: addMetric,
                   onAddToWorkspace: wsOn ? setAddWs : undefined, wsLocked: free
-                }))),
-
-            /* ── Shared (switch Shared: Tabs) ── from which workspace; no actions at all */
-            shareTabs && hasShared ? h(D.TabsContent, { value: 'shared', className: 'flex flex-col gap-4' },
-              h(IK.WsSharedNotices, { ws: ws, free: free, trial: wsq.trial, module: 'Connectors', feature: 'connections' }),
-              /* the same table as My Connections — same columns, so switching tabs moves nothing */
-              h(IK.DsConnections, { metricsHref: IK.wsMetricsHref, connections: sharedRows, wsCol: true, ownerCol: wsq.owner, selected: sharedPanel, onOpen: openRow })) : null)),
+                }))))),
         h(IK.ConnectionDetails, { connection: panelConn, onOpenChange: function (o) { if (!o) setPanel(null); },
           free: free, metricsHref: wsOn ? IK.wsMetricsHref : null,
           onEdit: function (n) { setPanel(null); setEdit(n); }, onDisconnect: function (n) { setPanel(null); setDisc(n); },

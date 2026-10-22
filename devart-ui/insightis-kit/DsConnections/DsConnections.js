@@ -95,16 +95,6 @@
   /* none: a quiet dash, as every empty cell (user, 2026-10-19: "використовуємо прочерк") */
   function metricsText(n) { return !n ? h('span', { className: 'text-ink-inactive' }, '\u2014') : n === 1 ? '1 metric' : n + ' metrics'; }
   function count(c) { return Array.isArray(c.metrics) ? c.metrics.length : (c.metrics || 0); }
-  /* a shared row that can't be used says so where a row's state lives — the Last check column — and its
-     Metrics keeps the count (user, 2026-10-19: "що в метриках забув план"): its workspace Blocked →
-     "Unavailable" (attention), the reason in the tooltip. Unavailable on the person's plan: muted, no plan
-     tag — the "needs a plan" notice says why ("не треба тегу стартер") */
-  function unavailable(c) {
-    var from = (c.wsNames || [c.shared && c.shared.ws]).filter(Boolean);
-    return h(IK.Tip, { tip: IK.wsUnavailableTip({ by: (c.shared && c.shared.by) || c.by, locked: !c.muted, noun: 'connections' }), wrap: true },
-      h('span', { tabIndex: 0, className: IK.cx('inline-flex rounded-full', D.focusRing) },
-        h(D.Badge, { variant: 'attention', size: 'sm', rounded: 'full', leftSlot: h(IK.Icon, { name: 'warning', size: 12 }) }, 'Unavailable')));
-  }
   /* Last check stays the check; a shared row that can't be used says so at its end (IK.WsUnavailableMark) */
   function status(c, lastCheck) { return lastCheck; }
   function unusable(c) { return !!(c.shared || c.by) && !!(c.muted || c.locked); }
@@ -128,7 +118,6 @@
         return h(D.TableHead, { key: c.key, style: { width: c.w }, className: c.end ? 'text-right' : null }, c.label);
       }))),
       h(D.TableBody, null, p.connections.map(function (c) {
-        var off = !!c.locked || !!c.muted;
         return h(D.TableRow, {
           key: c.id || c.name, 'data-name': c.name, 'data-interactive': p.onOpen ? '' : undefined,
           className: p.selected && p.selected === (c.id || c.name) ? 'is-selected' : undefined,
@@ -156,7 +145,6 @@
   }
   function VariantCards(p) {
     return h('div', { className: 'ik-dscn-list', role: 'list' }, p.connections.map(function (c) {
-      var off = !!c.locked || !!c.muted;
       return h('div', { key: c.id || c.name, role: 'listitem', 'data-name': c.name, className: 'ik-dscn-row',
           onClick: p.onOpen ? function (e) { if (!fromMenu(e) && !(e.target.closest && e.target.closest('button'))) p.onOpen(c); } : undefined },
         h('div', { className: 'flex min-w-0 flex-1 flex-col gap-1' },

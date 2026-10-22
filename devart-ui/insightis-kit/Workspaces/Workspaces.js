@@ -917,24 +917,6 @@
     }));
   };
 
-  IK.WsAccess = function WsAccess(p) {
-    /* note — the why, in an info icon beside the label (user, 2026-10-20: "можна в інфоіконку") */
-    function field(label, body, note) {
-      return h('div', { className: 'flex flex-col gap-1' },
-        h('span', { className: 'flex items-center gap-1' },
-          h(D.Typography, { element: 'span', textStyle: 'label12', textColor: 'secondary', className: 'uppercase tracking-wider' }, label),
-          note ? IK.InfoHint({ text: note }) : null), body);
-    }
-    var names = p.names || [];
-    return h('section', { className: 'flex flex-col gap-4 border-t border-stroke pt-5', 'aria-label': 'Access' },
-      h(D.Typography, { element: 'h3', textStyle: 'title14', textColor: 'primary', className: 'm-0' }, 'Access'),
-      /* each workspace with whose it is (the owner per row, so no separate Shared by); in none yet → no empty
-         field, only the way to share it (user, 2026-10-20: "сенс в порожньому і одразу кнопці?") */
-      p.inLabel === false
-        ? (p.by ? field('Owner', h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'body', className: 'break-words' }, p.by)) : null)
-        : names.length ? field(p.inLabel || 'Shared in', h(IK.WsWorkspaceList, { names: names, links: p.links, by: p.by }), p.note) : null,
-      p.action ? h('div', { className: 'flex' }, p.action) : null);
-  };
 
   /* IK.wsRenewal(ws, ids) — asking the Owners of these (Blocked) workspaces to renew: who, whether they were
      asked already, and the ask itself (a toast says the email went) */
@@ -951,10 +933,6 @@
     };
   };
 
-  /* IK.WsUnavailableNote({ renewal, locked, noun, feature }) — what a details panel of an unavailable shared item
-     ends with, as Metric Details ends a library metric with "Connect …" (user, 2026-10-19: "як по цьому зрозуміти
-     що конекшн недоступний"): the sharer's plan lapsed → why, and Ask <Owner> to Renew (Request Sent once asked);
-     the person's own plan → why, and Upgrade to Starter */
   /* what brings an unavailable shared item back: Ask <owner> to Renew (Request Sent once asked) when its owner's plan
      lapsed, Upgrade to Starter when one's own plan has no shared items — the Note's button and the mark's popover */
   /* the way back follows the reason the tip gives (user, 2026-10-21: "якщо твій план не включає, то чому просити Олену
@@ -981,27 +959,7 @@
     return h('div', { className: 'flex flex-col items-start gap-2' }, ask,
       h(D.Typography, { element: 'p', textStyle: 'body12', textColor: 'secondary', className: 'm-0 text-pretty' }, ownPlan(p)));
   };
-  IK.WsUnavailableNote = function WsUnavailableNote(p) {
-    var r = p.renewal || {}, lapsed = !p.locked;
-    var owner = (r.owners && r.owners[0]) || p.by || 'Its owner', name = String(owner).split(' ')[0];
-    var action = IK.wsUnavailableAction(p);
-    var text = !lapsed ? 'Your plan doesn’t include shared ' + (p.noun || 'items') + '. Nothing was deleted'
-      : alsoMine(p) ? owner + '’s plan no longer includes Workspaces'
-      : owner + '’s plan no longer includes Workspaces. Access returns when ' + name + ' renews';
-    return h(D.Alert, {
-      variant: 'warning', size: 'md', role: 'note', className: 'w-full', icon: h(IK.Icon, { name: 'warning' }),
-      title: 'Unavailable',
-      description: h('div', { className: 'flex flex-col items-start gap-3' },
-        h('span', null, text),
-        action)
-    });
-  };
 
-  IK.WsUnavailableBadge = function WsUnavailableBadge(p) {
-    return h(IK.Tip, { tip: IK.wsUnavailableTip(p), wrap: true },
-      h('span', { tabIndex: 0, className: IK.cx('inline-flex shrink-0 rounded-full', D.focusRing) },
-        h(D.Badge, { variant: 'attention', size: 'sm', rounded: 'full', leftSlot: h(IK.Icon, { name: 'warning', size: 12 }) }, 'Unavailable')));
-  };
 
   /* Shared: Owner (the third way, user 2026-10-19: "варіант з кращим юх") — whose an item is, shown the same on
      Connections, Files and Metrics: a people glyph right after the name of what was shared (one's own carries

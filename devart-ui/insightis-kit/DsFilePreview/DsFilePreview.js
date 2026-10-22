@@ -1,31 +1,11 @@
-/* DsFilePreview — the file preview split panel (Files page; rules 21–22 in
-   page-changes/data-sources_files-landing.md). Port of dsfRenderPreview() + the kit file-preview
-   family (.cp-fp-*) the chat page's file panel shares.
-
-     head    the file name (Title/14, truncated) · Download · Close (DevartUI IconButton xs, tertiary)
-     banner  "Preview truncated. Download to see the full file." — only when a SAMPLE of a bigger
-             file is shown (size in MB); a full-bleed strip flush under the head, warning-toned
-     body    csv / xls / xlsx → a DevartUI Table of sample rows · json / txt / md → a mono sample ·
-             anything else → "There is no preview available for this file type" + Download
-     meta    "2.4 MB · Artifact · 3d ago" under the content
-
-   The panel is the THIRD column of the screen (the list narrows), 28rem wide by default and
-   resizable from its left edge (320–720px, and never past viewport − 360px). Below 1024px it covers
-   the main column instead of splitting it, and does not resize.
-
-   The same actions and state as the file's row (user, 2026-10-20: "дії в таблиці та в превью співпадають"):
-     menu     the row's ⋮ (DsFileMenu, the host passes its items without View / Download — Download is the
-              head's icon)
-     shared   Access at the end (Shared by · Shared in); one's own — where it is shared + Share via Workspace
-     unavailable (a shared file: locked / muted) — no Download anywhere, the warning by its name and, at the
-              foot, why and what brings it back (IK.WsUnavailableNote, renewal from the host)
-
-   h(IK.DsFilePreview, {
-     file: { id, name, size, origin, date, by?, wsNames?, sharedWith?, links?, locked?, muted? },
-     width: 448, onWidthChange: function (px) {},     // optional — uncontrolled otherwise
-     onClose, onDownload, onAddToChat(id) (an icon beside Download), onDelete(id) (a red icon, first — when Delete
-     would be the ⋮'s only item), menu: node — only when it holds two or more, onShare, shareLocked, renewal, accessIn: false (no "Shared in")
-   })                                                                                              */
+/* DsFilePreview — the preview parts File details shows (IK.FileDetails; the old split panel is gone, 2026-10-22). Port of
+   dsfRenderPreview() (Files page; rules 21–22 in page-changes/data-sources_files-landing.md):
+     IK.dsPreviewKind(name)                              'table' (csv / xls / xlsx) · 'text' (json / txt / md) · 'none'
+     IK.DsFilePreviewBanner({ file, onDownload })        "Preview truncated. Download to see the full file." — only when a
+                                                         SAMPLE of a bigger file (size in MB) is shown, flush under the head
+     IK.DsFilePreviewContent({ file, bare, onDownload }) a DevartUI Table of sample rows · a mono sample · "There is no
+                                                         preview available for this file type" + Download
+     IK.DsFileUnavailable({ file, renewal, … })          a shared file that can't be used: why, and the way back       */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
@@ -79,7 +59,6 @@
 
   /* the preview's own content and whether it is a truncated sample, for another panel to show the same file the same way (the
      details-panels concept — user, 2026-10-20: "превью в файлі мало бути реалістичним") */
-  IK.dsPreviewTruncated = truncated;
   /* the "Preview truncated" strip — full-bleed, flush on top of the preview */
   IK.DsFilePreviewBanner = function DsFilePreviewBanner(p) {
     if (!p.file || !truncated(p.file)) return null;
@@ -103,57 +82,5 @@
   IK.DsFilePreviewContent = function DsFilePreviewContent(p) {
     var kind = IK.dsPreviewKind(p.file.name);
     return kind === 'table' ? h(Sample) : kind === 'text' ? h(Text, { bare: p.bare }) : h(None, { file: p.file, onDownload: p.onDownload });
-  };
-
-  IK.DsFilePreview = function DsFilePreview(p) {
-    var f = p.file;
-    var ws = R.useState(null), wU = ws[0], setWU = ws[1];
-    var width = p.width != null ? p.width : wU;
-    var rs = R.useState(false), resizing = rs[0], setResizing = rs[1];
-    function setW(px) { if (p.onWidthChange) p.onWidthChange(px); if (p.width == null) setWU(px); }
-    if (!f) return null;
-    var kind = IK.dsPreviewKind(f.name);
-    function dl() { if (p.onDownload) p.onDownload(f.id); }
-    /* a shared file that can't be used: nothing to download, the reason said (as its row and Connection Details) */
-    var by = f.by || (f.shared && f.shared.by), off = !!by && !!(f.locked || f.muted);
-    var names = f.wsNames || f.sharedWith || [];
-    function grip(e) {
-      e.preventDefault();
-      setResizing(true);
-      function move(ev) { setW(Math.max(320, Math.min(window.innerWidth - ev.clientX, Math.min(720, window.innerWidth - 360)))); }
-      function up() { setResizing(false); document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', up); }
-      document.addEventListener('pointermove', move);
-      document.addEventListener('pointerup', up);
-    }
-    return h('aside', {
-      className: IK.cx('ik-dsfp', resizing && 'is-resizing', p.className), 'aria-label': 'File preview',
-      style: width ? { width: width + 'px' } : undefined
-    },
-      h('div', { className: 'ik-dsfp-grip', 'aria-hidden': 'true', onPointerDown: grip }),
-      h('div', { className: 'ik-dsfp-head' },
-        h('div', { className: 'flex min-w-0 flex-1 items-center gap-2' },
-          h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', className: 'min-w-0 truncate' }, f.name),
-          off ? h(IK.WsUnavailableMark, { by: by, locked: !f.muted, noun: 'files' }) : null),
-        h('div', { className: 'flex flex-none items-center gap-0.5' },
-          /* Add to Chat is an icon beside Download, not the lone item of a ⋮ (user, 2026-10-20: "в чому сенс 3 крапок") */
-          /* a lone Delete is its own icon, first, away from Close — not a one-item ⋮ (user, 2026-10-20: "не пхай один
-             екшен в 3 крапки"), as in the details panels */
-          off || !p.onDelete ? null : h(IK.Tip, { tip: 'Delete' }, h(D.IconButton, { variant: 'destructiveTertiary', size: 'xs', 'aria-label': 'Delete', onClick: function () { p.onDelete(f.id); } }, h(IK.Icon, { name: 'delete' }))),
-          off || !p.onAddToChat ? null : h(IK.Tip, { tip: 'Add to Chat' }, h(D.IconButton, { variant: 'tertiary', size: 'xs', 'aria-label': 'Add to Chat', onClick: function () { p.onAddToChat(f.id); } }, h(IK.Icon, { name: 'add-chat' }))),
-          off ? null : h(IK.Tip, { tip: 'Download' }, h(D.IconButton, { variant: 'tertiary', size: 'xs', 'aria-label': 'Download', onClick: dl }, h(IK.Icon, { name: 'ds-download' }))),
-          off ? null : p.menu || null,
-          h(IK.Tip, { tip: 'Close' }, h(D.IconButton, { variant: 'tertiary', size: 'xs', 'aria-label': 'Close preview', onClick: p.onClose }, h(IK.Icon, { name: 'ds-close' }))))),
-      off ? null : h(IK.DsFilePreviewBanner, { file: f, onDownload: dl }),
-      h('div', { className: 'ik-dsfp-body' },
-        kind === 'table' ? h(Sample) : kind === 'text' ? h(Text) : h(None, { file: f, onDownload: off ? null : dl }),
-        h(D.Typography, { element: 'div', textStyle: 'body12', textColor: 'secondary', className: 'flex-none px-1' },
-          f.size + ' · ' + (f.origin === 'artifact' ? 'Artifact' : 'Uploaded') + ' · ' + f.date),
-        /* Access, as every details panel ends (user, 2026-10-20): a shared file — who shared it and where; one's own
-           shared — where. Nothing when it is in no workspace */
-        by || names.length || p.onShare
-          ? h('div', { className: 'flex-none px-1' }, h(IK.WsAccess, { by: by, names: names, links: f.links, inLabel: p.accessIn === false ? false : undefined,
-              action: !by && p.onShare ? h(IK.Locked, { feature: 'workspaces', surface: 'modal', tip: 'Available on Pro', locked: !!p.shareLocked },
-                h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-share', size: 16 }), onClick: function () { p.onShare(f.id); } }, 'Share via Workspace')) : null })) : null,
-        off ? h('div', { className: 'flex-none px-1' }, h(IK.WsUnavailableNote, { renewal: p.renewal, by: by, locked: !f.muted, noun: 'files', feature: 'shared-files' })) : null));
   };
 })();
