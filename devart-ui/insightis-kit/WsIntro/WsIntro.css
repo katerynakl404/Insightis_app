@@ -19,12 +19,15 @@
 /* ── cards: the chat landing's glow under the title and lead; numbered cards ── */
 .ik-wsi--cards .ik-wsi-head { position: relative; }
 .ik-wsi--cards .ik-wsi-head::before {
-  /* the chat landing's pool (IK.AppShell .ik-shell-glow): brand-tertiary, fading out at 65%, blurred 70px — but one
-     strength, tint-30, in BOTH themes: the chat's light tint-8 vanishes on a white panel this size, so the two themes
-     would differ (user, 2026-10-23: "будь консистентним в 2х темах", "тут же взагалі свічення немає на світлій темі") */
+  /* the chat landing's pool (IK.AppShell .ik-shell-glow): brand-tertiary, fading out at 65%, blurred 70px — the same
+     shape in both themes, the strength set so each reads equally soft on its panel: tint-20 on white, tint-30 on dark
+     (user, 2026-10-23: "будь консистентним в 2х темах", "на світлій … свічення немає", "на світлій пляма затемна") */
   content: ''; position: absolute; inset: -3rem -9rem; z-index: -1; pointer-events: none;
-  background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-tertiary)) var(--tint-30), transparent), transparent 65%);
+  background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-tertiary)) var(--tint-20), transparent), transparent 65%);
   filter: blur(70px);
+}
+.dark .ik-wsi--cards .ik-wsi-head::before {
+  background: radial-gradient(closest-side, color-mix(in srgb, hsl(var(--brand-tertiary)) var(--tint-30), transparent), transparent 65%);
 }
 .ik-wsi--cards .ik-wsi-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .ik-wsi-num {
