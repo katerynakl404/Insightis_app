@@ -10,12 +10,13 @@
                   hides while the list is empty; on Free locked (Pro) and a line under it says so
      the steps    create a workspace · add your data · invite your team — said the way a person would (user,
                   2026-10-23: "тексти якісь штучні"), each about as long, so the three break the same way ("тексти мали
-                  бути вирівняні")
+                  бути вирівняні"); full lines, not balanced into narrow ones ("виглядають костурбано і обрізано")
      variant      two looks to choose from, on the review bar (user, 2026-10-23: 'лиши цей варіант', 'останній зроби простим
                   проте сучасним', 'файли і сорси мали б мати ілюстративне відображення'; the larger-type look went —
                   '2гий можеш забрати'):
-                    'cards'   (the default) a faint brand glow right under the title and lead; numbered cards
-                    'simple'  nothing behind; over the title a drawing as wide as the title — the person's own
+                    'cards'   THE look (default) — the chat's soft glow under the title and lead; numbered cards
+                    'simple'  the plainer fallback should Cards meet a problem ('2га простіша на випадок проблем з
+                              першою'): nothing behind; over the title a drawing as wide as the title — the person's own
                               sources (a stack of cards with their logos) and files (a fan of sheets with their type
                               marks) meeting in a workspace; no steps (user, 2026-10-23: 'забери')
    Under 768px the cards stack.
@@ -32,13 +33,13 @@
      в 2 строки'); no 'numbers' ('цифрами?') */
   var LEAD = 'Connect your sources once and share them with your team. Nobody has to set up the same connection again or keep their own copy of a file';
   var STEPS = [
-    ['ws-layers', 'Create a workspace', 'Name it after the team or project it’s for'],
-    ['ws-share', 'Add your data', 'Pick the connections and files to share'],
-    ['ws-users', 'Invite your team', 'Everyone can use them in their own chats']
+    ['ws-layers', 'Create a workspace', 'Name it after the team or project that will use it'],
+    ['ws-share', 'Add your data', 'Pick the connections and files your team needs'],
+    ['ws-users', 'Invite your team', 'Members can use all of it in their own chats']
   ];
 
   function desc(s, style, cls) {
-    return h(D.Typography, { element: 'span', textStyle: style || 'body14', textColor: 'secondary', className: IK.cx('text-balance', cls) }, s[2]);
+    return h(D.Typography, { element: 'span', textStyle: style || 'body14', textColor: 'secondary', className: IK.cx('text-pretty', cls) }, s[2]);
   }
   function title(s, style, cls) {
     return h(D.Typography, { element: 'span', textStyle: style || 'title14', textColor: 'primary', className: cls }, s[1]);
