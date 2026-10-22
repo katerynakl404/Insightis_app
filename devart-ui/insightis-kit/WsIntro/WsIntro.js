@@ -4,6 +4,7 @@
    ("як тех письменник, просто, лаконічно і не машинно"), the lead says why, the steps say how — no line repeats
    another ("вони просто дублюють один одного").
 
+     the panel    all of it on a D.Card (outline, xl), under the page's own title
      the head     a large title, its key words in Text/Highlight (the chat landing's voice, IK.ChatHero), one line on
                   why, and 24px under it the action: Create Workspace, primary, round — the page's title action, which
                   hides while the list is empty; on Free locked (Pro) and a line under it says so
@@ -15,7 +16,7 @@
                     'cards'   (the default) a faint brand glow right under the title and lead; numbered cards
                     'type'    larger type: a 36px title, an 18px lead, a large button; the steps centred under big
                               numerals that fade to the bottom
-                    'simple'  nothing behind; over the title a drawing as wide as the title — the person's own sources (a stack of
+                    'simple'  nothing behind; over the title a drawing as wide as the title, the lead in two lines — the person's own sources (a stack of
                               cards with their logos) and files (a fan of sheets with their type marks) meeting in a
                               workspace; the steps centred in one row, numbered, joined by the drawing's dashed link
    Under 768px the steps stack.
@@ -92,7 +93,9 @@
     var variant = IK.WS_INTRO_VARIANTS.indexOf(p.variant) >= 0 ? p.variant : 'cards';
     var cta = h(IK.Locked, { feature: 'workspaces', locked: !!p.locked, surface: 'modal', tip: 'Available on Pro' },
       h(D.Button, { variant: 'primary', size: variant === 'type' ? 'lg' : 'md', rounded: 'full', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }), onClick: p.onCreate }, 'Create Workspace'));
-    return h('section', { className: 'ik-wsi ' + LOOK[variant], 'aria-labelledby': 'ik-wsi-title' },
+    /* on a panel (D.Card), so it reads as the page's content under the page's own title, not a second title over it
+       (user, 2026-10-23: 'врахуй що зверху є тайтл … можливо розмістити на підложці') */
+    return h('section', { 'aria-labelledby': 'ik-wsi-title' }, h(D.Card, { variant: 'outline', rounded: 'xl', fullWidth: true, className: 'ik-wsi w-full ' + LOOK[variant] },
       h('div', { className: 'ik-wsi-hero' },
         variant === 'simple' ? h(Drawing, { connections: p.connections || IK.WS_CONNECTIONS, files: p.files || IK.WS_FILES }) : null,
         h('div', { className: 'ik-wsi-head' },
@@ -102,6 +105,6 @@
             : h(D.Typography, { element: 'p', textStyle: 'body16', textColor: 'secondary', className: 'ik-wsi-lead m-0 text-center' }, LEAD)),
         p.locked ? h('div', { className: 'flex flex-col items-center gap-2' }, cta,
           h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, 'Available on the Pro plan')) : cta),
-      h(Steps, { variant: variant }));
+      h(Steps, { variant: variant })));
   };
 })();

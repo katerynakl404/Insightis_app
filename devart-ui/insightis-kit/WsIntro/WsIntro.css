@@ -2,7 +2,7 @@
    Tokens only; the 4px steps. The one raw value is the kit's card shadow, marked. */
 .ik-wsi {
   position: relative; isolation: isolate; overflow: clip;
-  display: flex; flex-direction: column; align-items: center; gap: 2.5rem; padding: 2.5rem 0 1.5rem; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 2.5rem; padding: 2.5rem 1.5rem 2rem; text-align: center;
 }
 .ik-wsi-hero { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; width: 100%; max-width: 40rem; }
 .ik-wsi-head { display: flex; flex-direction: column; align-items: center; gap: .75rem; }
@@ -38,6 +38,8 @@
 /* ── type: larger type — a 36px title, an 18px lead; the steps as big numerals over a hairline with a brand tick ── */
 .ik-wsi--type .ik-wsi-hero { max-width: 44rem; }
 .ik-wsi--type .ik-wsi-title { font-size: var(--font-size-4xl); line-height: var(--line-height-4xl); }
+/* the simple look keeps its lead in two lines (user, 2026-10-23: "описовий текст в 3му зроби в 2 рядка") */
+.ik-wsi--simple .ik-wsi-lead { max-width: 28rem; }
 .ik-wsi-lead-lg { max-width: 40rem; font-size: var(--font-size-lg); line-height: var(--line-height-lg); color: hsl(var(--ink-secondary)); }
 /* the steps no wider than the head needs — they read as its own row, not a band across the page (user, 2026-10-23) */
 .ik-wsi--type .ik-wsi-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; max-width: 52rem; }
@@ -88,7 +90,7 @@
 }
 
 @media (max-width: 767px) {
-  .ik-wsi { gap: 2rem; padding-top: 1.5rem; }
+  .ik-wsi { gap: 2rem; padding: 1.5rem 1rem 1.25rem; }
   .ik-wsi--cards .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
   .ik-wsi--type .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   .ik-wsi--simple .ik-wsi-steps { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
