@@ -14,7 +14,7 @@
 
    Metric Details is the very panel Metrics opens (user, 2026-10-22: "зроби і панель метрики на сторінці воркспейсу
    такою самою, як на Metrics", "лишаєм нову панель всюди (з лінком на сорс)"): the Owner's metric — Active, Edit ·
-   Duplicate · Delete (a custom one) or Duplicate & Customize (a built-in one), Workspaces with "Goes with its connection,
+   Duplicate · Delete (a custom one) or Duplicate (a built-in one), Workspaces with "Goes with its connection,
    <name>" — the name opening the connection's details over it (onOpenConnection); Add Metric opens Create metric, as
    there. An invited person's metric — the read-only panel Metrics shows for a shared one. Edits, copies and deletions
    are kept here, as the Metrics page keeps its own.

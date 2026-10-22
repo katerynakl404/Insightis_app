@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Workspaces</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d4917db40d">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d4917db40d">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=bb4b5060b9">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=bb4b5060b9">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=d4917db40d"></script>
-<script src="../../review-kit/review-kit.js?v=d4917db40d"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=bb4b5060b9"></script>
+<script src="../../review-kit/review-kit.js?v=bb4b5060b9"></script>
 </head>
 <style>
   /* Page layout only: the file preview (IK.DsFilePreview) splits the main column as on Files — a third
@@ -85,7 +85,6 @@
     var lv = R.useState(null), leaving = lv[0], setLeaving = lv[1];
     /* a connection opened from the list's menu: Connection Details, in place */
     var cp = R.useState(null), conn = cp[0], setConn = cp[1];
-    var rc = R.useState(null), removing = rc[0], setRemoving = rc[1];
     /* Invite / Add Connection / Share Files from the list: the dialog opens here, and only once it is
        done does the page go to the workspace, on that tab (user, 2026-10-19) */
     var ac = R.useState(null), acting = ac[0], setActing = ac[1];
@@ -177,7 +176,7 @@
       h(IK.AppShell, { nav: 'workspaces', burger: false, scroll: false, workspaces: ws, trialDays: trial ? 3 : undefined },
         h('div', { className: 'pg-split' }, /* the standard head: the title wraps beside its action (wrap is Metrics' own original) — user, 2026-10-22 */
         h(IK.ListPage, { title: 'Workspaces', actions: headerAction },
-          notices.length ? h('div', { className: 'flex flex-col gap-3' }, notices) : null,
+          notices.length ? IK.wsAlertStack(notices) : null,
           /* the Insightis search (Metrics, Catalog, Chats): DevartUI SearchInput */
           asTabs ? h(D.Tabs, { value: role, onValueChange: function (v) { setRoleF(v); setSelected([]); } },
             h(D.TabsList, { className: 'mb-0 flex w-full' },
@@ -262,18 +261,8 @@
         var close = function (o) { if (!o) setConn(null); };
         /* one's own: Data Sources' panel, whole; an invited one: the shared panel, as on Data Sources */
         if (item && own) { var y = pa.connection(item, function () { setConn(null); }); return h(IK.ConnectionDetails, Object.assign({ connection: y.item, onOpenChange: close }, y.opts)); }
-        return h(IK.ConnectionDetails, { connection: item, onOpenChange: close, mode: 'shared', renewal: w ? IK.wsRenewal(ws, [w.id]) : null });
+        return h(IK.ConnectionDetails, { connection: item, onOpenChange: close, mode: 'shared', metricsHref: IK.wsMetricsHref, renewal: w ? IK.wsRenewal(ws, [w.id]) : null });
       })(),
-      h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
-        open: !!removing, onOpenChange: function (o) { if (!o) setRemoving(null); },
-        title: removing ? 'Remove ' + removing.c.label + ' from ' + removing.w.name + '?' : '',
-        description: 'Members lose this connection and its metrics in their chats. The connection itself stays yours — nothing is deleted.',
-        confirmLabel: 'Remove',
-        onConfirm: function () {
-          var r = removing; setRemoving(null); ws.removeConnection(r.w.id, r.c.id);
-          D.toast.success(h(IK.Fragment, null, strong(r.c.label), ' removed from ', strong(r.w.name)), { description: 'Members can no longer use it' });
-        }
-      }),
       aw ? h(IK.WsInviteDialog, {
         open: acting.kind === 'invite', onOpenChange: function (o) { if (!o) setActing(null); }, ws: aw,
         check: function (e) {
@@ -289,18 +278,15 @@
         onAdd: function (list) {
           /* stays on the list — the toast says where it went (user, 2026-10-20) */
           ws.addConnections(aw.id, list); setActing(null);
-          D.toast.success(list.length === 1 ? h(IK.Fragment, null, strong(list[0].label), ' added to ', strong(aw.name))
-                                            : h(IK.Fragment, null, plural(list.length, 'connection', 'connections') + ' added to ', strong(aw.name)),
-            { description: 'Members can use ' + (list.length === 1 ? 'it' : 'them') + ' in their chats now' });
+          /* the way there with it (Open …), as Data Sources' and Metrics' */
+          IK.wsToast.added(ws, [aw.id], { kind: 'connection', name: list[0].label, count: list.length, metrics: list.reduce(function (s, c) { return s + (c.metrics || 0); }, 0) });
         }
       }) : null,
       aw ? h(IK.WsShareFilesDialog, {
         open: acting.kind === 'files', onOpenChange: function (o) { if (!o) setActing(null); }, ws: aw, files: IK.WS_FILES,
         onShare: function (list) {
           list.forEach(function (f) { ws.shareFile(aw.id, f); }); done(aw, 'files');
-          D.toast.success(list.length === 1 ? h(IK.Fragment, null, strong(list[0].name), ' added to ', strong(aw.name))
-                                            : h(IK.Fragment, null, plural(list.length, 'file', 'files') + ' shared with ', strong(aw.name)),
-            { description: 'Members can view, download and add ' + (list.length === 1 ? 'it' : 'them') + ' to their chats' });
+          IK.wsToast.added(ws, [aw.id], { kind: 'file', name: list[0].name, count: list.length, link: false });
         }
       }) : null);
 
@@ -362,18 +348,14 @@
     var lockWs = { feature: 'workspaces', locked: blocked, surface: 'modal', tip: 'Available on Pro' };
 
     /* ── owner actions ── */
+    /* Remove from Workspace asks first — the same confirm and toast as a panel's × (IK.useWsRemoveConfirm via pa) */
     function removeConn(c) {
-      setDlg({ kind: 'confirm', title: 'Remove ' + c.label + ' from ' + w.name + '?',
-        text: 'Members lose this connection and its ' + plural(c.metrics || 0, 'metric', 'metrics') + ' in their chats. The connection itself stays yours — nothing is deleted.',
-        confirm: 'Remove', run: function () {
-          ws.removeConnection(w.id, c.id);
-          D.toast.success(h(IK.Fragment, null, strong(c.label), ' removed from ', strong(w.name)), { description: 'Members can no longer use it' });
-        } });
+      pa.askRemove({ kind: 'connection', name: c.label, metrics: c.metrics || 0, wsName: w.name, run: function () { ws.removeConnection(w.id, c.id); } });
     }
     function removeMember(m) {
       setDlg({ kind: 'confirm', title: 'Remove ' + m.name + ' from ' + w.name + '?',
         text: 'They lose access to its connections, metrics and files at once. Their chats stay — answers already given remain.',
-        confirm: 'Remove', run: function () {
+        confirm: 'Remove from Workspace', run: function () {
           ws.removeMember(w.id, m.email);
           D.toast.success(h(IK.Fragment, null, strong(m.name), ' removed from ', strong(w.name)));
         } });
@@ -381,7 +363,7 @@
     function revoke(i) {
       setDlg({ kind: 'confirm', title: 'Revoke the invitation?',
         text: i.email + ' can’t join ' + w.name + ' with it any more. You can invite them again later.',
-        confirm: 'Revoke', run: function () {
+        confirm: 'Revoke Invitation', run: function () {
           ws.revoke(w.id, i.email);
           D.toast.success('Invitation revoked', { description: i.email });
         } });
@@ -392,14 +374,7 @@
     }
     function stopSharing(ids) {
       var list = w.files.filter(function (x) { return ids.indexOf(x.id) >= 0; }); if (!list.length) return;
-      var one = list.length === 1;
-      /* the menu's words: Remove from Workspace (user, 2026-10-20: one wording) */
-      setDlg({ kind: 'confirm', title: one ? 'Remove ' + list[0].name + ' from ' + w.name + '?' : 'Remove ' + list.length + ' files from ' + w.name + '?',
-        text: 'Members of ' + w.name + ' lose access to ' + (one ? 'it' : 'them') + '. ' + (one ? 'The file stays' : 'The files stay') + ' in your Files.',
-        confirm: 'Remove', run: function () {
-          list.forEach(function (f) { ws.unshareFile(w.id, f.id); });
-          D.toast.success(one ? h(IK.Fragment, null, strong(list[0].name), ' removed from ' + w.name) : list.length + ' files removed from ' + w.name, { description: (one ? 'It stays' : 'They stay') + ' in your Files' });
-        } });
+      pa.askRemove({ kind: 'file', name: list[0].name, count: list.length, wsName: w.name, run: function () { list.forEach(function (f) { ws.unshareFile(w.id, f.id); }); } });
     }
     function shareFiles() { setDlg({ kind: 'files' }); }
 
@@ -530,7 +505,7 @@
       h(D.ConfirmationDialog, { variant: 'destructive', cancelLabel: 'Cancel',
         open: deletingWs, onOpenChange: setDeletingWs,
         title: 'Delete ' + w.name + '?',
-        description: 'Members lose access, and pending invitations stop working. Your connections and files aren’t affected.',
+        description: 'Members lose access to everything shared in it, and its pending invitations stop working. Your connections, metrics and files stay yours.',
         confirmLabel: 'Delete Workspace',
         onConfirm: function () {
           var name = w.name; setDeletingWs(false); ws.remove(w.id); RK.setWs({ w: null, tab: null });
@@ -550,7 +525,7 @@
       h(RK.ReviewBar, { title: 'Workspaces', status: 'approved', size: 'sm', autoHeight: true, plan: false, controls: RK.workspaceControls({ here: 'workspace', ws: ws, w: w, tab: cur }) }),
       h(IK.AppShell, { nav: 'workspaces', burger: false, scroll: false, workspaces: ws, trialDays: trial ? 3 : undefined },
         h('div', { className: 'pg-split' }, h(IK.ListPage, { title: w.name, truncate: true, actions: titleAction, backLabel: 'Back to workspaces', onBack: function () { RK.setWs({ w: null, tab: null }); } },
-          notices.length ? h('div', { className: 'flex flex-col gap-3' }, notices) : null,
+          notices.length ? IK.wsAlertStack(notices) : null,
           h(D.Tabs, { value: cur, onValueChange: setTab, className: 'flex flex-col gap-4' },
             /* the strip scrolls sideways on a phone; the scroller wraps the list (not the list itself) and
                reaches 1px under it, so the active tab's underline — which overlaps the list's rule by 1px —
@@ -583,20 +558,14 @@
         connections: IK.WS_CONNECTIONS, where: other,
         onAdd: function (list) {
           ws.addConnections(w.id, list); close(); setTab('connections');
-          var m = list.reduce(function (s, c) { return s + (c.metrics || 0); }, 0);
-          var it = list.length === 1 ? 'it' : 'them';
-          D.toast.success(list.length === 1 ? h(IK.Fragment, null, strong(list[0].label), ' added to ', strong(w.name))
-                                            : h(IK.Fragment, null, plural(list.length, 'connection', 'connections') + ' added to ', strong(w.name)),
-            { description: m ? 'Members can use ' + it + ' and ' + plural(m, 'metric', 'metrics') + ' in their chats now' : 'Members can use ' + it + ' in their chats now' });
+          IK.wsToast.added(ws, [w.id], { kind: 'connection', name: list[0].label, count: list.length, link: false, metrics: list.reduce(function (s, c) { return s + (c.metrics || 0); }, 0) });
         }
       }) : null,
       owner ? h(IK.WsShareFilesDialog, {
         open: !!dlg && dlg.kind === 'files', onOpenChange: function (o) { if (!o) close(); }, ws: w, files: IK.WS_FILES,
         onShare: function (list) {
           list.forEach(function (f) { ws.shareFile(w.id, f); }); close(); setTab('files');
-          D.toast.success(list.length === 1 ? h(IK.Fragment, null, strong(list[0].name), ' added to ', strong(w.name))
-                                            : h(IK.Fragment, null, plural(list.length, 'file', 'files') + ' shared with ', strong(w.name)),
-            { description: 'Members can view, download and add ' + (list.length === 1 ? 'it' : 'them') + ' to their chats' });
+          IK.wsToast.added(ws, [w.id], { kind: 'file', name: list[0].name, count: list.length, link: false });
         }
       }) : null,
       (function () {

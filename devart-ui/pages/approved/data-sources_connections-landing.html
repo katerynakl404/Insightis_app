@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Data Sources</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d4917db40d">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d4917db40d">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=bb4b5060b9">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=bb4b5060b9">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=d4917db40d"></script>
-<script src="../../review-kit/review-kit.js?v=d4917db40d"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=bb4b5060b9"></script>
+<script src="../../review-kit/review-kit.js?v=bb4b5060b9"></script>
 <style>
   /* Page layout only. The saved connections slide open once there is something to list and
      collapse when the last one goes (original .ds-conn-section). */
@@ -148,6 +148,8 @@
        connection — no move to Metrics (user, 2026-10-20: "при додаванні метрики не перекидати"); the
        count on the row grows, and the toast offers the way to Metrics */
     var am = R.useState(null), metricFor = am[0], setMetricFor = am[1];
+    /* Remove from Workspace asks first, as everywhere (IK.useWsRemoveConfirm) */
+    var rm = IK.useWsRemoveConfirm();
     function addMetric(name) { setMetricFor(name); }
     function openRow(k) { if (sharedRows.some(function (c) { return c.id === k; })) { setPanel(null); setSharedPanel(k); } else { setSharedPanel(null); setPanel(k); } }
     /* the person's own connection → the workspaces it is shared into (the Disconnect warning) */
@@ -333,8 +335,8 @@
           onEdit: function (n) { setPanel(null); setEdit(n); }, onDisconnect: function (n) { setPanel(null); setDisc(n); },
           onTest: test, onDetails: errToast, onAddToWorkspace: wsOn ? function (n) { setAddWs(n); } : undefined, wsLocked: free, onAddMetric: addMetric,
           onRemoveFromWorkspace: wsOn ? function (it, x) {
-            var cc = wsConn(find(x.name)); if (it.id && cc) ws.removeConnection(it.id, cc.id);
-            D.toast.success(h(IK.Fragment, null, h('strong', null, x.label || x.name), ' removed from ' + it.name));
+            var cc = wsConn(find(x.name));
+            rm.ask({ kind: 'connection', name: x.label || x.name, metrics: x.metrics, wsName: it.name, run: function () { if (it.id && cc) ws.removeConnection(it.id, cc.id); } });
           } : undefined })),
       hasShared ? (function () {
         var c = sharedRows.filter(function (x) { return x.id === sharedPanel; })[0];
@@ -351,12 +353,7 @@
             ids.forEach(function (id) { ws.addConnections(id, [c]); });
             out.forEach(function (id) { ws.removeConnection(id, c.id); });
             setAddWs(null);
-            function names(l) { return IK.wsJoin(l.map(function (id) { var w = ws.find(id); return w ? w.name : ''; })); }
-            if (ids.length && out.length) D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' sharing updated'),
-              { description: 'Added to ' + names(ids) + ', removed from ' + names(out) });
-            else if (out.length) D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' removed from ' + names(out)));
-            else D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' added to ' + names(ids)),
-              { description: h('span', { className: 'flex flex-col items-start gap-1' }, h('span', null, c.metrics ? 'Members can use it and its ' + c.metrics + (c.metrics === 1 ? ' metric' : ' metrics') + ' in their chats now' : 'Members can use it in their chats now'), IK.wsGoLink(ws, ids)) });
+            IK.wsToast.added(ws, ids, { kind: 'connection', name: c.label, metrics: c.metrics });
           }
         };
       })()) : null,
@@ -366,14 +363,12 @@
           open: !!metricFor, mode: 'create',
           initial: c ? { connector: c.label || c.name, link: 'connection' } : {},
           options: list.map(function (x) { return { id: x.label || x.name, label: (x.label || x.name) + ' (' + x.name + ')' }; }),
-          findDuplicates: function () { return { name: null, alias: null }; },
+          findDuplicates: wsOn ? IK.wsMetricDuplicates(ws) : function () { return { name: null, alias: null }; }, sharedAlias: wsOn ? IK.wsSharedAlias(ws) : undefined,
           onOpenChange: function (v) { if (!v) setMetricFor(null); },
           onSave: function (v) {
             var n = metricFor; setMetricFor(null);
             patch(n, function (x) { return { metrics: (x.metrics || 0) + 1 }; });
-            D.toast.success(h(IK.Fragment, null, h('strong', null, v.name), ' is added to ', h('strong', null, (c && (c.label || c.name)) || n)), {
-              description: h('a', { href: IK.wsHref('approved/metrics-landing.html', {}), className: 'text-ink-primary underline' }, 'See it in Metrics')
-            });
+            IK.wsToast.metricCreated(v.name, (c && (c.label || c.name)) || n, { href: IK.wsHref('approved/metrics-landing.html', {}) });
           }
         };
       })()),
@@ -392,8 +387,10 @@
           var n = disc, k = (IK.WS_CONNECTIONS || []).filter(function (x) { return discConn && x.label === (discConn.label || discConn.name); })[0];
           sharedInto(discConn).forEach(function (w) { ws.removeConnection(w.id, k.id); });
           setDisc(null); remove(n);
+          IK.wsToast.disconnected(discConn.label || discConn.name, discConn.metrics);
         }
       }),
+      rm.dialog,
       h(IK.UpgradeModal, { feature: 'connections', open: upModal, onOpenChange: setUpModal }),
       h(D.Toaster, { position: 'top-right' }));
   }

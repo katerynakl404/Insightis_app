@@ -23,7 +23,7 @@
      metrics, one line under the list says they go with them — no second step (user, 2026-10-20).
      Add Connection / Add N Connections.
      { open, onOpenChange, ws, connections, where: function (connId) → [names], onAdd(conns) }
-   IK.WsShareFilesDialog — "Share files" / "Share files with <ws>": the person's own files not there
+   IK.WsShareFilesDialog — "Add files" / "Add files to <ws>" (its trigger is Add Files): the person's own files not there
      yet ("CSV · 2.4 MB · Artifact"), Add File / Add N Files (the workspace page's "Add Files").
      { open, onOpenChange, ws, files, onShare(files) }
    IK.WsShareFileDialog — "Share <file>": every workspace of the person's, the ones it is in already ticked —
@@ -267,7 +267,7 @@
     function close() { p.onOpenChange(false); }
     return h(D.Modal, { open: !!p.open, onOpenChange: p.onOpenChange },
       h(D.ModalContent, { size: 'md' },
-        head('Share files', 'Share files with ' + w.name),
+        head('Add files', 'Add files to ' + w.name),
         h('div', { className: 'flex min-h-0 flex-col gap-3' },
           offer.length ? search(q, setQ, 'Search files…') : null,
           !offer.length ? nothing('Nothing left to share', 'Every file you have is already shared here', toPage('Upload Files', 'ds-upload', FILES))

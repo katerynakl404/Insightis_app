@@ -116,7 +116,7 @@
   IK.WS_CONNECTIONS = [
     { id: 'c-pg', name: 'PostgreSQL', label: 'Production DB', desc: 'Main analytics warehouse, syncs every 6 h', metrics: 0, lastSync: NOW - 2 * 3600e3, status: 'active' },
     { id: 'c-sf', name: 'Salesforce', label: 'Main CRM', desc: 'Deals, contacts & pipeline metrics', metrics: 12, lastSync: NOW - 32 * 60e3, status: 'active' },
-    { id: 'c-st', name: 'Stripe', label: 'Stripe Payments', desc: 'Revenue and subscription data', metrics: 8, lastSync: NOW - 26 * 3600e3, status: 'error', error: 'API key expired or revoked (HTTP 401)' },
+    { id: 'c-st', name: 'Stripe', label: 'Stripe Payments', desc: 'Revenue and subscription data', metrics: 8, lastSync: NOW - 26 * 3600e3, status: 'error', error: 'API key expired or revoked (HTTP 401)', willFail: true },
     { id: 'c-hs', name: 'HubSpot', label: 'Marketing Hub', desc: 'Campaign performance & lead scoring', metrics: 3, lastSync: NOW - 5 * 3600e3, status: 'active' }
   ];
   function myConn(id) { return IK.WS_CONNECTIONS.filter(function (c) { return c.id === id; })[0]; }
@@ -499,8 +499,96 @@
        pa.shareFiles(files) · pa.deleteFiles(files, close)  a selection, as Files' bulk bar
        { seeMetrics() → fn | null }                        "See it in Metrics" after a metric is made (null: none)
        pa.dialogs                                          rendered once by the page */
+  /* ── IK.wsToast — one wording for one action, wherever it is done (user, 2026-10-22: "консистентність … тости"):
+       added(ws, ids, o)       a connection or files added to workspaces: what members can do now, and Open <it>
+                               (o.link: false where the page already is that workspace)
+       removed(o)              taken out of a workspace: what members lose, what stays the person's
+       disconnected(label, n)  · deleted([names]) · metricCreated(name, connection, see: { href } | { onClick })
+       checked(c, ok) · checkFailed(c)   a connection's test and its failed check's Details — Data Sources' words
+     o: { kind: 'connection' | 'file', name, count (several), metrics, wsName } ── */
+  function severalOf(o) { return (o.count || 1) > 1; }
+  function itemOf(o) { return severalOf(o) ? o.count + (o.kind === 'connection' ? ' connections' : ' files') : h('strong', null, o.name); }
+  function metricsN(n) { return n + (n === 1 ? ' metric' : ' metrics'); }
+  IK.wsToast = {
+    added: function (ws, ids, o) {
+      var it = severalOf(o) ? 'them' : 'it';
+      var line = o.kind === 'connection'
+        ? 'Members can use ' + it + (o.metrics ? ' and ' + (severalOf(o) ? '' : 'its ') + metricsN(o.metrics) : '') + ' in their chats now'
+        : 'Members can view, download and add ' + it + ' to their chats';
+      var names = IK.wsJoin(ids.map(function (id) { var w = ws.find(id); return w ? w.name : ''; }));
+      D.toast.success(h(IK.Fragment, null, itemOf(o), ' added to ', h('strong', null, names)),
+        { description: o.link === false ? line : h('span', { className: 'flex flex-col items-start gap-1' }, h('span', null, line), IK.wsGoLink(ws, ids)) });
+    },
+    removed: function (o) {
+      var them = severalOf(o);
+      D.toast.success(h(IK.Fragment, null, itemOf(o), ' removed from ', h('strong', null, o.wsName)),
+        { description: o.kind === 'connection' ? 'Members can no longer use ' + (them ? 'them or their' : 'it or its') + ' metrics' : (them ? 'They stay' : 'It stays') + ' in your Files' });
+    },
+    disconnected: function (label, metrics) {
+      D.toast.success(h(IK.Fragment, null, h('strong', null, label), ' disconnected'), { description: metrics ? 'Its ' + metricsN(metrics) + ' left the library' : undefined });
+    },
+    deleted: function (names) {
+      if (!names.length) return;
+      D.toast.success(names.length === 1 ? h(IK.Fragment, null, h('strong', null, names[0]), ' deleted') : names.length + ' files deleted');
+    },
+    metricCreated: function (name, conn, see) {
+      D.toast.success(h(IK.Fragment, null, h('strong', null, name), ' added to ', h('strong', null, conn)), see ? {
+        description: h(D.LinkButton, { href: see.href || '#', onClick: see.onClick ? function (e) { e.preventDefault(); see.onClick(); } : undefined }, 'See it in Metrics') } : undefined);
+    },
+    checked: function (c, ok) {
+      var label = c.label || c.name;
+      if (ok) D.toast.success(h(IK.Fragment, null, h('strong', null, label), ' checked successfully'), { description: 'Last check just now', id: c.id || c.name });
+      else D.toast.error(h(IK.Fragment, null, 'Check failed for ', h('strong', null, label)), { description: 'Check failed: ' + IK.dsFailReason(c), id: c.id || c.name });
+    },
+    checkFailed: function (c) {
+      D.toast.error(h(IK.Fragment, null, 'Last check failed — ', h('strong', null, c.label || c.name)), { description: 'Check failed: ' + IK.dsFailReason(c), id: c.id || c.name });
+    }
+  };
+  /* IK.wsTestOutcome(c) — a connection's test, as Data Sources runs it: one that will fail (willFail) fails, with its reason */
+  IK.wsTestOutcome = function (c) {
+    var ok = !c.willFail;
+    return { busy: false, status: ok ? 'active' : 'error', lastSync: Date.now(),
+             error: !ok && !c.error ? 'Connection test failed — check credentials and try again' : c.error };
+  };
+  /* IK.useWsRemoveConfirm() — Remove from Workspace asks first, the same wherever it is done, a row's ⋮ or a panel's ×
+     (user, 2026-10-22): what members lose and what stays the person's, then IK.wsToast.removed.
+       var rm = IK.useWsRemoveConfirm();  rm.ask({ kind, name, count, metrics, wsName, run });  …  rm.dialog */
+  IK.useWsRemoveConfirm = function () {
+    var s = R.useState(null), q = s[0], set = s[1];
+    var x = q || {}, them = severalOf(x);
+    return { ask: set, dialog: h(D.ConfirmationDialog, {
+      open: !!q, variant: 'destructive', cancelLabel: 'Cancel', confirmLabel: 'Remove from Workspace',
+      title: q ? 'Remove ' + (them ? x.count + (x.kind === 'connection' ? ' connections' : ' files') : x.name) + ' from ' + x.wsName + '?' : '',
+      description: !q ? '' : x.kind === 'connection'
+        ? 'Members lose ' + (them ? 'them' : 'this connection') + (x.metrics ? ' and ' + (them ? 'their ' : 'its ') + metricsN(x.metrics) : '') + ' in their chats. ' + (them ? 'The connections stay' : 'The connection stays') + ' yours — nothing is deleted.'
+        : 'Members of ' + x.wsName + ' lose access to ' + (them ? 'them' : 'it') + '. ' + (them ? 'The files stay' : 'The file stays') + ' in your Files.',
+      onOpenChange: function (o) { if (!o) set(null); },
+      onConfirm: function () { set(null); x.run(); IK.wsToast.removed(x); } }) };
+  };
+  /* Create metric outside Metrics (Data Sources, a workspace) checks what Metrics checks: a name or an alias the person's
+     library already has (IK.wsMetricDuplicates(ws)), and an alias that is shared with them already (IK.wsSharedAlias(ws)) */
+  function normName(v) { return String(v || '').trim().toLowerCase().replace(/^@/, ''); }
+  IK.wsMetricDuplicates = function (ws) {
+    return function (name, alias) {
+      var nm = normName(name), al = normName(alias), hit = { name: null, alias: null };
+      var mine = IK.wsMyMetricRows().filter(function (r) { return r.kind === 'metric'; });
+      ((ws && ws.owned) || []).forEach(function (w) { w.connections.forEach(function (c) { (c.made || []).forEach(function (m) { mine.push(m); }); }); });
+      mine.forEach(function (r) { if (nm && normName(r.name) === nm) hit.name = r.name; if (al && normName(r.alias) === al) hit.alias = r.alias; });
+      return hit;
+    };
+  };
+  IK.wsSharedAlias = function (ws) {
+    return function (a) {
+      var n = normName(a); if (!n || !ws) return null;
+      var hit = IK.wsSharedItems(ws.list, 'metrics').filter(function (m) { return normName(m.alias) === n; })[0];
+      return hit ? { alias: '@' + n, long: '@' + n + '__' + hit.conn.id, ws: hit.ws.name } : null;
+    };
+  };
+
   IK.useWsPanelActions = function (ws, o) {
     var free = !!(o && o.free);
+    var rm = IK.useWsRemoveConfirm();
+    function count(c) { return Array.isArray(c.metrics) ? c.metrics.length : (c.metrics || 0); }
     var es = R.useState(null), editC = es[0], setEditC = es[1];
     var ds = R.useState(null), discC = ds[0], setDiscC = ds[1];
     var ss = R.useState(null), shareC = ss[0], setShareC = ss[1];
@@ -522,25 +610,24 @@
         return { item: Object.assign({}, c, { sharedWith: inWs.map(function (w) { return w.name; }), links: IK.wsLinks(inWs) }), opts: {
           free: free, wsLocked: free, metricsHref: IK.wsMetricsHref,
           onEdit: function () { setEditC(c); },
+          /* the test and the failed check's Details as on Data Sources: one that will fail fails */
           onTest: function () {
             ws.updateConnection(c.id, { busy: true });
             setTimeout(function () {
-              ws.updateConnection(c.id, { busy: false, status: 'active', lastSync: Date.now() });
-              D.toast.success(h(IK.Fragment, null, bold(c.label), ' checked successfully'), { description: 'Last check just now', id: c.id });
+              var next = IK.wsTestOutcome(c);
+              ws.updateConnection(c.id, next);
+              IK.wsToast.checked(Object.assign({}, c, next), next.status === 'active');
             }, 1500);
           },
-          /* the failed check's Details: the error toast, as on Data Sources */
-          onDetails: function () {
-            D.toast.error(h(IK.Fragment, null, 'Last check failed — ', bold(c.label)), { description: 'Check failed: ' + IK.dsFailReason(c), id: c.id });
-          },
+          onDetails: function () { IK.wsToast.checkFailed(c); },
           onDisconnect: function () { closeRef.current = close; setDiscC(c); },
           /* Create metric in place, as on Data Sources */
           onAddMetric: function () { setMxFor({ c: c }); },
           /* the count, whatever form the store keeps its metrics in (a list on a workspace) */
           onAddToWorkspace: function () { setShareC(Object.assign({}, c, { metrics: Array.isArray(c.metrics) ? c.metrics.length : c.metrics })); },
+          /* out of a workspace from its Workspaces list (×): asks first, as the row's ⋮ does */
           onRemoveFromWorkspace: function (it) {
-            ws.removeConnection(it.id, c.id);
-            D.toast.success(h(IK.Fragment, null, bold(c.label), ' removed from ' + it.name));
+            rm.ask({ kind: 'connection', name: c.label, metrics: count(c), wsName: it.name, run: function () { ws.removeConnection(it.id, c.id); } });
           } } };
       },
       /* File details' options for one's own file, as Files gives them */
@@ -553,27 +640,28 @@
           onDelete: function () { closeRef.current = close; setDelF([f]); },
           onShare: function () { setShareF([stored(f)]); }, shareLocked: free,
           onRemoveFromWorkspace: function (it) {
-            ws.unshareFile(it.id, f.id);
-            D.toast.success(h(IK.Fragment, null, bold(f.name), ' removed from ' + it.name));
+            rm.ask({ kind: 'file', name: f.name, wsName: it.name, run: function () { ws.unshareFile(it.id, f.id); } });
           } } };
       },
       shareFiles: function (list) { setShareF(list.map(stored)); },
       deleteFiles: function (list, close) { closeRef.current = close || null; setDelF(list); },
       createMetric: function (c) { setMxFor({ c: c || null }); },
+      /* a row's ⋮ Remove from Workspace on the workspace page: the same confirm as the panel's × */
+      askRemove: rm.ask,
       dialogs: h(IK.Fragment, null,
+        rm.dialog,
         h(IK.MxMetricDialog, {
           open: !!mxFor, mode: 'create',
           initial: mxFor && mxFor.c ? { connector: mxFor.c.label, link: 'connection' } : {},
           options: IK.WS_CONNECTIONS.map(function (x) { return { id: x.label, label: x.label + ' (' + x.name + ')' }; }),
-          findDuplicates: function () { return { name: null, alias: null }; },
+          findDuplicates: IK.wsMetricDuplicates(ws), sharedAlias: IK.wsSharedAlias(ws),
           onOpenChange: function (v) { if (!v) setMxFor(null); },
           onSave: function (v) {
             var k = IK.WS_CONNECTIONS.filter(function (x) { return x.label === v.connector; })[0] || (mxFor && mxFor.c);
             setMxFor(null);
             if (k) ws.addMetric(k.id, { name: v.name, alias: v.alias, desc: v.def });
             var see = o && o.seeMetrics ? o.seeMetrics() : null;
-            D.toast.success(h(IK.Fragment, null, bold(v.name), ' is added to ', bold(k ? k.label : 'Metrics')), see ? {
-              description: h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); see(); } }, 'See it in Metrics') } : undefined);
+            IK.wsToast.metricCreated(v.name, k ? k.label : 'Metrics', see ? { onClick: see } : null);
           }
         }),
         h(IK.DsEditConnectionDialog, {
@@ -587,7 +675,7 @@
           onOpenChange: function (v) { if (!v) setDiscC(null); },
           onConfirm: function () {
             var c = discC; setDiscC(null); ws.disconnect(c.id); if (closeRef.current) closeRef.current();
-            D.toast.success(h(IK.Fragment, null, bold(c.label), ' disconnected'));
+            IK.wsToast.disconnected(c.label, count(c));
           }
         }),
         h(IK.WsAddToWorkspacesDialog, {
@@ -595,7 +683,7 @@
           taken: function (n) { return IK.wsNameTaken(ws.list, n); }, onCreate: function (n, d) { return ws.create(n, d); },
           onAdd: function (ids) {
             var c = shareC; ids.forEach(function (id) { ws.addConnections(id, [c]); }); setShareC(null);
-            D.toast.success(h(IK.Fragment, null, bold(c.label), ' added to ' + names(ids)), { description: IK.wsGoLink(ws, ids) });
+            IK.wsToast.added(ws, ids, { kind: 'connection', name: c.label, metrics: count(c) });
           }
         }),
         h(IK.WsShareFileDialog, {
@@ -604,14 +692,14 @@
           onShare: function (ids) {
             var list = shareF; setShareF(null);
             ids.forEach(function (id) { var w = ws.find(id); list.forEach(function (f) { if (!w || !w.files.some(function (x) { return x.id === f.id; })) ws.shareFile(id, f); }); });
-            D.toast.success(h(IK.Fragment, null, list.length === 1 ? bold(list[0].name) : list.length + ' files', ' added to ' + names(ids)), { description: IK.wsGoLink(ws, ids) });
+            IK.wsToast.added(ws, ids, { kind: 'file', name: list[0].name, count: list.length });
           }
         }),
         h(IK.DsDeleteFilesDialog, {
           open: !!delF, count: delF ? delF.length : 1, onOpenChange: function (v) { if (!v) setDelF(null); },
           onConfirm: function () {
             var list = delF; setDelF(null); list.forEach(function (f) { ws.deleteFile(f.id); }); if (closeRef.current) closeRef.current();
-            D.toast.success(list.length === 1 ? h(IK.Fragment, null, bold(list[0].name), ' deleted') : list.length + ' files deleted');
+            IK.wsToast.deleted(list.map(function (f) { return f.name; }));
           }
         }))
     };
@@ -1138,8 +1226,10 @@
     else if (k === 'shared-plan') a = {
       /* the plan's notice: the wallet illustration, as "Your subscription ended" (user, 2026-10-21) */
       variant: 'warning', illu: 'wallet', title: 'Shared ' + ({ Connectors: 'connections', Files: 'files', Metrics: 'metrics', Workspaces: 'workspaces' }[p.module] || 'items') + ' need Starter',
-      description: h(IK.Fragment, null, 'Your plan doesn’t include ' + (p.module || 'Connectors') + '. ',
-        upgradeLink('Upgrade to Starter', p.feature || 'connections'), ' to use them in your chats'),
+      description: p.module === 'Workspaces'
+        ? h(IK.Fragment, null, 'Your plan doesn’t include what’s shared in them. ', upgradeLink('Upgrade to Starter', p.feature || 'connections'), ' to use it in your chats')
+        : h(IK.Fragment, null, 'Your plan doesn’t include ' + (p.module || 'Connectors') + '. ',
+            upgradeLink('Upgrade to Starter', p.feature || 'connections'), ' to use them in your chats'),
       actions: dismiss(p.onDismiss)
     };
     else if (k === 'invited') a = {

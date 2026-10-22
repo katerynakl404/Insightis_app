@@ -235,7 +235,7 @@
     return h(R.Fragment, { key: a.label }, lockBtn(a, h(D.Button, { variant: variant, size: 'sm', type: 'button', leftSlot: a.icon ? h(IK.Icon, { name: a.icon, size: 16 }) : undefined, onClick: a.onClick }, label || a.label)));
   }
   /* split — the general actions every item has (Edit, Duplicate, Delete / Disconnect) under a chevron in the head; what
-     is particular to this item or this page (Remove from Workspace, Duplicate & Customize, Connect) at the foot; a file
+     is particular to this item or this page (Remove from Workspace, Duplicate, Connect) at the foot; a file
      keeps its icons on top, the preview wants the room (user, 2026-10-20) */
   function chevronMenu(general, danger) {
     var items = general.map(function (a) {

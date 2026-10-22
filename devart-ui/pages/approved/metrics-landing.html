@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Metrics</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d4917db40d">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d4917db40d">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=bb4b5060b9">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=bb4b5060b9">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=d4917db40d"></script>
-<script src="../../review-kit/review-kit.js?v=d4917db40d"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=bb4b5060b9"></script>
+<script src="../../review-kit/review-kit.js?v=bb4b5060b9"></script>
 <script>
   /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
      dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
@@ -447,11 +447,13 @@
     function cxPatch(id, o) { setCx(function (m) { var n = Object.assign({}, m); n[id] = Object.assign({}, m[id], o); return n; }); }
     var ecs = R.useState(null), editC = ecs[0], setEditC = ecs[1];
     var dcs = R.useState(null), discC = dcs[0], setDiscC = dcs[1];
+    /* the test as Data Sources runs it: one that will fail fails, with its reason (IK.wsTestOutcome, IK.wsToast.checked) */
     function connTest(c) {
       cxPatch(c.id, { busy: true });
       setTimeout(function () {
-        cxPatch(c.id, { busy: false, status: 'active', lastSync: Date.now() });
-        D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' checked successfully'), { description: 'Last check just now', id: c.id });
+        var next = IK.wsTestOutcome(c);
+        cxPatch(c.id, next);
+        IK.wsToast.checked(Object.assign({}, c, next), next.status === 'active');
       }, 1500);
     }
     /* Edit: the new name is the connection's everywhere in the library — what its metrics are linked to */
@@ -477,10 +479,12 @@
         });
       });
       setConnPrev(null); closeSheet();
-      D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' disconnected'), { description: c.metrics ? 'Its ' + c.metrics + (c.metrics === 1 ? ' metric' : ' metrics') + ' left the library' : undefined });
+      IK.wsToast.disconnected(c.label, c.metrics);
     }
     /* the connection's Share dialog (from its details, opened over a metric's), as on Data Sources */
     var shs = R.useState(null), shareFor = shs[0], setShareFor = shs[1];
+    /* Remove from Workspace asks first, as everywhere (IK.useWsRemoveConfirm) */
+    var rm = IK.useWsRemoveConfirm();
     /* a metric is not added to or taken out of a workspace by itself: in Metric Details the connection's name in "Goes with
        its connection, …" opens the connection's details over it, where that is done (user, 2026-10-22: "метрики не можна
        видаляти напряму з воркспейсу …", then "лишаєм нову панель всюди (з лінком на сорс)") */
@@ -492,10 +496,7 @@
     var showList = filled || inList;
     /* an alias typed in Create metric that is shared already: theirs keeps it, the shared one goes long */
     function sharedAlias(a) {
-      var n = (a || '').trim().toLowerCase().replace(/^@/, '');
-      if (!wsOn || !n) return null;
-      var hit = IK.wsSharedItems(ws.list, 'metrics').filter(function (m) { return m.alias.toLowerCase().replace(/^@/, '') === n; })[0];
-      return hit ? { alias: '@' + n, long: '@' + n + '__' + hit.conn.id, ws: hit.ws.name } : null;
+      return wsOn ? IK.wsSharedAlias(ws)(a) : null;
     }
 
     /* from Data Sources' Add Metric (?create=<connection>): Create metric, linked to that connection, once */
@@ -776,7 +777,7 @@
             free: free, wsLocked: free,
             onEdit: function () { setEditC(c); },
             onTest: function () { connTest(c); },
-            onDetails: function () {},
+            onDetails: function () { IK.wsToast.checkFailed(c); },
             onDisconnect: function () { setDiscC(c); },
             onAddMetric: function () { setDlg({ open: true, mode: 'create', initial: { connector: c.label, link: 'connection' } }); },
             /* its metrics: here, the Provider filter on it (a sub-header of that name, or the source it is) */
@@ -787,10 +788,10 @@
             },
             onAddToWorkspace: function () { setShareFor(c); },
             onRemoveFromWorkspace: function (it) {
-              ws.removeConnection(it.id, c.id);
-              D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' removed from ' + it.name), { description: 'Its metrics went with it' });
+              rm.ask({ kind: 'connection', name: c.label, metrics: c.metrics, wsName: it.name, run: function () { ws.removeConnection(it.id, c.id); } });
             } });
       })() : null,
+      rm.dialog,
       wsOn ? h(IK.DsEditConnectionDialog, {
         open: !!editC, label: editC && editC.label, desc: editC && (editC.desc || ''),
         onOpenChange: function (o) { if (!o) setEditC(null); },
@@ -809,9 +810,7 @@
           var c = shareFor;
           ids.forEach(function (id) { ws.addConnections(id, [c]); });
           setShareFor(null);
-          var names = IK.wsJoin(ids.map(function (id) { var w = ws.find(id); return w ? w.name : ''; }));
-          D.toast.success(h(IK.Fragment, null, h('strong', null, c.label), ' added to ' + names),
-            { description: h('span', { className: 'flex flex-col items-start gap-1' }, h('span', null, c.metrics ? 'Members can use it and its ' + c.metrics + (c.metrics === 1 ? ' metric' : ' metrics') + ' in their chats now' : 'Members can use it in their chats now'), IK.wsGoLink(ws, ids)) });
+          IK.wsToast.added(ws, ids, { kind: 'connection', name: c.label, metrics: c.metrics });
         } }) : null,
       h(IK.ConnectDialog, {
         open: conn.open, connector: conn.source || 'New Connection', mark: 'letter',

@@ -1,6 +1,6 @@
 /* MetricDetails — Metric details: IK.DetailsPanel filled from a metric — Active, the mark, name, alias and type, its
    definition, Linked to, Workspaces ("Goes with its connection, <name>" — the name opening Connection details over it),
-   Edit · Duplicate · Delete (custom) or Duplicate & Customize (built-in); a library metric: Connect; a shared one:
+   Edit · Duplicate · Delete (custom) or Duplicate (built-in — user, 2026-10-22: "Duplicate звучить краще"); a library metric: Connect; a shared one:
    read-only, who shared it and where. One panel on Metrics and a workspace's Metrics tab. */
 (function () {
   'use strict';
@@ -47,9 +47,9 @@
               : { label: 'Goes with its connection' + (conn ? ', ' + conn : ''), text: 'Every workspace ' + (conn || 'its connection') + ' is in sees this metric — share or remove the connection to change that' },
             action: o.onShare && !o.onOpenConnection ? shareBtn('Share ' + (conn || 'Connection'), o.shareLocked, o.onShare) : null } : null,
       acts: kind === 'custom' ? { main: [act('Edit', 'rename', { feature: 'metrics', locked: free, onClick: o.onEdit })], more: [act('Duplicate', 'copy', { feature: 'metrics', locked: free, onClick: o.onDuplicate })], danger: [act('Delete', 'delete', { onClick: o.onDelete })] }
-        : kind === 'builtin' ? { specific: [act('Duplicate & Customize', 'copy', { short: 'Duplicate', tip: 'Duplicate & Customize — your own copy with a custom formula', feature: 'metrics', locked: free, onClick: o.onDuplicate })], mainVariant: 'secondary',
+        : kind === 'builtin' ? { specific: [act('Duplicate', 'copy', { feature: 'metrics', locked: free, onClick: o.onDuplicate })], mainVariant: 'secondary',
             note: h('div', { className: 'flex min-w-0 flex-col' },
-              h(D.Typography, { element: 'span', textStyle: 'label14', textColor: 'primary' }, 'Duplicate & Customize'),
+              h(D.Typography, { element: 'span', textStyle: 'label14', textColor: 'primary' }, 'Duplicate'),
               h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, 'Your own copy with a custom formula')) } : null,
       /* not connected yet: why and Connect, pinned at the bottom (the product's own block) */
       foot: kind === 'library' ? { block: h('div', { className: 'ik-mx-connect flex flex-col gap-3' },

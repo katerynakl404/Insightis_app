@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Data Sources (Files)</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d4917db40d">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d4917db40d">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=bb4b5060b9">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=bb4b5060b9">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=d4917db40d"></script>
-<script src="../../review-kit/review-kit.js?v=d4917db40d"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=bb4b5060b9"></script>
+<script src="../../review-kit/review-kit.js?v=bb4b5060b9"></script>
 <style>
   /* Page layout only. The list column (IK.ListPage — DevartUI ListPageLayout, its own scroller) and
      the preview split the main column side by side: the preview is a third column, so the list
@@ -118,6 +118,8 @@
     var pw = R.useState(null), previewW = pw[0], setPreviewW = pw[1];
     /* shared workspaces: the file being shared (Share via Workspace) */
     var sw = R.useState(null), shareIds = sw[0], setShareIds = sw[1];
+    /* Remove from Workspace asks first, as everywhere (IK.useWsRemoveConfirm) */
+    var rm = IK.useWsRemoveConfirm();
     var dl = R.useState(null), delTarget = dl[0], setDelTarget = dl[1];
     var up = R.useState([]), upl = up[0], setUpl = up[1];
     var uplRef = R.useRef([]);
@@ -172,11 +174,16 @@
       if (a === 'download') { D.toast('Download started'); return; }
       else if (a === 'share') setShareIds([id]);
       else if (a === 'delete') setDelTarget(id);
-      else if (a === 'add-to-chat') location.href = IK.pageHref('approved/chat-landing.html?attach=' + encodeURIComponent(f.name));
+      else if (a === 'add-to-chat') location.assign(IK.wsHref('approved/chat-landing.html', { attach: f.name }));
     }
     function confirmDelete() {
       var t = delTarget; setDelTarget(null);
-      if (t === 'selected') { setFiles(function (l) { return l.filter(function (f) { return !f.selected; }); }); setEditing(false); return; }
+      /* said, as everywhere a file is deleted (IK.wsToast.deleted) */
+      if (t === 'selected') {
+        IK.wsToast.deleted(files.filter(function (f) { return f.selected; }).map(function (f) { return f.name; }));
+        setFiles(function (l) { return l.filter(function (f) { return !f.selected; }); }); setEditing(false); return;
+      }
+      var gone = find(t); if (gone) IK.wsToast.deleted([gone.name]);
       if (previewId === t) setPreviewId(null);
       setFiles(function (l) {
         var next = l.filter(function (f) { return f.id !== t; });
@@ -383,8 +390,7 @@
               onShare: mineF && wsOn && ws.owned.length ? function (id) { onAction('share', id); } : null, shareLocked: free,
               renewal: pf.by ? IK.wsRenewal(ws, pf.wsIds || []) : null,
               onRemoveFromWorkspace: mineF && wsOn ? function (it, f) {
-                if (it.id) ws.unshareFile(it.id, f.id);
-                D.toast.success(h(IK.Fragment, null, h('strong', null, f.name), ' removed from ' + it.name));
+                rm.ask({ kind: 'file', name: f.name, wsName: it.name, run: function () { if (it.id) ws.unshareFile(it.id, f.id); } });
               } : undefined });
           })() : null)),
       upl.length ? h('div', { className: 'pg-upl-dock' },
@@ -437,16 +443,11 @@
             });
             out.forEach(function (wid) { files.forEach(function (f) { ws.unshareFile(wid, f.id); }); });
             setShareIds(null);
-            function names(l) { return IK.wsJoin(l.map(function (wid) { var w = ws.find(wid); return w ? w.name : ''; })); }
-            var what = files.length === 1 ? h('strong', null, files[0].name) : files.length + ' files';
-            if (ids.length && out.length) D.toast.success(h(IK.Fragment, null, what, ' sharing updated'), { description: 'Added to ' + names(ids) + ', removed from ' + names(out) });
-            else if (out.length) D.toast.success(h(IK.Fragment, null, what, ' removed from ' + names(out)));
-            else D.toast.success(h(IK.Fragment, null, what, ' added to ' + names(ids)),
-              { description: h('span', { className: 'flex flex-col items-start gap-1' },
-                  h('span', null, 'Members can view, download and add ' + (files.length === 1 ? 'it' : 'them') + ' to their chats'), IK.wsGoLink(ws, ids)) });
+            if (ids.length) IK.wsToast.added(ws, ids, { kind: 'file', name: files[0].name, count: files.length });
           }
         };
       })()) : null,
+      rm.dialog,
       h(D.Toaster, { position: 'top-right' }));
   }
   IK.mount(App);

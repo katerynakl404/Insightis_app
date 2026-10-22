@@ -13,7 +13,7 @@
   IK.story('MetricDetails', { title: 'A custom metric of one’s own', description: 'Active in the head; Definition, Linked to; Workspaces — “Goes with its connection, Skyvia Jira”, the name a link to Connection details, where it is shared. Delete · Duplicate · Edit.', render: function () {
     return Panel(CUSTOM);
   } });
-  IK.story('MetricDetails', { title: 'A built-in metric, not shared — Duplicate & Customize', description: 'Not shared: the note and its link only — no “Not shared yet”, no Share of its own.', render: function () {
+  IK.story('MetricDetails', { title: 'A built-in metric, not shared — Duplicate', description: 'Not shared: the note and its link only — no “Not shared yet”, no Share of its own.', render: function () {
     return Panel(BUILTIN);
   } });
   IK.story('MetricDetails', { title: 'Inactive', render: function () {
