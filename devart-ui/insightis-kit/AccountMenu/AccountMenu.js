@@ -145,7 +145,12 @@
   IK.AboutDialog = function AboutDialog(p) {
     var rows = [['Version', p.version], p.released && ['Released', p.released]].filter(Boolean);
     return h(D.Modal, { open: !!p.open, onOpenChange: p.onOpenChange },
-      h(D.ModalContent, { size: 'sm', closeButtonProps: { 'aria-label': 'Close' }, 'aria-describedby': undefined },
+      /* Focus lands on the dialog itself, not its Close button: Radix focusing the first button drew
+         its focus ring on a dialog opened with the mouse. Tab still reaches ✕ and Close (DetailsPanel). */
+      h(D.ModalContent, {
+        size: 'sm', closeButtonProps: { 'aria-label': 'Close' }, 'aria-describedby': undefined,
+        onOpenAutoFocus: function (e) { e.preventDefault(); if (e.currentTarget && e.currentTarget.focus) e.currentTarget.focus(); }
+      },
         h(D.ModalHeader, null, h(D.ModalTitle, null, 'About Insightis')),
         h('dl', { className: 'flex flex-col gap-2' }, rows.map(function (r) {
           return h('div', { key: r[0], className: 'flex justify-between gap-4' },
