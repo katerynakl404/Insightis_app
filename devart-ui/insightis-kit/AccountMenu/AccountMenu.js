@@ -2,8 +2,9 @@
    ".sbx-pop-account"; changes/AccountPopover.md). DevartUI DropdownMenu above the row:
 
      ACCOUNT   My account · Manage plan · Billing · Balance      → user_profile-modal ?section=…
-     SUPPORT   Leave feedback · Resources ↗                       (Resources opens a new tab —
-                                                                 DropdownMenuItem isExternal)
+     SUPPORT   Leave feedback · Resources ↗ · About Insightis     (Resources opens a new tab —
+                                                                 DropdownMenuItem isExternal;
+                                                                 About → IK.AboutDialog)
      Theme     Light · Dark · System — DevartUI DropdownMenuSegmentedItem, bound to IK.setTheme:
                ONE menu item (↑/↓ reach it, ←/→ or Enter change it, the menu stays open), its
                segments glyphs with their names as tooltips. System follows the OS
@@ -20,6 +21,14 @@
                 feedback, Resources, Dark, System) — that page's copy of the menu drifted
      defaultOpen / open / onOpenChange
      sideOffset  default: 4px above the sidebar FOOTER when opening upward (IK.sidebarFooterOffset)
+     version / released   the About dialog's values, default IK.RELEASE
+
+   The release version lives in "About Insightis" (decided 2026-10-23 out of five placements: a
+   line under Log out, above Account, in the Support heading, a What’s new item, this dialog).
+   IK.RELEASE      { version: '1.0.0', released: 'Oct 22, 2026' } — PLACEHOLDERS until the real
+                   numbers are given; one place, every prototype reads it
+   IK.AboutDialog  { open, onOpenChange, version, released } — DevartUI Modal sm: title
+                   "About Insightis", Version / Released rows, Close
    IK.UserRow   the trigger alone — DevartUI SidebarUser (avatar, name, meta, ⇕; the avatar alone
      on the icon rail). Spreads props + ref (asChild-safe).   name, initial, meta
 
@@ -40,6 +49,8 @@
     'theme-dark': '<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>',
     'theme-system': '<path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/>',
     'log-out': '<path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>',
+    /* About Insightis (lucide info) */
+    'acct-about': '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
     /* iconSet 'classic' — verbatim from chat_page-landing.html's older copy of this menu */
     'acct-balance-classic': '<path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M3 5a2 2 0 0 0 2 2h15a1 1 0 0 1 1 1v4h-4a2 2 0 0 0 0 4h4v2a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/>',
     'acct-feedback-classic': '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M9 10h6"/><path d="M9 14h4"/>',
@@ -128,9 +139,30 @@
     return f ? f.clientWidth - 16 : null;
   };
 
+  /* ── Release version: About Insightis ── */
+  IK.RELEASE = { version: '1.0.0', released: 'Oct 22, 2026' };
+
+  IK.AboutDialog = function AboutDialog(p) {
+    var rows = [['Version', p.version], p.released && ['Released', p.released]].filter(Boolean);
+    return h(D.Modal, { open: !!p.open, onOpenChange: p.onOpenChange },
+      h(D.ModalContent, { size: 'sm', closeButtonProps: { 'aria-label': 'Close' }, 'aria-describedby': undefined },
+        h(D.ModalHeader, null, h(D.ModalTitle, null, 'About Insightis')),
+        h('dl', { className: 'flex flex-col gap-2' }, rows.map(function (r) {
+          return h('div', { key: r[0], className: 'flex justify-between gap-4' },
+            h(D.Typography, { element: 'dt', textStyle: 'body14', textColor: 'secondary' }, r[0]),
+            h(D.Typography, { element: 'dd', textStyle: 'body14', textColor: 'primary' }, r[1]));
+        })),
+        h(D.ModalFooter, null,
+          h(D.Button, { variant: 'primary', size: 'sm', type: 'button', onClick: function () { p.onOpenChange(false); } }, 'Close'))));
+  };
+
   IK.AccountMenu = function AccountMenu(p) {
     var trig = R.useRef(null);
     var os = R.useState(!!p.defaultOpen), ownOpen = os[0], setOwnOpen = os[1];
+    var as = R.useState(false), about = as[0], setAbout = as[1];
+    /* A menu open from the first render measures the footer on the second, once the ref is set. */
+    var setMounted = R.useState(false)[1];
+    R.useEffect(function () { setMounted(true); }, []);
     var planS = IK.usePlan()[0];
     var plan = p.plan || planS;
     var name = p.name || 'Kateryna K.', role = p.role || 'Admin';
@@ -139,7 +171,7 @@
     var open = p.open != null ? p.open : ownOpen;
     var ctl = { open: open, onOpenChange: function (v) { setOwnOpen(v); if (p.onOpenChange) p.onOpenChange(v); } };
     var side = p.side || (p.collapsed ? 'right' : 'top');
-    return h(D.DropdownMenu, ctl,
+    var menu = h(D.DropdownMenu, ctl,
       h(D.DropdownMenuTrigger, { asChild: true },
         h(IK.UserRow, { ref: trig, name: name, initial: p.initial || name.charAt(0), meta: meta, collapsed: p.collapsed, className: p.className })),
       h(D.DropdownMenuContent, {
@@ -157,8 +189,12 @@
         h(D.DropdownMenuGroup, null,
           h(D.DropdownMenuLabel, null, 'Support'),
           h(Row, { icon: 'acct-feedback', label: 'Leave feedback', href: sec('leave-feedback'), set: p.iconSet }),
-          h(Row, { icon: 'acct-resources', label: 'Resources', ext: true, href: p.resourcesHref, set: p.iconSet })),
+          h(Row, { icon: 'acct-resources', label: 'Resources', ext: true, href: p.resourcesHref, set: p.iconSet }),
+          /* the dialog opens once the menu has closed (one modal layer at a time) */
+          h(Row, { icon: 'acct-about', label: 'About Insightis', onSelect: function () { setTimeout(function () { setAbout(true); }, 0); } })),
         h(ThemeItem, { set: p.iconSet }),
         h(Row, { icon: 'log-out', label: 'Log out', onSelect: p.onLogOut })));
+    return h(R.Fragment, null, menu,
+      h(IK.AboutDialog, { open: about, onOpenChange: setAbout, version: p.version || IK.RELEASE.version, released: p.released || IK.RELEASE.released }));
   };
 })();
