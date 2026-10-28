@@ -11,7 +11,9 @@
      a token          hover / keyboard focus → a small card: the metric's name and definition.
      shared           a metric shared with the person from a workspace ({ shared: { by, ws } }): the people glyph after
                       its alias (IK.WsOwnerMark — 'Shared by … / In …' on hover), as every list marks a shared item, and
-                      its token card ends with the workspaces it comes from, whole (wrapping). A Blocked workspace's
+                      its token card lists the workspaces it comes from, one row each (glyph, whole name, › opens it).
+                      An alias the person already has stays theirs, the shared one is namespaced — @revenue and
+                      @revenue__a3f9c1 (the brief; IK.wsMetricRows). Free (no Metrics) does not offer shared ones. A Blocked workspace's
                       metrics are not offered — the page leaves them out.
      Free             the metrics are still listed (an account that lapsed keeps them) but every
                       row is locked: padlock trails, nothing is inserted, hover / click → the
@@ -93,7 +95,9 @@
   }
 
   IK.ChatPrompt = R.forwardRef(function ChatPrompt(p, fwd) {
-    var metrics = p.metrics || IK.CHAT_METRICS;
+    /* a plan without Metrics keeps the person's own listed (locked) but does not offer shared ones (the brief: unavailable
+       on your plan — 'в чате не предлагается') */
+    var metrics = (p.metrics || IK.CHAT_METRICS).filter(function (m) { return !(m.shared && (p.plan || IK.getPlan()) === 'free'); });
     var plan = p.plan || IK.usePlan()[0];
     var free = plan === 'free';
     var elRef = R.useRef(null);
@@ -222,7 +226,7 @@
       h(D.Popover, { open: !!detail, onOpenChange: function (v) { if (!v) setDetail(null); } },
         h(D.PopoverAnchor, { virtualRef: tagRef }),
         h(D.PopoverContent, {
-          side: 'top', align: 'start', sideOffset: 8, className: 'ik-mention-detail', role: 'tooltip',
+          side: 'top', align: 'start', sideOffset: 8, className: 'ik-mention-detail', role: detail && detail.shared ? 'dialog' : 'tooltip',
           onOpenAutoFocus: function (e) { e.preventDefault(); },
           onCloseAutoFocus: function (e) { e.preventDefault(); },
           onPointerEnter: function () { clearTimeout(leaveT.current); },
@@ -230,10 +234,11 @@
         },
           detail ? h(D.Typography, { element: 'div', textStyle: 'title12', textColor: 'primary', className: 'mb-0.5' }, detail.name) : null,
           detail ? h(D.Typography, { element: 'div', textStyle: 'body12', textColor: 'secondary' }, detail.desc) : null,
-          /* a shared metric: the workspaces it comes from, whole — no owner name, nothing cut (user, 2026-10-28: 'не варто
-             транкейтити воркспейс — тут можеш прописати тільки воркспейси') */
-          detail && detail.shared ? h('div', { className: 'mt-1.5 flex min-w-0 items-start gap-1.5 text-ink-secondary' },
-            h(IK.Icon, { name: 'ws-users', size: 14, className: 'mt-0.5 shrink-0' }),
-            h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'min-w-0' }, IK.wsJoin([].concat(detail.shared.ws)))) : null)));
+          /* a shared metric: the workspaces it comes from — one row each, as the +N menu lists them: the workspace glyph,
+             the whole name (nothing cut, no owner), a chevron; the row opens that workspace (user, 2026-10-28: 'тут можеш
+             прописати тільки воркспейси', 'бракує іконки воркспейсів', 'або просто дати шеврон в бік для переходу') */
+          detail && detail.shared ? h('div', { className: 'ik-mention-ws-list' }, [].concat(detail.shared.ws).map(function (n) {
+            return h(IK.WsLine, { key: n, name: n, href: detail.shared.links && detail.shared.links[n], className: 'ik-mention-ws' });
+          })) : null)));
   });
 })();

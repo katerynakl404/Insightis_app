@@ -16,11 +16,11 @@
   IK.story('ChatPrompt', { title: 'Shared metrics — from a workspace', wide: true,
     description: 'Type "@w": @win_rate and @deals_won come from Olena Petrenko’s Sales workspace — the people glyph after the alias (hover: who shared it, from where). Pick one and hover its token: the card ends with the same line.',
     render: function () {
-      var shared = [['Win rate', 'win_rate', 'Won deals as a share of closed deals'], ['Deals won', 'deals_won', 'Closed-won deals in the period']].map(function (x) {
-        return { name: x[0], alias: x[1], source: 'Salesforce', desc: x[2], shared: { by: 'Olena Petrenko', ws: ['Sales'] } };
+      var shared = [['Revenue', 'revenue__a3f9c1', 'Closed-won amount, net of refunds'], ['Win rate', 'win_rate', 'Won deals as a share of closed deals'], ['Deals won', 'deals_won', 'Closed-won deals in the period']].map(function (x) {
+        return { name: x[0], alias: x[1], source: 'Salesforce', desc: x[2], shared: { by: 'Olena Petrenko', ws: ['Marketing analytics — EMEA regional team', 'Brand'], links: { 'Marketing analytics — EMEA regional team': '#', Brand: '#' } } };
       });
       return h('div', { className: 'flex flex-col justify-end pt-80' },
-        h('div', { className: 'ik-composer' }, h(IK.ChatPrompt, { plan: 'paid', metrics: IK.CHAT_METRICS.concat(shared), seed: ['win_rate'], placeholder: 'Ask anything about your data, or type @ to reference a metric…' })));
+        h('div', { className: 'ik-composer' }, h(IK.ChatPrompt, { plan: 'paid', metrics: IK.CHAT_METRICS.concat(shared), seed: ['revenue', 'revenue__a3f9c1'], placeholder: 'Ask anything about your data, or type @ to reference a metric…' })));
     } });
   IK.story('ChatPrompt', { title: 'Free — locked list', wide: true,
     description: 'Type "@c": the account keeps its metrics listed, every row locked (padlock trails, hover / click opens the Metrics popover). Type "@zzz": one locked row "Metrics are on paid plans".',

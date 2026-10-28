@@ -29,6 +29,15 @@
 /* the alias line: the people glyph after it when the metric is shared from a workspace */
 .ik-mention-head { display: flex; min-width: 0; align-items: center; gap: .375rem; }
 .ik-mention-head > .ik-mention-alias { min-width: 0; }
+/* a shared metric's token card: its workspaces, one row each — glyph, whole name, chevron; a row opens the workspace */
+.ik-mention-ws-list { display: flex; flex-direction: column; margin: .5rem -.375rem 0; padding-top: .375rem; border-top: 1px solid hsl(var(--stroke-border)); }
+.ik-mention-ws {
+  padding: .25rem .375rem; border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs); line-height: var(--line-height-xs); font-weight: 500; color: hsl(var(--ink-body)); text-decoration: none;
+}
+a.ik-mention-ws:hover { background: var(--state-hover); }
+a.ik-mention-ws:focus-visible { outline: 2px solid hsl(var(--input-focus)); outline-offset: -2px; }
+.ik-mention-ws .ik-ws-line-glyph { color: hsl(var(--ink-secondary)); }
 .ik-mention-alias, .ik-mention-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
 .ik-mention-alias { font-size: var(--font-size-sm); line-height: var(--line-height-sm); color: hsl(var(--ink-primary)); }
 .ik-mention-name { font-size: var(--font-size-xs); line-height: var(--line-height-xs); color: hsl(var(--ink-secondary)); }

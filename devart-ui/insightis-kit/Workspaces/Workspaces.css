@@ -5,3 +5,8 @@
 @media (max-width: 639px) { .ik-ws-notice.is-wrap { flex-wrap: wrap; } }
 
 
+
+/* IK.WsLine — a workspace on its own line: the glyph sits in a box one line tall, so it centres on the name's first line
+   however the name wraps (user, 2026-10-28: 'центрування іконки мало бути по верхньому рядку') */
+.ik-ws-line { display: flex; min-width: 0; align-items: flex-start; gap: .375rem; }
+.ik-ws-line-glyph { display: flex; flex: none; align-items: center; height: 1lh; }

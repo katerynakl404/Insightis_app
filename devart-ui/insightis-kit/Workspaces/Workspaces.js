@@ -385,7 +385,7 @@
     var own = IK.CHAT_METRICS || [];
     return own.concat(IK.wsMetricRows(list, { own: own.map(function (m) { return '@' + m.alias; }) })
       .filter(function (r) { return r.kind === 'metric' && !r.muted; })
-      .map(function (r) { return { name: r.name, alias: r.alias.replace(/^@/, ''), source: r.provider, desc: r.desc, shared: { by: r.by, ws: r.wsNames } }; }));
+      .map(function (r) { return { name: r.name, alias: r.alias.replace(/^@/, ''), source: r.provider, desc: r.desc, shared: { by: r.by, ws: r.wsNames, links: r.links } }; }));
   };
   IK.wsSharedItems = function (list, kind) {
     var out = [];
@@ -963,12 +963,23 @@
      none), and one Owner filter on every page instead of a Shared tag or type.
      IK.WsOwnerMark({ by, ws }) — the ws-users glyph, 14px, secondary ink; its tooltip says who and where, on two
      lines: "Shared by Olena Petrenko" / "In Marketing · Brand" (user, 2026-10-20: who and in which workspace) */
+  /* IK.WsLine({ name, href?, className? }) — one workspace on its own line: the workspace glyph centred on the name's
+     FIRST line (a 1lh box), the whole name (wraps, never cut); with href the line is a link that opens it, a chevron
+     after. The shared mark's tooltip and the chat's token card list workspaces with it (user, 2026-10-28) */
+  IK.WsLine = function WsLine(p) {
+    function glyph(name) { return h('span', { className: 'ik-ws-line-glyph', 'aria-hidden': 'true' }, h(IK.Icon, { name: name, size: 14 })); }
+    return h(p.href ? 'a' : 'span', { href: p.href, className: IK.cx('ik-ws-line', p.className), 'aria-label': p.href ? 'Open ' + p.name : undefined },
+      glyph('ws-layers'), h('span', { className: 'min-w-0 flex-1' }, p.name), p.href ? glyph('chevron-right') : null);
+  };
   IK.WsOwnerMark = function WsOwnerMark(p) {
     var by = p.by || '';
     var ws = (Array.isArray(p.ws) ? p.ws : p.ws ? String(p.ws).split(/ · | and |, /) : []).filter(Boolean);
-    var tip = h('span', { className: 'flex flex-col gap-0.5' },
+    /* who, then each workspace on its own line with the workspace glyph, centred on its first line \u2014 the same list the
+       chat's token card shows (user, 2026-10-28: '\u0442\u0438 \u043f\u043e-\u0440\u0456\u0437\u043d\u043e\u043c\u0443 \u043f\u0435\u0440\u0435\u043b\u0456\u0447\u0443\u0454\u0448 \u0432\u043e\u0440\u043a\u0441\u043f\u0435\u0439\u0441\u0438, \u0431\u0440\u0430\u043a\u0443\u0454 \u0456\u043a\u043e\u043d\u043a\u0438 \u0432\u043e\u0440\u043a\u0441\u043f\u0435\u0439\u0441\u0456\u0432',
+       '\u0446\u0435\u043d\u0442\u0440\u0443\u0432\u0430\u043d\u043d\u044f \u0456\u043a\u043e\u043d\u043a\u0438 \u043c\u0430\u043b\u043e \u0431\u0443\u0442\u0438 \u043f\u043e \u0432\u0435\u0440\u0445\u043d\u044c\u043e\u043c\u0443 \u0440\u044f\u0434\u043a\u0443'); a long name wraps, nothing is cut */
+    var tip = h('span', { className: 'flex flex-col gap-1' },
       h('span', null, 'Shared by ', h('span', { className: 'font-semibold' }, by)),
-      ws.length ? h('span', null, 'In ' + ws.join(' \u00b7 ')) : null);
+      ws.map(function (n) { return h(IK.WsLine, { key: n, name: n }); }));
     return h(IK.Tip, { tip: tip, wrap: true },
       /* the people glyph after the name (Drive's and Dropbox's shared mark), secondary ink — seen at a glance,
          quieter than an avatar (user, 2026-10-19: the initial bubble read wrong; the filter alone hid it) */

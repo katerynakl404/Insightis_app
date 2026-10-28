@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Chat page</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=34e8c86572">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=34e8c86572">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=32ec0433af">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=32ec0433af">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=34e8c86572"></script>
-<script src="../../review-kit/review-kit.js?v=34e8c86572"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=32ec0433af"></script>
+<script src="../../review-kit/review-kit.js?v=32ec0433af"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -70,10 +70,12 @@
        alias, who shared it in the token's card; a Blocked workspace's are left out (user, 2026-10-28: 'де приклад
        метрик шерінгу в чаті?') */
     var metrics = R.useMemo(function () { return wsOn ? IK.wsChatMetrics(ws.list) : IK.CHAT_METRICS; }, [wsOn, ws.list]);
-    /* the example in the prompt: one of the person's own metrics and one shared with them, side by side (user, 2026-10-28:
-       'приклад має бути разом і свої і шерені') */
-    var sharedOne = metrics.filter(function (m) { return m.shared; })[0];
-    var seed = ['mrr'].concat(sharedOne ? [sharedOne.alias] : []);
+    /* the example in the prompt: the person's own metric and a shared one with the SAME alias, side by side — theirs keeps
+       @revenue, the shared one is @revenue__a3f9c1 (the brief's alias collision; user, 2026-10-28: 'приклад має бути
+       разом і свої і шерені', 'мав показати ситуації коли метрики співпадатимуть') */
+    var clash = metrics.filter(function (m) { return m.shared && m.alias.indexOf('__') > 0; })[0];
+    var sharedOne = clash || metrics.filter(function (m) { return m.shared; })[0];
+    var seed = clash ? [clash.alias.split('__')[0], clash.alias] : ['mrr'].concat(sharedOne ? [sharedOne.alias] : []);
     /* U6 — only in a chat that HAD connections: the file chats never used one. */
     var usedConnections = !/\.(xlsx|csv|pdf|docx)\b/i.test(CHAT);
     return h(IK.Fragment, null,
