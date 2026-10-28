@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Chat landing</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=598b359e86">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=598b359e86">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=1d9e34fc4a">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=1d9e34fc4a">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=598b359e86"></script>
-<script src="../../review-kit/review-kit.js?v=598b359e86"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=1d9e34fc4a"></script>
+<script src="../../review-kit/review-kit.js?v=1d9e34fc4a"></script>
 <script>
   /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
      dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
@@ -41,6 +41,9 @@
     var pop = RK.useQueryState('pop', 'filled');
     var t = R.useState(''), text = t[0], setText = t[1];
     var promptRef = R.useRef(null);
+    /* @ lists the metrics here too — the person's own, then those shared from workspaces (user, 2026-10-28: 'так, додай
+       список метрик через @ і на екран нового чату') */
+    var metrics = R.useMemo(function () { return wsOn ? IK.wsChatMetrics(ws.list) : IK.CHAT_METRICS; }, [wsOn, ws.list]);
     var attach = R.useMemo(function () { return new URLSearchParams(location.search).get('attach'); }, []);
     /* This page's sidebar marks "Jira · first 5 AIINS issues" with the new-activity dot. */
     var chats = IK.useChats({ initial: IK.chatsWith({ 'jira-aiins': { status: 'new' } }) });
@@ -96,6 +99,7 @@
         h(IK.ChatHero, null,
           h(IK.Composer, {
             /* the first thing typed under the tour ends it (it fades out) and stays in the prompt */
+            prompt: 'rich', rows: 2, metrics: metrics,
             value: text, onValueChange: function (v) { setText(v); if (touring && v) endTour('finish', true); },
             promptRef: promptRef, popState: pop[0],
             attachment: attach || null, sendHref: IK.pageHref('approved/chat_page-landing.html'),

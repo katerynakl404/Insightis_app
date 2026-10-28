@@ -24,6 +24,8 @@
   color: hsl(var(--ink-primary)); white-space: pre-wrap; word-break: break-word;
 }
 .ik-cmp-prompt::placeholder { color: hsl(var(--ink-inactive)); }
+/* the rich prompt where the plain one has two rows (the chat landing): two lines tall, as before (20px × 2 + 8px) */
+.ik-cmp-prompt-2 { min-height: 3rem; }
 
 .ik-cmp-foot { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
 .ik-cmp-tools { display: flex; align-items: center; gap: .25rem; }

@@ -378,6 +378,15 @@
     if (names.length < 2) return names[0] || '';
     return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
   };
+  /* the chat's @-list: the person's own metrics (IK.CHAT_METRICS), then those shared with them from workspaces — a
+     Blocked workspace's left out, an alias they already use namespaced (IK.wsMetricRows); each shared one carries
+     { shared: { by, ws } } for IK.ChatPrompt. Used by the chat landing and the chat page (user, 2026-10-28) */
+  IK.wsChatMetrics = function (list) {
+    var own = IK.CHAT_METRICS || [];
+    return own.concat(IK.wsMetricRows(list, { own: own.map(function (m) { return '@' + m.alias; }) })
+      .filter(function (r) { return r.kind === 'metric' && !r.muted; })
+      .map(function (r) { return { name: r.name, alias: r.alias.replace(/^@/, ''), source: r.provider, desc: r.desc, shared: { by: r.by, ws: r.wsNames } }; }));
+  };
   IK.wsSharedItems = function (list, kind) {
     var out = [];
     list.forEach(function (w) {

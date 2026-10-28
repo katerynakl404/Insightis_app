@@ -27,7 +27,10 @@
 
    h(IK.Composer, {
      prompt: 'text' | 'rich',        default 'text'
-     value, onValueChange,           the text prompt, controlled (optional — uncontrolled otherwise)
+     value, onValueChange,           the text prompt, controlled (optional — uncontrolled otherwise); with prompt 'rich'
+                                     too: a value set from outside (a suggestion) replaces the text, the caret at its end,
+                                     and every edit reports the prompt's text back
+     rows: 2,                        rich only — the prompt keeps two lines' height, as the plain one has (the chat landing)
      promptRef,                      ref to the <textarea> / editable element (focus from outside)
      placeholder,                    default 'Ask anything about your data…' (rich: '…, or type @ to reference a metric…')
      metrics, seed,                  rich only → IK.ChatPrompt (seed: aliases pre-inserted, ['mrr'])
@@ -413,8 +416,21 @@
         if (rich) { var r = document.createRange(); r.selectNodeContents(el); r.collapse(false); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
       }
     };
+    /* rich + controlled: a value from outside replaces the text (a picked suggestion), the caret at its end; what the
+       person types comes back through onContentChange, so the two never fight */
+    R.useEffect(function () {
+      if (!rich || p.value == null) return;
+      var el = elRef.current; if (!el || el.textContent === p.value) return;
+      el.textContent = p.value; setRichHas(!!p.value.trim());
+      if (document.activeElement === el) { var r = document.createRange(); r.selectNodeContents(el); r.collapse(false); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+    }, [rich, p.value]);
+    function richChanged(has) {
+      setRichHas(has);
+      if (p.onValueChange) p.onValueChange(elRef.current ? elRef.current.textContent : '');
+    }
     var prompt = rich
-      ? h(IK.ChatPrompt, { ref: setPromptRef, placeholder: placeholder, metrics: p.metrics, seed: p.seed, plan: plan, logos: p.mentionLogos, onContentChange: setRichHas })
+      ? h(IK.ChatPrompt, { ref: setPromptRef, placeholder: placeholder, metrics: p.metrics, seed: p.seed, plan: plan, logos: p.mentionLogos, onContentChange: richChanged,
+          className: p.rows === 2 ? 'ik-cmp-prompt-2' : undefined })
       : h('textarea', {
           ref: setPromptRef, className: 'ik-cmp-prompt', rows: 2, placeholder: placeholder, value: text,
           onChange: function (e) { setText(e.target.value); }

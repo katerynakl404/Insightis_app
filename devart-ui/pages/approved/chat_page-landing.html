@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Chat page</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=598b359e86">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=598b359e86">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=1d9e34fc4a">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=1d9e34fc4a">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=598b359e86"></script>
-<script src="../../review-kit/review-kit.js?v=598b359e86"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=1d9e34fc4a"></script>
+<script src="../../review-kit/review-kit.js?v=1d9e34fc4a"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -69,13 +69,11 @@
     /* the @-list: the person's own metrics, then those shared with them from workspaces — the people glyph after the
        alias, who shared it in the token's card; a Blocked workspace's are left out (user, 2026-10-28: 'де приклад
        метрик шерінгу в чаті?') */
-    var metrics = R.useMemo(function () {
-      if (!wsOn) return IK.CHAT_METRICS;
-      var own = IK.CHAT_METRICS.map(function (m) { return '@' + m.alias; });
-      return IK.CHAT_METRICS.concat(IK.wsMetricRows(ws.list, { own: own }).filter(function (r) { return r.kind === 'metric' && !r.muted; }).map(function (r) {
-        return { name: r.name, alias: r.alias.replace(/^@/, ''), source: r.provider, desc: r.desc, shared: { by: r.by, ws: r.wsNames } };
-      }));
-    }, [wsOn, ws.list]);
+    var metrics = R.useMemo(function () { return wsOn ? IK.wsChatMetrics(ws.list) : IK.CHAT_METRICS; }, [wsOn, ws.list]);
+    /* the example in the prompt: one of the person's own metrics and one shared with them, side by side (user, 2026-10-28:
+       'приклад має бути разом і свої і шерені') */
+    var sharedOne = metrics.filter(function (m) { return m.shared; })[0];
+    var seed = ['mrr'].concat(sharedOne ? [sharedOne.alias] : []);
     /* U6 — only in a chat that HAD connections: the file chats never used one. */
     var usedConnections = !/\.(xlsx|csv|pdf|docx)\b/i.test(CHAT);
     return h(IK.Fragment, null,
@@ -102,7 +100,7 @@
                 h(IK.ChatProse, null, 'These are the first 5 issues with the prefix "AIINS" from the available Jira issues dataset. Let me know if you need further details or analysis!')))),
           plan === 'free' && usedConnections ? h(IK.ChatPausedNotice, { sources: 'Salesforce and HubSpot' }) : null),
         h(IK.ChatComposerArea, null,
-          h(IK.Composer, { prompt: 'rich', metrics: metrics, seed: ['mrr'], popState: pop[0], sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' }))),
+          h(IK.Composer, { prompt: 'rich', metrics: metrics, seed: seed, popState: pop[0], sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' }))),
       h(D.Toaster));
   }
   IK.mount(App);

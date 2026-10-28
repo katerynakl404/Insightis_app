@@ -19,10 +19,14 @@
 
   /* ── The card ── */
   IK.story('Composer', { title: 'Landing — empty (Send disabled)', wide: true,
-    description: 'prompt "text". Hover: border Field/Hover; focus-within: Input/Focus (no hover border while focused). Below 480px the trigger labels and "Send" go icon-only.',
-    render: function () { return h(Stage, null, h(IK.Composer, { plan: 'paid' })); } });
+    description: 'prompt "rich", rows 2 — @ lists the metrics here too (own, then shared from workspaces). Hover: border Field/Hover; focus-within: Input/Focus (no hover border while focused). Below 480px the trigger labels and "Send" go icon-only.',
+    render: function () { return h(Stage, null, h(IK.Composer, { plan: 'paid', prompt: 'rich', rows: 2 })); } });
   IK.story('Composer', { title: 'Landing — typed (Send enabled)', wide: true,
-    render: function () { return h(Stage, null, h(IK.Composer, { plan: 'paid', defaultValue: 'Show revenue trends' })); } });
+    description: 'value / onValueChange on the rich prompt: a value set from outside (a suggestion) replaces the text.',
+    render: function () {
+      function Typed() { var s = R.useState('Show revenue trends'); return h(IK.Composer, { plan: 'paid', prompt: 'rich', rows: 2, value: s[0], onValueChange: s[1] }); }
+      return h(Stage, null, h(Typed));
+    } });
   IK.story('Composer', { title: 'File attached — chip above the prompt, Attach disabled', wide: true,
     description: 'One file only: Attach goes aria-disabled and tips "Only one file allowed". The chip’s ✕ removes the file.',
     render: function () { return h(Stage, null, h(IK.Composer, { plan: 'paid', attachment: 'Q3-revenue.csv' })); } });

@@ -201,7 +201,7 @@
 
     return h(IK.Fragment, null,
       h('div', {
-        ref: setRefs, className: 'ik-cmp-prompt ik-chat-prompt', contentEditable: true, suppressContentEditableWarning: true,
+        ref: setRefs, className: IK.cx('ik-cmp-prompt ik-chat-prompt', p.className), contentEditable: true, suppressContentEditableWarning: true,
         role: 'textbox', 'aria-multiline': 'true', 'aria-label': 'Ask anything about your data', 'data-placeholder': p.placeholder,
         onInput: onInput, onKeyDown: onKeyDown,
         onBlur: function (e) { var t = tagOf(e.target); if (t) hideCardSoon(); },
