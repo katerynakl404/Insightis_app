@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Chat page</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d396ddf1bb">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d396ddf1bb">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=598b359e86">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=598b359e86">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=d396ddf1bb"></script>
-<script src="../../review-kit/review-kit.js?v=d396ddf1bb"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=598b359e86"></script>
+<script src="../../review-kit/review-kit.js?v=598b359e86"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -58,24 +58,36 @@
   function App() {
     var pop = RK.useQueryState('pop', 'filled');
     var plan = IK.usePlan()[0];
+    /* shared workspaces (approved/workspace.rules.md, rule 4): the sidebar's Workspaces row, on unless ?ws=0 */
+    var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var t = R.useState(CHAT), title = t[0], setTitle = t[1];
     var chats = IK.useChats({
       onRenamed: function (c, name) { if (c.title === title) setTitle(name); },
       onDeleted: function (c) { if (c.title === title) location.href = IK.pageHref('approved/chat-landing.html'); }
     });
     var open = chats.find(title);
+    /* the @-list: the person's own metrics, then those shared with them from workspaces — the people glyph after the
+       alias, who shared it in the token's card; a Blocked workspace's are left out (user, 2026-10-28: 'де приклад
+       метрик шерінгу в чаті?') */
+    var metrics = R.useMemo(function () {
+      if (!wsOn) return IK.CHAT_METRICS;
+      var own = IK.CHAT_METRICS.map(function (m) { return '@' + m.alias; });
+      return IK.CHAT_METRICS.concat(IK.wsMetricRows(ws.list, { own: own }).filter(function (r) { return r.kind === 'metric' && !r.muted; }).map(function (r) {
+        return { name: r.name, alias: r.alias.replace(/^@/, ''), source: r.provider, desc: r.desc, shared: { by: r.by, ws: r.wsNames } };
+      }));
+    }, [wsOn, ws.list]);
     /* U6 — only in a chat that HAD connections: the file chats never used one. */
     var usedConnections = !/\.(xlsx|csv|pdf|docx)\b/i.test(CHAT);
     return h(IK.Fragment, null,
       h(RK.ReviewBar, {
-        title: 'Chat page', status: 'approved', size: 'sm', plan: { showLabel: true },
+        title: 'Chat page', status: 'approved', size: 'sm', plan: RK.wsOwnsPlan(wsq) ? false : { showLabel: true },
         controls: [{
           label: 'Popover state', showLabel: true, value: pop[0], onChange: pop[1],
           options: [{ value: 'loading', label: 'Loading' }, { value: 'empty', label: 'Empty' },
                     { value: 'filled', label: 'Filled' }, { value: 'scroll', label: 'Scrolling' }]
-        }]
+        }].concat(RK.workspaceControls({ here: 'chat' }))
       }),
-      h(IK.AppShell, { chats: chats, currentChat: open ? open.id : title, burger: false, scroll: false, classic: true },
+      h(IK.AppShell, { chats: chats, currentChat: open ? open.id : title, burger: false, scroll: false, classic: true, workspaces: wsOn ? ws : null, trialDays: wsOn && wsq.trial && IK.getPlan() !== 'free' ? 3 : undefined },
         h(IK.ChatHeader, { title: title, chats: chats, id: open && open.id }),
         h(IK.ChatThread, { endKey: plan },
           h(IK.ChatTurn, null,
@@ -90,7 +102,7 @@
                 h(IK.ChatProse, null, 'These are the first 5 issues with the prefix "AIINS" from the available Jira issues dataset. Let me know if you need further details or analysis!')))),
           plan === 'free' && usedConnections ? h(IK.ChatPausedNotice, { sources: 'Salesforce and HubSpot' }) : null),
         h(IK.ChatComposerArea, null,
-          h(IK.Composer, { prompt: 'rich', seed: ['mrr'], popState: pop[0], sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' }))),
+          h(IK.Composer, { prompt: 'rich', metrics: metrics, seed: ['mrr'], popState: pop[0], sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' }))),
       h(D.Toaster));
   }
   IK.mount(App);

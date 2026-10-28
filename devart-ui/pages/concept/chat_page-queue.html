@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · AI Chat — message queue</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=d396ddf1bb">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=d396ddf1bb">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=598b359e86">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=598b359e86">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=d396ddf1bb"></script>
-<script src="../../review-kit/review-kit.js?v=d396ddf1bb"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=598b359e86"></script>
+<script src="../../review-kit/review-kit.js?v=598b359e86"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -338,6 +338,8 @@
   function App() {
     var st = RK.useQueryState('state', 'live');
     var storedPlan = IK.usePlan()[0];
+    /* shared workspaces (approved/workspace.rules.md, rule 4): the sidebar's Workspaces row, on unless ?ws=0 */
+    var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
     var t = R.useState('Message queue'), title = t[0], setTitle = t[1];
     var fs = R.useState(null), file = fs[0], setFile = fs[1];
     var lv = R.useState(''), live = lv[0], setLive = lv[1];
@@ -382,7 +384,7 @@
       }, h(StatePicker, { value: m.state, onChange: pick, onReset: function () { pick('live'); } })),
       h(IK.AppShell, {
         chats: chats, currentChat: 'message-queue', burger: false, scroll: false, classic: true,
-        plan: 'free', credits: FREE_CREDITS, promo: storedPlan === 'free', dailySuffix: false
+        plan: 'free', credits: FREE_CREDITS, promo: storedPlan === 'free', dailySuffix: false, workspaces: wsOn ? ws : null
       },
         h('div', { className: 'relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden' },
           h(IK.ChatHeader, { title: title, chats: chatsBase, id: 'message-queue' }),

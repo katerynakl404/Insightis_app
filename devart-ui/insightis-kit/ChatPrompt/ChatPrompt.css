@@ -26,6 +26,9 @@
 .ik-mention-row:active { background: var(--state-pressed); }
 .ik-mention-row.is-plan { padding-left: .75rem; gap: .5rem; }
 .ik-mention-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+/* the alias line: the people glyph after it when the metric is shared from a workspace */
+.ik-mention-head { display: flex; min-width: 0; align-items: center; gap: .375rem; }
+.ik-mention-head > .ik-mention-alias { min-width: 0; }
 .ik-mention-alias, .ik-mention-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
 .ik-mention-alias { font-size: var(--font-size-sm); line-height: var(--line-height-sm); color: hsl(var(--ink-primary)); }
 .ik-mention-name { font-size: var(--font-size-xs); line-height: var(--line-height-xs); color: hsl(var(--ink-secondary)); }

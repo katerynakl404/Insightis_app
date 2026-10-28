@@ -13,6 +13,15 @@
   IK.story('ChatPrompt', { title: 'Typing "@" — the metric list', wide: true,
     description: 'Type "@c": rows whose alias contains "c", the typed run marked (D.HighlightText); the first row is active. Up/Down move, Enter / Tab insert, Esc closes. No match: the list hides.',
     render: function () { return h(Card, { plan: 'paid' }); } });
+  IK.story('ChatPrompt', { title: 'Shared metrics — from a workspace', wide: true,
+    description: 'Type "@w": @win_rate and @deals_won come from Olena Petrenko’s Sales workspace — the people glyph after the alias (hover: who shared it, from where). Pick one and hover its token: the card ends with the same line.',
+    render: function () {
+      var shared = [['Win rate', 'win_rate', 'Won deals as a share of closed deals'], ['Deals won', 'deals_won', 'Closed-won deals in the period']].map(function (x) {
+        return { name: x[0], alias: x[1], source: 'Salesforce', desc: x[2], shared: { by: 'Olena Petrenko', ws: ['Sales'] } };
+      });
+      return h('div', { className: 'flex flex-col justify-end pt-80' },
+        h('div', { className: 'ik-composer' }, h(IK.ChatPrompt, { plan: 'paid', metrics: IK.CHAT_METRICS.concat(shared), seed: ['win_rate'], placeholder: 'Ask anything about your data, or type @ to reference a metric…' })));
+    } });
   IK.story('ChatPrompt', { title: 'Free — locked list', wide: true,
     description: 'Type "@c": the account keeps its metrics listed, every row locked (padlock trails, hover / click opens the Metrics popover). Type "@zzz": one locked row "Metrics are on paid plans".',
     render: function () { return h(Card, { plan: 'free' }); } });

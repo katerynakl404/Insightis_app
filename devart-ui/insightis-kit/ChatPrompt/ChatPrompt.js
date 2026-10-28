@@ -9,6 +9,10 @@
                       the list hides (no empty state).
      a picked row     becomes an inline @alias token (not editable, focusable) + a space.
      a token          hover / keyboard focus → a small card: the metric's name and definition.
+     shared           a metric shared with the person from a workspace ({ shared: { by, ws } }): the people glyph after
+                      its alias (IK.WsOwnerMark — 'Shared by … / In …' on hover), as every list marks a shared item, and
+                      its token card ends with who shared it and from where (IK.WsSharedBy). A Blocked workspace's
+                      metrics are not offered — the page leaves them out.
      Free             the metrics are still listed (an account that lapsed keeps them) but every
                       row is locked: padlock trails, nothing is inserted, hover / click → the
                       Metrics upgrade popover. Free with nothing to list → one locked row "Metrics
@@ -16,7 +20,7 @@
 
    h(IK.ChatPrompt, {
      placeholder,                 shown while empty
-     metrics,                     default IK.CHAT_METRICS ({ name, alias, source, desc })
+     metrics,                     default IK.CHAT_METRICS ({ name, alias, source, desc, shared? })
      seed: ['mrr'],               aliases inserted as tokens on mount
      logos: false,                text-only rows — no source logo (chat_page-charts-landing's older
                                   copy of the list)
@@ -81,7 +85,9 @@
     },
       p.logos === false ? null : h(IK.ConnectorMark, { connector: m.source, size: 'sm', label: m.source + ' logo' }),
       h('span', { className: 'ik-mention-text' },
-        h('span', { className: 'ik-mention-alias' }, '@', h(D.HighlightText, { text: m.alias, query: p.query })),
+        h('span', { className: 'ik-mention-head' },
+          h('span', { className: 'ik-mention-alias' }, '@', h(D.HighlightText, { text: m.alias, query: p.query })),
+          m.shared ? h(IK.WsOwnerMark, { by: m.shared.by, ws: m.shared.ws, inert: true }) : null),
         h('span', { className: 'ik-mention-name' }, m.name)));
     return p.locked ? h(IK.Locked, { feature: 'metrics', locked: true, marker: 'trail' }, row) : row;
   }
@@ -167,7 +173,7 @@
       clearTimeout(leaveT.current);
       var m = metrics.filter(function (x) { return x.alias === tag.getAttribute('data-alias'); })[0] || {};
       tagRef.current = tag;
-      setDetail({ name: tag.getAttribute('data-name') || m.name, desc: tag.getAttribute('data-desc') || m.desc || '' });
+      setDetail({ name: tag.getAttribute('data-name') || m.name, desc: tag.getAttribute('data-desc') || m.desc || '', shared: m.shared });
     }
     function hideCardSoon() { clearTimeout(leaveT.current); leaveT.current = setTimeout(function () { setDetail(null); }, 80); }
     R.useEffect(function () {
@@ -223,6 +229,9 @@
           onPointerLeave: hideCardSoon
         },
           detail ? h(D.Typography, { element: 'div', textStyle: 'title12', textColor: 'primary', className: 'mb-0.5' }, detail.name) : null,
-          detail ? h(D.Typography, { element: 'div', textStyle: 'body12', textColor: 'secondary' }, detail.desc) : null)));
+          detail ? h(D.Typography, { element: 'div', textStyle: 'body12', textColor: 'secondary' }, detail.desc) : null,
+          detail && detail.shared ? h('div', { className: 'mt-1.5 flex min-w-0 items-center gap-1.5 text-ink-secondary' },
+            h(IK.Icon, { name: 'ws-users', size: 14, className: 'shrink-0' }),
+            h(IK.WsSharedBy, { by: detail.shared.by, ws: IK.wsJoin([].concat(detail.shared.ws)), withBy: true })) : null)));
   });
 })();

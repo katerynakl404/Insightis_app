@@ -963,7 +963,8 @@
     return h(IK.Tip, { tip: tip, wrap: true },
       /* the people glyph after the name (Drive's and Dropbox's shared mark), secondary ink — seen at a glance,
          quieter than an avatar (user, 2026-10-19: the initial bubble read wrong; the filter alone hid it) */
-      h('span', { tabIndex: 0, role: 'img', className: IK.cx('inline-flex shrink-0 rounded-sm text-ink-secondary', D.focusRing), 'aria-label': 'Shared by ' + by + (ws.length ? ' in ' + ws.join(', ') : '') },
+      /* inert: inside a row that takes the keys itself (the chat's @-list) — the tooltip on hover, no tab stop */
+      h('span', { tabIndex: p.inert ? undefined : 0, role: 'img', className: IK.cx('inline-flex shrink-0 rounded-sm text-ink-secondary', !p.inert && D.focusRing), 'aria-label': 'Shared by ' + by + (ws.length ? ' in ' + ws.join(', ') : '') },
         h(IK.Icon, { name: 'ws-users', size: 14 })));
   };
   /* the filters are DevartUI FilterMenu pills — "Type: All ▾", "Owner: Anyone ▾", "Provider: Main CRM ✕ ▾" — each choice

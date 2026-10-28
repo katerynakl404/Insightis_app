@@ -142,14 +142,24 @@
   /* ── Release version: About Insightis ── */
   IK.RELEASE = { version: '1.0.0', released: 'Oct 22, 2026' };
 
+  var keyboard = false;
+  document.addEventListener('pointerdown', function () { keyboard = false; }, true);
+  document.addEventListener('keydown', function (e) { if (!/^(Shift|Control|Alt|Meta)$/.test(e.key)) keyboard = true; }, true);
+
   IK.AboutDialog = function AboutDialog(p) {
     var rows = [['Version', p.version], p.released && ['Released', p.released]].filter(Boolean);
     return h(D.Modal, { open: !!p.open, onOpenChange: p.onOpenChange },
-      /* Focus lands on the dialog itself, not its Close button: Radix focusing the first button drew
-         its focus ring on a dialog opened with the mouse. Tab still reaches ✕ and Close (DetailsPanel). */
+      /* Opened from the keyboard, focus goes to the first button (Close) as Radix does, ring and all.
+         Opened with the mouse, it goes to the dialog itself with no outline — no ring on Close and
+         none round the dialog; Tab then walks into Close and ✕. The same keyboard-only rule as
+         DevartUI’s DropdownMenu (its lib/focus-modality.js, not exported — mirrored below). */
       h(D.ModalContent, {
-        size: 'sm', closeButtonProps: { 'aria-label': 'Close' }, 'aria-describedby': undefined,
-        onOpenAutoFocus: function (e) { e.preventDefault(); if (e.currentTarget && e.currentTarget.focus) e.currentTarget.focus(); }
+        size: 'sm', closeButtonProps: { 'aria-label': 'Close' }, 'aria-describedby': undefined, className: 'outline-none',
+        onOpenAutoFocus: function (e) {
+          if (keyboard) return;
+          e.preventDefault();
+          if (e.currentTarget && e.currentTarget.focus) e.currentTarget.focus();
+        }
       },
         h(D.ModalHeader, null, h(D.ModalTitle, null, 'About Insightis')),
         h('dl', { className: 'flex flex-col gap-2' }, rows.map(function (r) {
@@ -164,7 +174,7 @@
   IK.AccountMenu = function AccountMenu(p) {
     var trig = R.useRef(null);
     var os = R.useState(!!p.defaultOpen), ownOpen = os[0], setOwnOpen = os[1];
-    var as = R.useState(false), about = as[0], setAbout = as[1];
+    var as = R.useState(false), about = as[0], setAbout = as[1], aboutNext = R.useRef(false);
     /* A menu open from the first render measures the footer on the second, once the ref is set. */
     var setMounted = R.useState(false)[1];
     R.useEffect(function () { setMounted(true); }, []);
@@ -183,7 +193,10 @@
         side: side, align: p.align || (p.collapsed ? 'end' : 'start'),
         sideOffset: p.sideOffset != null ? p.sideOffset : (side === 'top' && open ? IK.sidebarFooterOffset(trig.current) : 4),
         className: 'w-60', style: side === 'top' && open && IK.sidebarFooterWidth(trig.current) ? { width: IK.sidebarFooterWidth(trig.current) + 'px' } : undefined,
-        'aria-label': 'Account'
+        'aria-label': 'Account',
+        /* About Insightis: the dialog opens once the menu has CLOSED and in place of its focus return —
+           otherwise a keyboard close sends focus back to the user row after the dialog took it */
+        onCloseAutoFocus: function (e) { if (!aboutNext.current) return; aboutNext.current = false; e.preventDefault(); setAbout(true); }
       },
         h(D.DropdownMenuGroup, null,
           h(D.DropdownMenuLabel, null, 'Account'),
@@ -195,8 +208,7 @@
           h(D.DropdownMenuLabel, null, 'Support'),
           h(Row, { icon: 'acct-feedback', label: 'Leave feedback', href: sec('leave-feedback'), set: p.iconSet }),
           h(Row, { icon: 'acct-resources', label: 'Resources', ext: true, href: p.resourcesHref, set: p.iconSet }),
-          /* the dialog opens once the menu has closed (one modal layer at a time) */
-          h(Row, { icon: 'acct-about', label: 'About Insightis', onSelect: function () { setTimeout(function () { setAbout(true); }, 0); } })),
+          h(Row, { icon: 'acct-about', label: 'About Insightis', onSelect: function () { aboutNext.current = true; } })),
         h(ThemeItem, { set: p.iconSet }),
         h(Row, { icon: 'log-out', label: 'Log out', onSelect: p.onLogOut })));
     return h(R.Fragment, null, menu,
