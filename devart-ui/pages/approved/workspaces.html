@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Workspaces</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=32ec0433af">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=32ec0433af">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=498386f0b2">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=498386f0b2">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=32ec0433af"></script>
-<script src="../../review-kit/review-kit.js?v=32ec0433af"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=498386f0b2"></script>
+<script src="../../review-kit/review-kit.js?v=498386f0b2"></script>
 </head>
 <style>
   /* Page layout only: File details (IK.FileDetails) splits the main column as on Files — a third
@@ -60,7 +60,8 @@
     return list.length > 3 ? n.concat([plural(list.length - 3, 'other', 'others')]) : n;
   }
 
-  var MY_ALIASES = ['@mrr_growth', '@issues_created', '@issues_resolved', '@sprint_velocity', '@bug_count', '@prs_opened', '@prs_merged'];
+  /* the person's aliases — the one set Metrics and the chat namespace shared aliases against (IK.wsMyAliases) */
+  var MY_ALIASES = IK.wsMyAliases();
 
   function toFile(f) { return { id: f.id, name: f.name, type: f.type, origin: f.kind, size: f.size, date: IK.wsFmtDate(f.date), time: f.date }; }
 

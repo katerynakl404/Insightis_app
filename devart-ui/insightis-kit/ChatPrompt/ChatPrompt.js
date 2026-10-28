@@ -10,10 +10,10 @@
      a picked row     becomes an inline @alias token (not editable, focusable) + a space.
      a token          hover / keyboard focus → a small card: the metric's name and definition.
      shared           a metric shared with the person from a workspace ({ shared: { by, ws } }): the people glyph after
-                      its alias (IK.WsOwnerMark — 'Shared by … / In …' on hover), as every list marks a shared item, and
+                      its alias (IK.WsOwnerMark — 'Shared by …' on hover, who only, as the Metrics list), and
                       its token card lists the workspaces it comes from, one row each (glyph, whole name, › opens it).
                       An alias the person already has stays theirs, the shared one is namespaced — @revenue and
-                      @revenue__a3f9c1 (the brief; IK.wsMetricRows). Free (no Metrics) does not offer shared ones. A Blocked workspace's
+                      @revenue__a3f9c1 (the brief; IK.wsMetricRows), named as on Metrics (IK.wsMyAliases). Free (no Metrics) does not offer shared ones. A Blocked workspace's
                       metrics are not offered — the page leaves them out.
      Free             the metrics are still listed (an account that lapsed keeps them) but every
                       row is locked: padlock trails, nothing is inserted, hover / click → the
@@ -89,7 +89,9 @@
       h('span', { className: 'ik-mention-text' },
         h('span', { className: 'ik-mention-head' },
           h('span', { className: 'ik-mention-alias' }, '@', h(D.HighlightText, { text: m.alias, query: p.query })),
-          m.shared ? h(IK.WsOwnerMark, { by: m.shared.by, ws: m.shared.ws, inert: true }) : null),
+          /* who only, as the Metrics list says it; where it comes from is the token card's (as Metric details is on
+             Metrics) — user, 2026-10-28: 'чому тут воркспейси якщо в інших місцях ні?' */
+          m.shared ? h(IK.WsOwnerMark, { by: m.shared.by, inert: true }) : null),
         h('span', { className: 'ik-mention-name' }, m.name)));
     return p.locked ? h(IK.Locked, { feature: 'metrics', locked: true, marker: 'trail' }, row) : row;
   }

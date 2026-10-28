@@ -167,5 +167,5 @@
     "WsOverview/WsOverview.stories.js"
   ];
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
-  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=32ec0433af"><\/script>');
+  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=498386f0b2"><\/script>');
 })();

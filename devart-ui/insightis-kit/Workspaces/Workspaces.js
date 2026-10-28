@@ -378,12 +378,39 @@
     if (names.length < 2) return names[0] || '';
     return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
   };
-  /* the chat's @-list: the person's own metrics (IK.CHAT_METRICS), then those shared with them from workspaces — a
-     Blocked workspace's left out, an alias they already use namespaced (IK.wsMetricRows); each shared one carries
-     { shared: { by, ws } } for IK.ChatPrompt. Used by the chat landing and the chat page (user, 2026-10-28) */
+  /* the person's own metrics as the Metrics library holds them (metrics-landing.html ROWS — keep the two in step): their
+     Jira and GitHub connections' metrics; with IK.wsMyMetricRows (Salesforce, Stripe, HubSpot) it is everything they own.
+     [name, alias, source, on, summary] */
+  IK.MY_LIB_METRICS = [
+    ['MRR growth', '@mrr_growth', 'Jira Software Cloud', true, 'Month-over-month growth rate of MRR derived from Jira billing data.'],
+    ['Issues created', '@issues_created', 'Jira Software Cloud', true, 'Number of issues created in the selected period.'],
+    ['Issues resolved', '@issues_resolved', 'Jira Software Cloud', true, 'Number of issues resolved (closed) in the selected period.'],
+    ['Sprint velocity', '@sprint_velocity', 'Jira Software Cloud', true, 'Average number of story points completed per sprint.'],
+    ['Bug count', '@bug_count', 'Jira Software Cloud', false, 'Number of open bugs at the end of the selected period.'],
+    ['Story points completed', '@story_pts_completed', 'Jira Software Cloud', true, 'Total story points completed across all sprints in the selected period.'],
+    ['Jira ticket sync lag', '@jira_sync_lag', 'Jira Software Cloud', true, 'Average delay between a Jira issue update and its appearance in Insightis.'],
+    ['Pull requests opened', '@prs_opened', 'GitHub', true, 'Number of pull requests opened in the selected period.'],
+    ['Pull requests merged', '@prs_merged', 'GitHub', true, 'Number of pull requests merged into the main branch in the selected period.'],
+    ['Commits per day', '@commits_per_day', 'GitHub', false, 'Average number of commits pushed per calendar day in the selected period.'],
+    ['Code review time', '@code_review_time', 'GitHub', true, 'Average time from pull request creation to first review comment.'],
+    ['Issues closed', '@issues_closed', 'GitHub', false, 'Number of GitHub issues closed in the selected period.']
+  ];
+  /* every alias the person owns (on or off) — the ONE set a shared alias is namespaced against, on Metrics, a workspace
+     and in the chat, so a shared metric has the same name everywhere (user, 2026-10-28: 'метрики тут і в списках мали б
+     мати однакові назви і бути консистентними') */
+  IK.wsMyAliases = function () {
+    return IK.MY_LIB_METRICS.map(function (m) { return m[1]; })
+      .concat(IK.wsMyMetricRows().filter(function (r) { return r.kind === 'metric'; }).map(function (r) { return r.alias; }));
+  };
+  /* the chat's @-list: the person's own metrics that are on — the same names, aliases and sources as on Metrics — then
+     those shared with them from workspaces, named as everywhere else (a Blocked workspace's left out); each shared one
+     carries { shared: { by, ws, links } } for IK.ChatPrompt. Used by every chat (user, 2026-10-28) */
   IK.wsChatMetrics = function (list) {
-    var own = IK.CHAT_METRICS || [];
-    return own.concat(IK.wsMetricRows(list, { own: own.map(function (m) { return '@' + m.alias; }) })
+    var own = IK.MY_LIB_METRICS.filter(function (m) { return m[3]; }).map(function (m) { return { name: m[0], alias: m[1].slice(1), source: m[2], desc: m[4] }; })
+      .concat(IK.wsMyMetricRows().filter(function (r) { return r.kind === 'metric' && r.active; }).map(function (r) {
+        return { name: r.name, alias: r.alias.replace(/^@/, ''), source: r.provider, desc: r.desc };
+      }));
+    return own.concat(IK.wsMetricRows(list, { own: IK.wsMyAliases() })
       .filter(function (r) { return r.kind === 'metric' && !r.muted; })
       .map(function (r) { return { name: r.name, alias: r.alias.replace(/^@/, ''), source: r.provider, desc: r.desc, shared: { by: r.by, ws: r.wsNames, links: r.links } }; }));
   };
