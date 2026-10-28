@@ -115,6 +115,9 @@
     var storedPlan = IK.usePlan()[0];
     /* shared workspaces (approved/workspace.rules.md, rule 4): the sidebar's Workspaces row, on unless ?ws=0 */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
+    /* @ lists the person's own metrics and those shared from workspaces, as in every chat (user, 2026-10-28: 'чому досі не
+       в усіх чатах?') */
+    var metrics = R.useMemo(function () { return wsOn ? IK.wsChatMetrics(ws.list) : IK.CHAT_METRICS; }, [wsOn, ws.list]);
     var variant = IK.ASK_VARIANTS[ask[0]];
     function closeAsk() { ask[1]('off'); }
     return h(IK.Fragment, null,
@@ -139,7 +142,7 @@
             h(IK.ChatHeader, { title: title, chats: chats, id: 'two-charts' }),
             h(Thread, { onOpen: setFile }),
             h(IK.ChatComposerArea, null,
-              h(IK.Composer, { prompt: 'rich', plan: 'paid', mentionLogos: false, popState: pop[0], sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' })),
+              h(IK.Composer, { prompt: 'rich', metrics: metrics, plan: 'paid', mentionLogos: false, popState: pop[0], sendIdle: 'filled', sendLabelCollapse: false, modelIcon: 'model-brain' })),
             variant ? h(IK.AskUserLayer, null,
               h(IK.AskUserPanel, Object.assign({ key: ask[0] }, variant, { onAnswer: closeAsk, onDismiss: closeAsk }))) : null),
           h(IK.ChatFilePreview, { file: file, onClose: function () { setFile(null); } }))));

@@ -340,6 +340,9 @@
     var storedPlan = IK.usePlan()[0];
     /* shared workspaces (approved/workspace.rules.md, rule 4): the sidebar's Workspaces row, on unless ?ws=0 */
     var wsq = RK.useWsQuery(), ws = IK.useWorkspaces(RK.wsStore(wsq)), wsOn = wsq.on;
+    /* @ lists the person's own metrics and those shared from workspaces, as in every chat (user, 2026-10-28: 'чому досі не
+       в усіх чатах?') */
+    var metrics = R.useMemo(function () { return wsOn ? IK.wsChatMetrics(ws.list) : IK.CHAT_METRICS; }, [wsOn, ws.list]);
     var t = R.useState('Message queue'), title = t[0], setTitle = t[1];
     var fs = R.useState(null), file = fs[0], setFile = fs[1];
     var lv = R.useState(''), live = lv[0], setLive = lv[1];
@@ -394,7 +397,7 @@
           h(IK.ChatComposerArea, null,
             h('div', { role: 'region', 'aria-label': 'Queued messages' }, band),
             h(IK.Composer, {
-              prompt: 'rich', apiRef: apiRef, plan: 'paid', modelIcon: 'model-brain', sendLabelCollapse: false,
+              prompt: 'rich', metrics: metrics, apiRef: apiRef, plan: 'paid', modelIcon: 'model-brain', sendLabelCollapse: false,
               streaming: m.streaming, onStop: Q.stop, onSend: Q.send, actionSlot: true,
               placeholder: m.streaming ? PH_BUSY : PH_IDLE,
               attachment: file, onAttachmentChange: setFile
