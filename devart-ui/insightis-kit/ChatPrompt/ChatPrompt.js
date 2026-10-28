@@ -11,7 +11,7 @@
      a token          hover / keyboard focus → a small card: the metric's name and definition.
      shared           a metric shared with the person from a workspace ({ shared: { by, ws } }): the people glyph after
                       its alias (IK.WsOwnerMark — 'Shared by … / In …' on hover), as every list marks a shared item, and
-                      its token card ends with who shared it and from where (IK.WsSharedBy). A Blocked workspace's
+                      its token card ends with the workspaces it comes from, whole (wrapping). A Blocked workspace's
                       metrics are not offered — the page leaves them out.
      Free             the metrics are still listed (an account that lapsed keeps them) but every
                       row is locked: padlock trails, nothing is inserted, hover / click → the
@@ -230,8 +230,10 @@
         },
           detail ? h(D.Typography, { element: 'div', textStyle: 'title12', textColor: 'primary', className: 'mb-0.5' }, detail.name) : null,
           detail ? h(D.Typography, { element: 'div', textStyle: 'body12', textColor: 'secondary' }, detail.desc) : null,
-          detail && detail.shared ? h('div', { className: 'mt-1.5 flex min-w-0 items-center gap-1.5 text-ink-secondary' },
-            h(IK.Icon, { name: 'ws-users', size: 14, className: 'shrink-0' }),
-            h(IK.WsSharedBy, { by: detail.shared.by, ws: IK.wsJoin([].concat(detail.shared.ws)), withBy: true })) : null)));
+          /* a shared metric: the workspaces it comes from, whole — no owner name, nothing cut (user, 2026-10-28: 'не варто
+             транкейтити воркспейс — тут можеш прописати тільки воркспейси') */
+          detail && detail.shared ? h('div', { className: 'mt-1.5 flex min-w-0 items-start gap-1.5 text-ink-secondary' },
+            h(IK.Icon, { name: 'ws-users', size: 14, className: 'mt-0.5 shrink-0' }),
+            h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'min-w-0' }, IK.wsJoin([].concat(detail.shared.ws)))) : null)));
   });
 })();
