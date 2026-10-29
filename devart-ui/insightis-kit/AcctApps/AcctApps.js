@@ -6,7 +6,7 @@
      rows     one IK.AcctSection per app, hairlines between, as My account's "Delete my account": three columns —
               the assistant's real logo (IK.ConnectorMark sm, 32px — the button's height) · Title/14 name
               over Body/12 secondary "Connected <date>", no gap between them (the name leads; the date is its meta, as the email under a member's name), and under them its access (IK.AppScopes badges) · Revoke Access, always
-              shown — DevartUI Button destructiveOutline sm, the Delete Account button (one action is never hidden
+              shown — DevartUI Button destructiveSecondary sm, the Delete Account button (one action is never hidden
               behind a ⋮). Logo and button are centred on the name + date lines; the badges wrap inside the middle
               column, so nothing sits under the button (user, 2026-10-29). Below 640px that column is too narrow for a
               badge: the badges run under the whole head instead, the row's full width (the brief's phone row).
@@ -152,7 +152,7 @@
         h(Row, {
           narrow: narrow,
           mark: h(IK.ConnectorMark, { connector: a.name, size: 'sm', label: a.name + ' logo' }),
-          action: h(D.Button, { variant: 'destructiveOutline', size: 'sm', className: 'flex-none', onClick: function () { setTarget(a); } }, 'Revoke Access'),
+          action: h(D.Button, { variant: 'destructiveSecondary', size: 'sm', className: 'flex-none', onClick: function () { setTarget(a); } }, 'Revoke Access'),
           below: h(IK.AppScopes, { look: 'badges', scopes: a.scopes, label: 'Access granted to ' + a.name })
         },
           h('div', { className: 'flex min-w-0 items-center gap-1.5' },

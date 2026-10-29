@@ -3,7 +3,7 @@
   /* A section body as the window draws it: card surface, 20px padding. */
   function Body(p) { return h('div', { className: 'flex w-full flex-col rounded-lg border border-stroke bg-surface-card p-5' }, p.children, h(D.Toaster)); }
   IK.story('AcctApps', { title: 'List', wide: true,
-    description: 'The window’s own section rows (My account): the assistant’s real logo, its name, “Connected <date>” and its access (AppScopes badges); Revoke Access always shown on the right (Button destructiveOutline sm, as Delete Account) → ConfirmationDialog, destructive, with its ✕.',
+    description: 'The window’s own section rows (My account): the assistant’s real logo, its name, “Connected <date>” and its access (AppScopes badges); Revoke Access always shown on the right (Button destructiveSecondary sm, as Delete Account) → ConfirmationDialog, destructive, with its ✕.',
     render: function () { return h(Body, null, h(IK.AcctApps, { state: 'list', locked: false })); } });
   IK.story('AcctApps', { title: 'Revoke fails once', wide: true,
     description: 'The first call fails: the dialog stays open with an error Alert, the confirm button reads Try Again; the retry goes through, the row leaves and a toast confirms.',
