@@ -13,6 +13,16 @@
       description: 'DS = DevartUI mark · original = the prototype\'s own logo in the same frame · original monogram = the brand tile the original drew itself · tile = none of these',
       render: function () { return h(Row, { size: s }); } });
   });
+  /* AI assistants (Authorized apps, the consent screen): ChatGPT is the OpenAI logo; an ink logo flips on dark */
+  IK.story('ConnectorMark', { title: 'AI assistants — Claude, ChatGPT', wide: true,
+    description: 'claude.svg (its own orange) and the OpenAI logo for ChatGPT (alias); the OpenAI logo is ink, so .dark inverts it — switch the theme to see. Perplexity has no logo: the tile.',
+    render: function () {
+      return h('div', { className: 'flex flex-wrap items-center gap-4' }, ['Claude', 'ChatGPT', 'Perplexity'].map(function (n) {
+        return h('div', { key: n, className: 'flex flex-col items-center gap-1' },
+          h(IK.ConnectorMark, { connector: n, size: 'sm', label: n + ' logo' }),
+          h('span', { className: 'text-xxs text-ink-secondary' }, n));
+      }));
+    } });
   /* the app sprite: connectors neither DevartUI nor ./assets has (the onboarding catalog's long tail) */
   var SPRITED = [['Affinity', 'hbr_affinity'], ['AfterShip', 'rst_aftership'], ['Brevo', 'hbr_brevo'], ['Calendly', 'rst_calendly'],
                  ['ClickUp', 'hbr_clickup'], ['Confluence Cloud', 'hbr_confluence'], ['Chargebee', 'hbr_chargebee']];

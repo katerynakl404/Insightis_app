@@ -1,7 +1,8 @@
 /* AccountMenu — the sidebar footer's user row and the account menu it opens (".sbx-user" +
    ".sbx-pop-account"; changes/AccountPopover.md). DevartUI DropdownMenu above the row:
 
-     ACCOUNT   My account · Manage plan · Billing · Balance      → user_profile-modal ?section=…
+     ACCOUNT   My account · Manage plan · Billing · Balance ·    → user_profile-modal ?section=…
+               Authorized apps (AIINS-1778, the AI assistants on the account)
      SUPPORT   Leave feedback · Resources ↗ · About Insightis     (Resources opens a new tab —
                                                                  DropdownMenuItem isExternal;
                                                                  About → IK.AboutDialog)
@@ -41,6 +42,8 @@
 
   /* Verbatim from the original .sbx-pop-account / .sbx-user markup. */
   IK.defineIcons({
+    /* lucide plug-zap 0.562.0 — the same glyph as the Settings window's Authorized apps row */
+    'acct-apps': '<path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="m2 22 3-3"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m18 3-4 4h6l-4 4"/>',
     'acct-user': '<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>',
     'acct-plan': '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
     'acct-billing': '<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>',
@@ -203,7 +206,8 @@
           h(Row, { icon: 'acct-user', label: 'My account', href: sec('my-account') }),
           h(Row, { icon: 'acct-plan', label: 'Manage plan', href: sec('manage-plan') }),
           h(Row, { icon: 'acct-billing', label: 'Billing', href: sec('billing') }),
-          h(Row, { icon: 'wallet', label: 'Balance', href: sec('balance'), set: p.iconSet })),
+          h(Row, { icon: 'wallet', label: 'Balance', href: sec('balance'), set: p.iconSet }),
+          h(Row, { icon: 'acct-apps', label: 'Authorized apps', href: sec('authorized-apps') })),
         h(D.DropdownMenuGroup, null,
           h(D.DropdownMenuLabel, null, 'Support'),
           h(Row, { icon: 'acct-feedback', label: 'Leave feedback', href: sec('leave-feedback'), set: p.iconSet }),

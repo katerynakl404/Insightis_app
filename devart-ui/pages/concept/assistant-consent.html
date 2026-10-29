@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insightis · Assistant consent</title>
+<link rel="stylesheet" href="../../../ds-bundle/styles.css">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=12df22ef9c">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=12df22ef9c">
+<script src="../../../ds-bundle/_vendor/react.js"></script>
+<script src="../../../ds-bundle/_ds_bundle.js"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=12df22ef9c"></script>
+<script src="../../review-kit/review-kit.js?v=12df22ef9c"></script>
+<script>
+  /* An Identity page: always dark, like sign-in and the onboarding's setup (AuthLayout). */
+  InsightisKit.AuthLayout.initTheme();
+</script>
+<style>
+  /* Page layout only: the card centred in the viewport under the 40px review strip, a little wider than
+     sign-in's — 36rem (user, 2026-10-29: "вікно можна розширити"), so the permissions keep to one line each — Ready and
+     Plan-gated alike. */
+  /* every screen centred, the sign-in flow's principle (user, 2026-10-29: "той же принцип що в авторизації") — a
+     top-anchored card was tried and reverted the same day */
+  .pg-consent { min-height: calc(100dvh - 2.5rem); }
+  .pg-consent-card { max-width: 36rem; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* Assistant consent — the Identity screen an AI assistant (Claude here) sends the person to when it asks for
+   their Insightis account over MCP (AIINS-1778; source: the brief's artifact "Assistant Consent and Access").
+   Allow / Deny sit side by side at one width, so declining is as easy as approving; either way the person goes
+   back to the assistant. Its pair in Settings: approved/user_profile-modal.html?section=authorized-apps.
+
+   Built from existing parts (user, 2026-10-29): IK.AuthLayout (the onboarding's background), IK.AuthCard,
+   IK.AuthStatus, DevartUI Alert / Button / Badge, IK.PlanLock, the Request Id line of auth/error.html;
+   IK.AuthConsentPair (the assistant's real logo ··· Insightis) and IK.AppScopes (what the assistant may do,
+   each with its explanation — always: "описи мають бути") are this flow's.
+
+   Review switches: State (the brief's eight, in its order; ?state=). Allow → Saving → Approved (Save failed:
+   the retry goes through); Deny → Declined. The list's three looks (checklist / badges / rows) were compared
+   on 2026-10-29: only the rows carry the explanations, so the rows stay and the switch went. */
+(function () {
+  var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
+  var APP = 'Claude', EMAIL = 'test@insightis.ai';
+  var STATES = [['ready', 'Ready'], ['no-sources', 'No sources yet'], ['submitting', 'Saving'], ['save-failed', 'Save failed'],
+    ['approved', 'Approved'], ['declined', 'Declined'], ['plan', 'Plan-gated'], ['invalid', 'Invalid request']];
+
+  IK.defineIcons({
+    /* lucide 0.562.0, the brief's own glyphs */
+    'cs-shield': '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+    'cs-warning': '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+    'cs-info': '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+    'cs-alert': '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>'
+  });
+
+  function SignedIn() {
+    /* the separator travels with its link: on a phone the line breaks before "·", never after it */
+    return h(IK.Fragment, null, 'Signed in as ' + EMAIL + ' ',
+      h('span', { className: 'whitespace-nowrap' }, '· ', h(D.LinkButton, { href: 'auth/login.html' }, 'Switch account')));
+  }
+  /* the permission list, the same on the consent card and the Pro card (user, 2026-10-29: "чому список відрізняється
+     в реді та про?", "переконайся в консистентності"): a quiet lead-in, then the rows with their explanations, no panel */
+  function Scopes(p) {
+    /* the lead-in 8px over the list — closer than the rows are to each other, so it reads as the list's own heading
+       (user, 2026-10-29: "ця частинка з заголовком мала б краще групуватись") */
+    return h('div', { className: 'flex flex-col gap-2' },
+      /* the brief's eyebrow (user, 2026-10-29: "так виглядало і то краще") */
+      h(D.Typography, { element: 'p', textStyle: 'label12', textColor: 'secondary', className: 'm-0 uppercase tracking-caps' }, p.lead),
+      h(IK.AppScopes, { look: 'rows', label: p.lead }));
+  }
+  function Back(p) {
+    return h(D.Button, { type: 'button', variant: p.variant || 'secondary', size: 'lg', fullWidth: true, onClick: p.onClick }, 'Return to ' + APP);
+  }
+
+  function App() {
+    var stQ = RK.useQueryState('state', 'ready');
+    var st = STATES.some(function (s) { return s[0] === stQ[0]; }) ? stQ[0] : 'ready';
+    var timer = R.useRef(0);
+    R.useEffect(function () { return function () { clearTimeout(timer.current); }; }, []);
+    function go(next) { clearTimeout(timer.current); stQ[1](next); }
+    function allow() {
+      go('submitting');
+      timer.current = setTimeout(function () { stQ[1]('approved'); }, 1300);
+    }
+
+    var card;
+    /* The status screens are the sign-in flow's (auth/confirmed.html, auth/error.html) — the agreed reference, so they
+       follow it, not the other way round (user, 2026-10-29: "логічніше було би зводити все до флоу реєстрації"): one
+       action, the primary AuthCard.Cta; on the error, the Request Id line before it, in that page's own Text/Light. */
+    if (st === 'approved') {
+      card = h(IK.AuthCard, null,
+        h(IK.AuthStatus, { glyph: 'circle-check', tone: 'success', title: APP + ' is connected' },
+          'Taking you back to ' + APP + '. You can close this tab if it doesn’t happen on its own.'),
+        h(IK.AuthCard.Actions, null, h(IK.AuthCard.Cta, null, 'Return to ' + APP)));
+    } else if (st === 'declined') {
+      card = h(IK.AuthCard, null,
+        h(IK.AuthStatus, { glyph: 'shield-check', tone: 'info', title: 'You didn’t allow access' },
+          'Nothing was shared with ' + APP + ', and ' + APP + ' has been told you declined. You can connect it again later from ' + APP + '.'),
+        h(IK.AuthCard.Actions, null, h(IK.AuthCard.Cta, null, 'Return to ' + APP)));
+    } else if (st === 'invalid') {
+      card = h(IK.AuthCard, null,
+        h(IK.AuthStatus, { glyph: 'triangle-alert', tone: 'error', title: 'This request can’t be completed' },
+          'The link from ' + APP + ' has expired or was already used. Start connecting again from ' + APP + '.'),
+        /* auth/error.html's own line and order: the Request Id, then the one action */
+        h(D.Typography, { element: 'p', textStyle: 'body12', textColor: 'light', align: 'center' },
+          'Request Id: ', h(D.Typography, { element: 'code', variant: 'code', weight: 'normal', textColor: 'secondary' }, '0HN7Q2K4M1S9V:00000003')),
+        h(IK.AuthCard.Actions, null, h(IK.AuthCard.Cta, null, 'Return to ' + APP)));
+    } else if (st === 'plan') {
+      /* the consent card's structure, blocked: head (Pro in the link, title, who is signed in) · why, as a warning
+         alert like the card's other context alerts · the same permission list as the consent card · the way back and
+         the upgrade, side by side */
+      card = h(IK.AuthCard, {
+        className: 'pg-consent-card', reserve: false,
+        /* the plan in the middle of the link: what the connection waits for */
+        above: h(IK.AuthConsentPair, { app: APP, gate: h(IK.PlanLock, { plan: 'Pro', glyph: true }) }),
+        title: 'Connecting an assistant is on Pro',
+        /* who is signed in sits where it does on Ready — right under the title (user, 2026-10-29: "ця інформація на
+           різних екранах в різних місцях"); why it is blocked follows as its own line */
+        subtitle: h(SignedIn)
+      },
+        /* the warning glyph as the card's other alerts carry theirs (no plate); the copy says what Pro opens, not only
+           what is blocked (user, 2026-10-29: "з попередженням а не гаманцем … більш залучальним") */
+        /* the card's context alerts are DevartUI Alert md (sm was tried and reverted the same day, user 2026-10-29) */
+        h(D.Alert, { variant: 'warning', size: 'md', role: 'note', icon: h(IK.Icon, { name: 'cs-warning' }),
+          description: 'You’re on Starter. Upgrade to Pro so ' + APP + ' can work with your data and metrics in your chats. Nothing has been shared yet' }),
+        h(Scopes, { lead: 'With Pro, ' + APP + ' will be able to' }),
+        /* side by side, as Deny / Allow: one decision, the way back first, the upgrade last (user, 2026-10-29: "чому тут
+           кнопки одна над одною") — DevartUI CardFooter actions, equal widths */
+        h(D.CardFooter, { variant: 'actions' },
+          h(Back, { onClick: function () { go('declined'); } }),
+          h(D.Button, { type: 'button', variant: 'primary', size: 'lg', className: 'w-full', onClick: IK.goUpgrade }, 'Upgrade to Pro')));
+    } else {
+      var busy = st === 'submitting';
+      card = h(IK.AuthCard, {
+        className: 'pg-consent-card', reserve: false,
+        above: h(IK.AuthConsentPair, { app: APP }),
+        title: h(IK.Fragment, null, h(IK.AuthStatus.Strong, null, APP), ' wants to access your Insightis account'),
+        subtitle: h(SignedIn)
+      },
+        st === 'save-failed' ? h(D.Alert, { variant: 'error', size: 'md', role: 'alert', icon: h(IK.Icon, { name: 'cs-alert' }),
+          /* one line in the 36rem card: what failed, what it means, what to do */
+          description: 'Couldn’t connect ' + APP + ', so nothing was shared. Try again' }) : null,
+        st === 'no-sources' ? h(D.Alert, { variant: 'info', size: 'md', icon: h(IK.Icon, { name: 'cs-info' }),
+          description: h(IK.Fragment, null, 'You haven’t connected a data source yet. ' + APP + ' can work with your metrics now. To query data, ',
+            h(D.LinkButton, { href: '../approved/data-sources_connections-landing.html' }, 'connect a source'), ' in Insightis') }) : null,
+        h(Scopes, { lead: APP + ' will be able to' }),
+        /* w-full (a layout utility), not fullWidth: DevartUI's fullWidth centres the label alone and leaves the
+           loading spinner at the left edge; w-full keeps spinner + label centred together */
+        /* the buttons and their note at the end of the card, not pinned: a sticky footer was tried and reverted the same
+           day — on a phone it read oddly (user, 2026-10-29: "не фіксуй кнопки"). The two buttons share a row at equal
+           widths, 8px apart as CardFooter's actions are; the sign-in flow's spacing holds — 16px above the buttons,
+           16px to the note, the card's own padding below */
+        h(D.CardFooter, { className: 'flex-col items-stretch gap-4' },
+          h('div', { className: 'flex gap-2' },
+            h(D.Button, { type: 'button', variant: 'secondary', size: 'lg', className: 'w-full', disabled: busy, onClick: function () { go('declined'); } }, 'Deny'),
+            h(D.Button, { type: 'button', variant: 'primary', size: 'lg', className: 'w-full', isLoading: busy, onClick: allow }, 'Allow')),
+          /* the note to the decision, inside the footer: 16px under the buttons — the card's own step, the space the
+             sign-in flow leaves between its CTA and the line under it (outside the footer it was 28px: "під кнопками
+             забагато простору") — and pinned with them on a phone. One centred line, the shield
+             leading it — two set lines read unbalanced, a balanced pair as an inverted pyramid (user, 2026-10-29) */
+          h(D.Typography, { element: 'p', textStyle: 'body12', textColor: 'secondary', align: 'center', className: 'm-0' },
+            h(IK.Icon, { name: 'cs-shield', size: 14, className: 'me-1 inline-block align-middle -translate-y-px' }),
+            /* short enough for one line on the card, two even lines on a phone (three read cramped: user, 2026-10-29) */
+            APP + ' never sees your password. Revoke access anytime in Settings')));
+    }
+
+    var controls = [RK.appsScreenControl('consent'), { label: 'State', showLabel: true, value: st, onChange: go,
+      options: STATES.map(function (s) { return { value: s[0], label: s[1] }; }) }];
+
+    return h(IK.Fragment, null,
+      h(RK.ReviewBar, { title: 'Assistant consent', status: 'concept', size: 'sm', theme: false, controls: controls }),
+      h(IK.AuthLayout, { fullHeight: false, className: 'pg-consent' }, card));
+  }
+  IK.mount(App);
+})();
+</script>
+</body>
+</html>

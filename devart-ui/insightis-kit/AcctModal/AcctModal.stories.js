@@ -8,7 +8,7 @@
   function Live(p) {
     var s = R.useState(p.start || 'my-account'), sec = s[0], setSec = s[1];
     return h(Stage, { height: p.height },
-      h(IK.AcctModal, { section: sec, onSection: setSec, legacy: p.legacy, onClose: function () {}, onEscape: function () { return true; } },
+      h(IK.AcctModal, { section: sec, onSection: setSec, legacy: p.legacy, apps: p.apps, onClose: function () {}, onEscape: function () { return true; } },
         h('div', { key: sec },
           h(IK.AcctSection, null, h(IK.AcctFieldRow, { title: 'Section', value: IK.ACCT_TITLES[sec] })),
           h(IK.AcctSection, null, h(D.Typography, { element: 'div', textStyle: 'body14', textColor: 'secondary' }, 'Pick a row in the nav — it is marked active (State/Pressed); hover shows State/Hover; Log out is the destructive row.')))));
@@ -17,6 +17,9 @@
   IK.story('AcctModal', { title: 'Window — interactive (desktop)', wide: true,
     description: 'Nav rows are DevartUI SidebarMenuButton. ✕ (tooltip "Close") and Esc call onClose. Resources opens a new tab. Below 768px the window becomes the phone settings page — narrow the storybook to see menu ⇄ section.',
     render: function () { return h(Live, { start: 'balance' }); } });
+  IK.story('AcctModal', { title: 'Window — with Authorized apps (apps)', wide: true,
+    description: 'apps: true adds Authorized apps to the Account group, after Balance (lucide plug-zap); its section is IK.AcctApps, the window title reads Authorized applications.',
+    render: function () { return h(Live, { start: 'authorized-apps', apps: true }); } });
   IK.story('AcctModal', { title: 'Window — legacy recipe (retired-concepts page)', wide: true,
     description: 'legacy: the retired-concepts page keeps the older 8px header padding and, on a phone, no red wash under Log out.',
     render: function () { return h(Live, { start: 'billing', legacy: true }); } });

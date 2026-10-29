@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Metrics</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=498386f0b2">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=498386f0b2">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=12df22ef9c">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=12df22ef9c">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=498386f0b2"></script>
-<script src="../../review-kit/review-kit.js?v=498386f0b2"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=12df22ef9c"></script>
+<script src="../../review-kit/review-kit.js?v=12df22ef9c"></script>
 <script>
   /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
      dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
@@ -651,12 +651,14 @@
         /* a subscription, not a fault: the wallet illustration, as on Data Sources (user, 2026-10-21: "мав бути банер з гарною ілюстрацією про підписку з гаманцем") — DevartUI Alert's illustration:
                    the wallet on a plate in the alert's own tone */
         illustration: h(IK.Icon, { name: 'wallet', size: 20 }),
-        title: 'Your subscription ended, so these metrics can no longer be edited',
+        /* what the person loses is the use, not the edit (user, 2026-10-29: "питання не в едіті а в використанні") —
+           said the way Data Sources says it */
+        title: 'Your subscription ended, so these metrics can't be used',
         description: h(IK.Fragment, null, 'Nothing was deleted. ',
           h(IK.Locked, { feature: 'metrics', clickOnly: true, marker: 'none' },
             h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); } }, 'Upgrade to Starter')),
           /* with shared ones in the list, the same notice covers them (no second "Upgrade to Starter") */
-          inList ? ' to edit them and ask about them in chat, the ones shared with you included.' : ' to edit them and ask about them in chat.'),
+          inList ? ' to use them in chat and edit them again, the ones shared with you included.' : ' to use them in chat and edit them again.'),
         actions: h(IK.Tip, { tip: 'Dismiss' },
           h(D.IconButton, { variant: 'tertiary', size: '2xs', type: 'button', 'aria-label': 'Dismiss', onClick: function () { setU4Gone(true); } }, h(IK.Icon, { name: 'pg-x' })))
       }) : null;

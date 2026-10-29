@@ -12,6 +12,9 @@
    (MONOGRAMS below: Azure DevOps), which is reproduced. A catalog tile (D.IconCard) is handed a
    ConnectorMark as its icon, so it draws the same logo.
    `slug` forces a specific asset file name (without .svg).
+   AI assistants: Claude (./assets/claude.svg — Simple Icons, CC0, its brand colour; its viewBox padded so the
+   glyph covers ~70% of the frame, as the OpenAI mark does — the two read the same size) and ChatGPT (the
+   OpenAI mark, ./assets/openai.svg, black: it inverts in the dark theme — INK_ASSETS).
    `sprite` (+ `spriteDark`) — the connector's id in the APP's own logo sprite (./sprite.svg, the
    product's public/connectors/sprite.svg): used when neither DevartUI nor ./assets has its logo,
    before the letter tile. The onboarding catalog passes it for all 204 of its sources.
@@ -25,7 +28,7 @@
   var ASSETS = [
     "actito", "activecampaign", "acuityscheduling", "acumatica", "airtable", "alloydb", "amazonrds", "amazons3",
     "amplitude", "asana", "avalara", "azureblobstorage", "azuredatalakestorage", "azuredwh", "azurefilestorage", "backup",
-    "bamboohr", "bigcommerce", "bigquery", "bitbucket", "box", "constantcontact", "csv", "d365businesscentral",
+    "bamboohr", "bigcommerce", "bigquery", "bitbucket", "box", "claude", "constantcontact", "csv", "d365businesscentral",
     "database", "databricks", "dbt-streamline", "dearinventory", "demo", "drip", "dropbox", "dynamics",
     "dynamics365finops", "dynamicscrm", "elasticsearch", "emailoctopus", "exactonline", "exacttarget", "excelonline", "facebookads",
     "facebookpages", "firefliesai", "freshbooks", "freshcaller", "freshdesk", "freshsales", "ftp", "gemini",
@@ -58,8 +61,12 @@
     zohocrm: 'zoho', sugarcrm: 'sugar', postgres: 'postgresql', mssql: 'sqlserver',
     microsoftsqlserver: 'sqlserver', azuresql: 'sqlazure', monday: 'mondaycom', twitter: 'twitterads',
     tiktok: 'tiktokads', facebook: 'facebookads', excel: 'excelonline', sharepoint: 'sharepointfiles',
-    metaads: 'facebookads', meta: 'facebookads', restapi: 'rest'
+    metaads: 'facebookads', meta: 'facebookads', restapi: 'rest',
+    /* AI assistants (Settings → Authorized apps, the consent screen): ChatGPT wears the OpenAI mark */
+    chatgpt: 'openai', anthropic: 'claude'
   };
+  /* logo files drawn in black: in the dark theme they invert (hue kept), as the sprite's .is-dark ones do */
+  var INK_ASSETS = { openai: true };
   /* product names the pages use for a connector whose mark is filed under a shorter name — resolved
      FIRST, so DevartUI's own mark is found too (the Metrics original draws Jira's logo beside
      "Jira Software Cloud", HubSpot's beside "HubSpot CRM") */
@@ -112,7 +119,7 @@
     return h('span', Object.assign({
       /* D.cn (tailwind-merge), as ConnectorLogo does: a size class passed in (size-3.5) must REPLACE
          the variant's size-6, not sit beside it */
-      className: (D.cn || IK.cx)(D.connectorLogoVariants({ size: p.size }), p.className),
+      className: (D.cn || IK.cx)(D.connectorLogoVariants({ size: p.size }), file && INK_ASSETS[file] && 'ik-mark-ink', p.className),
       style: mono ? { background: mono.bg, color: MONO_INK, fontSize: '.5625rem', fontWeight: 700 } : undefined
     }, p.label ? { role: 'img', 'aria-label': p.label } : { 'aria-hidden': true }, rest),
       mono ? mono.text : h('img', { alt: '', className: 'h-full w-full object-contain', src: BASE + 'assets/' + file + '.svg' }));

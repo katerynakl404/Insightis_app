@@ -21,7 +21,12 @@
                               marks) meeting in a workspace; no steps (user, 2026-10-23: 'забери')
    Under 768px the cards stack.
 
-   h(IK.WsIntro, { onCreate, locked, variant: 'cards'|'simple', connections: IK.WS_CONNECTIONS, files: IK.WS_FILES }) */
+   h(IK.WsIntro, { onCreate, locked, variant: 'cards'|'simple', connections: IK.WS_CONNECTIONS, files: IK.WS_FILES })
+
+   The same head introduces another Pro module before its first item — Settings → Authorized apps (IK.AcctApps; user,
+   2026-10-29: "як тут"). Each part can be given; left out, the Workspaces one is drawn:
+     title  nodes (key words in IK.ChatKeyword) · lead  string · action  the CTA node(s) · note  the line under it
+     (default "Available on the Pro plan" while locked) · steps  false → no step cards */
 (function () {
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, h = IK.h;
@@ -80,18 +85,19 @@
 
   IK.WsIntro = function WsIntro(p) {
     var variant = IK.WS_INTRO_VARIANTS.indexOf(p.variant) >= 0 ? p.variant : 'cards';
-    var cta = h(IK.Locked, { feature: 'workspaces', locked: !!p.locked, surface: 'modal', tip: 'Available on Pro' },
+    var cta = p.action || h(IK.Locked, { feature: 'workspaces', locked: !!p.locked, surface: 'modal', tip: 'Available on Pro' },
       h(D.Button, { variant: 'primary', size: 'md', rounded: 'full', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }), onClick: p.onCreate }, 'Create Workspace'));
+    var note = p.note !== undefined ? p.note : (p.locked ? 'Available on the Pro plan' : null);
     /* on a panel (D.Card), so it reads as the page's content under the page's own title, not a second title over it
        (user, 2026-10-23: 'врахуй що зверху є тайтл … можливо розмістити на підложці') */
     return h('section', { 'aria-labelledby': 'ik-wsi-title' }, h(D.Card, { variant: 'outline', rounded: 'xl', fullWidth: true, className: 'ik-wsi w-full ' + LOOK[variant] },
       h('div', { className: 'ik-wsi-hero' },
         variant === 'simple' ? h(Drawing, { connections: p.connections || IK.WS_CONNECTIONS, files: p.files || IK.WS_FILES }) : null,
         h('div', { className: 'ik-wsi-head' },
-          h('h2', { id: 'ik-wsi-title', className: 'ik-wsi-title' }, 'Give your team ', h(IK.ChatKeyword, null, 'the same data')),
-          h(D.Typography, { element: 'p', textStyle: 'body16', textColor: 'secondary', className: 'ik-wsi-lead m-0 text-center' }, LEAD)),
-        p.locked ? h('div', { className: 'flex flex-col items-center gap-2' }, cta,
-          h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, 'Available on the Pro plan')) : cta),
-      h(Steps, { variant: variant })));
+          h('h2', { id: 'ik-wsi-title', className: 'ik-wsi-title' }, p.title || ['Give your team ', h(IK.ChatKeyword, { key: 'k' }, 'the same data')]),
+          h(D.Typography, { element: 'p', textStyle: 'body16', textColor: 'secondary', className: 'ik-wsi-lead m-0 text-center' }, p.lead || LEAD)),
+        note ? h('div', { className: 'flex flex-col items-center gap-2' }, cta,
+          h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' }, note)) : cta),
+      p.steps === false ? null : h(Steps, { variant: variant })));
   };
 })();

@@ -1,0 +1,7 @@
+/* AuthConsentPair — two DevartUI CardIcons joined by three dots. */
+.ik-consent-pair { display: flex; align-items: center; justify-content: center; gap: .75rem; }
+.ik-consent-link { display: flex; gap: .25rem; color: hsl(var(--ink-inactive)); }
+.ik-consent-link i { display: block; width: .25rem; height: .25rem; border-radius: 9999px; background: currentColor; }
+/* the Insightis mark in its own colour (--logo-mark, as in the full logo above it) — IK.Logo's mark-only variant
+   paints currentColor, which on the auth page is --logo-ink and read white (user, 2026-10-29) */
+.ik-consent-pair .ik-logo { color: hsl(var(--logo-mark)); }

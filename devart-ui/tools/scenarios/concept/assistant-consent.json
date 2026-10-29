@@ -1,0 +1,14 @@
+[
+ {"name":"Ready — Allow: saving, then approved","viewport":"desktop","steps":[{"do":"click","target":{"text":"Allow","tag":"button"}},{"do":"wait","ms":300},{"do":"eval","new":"document.querySelector('[aria-busy=true]') ? 'saving' : 'not saving'"},{"do":"wait","ms":1500}]},
+ {"name":"Ready — Deny: declined","viewport":"desktop","steps":[{"do":"click","target":{"text":"Deny","tag":"button"}}]},
+ {"name":"Ready — Switch account link hover","viewport":"desktop","steps":[{"do":"hover","target":{"text":"Switch account","tag":"a"},"ms":500}]},
+ {"name":"Ready — phone (rows reflow, tag on the name's line)","viewport":"phone","steps":[{"do":"wait","ms":300}]},
+ {"name":"No sources yet — connect a source link hover","viewport":"desktop","steps":[{"do":"click","target":{"text":"No sources yet","tag":"button"}},{"do":"hover","target":{"text":"connect a source","tag":"a"},"ms":500}]},
+ {"name":"Saving — Deny and Allow faded alike","viewport":"desktop","steps":[{"do":"click","target":{"text":"Saving","tag":"button"}}]},
+ {"name":"Save failed — Allow again: approved","viewport":"desktop","steps":[{"do":"click","target":{"text":"Save failed","tag":"button"}},{"do":"click","target":{"text":"Allow","tag":"button"}},{"do":"wait","ms":1600}]},
+ {"name":"Plan-gated — Return to Claude: declined","viewport":"desktop","steps":[{"do":"click","target":{"text":"Plan-gated","tag":"button"}},{"do":"click","target":{"text":"Return to Claude","tag":"button"}}]},
+ {"name":"Plan-gated — phone","viewport":"phone","steps":[{"do":"click","target":{"text":"Plan-gated","tag":"button"}}]},
+ {"name":"Approved","viewport":"desktop","steps":[{"do":"click","target":{"text":"Approved","tag":"button"}}]},
+ {"name":"Invalid request — Request Id before the action","steps":[{"do":"click","target":{"text":"Invalid request","tag":"button"}}]},
+ {"name":"Screen — jump to Settings → Authorized apps","viewport":"desktop","steps":[{"do":"click","target":{"text":"Settings","tag":"button"}},{"do":"wait","ms":800}]}
+]

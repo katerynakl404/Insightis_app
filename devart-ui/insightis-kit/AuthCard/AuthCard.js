@@ -8,6 +8,10 @@
      title     — the screen's <h1> (omit on status screens: IK.AuthStatus carries the h1 there)
      subtitle  — secondary line under it. Reserves two lines (min-height) so the card head does
                  not jump between screens (forgot ↔ reset), as the original does.
+     reserve   — false: the subtitle takes only its own line (a screen whose subtitle is always one
+                 line, as the consent screen's "Signed in as …")
+     above     — nodes between the logo and the title, 16px apart (the consent screen's assistant ⇄
+                 Insightis pair, the plan badge over a plan-gated title)
 
    <IK.AuthCard.Form next="check-email.html" submit="Continue">…fields…</IK.AuthCard.Form>
      A real <form>: fields 16px apart, then the full-width primary CTA 24px below the last field.
@@ -35,9 +39,10 @@
     },
       /* ik-auth-logo (AuthLayout.css): the width follows the viewBox exactly (100.3px), as the original's height-only logo */
       h('div', { className: 'mb-1 flex justify-center' }, h(IK.Logo, { height: 24, label: 'Insightis', className: 'ik-auth-logo' })),
+      p.above || null,
       p.title ? h('div', { className: 'flex flex-col gap-2' },
         h(D.Typography, { element: 'h1', textStyle: 'heading20', textColor: 'primary', align: 'center', className: 'text-balance' }, p.title),
-        p.subtitle ? h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', align: 'center', className: 'min-h-10 text-balance' }, p.subtitle) : null
+        p.subtitle ? h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', align: 'center', className: IK.cx(p.reserve !== false && 'min-h-10', 'text-balance') }, p.subtitle) : null
       ) : null,
       p.children);
   };

@@ -22,6 +22,7 @@
      title: 'Balance',                   // header title; default IK.ACCT_TITLES[section]
      onClose: IK.acctCloseModal,         // ✕, Esc, and ‹ in menu state
      onEscape: fn,                       // optional — Esc goes here instead (return true = handled)
+     apps: true,                         // adds Authorized apps to the Account group (AIINS-1778, IK.AcctApps)
      legacy: true,                       // the retired-concepts page's older recipe: 8px header padding
                                          // (not 14px) and, on a phone, no red wash under Log out
      resourcesHref: '#'
@@ -44,6 +45,8 @@
     'acctm-user': '<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>',
     'acctm-plan': '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
     'acctm-billing': '<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>',
+    /* lucide plug-zap 0.562.0, as the brief's Settings mock-up draws Authorized apps */
+    'acctm-apps': '<path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="m2 22 3-3"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m18 3-4 4h6l-4 4"/>',
     'acctm-wallet': '<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
     'acctm-feedback': '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M7.5 9.5c0 .687.265 1.383.697 1.844l3.009 3.264a1.14 1.14 0 0 0 .407.314 1 1 0 0 0 .783-.004 1.14 1.14 0 0 0 .398-.31l3.008-3.264A2.77 2.77 0 0 0 16.5 9.5 2.5 2.5 0 0 0 12 8a2.5 2.5 0 0 0-4.5 1.5"/>',
     'acctm-resources': '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M12 17h.01"/><path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/>',
@@ -60,17 +63,20 @@
     'manage-plan': 'Manage plan',
     'billing': 'Billing',
     'balance': 'Balance',
+    /* the nav row says "Authorized apps"; the full name fits the window's title */
+    'authorized-apps': 'Authorized applications',
     'leave-feedback': 'Feedback',
     'change-password': 'Change password'
   };
-  IK.ACCT_SECTIONS = ['my-account', 'manage-plan', 'billing', 'balance', 'leave-feedback', 'change-password'];
+  IK.ACCT_SECTIONS = ['my-account', 'manage-plan', 'billing', 'balance', 'authorized-apps', 'leave-feedback', 'change-password'];
 
   var NAV = [
     { label: 'Account', items: [
       { id: 'my-account', label: 'My account', icon: 'acctm-user' },
       { id: 'manage-plan', label: 'Manage plan', icon: 'acctm-plan' },
       { id: 'billing', label: 'Billing', icon: 'acctm-billing' },
-      { id: 'balance', label: 'Balance', icon: 'acctm-wallet' }
+      { id: 'balance', label: 'Balance', icon: 'acctm-wallet' },
+      { id: 'authorized-apps', label: 'Authorized apps', icon: 'acctm-apps', apps: true }
     ] },
     { label: 'Support', items: [
       { id: 'leave-feedback', label: 'Leave feedback', icon: 'acctm-feedback' },
@@ -168,7 +174,7 @@
         return h('div', { key: g.label, className: 'flex w-full flex-col gap-2' },
           h(D.Typography, { element: 'span', textStyle: 'label12', textColor: 'secondary', className: 'ik-acct-label px-2' }, g.label),
           h(D.SidebarMenu, { className: 'ik-acct-list', role: 'group', 'aria-label': g.label },
-            g.items.map(function (it) {
+            g.items.filter(function (it) { return !it.apps || p.apps; }).map(function (it) {
               return h(NavRow, { key: it.id, item: it, active: active === it.id, onPick: pick, resourcesHref: p.resourcesHref });
             })));
       }),

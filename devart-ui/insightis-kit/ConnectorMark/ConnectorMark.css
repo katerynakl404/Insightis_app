@@ -253,3 +253,5 @@
 .ik-sprite-zohosprints { --logo-x: 98.8762731431%; --logo-scale: 1.21; }
 .ik-sprite-zoom { --logo-x: 99.6244501922%; --logo-scale: 1.38; }
 .ik-sprite-zuora { --logo-x: 100%; --logo-scale: 1.42; }
+/* a logo file drawn in black (INK_ASSETS in ConnectorMark.js: OpenAI) inverts in the dark theme, like the sprite's */
+.dark .ik-mark-ink img { filter: invert(1) hue-rotate(180deg); }

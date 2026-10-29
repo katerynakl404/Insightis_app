@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Account modal</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=498386f0b2">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=498386f0b2">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=12df22ef9c">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=12df22ef9c">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=498386f0b2"></script>
-<script src="../../review-kit/review-kit.js?v=498386f0b2"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=12df22ef9c"></script>
+<script src="../../review-kit/review-kit.js?v=12df22ef9c"></script>
 <style>
   /* Page layout only. The plan grid goes 2-over-1 between 768 and 1024px (the original's own
      range, 1024 included) and one column below 768px. */
@@ -35,7 +35,12 @@
    cancel, Free is the current card and Starter offers the upgrade. The Starter CTA is driven by two
    events in order, exactly like the original's DOM: the plan (Upgrade to Starter / Current Plan)
    and the billing period (Request Yearly Billing / Current Plan). An upgrade CTA stands in for the
-   whole payment: the plan flips to Paid everywhere and a toast says which plan and what it opened. */
+   whole payment: the plan flips to Paid everywhere and a toast says which plan and what it opened.
+
+   Authorized apps (AIINS-1778, concept — the consent screen is concept/assistant-consent.html): the AI
+   assistants that can reach the account (IK.AcctApps). Its switches, on that section only: State (List ·
+   Loading · Empty · Load failed; ?apps=) and Revoke (Works · Fails once; ?revoke=). The Plan switch gates it:
+   on Free the apps are paused (padlocks + a warning) or, with none, How to Connect is locked. */
 (function () {
   var IK = window.InsightisKit, RK = window.ReviewKit, D = window.DevartUI, R = window.React, h = IK.h;
 
@@ -110,6 +115,7 @@
     if (section !== 'balance') gone.current = true;
     var ps = R.useState('free'), planState = ps[0], setPlanState = ps[1];
     var dl = R.useState('on'), daily = dl[0], setDaily = dl[1];
+    var appsQ = RK.useQueryState('apps', 'list'), revokeQ = RK.useQueryState('revoke', 'works');
     var pr = R.useState('monthly'), period = pr[0], setPeriod = pr[1];
     var cr = R.useReducer(ctaReduce, free, ctaInit), cta = cr[0], ctaDo = cr[1];
     /* Open plan dialogs. A set, as in the original: its dialogs never show, so a second trigger can
@@ -134,6 +140,13 @@
     var controls = [];
     if (section === 'balance' && !gone.current) controls.push({ label: 'Plan state', value: planState, onChange: setPlanState,
       options: [{ value: 'free', label: 'Free' }, { value: 'trial', label: 'Trial' }, { value: 'pro', label: 'Pro (trial)' }, { value: 'exhausted', label: 'Limit reached' }] });
+    if (section === 'authorized-apps') controls.push(RK.appsScreenControl('settings'),
+      { label: 'State', showLabel: true, value: appsQ[0], onChange: appsQ[1],
+        options: [{ value: 'list', label: 'List' }, { value: 'loading', label: 'Loading' }, { value: 'empty', label: 'Empty' }, { value: 'error', label: 'Load failed' }] });
+    /* only while there is a row to revoke (review switches only where they act) */
+    if (section === 'authorized-apps' && appsQ[0] === 'list') controls.push(
+      { label: 'Revoke', showLabel: true, value: revokeQ[0], onChange: revokeQ[1],
+        options: [{ value: 'works', label: 'Works' }, { value: 'fails', label: 'Fails once' }] });
     if (section === 'balance') controls.push({ label: 'Daily limit bar', value: daily, onChange: setDaily,
       options: [{ value: 'on', label: 'Daily on' }, { value: 'off', label: 'Daily off' }] });
 
@@ -193,6 +206,8 @@
       plan: { name: 'Starter', price: '$7.99 / user / month' }, next: { amount: '$7.99', date: 'Sep 30, 2026' }, rows: INVOICES,
       onChangePlan: function () { setSection('manage-plan'); } });
     else if (section === 'balance') body = balance();
+    else if (section === 'authorized-apps') body = h(IK.AcctApps, { key: appsQ[0] + revokeQ[0], state: appsQ[0], revokeFails: revokeQ[0] === 'fails',
+      onUpgrade: function () { setSection('manage-plan'); }, onRetry: function () { appsQ[1]('list'); } });
     else if (section === 'leave-feedback') body = h(IK.AcctFeedback);
     else if (section === 'change-password') body = h(IK.AcctChangePassword, { onCancel: function () { setSection('my-account'); } });
 
@@ -200,7 +215,7 @@
       h(RK.ReviewBar, { title: 'Metrics · Account modal', status: 'approved', size: 'sm', plan: !RK.wsOwnsPlan(wsq), controls: controls.concat(RK.workspaceControls({ here: 'account' })) }),
       h('main', { className: 'relative min-h-0 flex-1 bg-surface-page', 'aria-label': 'Account modal' },
         h(IK.AcctModal, {
-          section: section, onSection: setSection,
+          section: section, onSection: setSection, apps: true,
           /* A plan dialog takes Esc first — one press never closes both surfaces. (When the dialogs
              render, DevartUI's Modal consumes the key itself and this never runs.) */
           onEscape: function () {

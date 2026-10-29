@@ -1,0 +1,7 @@
+/* AppScopes — the rows look: the scope's glyph on a round brand-tinted plate (the brief's mock-up; the same recipe as
+   WsIntro's step disc: Brand/Primary at 10%, the glyph in Text/Highlight). */
+.ik-scope-plate {
+  display: inline-flex; flex: none; width: 2rem; height: 2rem; align-items: center; justify-content: center;
+  border-radius: 9999px; background: color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-10), transparent);
+  color: hsl(var(--ink-highlight));
+}

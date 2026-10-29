@@ -11,14 +11,17 @@
     "../ds-bridge/ds-bridge.js",
     "core/ik-core.js",
     "AccountMenu/AccountMenu.js",
+    "AcctApps/AcctApps.js",
     "AcctBalance/AcctBalance.js",
     "AcctModal/AcctModal.js",
     "AcctPlans/AcctPlans.js",
     "AcctSettings/AcctSettings.js",
+    "AppScopes/AppScopes.js",
     "AppShell/AppShell.js",
     "AppSidebar/AppSidebar.js",
     "AskUserPanel/AskUserPanel.js",
     "AuthCard/AuthCard.js",
+    "AuthConsentPair/AuthConsentPair.js",
     "AuthField/AuthField.js",
     "AuthGoogleButton/AuthGoogleButton.js",
     "AuthIllustration/AuthIllustration.js",
@@ -90,14 +93,17 @@
   ];
   var stories = [
     "AccountMenu/AccountMenu.stories.js",
+    "AcctApps/AcctApps.stories.js",
     "AcctBalance/AcctBalance.stories.js",
     "AcctModal/AcctModal.stories.js",
     "AcctPlans/AcctPlans.stories.js",
     "AcctSettings/AcctSettings.stories.js",
+    "AppScopes/AppScopes.stories.js",
     "AppShell/AppShell.stories.js",
     "AppSidebar/AppSidebar.stories.js",
     "AskUserPanel/AskUserPanel.stories.js",
     "AuthCard/AuthCard.stories.js",
+    "AuthConsentPair/AuthConsentPair.stories.js",
     "AuthField/AuthField.stories.js",
     "AuthGoogleButton/AuthGoogleButton.stories.js",
     "AuthIllustration/AuthIllustration.stories.js",
@@ -167,5 +173,5 @@
     "WsOverview/WsOverview.stories.js"
   ];
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
-  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=498386f0b2"><\/script>');
+  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=12df22ef9c"><\/script>');
 })();

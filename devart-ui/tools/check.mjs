@@ -117,6 +117,13 @@ if (fs.existsSync(bridgeCss)) {
     if (bundleCss.includes(needle)) console.log(`WARNING ds-bridge: the bundle now ships ${needle} — remove its CSS bridge`);
     else console.log(`ds-bridge: 1 CSS fix bridged (${needle.slice(0, 48)}…)`);
   }
+  //  …or, when the fix is a class the bundle already compiles for other components, "ships-when-js:" names the
+  //  component's own class string that will appear in the bundle's JS once it ships
+  const bundleJs = fs.readFileSync(path.join(repo, 'ds-bundle/_ds_bundle.js'), 'utf8');
+  for (const [, needle] of fs.readFileSync(bridgeCss, 'utf8').matchAll(/ships-when-js: (.+?) \*\//g)) {
+    if (bundleJs.includes(needle)) console.log(`WARNING ds-bridge: the bundle now ships ${needle} — remove its CSS bridge`);
+    else console.log(`ds-bridge: 1 CSS fix bridged (${needle.slice(0, 48)}…)`);
+  }
 }
 
 // 3. index freshness

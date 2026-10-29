@@ -105,6 +105,19 @@
         'Workspaces are included in the Pro plan'
       ]
     },
+    /* Authorized apps (AIINS-1778): an AI assistant (Claude, ChatGPT …) reaching the account over MCP is a Pro
+       module — Settings → Authorized apps on a plan without it. Copy from the brief's mock-up. */
+    assistants: {
+      plan: 'Pro',
+      name: 'Authorized apps',
+      title: 'Use Insightis from your AI assistant',
+      lead: 'Connect Claude, ChatGPT or another assistant to query your data and work with your metrics where you already work.',
+      benefits: [
+        'Query data in your connected sources',
+        'Read and manage your metrics',
+        'Work with Insightis inside your assistant'
+      ]
+    },
     /* a file shared with a Member whose plan has no Files module ("unavailable on your plan") */
     'shared-files': {
       plan: 'Starter',

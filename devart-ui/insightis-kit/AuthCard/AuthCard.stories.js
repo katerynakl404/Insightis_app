@@ -43,6 +43,16 @@
         h(IK.AuthCard.Links, { links: [{ href: '#', label: 'Back to sign in' }] })));
     } });
 
+  IK.story('AuthCard', { title: 'Consent screen — above + reserve: false', description: '`above` puts the assistant ⇄ Insightis pair between the logo and the title (16px apart); `reserve: false` lets a one-line subtitle take only its own line',
+    render: function () {
+      return h(Stage, null, h(IK.AuthCard, {
+        above: h(IK.AuthConsentPair, { app: 'Claude' }), reserve: false,
+        title: h(IK.Fragment, null, h(IK.AuthStatus.Strong, null, 'Claude'), ' wants to access your Insightis account'),
+        subtitle: 'Signed in as test@insightis.ai'
+      },
+        h(IK.AuthCard.Actions, null, h(IK.AuthCard.Cta, { onClick: stay }, 'Allow'))));
+    } });
+
   IK.story('AuthCard', { title: 'Divider', description: 'IK.AuthCard.Divider — the "Or" rule',
     render: function () { return h('div', { className: 'mx-auto max-w-sm' }, h(IK.AuthCard.Divider)); } });
 })();

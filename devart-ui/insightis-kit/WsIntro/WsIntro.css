@@ -36,7 +36,7 @@
 }
 .ik-wsi-disc {
   display: inline-flex; flex: none; width: 2.25rem; height: 2.25rem; align-items: center; justify-content: center; border-radius: 9999px;
-  background: color-mix(in srgb, hsl(var(--brand-primary)) 10%, transparent); color: hsl(var(--ink-highlight));
+  background: color-mix(in srgb, hsl(var(--brand-primary)) var(--tint-10), transparent); color: hsl(var(--ink-highlight));
 }
 
 /* ── simple: nothing behind; a small drawing over the title — the person's sources (a stack of cards) and files (a fan

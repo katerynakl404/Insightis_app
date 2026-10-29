@@ -1,0 +1,20 @@
+# Assistant consent + Authorized apps — locked rules
+
+Source brief: AIINS-1778 "Assistant Consent and Access" (the artifact `ND4ZtBHQUfGh29U9BLCEZD`, 2026-10-29).
+Two surfaces: the Identity consent screen (`concept/assistant-consent.html`) and Settings → Authorized apps
+(`approved/user_profile-modal.html?section=authorized-apps`). No legacy original.
+
+| # | Rule |
+|---|---|
+| 1 | **Built from what exists; consult before anything new** (user, 2026-10-29). Every piece maps to DevartUI or the Insightis kit first; a new component, composition, glyph or asset is asked about, with options, before it is built. |
+| 2 | **The consent screen follows the sign-in flow** (user, 2026-10-29): always dark, the onboarding/auth background, the card centered like `concept/auth/*` (IK.AuthLayout + IK.AuthCard), the same spacing (logo → title → subtitle → body → actions), status screens (Approved, Declined, Invalid request) are IK.AuthStatus + one IK.AuthCard.Cta, Invalid request shows its Request Id before the action as `auth/error.html` does. |
+| 3 | **The pair above the title is two DevartUI CardIcon tiles** — the assistant's real logo (IK.ConnectorMark: Claude, ChatGPT = the OpenAI logo) ⇄ the Insightis mark — joined by dots; on Plan-gated the kit's padlock (IK.PlanLock) sits between them. No invented product glyphs. |
+| 4 | **The subtitle says who is signed in, with Switch account inline** — "Signed in as … · Switch account" (a LinkButton to sign-in), never a "Not you?" question. |
+| 5 | **Permissions are rows with descriptions** (IK.AppScopes `rows`): plate + title + a one-line description; the access badge (DevartUI Badge secondary sm) sits on the title's line, never on a line of its own. On a phone the plate drops to its bare glyph. The same scopes show as badges in Settings (`badges`); the list is the same on Ready and Plan-gated, only its lead changes ("Claude will be able to" / "With Pro, Claude will be able to"). |
+| 6 | **Deny and Allow sit side by side, full width, never pinned** (user, 2026-10-29): no sticky footer — on a phone it read strange. While saving, Allow shows its loader and Deny fades (a disabled secondary fades — дизайн DevartUI §165). |
+| 7 | **One quiet line under the buttons** — the shield glyph inline + "Claude never sees your password. Revoke access anytime in Settings" (body12, secondary, centered). Status notes ride as one DevartUI Alert md above the list: Save failed (error), No sources yet (info, with a "connect a source" link). Never two notes at once. |
+| 8 | **Plan gating = the kit's locker**, never a "Paused" tag (user, 2026-10-29): Plan-gated shows the padlock in the pair, a warning Alert (not the wallet) that sells Pro, and Return to Claude + Upgrade to Pro side by side; Settings shows the plan notice the other pages use when a subscription ends (Alert warning md with the wallet, ✕) and a padlock beside each name (hover). Revoke keeps working. |
+| 9 | **Settings rows copy the window's own section row** (IK.AcctSection, as My account) — logo, name, "Connected <date>", the access badges under them; the one action, Revoke Access (Button destructiveOutline sm, as Delete Account), is always visible on the right, never behind ⋮. Revoke → DevartUI ConfirmationDialog (destructive, ✕); a failure keeps it open with an error Alert and Try Again. |
+| 10 | **Empty Settings = the Workspaces intro's head** (IK.WsIntro, no steps): "Use Insightis from your AI assistant", one line on what it does, How to Connect; on a plan without it, "Available on the Pro plan" and Upgrade to Pro beside How to Connect (the docs are open on every plan). |
+| 11 | **Text wraps naturally** (user, 2026-10-29): no `text-balance` / `pretty` added to stop a lone word while resizing — only where a kit component already sets it (AuthCard subtitle, AuthStatus). Short descriptions end without a period. |
+| 12 | **Review switches only where they act**: the consent page shows Screen + State; the Settings section shows Screen + State + Revoke (Revoke only on the list); Plan is the shared plan switch. Screen jumps between the two surfaces. |
