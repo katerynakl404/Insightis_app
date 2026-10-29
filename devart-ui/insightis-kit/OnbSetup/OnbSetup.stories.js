@@ -2,14 +2,14 @@
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
   function Roles() {
     var s = R.useState('sales'), v = s[0], set = s[1];
-    return h(D.ChoiceGroup, { type: 'single', columns: 2, value: v, onValueChange: set, 'aria-label': 'Role' },
+    return h(D.ChoiceGroup, { type: 'single', className: 'sm:grid-cols-2 sm:gap-3', value: v, onValueChange: set, 'aria-label': 'Role' },
       IK.ONB_ROLES.map(function (r) {
         return h(D.ChoiceCard, { key: r[0], value: r[0], indicator: 'radio', title: r[1], description: r[2], icon: h(IK.Icon, { name: r[3] }) });
       }));
   }
   function Goals() {
     var s = R.useState([]), v = s[0], set = s[1];
-    return h(D.ChoiceGroup, { type: 'multiple', columns: 2, value: v, onValueChange: set, 'aria-label': 'Goals' },
+    return h(D.ChoiceGroup, { type: 'multiple', className: 'sm:grid-cols-2 sm:gap-3', value: v, onValueChange: set, 'aria-label': 'Goals' },
       IK.ONB_GOALS.map(function (g) {
         return h(D.ChoiceCard, { key: g[0], value: g[0], title: g[1], description: g[2], icon: h(IK.Icon, { name: g[3] }) });
       }));

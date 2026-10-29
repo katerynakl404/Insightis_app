@@ -16,7 +16,7 @@
      IK.onboarding.get() · .set(patch) · .reset() · IK.useOnboarding() → [state, set]
 
    IK.onbPath(state)            'conn' | 'files' | 'skip' — which branch of the flow
-   IK.onbProgress(path)         [{ id, label }] for D.StepProgress (5 or 4 steps)
+   IK.onbProgress(path)         [{ id, title }] for D.StepProgress (5 or 4 steps)
    IK.onbHref(step, q)          the page of a step: 'role' | 'goals' | 'source' → concept/onboarding.html,
                                 'metrics' → approved/metrics-landing.html, 'chat' → approved/chat-landing.html,
                                 'done' → the new chat after the tour (onboarding over, its source in place);
@@ -110,9 +110,9 @@
   /* ── the flow ── */
   IK.onbPath = function (s) { return s.sourceKind === 'connector' ? 'conn' : s.sourceKind === 'files' ? 'files' : 'skip'; };
   IK.onbProgress = function (path) {
-    var steps = [{ id: 'role', label: 'Role' }, { id: 'goals', label: 'Goals' }, { id: 'source', label: 'Data source' }];
-    if (path !== 'files' && path !== 'skip') steps.push({ id: 'metrics', label: 'Metrics' });
-    steps.push({ id: 'chat', label: 'Chat' });
+    var steps = [{ id: 'role', title: 'Role' }, { id: 'goals', title: 'Goals' }, { id: 'source', title: 'Data source' }];
+    if (path !== 'files' && path !== 'skip') steps.push({ id: 'metrics', title: 'Metrics' });
+    steps.push({ id: 'chat', title: 'Chat' });
     return steps;
   };
   var PAGE = { role: 'concept/onboarding.html', goals: 'concept/onboarding.html', source: 'concept/onboarding.html',

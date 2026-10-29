@@ -34,7 +34,7 @@
         var chats = IK.useChats();
         return h('div', { className: 'flex gap-2' },
           h(D.Button, { variant: 'secondary', size: 'sm', onClick: function () { chats.requestRename('salesforce-q1'); } }, 'Rename…'),
-          h(D.Button, { variant: 'destructiveOutline', size: 'sm', onClick: function () { chats.requestDelete('salesforce-q1'); } }, 'Delete…'),
+          h(D.Button, { variant: 'destructiveSecondary', size: 'sm', onClick: function () { chats.requestDelete('salesforce-q1'); } }, 'Delete…'),
           h(D.DropdownMenu, null,
             h(D.DropdownMenuTrigger, { asChild: true }, h(D.Button, { variant: 'tertiary', size: 'sm', rightSlot: h(IK.Icon, { name: 'chevron-down' }) }, 'Chat options')),
             h(D.DropdownMenuContent, { align: 'start' }, h(IK.ChatMenuItems, { chats: chats, id: 'salesforce-q1' }))),

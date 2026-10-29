@@ -8,7 +8,7 @@
       rows: [{ label: 'Metrics', value: '12 metrics', action: { label: 'Add Metric' } },
              { label: 'Last check', value: h(IK.DsLastCheck, { lastSync: Date.now() - 32 * 60e3, status: 'active' }) }],
       access: { names: ['Sales', 'Support'], links: LINKS, action: h(window.DevartUI.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-share' }) }, 'Share via Workspace') },
-      foot: { start: h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button' }, 'Disconnect'),
+      foot: { start: h(D.Button, { variant: 'destructiveSecondary', size: 'sm', type: 'button' }, 'Disconnect'),
               end: h(D.Button, { variant: 'primary', size: 'sm', type: 'button' }, 'Edit') } });
   } });
   IK.story('DetailsPanel', { title: 'Shared with you, unavailable — the warning by the name (its popover says why and the way back), Owner + Workspaces, no foot', render: function () {

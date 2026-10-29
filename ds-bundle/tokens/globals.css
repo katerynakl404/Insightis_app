@@ -332,28 +332,28 @@
     hsl(var(--brand-primary)) var(--tint-8),
     transparent
   );
-  --btn-outline-destructive-border: var(--red-700); /* #B91C1C */
-  --btn-outline-destructive-border-hover: var(--red-800); /* #991B1B */
+  --btn-destructive-secondary-border: var(--red-700); /* #B91C1C */
+  --btn-destructive-secondary-border-hover: var(--red-800); /* #991B1B */
   /* Re-stepped with the neutral ladder when interaction states became
      overlays: neutral hover moved to dL 2.99 and this sat at 4.01, so the
      destructive control read heavier than its neutral sibling. tint-4 lands at
      2.67 — the closest step, inside the 0.5 parity tolerance. */
-  --btn-outline-destructive-bg-hover: color-mix(
+  --btn-destructive-secondary-bg-hover: color-mix(
     in srgb,
     hsl(var(--fb-red)) var(--tint-4),
     transparent
   ); /* Red @4% over surface — dL 2.67 vs neutral 2.99 */
-  --btn-outline-destructive-bg-press: color-mix(
+  --btn-destructive-secondary-bg-press: color-mix(
     in srgb,
     hsl(var(--fb-red)) var(--tint-6),
     transparent
   ); /* Red @6% over surface — dL 4.01 vs neutral 4.48 */
-  /* Destructive TERTIARY fill. Identical to the outline sibling on light —
+  /* Destructive TERTIARY fill. Identical to the secondary sibling on light —
      measured at a 4.01 dL* step against the neutral --state-hover's 3.65, and
      5.35 against --state-pressed's 5.15. The variants diverge only on dark:
      see the .dark block. */
-  --btn-destructive-tertiary-bg-hover: var(--btn-outline-destructive-bg-hover);
-  --btn-destructive-tertiary-bg-press: var(--btn-outline-destructive-bg-press);
+  --btn-destructive-tertiary-bg-hover: var(--btn-destructive-secondary-bg-hover);
+  --btn-destructive-tertiary-bg-press: var(--btn-destructive-secondary-bg-press);
   /* Avatar fill. Pinned to brand-600 rather than following --brand-primary,
      because the initials ON it are TEXT: on dark, --brand-primary lifts to
      brand-500 and white drops to 3.94:1, under the 4.5 body-text floor.
@@ -455,30 +455,32 @@
   --switch-off-bg: var(--slate-300); /* #CBD5E1 (light) */
   --switch-off-bg-hover: var(--slate-400); /* #94A3B8 (light) */
 
-  /* Toast tokens */
+  /* Alert tokens — kit: wash over Surface/Card + hairline accent @ --tint-30 */
   /* Alert is Toast standing still instead of floating: same family, same surfaces, so a
      condition does not change colour depending on whether it moves. Mixed over the card, not
      over transparent — an inline block sits INSIDE a surface and must not take its tint from
      whatever is behind it. Info is the one deliberate difference: Brand/Tertiary, not
-     Brand/Primary, so a notice does not read as the product's own voice. */
+     Brand/Primary, so a notice does not read as the product's own voice. The wash strength is
+     one token, --alert-tint (the kit's --alert-wash): 5% here, 8% on dark. */
+  --alert-tint: var(--tint-5);
   --alert-bg-success: color-mix(
     in srgb,
-    hsl(var(--fb-green)) 5%,
+    hsl(var(--fb-green)) var(--alert-tint),
     hsl(var(--surface-card))
   );
   --alert-bg-info: color-mix(
     in srgb,
-    hsl(var(--brand-tertiary)) 5%,
+    hsl(var(--brand-tertiary)) var(--alert-tint),
     hsl(var(--surface-card))
   );
   --alert-bg-warning: color-mix(
     in srgb,
-    hsl(var(--fb-attention)) 5%,
+    hsl(var(--fb-attention)) var(--alert-tint),
     hsl(var(--surface-card))
   );
   --alert-bg-error: color-mix(
     in srgb,
-    hsl(var(--fb-red-text)) 5%,
+    hsl(var(--fb-red-text)) var(--alert-tint),
     hsl(var(--surface-card))
   );
   --alert-border-success: color-mix(
@@ -501,6 +503,8 @@
     hsl(var(--fb-red-text)) var(--tint-30),
     transparent
   );
+
+  /* Toast tokens */
   --toast-bg-success: color-mix(
     in srgb,
     hsl(var(--fb-green)) 5%,
@@ -659,7 +663,7 @@
     color-mix(in srgb, hsl(var(--brand-700)) 0%, transparent) 100%
   );
 
-  /* ===== Tour family: Spotlight · Coachmark · AnnotationGroup ===== */
+  /* ===== Tour family: Spotlight · GuideCard · AnnotationGroup ===== */
   /* The scrim around a lit target is the modal scrim itself
      (`bg-overlay-scrim`, --overlay-scrim) — no colour of its own — under
      a 3px blur. */
@@ -679,11 +683,11 @@
   );
   --shadow-spotlight:
     0 0 0 4px var(--spotlight-halo), 0 0 28px var(--spotlight-glow);
-  /* One move for the whole family — the veils, the ring and the coachmark
+  /* One move for the whole family — the veils, the ring and the guide card
      glide to the next target together. Duration and curve in one value,
      read by a `transition` shorthand, so it is not a --motion-* step. */
   --spotlight-move: 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
-  /* The tour's layer: the scrim at 70, annotations at +1, the coachmark at
+  /* The tour's layer: the scrim at 70, annotations at +1, the guide card at
      +2 — above the package's z-50 overlays. */
   --spotlight-z: 70;
 }
@@ -769,20 +773,20 @@
      x1.22 — the hover read as washed out, not as emphasis. red-500 -> red-400
      keeps both steps a saturated red and still rises, which is what a hover on
      a near-black card has to do. */
-  --btn-outline-destructive-border: var(--red-500); /* #EF4444 — CR 4.74 */
-  --btn-outline-destructive-border-hover: var(--red-400); /* #F25555 — CR 5.27 */
-  --btn-outline-destructive-bg-hover: color-mix(
+  --btn-destructive-secondary-border: var(--red-500); /* #EF4444 — CR 4.74 */
+  --btn-destructive-secondary-border-hover: var(--red-400); /* #F25555 — CR 5.27 */
+  --btn-destructive-secondary-bg-hover: color-mix(
     in srgb,
     hsl(var(--fb-red)) var(--tint-15),
     transparent
   ); /* Red @14% over surface #991B1B */
-  --btn-outline-destructive-bg-press: color-mix(
+  --btn-destructive-secondary-bg-press: color-mix(
     in srgb,
     hsl(var(--fb-red)) var(--tint-20),
     transparent
   ); /* Red @22% over surface #7F1D1D */
   /* Tertiary carries no border, so the fill is the whole signal — on a
-     near-black card the outline sibling's 14%/22% lands 35% short of the
+     near-black card the secondary sibling's 14%/22% lands 35% short of the
      neutral step it has to match (3.29 against --state-hover's 5.16). Measured
      against the live tokens: 20% and 32% put it at 5.05 and 8.76. */
   --btn-destructive-tertiary-bg-hover: color-mix(
@@ -815,27 +819,30 @@
   --switch-off-bg: var(--grey-700); /* #2A2834 */
   --switch-off-bg-hover: var(--grey-600); /* #525258 */
 
-  /* Toast tokens */
+  /* Alert tokens — wash steps to --tint-8 in dark (same move as Toast) */
+  --alert-tint: var(--tint-8);
   --alert-bg-success: color-mix(
     in srgb,
-    hsl(var(--fb-green)) 8%,
+    hsl(var(--fb-green)) var(--alert-tint),
     hsl(var(--surface-card))
   );
   --alert-bg-info: color-mix(
     in srgb,
-    hsl(var(--brand-tertiary)) 8%,
+    hsl(var(--brand-tertiary)) var(--alert-tint),
     hsl(var(--surface-card))
   );
   --alert-bg-warning: color-mix(
     in srgb,
-    hsl(var(--fb-attention)) 8%,
+    hsl(var(--fb-attention)) var(--alert-tint),
     hsl(var(--surface-card))
   );
   --alert-bg-error: color-mix(
     in srgb,
-    hsl(var(--fb-red-text)) 8%,
+    hsl(var(--fb-red-text)) var(--alert-tint),
     hsl(var(--surface-card))
   );
+
+  /* Toast tokens */
   --toast-bg-success: color-mix(
     in srgb,
     hsl(var(--fb-green)) 8%,

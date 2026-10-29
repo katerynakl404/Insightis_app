@@ -1,5 +1,5 @@
 /* OnbTour — the onboarding's last steps, explained over the REAL interface: DevartUI Tour
-   (Spotlight + Coachmark + AnnotationGroup) with the brief's copy, laid over the Metrics page
+   (Spotlight + GuideCard + AnnotationGroup) with the brief's copy, laid over the Metrics page
    (step 4) and the new chat (step 5) — those pages render it in onboarding mode (?onb=…).
 
      metrics  the connected source's group, first and open: the frame takes its header and its

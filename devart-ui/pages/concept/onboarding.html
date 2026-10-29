@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Onboarding</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=498386f0b2">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=498386f0b2">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=6fde73e117">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=6fde73e117">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=498386f0b2"></script>
-<script src="../../review-kit/review-kit.js?v=498386f0b2"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=6fde73e117"></script>
+<script src="../../review-kit/review-kit.js?v=6fde73e117"></script>
 <script>
   /* The setup screens are always dark, like sign-up (AuthLayout). The app after them opens dark
      too — the product's default — so the stored theme is set once here; the app pages' ReviewBar
@@ -142,7 +142,7 @@
       },
         /* a setup step, not an inline question: pick, then Continue — the same rhythm as Goals, where
            several answers need Continue anyway. The radio says "one answer" beside step 2's checkboxes. */
-        h(D.ChoiceGroup, { type: 'single', columns: 2, value: st.role || '', 'aria-label': 'Role',
+        h(D.ChoiceGroup, { type: 'single', className: 'sm:grid-cols-2 sm:gap-3', value: st.role || '', 'aria-label': 'Role',
           onValueChange: function (v) { set({ role: v }); } },
           IK.ONB_ROLES.map(function (r) {
             return h(D.ChoiceCard, { key: r[0], value: r[0], indicator: 'radio', title: r[1], description: r[2], icon: h(IK.Icon, { name: r[3] }) });
@@ -156,7 +156,7 @@
         onSkip: function () { set({ goals: [] }); go('source'); },
         onContinue: function () { go('source'); }, canContinue: st.goals.length > 0
       },
-        h(D.ChoiceGroup, { type: 'multiple', columns: 2, value: st.goals, onValueChange: function (v) { set({ goals: v }); }, 'aria-label': 'Goals' },
+        h(D.ChoiceGroup, { type: 'multiple', className: 'sm:grid-cols-2 sm:gap-3', value: st.goals, onValueChange: function (v) { set({ goals: v }); }, 'aria-label': 'Goals' },
           IK.ONB_GOALS.map(function (g) {
             return h(D.ChoiceCard, { key: g[0], value: g[0], title: g[1], description: g[2], icon: h(IK.Icon, { name: g[3] }) });
           })));
