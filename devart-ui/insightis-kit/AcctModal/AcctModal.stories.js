@@ -38,7 +38,7 @@
       h(IK.AcctSection, { row: true },
         h('div', null, h(D.Typography, { element: 'div', textStyle: 'title14', textColor: 'primary' }, 'Row section'),
           h(D.Typography, { element: 'div', textStyle: 'body14', textColor: 'secondary', className: 'mt-1' }, 'Title block left, action right')),
-        h(D.Button, { variant: 'destructiveOutline', size: 'sm', className: 'ms-auto flex-none' }, 'Delete Account')),
+        h(D.Button, { variant: 'destructiveSecondary', size: 'sm', className: 'ms-auto flex-none' }, 'Delete Account')),
       h(IK.AcctSection, { gap: 4, divider: false, pb: 3 }, h(IK.AcctFieldRow, { title: 'gap 4 · no divider · pb 3' })),
       h(IK.AcctSection, null, h(IK.AcctFieldRow, { title: 'Last section', value: 'No hairline, no bottom padding' })));
   } });

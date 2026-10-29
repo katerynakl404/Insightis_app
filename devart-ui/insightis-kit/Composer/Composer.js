@@ -359,8 +359,8 @@
       variant: 'primary', size: 'sm', type: 'button', 'aria-label': 'Send message',
       className: IK.cx('ik-cmp-send', p.slot && 'ik-cmp-act', empty && filledIdle && 'pointer-events-none'),
       disabled: empty && !filledIdle ? true : undefined,
-      'aria-disabled': empty && filledIdle ? 'true' : undefined,
-      /* the original's idle Send is a real disabled button kept in its fill: not a Tab stop */
+      /* the original's idle Send is inert but kept in its fill: not a Tab stop, no pointer, no click.
+         Not aria-disabled — DevartUI paints aria-disabled as disabled (since 2026-10-27) */
       tabIndex: empty && filledIdle ? -1 : undefined,
       leftSlot: h(IK.Icon, { name: 'cmp-send' }),
       onClick: empty ? undefined : function (e) { if (p.onClick) p.onClick(e); if (p.href) location.href = p.href; }

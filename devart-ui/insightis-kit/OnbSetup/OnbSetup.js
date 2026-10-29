@@ -2,7 +2,7 @@
    auth flow's always-dark page (IK.AuthLayout: same surface as sign-up, which it follows).
    One width for every step (48rem), so the card never jumps when the catalog step opens.
 
-     logo · D.StepProgress (fill: "Step N of M" + the step's name over one bar per step)
+     logo · D.StepProgress (labelPosition top: "Step N of M" + the step's name over one bar per step)
      title (<h1> on Typography's h3 step: 20px on a phone, 24px from md) · subtitle (Body/14)
      Below 640px the card becomes the screen (edge to edge, no frame, footer on the bottom edge).
      …the step (D.ChoiceGroup of ChoiceCards, or IK.OnbSourcePicker)…
@@ -71,7 +71,8 @@
       : [D.Card, { variant: 'outline', rounded: 'xl', fullWidth: true, className: IK.cx('ik-onb gap-5 p-6', p.leaving && 'is-leaving', p.className) }];
     return h(shell[0], shell[1],
       h('div', { className: 'flex justify-center' }, h(IK.Logo, { height: 24, label: 'Insightis', className: 'ik-auth-logo' })),
-      h(D.StepProgress, { fill: true, showStepLabel: !phone, steps: p.progress, current: p.current, 'aria-label': 'Onboarding progress' }),
+      h(D.StepProgress, { labelPosition: 'top', label: 'Step ' + (p.current + 1) + ' of ' + p.progress.length, showStepTitle: !phone,
+        steps: p.progress.map(function (s, i) { return Object.assign({}, s, { done: i < p.current }); }), current: p.current, 'aria-label': 'Onboarding progress' }),
       h('div', { className: 'ik-onb-stage', style: height != null ? { height: height } : undefined },
         h('div', { ref: measure, className: 'ik-onb-track' },
           /* the leaving step: same key as when it was current, so it is not re-mounted, only faded */

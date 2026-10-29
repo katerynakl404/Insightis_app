@@ -141,8 +141,8 @@ theme and the overlays to follow without a provider.
 These come from the design-system audit and are not optional:
 
 1. **Type is chosen as a named style, never as a size.** Use
-   `<Typography textStyle="...">`: `display` · `heading36|30|24|20|16` (500) ·
-   `title30|24|20|16|14|12` (600) · `body16|14|12` (400) · `label14|12|10` (500)
+   `<Typography textStyle="...">`: `display` · `heading36|30|24|20|18|16` (500) ·
+   `title30|24|20|18|16|14|12` (600) · `body16|14|12` (400) · `label14|12|10` (500)
    · `overline`. Each carries size, weight and line-height together. Pick the
    semantic tag separately with `element` — heading level follows content
    hierarchy, not visual weight, and there is one `h1` per page.
@@ -153,7 +153,7 @@ These come from the design-system audit and are not optional:
 3. **Every icon-only control needs an accessible name.** `IconButton` requires
    `aria-label`; name the action ("Remove file"), not the surrounding row.
 4. **Button variants**: `primary` `secondary` `outline`
-   `tertiary` `destructive` `destructiveOutline` `destructiveTertiary`
+   `tertiary` `destructive` `destructiveSecondary` `destructiveTertiary`
    `transparent` `transparentUnderline`. There is **no `ghost`** — use
    `tertiary`. Sizes `xs|sm|md|lg|xl` carry padding 8/12/12/16/20; `Button`,
    `InputGroup` and `TextArea` share that ladder, so a button and a field of the
@@ -337,7 +337,7 @@ Library components carry the design language; the agent's own glue (`flex`,
 # DevartUI (@devart/ui-react@1.0.0)
 
 This design system is the published @devart/ui-react React library, bundled as a single
-browser global. All 61 components are the real upstream code.
+browser global. All 89 components are the real upstream code.
 
 ## Where things are
 
@@ -374,75 +374,100 @@ Wrap the tree in the provider — most components read theme/i18n from context:
 
 ## Tokens
 
-360 CSS custom properties from @devart/ui-react. Names are
+373 CSS custom properties from @devart/ui-react. Names are
 preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (this DS ships one compiled stylesheet rather than separate token files).
 
-- **color** (51): `--surface-card`, `--surface-card2`, `--surface-chips`, …
+- **color** (50): `--surface-card`, `--surface-card2`, `--surface-chips`, …
 - **spacing** (3): `--tw-ring-inset`, `--tw-space-x-reverse`, `--tw-space-y-reverse`
 - **typography** (33): `--font-sans`, `--font-size-xxs`, `--font-size-xs`, …
 - **radius** (7): `--radius-sm`, `--radius`, `--radius-md`, …
-- **shadow** (18): `--shadow-thumb`, `--shadow-thumb-hover`, `--shadow-modal`, …
-- **other** (248): `--modal-max-h`, `--modal-w-sm`, `--modal-w-md`, …
+- **shadow** (19): `--shadow-thumb`, `--shadow-thumb-hover`, `--shadow-modal`, …
+- **other** (261): `--modal-max-h`, `--modal-w-sm`, `--modal-w-md`, …
 
 ## Components
 
 ### components
 - `Accordion`
 - `Alert`
-- `Autocomplete`
+- `AsyncList`
 - `Avatar`
 - `Badge`
 - `Banner`
 - `Button`
 - `Card`
 - `Checkbox`
+- `ChoiceCard` — A card-sized answer: title, optional description / badge / leading icon,
 - `CircularProgress` — Circular progress indicator that renders an SVG ring around optional children.
-- `CodeBlock` — A block of code with the one control it always needs.
+- `ClampedText`
 - `Collapsible` — The root container that manages the open/closed state.
+- `ConfirmationDialog` — A two-button confirmation over Modal. The dialog stays open while
 - `ConnectorLogo` — The brand mark for a data-source connector, at one of four tile sizes.
 - `Counter`
-- `DataSourceCard` — A catalog tile for a data source that is not connected yet.
 - `DropdownMenu` — The root component that manages the open/closed state of the dropdown.
-- `File`
-- `FilterChips` — The row. value / onValueChange behave like any controlled radio group
+- `HighlightText`
 - `IconButton`
+- `IconHint`
 - `Input`
 - `InputGroup` — A composite container that wraps an input and associated addons (icons, text, buttons)
 - `LinkButton` — A text link.
-- `MetaRow` — The line above a list: what it holds, and what can be done to a selection. (compound: `MetaRow.Count`, `MetaRow.End`)
+- `ListPageLayout`
 - `Modal`
-- `PageHeader` — The title row every screen starts with: an optional back control, the page's
-- `Pagination`
-- `PasswordInput` — Password field using link InputGroup + addons: lock icon, input, visibility toggle.
+- `PageHeader` — The title row every screen starts with: an optional back control, the page
 - `Popover` — The root component that manages the open/closed state of the popover.
 - `ProgressBar`
-- `PromoCard`
 - `RadioButton`
+- `ResizableMainSideLayout` — A two-pane layout whose right pane collapses to nothing and expands on
 - `ResizablePanelGroup` — Horizontal or vertical group of resizable panels.
 - `ScrollShadow` — A scrollable container component that automatically displays fade-in/fade-out shadows
 - `SegmentedControl`
 - `Separator`
 - `Sheet` — The root container for the Sheet.
-- `Sidebar` — The main container for the application's sidebar.
-- `SingleDatePicker` — A complete single date picker with calendar, text input, and confirm button.
 - `Skeleton`
 - `Spinner`
-- `StatTile` — One number and what it counts.
-- `StatusView`
 - `Stepper` — Headless stepper that renders the current step's render function,
+- `StepProgress`
 - `StepSlider` — Slider constrained to a short list of named stops, drawn as dots on the
 - `Switch`
 - `Table`
 - `Tabs` — Underline tabs  the active tab is marked by a brand-coloured bottom
 - `TextArea`
 - `Timeline`
-- `ToastMessage`
 - `Toggle`
 - `ToggleGroup`
 - `Tooltip` — The root component that manages the state and logic for an individual tooltip.
+- `Tree`
 - `TruncatedTitleTooltip` — Wraps any trigger element with a tooltip that appears only when the target
 - `Typography`
-- `UploadTray`
+
+### compositions
+- `ActivityTray` — A plate whose header expands into a list of ActivityTrayItem rows. It is
+- `AlertStack` — Several notices as one group. Folded, it is a deck: the first notice on top, the
+- `Annotation` — One label inside an AnnotationGroup. Renders nothing by itself.
+- `Autocomplete`
+- `CodeBlock` — A block of code with the one control it always needs.
+- `CtaBanner` — A Banner with a single call-to-action button in its action slot. On the
+- `File`
+- `FilterChips` — A single-select filter strip: one scrolling row on narrow screens, wrapping
+- `FilterMenu` — A filter as a pill  Type: All , Provider: Main CRM    and its menu:
+- `GuideCard`
+- `IconCard` — A square icon + caption card with an action revealed on hover. The card
+- `InlineRename` — A title that turns into a field where it stands  rename in a list row, a
+- `ListSelectionBar` — Header for a multi-select list: a count that swaps for the selection count,
+- `MetaRow` — The line above a list: what it holds, and what can be done to a selection. (compound: `MetaRow.Count`, `MetaRow.End`)
+- `Pagination`
+- `PasswordInput` — Password field using link InputGroup + addons: lock icon, input, visibility toggle.
+- `PinToggle` — Pins a thing to the top of its list  a chat, a report, a query.
+- `PromoCard`
+- `RowMenuButton` — The  at the end of a list row, and the menu it opens.
+- `SearchInput` — Search field: an InputGroup with a leading search icon and a trailing clear
+- `SelectableListCard` — A list item that reveals a checkbox once the list enters selection mode.
+- `Sidebar` — The main container for the application's sidebar.
+- `SingleDatePicker` — A complete single date picker with calendar, text input, and confirm button.
+- `Spotlight` — Dims and blurs the area around one or more targets. The cutout stays sharp
+- `StatTile` — One number and what it counts.
+- `StatusView`
+- `ToastMessage`
+- `Tour` — A guided walk over the real interface: Spotlight + GuideCard (+
 
 ### foundations
 - `Colors` — Every semantic and component-scoped colour token, by role  Layers 2 and 3,
@@ -450,3 +475,10 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `Radius` — The radius scale, each step shown at its real value.
 - `Shadows` — Elevation as roles rather than sizes  pick by what the surface is doing.
 - `Spacing`
+
+### sidebar
+- `SidebarMenuRow` — A row in the sidebar footer's menu  the popover the account row opens:
+- `SidebarMobileTrigger` — Opens the sidebar's mobile sheet from a floating app header.
+- `SidebarNavItem` — One navigation row: icon, label, active state, collapsed-rail geometry.
+- `SidebarPanelHeader` — The sidebar panel header: brand mark on the leading edge, collapse trigger on
+- `SidebarTrigger` — A dedicated button component used to toggle the sidebar's open/closed state.

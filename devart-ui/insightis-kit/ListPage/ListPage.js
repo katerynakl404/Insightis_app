@@ -10,7 +10,7 @@
                     below lg.
      the row        the drawer trigger first (IK.SidebarBurger, hidden from lg), the title WRAPS
                     (PageHeader wrapTitle — "Data / Sources" beside Create Connection on a phone),
-                    the badge slot for a mark that sits with the title (Files' storage mark).
+                    the titleRight slot for a mark that sits with the title (Files' storage mark).
      the condense   below lg, past 60px of scroll (ListPageLayout condenseAfter, which does not
                     flicker under scroll anchoring) the head tightens to 6px and PageHeader goes
                     `condensed` (heading30 / heading24 → heading20, animated).
@@ -30,7 +30,7 @@
 
    h(IK.ListPage, {
      title: 'Data Sources',
-     after: node,      // PageHeader's badge, 12px after the title
+     after: node,      // PageHeader's titleRight, 12px after the title
      actions: node,    // PageHeader's actions, the right edge
      wrap: false,
      onBack, backLabel, // PageHeader's back button before the title — a page one level down
@@ -58,8 +58,8 @@
           wrapTitle: !p.truncate,
           /* the trigger never shrinks when a long title presses on it (the original .cl-burger is
              flex:none) */
-          leading: h(IK.SidebarBurger, { className: 'flex-none' }),
-          badge: p.after || undefined,
+          titleLeft: h(IK.SidebarBurger, { className: 'flex-none' }),
+          titleRight: p.after || undefined,
           actions: p.actions || undefined,
           condensed: s.condensed,
           className: p.wrap ? 'flex-wrap' : undefined

@@ -202,14 +202,13 @@
       ? h('div', { className: 'ik-ask-top' },
           h(D.StepProgress, {
             className: 'ik-ask-stepper', 'aria-label': 'Questions',
-            steps: qs.map(function (s, j) { return { id: String(j), label: s.title }; }),
+            steps: qs.map(function (s, j) {
+              return { title: s.title, done: !!done[j],
+                ariaLabel: (s.title ? s.title + ', ' : '') + 'question ' + (j + 1) + ' of ' + qs.length + (done[j] ? ', answered' : '') };
+            }),
             current: cur,
-            isStepDone: function (j) { return done[j]; },
-            counter: function (n, t) { return 'Question ' + n + ' of ' + t; },
-            onStepSelect: go,
-            getStepAriaLabel: function (j, st) {
-              return (qs[j].title ? qs[j].title + ', ' : '') + 'question ' + (j + 1) + ' of ' + qs.length + (st.done ? ', answered' : '');
-            }
+            label: 'Question ' + (cur + 1) + ' of ' + qs.length,
+            onStepSelect: go
           }),
           dismiss)
       : h('div', { className: 'ik-ask-top' }, h('p', { className: 'ik-ask-q', id: ids + '-q' }, q.question), dismiss);

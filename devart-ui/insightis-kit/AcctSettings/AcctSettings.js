@@ -7,7 +7,7 @@
    IK.AcctMyAccount      { email, onChangePassword, onDelete }   onDelete — optional (shared workspaces: the
                          warning dialog); without it Delete Account does nothing, as the original
                          Your email + Change Password (link) · Delete my account + Delete Account
-                         (destructiveOutline) · Theme — Light / Dark / System segmented control.
+                         (destructiveSecondary) · Theme — Light / Dark / System segmented control.
                          The Theme control is a local choice only, exactly like the original's
                          (it does not switch the page theme); below 768px it drops to icons.
    IK.AcctChangePassword { onCancel }  two DevartUI PasswordInputs + Cancel / Change Password
@@ -52,7 +52,7 @@
           h(D.Typography, { element: 'div', textStyle: 'title14', textColor: 'primary' }, 'Delete my account'),
           h(D.Typography, { element: 'div', textStyle: 'body14', textColor: 'secondary', className: 'mt-1' },
             'The datasets and chat sessions will also be permanently cleared')),
-        h(D.Button, { variant: 'destructiveOutline', size: 'sm', className: 'ms-auto flex-none', onClick: p.onDelete }, 'Delete Account')),
+        h(D.Button, { variant: 'destructiveSecondary', size: 'sm', className: 'ms-auto flex-none', onClick: p.onDelete }, 'Delete Account')),
       h(IK.AcctSection, null,
         h('div', { className: 'flex flex-col gap-2' },
           h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary' }, 'Theme'),

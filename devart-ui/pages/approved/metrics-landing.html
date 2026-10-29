@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Metrics</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=12df22ef9c">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=12df22ef9c">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=931256d453">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=931256d453">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=12df22ef9c"></script>
-<script src="../../review-kit/review-kit.js?v=12df22ef9c"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=931256d453"></script>
+<script src="../../review-kit/review-kit.js?v=931256d453"></script>
 <script>
   /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
      dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
@@ -653,7 +653,7 @@
         illustration: h(IK.Icon, { name: 'wallet', size: 20 }),
         /* what the person loses is the use, not the edit (user, 2026-10-29: "питання не в едіті а в використанні") —
            said the way Data Sources says it */
-        title: 'Your subscription ended, so these metrics can't be used',
+        title: 'Your subscription ended, so these metrics can’t be used',
         description: h(IK.Fragment, null, 'Nothing was deleted. ',
           h(IK.Locked, { feature: 'metrics', clickOnly: true, marker: 'none' },
             h(D.LinkButton, { href: '#', onClick: function (e) { e.preventDefault(); } }, 'Upgrade to Starter')),

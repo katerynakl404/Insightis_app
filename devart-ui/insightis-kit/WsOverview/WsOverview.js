@@ -88,7 +88,7 @@
         h('div', { className: 'min-w-0 flex-auto' },
           h(D.Typography, { element: 'div', textStyle: 'title14', textColor: 'primary' }, title),
           h(D.Typography, { element: 'div', textStyle: 'body14', textColor: 'secondary', className: 'mt-1' }, text)),
-        h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button', className: 'flex-none', onClick: onClick }, label));
+        h(D.Button, { variant: 'destructiveSecondary', size: 'sm', type: 'button', className: 'flex-none', onClick: onClick }, label));
     }
     var danger = owner
       ? (p.onDelete ? lastRow('Delete workspace', IK.wsDeleteText(1), 'Delete Workspace', p.onDelete) : null)

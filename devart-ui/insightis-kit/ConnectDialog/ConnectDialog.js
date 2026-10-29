@@ -104,8 +104,8 @@
         /* the original header row is the 32px close button's height: 10px under the title */
         h(D.ModalHeader, { className: 'mb-2.5' }, h(D.ModalTitle, null, 'New connection')),
         h('div', { className: 'ik-cw-progress' },
-          h(D.StepProgress, { fill: true, size: 'sm', current: step - 1, 'aria-label': 'New connection steps',
-            steps: [{ id: 'connect', label: 'Connection' }, { id: 'details', label: 'Details' }] })),
+          h(D.StepProgress, { labelPosition: 'top', size: 'sm', label: 'Step ' + step + ' of 2', current: step - 1, 'aria-label': 'New connection steps',
+            steps: [{ title: 'Connection', done: step > 1 }, { title: 'Details' }] })),
         h('div', { className: 'ik-cw-body' },
           step === 1 && failed ? h('div', { className: 'ik-cw-step ik-cw-fail' },
             h(D.StatusView, {

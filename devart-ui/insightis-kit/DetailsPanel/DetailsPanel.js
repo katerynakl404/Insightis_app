@@ -260,7 +260,7 @@
         /* a lone general action is its own icon — a chevron only for two or more */
         actions: !n ? null : n === 1 ? actIcon(general.length ? general[0] : Object.assign({ variant: 'destructiveTertiary' }, danger[0])) : chevronMenu(general, danger),
         foot: specific.length ? {
-          start: gone.length ? h(IK.Fragment, null, gone.map(function (a) { return actBtn('destructiveOutline', a); })) : (acts.note || null),
+          start: gone.length ? h(IK.Fragment, null, gone.map(function (a) { return actBtn('destructiveSecondary', a); })) : (acts.note || null),
           end: mine.length ? h(IK.Fragment, null, mine.map(function (a) { return actBtn(acts.mainVariant || 'primary', a, a.short); })) : null } : null
       };
     }
@@ -291,7 +291,7 @@
         return h(D.DropdownMenuItem, { key: a.label, variant: 'danger', onSelect: a.onClick }, h(IK.Icon, { name: a.icon, size: 16 }), a.label);
       })) : null) };
     return { foot: {
-      start: danger.length ? h(IK.Fragment, null, danger.map(function (a) { return actBtn('destructiveOutline', a); })) : (acts.note || null),
+      start: danger.length ? h(IK.Fragment, null, danger.map(function (a) { return actBtn('destructiveSecondary', a); })) : (acts.note || null),
       end: more.length || main.length ? h(IK.Fragment, null,
         more.map(function (a) { return actBtn('secondary', a); }),
         main.map(function (a) { return actBtn(acts.mainVariant || 'primary', a, a.short); })) : null } };

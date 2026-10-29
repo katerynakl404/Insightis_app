@@ -8,7 +8,6 @@
   var me = document.currentScript;
   var base = me.src.replace(/insightis-kit\.js(\?.*)?$/, '');
   var files = [
-    "../ds-bridge/ds-bridge.js",
     "core/ik-core.js",
     "AccountMenu/AccountMenu.js",
     "AcctApps/AcctApps.js",
@@ -173,5 +172,5 @@
     "WsOverview/WsOverview.stories.js"
   ];
   if (me.hasAttribute('data-stories')) files = files.concat(stories);
-  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=12df22ef9c"><\/script>');
+  for (var i = 0; i < files.length; i++) document.write('<script src="' + base + files[i] + '?v=931256d453"><\/script>');
 })();

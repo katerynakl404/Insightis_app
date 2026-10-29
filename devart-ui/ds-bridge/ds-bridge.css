@@ -1,56 +1,21 @@
 /* ds-bridge (TEMPORARY) — fixes of дизайн DevartUI the vendored ds-bundle/ does not ship yet.
    Each rule is the repo's own, verbatim in effect; check.mjs warns once the bundle ships it
-   ("ships-when"), then delete this file and re-run tools/build-index.mjs. */
-
-/* Button primaryTertiary (дизайн DevartUI, src/components/Button): on dark the label is the link colour
-   (--ink-highlight, Tertiary-400), not Brand/Primary — a darker teal that read as a second, dimmer green
-   beside every link (user, 2026-10-19). Light is unchanged; a disabled one stays Text/Inactive.
-   ships-when: dark\:disabled\:hover\:text-ink-inactive */
-.dark [data-variant="primaryTertiary"]:not(:disabled):not([aria-disabled="true"]) {
-  color: hsl(var(--ink-highlight));
-}
-
-/* Spotlight (дизайн DevartUI, src/components/Spotlight): what pops out of a lit control — a
-   tooltip, a menu, a popover (Radix's popper wrapper, z-50 inline, hence !important) — goes one
-   step over the scrim, under the coachmark; under it, it read as a half-transparent grey box.
-   ships-when: [data-radix-popper-content-wrapper]{z-index:calc(var(--spotlight-z) + 1)!important} */
-:root:has([data-slot="spotlight"]) [data-radix-popper-content-wrapper] {
-  z-index: calc(var(--spotlight-z) + 1) !important;
-}
-
-/* Alert (дизайн DevartUI, src/components/Alert): below 640px the root wraps (`max-sm:flex-wrap`), which is
-   what lets its actions (max-sm:w-full) drop under the copy; without it they squeeze the copy into a column of
-   single words (the consent screen's permission rows, the paused-apps warning in Settings). The actions box is
-   the one with Alert's own max-sm:w-full + max-sm:pl-6, so its parent is the Alert.
-   ships-when-js: flex items-start max-sm:flex-wrap */
-@media (max-width: 639px) {
-  :has(> .max-sm\:w-full.max-sm\:self-start.max-sm\:pl-6) { flex-wrap: wrap; }
-}
+   ("ships-when"), then delete this file and re-run tools/build-index.mjs.
+   Since the 2026-10-29 bundle (c9feeed) ships the four components and the other CSS fixes, one rule is left. */
 
 /* Button / IconButton disabled secondary (дизайн DevartUI §165, src/lib/utils.ts secondaryDisabled): the label keeps
    --ink-body and the whole control fades to opacity-disabled — --ink-inactive read blue beside a loading primary
-   (consent Deny / Allow, user 2026-10-29). No fill, as before. destructiveOutline is the vendored name of
-   destructiveSecondary, which reads the same fragment: switched off it LOSES its red — the secondary's border and
-   label — so it reads like every other switched-off button (user, 2026-10-29); the vendored copy still gave it the
-   outline's --ink-inactive border.
+   (consent Deny / Allow, user 2026-10-29). No fill, as before. destructiveSecondary (destructiveOutline in older
+   bundles) reads the same fragment: switched off it LOSES its red — the secondary's border and label — so it reads
+   like every other switched-off button (user, 2026-10-29).
    ships-when-js: disabled:text-ink-body disabled:opacity-disabled */
 [data-variant="secondary"]:disabled, [data-variant="secondary"][aria-disabled="true"],
+[data-variant="destructiveSecondary"]:disabled, [data-variant="destructiveSecondary"][aria-disabled="true"],
 [data-variant="destructiveOutline"]:disabled, [data-variant="destructiveOutline"][aria-disabled="true"] {
   color: hsl(var(--ink-body));
   opacity: var(--opacity-disabled);
 }
+[data-variant="destructiveSecondary"]:disabled, [data-variant="destructiveSecondary"][aria-disabled="true"],
 [data-variant="destructiveOutline"]:disabled, [data-variant="destructiveOutline"][aria-disabled="true"] {
   border-color: hsl(var(--btn-secondary-border));
 }
-
-/* ── the component bridges' utilities the bundle has not compiled (ds-bridge.js) ── */
-/* SearchInput: the browser's own clear and decoration hidden — the field has its own ✕ */
-.ds-bridge-search::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; }
-.ds-bridge-search::-webkit-search-decoration { display: none; }
-/* AlertStack: the first notice over the edges (z-[2]); the edges hold still under reduced motion */
-.ds-bridge-stack-top { z-index: 2; }
-@media (prefers-reduced-motion: reduce) { .ds-bridge-stack-edge { transition: none; } }
-/* ConfirmationDialog: the header's 14px top, the footer's 14px top and bottom, the close button 14px down */
-.ds-bridge-confirm-head { padding-top: .875rem; }
-.ds-bridge-confirm-foot { padding-top: .875rem; padding-bottom: .875rem; }
-.ds-bridge-confirm-close { top: .875rem; }
