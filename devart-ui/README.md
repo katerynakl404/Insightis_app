@@ -248,8 +248,9 @@ in `working/devart-compare/DIFFERENCES.md`) or review chrome. Last full pass: 20
 
 Bundle refresh 2026-10-29: дизайн DevartUI at c9feeed — the developers' 1.3.0–1.4.0 base (its
 DESIGN-SYSTEM-CHANGES §154); rebuilt the same evening from the repo's working copy, which adds §165 (a
-disabled `secondary` / `destructiveSecondary` fades) and Tooltip `sideOffset` 8 → 4 (§13) — both not yet
-committed there (user, 2026-10-29). The kit
+disabled `secondary` / `destructiveSecondary` fades) and Tooltip `sideOffset` 8 → 4 (§13); the vendored copy is
+the 19:07 build LinkAI took too, which also has RadioButton's checked ring (ChoiceCard's radio mark on the
+onboarding Role step) and Tree's last-row rule — all not yet committed there (user, 2026-10-29). The kit
 moved with it: StepProgress `label` / `labelPosition="top"` / steps `{ title, done }`, ChoiceGroup
 `columns={2}` → `className="sm:grid-cols-2 sm:gap-3"`, PageHeader `leading` / `badge` → `titleLeft` /
 `titleRight`, Button `destructiveOutline` → `destructiveSecondary`. Button now paints `aria-disabled` as
