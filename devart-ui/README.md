@@ -49,10 +49,10 @@ devart-ui/
     review-kit.css|.js         ← GENERATED index — tools/build-index.mjs
   pages/                       ← mirrors legacy-html/pages/: approved/, concept/, concept/auth/;
                                  <page>.rules.md beside a page = its rules locked since the move
-  ds-bridge/                   ← TEMPORARY, only while it is needed (one CSS fix now — the disabled secondary / destructiveSecondary
-                                 look, §165; the 2026-10-29 bundle ships
+  ds-bridge/                   ← TEMPORARY, only while it is needed (none now — the 2026-10-29 bundle ships
                                  SearchInput, AlertStack, ConfirmationDialog, FilterMenu and the Button
-                                 primaryTertiary / Spotlight fixes):
+                                 primaryTertiary / Spotlight / Alert / disabled-secondary §165 fixes, so
+                                 the folder is gone):
                                  components or fixes of дизайн DevartUI the vendored ds-bundle/ lacks,
                                  as JS ports of the same API (D.<Name>, each skipped once the bundle has
                                  it) and CSS rules with a "ships-when:" comment, loaded first by
@@ -239,7 +239,7 @@ Component APIs: no `.d.ts` ships with the bundle — read the source, it is unmi
 | concept/chat_page-charts-landing | Rebuilt · verified | AskUserPanel, ChatChart, ChatFilePreview, ChatCodeRun (in ChatToolCalls) | review switches: Popover state, AskUserPanel; `?pop=` / `?ask=` deep links |
 | concept/onboarding | Built · browser-checked (no legacy original) | OnbSetup, OnbSourcePicker, OnbTour, Onboarding (store + data) · design DevartUI (§117–§123, committed and published 2026-10-19; in the vendored bundle; on the developers' 1.4.0 API since 2026-10-29, §154): StepProgress (`label`, `labelPosition="top"`), ChoiceGroup/ChoiceCard, Spotlight, GuideCard (was Coachmark), AnnotationGroup/Annotation, Tour, CardFooter `sticky` | steps 1–3 here; steps 4–5 overlay approved/metrics-landing + chat-landing (`?onb=`); AskUserPanel now on D.StepProgress + D.ChoiceCard; rules: `pages/concept/onboarding.rules.md` |
 | concept/chat_page-queue | Rebuilt · verified | QueueBand, QueueItem, ThinkingIndicator | the 16-state picker + Reset in the ReviewBar; `?state=` deep link; drag reorder checked by hand (the scripts cannot drag) |
-| concept/assistant-consent + approved/user_profile-modal `?section=authorized-apps` | Built · browser-checked (no legacy original) | AppScopes (shared: `badges` in Settings, `rows` on consent), AuthConsentPair (on DevartUI CardIcon), AcctApps (+ AcctModal `apps`, AccountMenu row, AuthCard `above` / `reserve`, WsIntro parts, ConnectorMark Claude + ChatGPT logos, PlanFeatures `assistants`) · review kit: AppsReview (Screen switch) · ds-bridge CSS fixes: Alert `max-sm:flex-wrap`, disabled secondary (дизайн DevartUI §165) | AIINS-1778: the Identity consent screen and Settings → Authorized apps, built from existing parts and matched to the sign-in flow (spacing, status screens, one primary CTA); review switches Screen + State on consent, Screen + State + Revoke on the section (Plan = the shared switch); rules: `pages/concept/assistant-consent.rules.md` |
+| concept/assistant-consent + approved/user_profile-modal `?section=authorized-apps` | Built · browser-checked (no legacy original) | AppScopes (shared: `badges` in Settings, `rows` on consent), AuthConsentPair (on DevartUI CardIcon), AcctApps (+ AcctModal `apps`, AccountMenu row, AuthCard `above` / `reserve`, WsIntro parts, ConnectorMark Claude + ChatGPT logos, PlanFeatures `assistants`) · review kit: AppsReview (Screen switch) · дизайн DevartUI §165 (a disabled secondary fades; in the bundle since 2026-10-29) | AIINS-1778: the Identity consent screen and Settings → Authorized apps, built from existing parts and matched to the sign-in flow (spacing, status screens, one primary CTA); review switches Screen + State on consent, Screen + State + Revoke on the section (Plan = the shared switch); rules: `pages/concept/assistant-consent.rules.md` |
 | approved/workspaces + workspace-emails | Approved 2026-10-22 · browser-checked (no legacy original) | Workspaces (store, WsNotice, WsSharedBy, WsOwnerMark, WsNames, wsToast, useWsPanelActions, useWsRemoveConfirm …), WsList, WsOverview, WsMembers, WsConnections, WsMetrics, WsFiles, WsDialogs (+ WsDeleteConfirm / WsLeaveConfirm), WsEmail, LoadMore, StatusMark, ConnectionDetails / MetricDetails / FileDetails on DetailsPanel (+ DsConnections / DsFilesTable (DsOriginBadge) / DsFileMark / MxMetricsTable / MxMetricDialog / DsConnectionDialogs / Composer / ChatHero / AcctSettings / AppSidebar / ListPage / PlanFeatures extended) · DevartUI SearchInput, FilterMenu, AlertStack, ConfirmationDialog (in the bundle since 2026-10-29; until then via `ds-bridge/`), ChoiceCard, StatusView | shared workspaces, phase 1; overlays approved Data Sources, Files, Metrics, Chat, Account — on by default, `?ws=0` turns it off (= as approved); review kit: WsReview (`RK.workspaceControls`); rules: `pages/approved/workspace.rules.md` |
 
 "Verified" = `compare.mjs` + `interact.mjs` (every theme, viewport, review state and scenario):
@@ -247,7 +247,9 @@ Component APIs: no `.d.ts` ships with the bundle — read the source, it is unmi
 in `working/devart-compare/DIFFERENCES.md`) or review chrome. Last full pass: 2026-10-15.
 
 Bundle refresh 2026-10-29: дизайн DevartUI at c9feeed — the developers' 1.3.0–1.4.0 base (its
-DESIGN-SYSTEM-CHANGES §154), without the repo's then-uncommitted Tooltip `sideOffset` change. The kit
+DESIGN-SYSTEM-CHANGES §154); rebuilt the same evening from the repo's working copy, which adds §165 (a
+disabled `secondary` / `destructiveSecondary` fades) and Tooltip `sideOffset` 8 → 4 (§13) — both not yet
+committed there (user, 2026-10-29). The kit
 moved with it: StepProgress `label` / `labelPosition="top"` / steps `{ title, done }`, ChoiceGroup
 `columns={2}` → `className="sm:grid-cols-2 sm:gap-3"`, PageHeader `leading` / `badge` → `titleLeft` /
 `titleRight`, Button `destructiveOutline` → `destructiveSecondary`. Button now paints `aria-disabled` as
