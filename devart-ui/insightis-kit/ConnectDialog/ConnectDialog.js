@@ -106,7 +106,7 @@
         h('div', { className: 'ik-cw-progress' },
           h(D.StepProgress, { labelPosition: 'top', size: 'sm', label: 'Step ' + step + ' of 2', current: step - 1, 'aria-label': 'New connection steps',
             steps: [{ title: 'Connection', done: step > 1 }, { title: 'Details' }] })),
-        h('div', { className: 'ik-cw-body' },
+        h(D.ModalBody, { key: step + (failed ? '-fail' : '') },
           step === 1 && failed ? h('div', { className: 'ik-cw-step ik-cw-fail' },
             h(D.StatusView, {
               size: 'md', surface: 'embedded', role: 'alert',

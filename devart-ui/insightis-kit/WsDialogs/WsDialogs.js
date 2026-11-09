@@ -91,7 +91,7 @@
       h(D.ModalContent, { size: 'md', onOpenAutoFocus: focusLater(ref) },
         h('form', { className: 'contents', noValidate: true, onSubmit: submit },
           h(D.ModalHeader, { className: HEAD }, h(D.ModalTitle, null, p.title)),
-          h('div', { className: 'flex flex-col gap-4' },
+          h(D.ModalBody, { className: 'gap-4' },
             p.lead ? lead(p.lead) : null,
             h(D.InputGroup, { label: 'Workspace name', inputId: 'ik-ws-name', isInvalid: !!err, errorText: err || undefined },
               h(D.InputGroupInput, {
@@ -154,7 +154,7 @@
       h(D.ModalContent, { size: 'sm', onOpenAutoFocus: focusLater(ref) },
         h('form', { className: 'contents', noValidate: true, onSubmit: submit },
           h(D.ModalHeader, { className: HEAD }, h(D.ModalTitle, null, 'Invite members')),
-          h('div', { className: 'flex flex-col gap-4' },
+          h(D.ModalBody, { className: 'gap-4' },
             lead(h(IK.Fragment, null, 'They join ', h('span', { className: 'font-medium text-ink-primary' }, w.name),
               ' as members and use what is shared there, read-only. They get an email with a link to join.')),
             h(D.InputGroup, { label: 'Email', inputId: 'ik-ws-email', isInvalid: !!err, errorText: err || undefined },
@@ -199,9 +199,10 @@
       onClick: function () { location.assign(IK.wsHref(rel, { w: null, tab: null, do: null })); } }, label);
   }
   var CATALOG = 'approved/data-sources_connections-landing.html', FILES = 'approved/data-sources_files-landing.html';
-  /* the column of cards, 8px apart, scrolling inside the dialog when long, on DevartUI's scrollbar-thin set in the
-     side gutter so it never lies over the cards (the AI connectivity PickList's) */
-  function pickList(rows, label) { return h('div', { className: 'ik-pick-list scrollbar-thin flex min-h-0 flex-col gap-2 overflow-y-auto', role: 'group', 'aria-label': label }, rows); }
+  /* the column of cards, 8px apart, scrolling inside the dialog when long — the search above it stays put. It is
+     DevartUI's ModalBody: the bar in the dialog's own right padding, against its edge, the cards inset alike on both
+     sides (§176) */
+  function pickList(rows, label) { return h(D.ModalBody, { className: 'gap-2', role: 'group', 'aria-label': label }, rows); }
   function toggle(list, id, on) { return on ? list.concat([id]) : list.filter(function (x) { return x !== id; }); }
 
   /* ── Add connections (their metrics said in one line) ───────────────────────────────────────────────── */
@@ -314,7 +315,7 @@
       h(D.ModalContent, { size: 'md' },
         h('form', { className: 'contents', noValidate: true, onSubmit: create },
           head('Create workspace', null, function () { setView('pick'); }),
-          h('div', { className: 'flex flex-col gap-4' },
+          h(D.ModalBody, { className: 'gap-4' },
             h(D.InputGroup, { label: 'Workspace name', inputId: 'ik-ws-new', isInvalid: !!err, errorText: err || undefined },
               h(D.InputGroupInput, { id: 'ik-ws-new', autoFocus: true, value: name, placeholder: 'e.g. Sales', autoComplete: 'off', maxLength: IK.WS_NAME_MAX,
                 onChange: function (e) { setName(e.target.value); if (err) setErr(null); } })),

@@ -127,7 +127,7 @@
   /* the preview as the file preview draws it: its strip (previewBanner) flush on top, full-bleed; the body with the
      preview's own 16px, nothing else in it (user, 2026-10-20: "алерт був до верху прикріплений, а превью на все боді") */
   function PreviewBody(p) {
-    return h('div', { className: 'flex min-h-full flex-col px-6 py-4' }, p.preview);
+    return h('div', { className: 'flex min-h-full flex-col py-4' }, p.preview);
   }
   function hero(p) {
     return h('div', { className: 'flex flex-col gap-3' },
@@ -162,7 +162,7 @@
   }
   function Body(p) {
     var q = parts(p), rowsNode = q.rows, accessNode = q.access;
-    return h('div', { className: 'flex flex-col gap-5 px-6 py-5' },
+    return h('div', { className: 'flex flex-col gap-5 py-5' },
       hero(p),
       h(About, { description: p.description }),
       p.preview || null,
@@ -204,14 +204,16 @@
     }
     /* folded, the facts are always compact rows — label beside value, whatever the Layout — and the bar grows
        with them, no scroll of its own (user, 2026-10-20: "займає купу місця і не зрозуміло чому") */
+    /* the body scrolls in DevartUI's SheetBody: its bar against the panel's edge, the content 24px from both edges with
+       a bar or without one (§178); mx-0 — the sheet has no padding of its own, the 24px is SheetBody's px-6 */
     var fold = !!p.foldDetails, q = fold ? parts(Object.assign({}, p, { layout: 'rows' })) : null;
     var inner = fold
       ? [h(Head, Object.assign({ key: 'h' }, p, { title: p.name, titleAfter: p.after })), DetailsBar(p, q.rows, q.access),
          p.previewBanner ? h(R.Fragment, { key: 'n' }, p.previewBanner) : null,
-         h('div', { key: 'b', className: 'min-h-0 flex-1 overflow-y-auto scrollbar-thin' }, h(PreviewBody, p)),
+         h(D.SheetBody, { key: 'b', className: 'mx-0' }, h(PreviewBody, p)),
          h(Foot, Object.assign({ key: 'f' }, p))]
       : [h(Head, Object.assign({ key: 'h' }, p)),
-         h('div', { key: 'b', className: 'min-h-0 flex-1 overflow-y-auto scrollbar-thin' }, h(Body, p)),
+         h(D.SheetBody, { key: 'b', className: 'mx-0' }, h(Body, p)),
          h(Foot, Object.assign({ key: 'f' }, p))];
     if (p.inline) return h(D.Card, { variant: 'outline', className: IK.cx('flex w-full flex-col gap-0 overflow-hidden p-0', p.className), style: p.style, 'aria-label': p.title }, inner);
     if (p.bare) return h('div', { className: 'flex min-h-0 w-full flex-1 flex-col', 'aria-label': p.title }, inner);

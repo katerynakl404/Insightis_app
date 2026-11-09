@@ -37,7 +37,7 @@
         h(D.ModalHeader, { className: 'items-start gap-2 pe-10' },
           f.plan ? h(IK.PlanLock, { plan: f.plan }) : null,
           h(D.ModalTitle, null, f.title)),
-        h('div', { className: 'flex flex-col gap-4' },
+        h(D.ModalBody, { className: 'gap-4' },
           f.lead ? h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'body', className: 'm-0' }, f.lead) : null,
           h(IK.FeatList, { items: f.benefits || [], size: 'md' })),
         h(D.ModalFooter, null,

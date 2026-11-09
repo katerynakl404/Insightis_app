@@ -151,7 +151,7 @@
         }
       },
         h(D.ModalHeader, null, h(D.ModalTitle, null, 'Rename chat')),
-        h('div', { className: 'flex flex-col gap-3' },
+        h(D.ModalBody, { className: 'gap-3' },
           h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' }, 'Give your chat a special name'),
           h(D.InputGroup, null,
             h(D.InputGroupInput, {
@@ -173,8 +173,8 @@
         onOpenAutoFocus: function (e) { e.preventDefault(); if (confirmRef.current) confirmRef.current.focus(); }
       },
         h(D.ModalHeader, null, h(D.ModalTitle, null, 'Delete chat?')),
-        h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' },
-          'This action can\'t be undone. The chat will be permanently removed.'),
+        h(D.ModalBody, null, h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' },
+          'This action can\'t be undone. The chat will be permanently removed.')),
         h(D.ModalFooter, null,
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: chats.closeDialog }, 'Cancel'),
           h(D.Button, {

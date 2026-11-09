@@ -132,7 +132,7 @@
     return h(D.Modal, { open: !!p.open, onOpenChange: p.onOpenChange },
       h(D.ModalContent, { size: 'sm', closeButtonProps: { 'aria-label': 'Close' } },
         h(DlgTitle, { warn: p.warn !== false }, p.title),
-        h('div', { className: 'flex flex-col gap-3' },
+        h(D.ModalBody, { className: 'gap-3' },
           h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'body' }, p.text),
           h(IK.AcctLostList, { items: p.items })),
         h(D.ModalFooter, null,
@@ -147,10 +147,10 @@
       h(D.ModalContent, { size: 'md', closeButtonProps: { 'aria-label': 'Close' } },
         h(DlgTitle, { warn: false }, sent ? 'Request sent' : 'Switch to yearly billing'),
         sent
-          ? h('div', { className: 'flex flex-col gap-2' },
+          ? h(D.ModalBody, { className: 'gap-2' },
               h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'body' },
                 'Support will contact you within one business day to move your Starter subscription to yearly billing. Your current plan stays active in the meantime.'))
-          : h('div', { className: 'flex flex-col gap-3.5' },
+          : h(D.ModalBody, { className: 'gap-3.5' },
               h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'body' },
                 'Monthly plans can\'t switch to yearly automatically. Send a request and support will apply it to your Starter plan.'),
               h(D.TextArea, { rows: 3, label: 'Note for support (optional)', placeholder: 'Seat count, preferred start date, PO number…' })),

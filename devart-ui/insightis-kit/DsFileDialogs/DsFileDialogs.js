@@ -18,9 +18,9 @@
         onOpenAutoFocus: function (e) { e.preventDefault(); setTimeout(function () { if (ref.current) ref.current.focus(); }, 50); }
       },
         h(D.ModalHeader, null, h(D.ModalTitle, null, many ? 'Delete ' + p.count + ' files?' : 'Delete file?')),
-        h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' },
+        h(D.ModalBody, null, h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' },
           many ? 'This action can\'t be undone. The selected files will be permanently removed.'
-               : 'This action can\'t be undone. The file will be permanently removed.'),
+               : 'This action can\'t be undone. The file will be permanently removed.')),
         h(D.ModalFooter, null,
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { p.onOpenChange(false); } }, 'Cancel'),
           h(D.Button, { ref: ref, variant: 'destructive', size: 'sm', type: 'button', onClick: p.onConfirm }, 'Delete'))));

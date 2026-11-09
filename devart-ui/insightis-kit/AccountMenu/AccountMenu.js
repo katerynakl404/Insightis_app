@@ -165,11 +165,11 @@
         }
       },
         h(D.ModalHeader, null, h(D.ModalTitle, null, 'About Insightis')),
-        h('dl', { className: 'flex flex-col gap-2' }, rows.map(function (r) {
+        h(D.ModalBody, { className: 'gap-2' }, h('dl', { className: 'flex flex-col gap-2' }, rows.map(function (r) {
           return h('div', { key: r[0], className: 'flex justify-between gap-4' },
             h(D.Typography, { element: 'dt', textStyle: 'body14', textColor: 'secondary' }, r[0]),
             h(D.Typography, { element: 'dd', textStyle: 'body14', textColor: 'primary' }, r[1]));
-        })),
+        }))),
         h(D.ModalFooter, null,
           h(D.Button, { variant: 'primary', size: 'sm', type: 'button', onClick: function () { p.onOpenChange(false); } }, 'Close'))));
   };

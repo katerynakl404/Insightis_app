@@ -202,6 +202,8 @@
             h(IK.Tip, { tip: 'Close' },
               h(D.IconButton, { variant: 'tertiary', size: 'md', 'aria-label': 'Close account settings', onClick: close },
                 h(IK.Icon, { name: 'acctm-close' })))),
-          h('div', { className: 'flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto scrollbar-thin p-5 max-md:p-4' }, p.children))));
+          /* DevartUI's ModalBody: the bar against the window's right edge, the content inset alike on both sides (§176);
+             mx-0 — this window has no padding of its own to reach over */
+          h(D.ModalBody, { className: 'mx-0 gap-5 p-5 max-md:p-4' }, p.children))));
   };
 })();

@@ -39,7 +39,7 @@
         onOpenAutoFocus: function (e) { e.preventDefault(); setTimeout(function () { if (nameRef.current) nameRef.current.focus(); }, 50); }
       },
         h(D.ModalHeader, null, h(D.ModalTitle, null, 'Edit connection')),
-        h('div', { className: 'flex flex-col gap-4' },
+        h(D.ModalBody, { className: 'gap-4' },
           h(D.InputGroup, { label: 'Display name', inputId: 'ik-dsed-name' }, h(D.InputGroupInput, {
             id: 'ik-dsed-name', ref: nameRef, value: label, placeholder: 'Connection name', autoComplete: 'off',
             onChange: function (e) { setLabel(e.target.value); }
@@ -62,7 +62,7 @@
       },
         h(D.ModalHeader, null, h(D.ModalTitle, null, 'Disconnect ', h('span', { className: 'text-ink-primary' }, p.label), '?')),
         /* the sentence and the shared warning as one block, 12px apart (as the account's confirms) */
-        h('div', { className: 'flex flex-col gap-3' },
+        h(D.ModalBody, { className: 'gap-3' },
         h(D.Typography, { element: 'p', textStyle: 'body14', textColor: 'secondary', className: 'm-0' },
           'This connection will be removed. Your existing metric data will be preserved and a new connection can be created at any time.'),
         p.sharedIn && p.sharedIn.length ? h(D.Alert, {
