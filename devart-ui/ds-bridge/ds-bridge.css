@@ -1,0 +1,9 @@
+/* ds-bridge (TEMPORARY) — fixes of дизайн DevartUI the vendored ds-bundle/ does not ship yet.
+   Loaded first by insightis-kit.css (tools/build-index.mjs). Once a re-vendored bundle ships a fix,
+   check.mjs warns: delete this folder and re-run tools/build-index.mjs. */
+
+/* §177 — TooltipContent is z-[110], above Modal (z-100): at z-50 a tooltip on a control inside a dialog opened behind
+   it. Radix copies the content's z-index onto its popper wrapper; a tooltip's content is the one in a delayed-open /
+   instant-open state (a popover's or a menu's is "open").
+   ships-when-js: only a sliver showed past its edge (§177) */
+[data-radix-popper-content-wrapper] > [data-state$="-open"] { z-index: 110; }

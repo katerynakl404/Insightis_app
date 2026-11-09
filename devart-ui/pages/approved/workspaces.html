@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Workspaces</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=78adbab88f">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=78adbab88f">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=91591677d3">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=91591677d3">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=78adbab88f"></script>
-<script src="../../review-kit/review-kit.js?v=78adbab88f"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=91591677d3"></script>
+<script src="../../review-kit/review-kit.js?v=91591677d3"></script>
 </head>
 <style>
   /* Page layout only: File details (IK.FileDetails) splits the main column as on Files — a third
@@ -375,10 +375,12 @@
           ? h(IK.WsConnections, Object.assign({ variant: 'workspace', connections: conns, label: 'Connections in ' + w.name,
               onOpen: function (c) { setPanel(c.id); }, selected: panel }, connActs()))
           : emptyState({ title: 'No connections yet', description: 'Add one so members can use it in their chats', action: addBtn }) },
-        /* what its connections share with it — read-only, managed on Metrics (user, 2026-10-19: "де таба метрик?") */
+        /* what its connections share with it — read-only, managed on Metrics (user, 2026-10-19: "де таба метрик?"); the
+           Owner's is there before anything is added, with Create Metric — its picker then says no connections are added
+           (user, 2026-11-09) */
         { value: 'metrics', label: 'Metrics', body: ownMx.some(function (r) { return r.kind === 'metric'; })
           /* Metric Details as on Metrics: its connection's name opens the connection's details over it */
-          ? h(IK.WsMetrics, { rows: ownMx, owner: true, ws: ws, free: free, onOpenConnection: function (cid) { setPanel(cid); }, onCreate: function () { pa.createMetric(null); } })
+          ? h(IK.WsMetrics, { rows: ownMx, owner: true, ws: ws, free: free, onOpenConnection: function (cid) { setPanel(cid); }, onCreate: function (c) { pa.createMetric(c || null, w); } })
           : emptyState({ title: 'No metrics yet', description: 'Metrics come with the connections you add', action: addBtn }) },
         { value: 'files', label: 'Files', body: files.length
           ? h(IK.WsFiles, { files: files, owner: true, onOpen: openFile, previewId: filePrev && filePrev.id, shareLocked: free,
@@ -395,7 +397,7 @@
               action: h(IK.Locked, lockWs, h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'plus' }), onClick: shareFiles }, 'Add Files')) }) },
         { value: 'members', label: 'Members', body: h(IK.WsMembers, { ws: w, me: ws.me, onRemove: removeMember, onResend: resend, onRevoke: revoke,
             emptyAction: h(IK.Locked, lockWs, h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: 'ws-users' }), onClick: function () { setDlg({ kind: 'invite' }); } }, 'Invite Members')) }) },
-      ];
+      ].filter(Boolean);
     } else {
       /* inside the workspace its own name is not repeated on each connection (user, 2026-10-19: 'ми і так на маркетингу') */
       var rows = IK.wsMetricRows(ws.list, { own: MY_ALIASES, locked: free, only: w.id }).map(function (r) {
@@ -407,9 +409,10 @@
           ? h(IK.WsConnections, { variant: 'shared', noWs: true, connections: conns, label: 'Connections shared in ' + w.name,
               onOpen: function (c) { setPanel(c.id); }, selected: panel })
           : emptyState({ title: 'No connections yet', description: w.owner.name + ' hasn’t added any yet' }) },
-        { value: 'metrics', label: 'Metrics', body: nMetrics
+        /* there once the owner has added a connection (user, 2026-11-09) */
+        conns.length ? { value: 'metrics', label: 'Metrics', body: nMetrics
           ? h(IK.WsMetrics, { ws: ws, rows: rows })
-          : emptyState({ title: 'No metrics yet', description: 'Metrics come with shared connections' }) },
+          : emptyState({ title: 'No metrics yet', description: 'Metrics come with shared connections' }) } : null,
         { value: 'files', label: 'Files', body: files.length
           ? h(IK.WsFiles, { files: files.map(function (f) { return Object.assign({}, f, { locked: free, muted: blocked, by: w.owner.name, wsName: w.name }); }),
               onOpen: openFile, previewId: filePrev && filePrev.id,
@@ -422,7 +425,7 @@
           : emptyState({ title: 'No files yet', description: w.owner.name + ' hasn’t added any yet' }) },
         /* who is in it, to look at (user, 2026-10-19: "чому до мемберів нема переходу") — no actions */
         { value: 'members', label: 'Members', body: h(IK.WsMembers, { ws: w, me: ws.me, readOnly: true }) }
-      ];
+      ].filter(Boolean);
     }
     var cur = tabs.some(function (t) { return t.value === tab; }) ? tab : 'overview';
     /* the title row's action follows the tab, as on Data Sources (Create Connection on My Connections
@@ -433,7 +436,7 @@
       /* every Add takes the plus, as Add Connection (user, 2026-10-19: 'чому різні іконки') */
       files: ['Add Files', 'plus', shareFiles],
       /* as Metrics' title action: Create metric, in place */
-      metrics: ['Create Metric', 'plus', function () { pa.createMetric(null); }]
+      metrics: ['Create Metric', 'plus', function () { pa.createMetric(null, w); }]
     };
     var ta = owner ? TAB_ACTION[cur] : null;
     var titleAction = ta ? h(IK.Locked, lockWs,

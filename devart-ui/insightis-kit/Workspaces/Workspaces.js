@@ -543,7 +543,9 @@
        var x = pa.connection(c, close); h(IK.ConnectionDetails, Object.assign({ connection: x.item, onOpenChange }, x.opts))
        var y = pa.file(f, close);       h(IK.FileDetails, Object.assign({ file: y.item, onClose }, y.opts))
        c: { id, label, name, … } as the store keeps it; the item gains where it is (sharedWith, links)
-       pa.createMetric(c | null)                           Create metric in place — Data Sources' Add Metric (c: preset)
+       pa.createMetric(c | null, w?)                       Create metric in place — c: "Create metric for <c.label>", nothing
+                                                           to pick; null: no Link to, the Connection picker alone — w's
+                                                           connections only (all the person's without w)
        pa.shareFiles(files) · pa.deleteFiles(files, close)  a selection, as Files' bulk bar
        pa.askRemove({ kind, name, count, metrics, wsName, run })   a row's ⋮ Remove from Workspace — the panel's × confirm
        { seeMetrics() → fn | null }                        "See it in Metrics" after a metric is made (null: none)
@@ -716,19 +718,22 @@
       },
       shareFiles: function (list) { setShareF(list.map(stored)); },
       deleteFiles: function (list, close) { closeRef.current = close || null; setDelF(list); },
-      createMetric: function (c) { setMxFor({ c: c || null }); },
+      createMetric: function (c, w) { setMxFor({ c: c || null, w: w || null }); },
       /* a row's ⋮ Remove from Workspace on the workspace page: the same confirm as the panel's × */
       askRemove: rm.ask,
       dialogs: h(IK.Fragment, null,
         rm.dialog,
+        /* a connection's Add Metric: "Create metric for <it>", nothing to pick; the Metrics tab's Create Metric: no Link to
+           (a workspace shares connections, never a data source) — the Connection picker alone, that workspace's
+           connections; none yet, and it says so (user, 2026-11-09) */
         h(IK.MxMetricDialog, {
-          open: !!mxFor, mode: 'create',
-          initial: mxFor && mxFor.c ? { connector: mxFor.c.label, link: 'connection' } : {},
-          options: IK.WS_CONNECTIONS.map(function (x) { return { id: x.label, label: x.label + ' (' + x.name + ')' }; }),
+          open: !!mxFor, mode: 'create', connectionOnly: true,
+          target: mxFor && mxFor.c ? { kind: 'connection', name: mxFor.c.label } : null,
+          options: (mxFor && mxFor.w ? mxFor.w.connections : IK.WS_CONNECTIONS).map(function (x) { return { id: x.label, label: x.label + ' (' + x.name + ')' }; }),
           findDuplicates: IK.wsMetricDuplicates(ws), sharedAlias: IK.wsSharedAlias(ws),
           onOpenChange: function (v) { if (!v) setMxFor(null); },
           onSave: function (v) {
-            var k = IK.WS_CONNECTIONS.filter(function (x) { return x.label === v.connector; })[0] || (mxFor && mxFor.c);
+            var k = (mxFor && mxFor.w ? mxFor.w.connections : IK.WS_CONNECTIONS).filter(function (x) { return x.label === v.connector; })[0] || (mxFor && mxFor.c);
             setMxFor(null);
             if (k) ws.addMetric(k.id, { name: v.name, alias: v.alias, desc: v.def });
             var see = o && o.seeMetrics ? o.seeMetrics() : null;

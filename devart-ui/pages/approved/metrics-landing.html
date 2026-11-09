@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Metrics</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=78adbab88f">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=78adbab88f">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=91591677d3">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=91591677d3">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=78adbab88f"></script>
-<script src="../../review-kit/review-kit.js?v=78adbab88f"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=91591677d3"></script>
+<script src="../../review-kit/review-kit.js?v=91591677d3"></script>
 <script>
   /* onboarding mode (?onb=…): a new account's app is dark by default, so every tour step opens
      dark (the setup screens are always dark); the ReviewBar's Theme still flips the page */
@@ -502,7 +502,7 @@
       var qs = new URLSearchParams(location.search), c = qs.get('create');
       if (!c || touring) return;
       setState('filled');
-      setDlg({ open: true, mode: 'create', initial: { connector: c, link: 'connection' } });
+      setDlg({ open: true, mode: 'create', initial: {}, target: { kind: 'connection', name: c } });
       qs.delete('create'); history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs : '') + location.hash);
     }, []);
 
@@ -551,15 +551,40 @@
       });
       return hit;
     }
+    /* where a metric is linked, for Edit's Link to: a connection (its sub-header, or the one it names) or its data source */
+    function linkOf(r) {
+      var c = r.conn || (r.connector && r.connector !== r.provider ? r.connector : '');
+      return c ? { link: 'connection', connector: c } : { link: 'datasource', connector: r.provider && r.provider !== 'Custom' ? r.provider : '' };
+    }
+    /* a metric goes where it is linked (user, 2026-11-09): under its data source's heading, before that source's
+       connections, or under its connection's sub-header — after the metrics already there; nowhere to put it → at the end */
+    function placeIn(list, m, link, name) {
+      var g = null, at = -1;
+      for (var i = 0; i < list.length && at < 0; i++) {
+        if (list[i].kind === 'group') g = list[i];
+        if (name && list[i].name === name && list[i].kind === (link === 'connection' ? 'conn' : 'group')) at = i;
+      }
+      if (at < 0) return list.concat([Object.assign({}, m, { prov: 'custom', conn: undefined,
+        provider: link === 'datasource' && name ? name : 'Custom', connector: link === 'connection' && name ? name : undefined })]);
+      var j = at + 1;
+      while (j < list.length && list[j].kind !== 'group' && list[j].kind !== 'conn') j++;
+      var x = Object.assign({}, m, { prov: g.prov, provider: g.name, conn: link === 'connection' ? list[at].id : undefined, connector: link === 'connection' ? name : undefined });
+      var next = list.slice(); next.splice(j, 0, x); return next;
+    }
     function saveMetric(v) {
+      var fields = { name: v.name, alias: v.alias, desc: v.def, summary: v.def };
       if (dlg.mode === 'edit') {
-        patch(dlg.editId, { name: v.name, alias: v.alias, desc: v.def, summary: v.def, connector: v.connector, provider: v.connector || 'Custom' });
+        var id = dlg.editId, was = dlg.initial || {};
+        /* still linked where it was: the fields only; another data source or connection moves it there */
+        if (v.link === was.link && v.connector === (was.connector || '')) { patch(id, fields); return; }
+        setRows(function (list) {
+          var r = list.filter(function (x) { return x.kind === 'metric' && x.id === id; })[0];
+          return r ? placeIn(list.filter(function (x) { return x !== r; }), Object.assign({}, r, fields, { wsConn: undefined }), v.link, v.connector) : list;
+        });
         return;
       }
-      setRows(function (list) {
-        return list.concat([{ kind: 'metric', id: 'custom-' + (counter.current++), prov: 'custom', name: v.name, alias: v.alias,
-          provider: v.connector || 'Custom', connector: v.connector, desc: v.def, summary: v.def, custom: true, active: false }]);
-      });
+      var made = Object.assign({ kind: 'metric', id: 'custom-' + (counter.current++), custom: true, active: false }, fields);
+      setRows(function (list) { return placeIn(list, made, v.link, v.connector); });
       setState('filled');
     }
 
@@ -573,9 +598,15 @@
       setSheet({ open: true, metric: { kind: 'library', name: m[1], alias: m[2], prov: m[3], desc: m[4], provider: card.name, logo: card.connector } });
     }
     function openCreate() { setDlg({ open: true, mode: 'create', initial: {} }); }
+    /* Add Metric on a data source (its heading, its empty row) or a connection (its sub-header): Create metric for it —
+       no Link to, no picker (user, 2026-11-09) */
+    function addTo(r) {
+      if (!r) { openCreate(); return; }
+      setDlg({ open: true, mode: 'create', initial: {}, target: { kind: r.kind === 'conn' ? 'connection' : 'datasource', name: r.name } });
+    }
     function openEdit(r) {
       setSheet(function (s) { return Object.assign({}, s, { open: false }); });
-      setDlg({ open: true, mode: 'edit', editId: r.id, initial: { name: r.name, alias: (r.alias || '').replace(/^@/, ''), def: r.desc, connector: r.connector || '' } });
+      setDlg({ open: true, mode: 'edit', editId: r.id, initial: Object.assign({ name: r.name, alias: (r.alias || '').replace(/^@/, ''), def: r.desc }, linkOf(r)) });
     }
     function openConnect(source) { setConn({ open: true, source: source }); }
     function connected(label) {
@@ -703,7 +734,7 @@
             selected: sheetOpen && (sheet.rowId || (sheet.metric && sheet.metric.id)),
             onOpen: touring ? null : openRow,
             onActive: function (r, on) { patch(r.id, { active: on }); },
-            onAdd: touring ? null : openCreate, onEdit: openEdit,
+            onAdd: touring ? null : addTo, onEdit: openEdit,
             onDuplicate: duplicate,
             onDelete: function (r) { del.ask(r, function () { remove(r.id); }); }
           })
@@ -765,7 +796,7 @@
             onTest: function () { connTest(c); },
             onDetails: function () { IK.wsToast.checkFailed(c); },
             onDisconnect: function () { setDiscC(c); },
-            onAddMetric: function () { setDlg({ open: true, mode: 'create', initial: { connector: c.label, link: 'connection' } }); },
+            onAddMetric: function () { setDlg({ open: true, mode: 'create', initial: {}, target: { kind: 'connection', name: c.label } }); },
             /* its metrics: here, the Provider filter on it (a sub-header of that name, or the source it is) */
             onMetrics: function () {
               var t = IK.mxSourceTree(allRows), v = null;
@@ -806,8 +837,10 @@
       }),
       h(IK.MxMetricDialog, {
         /* the person's connections from Data Sources too, with workspaces on (they are in the library) */
-        open: !!dlg.open, mode: dlg.mode, initial: dlg.initial,
+        open: !!dlg.open, mode: dlg.mode, initial: dlg.initial, target: dlg.target,
         options: CONNECTIONS.concat(wsOn ? IK.WS_CONNECTIONS.map(function (c) { return { id: c.label, label: c.label + ' (' + c.name + ')' }; }) : []),
+        /* Data Source lists the person's own sources — a metric moves between them in Edit */
+        sources: rows.filter(function (r) { return r.kind === 'group' && !r.readOnly; }).map(function (g) { return { id: g.name, label: g.name }; }),
         findDuplicates: findDuplicates, onSave: saveMetric, sharedAlias: wsOn ? sharedAlias : undefined,
         onOpenChange: function (v) { setDlg(function (d) { return Object.assign({}, d, { open: v }); }); }
       }),

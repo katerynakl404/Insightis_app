@@ -29,7 +29,8 @@
      selected      row id painted Selected (the one open in the details sheet)
      onOpen(row)   row click (not on the switch, not on the ⋮ menu)
      onActive(row, on)    the switch
-     onAdd()       Add Metric (group header, connection sub-header, the empty row's link)
+     onAdd(row)    Add Metric (group header, connection sub-header, the empty row's link) — the row it is on:
+                   Create metric for that data source / connection
      onEdit(row) · onDuplicate(row) · onDelete(row)   the ⋮ menu
    Menu: custom metrics → Edit · Duplicate · Delete; built-in → Duplicate only (locked rule 5).
 
@@ -180,10 +181,10 @@
   function AddMetric(p) {
     var phone = p.phone;
     var btn = phone
-      ? h(D.IconButton, { variant: 'secondary', size: 'xs', type: 'button', 'aria-label': 'Add Metric', onClick: function (e) { e.stopPropagation(); p.onAdd && p.onAdd(); } },
+      ? h(D.IconButton, { variant: 'secondary', size: 'xs', type: 'button', 'aria-label': 'Add Metric', onClick: function (e) { e.stopPropagation(); p.onAdd && p.onAdd(p.row); } },
           h(IK.Icon, { name: 'mx-add', size: 12 }))
       : h(D.Button, { variant: 'secondary', size: 'xs', type: 'button', 'aria-label': 'Add Metric', leftSlot: h(IK.Icon, { name: 'mx-add', size: 12 }),
-          onClick: function (e) { e.stopPropagation(); p.onAdd && p.onAdd(); } }, 'Add Metric');
+          onClick: function (e) { e.stopPropagation(); p.onAdd && p.onAdd(p.row); } }, 'Add Metric');
     return h('span', { className: 'ik-mx-add ms-auto flex-none', onClick: stop },
       h(IK.Locked, { feature: 'metrics', surface: 'modal' }, btn));
   }
@@ -203,7 +204,7 @@
           h(IK.ConnectorMark, { connector: r.connector || r.name, size: 'xs' }),
           h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', className: 'min-w-0 flex-1 truncate' }, r.name),
           /* a source that is only shared: nothing to add to it */
-          r.readOnly ? null : h(AddMetric, { phone: p.phone, onAdd: p.onAdd }))));
+          r.readOnly ? null : h(AddMetric, { phone: p.phone, onAdd: p.onAdd, row: r }))));
   }
 
   function ConnRow(p) {
@@ -229,7 +230,7 @@
           names ? h('span', { className: 'ik-mx-sub-ws', onClick: stop },
               h(IK.WsNames, { names: names, links: inWs.links, by: sh && sh.withBy ? sh.by : null, className: 'text-xs text-ink-secondary' })) : null,
           h('span', { className: 'flex-1' }),
-          sh ? null : h(AddMetric, { phone: p.phone, onAdd: p.onAdd }))));
+          sh ? null : h(AddMetric, { phone: p.phone, onAdd: p.onAdd, row: r }))));
   }
 
   function EmptyRow(p) {
@@ -242,7 +243,7 @@
             'No built-in metrics for ' + r.name + '. ',
             h(IK.Locked, { feature: 'metrics', surface: 'modal' },
               /* on the text's line: the padlock leads the link's inline-flex box, which would ride 4px high */
-              h(D.LinkButton, { href: '#', role: 'button', className: 'align-text-top', onClick: function (e) { e.preventDefault(); e.stopPropagation(); p.onAdd && p.onAdd(); } }, 'Create a custom metric →'))))));
+              h(D.LinkButton, { href: '#', role: 'button', className: 'align-text-top', onClick: function (e) { e.preventDefault(); e.stopPropagation(); p.onAdd && p.onAdd(r); } }, 'Create a custom metric →'))))));
   }
 
   function RowMenu(p) {

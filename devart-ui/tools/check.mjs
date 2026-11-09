@@ -106,8 +106,14 @@ if (fs.existsSync(bridgeFile)) {
   const bundle = fs.readFileSync(path.join(repo, 'ds-bundle/_ds_bundle.js'), 'utf8');
   const names = [...fs.readFileSync(bridgeFile, 'utf8').matchAll(/\bbridge\('(\w+)'/g)].map(m => m[1]);
   const shipped = names.filter(n => new RegExp(`\\b${n}:\\s*\\(\\)\\s*=>`).test(bundle));
-  console.log(`ds-bridge: ${names.length - shipped.length} bridged (${names.filter(n => !shipped.includes(n)).join(', ') || '—'})`);
+  if (names.length) console.log(`ds-bridge: ${names.length - shipped.length} bridged (${names.filter(n => !shipped.includes(n)).join(', ') || '—'})`);
   for (const n of shipped) console.log(`WARNING ds-bridge: the bundle now ships ${n} — remove its bridge`);
+  //  a fixed component (one the bundle ships in an older shape) names, in a "ships-when-js:" comment, the class
+  //  string the fixed one carries in the bundle's JS
+  for (const [, needle] of fs.readFileSync(bridgeFile, 'utf8').matchAll(/ships-when-js: (.+?)\s*\*\//g)) {
+    if (bundle.includes(needle)) console.log(`WARNING ds-bridge: the bundle now ships ${needle} — remove its JS fix`);
+    else console.log(`ds-bridge: 1 JS fix bridged (${needle.slice(0, 48)}…)`);
+  }
 }
 //    A CSS fix names, in a "ships-when:" comment, the bundle selector that will replace it.
 const bridgeCss = path.join(root, 'ds-bridge', 'ds-bridge.css');

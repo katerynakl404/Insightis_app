@@ -4,9 +4,13 @@
    pill (DevartUI FilterMenu on IK.mxSourceOptions), Active only (the Owner's — a Member's are all on), and the Metrics
    page's "No matches found". A collided alias reads in its long form (@revenue__a3f9c1).
 
-   The Owner's rows are the Metrics page's own: the switch, the ⋮ (Edit · Duplicate · Delete), Add Metric on the
-   source and the connection; Add Metric goes to onCreate (the page's Create metric, which keeps what it makes
-   with the connection). A Member's are read-only (the brief: no Hide, no Turn off — absent).
+   The Owner's rows are the Metrics page's own: the switch, the ⋮ (Edit · Duplicate · Delete), Add Metric on a
+   connection — not on a data source: a workspace shares connections, never a data source (user, 2026-11-09). Add
+   Metric goes to onCreate({ id, label }) — the page's "Create metric for <connection>", which keeps what it makes
+   with the connection. Edit is the Metrics page's own (user, 2026-11-09: the same wherever it opens) — Link to and
+   the picker, the person's data sources and connections: another of this workspace's connections moves the metric
+   under it; a data source or a connection it does not have takes the metric out of its list. A Member's are
+   read-only (the brief: no Hide, no Turn off — absent).
 
    The Active switch (user, 2026-10-21: "верни включення та виключення метрики — мембери бачать лише включені в
    задізейбленому вигляді"): owner — each metric's switch works (the Metrics page's own Active); member — only the
@@ -19,7 +23,7 @@
    there. An invited person's metric — the read-only panel Metrics shows for a shared one. Edits, copies and deletions
    are kept here, as the Metrics page keeps its own.
 
-   h(IK.WsMetrics, { rows, owner, ws, free, onOpenConnection(connId), onCreate() })
+   h(IK.WsMetrics, { rows, owner, ws, free, onOpenConnection(connId), onCreate(connection) })
      rows: IK.wsOwnMetricRows(w) (owner) · IK.wsMetricRows(list, { own, locked, only }) */
 (function () {
   'use strict';
@@ -50,8 +54,8 @@
     mine.made.forEach(function (c) { if (!mine.gone[c.id]) base.push(mine.edits[c.id] ? Object.assign({}, c, mine.edits[c.id]) : c); });
 
     var rows = base.map(function (r) {
-      /* the Owner's: not read-only — the Metrics page's switch and ⋮, Add Metric on the source */
-      if (p.owner && (r.kind === 'group' || r.kind === 'metric')) r = Object.assign({}, r, { readOnly: false });
+      /* the Owner's metrics: not read-only — the Metrics page's switch and ⋮; a source stays read-only (no Add Metric on it) */
+      if (p.owner && r.kind === 'metric') r = Object.assign({}, r, { readOnly: false });
       if (r.kind !== 'metric') return r;
       var on = active[r.id] != null ? active[r.id] : r.active !== false;
       return Object.assign({}, r, p.owner ? { active: on } : { switchOn: true, active: on });
@@ -91,10 +95,15 @@
     /* Delete asks first, as on Metrics (IK.useMxDeleteConfirm) */
     var del = IK.useMxDeleteConfirm();
     function askDelete(r) { del.ask(r, function () { remove(r); }); }
+    /* Create: this workspace's connections; Edit, the same as everywhere (user, 2026-11-09): the person's connections and
+       their data sources, as Metrics lists them */
     var options = rows.filter(function (r) { return r.kind === 'conn'; }).map(function (c) {
       var g = rows.filter(function (x) { return x.kind === 'group' && x.prov === c.prov; })[0];
       return { id: c.name, label: c.name + (g ? ' (' + g.name + ')' : '') };
     });
+    var allConns = (IK.WS_CONNECTIONS || []).map(function (c) { return { id: c.label, label: c.label + ' (' + c.name + ')' }; });
+    var allSources = [];
+    (IK.WS_CONNECTIONS || []).forEach(function (c) { if (!allSources.some(function (s) { return s.id === c.name; })) allSources.push({ id: c.name, label: c.name }); });
     function findDuplicates(name, alias) {
       var hit = { name: null, alias: null }, nm = norm(name), al = norm(alias);
       rows.forEach(function (r) {
@@ -104,22 +113,38 @@
       });
       return hit;
     }
+    /* a metric goes under its connection's sub-header, after the ones there, as a copy goes under its source */
+    function placeUnder(x, made, c) {
+      var lastOf = c ? rows.filter(function (r) { return r.kind === 'metric' && r.conn === c.id && r.id !== made.movedFrom; }).pop() : null;
+      if (lastOf) { var after = lastOf.copyOf || lastOf.id; x.copies[after] = (x.copies[after] || []).concat([Object.assign(made, { copyOf: after })]); }
+      else x.made.push(made);
+    }
     function save(v) {
+      var c = rows.filter(function (r) { return r.kind === 'conn' && r.name === v.connector; })[0];
+      var prov = c ? (rows.filter(function (x) { return x.kind === 'group' && x.prov === c.prov; })[0] || {}).name : 'Custom';
       if (dlg.mode === 'edit') {
-        var id = dlg.editId;
+        var id = dlg.editId, was = rowOf(id);
+        /* linked to a data source, or to a connection this workspace does not have: it no longer goes with this
+           workspace, so it leaves the list */
+        if (was && (v.link === 'datasource' || (v.connector && !c))) {
+          change(function (x) { x.gone[id] = true; });
+          if (open === id) setOpen(null);
+          return;
+        }
+        /* another of its connections picked: the metric moves under it (user, 2026-11-09) */
+        if (was && c && c.id !== was.conn) {
+          var moved = Object.assign({}, baseOf(id) || was, mine.edits[id] || {}, { id: 'moved-' + (n.current++), movedFrom: id, copyOf: undefined,
+            name: v.name, alias: v.alias, desc: v.def, summary: v.def, connector: v.connector, prov: c.prov, conn: c.id, provider: prov, active: was.active });
+          change(function (x) { x.gone[id] = true; placeUnder(x, moved, c); });
+          if (open === id) setOpen(moved.id);
+          return;
+        }
         change(function (x) { x.edits[id] = Object.assign({}, x.edits[id], { name: v.name, alias: v.alias, desc: v.def, summary: v.def, connector: v.connector || undefined }); });
         return;
       }
-      /* a new one goes under its connection's sub-header, as a copy goes under its source */
-      var c = rows.filter(function (r) { return r.kind === 'conn' && r.name === v.connector; })[0];
       var made = { kind: 'metric', id: 'new-' + (n.current++), prov: c ? c.prov : 'custom', conn: c ? c.id : undefined, name: v.name, alias: v.alias,
-        desc: v.def, summary: v.def, custom: true, active: false, readOnly: true, connector: v.connector || undefined,
-        provider: c ? (rows.filter(function (x) { return x.kind === 'group' && x.prov === c.prov; })[0] || {}).name : 'Custom' };
-      var lastOf = c ? rows.filter(function (r) { return r.kind === 'metric' && r.conn === c.id; }).pop() : null;
-      change(function (x) {
-        if (lastOf) { var after = lastOf.copyOf || lastOf.id; x.copies[after] = (x.copies[after] || []).concat([Object.assign(made, { copyOf: after })]); }
-        else x.made.push(made);
-      });
+        desc: v.def, summary: v.def, custom: true, active: false, readOnly: true, connector: v.connector || undefined, provider: prov };
+      change(function (x) { placeUnder(x, made, c); });
       toggle(made, false);
     }
 
@@ -145,8 +170,11 @@
             h(D.Switch, { size: 'sm', label: 'Active only', labelPosition: 'left', gap: 'sm', checked: activeOnly, onCheckedChange: setActiveOnly })) : null)),
       any ? h(IK.MxMetricsTable, { rows: rows, hidden: hidden, collapsed: collapsed, selected: open, onActive: p.owner ? toggle : undefined,
           /* the Owner adds a metric as on Metrics: Create metric */
-          onAdd: p.owner ? function () { if (p.onCreate) p.onCreate(); else setDlg({ open: true, mode: 'create', initial: {} }); } : undefined,
-          onEdit: p.owner ? function (r) { setDlg({ open: true, mode: 'edit', editId: r.id, initial: { name: r.name, alias: norm(r.alias), def: r.desc, connector: r.connector || '' } }); } : undefined,
+          onAdd: p.owner ? function (r) {
+            var c = r && r.kind === 'conn' ? { id: r.wsConn || connId(r), label: r.name } : null;
+            if (p.onCreate) p.onCreate(c); else setDlg({ open: true, mode: 'create', initial: {}, target: c ? { kind: 'connection', name: c.label } : null });
+          } : undefined,
+          onEdit: p.owner ? function (r) { setDlg({ open: true, mode: 'edit', editId: r.id, initial: { name: r.name, alias: norm(r.alias), def: r.desc, connector: r.connector || '', link: 'connection' } }); } : undefined,
           onDuplicate: p.owner ? duplicate : undefined,
           onDelete: p.owner ? askDelete : undefined,
           onOpen: function (r) { setOpen(r.id); },
@@ -158,7 +186,7 @@
             var cid = connId(m);
             return { free: !!p.free, renewal: p.ws && m.ws ? IK.wsRenewal(p.ws, [m.ws.id]) : null,
               onActive: function (v) { toggle(m, v); },
-              onEdit: function () { setDlg({ open: true, mode: 'edit', editId: m.id, initial: { name: m.name, alias: norm(m.alias), def: m.desc, connector: m.connector || '' } }); },
+              onEdit: function () { setDlg({ open: true, mode: 'edit', editId: m.id, initial: { name: m.name, alias: norm(m.alias), def: m.desc, connector: m.connector || '', link: 'connection' } }); },
               onDuplicate: function () { duplicate(m); setOpen(null); },
               onDelete: function () { askDelete(m); },
               workspaces: !!p.owner, shareLocked: !!p.free,
@@ -166,7 +194,8 @@
           })(item))),
       p.owner ? del.dialog : null,
       p.owner ? h(IK.MxMetricDialog, {
-        open: !!dlg.open, mode: dlg.mode, initial: dlg.initial, options: options, findDuplicates: findDuplicates, onSave: save,
+        open: !!dlg.open, mode: dlg.mode, initial: dlg.initial, target: dlg.target, connectionOnly: dlg.mode !== 'edit',
+        options: dlg.mode === 'edit' ? allConns : options, sources: allSources, findDuplicates: findDuplicates, onSave: save,
         onOpenChange: function (v) { setDlg(function (d) { return Object.assign({}, d, { open: v }); }); }
       }) : null);
   };

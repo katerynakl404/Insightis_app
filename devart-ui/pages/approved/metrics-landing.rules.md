@@ -30,3 +30,9 @@ Table, the default, is the page as approved.
 - Favourites in the details sheet (Metric Details) — no star there yet.
 - Favourites in the chat (the composer's metric suggestions).
 | 9 | **Deleting a metric asks first** — the row's ⋮ and Metric details alike (and a workspace's Metrics tab): D.ConfirmationDialog "Delete <name>?" · "This action can't be undone. The metric will be permanently removed." · Cancel · Delete, then "<name> deleted" (IK.useMxDeleteConfirm; user, 2026-10-23: "видалення метрик через підтвердження"). |
+
+## Create metric
+
+| # | Rule |
+|---|---|
+| 10 | **Made from a data source or a connection, the form knows where it goes** (user, 2026-11-09): Add Metric on a source's heading, its "Create a custom metric →", a connection's sub-header or its details (here, on Data Sources, in a workspace) opens **"Create metric for <name>"** — no Link to, no Data Source / Connection picker. The page's own Create Metric (nothing chosen) keeps both. **Edit always has them**, opened on where the metric is linked; another data source or connection moves the metric under it. **Edit is the same wherever it opens**, a workspace included. In a **shared workspace** — it shares connections, not data sources — there is no Add Metric on a source's heading, and the workspace's own **Create Metric has no Link to**: the Connection picker alone, only that workspace's connections — with none added yet, its list says "No connections added to this workspace" (IK.MxMetricDialog `target`, `connectionOnly`). The form scrolls in DevartUI's ModalBody — its bar in the dialog's own padding, the fields inset alike on both sides (§176). |

@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis kit · Storybook</title>
 <link rel="stylesheet" href="../../ds-bundle/styles.css">
-<link rel="stylesheet" href="insightis-kit.css?v=78adbab88f">
-<link rel="stylesheet" href="../review-kit/review-kit.css?v=78adbab88f">
+<link rel="stylesheet" href="insightis-kit.css?v=91591677d3">
+<link rel="stylesheet" href="../review-kit/review-kit.css?v=91591677d3">
 <script src="../../ds-bundle/_vendor/react.js"></script>
 <script src="../../ds-bundle/_ds_bundle.js"></script>
-<script src="insightis-kit.js?v=78adbab88f" data-stories></script>
-<script src="../review-kit/review-kit.js?v=78adbab88f" data-stories></script>
+<script src="insightis-kit.js?v=91591677d3" data-stories></script>
+<script src="../review-kit/review-kit.js?v=91591677d3" data-stories></script>
 <style>
   /* storybook layout only */
   .pg-sb { display: grid; grid-template-columns: 15rem minmax(0, 1fr); min-height: calc(100svh - 3.5rem); }
@@ -69,6 +69,7 @@
       /* the shared-workspaces parts every page with shared items uses, and the lists a workspace's tabs reuse */
       { section: C, title: 'Shared workspaces', items: ['Workspaces', 'WsDialogs', 'WsConnections'] },
       { section: C, title: 'Lists', items: ['DsConnections', 'DsFilesTable', 'MxMetricsTable'] },
+      { section: C, title: 'Metrics', items: ['MxMetricDialog'] },
       { section: C, title: 'Onboarding', items: ['OnbTour'] },
       { section: C, title: 'Plan gating', items: ['PlanFeatures', 'Locked', 'PlanLock', 'UpgradePopover', 'UpgradeModal'] },
       { section: C, title: 'Credits', items: ['Meter', 'Coin'] },
@@ -79,7 +80,7 @@
       { section: P, title: 'Data Sources · Files', page: 'approved/data-sources_files-landing.html',
         items: ['DsDropZone', 'DsFileMark', 'DsFilePreview', 'DsFileDialogs', 'DsStorageMark'] },
       { section: P, title: 'Metrics', page: 'approved/metrics-landing.html',
-        items: ['MxProviderCard', 'MxMetricList', 'FavoriteToggle', 'MxMetricDialog'] },
+        items: ['MxProviderCard', 'MxMetricList', 'FavoriteToggle'] },
       { section: P, title: 'Account', page: 'approved/user_profile-modal.html',
         items: ['AcctModal', 'AcctSettings', 'AcctBalance', 'AcctPlans', 'AcctApps'] },
       { section: P, title: 'Assistant consent', page: 'concept/assistant-consent.html', items: ['AuthConsentPair'] },

@@ -6,11 +6,19 @@
    <IK.MxMetricDialog
      open={bool} onOpenChange={fn}
      mode="create" | "edit"                 title "Create metric" / "Edit metric"
-     initial={{ name, alias, def, connector, link }}   prefill (edit) — alias without the @; link: 'connection' opens
-                                                 on Connection (Data Sources' Add Metric for a connection)
-     options={[{ id: 'Skyvia Jira', label: 'Skyvia Jira (Jira Software Cloud)' }]}
+     target={{ kind: 'datasource' | 'connection', name }}   create only: made from a data source or a
+                                                 connection (its Add Metric) — the title names it ("Create
+                                                 metric for Skyvia Jira") and there is no Link to and no
+                                                 picker: where it goes is known
+     connectionOnly                         create in a shared workspace (its own Create Metric): no Link to, the
+                                            Connection picker alone — a data source is not shared, only a
+                                            connection; pass the workspace's own connections as options
+     initial={{ name, alias, def, connector, link }}   prefill (edit) — alias without the @; link: where the
+                                                 metric is linked now ('datasource' | 'connection')
+     options={[{ id: 'Skyvia Jira', label: 'Skyvia Jira (Jira Software Cloud)' }]}   the connections
+     sources={[{ id: 'GitHub', label: 'GitHub' }]}   the data sources (options when left out)
      findDuplicates={(name, alias) => ({ name: 'MRR growth' | null, alias: '@mrr_growth' | null })}
-     onSave={({ name, alias, def, connector }) => …}   alias comes back WITH the @ ('' when empty)
+     onSave={({ name, alias, def, connector, link }) => …}   alias comes back WITH the @ ('' when empty)
      sharedAlias={(alias) => ({ alias: '@revenue', long: '@revenue__a3f9c1', ws: 'Marketing' }) | null}
    />   sharedAlias (shared workspaces): an alias already shared with the person → a warning Alert sm
         under the field while typing — theirs will be @revenue, the shared one @revenue__a3f9c1
@@ -20,8 +28,17 @@
    is marked (red border, aria-invalid) and focused with its text selected, and an error toast —
    "Metric not saved", naming the value(s) — explains it. Re-pressing Save morphs that one toast
    (one id). A field's mark clears on its next keystroke; closing the dialog clears both marks and
-   dismisses the toast. Link to resets to Data Source on every open; its label and the picker's
-   placeholder follow it (Data Source / Connection, "Select a data source…" / "Select a connection…").
+   dismisses the toast.
+
+   Link to (user, 2026-11-09): Create from a data source or a connection has none (target); Create
+   with nothing chosen opens on Data Source; Edit always has it, opened on where the metric is linked,
+   so a metric can be moved to another data source or connection — the same Edit wherever it opens,
+   a workspace included. A shared workspace's own Create Metric (connectionOnly) has no Link to: the
+   Connection picker alone, the workspace's connections — none yet, and its list says "No connections
+   added to this workspace".
+   The body is DevartUI's ModalBody: its scrollbar sits in the dialog's own padding (§176). The picker's label, placeholder
+   and list follow it (Data Source / Connection, "Select a data source…" / "Select a connection…");
+   each side keeps its own pick, so flipping back restores it. target is read when the dialog opens.
 */
 (function () {
   'use strict';
@@ -40,16 +57,26 @@
   IK.MxMetricDialog = function MxMetricDialog(p) {
     var init = p.initial || {};
     var options = p.options || NO_OPTIONS;
+    var sources = p.sources || options;
     var s = R.useState({}), f = s[0], setF = s[1];
     var e = R.useState({}), err = e[0], setErr = e[1];
     var lt = R.useState('datasource'), link = lt[0], setLink = lt[1];
+    /* the data source / connection it is made for — kept from the open, so the form does not change while it closes */
+    var tg = R.useState(null), target = tg[0], setTarget = tg[1];
     var nameRef = R.useRef(null), aliasRef = R.useRef(null);
 
     R.useEffect(function () {
       if (!p.open) return;
-      setF({ name: init.name || '', alias: (init.alias || '').replace(/^@/, ''), def: init.def || '', connector: init.connector || '', connectorLabel: init.connector || '' });
-      setErr({}); setLink(init.link === 'connection' ? 'connection' : 'datasource');
+      var l = p.connectionOnly || init.link === 'connection' ? 'connection' : 'datasource';
+      /* a prefilled one reads as its bare name (the original writes the value, not the option label, into the trigger) */
+      var pick = {}; if (init.connector) pick[l] = { id: init.connector, label: init.connector };
+      setF({ name: init.name || '', alias: (init.alias || '').replace(/^@/, ''), def: init.def || '', pick: pick });
+      setErr({}); setLink(l); setTarget(p.mode !== 'edit' && p.target ? p.target : null);
     }, [p.open]);
+    /* each side of Link to keeps its own pick */
+    function setPick(v) {
+      setF(function (o) { var n = Object.assign({}, o); n.pick = Object.assign({}, o.pick); n.pick[link] = v || null; return n; });
+    }
 
     function set(k, v) {
       setF(function (o) { var n = Object.assign({}, o); n[k] = v; return n; });
@@ -76,29 +103,27 @@
         if (first) { first.focus(); first.select(); }
         return;
       }
-      if (p.onSave) p.onSave({ name: name, alias: alias ? '@' + alias.replace(/^@/, '') : '', def: (f.def || '').trim(), connector: (f.connector || '').trim() });
+      var picked = (f.pick || {})[link];
+      if (p.onSave) p.onSave({ name: name, alias: alias ? '@' + alias.replace(/^@/, '') : '', def: (f.def || '').trim(),
+        connector: target ? target.name : picked ? String(picked.id).trim() : '', link: target ? target.kind : link });
       D.toast.dismiss(DUP_TOAST);
       close();
     }
 
-    /* a prefilled connection reads as its bare name (the original writes the value, not the option
-       label, into the trigger); one picked from the list reads as the option */
-    /* memoised: the Autocomplete syncs its text from the value, so a new object every render would
-       loop */
-    var selected = R.useMemo(function () {
-      var hit = null;
-      options.forEach(function (o) { if (o.id === f.connector && o.label === f.connectorLabel) hit = o; });
-      return hit || (f.connector ? { id: f.connector, label: f.connectorLabel || f.connector } : null);
-    }, [f.connector, f.connectorLabel, options]);
+    /* the pick is kept as the option itself (or the prefilled bare name), so the Autocomplete gets the same object
+       every render — it syncs its text from the value, and a new object each time would loop */
+    var selected = (f.pick || {})[link] || null;
     var isConn = link === 'connection';
+    var title = p.mode === 'edit' ? 'Edit metric' : target ? 'Create metric for ' + target.name : 'Create metric';
 
     return h(D.Modal, { open: !!p.open, onOpenChange: onOpenChange },
       h(D.ModalContent, {
         size: 'md', 'aria-describedby': undefined,
         onOpenAutoFocus: function (ev) { ev.preventDefault(); setTimeout(function () { if (nameRef.current) nameRef.current.focus(); }, 50); }
       },
-        h(D.ModalHeader, { className: 'pe-10' }, h(D.ModalTitle, null, p.mode === 'edit' ? 'Edit metric' : 'Create metric')),
-        h('div', { className: 'flex min-h-0 flex-col gap-4 overflow-y-auto scrollbar-thin' },
+        h(D.ModalHeader, { className: 'pe-10' }, h(D.ModalTitle, null, title)),
+        /* DevartUI's body: its bar sits in the dialog's own padding, the fields inset alike on both sides (§176) */
+        h(D.ModalBody, { className: 'gap-4' },
           h(D.InputGroup, { size: 'md', isInvalid: !!err.name, label: 'Name', inputId: 'ik-mx-name' },
             h(D.InputGroupInput, { id: 'ik-mx-name', ref: nameRef, type: 'text', placeholder: 'Net revenue', value: f.name || '', onChange: function (ev) { set('name', ev.target.value); } })),
           h('div', { className: 'flex flex-col gap-2' },
@@ -117,16 +142,20 @@
             id: 'ik-mx-def', rows: 4, maxLength: 1500, showCount: true, label: 'Definition', placeholder: 'Describe how to compute this metric…',
             value: f.def || '', onChange: function (ev) { set('def', ev.target.value); }
           }),
-          h('div', null,
+          /* made for a data source or a connection: where it goes is known — no Link to, no picker */
+          /* a shared workspace's own Create Metric: no Link to either — the Connection picker alone (user, 2026-11-09) */
+          target || p.connectionOnly ? null : h('div', null,
             h(GroupLabel, null, 'Link to'),
-            h(D.SegmentedControl, { size: 'md', value: link, onValueChange: setLink },
+            h(D.SegmentedControl, { size: 'md', value: link, onValueChange: function (v) { if (v) setLink(v); } },
               h(D.SegmentedControlList, { 'aria-label': 'Link to', className: 'flex w-full' },
                 h(D.SegmentedControlTrigger, { value: 'datasource' }, 'Data Source'),
                 h(D.SegmentedControlTrigger, { value: 'connection' }, 'Connection')))),
-          h(D.Autocomplete, {
-            id: 'ik-mx-connector', size: 'lg', options: options, value: selected, label: isConn ? 'Connection' : 'Data Source',
+          target ? null : h(D.Autocomplete, {
+            key: link, id: 'ik-mx-connector', size: 'lg', options: isConn ? options : sources, value: selected, label: isConn ? 'Connection' : 'Data Source',
             placeholder: isConn ? 'Select a connection…' : 'Select a data source…',
-            onChange: function (ev, v) { set('connector', v ? v.id : ''); set('connectorLabel', v ? v.label : ''); }
+            /* a workspace with nothing added yet: its list says so (user, 2026-11-09) */
+            noOptionsText: p.connectionOnly && !options.length ? 'No connections added to this workspace' : undefined,
+            onChange: function (ev, v) { setPick(v); }
           })),
         h(D.ModalFooter, null,
           h(D.Button, { variant: 'secondary', size: 'sm', type: 'button', onClick: function () { onOpenChange(false); } }, 'Cancel'),

@@ -64,10 +64,10 @@
 
   function AddMetric(p) {
     var btn = p.phone
-      ? h(D.IconButton, { variant: 'secondary', size: 'xs', type: 'button', 'aria-label': 'Add Metric', onClick: function (e) { e.stopPropagation(); if (p.onAdd) p.onAdd(); } },
+      ? h(D.IconButton, { variant: 'secondary', size: 'xs', type: 'button', 'aria-label': 'Add Metric', onClick: function (e) { e.stopPropagation(); if (p.onAdd) p.onAdd(p.row); } },
           h(IK.Icon, { name: 'mxl-add', size: 12 }))
       : h(D.Button, { variant: 'secondary', size: 'xs', type: 'button', leftSlot: h(IK.Icon, { name: 'mxl-add', size: 12 }),
-          onClick: function (e) { e.stopPropagation(); if (p.onAdd) p.onAdd(); } }, 'Add Metric');
+          onClick: function (e) { e.stopPropagation(); if (p.onAdd) p.onAdd(p.row); } }, 'Add Metric');
     return h('span', { className: 'ik-mxl-add ms-auto flex-none', onClick: stop }, h(IK.Locked, { feature: 'metrics', surface: 'modal' }, btn));
   }
 
@@ -83,7 +83,7 @@
       h(IK.ConnectorMark, { connector: r.connector || r.name, size: 'xs' }),
       h(D.Typography, { element: 'h3', textStyle: 'title16', textColor: 'primary', className: 'm-0 min-w-0 truncate' }, r.name),
       p.count ? h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'secondary', className: 'flex-none' }, plural(p.count, 'metric', 'metrics')) : null,
-      r.readOnly ? null : h(AddMetric, { phone: p.phone, onAdd: p.onAdd }));
+      r.readOnly ? null : h(AddMetric, { phone: p.phone, onAdd: p.onAdd, row: r }));
   }
 
   function ConnHead(p) {
@@ -93,7 +93,7 @@
       h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', className: 'min-w-0 truncate' }, r.name),
       sh && r.ownerMark ? h(IK.WsOwnerMark, { by: sh.by, ws: sh.names || sh.ws }) : null,
       sh && (r.muted || r.locked) ? h(IK.WsUnavailableMark, { by: sh.by, locked: !r.muted, noun: 'connections' }) : null,
-      sh ? null : h(AddMetric, { phone: p.phone, onAdd: p.onAdd }));
+      sh ? null : h(AddMetric, { phone: p.phone, onAdd: p.onAdd, row: r }));
   }
 
   function EmptyRow(p) {
@@ -105,7 +105,7 @@
       h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary' },
         'No built-in metrics for ' + r.name + '. ',
         h(IK.Locked, { feature: 'metrics', surface: 'modal' },
-          h(D.LinkButton, { href: '#', role: 'button', className: 'align-text-top', onClick: function (e) { e.preventDefault(); if (p.onAdd) p.onAdd(); } }, 'Create a custom metric →'))));
+          h(D.LinkButton, { href: '#', role: 'button', className: 'align-text-top', onClick: function (e) { e.preventDefault(); if (p.onAdd) p.onAdd(r); } }, 'Create a custom metric →'))));
   }
 
   function menuItems(p, fav) {
