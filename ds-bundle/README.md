@@ -153,11 +153,11 @@ These come from the design-system audit and are not optional:
 3. **Every icon-only control needs an accessible name.** `IconButton` requires
    `aria-label`; name the action ("Remove file"), not the surrounding row.
 4. **Button variants**: `primary` `secondary` `outline`
-   `tertiary` `destructive` `destructiveSecondary` `destructiveTertiary`
+   `tertiary` `destructive` `destructiveOutline` `destructiveTertiary`
    `transparent` `transparentUnderline`. There is **no `ghost`** — use
-   `tertiary`. Sizes `xs|sm|md|lg|xl` carry padding 8/12/12/16/20; `Button`,
-   `InputGroup` and `TextArea` share that ladder, so a button and a field of the
-   same size line up. Prefer `sm` and `md`.
+   `tertiary`. Sizes `xs|sm|md|lg|xl` carry padding 8/12/12/16/20; a field
+   (`InputGroup`, `TextArea`) carries 8/12/12/12/12, so a button and a field of
+   the same size line up at `xs`, `sm` and `md`. Prefer `sm` and `md`.
 5. **Size a dialog by what it holds**, never one width for everything:
    `<ModalContent size="sm|md|lg">` — `sm` (360px) a confirm the user only
    reads and answers, `md` (480px, the default) anything the user fills in,
@@ -337,7 +337,7 @@ Library components carry the design language; the agent's own glue (`flex`,
 # DevartUI (@devart/ui-react@1.0.0)
 
 This design system is the published @devart/ui-react React library, bundled as a single
-browser global. All 89 components are the real upstream code.
+browser global. All 90 components are the real upstream code.
 
 ## Where things are
 
@@ -374,22 +374,24 @@ Wrap the tree in the provider — most components read theme/i18n from context:
 
 ## Tokens
 
-373 CSS custom properties from @devart/ui-react. Names are
+378 CSS custom properties from @devart/ui-react. Names are
 preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (this DS ships one compiled stylesheet rather than separate token files).
 
-- **color** (50): `--surface-card`, `--surface-card2`, `--surface-chips`, …
+- **color** (52): `--surface-card`, `--surface-card2`, `--surface-chips`, …
 - **spacing** (3): `--tw-ring-inset`, `--tw-space-x-reverse`, `--tw-space-y-reverse`
 - **typography** (33): `--font-sans`, `--font-size-xxs`, `--font-size-xs`, …
 - **radius** (7): `--radius-sm`, `--radius`, `--radius-md`, …
 - **shadow** (19): `--shadow-thumb`, `--shadow-thumb-hover`, `--shadow-modal`, …
-- **other** (261): `--modal-max-h`, `--modal-w-sm`, `--modal-w-md`, …
+- **other** (264): `--modal-max-h`, `--modal-w-sm`, `--modal-w-md`, …
 
 ## Components
 
 ### components
 - `Accordion`
+- `ActivityTray` — A plate whose header expands into a list of ActivityTrayItem rows. It is
 - `Alert`
 - `AsyncList`
+- `Autocomplete`
 - `Avatar`
 - `Badge`
 - `Banner`
@@ -413,17 +415,24 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `ListPageLayout`
 - `Modal`
 - `PageHeader` — The title row every screen starts with: an optional back control, the page
+- `Pagination`
 - `Popover` — The root component that manages the open/closed state of the popover.
 - `ProgressBar`
+- `PromoCard`
 - `RadioButton`
 - `ResizableMainSideLayout` — A two-pane layout whose right pane collapses to nothing and expands on
 - `ResizablePanelGroup` — Horizontal or vertical group of resizable panels.
 - `ScrollShadow` — A scrollable container component that automatically displays fade-in/fade-out shadows
+- `SearchInput` — Search field: an InputGroup with a leading search icon and a trailing clear
 - `SegmentedControl`
+- `SelectableListCard` — A list item that reveals a checkbox once the list enters selection mode.
 - `Separator`
 - `Sheet` — The root container for the Sheet.
+- `Sidebar` — The main container for the application's sidebar.
+- `SingleDatePicker` — A complete single date picker with calendar, text input, and confirm button.
 - `Skeleton`
 - `Spinner`
+- `StatusView`
 - `Stepper` — Headless stepper that renders the current step's render function,
 - `StepProgress`
 - `StepSlider` — Slider constrained to a short list of named stops, drawn as dots on the
@@ -432,6 +441,7 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `Tabs` — Underline tabs  the active tab is marked by a brand-coloured bottom
 - `TextArea`
 - `Timeline`
+- `ToastMessage`
 - `Toggle`
 - `ToggleGroup`
 - `Tooltip` — The root component that manages the state and logic for an individual tooltip.
@@ -440,10 +450,8 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `Typography`
 
 ### compositions
-- `ActivityTray` — A plate whose header expands into a list of ActivityTrayItem rows. It is
 - `AlertStack` — Several notices as one group. Folded, it is a deck: the first notice on top, the
 - `Annotation` — One label inside an AnnotationGroup. Renders nothing by itself.
-- `Autocomplete`
 - `CodeBlock` — A block of code with the one control it always needs.
 - `CtaBanner` — A Banner with a single call-to-action button in its action slot. On the
 - `File`
@@ -454,19 +462,12 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `InlineRename` — A title that turns into a field where it stands  rename in a list row, a
 - `ListSelectionBar` — Header for a multi-select list: a count that swaps for the selection count,
 - `MetaRow` — The line above a list: what it holds, and what can be done to a selection. (compound: `MetaRow.Count`, `MetaRow.End`)
-- `Pagination`
 - `PasswordInput` — Password field using link InputGroup + addons: lock icon, input, visibility toggle.
 - `PinToggle` — Pins a thing to the top of its list  a chat, a report, a query.
-- `PromoCard`
 - `RowMenuButton` — The  at the end of a list row, and the menu it opens.
-- `SearchInput` — Search field: an InputGroup with a leading search icon and a trailing clear
-- `SelectableListCard` — A list item that reveals a checkbox once the list enters selection mode.
-- `Sidebar` — The main container for the application's sidebar.
-- `SingleDatePicker` — A complete single date picker with calendar, text input, and confirm button.
+- `Select` — Picks one value from a short, known list nothing is typed. Use
 - `Spotlight` — Dims and blurs the area around one or more targets. The cutout stays sharp
 - `StatTile` — One number and what it counts.
-- `StatusView`
-- `ToastMessage`
 - `Tour` — A guided walk over the real interface: Spotlight + GuideCard (+
 
 ### foundations

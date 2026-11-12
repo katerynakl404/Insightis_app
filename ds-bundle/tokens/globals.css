@@ -189,7 +189,8 @@
      it was for kept the choosing in the wrong layer and left a scale nowhere to exist. Values are
      Tailwind now, so 400 or 700 drop in later without a stranger in the ramp — this moves
      --fb-green, #009966 -> #059669 on light and #03AF76 -> #10B981 on dark. */
-  --green-700: 162.9 93.5% 24.3%; /* #047857 — --code-string; Green-600 is 3.6:1 on Surface/Page */
+  --green-800: 163.1 88.1% 19.8%; /* #065F46 — --fb-green-text on light */
+  --green-700: 162.9 93.5% 24.3%; /* #047857 — --code-string, --fb-green; Green-600 is 3.6:1 on Surface/Page */
   --green-600: 161.4 93.5% 30.4%; /* #059669 */
   --green-500: 160.1 84.1% 39.4%; /* #10B981 */
   /* Violet (Tailwind), for --code-keyword. Chart Violet stops at 500, which is 4.6:1 on dark
@@ -265,7 +266,12 @@
   --fb-error-hover: var(--red-800); /* #991B1B */
   --fb-error-press: var(--red-850); /* #7F1D1D */
   --fb-attention: var(--orange-500); /* #F97316 */
-  --fb-green: var(--green-600); /* #059669 */
+  /* Green is split the way red is: --fb-green is the fill — one step in both
+     themes, white text on it, like --fb-red — and --fb-green-text is the ink
+     and the tints, which move with the theme. Green-800, not 700, for the
+     ink: Green-700 on its own 15% wash is 4.4:1, Green-800 6.0:1. */
+  --fb-green: var(--green-700); /* #047857 */
+  --fb-green-text: var(--green-800); /* #065F46 */
   /* Feedback/Info — the fourth feedback colour, beside Red, Attention and Green.
      Blue-600 on white Surface/Card = 5.17:1, AA for text. */
   --fb-info: var(--blue-600); /* #2563EB */
@@ -303,9 +309,9 @@
   --btn-secondary-bg: var(--surface-card);
   --btn-secondary-bg-hover: color-mix(
     in srgb,
-    hsl(var(--brand-primary)) 5%,
+    hsl(var(--state-overlay)) var(--tint-8),
     hsl(var(--surface-card))
-  ); /* ~5% brand over card */
+  ); /* --state-hover, opaque over the card */
   /* The connector tile's hover sheet. A full-bleed pane of the card surface
      at 80% — enough ground for the Connect button to sit on, little enough
      that the mark underneath still reads. Opaque-ish by construction, so it
@@ -317,43 +323,38 @@
   );
   --btn-secondary-bg-press: color-mix(
     in srgb,
-    hsl(var(--brand-primary)) 8%,
+    hsl(var(--state-overlay)) var(--tint-12),
     hsl(var(--surface-card))
-  ); /* ~8% brand over card — one step past hover, still opaque */
+  ); /* --state-pressed, opaque over the card */
   --btn-secondary-border: var(--slate-300); /* #CBD5E1 */
   --btn-secondary-border-hover: var(--slate-400); /* #94A3B8 */
-  --btn-outline-bg-hover: color-mix(
+  /* outline hovers like tertiary: the same neutral washes. */
+  --btn-outline-bg-hover: var(--state-hover);
+  --btn-outline-bg-press: var(--state-pressed);
+  /* primaryTertiary's label, one token a state. On light the brand steps,
+     the hover one deeper: --brand-hover on the hover wash fell to 3.66:1. On
+     dark --ink-highlight in every state: --brand-press on the press wash fell
+     to 3.09:1. AA 4.5 at rest, hover and press in both themes (§179). */
+  --btn-primary-tertiary-text: var(--brand-primary); /* #07807E */
+  --btn-primary-tertiary-text-hover: var(--brand-press); /* #066867 */
+  --btn-primary-tertiary-text-press: var(--brand-press); /* #066867 */
+  --btn-outline-destructive-border: var(--red-700); /* #B91C1C */
+  --btn-outline-destructive-border-hover: var(--red-800); /* #991B1B */
+  /* Both red buttons share one hover and press wash, as secondary and
+     tertiary share theirs. Judged by eye beside the neutral pair: lightness
+     alone (dL*) under-reads a red, and 4% / 6% read faint on light. */
+  --btn-outline-destructive-bg-hover: color-mix(
     in srgb,
-    hsl(var(--brand-primary)) var(--tint-6),
+    hsl(var(--fb-red)) var(--tint-8),
     transparent
-  );
-  --btn-outline-bg-press: color-mix(
+  ); /* Red @8% */
+  --btn-outline-destructive-bg-press: color-mix(
     in srgb,
-    hsl(var(--brand-primary)) var(--tint-8),
+    hsl(var(--fb-red)) var(--tint-12),
     transparent
-  );
-  --btn-destructive-secondary-border: var(--red-700); /* #B91C1C */
-  --btn-destructive-secondary-border-hover: var(--red-800); /* #991B1B */
-  /* Re-stepped with the neutral ladder when interaction states became
-     overlays: neutral hover moved to dL 2.99 and this sat at 4.01, so the
-     destructive control read heavier than its neutral sibling. tint-4 lands at
-     2.67 — the closest step, inside the 0.5 parity tolerance. */
-  --btn-destructive-secondary-bg-hover: color-mix(
-    in srgb,
-    hsl(var(--fb-red)) var(--tint-4),
-    transparent
-  ); /* Red @4% over surface — dL 2.67 vs neutral 2.99 */
-  --btn-destructive-secondary-bg-press: color-mix(
-    in srgb,
-    hsl(var(--fb-red)) var(--tint-6),
-    transparent
-  ); /* Red @6% over surface — dL 4.01 vs neutral 4.48 */
-  /* Destructive TERTIARY fill. Identical to the secondary sibling on light —
-     measured at a 4.01 dL* step against the neutral --state-hover's 3.65, and
-     5.35 against --state-pressed's 5.15. The variants diverge only on dark:
-     see the .dark block. */
-  --btn-destructive-tertiary-bg-hover: var(--btn-destructive-secondary-bg-hover);
-  --btn-destructive-tertiary-bg-press: var(--btn-destructive-secondary-bg-press);
+  ); /* Red @12% */
+  --btn-destructive-tertiary-bg-hover: var(--btn-outline-destructive-bg-hover);
+  --btn-destructive-tertiary-bg-press: var(--btn-outline-destructive-bg-press);
   /* Avatar fill. Pinned to brand-600 rather than following --brand-primary,
      because the initials ON it are TEXT: on dark, --brand-primary lifts to
      brand-500 and white drops to 3.94:1, under the 4.5 body-text floor.
@@ -437,17 +438,17 @@
   );
   --badge-green-bg: color-mix(
     in srgb,
-    hsl(var(--fb-green)) 22%,
+    hsl(var(--fb-green-text)) 22%,
     hsl(var(--surface-card))
   );
   --badge-green-border: color-mix(
     in srgb,
-    hsl(var(--fb-green)) var(--tint-40),
+    hsl(var(--fb-green-text)) var(--tint-40),
     transparent
   );
   --badge-green-text: color-mix(
     in srgb,
-    hsl(var(--fb-green)) 85%,
+    hsl(var(--fb-green-text)) 85%,
     hsl(var(--ink-primary))
   );
 
@@ -465,7 +466,7 @@
   --alert-tint: var(--tint-5);
   --alert-bg-success: color-mix(
     in srgb,
-    hsl(var(--fb-green)) var(--alert-tint),
+    hsl(var(--fb-green-text)) var(--alert-tint),
     hsl(var(--surface-card))
   );
   --alert-bg-info: color-mix(
@@ -485,7 +486,7 @@
   );
   --alert-border-success: color-mix(
     in srgb,
-    hsl(var(--fb-green)) var(--tint-30),
+    hsl(var(--fb-green-text)) var(--tint-30),
     transparent
   );
   --alert-border-info: color-mix(
@@ -507,7 +508,7 @@
   /* Toast tokens */
   --toast-bg-success: color-mix(
     in srgb,
-    hsl(var(--fb-green)) 5%,
+    hsl(var(--fb-green-text)) 5%,
     hsl(var(--surface-card))
   );
   --toast-bg-info: color-mix(
@@ -527,7 +528,7 @@
   );
   --toast-border-success: color-mix(
     in srgb,
-    hsl(var(--fb-green)) var(--tint-30),
+    hsl(var(--fb-green-text)) var(--tint-30),
     transparent
   );
   --toast-border-info: color-mix(
@@ -705,7 +706,7 @@
   --ink-primary: var(--grey-50); /* #F9FAFB */
   --ink-body: var(--grey-100); /* #F4F4F5 */
   --ink-secondary: var(--grey-300); /* #D1D5DB */
-  --ink-inactive: var(--slate-400); /* #94A3B8 */
+  --ink-inactive: var(--grey-400); /* #9CA3AF — §174: the grey ladder, not slate */
   --ink-highlight: var(--tertiary-400); /* #2EBEC4 */
   --surface-card: var(--grey-900); /* #17171E */
   --surface-card2: var(--grey-800); /* #21212C */
@@ -737,7 +738,8 @@
   --fb-error-hover: var(--red-800); /* #991B1B */
   --fb-error-press: var(--red-850); /* #7F1D1D */
   --fb-attention: var(--orange-500); /* #F97316 */
-  --fb-green: var(--green-500); /* #10B981 */
+  --fb-green: var(--green-700); /* #047857 — the fill does not move, as --fb-red */
+  --fb-green-text: var(--green-500); /* #10B981 */
   /* Blue-600 falls to 2.9:1 on dark Surface/Card, so dark steps two up: Blue-400 = 6.4:1.
      The same move --fb-red-text makes. */
   --fb-info: var(--blue-400); /* #60A5FA */
@@ -761,6 +763,9 @@
   /* ===== Layer 3: Component-scoped tokens (dark) ===== */
   --btn-secondary-border: var(--grey-600); /* #525258 */
   --btn-secondary-border-hover: var(--grey-500); /* #6B7280 */
+  --btn-primary-tertiary-text: var(--ink-highlight); /* #2EBEC4 */
+  --btn-primary-tertiary-text-hover: var(--ink-highlight); /* #2EBEC4 */
+  --btn-primary-tertiary-text-press: var(--ink-highlight); /* #2EBEC4 */
   /* Dark inherits nothing from light here: the ramp has to run the other way.
      Border matches the label (--fb-red-text = Red-400 on dark), exactly as light
      has both on Red-700, and hover steps LIGHTER — the same direction as
@@ -773,32 +778,23 @@
      x1.22 — the hover read as washed out, not as emphasis. red-500 -> red-400
      keeps both steps a saturated red and still rises, which is what a hover on
      a near-black card has to do. */
-  --btn-destructive-secondary-border: var(--red-500); /* #EF4444 — CR 4.74 */
-  --btn-destructive-secondary-border-hover: var(--red-400); /* #F25555 — CR 5.27 */
-  --btn-destructive-secondary-bg-hover: color-mix(
+  --btn-outline-destructive-border: var(--red-500); /* #EF4444 — CR 4.74 */
+  --btn-outline-destructive-border-hover: var(--red-400); /* #F25555 — CR 5.27 */
+  /* fb-red is a dark red in both themes, so over a near-black card the light
+     strengths barely move it: dark takes 12% / 15%. The ceiling is the red
+     label: pressed on a hovered table row it falls under 4.5:1 from 20%. */
+  --btn-outline-destructive-bg-hover: color-mix(
+    in srgb,
+    hsl(var(--fb-red)) var(--tint-12),
+    transparent
+  ); /* Red @12% */
+  --btn-outline-destructive-bg-press: color-mix(
     in srgb,
     hsl(var(--fb-red)) var(--tint-15),
     transparent
-  ); /* Red @14% over surface #991B1B */
-  --btn-destructive-secondary-bg-press: color-mix(
-    in srgb,
-    hsl(var(--fb-red)) var(--tint-20),
-    transparent
-  ); /* Red @22% over surface #7F1D1D */
-  /* Tertiary carries no border, so the fill is the whole signal — on a
-     near-black card the secondary sibling's 14%/22% lands 35% short of the
-     neutral step it has to match (3.29 against --state-hover's 5.16). Measured
-     against the live tokens: 20% and 32% put it at 5.05 and 8.76. */
-  --btn-destructive-tertiary-bg-hover: color-mix(
-    in srgb,
-    hsl(var(--fb-red)) var(--tint-20),
-    transparent
-  ); /* Red @20% over surface — dL 5.01 vs neutral 5.48 */
-  --btn-destructive-tertiary-bg-press: color-mix(
-    in srgb,
-    hsl(var(--fb-red)) var(--tint-30),
-    transparent
-  ); /* Red @30% over surface — dL 8.12 vs neutral 8.13 */
+  ); /* Red @15% */
+  --btn-destructive-tertiary-bg-hover: var(--btn-outline-destructive-bg-hover);
+  --btn-destructive-tertiary-bg-press: var(--btn-outline-destructive-bg-press);
   --input-focus: var(--slate-500); /* #64748B (dark) — kit s-focus */
   --field-border-hover: var(
     --slate-600
@@ -823,7 +819,7 @@
   --alert-tint: var(--tint-8);
   --alert-bg-success: color-mix(
     in srgb,
-    hsl(var(--fb-green)) var(--alert-tint),
+    hsl(var(--fb-green-text)) var(--alert-tint),
     hsl(var(--surface-card))
   );
   --alert-bg-info: color-mix(
@@ -845,7 +841,7 @@
   /* Toast tokens */
   --toast-bg-success: color-mix(
     in srgb,
-    hsl(var(--fb-green)) 8%,
+    hsl(var(--fb-green-text)) 8%,
     hsl(var(--surface-card))
   );
   --toast-bg-info: color-mix(
@@ -963,11 +959,11 @@
   --chart-surface: var(--surface-card);
   --code-comment: var(--ink-secondary);
   --btn-secondary-bg: var(--surface-card);
-  --btn-secondary-bg-hover: color-mix( in srgb, hsl(var(--brand-primary)) 5%, hsl(var(--surface-card)) );
+  --btn-secondary-bg-hover: color-mix( in srgb, hsl(var(--state-overlay)) var(--tint-8), hsl(var(--surface-card)) );
   --ds-card-scrim: color-mix( in srgb, hsl(var(--surface-card)) var(--tint-80), transparent );
-  --btn-secondary-bg-press: color-mix( in srgb, hsl(var(--brand-primary)) 8%, hsl(var(--surface-card)) );
-  --btn-outline-bg-hover: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-6), transparent );
-  --btn-outline-bg-press: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-8), transparent );
+  --btn-secondary-bg-press: color-mix( in srgb, hsl(var(--state-overlay)) var(--tint-12), hsl(var(--surface-card)) );
+  --btn-outline-bg-hover: var(--state-hover);
+  --btn-outline-bg-press: var(--state-pressed);
   --card-border-hover: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-25), transparent );
   --card-border-press: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-40), transparent );
   --card-lift-border: color-mix( in srgb, hsl(var(--brand-primary)) 22%, hsl(var(--stroke-border)) );
@@ -982,10 +978,10 @@
   --badge-brand-bg: color-mix( in srgb, hsl(var(--brand-primary)) 22%, hsl(var(--surface-card)) );
   --badge-brand-border: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-40), transparent );
   --badge-brand-text: color-mix( in srgb, hsl(var(--brand-primary)) 85%, hsl(var(--ink-primary)) );
-  --badge-green-bg: color-mix( in srgb, hsl(var(--fb-green)) 22%, hsl(var(--surface-card)) );
-  --badge-green-border: color-mix( in srgb, hsl(var(--fb-green)) var(--tint-40), transparent );
-  --badge-green-text: color-mix( in srgb, hsl(var(--fb-green)) 85%, hsl(var(--ink-primary)) );
-  --toast-border-success: color-mix( in srgb, hsl(var(--fb-green)) var(--tint-30), transparent );
+  --badge-green-bg: color-mix( in srgb, hsl(var(--fb-green-text)) 22%, hsl(var(--surface-card)) );
+  --badge-green-border: color-mix( in srgb, hsl(var(--fb-green-text)) var(--tint-40), transparent );
+  --badge-green-text: color-mix( in srgb, hsl(var(--fb-green-text)) 85%, hsl(var(--ink-primary)) );
+  --toast-border-success: color-mix( in srgb, hsl(var(--fb-green-text)) var(--tint-30), transparent );
   --toast-border-info: color-mix( in srgb, hsl(var(--brand-primary)) var(--tint-30), transparent );
   --toast-border-warning: color-mix( in srgb, hsl(var(--fb-attention)) var(--tint-30), transparent );
   --toast-border-error: color-mix( in srgb, hsl(var(--fb-red-text)) var(--tint-30), transparent );

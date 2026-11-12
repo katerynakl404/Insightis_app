@@ -51,8 +51,10 @@ devart-ui/
                                  <page>.rules.md beside a page = its rules locked since the move
   ds-bridge/                   ← TEMPORARY, only while it is needed (none now — the 2026-10-29 bundle ships
                                  SearchInput, AlertStack, ConfirmationDialog, FilterMenu and the Button
-                                 primaryTertiary / Spotlight / Alert / disabled-secondary §165 fixes, so
-                                 the folder is gone):
+                                 primaryTertiary / Spotlight / Alert / disabled-secondary §165 fixes, the
+                                 2026-11-12 one dark --ink-inactive Grey-400 §174, ModalBody / SheetBody
+                                 scrolling in the padding §176 / §178 and the tooltip above a dialog §177,
+                                 so the folder is gone):
                                  components or fixes of дизайн DevartUI the vendored ds-bundle/ lacks,
                                  as JS ports of the same API (D.<Name>, each skipped once the bundle has
                                  it) and CSS rules with a "ships-when:" comment, loaded first by
@@ -259,5 +261,19 @@ new (light / dark × desktop / phone): no JS errors; what differs is DevartUI's 
 drawn in three spans (sub-pixel), and on dark a pinned chat's pin (PinToggle, IconButton
 `primaryTertiary`) is Brand/Primary as the repo has it: the retired ds-bridge rule had also repainted
 IconButton, while the repo's fix is Button's only.
+
+Bundle refresh 2026-11-12: дизайн DevartUI's 10:45 build of its working copy — committed there at
+11:30 as 1d00a57; its later bb06c4b (Button / IconButton on the package's code) is not in it — with the
+button rules §179–§183. Button `destructiveSecondary` is `destructiveOutline` again, the developers' name, and
+the kit moved with it. Every unfilled button switches off one way: label `--ink-body`, the whole control
+faded, no hover (§181). Hover / press washes are one per family: neutral 8% / 12%; red 8% / 12% on light
+and 12% / 15% on dark (§180). An `xs` Button takes IconButton xs's radius (§182). With `fullWidth` the
+icon stays beside the label (§183). IconButton `primaryTertiary` is Ink/Highlight on dark like Button's,
+so the pinned chat's pin above is no longer Brand/Primary. The bundle also ships the four ds-bridge fixes —
+dark `--ink-inactive` Grey-400 (§174), ModalBody / SheetBody scrolling in the padding (§176 / §178), the
+tooltip above a dialog (§177) — so `ds-bridge/` is gone and `tools/check.mjs` is clean. Checked with the
+bridges and without, every page light / dark × desktop / phone × every review switch and every interact
+scenario: the same text, no JS errors, the same pixels but for anti-aliasing (1/255); what differed on one
+run differed between two loads of the same page as well (timing).
 
 Gotcha: `D.LinkButton` forces every `svg` inside it to 16px — a logo link is a plain `<a>`.
