@@ -10,5 +10,5 @@
  {"name":"Plan-gated — phone","viewport":"phone","steps":[{"do":"click","target":{"text":"Plan-gated","tag":"button"}}]},
  {"name":"Approved","viewport":"desktop","steps":[{"do":"click","target":{"text":"Approved","tag":"button"}}]},
  {"name":"Invalid request — Request Id before the action","steps":[{"do":"click","target":{"text":"Invalid request","tag":"button"}}]},
- {"name":"Screen — jump to Settings → Authorized apps","viewport":"desktop","steps":[{"do":"click","target":{"text":"Settings","tag":"button"}},{"do":"wait","ms":800}]}
+ {"name":"Screen — jump to Settings → Authorized apps","viewport":"desktop","steps":[{"do":"click","target":{"text":"Settings","tag":"button"}},{"do":"eval","new":"new Promise(r => { const t0 = Date.now(); (function poll() { if (location.pathname.endsWith('/user_profile-modal.html') || Date.now() - t0 > 10000) r(); else setTimeout(poll, 100); })(); })"},{"do":"eval","new":"new Promise(r => { const t0 = Date.now(); (function poll() { if ((location.pathname.endsWith('/user_profile-modal.html') && document.readyState === 'complete' && document.body && /Authorized apps/.test(document.body.innerText)) || Date.now() - t0 > 10000) (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(r, 500)); else setTimeout(poll, 100); })(); })"}]}
 ]
