@@ -7,7 +7,8 @@
      conn    a sub-heading inside it: link glyph · name · owner / unavailable marks · Add Metric (one's own)
      empty   "No built-in metrics for <name>. Create a custom metric →" on the rows' plate (not clickable)
      metric  a DevartUI Card row (variant "row" — the chats list's row: its padding grows with two lines, its
-             hover, focus and press): switch · name, alias / the definition · badge · star · ⋮
+             hover, focus and press): switch · name, alias, star / the definition · badge · ⋮ — the star on the
+             name's line, as the chats list's pin (user, 2026-10-30: "перенеси зірочку до тайтлу")
    Favorites
      favorites { id: true }, onFavorite(row, on)   the star on every metric row — off shows on the row's hover
                                                    (always on touch), on always; the ⋮ has Add to / Remove from
@@ -148,11 +149,12 @@
           h('span', { className: 'flex min-w-0 items-center gap-2' },
             h(D.Typography, { element: 'span', textStyle: 'title14', textColor: 'primary', className: 'min-w-0 truncate' }, r.name),
             off ? h(IK.WsUnavailableMark, { by: by, locked: !r.muted, noun: 'metrics' }) : null,
-            r.alias ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'ik-mxl-alias min-w-0 truncate max-md:hidden' }, r.alias) : null),
+            r.alias ? h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'ik-mxl-alias min-w-0 truncate max-md:hidden' }, r.alias) : null,
+            /* one text line tall, as the chat row's pin: the 24px toggle gives 4px back */
+            h(IK.FavoriteToggle, { pressed: fav, reveal: true, label: r.name, className: '-my-0.5 flex-none', onPressedChange: function (on) { if (p.onFavorite) p.onFavorite(r, on); } })),
           h(D.Typography, { element: 'span', textStyle: 'body12', textColor: 'secondary', className: 'ik-mxl-def' }, r.summary)),
         h('span', { className: 'ik-mxl-end', onClick: stop },
           badge,
-          h(IK.FavoriteToggle, { pressed: fav, reveal: true, label: r.name, onPressedChange: function (on) { if (p.onFavorite) p.onFavorite(r, on); } }),
           r.readOnly ? h('span', { className: 'ik-mxl-menu-room', 'aria-hidden': 'true' })
             : h(D.RowMenuButton, { 'aria-label': 'More actions', className: '-my-0.5' }, menuItems(p, fav))));
   }

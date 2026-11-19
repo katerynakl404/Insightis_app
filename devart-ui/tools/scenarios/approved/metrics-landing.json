@@ -171,7 +171,8 @@
  { "name": "Filled — Custom filter", "steps": [
    { "do": "click", "target": { "text": "Filled", "tag": "button" } },
    { "do": "wait", "ms": 500 },
-   { "do": "click", "target": { "text": "Custom", "tag": "button" } },
+   { "do": "click", "target": { "orig": { "text": "Custom", "tag": "button" }, "new": { "text": "Type: All", "tag": "button" } } },
+   { "do": "click", "target": { "new": { "text": "Custom", "tag": "[role=menuitemradio]" } } },
    { "do": "wait", "ms": 500 } ] },
  { "name": "Filled — Active only", "viewport": "desktop", "steps": [
    { "do": "click", "target": { "text": "Filled", "tag": "button" } },
@@ -229,52 +230,54 @@
    { "do": "eval", "orig": "document.querySelector('.cl-main').scrollTop = 400", "new": "(() => { let e = document.querySelector('[data-slot=list-page-layout-body]'); while (e && !(e.scrollHeight > e.clientHeight + 4 && /auto|scroll/.test(getComputedStyle(e).overflowY))) e = e.parentElement; if (!e) throw new Error('no scrolling ListPageLayout'); e.scrollTop = 400; })()" },
    { "do": "wait", "ms": 500 } ] },
  { "name": "Rows — Row hover — the star and ⋮ appear", "viewport": "desktop", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
    { "do": "hover", "target": {"new": {"text": "Issues resolved", "tag": "span"}} },
    { "do": "wait", "ms": 300 } ] },
  { "name": "Rows — Star a metric — the star pops", "viewport": "desktop", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
+   { "do": "hover", "target": {"new": {"text": "Issues created", "tag": "span"}} },
    { "do": "click", "target": {"new": {"sel": "button[aria-label='Add Issues created to Favorites']"}} },
    { "do": "wait", "ms": 300 } ] },
  { "name": "Rows — Star tooltip", "viewport": "desktop", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
    { "do": "hover", "target": {"new": {"sel": "button[aria-label='Remove MRR growth from Favorites']"}} },
    { "do": "wait", "ms": 500 } ] },
  { "name": "Rows — Row ⋮ — Favorites · Edit · Duplicate · Delete", "viewport": "desktop", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
+   { "do": "hover", "target": {"new": {"text": "MRR growth", "tag": "span"}} },
    { "do": "click", "target": {"new": {"sel": "section[aria-label='Jira Software Cloud'] button[aria-label='More actions']"}} },
    { "do": "wait", "ms": 400 } ] },
  { "name": "Rows — Favorites chip — only the favourites", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
    { "do": "click", "target": {"new": {"sel": "button[aria-label='Favorites only']"}} },
    { "do": "wait", "ms": 400 } ] },
  { "name": "Rows — Favorites: None — no chip", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
-   { "do": "click", "target": {"text": "None", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "None", "tag": "button"}} },
    { "do": "wait", "ms": 400 } ] },
  { "name": "Rows — Collapse a group", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
    { "do": "click", "target": {"new": {"sel": "section[aria-label='GitHub'] button[aria-label='Collapse group']"}} },
    { "do": "wait", "ms": 300 } ] },
  { "name": "Rows — Heading hover — Add Metric", "viewport": "desktop", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
    { "do": "hover", "target": {"new": {"text": "GitHub", "tag": "h3"}} },
    { "do": "wait", "ms": 300 } ] },
  { "name": "Rows — Open a row — Metric Details", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
    { "do": "click", "target": {"new": {"text": "Sprint velocity", "tag": "span"}} },
    { "do": "wait", "ms": 600 } ] },
  { "name": "Rows — Search — no matches", "steps": [
-   { "do": "click", "target": {"text": "Rows", "tag": "button"} },
+   { "do": "click", "target": {"new": {"text": "Rows", "tag": "button"}} },
    { "do": "wait", "ms": 400 },
    { "do": "fill", "target": {"new": {"sel": "input[type=search]"}}, "text": "zzz" },
    { "do": "wait", "ms": 400 } ] }

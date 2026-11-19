@@ -32,8 +32,10 @@
 
       A target is a FIND — { "sel": "css", "nth": 0 } or { "text": "exact text", "tag": "button" }
       (smallest element with exactly that text), optionally + "closest": "css" — the same on both
-      pages, or split into { "orig": FIND, "new": FIND }. After the steps the viewport is captured
-      on both sides: pixel diff + text diff, like compare.mjs.
+      pages, or split into { "orig": FIND, "new": FIND }; with only one side given, the step runs
+      on that side alone (a state only the rebuilt page has). An eval that throws, like a target
+      not found, is logged as a failed step and the run goes on. After the steps the viewport is
+      captured on both sides: pixel diff + text diff, like compare.mjs.
 
    Report: working/devart-interact/<stamp>/report.html (+ summary.json). */
 import fs from 'node:fs';
@@ -189,7 +191,7 @@ async function runSteps(cdp, side, steps) {
   for (const st of steps) {
     const F = st.target ? (st.target.orig || st.target.new ? st.target[side] : st.target) : null;
     const pos = F ? await evaluate(cdp, `(() => { const e = __ik.find(${JSON.stringify(F)}); return e ? __ik.center(e) : null; })()`) : null;
-    if (F && !pos) { log.push(`${st.do}: target not found ${JSON.stringify(F)}`); continue; }
+    if (st.target && !pos) { if (F) log.push(`${st.do}: target not found ${JSON.stringify(F)}`); continue; }
     if (st.do === 'hover') { await mouse(cdp, pos.x, pos.y); await sleep(cdp, st.ms || 400); }
     else if (st.do === 'click') { await mouse(cdp, pos.x, pos.y); await mouse(cdp, pos.x, pos.y, 'mousePressed'); await mouse(cdp, pos.x, pos.y, 'mouseReleased'); await sleep(cdp, st.ms || 350); }
     else if (st.do === 'fill') {
@@ -199,7 +201,11 @@ async function runSteps(cdp, side, steps) {
     }
     else if (st.do === 'key') { await key(cdp, st.key, st.shift); await sleep(cdp, st.ms || 250); }
     else if (st.do === 'wait') await sleep(cdp, st.ms || 300);
-    else if (st.do === 'eval') { const js = st[side]; if (js) await evaluate(cdp, js); await sleep(cdp, st.ms || 200); }
+    else if (st.do === 'eval') {
+      const js = st[side];
+      if (js) try { await evaluate(cdp, js); } catch (e) { log.push(`eval: ${e.message.split('\n')[0]}`); }
+      await sleep(cdp, st.ms || 200);
+    }
   }
   return log;
 }

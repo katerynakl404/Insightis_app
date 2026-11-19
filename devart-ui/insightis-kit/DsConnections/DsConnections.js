@@ -202,7 +202,7 @@
   /* + Add Metric where a connection has none (as the Workspaces list's "+ Add Connection"); locked on Free */
   function addMetricCell(c, hd, key) {
     return h(IK.Locked, { feature: 'metrics', surface: 'modal' },
-      /* xs, as the AI connectivity list's CellAction and the Workspaces list's cells — a button, not a link
+      /* xs, as the LinkAI list's CellAction and the Workspaces list's cells — a button, not a link
          (user, 2026-10-20: "чому ти змінив розмір і кнопку") */
       h(D.Button, { variant: 'primaryTertiary', size: 'xs', type: 'button', className: '-mx-2', leftSlot: h(IK.Icon, { name: 'plus', size: 14 }),
         onClick: function (e) { e.stopPropagation(); hd.onAddMetric(key != null ? key : c.name); } }, 'Add Metric'));

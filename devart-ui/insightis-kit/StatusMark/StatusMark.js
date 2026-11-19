@@ -1,4 +1,4 @@
-/* StatusMark — everything about an item said once beside its name, as the AI connectivity lists do (user, 2026-10-20:
+/* StatusMark — everything about an item said once beside its name, as the LinkAI lists do (user, 2026-10-20:
    "подивись як тут реалізований дескріпшн в поповері інфоіконки + ерор чи ворнінг"; a kit component of its own since
    2026-10-22). One glyph, the worst wins: ⓘ when there is only a description, the amber triangle for a warning, the
    red cross for an error; nothing when there is neither. Hover (after 300ms) or focus opens a DevartUI Popover:

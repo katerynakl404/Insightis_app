@@ -1,6 +1,6 @@
 /* WsDialogs — the dialogs of shared workspaces (rules: pages/approved/workspace.rules.md). DevartUI
    Modal for every shell (ModalContent / ModalHeader + ModalTitle / ModalFooter, its own ✕, Esc and
-   scrim close), the composition of the AI connectivity workspaces prototype where it fits.
+   scrim close), the composition of the LinkAI workspaces prototype where it fits.
 
    IK.WsCreateDialog — "Create workspace" (md): Workspace name, Description (optional — what it is used for,
      DevartUI TextArea, 500 characters with a counter; user, 2026-10-19), Cancel · Create. Enter in the name
@@ -15,7 +15,7 @@
      Member). Refused under the field: not an email, already a member, already invited (IK.wsInviteCheck).
      { open, onOpenChange, ws, check: function (email) → null | 'member' | 'invited', onInvite }
 
-   Pickers — the AI connectivity prototype's picker dialogs as they are: a title and a sentence under
+   Pickers — the LinkAI prototype's picker dialogs as they are: a title and a sentence under
    it, DevartUI SearchInput sm (focused on open), DevartUI ChoiceCard rows (checkbox indicator, description
    under it), Cancel · the counted action; empty → DevartUI StatusView with the way to what is missing.
    IK.WsAddConnectionsDialog — "Add connections" / "Link connections to <ws>": what is already there is not
@@ -168,7 +168,7 @@
   };
 
   /* ── Pickers ──────────────────────────────────────────────────────────────────────────────────
-     The AI connectivity prototype's picker dialogs, as they are (user, 2026-10-19 — "той самий
+     The LinkAI prototype's picker dialogs, as they are (user, 2026-10-19 — "той самий
      елемент, як в конектівіті"): the title + a sentence under it, a search (DevartUI SearchInput sm,
      focused on open), a list of DevartUI ChoiceCard (the checkbox indicator, the description under it),
      then the footer — Cancel · the counted action (disabled until a pick). What is already there
@@ -188,7 +188,7 @@
       value: q, onValueChange: setQ, onClear: function () { setQ(''); } });
   }
   function matches(q, parts) { q = String(q || '').trim().toLowerCase(); return !q || parts.join(' ').toLowerCase().indexOf(q) >= 0; }
-  /* the AI connectivity picker's empty state: StatusView, transparent, the illustration, and the way to
+  /* the LinkAI picker's empty state: StatusView, transparent, the illustration, and the way to
      what is missing as a secondary action */
   function nothing(title, description, action) {
     return h(D.StatusView, { size: 'sm', surface: 'embedded', tone: 'transparent', withIconHalo: false, icon: h(D.EmptyStateIllustration),
@@ -280,7 +280,7 @@
           onClick: function () { p.onShare(chosen); } }, chosen.length > 1 ? 'Add ' + chosen.length + ' Files' : 'Add File'))));
   };
 
-  /* one file → the person's workspaces, AI connectivity's "Add workspaces". A Blocked workspace can't take it:
+  /* one file → the person's workspaces, LinkAI's "Add workspaces". A Blocked workspace can't take it:
      its row is disabled and says why. */
   /* Adding to workspaces — one picker for a file (or the Files selection) and a connection (user, 2026-10-20:
      "це розраховувалось як екшн додати в воркспейс — а не керувати наявністю в них"): it only ADDS. Every

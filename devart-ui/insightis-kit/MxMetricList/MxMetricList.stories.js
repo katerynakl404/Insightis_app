@@ -50,7 +50,7 @@
     });
   }
 
-  IK.story('MxMetricList', { wide: true, title: 'Library as rows — no favourites yet', description: 'Each metric a DevartUI Card row: switch · name and alias over the definition · badge · star · ⋮. Hover a row: the star and ⋮ appear. Hover a heading: Add Metric. Click a star: it pops as it fills; click it again: it dips and empties.', render: function () {
+  IK.story('MxMetricList', { wide: true, title: 'Library as rows — no favourites yet', description: 'Each metric a DevartUI Card row: switch · name, alias and star over the definition · badge · ⋮. Hover a row: the star and ⋮ appear. Hover a heading: Add Metric. Click a star: it pops as it fills; click it again: it dips and empties.', render: function () {
     return h(Live);
   } });
   IK.story('MxMetricList', { wide: true, title: 'With favourites', description: 'A favourite stays where it is, its star filled — no section of them on top.', render: function () {

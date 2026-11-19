@@ -1,4 +1,4 @@
-/* WsOverview — a workspace page's first tab, the AI connectivity prototype's Overview carried over
+/* WsOverview — a workspace page's first tab, the LinkAI prototype's Overview carried over
    (GeneralCard · StatTile row), on DevartUI Card, StatTile, IconButton and Button.
 
      General      the name (title16) + Edit (pencil, the Owner only — the name and the description) · the description
@@ -23,7 +23,7 @@
 
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
 
-  /* a tile's own action (StatTile rightSlot, as the AI connectivity Connections tile has): "+" adds one in place,
+  /* a tile's own action (StatTile rightSlot, as the LinkAI Connections tile has): "+" adds one in place,
      whatever is in it already — no gear to manage it, its tab does that (user, 2026-10-21: "завжди + не треба
      налаштувань") — locked while Blocked */
   function tileAction(label, onClick, icon, locked) {
@@ -82,13 +82,17 @@
     /* a Member leaves from the same place, the same destructive row (user, 2026-10-19: "покинути на тому ж
        місці що і видалення", "дія деструктивна") */
     function lastRow(title, text, label, onClick) {
-      /* the text keeps its own width; when the action no longer fits beside it, the action goes under it (user,
-         2026-10-22: 'кнопка мала опускатись під') */
-      return h(D.Card, { variant: 'outline', className: 'flex flex-row flex-wrap items-center gap-4 p-6' },
-        h('div', { className: 'min-w-0 flex-auto' },
-          h(D.Typography, { element: 'div', textStyle: 'title14', textColor: 'primary' }, title),
-          h(D.Typography, { element: 'div', textStyle: 'body14', textColor: 'secondary', className: 'mt-1' }, text)),
-        h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button', className: 'flex-none', onClick: onClick }, label));
+      /* DevartUI's card of one act (CardHeader actionsAlign="center", §162), as LinkAI's delete card: the button
+         on the middle of the title and the text, and under the text when it no longer fits beside (user,
+         2026-10-22: 'кнопка мала опускатись під' — the rule this row had built by hand, now the library's,
+         2026-11-04). The title is CardTitle's 16, as General's above it. */
+      return h(D.Card, { variant: 'outline', className: 'p-6' },
+        h(D.CardHeader, {
+          actionsAlign: 'center',
+          actions: h(D.Button, { variant: 'destructiveOutline', size: 'sm', type: 'button', onClick: onClick }, label)
+        },
+          h(D.CardTitle, { element: 'h3' }, title),
+          h(D.CardDescription, null, text)));
     }
     var danger = owner
       ? (p.onDelete ? lastRow('Delete workspace', IK.wsDeleteText(1), 'Delete Workspace', p.onDelete) : null)

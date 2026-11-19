@@ -86,7 +86,7 @@
   'use strict';
   var IK = window.InsightisKit, D = window.DevartUI, R = window.React, h = IK.h;
 
-  /* lucide "layers" — the workspace glyph, as in the AI connectivity workspaces prototype */
+  /* lucide "layers" — the workspace glyph, as in the LinkAI workspaces prototype */
   IK.defineIcons({
     'ws-layers': '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',
     'ws-users': '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
@@ -273,7 +273,7 @@
           { name: 'Accounts receivable', alias: '@ar_balance', desc: 'Open receivables at the end of the period' }] }],
       files: []
     };
-    /* last activity, as the AI connectivity list shows it */
+    /* last activity, as the LinkAI list shows it */
     sales.active = NOW - 60e3; support.active = NOW - 35 * 60e3; product.active = NOW - 4 * 3600e3;
     marketing.active = NOW - 3600e3; brand.active = NOW - 5 * 3600e3; finance.active = NOW - DAY;
     var list = [sales, support, product, marketing, brand, finance];
@@ -1071,7 +1071,7 @@
       /* +N opens the hidden ones (user, 2026-10-19: "мав бути клікабельним"): a DevartUI DropdownMenu, each workspace
          a row with its glyph that opens the workspace; the click never reaches the table row underneath */
       /* its tooltip names every hidden one, each on its own line (user, 2026-10-20: "а якщо 2??"); the menu
-         trigger sits OUTSIDE the tooltip trigger, so both get the button (the AI connectivity cell's order) */
+         trigger sits OUTSIDE the tooltip trigger, so both get the button (the LinkAI cell's order) */
       h(D.DropdownMenu, null,
         h(D.Tooltip, null,
           h(D.DropdownMenuTrigger, { asChild: true },
@@ -1139,7 +1139,7 @@
   }
   function fmtDate(t) { return new Date(t).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
   IK.wsFmtDate = fmtDate;
-  /* "1 minute ago", "4 hours ago", "1 day ago" — the AI connectivity list's Last activity */
+  /* "1 minute ago", "4 hours ago", "1 day ago" — the LinkAI list's Last activity */
   IK.wsAgo = function (t) {
     var m = Math.max(0, Math.round((Date.now() - t) / 60e3));
     if (m < 1) return 'Just now';

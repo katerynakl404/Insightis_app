@@ -34,7 +34,7 @@
      actions: node,    // PageHeader's actions, the right edge
      wrap: false,
      onBack, backLabel, // PageHeader's back button before the title — a page one level down
-                       // (a workspace: "Back to workspaces", as the AI connectivity prototype has it)
+                       // (a workspace: "Back to workspaces", as the LinkAI prototype has it)
      className         // the content column (ListPageLayout contentClassName)
    }, …blocks, 12px apart…)                                                                     */
 (function () {

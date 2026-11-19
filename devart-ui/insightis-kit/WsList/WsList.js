@@ -1,4 +1,4 @@
-/* WsList — the Workspaces list (approved/workspaces.html), the AI connectivity prototype's list row
+/* WsList — the Workspaces list (approved/workspaces.html), the LinkAI prototype's list row
    carried over (its WorkspacesIndex): DevartUI Table, fixed layout, no Card around it (Table is
    one), the empty states INSIDE the table so the header, the field and the button stay put.
 
@@ -8,8 +8,8 @@
                   Pro; an invited one → Ask Owner to Renew (Request Sent once asked; IK.WsUnavailableMark). Long
                   names truncate, the whole name in a tooltip.
      Owner        "You", or the Owner's name (the person invited you)
-     Members      how many people are in it (the AI connectivity list's Contributors)
-     Connections  the AI connectivity list's cell: "2 connections ⌄" (tertiary xs) opens a menu of
+     Members      how many people are in it (the LinkAI list's Contributors)
+     Connections  the LinkAI list's cell: "2 connections ⌄" (tertiary xs) opens a menu of
                   them — logo, name, metrics — each opening Connection details in place (onConnection; without it,
                   the workspace's Connections tab), "Add Connection" (accent) at the foot on the person's own;
                   none → "+ Add Connection" (primaryTertiary xs, brand); invited and none → "—". Locked while Blocked.
@@ -58,7 +58,7 @@
   /* absence is a quiet dash, as every Workspaces column (user, 2026-10-19: 'відсутність позначали -') */
   function none() { return h('span', { className: 'text-ink-inactive', 'aria-label': 'None' }, '—'); }
   function quiet(t) { return h(D.Typography, { element: 'span', textStyle: 'body14', textColor: 'secondary' }, t); }
-  /* The AI connectivity list's cells (its ConnectionsCell, CountDisclosure, CellAction — unified with
+  /* The LinkAI list's cells (its ConnectionsCell, CountDisclosure, CellAction — unified with
      them, user 2026-10-20): the count is a tertiary xs Button with a 14px chevron that opens the menu of what is in it — each row leads to that
      tab of the workspace — with the next step at its foot (accent); nothing in it → the step itself,
      a brand primaryTertiary xs Button "+ Add Connection" (14px glyph). Both pulled back by -mx-2 (their side padding) so the column

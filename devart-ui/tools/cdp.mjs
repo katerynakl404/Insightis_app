@@ -61,11 +61,13 @@ export const SETTLE = `new Promise(r => {
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(r, 500));
 })`;
 
-/* Load url at a viewport with the review harness forced to a theme (and plan "paid"). */
+/* Load url at a viewport with the review harness forced to a theme (and plan "paid"). The plan is reset
+   in both stores: the originals read localStorage, the rebuilt pages sessionStorage (ik-core.js), and the
+   tab is reused, so a Free picked in one scenario must not leak into the next. */
 export async function open(cdp, url, theme, vp) {
   await cdp.send("Emulation.setDeviceMetricsOverride", { width: vp.width, height: vp.height, deviceScaleFactor: 1, mobile: vp.width < 768 });
   const { identifier } = await cdp.send("Page.addScriptToEvaluateOnNewDocument", { source: `(function(){var T=${JSON.stringify(theme)};
-    try{localStorage.setItem("insightis.theme",T);localStorage.setItem("insightis.plan","paid");}catch(e){}
+    try{localStorage.setItem("insightis.theme",T);localStorage.setItem("insightis.plan","paid");sessionStorage.setItem("insightis.plan","paid");}catch(e){}
     function ap(){if(document.documentElement)document.documentElement.classList.toggle("dark",T==="dark");}
     ap();document.addEventListener("DOMContentLoaded",ap);addEventListener("load",ap);})();` });
   cdp.errors.length = 0;
