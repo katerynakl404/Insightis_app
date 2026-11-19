@@ -436,7 +436,7 @@ preserved verbatim from upstream. They are declared inside `_ds_bundle.css` (thi
 - `Stepper` — Headless stepper that renders the current step's render function,
 - `StepProgress`
 - `StepSlider` — Slider constrained to a short list of named stops, drawn as dots on the
-- `Switch`
+- `Switch` — A switch with an optional label and description beside it.
 - `Table`
 - `Tabs` — Underline tabs  the active tab is marked by a brand-coloured bottom
 - `TextArea`
