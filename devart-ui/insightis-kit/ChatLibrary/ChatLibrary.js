@@ -120,7 +120,7 @@
             h(D.MetaRowCount, null, selectedCount + ' selected'),
             h(D.LinkButton, { asChild: true },
               h('button', { type: 'button', onClick: toggleAll }, allVisibleSelected ? 'Deselect all' : 'Select all')),
-            h(D.MetaRowEnd, null,
+            h(D.MetaRowActions, null,
               h(D.Button, {
                 variant: 'destructiveTertiary', size: 'sm', type: 'button', 'aria-disabled': selectedCount === 0 || undefined,
                 leftSlot: h(IK.Icon, { name: 'delete' }), onClick: deleteSelected

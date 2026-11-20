@@ -1,0 +1,9 @@
+{
+  "namespace": "DevartUI",
+  "source": "@devart/ui-react@1.0.0",
+  "shape": "storybook",
+  "provider": "TooltipProvider",
+  "componentCount": 91,
+  "skippedStoryIds": [],
+  "runtimeFontPrefixes": []
+}

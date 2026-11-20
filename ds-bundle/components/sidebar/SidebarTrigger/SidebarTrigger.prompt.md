@@ -1,0 +1,58 @@
+SidebarTrigger from @devart/ui-react. Use via `window.DevartUI.SidebarTrigger` (bundle loaded from the root `_ds_bundle.js`). Wrap the tree in `<TooltipProvider>` (full provider chain in README.md — components read theme/i18n from that context).
+
+Variants (see `SidebarTrigger.html`): Default, With Tooltip.
+
+## Props
+
+```ts
+interface SidebarTriggerProps {
+  /** Accessible name for the trigger's screen-reader-only text. */
+  label?: string;
+  /** Replaces the default panel glyph. Sizing stays with `className`, so an override inherits whatever `[&_svg]:size-*` the c */
+  icon?: React.ReactNode;
+  /** Also shows `label` visually, which is what an icon-only rail needs. Off while the sidebar is the sheet (`isMobile`): the */
+  tooltip?: boolean;
+  tooltipSide?: "top" | "right" | "bottom" | "left";
+  asChild?: boolean;
+  leftSlot?: React.ReactNode;
+  rightSlot?: React.ReactNode;
+  /** Shows a spinner and blocks pointer interaction while keeping the variant fill (the label is retained). Sets `aria-busy`; */
+  isLoading?: boolean;
+  ref?: React.Ref;
+  className?: string;
+  id?: string;
+  style?: CSSProperties;
+  children?: React.ReactNode;
+  variant?: "primary" | "secondary" | "transparent" | "tertiary" | "destructiveTertiary" | "destructive" | "primaryTertiary" | "outline" | "destructiveOutline" | "transparentUnderline";
+  size?: "sm" | "md" | "lg" | "xl" | "xs";
+  rounded?: "none" | "sm" | "md" | "lg" | "xl" | "rounded" | "full";
+  align?: "center" | "right" | "left";
+  fullWidth?: boolean;
+}
+```
+
+## Examples
+
+```jsx
+// Default
+export const Default: Story = {};
+
+/** The label is the accessible name, so the tooltip needs no second string. */
+
+// With Tooltip
+export const WithTooltip: Story = {
+  args: { tooltip: true, label: 'Collapse sidebar' },
+};
+```
+
+### Default
+
+```jsx
+/* Default */ compose(S, "Default")
+```
+
+### WithTooltip
+
+```jsx
+/* With Tooltip */ compose(S, "WithTooltip")
+```

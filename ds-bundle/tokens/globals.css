@@ -393,6 +393,13 @@
     hsl(var(--surface-page))
   );
 
+  /* Link tokens */
+  --link-underline: color-mix(
+    in srgb,
+    currentColor 25%,
+    transparent
+  ); /* inline LinkButton rule, ~25% of the link's ink */
+
   /* Dropzone tokens */
   --dropzone-border: var(--slate-300); /* #CBD5E1 */
   --dropzone-border-active: color-mix(

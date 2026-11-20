@@ -1,0 +1,4477 @@
+{
+  "global": "DevartUI",
+  "pkg": "@devart/ui-react",
+  "pkgDir": "C:\\Users\\katerynak\\Documents\\Claude\\Projects\\Design system\\devart.ui.react",
+  "extraEntries": [],
+  "exported": [
+    "Accordion",
+    "AccordionContent",
+    "AccordionItem",
+    "AccordionTrigger",
+    "ActivityTray",
+    "ActivityTrayItem",
+    "Alert",
+    "AlertStack",
+    "Annotation",
+    "AnnotationGroup",
+    "AsyncList",
+    "Autocomplete",
+    "Avatar",
+    "AvatarFallback",
+    "AvatarImage",
+    "Badge",
+    "Banner",
+    "Button",
+    "Calendar",
+    "CalendarDayButton",
+    "Card",
+    "CardContent",
+    "CardDescription",
+    "CardDivider",
+    "CardFooter",
+    "CardHeader",
+    "CardIcon",
+    "CardSectionLabel",
+    "CardTitle",
+    "Checkbox",
+    "CheckboxGroup",
+    "ChoiceCard",
+    "ChoiceGroup",
+    "CircularProgress",
+    "ClampedText",
+    "CodeBlock",
+    "Collapsible",
+    "CollapsibleContent",
+    "CollapsibleTrigger",
+    "Colors",
+    "ConfirmationDialog",
+    "ConnectorLogo",
+    "Counter",
+    "CtaBanner",
+    "DateRangePicker",
+    "DialogTitleFallback",
+    "DropdownMenu",
+    "DropdownMenuCheckboxItem",
+    "DropdownMenuContent",
+    "DropdownMenuGroup",
+    "DropdownMenuItem",
+    "DropdownMenuLabel",
+    "DropdownMenuPortal",
+    "DropdownMenuRadioGroup",
+    "DropdownMenuRadioItem",
+    "DropdownMenuRow",
+    "DropdownMenuSegmentedItem",
+    "DropdownMenuSeparator",
+    "DropdownMenuShortcut",
+    "DropdownMenuSub",
+    "DropdownMenuSubContent",
+    "DropdownMenuTrigger",
+    "EmptySearchIllustration",
+    "EmptyStateIllustration",
+    "File",
+    "FileSkeleton",
+    "FilterChips",
+    "FilterMenu",
+    "GuideCard",
+    "HighlightText",
+    "IconButton",
+    "IconCard",
+    "IconCardSkeleton",
+    "IconHint",
+    "InlineRename",
+    "Input",
+    "InputGroup",
+    "InputGroupAction",
+    "InputGroupAddon",
+    "InputGroupInput",
+    "LinkButton",
+    "ListPageLayout",
+    "ListSelectionBar",
+    "MetaRow",
+    "MetaRowActions",
+    "MetaRowCount",
+    "Modal",
+    "ModalBody",
+    "ModalClose",
+    "ModalContent",
+    "ModalDescription",
+    "ModalFooter",
+    "ModalHeader",
+    "ModalOverlay",
+    "ModalPortal",
+    "ModalTitle",
+    "ModalTrigger",
+    "Motion",
+    "PageHeader",
+    "Pagination",
+    "PasswordInput",
+    "PinToggle",
+    "Popover",
+    "PopoverAnchor",
+    "PopoverContent",
+    "PopoverTrigger",
+    "PortalContainerContext",
+    "PortalContainerProvider",
+    "Primitives",
+    "ProgressBar",
+    "PromoCard",
+    "RadioButton",
+    "RadioGroup",
+    "Radius",
+    "RequiredMark",
+    "ResizableHandle",
+    "ResizableMainSideLayout",
+    "ResizablePanel",
+    "ResizablePanelGroup",
+    "RowMenuButton",
+    "ScrollShadow",
+    "SearchInput",
+    "SegmentedControl",
+    "SegmentedControlContent",
+    "SegmentedControlList",
+    "SegmentedControlTrigger",
+    "Select",
+    "SelectableListCard",
+    "Separator",
+    "Shadows",
+    "Sheet",
+    "SheetBody",
+    "SheetClose",
+    "SheetContent",
+    "SheetDescription",
+    "SheetFooter",
+    "SheetHeader",
+    "SheetOverlay",
+    "SheetPortal",
+    "SheetTitle",
+    "SheetTrigger",
+    "Sidebar",
+    "SidebarChatItem",
+    "SidebarContent",
+    "SidebarFooter",
+    "SidebarGroup",
+    "SidebarHeader",
+    "SidebarInset",
+    "SidebarMenu",
+    "SidebarMenuButton",
+    "SidebarMenuItem",
+    "SidebarMenuRow",
+    "SidebarMenuSub",
+    "SidebarMenuSubButton",
+    "SidebarMenuSubItem",
+    "SidebarMobileTrigger",
+    "SidebarNavItem",
+    "SidebarNavigationItems",
+    "SidebarPanelHeader",
+    "SidebarPromo",
+    "SidebarProvider",
+    "SidebarRail",
+    "SidebarSection",
+    "SidebarStat",
+    "SidebarTrigger",
+    "SidebarUser",
+    "SingleDatePicker",
+    "Skeleton",
+    "Spacing",
+    "Spinner",
+    "Spotlight",
+    "StatTile",
+    "StatusMark",
+    "StatusView",
+    "StepProgress",
+    "StepSlider",
+    "Stepper",
+    "StepperIndicator",
+    "Switch",
+    "Table",
+    "TableActionsCell",
+    "TableBody",
+    "TableCaption",
+    "TableCell",
+    "TableFooter",
+    "TableHead",
+    "TableHeader",
+    "TableRow",
+    "Tabs",
+    "TabsContent",
+    "TabsList",
+    "TabsTrigger",
+    "TextArea",
+    "Timeline",
+    "TimelineContent",
+    "TimelineHeader",
+    "TimelineStep",
+    "TimelineStepMarker",
+    "ToastMessage",
+    "Toaster",
+    "Toggle",
+    "ToggleGroup",
+    "ToggleGroupItem",
+    "Tooltip",
+    "TooltipContent",
+    "TooltipProvider",
+    "TooltipTrigger",
+    "Tour",
+    "Tree",
+    "TreeItem",
+    "TreeLoadingRow",
+    "TruncatedTitleTooltip",
+    "Typography"
+  ],
+  "storybookStatic": "C:\\Users\\katerynak\\Documents\\Claude\\Projects\\Design system\\devart.ui.react\\.design-sync\\sb-reference",
+  "keyRecipe": 7,
+  "cfgSliceGlobal": "e51b7b2a34a16603fb8a10999a0d242441a59550e917130bb2b231703bdeda9e",
+  "components": [
+    {
+      "name": "Accordion",
+      "group": "components",
+      "srcSha": "df39688d31a8",
+      "sourceKey": "da13ccd1b401ca4a",
+      "cfgSlice": "fcd3dfc178c7029c109b1c0a84b443c3775091b8927fd6c79fc2676fa7046d23",
+      "stories": [
+        {
+          "id": "proposed-changes-components-accordion--page",
+          "name": "Accordion",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-accordion--single-collapsible",
+          "name": "Single Collapsible",
+          "exportKey": "SingleCollapsible",
+          "emitted": "SingleCollapsible"
+        },
+        {
+          "id": "components-accordion--multiple",
+          "name": "Multiple",
+          "exportKey": "Multiple",
+          "emitted": "Multiple"
+        },
+        {
+          "id": "components-accordion--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        }
+      ]
+    },
+    {
+      "name": "ActivityTray",
+      "group": "components",
+      "srcSha": "c9f3251df22c",
+      "sourceKey": "ae32e2718e5e6ba8",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-activitytray--page",
+          "name": "ActivityTray",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-activitytray--complete",
+          "name": "Complete",
+          "exportKey": "Complete",
+          "emitted": "Complete"
+        },
+        {
+          "id": "compositions-activitytray--uploading",
+          "name": "Uploading",
+          "exportKey": "Uploading",
+          "emitted": "Uploading"
+        },
+        {
+          "id": "compositions-activitytray--failed",
+          "name": "Failed",
+          "exportKey": "Failed",
+          "emitted": "Failed"
+        },
+        {
+          "id": "compositions-activitytray--long-names",
+          "name": "Long Names",
+          "exportKey": "LongNames",
+          "emitted": "LongNames"
+        },
+        {
+          "id": "compositions-activitytray--collapsed",
+          "name": "Collapsed",
+          "exportKey": "Collapsed",
+          "emitted": "Collapsed"
+        },
+        {
+          "id": "compositions-activitytray--non-collapsible",
+          "name": "Non Collapsible",
+          "exportKey": "NonCollapsible",
+          "emitted": "NonCollapsible"
+        },
+        {
+          "id": "compositions-activitytray--controlled",
+          "name": "Controlled",
+          "exportKey": "Controlled",
+          "emitted": "Controlled"
+        },
+        {
+          "id": "compositions-activitytray--auto-dismiss",
+          "name": "Auto Dismiss",
+          "exportKey": "AutoDismiss",
+          "emitted": "AutoDismiss"
+        },
+        {
+          "id": "compositions-activitytray--auto-dismiss-with-failure",
+          "name": "Auto Dismiss With Failure",
+          "exportKey": "AutoDismissWithFailure",
+          "emitted": "AutoDismissWithFailure"
+        },
+        {
+          "id": "compositions-activitytray--clickable-rows",
+          "name": "Clickable Rows",
+          "exportKey": "ClickableRows",
+          "emitted": "ClickableRows"
+        },
+        {
+          "id": "compositions-activitytray--status-as-words",
+          "name": "Status As Words",
+          "exportKey": "StatusAsWords",
+          "emitted": "StatusAsWords"
+        }
+      ]
+    },
+    {
+      "name": "Alert",
+      "group": "components",
+      "srcSha": "6d74a4013c10",
+      "sourceKey": "7664444aefa713cf",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-alert--page",
+          "name": "Alert",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-alert--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-alert--with-actions",
+          "name": "With Actions",
+          "exportKey": "WithActions",
+          "emitted": "WithActions"
+        },
+        {
+          "id": "components-alert--actions-on-narrow-screen",
+          "name": "Actions On Narrow Screen",
+          "exportKey": "ActionsOnNarrowScreen",
+          "emitted": "ActionsOnNarrowScreen"
+        },
+        {
+          "id": "components-alert--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-alert--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-alert--with-illustration",
+          "name": "With Illustration",
+          "exportKey": "WithIllustration",
+          "emitted": "WithIllustration"
+        },
+        {
+          "id": "components-alert--illustration-variants",
+          "name": "Illustration Variants",
+          "exportKey": "IllustrationVariants",
+          "emitted": "IllustrationVariants"
+        },
+        {
+          "id": "components-alert--title-only",
+          "name": "Title Only",
+          "exportKey": "TitleOnly",
+          "emitted": "TitleOnly"
+        },
+        {
+          "id": "components-alert--description-only",
+          "name": "Description Only",
+          "exportKey": "DescriptionOnly",
+          "emitted": "DescriptionOnly"
+        }
+      ]
+    },
+    {
+      "name": "AlertStack",
+      "group": "compositions",
+      "srcSha": "d6c3bc57ae2a",
+      "sourceKey": "db727d7848280580",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-alertstack--playground",
+          "name": "Playground",
+          "exportKey": "Playground",
+          "emitted": "Playground"
+        },
+        {
+          "id": "compositions-alertstack--custom-labels",
+          "name": "Custom Labels",
+          "exportKey": "CustomLabels",
+          "emitted": "CustomLabels"
+        },
+        {
+          "id": "compositions-alertstack--two",
+          "name": "Two",
+          "exportKey": "Two",
+          "emitted": "Two"
+        },
+        {
+          "id": "compositions-alertstack--three",
+          "name": "Three",
+          "exportKey": "Three",
+          "emitted": "Three"
+        },
+        {
+          "id": "compositions-alertstack--keeps-scroll",
+          "name": "Keeps Scroll",
+          "exportKey": "KeepsScroll",
+          "emitted": "KeepsScroll"
+        },
+        {
+          "id": "compositions-alertstack--keyboard",
+          "name": "Keyboard",
+          "exportKey": "Keyboard",
+          "emitted": "Keyboard"
+        },
+        {
+          "id": "compositions-alertstack--open",
+          "name": "Open",
+          "exportKey": "Open",
+          "emitted": "Open"
+        },
+        {
+          "id": "compositions-alertstack--single",
+          "name": "Single",
+          "exportKey": "Single",
+          "emitted": "Single"
+        },
+        {
+          "id": "compositions-alertstack--wrapped-notices",
+          "name": "Wrapped notices",
+          "exportKey": "WrappedNotices",
+          "emitted": "WrappedNotices"
+        }
+      ]
+    },
+    {
+      "name": "Annotation",
+      "group": "compositions",
+      "srcSha": "ddafddccb207",
+      "sourceKey": "b7c848e8f8cc02d8",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-annotation--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-annotation--neighbouring-targets",
+          "name": "Neighbouring Targets",
+          "exportKey": "NeighbouringTargets",
+          "emitted": "NeighbouringTargets"
+        },
+        {
+          "id": "compositions-annotation--leaving",
+          "name": "Leaving",
+          "exportKey": "Leaving",
+          "emitted": "Leaving"
+        },
+        {
+          "id": "compositions-annotation--dark-theme",
+          "name": "Dark Theme",
+          "exportKey": "DarkTheme",
+          "emitted": "DarkTheme"
+        }
+      ]
+    },
+    {
+      "name": "AsyncList",
+      "group": "components",
+      "srcSha": "70d477a7b33d",
+      "sourceKey": "901c62e4389bd121",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-asynclist--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-asynclist--initial-loading",
+          "name": "Initial Loading",
+          "exportKey": "InitialLoading",
+          "emitted": "InitialLoading"
+        },
+        {
+          "id": "components-asynclist--loading-next-page",
+          "name": "Loading Next Page",
+          "exportKey": "LoadingNextPage",
+          "emitted": "LoadingNextPage"
+        },
+        {
+          "id": "components-asynclist--empty",
+          "name": "Empty",
+          "exportKey": "Empty",
+          "emitted": "Empty"
+        },
+        {
+          "id": "components-asynclist--error-state",
+          "name": "Error State",
+          "exportKey": "ErrorState",
+          "emitted": "ErrorState"
+        },
+        {
+          "id": "components-asynclist--grid-layout",
+          "name": "Grid Layout",
+          "exportKey": "GridLayout",
+          "emitted": "GridLayout"
+        },
+        {
+          "id": "components-asynclist--with-selection",
+          "name": "With Selection",
+          "exportKey": "WithSelection",
+          "emitted": "WithSelection"
+        }
+      ]
+    },
+    {
+      "name": "Autocomplete",
+      "group": "components",
+      "srcSha": "cf62a85a31d9",
+      "sourceKey": "b670bcfe0675fbdf",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-autocomplete--page",
+          "name": "Autocomplete",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-autocomplete--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-autocomplete--with-selection",
+          "name": "With Selection",
+          "exportKey": "WithSelection",
+          "emitted": "WithSelection"
+        },
+        {
+          "id": "compositions-autocomplete--multiple-select",
+          "name": "Multiple Select",
+          "exportKey": "MultipleSelect",
+          "emitted": "MultipleSelect"
+        },
+        {
+          "id": "compositions-autocomplete--with-start-addon",
+          "name": "With Start Addon",
+          "exportKey": "WithStartAddon",
+          "emitted": "WithStartAddon"
+        },
+        {
+          "id": "compositions-autocomplete--required",
+          "name": "Required",
+          "exportKey": "Required",
+          "emitted": "Required"
+        },
+        {
+          "id": "compositions-autocomplete--label-sizes",
+          "name": "Label Sizes",
+          "exportKey": "LabelSizes",
+          "emitted": "LabelSizes"
+        },
+        {
+          "id": "compositions-autocomplete--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "compositions-autocomplete--multiple-select-open",
+          "name": "Multiple Select Open",
+          "exportKey": "MultipleSelectOpen",
+          "emitted": "MultipleSelectOpen"
+        },
+        {
+          "id": "compositions-autocomplete--no-results",
+          "name": "No Results",
+          "exportKey": "NoResults",
+          "emitted": "NoResults"
+        },
+        {
+          "id": "compositions-autocomplete--loading",
+          "name": "Loading",
+          "exportKey": "Loading",
+          "emitted": "Loading"
+        }
+      ]
+    },
+    {
+      "name": "Avatar",
+      "group": "components",
+      "srcSha": "d30ca0f5615f",
+      "sourceKey": "0cd22ef54028bd84",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-avatar--with-fallback",
+          "name": "With Fallback",
+          "exportKey": "WithFallback",
+          "emitted": "WithFallback"
+        },
+        {
+          "id": "components-avatar--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-avatar--rounding",
+          "name": "Rounding",
+          "exportKey": "Rounding",
+          "emitted": "Rounding"
+        }
+      ]
+    },
+    {
+      "name": "Badge",
+      "group": "components",
+      "srcSha": "0870c2636414",
+      "sourceKey": "3c312043db1a57cf",
+      "cfgSlice": "eed6908bfc8a310fdc7383f6b373b72c785441078ab92932200c3bddc6512fb0",
+      "stories": [
+        {
+          "id": "proposed-changes-components-badge--page",
+          "name": "Badge",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-badge--primary",
+          "name": "Primary",
+          "exportKey": "Primary",
+          "emitted": "Primary"
+        },
+        {
+          "id": "components-badge--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-badge--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-badge--with-dot",
+          "name": "With Dot",
+          "exportKey": "WithDot",
+          "emitted": "WithDot"
+        },
+        {
+          "id": "components-badge--with-icon",
+          "name": "With Icon",
+          "exportKey": "WithIcon",
+          "emitted": "WithIcon"
+        },
+        {
+          "id": "components-badge--removable",
+          "name": "Removable",
+          "exportKey": "Removable",
+          "emitted": "Removable"
+        },
+        {
+          "id": "components-badge--flat",
+          "name": "Flat",
+          "exportKey": "Flat",
+          "emitted": "Flat"
+        }
+      ]
+    },
+    {
+      "name": "Banner",
+      "group": "components",
+      "srcSha": "2caefcec29fc",
+      "sourceKey": "c8fce80346298022",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "proposed-changes-components-banner--page",
+          "name": "Banner",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-banner--primary",
+          "name": "Primary",
+          "exportKey": "Primary",
+          "emitted": "Primary"
+        },
+        {
+          "id": "components-banner--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-banner--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-banner--dismissible",
+          "name": "Dismissible",
+          "exportKey": "Dismissible",
+          "emitted": "Dismissible"
+        },
+        {
+          "id": "components-banner--optional-slots",
+          "name": "Optional Slots",
+          "exportKey": "OptionalSlots",
+          "emitted": "OptionalSlots"
+        },
+        {
+          "id": "components-banner--rich-description",
+          "name": "Rich Description",
+          "exportKey": "RichDescription",
+          "emitted": "RichDescription"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "group": "components",
+      "srcSha": "02592df61a0c",
+      "sourceKey": "b8b791101404912b",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "proposed-changes-components-button--page",
+          "name": "Button",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-button--primary",
+          "name": "Primary",
+          "exportKey": "Primary",
+          "emitted": "Primary"
+        },
+        {
+          "id": "components-button--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-button--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-button--with-icons",
+          "name": "With Icons",
+          "exportKey": "WithIcons",
+          "emitted": "WithIcons"
+        },
+        {
+          "id": "components-button--loading",
+          "name": "Loading",
+          "exportKey": "Loading",
+          "emitted": "Loading"
+        },
+        {
+          "id": "components-button--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-button--with-tooltip",
+          "name": "With Tooltip",
+          "exportKey": "WithTooltip",
+          "emitted": "WithTooltip"
+        },
+        {
+          "id": "components-button--full-width",
+          "name": "Full Width",
+          "exportKey": "FullWidth",
+          "emitted": "FullWidth"
+        },
+        {
+          "id": "components-button--as-child",
+          "name": "As Child",
+          "exportKey": "AsChild",
+          "emitted": "AsChild"
+        }
+      ]
+    },
+    {
+      "name": "Card",
+      "group": "components",
+      "srcSha": "2527136663f5",
+      "sourceKey": "54909de8e6ff36b9",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "proposed-changes-components-card--page",
+          "name": "Card",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-card--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-card--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-card--anatomy",
+          "name": "Anatomy",
+          "exportKey": "Anatomy",
+          "emitted": "Anatomy"
+        },
+        {
+          "id": "components-card--header-actions",
+          "name": "Header Actions",
+          "exportKey": "HeaderActions",
+          "emitted": "HeaderActions"
+        },
+        {
+          "id": "components-card--rounded",
+          "name": "Rounded",
+          "exportKey": "Rounded",
+          "emitted": "Rounded"
+        },
+        {
+          "id": "components-card--full-width",
+          "name": "Full Width",
+          "exportKey": "FullWidth",
+          "emitted": "FullWidth"
+        },
+        {
+          "id": "components-card--sticky-footer",
+          "name": "Sticky Footer",
+          "exportKey": "StickyFooter",
+          "emitted": "StickyFooter"
+        },
+        {
+          "id": "components-card--divided-sticky-footer",
+          "name": "Divided Sticky Footer",
+          "exportKey": "DividedStickyFooter",
+          "emitted": "DividedStickyFooter"
+        }
+      ]
+    },
+    {
+      "name": "Checkbox",
+      "group": "components",
+      "srcSha": "f8a8062880ad",
+      "sourceKey": "01b29e81d637c6f8",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-checkbox--page",
+          "name": "Checkbox",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-checkbox--with-label",
+          "name": "With Label",
+          "exportKey": "WithLabel",
+          "emitted": "WithLabel"
+        },
+        {
+          "id": "components-checkbox--states",
+          "name": "States",
+          "exportKey": "States",
+          "emitted": "States"
+        },
+        {
+          "id": "components-checkbox--disabled-with-tooltip",
+          "name": "Disabled With Tooltip",
+          "exportKey": "DisabledWithTooltip",
+          "emitted": "DisabledWithTooltip"
+        },
+        {
+          "id": "components-checkbox--without-label",
+          "name": "Without Label",
+          "exportKey": "WithoutLabel",
+          "emitted": "WithoutLabel"
+        }
+      ]
+    },
+    {
+      "name": "ChoiceCard",
+      "group": "components",
+      "srcSha": "2ebe1dc58aaa",
+      "sourceKey": "468840a5bd0d4540",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-choicecard--single",
+          "name": "Single",
+          "exportKey": "Single",
+          "emitted": "Single"
+        },
+        {
+          "id": "components-choicecard--multiple",
+          "name": "Multiple",
+          "exportKey": "Multiple",
+          "emitted": "Multiple"
+        },
+        {
+          "id": "components-choicecard--pick-moves-on",
+          "name": "Pick Moves On",
+          "exportKey": "PickMovesOn",
+          "emitted": "PickMovesOn"
+        },
+        {
+          "id": "components-choicecard--columns",
+          "name": "Columns",
+          "exportKey": "Columns",
+          "emitted": "Columns"
+        },
+        {
+          "id": "components-choicecard--with-icons",
+          "name": "With Icons",
+          "exportKey": "WithIcons",
+          "emitted": "WithIcons"
+        },
+        {
+          "id": "components-choicecard--radio-indicator",
+          "name": "Radio Indicator",
+          "exportKey": "RadioIndicator",
+          "emitted": "RadioIndicator"
+        },
+        {
+          "id": "components-choicecard--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-choicecard--standalone",
+          "name": "Standalone",
+          "exportKey": "Standalone",
+          "emitted": "Standalone"
+        },
+        {
+          "id": "components-choicecard--expandable",
+          "name": "Expandable",
+          "exportKey": "Expandable",
+          "emitted": "Expandable"
+        },
+        {
+          "id": "components-choicecard--dark-theme",
+          "name": "Dark Theme",
+          "exportKey": "DarkTheme",
+          "emitted": "DarkTheme"
+        }
+      ]
+    },
+    {
+      "name": "CircularProgress",
+      "group": "components",
+      "srcSha": "2416584b70ca",
+      "sourceKey": "eee2fa0ba4aaff98",
+      "cfgSlice": "4ecfffd7b94a985b06f14ef221628a8a1e486320fede848b9b8471d9bebde347",
+      "stories": [
+        {
+          "id": "components-circularprogress--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-circularprogress--empty",
+          "name": "Empty",
+          "exportKey": "Empty",
+          "emitted": "Empty"
+        },
+        {
+          "id": "components-circularprogress--half",
+          "name": "Half",
+          "exportKey": "Half",
+          "emitted": "Half"
+        },
+        {
+          "id": "components-circularprogress--full",
+          "name": "Full",
+          "exportKey": "Full",
+          "emitted": "Full"
+        },
+        {
+          "id": "components-circularprogress--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-circularprogress--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-circularprogress--with-label",
+          "name": "With Label",
+          "exportKey": "WithLabel",
+          "emitted": "WithLabel"
+        }
+      ]
+    },
+    {
+      "name": "ClampedText",
+      "group": "components",
+      "srcSha": "a80ff3a97984",
+      "sourceKey": "0430bc9e7fc0dea3",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-clampedtext--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-clampedtext--fits-whole",
+          "name": "Fits Whole",
+          "exportKey": "FitsWhole",
+          "emitted": "FitsWhole"
+        },
+        {
+          "id": "components-clampedtext--long-word",
+          "name": "Long Word",
+          "exportKey": "LongWord",
+          "emitted": "LongWord"
+        },
+        {
+          "id": "components-clampedtext--handed-over",
+          "name": "Handed Over",
+          "exportKey": "HandedOver",
+          "emitted": "HandedOver"
+        }
+      ]
+    },
+    {
+      "name": "CodeBlock",
+      "group": "compositions",
+      "srcSha": "5021d06ecf54",
+      "sourceKey": "2986fba5cfd83a83",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-codeblock--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-codeblock--inline",
+          "name": "Inline",
+          "exportKey": "Inline",
+          "emitted": "Inline"
+        },
+        {
+          "id": "compositions-codeblock--not-copyable",
+          "name": "Not Copyable",
+          "exportKey": "NotCopyable",
+          "emitted": "NotCopyable"
+        },
+        {
+          "id": "compositions-codeblock--with-header",
+          "name": "With Header",
+          "exportKey": "WithHeader",
+          "emitted": "WithHeader"
+        },
+        {
+          "id": "compositions-codeblock--line-numbers",
+          "name": "Line Numbers",
+          "exportKey": "LineNumbers",
+          "emitted": "LineNumbers"
+        },
+        {
+          "id": "compositions-codeblock--max-height",
+          "name": "Max Height",
+          "exportKey": "MaxHeight",
+          "emitted": "MaxHeight"
+        },
+        {
+          "id": "compositions-codeblock--wrap",
+          "name": "Wrap",
+          "exportKey": "Wrap",
+          "emitted": "Wrap"
+        },
+        {
+          "id": "compositions-codeblock--error-output",
+          "name": "Error",
+          "exportKey": "ErrorOutput",
+          "emitted": "ErrorOutput"
+        },
+        {
+          "id": "compositions-codeblock--highlighted-python",
+          "name": "Highlighted Python",
+          "exportKey": "HighlightedPython",
+          "emitted": "HighlightedPython"
+        },
+        {
+          "id": "compositions-codeblock--code-run",
+          "name": "Code Run",
+          "exportKey": "CodeRun",
+          "emitted": "CodeRun"
+        }
+      ]
+    },
+    {
+      "name": "Collapsible",
+      "group": "components",
+      "srcSha": "4843ee848723",
+      "sourceKey": "a1812d6dc48208a1",
+      "cfgSlice": "e4124521fd1dcee1f38a0777ef19b1bdc0639887476452bbde02c94ad11c344f",
+      "stories": [
+        {
+          "id": "components-collapsible--open",
+          "name": "Open",
+          "exportKey": "Open",
+          "emitted": "Open"
+        },
+        {
+          "id": "components-collapsible--interactive",
+          "name": "Interactive",
+          "exportKey": "Interactive",
+          "emitted": "Interactive"
+        }
+      ]
+    },
+    {
+      "name": "Colors",
+      "group": "foundations",
+      "srcSha": "63a10476d27d",
+      "sourceKey": "8257ecb14a5c00ec",
+      "cfgSlice": "c78bc5c3dc2ecc69329335bfc1433eaa62e0b6b4ab765441b2a9ad6eb22701fc",
+      "stories": [
+        {
+          "id": "foundations-colors--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "foundations-colors--primitive-ramps",
+          "name": "Primitive Ramps",
+          "exportKey": "PrimitiveRamps",
+          "emitted": "PrimitiveRamps"
+        }
+      ]
+    },
+    {
+      "name": "ConfirmationDialog",
+      "group": "components",
+      "srcSha": "dc69cacf993d",
+      "sourceKey": "8195b08a47078eb8",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-confirmationdialog--page",
+          "name": "ConfirmationDialog",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-confirmationdialog--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-confirmationdialog--destructive",
+          "name": "Destructive",
+          "exportKey": "Destructive",
+          "emitted": "Destructive"
+        },
+        {
+          "id": "components-confirmationdialog--with-icon",
+          "name": "With Icon",
+          "exportKey": "WithIcon",
+          "emitted": "WithIcon"
+        },
+        {
+          "id": "components-confirmationdialog--loading",
+          "name": "Loading",
+          "exportKey": "Loading",
+          "emitted": "Loading"
+        }
+      ]
+    },
+    {
+      "name": "ConnectorLogo",
+      "group": "components",
+      "srcSha": "0ed2de86fa46",
+      "sourceKey": "4b120fb6783b109f",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-connectorlogo--page",
+          "name": "ConnectorLogo",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-connectorlogo--pack",
+          "name": "Pack",
+          "exportKey": "Pack",
+          "emitted": "Pack"
+        },
+        {
+          "id": "components-connectorlogo--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-connectorlogo--fallback-and-matching",
+          "name": "Fallback And Matching",
+          "exportKey": "FallbackAndMatching",
+          "emitted": "FallbackAndMatching"
+        },
+        {
+          "id": "components-connectorlogo--catalog-cards",
+          "name": "Catalog Cards",
+          "exportKey": "CatalogCards",
+          "emitted": "CatalogCards"
+        }
+      ]
+    },
+    {
+      "name": "Counter",
+      "group": "components",
+      "srcSha": "ec117352c2ab",
+      "sourceKey": "82c0a090d884b202",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-counter--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-counter--active",
+          "name": "Active",
+          "exportKey": "Active",
+          "emitted": "Active"
+        },
+        {
+          "id": "components-counter--states",
+          "name": "States",
+          "exportKey": "States",
+          "emitted": "States"
+        },
+        {
+          "id": "components-counter--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-counter--in-a-list",
+          "name": "In A List",
+          "exportKey": "InAList",
+          "emitted": "InAList"
+        }
+      ]
+    },
+    {
+      "name": "CtaBanner",
+      "group": "compositions",
+      "srcSha": "a1496bacca1d",
+      "sourceKey": "a3c96f8daff3c3b5",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-ctabanner--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-ctabanner--gradient",
+          "name": "Gradient",
+          "exportKey": "Gradient",
+          "emitted": "Gradient"
+        },
+        {
+          "id": "compositions-ctabanner--small",
+          "name": "Small",
+          "exportKey": "Small",
+          "emitted": "Small"
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenu",
+      "group": "components",
+      "srcSha": "41db69b56f56",
+      "sourceKey": "078b670abb357961",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-dropdownmenu--page",
+          "name": "DropdownMenu",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-dropdownmenu--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-dropdownmenu--initially-open",
+          "name": "Initially Open",
+          "exportKey": "InitiallyOpen",
+          "emitted": "InitiallyOpen"
+        },
+        {
+          "id": "components-dropdownmenu--with-selection-items",
+          "name": "With Selection Items",
+          "exportKey": "WithSelectionItems",
+          "emitted": "WithSelectionItems"
+        },
+        {
+          "id": "components-dropdownmenu--item-states",
+          "name": "Item States",
+          "exportKey": "ItemStates",
+          "emitted": "ItemStates"
+        },
+        {
+          "id": "components-dropdownmenu--external-links",
+          "name": "External Links",
+          "exportKey": "ExternalLinks",
+          "emitted": "ExternalLinks"
+        },
+        {
+          "id": "components-dropdownmenu--segmented-item",
+          "name": "Segmented Item",
+          "exportKey": "SegmentedItem",
+          "emitted": "SegmentedItem"
+        },
+        {
+          "id": "components-dropdownmenu--focus-return",
+          "name": "Focus Return",
+          "exportKey": "FocusReturn",
+          "emitted": "FocusReturn"
+        },
+        {
+          "id": "components-dropdownmenu--non-modal-outside-click",
+          "name": "Non Modal Outside Click",
+          "exportKey": "NonModalOutsideClick",
+          "emitted": "NonModalOutsideClick"
+        }
+      ]
+    },
+    {
+      "name": "File",
+      "group": "compositions",
+      "srcSha": "1bede4da24a9",
+      "sourceKey": "d647065bc7a6fc53",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "compositions-file--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-file--name-only",
+          "name": "Name Only",
+          "exportKey": "NameOnly",
+          "emitted": "NameOnly"
+        },
+        {
+          "id": "compositions-file--loading",
+          "name": "Loading",
+          "exportKey": "Loading",
+          "emitted": "Loading"
+        },
+        {
+          "id": "compositions-file--uploading",
+          "name": "Uploading",
+          "exportKey": "Uploading",
+          "emitted": "Uploading"
+        },
+        {
+          "id": "compositions-file--error-state",
+          "name": "Error State",
+          "exportKey": "ErrorState",
+          "emitted": "ErrorState"
+        },
+        {
+          "id": "compositions-file--clickable",
+          "name": "Clickable",
+          "exportKey": "Clickable",
+          "emitted": "Clickable"
+        },
+        {
+          "id": "compositions-file--custom-icon",
+          "name": "Custom Icon",
+          "exportKey": "CustomIcon",
+          "emitted": "CustomIcon"
+        },
+        {
+          "id": "compositions-file--interactive-states",
+          "name": "Interactive States",
+          "exportKey": "InteractiveStates",
+          "emitted": "InteractiveStates"
+        },
+        {
+          "id": "compositions-file--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        }
+      ]
+    },
+    {
+      "name": "FilterChips",
+      "group": "compositions",
+      "srcSha": "a179adb13996",
+      "sourceKey": "2e46490ebccb9e3c",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-filterchips--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-filterchips--with-counts",
+          "name": "With Counts",
+          "exportKey": "WithCounts",
+          "emitted": "WithCounts"
+        },
+        {
+          "id": "compositions-filterchips--overflowing",
+          "name": "Overflowing",
+          "exportKey": "Overflowing",
+          "emitted": "Overflowing"
+        },
+        {
+          "id": "compositions-filterchips--interactive",
+          "name": "Interactive",
+          "exportKey": "Interactive",
+          "emitted": "Interactive"
+        }
+      ]
+    },
+    {
+      "name": "FilterMenu",
+      "group": "compositions",
+      "srcSha": "2a27fa39a4dc",
+      "sourceKey": "d812f34b10d8d5da",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-filtermenu--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-filtermenu--chosen",
+          "name": "Chosen",
+          "exportKey": "Chosen",
+          "emitted": "Chosen"
+        },
+        {
+          "id": "compositions-filtermenu--tree",
+          "name": "Tree",
+          "exportKey": "Tree",
+          "emitted": "Tree"
+        },
+        {
+          "id": "compositions-filtermenu--tree-open",
+          "name": "Tree Open",
+          "exportKey": "TreeOpen",
+          "emitted": "TreeOpen"
+        },
+        {
+          "id": "compositions-filtermenu--interactive",
+          "name": "Interactive",
+          "exportKey": "Interactive",
+          "emitted": "Interactive"
+        }
+      ]
+    },
+    {
+      "name": "GuideCard",
+      "group": "compositions",
+      "srcSha": "5a4e3b76cc1e",
+      "sourceKey": "94ffbf09b68bd1d4",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-guidecard--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-guidecard--with-progress",
+          "name": "With Progress",
+          "exportKey": "WithProgress",
+          "emitted": "WithProgress"
+        },
+        {
+          "id": "compositions-guidecard--minimal",
+          "name": "Minimal",
+          "exportKey": "Minimal",
+          "emitted": "Minimal"
+        },
+        {
+          "id": "compositions-guidecard--last-step",
+          "name": "Last Step",
+          "exportKey": "LastStep",
+          "emitted": "LastStep"
+        },
+        {
+          "id": "compositions-guidecard--sides",
+          "name": "Sides",
+          "exportKey": "Sides",
+          "emitted": "Sides"
+        },
+        {
+          "id": "compositions-guidecard--arrow-offset-from-css-variable",
+          "name": "Arrow Offset From Css Variable",
+          "exportKey": "ArrowOffsetFromCssVariable",
+          "emitted": "ArrowOffsetFromCssVariable"
+        },
+        {
+          "id": "compositions-guidecard--nudge",
+          "name": "Nudge",
+          "exportKey": "Nudge",
+          "emitted": "Nudge"
+        },
+        {
+          "id": "compositions-guidecard--leaving",
+          "name": "Leaving",
+          "exportKey": "Leaving",
+          "emitted": "Leaving"
+        },
+        {
+          "id": "compositions-guidecard--dark-theme",
+          "name": "Dark Theme",
+          "exportKey": "DarkTheme",
+          "emitted": "DarkTheme"
+        }
+      ]
+    },
+    {
+      "name": "HighlightText",
+      "group": "components",
+      "srcSha": "3a420013b3bd",
+      "sourceKey": "2d3430766d93cfcd",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-highlighttext--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-highlighttext--in-a-tree",
+          "name": "In A Tree",
+          "exportKey": "InATree",
+          "emitted": "InATree"
+        }
+      ]
+    },
+    {
+      "name": "IconButton",
+      "group": "components",
+      "srcSha": "6acd0385fc66",
+      "sourceKey": "c60d6536381c62cc",
+      "cfgSlice": "e4124521fd1dcee1f38a0777ef19b1bdc0639887476452bbde02c94ad11c344f",
+      "stories": [
+        {
+          "id": "components-iconbutton--primary",
+          "name": "Primary",
+          "exportKey": "Primary",
+          "emitted": "Primary"
+        },
+        {
+          "id": "components-iconbutton--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-iconbutton--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-iconbutton--loading",
+          "name": "Loading",
+          "exportKey": "Loading",
+          "emitted": "Loading"
+        },
+        {
+          "id": "components-iconbutton--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-iconbutton--with-tooltip",
+          "name": "With Tooltip",
+          "exportKey": "WithTooltip",
+          "emitted": "WithTooltip"
+        },
+        {
+          "id": "components-iconbutton--disabled-with-tooltip",
+          "name": "Disabled With Tooltip",
+          "exportKey": "DisabledWithTooltip",
+          "emitted": "DisabledWithTooltip"
+        }
+      ]
+    },
+    {
+      "name": "IconCard",
+      "group": "compositions",
+      "srcSha": "f9dbc66be392",
+      "sourceKey": "8b269f38979f70cc",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-iconcard--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-iconcard--hover-reveal",
+          "name": "Hover Reveal",
+          "exportKey": "HoverReveal",
+          "emitted": "HoverReveal"
+        },
+        {
+          "id": "compositions-iconcard--unknown-connector",
+          "name": "Unknown Connector",
+          "exportKey": "UnknownConnector",
+          "emitted": "UnknownConnector"
+        },
+        {
+          "id": "compositions-iconcard--long-name",
+          "name": "Long Name",
+          "exportKey": "LongName",
+          "emitted": "LongName"
+        },
+        {
+          "id": "compositions-iconcard--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "compositions-iconcard--loading",
+          "name": "Loading",
+          "exportKey": "Loading",
+          "emitted": "Loading"
+        },
+        {
+          "id": "compositions-iconcard--catalog-grid",
+          "name": "Catalog Grid",
+          "exportKey": "CatalogGrid",
+          "emitted": "CatalogGrid"
+        },
+        {
+          "id": "compositions-iconcard--keyboard",
+          "name": "Keyboard",
+          "exportKey": "Keyboard",
+          "emitted": "Keyboard"
+        },
+        {
+          "id": "compositions-iconcard--disabled-is-inert",
+          "name": "Disabled Is Inert",
+          "exportKey": "DisabledIsInert",
+          "emitted": "DisabledIsInert"
+        }
+      ]
+    },
+    {
+      "name": "IconHint",
+      "group": "components",
+      "srcSha": "94ab94e967ee",
+      "sourceKey": "1daf54abdbf0d543",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-iconhint--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-iconhint--tones",
+          "name": "Tones",
+          "exportKey": "Tones",
+          "emitted": "Tones"
+        },
+        {
+          "id": "components-iconhint--opens-on-keyboard",
+          "name": "Opens On Keyboard",
+          "exportKey": "OpensOnKeyboard",
+          "emitted": "OpensOnKeyboard"
+        }
+      ]
+    },
+    {
+      "name": "InlineRename",
+      "group": "compositions",
+      "srcSha": "ac638fa460fa",
+      "sourceKey": "4ce8ef62a7326e41",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-inlinerename--open",
+          "name": "Open",
+          "exportKey": "Open",
+          "emitted": "Open"
+        },
+        {
+          "id": "compositions-inlinerename--commit",
+          "name": "Commit",
+          "exportKey": "Commit",
+          "emitted": "Commit"
+        },
+        {
+          "id": "compositions-inlinerename--cancel",
+          "name": "Cancel",
+          "exportKey": "Cancel",
+          "emitted": "Cancel"
+        },
+        {
+          "id": "compositions-inlinerename--empty",
+          "name": "Empty",
+          "exportKey": "Empty",
+          "emitted": "Empty"
+        },
+        {
+          "id": "compositions-inlinerename--in-a-row",
+          "name": "In A Row",
+          "exportKey": "InARow",
+          "emitted": "InARow"
+        }
+      ]
+    },
+    {
+      "name": "Input",
+      "group": "components",
+      "srcSha": "4d553af2e46a",
+      "sourceKey": "e8c84e18f1a251c7",
+      "cfgSlice": "0f6abba0c3073ae9ed1941fcb5ab3ffa1cd774e95499c300ba99a3faaa412859",
+      "stories": [
+        {
+          "id": "components-input--digits-only",
+          "name": "Digits Only",
+          "exportKey": "DigitsOnly",
+          "emitted": "DigitsOnly"
+        }
+      ]
+    },
+    {
+      "name": "InputGroup",
+      "group": "components",
+      "srcSha": "ab4e5f35d645",
+      "sourceKey": "b03b5280f5a2c91b",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "proposed-changes-components-inputgroup--page",
+          "name": "InputGroup",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-inputgroup--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-inputgroup--required",
+          "name": "Required",
+          "exportKey": "Required",
+          "emitted": "Required"
+        },
+        {
+          "id": "components-inputgroup--with-leading-icon",
+          "name": "With Leading Icon",
+          "exportKey": "WithLeadingIcon",
+          "emitted": "WithLeadingIcon"
+        },
+        {
+          "id": "components-inputgroup--with-unit",
+          "name": "With Unit",
+          "exportKey": "WithUnit",
+          "emitted": "WithUnit"
+        },
+        {
+          "id": "components-inputgroup--error-state",
+          "name": "Error State",
+          "exportKey": "ErrorState",
+          "emitted": "ErrorState"
+        },
+        {
+          "id": "components-inputgroup--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-inputgroup--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-inputgroup--search-with-clear",
+          "name": "Search With Clear",
+          "exportKey": "SearchWithClear",
+          "emitted": "SearchWithClear"
+        }
+      ]
+    },
+    {
+      "name": "LinkButton",
+      "group": "components",
+      "srcSha": "358d210ada8e",
+      "sourceKey": "c7a576ab8db85030",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-linkbutton--primary",
+          "name": "Primary",
+          "exportKey": "Primary",
+          "emitted": "Primary"
+        },
+        {
+          "id": "components-linkbutton--in-text",
+          "name": "In Text",
+          "exportKey": "InText",
+          "emitted": "InText"
+        },
+        {
+          "id": "components-linkbutton--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-linkbutton--with-trailing-glyph",
+          "name": "With Trailing Glyph",
+          "exportKey": "WithTrailingGlyph",
+          "emitted": "WithTrailingGlyph"
+        },
+        {
+          "id": "components-linkbutton--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-linkbutton--inline",
+          "name": "Inline",
+          "exportKey": "Inline",
+          "emitted": "Inline"
+        },
+        {
+          "id": "components-linkbutton--as-button",
+          "name": "As Button",
+          "exportKey": "AsButton",
+          "emitted": "AsButton"
+        }
+      ]
+    },
+    {
+      "name": "ListPageLayout",
+      "group": "components",
+      "srcSha": "c5ee57963754",
+      "sourceKey": "a7663aa0a722f720",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-listpagelayout--page",
+          "name": "ListPageLayout",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-listpagelayout--with-sticky-header",
+          "name": "Sticky header (small screens only)",
+          "exportKey": "WithStickyHeader",
+          "emitted": "WithStickyHeader"
+        },
+        {
+          "id": "components-listpagelayout--without-header",
+          "name": "Without Header",
+          "exportKey": "WithoutHeader",
+          "emitted": "WithoutHeader"
+        },
+        {
+          "id": "components-listpagelayout--short-content",
+          "name": "Short Content",
+          "exportKey": "ShortContent",
+          "emitted": "ShortContent"
+        },
+        {
+          "id": "components-listpagelayout--narrow-column",
+          "name": "Narrow Column",
+          "exportKey": "NarrowColumn",
+          "emitted": "NarrowColumn"
+        },
+        {
+          "id": "components-listpagelayout--condensing-header",
+          "name": "Condensing header (small screens only)",
+          "exportKey": "CondensingHeader",
+          "emitted": "CondensingHeader"
+        },
+        {
+          "id": "components-listpagelayout--condensing-header-tablet",
+          "name": "Condensing header (tablet)",
+          "exportKey": "CondensingHeaderTablet",
+          "emitted": "CondensingHeaderTablet"
+        },
+        {
+          "id": "components-listpagelayout--condensing-header-wide-screen",
+          "name": "Condensing header (wide screens: never)",
+          "exportKey": "CondensingHeaderWideScreen",
+          "emitted": "CondensingHeaderWideScreen"
+        },
+        {
+          "id": "components-listpagelayout--body-inset",
+          "name": "Body Inset",
+          "exportKey": "BodyInset",
+          "emitted": "BodyInset"
+        }
+      ]
+    },
+    {
+      "name": "ListSelectionBar",
+      "group": "compositions",
+      "srcSha": "1f3711903b5e",
+      "sourceKey": "a71e4d2192527921",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-listselectionbar--idle",
+          "name": "Idle",
+          "exportKey": "Idle",
+          "emitted": "Idle"
+        },
+        {
+          "id": "compositions-listselectionbar--selecting",
+          "name": "Selecting",
+          "exportKey": "Selecting",
+          "emitted": "Selecting"
+        },
+        {
+          "id": "compositions-listselectionbar--all-selected",
+          "name": "All Selected",
+          "exportKey": "AllSelected",
+          "emitted": "AllSelected"
+        },
+        {
+          "id": "compositions-listselectionbar--empty-list",
+          "name": "Empty List",
+          "exportKey": "EmptyList",
+          "emitted": "EmptyList"
+        },
+        {
+          "id": "compositions-listselectionbar--pending",
+          "name": "Pending",
+          "exportKey": "Pending",
+          "emitted": "Pending"
+        },
+        {
+          "id": "compositions-listselectionbar--with-actions",
+          "name": "With Actions",
+          "exportKey": "WithActions",
+          "emitted": "WithActions"
+        },
+        {
+          "id": "compositions-listselectionbar--sticky",
+          "name": "Sticky",
+          "exportKey": "Sticky",
+          "emitted": "Sticky"
+        },
+        {
+          "id": "compositions-listselectionbar--interactive",
+          "name": "Interactive",
+          "exportKey": "Interactive",
+          "emitted": "Interactive"
+        }
+      ]
+    },
+    {
+      "name": "MetaRow",
+      "group": "compositions",
+      "srcSha": "a529d5c745f5",
+      "sourceKey": "f93b43d0c1f48214",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-metarow--playground",
+          "name": "Playground",
+          "exportKey": "Playground",
+          "emitted": "Playground"
+        },
+        {
+          "id": "compositions-metarow--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-metarow--with-selection",
+          "name": "With Selection",
+          "exportKey": "WithSelection",
+          "emitted": "WithSelection"
+        },
+        {
+          "id": "compositions-metarow--above-a-list",
+          "name": "Above A List",
+          "exportKey": "AboveAList",
+          "emitted": "AboveAList"
+        },
+        {
+          "id": "compositions-metarow--between",
+          "name": "Between",
+          "exportKey": "Between",
+          "emitted": "Between"
+        },
+        {
+          "id": "compositions-metarow--stable-height",
+          "name": "Stable Height",
+          "exportKey": "StableHeight",
+          "emitted": "StableHeight"
+        },
+        {
+          "id": "compositions-metarow--sticky",
+          "name": "Sticky",
+          "exportKey": "Sticky",
+          "emitted": "Sticky"
+        },
+        {
+          "id": "compositions-metarow--sticky-under-a-header",
+          "name": "Sticky Under A Header",
+          "exportKey": "StickyUnderAHeader",
+          "emitted": "StickyUnderAHeader"
+        },
+        {
+          "id": "compositions-metarow--stable-height-check",
+          "name": "Stable Height Check",
+          "exportKey": "StableHeightCheck",
+          "emitted": "StableHeightCheck"
+        }
+      ]
+    },
+    {
+      "name": "Modal",
+      "group": "components",
+      "srcSha": "cfd8b19a4642",
+      "sourceKey": "6e0e849b798ef52c",
+      "cfgSlice": "043fa2380fcfb72d0c17462eec6779f998888dfc7305e9f30d94b2582d005dd6",
+      "stories": [
+        {
+          "id": "proposed-changes-components-modal--page",
+          "name": "Modal",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-modal--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-modal--destructive",
+          "name": "Destructive",
+          "exportKey": "Destructive",
+          "emitted": "Destructive"
+        },
+        {
+          "id": "components-modal--initially-open",
+          "name": "Initially Open",
+          "exportKey": "InitiallyOpen",
+          "emitted": "InitiallyOpen"
+        },
+        {
+          "id": "components-modal--with-description",
+          "name": "With Description",
+          "exportKey": "WithDescription",
+          "emitted": "WithDescription"
+        },
+        {
+          "id": "components-modal--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        }
+      ]
+    },
+    {
+      "name": "Motion",
+      "group": "foundations",
+      "srcSha": "d290ab1d35ff",
+      "sourceKey": "c68a51f7b79c1695",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "foundations-motion--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        }
+      ]
+    },
+    {
+      "name": "PageHeader",
+      "group": "components",
+      "srcSha": "475991f0b63c",
+      "sourceKey": "118d173312ea5920",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-pageheader--page",
+          "name": "PageHeader",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-pageheader--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-pageheader--with-back",
+          "name": "With Back",
+          "exportKey": "WithBack",
+          "emitted": "WithBack"
+        },
+        {
+          "id": "components-pageheader--with-actions",
+          "name": "With Actions",
+          "exportKey": "WithActions",
+          "emitted": "WithActions"
+        },
+        {
+          "id": "components-pageheader--back-and-actions",
+          "name": "Back And Actions",
+          "exportKey": "BackAndActions",
+          "emitted": "BackAndActions"
+        },
+        {
+          "id": "components-pageheader--with-title-right",
+          "name": "With Title Right",
+          "exportKey": "WithTitleRight",
+          "emitted": "WithTitleRight"
+        },
+        {
+          "id": "components-pageheader--with-title-left-and-right",
+          "name": "With Title Left And Right",
+          "exportKey": "WithTitleLeftAndRight",
+          "emitted": "WithTitleLeftAndRight"
+        },
+        {
+          "id": "components-pageheader--with-title-right-and-actions",
+          "name": "With Title Right And Actions",
+          "exportKey": "WithTitleRightAndActions",
+          "emitted": "WithTitleRightAndActions"
+        },
+        {
+          "id": "components-pageheader--long-title",
+          "name": "Long Title",
+          "exportKey": "LongTitle",
+          "emitted": "LongTitle"
+        },
+        {
+          "id": "components-pageheader--wrap-title",
+          "name": "Wrap Title",
+          "exportKey": "WrapTitle",
+          "emitted": "WrapTitle"
+        },
+        {
+          "id": "components-pageheader--wrap-title-on-phone",
+          "name": "Wrap title (phone)",
+          "exportKey": "WrapTitleOnPhone",
+          "emitted": "WrapTitleOnPhone"
+        },
+        {
+          "id": "components-pageheader--condensed",
+          "name": "Condensed",
+          "exportKey": "Condensed",
+          "emitted": "Condensed"
+        },
+        {
+          "id": "components-pageheader--condensed-wrap-title",
+          "name": "Condensed Wrap Title",
+          "exportKey": "CondensedWrapTitle",
+          "emitted": "CondensedWrapTitle"
+        },
+        {
+          "id": "components-pageheader--loading",
+          "name": "Loading",
+          "exportKey": "Loading",
+          "emitted": "Loading"
+        },
+        {
+          "id": "components-pageheader--loading-with-custom-content",
+          "name": "Loading With Custom Content",
+          "exportKey": "LoadingWithCustomContent",
+          "emitted": "LoadingWithCustomContent"
+        },
+        {
+          "id": "components-pageheader--title-left-only",
+          "name": "Title Left Only",
+          "exportKey": "TitleLeftOnly",
+          "emitted": "TitleLeftOnly"
+        }
+      ]
+    },
+    {
+      "name": "Pagination",
+      "group": "components",
+      "srcSha": "c5f333256946",
+      "sourceKey": "f8aa698707767065",
+      "cfgSlice": "4ecfffd7b94a985b06f14ef221628a8a1e486320fede848b9b8471d9bebde347",
+      "stories": [
+        {
+          "id": "proposed-changes-components-pagination--page",
+          "name": "Pagination",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-pagination--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-pagination--first-page",
+          "name": "First Page",
+          "exportKey": "FirstPage",
+          "emitted": "FirstPage"
+        },
+        {
+          "id": "compositions-pagination--last-page",
+          "name": "Last Page",
+          "exportKey": "LastPage",
+          "emitted": "LastPage"
+        },
+        {
+          "id": "compositions-pagination--few-pages",
+          "name": "Few Pages",
+          "exportKey": "FewPages",
+          "emitted": "FewPages"
+        },
+        {
+          "id": "compositions-pagination--interactive",
+          "name": "Interactive",
+          "exportKey": "Interactive",
+          "emitted": "Interactive"
+        },
+        {
+          "id": "compositions-pagination--with-range",
+          "name": "With Range",
+          "exportKey": "WithRange",
+          "emitted": "WithRange"
+        }
+      ]
+    },
+    {
+      "name": "PasswordInput",
+      "group": "compositions",
+      "srcSha": "7a0f366102c2",
+      "sourceKey": "fbfec082fb39b577",
+      "cfgSlice": "c78bc5c3dc2ecc69329335bfc1433eaa62e0b6b4ab765441b2a9ad6eb22701fc",
+      "stories": [
+        {
+          "id": "compositions-passwordinput--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-passwordinput--with-label",
+          "name": "With Label",
+          "exportKey": "WithLabel",
+          "emitted": "WithLabel"
+        },
+        {
+          "id": "compositions-passwordinput--with-value",
+          "name": "With Value",
+          "exportKey": "WithValue",
+          "emitted": "WithValue"
+        },
+        {
+          "id": "compositions-passwordinput--error-state",
+          "name": "Error State",
+          "exportKey": "ErrorState",
+          "emitted": "ErrorState"
+        },
+        {
+          "id": "compositions-passwordinput--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "compositions-passwordinput--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        }
+      ]
+    },
+    {
+      "name": "PinToggle",
+      "group": "compositions",
+      "srcSha": "ca1d8c2ea6f4",
+      "sourceKey": "bbbcc05298952622",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-pintoggle--unpinned",
+          "name": "Unpinned",
+          "exportKey": "Unpinned",
+          "emitted": "Unpinned"
+        },
+        {
+          "id": "compositions-pintoggle--pinned",
+          "name": "Pinned",
+          "exportKey": "Pinned",
+          "emitted": "Pinned"
+        },
+        {
+          "id": "compositions-pintoggle--toggling",
+          "name": "Toggling",
+          "exportKey": "Toggling",
+          "emitted": "Toggling"
+        },
+        {
+          "id": "compositions-pintoggle--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "compositions-pintoggle--in-a-row",
+          "name": "In A Row",
+          "exportKey": "InARow",
+          "emitted": "InARow"
+        }
+      ]
+    },
+    {
+      "name": "Popover",
+      "group": "components",
+      "srcSha": "67867a432e44",
+      "sourceKey": "29bcaebf4b0324eb",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-popover--page",
+          "name": "Popover",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-popover--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-popover--initially-open",
+          "name": "Initially Open",
+          "exportKey": "InitiallyOpen",
+          "emitted": "InitiallyOpen"
+        },
+        {
+          "id": "components-popover--sides",
+          "name": "Sides",
+          "exportKey": "Sides",
+          "emitted": "Sides"
+        },
+        {
+          "id": "components-popover--opens-on-hover",
+          "name": "Opens On Hover",
+          "exportKey": "OpensOnHover",
+          "emitted": "OpensOnHover"
+        },
+        {
+          "id": "components-popover--pins-on-click",
+          "name": "Pins On Click",
+          "exportKey": "PinsOnClick",
+          "emitted": "PinsOnClick"
+        },
+        {
+          "id": "components-popover--follows-pointer-without-pin",
+          "name": "Follows Pointer Without Pin",
+          "exportKey": "FollowsPointerWithoutPin",
+          "emitted": "FollowsPointerWithoutPin"
+        },
+        {
+          "id": "components-popover--opens-by-keyboard",
+          "name": "Opens By Keyboard",
+          "exportKey": "OpensByKeyboard",
+          "emitted": "OpensByKeyboard"
+        },
+        {
+          "id": "components-popover--mouse-click-keeps-focus",
+          "name": "Mouse Click Keeps Focus",
+          "exportKey": "MouseClickKeepsFocus",
+          "emitted": "MouseClickKeepsFocus"
+        },
+        {
+          "id": "components-popover--child-cancelled-click-still-toggles",
+          "name": "Child Cancelled Click Still Toggles",
+          "exportKey": "ChildCancelledClickStillToggles",
+          "emitted": "ChildCancelledClickStillToggles"
+        },
+        {
+          "id": "components-popover--opens-by-tap",
+          "name": "Opens By Tap",
+          "exportKey": "OpensByTap",
+          "emitted": "OpensByTap"
+        },
+        {
+          "id": "components-popover--inside-dropdown-menu",
+          "name": "Inside Dropdown Menu",
+          "exportKey": "InsideDropdownMenu",
+          "emitted": "InsideDropdownMenu"
+        },
+        {
+          "id": "components-popover--fallback-side-on-narrow-viewport",
+          "name": "Fallback Side On Narrow Viewport",
+          "exportKey": "FallbackSideOnNarrowViewport",
+          "emitted": "FallbackSideOnNarrowViewport"
+        },
+        {
+          "id": "components-popover--preferred-side-on-wide-viewport",
+          "name": "Preferred Side On Wide Viewport",
+          "exportKey": "PreferredSideOnWideViewport",
+          "emitted": "PreferredSideOnWideViewport"
+        },
+        {
+          "id": "components-popover--closes-on-viewport-change",
+          "name": "Closes On Viewport Change",
+          "exportKey": "ClosesOnViewportChange",
+          "emitted": "ClosesOnViewportChange"
+        }
+      ]
+    },
+    {
+      "name": "ProgressBar",
+      "group": "components",
+      "srcSha": "6b2c5a1efa5d",
+      "sourceKey": "5f9a90be32a5366f",
+      "cfgSlice": "4ecfffd7b94a985b06f14ef221628a8a1e486320fede848b9b8471d9bebde347",
+      "stories": [
+        {
+          "id": "proposed-changes-components-progressbar--page",
+          "name": "ProgressBar",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-progressbar--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-progressbar--empty",
+          "name": "Empty",
+          "exportKey": "Empty",
+          "emitted": "Empty"
+        },
+        {
+          "id": "components-progressbar--half",
+          "name": "Half",
+          "exportKey": "Half",
+          "emitted": "Half"
+        },
+        {
+          "id": "components-progressbar--full",
+          "name": "Full",
+          "exportKey": "Full",
+          "emitted": "Full"
+        },
+        {
+          "id": "components-progressbar--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-progressbar--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-progressbar--states",
+          "name": "States",
+          "exportKey": "States",
+          "emitted": "States"
+        }
+      ]
+    },
+    {
+      "name": "PromoCard",
+      "group": "components",
+      "srcSha": "8917a211e5a9",
+      "sourceKey": "97b3773847e667ea",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-promocard--page",
+          "name": "PromoCard",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-promocard--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-promocard--dismissible",
+          "name": "Dismissible",
+          "exportKey": "Dismissible",
+          "emitted": "Dismissible"
+        },
+        {
+          "id": "compositions-promocard--not-a-plan",
+          "name": "Not A Plan",
+          "exportKey": "NotAPlan",
+          "emitted": "NotAPlan"
+        },
+        {
+          "id": "compositions-promocard--as-button",
+          "name": "As Button",
+          "exportKey": "AsButton",
+          "emitted": "AsButton"
+        }
+      ]
+    },
+    {
+      "name": "RadioButton",
+      "group": "components",
+      "srcSha": "c7bc43638272",
+      "sourceKey": "a91d2c65eb579b74",
+      "cfgSlice": "05694aa12d091d171ef6cd172e646b2da36a818b7999cf854251c953c12e3a67",
+      "stories": [
+        {
+          "id": "components-radiobutton--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-radiobutton--group",
+          "name": "Group",
+          "exportKey": "Group",
+          "emitted": "Group"
+        },
+        {
+          "id": "components-radiobutton--selected",
+          "name": "Selected",
+          "exportKey": "Selected",
+          "emitted": "Selected"
+        },
+        {
+          "id": "components-radiobutton--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-radiobutton--error-state",
+          "name": "Error State",
+          "exportKey": "ErrorState",
+          "emitted": "ErrorState"
+        },
+        {
+          "id": "components-radiobutton--label-positions",
+          "name": "Label Positions",
+          "exportKey": "LabelPositions",
+          "emitted": "LabelPositions"
+        }
+      ]
+    },
+    {
+      "name": "Radius",
+      "group": "foundations",
+      "srcSha": "7cc14667d7c0",
+      "sourceKey": "673a838ca09e60f7",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "foundations-radius--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        }
+      ]
+    },
+    {
+      "name": "ResizableMainSideLayout",
+      "group": "components",
+      "srcSha": "018f1d6b0306",
+      "sourceKey": "bc78b37c4c8d75ee",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-resizablemainsidelayout--open",
+          "name": "Open",
+          "exportKey": "Open",
+          "emitted": "Open"
+        },
+        {
+          "id": "components-resizablemainsidelayout--collapsed",
+          "name": "Collapsed",
+          "exportKey": "Collapsed",
+          "emitted": "Collapsed"
+        },
+        {
+          "id": "components-resizablemainsidelayout--custom-sizes",
+          "name": "Custom Sizes",
+          "exportKey": "CustomSizes",
+          "emitted": "CustomSizes"
+        },
+        {
+          "id": "components-resizablemainsidelayout--interactive",
+          "name": "Interactive",
+          "exportKey": "Interactive",
+          "emitted": "Interactive"
+        }
+      ]
+    },
+    {
+      "name": "ResizablePanelGroup",
+      "group": "components",
+      "srcSha": "426396ca9aeb",
+      "sourceKey": "953f10ed850caee3",
+      "cfgSlice": "31dfdfc787399dc202b0c84db6d40be06b10257fd5b077c64ab51cf279527475",
+      "stories": [
+        {
+          "id": "components-resizable--horizontal",
+          "name": "Horizontal",
+          "exportKey": "Horizontal",
+          "emitted": "Horizontal"
+        },
+        {
+          "id": "components-resizable--vertical",
+          "name": "Vertical",
+          "exportKey": "Vertical",
+          "emitted": "Vertical"
+        },
+        {
+          "id": "components-resizable--three-panels",
+          "name": "Three Panels",
+          "exportKey": "ThreePanels",
+          "emitted": "ThreePanels"
+        }
+      ]
+    },
+    {
+      "name": "RowMenuButton",
+      "group": "compositions",
+      "srcSha": "27e9edfb01e6",
+      "sourceKey": "6f5d5b66d608918e",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-rowmenubutton--in-a-row",
+          "name": "In A Row",
+          "exportKey": "InARow",
+          "emitted": "InARow"
+        },
+        {
+          "id": "compositions-rowmenubutton--open",
+          "name": "Open",
+          "exportKey": "Open",
+          "emitted": "Open"
+        },
+        {
+          "id": "compositions-rowmenubutton--always-shown",
+          "name": "Always Shown",
+          "exportKey": "AlwaysShown",
+          "emitted": "AlwaysShown"
+        },
+        {
+          "id": "compositions-rowmenubutton--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        }
+      ]
+    },
+    {
+      "name": "ScrollShadow",
+      "group": "components",
+      "srcSha": "39e93fba6613",
+      "sourceKey": "5cc788de0554d9b2",
+      "cfgSlice": "e4124521fd1dcee1f38a0777ef19b1bdc0639887476452bbde02c94ad11c344f",
+      "stories": [
+        {
+          "id": "components-scrollshadow--vertical",
+          "name": "Vertical",
+          "exportKey": "Vertical",
+          "emitted": "Vertical"
+        },
+        {
+          "id": "components-scrollshadow--horizontal",
+          "name": "Horizontal",
+          "exportKey": "Horizontal",
+          "emitted": "Horizontal"
+        }
+      ]
+    },
+    {
+      "name": "SearchInput",
+      "group": "components",
+      "srcSha": "fe3ae5215798",
+      "sourceKey": "1e0cb00dff25f3e9",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-searchinput--page",
+          "name": "SearchInput",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-searchinput--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-searchinput--with-value",
+          "name": "With Value",
+          "exportKey": "WithValue",
+          "emitted": "WithValue"
+        },
+        {
+          "id": "compositions-searchinput--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "compositions-searchinput--with-results",
+          "name": "With Results",
+          "exportKey": "WithResults",
+          "emitted": "WithResults"
+        }
+      ]
+    },
+    {
+      "name": "SegmentedControl",
+      "group": "components",
+      "srcSha": "a781a5063ac2",
+      "sourceKey": "0b0ea58336e0822b",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-segmentedcontrol--page",
+          "name": "SegmentedControl",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-segmentedcontrol--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-segmentedcontrol--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-segmentedcontrol--tones",
+          "name": "Tones",
+          "exportKey": "Tones",
+          "emitted": "Tones"
+        },
+        {
+          "id": "components-segmentedcontrol--deselectable",
+          "name": "Deselectable",
+          "exportKey": "Deselectable",
+          "emitted": "Deselectable"
+        },
+        {
+          "id": "components-segmentedcontrol--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-segmentedcontrol--tinted",
+          "name": "Tinted",
+          "exportKey": "Tinted",
+          "emitted": "Tinted"
+        },
+        {
+          "id": "components-segmentedcontrol--rounded",
+          "name": "Rounded",
+          "exportKey": "Rounded",
+          "emitted": "Rounded"
+        }
+      ]
+    },
+    {
+      "name": "Select",
+      "group": "compositions",
+      "srcSha": "9fbfe071379a",
+      "sourceKey": "11d39c7caa79e51c",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-select--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-select--with-value",
+          "name": "With Value",
+          "exportKey": "WithValue",
+          "emitted": "WithValue"
+        },
+        {
+          "id": "compositions-select--clearable",
+          "name": "Clearable",
+          "exportKey": "Clearable",
+          "emitted": "Clearable"
+        },
+        {
+          "id": "compositions-select--clear-on-click",
+          "name": "Clear On Click",
+          "exportKey": "ClearOnClick",
+          "emitted": "ClearOnClick"
+        },
+        {
+          "id": "compositions-select--unknown-value",
+          "name": "Unknown Value",
+          "exportKey": "UnknownValue",
+          "emitted": "UnknownValue"
+        },
+        {
+          "id": "compositions-select--required",
+          "name": "Required",
+          "exportKey": "Required",
+          "emitted": "Required"
+        },
+        {
+          "id": "compositions-select--in-a-form",
+          "name": "In A Form",
+          "exportKey": "InAForm",
+          "emitted": "InAForm"
+        },
+        {
+          "id": "compositions-select--empty-id-option",
+          "name": "Empty Id Option",
+          "exportKey": "EmptyIdOption",
+          "emitted": "EmptyIdOption"
+        },
+        {
+          "id": "compositions-select--long-list",
+          "name": "Long List",
+          "exportKey": "LongList",
+          "emitted": "LongList"
+        },
+        {
+          "id": "compositions-select--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "compositions-select--error-state",
+          "name": "Error State",
+          "exportKey": "ErrorState",
+          "emitted": "ErrorState"
+        },
+        {
+          "id": "compositions-select--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        }
+      ]
+    },
+    {
+      "name": "SelectableListCard",
+      "group": "components",
+      "srcSha": "d7fd15efca36",
+      "sourceKey": "f839a2d97a0fee53",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-selectablelistcard--page",
+          "name": "SelectableListCard",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-selectablelistcard--row",
+          "name": "Row",
+          "exportKey": "Row",
+          "emitted": "Row"
+        },
+        {
+          "id": "compositions-selectablelistcard--row-selected",
+          "name": "Row Selected",
+          "exportKey": "RowSelected",
+          "emitted": "RowSelected"
+        },
+        {
+          "id": "compositions-selectablelistcard--card",
+          "name": "Card",
+          "exportKey": "Card",
+          "emitted": "Card"
+        },
+        {
+          "id": "compositions-selectablelistcard--card-idle",
+          "name": "Card Idle",
+          "exportKey": "CardIdle",
+          "emitted": "CardIdle"
+        },
+        {
+          "id": "compositions-selectablelistcard--card-with-selection",
+          "name": "Card With Selection",
+          "exportKey": "CardWithSelection",
+          "emitted": "CardWithSelection"
+        },
+        {
+          "id": "compositions-selectablelistcard--row-keyboard",
+          "name": "Row Keyboard",
+          "exportKey": "RowKeyboard",
+          "emitted": "RowKeyboard"
+        },
+        {
+          "id": "compositions-selectablelistcard--row-with-menu",
+          "name": "Row With Menu",
+          "exportKey": "RowWithMenu",
+          "emitted": "RowWithMenu"
+        },
+        {
+          "id": "compositions-selectablelistcard--row-selected-with-menu",
+          "name": "Row Selected With Menu",
+          "exportKey": "RowSelectedWithMenu",
+          "emitted": "RowSelectedWithMenu"
+        },
+        {
+          "id": "compositions-selectablelistcard--interactive",
+          "name": "Interactive",
+          "exportKey": "Interactive",
+          "emitted": "Interactive"
+        }
+      ]
+    },
+    {
+      "name": "Separator",
+      "group": "components",
+      "srcSha": "02184db204f0",
+      "sourceKey": "34309333ee347fcb",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-separator--horizontal",
+          "name": "Horizontal",
+          "exportKey": "Horizontal",
+          "emitted": "Horizontal"
+        },
+        {
+          "id": "components-separator--vertical",
+          "name": "Vertical",
+          "exportKey": "Vertical",
+          "emitted": "Vertical"
+        },
+        {
+          "id": "components-separator--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        }
+      ]
+    },
+    {
+      "name": "Shadows",
+      "group": "foundations",
+      "srcSha": "9d30d3220759",
+      "sourceKey": "003fc3759c3e0100",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "foundations-shadows--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        }
+      ]
+    },
+    {
+      "name": "Sheet",
+      "group": "components",
+      "srcSha": "af2247687df9",
+      "sourceKey": "b7e8ef76cf7a9ee2",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-sheet--page",
+          "name": "Sheet",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-sheet--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-sheet--initially-open",
+          "name": "Initially Open",
+          "exportKey": "InitiallyOpen",
+          "emitted": "InitiallyOpen"
+        },
+        {
+          "id": "components-sheet--sides",
+          "name": "Sides",
+          "exportKey": "Sides",
+          "emitted": "Sides"
+        },
+        {
+          "id": "components-sheet--without-close-button",
+          "name": "Without Close Button",
+          "exportKey": "WithoutCloseButton",
+          "emitted": "WithoutCloseButton"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar",
+      "group": "components",
+      "srcSha": "e8b141295a5c",
+      "sourceKey": "aefeffc9a3414832",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "proposed-changes-components-sidebar--page",
+          "name": "Sidebar",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-sidebar--expanded",
+          "name": "Expanded",
+          "exportKey": "Expanded",
+          "emitted": "Expanded"
+        },
+        {
+          "id": "compositions-sidebar--with-promo",
+          "name": "With Promo",
+          "exportKey": "WithPromo",
+          "emitted": "WithPromo"
+        },
+        {
+          "id": "compositions-sidebar--collapsed-icon",
+          "name": "Collapsed Icon",
+          "exportKey": "CollapsedIcon",
+          "emitted": "CollapsedIcon"
+        },
+        {
+          "id": "compositions-sidebar--floating-variant",
+          "name": "Floating Variant",
+          "exportKey": "FloatingVariant",
+          "emitted": "FloatingVariant"
+        },
+        {
+          "id": "compositions-sidebar--inset-variant",
+          "name": "Inset Variant",
+          "exportKey": "InsetVariant",
+          "emitted": "InsetVariant"
+        },
+        {
+          "id": "compositions-sidebar--nested-group",
+          "name": "Nested Group",
+          "exportKey": "NestedGroup",
+          "emitted": "NestedGroup"
+        },
+        {
+          "id": "compositions-sidebar--app-shell",
+          "name": "App Shell",
+          "exportKey": "AppShell",
+          "emitted": "AppShell"
+        },
+        {
+          "id": "compositions-sidebar--mobile-overlay",
+          "name": "Mobile Overlay",
+          "exportKey": "MobileOverlay",
+          "emitted": "MobileOverlay"
+        },
+        {
+          "id": "compositions-sidebar--row-states",
+          "name": "Row States",
+          "exportKey": "RowStates",
+          "emitted": "RowStates"
+        },
+        {
+          "id": "compositions-sidebar--chat-item-states",
+          "name": "Chat Item States",
+          "exportKey": "ChatItemStates",
+          "emitted": "ChatItemStates"
+        },
+        {
+          "id": "compositions-sidebar--chat-items-on-a-phone",
+          "name": "Chat Items On A Phone",
+          "exportKey": "ChatItemsOnAPhone",
+          "emitted": "ChatItemsOnAPhone"
+        },
+        {
+          "id": "compositions-sidebar--footer-rows",
+          "name": "Footer Rows",
+          "exportKey": "FooterRows",
+          "emitted": "FooterRows"
+        },
+        {
+          "id": "compositions-sidebar--leaving-the-phone-layout",
+          "name": "Leaving The Phone Layout",
+          "exportKey": "LeavingThePhoneLayout",
+          "emitted": "LeavingThePhoneLayout"
+        }
+      ]
+    },
+    {
+      "name": "SidebarMenuRow",
+      "group": "sidebar",
+      "srcSha": "2a8cf7caef4e",
+      "sourceKey": "a06d2676a43cd1fa",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-sidebar-sidebarmenurow--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-sidebar-sidebarmenurow--external",
+          "name": "External",
+          "exportKey": "External",
+          "emitted": "External"
+        },
+        {
+          "id": "compositions-sidebar-sidebarmenurow--without-icon",
+          "name": "Without Icon",
+          "exportKey": "WithoutIcon",
+          "emitted": "WithoutIcon"
+        },
+        {
+          "id": "compositions-sidebar-sidebarmenurow--menu",
+          "name": "Menu",
+          "exportKey": "Menu",
+          "emitted": "Menu"
+        }
+      ]
+    },
+    {
+      "name": "SidebarMobileTrigger",
+      "group": "sidebar",
+      "srcSha": "1659988a6e2c",
+      "sourceKey": "eaeebd25280357c5",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-sidebar-sidebarmobiletrigger--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-sidebar-sidebarmobiletrigger--secondary",
+          "name": "Secondary",
+          "exportKey": "Secondary",
+          "emitted": "Secondary"
+        },
+        {
+          "id": "compositions-sidebar-sidebarmobiletrigger--own-glyph",
+          "name": "Own Glyph",
+          "exportKey": "OwnGlyph",
+          "emitted": "OwnGlyph"
+        },
+        {
+          "id": "compositions-sidebar-sidebarmobiletrigger--with-tooltip",
+          "name": "With Tooltip",
+          "exportKey": "WithTooltip",
+          "emitted": "WithTooltip"
+        }
+      ]
+    },
+    {
+      "name": "SidebarNavItem",
+      "group": "sidebar",
+      "srcSha": "cf59f810eacb",
+      "sourceKey": "1899f350a192ea10",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-sidebar-sidebarnavitem--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-sidebar-sidebarnavitem--navigation",
+          "name": "Navigation",
+          "exportKey": "Navigation",
+          "emitted": "Navigation"
+        },
+        {
+          "id": "compositions-sidebar-sidebarnavitem--collapsed-rail",
+          "name": "Collapsed Rail",
+          "exportKey": "CollapsedRail",
+          "emitted": "CollapsedRail"
+        },
+        {
+          "id": "compositions-sidebar-sidebarnavitem--active",
+          "name": "Active",
+          "exportKey": "Active",
+          "emitted": "Active"
+        },
+        {
+          "id": "compositions-sidebar-sidebarnavitem--not-activatable",
+          "name": "Not Activatable",
+          "exportKey": "NotActivatable",
+          "emitted": "NotActivatable"
+        },
+        {
+          "id": "compositions-sidebar-sidebarnavitem--with-badge",
+          "name": "With Badge",
+          "exportKey": "WithBadge",
+          "emitted": "WithBadge"
+        },
+        {
+          "id": "compositions-sidebar-sidebarnavitem--with-badge-collapsed",
+          "name": "With Badge Collapsed",
+          "exportKey": "WithBadgeCollapsed",
+          "emitted": "WithBadgeCollapsed"
+        },
+        {
+          "id": "compositions-sidebar-sidebarnavitem--element-icon",
+          "name": "Element Icon",
+          "exportKey": "ElementIcon",
+          "emitted": "ElementIcon"
+        }
+      ]
+    },
+    {
+      "name": "SidebarPanelHeader",
+      "group": "sidebar",
+      "srcSha": "023b7599f49d",
+      "sourceKey": "898a6c2d1460279a",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-sidebar-sidebarpanelheader--expanded",
+          "name": "Expanded",
+          "exportKey": "Expanded",
+          "emitted": "Expanded"
+        },
+        {
+          "id": "compositions-sidebar-sidebarpanelheader--collapsed-rail",
+          "name": "Collapsed Rail",
+          "exportKey": "CollapsedRail",
+          "emitted": "CollapsedRail"
+        }
+      ]
+    },
+    {
+      "name": "SidebarTrigger",
+      "group": "sidebar",
+      "srcSha": "aa63b5852153",
+      "sourceKey": "13fc69aa0ab2adfe",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-sidebar-sidebartrigger--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-sidebar-sidebartrigger--with-tooltip",
+          "name": "With Tooltip",
+          "exportKey": "WithTooltip",
+          "emitted": "WithTooltip"
+        }
+      ]
+    },
+    {
+      "name": "SingleDatePicker",
+      "group": "components",
+      "srcSha": "05aeaf413c6b",
+      "sourceKey": "547f4633ded0cdfd",
+      "cfgSlice": "76c18342b89823b9fa51aeda4ccf1a0428d77e3a4a6c5cb451b17a8b2ffe3fda",
+      "stories": [
+        {
+          "id": "proposed-changes-components-datepicker--page",
+          "name": "Datepicker",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-datepicker--single",
+          "name": "Single",
+          "exportKey": "Single",
+          "emitted": "Single"
+        },
+        {
+          "id": "compositions-datepicker--range",
+          "name": "Range",
+          "exportKey": "Range",
+          "emitted": "Range"
+        },
+        {
+          "id": "compositions-datepicker--calendar-single",
+          "name": "Calendar Single",
+          "exportKey": "CalendarSingle",
+          "emitted": "CalendarSingle"
+        },
+        {
+          "id": "compositions-datepicker--calendar-range",
+          "name": "Calendar Range",
+          "exportKey": "CalendarRange",
+          "emitted": "CalendarRange"
+        }
+      ]
+    },
+    {
+      "name": "Skeleton",
+      "group": "components",
+      "srcSha": "bff339a270bf",
+      "sourceKey": "3560008abb8bafe3",
+      "cfgSlice": "6e2c3a02e4b2e0a38b091f90815166c0ead49bb092c0a38eaa769354f8ecb835",
+      "stories": [
+        {
+          "id": "components-skeleton--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-skeleton--animations",
+          "name": "Animations",
+          "exportKey": "Animations",
+          "emitted": "Animations"
+        },
+        {
+          "id": "components-skeleton--shapes",
+          "name": "Shapes",
+          "exportKey": "Shapes",
+          "emitted": "Shapes"
+        },
+        {
+          "id": "components-skeleton--rounded",
+          "name": "Rounded",
+          "exportKey": "Rounded",
+          "emitted": "Rounded"
+        },
+        {
+          "id": "components-skeleton--with-content",
+          "name": "With Content",
+          "exportKey": "WithContent",
+          "emitted": "WithContent"
+        },
+        {
+          "id": "components-skeleton--loaded",
+          "name": "Loaded",
+          "exportKey": "Loaded",
+          "emitted": "Loaded"
+        }
+      ]
+    },
+    {
+      "name": "Spacing",
+      "group": "foundations",
+      "srcSha": "3711a014f1e4",
+      "sourceKey": "0104c66e19f12c37",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "foundations-spacing--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        }
+      ]
+    },
+    {
+      "name": "Spinner",
+      "group": "components",
+      "srcSha": "b8e58d36b32d",
+      "sourceKey": "e77c5c74fa6a9942",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-spinner--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-spinner--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-spinner--colors",
+          "name": "Colors",
+          "exportKey": "Colors",
+          "emitted": "Colors"
+        }
+      ]
+    },
+    {
+      "name": "Spotlight",
+      "group": "compositions",
+      "srcSha": "af31b3c3b5b8",
+      "sourceKey": "a1e68b219efac9a5",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-spotlight--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-spotlight--several-targets",
+          "name": "Several Targets",
+          "exportKey": "SeveralTargets",
+          "emitted": "SeveralTargets"
+        },
+        {
+          "id": "compositions-spotlight--nothing-lit",
+          "name": "Nothing Lit",
+          "exportKey": "NothingLit",
+          "emitted": "NothingLit"
+        },
+        {
+          "id": "compositions-spotlight--no-pulse",
+          "name": "No Pulse",
+          "exportKey": "NoPulse",
+          "emitted": "NoPulse"
+        },
+        {
+          "id": "compositions-spotlight--padding-and-radius",
+          "name": "Padding And Radius",
+          "exportKey": "PaddingAndRadius",
+          "emitted": "PaddingAndRadius"
+        },
+        {
+          "id": "compositions-spotlight--boundary",
+          "name": "Boundary",
+          "exportKey": "Boundary",
+          "emitted": "Boundary"
+        },
+        {
+          "id": "compositions-spotlight--measured-rect",
+          "name": "Measured Rect",
+          "exportKey": "MeasuredRect",
+          "emitted": "MeasuredRect"
+        },
+        {
+          "id": "compositions-spotlight--leaving",
+          "name": "Leaving",
+          "exportKey": "Leaving",
+          "emitted": "Leaving"
+        },
+        {
+          "id": "compositions-spotlight--dark-theme",
+          "name": "Dark Theme",
+          "exportKey": "DarkTheme",
+          "emitted": "DarkTheme"
+        }
+      ]
+    },
+    {
+      "name": "StatTile",
+      "group": "compositions",
+      "srcSha": "28578937474b",
+      "sourceKey": "248ad38fa5800768",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-stattile--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-stattile--row",
+          "name": "Row",
+          "exportKey": "Row",
+          "emitted": "Row"
+        },
+        {
+          "id": "compositions-stattile--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "compositions-stattile--with-badge",
+          "name": "With Badge",
+          "exportKey": "WithBadge",
+          "emitted": "WithBadge"
+        }
+      ]
+    },
+    {
+      "name": "StatusMark",
+      "group": "components",
+      "srcSha": "546eb3cc8556",
+      "sourceKey": "b2168f18fea12dce",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-statusmark--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-statusmark--tones",
+          "name": "Tones",
+          "exportKey": "Tones",
+          "emitted": "Tones"
+        },
+        {
+          "id": "components-statusmark--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-statusmark--status-line",
+          "name": "Status Line",
+          "exportKey": "StatusLine",
+          "emitted": "StatusLine"
+        }
+      ]
+    },
+    {
+      "name": "StatusView",
+      "group": "components",
+      "srcSha": "ed8035cd0e59",
+      "sourceKey": "13f7b933f2b09b28",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "proposed-changes-components-statusview--page",
+          "name": "StatusView",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-statusview--neutral",
+          "name": "Neutral",
+          "exportKey": "Neutral",
+          "emitted": "Neutral"
+        },
+        {
+          "id": "compositions-statusview--error-state",
+          "name": "Error State",
+          "exportKey": "ErrorState",
+          "emitted": "ErrorState"
+        },
+        {
+          "id": "compositions-statusview--error-state-custom-retry",
+          "name": "Error State Custom Retry",
+          "exportKey": "ErrorStateCustomRetry",
+          "emitted": "ErrorStateCustomRetry"
+        },
+        {
+          "id": "compositions-statusview--info",
+          "name": "Info",
+          "exportKey": "Info",
+          "emitted": "Info"
+        },
+        {
+          "id": "compositions-statusview--success",
+          "name": "Success",
+          "exportKey": "Success",
+          "emitted": "Success"
+        },
+        {
+          "id": "compositions-statusview--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "compositions-statusview--tones",
+          "name": "Tones",
+          "exportKey": "Tones",
+          "emitted": "Tones"
+        },
+        {
+          "id": "compositions-statusview--empty-state",
+          "name": "Empty State",
+          "exportKey": "EmptyState",
+          "emitted": "EmptyState"
+        },
+        {
+          "id": "compositions-statusview--with-custom-icon",
+          "name": "With Custom Icon",
+          "exportKey": "WithCustomIcon",
+          "emitted": "WithCustomIcon"
+        },
+        {
+          "id": "compositions-statusview--with-action",
+          "name": "With Action",
+          "exportKey": "WithAction",
+          "emitted": "WithAction"
+        },
+        {
+          "id": "compositions-statusview--part-sizes",
+          "name": "Part Sizes",
+          "exportKey": "PartSizes",
+          "emitted": "PartSizes"
+        }
+      ]
+    },
+    {
+      "name": "Stepper",
+      "group": "components",
+      "srcSha": "1c626a32ac8c",
+      "sourceKey": "3893b9f50c7da893",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-stepper--horizontal",
+          "name": "Horizontal",
+          "exportKey": "Horizontal",
+          "emitted": "Horizontal"
+        },
+        {
+          "id": "components-stepper--vertical",
+          "name": "Vertical",
+          "exportKey": "Vertical",
+          "emitted": "Vertical"
+        },
+        {
+          "id": "components-stepper--start-on-last-step",
+          "name": "Start On Last Step",
+          "exportKey": "StartOnLastStep",
+          "emitted": "StartOnLastStep"
+        }
+      ]
+    },
+    {
+      "name": "StepProgress",
+      "group": "components",
+      "srcSha": "160462e06775",
+      "sourceKey": "34f32727e0eb2103",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-stepprogress--page",
+          "name": "StepProgress",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-stepprogress--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-stepprogress--progress",
+          "name": "Progress",
+          "exportKey": "Progress",
+          "emitted": "Progress"
+        },
+        {
+          "id": "components-stepprogress--interactive",
+          "name": "Interactive",
+          "exportKey": "Interactive",
+          "emitted": "Interactive"
+        },
+        {
+          "id": "components-stepprogress--read-only",
+          "name": "Read Only",
+          "exportKey": "ReadOnly",
+          "emitted": "ReadOnly"
+        },
+        {
+          "id": "components-stepprogress--small",
+          "name": "Small",
+          "exportKey": "Small",
+          "emitted": "Small"
+        },
+        {
+          "id": "components-stepprogress--dark-theme",
+          "name": "Dark Theme",
+          "exportKey": "DarkTheme",
+          "emitted": "DarkTheme"
+        }
+      ]
+    },
+    {
+      "name": "StepSlider",
+      "group": "components",
+      "srcSha": "513ad65ffc00",
+      "sourceKey": "36035a3fb484ce07",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "components-stepslider--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-stepslider--interactive",
+          "name": "Interactive",
+          "exportKey": "Interactive",
+          "emitted": "Interactive"
+        },
+        {
+          "id": "components-stepslider--lowest",
+          "name": "Lowest",
+          "exportKey": "Lowest",
+          "emitted": "Lowest"
+        },
+        {
+          "id": "components-stepslider--highest",
+          "name": "Highest",
+          "exportKey": "Highest",
+          "emitted": "Highest"
+        },
+        {
+          "id": "components-stepslider--small",
+          "name": "Small",
+          "exportKey": "Small",
+          "emitted": "Small"
+        },
+        {
+          "id": "components-stepslider--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-stepslider--with-step-tooltips",
+          "name": "With Step Tooltips",
+          "exportKey": "WithStepTooltips",
+          "emitted": "WithStepTooltips"
+        },
+        {
+          "id": "components-stepslider--five-stops",
+          "name": "Five Stops",
+          "exportKey": "FiveStops",
+          "emitted": "FiveStops"
+        },
+        {
+          "id": "components-stepslider--in-settings-row",
+          "name": "In Settings Row",
+          "exportKey": "InSettingsRow",
+          "emitted": "InSettingsRow"
+        },
+        {
+          "id": "components-stepslider--matches-switch-sizes",
+          "name": "Matches Switch Sizes",
+          "exportKey": "MatchesSwitchSizes",
+          "emitted": "MatchesSwitchSizes"
+        }
+      ]
+    },
+    {
+      "name": "Switch",
+      "group": "components",
+      "srcSha": "aa936a125c3d",
+      "sourceKey": "7a6ab997ed8240f2",
+      "cfgSlice": "4a7f36aa6be4f608088c0572558339fae8eec65fbcc96026bdf45a2bca6bd5bb",
+      "stories": [
+        {
+          "id": "proposed-changes-components-switch--page",
+          "name": "Switch",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-switch--with-label",
+          "name": "With Label",
+          "exportKey": "WithLabel",
+          "emitted": "WithLabel"
+        },
+        {
+          "id": "components-switch--states",
+          "name": "States",
+          "exportKey": "States",
+          "emitted": "States"
+        },
+        {
+          "id": "components-switch--small",
+          "name": "Small",
+          "exportKey": "Small",
+          "emitted": "Small"
+        },
+        {
+          "id": "components-switch--without-label",
+          "name": "Without Label",
+          "exportKey": "WithoutLabel",
+          "emitted": "WithoutLabel"
+        },
+        {
+          "id": "components-switch--with-description",
+          "name": "With Description",
+          "exportKey": "WithDescription",
+          "emitted": "WithDescription"
+        },
+        {
+          "id": "components-switch--with-tooltip",
+          "name": "With Tooltip",
+          "exportKey": "WithTooltip",
+          "emitted": "WithTooltip"
+        },
+        {
+          "id": "components-switch--tertiary-row",
+          "name": "Tertiary Row",
+          "exportKey": "TertiaryRow",
+          "emitted": "TertiaryRow"
+        }
+      ]
+    },
+    {
+      "name": "Table",
+      "group": "components",
+      "srcSha": "bea801d08a73",
+      "sourceKey": "e4a7e2e1ab3fb659",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "proposed-changes-components-table--page",
+          "name": "Table",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-table--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-table--with-footer-and-caption",
+          "name": "With Footer And Caption",
+          "exportKey": "WithFooterAndCaption",
+          "emitted": "WithFooterAndCaption"
+        },
+        {
+          "id": "components-table--selectable-rows",
+          "name": "Selectable Rows",
+          "exportKey": "SelectableRows",
+          "emitted": "SelectableRows"
+        },
+        {
+          "id": "components-table--interactive-rows",
+          "name": "Interactive Rows",
+          "exportKey": "InteractiveRows",
+          "emitted": "InteractiveRows"
+        },
+        {
+          "id": "components-table--sortable-header",
+          "name": "Sortable Header",
+          "exportKey": "SortableHeader",
+          "emitted": "SortableHeader"
+        },
+        {
+          "id": "components-table--with-row-actions",
+          "name": "With Row Actions",
+          "exportKey": "WithRowActions",
+          "emitted": "WithRowActions"
+        },
+        {
+          "id": "components-table--always-visible-actions",
+          "name": "Always Visible Actions",
+          "exportKey": "AlwaysVisibleActions",
+          "emitted": "AlwaysVisibleActions"
+        },
+        {
+          "id": "components-table--width-ladder",
+          "name": "Width Ladder",
+          "exportKey": "WidthLadder",
+          "emitted": "WidthLadder"
+        },
+        {
+          "id": "components-table--fixed-layout",
+          "name": "Fixed Layout",
+          "exportKey": "FixedLayout",
+          "emitted": "FixedLayout"
+        },
+        {
+          "id": "components-table--select-all",
+          "name": "Select All",
+          "exportKey": "SelectAll",
+          "emitted": "SelectAll"
+        },
+        {
+          "id": "components-table--empty",
+          "name": "Empty",
+          "exportKey": "Empty",
+          "emitted": "Empty"
+        },
+        {
+          "id": "components-table--loading",
+          "name": "Loading",
+          "exportKey": "Loading",
+          "emitted": "Loading"
+        }
+      ]
+    },
+    {
+      "name": "Tabs",
+      "group": "components",
+      "srcSha": "3851cec8eaee",
+      "sourceKey": "4de732cf1e7579c8",
+      "cfgSlice": "eed6908bfc8a310fdc7383f6b373b72c785441078ab92932200c3bddc6512fb0",
+      "stories": [
+        {
+          "id": "proposed-changes-components-tabs--page",
+          "name": "Tabs",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-tabs--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-tabs--with-icons",
+          "name": "With Icons",
+          "exportKey": "WithIcons",
+          "emitted": "WithIcons"
+        },
+        {
+          "id": "components-tabs--with-disabled-tab",
+          "name": "With Disabled Tab",
+          "exportKey": "WithDisabledTab",
+          "emitted": "WithDisabledTab"
+        },
+        {
+          "id": "components-tabs--small",
+          "name": "Small",
+          "exportKey": "Small",
+          "emitted": "Small"
+        }
+      ]
+    },
+    {
+      "name": "TextArea",
+      "group": "components",
+      "srcSha": "e5f6b2ad5778",
+      "sourceKey": "4b2e14586387483f",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "proposed-changes-components-textarea--page",
+          "name": "TextArea",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-textarea--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-textarea--with-label",
+          "name": "With Label",
+          "exportKey": "WithLabel",
+          "emitted": "WithLabel"
+        },
+        {
+          "id": "components-textarea--with-value",
+          "name": "With Value",
+          "exportKey": "WithValue",
+          "emitted": "WithValue"
+        },
+        {
+          "id": "components-textarea--error-state",
+          "name": "Error State",
+          "exportKey": "ErrorState",
+          "emitted": "ErrorState"
+        },
+        {
+          "id": "components-textarea--with-count",
+          "name": "With Count",
+          "exportKey": "WithCount",
+          "emitted": "WithCount"
+        },
+        {
+          "id": "components-textarea--count-near-limit",
+          "name": "Count Near Limit",
+          "exportKey": "CountNearLimit",
+          "emitted": "CountNearLimit"
+        },
+        {
+          "id": "components-textarea--count-over-soft-limit",
+          "name": "Count Over Soft Limit",
+          "exportKey": "CountOverSoftLimit",
+          "emitted": "CountOverSoftLimit"
+        },
+        {
+          "id": "components-textarea--count-without-limit",
+          "name": "Count Without Limit",
+          "exportKey": "CountWithoutLimit",
+          "emitted": "CountWithoutLimit"
+        },
+        {
+          "id": "components-textarea--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-textarea--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        }
+      ]
+    },
+    {
+      "name": "Timeline",
+      "group": "components",
+      "srcSha": "d2da3cbe2319",
+      "sourceKey": "b3511500a4496b31",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "components-timeline--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-timeline--step-statuses",
+          "name": "Step Statuses",
+          "exportKey": "StepStatuses",
+          "emitted": "StepStatuses"
+        },
+        {
+          "id": "components-timeline--controlled",
+          "name": "Controlled",
+          "exportKey": "Controlled",
+          "emitted": "Controlled"
+        },
+        {
+          "id": "components-timeline--with-step-icons",
+          "name": "With Step Icons",
+          "exportKey": "WithStepIcons",
+          "emitted": "WithStepIcons"
+        },
+        {
+          "id": "components-timeline--standalone-step",
+          "name": "Standalone Step",
+          "exportKey": "StandaloneStep",
+          "emitted": "StandaloneStep"
+        }
+      ]
+    },
+    {
+      "name": "ToastMessage",
+      "group": "components",
+      "srcSha": "fe1c51bd4e91",
+      "sourceKey": "443f8540a265d82b",
+      "cfgSlice": "0c3d71e060126e598435b9dc9e2262a4148ba54ad5440717d3775f65c7f50b2b",
+      "stories": [
+        {
+          "id": "proposed-changes-components-toast--page",
+          "name": "Toast",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "compositions-toast--message",
+          "name": "Message",
+          "exportKey": "Message",
+          "emitted": "Message"
+        },
+        {
+          "id": "compositions-toast--appearances",
+          "name": "Appearances",
+          "exportKey": "Appearances",
+          "emitted": "Appearances"
+        },
+        {
+          "id": "compositions-toast--states",
+          "name": "States",
+          "exportKey": "States",
+          "emitted": "States"
+        },
+        {
+          "id": "compositions-toast--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "compositions-toast--with-action",
+          "name": "With Action",
+          "exportKey": "WithAction",
+          "emitted": "WithAction"
+        }
+      ]
+    },
+    {
+      "name": "Toggle",
+      "group": "components",
+      "srcSha": "b1fe4099fd36",
+      "sourceKey": "4e7a496b49d79ebf",
+      "cfgSlice": "3a98a436bb09671010634deab945a882653f80ba8152b0039afa0f7f61546646",
+      "stories": [
+        {
+          "id": "components-toggle--primary",
+          "name": "Primary",
+          "exportKey": "Primary",
+          "emitted": "Primary"
+        },
+        {
+          "id": "components-toggle--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-toggle--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-toggle--rounded",
+          "name": "Rounded",
+          "exportKey": "Rounded",
+          "emitted": "Rounded"
+        },
+        {
+          "id": "components-toggle--with-icon",
+          "name": "With Icon",
+          "exportKey": "WithIcon",
+          "emitted": "WithIcon"
+        },
+        {
+          "id": "components-toggle--disabled",
+          "name": "Disabled",
+          "exportKey": "Disabled",
+          "emitted": "Disabled"
+        },
+        {
+          "id": "components-toggle--controlled",
+          "name": "Controlled",
+          "exportKey": "Controlled",
+          "emitted": "Controlled"
+        }
+      ]
+    },
+    {
+      "name": "ToggleGroup",
+      "group": "components",
+      "srcSha": "d498306384c8",
+      "sourceKey": "1c98f2b3874f05ce",
+      "cfgSlice": "2bbb028f163c82232694bfb832a0a4eb097f41dbf747d7a88d2ec6687a447643",
+      "stories": [
+        {
+          "id": "components-togglegroup--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-togglegroup--multiple",
+          "name": "Multiple",
+          "exportKey": "Multiple",
+          "emitted": "Multiple"
+        },
+        {
+          "id": "components-togglegroup--variants",
+          "name": "Variants",
+          "exportKey": "Variants",
+          "emitted": "Variants"
+        },
+        {
+          "id": "components-togglegroup--sizes",
+          "name": "Sizes",
+          "exportKey": "Sizes",
+          "emitted": "Sizes"
+        },
+        {
+          "id": "components-togglegroup--with-counts",
+          "name": "With Counts",
+          "exportKey": "WithCounts",
+          "emitted": "WithCounts"
+        },
+        {
+          "id": "components-togglegroup--item-override",
+          "name": "Item Override",
+          "exportKey": "ItemOverride",
+          "emitted": "ItemOverride"
+        }
+      ]
+    },
+    {
+      "name": "Tooltip",
+      "group": "components",
+      "srcSha": "81760ed380e0",
+      "sourceKey": "d80afe39f00984ce",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "proposed-changes-components-tooltip--page",
+          "name": "Tooltip",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-tooltip--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-tooltip--on-icon-button",
+          "name": "On Icon Button",
+          "exportKey": "OnIconButton",
+          "emitted": "OnIconButton"
+        },
+        {
+          "id": "components-tooltip--sides",
+          "name": "Sides",
+          "exportKey": "Sides",
+          "emitted": "Sides"
+        },
+        {
+          "id": "components-tooltip--widths",
+          "name": "Widths",
+          "exportKey": "Widths",
+          "emitted": "Widths"
+        }
+      ]
+    },
+    {
+      "name": "Tour",
+      "group": "compositions",
+      "srcSha": "2af9b568c24d",
+      "sourceKey": "cc3a7713b9e90c17",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "compositions-tour--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "compositions-tour--with-annotations",
+          "name": "With Annotations",
+          "exportKey": "WithAnnotations",
+          "emitted": "WithAnnotations"
+        },
+        {
+          "id": "compositions-tour--part-of-a-flow",
+          "name": "Part Of A Flow",
+          "exportKey": "PartOfAFlow",
+          "emitted": "PartOfAFlow"
+        },
+        {
+          "id": "compositions-tour--phone",
+          "name": "Phone",
+          "exportKey": "Phone",
+          "emitted": "Phone"
+        },
+        {
+          "id": "compositions-tour--dark-theme",
+          "name": "Dark Theme",
+          "exportKey": "DarkTheme",
+          "emitted": "DarkTheme"
+        }
+      ]
+    },
+    {
+      "name": "Tree",
+      "group": "components",
+      "srcSha": "a2ef07db8337",
+      "sourceKey": "a3a6c1c88cec4fd0",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-tree--default",
+          "name": "Default",
+          "exportKey": "Default",
+          "emitted": "Default"
+        },
+        {
+          "id": "components-tree--with-actions",
+          "name": "With Actions",
+          "exportKey": "WithActions",
+          "emitted": "WithActions"
+        },
+        {
+          "id": "components-tree--searched",
+          "name": "Searched",
+          "exportKey": "Searched",
+          "emitted": "Searched"
+        },
+        {
+          "id": "components-tree--loading",
+          "name": "Loading",
+          "exportKey": "Loading",
+          "emitted": "Loading"
+        }
+      ]
+    },
+    {
+      "name": "TruncatedTitleTooltip",
+      "group": "components",
+      "srcSha": "802d338e00cc",
+      "sourceKey": "8af004eab027f495",
+      "cfgSlice": "5ff899b099eb6923833804cda955efdd69101524bec86f67dac5537cd81802e8",
+      "stories": [
+        {
+          "id": "components-truncatedtitletooltip--truncated",
+          "name": "Truncated",
+          "exportKey": "Truncated",
+          "emitted": "Truncated"
+        },
+        {
+          "id": "components-truncatedtitletooltip--not-truncated",
+          "name": "Not Truncated",
+          "exportKey": "NotTruncated",
+          "emitted": "NotTruncated"
+        },
+        {
+          "id": "components-truncatedtitletooltip--side-by-side",
+          "name": "Side By Side",
+          "exportKey": "SideBySide",
+          "emitted": "SideBySide"
+        }
+      ]
+    },
+    {
+      "name": "Typography",
+      "group": "components",
+      "srcSha": "971e8e112bd9",
+      "sourceKey": "f4ced05e6f341a24",
+      "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
+      "stories": [
+        {
+          "id": "proposed-changes-components-typography--page",
+          "name": "Typography",
+          "exportKey": "Page",
+          "emitted": "Page"
+        },
+        {
+          "id": "components-typography--paragraph",
+          "name": "Paragraph",
+          "exportKey": "Paragraph",
+          "emitted": "Paragraph"
+        },
+        {
+          "id": "components-typography--headings",
+          "name": "Headings",
+          "exportKey": "Headings",
+          "emitted": "Headings"
+        },
+        {
+          "id": "components-typography--colors",
+          "name": "Colors",
+          "exportKey": "Colors",
+          "emitted": "Colors"
+        },
+        {
+          "id": "components-typography--special-blocks",
+          "name": "Special Blocks",
+          "exportKey": "SpecialBlocks",
+          "emitted": "SpecialBlocks"
+        },
+        {
+          "id": "components-typography--text-styles",
+          "name": "Text Styles",
+          "exportKey": "TextStyles",
+          "emitted": "TextStyles"
+        }
+      ]
+    }
+  ]
+}
