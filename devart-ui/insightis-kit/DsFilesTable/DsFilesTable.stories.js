@@ -29,6 +29,10 @@
   IK.story('DsFilesTable', { title: 'Table — all selected', wide: true, render: function () { return h(Live, { layout: 'table', files: sel(['f1', 'f2', 'f3', 'f4']), editing: true }); } });
   IK.story('DsFilesTable', { title: 'Table — the previewed row (pressed, name highlighted)', wide: true, render: function () { return h(Live, { layout: 'table', previewId: 'f2' }); } });
   IK.story('DsFilesTable', { title: 'Table — Modified sorted oldest first', wide: true, render: function () { return h(Live, { layout: 'table', sortDir: 'asc' }); } });
+  IK.story('DsFilesTable', { title: 'Nothing usable — a Blocked workspace’s files: the warning after each name, no ⋮, no Actions column', wide: true, render: function () {
+    var off = FILES.map(function (f) { return Object.assign({}, f, { by: 'Olena Petrenko', wsName: 'Marketing', muted: true }); });
+    return h(IK.DsFilesTable, { layout: 'table', files: off, selectable: false, onOpen: function (id) { log('open', id); }, onAction: log });
+  } });
   IK.story('DsFilesTable', { title: 'Empty library — the real table, one row: "No files yet" + Browse Files', wide: true, render: function () { return h(Live, { layout: 'table', files: [], empty: true }); } });
   IK.story('DsFilesTable', { title: 'Loading — chip ghosts, count ghost, 5 ghost rows', wide: true, render: function () { return h(IK.DsFilesSkeleton); } });
   IK.story('DsFilesTable', { title: 'Phone (< 768px) — card stack, ⋮ always shown', render: function () { return h(Narrow, null, h(Live, { layout: 'cards' })); } });

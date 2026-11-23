@@ -34,6 +34,10 @@
      // a file with shared: { by, ws } (or by) is shared with the person: no checkbox (disabled, with its reason),
      // its own menu (f.menu); locked: true (unavailable on the person's plan) or muted: true (its workspace
      // Blocked) — no ⋮, and a muted one the warning after its name (IK.WsUnavailableMark)
+     actions: bool,                               // optional — is there an Actions column; default: some row given
+                                                  // has a ⋮. None has (a Member's Blocked workspace) → no column at
+                                                  // all, not an empty one (user, 2026-11-23: "прибери"); the empty
+                                                  // library keeps it. A paged list passes it for the whole list
      // kept, unused by the pages since 2026-10-20 (Owner is the one way): tag → the Shared tag in Type
      // (IK.SharedBadge); wsCol → a Workspaces column; ownerCol → an Owner column — "You" or f.by
    })
@@ -128,6 +132,8 @@
        the other columns keep fixed widths that hold their content — no sideways scroll (user, 2026-10-22: 'респонсив по
        файлам виглядає невірно при відкритій панелі - подивись як на проді') */
     var tight = !!p.previewId && !(p.ownerCol || p.wsCol);
+    /* an action no row has is not shown: no ⋮ anywhere → no Actions column (the empty library keeps it) */
+    var act = !!p.empty || (p.actions != null ? !!p.actions : files.some(function (f) { return !f.locked && !f.muted; }));
     var fixed = !!(p.ownerCol || p.wsCol) || tight;
     function w(pc, rem) { return fixed ? { style: { width: tight && rem ? rem : pc } } : null; }
     return h(D.Table, { wrapperClassName: 'ik-dsft', layout: fixed ? 'fixed' : undefined },
@@ -146,7 +152,7 @@
           p.onSort ? h(D.TableHead, Object.assign({ sortable: true, sortDirection: p.sortDir || 'desc', onSort: p.onSort }, w('12%', '8.5rem')), 'Modified')
             : h(D.TableHead, w('12%', '8.5rem'), 'Modified'),
           /* Actions: its head's width, never a share that clips it */
-          h(D.TableHead, Object.assign({ className: 'text-right' }, w('5.5rem', '5.5rem')), 'Actions'))),
+          act ? h(D.TableHead, Object.assign({ className: 'text-right' }, w('5.5rem', '5.5rem')), 'Actions') : null)),
       h(D.TableBody, null,
         p.empty ? h(EmptyRow, { onBrowse: p.onBrowse }) : files.map(function (f) {
           var preview = f.id === p.previewId;
@@ -174,8 +180,8 @@
             h(D.TableCell, null, h(OriginBadge, { origin: f.origin, shared: p.tag && (f.shared || f.by) ? { by: f.by || f.shared.by } : null })),
             h(D.TableCell, { className: 'whitespace-nowrap tabular-nums' }, f.size),
             h(D.TableCell, { className: 'whitespace-nowrap tabular-nums' }, f.date),
-            h(D.TableActionsCell, { onClick: stop },
-              f.locked || f.muted ? null : h(IK.DsFileMenu, { id: f.id, onAction: p.onAction, items: f.menu || p.menuItems, lock: f.shared ? null : p.menuLock })));
+            act ? h(D.TableActionsCell, { onClick: stop },
+              f.locked || f.muted ? null : h(IK.DsFileMenu, { id: f.id, onAction: p.onAction, items: f.menu || p.menuItems, lock: f.shared ? null : p.menuLock })) : null);
         })));
   }
 

@@ -14,7 +14,7 @@
   IK.story('WsFiles', { title: 'Shared with you — who · which workspace; Add to Chat · Download', render: function () {
     return h(World, { render: function (ws) { return h(IK.WsFiles, { files: IK.wsSharedFiles(ws.list), caption: true, onAction: log }); } });
   } });
-  IK.story('WsFiles', { title: 'Unavailable on the plan (padlock) · a Blocked workspace’s (muted) — nothing to tick', render: function () {
+  IK.story('WsFiles', { title: 'Unavailable on the plan (padlock) · a Blocked workspace’s (muted) — nothing to tick, no Actions column', render: function () {
     return h(World, { others: 'blocked', render: function (ws) { return h(IK.WsFiles, { files: IK.wsSharedFiles(ws.list, { locked: true }), caption: true, onAction: log }); } });
   } });
 })();

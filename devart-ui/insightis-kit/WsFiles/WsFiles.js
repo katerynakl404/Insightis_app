@@ -10,7 +10,8 @@
      member  a workspace a person was invited to, and the Shared tab of Files: ⋮ View · Add to Chat ·
              Download, bulk Add to Chat · Download; caption: true → a Workspaces column (which
              workspaces it comes from — rows keep one height; user, 2026-10-19). A file with locked (unavailable on the plan) or muted (a Blocked
-             workspace) can't be ticked; with none to tick there is no bar.
+             workspace) can't be ticked and has no ⋮; with none usable there is no bar, no checkbox column and
+             no Actions column (user, 2026-11-23).
      Both: the open file's row marked (previewId), and on a phone the bar sorts by date (Newest / Oldest), as Files.
 
    h(IK.WsFiles, { files: [{ id, name, type, origin, size, date, time, by, wsName, locked, muted }],
@@ -71,7 +72,9 @@
         bar,
         vis.length ? h(IK.DsFilesTable, {
           files: page,
-          selectable: pickable.length > 0, editing: picked.length > 0,
+          /* none usable (a Blocked workspace, or the person's plan): no checkbox and no Actions column — the whole
+             list decides, not the page shown */
+          selectable: pickable.length > 0, actions: pickable.length > 0, editing: picked.length > 0,
           allState: allSel ? true : picked.length ? 'indeterminate' : false,
           onToggle: function (id) { setSel(picked.indexOf(id) >= 0 ? picked.filter(function (x) { return x !== id; }) : picked.concat([id])); },
           onToggleAll: function () { setSel(allSel ? [] : pickable.map(function (f) { return f.id; })); },
