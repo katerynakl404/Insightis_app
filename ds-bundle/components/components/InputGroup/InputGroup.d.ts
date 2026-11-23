@@ -6,6 +6,8 @@ import * as React from 'react';
 export interface InputGroupProps {
   isInvalid?: boolean;
   errorText?: string;
+  /** Guidance under the field; an error takes its place. */
+  hintText?: React.ReactNode;
   label?: React.ReactNode;
   /** Marks the label with an asterisk and sets `aria-required` on the input. */
   required?: boolean;

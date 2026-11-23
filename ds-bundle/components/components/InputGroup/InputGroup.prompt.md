@@ -1,6 +1,6 @@
 InputGroup from @devart/ui-react. Use via `window.DevartUI.InputGroup` (bundle loaded from the root `_ds_bundle.js`). Wrap the tree in `<TooltipProvider>` (full provider chain in README.md — components read theme/i18n from that context).
 
-Variants (see `InputGroup.html`): InputGroup, Default, Required, With Leading Icon, With Unit, Error State, Disabled, Sizes, Search With Clear.
+Variants (see `InputGroup.html`): InputGroup, Default, Required, With Leading Icon, With Unit, Error State, Guidance, Disabled, Sizes, Search With Clear.
 
 ## Props
 
@@ -8,6 +8,8 @@ Variants (see `InputGroup.html`): InputGroup, Default, Required, With Leading Ic
 interface InputGroupProps {
   isInvalid?: boolean;
   errorText?: string;
+  /** Guidance under the field; an error takes its place. */
+  hintText?: React.ReactNode;
   label?: React.ReactNode;
   /** Marks the label with an asterisk and sets `aria-required` on the input. */
   required?: boolean;
@@ -130,6 +132,12 @@ export const Required: Story = {
 
 ```jsx
 /* Error State */ compose(S2, "ErrorState")
+```
+
+### Guidance
+
+```jsx
+/* Guidance */ compose(S2, "Guidance")
 ```
 
 ### Disabled

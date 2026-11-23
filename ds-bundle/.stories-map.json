@@ -1821,8 +1821,8 @@
     {
       "name": "InputGroup",
       "group": "components",
-      "srcSha": "ab4e5f35d645",
-      "sourceKey": "b03b5280f5a2c91b",
+      "srcSha": "7945bbd619b1",
+      "sourceKey": "40baf1ce21283278",
       "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
       "stories": [
         {
@@ -1860,6 +1860,12 @@
           "name": "Error State",
           "exportKey": "ErrorState",
           "emitted": "ErrorState"
+        },
+        {
+          "id": "components-inputgroup--guidance",
+          "name": "Guidance",
+          "exportKey": "Guidance",
+          "emitted": "Guidance"
         },
         {
           "id": "components-inputgroup--disabled",
