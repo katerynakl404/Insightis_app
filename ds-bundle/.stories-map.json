@@ -1821,8 +1821,8 @@
     {
       "name": "InputGroup",
       "group": "components",
-      "srcSha": "7945bbd619b1",
-      "sourceKey": "40baf1ce21283278",
+      "srcSha": "984b08f14415",
+      "sourceKey": "fde7b25704035559",
       "cfgSlice": "747719d9d59ff6ad0a5984f423b458ca0f634c2ca2b5795db2565b5d0bb64df2",
       "stories": [
         {
@@ -1866,6 +1866,12 @@
           "name": "Guidance",
           "exportKey": "Guidance",
           "emitted": "Guidance"
+        },
+        {
+          "id": "components-inputgroup--label-hint",
+          "name": "Label Hint",
+          "exportKey": "LabelHint",
+          "emitted": "LabelHint"
         },
         {
           "id": "components-inputgroup--disabled",

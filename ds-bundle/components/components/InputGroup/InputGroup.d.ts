@@ -9,6 +9,8 @@ export interface InputGroupProps {
   /** Guidance under the field; an error takes its place. */
   hintText?: React.ReactNode;
   label?: React.ReactNode;
+  /** The ⓘ after the label and its asterisk. A string becomes the library's own mark with that string as its tooltip; a node  */
+  labelHint?: React.ReactNode;
   /** Marks the label with an asterisk and sets `aria-required` on the input. */
   required?: boolean;
   inputId?: string;
