@@ -11,7 +11,7 @@
   IK.story('WsFiles', { title: 'Owner on Free — Share via Workspace locked (padlock)', render: function () {
     return h(World, { render: function (ws) { return h(IK.WsFiles, { files: own(ws.owned[0]), owner: true, shareLocked: true, onAction: log }); } });
   } });
-  IK.story('WsFiles', { title: 'Shared with you — who · which workspace; Add to Chat · Download', render: function () {
+  IK.story('WsFiles', { title: 'Shared with you — who · which workspace; ⋮ View · Add to Chat · Download, bulk Download', render: function () {
     return h(World, { render: function (ws) { return h(IK.WsFiles, { files: IK.wsSharedFiles(ws.list), caption: true, onAction: log }); } });
   } });
   IK.story('WsFiles', { title: 'Unavailable on the plan (padlock) · a Blocked workspace’s (muted) — nothing to tick, no Actions column', render: function () {

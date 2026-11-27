@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insightis · Workspaces</title>
 <link rel="stylesheet" href="../../../ds-bundle/styles.css">
-<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=e459f86d29">
-<link rel="stylesheet" href="../../review-kit/review-kit.css?v=e459f86d29">
+<link rel="stylesheet" href="../../insightis-kit/insightis-kit.css?v=93b7cf16db">
+<link rel="stylesheet" href="../../review-kit/review-kit.css?v=93b7cf16db">
 <script src="../../../ds-bundle/_vendor/react.js"></script>
 <script src="../../../ds-bundle/_ds_bundle.js"></script>
-<script src="../../insightis-kit/insightis-kit.js?v=e459f86d29"></script>
-<script src="../../review-kit/review-kit.js?v=e459f86d29"></script>
+<script src="../../insightis-kit/insightis-kit.js?v=93b7cf16db"></script>
+<script src="../../review-kit/review-kit.js?v=93b7cf16db"></script>
 </head>
 <style>
   /* Page layout only: File details (IK.FileDetails) splits the main column as on Files — a third
@@ -419,7 +419,7 @@
               onAction: function (a, ids) {
                 var f = w.files.filter(function (x) { return x.id === ids[0]; })[0];
                 if (a === 'view') openFile(ids[0]);
-                else if (a === 'add-to-chat') toChat(ids.length === 1 ? f : null);
+                else if (a === 'add-to-chat') toChat(f);
                 else D.toast(a === 'download' ? (ids.length > 1 ? 'Downloading ' + ids.length + ' files' : 'Download started') : 'Opening ' + (f ? f.name : 'the file'));
               } })
           : emptyState({ title: 'No files yet', description: w.owner.name + ' hasn’t added any yet' }) },

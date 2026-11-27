@@ -8,7 +8,7 @@
              ⋮ Add to Chat · Share via Workspace · Download · Remove from Workspace · Delete; bulk Share via
              Workspace · Download · Remove from Workspace · Delete; shareLocked → Share via Workspace locked (Free)
      member  a workspace a person was invited to, and the Shared tab of Files: ⋮ View · Add to Chat ·
-             Download, bulk Add to Chat · Download; caption: true → a Workspaces column (which
+             Download, bulk Download only (no bulk Add to Chat, as Files and the owner); caption: true → a Workspaces column (which
              workspaces it comes from — rows keep one height; user, 2026-10-19). A file with locked (unavailable on the plan) or muted (a Blocked
              workspace) can't be ticked and has no ⋮; with none usable there is no bar, no checkbox column and
              no Actions column (user, 2026-11-23).
@@ -43,11 +43,12 @@
       return h(D.Button, { key: key, variant: variant || 'tertiary', size: 'sm', type: 'button', leftSlot: h(IK.Icon, { name: icon }), onClick: function () { run(key); } }, label);
     }
 
+    /* no bulk Add to Chat — a chat takes one file, and neither Files nor the owner has one (user, 2026-11-27) */
     var bulk = owner
       ? [h(IK.Locked, { key: 'share', feature: 'workspaces', locked: !!p.shareLocked, surface: 'modal', tip: 'Available on Pro' }, bulkBtn('share', 'Share via Workspace', 'ws-share')),
          bulkBtn('download', 'Download', 'download'), bulkBtn('stop-sharing', 'Remove from Workspace', 'ws-remove', 'destructiveTertiary'),
          bulkBtn('delete', 'Delete', 'delete', 'destructiveTertiary')]
-      : [bulkBtn('add-to-chat', 'Add to Chat', 'add-chat'), bulkBtn('download', 'Download', 'download')];
+      : [bulkBtn('download', 'Download', 'download')];
     var bar = !vis.length || !pickable.length ? null : h(D.ListSelectionBar, {
       title: vis.length + (vis.length === 1 ? ' file' : ' files'),
       selectedText: picked.length + ' selected', selectedCount: picked.length, allSelected: allSel,
